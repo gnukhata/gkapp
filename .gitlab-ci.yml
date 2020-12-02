@@ -1,0 +1,14 @@
+image: node:14.15.1-buster-slim
+
+pages:
+  stage: build
+  script:
+  - npm install
+  - npm run build-gl-pages
+  - mv public _pub && mv dist public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+

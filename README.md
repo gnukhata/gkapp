@@ -1,9 +1,54 @@
-### Progressive WebApp for GNUKhata
+# [GKApp - GNUKhata Progressive Web App](https://gitlab.com/gnukhata/gkapp)
 
-Initial commit based on gitlab NodeJS express template. 
+[![version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://gitlab.com/gnukhata/gkapp)  [![license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://gitlab.com/gnukhata/gkapp)
 
-### CI/CD with Auto DevOps
+**GKApp** is a Progressive Web App made using Vue and Buefy.
 
-This template is compatible with [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
+* Free under AGPLv3 License
+* PWA/SPA — Single page app
+* Built with Bulma, Buefy, Vue & Vue CLI
+* Light & Dark modes
+* SCSS sources with variables
 
-If Auto DevOps is not already enabled for this project, you can [turn it on](https://docs.gitlab.com/ee/topics/autodevops/#enabling-auto-devops) in the project settings.
+## Table of Contents
+
+* [Description & Demo](#description--demo)
+* [Quick Start](#quick-start)
+* [Licensing](#licensing)
+* [Useful Links](#useful-links)
+
+## Description & Demo
+
+#### Free Dashboard Demo
+
+https://gnukhata.gitlab.io/gkapp
+
+## Quick Start
+
+#### Get the repo
+
+* [Clone from Gitlab](https://gitlab.com/gnukhata/gkapp)
+
+#### Install
+
+`cd` to project's dir and run `npm install` 
+
+#### Serve
+
+To pre-compile & hot-reload for development run `npm run serve`
+
+#### Build
+
+Production-ready with minified bundle `npm run build`
+
+## Licensing
+
+- Licensed under AGPLv3
+
+## Useful Links
+
+- [GNUKhata](https://gnukhata.in/)
+- [Vue.js](https://vuejs.org)
+- [Vue CLI](https://cli.vuejs.org)
+- [Buefy](https://buefy.org)
+- [Bulma](https://bulma.io)
