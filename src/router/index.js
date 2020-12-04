@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import About from '../views/About.vue'
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,16 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    // Document title tag
+    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
+    meta: {
+      title: 'About'
+    },
+    path: '/About',
+    name: 'about',
+    component: About
   },
   {
     meta: {
