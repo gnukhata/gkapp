@@ -1,20 +1,20 @@
 {
   "name": "GNUKhata",
-  "short_name": "gkapp",
+  "short_name": "GNUKhata",
   "icons": [
     {
-      "src": "./img/icons/android-chrome-192x192.png",
+      "src": "./img/icons/icon.svg",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/svg"
     },
     {
-      "src": "./img/icons/android-chrome-512x512.png",
+      "src": "./img/icons/gnukhata_icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#4DBA87"
+  "background_color": "#ffffff",
+  "theme_color": "#ff7f2a"
 }
