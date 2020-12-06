@@ -1,6 +1,6 @@
 <template>
   <nav v-show="isNavBarVisible" id="navbar-main" class="navbar is-fixed-top">
-    <div class="navbar-brand">
+    <div v-if="!isLogin" class="navbar-brand">
       <a class="navbar-item is-hidden-desktop" @click.prevent="menuToggleMobile">
         <b-icon :icon="menuToggleMobileIcon"/>
       </a>
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="navbar-brand is-right">
+    <div v-if="!isLogin" class="navbar-brand is-right">
       <a class="navbar-item navbar-item-menu-toggle is-hidden-desktop" @click.prevent="menuNavBarToggle">
         <b-icon :icon="menuNavBarToggleIcon" custom-size="default"/>
       </a>
@@ -40,7 +40,7 @@
             </a>
           </div>
         </nav-bar-menu> -->
-        <nav-bar-menu class="has-divider has-user-avatar">
+        <nav-bar-menu v-if="!isLogin" class="has-divider has-user-avatar">
           <user-avatar/>
           <div class="is-user-name">
             <span>{{ userName }}</span>
@@ -117,7 +117,10 @@ export default {
       'isAsideMobileExpanded',
       'isDarkModeActive',
       'userName'
-    ])
+    ]),
+    isLogin () {
+      return this.$route.name === 'login'
+    }
   },
   methods: {
     menuToggleMobile () {
@@ -131,9 +134,11 @@ export default {
     },
     logout () {
       this.$buefy.snackbar.open({
-        message: 'Log out clicked',
+        message: 'Successfully logged out',
         queue: false
       })
+      this.$store.commit('setAuthStatus', { auth: false })
+      this.$router.push('/login')
     }
   }
 }

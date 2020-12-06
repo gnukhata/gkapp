@@ -9,6 +9,7 @@ export default new Vuex.Store({
     userName: null,
     userEmail: null,
     userAvatar: null,
+    userAuthenticated: null,
 
     /* NavBar */
     isNavBarVisible: true,
@@ -27,6 +28,11 @@ export default new Vuex.Store({
     /* A fit-them-all commit */
     basic (state, payload) {
       state[payload.key] = payload.value
+    },
+
+    /* User Login */
+    setAuthStatus (state, payload) {
+      state.userAuthenticated = !!payload.auth
     },
 
     /* User */
@@ -63,6 +69,26 @@ export default new Vuex.Store({
       state.isAsideMobileExpanded = isShow
     },
 
+    /* Aside Login */
+    setAsideVisibility (state, payload = false) {
+      const htmlClassNames = [
+        'has-aside-mobile-expanded',
+        'has-aside-left',
+        'has-aside-mobile-transition',
+        'has-aside-expanded'
+      ]
+
+      const isShow = !!payload
+
+      if (isShow) {
+        document.documentElement.classList.add(...htmlClassNames)
+      } else {
+        document.documentElement.classList.remove(...htmlClassNames)
+      }
+
+      state.isAsideVisible = isShow
+    },
+
     /* Dark Mode */
     darkModeToggle (state, payload = null) {
       const htmlClassName = 'is-dark-mode-active'
@@ -78,5 +104,8 @@ export default new Vuex.Store({
   },
   actions: {
 
+  },
+  getters: {
+    isUserAuthenticated: state => state.userAuthenticated
   }
 })

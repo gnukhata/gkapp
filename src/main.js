@@ -20,6 +20,12 @@ const defaultDocumentTitle = 'GNUKhata'
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
 router.afterEach(to => {
+  if (to.path === '/login') {
+    store.commit('setAsideVisibility', false)
+  } else {
+    store.commit('setAsideVisibility', true)
+  }
+
   store.commit('asideMobileStateToggle', false)
 
   if (to.meta.title) {
