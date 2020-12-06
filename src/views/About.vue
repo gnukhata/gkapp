@@ -8,7 +8,7 @@
              <div class="subtitle is-5 has-text-centered mb-5">
                  <i>A Community Driven Open Source Accounting Software</i>
              </div>
-            <p class="subtitle is-size-5 has-text-justfied">
+            <p class="subtitle is-size-6 has-text-justfied">
                 Founded and Developed by Digital Freedom Foundation under the leadership of Mr. Krishnakant Mane.
                 Currently supported by <a class='has-text-weight-bold' href="https://accionlabs.com" target="_blank" rel="noopener noreferrer">Accion Labs Pvt. Ltd</a>
                 as a social contribution to the Open Source Community.

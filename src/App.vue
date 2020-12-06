@@ -309,18 +309,18 @@ export default {
             icon: 'file-chart'
           }
         ],
-        'About',
+        '',
         [
           {
-            href: 'https://gnukhata.in',
+            href: '#/About',
             label: 'About GNUKhata',
-            icon: 'help-circle'
-          },
-          {
-            href: 'https://gitlab.com/gnukhata',
-            label: 'Source Code',
-            icon: 'source-repository'
+            icon: 'information-outline'
           }
+          // {
+          //   href: 'https://gitlab.com/gnukhata',
+          //   label: 'Source Code',
+          //   icon: 'source-repository'
+          // }
         ]
       ]
     }

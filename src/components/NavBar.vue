@@ -73,10 +73,11 @@
           <b-icon :icon="darkModeToggleIcon" custom-size="default"/>
           <span>Dark mode</span>
         </a>
-        <a href="https://gnukhata.in" target="_blank" class="navbar-item has-divider is-desktop-icon-only" title="About">
+        <router-link title="About" to="/About" class="navbar-item has-divider is-desktop-icon-only">
           <b-icon icon="help-circle-outline" custom-size="default"/>
           <span>About</span>
-        </a>
+        </router-link>
+
         <!-- <a class="navbar-item is-desktop-icon-only" title="Log out" @click="logout">
           <b-icon icon="logout" custom-size="default"/>
           <span>Log out</span>

@@ -4,7 +4,7 @@
       v-show="isAsideVisible"
       class="aside is-placed-left is-expanded">
     <aside-tools :is-main-menu="true">
-      <router-link to="/About" slot="label">
+      <router-link to="/" slot="label">
         <div class="level">
           <img class='level-item' src="img/icons/gnukhata_icon.png" alt="GNUKhata Logo" width=30em>
           <span class="has-text-weight-semibold is-7 ml-3 level-item is-gk-blue">
