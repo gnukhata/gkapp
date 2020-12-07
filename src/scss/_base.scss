@@ -1,0 +1,12 @@
+html, body, #app{
+    height: 100%;
+}
+
+#app{
+    display: flex;
+    flex-direction: column;
+}
+
+#app-body{
+    flex: 1 0 auto;
+}

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
+import Login from '../views/Login.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -10,11 +12,22 @@ const routes = [
     // Document title tag
     // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
-      title: 'Dashboard'
+      title: 'Dashboard',
+      requiresAuth: true
     },
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    // Document title tag
+    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
+    meta: {
+      title: 'Login'
+    },
+    path: '/login',
+    name: 'login',
+    component: Login
   },
   {
     // Document title tag
@@ -47,7 +60,8 @@ const routes = [
   },
   {
     meta: {
-      title: 'Profile'
+      title: 'Profile',
+      requiresAuth: true
     },
     path: '/profile',
     name: 'profile',
@@ -55,7 +69,8 @@ const routes = [
   },
   {
     meta: {
-      title: 'New client'
+      title: 'New client',
+      requiresAuth: true
     },
     path: '/client/new',
     name: 'client.new',
@@ -63,7 +78,8 @@ const routes = [
   },
   {
     meta: {
-      title: 'Edit client'
+      title: 'Edit client',
+      requiresAuth: true
     },
     path: '/client/:id',
     name: 'client.edit',
@@ -74,6 +90,7 @@ const routes = [
 
 const router = new VueRouter({
   base: process.env.BASE_URL,
+  mode: 'history',
   routes,
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
@@ -81,6 +98,21 @@ const router = new VueRouter({
     } else {
       return { x: 0, y: 0 }
     }
+  }
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    // need to login
+    // console.log(`from: ${from.path}, to: ${to.path}`)
+    if (store.getters.isUserAuthenticated !== true) {
+      next({ name: 'login' })
+    } else {
+      console.log('Auth succeeded')
+      next()
+    }
+  } else {
+    next()
   }
 })
 

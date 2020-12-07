@@ -2,7 +2,9 @@
   <div id="app">
     <nav-bar/>
     <aside-menu :menu="menu" @menu-click="menuClick"/>
-    <router-view/>
+    <div id="app-body">
+      <router-view/>
+    </div>
     <footer-bar/>
   </div>
 </template>

@@ -1,4 +1,6 @@
 nav.navbar {
+  flex-shrink: 0;
+
   box-shadow: $navbar-box-shadow;
 
   .navbar-item {
