@@ -5,12 +5,10 @@
       class="aside is-placed-left is-expanded">
     <aside-tools :is-main-menu="true">
       <router-link to="/" slot="label">
-        <div class="level">
-          <img class='level-item' src="img/icons/gnukhata_icon.png" alt="GNUKhata Logo" width=30em>
-          <span class="has-text-weight-semibold is-7 ml-3 level-item is-gk-blue">
-            <span>GNUKhata</span> <span class="ml-2">v7.0</span>
-          </span>
-        </div>
+        <img class="is-valign-m" src="img/icons/gnukhata_icon.png" alt="GNUKhata Logo" width=30em>
+        <span class="has-text-weight-semibold ml-3  is-gk-blue">
+          <span>GNUKhata</span> <span class="ml-1">v7.0</span>
+        </span>
       </router-link>
     </aside-tools>
     <div class="menu is-menu-main">
