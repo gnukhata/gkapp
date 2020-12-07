@@ -5,7 +5,7 @@
         <div class="level-left">
           <div class="level-item">
             <div class="footer-copyright">
-              <b>&copy; {{ year }}, GNUKhata</b> &mdash; <span class="tag">v7.0</span>
+              <b><span class="copyleft">&copy;</span> {{ year }}, GNUKhata</b> &mdash; <span class="tag">v7.0</span>
             </div>
           </div>
         </div>

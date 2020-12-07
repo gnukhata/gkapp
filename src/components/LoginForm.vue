@@ -7,7 +7,20 @@
       <b-field horizontal label="Password" message="Required. User password">
         <b-input v-model="form.password" name="password" type="password" required/>
       </b-field>
-      <hr>
+      <b-field label="Organisation">
+        <b-select v-model="form.org" placeholder="Select a name">
+          <!-- <option
+            v-for="option in data"
+            :value="option.id"
+            :key="option.id">
+            {{ option.user.first_name }}
+          </option> -->
+          <option value="Microsoft">Microsoft</option>
+          <option value="Facebook">Google</option>
+          <option value="Amazon">Amazon</option>
+        </b-select>
+    </b-field>
+<hr>
       <b-field horizontal>
         <div class="control">
           <button type="submit" class="button is-primary" :class="{'is-loading':isLoading}">
@@ -33,7 +46,8 @@ export default {
       isLoading: false,
       form: {
         name: null,
-        password: null
+        password: null,
+        org: null
       }
     }
   },

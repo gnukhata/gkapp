@@ -7,7 +7,7 @@
       <router-link to="/" slot="label">
         <img class="is-valign-m" src="img/icons/gnukhata_icon.png" alt="GNUKhata Logo" width=30em>
         <span class="has-text-weight-semibold ml-3  is-gk-blue">
-          <span>GNUKhata</span> <span class="ml-1">v7.0</span>
+          <span>GNUKhata</span> <span class="ml-1 tag">v7.0</span>
         </span>
       </router-link>
     </aside-tools>

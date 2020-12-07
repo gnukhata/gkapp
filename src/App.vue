@@ -333,13 +333,13 @@ export default {
       email: 'john@example.com',
       avatar: 'https://avatars.dicebear.com/v2/gridy/John-Doe.svg'
     })
-  },
-  methods: {
-    menuClick (item) {
-      if (item.action && item.action === 'dark-mode-toggle') {
-        this.$store.commit('darkModeToggle')
-      }
-    }
   }
+  // methods: {
+  //   menuClick (item) {
+  //     if (item.action && item.action === 'dark-mode-toggle') {
+  //       this.$store.commit('darkModeToggle')
+  //     }
+  //   }
+  // }
 }
 </script>
