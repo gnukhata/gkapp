@@ -39,25 +39,25 @@ const routes = [
     name: 'about',
     component: About
   },
-  {
-    meta: {
-      title: 'Tables'
-    },
-    path: '/tables',
-    name: 'tables',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "tables" */ '../views/Tables.vue')
-  },
-  {
-    meta: {
-      title: 'Forms'
-    },
-    path: '/forms',
-    name: 'forms',
-    component: () => import(/* webpackChunkName: "forms" */ '../views/Forms.vue')
-  },
+  // {
+  //   meta: {
+  //     title: 'Tables'
+  //   },
+  //   path: '/tables',
+  //   name: 'tables',
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "tables" */ '../views/Tables.vue')
+  // },
+  // {
+  //   meta: {
+  //     title: 'Forms'
+  //   },
+  //   path: '/forms',
+  //   name: 'forms',
+  //   component: () => import(/* webpackChunkName: "forms" */ '../views/Forms.vue')
+  // },
   {
     meta: {
       title: 'Profile',
@@ -66,26 +66,26 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
-  },
-  {
-    meta: {
-      title: 'New client',
-      requiresAuth: true
-    },
-    path: '/client/new',
-    name: 'client.new',
-    component: () => import(/* webpackChunkName: "client-form" */ '../views/ClientForm.vue')
-  },
-  {
-    meta: {
-      title: 'Edit client',
-      requiresAuth: true
-    },
-    path: '/client/:id',
-    name: 'client.edit',
-    component: () => import(/* webpackChunkName: "client-form" */ '../views/ClientForm.vue'),
-    props: true
   }
+  // {
+  //   meta: {
+  //     title: 'New client',
+  //     requiresAuth: true
+  //   },
+  //   path: '/client/new',
+  //   name: 'client.new',
+  //   component: () => import(/* webpackChunkName: "client-form" */ '../views/ClientForm.vue')
+  // },
+  // {
+  //   meta: {
+  //     title: 'Edit client',
+  //     requiresAuth: true
+  //   },
+  //   path: '/client/:id',
+  //   name: 'client.edit',
+  //   component: () => import(/* webpackChunkName: "client-form" */ '../views/ClientForm.vue'),
+  //   props: true
+  // }
 ]
 
 const router = new VueRouter({
