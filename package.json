@@ -1,6 +1,6 @@
 {
-  "name": "admin-null-vue-bulma-dashboard",
-  "version": "1.4.0",
+  "name": "gkapp",
+  "version": "7.0.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
