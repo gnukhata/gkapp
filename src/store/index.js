@@ -30,9 +30,18 @@ export default new Vuex.Store({
       state[payload.key] = payload.value
     },
 
+    // Init the required vuex store states from session storage
+    initStore (state) {
+      if (sessionStorage.getItem('userAuthenticated') === 'true') {
+        state.userAuthenticated = true
+      }
+    },
+
     /* User Login */
+
     setAuthStatus (state, payload) {
       state.userAuthenticated = !!payload.auth
+      sessionStorage.setItem('userAuthenticated', state.userAuthenticated)
     },
 
     /* User */

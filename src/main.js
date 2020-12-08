@@ -39,6 +39,8 @@ Vue.config.productionTip = false
 
 Vue.use(Buefy)
 
+store.commit('initStore') // initialize the required vuex states from session storage
+
 new Vue({
   router,
   store,

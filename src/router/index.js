@@ -103,8 +103,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    // need to login
-    // console.log(`from: ${from.path}, to: ${to.path}`)
+    // login required
     if (store.getters.isUserAuthenticated !== true) {
       next({ name: 'login' })
     } else {
