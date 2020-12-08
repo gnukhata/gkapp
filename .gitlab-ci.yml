@@ -11,4 +11,5 @@ pages:
     - public
   only:
   - master
+  - dev
 
