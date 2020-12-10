@@ -8,10 +8,10 @@
         <b-input v-model="form.password" name="password" type="password" required/>
       </b-field>
       <b-field label="Organisation">
-        <b-select placeholder="Select your organisation" required>
-        <option v-for="org in form.orgs" :value="org.orgname + org.orgtype" :key="org.orgname">
-          {{ org.orgname + " (" + org.orgtype + " )"}}
-        </option>
+        <b-select v-model="form.orgCode" placeholder="Select your organisation" required>
+          <option v-for="(org, number) in orgs" :value="number" :key="number">
+            {{ org.orgname + " (" + org.orgtype + " )"}}
+          </option>
         </b-select>
     </b-field>
 <hr>
@@ -44,10 +44,11 @@ export default {
   data () {
     return {
       isLoading: false,
+      orgs: null,
       form: {
         name: null,
         password: null,
-        orgs: null
+        orgCode: null
       }
     }
   },
@@ -70,7 +71,7 @@ export default {
     fetchOrgs () {
       Axios.get('https://satheerthan.site:6543/organisations')
         .then((response) => {
-          this.form.orgs = response.data.gkdata
+          this.orgs = response.data.gkdata
           this.$buefy.toast.open({
             message: 'Organisation list is loaded',
             type: 'is-info',
