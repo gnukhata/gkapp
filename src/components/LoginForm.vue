@@ -9,7 +9,7 @@
       </b-field>
       <b-field label="Organisation">
         <b-select placeholder="Select your organisation" required>
-        <option v-for="org in form.orgs" :value="org" :key="org">
+        <option v-for="org in form.orgs" :value="org.orgname + org.orgtype" :key="org.orgname">
           {{ org.orgname + " (" + org.orgtype + " )"}}
         </option>
         </b-select>
@@ -20,6 +20,11 @@
           <button type="submit" class="button is-primary" :class="{'is-loading':isLoading}">
             Login
           </button>
+          <router-link to="/">
+            <button type="submit" class="mx-5 button is-primary" >
+              Create Organisation
+            </button>
+          </router-link>
         </div>
       </b-field>
     </form>
