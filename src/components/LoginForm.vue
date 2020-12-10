@@ -8,16 +8,10 @@
         <b-input v-model="form.password" name="password" type="password" required/>
       </b-field>
       <b-field label="Organisation">
-        <b-select v-model="form.org" placeholder="Select a name">
-          <!-- <option
-            v-for="option in data"
-            :value="option.id"
-            :key="option.id">
-            {{ option.user.first_name }}
-          </option> -->
-          <option value="Microsoft">Microsoft</option>
-          <option value="Facebook">Google</option>
-          <option value="Amazon">Amazon</option>
+        <b-select placeholder="Select your organisation" required>
+        <option v-for="org in form.orgs" :value="org" :key="org">
+          {{ org.orgname + " (" + org.orgtype + " )"}}
+        </option>
         </b-select>
     </b-field>
 <hr>
@@ -35,6 +29,7 @@
 <script>
 // import { mapState } from 'vuex'
 import CardComponent from '@/components/CardComponent'
+import Axios from 'axios'
 
 export default {
   name: 'LoginForm',
@@ -47,7 +42,7 @@ export default {
       form: {
         name: null,
         password: null,
-        org: null
+        orgs: null
       }
     }
   },
@@ -66,7 +61,24 @@ export default {
         // setTimeout(() => {
         // }, 100)
       }, 500)
+    },
+    fetchOrgs () {
+      Axios.get('https://satheerthan.site:6543/organisations')
+        .then((response) => {
+          this.form.orgs = response.data.gkdata
+          // console.log('form: ', this.form.orgs)
+          console.log(this.form.orgs[0].orgname, this.form.orgs[0].orgtype)
+        })
+        .catch(function (error) {
+          this.$buefy.snackbar.open({
+            message: error,
+            queue: false
+          })
+        })
     }
+  },
+  mounted () {
+    this.fetchOrgs()
   }
 }
 </script>
