@@ -59,20 +59,36 @@ export default {
       this.isLoading = true
       // add + 1 to organisation org list is indexed starting from 0
       this.form.orgcode = this.form.orgcode + 1
-
       axios.post(`${this.url}login`, this.form)
         .then((response) => {
-          if (response.data.gkstatus === 0) {
-            this.isLoading = false
-            this.$store.commit('user', this.form)
-            this.$store.commit('setAuthStatus', { auth: true })
-            this.$router.push('/')
-            this.$buefy.toast.open({
-              message: 'Logged in Successfully!',
-              type: 'is-success',
-              queue: false
-            })
-          }
+          // alert user depending on the gkstatus code
+          switch (response.data.gkstatus) {
+            case 0:
+              this.isLoading = false
+              this.$store.commit('user', this.form)
+              this.$store.commit('setAuthStatus', { auth: true })
+              this.$router.push('/')
+              this.$buefy.toast.open({
+                message: 'Logged in Successfully!',
+                type: 'is-success',
+                queue: false
+              })
+              break
+            case 3:
+              this.$buefy.toast.open({
+                message: 'Username / password / organisation does not match, Please try with correct details',
+                type: 'is-danger',
+                queue: false
+              })
+              this.isLoading = false
+              break
+            default:
+              this.$buefy.toast.open({
+                message: 'Unable to login, Please try again',
+                type: 'is-danger',
+                queue: false
+              })
+          } // end switch
         })
         .catch((error) => {
           this.$buefy.toast.open({
