@@ -134,8 +134,9 @@ export default {
       this.$store.commit('darkModeToggle')
     },
     logout () {
-      this.$buefy.snackbar.open({
-        message: 'Successfully logged out',
+      this.$buefy.toast.open({
+        message: 'logged out Successfully ',
+        type: 'is-warning',
         queue: false
       })
       this.$store.commit('setAuthStatus', { auth: false })

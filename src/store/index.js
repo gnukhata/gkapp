@@ -46,8 +46,8 @@ export default new Vuex.Store({
 
     /* User */
     user (state, payload) {
-      if (payload.name) {
-        state.userName = payload.name
+      if (payload.username) {
+        state.userName = payload.username
       }
       if (payload.email) {
         state.userEmail = payload.email

@@ -2,13 +2,13 @@
   <card-component title="User Login" icon="account-circle">
     <form @submit.prevent="login">
       <b-field horizontal label="User" message="Required. User name">
-        <b-input v-model="form.name" name="name" required/>
+        <b-input v-model="form.username" name="name" required/>
       </b-field>
       <b-field horizontal label="Password" message="Required. User password">
-        <b-input v-model="form.password" name="password" type="password" required/>
+        <b-input v-model="form.userpassword" name="password" type="password" required/>
       </b-field>
       <b-field label="Organisation">
-        <b-select v-model="form.orgCode" placeholder="Select your organisation" required>
+        <b-select v-model="form.orgcode" placeholder="Select your organisation" required>
           <option v-for="(org, number) in orgs" :value="number" :key="number">
             {{ org.orgname + " (" + org.orgtype + " )"}}
           </option>
@@ -17,11 +17,11 @@
 <hr>
       <b-field horizontal>
         <div class="control">
-          <button type="submit" class="button is-primary" :class="{'is-loading':isLoading}">
+          <button type="submit" class="button is-success" :class="{'is-loading':isLoading}" :disabled="isDisabled">
             Login
           </button>
           <router-link to="/">
-            <button type="submit" class="mx-2 button is-primary" >
+            <button type="submit" class="mx-2 button is-info" >
               Create Organisation
             </button>
           </router-link>
@@ -34,7 +34,7 @@
 <script>
 // import { mapState } from 'vuex'
 import CardComponent from '@/components/CardComponent'
-import Axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: 'LoginForm',
@@ -43,44 +43,59 @@ export default {
   },
   data () {
     return {
+      url: 'https://satheerthan.site:6543/',
       isLoading: false,
+      isDisabled: true,
       orgs: null,
       form: {
-        name: null,
-        password: null,
-        orgCode: null
+        username: null,
+        userpassword: null,
+        orgcode: null
       }
     }
   },
   methods: {
     login () {
       this.isLoading = true
-      setTimeout(() => {
-        this.isLoading = false
-        this.$store.commit('user', this.form)
-        this.$store.commit('setAuthStatus', { auth: true })
-        this.$buefy.snackbar.open({
-          message: 'Authentication Success',
-          queue: false
+      // add + 1 to organisation org list is indexed starting from 0
+      this.form.orgcode = this.form.orgcode + 1
+
+      axios.post(`${this.url}login`, this.form)
+        .then((response) => {
+          if (response.data.gkstatus === 0) {
+            this.isLoading = false
+            this.$store.commit('user', this.form)
+            this.$store.commit('setAuthStatus', { auth: true })
+            this.$router.push('/')
+            this.$buefy.toast.open({
+              message: 'Logged in Successfully!',
+              type: 'is-success',
+              queue: false
+            })
+          }
         })
-        this.$router.push('/')
-        // setTimeout(() => {
-        // }, 100)
-      }, 500)
+        .catch((error) => {
+          this.$buefy.toast.open({
+            message: error,
+            type: 'is-warning',
+            queue: false
+          })
+        })
     },
     fetchOrgs () {
-      Axios.get('https://satheerthan.site:6543/organisations')
+      axios.get(`${this.url}organisations`)
         .then((response) => {
           this.orgs = response.data.gkdata
           this.$buefy.toast.open({
             message: 'Organisation list is loaded',
-            type: 'is-info',
+            type: 'is-success',
             queue: false
           })
+          this.isDisabled = false
         })
         .catch(function (error) {
           this.$buefy.toast.open({
-            message: error,
+            message: error + '| Please reload the page',
             queue: false,
             type: 'is-error'
           })

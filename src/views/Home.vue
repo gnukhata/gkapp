@@ -70,7 +70,7 @@ export default {
     this.fillChartData()
 
     // this.$buefy.snackbar.open({
-    //   message: 'Welcome back',
+    //   message: 'Welcome back ',
     //   queue: false
     // })
   },
