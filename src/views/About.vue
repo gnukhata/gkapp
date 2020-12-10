@@ -15,11 +15,13 @@
             </p>
             <div class="mt-5 has-text-centered">
                 <a class="mx-1" href="https://gnukhata.in" target="_blank">
-                    <button class="button is-primary"><span class="mdi mdi-earth"></span>Website</button>
+                    <button class="button is-primary"><span class="mdi mdi-earth mr-1"></span>Website</button>
                 </a>
                 <a href="https://gitlab.com/gnukhata" target="_blank">
-                    <button class="button is-primary"><span class="mdi mdi-source-repository"></span>Source Code</button>
+                    <button class="button is-primary"><span class="mr-1 mdi mdi-source-repository"></span>Source Code</button>
                 </a>
+                <br>
+                <img class='mt-5' src="img/icons/agpl3.png" alt="AGPLv3 License">
             </div>
         </div>
     </div>
