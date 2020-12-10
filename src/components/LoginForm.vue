@@ -21,7 +21,7 @@
             Login
           </button>
           <router-link to="/">
-            <button type="submit" class="mx-5 button is-primary" >
+            <button type="submit" class="mx-2 button is-primary" >
               Create Organisation
             </button>
           </router-link>
@@ -71,15 +71,17 @@ export default {
       Axios.get('https://satheerthan.site:6543/organisations')
         .then((response) => {
           this.form.orgs = response.data.gkdata
-          this.$buefy.snackbar.open({
-            message: 'Organisations list is loaded',
+          this.$buefy.toast.open({
+            message: 'Organisation list is loaded',
+            type: 'is-info',
             queue: false
           })
         })
         .catch(function (error) {
-          this.$buefy.snackbar.open({
+          this.$buefy.toast.open({
             message: error,
-            queue: false
+            queue: false,
+            type: 'is-error'
           })
         })
     }
