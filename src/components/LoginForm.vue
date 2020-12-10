@@ -71,8 +71,10 @@ export default {
       Axios.get('https://satheerthan.site:6543/organisations')
         .then((response) => {
           this.form.orgs = response.data.gkdata
-          // console.log('form: ', this.form.orgs)
-          console.log(this.form.orgs[0].orgname, this.form.orgs[0].orgtype)
+          this.$buefy.snackbar.open({
+            message: 'Organisations list is loaded',
+            queue: false
+          })
         })
         .catch(function (error) {
           this.$buefy.snackbar.open({
