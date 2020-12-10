@@ -74,9 +74,17 @@ export default {
                 queue: false
               })
               break
+            case 2:
+              this.$buefy.toast.open({
+                message: 'Username / password / organisation does not match, Please try again',
+                type: 'is-danger',
+                queue: false
+              })
+              this.isLoading = false
+              break
             case 3:
               this.$buefy.toast.open({
-                message: 'Username / password / organisation does not match, Please try with correct details',
+                message: 'Username / password / organisation does not match, Please try again',
                 type: 'is-danger',
                 queue: false
               })
@@ -88,6 +96,7 @@ export default {
                 type: 'is-danger',
                 queue: false
               })
+              this.isLoading = false
           } // end switch
         })
         .catch((error) => {
