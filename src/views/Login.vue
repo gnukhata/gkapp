@@ -12,7 +12,7 @@
 import LoginForm from '@/components/LoginForm'
 
 export default {
-  name: 'Profile',
+  name: 'Login',
   components: { LoginForm }
 }
 </script>

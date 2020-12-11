@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav-bar/>
-    <aside-menu :menu="menu" @menu-click="menuClick"/>
+    <aside-menu :menu="menu"/> <!--@menu-click="menuClick" -->
     <div id="app-body">
       <router-view/>
     </div>
