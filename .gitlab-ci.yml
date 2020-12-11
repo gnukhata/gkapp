@@ -5,8 +5,6 @@ pages:
   script:
   - npm install
   - npm run build-gl-pages
-  stage: deploy
-  script:
   - mv public _pub && mv dist public
   artifacts:
     paths:
@@ -14,4 +12,3 @@ pages:
   only:
   - master
   - dev
-
