@@ -22,7 +22,7 @@
           </button>
           <router-link to="/">
             <button type="submit" class="mx-2 button is-info" >
-              Create Organisation
+              Create Account
             </button>
           </router-link>
         </div>

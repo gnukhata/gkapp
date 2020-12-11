@@ -1,15 +1,16 @@
-# image: node:14.15.1-buster-slim
-image: node:14.15.1-alpine3.10
+image: node:14.15.1-buster-slim
 
 pages:
   stage: build
   script:
   - npm install
   - npm run build-gl-pages
-  # - mv public _pub && mv dist public
+  stage: deploy
+  script:
+  - mv public _pub && mv dist public
   artifacts:
     paths:
-    - dist
+    - public
   only:
   - master
   - dev
