@@ -45,9 +45,12 @@ Production-ready with minified bundle `npm run build`
 
 - Licensed under AGPLv3
 
+![AGPLv3](public/img/icons/agpl3.png)
+
 ## Useful Links
 
 - [GNUKhata](https://gnukhata.in/)
+- [GNUKhata Wiki](https://gitlab.com/gnukhata/gkapp/-/wikis/home)
 - [Vue.js](https://vuejs.org)
 - [Vue CLI](https://cli.vuejs.org)
 - [Buefy](https://buefy.org)
