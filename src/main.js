@@ -1,5 +1,6 @@
 /* Styles */
 import '@/scss/main.scss'
+import '@mdi/font/css/materialdesignicons.min.css'
 
 /* Core */
 import Vue from 'vue'
