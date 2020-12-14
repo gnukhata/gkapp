@@ -1,10 +1,10 @@
 <template>
   <card-component title="User Login" icon="account-circle">
     <form @submit.prevent="login">
-      <b-field horizontal label="User" message="Required. User name">
+      <b-field horizontal label="Username" message="*Required">
         <b-input v-model="form.username" name="name" required/>
       </b-field>
-      <b-field horizontal label="Password" message="Required. User password">
+      <b-field horizontal label="Password" message="*Required">
         <b-input v-model="form.userpassword" name="password" type="password" required/>
       </b-field>
       <b-field label="Organisation">
@@ -20,7 +20,7 @@
           <button type="submit" class="button is-success" :class="{'is-loading':isLoading}" :disabled="isDisabled">
             Login
           </button>
-          <router-link to="/">
+          <router-link to="/createorg">
             <button type="submit" class="mx-2 button is-info" >
               Create Account
             </button>
