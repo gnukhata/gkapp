@@ -54,10 +54,10 @@
               <b-icon icon="settings" custom-size="default"></b-icon>
               <span>Settings</span>
             </a> -->
-            <a class="navbar-item">
+            <!-- <a class="navbar-item">
               <b-icon icon="office-building" custom-size="default"></b-icon>
               <span>Change Company</span>
-            </a>
+            </a> -->
               <!-- <a class="navbar-item">
               <b-icon icon="email" custom-size="default"></b-icon>
               <span>Messages</span>
