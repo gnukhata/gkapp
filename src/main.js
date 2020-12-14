@@ -16,6 +16,10 @@ import './registerServiceWorker'
 /* Vue. Main component */
 import App from './App.vue'
 
+import gkutils from './js/utilities'
+
+window.gkutils = gkutils
+
 /* Default title tag */
 const defaultDocumentTitle = 'GNUKhata'
 
@@ -40,7 +44,7 @@ Vue.config.productionTip = false
 
 Vue.use(Buefy)
 
-store.commit('initStore') // initialize the required vuex states from session storage
+store.commit('initStore') // initialize the required vuex states from local storage
 
 new Vue({
   router,

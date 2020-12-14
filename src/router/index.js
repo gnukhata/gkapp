@@ -66,6 +66,14 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+  },
+  {
+    meta: {
+      title: 'Create Organisation'
+    },
+    path: '/createorg',
+    name: 'createorg',
+    component: () => import(/* webpackChunkName: "createorg" */ '../views/CreateOrganisation.vue')
   }
   // {
   //   meta: {
