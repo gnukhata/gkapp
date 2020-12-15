@@ -1,6 +1,6 @@
 <template>
   <nav v-show="isNavBarVisible" id="navbar-main" class="navbar is-fixed-top">
-    <div v-if="!isLogin" class="navbar-brand">
+    <div v-if="showUserOptions" class="navbar-brand">
       <a class="navbar-item is-hidden-desktop" @click.prevent="menuToggleMobile">
         <b-icon :icon="menuToggleMobileIcon"/>
       </a>
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div v-if="!isLogin" class="navbar-brand is-right">
+    <div v-if="showUserOptions" class="navbar-brand is-right">
       <a class="navbar-item navbar-item-menu-toggle is-hidden-desktop" @click.prevent="menuNavBarToggle">
         <b-icon :icon="menuNavBarToggleIcon" custom-size="default"/>
       </a>
@@ -40,7 +40,7 @@
             </a>
           </div>
         </nav-bar-menu> -->
-        <nav-bar-menu v-if="!isLogin" class="has-divider has-user-avatar">
+        <nav-bar-menu v-if="showUserOptions" class="has-divider has-user-avatar">
           <user-avatar/>
           <div class="is-user-name">
             <span>{{ userName }}</span>
@@ -119,8 +119,8 @@ export default {
       'isDarkModeActive',
       'userName'
     ]),
-    isLogin () {
-      return this.$route.name === 'login'
+    showUserOptions () {
+      return !(this.$route.name === 'login' || this.$route.name === 'createorg')
     }
   },
   methods: {
