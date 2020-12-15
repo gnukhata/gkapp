@@ -1,5 +1,8 @@
 <template>
   <card-component title="User Login" icon="account-circle">
+    <b-notification type="is-warning" role="alert" v-model="notificationIsActive" aria-close-label="Close notification">
+      Demo <b>username:</b> user_a | <b>Password:</b> user_a | <b>organisation:</b> ABC Company
+    </b-notification>
     <form @submit.prevent="login">
       <b-field horizontal label="Username" message="*Required">
         <b-input v-model="form.username" name="name" required/>
@@ -43,6 +46,7 @@ export default {
   },
   data () {
     return {
+      notificationIsActive: true,
       url: 'https://satheerthan.site:6543/',
       isLoading: false,
       isDisabled: true,
