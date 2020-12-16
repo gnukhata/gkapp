@@ -1,7 +1,7 @@
 <template>
   <card-component title="User Login" icon="account-circle">
     <b-notification type="is-warning" role="alert" v-model="notificationIsActive" aria-close-label="Close notification">
-      Demo <b>username:</b> user_a | <b>Password:</b> user_a | <b>organisation:</b> ABC Company
+      Demo <b>username:</b> user_a | <b>Password:</b> user_a | <b>organisation:</b> ABC Delivery
     </b-notification>
     <form @submit.prevent="login">
       <b-field horizontal label="Username" message="*Required">
@@ -18,7 +18,7 @@
         </b-select>
     </b-field>
     <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
-    <b-input v-model="userAnswer" placeholder="enter your answer" type="text" required/>
+    <b-input v-model="userAnswer" placeholder="Enter your answer" style="width:40%" type="text" required/>
 <hr>
       <b-field horizontal>
         <div class="control">
