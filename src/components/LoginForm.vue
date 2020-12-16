@@ -17,19 +17,17 @@
           </option>
         </b-select>
     </b-field>
-    <b-field horizontal message="Solve the captcha above">
+    <b-field horizontal message="Solve the simple answer appearing above">
       <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;">
       </canvas>
     </b-field>
-    <b-field horizontal label="Answer" message="*required">
-      <!-- <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas> -->
-      <b-input v-model="userAnswer" placeholder="captcha answer" type="text" required/>
+    <b-field horizontal label="=>" message="*required">
+      <b-input v-model="userAnswer" placeholder="enter your answer" type="text" required/>
     </b-field>
-    <!-- <input type="text" class="jCaptcha" placeholder="Answer"> -->
 <hr>
       <b-field horizontal>
         <div class="control">
-          <button type="submit" class="button is-success" :class="{'is-loading':isLoading}" :disabled="isDisabled">
+          <button type="submit" @click="captcha()" class="button is-success" :class="{'is-loading':isLoading}" :disabled="isDisabled">
             Login
           </button>
           <router-link to="/createorg">
