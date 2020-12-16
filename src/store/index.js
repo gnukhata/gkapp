@@ -9,7 +9,11 @@ export default new Vuex.Store({
     userName: null,
     userEmail: null,
     userAvatar: null,
+
+    /* Session auth states */
     userAuthenticated: null,
+    orgCode: null,
+    authToken: null,
 
     /* NavBar */
     isNavBarVisible: true,
@@ -22,7 +26,10 @@ export default new Vuex.Store({
     isAsideMobileExpanded: false,
 
     /* Dark mode */
-    isDarkModeActive: false
+    isDarkModeActive: false,
+
+    gkCoreUrl: 'https://satheerthan.site:6543',
+    gkCoreTestUrl: 'http://localhost:6543'
   },
   mutations: {
     /* A fit-them-all commit */
@@ -32,16 +39,36 @@ export default new Vuex.Store({
 
     // Init the required vuex store states from session storage
     initStore (state) {
-      if (sessionStorage.getItem('userAuthenticated') === 'true') {
+      const authStatus = sessionStorage.getItem('userAuthenticated')
+      const orgCode = sessionStorage.getItem('orgCode')
+      const authToken = sessionStorage.getItem('authToken')
+      if (authStatus === 'true') {
         state.userAuthenticated = true
+      }
+
+      if (orgCode) {
+        state.userAuthenticated = parseInt(orgCode)
+      }
+
+      if (authToken) {
+        state.userAuthenticated = authToken
       }
     },
 
-    /* User Login */
-
+    /* Session Auth States */
     setAuthStatus (state, payload) {
-      state.userAuthenticated = !!payload.auth
+      state.userAuthenticated = !!payload
       sessionStorage.setItem('userAuthenticated', state.userAuthenticated)
+    },
+
+    setOrgCode (state, payload) {
+      state.orgCode = payload
+      sessionStorage.setItem('orgCode', state.orgCode)
+    },
+
+    setAuthToken (state, payload) {
+      state.authToken = payload
+      sessionStorage.setItem('authToken', state.authToken)
     },
 
     /* User */
@@ -112,7 +139,20 @@ export default new Vuex.Store({
     }
   },
   actions: {
-
+    setSessionStates ({ commit }, payload) {
+      if (payload.auth !== undefined) {
+        commit('setAuthStatus', payload.auth)
+      }
+      if (payload.orgCode !== undefined) {
+        commit('setOrgCode', payload.orgCode)
+      }
+      if (payload.authToken !== undefined) {
+        commit('setAuthToken', payload.authToken)
+      }
+      if (payload.user !== undefined) {
+        commit('user', payload.user)
+      }
+    }
   },
   getters: {
     isUserAuthenticated: state => state.userAuthenticated

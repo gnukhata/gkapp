@@ -81,7 +81,7 @@
         <hr>
         <b-field grouped position="is-right">
           <div class="control">
-            <button type="submit" class="button is-success">
+            <button type="submit" class="button is-success" :class="{'is-loading':isLoading}">
               <b-icon icon="content-save" class></b-icon> <span>Create & Login</span>
             </button>
           </div>
@@ -91,6 +91,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { mapState } from 'vuex'
+
 export default {
   name: 'CreateOrganisationForm',
   components: {
@@ -112,16 +115,62 @@ export default {
     }
   },
   computed: {
+    ...mapState(['gkCoreUrl'])
   },
   methods: {
     submitForm () {
-      console.log(this.initPayload())
+      this.isLoading = true
+      const payload = this.initPayload()
+      axios.post(`${this.gkCoreUrl}/organisations`, payload)
+        .then((response) => {
+          // console.log(response)
+          this.isLoading = false
+          switch (response.data.gkstatus) {
+            case 0:
+              this.$store.dispatch('setSessionStates', {
+                auth: true,
+                orgCode: response.orgcode,
+                authToken: response.token,
+                user: { username: this.username }
+              })
+              this.$router.push('/')
+              this.$buefy.toast.open({
+                message: 'Logged in Successfully!',
+                type: 'is-success',
+                queue: false
+              })
+              break
+            default:
+              this.$buefy.toast.open({
+                message: 'Unable to create account, Please try again',
+                type: 'is-danger',
+                queue: false
+              })
+          } // end switch
+        })
+        .catch((error) => {
+          this.$buefy.toast.open({
+            message: error,
+            type: 'is-warning',
+            queue: false
+          })
+        })
+        .then(() => {
+          this.isLoading = false
+        })
+      // console.log(this.initPayload())
     },
     initPayload () {
       return {
+        userdetails: {
+          username: this.userName,
+          userpassword: this.userPassword,
+          userquestion: this.securityQuestion,
+          useranswer: this.securityAnswer
+        },
         orgdetails: {
           orgname: this.orgName,
-          orgtype: this.orgType,
+          orgtype: this.options.orgType[this.orgType],
           yearstart: window.gkutils.dateToString(this.yearStart),
           yearend: window.gkutils.dateToString(this.yearEnd),
           orgcity: null,
@@ -147,12 +196,6 @@ export default {
           avnoflag: null,
           ainvnoflag: null,
           modeflag: null
-        },
-        userdetails: {
-          username: this.userName,
-          userpassword: this.userPassword,
-          userquestion: this.securityQuestion,
-          useranswer: this.securityAnswer
         }
       }
     }
