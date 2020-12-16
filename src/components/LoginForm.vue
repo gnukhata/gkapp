@@ -17,6 +17,7 @@
           </option>
         </b-select>
     </b-field>
+    <input type="text" class="jCaptcha" placeholder="Answer">
 <hr>
       <b-field horizontal>
         <div class="control">
@@ -38,6 +39,7 @@
 // import { mapState } from 'vuex'
 import CardComponent from '@/components/CardComponent'
 import axios from 'axios'
+import JCaptcha from 'js-captcha'
 
 export default {
   name: 'LoginForm',
@@ -47,6 +49,7 @@ export default {
   data () {
     return {
       notificationIsActive: true,
+      captchaSolved: false,
       url: 'https://satheerthan.site:6543/',
       isLoading: false,
       isDisabled: true,
@@ -69,14 +72,23 @@ export default {
           switch (response.data.gkstatus) {
             case 0:
               this.isLoading = false
-              this.$store.commit('user', this.form)
-              this.$store.commit('setAuthStatus', { auth: true })
-              this.$router.push('/')
-              this.$buefy.toast.open({
-                message: 'Logged in Successfully!',
-                type: 'is-success',
-                queue: false
-              })
+              this.captcha('check')
+              if (this.captchaSolved) {
+                this.$store.commit('user', this.form)
+                this.$store.commit('setAuthStatus', { auth: true })
+                this.$router.push('/')
+                this.$buefy.toast.open({
+                  message: 'Logged in Successfully!',
+                  type: 'is-success',
+                  queue: false
+                })
+              } else {
+                this.$buefy.toast.open({
+                  message: 'Captcha is incorrect. Please try again',
+                  type: 'is-danger',
+                  queue: false
+                })
+              }
               break
             case 2:
               this.$buefy.toast.open({
@@ -129,10 +141,41 @@ export default {
             type: 'is-error'
           })
         })
+    },
+    captcha (s) {
+      var myCaptcha = new JCaptcha({
+        el: '.jCaptcha',
+        canvasClass: 'jCaptchaCanvas',
+        canvasStyle: {
+          // required properties for captcha stylings:
+          width: 100,
+          height: 15,
+          textBaseline: 'top',
+          font: '15px Arial',
+          textAlign: 'left',
+          fillStyle: 'blue'
+        },
+        // set callback function for success and error messages:
+        callback: (response, $captchaInputElement, numberOfTries) => {
+          if (response === 'success') {
+            // success handle, e.g. continue with form submit
+            this.captchaSolved = true
+          }
+          if (response === 'error') {
+            // error handle, e.g. add error class to captcha input
+            console.log('Invalid answer')
+          }
+        }
+      })
+      if (s === 'check') {
+        myCaptcha.validate()
+      }
     }
   },
+
   mounted () {
     this.fetchOrgs()
+    this.captcha()
   }
 }
 </script>
