@@ -3,7 +3,7 @@
   "version": "7.0.1",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "npm run lint && vue-cli-service serve",
     "build": "vue-cli-service build",
     "build:gh-pages": "cross-env DEPLOY_ENV=GH_PAGES vue-cli-service build --modern",
     "deploy:gh-pages": "cross-env NODE_DEBUG=gh-pages gh-pages -d dist -t",
@@ -16,6 +16,7 @@
     "buefy": "^0.9.3",
     "bulma": "^0.9.0",
     "chart.js": "^2.9.3",
+    "check-password-strength": "^1.0.15",
     "core-js": "^3.6.5",
     "dayjs": "^1.8.35",
     "lodash": "^4.17.20",

@@ -11,6 +11,8 @@
           <div class="column">
             <b-field label="Organisation Name">
               <b-input placeholder="ABC Organisation"
+                minlength="3"
+                validation-message="Organisation name must be 3 or more characters long"
                 v-model="orgName"
                 icon="office-building"
                 required>
@@ -30,10 +32,10 @@
               <div class="field-body mt-3">
                   <b-field label="from" label-position="on-border">
                     <b-datepicker
+                            @input="this.setToDate"
                             v-model="yearStart"
                             placeholder="dd / mm / yyyy"
                             icon="calendar-today"
-                            editable
                             required>
                     </b-datepicker>
                   </b-field>
@@ -42,7 +44,7 @@
                             v-model="yearEnd"
                             placeholder="dd / mm / yyyy"
                             icon="calendar-today"
-                            editable
+                            :min-date="yearStart"
                             required>
                     </b-datepicker>
                   </b-field>
@@ -52,27 +54,41 @@
           <div class="column">
             <b-field label="Admin Name" expanded>
               <b-input placeholder="Admin User"
+                minlength="3"
+                validation-message="User name must be 3 or more characters long"
                 v-model="userName"
                 icon="account-circle"
                 required>
               </b-input>
             </b-field>
-            <b-field label="Password">
+            <b-field label="Password" :message="passwordCheckText" :type="passwordMode">
               <b-input type="password"
                 v-model="userPassword"
                 icon="lock"
                 placeholder="P@$$w0rd"
                 password-reveal
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).{8,}"
                 required></b-input>
             </b-field>
             <div class="field">
               <label class="label">Password Recovery</label>
               <div class="field-body mt-3">
                 <b-field label="question" label-position="on-border">
-                  <b-input placeholder="Who am i?" v-model="securityAnswer" required></b-input>
+                  <b-input placeholder="Who am i?"
+                    v-model="securityQuestion"
+                    minlength="3"
+                    validation-message="Question must be 3 or more characters long"
+                    required>
+                  </b-input>
                 </b-field>
                 <b-field label="answer" label-position="on-border">
-                  <b-input placeholder="GNUKhata" v-model="securityQuestion" required></b-input>
+                  <b-input
+                    placeholder="GNUKhata"
+                    v-model="securityAnswer"
+                    validation-message="Answer must be 3 or more characters long"
+                    minlength="3"
+                    required>
+                  </b-input>
                 </b-field>
               </div>
             </div>
@@ -93,6 +109,7 @@
 <script>
 import axios from 'axios'
 import { mapState } from 'vuex'
+import passwordStrength from 'check-password-strength'
 
 export default {
   name: 'CreateOrganisationForm',
@@ -102,7 +119,8 @@ export default {
     return {
       isLoading: false,
       options: {
-        orgType: ['Profit making', 'Not For Profit']
+        orgType: ['Profit making', 'Not For Profit'],
+        pwdFieldTypes: ['lowercase', 'uppercase', 'symbol', 'number']
       },
       orgName: '',
       orgType: 0,
@@ -115,9 +133,76 @@ export default {
     }
   },
   computed: {
-    ...mapState(['gkCoreUrl'])
+    passwordCheckText () {
+      let text = ''
+      if (this.userPassword) {
+        const strength = passwordStrength(this.userPassword)
+        switch (strength.value) {
+          case 'Strong':
+            text = 'Password is Strong.'
+            break
+          case 'Medium':
+            text = this.getPasswordHint(strength)
+            break
+          case 'Weak':
+            text = this.getPasswordHint(strength)
+            break
+          default:
+            if (this.userPassword.length < 8) {
+              text = 'is-danger'
+            } else {
+              text = 'is-success'
+            }
+        }
+      }
+      return text
+    },
+    passwordMode () {
+      let mode = ''
+      if (this.userPassword) {
+        switch (passwordStrength(this.userPassword).value) {
+          case 'Strong':
+            mode = 'is-success'
+            break
+          case 'Medium':
+            mode = 'is-warning'
+            break
+          case 'Weak':
+            mode = 'is-danger'
+            break
+          default:
+            if (this.userPassword.length < 8) {
+              mode = 'is-danger'
+            } else {
+              mode = 'is-success'
+            }
+        }
+      }
+      return mode
+    },
+    ...mapState(['gkCoreUrl', 'gkCoreTestUrl'])
   },
   methods: {
+    setToDate () {
+      console.log('On date change')
+      const from = window.gkutils.dateToString(this.yearStart).split('/') // yyyy/mm/dd
+      const to = window.gkutils.stringToDate(`${parseInt(from[0]) + 1}/${from[1]}/${from[2]}`)
+      to.setDate(to.getDate() - 1)
+      this.yearEnd = to
+    },
+    getPasswordHint (pwdStrength) {
+      const available = pwdStrength.contains.map((item) => item.message)
+      let hint = this.options.pwdFieldTypes
+        .filter((item) => !available.includes(item))
+        .reduce((prev, cur) => { return `${prev} ${cur},` }, '')
+      if (available.length < 4) {
+        hint = `Require atleast 1 ${hint}.`
+      }
+      if (pwdStrength.length < 8) {
+        hint += ' Must be minimum 8 characters long'
+      }
+      return hint
+    },
     submitForm () {
       this.isLoading = true
       const payload = this.initPayload()

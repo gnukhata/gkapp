@@ -4,7 +4,7 @@ const gkutils = {
   },
   stringToDate: function (str) {
     const date = str.split('/')
-    return new Date(`${date[1]}/${date[2]}/${date[1]}`) // mm/dd/yyyy
+    return new Date(`${date[1]}/${date[2]}/${date[0]}`) // mm/dd/yyyy
   }
 }
 export default gkutils
