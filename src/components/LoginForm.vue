@@ -17,7 +17,15 @@
           </option>
         </b-select>
     </b-field>
-    <input type="text" class="jCaptcha" placeholder="Answer">
+    <b-field horizontal message="Solve the captcha above">
+      <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;">
+      </canvas>
+    </b-field>
+    <b-field horizontal label="Answer" message="*required">
+      <!-- <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas> -->
+      <b-input v-model="userAnswer" placeholder="captcha answer" type="text" required/>
+    </b-field>
+    <!-- <input type="text" class="jCaptcha" placeholder="Answer"> -->
 <hr>
       <b-field horizontal>
         <div class="control">
@@ -39,7 +47,7 @@
 // import { mapState } from 'vuex'
 import CardComponent from '@/components/CardComponent'
 import axios from 'axios'
-import JCaptcha from 'js-captcha'
+// import JCaptcha from 'js-captcha'
 
 export default {
   name: 'LoginForm',
@@ -54,6 +62,8 @@ export default {
       isLoading: false,
       isDisabled: true,
       orgs: null,
+      question: null,
+      userAnswer: null,
       form: {
         username: null,
         userpassword: null,
@@ -72,7 +82,6 @@ export default {
           switch (response.data.gkstatus) {
             case 0:
               this.isLoading = false
-              this.captcha('check')
               if (this.captchaSolved) {
                 this.$store.commit('user', this.form)
                 this.$store.commit('setAuthStatus', { auth: true })
@@ -142,40 +151,55 @@ export default {
           })
         })
     },
-    captcha (s) {
-      var myCaptcha = new JCaptcha({
-        el: '.jCaptcha',
-        canvasClass: 'jCaptchaCanvas',
-        canvasStyle: {
-          // required properties for captcha stylings:
-          width: 100,
-          height: 15,
-          textBaseline: 'top',
-          font: '15px Arial',
-          textAlign: 'left',
-          fillStyle: 'blue'
-        },
-        // set callback function for success and error messages:
-        callback: (response, $captchaInputElement, numberOfTries) => {
-          if (response === 'success') {
-            // success handle, e.g. continue with form submit
-            this.captchaSolved = true
-          }
-          if (response === 'error') {
-            // error handle, e.g. add error class to captcha input
-            console.log('Invalid answer')
-          }
-        }
-      })
-      if (s === 'check') {
-        myCaptcha.validate()
+    genCaptcha () {
+      this.question = `${Math.floor(Math.random() * 11)} + ${Math.floor(Math.random() * 11)}`
+      const canvas = document.getElementById('captchaCanvas')
+      const ctx = canvas.getContext('2d')
+      ctx.font = '18px Arial'
+      ctx.fillText(`${this.question} = `, 22, 33)
+    },
+    captcha () {
+      const q = this.question.split('+')
+      const ans = parseInt(q[0]) + parseInt(q[1])
+      console.log(ans)
+      if (parseInt(this.userAnswer) === ans) {
+        this.captchaSolved = true
       }
     }
+  //   captcha (s) {
+  //     const myCaptcha = new JCaptcha({
+  //       el: '.jCaptcha',
+  //       canvasClass: 'jCaptchaCanvas',
+  //       canvasStyle: {
+  //         // required properties for captcha stylings:
+  //         width: 100,
+  //         height: 15,
+  //         textBaseline: 'top',
+  //         font: '15px Arial',
+  //         textAlign: 'left',
+  //         fillStyle: 'blue'
+  //       },
+  //       // set callback function for success and error messages:
+  //       callback: (response, $captchaInputElement, numberOfTries) => {
+  //         if (response === 'success') {
+  //           // success handle, e.g. continue with form submit
+  //           this.captchaSolved = true
+  //         }
+  //         if (response === 'error') {
+  //           // error handle, e.g. add error class to captcha input
+  //           console.log('Invalid answer')
+  //         }
+  //       }
+  //     })
+  //     if (s === 'check') {
+  //       myCaptcha.validate()
+  //       myCaptcha.reset()
+  //     }
+  //   }
   },
-
   mounted () {
     this.fetchOrgs()
-    this.captcha()
+    this.genCaptcha()
   }
 }
 </script>
