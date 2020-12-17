@@ -219,9 +219,9 @@ export default {
             case 0:
               this.$store.dispatch('setSessionStates', {
                 auth: true,
-                orgCode: response.orgcode,
-                authToken: response.token,
-                user: { username: this.username }
+                orgCode: response.data.orgcode,
+                authToken: response.data.token,
+                user: { username: this.userName }
               })
               this.$router.push('/')
               this.$buefy.toast.open({
