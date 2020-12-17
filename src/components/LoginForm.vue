@@ -22,12 +22,12 @@
 <hr>
       <b-field horizontal>
         <div class="control">
-          <button type="submit" @click="captcha()" class="button is-success" :class="{'is-loading':isLoading}" :disabled="isDisabled">
-            Login
+          <button type="submit" icon='login' @click="captcha()" class="button is-primary" :class="{'is-loading':isLoading}" :disabled="isDisabled">
+            <b-icon icon="login" class></b-icon> <span>Login</span>
           </button>
           <router-link to="/createorg">
-            <button type="submit" class="mx-2 button is-info" >
-              Create Account
+            <button type="submit" class="mx-2 button is-success" >
+              <b-icon icon="account-plus-outline" class></b-icon> <span>Create account</span>
             </button>
           </router-link>
         </div>
