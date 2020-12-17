@@ -56,6 +56,7 @@ export default {
       orgs: null,
       question: null,
       userAnswer: null,
+      // User login details
       form: {
         username: null,
         userpassword: null,
@@ -81,26 +82,30 @@ export default {
                 // this.$store.commit('setAuthStatus', { auth: true })
                 this.$store.dispatch('setSessionStates', {
                   auth: true,
-                  orgCode: response.orgcode,
-                  authToken: response.token,
-                  user: { username: this.username }
+                  orgCode: this.form.orgcode,
+                  authToken: response.data.token,
+                  user: { username: this.form.username }
                 })
                 this.$router.push('/')
+                // Alert the user on successful login
                 this.$buefy.toast.open({
                   message: 'Logged in Successfully!',
                   type: 'is-success',
                   queue: false
                 })
               } else {
+                // Alert the user on captcha failure
                 this.$buefy.toast.open({
                   message: 'Captcha is incorrect. Please try again',
                   type: 'is-danger',
                   queue: false
                 })
+                // Generate new captcha
                 this.genCaptcha()
               }
               break
             case 2:
+              // Alert user on wrong credentials
               this.$buefy.toast.open({
                 message: 'Username / password / organisation does not match, Please try again',
                 type: 'is-danger',
@@ -109,6 +114,7 @@ export default {
               this.isLoading = false
               break
             case 3:
+              // Alert user on wrong credentials
               this.$buefy.toast.open({
                 message: 'Username / password / organisation does not match, Please try again',
                 type: 'is-danger',
@@ -133,6 +139,7 @@ export default {
           })
         })
     },
+    // Get list of companies & show them in login form for user to select
     fetchOrgs () {
       axios.get(`${this.url}organisations`)
         .then((response) => {
@@ -152,6 +159,7 @@ export default {
           })
         })
     },
+    // Generate captcha using random numbers from 0-10
     genCaptcha () {
       this.question = `${Math.floor(Math.random() * 11)} + ${Math.floor(Math.random() * 11)}`
       const canvas = document.getElementById('captchaCanvas')
@@ -160,6 +168,7 @@ export default {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.fillText(`${this.question} = `, 22, 33)
     },
+    // Validate captcha based on user input
     captcha () {
       const q = this.question.split('+')
       const ans = parseInt(q[0]) + parseInt(q[1])
