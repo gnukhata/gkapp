@@ -18,7 +18,7 @@
         </b-select>
     </b-field>
     <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
-    <b-input v-model="userAnswer" placeholder="Enter your answer" style="max-width:50%" type="text" required/>
+    <b-input v-model="userAnswer" placeholder="Enter your answer" type="text" required/>
 <hr>
       <b-field horizontal>
         <div class="control">
@@ -75,6 +75,8 @@ export default {
             case 0:
               this.isLoading = false
               if (this.captchaSolved) {
+                // add auth token to form object
+                this.form.authToken = response.data.token
                 this.$store.commit('user', this.form)
                 this.$store.commit('setAuthStatus', { auth: true })
                 this.$router.push('/')
@@ -155,7 +157,6 @@ export default {
     captcha () {
       const q = this.question.split('+')
       const ans = parseInt(q[0]) + parseInt(q[1])
-      console.log(ans)
       if (parseInt(this.userAnswer) === ans) {
         this.captchaSolved = true
       }
