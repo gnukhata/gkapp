@@ -76,9 +76,15 @@ export default {
               this.isLoading = false
               if (this.captchaSolved) {
                 // add auth token to form object
-                this.form.authToken = response.data.token
-                this.$store.commit('user', this.form)
-                this.$store.commit('setAuthStatus', { auth: true })
+                // this.form.authToken = response.data.token
+                // this.$store.commit('user', this.form)
+                // this.$store.commit('setAuthStatus', { auth: true })
+                this.$store.dispatch('setSessionStates', {
+                  auth: true,
+                  orgCode: response.orgcode,
+                  authToken: response.token,
+                  user: { username: this.username }
+                })
                 this.$router.push('/')
                 this.$buefy.toast.open({
                   message: 'Logged in Successfully!',
