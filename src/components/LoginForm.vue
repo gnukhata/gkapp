@@ -18,7 +18,7 @@
         </b-select>
     </b-field>
     <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
-    <b-input v-model="userAnswer" placeholder="Enter your answer" style="width:40%" type="text" required/>
+    <b-input v-model="userAnswer" placeholder="Enter your answer" style="max-width:50%" type="text" required/>
 <hr>
       <b-field horizontal>
         <div class="control">
@@ -89,6 +89,7 @@ export default {
                   type: 'is-danger',
                   queue: false
                 })
+                this.genCaptcha()
               }
               break
             case 2:
@@ -148,6 +149,7 @@ export default {
       const canvas = document.getElementById('captchaCanvas')
       const ctx = canvas.getContext('2d')
       ctx.font = '18px Arial'
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.fillText(`${this.question} = `, 22, 33)
     },
     captcha () {
