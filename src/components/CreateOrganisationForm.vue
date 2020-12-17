@@ -101,14 +101,14 @@
         <hr>
         <b-field grouped position="is-right">
           <div class="control">
-            <button type="submit" class="mx-1 button is-success" :class="{'is-loading':isLoading}">
-              <b-icon icon="content-save" class></b-icon> <span>Create & Login</span>
-            </button>
             <router-link to='/login'>
               <button type="submit" class="button is-danger">
                 <b-icon icon="close-thick" class></b-icon> <span>Cancel</span>
               </button>
             </router-link>
+            <button type="submit" class="mx-1 button is-success" :class="{'is-loading':isLoading}">
+              <b-icon icon="content-save" class></b-icon> <span>Create & Login</span>
+            </button>
           </div>
         </b-field>
       </form>
