@@ -100,7 +100,7 @@
             <button type="submit" class="mx-1 button is-success" :class="{'is-loading':isLoading}">
               <b-icon icon="content-save" class></b-icon> <span>Create & Login</span>
             </button>
-            <router-link to='/Login'>
+            <router-link to='/login'>
               <button type="submit" class="button is-danger" :class="{'is-loading':isLoading}">
                 <b-icon icon="close-thick" class></b-icon> <span>Cancel</span>
               </button>
