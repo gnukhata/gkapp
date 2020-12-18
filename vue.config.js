@@ -1,4 +1,5 @@
 module.exports = {
+  productionSourceMap: false,
   publicPath: process.env.DEPLOY_ENV === 'GL_PAGES'
     ? '/gkapp/'
     : '/',
