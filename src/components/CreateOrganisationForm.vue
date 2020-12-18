@@ -92,19 +92,23 @@
                 </b-field>
               </div>
             </div>
+            <b-field label="Captcha">
+              <canvas class="" width="100" height="38" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
+              <b-input class="ml-3" v-model="userAnswer" placeholder="Answer" type="text" required/>
+            </b-field>
           </div>
         </div>
         <hr>
         <b-field grouped position="is-right">
           <div class="control">
-            <button type="submit" class="mx-1 button is-success" :class="{'is-loading':isLoading}">
-              <b-icon icon="content-save" class></b-icon> <span>Create & Login</span>
-            </button>
             <router-link to='/login'>
-              <button type="submit" class="button is-danger" :class="{'is-loading':isLoading}">
+              <button type="submit" class="button is-danger">
                 <b-icon icon="close-thick" class></b-icon> <span>Cancel</span>
               </button>
             </router-link>
+            <button type="submit" class="mx-1 button is-success" :class="{'is-loading':isLoading}">
+              <b-icon icon="content-save" class></b-icon> <span>Create & Login</span>
+            </button>
           </div>
         </b-field>
       </form>
@@ -134,7 +138,10 @@ export default {
       userName: '',
       userPassword: '',
       securityAnswer: '',
-      securityQuestion: ''
+      securityQuestion: '',
+
+      userAnswer: null,
+      captchaSolved: false
     }
   },
   computed: {
@@ -188,6 +195,27 @@ export default {
     ...mapState(['gkCoreUrl', 'gkCoreTestUrl'])
   },
   methods: {
+    // Generate captcha using random numbers from 0-10
+    genCaptcha () {
+      this.question = `${Math.floor(Math.random() * 11)} + ${Math.floor(Math.random() * 11)}`
+      const canvas = document.getElementById('captchaCanvas')
+      const ctx = canvas.getContext('2d')
+      ctx.font = '18px Arial'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.fillText(`${this.question} = `, canvas.width / 2, canvas.height / 2)
+    },
+    // Validate captcha based on user input
+    captcha () {
+      const q = this.question.split('+')
+      const ans = parseInt(q[0]) + parseInt(q[1])
+      if (parseInt(this.userAnswer) === ans) {
+        this.captchaSolved = true
+      } else {
+        this.captchaSolved = false
+      }
+    },
     setToDate () {
       console.log('On date change')
       const from = window.gkutils.dateToString(this.yearStart).split('/') // yyyy/mm/dd
@@ -209,46 +237,58 @@ export default {
       return hint
     },
     submitForm () {
-      this.isLoading = true
-      const payload = this.initPayload()
-      axios.post(`${this.gkCoreUrl}/organisations`, payload)
-        .then((response) => {
-          // console.log(response)
-          this.isLoading = false
-          switch (response.data.gkstatus) {
-            case 0:
-              this.$store.dispatch('setSessionStates', {
-                auth: true,
-                orgCode: response.data.orgcode,
-                authToken: response.data.token,
-                user: { username: this.userName }
-              })
-              this.$router.push('/')
-              this.$buefy.toast.open({
-                message: 'Logged in Successfully!',
-                type: 'is-success',
-                queue: false
-              })
-              break
-            default:
-              this.$buefy.toast.open({
-                message: 'Unable to create account, Please try again',
-                type: 'is-danger',
-                queue: false
-              })
-          } // end switch
-        })
-        .catch((error) => {
-          this.$buefy.toast.open({
-            message: error,
-            type: 'is-warning',
-            queue: false
+      this.captcha()
+      if (this.captchaSolved) {
+        this.isLoading = true
+        const payload = this.initPayload()
+        axios.post(`${this.gkCoreUrl}/organisations`, payload)
+          .then((response) => {
+            // console.log(response)
+            this.isLoading = false
+            switch (response.data.gkstatus) {
+              case 0:
+                this.$store.dispatch('setSessionStates', {
+                  auth: true,
+                  orgCode: response.data.orgcode,
+                  authToken: response.data.token,
+                  user: { username: this.userName }
+                })
+                this.$router.push('/')
+                this.$buefy.toast.open({
+                  message: 'Logged in Successfully!',
+                  type: 'is-success',
+                  queue: false
+                })
+                break
+              default:
+                this.$buefy.toast.open({
+                  message: 'Unable to create account, Please try again',
+                  type: 'is-danger',
+                  queue: false
+                })
+            } // end switch
           })
+          .catch((error) => {
+            this.$buefy.toast.open({
+              message: `Error: ${error.message}`,
+              type: 'is-warning',
+              queue: false
+            })
+          })
+          .then(() => {
+            this.isLoading = false
+          })
+        // console.log(this.initPayload())
+      } else {
+        // Alert the user on captcha failure
+        this.$buefy.toast.open({
+          message: 'Captcha is incorrect. Please try again',
+          type: 'is-danger',
+          queue: false
         })
-        .then(() => {
-          this.isLoading = false
-        })
-      // console.log(this.initPayload())
+        // Generate new captcha
+        this.genCaptcha()
+      }
     },
     initPayload () {
       return {
@@ -289,6 +329,9 @@ export default {
         }
       }
     }
+  },
+  mounted () {
+    this.genCaptcha()
   }
 }
 </script>

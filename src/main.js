@@ -25,7 +25,7 @@ const defaultDocumentTitle = 'GNUKhata'
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
 router.afterEach(to => {
-  if (to.path === '/login' || to.path === '/createorg') {
+  if (to.name === 'login' || to.name === 'createorg') {
     store.commit('setAsideVisibility', false)
   } else {
     store.commit('setAsideVisibility', true)
