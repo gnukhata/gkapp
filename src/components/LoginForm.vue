@@ -169,7 +169,7 @@ export default {
       const ctx = canvas.getContext('2d')
       ctx.font = '18px Arial'
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.fillText(`${this.question} = `, 22, 33)
+      ctx.fillText(`${this.question} = `, 22, 30)
     },
     // Validate captcha based on user input
     captcha () {
