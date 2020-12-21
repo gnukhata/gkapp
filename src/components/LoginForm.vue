@@ -17,7 +17,9 @@
           </option>
         </b-select>
     </b-field>
-    <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
+    <canvas title="captcha" width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas><button @click="audioCaptcha()" class=" mt-3 mx-1 button is-small is-dark"><span class="">speak</span></button>
+
+    <!-- <button @click="audioCaptcha()" class="button is-dark">Audio captcha</button> -->
     <b-input v-model="userAnswer" placeholder="Enter your answer" type="text" required/>
 <hr>
       <b-field horizontal>
@@ -174,6 +176,19 @@ export default {
       const ans = parseInt(q[0]) + parseInt(q[1])
       if (parseInt(this.userAnswer) === ans) {
         this.captchaSolved = true
+      }
+    },
+    audioCaptcha () {
+      if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance()
+        msg.text = this.question
+        window.speechSynthesis.speak(msg)
+      } else {
+        this.$buefy.toast({
+          message: 'Your browser does not support speech synthesis',
+          type: 'is-error',
+          queue: false
+        })
       }
     }
   },
