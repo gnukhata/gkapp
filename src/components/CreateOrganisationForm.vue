@@ -94,6 +94,7 @@
             </div>
             <b-field label="Captcha">
               <canvas class="" width="100" height="38" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
+              <button @click.prevent="audioCaptcha()" class=" mt-1 mx-1 button is-small is-rounded is-dark"><span class="mdi mdi-volume-high"></span></button>
               <b-input class="ml-3" v-model="userAnswer" placeholder="Answer" type="text" required/>
             </b-field>
           </div>
@@ -214,6 +215,19 @@ export default {
         this.captchaSolved = true
       } else {
         this.captchaSolved = false
+      }
+    },
+    audioCaptcha () {
+      if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance()
+        msg.text = this.question
+        window.speechSynthesis.speak(msg)
+      } else {
+        this.$buefy.toast({
+          message: 'Your browser does not support speech synthesis',
+          type: 'is-error',
+          queue: false
+        })
       }
     },
     setToDate () {

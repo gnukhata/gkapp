@@ -17,11 +17,10 @@
           </option>
         </b-select>
     </b-field>
-    <canvas title="captcha" width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas><button @click="audioCaptcha()" class=" mt-3 mx-1 button is-small is-dark"><span class="">speak</span></button>
-
-    <!-- <button @click="audioCaptcha()" class="button is-dark">Audio captcha</button> -->
+    <canvas title="captcha" width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
+    <button @click.prevent="audioCaptcha()" class=" mt-3 mx-1 button is-rounded is-small is-dark"><span class="mdi mdi-volume-high"></span></button>
     <b-input v-model="userAnswer" placeholder="Enter your answer" type="text" required/>
-<hr>
+    <hr>
       <b-field horizontal>
         <div class="control">
           <button type="submit" icon='login' @click="captcha()" class="button is-primary" :class="{'is-loading':isLoading}" :disabled="isDisabled">
