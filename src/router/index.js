@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
+import Profile from '../views/Profile.vue'
+import CreateOrganisation from '../views/CreateOrganisation.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -28,6 +30,7 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+    // component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
   },
   {
     // Document title tag
@@ -65,7 +68,8 @@ const routes = [
     },
     path: '/profile',
     name: 'profile',
-    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+    component: Profile
+    // component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
   },
   {
     meta: {
@@ -73,7 +77,8 @@ const routes = [
     },
     path: '/createorg',
     name: 'createorg',
-    component: () => import(/* webpackChunkName: "createorg" */ '../views/CreateOrganisation.vue')
+    component: CreateOrganisation
+    // component: () => import(/* webpackChunkName: "createorg" */ '../views/CreateOrganisation.vue')
   }
   // {
   //   meta: {
