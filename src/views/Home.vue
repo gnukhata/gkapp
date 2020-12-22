@@ -1,27 +1,43 @@
 <template>
   <div>
     <title-bar :title-stack="titleStack"/>
-    <hero-bar :has-right-visible="false">
+    <!-- <hero-bar :has-right-visible="false">
       Dashboard
-    </hero-bar>
+    </hero-bar> -->
     <section class="section is-main-section">
-      <!-- <tiles>
-        <card-widget class="tile is-child" type="is-primary" icon="account-multiple" :number="512" label="Clients"/>
-        <card-widget class="tile is-child" type="is-info" icon="cart-outline" :number="7770" prefix="$" label="Sales"/>
-        <card-widget class="tile is-child" type="is-success" icon="chart-timeline-variant" :number="256" suffix="%" label="Performance"/>
-      </tiles> -->
-
-      <!-- <card-component title="Performance" @header-icon-click="fillChartData" icon="finance" header-icon="reload">
-        <div v-if="defaultChart.chartData" class="chart-area">
-          <line-chart style="height: 100%"
-                      ref="bigChart"
-                      chart-id="big-line-chart"
-                      :chart-data="defaultChart.chartData"
-                      :extra-options="defaultChart.extraOptions">
-          </line-chart>
+      <tiles>
+        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="250000" label="Bank Balance"/>
+        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="20000" label="Cash Balance"/>
+        <card-widget class="tile is-child" type="is-primary" icon="card-account-details" label="Customers / Suppliers"/>
+        <!-- <card-widget class="tile is-child" type="is-primary" icon="cart-outline" label="Product / Service"/>
+        <card-widget class="tile is-child" type="is-info" icon="file-chart" label="Report"/> -->
+      </tiles>
+      <div class="columns">
+        <div class="column is-half">
+          <card-component title="Sale Invoice" @header-icon-click="fillChartData" icon="finance" header-icon="reload">
+            <div v-if="defaultChart.chartData" class="chart-area">
+              <line-chart style="height: 100%"
+                          ref="bigChart"
+                          chart-id="big-line-chart"
+                          :chart-data="defaultChart.chartData"
+                          :extra-options="defaultChart.extraOptions">
+              </line-chart>
+            </div>
+          </card-component>
         </div>
-      </card-component> -->
-
+        <div class="column is-half">
+          <card-component title="Purchase Invoice" @header-icon-click="fillChartData" icon="finance" header-icon="reload">
+            <div v-if="defaultChart.chartData" class="chart-area">
+              <line-chart style="height: 100%"
+                          ref="bigChart"
+                          chart-id="big-line-chart"
+                          :chart-data="defaultChart.chartData"
+                          :extra-options="defaultChart.extraOptions">
+              </line-chart>
+            </div>
+          </card-component>
+        </div>
+      </div>
       <!-- <card-component title="Clients" class="has-table has-mobile-sort-spaced">
         <clients-table-sample :data-url="`${$router.options.base}data-sources/clients.json`"/>
       </card-component> -->
@@ -32,22 +48,24 @@
 <script>
 import * as chartConfig from '@/components/Charts/chart.config'
 import TitleBar from '@/components/TitleBar'
-import HeroBar from '@/components/HeroBar'
-// import Tiles from '@/components/Tiles'
-// import CardWidget from '@/components/CardWidget'
-// import CardComponent from '@/components/CardComponent'
-// import LineChart from '@/components/Charts/LineChart'
+// import HeroBar from '@/components/HeroBar'
+import Tiles from '@/components/Tiles'
+import CardWidget from '@/components/CardWidget'
+import { mapState } from 'vuex'
+import CardComponent from '@/components/CardComponent'
+import LineChart from '@/components/Charts/LineChart'
+// import Axios from 'axios'
 // import ClientsTableSample from '@/components/ClientsTableSample'
 
 export default {
   name: 'home',
   components: {
     // ClientsTableSample,
-    // LineChart,
-    // CardComponent,
-    // CardWidget,
-    // Tiles,
-    HeroBar,
+    LineChart,
+    CardComponent,
+    CardWidget,
+    Tiles,
+    // HeroBar,
     TitleBar
   },
   data () {
@@ -61,10 +79,18 @@ export default {
   computed: {
     titleStack () {
       return [
-        'Admin',
+        this.userName,
         'Dashboard'
       ]
-    }
+    },
+    ...mapState([
+      'isNavBarVisible',
+      'isAsideMobileExpanded',
+      'isDarkModeActive',
+      'userName',
+      'authToken',
+      'gkCoreUrl'
+    ])
   },
   mounted () {
     this.fillChartData()
@@ -75,6 +101,9 @@ export default {
     // })
   },
   methods: {
+    // getCompanyData () {
+    //   Axios.get(`${gkcoreUrl}/dashboard`)
+    // },
     randomChartData (n) {
       const data = []
 

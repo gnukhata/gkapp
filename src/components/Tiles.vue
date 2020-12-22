@@ -6,7 +6,7 @@ export default {
   props: {
     maxPerRow: {
       type: Number,
-      default: 5
+      default: 3
     }
   },
   render (createElement) {
