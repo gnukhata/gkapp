@@ -28,6 +28,9 @@ export default new Vuex.Store({
     /* Dark mode */
     isDarkModeActive: false,
 
+    /* used for aria label id's */
+    ariaIterator: 0,
+
     gkCoreUrl: 'https://satheerthan.site:6543',
     gkCoreTestUrl: 'http://localhost:6543'
   },
@@ -136,6 +139,10 @@ export default new Vuex.Store({
       } else {
         document.documentElement.classList.remove(htmlClassName)
       }
+    },
+
+    incrementAriaIterator (state) {
+      state.ariaIterator++
     }
   },
   actions: {

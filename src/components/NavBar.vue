@@ -1,5 +1,5 @@
 <template>
-  <nav v-show="isNavBarVisible" id="navbar-main" class="navbar is-fixed-top">
+  <nav role="navigation" v-show="isNavBarVisible" id="navbar-main" class="navbar is-fixed-top">
     <div v-if="showUserOptions" class="navbar-brand">
       <a class="navbar-item is-hidden-desktop" @click.prevent="menuToggleMobile">
         <b-icon :icon="menuToggleMobileIcon"/>
