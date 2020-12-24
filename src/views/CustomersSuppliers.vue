@@ -16,13 +16,21 @@
         </b-tab-item>
     </b-tabs>
     <div  v-if="this.tabChoice == 0" class="list">
-        <span v-for="customer in this.customerList" :key="customer.id" class="mx-1 my-1 tag is-primary is-light is-medium">
+        <button class="button mb-5">
+            <b-icon icon="account-plus"></b-icon>
+            <span>Add Customer</span>
+        </button><br>
+        <span v-for="customer in this.customerList" :key="customer.id" class="mx-2 my-2 tag is-primary is-light is-medium">
             <b-icon icon="account" class></b-icon>
             <span>{{customer.custname}}</span>
         </span>
     </div>
     <div v-else class="list">
-        <span v-for="supplier in this.supplierList" :key="supplier.id" class="mx-1 my-1 tag is-medium is-warning">
+        <button class="button mb-5">
+            <b-icon icon="warehouse"></b-icon>
+            <span>Add Supplier</span>
+        </button><br>
+        <span v-for="supplier in this.supplierList" :key="supplier.id" class="mx-2 my-2 tag is-medium is-warning">
             <b-icon icon="warehouse" class></b-icon>
             <span>{{supplier.custname}}</span>
         </span>
