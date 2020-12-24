@@ -9,8 +9,8 @@
       <form @submit.prevent="submitForm">
         <div class="columns">
           <div class="column">
-            <b-field label="Organisation Name">
-              <b-input placeholder="ABC Organisation"
+            <b-field label-for="org-name-inp" label="Organisation Name">
+              <b-input id="org-name-inp" placeholder="ABC Organisation"
                 minlength="3"
                 validation-message="Organisation name must be 3 or more characters long"
                 v-model="orgName"
@@ -18,7 +18,7 @@
                 required>
               </b-input>
             </b-field>
-            <b-field label="Organisation Type">
+            <b-field role="radiogroup" aria-label="Organisation Type" label="Organisation Type">
               <b-radio-button type="is-info"
                   v-model="orgType"
                   v-for="(option, index) in options.orgType"
@@ -27,15 +27,19 @@
                   {{option}}
               </b-radio-button>
             </b-field>
-            <div class="field">
-              <label class="label">Financial Year</label>
+            <div class="field" role="group" aria-labelledby="fin-label">
+              <label class="label" id="fin-label">Financial Year</label>
               <div class="field-body mt-3">
                   <b-field label="from" label-position="on-border">
                     <b-datepicker
                             @input="this.setToDate"
                             v-model="yearStart"
                             placeholder="dd / mm / yyyy"
+                            aria-label="From Date - (DD / MM / Y Y Y Y)"
+                            aria-next-label="Next month"
+                            aria-previous-label="Previous month"
                             icon="calendar-today"
+                            editable
                             required>
                     </b-datepicker>
                   </b-field>
@@ -43,8 +47,12 @@
                     <b-datepicker
                             v-model="yearEnd"
                             placeholder="dd / mm / yyyy"
+                            aria-label="To Date - (DD / MM / Y Y Y Y)"
+                            aria-next-label="Next month"
+                            aria-previous-label="Previous month"
                             icon="calendar-today"
                             :min-date="yearStart"
+                            editable
                             required>
                     </b-datepicker>
                   </b-field>
@@ -52,31 +60,35 @@
             </div>
           </div>
           <div class="column">
-            <b-field label="Admin Name" expanded>
+            <b-field label-for="auser-input" label="Admin Name" expanded>
               <b-input placeholder="Admin User"
                 minlength="3"
+                id="auser-input"
                 validation-message="User name must be 3 or more characters long"
                 v-model="userName"
                 icon="account-circle"
                 required>
               </b-input>
             </b-field>
-            <b-field label="Password" :message="passwordCheckText" :type="passwordMode">
+            <b-field label-for="pwd-input" label="Password" :message="passwordCheckText" :type="passwordMode">
               <b-input type="password"
+                id="pwd-input"
                 v-model="userPassword"
                 icon="lock"
                 placeholder="P@$$w0rd"
+                aria-label="Password must be minimum 8 characters long and contain atleast one capital letter, one small letter, one number and one symbol"
                 password-reveal
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*]).{8,}"
                 required></b-input>
             </b-field>
-            <div class="field">
-              <label class="label">Password Recovery</label>
+            <div role="group" aria-labelledby="pwdr-label" class="field">
+              <label id="pwdr-label" class="label">Password Recovery</label>
               <div class="field-body mt-3">
                 <b-field label="question" label-position="on-border">
                   <b-input placeholder="Who am i?"
                     v-model="securityQuestion"
                     minlength="3"
+                    aria-label="Password recovery question"
                     validation-message="Question must be 3 or more characters long"
                     required>
                   </b-input>
@@ -85,6 +97,7 @@
                   <b-input
                     placeholder="GNUKhata"
                     v-model="securityAnswer"
+                    aria-label="Password recovery answer"
                     validation-message="Answer must be 3 or more characters long"
                     minlength="3"
                     required>
@@ -92,24 +105,25 @@
                 </b-field>
               </div>
             </div>
-            <b-field label="Captcha">
-              <canvas class="" width="100" height="38" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
-              <button @click.prevent="audioCaptcha()" class=" mt-1 mx-1 button is-small is-rounded is-dark"><span class="mdi mdi-volume-high"></span></button>
-              <b-input class="ml-3" v-model="userAnswer" placeholder="Answer" type="text" required/>
-            </b-field>
+            <div class="field" role="group" aria-labelledby="cap-label">
+              <label id="cap-label" class="label">Captcha</label>
+              <div class="field-body">
+                <canvas class="" role="none" width="100" height="38" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
+                <button @click.prevent="audioCaptcha()" aria-label="Audio Captcha" class=" mt-1 mx-1 button is-small is-rounded is-dark"><span class="mdi mdi-volume-high"></span></button>
+                <b-input class="ml-3" v-model="userAnswer" aria-label="Captcha answer" placeholder="Answer" type="text" required/>
+              </div>
+            </div>
           </div>
         </div>
         <hr>
         <b-field grouped position="is-right">
           <div class="control">
-            <router-link to='/login'>
-              <button type="submit" class="button is-danger">
-                <b-icon icon="close-thick" class></b-icon> <span>Cancel</span>
-              </button>
-            </router-link>
-            <button type="submit" class="mx-1 button is-success" :class="{'is-loading':isLoading}">
-              <b-icon icon="content-save" class></b-icon> <span>Create & Login</span>
-            </button>
+            <b-button aria-label="Cancel and go back" tag="router-link" to="/login" icon-left="close-thick" type="is-danger">
+              Cancel
+            </b-button>
+            <b-button class="ml-2" icon-left="content-save" type="is-success">
+              Create & Login
+            </b-button>
           </div>
         </b-field>
       </form>

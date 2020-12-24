@@ -12,8 +12,8 @@
         <div class="level-right">
           <div class="level-item">
             <div class="logo">
-              <a href="https://gnukhata.in">
-              <img src="img/icons/gnukhata_icon.png" alt="">
+              <a aria-label="Link to GNUKhata website" href="https://gnukhata.in">
+                <img src="img/icons/gnukhata_icon.png" alt="GNUKhata Logo">
               </a>
             </div>
           </div>
