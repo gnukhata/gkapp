@@ -6,8 +6,8 @@
     </hero-bar> -->
     <section class="section is-main-section">
       <tiles>
-        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="250000" label="Bank Balance"/>
-        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="20000" label="Cash Balance"/>
+        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Bank Balance"/>
+        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Cash Balance"/>
         <card-widget class="tile is-child" type="is-primary" icon="card-account-details" label="Customers / Suppliers"/>
         <!-- <card-widget class="tile is-child" type="is-primary" icon="cart-outline" label="Product / Service"/>
         <card-widget class="tile is-child" type="is-info" icon="file-chart" label="Report"/> -->
@@ -54,7 +54,7 @@ import CardWidget from '@/components/CardWidget'
 import { mapState } from 'vuex'
 import CardComponent from '@/components/CardComponent'
 import LineChart from '@/components/Charts/LineChart'
-// import Axios from 'axios'
+import Axios from 'axios'
 // import ClientsTableSample from '@/components/ClientsTableSample'
 
 export default {
@@ -73,7 +73,8 @@ export default {
       defaultChart: {
         chartData: null,
         extraOptions: chartConfig.chartOptionsMain
-      }
+      },
+      company: Object
     }
   },
   computed: {
@@ -94,16 +95,21 @@ export default {
   },
   mounted () {
     this.fillChartData()
-
-    // this.$buefy.snackbar.open({
-    //   message: 'Welcome back ',
-    //   queue: false
-    // })
+    this.getCompanyData()
   },
   methods: {
-    // getCompanyData () {
-    //   Axios.get(`${gkcoreUrl}/dashboard`)
-    // },
+    getCompanyData () {
+      Axios.get(`${this.gkCoreUrl}/dashboard?type=dashboarddata`, {
+        headers: {
+          gktoken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxLCJ1c2VyaWQiOjF9.TMPTw51qwCSp-z3U2LgpVuBKE0aPf12Y2QMnlFVleMo'
+        }
+      }).then((res) => {
+        this.company = res.data.gkresult
+        // console.log(res.data.gkresult.)
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
     randomChartData (n) {
       const data = []
 
