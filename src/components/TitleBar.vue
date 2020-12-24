@@ -8,16 +8,18 @@
           </ul>
         </div>
       </div>
-      <!-- <div class="level-right">
+      <div class="level-right">
         <div class="level-item">
           <div class="buttons is-right">
-            <a href="https://admin-null.justboil.me/" target="_blank" class="button is-light">
-              <b-icon icon="credit-card" custom-size="default"/>
-              <span>Premium Demo</span>
-            </a>
+            <router-link to="/">
+            <button class="button is-dark">
+              <b-icon icon="arrow-left-circle" custom-size="default"/>
+              <span>Dashboard</span>
+            </button>
+            </router-link>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </section>
 </template>

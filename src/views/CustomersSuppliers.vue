@@ -1,16 +1,17 @@
 <template>
+  <div>
+  <title-bar :title-stack="titleStack"/>
   <section class="section">
     <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
-    <!-- <h2 class="title is-3 mb-5 has-text-centered">Customers &amp; Suppliers</h2> -->
     <b-tabs  v-model="tabChoice" class='mt-5' size="is-medium" position="is-left" type="is-boxed">
-        <b-tab-item label="Customers" >
-            <template #header>
+        <b-tab-item aria-label="Customers Tab Selected" label="Customers" >
+            <template  #header>
                 <b-icon icon="account-group"></b-icon>
                 <span> Customers <b-tag rounded>{{customerList.length}}</b-tag> </span>
             </template>
         </b-tab-item>
-        <b-tab-item label="Suppliers" icon="warehouse">
-            <template #header>
+        <b-tab-item aria-label="Suppliers Tab selected" label="Suppliers" icon="warehouse">
+            <template  #header>
                 <b-icon icon="warehouse"></b-icon>
                 <span> Suppliers <b-tag rounded>{{supplierList.length}}</b-tag> </span>
             </template>
@@ -37,14 +38,20 @@
         </span>
     </div>
   </section>
+  </div>
 </template>
 
 <script>
 import Axios from 'axios'
 import { mapState } from 'vuex'
+import TitleBar from '@/components/TitleBar'
+// import HeroBar from '@/components/HeroBar'
 
 export default {
   name: 'CustomersSuppliers',
+  components: {
+    TitleBar
+  },
   data () {
     return {
       tabChoice: 0,
@@ -57,37 +64,32 @@ export default {
     ...mapState([
       'authToken',
       'gkCoreUrl',
-      'gkTestUrl'
-    ])
+      'userName'
+    ]),
+    titleStack () {
+      return [
+        this.userName,
+        'Customers & Suppliers'
+      ]
+    }
   },
   methods: {
     loadList (name) {
-      if (name === 'custall') {
-        Axios.get(`${this.gkCoreUrl}/customersupplier?qty=${name}`, {
-          headers: {
-            gktoken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxLCJ1c2VyaWQiOjF9.TMPTw51qwCSp-z3U2LgpVuBKE0aPf12Y2QMnlFVleMo'
-          }
-        })
-          .then((res) => {
+      Axios.get(`${this.gkCoreUrl}/customersupplier?qty=${name}`, {
+        headers: {
+          gktoken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxLCJ1c2VyaWQiOjF9.TMPTw51qwCSp-z3U2LgpVuBKE0aPf12Y2QMnlFVleMo'
+        }
+      })
+        .then((res) => {
+          if (name === 'custall') {
             this.customerList = res.data.gkresult
-            this.isLoading = false
-          }).catch((error) => {
-            console.log(error)
-          })
-      }
-      if (name === 'supall') {
-        Axios.get(`${this.gkCoreUrl}/customersupplier?qty=${name}`, {
-          headers: {
-            gktoken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxLCJ1c2VyaWQiOjF9.TMPTw51qwCSp-z3U2LgpVuBKE0aPf12Y2QMnlFVleMo'
-          }
-        })
-          .then((res) => {
+          } else {
             this.supplierList = res.data.gkresult
-            this.isLoading = false
-          }).catch((error) => {
-            console.log(error)
-          })
-      }
+          }
+          this.isLoading = false
+        }).catch((error) => {
+          console.log(error)
+        })
     }
   },
   mounted () {
