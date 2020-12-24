@@ -5,6 +5,7 @@ import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import CreateOrganisation from '../views/CreateOrganisation.vue'
+import CustomersSuppliers from '../views/CustomersSuppliers.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -42,17 +43,17 @@ const routes = [
     name: 'about',
     component: About
   },
-  // {
-  //   meta: {
-  //     title: 'Tables'
-  //   },
-  //   path: '/tables',
-  //   name: 'tables',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "tables" */ '../views/Tables.vue')
-  // },
+  {
+    meta: {
+      title: 'Customers & Suppliers'
+    },
+    path: '/CustomersSuppliers',
+    name: 'Customers & Suppliers',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: CustomersSuppliers
+  },
   // {
   //   meta: {
   //     title: 'Forms'
