@@ -1,11 +1,11 @@
 <template>
   <div>
-    <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
     <title-bar :title-stack="titleStack"/>
     <!-- <hero-bar :has-right-visible="false">
       Dashboard
     </hero-bar> -->
     <section class="section is-main-section">
+      <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
       <tiles>
         <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Bank Balance"/>
         <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Cash Balance"/>
@@ -97,10 +97,6 @@ export default {
       'gkCoreUrl'
     ])
   },
-  mounted () {
-    this.fillChartData()
-    this.getCompanyData()
-  },
   methods: {
     getCompanyData () {
       Axios.get(`${this.gkCoreUrl}/dashboard?type=dashboarddata`, {
@@ -176,6 +172,10 @@ export default {
         labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09']
       }
     }
+  },
+  mounted () {
+    this.fillChartData()
+    this.getCompanyData()
   }
 }
 </script>

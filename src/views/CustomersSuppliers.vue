@@ -2,7 +2,7 @@
   <section class="section">
     <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
     <!-- <h2 class="title is-3 mb-5 has-text-centered">Customers &amp; Suppliers</h2> -->
-    <b-tabs  v-model="tabChoice" class='mt-5' size="is-small" position="is-left" type="is-boxed">
+    <b-tabs  v-model="tabChoice" class='mt-5' size="is-medium" position="is-left" type="is-boxed">
         <b-tab-item label="Customers" >
             <template #header>
                 <b-icon icon="account-group"></b-icon>
