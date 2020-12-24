@@ -181,36 +181,6 @@ export default {
         this.captchaSolved = true
       }
     }
-  //   captcha (s) {
-  //     const myCaptcha = new JCaptcha({
-  //       el: '.jCaptcha',
-  //       canvasClass: 'jCaptchaCanvas',
-  //       canvasStyle: {
-  //         // required properties for captcha stylings:
-  //         width: 100,
-  //         height: 15,
-  //         textBaseline: 'top',
-  //         font: '15px Arial',
-  //         textAlign: 'left',
-  //         fillStyle: 'blue'
-  //       },
-  //       // set callback function for success and error messages:
-  //       callback: (response, $captchaInputElement, numberOfTries) => {
-  //         if (response === 'success') {
-  //           // success handle, e.g. continue with form submit
-  //           this.captchaSolved = true
-  //         }
-  //         if (response === 'error') {
-  //           // error handle, e.g. add error class to captcha input
-  //           console.log('Invalid answer')
-  //         }
-  //       }
-  //     })
-  //     if (s === 'check') {
-  //       myCaptcha.validate()
-  //       myCaptcha.reset()
-  //     }
-  //   }
   },
   mounted () {
     this.fetchOrgs()
