@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
     <title-bar :title-stack="titleStack"/>
     <!-- <hero-bar :has-right-visible="false">
       Dashboard
@@ -72,6 +73,7 @@ export default {
   },
   data () {
     return {
+      isLoading: true,
       defaultChart: {
         chartData: null,
         extraOptions: chartConfig.chartOptionsMain
@@ -107,6 +109,7 @@ export default {
         }
       }).then((res) => {
         this.company = res.data.gkresult
+        this.isLoading = false
         // console.log(res.data.gkresult.)
       }).catch((err) => {
         console.log(err)

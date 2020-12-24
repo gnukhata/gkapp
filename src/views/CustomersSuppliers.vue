@@ -1,5 +1,6 @@
 <template>
   <section class="section">
+    <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
     <!-- <h2 class="title is-3 mb-5 has-text-centered">Customers &amp; Suppliers</h2> -->
     <b-tabs  v-model="tabChoice" class='mt-5' size="is-small" position="is-left" type="is-boxed">
         <b-tab-item label="Customers" >
@@ -47,6 +48,7 @@ export default {
   data () {
     return {
       tabChoice: 0,
+      isLoading: true,
       customerList: null,
       supplierList: null
     }
@@ -68,6 +70,7 @@ export default {
         })
           .then((res) => {
             this.customerList = res.data.gkresult
+            this.isLoading = false
           }).catch((error) => {
             console.log(error)
           })
@@ -80,6 +83,7 @@ export default {
         })
           .then((res) => {
             this.supplierList = res.data.gkresult
+            this.isLoading = false
           }).catch((error) => {
             console.log(error)
           })
