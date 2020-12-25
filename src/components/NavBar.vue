@@ -2,11 +2,18 @@
   <nav role="navigation" v-show="isNavBarVisible" id="navbar-main" class="navbar is-fixed-top">
     <div v-if="showUserOptions" class="navbar-brand">
       <a class="navbar-item is-hidden-desktop" @click.prevent="menuToggleMobile">
-        <b-icon :icon="menuToggleMobileIcon"/>
+        <!-- <b-icon :icon="menuToggleMobileIcon"/> -->
       </a>
       <div class="navbar-item has-control no-left-space-touch">
-        <div class="control">
-          <input class="input" placeholder="Search everywhere...">
+        <div class="level is-mobile">
+          <div class="has-background-white level-left">
+            <img src="img/icons/gnukhata_icon.png" width="30px" aria-label="gnukhata logo" alt="GNUKhata Logo">
+          </div>
+          <div class="ml-2 level-right">
+            <span class="has-text-weight-bold">
+              GNUKhata
+            </span>
+          </div>
         </div>
       </div>
     </div>

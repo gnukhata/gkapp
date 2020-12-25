@@ -12,7 +12,7 @@
         <div class="level-item">
           <div v-if="$route.path !== '/'" class="buttons is-right">
             <router-link to="/">
-            <button class="button is-dark">
+            <button class="button is-warning">
               <b-icon icon="arrow-left-circle" custom-size="default"/>
               <span>Dashboard</span>
             </button>
