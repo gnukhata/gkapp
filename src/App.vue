@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav-bar/>
-    <aside-menu :menu="menu"/> <!--@menu-click="menuClick" -->
+    <!-- <aside-menu :menu="menu"/> @menu-click="menuClick" -->
     <main id="app-body">
       <router-view/>
     </main>
@@ -12,14 +12,14 @@
 <script>
 // @ is an alias to /src
 import NavBar from '@/components/NavBar'
-import AsideMenu from '@/components/AsideMenu'
+// import AsideMenu from '@/components/AsideMenu'
 import FooterBar from '@/components/FooterBar'
 
 export default {
   name: 'home',
   components: {
     FooterBar,
-    AsideMenu,
+    // AsideMenu,
     NavBar
   },
   computed: {

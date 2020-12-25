@@ -3,7 +3,8 @@
     &.has-aside-left {
       &.has-aside-expanded {
         nav.navbar, body {
-          padding-left: $aside-width;
+          // padding-left: $aside-width; //previous aside value
+          margin-left: $aside-width;
         }
       }
       nav.navbar, body {

@@ -10,9 +10,9 @@
       </div>
       <div class="level-right">
         <div class="level-item">
-          <div class="buttons is-right">
+          <div v-if="$route.path !== '/'" class="buttons is-right">
             <router-link to="/">
-            <button class="button is-dark">
+            <button class="button is-warning">
               <b-icon icon="arrow-left-circle" custom-size="default"/>
               <span>Dashboard</span>
             </button>
