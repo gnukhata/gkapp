@@ -121,7 +121,7 @@
             <b-button aria-label="Cancel and go back" tag="router-link" to="/login" icon-left="close-thick" type="is-danger">
               Cancel
             </b-button>
-            <b-button class="ml-2" icon-left="content-save" type="is-success">
+            <b-button native-type="submit" class="ml-2" icon-left="content-save" type="is-success" :class="{'is-loading':isLoading}">
               Create & Login
             </b-button>
           </div>

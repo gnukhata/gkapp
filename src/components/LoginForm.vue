@@ -44,10 +44,9 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 import CardComponent from '@/components/CardComponent'
 import axios from 'axios'
-// import JCaptcha from 'js-captcha'
 
 export default {
   name: 'LoginForm',
@@ -58,7 +57,6 @@ export default {
     return {
       notificationIsActive: true,
       captchaSolved: false,
-      url: 'https://satheerthan.site:6543/',
       isLoading: false,
       isDisabled: true,
       orgs: null,
@@ -71,12 +69,15 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState(['gkCoreUrl', 'gkCoreTestUrl'])
+  },
   methods: {
     login () {
       this.isLoading = true
       // add + 1 to organisation org list is indexed starting from 0
       this.form.orgcode = this.form.orgcode + 1
-      axios.post(`${this.url}login`, this.form)
+      axios.post(`${this.gkCoreUrl}/login`, this.form)
         .then((response) => {
           // alert user depending on the gkstatus code
           switch (response.data.gkstatus) {
@@ -148,7 +149,7 @@ export default {
     },
     // Get list of companies & show them in login form for user to select
     fetchOrgs () {
-      axios.get(`${this.url}organisations`)
+      axios.get(`${this.gkCoreUrl}/organisations`)
         .then((response) => {
           this.orgs = response.data.gkdata
           this.$buefy.toast.open({

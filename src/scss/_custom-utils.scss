@@ -1,7 +1,13 @@
-.is-valign-m{
-    vertical-align: middle;
+.is-valign-m {
+  vertical-align: middle;
 }
 
 .is-gk-blue{
-    color: #000080;
+  color: #000080;
+}
+
+@for $i from 1 through 16 { 
+  .is-w-#{$i} {
+    width: $i * 6.25%;
   }
+}

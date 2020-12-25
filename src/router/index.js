@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import CreateOrganisation from '../views/CreateOrganisation.vue'
 import CustomersSuppliers from '../views/CustomersSuppliers.vue'
+import CustomerSupplierProfile from '../views/CustomerSupplierProfile.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -16,7 +17,7 @@ const routes = [
     // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
       title: 'Dashboard',
-      requiresAuth: false
+      requiresAuth: true
     },
     path: '/',
     name: 'home',
@@ -80,7 +81,7 @@ const routes = [
     name: 'createorg',
     component: CreateOrganisation
     // component: () => import(/* webpackChunkName: "createorg" */ '../views/CreateOrganisation.vue')
-  }
+  },
   // {
   //   meta: {
   //     title: 'New client',
@@ -100,6 +101,16 @@ const routes = [
   //   component: () => import(/* webpackChunkName: "client-form" */ '../views/ClientForm.vue'),
   //   props: true
   // }
+  {
+    meta: {
+      title: 'Customer & Supplier Profile',
+      requiresAuth: true
+    },
+    path: '/customer_supplier_profile/:type/:mode',
+    name: 'customer_supplier_profile',
+    component: CustomerSupplierProfile,
+    props: true
+  }
 ]
 
 const router = new VueRouter({
@@ -121,7 +132,7 @@ router.beforeEach((to, from, next) => {
     if (store.getters.isUserAuthenticated !== true) {
       next({ name: 'login' })
     } else {
-      console.log('Auth succeeded')
+      // console.log('Auth succeeded')
       next()
     }
   } else {

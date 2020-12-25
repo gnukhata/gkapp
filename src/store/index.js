@@ -50,11 +50,11 @@ export default new Vuex.Store({
       }
 
       if (orgCode) {
-        state.userAuthenticated = parseInt(orgCode)
+        state.orgCode = parseInt(orgCode)
       }
 
       if (authToken) {
-        state.userAuthenticated = authToken
+        state.authToken = authToken
       }
     },
 

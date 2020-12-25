@@ -2,7 +2,7 @@
   <div>
   <title-bar :title-stack="titleStack"/>
   <section class="section">
-    <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
+    <b-loading v-model="isLoading" :can-cancel="true"></b-loading> <!-- :is-full-page="isFullPage" -->
     <b-tabs  v-model="tabChoice" class='mt-5' size="is-medium" position="is-left" type="is-boxed">
         <b-tab-item aria-label="Customers Tab Selected" label="Customers" >
             <template  #header>
@@ -18,20 +18,30 @@
         </b-tab-item>
     </b-tabs>
     <div  v-if="this.tabChoice == 0" class="list">
-        <button class="button mb-5">
-            <b-icon icon="account-plus"></b-icon>
-            <span>Add Customer</span>
-        </button><br>
+        <b-button
+          class="mb-5"
+          aria-label="Add Customer"
+          tag="router-link"
+          :to="{name: 'customer_supplier_profile', params: {type: 'customer', mode:'create'}}"
+          icon-left="account-plus">
+          Add Customer
+        </b-button>
+        <br>
         <span v-for="customer in this.customerList" :key="customer.id" class="mx-2 my-2 tag is-primary is-light is-medium">
             <b-icon icon="account" class></b-icon>
             <span>{{customer.custname}}</span>
         </span>
     </div>
     <div v-else class="list">
-        <button class="button mb-5">
-            <b-icon icon="warehouse"></b-icon>
-            <span>Add Supplier</span>
-        </button><br>
+        <b-button
+          class="mb-5"
+          aria-label="Add Supplier"
+          tag="router-link"
+          :to="{name: 'customer_supplier_profile', params: {type: 'supplier', mode:'create'}}"
+          icon-left="warehouse">
+          Add Supplier
+        </b-button>
+        <br>
         <span v-for="supplier in this.supplierList" :key="supplier.id" class="mx-2 my-2 tag is-medium is-warning">
             <b-icon icon="warehouse" class></b-icon>
             <span>{{supplier.custname}}</span>
@@ -56,8 +66,8 @@ export default {
     return {
       tabChoice: 0,
       isLoading: true,
-      customerList: null,
-      supplierList: null
+      customerList: { length: 0 },
+      supplierList: { length: 0 }
     }
   },
   computed: {
