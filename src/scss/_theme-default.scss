@@ -49,7 +49,8 @@ $menu-item-active-color: $black-ter;
 $menu-item-active-background-color: transparent;
 
 /* Aside: specifics */
-$aside-width: $size-base * 14;
+// $aside-width: $size-base * 14; //old aside width
+$aside-width: $size-base * 0;
 $aside-mobile-width: $size-base * 15;
 $aside-icon-width: $size-base * 3;
 $aside-submenu-font-size: $size-base * .95;
