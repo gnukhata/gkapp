@@ -4,36 +4,32 @@
       Demo <b>username:</b> user_a | <b>Password:</b> user_a | <b>organisation:</b> ABC Delivery
     </b-notification>
     <form @submit.prevent="login">
-      <b-field horizontal label="Username" message="*Required">
-        <b-input v-model="form.username" name="name" required/>
+      <b-field horizontal label-for="org-name-inp" label="Username" message="*Required">
+        <b-input aria-label="Enter Username" v-model="form.username" name="name" required/>
       </b-field>
       <b-field horizontal label="Password" message="*Required">
-        <b-input v-model="form.userpassword" name="password" type="password" required/>
+        <b-input aria-label="Enter Password" v-model="form.userpassword" name="password" type="password" required/>
       </b-field>
       <b-field label="Organisation">
-        <b-select v-model="form.orgcode" placeholder="Select your organisation" required>
+        <b-select aria-label="Select Company" v-model="form.orgcode" placeholder="Select your organisation" required>
           <option v-for="(org, number) in orgs" :value="number" :key="number">
             {{ org.orgname + " (" + org.orgtype + " )"}}
           </option>
         </b-select>
     </b-field>
-    <b-field horizontal message="Solve the captcha above">
-      <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;">
-      </canvas>
+    <b-field message="Solve the captcha">
+      <button @click.prevent="audioCaptcha" role="button" title="listen to captcha" aria-label="Audio Captcha button" class=" mt-3 mx-1 button is-small is-rounded is-dark"><span class="mdi mdi-volume-high"></span></button>
+      <canvas aria-label="Captcha" width="70" height="30" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
+      <b-input aria-label="Captcha answer field" label="captcha answer" class="ml-2 mt-2" v-model="userAnswer" placeholder="Answer" type="text" required/>
     </b-field>
-    <b-field horizontal label="Answer" message="*required">
-      <!-- <canvas width="100" height="50" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas> -->
-      <b-input v-model="userAnswer" placeholder="captcha answer" type="text" required/>
-    </b-field>
-    <!-- <input type="text" class="jCaptcha" placeholder="Answer"> -->
 <hr>
       <b-field horizontal>
         <div class="control">
-          <button type="submit" icon='login' @click="captcha()" class="button is-primary" :class="{'is-loading':isLoading}" :disabled="isDisabled">
+          <button aria-label="Login button" type="submit" icon='login' @click="captcha()" class="button is-primary" :class="{'is-loading':isLoading}" :disabled="isDisabled">
             <b-icon icon="login" class></b-icon> <span>Login</span>
           </button>
           <router-link to="/createorg">
-            <button type="submit" class="mx-2 button is-success" >
+            <button aria-label="Create account button" type="submit" class="mx-2 button is-success" >
               <b-icon icon="account-plus-outline" class></b-icon> <span>Create account</span>
             </button>
           </router-link>
@@ -47,7 +43,6 @@
 // import { mapState } from 'vuex'
 import CardComponent from '@/components/CardComponent'
 import axios from 'axios'
-// import JCaptcha from 'js-captcha'
 
 export default {
   name: 'LoginForm',
@@ -83,10 +78,6 @@ export default {
             case 0:
               this.isLoading = false
               if (this.captchaSolved) {
-                // add auth token to form object
-                // this.form.authToken = response.data.token
-                // this.$store.commit('user', this.form)
-                // this.$store.commit('setAuthStatus', { auth: true })
                 this.$store.dispatch('setSessionStates', {
                   auth: true,
                   orgCode: this.form.orgcode,
@@ -171,7 +162,7 @@ export default {
       const canvas = document.getElementById('captchaCanvas')
       const ctx = canvas.getContext('2d')
       ctx.font = '18px Arial'
-      ctx.fillText(`${this.question} = `, 22, 33)
+      ctx.fillText(`${this.question} = `, 9, 22)
     },
     captcha () {
       const q = this.question.split('+')
@@ -179,6 +170,19 @@ export default {
       console.log(ans)
       if (parseInt(this.userAnswer) === ans) {
         this.captchaSolved = true
+      }
+    },
+    audioCaptcha () {
+      if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance()
+        msg.text = this.question
+        window.speechSynthesis.speak(msg)
+      } else {
+        this.$buefy.toast({
+          message: 'Your browser does not support speech synthesis',
+          type: 'is-error',
+          queue: false
+        })
       }
     }
   },
