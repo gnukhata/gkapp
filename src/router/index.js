@@ -5,7 +5,7 @@ import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import CreateOrganisation from '../views/CreateOrganisation.vue'
-import CustomersSuppliers from '../views/CustomersSuppliers.vue'
+import Workflow from '../views/Workflow.vue'
 import CustomerSupplierProfile from '../views/CustomerSupplierProfile.vue'
 import store from '../store'
 
@@ -40,20 +40,20 @@ const routes = [
     meta: {
       title: 'About'
     },
-    path: '/About',
+    path: '/about',
     name: 'about',
     component: About
   },
   {
     meta: {
-      title: 'Customers & Suppliers'
+      title: 'Workflow'
     },
-    path: '/CustomersSuppliers',
-    name: 'Customers & Suppliers',
+    path: '/workflow',
+    name: 'Workflow',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: CustomersSuppliers
+    component: Workflow
   },
   // {
   //   meta: {

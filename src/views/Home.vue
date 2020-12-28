@@ -9,13 +9,13 @@
       <tiles>
         <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Bank Balance"/>
         <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Cash Balance"/>
-        <router-link to="/CustomersSuppliers">
+        <router-link to="/workflow">
           <card-widget class="tile is-child" type="is-primary" icon="card-account-details" label="Customers / Suppliers"/>
         </router-link>
         <!-- <card-widget class="tile is-child" type="is-primary" icon="cart-outline" label="Product / Service"/>
         <card-widget class="tile is-child" type="is-info" icon="file-chart" label="Report"/> -->
       </tiles>
-      <div class="columns">
+      <!-- <div class="columns">
         <div class="column is-half">
           <card-component title="Sale Invoice" @header-icon-click="fillChartData" icon="finance" header-icon="reload">
             <div v-if="defaultChart.chartData" class="chart-area">
@@ -40,7 +40,7 @@
             </div>
           </card-component>
         </div>
-      </div>
+      </div> -->
       <!-- <card-component title="Clients" class="has-table has-mobile-sort-spaced">
         <clients-table-sample :data-url="`${$router.options.base}data-sources/clients.json`"/>
       </card-component> -->
@@ -55,8 +55,8 @@ import TitleBar from '@/components/TitleBar'
 import Tiles from '@/components/Tiles'
 import CardWidget from '@/components/CardWidget'
 import { mapState } from 'vuex'
-import CardComponent from '@/components/CardComponent'
-import LineChart from '@/components/Charts/LineChart'
+// import CardComponent from '@/components/CardComponent'
+// import LineChart from '@/components/Charts/LineChart'
 import Axios from 'axios'
 // import ClientsTableSample from '@/components/ClientsTableSample'
 
@@ -64,8 +64,8 @@ export default {
   name: 'home',
   components: {
     // ClientsTableSample,
-    LineChart,
-    CardComponent,
+    // LineChart,
+    // CardComponent,
     CardWidget,
     Tiles,
     // HeroBar,
