@@ -10,7 +10,7 @@
         <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Bank Balance"/>
         <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Cash Balance"/>
         <router-link to="/workflow">
-          <card-widget class="tile is-child" type="is-primary" icon="card-account-details" label="Customers / Suppliers"/>
+          <card-widget class="tile is-child" type="is-primary" icon="sitemap" label="Workflow"/>
         </router-link>
         <!-- <card-widget class="tile is-child" type="is-primary" icon="cart-outline" label="Product / Service"/>
         <card-widget class="tile is-child" type="is-info" icon="file-chart" label="Report"/> -->
