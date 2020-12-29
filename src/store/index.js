@@ -45,6 +45,8 @@ export default new Vuex.Store({
       const authStatus = sessionStorage.getItem('userAuthenticated')
       const orgCode = sessionStorage.getItem('orgCode')
       const authToken = sessionStorage.getItem('authToken')
+      const userName = sessionStorage.getItem('userName')
+
       if (authStatus === 'true') {
         state.userAuthenticated = true
       }
@@ -55,6 +57,10 @@ export default new Vuex.Store({
 
       if (authToken) {
         state.authToken = authToken
+      }
+
+      if (userName) {
+        state.userName = userName
       }
     },
 
@@ -78,12 +84,15 @@ export default new Vuex.Store({
     user (state, payload) {
       if (payload.username) {
         state.userName = payload.username
+        sessionStorage.setItem('userName', state.userName)
       }
       if (payload.email) {
         state.userEmail = payload.email
+        sessionStorage.setItem('userEmail', state.userEmail)
       }
       if (payload.avatar) {
         state.userAvatar = payload.avatar
+        sessionStorage.setItem('userAvatar', state.userAvatar)
       }
     },
 

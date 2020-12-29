@@ -3,7 +3,7 @@
   <title-bar :title-stack="titleStack"/>
   <section class="section">
     <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
-    <b-tabs multiline=true v-model="tabChoice" class='mt-5' size="is-medium" position="is-centered" expanded type="is-toggle">
+    <b-tabs :multiline="true" v-model="tabChoice" class='mt-5' size="is-medium" position="is-centered" expanded type="is-toggle">
         <b-tab-item aria-label="Customers Tab Selected" label="Customers">
             <template  #header>
                 <b-icon icon="account-group"></b-icon>
@@ -94,7 +94,8 @@ export default {
       customerList: [],
       supplierList: [],
       products: [],
-      services: []
+      services: [],
+      isFullPage: true
     }
   },
   computed: {

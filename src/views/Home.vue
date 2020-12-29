@@ -7,8 +7,8 @@
     <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
     <section class="section is-main-section">
       <tiles>
-        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Bank Balance"/>
-        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="this.company.balancedata.bankbalancedata[0]" label="Cash Balance"/>
+        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="company.balancedata.bankbalancedata[0]" label="Bank Balance"/>
+        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="company.balancedata.bankbalancedata[0]" label="Cash Balance"/>
         <router-link to="/workflow">
           <card-widget class="tile is-child" type="is-primary" icon="sitemap" label="Workflow"/>
         </router-link>
@@ -78,7 +78,12 @@ export default {
         chartData: null,
         extraOptions: chartConfig.chartOptionsMain
       },
-      company: Object
+      company: {
+        balancedata: {
+          bankbalancedata: [0]
+        }
+      },
+      isFullPage: true
     }
   },
   computed: {
@@ -101,12 +106,12 @@ export default {
     getCompanyData () {
       Axios.get(`${this.gkCoreUrl}/dashboard?type=dashboarddata`, {
         headers: {
-          gktoken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxLCJ1c2VyaWQiOjF9.TMPTw51qwCSp-z3U2LgpVuBKE0aPf12Y2QMnlFVleMo'
+          gktoken: this.authToken // 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxLCJ1c2VyaWQiOjF9.TMPTw51qwCSp-z3U2LgpVuBKE0aPf12Y2QMnlFVleMo'
         }
       }).then((res) => {
         this.company = res.data.gkresult
         this.isLoading = false
-        // console.log(res.data.gkresult.)
+        // console.log(this.company)
       }).catch((err) => {
         console.log(err)
       })

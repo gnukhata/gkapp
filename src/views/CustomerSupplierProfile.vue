@@ -2,7 +2,7 @@
     ToDo
     * Add accessibility support
     * Upgrade the GSTIN field to include multiple GSTIN
-    * Add delete feature
+    * Add edit and delete feature
     * Enquire about Tin field in the params to  API
  -->
 <template>
@@ -21,8 +21,9 @@
 <script>
 import CustomerSupplierProfileForm from '@/components/CustomerSupplierProfileForm'
 import TitleBar from '@/components/TitleBar'
+import { mapState } from 'vuex'
 export default {
-  name: 'CreateCustomerSupplier',
+  name: 'CustomerSupplierProfile',
   components: { CustomerSupplierProfileForm, TitleBar },
   props: {
     type: {
@@ -43,13 +44,15 @@ export default {
   },
   data () {
     return {
-      titleStack: ['', 'Customer & Supplier Profile']
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['userName']),
+    titleStack: (self) => [self.userName, 'Customer & Supplier Profile']
+  },
   methods: {
   },
-  created () {
+  mounted () {
   }
 }
 </script>
