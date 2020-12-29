@@ -109,11 +109,25 @@ export default {
           gktoken: this.authToken // 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxLCJ1c2VyaWQiOjF9.TMPTw51qwCSp-z3U2LgpVuBKE0aPf12Y2QMnlFVleMo'
         }
       }).then((res) => {
-        this.company = res.data.gkresult
         this.isLoading = false
-        // console.log(this.company)
+        switch (res.data.gkstatus) {
+          case 0:
+            this.company = res.data.gkresult
+            break
+          default:
+            this.$buefy.toast.open({
+              message: 'Error: Problem with fetching Dashboard data',
+              type: 'is-warning',
+              queue: false
+            })
+        }
       }).catch((err) => {
-        console.log(err)
+        this.isLoading = false
+        this.$buefy.toast.open({
+          message: `Error: ${err.message}`,
+          type: 'is-warning',
+          queue: false
+        })
       })
     },
     randomChartData (n) {

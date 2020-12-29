@@ -8,10 +8,10 @@
         <b-input aria-label="Enter Username" v-model="form.username" name="name" required/>
       </b-field>
       <b-field horizontal label="Password" message="*Required">
-        <b-input aria-label="Enter Password" v-model="form.userpassword" name="password" type="password" required/>
+        <b-input aria-label="Enter Password" v-model="form.userpassword" name="password" type="password" password-reveal required/>
       </b-field>
       <b-field label="Organisation">
-        <b-select aria-label="Select Company" v-model="form.orgcode" placeholder="Select your organisation" required>
+        <b-select aria-label="Select Company" v-model="orgIndex" placeholder="Select your organisation" required>
           <option v-for="(org, number) in orgs" :value="number" :key="number">
             {{ org.orgname + " (" + org.orgtype + " )"}}
           </option>
@@ -58,6 +58,7 @@ export default {
       orgs: null,
       question: null,
       userAnswer: null,
+      orgIndex: null,
       form: {
         username: null,
         userpassword: null,
@@ -71,69 +72,81 @@ export default {
   methods: {
     login () {
       this.isLoading = true
-      // add + 1 to organisation org list is indexed starting from 0
-      this.form.orgcode = this.form.orgcode + 1
-      axios.post(`${this.gkCoreUrl}/login`, this.form)
-        .then((response) => {
-          // alert user depending on the gkstatus code
-          switch (response.data.gkstatus) {
-            case 0:
-              this.isLoading = false
-              if (this.captchaSolved) {
-                this.$store.dispatch('setSessionStates', {
-                  auth: true,
-                  orgCode: this.form.orgcode,
-                  authToken: response.data.token,
-                  user: { username: this.form.username }
-                })
-                this.$router.push('/')
-                // Alert the user on successful login
-                this.$buefy.toast.open({
-                  message: 'Logged in Successfully!',
-                  type: 'is-success',
-                  queue: false
-                })
-              } else {
-                // Alert the user on captcha failure
-                this.$buefy.toast.open({
-                  message: 'Captcha is incorrect. Please try again',
-                  type: 'is-danger',
-                  queue: false
-                })
-                // Generate new captcha
-                this.genCaptcha()
-              }
-              break
-            case 2:
-              // Alert user on wrong credentials
+      const orgname = this.orgs[this.orgIndex].orgname
+      const orgtype = this.orgs[this.orgIndex].orgtype
+      // requesting the orgcode for the selected organisation before making /login request
+      axios.get(`${this.gkCoreUrl}/orgyears/${orgname}/${orgtype}`)
+        .then((orgCodeResponse) => {
+          this.form.orgcode = orgCodeResponse.data.gkdata[0].orgcode
+          axios.post(`${this.gkCoreUrl}/login`, this.form)
+            .then((response) => {
+              // alert user depending on the gkstatus code
+              switch (response.data.gkstatus) {
+                case 0:
+                  this.isLoading = false
+                  if (this.captchaSolved) {
+                    this.$store.dispatch('setSessionStates', {
+                      auth: true,
+                      orgCode: this.form.orgcode,
+                      authToken: response.data.token,
+                      user: { username: this.form.username }
+                    })
+                    this.$router.push('/')
+                    // Alert the user on successful login
+                    this.$buefy.toast.open({
+                      message: 'Logged in Successfully!',
+                      type: 'is-success',
+                      queue: false
+                    })
+                  } else {
+                    // Alert the user on captcha failure
+                    this.$buefy.toast.open({
+                      message: 'Captcha is incorrect. Please try again',
+                      type: 'is-danger',
+                      queue: false
+                    })
+                    // Generate new captcha
+                    this.genCaptcha()
+                  }
+                  break
+                case 2:
+                  // Alert user on wrong credentials
+                  this.$buefy.toast.open({
+                    message: 'Username / password / organisation does not match, Please try again',
+                    type: 'is-danger',
+                    queue: false
+                  })
+                  this.isLoading = false
+                  break
+                case 3:
+                  // Alert user on wrong credentials
+                  this.$buefy.toast.open({
+                    message: 'Username / password / organisation does not match, Please try again',
+                    type: 'is-danger',
+                    queue: false
+                  })
+                  this.isLoading = false
+                  break
+                default:
+                  this.$buefy.toast.open({
+                    message: 'Unable to login, Please try again',
+                    type: 'is-danger',
+                    queue: false
+                  })
+                  this.isLoading = false
+              } // end switch
+            })
+            .catch((error) => {
               this.$buefy.toast.open({
-                message: 'Username / password / organisation does not match, Please try again',
-                type: 'is-danger',
+                message: `Error: ${error.message}`,
+                type: 'is-warning',
                 queue: false
               })
-              this.isLoading = false
-              break
-            case 3:
-              // Alert user on wrong credentials
-              this.$buefy.toast.open({
-                message: 'Username / password / organisation does not match, Please try again',
-                type: 'is-danger',
-                queue: false
-              })
-              this.isLoading = false
-              break
-            default:
-              this.$buefy.toast.open({
-                message: 'Unable to login, Please try again',
-                type: 'is-danger',
-                queue: false
-              })
-              this.isLoading = false
-          } // end switch
+            })
         })
         .catch((error) => {
           this.$buefy.toast.open({
-            message: error,
+            message: `Error: ${error.message}`,
             type: 'is-warning',
             queue: false
           })
@@ -153,7 +166,7 @@ export default {
         })
         .catch(function (error) {
           this.$buefy.toast.open({
-            message: error + '| Please reload the page',
+            message: `Error: ${error.message} | Please reload the page`,
             queue: false,
             type: 'is-error'
           })
