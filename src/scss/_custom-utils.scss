@@ -2,8 +2,20 @@
   vertical-align: middle;
 }
 
-.is-gk-blue{
+.is-gk-blue {
   color: #000080;
+}
+
+.is-max-h-180 {
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.required {
+  &:after {
+    content: " *";
+    color: #ff0000;
+  }
 }
 
 @for $i from 1 through 16 { 

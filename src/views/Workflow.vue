@@ -33,40 +33,56 @@
       Categories list
     -->
     <div  v-if="this.tabChoice == 0" class="list">
-        <button class="button mb-5">
-            <b-icon icon="account-plus"></b-icon>
-            <span>Add Customer</span>
-        </button><br>
+        <b-button
+          class="mb-5"
+          aria-label="Add Customer"
+          tag="router-link"
+          :to="{name: 'customer_supplier_profile', params: {type: 'customer', mode:'create'}}"
+          icon-left="account-plus">
+          Add Customer
+        </b-button><br>
         <span v-for="customer in this.customerList" :key="customer.id" class="mx-2 my-2 tag is-primary is-light is-medium">
             <b-icon icon="account" class></b-icon>
             <span>{{customer.custname}}</span>
         </span>
     </div>
     <div v-else-if="this.tabChoice == 1" class="list">
-        <button class="button mb-5">
-            <b-icon icon="briefcase-plus"></b-icon>
-            <span>Add Supplier</span>
-        </button><br>
+        <b-button
+          class="mb-5"
+          aria-label="Add Supplier"
+          tag="router-link"
+          :to="{name: 'customer_supplier_profile', params: {type: 'supplier', mode:'create'}}"
+          icon-left="briefcase-plus">
+          Add Supplier
+        </b-button><br>
         <span v-for="supplier in this.supplierList" :key="supplier.id" class="mx-2 my-2 tag is-medium is-warning">
             <b-icon icon="briefcase-account" class></b-icon>
             <span>{{supplier.custname}}</span>
         </span>
     </div>
     <div v-else-if="this.tabChoice == 2" class="list">
-        <button class="button mb-5">
-            <b-icon icon="cart-plus"></b-icon>
-            <span>Add Product</span>
-        </button><br>
+        <b-button
+          class="mb-5"
+          aria-label="Add Product"
+          tag="router-link"
+          :to="{name: 'product_service_profile', params: {type: 'product', mode:'create'}}"
+          icon-left="cart-plus">
+          Add Product
+        </b-button><br>
         <span v-for="product in this.products" :key="product.srno" class="mx-2 my-2 tag is-medium is-link">
             <b-icon icon="cart-variant" class></b-icon>
             <span>{{product.productdesc}}</span>
         </span>
     </div>
     <div v-else-if="this.tabChoice == 3" class="list">
-        <button class="button mb-5">
-            <b-icon icon="face-agent"></b-icon>
-            <span>Add Service</span>
-        </button><br>
+        <b-button
+          class="mb-5"
+          aria-label="Add Service"
+          tag="router-link"
+          :to="{name: 'product_service_profile', params: {type: 'service', mode:'create'}}"
+          icon-left="face-agent">
+          Add Service
+        </b-button><br>
         <span v-for="service in this.services" :key="service.srno" class="mx-2 my-2 tag is-medium is-danger">
             <b-icon icon="face-agent" class></b-icon>
             <span>{{service.productdesc}}</span>

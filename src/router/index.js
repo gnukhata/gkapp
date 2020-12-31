@@ -7,6 +7,7 @@ import Profile from '../views/Profile.vue'
 import CreateOrganisation from '../views/CreateOrganisation.vue'
 import Workflow from '../views/Workflow.vue'
 import CustomerSupplierProfile from '../views/CustomerSupplierProfile.vue'
+import ProductServiceProfile from '../views/ProductServiceProfile.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -109,6 +110,16 @@ const routes = [
     path: '/customer_supplier_profile/:type/:mode',
     name: 'customer_supplier_profile',
     component: CustomerSupplierProfile,
+    props: true
+  },
+  {
+    meta: {
+      title: 'Product & Service Profile',
+      requiresAuth: true
+    },
+    path: '/product/:type/:mode',
+    name: 'product_service_profile',
+    component: ProductServiceProfile,
     props: true
   }
 ]
