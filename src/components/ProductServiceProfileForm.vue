@@ -22,9 +22,13 @@
                 <b-autocomplete
                   placeholder="Select Unit"
                   :open-on-focus="true"
-                  v-model="uomSelected"
+                  v-model="uomTyped"
                   :data="filteredDataArray"
+                  @select="option => (uomSelected = option)"
+                  @blur="() => { uomTyped = (uomSelected === null) ? '' : uomSelected }"
+                  expanded
                   required>
+                  <template slot="empty">No results for {{uomTyped}}</template>
                 </b-autocomplete>
               </b-field>
               <b-field label-for="op-stock-inp" label="Opening Stock">
@@ -255,6 +259,7 @@ export default {
         uomIds: [],
         gstRates: [0, 5, 12, 18, 28]
       },
+      uomTyped: '',
       uomSelected: '',
       form: {
         name: null,
@@ -276,7 +281,7 @@ export default {
   },
   computed: {
     isHsnRequired: (self) => (self.form.tax.gst > 0 || self.form.tax.cess > 0),
-    uomCode: (self) => self.uomSelected.split(' ')[0],
+    uomCode: (self) => (self.uomSelected !== null) ? self.uomSelected.split(' ')[0] : null,
     isService: (self) => (self.type === 'service'),
     formType: (self) => (self.type === 'product') ? 'Product' : 'Service',
     formMode: (self) => (self.mode === 'create') ? 'Create' : 'Edit',
@@ -288,7 +293,7 @@ export default {
         return option
           .toString()
           .toLowerCase()
-          .indexOf(this.uomSelected.toLowerCase()) >= 0
+          .indexOf(this.uomTyped.toLowerCase()) >= 0
       })
     }
   },
@@ -336,10 +341,12 @@ export default {
           gktoken: this.authToken
         }
       }
-      axios.post(`${this.gkCoreUrl}/product`, payload, config)
+
+      axios.post(`${this.gkCoreUrl}/products`, payload.product, config)
         .then((response) => {
           // console.log(response)
           this.isLoading = false
+          let productCode, taxPayload, taxRequests
           switch (response.data.gkstatus) {
             case 0:
               this.$buefy.toast.open({
@@ -349,6 +356,17 @@ export default {
               })
               this.resetForm()
               this.$refs.wrapperCard.$el.scrollIntoView()
+
+              // store the tax when the product has been created successfully
+              productCode = response.data.gkresult
+              taxPayload = {}
+              taxRequests = payload.tax.map((item) => {
+                taxPayload = { taxname: item.taxname, taxrate: item.taxrate, productcode: productCode }
+                return axios.post(`${this.gkCoreUrl}/tax`, taxPayload, config)
+              })
+              Promise.all(taxRequests).then((responses) => {
+                console.log(responses)
+              })
               break
             case 1:
               this.$buefy.toast.open({
@@ -384,14 +402,14 @@ export default {
         })
     },
     initPayload () {
-      const payload = {
+      const product = {
         productdetails: {
           gsflag: (this.isService) ? 19 : 7,
           productdesc: this.form.name,
-          prodmrp: parseFloat(this.form.mrp),
-          prodsp: parseFloat(this.form.sellingPrice),
-          amountdiscount: parseFloat(this.form.amountDiscount),
-          percentdiscount: parseFloat(this.form.percentDiscount),
+          prodmrp: parseFloat(this.form.mrp) || 0,
+          prodsp: parseFloat(this.form.sellingPrice) || 0,
+          amountdiscount: parseFloat(this.form.amountDiscount) || 0,
+          percentdiscount: parseFloat(this.form.percentDiscount) || 0,
           gscode: this.form.hsn,
           specs: {}
         },
@@ -400,14 +418,14 @@ export default {
       }
 
       if (!this.isService) {
-        payload.productdetails.openingstock = parseFloat(this.form.stock)
-        payload.productdetails.uomid = this.form.uom
-        payload.productdetails.categorycode = null
+        product.productdetails.openingstock = parseFloat(this.form.stock) || 0
+        product.productdetails.uomid = this.form.uom
+        product.productdetails.categorycode = null
       }
 
       if (this.uomSelected !== '') {
         const uomIndex = this.options.uom.indexOf(this.uomSelected)
-        payload.productdetails.uomid = this.options.uomIds[uomIndex]
+        product.productdetails.uomid = this.options.uomIds[uomIndex]
       }
 
       const tax = []
@@ -446,9 +464,10 @@ export default {
         })))
       }
 
-      console.log(tax)
-      console.log(payload)
-      return payload
+      // console.log(tax)
+      // console.log(payload)
+
+      return { product, tax }
     },
     resetForm () {
       this.form = {

@@ -2,6 +2,8 @@
   ToDo
   * Add Create Godown form
   * Add Create Product catergory form
+  * Add Pre GST features
+  * Add features based on gkwebapp mode config
 -->
 <template>
   <div>
