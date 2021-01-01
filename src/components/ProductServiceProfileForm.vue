@@ -24,6 +24,7 @@
                   :open-on-focus="true"
                   v-model="uomTyped"
                   :data="filteredDataArray"
+                  :keep-first="true"
                   @select="option => (uomSelected = option)"
                   @blur="() => { uomTyped = (uomSelected === null) ? '' : uomSelected }"
                   expanded
@@ -365,7 +366,7 @@ export default {
                 return axios.post(`${this.gkCoreUrl}/tax`, taxPayload, config)
               })
               Promise.all(taxRequests).then((responses) => {
-                console.log(responses)
+                // console.log(responses)
               })
               break
             case 1:
