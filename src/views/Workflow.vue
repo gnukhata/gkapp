@@ -1,108 +1,118 @@
 <template>
-  <div>
-  <title-bar :title-stack="titleStack"/>
-  <section class="section">
-    <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
-    <b-tabs :multiline="true" v-model="tabChoice" class='mt-5' size="is-medium" position="is-centered" expanded type="is-toggle">
-        <b-tab-item aria-label="Customers Tab Selected" label="Customers">
-            <template  #header>
-                <b-icon icon="account-group"></b-icon>
-                <span> Customers <b-tag rounded>{{customerList.length}}</b-tag> </span>
-            </template>
-        </b-tab-item>
-        <b-tab-item aria-label="Suppliers Tab selected" label="Suppliers" icon="warehouse">
-            <template  #header>
-                <b-icon icon="briefcase-account"></b-icon>
-                <span> Suppliers <b-tag rounded>{{supplierList.length}}</b-tag> </span>
-            </template>
-        </b-tab-item>
-        <b-tab-item aria-label="Suppliers Tab selected" label="Products" icon="cart-variant">
-          <template  #header>
-              <b-icon icon="cart-variant"></b-icon>
-              <span> Products <b-tag rounded>{{products.length}}</b-tag> </span>
-          </template>
-      </b-tab-item>
-      <b-tab-item aria-label="Suppliers Tab selected" label="Services" icon="face-agent">
-          <template  #header>
-              <b-icon icon="face-agent"></b-icon>
-              <span> Services <b-tag rounded>{{services.length}}</b-tag> </span>
-          </template>
-      </b-tab-item>
-    </b-tabs>
-    <!--
-      Categories list
-    -->
-    <div  v-if="this.tabChoice == 0" class="list">
-        <b-button
-          class="mb-5"
-          aria-label="Add Customer"
-          tag="router-link"
-          :to="{name: 'customer_supplier_profile', params: {type: 'customer', mode:'create'}}"
-          icon-left="account-plus">
-          Add Customer
-        </b-button><br>
-        <span v-for="customer in this.customerList" :key="customer.id" class="mx-2 my-2 tag is-primary is-light is-medium">
-            <b-icon icon="account" class></b-icon>
-            <span>{{customer.custname}}</span>
-        </span>
-    </div>
-    <div v-else-if="this.tabChoice == 1" class="list">
-        <b-button
-          class="mb-5"
-          aria-label="Add Supplier"
-          tag="router-link"
-          :to="{name: 'customer_supplier_profile', params: {type: 'supplier', mode:'create'}}"
-          icon-left="briefcase-plus">
-          Add Supplier
-        </b-button><br>
-        <span v-for="supplier in this.supplierList" :key="supplier.id" class="mx-2 my-2 tag is-medium is-warning">
-            <b-icon icon="briefcase-account" class></b-icon>
-            <span>{{supplier.custname}}</span>
-        </span>
-    </div>
-    <div v-else-if="this.tabChoice == 2" class="list">
-        <b-button
-          class="mb-5"
-          aria-label="Add Product"
-          tag="router-link"
-          :to="{name: 'product_service_profile', params: {type: 'product', mode:'create'}}"
-          icon-left="cart-plus">
-          Add Product
-        </b-button><br>
-        <span v-for="product in this.products" :key="product.srno" class="mx-2 my-2 tag is-medium is-link">
-            <b-icon icon="cart-variant" class></b-icon>
-            <span>{{product.productdesc}}</span>
-        </span>
-    </div>
-    <div v-else-if="this.tabChoice == 3" class="list">
-        <b-button
-          class="mb-5"
-          aria-label="Add Service"
-          tag="router-link"
-          :to="{name: 'product_service_profile', params: {type: 'service', mode:'create'}}"
-          icon-left="face-agent">
-          Add Service
-        </b-button><br>
-        <span v-for="service in this.services" :key="service.srno" class="mx-2 my-2 tag is-medium is-danger">
-            <b-icon icon="face-agent" class></b-icon>
-            <span>{{service.productdesc}}</span>
-        </span>
-    </div>
+  <section class="container-fluid mt-2">
+    <b-card no-body>
+        <b-overlay :show="isLoading" blur no-wrap rounded="lg"></b-overlay>
+        <b-tabs pills card fill>
+            <b-tab title="Customers" active>
+                <template #title>
+                    <b-icon icon="people-fill"></b-icon> Customers
+                    <b-badge variant="light">{{customerList.length}}</b-badge>
+                </template>
+                <b-card-text>
+                    <!-- Add customer -->
+                    <div class="row mb-2">
+                      <b-button 
+                        :to="{ name: 'Customer_Supplier', params: { type: 'customer', mode:'create' } }"
+                        variant="primary"
+                        class="m-1">
+                        <b-icon icon="person-plus-fill"></b-icon> Add Customer
+                      </b-button>
+                    </div>
+                    <!--Load customers list-->
+                    <b-button v-for="customer in this.customerList" :key="customer.id" 
+                    pill 
+                    variant="primary"
+                    class="m-1">
+                    <b-icon icon="person-fill"></b-icon> {{customer.custname}}
+                    </b-button>
+                </b-card-text>
+            </b-tab>
+            <b-tab title="Suppliers">
+                <template #title>
+                    <b-icon icon="briefcase-fill"></b-icon> Suppliers
+                    <b-badge variant="light">{{supplierList.length}}</b-badge>
+                </template>
+                <b-card-text>
+                    <!-- Add Supplier button -->
+                    <div class="row mb-2">
+                      <b-button 
+                        :to="{ name: 'Customer_Supplier', params: { type: 'supplier', mode:'create' } }"
+                        variant="secondary"
+                        class="m-1">
+                        <b-icon icon="briefcase-fill"></b-icon> Add Supplier
+                      </b-button>
+                    </div>
+                    <!--Load suppliers list-->
+                    <b-button v-for="supplier in this.supplierList" :key="supplier.id" 
+                    pill 
+                    variant="secondary"
+                    class="m-1">
+                    <b-icon icon="briefcase-fill"></b-icon> {{supplier.custname}}
+                    </b-button>
+                </b-card-text>
+            </b-tab>
+            <b-tab title="Products">
+                <template #title>
+                    <b-icon icon="box"></b-icon> Products
+                    <b-badge variant="light">{{products.length}}</b-badge>
+                </template>
+                <b-card-text>
+                    <!-- Add Product button -->
+                    <div class="row mb-2">
+                        <router-link to="/workflow">
+                            <b-button 
+                            variant="info"
+                            class="m-1">
+                            <b-icon icon="box-seam"></b-icon> Add Product
+                            </b-button>
+                        </router-link>
+                    </div>
+                    <!-- Load product list -->
+                    <b-button v-for="product in this.products" :key="product.srno" 
+                    pill 
+                    variant="info"
+                    class="m-1">
+                    <b-icon icon="box"></b-icon> {{product.productdesc}}
+                    </b-button>
+                </b-card-text>
+            </b-tab>
+            <b-tab title="Services">
+                 <template #title>
+                    <b-icon icon="headset"></b-icon> Services
+                    <b-badge variant="light">{{services.length}}</b-badge>
+                </template>
+                <b-card-text>
+                    <!-- Add Service button -->
+                    <div class="row mb-2">
+                        <router-link to="/workflow">
+                            <b-button 
+                            variant="warning"
+                            class="m-1">
+                            <b-icon icon="headset"></b-icon> Add Service
+                            </b-button>
+                        </router-link>
+                    </div>
+                    <!-- load services list -->
+                    <b-button v-for="service in this.services" :key="service.srno" 
+                    pill 
+                    variant="warning"
+                    class="m-1">
+                    <b-icon icon="headset"></b-icon> {{service.productdesc}}
+                    </b-button>
+                </b-card-text>
+            </b-tab>
+        </b-tabs>
+    </b-card>
   </section>
-  </div>
 </template>
 
 <script>
 import Axios from 'axios'
 import { mapState } from 'vuex'
-import TitleBar from '@/components/TitleBar'
 // import HeroBar from '@/components/HeroBar'
 
 export default {
-  name: 'CustomersSuppliers',
-  components: {
-    TitleBar
-  },
+  name: 'Workflow',
   data () {
     return {
       tabChoice: 0,

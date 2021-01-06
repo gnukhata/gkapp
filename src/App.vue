@@ -1,340 +1,66 @@
 <template>
   <div id="app">
-    <nav-bar/>
-    <!-- <aside-menu :menu="menu"/> @menu-click="menuClick" -->
-    <main id="app-body">
+    <header>
+      <b-navbar toggleable="lg" type="light" variant="warning">
+        <b-navbar-brand :to="{ name: 'Login' }">
+          <img src="img/gk.png" width="30" height="30" class="d-inline-block align-top" alt="GNUKhata Logo">
+          GNUKhata
+        </b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item :to="{ name: 'Dashboard' }" :active="activeNav === 'Dashboard'">Dashboard</b-nav-item>
+            <b-nav-item :to="{ name: 'About' }" :active="activeNav === 'About'">About</b-nav-item>
+            <b-nav-item :to="{ name: 'Login' }" :active="activeNav === 'Login'">Login</b-nav-item>
+          </b-navbar-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>{{userName}} </em>
+              </template>
+              <b-dropdown-item href="#">Profile</b-dropdown-item>
+              <router-link to="/">
+              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+              </router-link>
+            </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+      </b-navbar>
+    </header>
+    <main role="main">
       <router-view/>
     </main>
-    <footer-bar/>
+    <footer class="bg-primary mt-5 text-white fixed-bottom">
+      <div class="">
+        <div class="copyleft">&copy;</div> {{ currentYear }} - GNUKhata
+      </div>
+    </footer>
   </div>
 </template>
 
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  }
+</style>
 <script>
-// @ is an alias to /src
-import NavBar from '@/components/NavBar'
-// import AsideMenu from '@/components/AsideMenu'
-import FooterBar from '@/components/FooterBar'
-
+import { mapState } from 'vuex'
 export default {
-  name: 'home',
-  components: {
-    FooterBar,
-    // AsideMenu,
-    NavBar
-  },
-  computed: {
-    menu () {
-      return [
-        'General',
-        [
-          {
-            to: '/',
-            icon: 'desktop-mac',
-            label: 'Dashboard'
-          }
-        ],
-        // 'Advanced',
-        // [
-        // {
-        //   action: 'dark-mode-toggle',
-        //   label: 'Toggle Dark / White Mode',
-        //   icon: 'weather-night'
-        // },
-        // {
-        //   to: '/tables',
-        //   label: 'Tables',
-        //   icon: 'table',
-        //   updateMark: true
-        // },
-        // {
-        //   to: '/forms',
-        //   label: 'Forms',
-        //   icon: 'square-edit-outline'
-        // },
-        // {
-        //   to: '/profile',
-        //   label: 'Profile',
-        //   icon: 'account-circle'
-        // },
-        // {
-        //   label: 'Master',
-        //   subLabel: 'Submenus Example',
-        //   icon: 'view-list',
-        //   menu: [
-        //     {
-        //       href: '#void',
-        //       label: 'Account'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Customer & Supplier'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Cost Center'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Budget'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Bank Reconciliation Statement'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Bank News'
-        //     }
-        //   ]
-        // },
-        // {
-        //   label: 'Inventory',
-        //   subLabel: 'Submenus Example',
-        //   icon: 'view-list',
-        //   menu: [
-        //     {
-        //       href: '#void',
-        //       label: 'Product/Service'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Godown'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Category'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Unit Measurement'
-        //     }
-        //     // {
-        //     //   href: '#void',
-        //     //   label: 'Bank Reconciliation Statement'
-        //     // },
-        //     // {
-        //     //   href: '#void',
-        //     //   label: 'Bank News'
-        //     // }
-        //   ]
-        // },
-        // {
-        //   label: 'Voucher',
-        //   subLabel: 'Submenus Example',
-        //   icon: 'view-list',
-        //   menu: [
-        //     {
-        //       href: '#void',
-        //       label: 'Receipt'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Payment'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Sale'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Purchase'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Contra'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Journal'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Sale Return'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Purchase Return'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Credit Note'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Find/Edit Voucher'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Billwise Accounting'
-        //     }
-        //   ]
-        // },
-        // {
-        //   label: 'Documents',
-        //   subLabel: 'Submenus Example',
-        //   icon: 'view-list',
-        //   menu: [
-        //     {
-        //       href: '#void',
-        //       label: 'Delivery Note'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Invoice'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Cash Memo'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Debit/Credit Note'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Purchase/Sales Order'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Transfer Note'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Rejection Note'
-        //     }
-        //   ]
-        // },
-        // {
-        //   label: 'GST',
-        //   subLabel: 'Submenus Example',
-        //   icon: 'view-list',
-        //   menu: [
-        //     {
-        //       href: '#void',
-        //       label: 'R1'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'GST Summary'
-        //     }
-        //     // {
-        //     //   href: '#void',
-        //     //   label: 'Cost Center'
-        //     // },
-        //     // {
-        //     //   href: '#void',
-        //     //   label: 'Budget'
-        //     // },
-        //     // {
-        //     //   href: '#void',
-        //     //   label: 'Bank Reconciliation Statement'
-        //     // },
-        //     // {
-        //     //   href: '#void',
-        //     //   label: 'Bank News'
-        //     // }
-        //   ]
-        // },
-        // {
-        //   label: 'Administration',
-        //   subLabel: 'Submenus Example',
-        //   icon: 'view-list',
-        //   menu: [
-        //     {
-        //       href: '#void',
-        //       label: 'User'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Change Password'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Close Books/Roll Over'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Company Preferences'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Export Data'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Import Data'
-        //     },
-        //     {
-        //       href: '#void',
-        //       label: 'Delete Company'
-        //     }
-
-        //   ]
-        // },
-        //   {
-        //     label: 'Help',
-        //     subLabel: 'Submenus Example',
-        //     icon: 'view-list',
-        //     menu: [
-        //       {
-        //         href: '#void',
-        //         label: 'Support'
-        //       },
-        //       {
-        //         href: '#void',
-        //         label: 'Manual'
-        //       },
-        //       {
-        //         href: '#void',
-        //         label: 'Shortcuts'
-        //       },
-        //       {
-        //         href: '#void',
-        //         label: 'Authors'
-        //       },
-        //       {
-        //         href: '#void',
-        //         label: 'License'
-        //       }
-        //       // {
-        //       //   href: '#void',
-        //       //   label: 'Bank News'
-        //       // }
-        //     ]
-        //   }
-        // ],
-        '',
-        // [
-        //   {
-        //     href: 'https://gnukhata.in',
-        //     label: 'Report',
-        //     icon: 'file-chart'
-        //   }
-        // ],
-        'ABOUT',
-        [
-          {
-            href: '#/About',
-            label: 'About GNUKhata',
-            icon: 'information-outline'
-          }
-        ]
-      ]
+  name: 'App',
+  data () {
+    return {
+      currentYear: new Date().getFullYear()
     }
   },
-  created () {
-    this.$store.commit('user', {
-      name: 'Admin',
-      email: 'john@example.com',
-      avatar: 'https://avatars.dicebear.com/v2/gridy/John-Doe.svg'
-    })
+  computed: {
+    activeNav: (self) => self.$route.name,
+    ...mapState(['userName'])
   }
-  // methods: {
-  //   menuClick (item) {
-  //     if (item.action && item.action === 'dark-mode-toggle') {
-  //       this.$store.commit('darkModeToggle')
-  //     }
-  //   }
-  // }
 }
 </script>

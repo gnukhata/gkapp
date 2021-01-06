@@ -1,48 +1,15 @@
-/* Styles */
-import '@/scss/main.scss'
-import '@mdi/font/css/materialdesignicons.min.css'
-
-/* Core */
+import '@babel/polyfill'
+import 'mutationobserver-shim'
 import Vue from 'vue'
-import Buefy from 'buefy'
-
-/* Router & Store */
-import router from './router'
-import store from './store'
-
-/* Service Worker */
-import './registerServiceWorker'
-
-/* Vue. Main component */
+import './plugins/axios'
+import './plugins/bootstrap-vue'
 import App from './App.vue'
-
-import gkutils from './js/utilities'
-
-window.gkutils = gkutils
-
-/* Default title tag */
-const defaultDocumentTitle = 'GNUKhata'
-
-/* Collapse mobile aside menu on route change & set document title from route meta */
-router.afterEach(to => {
-  if (to.name === 'login' || to.name === 'createorg') {
-    store.commit('setAsideVisibility', false)
-  } else {
-    store.commit('setAsideVisibility', true)
-  }
-
-  store.commit('asideMobileStateToggle', false)
-
-  if (to.meta.title) {
-    document.title = `${to.meta.title} — ${defaultDocumentTitle}`
-  } else {
-    document.title = defaultDocumentTitle
-  }
-})
+import router from './router'
+import './registerServiceWorker'
+import store from './store'
+import '@/scss/main.scss'
 
 Vue.config.productionTip = false
-
-Vue.use(Buefy)
 
 store.commit('initStore') // initialize the required vuex states from local storage
 

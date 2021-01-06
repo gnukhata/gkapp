@@ -42,10 +42,10 @@ export default new Vuex.Store({
 
     // Init the required vuex store states from session storage
     initStore (state) {
-      const authStatus = sessionStorage.getItem('userAuthenticated')
-      const orgCode = sessionStorage.getItem('orgCode')
-      const authToken = sessionStorage.getItem('authToken')
-      const userName = sessionStorage.getItem('userName')
+      const authStatus = localStorage.getItem('userAuthenticated')
+      const orgCode = localStorage.getItem('orgCode')
+      const authToken = localStorage.getItem('authToken')
+      const userName = localStorage.getItem('userName')
 
       if (authStatus === 'true') {
         state.userAuthenticated = true
@@ -67,88 +67,88 @@ export default new Vuex.Store({
     /* Session Auth States */
     setAuthStatus (state, payload) {
       state.userAuthenticated = !!payload
-      sessionStorage.setItem('userAuthenticated', state.userAuthenticated)
+      localStorage.setItem('userAuthenticated', state.userAuthenticated)
     },
 
     setOrgCode (state, payload) {
       state.orgCode = payload
-      sessionStorage.setItem('orgCode', state.orgCode)
+      localStorage.setItem('orgCode', state.orgCode)
     },
 
     setAuthToken (state, payload) {
       state.authToken = payload
-      sessionStorage.setItem('authToken', state.authToken)
+      localStorage.setItem('authToken', state.authToken)
     },
 
     /* User */
     user (state, payload) {
       if (payload.username) {
         state.userName = payload.username
-        sessionStorage.setItem('userName', state.userName)
+        localStorage.setItem('userName', state.userName)
       }
       if (payload.email) {
         state.userEmail = payload.email
-        sessionStorage.setItem('userEmail', state.userEmail)
+        localStorage.setItem('userEmail', state.userEmail)
       }
       if (payload.avatar) {
         state.userAvatar = payload.avatar
-        sessionStorage.setItem('userAvatar', state.userAvatar)
+        localStorage.setItem('userAvatar', state.userAvatar)
       }
     },
 
     /* Aside Mobile */
-    asideMobileStateToggle (state, payload = null) {
-      const htmlClassName = 'has-aside-mobile-expanded'
+    // asideMobileStateToggle (state, payload = null) {
+    //   const htmlClassName = 'has-aside-mobile-expanded'
 
-      let isShow
+    //   let isShow
 
-      if (payload !== null) {
-        isShow = payload
-      } else {
-        isShow = !state.isAsideMobileExpanded
-      }
+    //   if (payload !== null) {
+    //     isShow = payload
+    //   } else {
+    //     isShow = !state.isAsideMobileExpanded
+    //   }
 
-      if (isShow) {
-        document.documentElement.classList.add(htmlClassName)
-      } else {
-        document.documentElement.classList.remove(htmlClassName)
-      }
+    //   if (isShow) {
+    //     document.documentElement.classList.add(htmlClassName)
+    //   } else {
+    //     document.documentElement.classList.remove(htmlClassName)
+    //   }
 
-      state.isAsideMobileExpanded = isShow
-    },
+    //   state.isAsideMobileExpanded = isShow
+    // },
 
     /* Aside Login */
-    setAsideVisibility (state, payload = false) {
-      const htmlClassNames = [
-        'has-aside-mobile-expanded',
-        'has-aside-left',
-        'has-aside-mobile-transition',
-        'has-aside-expanded'
-      ]
+    // setAsideVisibility (state, payload = false) {
+    //   const htmlClassNames = [
+    //     'has-aside-mobile-expanded',
+    //     'has-aside-left',
+    //     'has-aside-mobile-transition',
+    //     'has-aside-expanded'
+    //   ]
 
-      const isShow = !!payload
+    //   const isShow = !!payload
 
-      if (isShow) {
-        document.documentElement.classList.add(...htmlClassNames)
-      } else {
-        document.documentElement.classList.remove(...htmlClassNames)
-      }
+    //   if (isShow) {
+    //     document.documentElement.classList.add(...htmlClassNames)
+    //   } else {
+    //     document.documentElement.classList.remove(...htmlClassNames)
+    //   }
 
-      state.isAsideVisible = isShow
-    },
+    //   state.isAsideVisible = isShow
+    // },
 
     /* Dark Mode */
-    darkModeToggle (state, payload = null) {
-      const htmlClassName = 'is-dark-mode-active'
+    // darkModeToggle (state, payload = null) {
+    //   const htmlClassName = 'is-dark-mode-active'
 
-      state.isDarkModeActive = !state.isDarkModeActive
+    //   state.isDarkModeActive = !state.isDarkModeActive
 
-      if (state.isDarkModeActive) {
-        document.documentElement.classList.add(htmlClassName)
-      } else {
-        document.documentElement.classList.remove(htmlClassName)
-      }
-    },
+    //   if (state.isDarkModeActive) {
+    //     document.documentElement.classList.add(htmlClassName)
+    //   } else {
+    //     document.documentElement.classList.remove(htmlClassName)
+    //   }
+    // },
 
     incrementAriaIterator (state) {
       state.ariaIterator++

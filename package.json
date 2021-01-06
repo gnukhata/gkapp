@@ -1,52 +1,42 @@
 {
-  "name": "gkapp",
-  "version": "7.0.1",
+  "name": "gk",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "npm run lint && vue-cli-service serve",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:gh-pages": "cross-env DEPLOY_ENV=GH_PAGES vue-cli-service build --modern",
-    "deploy:gh-pages": "cross-env NODE_DEBUG=gh-pages gh-pages -d dist -t",
-    "build-gl-pages": "cross-env DEPLOY_ENV=GL_PAGES vue-cli-service build --modern",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@mdi/font": "^5.8.55",
-    "axios": "^0.20.0",
-    "buefy": "^0.9.3",
-    "bulma": "^0.9.0",
-    "chart.js": "^2.9.3",
+    "bootstrap-vue": "^2.17.3",
     "check-password-strength": "^1.0.15",
     "core-js": "^3.6.5",
-    "dayjs": "^1.8.35",
-    "lodash": "^4.17.20",
-    "numeral": "^2.0.6",
     "register-service-worker": "^1.7.1",
-    "vue": "^2.6.12",
-    "vue-chartjs": "^3.5.0",
-    "vue-router": "^3.4.3",
-    "vuex": "^3.5.1"
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.4",
-    "@vue/cli-plugin-eslint": "~4.5.4",
-    "@vue/cli-plugin-pwa": "~4.5.4",
-    "@vue/cli-plugin-router": "~4.5.4",
-    "@vue/cli-plugin-vuex": "~4.5.4",
-    "@vue/cli-service": "~4.5.4",
-    "@vue/eslint-config-standard": "^5.1.2",
+    "@babel/polyfill": "^7.11.5",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-pwa": "^4.5.9",
+    "@vue/cli-plugin-router": "^4.5.9",
+    "@vue/cli-plugin-vuex": "^4.5.9",
+    "@vue/cli-service": "~4.5.0",
+    "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
-    "cross-env": "^7.0.2",
-    "eslint": "^7.8.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
+    "bootstrap": "^4.5.2",
+    "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "gh-pages": "^3.1.0",
-    "sass": "^1.26.10",
+    "mutationobserver-shim": "^0.3.7",
+    "popper.js": "^1.16.1",
+    "portal-vue": "^2.1.7",
+    "sass": "^1.26.11",
     "sass-loader": "^10.0.2",
-    "vue-template-compiler": "^2.6.12"
+    "vue-cli-plugin-axios": "0.0.4",
+    "vue-cli-plugin-bootstrap-vue": "~0.7.0",
+    "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
     "root": true,
@@ -55,7 +45,7 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "@vue/standard"
+      "eslint:recommended"
     ],
     "parserOptions": {
       "parser": "babel-eslint"

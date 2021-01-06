@@ -1,200 +1,60 @@
 <template>
-  <div>
-    <title-bar :title-stack="titleStack"/>
-    <!-- <hero-bar :has-right-visible="false">
-      Dashboard
-    </hero-bar> -->
-    <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="true"></b-loading>
-    <section class="section is-main-section">
-      <tiles>
-        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="company.balancedata.bankbalancedata[0]" label="Bank Balance"/>
-        <card-widget class="tile is-child" type="is-success" icon="currency-inr" :number="company.balancedata.bankbalancedata[0]" label="Cash Balance"/>
-        <router-link to="/workflow">
-          <card-widget class="tile is-child" type="is-primary" icon="sitemap" label="Workflow"/>
-        </router-link>
-        <!-- <card-widget class="tile is-child" type="is-primary" icon="cart-outline" label="Product / Service"/>
-        <card-widget class="tile is-child" type="is-info" icon="file-chart" label="Report"/> -->
-      </tiles>
-      <!-- <div class="columns">
-        <div class="column is-half">
-          <card-component title="Sale Invoice" @header-icon-click="fillChartData" icon="finance" header-icon="reload">
-            <div v-if="defaultChart.chartData" class="chart-area">
-              <line-chart style="height: 100%"
-                          ref="bigChart"
-                          chart-id="big-line-chart"
-                          :chart-data="defaultChart.chartData"
-                          :extra-options="defaultChart.extraOptions">
-              </line-chart>
-            </div>
-          </card-component>
-        </div>
-        <div class="column is-half">
-          <card-component title="Purchase Invoice" @header-icon-click="fillChartData" icon="finance" header-icon="reload">
-            <div v-if="defaultChart.chartData" class="chart-area">
-              <line-chart style="height: 100%"
-                          ref="bigChart"
-                          chart-id="big-line-chart"
-                          :chart-data="defaultChart.chartData"
-                          :extra-options="defaultChart.extraOptions">
-              </line-chart>
-            </div>
-          </card-component>
-        </div>
-      </div> -->
-      <!-- <card-component title="Clients" class="has-table has-mobile-sort-spaced">
-        <clients-table-sample :data-url="`${$router.options.base}data-sources/clients.json`"/>
-      </card-component> -->
-    </section>
+<section class="container-fluid">
+  <h1 class="mt-5 text-muted mb-5">{{userName}} / Dashboard</h1>
+  <div class="container">
+    <b-card-group deck>
+      <router-link to='/workflow'>
+        <b-card
+          footer="Workflow"
+          footer-text-variant="white"
+          footer-tag="footer"
+          footer-bg-variant="dark"
+          border-variant="dark"
+          style="max-width: 20rem;">
+          <b-card-text><b-icon scale="4" icon="tv"></b-icon></b-card-text>
+          <b-card-text>Manage Customers /Suppliers</b-card-text>
+        </b-card>      
+      </router-link>
+      <b-card
+        footer="Cash Balance"
+        footer-text-variant="light"
+        footer-tag="footer"
+        footer-bg-variant="success"
+        border-variant="dark"
+        style="max-width: 20rem;">
+         <b-card-text><b-icon scale="3" icon="wallet"></b-icon></b-card-text>
+         <b-card-text>₹5,000</b-card-text>
+      </b-card>
+      <b-card
+        footer="Bank Balance"
+        footer-text-variant="white"
+        footer-tag="footer"
+        footer-bg-variant="primary"
+        border-variant="dark"
+        style="max-width: 20rem;">
+        <b-card-text><b-icon scale="4" icon="cash"></b-icon></b-card-text>
+         <b-card-text>₹57,000</b-card-text>
+      </b-card>
+    </b-card-group>
   </div>
+</section>
 </template>
 
 <script>
-import * as chartConfig from '@/components/Charts/chart.config'
-import TitleBar from '@/components/TitleBar'
-// import HeroBar from '@/components/HeroBar'
-import Tiles from '@/components/Tiles'
-import CardWidget from '@/components/CardWidget'
-import { mapState } from 'vuex'
-// import CardComponent from '@/components/CardComponent'
-// import LineChart from '@/components/Charts/LineChart'
-import Axios from 'axios'
-// import ClientsTableSample from '@/components/ClientsTableSample'
+// @ is an alias to /src
+import {mapState} from 'vuex'
 
 export default {
-  name: 'home',
-  components: {
-    // ClientsTableSample,
-    // LineChart,
-    // CardComponent,
-    CardWidget,
-    Tiles,
-    // HeroBar,
-    TitleBar
-  },
+  name: 'Home',
   data () {
     return {
-      isLoading: true,
-      defaultChart: {
-        chartData: null,
-        extraOptions: chartConfig.chartOptionsMain
-      },
-      company: {
-        balancedata: {
-          bankbalancedata: [0]
-        }
-      },
-      isFullPage: true
+
     }
   },
   computed: {
-    titleStack () {
-      return [
-        this.userName,
-        'Dashboard'
-      ]
-    },
     ...mapState([
-      'isNavBarVisible',
-      'isAsideMobileExpanded',
-      'isDarkModeActive',
-      'userName',
-      'authToken',
-      'gkCoreUrl'
+      'userName'
     ])
-  },
-  methods: {
-    getCompanyData () {
-      Axios.get(`${this.gkCoreUrl}/dashboard?type=dashboarddata`, {
-        headers: {
-          gktoken: this.authToken // 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxLCJ1c2VyaWQiOjF9.TMPTw51qwCSp-z3U2LgpVuBKE0aPf12Y2QMnlFVleMo'
-        }
-      }).then((res) => {
-        this.isLoading = false
-        switch (res.data.gkstatus) {
-          case 0:
-            this.company = res.data.gkresult
-            break
-          default:
-            this.$buefy.toast.open({
-              message: 'Error: Problem with fetching Dashboard data',
-              type: 'is-warning',
-              queue: false
-            })
-        }
-      }).catch((err) => {
-        this.isLoading = false
-        this.$buefy.toast.open({
-          message: `Error: ${err.message}`,
-          type: 'is-warning',
-          queue: false
-        })
-      })
-    },
-    randomChartData (n) {
-      const data = []
-
-      for (let i = 0; i < n; i++) {
-        data.push(Math.round(Math.random() * 200))
-      }
-
-      return data
-    },
-    fillChartData () {
-      this.defaultChart.chartData = {
-        datasets: [
-          {
-            fill: false,
-            borderColor: chartConfig.chartColors.default.primary,
-            borderWidth: 2,
-            borderDash: [],
-            borderDashOffset: 0.0,
-            pointBackgroundColor: chartConfig.chartColors.default.primary,
-            pointBorderColor: 'rgba(255,255,255,0)',
-            pointHoverBackgroundColor: chartConfig.chartColors.default.primary,
-            pointBorderWidth: 20,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 15,
-            pointRadius: 4,
-            data: this.randomChartData(9)
-          },
-          {
-            fill: false,
-            borderColor: chartConfig.chartColors.default.info,
-            borderWidth: 2,
-            borderDash: [],
-            borderDashOffset: 0.0,
-            pointBackgroundColor: chartConfig.chartColors.default.info,
-            pointBorderColor: 'rgba(255,255,255,0)',
-            pointHoverBackgroundColor: chartConfig.chartColors.default.info,
-            pointBorderWidth: 20,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 15,
-            pointRadius: 4,
-            data: this.randomChartData(9)
-          },
-          {
-            fill: false,
-            borderColor: chartConfig.chartColors.default.danger,
-            borderWidth: 2,
-            borderDash: [],
-            borderDashOffset: 0.0,
-            pointBackgroundColor: chartConfig.chartColors.default.danger,
-            pointBorderColor: 'rgba(255,255,255,0)',
-            pointHoverBackgroundColor: chartConfig.chartColors.default.danger,
-            pointBorderWidth: 20,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 15,
-            pointRadius: 4,
-            data: this.randomChartData(9)
-          }
-        ],
-        labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09']
-      }
-    }
-  },
-  mounted () {
-    this.fillChartData()
-    this.getCompanyData()
   }
 }
 </script>

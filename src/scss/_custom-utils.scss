@@ -1,25 +1,42 @@
-.is-valign-m {
-  vertical-align: middle;
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: $footer-height; /* Margin bottom by footer height */
 }
 
-.is-gk-blue {
+.gk-blue {
   color: #000080;
 }
 
-.is-max-h-180 {
-  max-height: 180px;
-  overflow-y: auto;
+.bg-gk-blue {
+  background-color: #000080;
+}
+.gk-orange {
+  color: #ff7f2a;
+}
+
+.bg-gk-orange {
+  background-color: #ff7f2a;
+}
+.copyleft {
+  display: inline-block;
+  transform: rotate(180deg);
+}
+
+.card-body {
+  hr {
+    margin-left: $card-spacer-x;
+    margin-right: $card-spacer-x;
+  }
 }
 
 .required {
   &:after {
-    content: " *";
+    content: ' *';
     color: #ff0000;
-  }
-}
-
-@for $i from 1 through 16 { 
-  .is-w-#{$i} {
-    width: $i * 6.25%;
   }
 }
