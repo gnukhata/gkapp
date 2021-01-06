@@ -1,9 +1,10 @@
 <template>
 <section class="container-fluid">
   <h1 class="mt-5 text-muted mb-5">{{userName}} / Dashboard</h1>
+  <!--Cards section-->
   <div class="container">
     <b-card-group deck>
-      <router-link to='/workflow'>
+      <router-link to='/workflow' class="text-dark">
         <b-card
           footer="Workflow"
           footer-text-variant="white"

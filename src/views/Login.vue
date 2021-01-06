@@ -1,102 +1,113 @@
 <template>
-<div class="mt-3 container">
-    <div class="row justify-content-center">
-        <div class="col-lg-5 card shadow">
-            <div class="card-body">
-                <div class="text-center text-muted mb-4">
-                    <h2>Sign in</h2>
-                </div>
-                <b-form class="text-left">
-                <b-form-group id="input-group-1" 
-                  label="Username" 
-                  description="* Required">
-                  <b-form-input
-                    id="input-1"
-                    v-model="form.username"
-                    type="text"
-                    placeholder="Enter Username"
-                    required
-                  ></b-form-input>
-                </b-form-group>
+<section class="container-fluid mt-3">
+  <div class="card shadow">
+    <div class="card-header">Login</div>
+      <div class="card-body">
+          <b-form class="text-left">
+          <!--Username area-->
+          <b-form-group  
+            label="Username"
+            description="* Required"
+            label-cols-sm="1"
+            >
+            <b-form-input
+              id="input-1"
+              v-model="form.username"
+              type="text"
+              placeholder="Enter Username"
+              required
+            ></b-form-input>
+          </b-form-group>
+          <!-- Password area -->
+          <b-form-group 
+            id="input-group-2" 
+            label="Password" 
+            description="* Required" 
+            label-for="input-2"
+            label-cols-sm="1">
+            <b-form-input
+              id="input-2"
+              v-model="form.userpassword"
+              placeholder="Enter password"
+              type="password"
+              required
+            ></b-form-input>
+          </b-form-group>
+          <!--Select company area-->
+          <b-form-group 
+            id="input-group-3" 
+            label="Select Company" 
+            description="* Required"
+            label-cols-sm="1" 
+            label-for="input-3">
+            <b-overlay 
+            :show="isDisabled"
+            spinner-type="border" 
+            variant="secondary"
+            rounded="circle">
+            </b-overlay>
+            <b-form-select
+              id="input-3"
+              v-model="orgIndex"
+              :options="options"
+              required
+            >
+            <b-form-select-option value="null" disabled>-- Select Company --</b-form-select-option>
+            </b-form-select>
+            </b-form-group>
+          <!--Captcha area-->
+          <b-form-group  
+            label="Captcha" 
+            label-for="input-1" 
+            description="* Required"
+            label-cols-sm="1">
+            <b-form-row>
+                <canvas aria-label="Captcha field" width="70" height="30" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
+                <b-button size="sm" 
+                  @click.prevent="audioCaptcha" 
+                  role="button" 
+                  title="listen to captcha" 
+                  aria-label="Audio Captcha button"
 
-                <b-form-group id="input-group-2" label="Password" description="* Required" label-for="input-2">
-                  <b-form-input
-                    id="input-2"
-                    v-model="form.userpassword"
-                    placeholder="Enter password"
-                    type="password"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group id="input-group-3" label="Select Company" description="* Required" label-for="input-3">
-                  <b-overlay 
-                  :show="isDisabled"
-                  spinner-type="border" 
-                  variant="secondary"
-                  rounded="circle">
-                  </b-overlay>
-                  <b-form-select
-                    id="input-3"
-                    v-model="orgIndex"
-                    :options="options"
-                    required
-                  >
-                  <b-form-select-option value="null" disabled>-- Select Company --</b-form-select-option>
-                  </b-form-select>
-                  </b-form-group>
-                <b-form-group id="input-group-1" label="Captcha" label-for="input-1" description="* Required">
-                  <b-form-row>
-                    <!-- <b-col> -->
-                      <canvas aria-label="Captcha field" width="70" height="30" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
-                    <!-- </b-col> -->
-                    <!-- <b-col> -->
-                      <b-button size="sm" 
-                        @click.prevent="audioCaptcha" 
-                        role="button" 
-                        title="listen to captcha" 
-                        aria-label="Audio Captcha button"
-
-                        class="mb-button ml-1">
-                        <b-icon icon="play-circle"></b-icon>
-                        Audio
-                      </b-button>
-                    <!-- </b-col> -->
-                    <!-- <b-col> -->
-                      <br>
-                    <b-form-input class="mt-3"
-                    id="input-1"
-                    v-model="userAnswer"
-                    type="text"
-                    placeholder="Answer"
-                    required
-                  ></b-form-input>
-                    <!-- </b-col> -->
-                  </b-form-row>
-                </b-form-group>
-              <div class="mt-3">
-                <b-button-group>
-                  <b-button @click="login()" :disabled="isDisabled" class="mr-2" variant="primary">
-                    <b-spinner v-if="isLoading" small></b-spinner>
-                    <b-icon icon="arrow-return-right"></b-icon>
-                    Login
-                  </b-button>
-                  <b-button variant="success" :to="{ name: 'Create_Organisation' }">
-                    <b-icon icon="person-plus"></b-icon>
-                    Create Account
-                  </b-button>
-                </b-button-group>
-              </div>
-              </b-form>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-6">
-                <a href="#" class="text-light"><small>Forgot password?</small></a>
-            </div>
-        </div>
-    </div>
-</div>
+                  class="mb-button ml-1">
+                  <b-icon icon="play-circle"></b-icon>
+                  Audio
+                </b-button>
+            </b-form-row>
+          </b-form-group>
+          <!-- captcha answer -->
+          <b-form-group
+            label="Answer" 
+            label-for="input-1" 
+            description="* Required"
+            label-cols-sm="1">
+            <b-form-input
+              id="input-1"
+              v-model="userAnswer"
+              type="number"
+              placeholder="Enter the Answer"
+              required>
+              </b-form-input>
+          </b-form-group>
+          <hr>
+          <!-- Login & create account area -->
+          <div class="float-right">
+            <b-button-group>
+              <b-button @click="login()" :disabled="isDisabled" class="mr-2" variant="primary">
+                <b-spinner v-if="isLoading" small></b-spinner>
+                <b-icon icon="arrow-return-right"></b-icon>
+                Login
+              </b-button>
+              <b-button variant="success" :to="{ name: 'Create_Organisation' }">
+                <b-icon icon="person-plus"></b-icon>
+                Create Account
+              </b-button>
+            </b-button-group>
+          </div>
+        </b-form>
+      </div>
+  </div>
+</section>
 </template>
 <script>
 import axios from 'axios'
