@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <header>
+      <!--navbar-->
       <b-navbar toggleable="lg" type="light" variant="warning">
         <b-navbar-brand :to="{ name: 'Login' }">
           <img src="img/gk.png" width="30" height="30" class="d-inline-block align-top" alt="GNUKhata Logo">
           GNUKhata
         </b-navbar-brand>
-
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
