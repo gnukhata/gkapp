@@ -19,12 +19,14 @@
                       </b-button>
                     </div>
                     <!--Load customers list-->
-                    <b-button v-for="customer in this.customerList" :key="customer.id" 
-                    pill 
-                    variant="primary"
-                    class="m-1">
-                    <b-icon icon="person-fill"></b-icon> {{customer.custname}}
-                    </b-button>
+                    <b-row>
+                      <b-button v-for="customer in this.customerList" :key="customer.id" 
+                      pill 
+                      variant="primary"
+                      class="m-1">
+                      <b-icon icon="person-fill"></b-icon> {{customer.custname}}
+                      </b-button>
+                    </b-row>
                 </b-card-text>
             </b-tab>
             <b-tab title="Suppliers">
@@ -43,12 +45,14 @@
                       </b-button>
                     </div>
                     <!--Load suppliers list-->
+                    <b-row>
                     <b-button v-for="supplier in this.supplierList" :key="supplier.id" 
                     pill 
                     variant="secondary"
                     class="m-1">
                     <b-icon icon="briefcase-fill"></b-icon> {{supplier.custname}}
                     </b-button>
+                    </b-row>
                 </b-card-text>
             </b-tab>
             <b-tab title="Products">
@@ -68,12 +72,14 @@
                         </router-link>
                     </div>
                     <!-- Load product list -->
+                    <b-row>
                     <b-button v-for="product in this.products" :key="product.srno" 
                     pill 
                     variant="info"
                     class="m-1">
                     <b-icon icon="box"></b-icon> {{product.productdesc}}
                     </b-button>
+                    </b-row>
                 </b-card-text>
             </b-tab>
             <b-tab title="Services">
@@ -93,12 +99,14 @@
                         </router-link>
                     </div>
                     <!-- load services list -->
+                    <b-row>
                     <b-button v-for="service in this.services" :key="service.srno" 
                     pill 
                     variant="warning"
                     class="m-1">
                     <b-icon icon="headset"></b-icon> {{service.productdesc}}
                     </b-button>
+                    </b-row>
                 </b-card-text>
             </b-tab>
         </b-tabs>
