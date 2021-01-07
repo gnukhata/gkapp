@@ -1,23 +1,20 @@
 <template>
     <section 
     v-if="$route.name !== 'Login' && $route.name !== 'Create_Organisation'" 
-    class="d-flex m-1 justify-content-center mt-2">
-    <b-button-group size="sm">
-      <b-button 
-      title="Current Page" 
-      class="mr-1" 
-      variant="outline-dark">
-        {{userName}} / {{$route.name}}
-      </b-button>
+    class="d-flex mt-2">
+    <div class="ml-1">
+      <b-button sm variant="light">{{userName}} / {{$route.name}} </b-button>
+    </div>
+    <div class="ml-auto mr-2">
       <router-link v-if="$route.name !== 'Dashboard'" to="/dashboard">
-      <b-button variant="outline-info" class="mr-1">
-        <b-icon icon="arrow-left-circle"></b-icon> Back to Dashboard
+      <b-button variant="outline-info">
+        <b-icon icon="arrow-left-circle"></b-icon> Dashboard
       </b-button>
       </router-link>
-      <b-button @click="back()" variant="outline-danger" >
+    </div>
+      <!-- <b-button @click="back()" variant="outline-danger" >
         <b-icon icon="arrow-left-circle"></b-icon> Previous page
-      </b-button>
-    </b-button-group>
+      </b-button> -->
     </section>
 </template>
 
