@@ -44,7 +44,7 @@ const routes = [
   },
   {
     path: '/customer_supplier/:type/:mode',
-    name: 'Customer & Supplier',
+    name: 'Customer_Supplier',
     component: () => import(/* webpackChunkName: "createorg" */ '../views/CustomerSupplier.vue'),
     props: true
   }
