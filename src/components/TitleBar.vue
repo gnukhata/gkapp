@@ -12,9 +12,11 @@
       </b-button>
       </router-link>
     </div>
-      <!-- <b-button @click="back()" variant="outline-danger" >
-        <b-icon icon="arrow-left-circle"></b-icon> Previous page
-      </b-button> -->
+    <div class="m-1">
+      <b-button @click="goBack()" variant="outline-danger" >
+        <b-icon icon="arrow-left-circle"></b-icon> Back
+      </b-button>
+    </div>
     </section>
 </template>
 
@@ -26,9 +28,9 @@ export default {
         ...mapState(['userName'])
     },
     methods: {
-
-    back: () => { this.$router.go(2) }
-
+      goBack() {
+        this.$router.go(-1)
+      }
     }
 }
 </script>
