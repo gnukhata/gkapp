@@ -41,7 +41,6 @@
                   <b-form-textarea
                     id="input-4"
                     v-model="form.address"
-                    placeholder="Address"
                     rows="3"
                     max-rows="6"
                     required>
@@ -59,13 +58,13 @@
                         label="Email"
                         label-for="input-5"
                         label-cols="3">
-                        <b-form-input id="input-5" placeholder="customer@email.com" v-model="form.email" type="email" trim></b-form-input>
+                        <b-form-input id="input-5" v-model="form.email" type="email" trim></b-form-input>
                       </b-form-group>
                       <b-form-group
                         label="Phone"
                         label-for="input-6"
                         label-cols="3">
-                        <b-form-input id="input-6" placeholder="Phone number" type="number" v-model="form.contact" trim></b-form-input>
+                        <b-form-input id="input-6" type="number" v-model="form.contact" trim></b-form-input>
                       </b-form-group>
                       <b-form-group
                         label="Fax"
@@ -82,7 +81,6 @@
                         <b-form-input
                           id="input-8"
                           :state="validatePan"
-                          placeholder="AAAAA1234A"
                           v-model="form.pan"
                           trim
                           pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
@@ -104,14 +102,12 @@
                             <b-col class="px-1" cols="6" sm="3">  
                               <b-form-input
                                 class="px-1"
-                                :state="validateCheckSum"
-                                placeholder="1Z1"
                                 id="input-11"
                                 aria-label="Check Sum"
                                 v-model="form.gstin.checkSum"
                                 trim
-                                title="Format: 1Z1, Number Capital Alphabet Number"
-                                pattern="[0-9]{1}[A-Z]{1}[0-9]{1}"
+                                title="Format: [Number] [Alphabet] [Number / Alphabet]"
+                                pattern="[0-9]{1}[A-Z]{1}[A-Z0-9]{1}"
                                 debounce="500">
                               </b-form-input>
                             </b-col>
@@ -134,7 +130,7 @@
                         label="Branch"
                         label-for="input-13"
                         label-cols="3">
-                        <b-form-input id="input-13" placeholder="Branch Name" v-model="form.bank.branch" trim :required="showBankDetails"></b-form-input>
+                        <b-form-input id="input-13" v-model="form.bank.branch" trim :required="showBankDetails"></b-form-input>
                       </b-form-group>
                       <b-form-group
                         label="Account No."
@@ -211,7 +207,7 @@ export default {
         states: [],
       },
       regex: {
-        checkSum: new RegExp('[0-9]{1}[A-Z]{1}[0-9]{1}'),
+        checkSum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
         pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}')
       },
       form: {
@@ -405,8 +401,12 @@ export default {
   mounted () {
     const states = [{ 35: 'Andaman and Nicobar Islands' }, { 28: 'Andhra Pradesh' }, { 37: 'Andhra Pradesh (New)' }, { 12: 'Arunachal Pradesh' }, { 18: 'Assam' }, { 10: 'Bihar' }, { 4: 'Chandigarh' }, { 22: 'Chhattisgarh' }, { 26: 'Dadra and Nagar Haveli' }, { 25: 'Daman and Diu' }, { 7: 'Delhi' }, { 30: 'Goa' }, { 24: 'Gujarat' }, { 6: 'Haryana' }, { 2: 'Himachal Pradesh' }, { 1: 'Jammu and Kashmir' }, { 20: 'Jharkhand' }, { 29: 'Karnataka' }, { 32: 'Kerala' }, { 31: 'Lakshdweep' }, { 23: 'Madhya Pradesh' }, { 27: 'Maharashtra' }, { 14: 'Manipur' }, { 17: 'Meghalaya' }, { 15: 'Mizoram' }, { 13: 'Nagaland' }, { 21: 'Odisha' }, { 34: 'Pondicherry' }, { 3: 'Punjab' }, { 8: 'Rajasthan' }, { 11: 'Sikkim' }, { 33: 'Tamil Nadu' }, { 36: 'Telangana' }, { 16: 'Tripura' }, { 5: 'Uttarakhand' }, { 9: 'Uttar Pradesh' }, { 19: 'West Bengal' }]
     this.options.states = states.map((item) => {
-      const name = Object.values(item)[0],
-      code = Object.keys(item)[0]
+      const name = Object.values(item)[0]
+      let code = Object.keys(item)[0] + ""
+      if(code.length < 2) {
+        code = '0' + code
+      }
+
       return {
         text: name,
         value: {
