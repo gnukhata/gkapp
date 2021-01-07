@@ -8,7 +8,7 @@
     <div class="ml-auto m-1">
       <router-link v-if="$route.name !== 'Dashboard'" to="/dashboard">
       <b-button variant="outline-info">
-        <b-icon icon="arrow-left-circle"></b-icon> Dashboard
+        <b-icon icon="display"></b-icon> Dashboard
       </b-button>
       </router-link>
     </div>
