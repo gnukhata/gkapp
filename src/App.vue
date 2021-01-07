@@ -28,31 +28,20 @@
         </b-navbar-nav>
       </b-collapse>
       </b-navbar>
+     <title-bar></title-bar>
     </header>
     <main role="main">
       <router-view/>
     </main>
-    <footer class="bg-primary mt-5 text-white fixed-bottom">
-      <div class="">
-        <div class="copyleft">&copy;</div> {{ currentYear }} - GNUKhata
-      </div>
-    </footer>
   </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  }
-</style>
 <script>
 import { mapState } from 'vuex'
+import TitleBar from './components/TitleBar'
+
 export default {
   name: 'App',
+  components: { TitleBar },
   data () {
     return {
       currentYear: new Date().getFullYear()
