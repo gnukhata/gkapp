@@ -4,6 +4,7 @@
     <div class="card-header">Login</div>
       <div class="card-body">
           <b-form class="text-left">
+          <b-alert show variant="info">Demo Username: <b>user_a</b> / Password: <b>user_a</b> / Organisation: <b>ABC Delivery</b></b-alert>
           <!--Username area-->
           <b-form-group  
             label="Username"
