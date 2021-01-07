@@ -1,7 +1,7 @@
 <template>
-<section class="container-fluid mt-4">
+<section>
   <!--Cards section-->
-  <div class="container-fluid">
+  <div class="container-fluid mt-3">
     <b-card-group deck>
       <router-link to='/workflow' class="text-dark">
         <b-card
