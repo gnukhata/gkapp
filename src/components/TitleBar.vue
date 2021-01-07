@@ -3,17 +3,17 @@
     v-if="$route.name !== 'Login' && $route.name !== 'Create_Organisation'" 
     class="d-flex mt-2">
     <div class="m-1">
-      <b-button sm variant="light">{{userName}} / {{$route.name}} </b-button>
+      <b-button variant="light">{{userName}} / {{$route.name}} </b-button>
     </div>
     <div class="ml-auto m-1">
       <router-link v-if="$route.name !== 'Dashboard'" to="/dashboard">
-      <b-button variant="outline-info">
+      <b-button size="sm" variant="outline-info">
         <b-icon icon="display"></b-icon> Dashboard
       </b-button>
       </router-link>
     </div>
     <div class="m-1">
-      <b-button @click="goBack()" variant="outline-danger" >
+      <b-button @click="goBack()" size="sm" variant="outline-danger" >
         <b-icon icon="arrow-left-circle"></b-icon> Back
       </b-button>
     </div>
