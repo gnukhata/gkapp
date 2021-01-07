@@ -1,174 +1,176 @@
 <template>
-  <div class="d-inline-block mt-4 mx-2" style="min-width: 300px">
-    <div class="card">
-      <div class="card-header text-left">
-        <h1>{{formType}} Profile</h1>
-      </div>
-      <div class="card-body">
-        <b-form class="text-left" @submit.prevent="onSubmit">
-          <b-row>
-            <b-col :md="columnOneWidth">
-              <b-form-group
-                label="Name"
-                label-for="input-1"
-                label-cols="3">
-                <b-form-input id="input-1" placeholder="Customer Name" v-model="form.name" trim required></b-form-input>
-              </b-form-group>
-              <b-form-group
-                invalid-feedback="Pincode must be 6 digits long"
-                label="Pin Code"
-                label-for="input-3"
-                label-cols="3">
-                <b-form-input id="input-3"
-                  v-model="form.pin"
-                  type="number"
-                  :state="validatePin"
-                  debounce="500"
-                  required>
-                </b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="State"
-                label-for="input-2"
-                label-cols="3">
-                <b-form-select id="input-2" v-model="state" :options="options.states" required></b-form-select>
-              </b-form-group>
-              <b-form-group
-                label="Address"
-                label-for="input-4"
-                label-cols="3">
-                <b-form-textarea
-                  id="input-4"
-                  v-model="form.address"
-                  placeholder="Address"
-                  rows="3"
-                  max-rows="6"
-                  required>
-                </b-form-textarea>
-              </b-form-group>
-            </b-col>
-            <b-col>
-              <b-row>
-                <b-col :md="columnTwoWidth">
-                  <b-form-checkbox v-model="showOptional" class="mb-3" switch>
-                    Optional Fields
-                  </b-form-checkbox>
-                  <b-collapse v-model="showOptional">
-                    <b-form-group
-                      label="Email"
-                      label-for="input-5"
-                      label-cols="3">
-                      <b-form-input id="input-5" placeholder="customer@email.com" v-model="form.email" type="email" trim></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="Phone"
-                      label-for="input-6"
-                      label-cols="3">
-                      <b-form-input id="input-6" placeholder="Phone number" type="number" v-model="form.contact" trim></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="Fax"
-                      label-for="input-7"
-                      label-cols="3">
-                      <b-form-input id="input-7" v-model="form.fax" trim></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="PAN"
-                      label-for="input-8"
-                      :state="validatePan"
-                      invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
-                      label-cols="3">
-                      <b-form-input
-                        id="input-8"
+  <div class="d-flex justify-content-center">
+    <div class="d-inline-block mt-4 mx-2" style="min-width: 300px">
+      <div class="card">
+        <div class="card-header text-left">
+          <h1>{{formType}} Profile</h1>
+        </div>
+        <div class="card-body">
+          <b-form class="text-left" @submit.prevent="onSubmit">
+            <b-row>
+              <b-col :md="columnOneWidth">
+                <b-form-group
+                  label="Name"
+                  label-for="input-1"
+                  label-cols="3">
+                  <b-form-input id="input-1" placeholder="Customer Name" v-model="form.name" trim required></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  invalid-feedback="Pincode must be 6 digits long"
+                  label="Pin Code"
+                  label-for="input-3"
+                  label-cols="3">
+                  <b-form-input id="input-3"
+                    v-model="form.pin"
+                    type="number"
+                    :state="validatePin"
+                    debounce="500"
+                    required>
+                  </b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="State"
+                  label-for="input-2"
+                  label-cols="3">
+                  <b-form-select id="input-2" v-model="state" :options="options.states" required></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Address"
+                  label-for="input-4"
+                  label-cols="3">
+                  <b-form-textarea
+                    id="input-4"
+                    v-model="form.address"
+                    placeholder="Address"
+                    rows="3"
+                    max-rows="6"
+                    required>
+                  </b-form-textarea>
+                </b-form-group>
+              </b-col>
+              <b-col>
+                <b-row>
+                  <b-col :md="columnTwoWidth">
+                    <b-form-checkbox v-model="showOptional" class="mb-3" switch>
+                      Optional Fields
+                    </b-form-checkbox>
+                    <b-collapse v-model="showOptional">
+                      <b-form-group
+                        label="Email"
+                        label-for="input-5"
+                        label-cols="3">
+                        <b-form-input id="input-5" placeholder="customer@email.com" v-model="form.email" type="email" trim></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="Phone"
+                        label-for="input-6"
+                        label-cols="3">
+                        <b-form-input id="input-6" placeholder="Phone number" type="number" v-model="form.contact" trim></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="Fax"
+                        label-for="input-7"
+                        label-cols="3">
+                        <b-form-input id="input-7" v-model="form.fax" trim></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="PAN"
+                        label-for="input-8"
                         :state="validatePan"
-                        placeholder="AAAAA1234A"
-                        v-model="form.pan"
-                        trim
-                        pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                        title="Format: A B C D E 1 2 3 4 A"
-                        debounce="500">
-                      </b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="GSTIN"
-                      label-cols="3"
-                      inline>
-                        <b-row style="max-width:300px;">
-                          <b-col class="pr-1" cols="4" sm="3">
-                            <b-form-input class="px-1" readonly placeholder="00" id="input-9" aria-label="State Code" v-model="form.gstin.stateCode" trim></b-form-input>
-                          </b-col>
-                          <b-col class="px-1 pb-2" cols="6" sm="6">  
-                            <b-form-input class="px-1" readonly placeholder="PAN" id="input-10" aria-label="PAN" v-model="form.pan" trim></b-form-input>
-                          </b-col>
-                          <b-col class="px-1" cols="6" sm="3">  
-                            <b-form-input
-                              class="px-1"
-                              :state="validateCheckSum"
-                              placeholder="1Z1"
-                              id="input-11"
-                              aria-label="Check Sum"
-                              v-model="form.gstin.checkSum"
-                              trim
-                              title="Format: 1Z1, Number Capital Alphabet Number"
-                              pattern="[0-9]{1}[A-Z]{1}[0-9]{1}"
-                              debounce="500">
-                            </b-form-input>
-                          </b-col>
-                        </b-row>
-                    </b-form-group>
-                  </b-collapse>
-                </b-col>
-                <b-col v-if="isSupplier">
-                  <b-form-checkbox v-model="showBankDetails" class="mb-3" switch>
-                    Bank Details
-                  </b-form-checkbox>
-                  <b-collapse v-model="showBankDetails">
-                    <b-form-group
-                      label="Name"
-                      label-for="input-12"
-                      label-cols="3">
-                      <b-form-input id="input-12" placeholder="Bank Name" v-model="form.bank.name" trim :required="showBankDetails"></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="Branch"
-                      label-for="input-13"
-                      label-cols="3">
-                      <b-form-input id="input-13" placeholder="Branch Name" v-model="form.bank.branch" trim :required="showBankDetails"></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="Account No."
-                      label-for="input-14"
-                      label-cols="3">
-                      <b-form-input id="input-14" v-model="form.bank.accNo" trim :required="showBankDetails"></b-form-input>
-                    </b-form-group>
-                    <b-form-group
-                      label="IFSC Code"
-                      label-for="input-15"
-                      label-cols="3">
-                      <b-form-input id="input-15" v-model="form.bank.ifsc" trim :required="showBankDetails"></b-form-input>
-                    </b-form-group>
-                  </b-collapse>
-                </b-col>
-              </b-row>
-            </b-col>
-          </b-row>
-          <hr>
-          <div class="float-right">
-            <b-button class="m-1" variant="danger" :to="{ name: 'Workflow' }">
-              <b-icon aria-hidden="true" class="align-middle" icon="arrow-left"></b-icon>
-              <span class="align-middle"> Back</span>
-            </b-button>
-            <b-button class="m-1" variant="warning" @click.prevent="resetForm">
-              <b-icon aria-hidden="true" class="align-middle" icon="arrow-repeat"></b-icon>
-              <span class="align-middle"> Reset</span>
-            </b-button>
-            <b-button type="submit" class="m-1" variant="success">
-              <b-spinner v-if="isLoading" small></b-spinner>
-              <b-icon aria-hidden="true" class="align-middle" icon="plus-square"></b-icon>
-              <span class="align-middle"> Save</span>
-            </b-button>
-          </div>
-        </b-form>
+                        invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
+                        label-cols="3">
+                        <b-form-input
+                          id="input-8"
+                          :state="validatePan"
+                          placeholder="AAAAA1234A"
+                          v-model="form.pan"
+                          trim
+                          pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                          title="Format: A B C D E 1 2 3 4 A"
+                          debounce="500">
+                        </b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="GSTIN"
+                        label-cols="3"
+                        inline>
+                          <b-row style="max-width:300px;">
+                            <b-col class="pr-1" cols="4" sm="3">
+                              <b-form-input class="px-1" readonly placeholder="00" id="input-9" aria-label="State Code" v-model="form.gstin.stateCode" trim></b-form-input>
+                            </b-col>
+                            <b-col class="px-1 pb-2" cols="6" sm="6">  
+                              <b-form-input class="px-1" readonly placeholder="PAN" id="input-10" aria-label="PAN" v-model="form.pan" trim></b-form-input>
+                            </b-col>
+                            <b-col class="px-1" cols="6" sm="3">  
+                              <b-form-input
+                                class="px-1"
+                                :state="validateCheckSum"
+                                placeholder="1Z1"
+                                id="input-11"
+                                aria-label="Check Sum"
+                                v-model="form.gstin.checkSum"
+                                trim
+                                title="Format: 1Z1, Number Capital Alphabet Number"
+                                pattern="[0-9]{1}[A-Z]{1}[0-9]{1}"
+                                debounce="500">
+                              </b-form-input>
+                            </b-col>
+                          </b-row>
+                      </b-form-group>
+                    </b-collapse>
+                  </b-col>
+                  <b-col v-if="isSupplier">
+                    <b-form-checkbox v-model="showBankDetails" class="mb-3" switch>
+                      Bank Details
+                    </b-form-checkbox>
+                    <b-collapse v-model="showBankDetails">
+                      <b-form-group
+                        label="Name"
+                        label-for="input-12"
+                        label-cols="3">
+                        <b-form-input id="input-12" placeholder="Bank Name" v-model="form.bank.name" trim :required="showBankDetails"></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="Branch"
+                        label-for="input-13"
+                        label-cols="3">
+                        <b-form-input id="input-13" placeholder="Branch Name" v-model="form.bank.branch" trim :required="showBankDetails"></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="Account No."
+                        label-for="input-14"
+                        label-cols="3">
+                        <b-form-input id="input-14" v-model="form.bank.accNo" trim :required="showBankDetails"></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="IFSC Code"
+                        label-for="input-15"
+                        label-cols="3">
+                        <b-form-input id="input-15" v-model="form.bank.ifsc" trim :required="showBankDetails"></b-form-input>
+                      </b-form-group>
+                    </b-collapse>
+                  </b-col>
+                </b-row>
+              </b-col>
+            </b-row>
+            <hr>
+            <div class="float-right">
+              <b-button class="m-1" variant="danger" :to="{ name: 'Workflow' }">
+                <b-icon aria-hidden="true" class="align-middle" icon="arrow-left"></b-icon>
+                <span class="align-middle"> Back</span>
+              </b-button>
+              <b-button class="m-1" variant="warning" @click.prevent="resetForm">
+                <b-icon aria-hidden="true" class="align-middle" icon="arrow-repeat"></b-icon>
+                <span class="align-middle"> Reset</span>
+              </b-button>
+              <b-button type="submit" class="m-1" variant="success">
+                <b-spinner v-if="isLoading" small></b-spinner>
+                <b-icon aria-hidden="true" class="align-middle" icon="plus-square"></b-icon>
+                <span class="align-middle"> Save</span>
+              </b-button>
+            </div>
+          </b-form>
+        </div>
       </div>
     </div>
   </div>
