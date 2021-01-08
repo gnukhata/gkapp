@@ -63,13 +63,12 @@
                 <b-card-text>
                     <!-- Add Product button -->
                     <div class="row mb-2">
-                        <router-link to="/workflow">
-                            <b-button 
-                            variant="info"
-                            class="m-1">
-                            <b-icon icon="box-seam"></b-icon> Add Product
-                            </b-button>
-                        </router-link>
+                        <b-button
+                          :to="{ name: 'Product_Service', params: { type: 'product', mode:'create' } }"
+                          variant="info"
+                          class="m-1">
+                          <b-icon icon="box-seam"></b-icon> Add Product
+                        </b-button>
                     </div>
                     <!-- Load product list -->
                     <b-row>
@@ -90,13 +89,12 @@
                 <b-card-text>
                     <!-- Add Service button -->
                     <div class="row mb-2">
-                        <router-link to="/workflow">
-                            <b-button 
-                            variant="warning"
-                            class="m-1">
-                            <b-icon icon="headset"></b-icon> Add Service
-                            </b-button>
-                        </router-link>
+                        <b-button
+                          :to="{ name: 'Product_Service', params: { type: 'service', mode:'create' } }"
+                          variant="warning"
+                          class="m-1">
+                          <b-icon icon="headset"></b-icon> Add Service
+                        </b-button>
                     </div>
                     <!-- load services list -->
                     <b-row>
