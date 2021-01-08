@@ -3,7 +3,7 @@
     <div class="d-inline-block mt-4 mx-2" style="min-width: 300px">
       <div class="card">
         <div class="card-header text-left">
-          <h1>{{formType}} Profile</h1>
+          <h1>{{formType}} Details</h1>
         </div>
         <div class="card-body">
           <b-form class="text-left" @submit.prevent="onSubmit">
@@ -13,7 +13,7 @@
                   label="Name"
                   label-for="input-1"
                   label-cols="3">
-                  <b-form-input id="input-1" placeholder="Customer Name" v-model="form.name" trim required></b-form-input>
+                  <b-form-input id="input-1" :placeholder="formType + ' Name'" v-model="form.name" trim required></b-form-input>
                 </b-form-group>
                 <b-form-group
                   invalid-feedback="Pincode must be 6 digits long"
@@ -51,7 +51,7 @@
                 <b-row>
                   <b-col :md="columnTwoWidth">
                     <b-form-checkbox v-model="showOptional" class="mb-3" switch>
-                      Optional Fields
+                      Optional Details
                     </b-form-checkbox>
                     <b-collapse v-model="showOptional">
                       <b-form-group
@@ -121,28 +121,28 @@
                     </b-form-checkbox>
                     <b-collapse v-model="showBankDetails">
                       <b-form-group
-                        label="Name"
-                        label-for="input-12"
-                        label-cols="3">
-                        <b-form-input id="input-12" placeholder="Bank Name" v-model="form.bank.name" trim :required="showBankDetails"></b-form-input>
-                      </b-form-group>
-                      <b-form-group
-                        label="Branch"
-                        label-for="input-13"
-                        label-cols="3">
-                        <b-form-input id="input-13" v-model="form.bank.branch" trim :required="showBankDetails"></b-form-input>
-                      </b-form-group>
-                      <b-form-group
                         label="Account No."
                         label-for="input-14"
                         label-cols="3">
                         <b-form-input id="input-14" v-model="form.bank.accNo" trim :required="showBankDetails"></b-form-input>
                       </b-form-group>
                       <b-form-group
+                        label="Name"
+                        label-for="input-12"
+                        label-cols="3">
+                        <b-form-input id="input-12" placeholder="Bank Name" v-model="form.bank.name" trim :required="showBankDetails"></b-form-input>
+                      </b-form-group>
+                      <b-form-group
                         label="IFSC Code"
                         label-for="input-15"
                         label-cols="3">
                         <b-form-input id="input-15" v-model="form.bank.ifsc" trim :required="showBankDetails"></b-form-input>
+                      </b-form-group>
+                      <b-form-group
+                        label="Branch"
+                        label-for="input-13"
+                        label-cols="3">
+                        <b-form-input id="input-13" v-model="form.bank.branch" trim :required="showBankDetails"></b-form-input>
                       </b-form-group>
                     </b-collapse>
                   </b-col>
