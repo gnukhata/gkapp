@@ -56,6 +56,16 @@
             <b-form-select-option value="null" disabled>-- Select Company --</b-form-select-option>
             </b-form-select>
             </b-form-group>
+            <!--Gkcore url select-->
+            <b-form-group v-if="gkCoreUrl == ''"
+            label="gkcore url"
+            description="* Leave blank for default url"
+            label-cols-sm="1">
+            <b-form-input
+            placeholder="https://example.com"
+            v-model="form.customUrl">
+            </b-form-input>
+            </b-form-group>
           <!--Captcha area-->
           <b-form-group  
             label="Captcha" 
@@ -133,7 +143,8 @@ import {mapState} from 'vuex'
       form: {
         username: null,
         userpassword: null,
-        orgcode: null
+        orgcode: null,
+        customUrl: null
         }
       }
     },
@@ -166,7 +177,8 @@ import {mapState} from 'vuex'
                         auth: true,
                         orgCode: this.form.orgcode,
                         authToken: response.data.token,
-                        user: { username: this.form.username }
+                        user: { username: this.form.username },
+                        gkCoreUrl: this.customUrl
                       })
                       // Alert the user on successful login
                       this.$bvToast.toast(`Welcome to gnukhata!`, {
