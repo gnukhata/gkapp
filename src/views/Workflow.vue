@@ -5,8 +5,8 @@
         <b-tabs pills card fill>
             <b-tab title="Customers" active>
                 <template #title>
-                    <b-icon icon="people-fill"></b-icon> Customers
-                    <b-badge variant="light">{{customerList.length}}</b-badge>
+                    <b-icon icon="people-fill"></b-icon> Contacts
+                    <b-badge variant="warning">{{customerList.length + supplierList.length}}</b-badge>
                 </template>
                 <b-card-text>
                     <!-- Add customer -->
@@ -19,20 +19,39 @@
                       </b-button>
                     </div>
                     <!--Load customers list-->
-                    <b-row>
+                    <!-- <b-row>
                       <b-button v-for="customer in this.customerList" :key="customer.id" 
                       pill 
                       variant="primary"
                       class="m-1">
                       <b-icon icon="person-fill"></b-icon> {{customer.custname}}
                       </b-button>
+                    </b-row> -->
+                    <b-row>
+                    <!-- <b-card-group> -->
+                      <b-card class="m-2 col-3" style="width" v-for="customer in this.customerList" :key="customer.id" :title="customer.custname"></b-card>
+                    <!-- </b-card-group> -->
+                    </b-row>
+                    <b-row>
+                    <!-- <b-card-group> -->
+                    <!-- Add Product button -->
+                    <div class="row mb-2">
+                        <b-button
+                          :to="{ name: 'Product_Service', params: { type: 'product', mode:'create' } }"
+                          variant="info"
+                          class="m-1">
+                          <b-icon icon="box-seam"></b-icon> Add Product
+                        </b-button>
+                    </div>
+                    <b-card class="m-2 m-2 col-3" style="width" v-for="supplier in this.supplierList" :key="supplier.id" :title="supplier.custname"></b-card>
+                    <!-- </b-card-group> -->
                     </b-row>
                 </b-card-text>
             </b-tab>
             <b-tab title="Suppliers">
                 <template #title>
                     <b-icon icon="briefcase-fill"></b-icon> Suppliers
-                    <b-badge variant="light">{{supplierList.length}}</b-badge>
+                    <b-badge variant="warning">{{supplierList.length}}</b-badge>
                 </template>
                 <b-card-text>
                     <!-- Add Supplier button -->
@@ -58,18 +77,9 @@
             <b-tab title="Products">
                 <template #title>
                     <b-icon icon="box"></b-icon> Products
-                    <b-badge variant="light">{{products.length}}</b-badge>
+                    <b-badge variant="warning">{{products.length}}</b-badge>
                 </template>
                 <b-card-text>
-                    <!-- Add Product button -->
-                    <div class="row mb-2">
-                        <b-button
-                          :to="{ name: 'Product_Service', params: { type: 'product', mode:'create' } }"
-                          variant="info"
-                          class="m-1">
-                          <b-icon icon="box-seam"></b-icon> Add Product
-                        </b-button>
-                    </div>
                     <!-- Load product list -->
                     <b-row>
                     <b-button v-for="product in this.products" :key="product.srno" 
@@ -84,7 +94,7 @@
             <b-tab title="Services">
                  <template #title>
                     <b-icon icon="headset"></b-icon> Services
-                    <b-badge variant="light">{{services.length}}</b-badge>
+                    <b-badge variant="warning">{{services.length}}</b-badge>
                 </template>
                 <b-card-text>
                     <!-- Add Service button -->
@@ -153,9 +163,9 @@ export default {
       })
         .then((res) => {
           if (name === 'custall') {
-            this.customerList = res.data.gkresult
+            this.customerList = res.data.gkresult.reverse()
           } else {
-            this.supplierList = res.data.gkresult
+            this.supplierList = res.data.gkresult.reverse()
           }
           this.isLoading = false
         }).catch((error) => {
