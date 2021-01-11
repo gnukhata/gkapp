@@ -18,24 +18,12 @@
                         <b-icon icon="person-plus-fill"></b-icon> Add Customer
                       </b-button>
                     </div>
-                    <!--Load customers list-->
-                    <!-- <b-row>
-                      <b-button v-for="customer in this.customerList" :key="customer.id" 
-                      pill 
-                      variant="primary"
-                      class="m-1">
-                      <b-icon icon="person-fill"></b-icon> {{customer.custname}}
-                      </b-button>
-                    </b-row> -->
                     <b-row>
-                    <!-- <b-card-group> -->
                       <b-card class="m-2 col-3" style="width" v-for="customer in this.customerList" :key="customer.id" :title="customer.custname"></b-card>
-                    <!-- </b-card-group> -->
                     </b-row>
                     <b-row>
-                    <!-- <b-card-group> -->
                     <!-- Add Product button -->
-                    <div class="row mb-2">
+                    <div class="row ml-1 mt-2 mb-2">
                         <b-button
                           :to="{ name: 'Product_Service', params: { type: 'product', mode:'create' } }"
                           variant="info"
@@ -43,28 +31,29 @@
                           <b-icon icon="box-seam"></b-icon> Add Product
                         </b-button>
                     </div>
-                    <b-card class="m-2 m-2 col-3" style="width" v-for="supplier in this.supplierList" :key="supplier.id" :title="supplier.custname"></b-card>
-                    <!-- </b-card-group> -->
+                    <b-row>
+                      <b-card class="ml-2 m-2 col-3" style="width" v-for="supplier in this.supplierList" :key="supplier.id" :title="supplier.custname"></b-card>
+                    </b-row>
                     </b-row>
                 </b-card-text>
             </b-tab>
-            <b-tab title="Suppliers">
+            <!-- <b-tab title="Suppliers">
                 <template #title>
                     <b-icon icon="briefcase-fill"></b-icon> Suppliers
                     <b-badge variant="warning">{{supplierList.length}}</b-badge>
                 </template>
-                <b-card-text>
+                <b-card-text> -->
                     <!-- Add Supplier button -->
-                    <div class="row mb-2">
+                    <!-- <div class="row mb-2">
                       <b-button 
                         :to="{ name: 'Customer_Supplier', params: { type: 'supplier', mode:'create' } }"
                         variant="secondary"
                         class="m-1">
                         <b-icon icon="briefcase-fill"></b-icon> Add Supplier
                       </b-button>
-                    </div>
+                    </div> -->
                     <!--Load suppliers list-->
-                    <b-row>
+                    <!-- <b-row>
                     <b-button v-for="supplier in this.supplierList" :key="supplier.id" 
                     pill 
                     variant="secondary"
@@ -73,7 +62,7 @@
                     </b-button>
                     </b-row>
                 </b-card-text>
-            </b-tab>
+            </b-tab> -->
             <b-tab title="Products">
                 <template #title>
                     <b-icon icon="box"></b-icon> Products
