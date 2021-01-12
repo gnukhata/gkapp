@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header>
+    <header id="app-header">
       <!--navbar-->
       <b-navbar toggleable="lg" type="light" variant="light">
         <b-navbar-brand :to="{ name: 'Login' }">
