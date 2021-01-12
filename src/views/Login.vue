@@ -89,6 +89,7 @@
           <!-- captcha answer -->
           <b-form-group
             label="Answer" 
+
             description="* Required"
             label-cols-sm="1">
             <b-form-input
@@ -104,7 +105,7 @@
             <b-button-group>
               <b-button @click="login()" :disabled="isDisabled" class="mr-2" variant="primary">
                 <b-spinner v-if="isLoading" small></b-spinner>
-                <b-icon icon="arrow-return-right"></b-icon>
+                <b-icon v-if="!isLoading" icon="arrow-return-right"></b-icon>
                 Login
               </b-button>
               <b-button variant="success" :to="{ name: 'Create_Organisation' }">
