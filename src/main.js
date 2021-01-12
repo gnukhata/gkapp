@@ -5,11 +5,12 @@ import './plugins/axios'
 import './plugins/bootstrap-vue'
 import App from './App.vue'
 import router from './router'
-import './registerServiceWorker'
+import wb from './registerServiceWorker'
 import store from './store'
 import '@/scss/main.scss'
 
 Vue.config.productionTip = false
+Vue.prototype.$workbox = wb
 
 store.commit('initStore') // initialize the required vuex states from local storage
 
