@@ -89,11 +89,9 @@
           <!-- captcha answer -->
           <b-form-group
             label="Answer" 
-            label-for="input-1" 
             description="* Required"
             label-cols-sm="1">
             <b-form-input
-              id="input-1"
               v-model="userAnswer"
               type="number"
               placeholder="Enter the Answer"
