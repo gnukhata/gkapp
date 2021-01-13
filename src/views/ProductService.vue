@@ -88,7 +88,7 @@
                         label-for="input-7"
                         label-cols="3">
                         <b-input-group append="%">
-                          <b-form-input id="input-7" placeholder="" v-model="form.tax.gst" type="number" step="0.01"></b-form-input>
+                          <b-form-select id="input-7" v-model="form.tax.gst" :options="options.gstRates"></b-form-select>
                         </b-input-group>
                       </b-form-group>
                       <b-form-group
