@@ -1,7 +1,7 @@
 <template>
 <section>
-  <!--Cards section-->
-  <div class="container-fluid mt-3">
+  <!--Cards-->
+  <div class="container mt-3">
     <b-card-group deck>
       <router-link to='/workflow' class="text-dark">
         <b-card
@@ -11,9 +11,9 @@
           footer-tag="footer"
           footer-bg-variant="dark"
           border-variant="dark"
-          style="max-width: 20rem;">
+          style="width: 20rem;">
           <b-card-text><b-icon scale="4" icon="tv"></b-icon></b-card-text>
-          <b-card-text>Manage Customers /Suppliers</b-card-text>
+          <b-card-text>Manage Customers / Suppliers / Goods / Services</b-card-text>
         </b-card>      
       </router-link>
       <b-card
@@ -24,7 +24,7 @@
         border-variant="dark"
         class="text-center"
         style="max-width: 20rem;">
-         <b-card-text><b-icon scale="3" icon="wallet"></b-icon></b-card-text>
+         <b-card-text><b-icon scale="3" icon="wallet2"></b-icon></b-card-text>
          <b-card-text>₹5,000</b-card-text>
       </b-card>
       <b-card

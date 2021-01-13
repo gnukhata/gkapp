@@ -28,7 +28,7 @@
         </b-navbar-nav>
       </b-collapse>
       </b-navbar>
-     <title-bar></title-bar>
+     <!-- <title-bar></title-bar> -->
     </header>
     <main role="main">
       <router-view/>
@@ -37,11 +37,11 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import TitleBar from './components/TitleBar'
+// import TitleBar from './components/TitleBar'
 
 export default {
   name: 'App',
-  components: { TitleBar },
+  // components: { TitleBar },
   computed: {
     activeNav: (self) => self.$route.name,
     ...mapState(['userName'])
@@ -59,3 +59,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.router-link-exact-active {
+  font-weight: bolder;
+}
+</style>
