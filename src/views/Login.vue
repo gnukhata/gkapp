@@ -187,7 +187,7 @@ import {mapState} from 'vuex'
                         variant: 'success',
                         solid: true
                       })
-                      this.$router.push('/dashboard')
+                      this.$router.push('/workflow')
                     } else {
                       // Alert the user on captcha failure
                       console.log('Invalid Captcha answer')

@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid mt-2">
-    <b-jumbotron lead="Choose a workflow item " v-if="activeWorkflow.index === null">
+    <b-container fluid v-if="activeWorkflow.index === null">
       <hr>
       <b-card-group deck>
         <b-card  v-for="(tab, tabName, index) in options.tabs" :key="index"
@@ -20,7 +20,7 @@
       <!-- <b-button :variant="tab.color" class="m-2" :class="[`btn-${tab.color}`]" v-for="(tab, tabName, index) in options.tabs" :key="index" size="lg" @click.prevent="setActiveWorkflow(index, tabName, tab.icon)">
         <b-icon :icon="tab.icon"></b-icon> {{tabName}}
       </b-button> -->
-    </b-jumbotron>
+    </b-container>
     <b-row v-else no-gutters>
       <b-col cols="12" md="4" lg="3" ref="col-left" class="d-none d-md-block d-block">
         <b-card no-body>
