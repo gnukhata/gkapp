@@ -2,9 +2,24 @@
   <section class="container-fluid mt-2">
     <b-jumbotron lead="Choose a workflow item " v-if="activeWorkflow.index === null">
       <hr>
-      <b-button :variant="tab.color" class="m-2" :class="[`btn-${tab.color}`]" v-for="(tab, tabName, index) in options.tabs" :key="index" size="lg" @click.prevent="setActiveWorkflow(index, tabName, tab.icon)">
+      <b-card-group deck>
+        <b-card  v-for="(tab, tabName, index) in options.tabs" :key="index"
+          @click.prevent="setActiveWorkflow(index, tabName, tab.icon)"
+          class="text-center"
+          footer-text-variant="white"
+          footer-tag="footer"
+          :footer-bg-variant="tab.color"
+          :border-variant="tab.color"
+          style="width: 20em;">
+          <b-card-text>
+            <b-icon scale="4" :variant="tab.color" class="mt-4" :icon="tab.icon"></b-icon>
+          </b-card-text>
+          <b-card-text class="mt-4">{{tabName}}</b-card-text>
+        </b-card>
+      </b-card-group>
+      <!-- <b-button :variant="tab.color" class="m-2" :class="[`btn-${tab.color}`]" v-for="(tab, tabName, index) in options.tabs" :key="index" size="lg" @click.prevent="setActiveWorkflow(index, tabName, tab.icon)">
         <b-icon :icon="tab.icon"></b-icon> {{tabName}}
-      </b-button>
+      </b-button> -->
     </b-jumbotron>
     <b-row v-else no-gutters>
       <b-col cols="12" md="4" lg="3" ref="col-left" class="d-none d-md-block d-block">
@@ -30,7 +45,9 @@
                   <b-list-group :style="{height: listHeight + 'px', overflowY: 'auto'}">
                     <b-list-group-item @click.prevent="setSelectedEntity(item[cat.key])" button v-for="(item, index3) in cat.data" :key="index3">{{item[cat.key]}}</b-list-group-item>
                   </b-list-group>
-                  <b-button :to="cat.to" class="shadow position-absolute" :style="{ bottom: '30px', right: '30px', zIndex: 2}">+</b-button>
+                  <b-button :to="cat.to" class="btn shadow position-absolute" :style="{ bottom: '30px', right: '30px', zIndex: 2}">
+                    <b-icon icon="plus-circle"></b-icon>
+                  </b-button>
                 </b-tab>
               </b-tabs>
             </div>
