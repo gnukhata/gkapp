@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center">
+   <div class="d-flex justify-content-center">
     <div class="d-inline-block mt-4 mx-2" style="min-width: 300px">
       <div class="card">
         <div class="card-header text-left">
@@ -18,7 +18,7 @@
                   label-class="required">
                   <b-form-input id="input-1" placeholder="" v-model="form.name" trim required></b-form-input>
                 </b-form-group>
-                <b-card header="Stock" class="mb-3" v-if="!isService">
+                <b-card header-bg-variant="primary" header-text-variant="white" border-variant="primary" header="Stock" class="mb-3" v-if="!isService">
                   <b-form-group
                     label="Unit of Measure"
                     label-for="input-2"
@@ -36,7 +36,7 @@
                     </b-input-group>
                   </b-form-group>
                 </b-card>
-                <b-card header="Price">
+                <b-card header-bg-variant="primary" header-text-variant="white" border-variant="primary" header="Price">
                   <b-form-group
                     label="MRP"
                     label-for="input-4"
@@ -73,7 +73,7 @@
                 </b-card>
               </b-col>
               <b-col cols="12" md="6" class="mb-3">
-                <b-card header="Tax">
+                <b-card header-bg-variant="primary" header-text-variant="white" border-variant="primary" header="Tax">
                   <b-row>
                     <b-col cols="12" xl="5">
                       <b-form-group
