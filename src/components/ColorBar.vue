@@ -28,9 +28,9 @@ export default {
     methods: {
         ver() {
             this.version = [
-                `background-color: ${this.number.zero}; height: 3px; width: 50%`,
-                `background-color: ${this.number.one}; height: 3px; width: 50%`,
-                `background-color: ${this.number.zero}; height: 3px; width: 50%`
+                `background-color: ${this.number.zero}; height: 3px; width: 55%`,
+                `background-color: ${this.number.one}; height: 3px; width: 35%`,
+                `background-color: ${this.number.zero}; height: 3px; width: 15%`
             ]
         }
     },
