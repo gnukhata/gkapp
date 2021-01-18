@@ -54,7 +54,7 @@
         </b-card>
       </b-col>
       <b-col cols="12" md="8" lg="9" ref="col-right" class="d-none d-md-block">
-        <b-card no-body :style="{height: '100%', overflowY: 'auto'}">
+        <b-card no-body :style="{height: '100%', overflowY: 'auto'}" class="ml-1">
           <template #header v-if="selectedEntity !== null">
             <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"><b-icon icon="arrow-left"></b-icon></b-button>
             <h6 class="m-2 d-inline-block">{{selectedEntity}}</h6>

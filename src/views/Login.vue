@@ -182,7 +182,7 @@ import {mapState} from 'vuex'
                       // Alert the user on successful login
                       this.$bvToast.toast(`Welcome to gnukhata!`, {
                         title: 'Login Successful',
-                        autoHideDelay: 3000,
+                        autoHideDelay: 5000,
                         appendToast: true,
                         variant: 'success',
                         solid: true

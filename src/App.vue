@@ -49,12 +49,17 @@ export default {
   created() {
     if (this.$workbox) {
       this.$workbox.addEventListener("waiting", () => {
-        this.showUpdateUI = true;
+      // this.showUpdateUI = true;
+      this.$workbox.messageSW({ type: "SKIP_WAITING" })
+      this.$bvToast.toast(`Updating app to lastest version`, {
+        title: 'Updating',
+        variant: 'link'
+        })
       });
     }
   // async accept() {
   // this.showUpdateUI = false;
-  // await this.$workbox.messageSW({ type: "SKIP_WAITING" });
+  // this.$workbox.messageSW({ type: "SKIP_WAITING" })
   // }
   }
 }
