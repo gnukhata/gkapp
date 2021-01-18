@@ -28,7 +28,7 @@
         </b-navbar-nav>
       </b-collapse>
       </b-navbar>
-     <!-- <title-bar></title-bar> -->
+     <color-bar></color-bar>
     </header>
     <main role="main">
       <router-view/>
@@ -37,11 +37,11 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-// import TitleBar from './components/TitleBar'
+import ColorBar from '@/components/ColorBar.vue'
 
 export default {
   name: 'App',
-  // components: { TitleBar },
+  components: { ColorBar },
   computed: {
     activeNav: (self) => self.$route.name,
     ...mapState(['userName'])
