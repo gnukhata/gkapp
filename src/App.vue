@@ -18,7 +18,8 @@
             <b-nav-item-dropdown v-if="$router.currentRoute.path !== '/' && $router.currentRoute.path !== '/createorg'" right>
               <!-- Using 'button-content' slot -->
               <template #button-content>
-                <em>{{userName}} </em>
+                <!-- <em>{{userName}} </em> -->
+                <b-button variant="primary">{{userName}}</b-button>
               </template>
               <b-dropdown-item href="#">Profile</b-dropdown-item>
               <router-link to="/">
