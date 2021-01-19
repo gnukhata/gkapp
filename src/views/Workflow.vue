@@ -90,13 +90,13 @@
       </b-col>
       <!-- Right Pane: Selected Workflow item's Data  -->
       <b-col cols="12" md="8" lg="9" ref="col-right" class="d-none d-md-block">
-        <b-card no-body :style="{height: '100%', overflowY: 'auto'}" class="ml-1">
+        <b-card no-body :style="{height: '100%', overflowY: 'auto'}" :class="{'ml-1': (!isMobileView)}">
           <template #header v-if="selectedEntity !== null">
             <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"><b-icon icon="arrow-left"></b-icon></b-button>
             <h6 class="m-2 d-inline-block">{{selectedEntity}}</h6>
           </template>
           <!-- Body -->
-          <div :style="{height: (listHeight + 50) + 'px', overflowY: 'auto'}">
+          <div :style="{height: (listHeight) + 'px', overflowY: 'auto'}">
           </div>
         </b-card>
       </b-col>
@@ -224,7 +224,7 @@ export default {
     activeTabOptions: (self) => self.options.tabs[self.activeWorkflow.name],
     isMobileView: () => (window.innerWidth < 768),
     headerHeight: () => document.getElementById('app-header').offsetHeight,
-    listHeight: (self) => window.innerHeight - (self.headerHeight + 200),
+    listHeight: (self) => window.innerHeight - (self.headerHeight + 100),
     filteredData: function () {
       let data = this.options.tabs[this.activeWorkflow.name].data
       if(this.filter.isActive === true) {
