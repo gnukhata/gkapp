@@ -225,7 +225,7 @@ export default {
       // gkCoreUrl: 'https://satheerthan.site:6543', // 'http://localhost:6543',
       isLoading: false,
       options: {
-        orgType: [{ text: 'Profit making', value: 0 }, { text: 'Not For Profit', value: 1 }],
+        orgType: [{ text: 'Profit Making', value: 0 }, { text: 'Not For Profit', value: 1 }],
         pwdFieldTypes: ['lowercase', 'uppercase', 'symbol', 'number']
       },
       orgName: '',
