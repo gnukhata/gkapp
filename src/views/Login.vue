@@ -1,15 +1,15 @@
 <template>
-<section class="container-fluid mt-3">
-  <div class="card shadow">
-    <div class="card-header">Login</div>
-      <div class="card-body">
-          <b-form class="text-left">
+<section class="d-flex justify-content-center mt-3">
+  <b-card header="Login" class="shadow" header-bg-variant="primary" header-text-variant="light">
+    <!-- <div class="card-header">Login</div> -->
+      <b-card-body class="card-body">
+          <b-form>
           <b-alert show variant="info">Demo Username: <b>user_a</b> / Password: <b>user_a</b> / Company: <b>ABC Delivery</b></b-alert>
           <!--Username area-->
           <b-form-group  
             label="Username"
             description="* Required"
-            label-cols-sm="1"
+            label-cols="auto"
             >
             <b-form-input
               id="input-1"
@@ -25,7 +25,7 @@
             label="Password" 
             description="* Required" 
             label-for="input-2"
-            label-cols-sm="1">
+            label-cols="auto">
             <b-form-input
               id="input-2"
               v-model="form.userpassword"
@@ -37,9 +37,9 @@
           <!--Select company area-->
           <b-form-group 
             id="input-group-3" 
-            label="Select Company" 
+            label="Company" 
             description="* Required"
-            label-cols-sm="1" 
+            label-cols="auto" 
             label-for="input-3">
             <b-overlay 
             :show="isDisabled"
@@ -71,7 +71,7 @@
             label="Captcha" 
             label-for="input-1" 
             description="* Required"
-            label-cols-sm="1">
+            label-cols="auto">
             <b-form-row>
                 <canvas aria-label="Captcha field" width="70" height="30" id="captchaCanvas" style="border:1px solid #d3d3d3;"></canvas>
                 <b-button size="sm" 
@@ -91,7 +91,7 @@
             label="Answer" 
 
             description="* Required"
-            label-cols-sm="1">
+            label-cols="auto">
             <b-form-input
               v-model="userAnswer"
               type="number"
@@ -99,8 +99,7 @@
               required>
               </b-form-input>
           </b-form-group>
-          <hr>
-          <!-- Login & create account area -->
+          <!-- Login & create account buttons-->
           <div class="float-right">
             <b-button-group>
               <b-button @click="login()" :disabled="isDisabled" class="mr-2" variant="primary">
@@ -115,8 +114,8 @@
             </b-button-group>
           </div>
         </b-form>
-      </div>
-  </div>
+      </b-card-body>
+  </b-card>
 </section>
 </template>
 <script>
