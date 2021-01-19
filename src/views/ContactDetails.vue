@@ -3,12 +3,24 @@
     <div class="d-inline-block mt-4 mx-2" style="min-width: 300px">
       <div class="card">
         <div class="card-header text-left">
-          <h1>{{formType}} Details</h1>
+          <h1>Contact Person Details</h1>
         </div>
         <div class="card-body">
           <b-form class="text-left" @submit.prevent="onSubmit">
             <b-row>
               <b-col :md="columnOneWidth">
+                <b-form-group
+                  label-cols="3"
+                  label="Type">
+                  <b-form-radio-group
+                    button-variant="outline-primary"
+                    v-model="type"
+                    buttons
+                    name="filter-form-sort">
+                    <b-form-radio value="customer">Customer</b-form-radio>
+                    <b-form-radio value="supplier">Supplier</b-form-radio>
+                  </b-form-radio-group>
+                </b-form-group>
                 <b-form-group
                   label="Name"
                   label-for="input-1"
@@ -177,18 +189,10 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 
 export default {
-  name: 'CustomerSupplier',
+  name: 'ContactDetails',
   components: {
   },
   props: {
-    type: {
-      type: String,
-      validator: function (value) {
-        // The value must match one of these strings
-        return ['customer', 'supplier'].indexOf(value) !== -1
-      },
-      required: true
-    },
     mode: {
       type: String,
       validator: function (value) {
@@ -199,6 +203,7 @@ export default {
   },
   data () {
     return {
+      type: 'customer',
       blankURL: 'http://localhost:1111',
       isLoading: false,
       showOptional: false,

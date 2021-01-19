@@ -3,16 +3,30 @@
     <div class="d-inline-block mt-4 mx-2" style="min-width: 300px">
       <div class="card">
         <div class="card-header text-left">
-          <h1>{{formType}} Details</h1>
+          <h1>Business Item Details</h1>
         </div>
         <div class="card-body">
           <b-form class="text-left" @submit.prevent="onSubmit">
             <b-row>
               <b-col class="mb-3">
                 <b-form-group
-                  class="pl-4"
+                  class="pl-3"
+                  label-cols="3"
+                  label-class="required"
+                  aria-describedby="Sort by Ascending or Descending"
+                  label="Type">
+                  <b-form-radio-group
+                    button-variant="outline-primary"
+                    v-model="type"
+                    buttons
+                    name="filter-form-sort">
+                    <b-form-radio value="product">Product</b-form-radio>
+                    <b-form-radio value="service">Service</b-form-radio>
+                  </b-form-radio-group>
+                </b-form-group>
+                <b-form-group
+                  class="pl-3"
                   label="Name"
-                  label-align=""
                   label-for="input-1"
                   label-cols="3"
                   label-class="required">
@@ -160,18 +174,10 @@ import axios from 'axios'
 import { mapState } from 'vuex'
 
 export default {
-  name: 'ProductService',
+  name: 'BusinessDetails',
   components: {
   },
   props: {
-    type: {
-      type: String,
-      validator: function (value) {
-        // The value must match one of these strings
-        return ['product', 'service'].indexOf(value) !== -1
-      },
-      required: true
-    },
     mode: {
       type: String,
       validator: function (value) {
@@ -182,6 +188,7 @@ export default {
   },
   data () {
     return {
+      type: 'product', // product, service
       blankURL: 'http://localhost:1111',
       isLoading: false,
       showOptional: false,

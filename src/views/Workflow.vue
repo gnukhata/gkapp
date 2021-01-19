@@ -137,7 +137,7 @@ export default {
             color: 'primary',
             data: [],
             key: 'custname',
-            to: { name: 'Customer_Supplier', params: { type: 'supplier', mode:'create' } },
+            to: { name: 'Contact_Details', params: { mode: 'create' } },
             filters: {
               items: [
                 {
@@ -170,7 +170,7 @@ export default {
             color: 'warning',
             data: [],
             key: 'productdesc',
-            to: { name: 'Product_Service', params: { type: 'service', mode:'create' } },
+            to: { name: 'Business_Details', params: { mode: 'create' } },
             filters: {
               items: [
                 {
