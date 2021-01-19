@@ -43,15 +43,15 @@ const routes = [
     component: () => import(/* webpackChunkName: "workflow" */ '../views/Workflow.vue')
   },
   {
-    path: '/customer_supplier/:type/:mode',
-    name: 'Customer_Supplier',
-    component: () => import(/* webpackChunkName: "customer_supplier" */ '../views/CustomerSupplier.vue'),
+    path: '/contact_details/:mode',
+    name: 'Contact_Details',
+    component: () => import(/* webpackChunkName: "contact_details" */ '../views/ContactDetails.vue'),
     props: true
   },
   {
-    path: '/product_service/:type/:mode',
-    name: 'Product_Service',
-    component: () => import(/* webpackChunkName: "product_service" */ '../views/ProductService.vue'),
+    path: '/business_details/:mode',
+    name: 'Business_Details',
+    component: () => import(/* webpackChunkName: "business_details" */ '../views/BusinessDetails.vue'),
     props: true
   }
 ]
