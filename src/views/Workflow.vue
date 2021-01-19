@@ -80,7 +80,12 @@
             <!-- Worflow Data List -->
             <div v-for="(tab, tabName, index1) in options.tabs" :key="index1" :class="{'d-none' : (activeWorkflow.index !== index1)}">
               <b-list-group :style="{height: listHeight + 'px', overflowY: 'auto'}">
-                <b-list-group-item @click.prevent="setSelectedEntity(item[tab.key])" button v-for="(item, index3) in filteredData" :key="index3">{{item[tab.key]}}</b-list-group-item>
+                <b-list-group-item @click.prevent="setSelectedEntity(item[tab.key])" button v-for="(item, index3) in filteredData" :key="index3">
+                  <div>
+                    <b-icon :icon="item.icon"></b-icon>
+                    {{item[tab.key]}}
+                  </div>
+                </b-list-group-item>
               </b-list-group>
               <b-button :to="tab.to" class="btn shadow position-absolute" :style="{ bottom: '30px', right: '30px', zIndex: 2}">
                 <b-icon icon="plus-circle"></b-icon>
@@ -329,14 +334,14 @@ export default {
 
         // Customer List
         if(resp1.status === 200) {
-          contacts = resp1.data.gkresult.map((item) => Object.assign({ csflag: true }, item))
+          contacts = resp1.data.gkresult.map((item) => Object.assign({ csflag: true, icon: 'person-fill' }, item))
         } else {
           console.log(resp1.message)
         }
 
         // Supplier List
         if(resp2.status === 200) {
-          contacts.push(...resp2.data.gkresult.map((item) => Object.assign({ csflag: false }, item)))
+          contacts.push(...resp2.data.gkresult.map((item) => Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)))
           self.options.tabs['Contacts'].data = self.orderByFilter(contacts, 'asc', 'custid')
         } else {
           console.log(resp2.message)
@@ -344,7 +349,7 @@ export default {
 
         // Products & Services List
         if(resp3.status === 200) {
-          self.options.tabs['Business'].data = resp3.data.gkresult
+          self.options.tabs['Business'].data = resp3.data.gkresult.map((item) => Object.assign({icon: (item.gsflag === 7) ? 'box' : 'headset' }, item))
         } else {
           console.log(resp3.message)
         }
