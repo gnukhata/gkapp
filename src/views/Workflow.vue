@@ -84,6 +84,10 @@
                   <div>
                     <b-icon :icon="item.icon"></b-icon>
                     {{item[tab.key]}}
+                    <div v-if="activeWorkflow.name === 'Transactions'">
+                      <small>{{ '₹ '+item.invoicetotal }}</small>
+                      <small class="float-right">{{ item.invoicedate }}</small>
+                    </div>
                   </div>
                 </b-list-group-item>
               </b-list-group>
@@ -207,9 +211,40 @@ export default {
             icon: 'receipt',
             color: 'success',
             data: [],
+            key: 'custname',
             filters: {
-              items: [],
-              properties: []
+              items: [
+                {
+                  text: 'All',
+                  props: {}
+                },
+                {
+                  text: 'Sale',
+                  props: { key: 'csflag', value: 3 }
+                },
+                { 
+                  text: 'Purchase',
+                  props: { key: 'csflag', value: 19 }
+                },
+              ],
+              properties: [
+                {
+                  text: 'None',
+                  props: {}
+                },
+                {
+                  text: 'Name',
+                  props: { key: 'custname' }
+                },
+                {
+                  text: 'Amount',
+                  props: { key: 'invoicetotal' }
+                },
+                {
+                  text: 'Date',
+                  props: { key: 'invoicedate' }
+                }
+              ]
             }
           },
           'Reports': {
@@ -323,11 +358,12 @@ export default {
       const requests = [
         Axios.get(`${this.gkCoreUrl}/customersupplier?qty=custall`, config).catch(error => { return error }),
         Axios.get(`${this.gkCoreUrl}/customersupplier?qty=supall`, config).catch(error => { return error }),
-        Axios.get(`${this.gkCoreUrl}/products`, config).catch(error => { return error })
+        Axios.get(`${this.gkCoreUrl}/products`, config).catch(error => { return error }),
+        Axios.get(`${this.gkCoreUrl}/invoice?inv=all`, config).catch(error => { return error }),
       ]
 
       const self = this
-      Promise.all([...requests]).then(([resp1, resp2, resp3]) => {
+      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
         self.isLoading = false
         
         let contacts = []
@@ -352,6 +388,12 @@ export default {
           self.options.tabs['Business'].data = resp3.data.gkresult.map((item) => Object.assign({icon: (item.gsflag === 7) ? 'box' : 'headset' }, item))
         } else {
           console.log(resp3.message)
+        }
+
+        if(resp4.status === 200) {
+          self.options.tabs['Transactions'].data = resp4.data.gkresult.map((item) => Object.assign({icon: (item.csflag === 3) ? 'cash-stack' : 'bag-fill' }, item))
+        } else {
+          console.log(resp4.message)
         }
       })
     },
