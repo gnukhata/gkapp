@@ -3,7 +3,7 @@
     <header id="app-header">
       <!--navbar-->
       <b-navbar toggleable="lg" type="light" variant="light">
-        <b-navbar-brand :to="{ name: 'Login' }">
+        <b-navbar-brand>
           <img src="img/gk.png" width="30" height="30" class="d-inline-block align-top" alt="GNUKhata Logo">
           GNUKhata
         </b-navbar-brand>
@@ -67,6 +67,7 @@ export default {
 </script>
 <style scoped>
 .router-link-exact-active {
-  font-weight: bolder;
+  /* font-weight: bolder; */
+  border-bottom: 2px solid;
 }
 </style>
