@@ -178,15 +178,15 @@ import {mapState} from 'vuex'
                         user: { username: this.form.username },
                         gkCoreUrl: this.customUrl
                       })
+                      this.$router.push('/workflow')
                       // Alert the user on successful login
                       this.$bvToast.toast(`Welcome to gnukhata!`, {
                         title: 'Login Successful',
-                        autoHideDelay: 5000,
+                        autoHideDelay: 3000,
                         appendToast: true,
                         variant: 'success',
                         solid: true
                       })
-                      this.$router.push('/workflow')
                     } else {
                       // Alert the user on captcha failure
                       console.log('Invalid Captcha answer')

@@ -21,10 +21,8 @@
                 <!-- <em>{{userName}} </em> -->
                 <b-button variant="primary">{{userName}}</b-button>
               </template>
-              <b-dropdown-item href="#">Profile</b-dropdown-item>
-              <router-link to="/">
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-              </router-link>
+              <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
+              <b-dropdown-item @click="logOut" href="#">Log Out</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -47,15 +45,36 @@ export default {
     activeNav: (self) => self.$route.name,
     ...mapState(['userName'])
   },
+  methods: {
+    /**
+     * Logout the user
+     */
+    logOut() {
+      localStorage.clear() // clear localStorage
+      this.$router.push('/') // redirect to login page
+      // alert the user on logout
+      this.$bvToast.toast(`Logged out succesfully`, {
+        title: 'Logout',
+        solid: true,
+        variant: 'success'
+        })
+    }
+  },
   created() {
+    /**
+     * fetch latest app changes
+     */
     if (this.$workbox) {
       this.$workbox.addEventListener("waiting", () => {
       // this.showUpdateUI = true;
-      this.$workbox.messageSW({ type: "SKIP_WAITING" })
+      // notify the user before updating the app
       this.$bvToast.toast(`Updating app to lastest version`, {
         title: 'Updating',
-        variant: 'link'
+        solid: 'true',
+        variant: 'warning'
         })
+      // pull the latest code
+      this.$workbox.messageSW({ type: "SKIP_WAITING" })
       });
     }
   // async accept() {
