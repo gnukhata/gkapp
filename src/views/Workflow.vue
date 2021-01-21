@@ -80,7 +80,16 @@
             <!-- Worflow Data List -->
             <div v-for="(tab, tabName, index1) in options.tabs" :key="index1" :class="{'d-none' : (activeWorkflow.index !== index1)}">
               <b-list-group :style="{height: listHeight + 'px', overflowY: 'auto'}">
-                <b-list-group-item @click.prevent="setSelectedEntity(item[tab.key])" button v-for="(item, index3) in filteredData" :key="index3">{{item[tab.key]}}</b-list-group-item>
+                <b-list-group-item @click.prevent="setSelectedEntity(item[tab.key])" button v-for="(item, index3) in filteredData" :key="index3">
+                  <div>
+                    <b-icon :icon="item.icon"></b-icon>
+                    {{item[tab.key]}}
+                    <div v-if="activeWorkflow.name === 'Transactions'">
+                      <small>{{ '₹ '+item.invoicetotal }}</small>
+                      <small class="float-right">{{ item.invoicedate }}</small>
+                    </div>
+                  </div>
+                </b-list-group-item>
               </b-list-group>
               <b-button :to="tab.to" class="btn shadow position-absolute" :style="{ bottom: '30px', right: '30px', zIndex: 2}">
                 <b-icon icon="plus-circle"></b-icon>
@@ -202,9 +211,40 @@ export default {
             icon: 'receipt',
             color: 'success',
             data: [],
+            key: 'custname',
             filters: {
-              items: [],
-              properties: []
+              items: [
+                {
+                  text: 'All',
+                  props: {}
+                },
+                {
+                  text: 'Sale',
+                  props: { key: 'csflag', value: 3 }
+                },
+                { 
+                  text: 'Purchase',
+                  props: { key: 'csflag', value: 19 }
+                },
+              ],
+              properties: [
+                {
+                  text: 'None',
+                  props: {}
+                },
+                {
+                  text: 'Name',
+                  props: { key: 'custname' }
+                },
+                {
+                  text: 'Amount',
+                  props: { key: 'invoicetotal' }
+                },
+                {
+                  text: 'Date',
+                  props: { key: 'invoicedate' }
+                }
+              ]
             }
           },
           'Reports': {
@@ -318,25 +358,26 @@ export default {
       const requests = [
         Axios.get(`${this.gkCoreUrl}/customersupplier?qty=custall`, config).catch(error => { return error }),
         Axios.get(`${this.gkCoreUrl}/customersupplier?qty=supall`, config).catch(error => { return error }),
-        Axios.get(`${this.gkCoreUrl}/products`, config).catch(error => { return error })
+        Axios.get(`${this.gkCoreUrl}/products`, config).catch(error => { return error }),
+        Axios.get(`${this.gkCoreUrl}/invoice?inv=all`, config).catch(error => { return error }),
       ]
 
       const self = this
-      Promise.all([...requests]).then(([resp1, resp2, resp3]) => {
+      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
         self.isLoading = false
         
         let contacts = []
 
         // Customer List
         if(resp1.status === 200) {
-          contacts = resp1.data.gkresult.map((item) => Object.assign({ csflag: true }, item))
+          contacts = resp1.data.gkresult.map((item) => Object.assign({ csflag: true, icon: 'person-fill' }, item))
         } else {
           console.log(resp1.message)
         }
 
         // Supplier List
         if(resp2.status === 200) {
-          contacts.push(...resp2.data.gkresult.map((item) => Object.assign({ csflag: false }, item)))
+          contacts.push(...resp2.data.gkresult.map((item) => Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)))
           self.options.tabs['Contacts'].data = self.orderByFilter(contacts, 'asc', 'custid')
         } else {
           console.log(resp2.message)
@@ -344,9 +385,15 @@ export default {
 
         // Products & Services List
         if(resp3.status === 200) {
-          self.options.tabs['Business'].data = resp3.data.gkresult
+          self.options.tabs['Business'].data = resp3.data.gkresult.map((item) => Object.assign({icon: (item.gsflag === 7) ? 'box' : 'headset' }, item))
         } else {
           console.log(resp3.message)
+        }
+
+        if(resp4.status === 200) {
+          self.options.tabs['Transactions'].data = resp4.data.gkresult.map((item) => Object.assign({icon: (item.csflag === 3) ? 'cash-stack' : 'bag-fill' }, item))
+        } else {
+          console.log(resp4.message)
         }
       })
     },
