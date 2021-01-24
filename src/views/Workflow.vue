@@ -167,17 +167,17 @@
             ></b-button>
             <h5 class="m-2 d-inline-block">
               <b-icon :icon="selectedEntity.icon"></b-icon>
-              {{ selectedEntity.custname }}
+              {{ selectedEntity.custname }}'s Profile
             </h5>
           </template>
-          <b-card-body v-if="selectedEntity !== null">
+          <b-card-body style="height: 400px" v-if="selectedEntity !== null">
             <contact-details
               :customer="selectedEntity"
               :key="selectedEntity.custid"
             ></contact-details>
           </b-card-body>
           <!-- Body -->
-          <div :style="{ height: listHeight + 'px', overflowY: 'auto' }"></div>
+          <!-- <div :style="{ height: listHeight + 'px', overflowY: 'auto' }"></div> -->
         </b-card>
       </b-col>
     </b-row>

@@ -183,19 +183,22 @@
         </b-form-group>
       </b-form-group>
     </b-card>
-    <b-button class="m-1" @click="editMode = false" variant="warning"
-      >Edit</b-button
-    >
-    <b-button
-      v-if="!editMode"
-      class="m-1"
-      @click="editMode = true"
-      variant="danger"
-      >Cancel</b-button
-    >
-    <b-button v-if="!editMode" @click="editMode = true" variant="success"
-      >Submit Details</b-button
-    >
+    <!-- Action Buttons -->
+    <b-button-group size="sm" class="mt-2 mb-2">
+      <b-button class="mr-1" @click="editMode = false" variant="warning"
+        ><b-icon icon="pencil-square"></b-icon> Edit</b-button
+      >
+      <b-button
+        v-if="!editMode"
+        class="mr-1"
+        @click="editMode = true"
+        variant="danger"
+        ><b-icon icon="x-circle"></b-icon> Cancel</b-button
+      >
+      <b-button v-if="!editMode" @click="updateDetails" variant="success"
+        ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
+      >
+    </b-button-group>
   </div>
 </template>
 
@@ -235,6 +238,17 @@ export default {
         .catch((err) => {
           console.log(err.message);
         });
+    },
+    /**
+     * Update user details
+     */
+    updateDetails() {
+      this.$bvToast.toast("Profile Details Updated", {
+        title: "Success",
+        variant: "success",
+        solid: true,
+      });
+      this.editMode = true;
     },
   },
   mounted() {
