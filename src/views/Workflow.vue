@@ -159,7 +159,7 @@
         <b-card
           no-body
           :style="{ height: '100%', overflowY: 'auto' }"
-          :class="{ 'ml-1': !isMobileView }"
+          :class="{ 'ml-3': !isMobileView }"
         >
           <template #header v-if="selectedEntity !== null">
             <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"
