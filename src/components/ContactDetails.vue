@@ -2,6 +2,11 @@
   <div class="main">
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
     <!-- Contact Details-->
+    <div v-if="noEdit" class="d-flex flex-row-reverse mb-2">
+      <b-button @click="noEdit = false" variant="warning"
+        ><b-icon icon="pencil-square"></b-icon> Edit Profile</b-button
+      >
+    </div>
     <b-card bg-variant="light" border-variant="secondary">
       <b-form-group
         label-cols-lg="2"
@@ -19,7 +24,7 @@
           <b-form-input
             :value="details.custname"
             id="nested-street"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
 
@@ -32,7 +37,7 @@
           <b-form-input
             :value="details.custphone"
             id="nested-city"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
 
@@ -45,7 +50,7 @@
           <b-form-input
             :value="details.custemail"
             id="nested-state"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
 
@@ -58,7 +63,7 @@
           <b-form-input
             :value="details.custfax"
             id="nested-country"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
       </b-form-group>
@@ -81,7 +86,7 @@
           <b-form-input
             :value="details.custaddr"
             id="nested-street"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
 
@@ -102,7 +107,7 @@
         >
           <b-form-input
             :value="details.state"
-            :disabled="editMode"
+            :disabled="noEdit"
             id="nested-state"
           ></b-form-input>
         </b-form-group>
@@ -116,7 +121,7 @@
           <b-form-input
             :value="details.pincode"
             id="nested-country"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
       </b-form-group>
@@ -140,7 +145,7 @@
           <b-form-input
             :value="details.custpan"
             id="nested-street"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
 
@@ -153,7 +158,7 @@
           <b-form-input
             :value="details.custtan"
             id="nested-city"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
 
@@ -165,7 +170,7 @@
         >
           <b-form-input
             :value="details.state"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
 
@@ -178,27 +183,30 @@
           <b-form-input
             :value="details.pincode"
             id="nested-country"
-            :disabled="editMode"
+            :disabled="noEdit"
           ></b-form-input>
         </b-form-group>
       </b-form-group>
     </b-card>
     <!-- Action Buttons -->
-    <b-button-group size="sm" class="mt-2 mb-2">
-      <b-button class="mr-1" @click="editMode = false" variant="warning"
-        ><b-icon icon="pencil-square"></b-icon> Edit</b-button
+    <div class="mt-2 mb-3 d-flex flex-row-reverse">
+      <b-button
+        size="sm"
+        class="ml-2"
+        v-if="!noEdit"
+        @click="updateDetails"
+        variant="success"
+        ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
       >
       <b-button
-        v-if="!editMode"
-        class="mr-1"
-        @click="editMode = true"
+        size="sm"
+        v-if="!noEdit"
+        class=""
+        @click="noEdit = true"
         variant="danger"
         ><b-icon icon="x-circle"></b-icon> Cancel</b-button
       >
-      <b-button v-if="!editMode" @click="updateDetails" variant="success"
-        ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
-      >
-    </b-button-group>
+    </div>
   </div>
 </template>
 
@@ -213,7 +221,7 @@ export default {
     return {
       details: null,
       isLoading: true,
-      editMode: true,
+      noEdit: true,
     };
   },
   computed: {
@@ -248,7 +256,7 @@ export default {
         variant: "success",
         solid: true,
       });
-      this.editMode = true;
+      this.noEdit = true;
     },
   },
   mounted() {
