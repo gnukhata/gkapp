@@ -156,10 +156,12 @@
       </b-col>
       <!-- Right Pane: Selected Workflow item's Data  -->
       <b-col cols="12" md="8" lg="9" ref="col-right" class="d-none d-md-block">
+        <!-- Customer / Supplier profile -->
         <b-card
           no-body
           :style="{ height: '100%', overflowY: 'auto' }"
           :class="{ 'ml-3': !isMobileView }"
+          v-if="selectedEntity"
         >
           <template #header v-if="selectedEntity !== null">
             <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"
@@ -176,9 +178,32 @@
               :key="selectedEntity.custid"
             ></contact-details>
           </b-card-body>
-          <!-- Body -->
-          <!-- <div :style="{ height: listHeight + 'px', overflowY: 'auto' }"></div> -->
         </b-card>
+        <!-- Goods / Services Profile -->
+        <!-- <b-card
+          no-body
+          :style="{ height: '100%', overflowY: 'auto' }"
+          :class="{ 'ml-3': !isMobileView }"
+        >
+          {{ selectedEntity }}
+          <template #header v-if="selectedEntity !== null">
+            <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"
+              ><b-icon icon="arrow-left"></b-icon
+            ></b-button>
+            <h5 class="m-2 d-inline-block">
+              <b-icon :icon="selectedEntity.icon"></b-icon>
+              {{ selectedEntity.custname }} Profile
+            </h5>
+          </template>
+          <b-card-body style="height: 400px" v-if="selectedEntity !== null">
+            <contact-details
+              :customer="selectedEntity"
+              :key="selectedEntity.custid"
+            ></contact-details>
+          </b-card-body>
+        </b-card> -->
+        <!-- Body -->
+        <!-- <div :style="{ height: listHeight + 'px', overflowY: 'auto' }"></div> -->
       </b-col>
     </b-row>
   </section>
