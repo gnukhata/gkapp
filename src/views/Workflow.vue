@@ -161,7 +161,7 @@
           no-body
           :style="{ height: '100%', overflowY: 'auto' }"
           :class="{ 'ml-3': !isMobileView }"
-          v-if="selectedEntity"
+          v-if="selectedEntity && !selectedEntity.gsflag"
         >
           <template #header v-if="selectedEntity !== null">
             <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"
@@ -180,19 +180,22 @@
           </b-card-body>
         </b-card>
         <!-- Goods / Services Profile -->
-        <!-- <b-card
+        <b-card
           no-body
           :style="{ height: '100%', overflowY: 'auto' }"
           :class="{ 'ml-3': !isMobileView }"
+          v-if="selectedEntity && selectedEntity.gsflag"
         >
-          {{ selectedEntity }}
+          <code class="m-3">
+            {{ selectedEntity }}
+          </code>
           <template #header v-if="selectedEntity !== null">
             <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"
               ><b-icon icon="arrow-left"></b-icon
             ></b-button>
             <h5 class="m-2 d-inline-block">
               <b-icon :icon="selectedEntity.icon"></b-icon>
-              {{ selectedEntity.custname }} Profile
+              {{ selectedEntity.productdesc }} Profile
             </h5>
           </template>
           <b-card-body style="height: 400px" v-if="selectedEntity !== null">
@@ -201,7 +204,7 @@
               :key="selectedEntity.custid"
             ></contact-details>
           </b-card-body>
-        </b-card> -->
+        </b-card>
         <!-- Body -->
         <!-- <div :style="{ height: listHeight + 'px', overflowY: 'auto' }"></div> -->
       </b-col>
