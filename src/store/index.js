@@ -13,37 +13,23 @@ export default new Vuex.Store({
     /* Session auth states */
     userAuthenticated: null,
     orgCode: null,
+    orgName: null,
     authToken: null,
-
-    /* NavBar */
-    isNavBarVisible: true,
-
-    /* FooterBar */
-    isFooterBarVisible: true,
-
-    /* Aside */
-    isAsideVisible: true,
-    isAsideMobileExpanded: false,
-
-    /* Dark mode */
-    isDarkModeActive: false,
-
-    /* used for aria label id's */
-    ariaIterator: 0,
 
     gkCoreUrl: 'https://satheerthan.site:6543',
     gkCoreTestUrl: 'http://localhost:6543'
   },
   mutations: {
     /* A fit-them-all commit */
-    basic (state, payload) {
+    basic(state, payload) {
       state[payload.key] = payload.value
     },
 
     // Init the required vuex store states from session storage
-    initStore (state) {
+    initStore(state) {
       const authStatus = localStorage.getItem('userAuthenticated')
       const orgCode = localStorage.getItem('orgCode')
+      const orgName = localStorage.getItem('orgName')
       const authToken = localStorage.getItem('authToken')
       const userName = localStorage.getItem('userName')
 
@@ -53,6 +39,10 @@ export default new Vuex.Store({
 
       if (orgCode) {
         state.orgCode = parseInt(orgCode)
+      }
+
+      if (orgName) {
+        state.orgName = orgName
       }
 
       if (authToken) {
@@ -65,23 +55,28 @@ export default new Vuex.Store({
     },
 
     /* Session Auth States */
-    setAuthStatus (state, payload) {
+    setAuthStatus(state, payload) {
       state.userAuthenticated = !!payload
       localStorage.setItem('userAuthenticated', state.userAuthenticated)
     },
 
-    setOrgCode (state, payload) {
+    setOrgCode(state, payload) {
       state.orgCode = payload
       localStorage.setItem('orgCode', state.orgCode)
     },
 
-    setAuthToken (state, payload) {
+    setOrgName(state, payload) {
+      state.orgName = payload
+      localStorage.setItem('orgName', state.orgName)
+    },
+
+    setAuthToken(state, payload) {
       state.authToken = payload
       localStorage.setItem('authToken', state.authToken)
     },
 
     /* User */
-    user (state, payload) {
+    user(state, payload) {
       if (payload.username) {
         state.userName = payload.username
         localStorage.setItem('userName', state.userName)
@@ -96,71 +91,20 @@ export default new Vuex.Store({
       }
     },
 
-    /* Aside Mobile */
-    // asideMobileStateToggle (state, payload = null) {
-    //   const htmlClassName = 'has-aside-mobile-expanded'
-
-    //   let isShow
-
-    //   if (payload !== null) {
-    //     isShow = payload
-    //   } else {
-    //     isShow = !state.isAsideMobileExpanded
-    //   }
-
-    //   if (isShow) {
-    //     document.documentElement.classList.add(htmlClassName)
-    //   } else {
-    //     document.documentElement.classList.remove(htmlClassName)
-    //   }
-
-    //   state.isAsideMobileExpanded = isShow
-    // },
-
-    /* Aside Login */
-    // setAsideVisibility (state, payload = false) {
-    //   const htmlClassNames = [
-    //     'has-aside-mobile-expanded',
-    //     'has-aside-left',
-    //     'has-aside-mobile-transition',
-    //     'has-aside-expanded'
-    //   ]
-
-    //   const isShow = !!payload
-
-    //   if (isShow) {
-    //     document.documentElement.classList.add(...htmlClassNames)
-    //   } else {
-    //     document.documentElement.classList.remove(...htmlClassNames)
-    //   }
-
-    //   state.isAsideVisible = isShow
-    // },
-
-    /* Dark Mode */
-    // darkModeToggle (state, payload = null) {
-    //   const htmlClassName = 'is-dark-mode-active'
-
-    //   state.isDarkModeActive = !state.isDarkModeActive
-
-    //   if (state.isDarkModeActive) {
-    //     document.documentElement.classList.add(htmlClassName)
-    //   } else {
-    //     document.documentElement.classList.remove(htmlClassName)
-    //   }
-    // },
-
-    incrementAriaIterator (state) {
+    incrementAriaIterator(state) {
       state.ariaIterator++
     }
   },
   actions: {
-    setSessionStates ({ commit }, payload) {
+    setSessionStates({ commit }, payload) {
       if (payload.auth !== undefined) {
         commit('setAuthStatus', payload.auth)
       }
       if (payload.orgCode !== undefined) {
         commit('setOrgCode', payload.orgCode)
+      }
+      if (payload.orgName !== undefined) {
+        commit('setOrgName', payload.orgName)
       }
       if (payload.authToken !== undefined) {
         commit('setAuthToken', payload.authToken)

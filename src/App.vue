@@ -11,7 +11,7 @@
             class="d-inline-block align-top"
             alt="GNUKhata Logo"
           />
-          GNUKhata
+          {{ this.orgName || "GNUKhata" }}
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
@@ -70,7 +70,7 @@ export default {
   components: { ColorBar },
   computed: {
     activeNav: (self) => self.$route.name,
-    ...mapState(["userName"]),
+    ...mapState(["userName", "orgName"]),
   },
   methods: {
     /**
@@ -85,6 +85,9 @@ export default {
         solid: true,
         variant: "success",
       });
+      setTimeout(() => {
+        location.reload(true);
+      }, 2000);
     },
   },
   created() {
