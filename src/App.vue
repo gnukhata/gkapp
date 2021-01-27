@@ -24,13 +24,13 @@
             <b-nav-item
               :to="{ name: 'Dashboard' }"
               :active="activeNav === 'Dashboard'"
-              >Dashboard</b-nav-item
+              ><b-icon icon="tv"></b-icon> Dashboard</b-nav-item
             >
             <b-nav-item :to="{ name: 'About' }" :active="activeNav === 'About'"
-              >About</b-nav-item
+              ><b-icon icon="info-circle"></b-icon> About</b-nav-item
             >
             <b-nav-item :to="{ name: 'Login' }" :active="activeNav === 'Login'"
-              >Login</b-nav-item
+              ><b-icon icon="box-arrow-in-right"></b-icon> Login</b-nav-item
             >
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
@@ -44,11 +44,14 @@
               <!-- Using 'button-content' slot -->
               <template #button-content>
                 <!-- <em>{{userName}} </em> -->
-                <b-button variant="primary">{{ userName }}</b-button>
+                <b-button variant="primary"
+                  ><b-icon icon="person"></b-icon> {{ userName }}</b-button
+                >
               </template>
               <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
               <b-dropdown-item @click="logOut" href="#"
-                >Log Out</b-dropdown-item
+                ><b-icon icon="box-arrow-in-left"></b-icon> Log
+                Out</b-dropdown-item
               >
             </b-nav-item-dropdown>
           </b-navbar-nav>

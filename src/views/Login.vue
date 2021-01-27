@@ -51,12 +51,7 @@
             label-cols="auto"
             label-for="input-3"
           >
-            <b-overlay
-              :show="isDisabled"
-              spinner-type="border"
-              variant="secondary"
-              rounded="circle"
-            >
+            <b-overlay :show="isDisabled" variant="secondary" no-wrap blur>
             </b-overlay>
             <b-form-select
               id="input-3"
