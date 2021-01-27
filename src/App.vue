@@ -93,7 +93,7 @@ export default {
       }, 2000);
     },
   },
-  created() {
+  mounted() {
     /**
      * fetch latest app changes
      */
@@ -113,10 +113,6 @@ export default {
         }, 2000);
       });
     }
-    // async accept() {
-    // this.showUpdateUI = false;
-    // this.$workbox.messageSW({ type: "SKIP_WAITING" })
-    // }
   },
 };
 </script>
