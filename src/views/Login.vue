@@ -78,31 +78,26 @@
             </b-form-input>
           </b-form-group>
           <!--Captcha area-->
-          <b-form-group
-            label="Captcha"
-            label-for="input-1"
-            description="* Required"
-            label-cols="auto"
-          >
+          <b-form-group label="Question" label-cols="auto">
             <b-form-row>
               <canvas
-                aria-label="Captcha field"
-                width="70"
+                aria-label="Question audio button"
+                title="Audio question"
+                width="90"
                 height="30"
                 id="captchaCanvas"
-                style="border: 1px solid #d3d3d3"
+                style="border: 1px solid black; background-color: white"
+                class="ml-2"
               ></canvas>
-              <b-button
-                size="sm"
-                @click.prevent="audioCaptcha"
+              <b-icon
+                class="ml-3 mt-2 h3"
+                @click="audioCaptcha"
                 role="button"
-                title="listen to captcha"
-                aria-label="Audio Captcha button"
-                class="mb-button ml-1"
-              >
-                <b-icon icon="play-circle"></b-icon>
-                Audio
-              </b-button>
+                icon="volume-up-fill"
+                sm
+                variant="dark"
+                aria-label="audio question button"
+              ></b-icon>
             </b-form-row>
           </b-form-group>
           <!-- captcha answer -->
@@ -129,7 +124,7 @@
                 variant="primary"
               >
                 <b-spinner v-if="isLoading" small></b-spinner>
-                <b-icon v-if="!isLoading" icon="arrow-return-right"></b-icon>
+                <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
                 Login
               </b-button>
               <b-button variant="success" :to="{ name: 'Create_Organisation' }">
