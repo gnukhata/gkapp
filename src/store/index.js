@@ -24,6 +24,10 @@ export default new Vuex.Store({
     basic(state, payload) {
       state[payload.key] = payload.value
     },
+    resetOrg(state) {
+      state.orgName = null
+      console.log('orgname cleared')
+    },
 
     // Init the required vuex store states from session storage
     initStore(state) {

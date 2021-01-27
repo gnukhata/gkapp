@@ -88,11 +88,11 @@ export default {
         solid: true,
         variant: "success",
       });
-      setTimeout(() => {
-        location.reload(true);
-      }, 2000);
+      // reset orgname
+      this.$store.commit("resetOrg");
     },
   },
+
   mounted() {
     /**
      * fetch latest app changes
@@ -108,9 +108,7 @@ export default {
           autoHideDelay: 2000,
         });
         // pull the latest code
-        setTimeout(() => {
-          this.$workbox.messageSW({ type: "SKIP_WAITING" });
-        }, 2000);
+        this.$workbox.messageSW({ type: "SKIP_WAITING" });
       });
     }
   },
