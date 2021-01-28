@@ -159,6 +159,7 @@
         <!-- Customer / Supplier profile -->
         <b-card
           no-body
+          border-variant="dark"
           :style="{ height: '100%', overflowY: 'auto' }"
           :class="{ 'ml-3': !isMobileView }"
           v-if="selectedEntity && !selectedEntity.gsflag"
@@ -182,27 +183,26 @@
         <!-- Goods / Services Profile -->
         <b-card
           no-body
+          border-variant="dark"
           :style="{ height: '100%', overflowY: 'auto' }"
           :class="{ 'ml-3': !isMobileView }"
           v-if="selectedEntity && selectedEntity.gsflag"
         >
-          <code class="m-3">
-            {{ selectedEntity }}
-          </code>
+          <code class="m-3"> </code>
           <template #header v-if="selectedEntity !== null">
             <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"
               ><b-icon icon="arrow-left"></b-icon
             ></b-button>
             <h5 class="m-2 d-inline-block">
               <b-icon :icon="selectedEntity.icon"></b-icon>
-              {{ selectedEntity.productdesc }} Profile
+              {{ selectedEntity.productdesc }} Details
             </h5>
           </template>
           <b-card-body style="height: 400px" v-if="selectedEntity !== null">
-            <contact-details
-              :customer="selectedEntity"
-              :key="selectedEntity.custid"
-            ></contact-details>
+            <business-profile
+              :name="selectedEntity"
+              :key="selectedEntity.srno"
+            ></business-profile>
           </b-card-body>
         </b-card>
         <!-- Body -->
@@ -216,11 +216,12 @@
 import Axios from "axios";
 import { mapState } from "vuex";
 import ContactDetails from "@/components/ContactDetails";
+import BusinessProfile from "@/components/BusinessProfile.vue";
 // import HeroBar from '@/components/HeroBar'
 
 export default {
   name: "Workflow",
-  components: { ContactDetails },
+  components: { ContactDetails, BusinessProfile },
   data() {
     return {
       tabChoice: 0,
