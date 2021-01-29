@@ -2,7 +2,7 @@
   <section class="container-fluid mt-2">
     <b-overlay :show="loading" blur no-wrap></b-overlay>
     <b-card :header="details.orgname + ` Profile`" header-class="h4">
-      <!-- {{ details }} -->
+      {{ details }}
       <b-card-group deck>
         <b-card
           header="General"
@@ -137,17 +137,8 @@
               type="text"
             ></b-form-input>
           </b-form-group>
-          <b-form-group label="website" label-cols="4">
-            <b-form-input
-              v-model="details.bankdetails.branchname"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group label="IFSC Code" label-cols="4">
-            <b-form-input
-              v-model="details.bankdetails.ifsc"
-              type="text"
-            ></b-form-input>
+          <b-form-group label="Service Tax Number" label-cols="4">
+            <b-form-input v-model="details.orgstax" type="text"></b-form-input>
           </b-form-group>
         </b-card>
       </b-card-group>

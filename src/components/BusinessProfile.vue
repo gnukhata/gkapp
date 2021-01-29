@@ -14,7 +14,7 @@
     <!-- name --->
     <b-card-group deck>
       <b-card header="Info" header-bg-variant="warning" border-variant="dark">
-        <b-form-group label="Name" label-cols="auto">
+        <b-form-group label="Name" label-cols="4">
           <b-form-input
             v-model="details.productdesc"
             type="text"
@@ -25,19 +25,19 @@
         <b-form-group
           v-if="details.gsflag == 7"
           label="Opening Stock"
-          label-cols="auto"
+          label-cols="4"
         >
           <b-form-input v-model="details.openingstock"></b-form-input>
         </b-form-group>
         <!-- HSN Code -->
-        <!-- <b-form-group label-cols="auto" label="HSN Code">
+        <!-- <b-form-group label-cols="4" label="HSN Code">
           <b-form-input v-model="details.gscode"></b-form-input>
         </b-form-group> -->
         <!-- UOM -->
         <b-form-group
           v-if="details.gsflag == 7"
           label="Unit of Measure"
-          label-cols="auto"
+          label-cols="4"
         >
           <b-input-group :prepend="details.unitname.name || details.unitname">
             <b-form-select v-model="details.unitname" :options="options.uom">
@@ -47,22 +47,18 @@
       </b-card>
       <b-card header="Price" header-bg-variant="warning" border-variant="dark">
         <!-- MRP -->
-        <b-form-group label="MRP" label-cols="auto">
+        <b-form-group label="MRP" label-cols="4">
           <b-form-input
             title="cannot be modified"
             v-model="details.prodmrp"
           ></b-form-input>
         </b-form-group>
         <!-- Selling Price -->
-        <b-form-group
-          id="input-group-2"
-          label="Selling Price"
-          label-cols="auto"
-        >
+        <b-form-group id="input-group-2" label="Selling Price" label-cols="4">
           <b-form-input v-model="details.prodsp"></b-form-input>
         </b-form-group>
         <!-- discount -->
-        <b-form-group label-cols="auto" label="Discount" label-for="input-3">
+        <b-form-group label-cols="4" label="Discount" label-for="input-3">
           <b-input-group prepend="₹">
             <b-form-input v-model="details.discountamount"></b-form-input>
           </b-input-group>
@@ -81,38 +77,34 @@
       style="max-width: 28em"
     >
       <!-- HSN / SCN Code -->
-      <b-form-group
-        v-if="details.gsflag == 7"
-        label="HSN Code"
-        label-cols="auto"
-      >
+      <b-form-group v-if="details.gsflag == 7" label="HSN Code" label-cols="4">
         <b-form-input
           title="cannot be modified"
           v-model="details.gscode"
         ></b-form-input>
       </b-form-group>
-      <b-form-group v-else label="SAC Code" label-cols="auto">
+      <b-form-group v-else label="SAC Code" label-cols="4">
         <b-form-input
           title="cannot be modified"
           v-model="details.gscode"
         ></b-form-input>
       </b-form-group>
       <!-- Selling Price -->
-      <b-form-group id="input-group-2" label="State" label-cols="auto">
+      <b-form-group id="input-group-2" label="State" label-cols="4">
         <b-form-select :options="options.states"></b-form-select>
       </b-form-group>
       <!-- discount -->
-      <b-form-group label-cols="auto" label="GST" label-for="input-3">
+      <b-form-group label-cols="4" label="GST" label-for="input-3">
         <b-input-group prepend="%">
           <b-form-select :options="options.gstRates"></b-form-select>
         </b-input-group>
       </b-form-group>
-      <b-form-group label="CESS" label-cols="auto">
+      <b-form-group label="CESS" label-cols="4">
         <b-input-group label="CESS" class="mt-1" prepend="%">
           <b-form-input v-model="options.cess"></b-form-input>
         </b-input-group>
       </b-form-group>
-      <b-form-group label="CVAT" label-cols="auto">
+      <b-form-group label="CVAT" label-cols="4">
         <b-input-group label="CESS" class="mt-1" prepend="%">
           <b-form-input v-model="options.cvat"></b-form-input>
         </b-input-group>
