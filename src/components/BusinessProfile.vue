@@ -1,16 +1,19 @@
 <template>
-  <div>
-    {{ details }}
-    <b-overlay :show="loading" no-wrap></b-overlay>
-    <div class="d-flex flex-row-reverse mb-2">
+  <!-- <div> -->
+  <!-- <div class="d-flex flex-row-reverse mb-2">
       <b-button variant="warning"
         ><b-icon icon="pencil-square"></b-icon> Edit Details</b-button
       >
-    </div>
-    <!-- <b-card-group deck> -->
-    <b-form>
-      <!-- name --->
-      <b-card header="Details" bg-variant="light" border-variant="dark">
+    </div> -->
+  <!-- <b-card-group deck> -->
+  <b-form>
+    {{ details }} <br />
+    <br />
+    {{ options.tax }}
+    <b-overlay :show="loading" blur no-wrap></b-overlay>
+    <!-- name --->
+    <b-card-group deck>
+      <b-card header="Info" header-bg-variant="warning" border-variant="dark">
         <b-form-group label="Name" label-cols="auto">
           <b-form-input
             v-model="details.productdesc"
@@ -21,34 +24,28 @@
         <!-- Opening Stock -->
         <b-form-group
           v-if="details.gsflag == 7"
-          id="input-group-2"
           label="Opening Stock"
           label-cols="auto"
         >
           <b-form-input v-model="details.openingstock"></b-form-input>
         </b-form-group>
         <!-- HSN Code -->
-        <b-form-group label-cols="auto" label="HSN Code">
+        <!-- <b-form-group label-cols="auto" label="HSN Code">
           <b-form-input v-model="details.gscode"></b-form-input>
-        </b-form-group>
+        </b-form-group> -->
         <!-- UOM -->
         <b-form-group
           v-if="details.gsflag == 7"
           label="Unit of Measure"
           label-cols="auto"
-          label-class="required"
         >
           <b-input-group :prepend="details.unitname.name || details.unitname">
-            <b-form-select
-              v-model="details.unitname"
-              :options="options.uom"
-              required
-            >
+            <b-form-select v-model="details.unitname" :options="options.uom">
             </b-form-select>
           </b-input-group>
         </b-form-group>
       </b-card>
-      <b-card header="Price" border-variant="dark" class="mt-2">
+      <b-card header="Price" header-bg-variant="warning" border-variant="dark">
         <!-- MRP -->
         <b-form-group label="MRP" label-cols="auto">
           <b-form-input
@@ -62,10 +59,7 @@
           label="Selling Price"
           label-cols="auto"
         >
-          <b-form-input
-            title="cannot be modified"
-            v-model="details.prodsp"
-          ></b-form-input>
+          <b-form-input v-model="details.prodsp"></b-form-input>
         </b-form-group>
         <!-- discount -->
         <b-form-group label-cols="auto" label="Discount" label-for="input-3">
@@ -77,41 +71,74 @@
           </b-input-group>
         </b-form-group>
       </b-card>
-      <!-- 
-      <b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
-        <b-form-checkbox-group
-          v-model="form.checked"
-          id="checkboxes-4"
-          :aria-describedby="ariaDescribedby"
-        >
-          <b-form-checkbox value="me">Check me out</b-form-checkbox>
-          <b-form-checkbox value="that">Check that out</b-form-checkbox>
-        </b-form-checkbox-group>
-      </b-form-group> -->
-      <div class="mt-2 mb-3 d-flex flex-row-reverse">
-        <b-button
-          size="sm"
-          class="ml-2"
-          v-if="!noEdit"
-          @click="updateDetails"
-          variant="success"
-          ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
-        >
-        <b-button
-          size="sm"
-          v-if="!noEdit"
-          class=""
-          @click="noEdit = true"
-          variant="danger"
+    </b-card-group>
+    <!-- Tax details Card -->
+    <b-card
+      class="mt-2"
+      header="Tax"
+      header-bg-variant="warning"
+      border-variant="dark"
+      style="max-width: 28em"
+    >
+      <!-- HSN / SCN Code -->
+      <b-form-group
+        v-if="details.gsflag == 7"
+        label="HSN Code"
+        label-cols="auto"
+      >
+        <b-form-input
+          title="cannot be modified"
+          v-model="details.gscode"
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group v-else label="SAC Code" label-cols="auto">
+        <b-form-input
+          title="cannot be modified"
+          v-model="details.gscode"
+        ></b-form-input>
+      </b-form-group>
+      <!-- Selling Price -->
+      <b-form-group id="input-group-2" label="State" label-cols="auto">
+        <b-form-select :options="options.states"></b-form-select>
+      </b-form-group>
+      <!-- discount -->
+      <b-form-group label-cols="auto" label="GST" label-for="input-3">
+        <b-input-group prepend="%">
+          <b-form-select :options="options.gstRates"></b-form-select>
+        </b-input-group>
+      </b-form-group>
+      <b-form-group label="CESS" label-cols="auto">
+        <b-input-group label="CESS" class="mt-1" prepend="%">
+          <b-form-input v-model="options.cess"></b-form-input>
+        </b-input-group>
+      </b-form-group>
+      <b-form-group label="CVAT" label-cols="auto">
+        <b-input-group label="CESS" class="mt-1" prepend="%">
+          <b-form-input v-model="options.cvat"></b-form-input>
+        </b-input-group>
+      </b-form-group>
+    </b-card>
+    <!-- Submit & cancel buttons -->
+    <div class="mt-2 mb-3 d-flex flex-row-reverse">
+      <b-button size="sm" class="ml-2" variant="success"
+        ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
+      >
+      <!-- <b-button size="sm" class="" variant="danger"
           ><b-icon icon="x-circle"></b-icon> Cancel</b-button
-        >
-      </div>
-    </b-form>
-    <!-- </b-card-group> -->
-  </div>
+        > -->
+    </div>
+  </b-form>
+  <!-- </b-card-group> -->
+  <!-- </div> -->
 </template>
 
 <script>
+/**
+ * TODO
+ * 1. Update records
+ * 2. Delete records
+ * 3. Add tax details
+ */
 import axios from "axios";
 import { mapState } from "vuex";
 export default {
@@ -126,6 +153,11 @@ export default {
       loading: true,
       options: {
         uom: [],
+        states: [],
+        gstRates: [0, 5, 12, 18, 28],
+        cess: 0,
+        cvat: 0,
+        tax: [],
       },
     };
   },
@@ -147,11 +179,25 @@ export default {
           }
         )
         .then((res) => {
-          console.log(res.data.gkresult);
           this.details = res.data.gkresult;
+          this.getTaxDetails();
           setTimeout(() => {
             this.loading = false;
-          }, 1000);
+          }, 500);
+        });
+    },
+    getTaxDetails() {
+      axios
+        .get(
+          `${this.gkCoreUrl}/tax?pscflag=p&productcode=${this.name.productcode}`,
+          {
+            headers: {
+              gktoken: this.authToken,
+            },
+          }
+        )
+        .then((res) => {
+          this.options.tax = res.data.gkresult;
         });
     },
     /**
@@ -191,10 +237,25 @@ export default {
         })
         .catch(() => {});
     },
+    states() {
+      axios
+        .get(`${this.gkCoreUrl}/state`)
+        .then((res) => {
+          this.options.states = res.data.gkresult.map(
+            (item) => Object.values(item)[0]
+          );
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e, {
+            variant: "danger",
+          });
+        });
+    },
   },
   mounted() {
     this.getDetails();
     this.getUOM();
+    this.states();
   },
 };
 </script>

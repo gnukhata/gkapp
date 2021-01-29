@@ -174,7 +174,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group
+        <!-- <b-form-group
           label="Pincode"
           label-for="nested-country"
           label-cols-sm="3"
@@ -185,7 +185,7 @@
             id="nested-country"
             :disabled="noEdit"
           ></b-form-input>
-        </b-form-group>
+        </b-form-group> -->
       </b-form-group>
     </b-card>
     <!-- Action Buttons -->
