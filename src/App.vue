@@ -54,7 +54,7 @@
                 Out</b-dropdown-item
               >
               <b-dropdown-item to="/orgprofile"
-                ><b-icon icon="gear"></b-icon> Company Settings</b-dropdown-item
+                ><b-icon icon="gear"></b-icon> Company Profile</b-dropdown-item
               >
             </b-nav-item-dropdown>
           </b-navbar-nav>
