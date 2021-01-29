@@ -53,6 +53,9 @@
                 ><b-icon icon="box-arrow-in-left"></b-icon> Log
                 Out</b-dropdown-item
               >
+              <b-dropdown-item to="/orgprofile"
+                ><b-icon icon="gear"></b-icon> Company Settings</b-dropdown-item
+              >
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
