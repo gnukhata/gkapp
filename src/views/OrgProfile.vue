@@ -156,6 +156,11 @@
 </template>
 
 <script>
+/**
+ * TODO
+ * 1. Update Company details
+ * 2. Display few more fields
+ */
 import { mapState } from "vuex";
 export default {
   name: "OrgProfile",
