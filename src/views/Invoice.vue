@@ -1103,7 +1103,7 @@ export default {
         this.setShippingDetails();
       },
     },
-    ...mapState(["authToken", "gkCoreUrl", "userName"]),
+    ...mapState(["authToken", "gkCoreUrl", "userName", "yearEnd"]),
   },
   methods: {
     /**
@@ -1526,7 +1526,7 @@ export default {
             if (resp.data.gkstatus === 0) {
               invid = resp.data.invoiceid + "/";
               invid += this.isSale ? "SL" : "PU";
-              invid += "-21";
+              invid += "-" + String(this.yearEnd).substring(this.yearEnd.length - 2);
               self.form.inv.no = invid;
             }
           }

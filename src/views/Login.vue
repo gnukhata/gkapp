@@ -182,9 +182,9 @@ export default {
       // fetch orgcode from /orgyears API
       axios
         .get(`${this.gkCoreUrl}/orgyears/${orgname}/${orgtype}`)
-        .then((orgCodeResponse) => {
-          if (orgCodeResponse.data.gkstatus === 0) {
-            this.form.orgcode = orgCodeResponse.data.gkdata[0].orgcode;
+        .then((orgYearsResponse) => {
+          if (orgYearsResponse.data.gkstatus === 0) {
+            this.form.orgcode = orgYearsResponse.data.gkdata[0].orgcode;
             this.form.orgName = `${orgname} (${orgtype})`;
             axios
               .post(`${this.gkCoreUrl}/login`, this.form)
@@ -201,6 +201,10 @@ export default {
                         authToken: response.data.token,
                         user: { username: this.form.username },
                         gkCoreUrl: this.customUrl,
+                        orgYears: {
+                          yearStart: orgYearsResponse.yearstart,
+                          yearEnd: orgYearsResponse.yearend,
+                        }
                       });
                       this.$router.push("/workflow");
                       // Alert the user on successful login
