@@ -316,6 +316,7 @@ export default {
             color: "success",
             data: [],
             key: "custname",
+            to: { name: "Invoice" },
             filters: {
               items: [
                 {

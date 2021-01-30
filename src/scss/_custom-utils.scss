@@ -40,3 +40,21 @@ body {
     color: #ff0000;
   }
 }
+
+
+// Styles to remove Spin buttons in number input fields
+
+.hide-spin-button {
+    /* Chrome, Safari, Edge, Opera */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    /* Firefox */
+    &[type=number] {
+      -moz-appearance: textfield;
+    }
+
+}
