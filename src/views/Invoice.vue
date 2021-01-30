@@ -1,7 +1,6 @@
 <!-- ToDo
     Add free qty field
     Make the table fixed height
-    API integration
     Print screen
     Display transaction in print screen
     Add customer and Products
@@ -722,100 +721,7 @@
             </b-tr>
           </b-tfoot>
         </b-table-simple>
-        <!-- <b-table
-          small
-          :fields="billFields"
-          :items="form.bill"
-          responsive
-          bordered
-        >
-          <template #cell(index)="data">
-            {{ data.index + 1 }}
-          </template>
 
-          <template #cell(product)="data">
-            <b-form-select
-              size="sm"
-              v-model="data.product"
-              required
-            ></b-form-select>
-          </template>
-
-          <template #cell(hsn)="data">
-            <b>{{ data.item.hsn }}</b>
-          </template>
-
-          <template #cell(qty)="data">
-            <b-input
-              v-model="data.item.qty"
-              class="hide-spin-button"
-              type="number"
-              step="0.01"
-              >{{ data.item.qty }}</b-input
-            >
-          </template>
-          <template #cell(fqty)="data">
-            <b-input
-              v-model="data.item.fqty"
-              class="hide-spin-button"
-              type="number"
-              step="0.01"
-              >{{ data.item.fqty }}</b-input
-            >
-          </template>
-          <template #cell(rate)="data">
-            <b-input
-              v-model="data.item.rate"
-              class="hide-spin-button"
-              type="number"
-              step="0.01"
-              >{{ data.item.rate }}</b-input
-            >
-          </template>
-          <template #cell(discount)="data">
-            <b-input
-              v-model="data.item.discount"
-              class="hide-spin-button"
-              type="number"
-              step="0.01"
-              >{{ data.item.discount }}</b-input
-            >
-          </template>
-          <template #cell(igst)="data">
-            <b>{{ `${data.item.igst.rate} % - ${data.item.igst.amount} ₹` }}</b>
-          </template>
-          <template #cell(cess)="data">
-            <b>{{ `${data.item.cess.rate} % - ${data.item.cess.amount} ₹` }}</b>
-          </template>
-          <template #cell(tax)="data">
-            <b>{{ `${data.item.tax.rate} % - ${data.item.tax.amount} ₹` }}</b>
-          </template>
-          <template #cell(total)="data">
-            <b>{{ data.item.total }}</b>
-          </template>
-          <template #cell(control)="data">
-            <b-button
-              v-if="data.index < billLength - 1"
-              @click.prevent="deleteBillItem()"
-              size="sm"
-              >-</b-button
-            >
-            <b-button v-else @click.prevent="addBillItem()" size="sm"
-              >+</b-button
-            >
-          </template>
-          <template #custom-foot>
-            <b-tr>
-              <b-th colspan="5"><span>Total</span></b-th>
-              <b-th>{{ getTotal("discount") }}</b-th>
-              <b-th>{{ getTotal("taxable") }}</b-th>
-              <b-th v-if="isGst">{{ getTotal("igst", "amount") }}</b-th>
-              <b-th v-if="isGst">{{ getTotal("cess", "amount") }}</b-th>
-              <b-th v-else>{{ getTotal("tax", "amount") }}</b-th>
-              <b-th colspan="2">Type 3</b-th>
-            </b-tr>
-          </template>
-        </b-table> -->
         <b-row class="mt-5">
           <b-col cols="12" lg="7"></b-col>
           <b-col cols="12" lg="5">
@@ -1175,57 +1081,6 @@ export default {
           "Ship",
           "Other",
         ],
-        // billFields: {
-        //   index: {
-        //     label: "No.",
-        //     thStyle: { maxWidth: "40px", width: "40px" },
-        //   },
-        //   product: {
-        //     label: "Item",
-        //     thStyle: { maxWidth: "300px", width: "150px", minWidth: "100px" },
-        //   },
-        //   hsn: {
-        //     label: "HSN/SAC",
-        //     thStyle: { maxWidth: "200px", width: "150px", minWidth: "80px" },
-        //   },
-        //   qty: {
-        //     label: "Qty",
-        //     thStyle: { maxWidth: "200px", width: "80px", minWidth: "50px" },
-        //   },
-        //   // { key: "fqty", label: "Free Qty" },
-        //   rate: {
-        //     label: "Rate",
-        //     thStyle: { maxWidth: "200px", width: "150px", minWidth: "80px" },
-        //   },
-        //   discount: {
-        //     label: "Discount",
-        //     thStyle: { maxWidth: "200px", width: "80px", minWidth: "50px" },
-        //   },
-        //   taxable: {
-        //     label: "Taxable Amt.",
-        //     thStyle: { maxWidth: "200px", width: "80px", minWidth: "50px" },
-        //   },
-        //   igst: {
-        //     label: "IGST",
-        //     thStyle: { maxWidth: "200px", width: "150px", minWidth: "80px" },
-        //   },
-        //   cess: {
-        //     label: "CESS",
-        //     thStyle: { maxWidth: "200px", width: "150px", minWidth: "80px" },
-        //   },
-        //   tax: {
-        //     label: "TAX",
-        //     thStyle: { maxWidth: "200px", width: "150px", minWidth: "80px" },
-        //   },
-        //   total: {
-        //     label: "Total",
-        //     thStyle: { maxWidth: "300px", width: "150px", minWidth: "100px" },
-        //   },
-        //   control: {
-        //     label: "+/-",
-        //     thStyle: { maxWidth: "40px", width: "40px" },
-        //   },
-        // },
       },
     };
   },
@@ -1249,26 +1104,6 @@ export default {
       },
     },
     ...mapState(["authToken", "gkCoreUrl", "userName"]),
-    // billFields: (self) => {
-    //   let fields = [
-    //     "index",
-    //     "product",
-    //     "hsn",
-    //     "qty",
-    //     "rate",
-    //     "discount",
-    //     "taxable",
-    //   ];
-    //   if (self.form.taxType === "gst") {
-    //     fields.push("igst", "cess");
-    //   } else {
-    //     fields.push("tax");
-    //   }
-    //   fields.push("total", "control");
-    //   return fields.map((field) =>
-    //     Object.assign({ key: field }, self.options.billFields[field])
-    //   );
-    // },
   },
   methods: {
     /**
@@ -1406,14 +1241,13 @@ export default {
             "danger"
           );
           return error;
-        })
+        }),
       ];
 
       const self = this;
-      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4, resp5]) => {
+      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
         self.isLoading = false;
 
-        let contacts = [];
         let preloadErrorList = ""; // To handle the unloaded data, at once than individually
 
         /**
@@ -1513,7 +1347,7 @@ export default {
      * Description: Fetch customer/supplier data, for 'Billed To/By' section
      */
     fetchCustomerData(id) {
-      if(id !== null) {
+      if (id !== null) {
         let self = this;
         let config = {
           headers: {
@@ -1528,13 +1362,13 @@ export default {
             switch (resp.data.gkstatus) {
               case 0:
                 // convert [{id: name}, {id2: name}] to {id: name, id2: name}, to remove duplicates
-                let stateList =
+                var stateList =
                   resp.data.gkresult.statelist.reduce((acc, item) => {
                     acc[Object.keys(item)[0]] = Object.values(item)[0];
                     return acc;
                   }, {}) || {};
                 // convert it back to array format for <b-form-select> options
-                let states = Object.keys(stateList).map((key) => {
+                var states = Object.keys(stateList).map((key) => {
                   return {
                     text: stateList[key],
                     value: { id: key, name: stateList[key] },
@@ -1552,7 +1386,7 @@ export default {
                   tin: resp.data.gkresult.custtan || null,
                 });
                 self.setPartyGst(); // set gstin based on state
-  
+
                 break;
               case 2:
                 self.resetPartyDetails(); // if there no data, then reset the fields
@@ -1611,8 +1445,6 @@ export default {
       ];
       Promise.all([...requests]).then(([resp1, resp2]) => {
         self.isLoading = false;
-
-        let contacts = [];
 
         // Product Data
         if (resp1.status === 200) {
@@ -1709,29 +1541,25 @@ export default {
           gktoken: this.authToken,
         },
       };
-      let self = this
-      Axios.get(`${this.gkCoreUrl}/users?user=single`, config).then((resp) => {
-        // === User name and role ===
-        if (resp.status === 200) {
-          if (resp.data.gkstatus === 0) {
-            self.form.inv.issuer = resp.data.gkresult.username;
-            self.form.inv.role = resp.data.gkresult.userroleName;
+      let self = this;
+      Axios.get(`${this.gkCoreUrl}/users?user=single`, config)
+        .then((resp) => {
+          // === User name and role ===
+          if (resp.status === 200) {
+            if (resp.data.gkstatus === 0) {
+              self.form.inv.issuer = resp.data.gkresult.username;
+              self.form.inv.role = resp.data.gkresult.userroleName;
+            } else {
+              // User data not available, check again
+            }
           } else {
-           // User data not available, check again 
+            // User data not available, check again
           }
-        } else {
-          // User data not available, check again 
-        }
-      }).catch(
-          (error) => {
-            this.displayToast(
-              "Fetch User Data Failed!",
-              error.message,
-              "danger"
-            );
-            return error;
-          }
-        )
+        })
+        .catch((error) => {
+          this.displayToast("Fetch User Data Failed!", error.message, "danger");
+          return error;
+        });
     },
     /**
      * setPartyGst()
@@ -1816,6 +1644,7 @@ export default {
                   "Duplicate Entry, Check Invoice Id",
                   "warning"
                 );
+                break;
               case 2:
                 // Unauthorized access
                 this.displayToast(
@@ -1823,6 +1652,7 @@ export default {
                   "Unauthorized Access, Contact Admin",
                   "warning"
                 );
+                break;
               case 3:
                 // Connection failed, Check inputs and try again
                 this.displayToast(
@@ -2011,7 +1841,7 @@ export default {
             gstin: [],
           },
           custid: null,
-          name: {id: null, name: null},
+          name: { id: null, name: null },
           addr: null,
           state: null,
           gstin: null,
@@ -2067,8 +1897,8 @@ export default {
         },
       };
 
-      this.fetchInvoiceId()
-      this.fetchUserData()
+      this.fetchInvoiceId();
+      this.fetchUserData();
     },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
