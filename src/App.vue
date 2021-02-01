@@ -53,7 +53,7 @@
                 ><b-icon icon="box-arrow-in-left"></b-icon> Log
                 Out</b-dropdown-item
               >
-              <b-dropdown-item v-if="user[0].userrole == -1" to="/orgprofile"
+              <b-dropdown-item v-if="userRole == -1" to="/orgprofile"
                 ><b-icon icon="gear"></b-icon> Company Profile</b-dropdown-item
               >
             </b-nav-item-dropdown>
@@ -77,7 +77,7 @@ export default {
   components: { ColorBar },
   data() {
     return {
-      user: Array,
+      userRole: Number,
     };
   },
   computed: {
@@ -102,16 +102,19 @@ export default {
     },
     getUser() {
       axios
-        .get(`${this.gkCoreUrl}/users`, {
+        .get(`${this.gkCoreUrl}/user?type=role`, {
           headers: {
             gktoken: this.authToken,
           },
         })
         .then((res) => {
-          this.user = res.data.gkresult;
+          this.userRole = res.data.gkresult;
         })
         .catch((e) => {
-          console.log(e.message);
+          this.$bvToast.toast(e.message, {
+            solid: true,
+            variant: "danger",
+          });
         });
     },
   },
@@ -132,7 +135,9 @@ export default {
           autoHideDelay: 2000,
         });
         // pull the latest code
-        this.$workbox.messageSW({ type: "SKIP_WAITING" });
+        setTimeout(() => {
+          this.$workbox.messageSW({ type: "SKIP_WAITING" });
+        }, 2000);
       });
     }
   },
