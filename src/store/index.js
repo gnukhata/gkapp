@@ -16,6 +16,9 @@ export default new Vuex.Store({
     orgName: null,
     authToken: null,
 
+    yearStart: null,
+    yearEnd: null,
+
     gkCoreUrl: 'https://satheerthan.site:6543',
     gkCoreTestUrl: 'http://localhost:6543'
   },
@@ -36,6 +39,7 @@ export default new Vuex.Store({
       const orgName = localStorage.getItem('orgName')
       const authToken = localStorage.getItem('authToken')
       const userName = localStorage.getItem('userName')
+      const orgYears = JSON.parse(localStorage.getItem('orgYears'))
 
       if (authStatus === 'true') {
         state.userAuthenticated = true
@@ -56,6 +60,12 @@ export default new Vuex.Store({
       if (userName) {
         state.userName = userName
       }
+
+      if(orgYears) {
+        state.yearStart = orgYears.yearStart
+        state.yearEnd = orgYears.yearStart
+      }
+
     },
 
     /* Session Auth States */
@@ -77,6 +87,12 @@ export default new Vuex.Store({
     setAuthToken(state, payload) {
       state.authToken = payload
       localStorage.setItem('authToken', state.authToken)
+    },
+
+    setOrgYears(state, payload) {
+      state.yearStart = payload.yearStart
+      state.yearEnd = payload.yearEnd
+      localStorage.setItem('orgYears', JSON.stringify({yearStart : state.authToken, yearEnd: state.yearEnd}))
     },
 
     /* User */
@@ -115,6 +131,9 @@ export default new Vuex.Store({
       }
       if (payload.user !== undefined) {
         commit('user', payload.user)
+      }
+      if(payload.orgYears !== undefined) {
+        commit('setOrgYears', payload.orgYears)
       }
     }
   },
