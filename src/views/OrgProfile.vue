@@ -5,6 +5,7 @@
       <b-form>
         <!-- {{ details }} -->
         <b-card-group deck>
+          <!-- general Card -->
           <b-card
             header="General"
             header-bg-variant="primary"
@@ -31,7 +32,7 @@
               ></b-form-input>
             </b-form-group>
           </b-card>
-
+          <!-- Contact Card -->
           <b-card
             header="Contact Details"
             header-bg-variant="secondary"
@@ -84,7 +85,7 @@
             </b-form-group>
           </b-card>
         </b-card-group>
-
+        <!-- Bank card --->
         <b-card-group deck class="mt-4">
           <b-card
             header="Bank Details"
@@ -94,7 +95,7 @@
             <b-form-group label="Name" label-cols="4" label-align="left">
               <b-input-group>
                 <b-form-input
-                  v-model="details.bankdetails.bankname"
+                  v-model="details['bankdetails']['bankname']"
                   type="text"
                 ></b-form-input>
               </b-input-group>
@@ -105,24 +106,24 @@
               label-align="left"
             >
               <b-form-input
-                v-model="details.bankdetails.accountno"
+                v-model="details['bankdetails']['accountno']"
                 type="text"
               ></b-form-input>
             </b-form-group>
             <b-form-group label="Branch" label-cols="4">
               <b-form-input
-                v-model="details.bankdetails.branchname"
+                v-model="details['bankdetails']['branchname']"
                 type="text"
               ></b-form-input>
             </b-form-group>
             <b-form-group label="IFSC Code" label-cols="4">
               <b-form-input
-                v-model="details.bankdetails.ifsc"
+                v-model="details['bankdetails']['ifsc']"
                 type="text"
               ></b-form-input>
             </b-form-group>
           </b-card>
-
+          <!-- Tax card-->
           <b-card
             header="Tax Details"
             header-bg-variant="danger"
@@ -152,7 +153,7 @@
         </b-card-group>
         <!-- Submit & cancel buttons -->
         <div class="mt-2 mb-3 d-flex flex-row-reverse">
-          <b-button size="sm" class="ml-2" variant="success"
+          <b-button type="submit" size="sm" class="ml-2" variant="success"
             ><b-icon icon="arrow-up-circle"></b-icon> Save Changes</b-button
           >
         </div>
