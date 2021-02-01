@@ -229,7 +229,13 @@ export default {
               break;
             case 2:
               this.isLoading = false;
-
+              this.$bvToast.toast("You have no permissions to modify details", {
+                variant: "danger",
+                solid: true,
+              });
+              break;
+            case 4:
+              this.isLoading = false;
               this.$bvToast.toast("You have no permissions to modify details", {
                 variant: "danger",
                 solid: true,
