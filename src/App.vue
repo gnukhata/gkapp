@@ -53,7 +53,7 @@
                 ><b-icon icon="box-arrow-in-left"></b-icon> Log
                 Out</b-dropdown-item
               >
-              <b-dropdown-item to="/orgprofile"
+              <b-dropdown-item v-if="user[0].userrole == -1" to="/orgprofile"
                 ><b-icon icon="gear"></b-icon> Company Profile</b-dropdown-item
               >
             </b-nav-item-dropdown>
@@ -70,13 +70,19 @@
 <script>
 import { mapState } from "vuex";
 import ColorBar from "@/components/ColorBar.vue";
+import axios from "axios";
 
 export default {
   name: "App",
   components: { ColorBar },
+  data() {
+    return {
+      user: Array,
+    };
+  },
   computed: {
     activeNav: (self) => self.$route.name,
-    ...mapState(["userName", "orgName"]),
+    ...mapState(["userName", "orgName", "gkCoreUrl", "authToken"]),
   },
   methods: {
     /**
@@ -94,9 +100,24 @@ export default {
       // reset orgname
       this.$store.commit("resetOrg");
     },
+    getUser() {
+      axios
+        .get(`${this.gkCoreUrl}/users`, {
+          headers: {
+            gktoken: this.authToken,
+          },
+        })
+        .then((res) => {
+          this.user = res.data.gkresult;
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
+    },
   },
 
   mounted() {
+    this.getUser();
     /**
      * fetch latest app changes
      */
