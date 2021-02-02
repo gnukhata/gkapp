@@ -1,5 +1,5 @@
 <template>
-  <b-form @submit.prevent="updateContact">
+  <b-form id="contactinfo" @submit.prevent="updateContact">
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
     <b-card
       header="Details"
@@ -201,7 +201,6 @@ export default {
           config
         )
         .then((res) => {
-          console.log(res.data.gkstatus);
           switch (res.data.gkstatus) {
             case 0:
               this.details = res.data.gkresult;
@@ -286,17 +285,17 @@ export default {
         headers: {
           gktoken: this.authToken,
         },
-      };
-      const payload = {
-        custid: parseInt(this.details.custid),
+        data: {
+          custid: this.details.custid,
+        },
       };
       axios
-        .delete(`${this.gkCoreUrl}/customersupplier`, payload, config)
+        .delete(`${this.gkCoreUrl}/customersupplier`, config)
         .then((res) => {
-          console.log(res.data.gkstatus);
           switch (res.data.gkstatus) {
             case 0:
               this.isLoading = false;
+              document.querySelector("#contactinfo").innerHTML = "";
               this.$bvToast.toast(`${this.details.custname} Profile Deleted`, {
                 title: "Success",
                 variant: "success",
@@ -306,7 +305,7 @@ export default {
             case 2:
               this.isLoading = false;
               this.$bvToast.toast("Unauthorised Access", {
-                title: "Access Denied",
+                title: "Action Denied",
                 variant: "danger",
                 solid: true,
               });
@@ -314,6 +313,7 @@ export default {
             case 4:
               this.isLoading = false;
               this.$bvToast.toast("You have no permissions to modify details", {
+                title: "Access Denied",
                 variant: "danger",
                 solid: true,
               });
