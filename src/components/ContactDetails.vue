@@ -314,6 +314,8 @@ export default {
                 this.isLoading = true;
                 switch (res.data.gkstatus) {
                   case 0:
+                    // Delete Contact's Account
+                    this.delAccount(this.details.custname);
                     this.isLoading = false;
                     document.querySelector("#contactinfo").innerHTML = "";
                     this.$bvToast.toast(
@@ -361,6 +363,47 @@ export default {
                 });
               });
           }
+        });
+    },
+    /** Delete account corresponding to Contact name */
+    delAccount(name) {
+      const config = {
+        headers: {
+          gktoken: this.authToken,
+        },
+      };
+      let accList;
+      // Grab the list of accounts
+      axios
+        .get(`${this.gkCoreUrl}/accounts`, config)
+        .then((res) => {
+          accList = res.data.gkresult;
+          for (var i in accList) {
+            /**
+             * Match with the supplied account name in the list
+             * and delete it
+             */
+            if (accList[i].accountname == name) {
+              axios
+                .delete(`${this.gkCoreUrl}/accounts`, {
+                  headers: {
+                    gktoken: this.authToken,
+                  },
+                  data: {
+                    accountcode: accList[i].accountcode, // Get account code
+                  },
+                })
+                .then((res) => {
+                  console.log("account delete status", res.data.gkstatus);
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
+            }
+          }
+        })
+        .catch((e) => {
+          console.log(e);
         });
     },
     states() {
