@@ -1,127 +1,124 @@
 <template>
-  <!-- <div> -->
-  <!-- <div class="d-flex flex-row-reverse mb-2">
-      <b-button variant="warning"
-        ><b-icon icon="pencil-square"></b-icon> Edit Details</b-button
-      >
-    </div> -->
-  <!-- <b-card-group deck> -->
   <b-form>
-    {{ details }} <br />
-    <br />
-    {{ options.tax }}
     <b-overlay :show="loading" blur no-wrap></b-overlay>
+    {{ details }}
     <!-- name --->
-    <b-card-group deck>
-      <b-card header="Info" header-bg-variant="warning" border-variant="dark">
-        <b-form-group label="Name" label-cols="4">
-          <b-form-input
-            v-model="details.productdesc"
-            type="text"
-            required
-          ></b-form-input>
-        </b-form-group>
-        <!-- Opening Stock -->
-        <b-form-group
-          v-if="details.gsflag == 7"
-          label="Opening Stock"
-          label-cols="4"
-        >
-          <b-form-input v-model="details.openingstock"></b-form-input>
-        </b-form-group>
-        <!-- HSN Code -->
-        <!-- <b-form-group label-cols="4" label="HSN Code">
-          <b-form-input v-model="details.gscode"></b-form-input>
-        </b-form-group> -->
-        <!-- UOM -->
-        <b-form-group
-          v-if="details.gsflag == 7"
-          label="Unit of Measure"
-          label-cols="4"
-        >
-          <b-input-group :prepend="details.unitname.name || details.unitname">
-            <b-form-select v-model="details.unitname" :options="options.uom">
-            </b-form-select>
-          </b-input-group>
-        </b-form-group>
-      </b-card>
-      <b-card header="Price" header-bg-variant="warning" border-variant="dark">
-        <!-- MRP -->
-        <b-form-group label="MRP" label-cols="4">
-          <b-form-input
-            title="cannot be modified"
-            v-model="details.prodmrp"
-          ></b-form-input>
-        </b-form-group>
-        <!-- Selling Price -->
-        <b-form-group id="input-group-2" label="Selling Price" label-cols="4">
-          <b-form-input v-model="details.prodsp"></b-form-input>
-        </b-form-group>
-        <!-- discount -->
-        <b-form-group label-cols="4" label="Discount" label-for="input-3">
-          <b-input-group prepend="₹">
-            <b-form-input v-model="details.discountamount"></b-form-input>
-          </b-input-group>
-          <b-input-group class="mt-1" prepend="%">
-            <b-form-input v-model="details.discountpercent"></b-form-input>
-          </b-input-group>
-        </b-form-group>
-      </b-card>
-    </b-card-group>
-    <!-- Tax details Card -->
-    <b-card
-      class="mt-2"
-      header="Tax"
-      header-bg-variant="warning"
-      border-variant="dark"
-      style="max-width: 28em"
-    >
+    <b-card class="mb-2" header="Info" header-bg-variant="warning">
+      <b-form-group label="Name" label-cols="4">
+        <b-form-input
+          v-model="details.productdesc"
+          :value="details.productdesc"
+          type="text"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <!-- Opening Stock -->
+      <b-form-group
+        v-if="details.gsflag == 7"
+        label="Opening Stock"
+        label-cols="4"
+      >
+        <b-form-input
+          :value="details.openingstock"
+          v-model="details.openingstock"
+          type="number"
+        ></b-form-input>
+      </b-form-group>
+      <!-- UOM -->
+      <b-form-group
+        v-if="details.gsflag == 7"
+        label="Unit of Measure"
+        label-cols="4"
+      >
+        <b-input-group :prepend="details.unitname.name || details.unitname">
+          <b-form-select
+            :value="details.unitname"
+            v-model="details.unitname"
+            :options="options.uom"
+          >
+          </b-form-select>
+        </b-input-group>
+      </b-form-group>
       <!-- HSN / SCN Code -->
       <b-form-group v-if="details.gsflag == 7" label="HSN Code" label-cols="4">
         <b-form-input
-          title="cannot be modified"
           v-model="details.gscode"
+          :value="details.gscode"
         ></b-form-input>
       </b-form-group>
       <b-form-group v-else label="SAC Code" label-cols="4">
         <b-form-input
-          title="cannot be modified"
           v-model="details.gscode"
+          :value="details.gscode"
+        ></b-form-input>
+      </b-form-group>
+    </b-card>
+    <b-card header="Price" header-bg-variant="warning">
+      <!-- MRP -->
+      <b-form-group label="MRP" label-cols="4">
+        <b-form-input
+          v-model="details.prodmrp"
+          :value="details.prodmrp"
         ></b-form-input>
       </b-form-group>
       <!-- Selling Price -->
-      <b-form-group id="input-group-2" label="State" label-cols="4">
-        <b-form-select :options="options.states"></b-form-select>
+      <b-form-group id="input-group-2" label="Selling Price" label-cols="4">
+        <b-form-input
+          :value="details.prodmrp"
+          v-model="details.prodsp"
+        ></b-form-input>
       </b-form-group>
       <!-- discount -->
-      <b-form-group label-cols="4" label="GST" label-for="input-3">
-        <b-input-group prepend="%">
-          <b-form-select :options="options.gstRates"></b-form-select>
+      <b-form-group label-cols="4" label="Discount" label-for="input-3">
+        <b-input-group prepend="₹">
+          <b-form-input
+            :value="details.discountamount"
+            v-model="details.discountamount"
+          ></b-form-input>
         </b-input-group>
-      </b-form-group>
-      <b-form-group label="CESS" label-cols="4">
-        <b-input-group label="CESS" class="mt-1" prepend="%">
-          <b-form-input v-model="options.cess"></b-form-input>
-        </b-input-group>
-      </b-form-group>
-      <b-form-group label="CVAT" label-cols="4">
-        <b-input-group label="CESS" class="mt-1" prepend="%">
-          <b-form-input v-model="options.cvat"></b-form-input>
+        <b-input-group class="mt-1" prepend="%">
+          <b-form-input
+            :value="details.discountname"
+            v-model="details.discountpercent"
+          ></b-form-input>
         </b-input-group>
       </b-form-group>
     </b-card>
-    <!-- Submit & cancel buttons -->
+    <b-card class="mt-2" header="Tax" header-bg-variant="warning">
+      {{ options.tax }}
+      <b-card-group deck>
+        <b-card
+          v-for="item in options.tax"
+          :key="item.taxid"
+          :header="item.taxname"
+        >
+          <b-input-group prepend="%">
+            <b-form-input
+              :value="item.taxrate"
+              v-model="item.taxrate"
+            ></b-form-input>
+          </b-input-group>
+          <b-input-group
+            v-if="item.state !== null"
+            class="mt-1"
+            prepend="State"
+          >
+            <b-form-input
+              :value="item.state"
+              v-model="item.state"
+            ></b-form-input>
+          </b-input-group>
+        </b-card>
+      </b-card-group>
+    </b-card>
+    <!-- Tax details Cards -->
+    <!-- Submit & delete buttons -->
     <div class="mt-2 mb-3 d-flex flex-row-reverse">
       <b-button size="sm" class="ml-2" variant="success"
         ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
       >
-      <!-- <b-button size="sm" class="" variant="danger"
-          ><b-icon icon="x-circle"></b-icon> Cancel</b-button
-        > -->
     </div>
   </b-form>
-  <!-- </b-card-group> -->
-  <!-- </div> -->
 </template>
 
 <script>
@@ -176,6 +173,31 @@ export default {
           setTimeout(() => {
             this.loading = false;
           }, 500);
+        });
+    },
+    updateProfile() {
+      this.$bvModal
+        .msgBoxConfirm(`Update ${this.details.custname} details ?`, {
+          centered: true,
+          size: "sm",
+        })
+        .then((val) => {
+          if (val) {
+            const config = {
+              headers: {
+                gktoken: this.authToken,
+              },
+              data: {
+                productcode: this.details.productcode,
+              },
+            };
+            axios.delete(`${this.gkCoreUrl}/products`, config).then((res) => {
+              switch (res.data.gkstatus) {
+                case 0:
+                  break;
+              }
+            });
+          }
         });
     },
     getTaxDetails() {
