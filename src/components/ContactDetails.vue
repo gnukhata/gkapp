@@ -1,5 +1,5 @@
 <template>
-  <b-form @submit.prevent="updateDetails">
+  <b-form @submit.prevent="updateContact">
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
     <b-card
       header="Details"
@@ -16,6 +16,7 @@
         <b-form-input
           :value="details.custname"
           id="nested-street"
+          v-model="details.custname"
         ></b-form-input>
       </b-form-group>
 
@@ -27,6 +28,7 @@
       >
         <b-form-input
           :value="details.custphone"
+          v-model="details.custphone"
           id="nested-city"
         ></b-form-input>
       </b-form-group>
@@ -37,7 +39,10 @@
         label-cols-sm="3"
         label-align-sm="right"
       >
-        <b-form-input :value="details.custemail"></b-form-input>
+        <b-form-input
+          v-model="details.custemail"
+          :value="details.custemail"
+        ></b-form-input>
       </b-form-group>
 
       <b-form-group
@@ -46,7 +51,10 @@
         label-cols-sm="3"
         label-align-sm="right"
       >
-        <b-form-input :value="details.custfax"></b-form-input>
+        <b-form-input
+          v-model="details.custfax"
+          :value="details.custfax"
+        ></b-form-input>
       </b-form-group>
     </b-card>
     <!-- Contact Address -->
@@ -64,8 +72,8 @@
         label-align-sm="right"
       >
         <b-form-input
+          v-model="details.custaddr"
           :value="details.custaddr"
-          id="nested-street"
         ></b-form-input>
       </b-form-group>
 
@@ -90,6 +98,7 @@
       >
         <b-form-input
           :value="details.pincode"
+          v-model="details.pincode"
           id="nested-country"
         ></b-form-input>
       </b-form-group>
@@ -110,6 +119,7 @@
       >
         <b-form-input
           :value="details.custpan"
+          v-model="details.custpan"
           id="nested-street"
         ></b-form-input>
       </b-form-group>
@@ -120,7 +130,11 @@
         label-cols-sm="3"
         label-align-sm="right"
       >
-        <b-form-input :value="details.custtan" id="nested-city"></b-form-input>
+        <b-form-input
+          v-model="details.custtan"
+          :value="details.custtan"
+          id="nested-city"
+        ></b-form-input>
       </b-form-group>
 
       <b-form-group
@@ -137,24 +151,18 @@
           disabled
         ></b-form-input>
       </b-form-group>
-
-      <!-- <b-form-group
-        label="State:"
-        label-for="nested-state"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-select
-          :options="options.states"
-          :value="details.state"
-          v-model="options.selectedState"
-        ></b-form-select>
-      </b-form-group> -->
     </b-card>
     <!-- Action Buttons -->
     <div class="mt-2 mb-3 d-flex flex-row-reverse">
       <b-button type="submit" size="sm" class="ml-2" variant="success"
         ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
+      >
+      <b-button
+        @click.prevent="deleteContact"
+        size="sm"
+        class="ml-2"
+        variant="danger"
+        ><b-icon icon="person-dash"></b-icon> Delete Contact</b-button
       >
     </div>
   </b-form>
@@ -193,9 +201,30 @@ export default {
           config
         )
         .then((res) => {
-          this.details = res.data.gkresult;
-          this.isLoading = false;
-          this.states();
+          console.log(res.data.gkstatus);
+          switch (res.data.gkstatus) {
+            case 0:
+              this.details = res.data.gkresult;
+              this.isLoading = false;
+              this.states();
+              break;
+            case 2:
+              this.$bvToast.toast("Unauthorised Access", {
+                variant: "danger",
+                title: "Alert",
+                solid: true,
+              });
+              this.isLoading = false;
+              break;
+            case 3:
+              this.$bvToast.toast("Contact not found", {
+                variant: "danger",
+                title: "Alert",
+                solid: true,
+              });
+              this.isLoading = false;
+              break;
+          }
         })
         .catch((err) => {
           console.log(err.message);
@@ -204,7 +233,7 @@ export default {
     /**
      * Update customer/supplier details
      */
-    updateDetails() {
+    updateContact() {
       delete this.details.statelist;
       this.isLoading = true;
       const config = {
@@ -229,7 +258,55 @@ export default {
               break;
             case 2:
               this.isLoading = false;
-              this.$bvToast.toast("You have no permissions to modify details", {
+              this.$bvToast.toast("Unauthorised Access", {
+                variant: "danger",
+                solid: true,
+              });
+              break;
+            case 4:
+              this.isLoading = false;
+              this.$bvToast.toast("You have no permissions to delete details", {
+                variant: "danger",
+                solid: true,
+              });
+              break;
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            variant: "danger",
+            solid: true,
+          });
+        });
+    },
+    /**Delete contact details based on custid */
+    deleteContact() {
+      this.isLoading = true;
+      const config = {
+        headers: {
+          gktoken: this.authToken,
+        },
+      };
+      const payload = {
+        custid: parseInt(this.details.custid),
+      };
+      axios
+        .delete(`${this.gkCoreUrl}/customersupplier`, payload, config)
+        .then((res) => {
+          console.log(res.data.gkstatus);
+          switch (res.data.gkstatus) {
+            case 0:
+              this.isLoading = false;
+              this.$bvToast.toast(`${this.details.custname} Profile Deleted`, {
+                title: "Success",
+                variant: "success",
+                solid: true,
+              });
+              break;
+            case 2:
+              this.isLoading = false;
+              this.$bvToast.toast("Unauthorised Access", {
+                title: "Access Denied",
                 variant: "danger",
                 solid: true,
               });
