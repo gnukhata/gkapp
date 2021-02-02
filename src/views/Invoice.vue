@@ -27,6 +27,8 @@
       <b-card-group class="d-block d-md-flex" deck>
         <!-- Invoice Details -->
         <b-card class="mr-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+          <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+          </b-overlay>
           <div class="p-3">
             <div class="mb-3">
               <b>Invoice Details</b>
@@ -217,6 +219,8 @@
         </b-card>
         <!-- Buyer/Seller Details -->
         <b-card class="mx-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+          <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+          </b-overlay>
           <div class="p-3">
             <div class="mb-3">
               <b v-if="isSale"> Billed To</b>
@@ -346,6 +350,8 @@
         </b-card>
         <!-- Shipping Details -->
         <b-card class="ml-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+          <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+          </b-overlay>
           <div class="p-3">
             <div class="mb-3"><b>Shipping Details</b></div>
             <b-form-checkbox
@@ -467,247 +473,251 @@
           <b-form-radio value="vat">VAT</b-form-radio>
         </b-form-radio-group>
       </div>
-      <b-table-simple hover small caption-top responsive bordered>
-        <b-thead head-variant="dark">
-          <!-- table header -->
-          <b-tr class="text-center">
-            <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
-              >No</b-th
-            >
-            <b-th
-              :style="{
-                maxWidth: '300px',
-                width: '150px',
-                minWidth: '100px',
-              }"
-              rowspan="2"
-              >Item</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
-              rowspan="2"
-              >HSN/SAC</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              rowspan="2"
-              >Qty</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
-              rowspan="2"
-              >Rate</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              rowspan="2"
-              >Discount</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              rowspan="2"
-              >Taxable Amt</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              colspan="2"
-              v-if="isGst"
-              >IGST</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              colspan="2"
-              v-if="isGst"
-              >CESS</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              colspan="2"
-              v-if="!isGst"
-              >TAX</b-th
-            >
-            <b-th
-              :style="{
-                maxWidth: '300px',
-                width: '150px',
-                minWidth: '100px',
-              }"
-              rowspan="2"
-              >Total</b-th
-            >
-            <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
-              >+/-</b-th
-            >
-          </b-tr>
-          <!-- tax field sub headers -->
-          <b-tr class="text-center">
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="isGst"
-              >%</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="isGst"
-              >Rs</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="isGst"
-              >%</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="isGst"
-              >Rs</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="!isGst"
-              >%</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="!isGst"
-              >Rs</b-th
-            >
-          </b-tr>
-        </b-thead>
-        <b-tbody>
-          <b-tr
-            class="text-center"
-            v-for="(field, index) in form.bill"
-            :key="index"
-          >
-            <!-- No.  -->
-            <b-td>
-              {{ index + 1 }}
-            </b-td>
-
-            <!-- Item -->
-            <b-td>
-              <b-form-select
-                size="sm"
-                v-model="field.product"
-                :options="options.products"
-                @input="fetchProductDetails(field.product.id, index)"
-                required
-              ></b-form-select>
-            </b-td>
-
-            <!-- HSN/SAC -->
-            <b-td>
-              <b>{{ field.hsn }}</b>
-            </b-td>
-
-            <!-- Qty -->
-            <b-td>
-              <b-input
-                v-model="field.qty"
-                class="hide-spin-button text-right"
-                type="number"
-                step="0.01"
-                min="0.01"
-                @input="updateTaxAndTotal(index)"
-                :readonly="field.isService"
-              ></b-input>
-            </b-td>
-
-            <!-- Rate -->
-            <b-td>
-              <b-input
-                v-model="field.rate"
-                class="hide-spin-button text-right"
-                type="number"
-                step="0.01"
-                min="0.01"
-                @input="updateTaxAndTotal(index)"
-              ></b-input>
-            </b-td>
-
-            <!-- Discount -->
-            <b-td>
-              <b-input
-                v-model="field.discount.amount"
-                class="hide-spin-button text-right"
-                type="number"
-                step="0.01"
-                min="0.00"
-                @input="updateTaxAndTotal(index)"
-              ></b-input>
-            </b-td>
-
-            <!-- Taxable Amt -->
-            <b-td>
-              {{ field.taxable }}
-            </b-td>
-
-            <!-- GST % -->
-            <b-td v-if="isGst">
-              {{ field.igst.rate }}
-            </b-td>
-
-            <!-- GST $ -->
-            <b-td v-if="isGst">
-              {{ field.igst.amount }}
-            </b-td>
-
-            <!-- CESS % -->
-            <b-td v-if="isGst">
-              {{ field.cess.rate }}
-            </b-td>
-
-            <!-- CESS $ -->
-            <b-td v-if="isGst">
-              {{ field.cess.amount }}
-            </b-td>
-
-            <!-- VAT Tax % -->
-            <b-td v-if="!isGst">
-              {{ field.vat.rate }}
-            </b-td>
-
-            <!-- VAT Tax $ -->
-            <b-td v-if="!isGst">
-              {{ field.vat.amount }}
-            </b-td>
-
-            <!-- Total -->
-            <b-td>
-              {{ field.total }}
-            </b-td>
-
-            <!-- +/- Buttons -->
-            <b-td>
-              <b-button
-                v-if="index < billLength - 1"
-                @click.prevent="deleteBillItem()"
-                size="sm"
-                >-</b-button
+      <div class="position-relative">
+        <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+          </b-overlay>
+        <b-table-simple hover small caption-top responsive bordered>
+          <b-thead head-variant="dark">
+            <!-- table header -->
+            <b-tr class="text-center">
+              <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
+                >No</b-th
               >
-              <b-button v-else @click.prevent="addBillItem()" size="sm"
-                >+</b-button
+              <b-th
+                :style="{
+                  maxWidth: '300px',
+                  width: '150px',
+                  minWidth: '100px',
+                }"
+                rowspan="2"
+                >Item</b-th
               >
-            </b-td>
-          </b-tr>
-        </b-tbody>
-        <b-tfoot>
-          <b-tr variant="secondary" class="text-right">
-            <b-th colspan="5"> Total </b-th>
-            <b-th> ₹ {{ getTotal("discount", "amount") }}</b-th>
-            <b-th> ₹ {{ getTotal("taxable") }}</b-th>
-            <b-th colspan="2" v-if="isGst"
-              >₹ {{ getTotal("igst", "amount") }}</b-th
+              <b-th
+                :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
+                rowspan="2"
+                >HSN/SAC</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+                rowspan="2"
+                >Qty</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
+                rowspan="2"
+                >Rate</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+                rowspan="2"
+                >Discount</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+                rowspan="2"
+                >Taxable Amt</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
+                colspan="2"
+                v-if="isGst"
+                >IGST</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
+                colspan="2"
+                v-if="isGst"
+                >CESS</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
+                colspan="2"
+                v-if="!isGst"
+                >TAX</b-th
+              >
+              <b-th
+                :style="{
+                  maxWidth: '300px',
+                  width: '150px',
+                  minWidth: '100px',
+                }"
+                rowspan="2"
+                >Total</b-th
+              >
+              <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
+                >+/-</b-th
+              >
+            </b-tr>
+            <!-- tax field sub headers -->
+            <b-tr class="text-center">
+              <b-th
+                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+                v-if="isGst"
+                >%</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+                v-if="isGst"
+                >Rs</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+                v-if="isGst"
+                >%</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+                v-if="isGst"
+                >Rs</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+                v-if="!isGst"
+                >%</b-th
+              >
+              <b-th
+                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+                v-if="!isGst"
+                >Rs</b-th
+              >
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr
+              class="text-center"
+              v-for="(field, index) in form.bill"
+              :key="index"
             >
-            <b-th colspan="2" v-if="isGst"
-              >₹ {{ getTotal("cess", "amount") }}</b-th
-            >
-            <b-th colspan="2" v-else>{{ getTotal("vat", "amount") }}</b-th>
-            <b-th> ₹ {{ getTotal("total") }}</b-th>
-            <b-th></b-th>
-          </b-tr>
-        </b-tfoot>
-      </b-table-simple>
+              <!-- No.  -->
+              <b-td>
+                {{ index + 1 }}
+              </b-td>
+
+              <!-- Item -->
+              <b-td>
+                <b-form-select
+                  size="sm"
+                  v-model="field.product"
+                  :options="options.products"
+                  @input="fetchProductDetails(field.product.id, index)"
+                  required
+                ></b-form-select>
+              </b-td>
+
+              <!-- HSN/SAC -->
+              <b-td>
+                <b>{{ field.hsn }}</b>
+              </b-td>
+
+              <!-- Qty -->
+              <b-td>
+                <b-input
+                  v-model="field.qty"
+                  class="hide-spin-button text-right"
+                  type="number"
+                  step="0.01"
+                  min="0.01"
+                  @input="updateTaxAndTotal(index)"
+                  :readonly="field.isService"
+                ></b-input>
+              </b-td>
+
+              <!-- Rate -->
+              <b-td>
+                <b-input
+                  v-model="field.rate"
+                  class="hide-spin-button text-right"
+                  type="number"
+                  step="0.01"
+                  min="0.01"
+                  @input="updateTaxAndTotal(index)"
+                ></b-input>
+              </b-td>
+
+              <!-- Discount -->
+              <b-td>
+                <b-input
+                  v-model="field.discount.amount"
+                  class="hide-spin-button text-right"
+                  type="number"
+                  step="0.01"
+                  min="0.00"
+                  @input="updateTaxAndTotal(index)"
+                ></b-input>
+              </b-td>
+
+              <!-- Taxable Amt -->
+              <b-td>
+                {{ field.taxable }}
+              </b-td>
+
+              <!-- GST % -->
+              <b-td v-if="isGst">
+                {{ field.igst.rate }}
+              </b-td>
+
+              <!-- GST $ -->
+              <b-td v-if="isGst">
+                {{ field.igst.amount }}
+              </b-td>
+
+              <!-- CESS % -->
+              <b-td v-if="isGst">
+                {{ field.cess.rate }}
+              </b-td>
+
+              <!-- CESS $ -->
+              <b-td v-if="isGst">
+                {{ field.cess.amount }}
+              </b-td>
+
+              <!-- VAT Tax % -->
+              <b-td v-if="!isGst">
+                {{ field.vat.rate }}
+              </b-td>
+
+              <!-- VAT Tax $ -->
+              <b-td v-if="!isGst">
+                {{ field.vat.amount }}
+              </b-td>
+
+              <!-- Total -->
+              <b-td>
+                {{ field.total }}
+              </b-td>
+
+              <!-- +/- Buttons -->
+              <b-td>
+                <b-button
+                  v-if="index < billLength - 1"
+                  @click.prevent="deleteBillItem()"
+                  size="sm"
+                  >-</b-button
+                >
+                <b-button v-else @click.prevent="addBillItem()" size="sm"
+                  >+</b-button
+                >
+              </b-td>
+            </b-tr>
+          </b-tbody>
+          <b-tfoot>
+            <b-tr variant="secondary" class="text-right">
+              <b-th colspan="5"> Total </b-th>
+              <b-th> ₹ {{ getTotal("discount", "amount") }}</b-th>
+              <b-th> ₹ {{ getTotal("taxable") }}</b-th>
+              <b-th colspan="2" v-if="isGst"
+                >₹ {{ getTotal("igst", "amount") }}</b-th
+              >
+              <b-th colspan="2" v-if="isGst"
+                >₹ {{ getTotal("cess", "amount") }}</b-th
+              >
+              <b-th colspan="2" v-else>{{ getTotal("vat", "amount") }}</b-th>
+              <b-th> ₹ {{ getTotal("total") }}</b-th>
+              <b-th></b-th>
+            </b-tr>
+          </b-tfoot>
+        </b-table-simple>
+      </div>
 
       <b-row class="mt-5">
         <b-col cols="12" lg="7"></b-col>
@@ -1047,6 +1057,7 @@ export default {
         },
       },
       isLoading: false,
+      isPreloading: false,
       temp: null,
       options: {
         customers: [],
@@ -1185,6 +1196,7 @@ export default {
       }
     },
     preloadData() {
+      this.isPreloading = true;
       let config = {
         headers: {
           gktoken: this.authToken,
@@ -1233,7 +1245,7 @@ export default {
 
       const self = this;
       Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
-        self.isLoading = false;
+        self.isPreloading = false;
 
         let preloadErrorList = ""; // To handle the unloaded data, at once than individually
 
