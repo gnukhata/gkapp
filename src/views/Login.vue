@@ -202,8 +202,8 @@ export default {
                         user: { username: this.form.username },
                         gkCoreUrl: this.customUrl,
                         orgYears: {
-                          yearStart: orgYearsResponse.yearstart,
-                          yearEnd: orgYearsResponse.yearend,
+                          yearStart: orgYearsResponse.data.gkdata[0].yearstart,
+                          yearEnd: orgYearsResponse.data.gkdata[0].yearend,
                         }
                       });
                       this.$router.push("/workflow");

@@ -63,7 +63,7 @@ export default new Vuex.Store({
 
       if(orgYears) {
         state.yearStart = orgYears.yearStart
-        state.yearEnd = orgYears.yearStart
+        state.yearEnd = orgYears.yearEnd
       }
 
     },
@@ -92,7 +92,7 @@ export default new Vuex.Store({
     setOrgYears(state, payload) {
       state.yearStart = payload.yearStart
       state.yearEnd = payload.yearEnd
-      localStorage.setItem('orgYears', JSON.stringify({yearStart : state.authToken, yearEnd: state.yearEnd}))
+      localStorage.setItem('orgYears', JSON.stringify({yearStart : state.yearStart, yearEnd: state.yearEnd}))
     },
 
     /* User */
