@@ -6,974 +6,961 @@
     Add customer and Products
     Add round off switch
     Add discount percent
-    Store financial year, Org name and year in vuex
     Add check conditions for the dates used in the form
+    Add load animation for various loading elements
  -->
 <template>
-  <b-container fluid class="mt-2">
-    <b-card style="min-width: 300px">
-      <div class="mb-2">
-        <b-form-radio-group
-          v-model="form.inv.type"
-          @input="fetchInvoiceId()"
-          button-variant="outline-success"
-          size="sm"
-          buttons
-        >
-          <b-form-radio value="sale">Sale</b-form-radio>
-          <b-form-radio value="purchase">Purchase</b-form-radio>
-        </b-form-radio-group>
-      </div>
-      <b-form @submit.prevent="onSubmit">
-        <b-card-group class="d-block d-md-flex" deck>
-          <!-- Invoice Details -->
-          <b-card
-            class="mr-md-1 mb-2 mb-md-0"
-            border-variant="secondary"
-            no-body
-          >
-            <div class="p-3">
-              <div class="mb-3">
-                <b>Invoice Details</b>
-              </div>
-              <b-row>
-                <b-col class="pr-lg-2" cols="12" lg="6">
-                  <b-form-group
-                    label="Inv. No."
-                    label-for="input-1"
-                    label-cols-lg="4"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-1"
-                      v-model="form.inv.no"
-                      trim
-                      required
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col class="pl-lg-2">
-                  <b-form-group
-                    id="input-group-3"
-                    label="Date"
-                    label-cols-lg="4"
-                    label-cols="3"
-                    label-for="date-1"
-                    label-size="sm"
-                  >
-                    <b-input-group>
-                      <b-form-input
-                        size="sm"
-                        id="date-1"
-                        v-model="form.inv.date"
-                        type="text"
-                        placeholder="YYYY-MM-DD"
-                        autocomplete="off"
-                        required
-                      ></b-form-input>
-                      <b-input-group-append>
-                        <b-form-datepicker
-                          size="sm"
-                          v-model="form.inv.date"
-                          button-only
-                          right
-                          locale="en-GB"
-                          aria-controls="date-1"
-                        >
-                        </b-form-datepicker>
-                      </b-input-group-append>
-                    </b-input-group>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col class="pr-lg-2" cols="12" lg="6">
-                  <b-form-group
-                    label="Del. Note"
-                    label-for="input-2"
-                    label-cols-lg="4"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <b-form-select
-                      size="sm"
-                      id="input-2"
-                      v-model="form.inv.delNote"
-                    ></b-form-select>
-                  </b-form-group>
-                </b-col>
-                <b-col class="pl-lg-2" v-if="isSale">
-                  <b-form-group
-                    label="EBN"
-                    label-for="input-3"
-                    label-cols-lg="4"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-3"
-                      v-model="form.inv.ebn"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-              <hr
-                :style="{ marginLeft: '-1rem', marginRight: '-1rem' }"
-                class="mt-0 border-secondary"
-              />
-              <b-form-group
-                label-cols-lg="2"
-                label-cols="3"
-                label="Address"
-                label-for="input-4"
-                label-size="sm"
-                v-if="isSale"
-              >
-                <b-form-textarea
-                  size="sm"
-                  id="input-4"
-                  v-model="form.inv.addr"
-                  rows="2"
-                  max-rows="2"
-                  trim
-                  required
-                ></b-form-textarea>
-              </b-form-group>
-              <b-row>
-                <b-col class="pr-lg-2" cols="12" lg="6" v-if="isSale">
-                  <b-form-group
-                    label-cols-lg="4"
-                    label-cols="3"
-                    label="PIN"
-                    label-for="input-5"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-5"
-                      v-model="form.inv.pin"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col class="pl-lg-2">
-                  <b-form-group
-                    label="State"
-                    label-for="input-6"
-                    label-size="sm"
-                    label-cols-lg="4"
-                    label-cols="3"
-                  >
-                    <b-form-select
-                      size="sm"
-                      id="input-6"
-                      v-model="form.inv.state"
-                      :options="options.states"
-                      required
-                    ></b-form-select>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-              <hr
-                :style="{ marginLeft: '-1rem', marginRight: '-1rem' }"
-                class="mt-0 border-secondary"
-              />
-              <b-row v-if="isSale">
-                <b-col class="pr-lg-2" cols="12" lg="6">
-                  <b-form-group
-                    label="Issuer"
-                    label-for="input-7"
-                    label-cols="3"
-                    label-size="sm"
-                    label-cols-lg="4"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-7"
-                      v-model="form.inv.issuer"
-                      trim
-                      required
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col class="pl-lg-2" cols="12" lg="6">
-                  <b-form-group
-                    label="Role"
-                    label-for="input-8"
-                    label-cols="3"
-                    label-cols-lg="4"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-8"
-                      v-model="form.inv.role"
-                      trim
-                      required
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-            </div>
-          </b-card>
-          <!-- Buyer/Seller Details -->
-          <b-card
-            class="mx-md-1 mb-2 mb-md-0"
-            border-variant="secondary"
-            no-body
-          >
-            <div class="p-3">
-              <div class="mb-3">
-                <b v-if="isSale"> Billed To</b>
-                <b v-else> Billed By</b>
-              </div>
-              <b-row>
-                <b-col cols="12">
-                  <b-form-group>
-                    <b-form-radio-group
-                      button-variant="outline-success"
-                      size="sm"
-                      buttons
-                      v-model="form.party.type"
-                      @input="resetPartyDetails()"
-                    >
-                      <b-form-radio value="customer">Customer</b-form-radio>
-                      <b-form-radio value="supplier">Supplier</b-form-radio>
-                    </b-form-radio-group>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12">
-                  <b-form-group
-                    label="Name"
-                    label-for="input-9"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <b-form-select
-                      size="sm"
-                      id="input-9"
-                      v-model="form.party.name"
-                      :options="
-                        form.party.type === 'customer'
-                          ? options.customers
-                          : options.suppliers
-                      "
-                      @input="fetchCustomerData(form.party.name.id)"
-                      required
-                    ></b-form-select>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="Address"
-                    label-for="input-10"
-                    label-size="sm"
-                  >
-                    <b-form-textarea
-                      size="sm"
-                      id="input-10"
-                      v-model="form.party.addr"
-                      rows="2"
-                      max-rows="2"
-                      trim
-                      plaintext
-                    ></b-form-textarea>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="PIN"
-                    label-for="input-11"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-11"
-                      v-model="form.party.pin"
-                      trim
-                      plaintext
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12">
-                  <b-form-group
-                    label="State"
-                    label-for="input-12"
-                    label-size="sm"
-                    label-cols="3"
-                  >
-                    <b-form-select
-                      size="sm"
-                      id="input-12"
-                      v-model="form.party.state"
-                      :options="form.party.options.states"
-                      @input="setPartyGst()"
-                      trim
-                    ></b-form-select>
-                  </b-form-group>
-                </b-col>
-                <b-col v-if="isGst" cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="GSTIN"
-                    label-for="input-13"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-13"
-                      v-model="form.party.gstin"
-                      trim
-                      plaintext
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col v-else cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="TIN"
-                    label-for="input-13"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-13"
-                      v-model="form.party.tin"
-                      trim
-                      plaintext
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-            </div>
-          </b-card>
-          <!-- Shipping Details -->
-          <b-card
-            class="ml-md-1 mb-2 mb-md-0"
-            border-variant="secondary"
-            no-body
-          >
-            <div class="p-3">
-              <div class="mb-3"><b>Shipping Details</b></div>
-              <b-form-checkbox
-                id="checkbox-1"
-                v-model="sameBillAddress"
-                name="checkbox-1"
-                class="mb-3"
-                size="sm"
-                switch
-                v-if="isSale"
-              >
-                Same as Billing Address
-              </b-form-checkbox>
-              <b-row>
-                <b-col cols="12">
-                  <b-form-group
-                    label="Name"
-                    label-for="input-14"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-14"
-                      v-model="form.ship.name"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="Address"
-                    label-for="input-15"
-                    label-size="sm"
-                  >
-                    <b-form-textarea
-                      size="sm"
-                      id="input-15"
-                      v-model="form.ship.addr"
-                      rows="2"
-                      max-rows="2"
-                      trim
-                    ></b-form-textarea>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="PIN"
-                    label-for="input-16"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-16"
-                      v-model="form.ship.pin"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12">
-                  <b-form-group
-                    label="State"
-                    label-for="input-17"
-                    label-size="sm"
-                    label-cols="3"
-                  >
-                    <b-form-select
-                      size="sm"
-                      id="input-17"
-                      v-model="form.ship.state"
-                      :options="options.states"
-                      trim
-                    ></b-form-select>
-                  </b-form-group>
-                </b-col>
-                <b-col v-if="isGst" cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="GSTIN"
-                    label-for="input-18"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-18"
-                      v-model="form.ship.gstin"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col v-else cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="TIN"
-                    label-for="input-18"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-18"
-                      v-model="form.ship.tin"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-            </div>
-          </b-card>
-        </b-card-group>
-        <div class="my-2">
-          <b-form-radio-group
-            button-variant="outline-success"
-            size="sm"
-            buttons
-            v-model="form.taxType"
-          >
-            <b-form-radio value="gst">GST</b-form-radio>
-            <b-form-radio value="vat">VAT</b-form-radio>
-          </b-form-radio-group>
-        </div>
-        <b-table-simple hover small caption-top responsive bordered>
-          <b-thead head-variant="dark">
-            <!-- table header -->
-            <b-tr class="text-center">
-              <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
-                >No</b-th
-              >
-              <b-th
-                :style="{
-                  maxWidth: '300px',
-                  width: '150px',
-                  minWidth: '100px',
-                }"
-                rowspan="2"
-                >Item</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
-                rowspan="2"
-                >HSN/SAC</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-                rowspan="2"
-                >Qty</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
-                rowspan="2"
-                >Rate</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-                rowspan="2"
-                >Discount</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-                rowspan="2"
-                >Taxable Amt</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-                colspan="2"
-                v-if="isGst"
-                >IGST</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-                colspan="2"
-                v-if="isGst"
-                >CESS</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-                colspan="2"
-                v-if="!isGst"
-                >TAX</b-th
-              >
-              <b-th
-                :style="{
-                  maxWidth: '300px',
-                  width: '150px',
-                  minWidth: '100px',
-                }"
-                rowspan="2"
-                >Total</b-th
-              >
-              <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
-                >+/-</b-th
-              >
-            </b-tr>
-            <!-- tax field sub headers -->
-            <b-tr class="text-center">
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst"
-                >%</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst"
-                >Rs</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst"
-                >%</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst"
-                >Rs</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="!isGst"
-                >%</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="!isGst"
-                >Rs</b-th
-              >
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr
-              class="text-center"
-              v-for="(field, index) in form.bill"
-              :key="index"
-            >
-              <!-- No.  -->
-              <b-td>
-                {{ index + 1 }}
-              </b-td>
-
-              <!-- Item -->
-              <b-td>
-                <b-form-select
-                  size="sm"
-                  v-model="field.product"
-                  :options="options.products"
-                  @input="fetchProductDetails(field.product.id, index)"
-                  required
-                ></b-form-select>
-              </b-td>
-
-              <!-- HSN/SAC -->
-              <b-td>
-                <b>{{ field.hsn }}</b>
-              </b-td>
-
-              <!-- Qty -->
-              <b-td>
-                <b-input
-                  v-model="field.qty"
-                  class="hide-spin-button text-right"
-                  type="number"
-                  step="0.01"
-                  min="0.01"
-                  @input="updateTaxAndTotal(index)"
-                  :readonly="field.isService"
-                ></b-input>
-              </b-td>
-
-              <!-- Rate -->
-              <b-td>
-                <b-input
-                  v-model="field.rate"
-                  class="hide-spin-button text-right"
-                  type="number"
-                  step="0.01"
-                  min="0.01"
-                  @input="updateTaxAndTotal(index)"
-                ></b-input>
-              </b-td>
-
-              <!-- Discount -->
-              <b-td>
-                <b-input
-                  v-model="field.discount.amount"
-                  class="hide-spin-button text-right"
-                  type="number"
-                  step="0.01"
-                  min="0.00"
-                  @input="updateTaxAndTotal(index)"
-                ></b-input>
-              </b-td>
-
-              <!-- Taxable Amt -->
-              <b-td>
-                {{ field.taxable }}
-              </b-td>
-
-              <!-- GST % -->
-              <b-td v-if="isGst">
-                {{ field.igst.rate }}
-              </b-td>
-
-              <!-- GST $ -->
-              <b-td v-if="isGst">
-                {{ field.igst.amount }}
-              </b-td>
-
-              <!-- CESS % -->
-              <b-td v-if="isGst">
-                {{ field.cess.rate }}
-              </b-td>
-
-              <!-- CESS $ -->
-              <b-td v-if="isGst">
-                {{ field.cess.amount }}
-              </b-td>
-
-              <!-- VAT Tax % -->
-              <b-td v-if="!isGst">
-                {{ field.vat.rate }}
-              </b-td>
-
-              <!-- VAT Tax $ -->
-              <b-td v-if="!isGst">
-                {{ field.vat.amount }}
-              </b-td>
-
-              <!-- Total -->
-              <b-td>
-                {{ field.total }}
-              </b-td>
-
-              <!-- +/- Buttons -->
-              <b-td>
-                <b-button
-                  v-if="index < billLength - 1"
-                  @click.prevent="deleteBillItem()"
-                  size="sm"
-                  >-</b-button
-                >
-                <b-button v-else @click.prevent="addBillItem()" size="sm"
-                  >+</b-button
-                >
-              </b-td>
-            </b-tr>
-          </b-tbody>
-          <b-tfoot>
-            <b-tr variant="secondary" class="text-right">
-              <b-th colspan="5"> Total </b-th>
-              <b-th> ₹ {{ getTotal("discount", "amount") }}</b-th>
-              <b-th> ₹ {{ getTotal("taxable") }}</b-th>
-              <b-th colspan="2" v-if="isGst"
-                >₹ {{ getTotal("igst", "amount") }}</b-th
-              >
-              <b-th colspan="2" v-if="isGst"
-                >₹ {{ getTotal("cess", "amount") }}</b-th
-              >
-              <b-th colspan="2" v-else>{{ getTotal("vat", "amount") }}</b-th>
-              <b-th> ₹ {{ getTotal("total") }}</b-th>
-              <b-th></b-th>
-            </b-tr>
-          </b-tfoot>
-        </b-table-simple>
-
-        <b-row class="mt-5">
-          <b-col cols="12" lg="7"></b-col>
-          <b-col cols="12" lg="5">
-            <b-table-simple responsive>
-              <b-tbody>
-                <b-tr>
-                  <b-th colspan="3">Taxable Amount</b-th>
-                  <b-th class="text-right">₹ {{ getTotal("taxable") }}</b-th>
-                </b-tr>
-                <b-tr>
-                  <b-th colspan="3">Total IGST</b-th>
-                  <b-th class="text-right"
-                    >₹ {{ getTotal("igst", "amount") }}</b-th
-                  >
-                </b-tr>
-                <b-tr>
-                  <b-th colspan="3">Total CESS</b-th>
-                  <b-th class="text-right"
-                    >₹ {{ getTotal("cess", "amount") }}</b-th
-                  >
-                </b-tr>
-                <b-tr>
-                  <b-th colspan="3">Total Discount</b-th>
-                  <b-th class="text-right"
-                    >₹ {{ getTotal("discount", "amount") }}</b-th
-                  >
-                </b-tr>
-                <b-tr>
-                  <b-th colspan="3">Total Invoice Value</b-th>
-                  <b-th class="text-right">₹ {{ getTotal("total") }}</b-th>
-                </b-tr>
-                <b-tr>
-                  <b-th colspan="3">Total Invoice Value (Rounded Off)</b-th>
-                  <b-th class="text-right"
-                    >₹ {{ Math.round(getTotal("total")) }}</b-th
-                  >
-                </b-tr>
-              </b-tbody>
-            </b-table-simple>
-          </b-col>
-        </b-row>
-        <b-card-group class="d-block d-md-flex" deck>
-          <b-card class="mr-md-1 mb-2 mb-md-0" border-variant="secondary">
+  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2">
+    <div class="mb-2">
+      <b-form-radio-group
+        v-model="form.inv.type"
+        @input="fetchInvoiceId()"
+        button-variant="outline-success"
+        size="sm"
+        buttons
+      >
+        <b-form-radio value="sale">Sale</b-form-radio>
+        <b-form-radio value="purchase">Purchase</b-form-radio>
+      </b-form-radio-group>
+    </div>
+    <b-form @submit.prevent="onSubmit">
+      <b-card-group class="d-block d-md-flex" deck>
+        <!-- Invoice Details -->
+        <b-card class="mr-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+          <div class="p-3">
             <div class="mb-3">
-              <b>Payment Details</b>
+              <b>Invoice Details</b>
             </div>
-            <b-form-group
-              label="Mode of Payment"
-              label-for="input-19"
-              label-size="sm"
-              label-cols="auto"
-            >
-              <b-form-select
-                size="sm"
-                id="input-19"
-                v-model="form.payment.mode"
-                :options="options.payModes"
-                required
-              ></b-form-select>
-            </b-form-group>
-            <b v-if="form.payment.mode === 3">CASH RECEIVED</b>
-            <div v-if="form.payment.mode === 2">
-              <b>Bank Details</b>
-              <b-form-group
-                label="Acc. No."
-                label-for="input-20"
-                label-cols="3"
-                label-size="sm"
-                label-cols-lg="autauto"
-              >
-                <b-form-input
-                  size="sm"
-                  id="input-20"
-                  v-model="form.payment.bank.no"
-                  trim
-                  required
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Bank Name"
-                label-for="input-21"
-                label-cols="3"
-                label-size="sm"
-                label-cols-lg="autauto"
-              >
-                <b-form-input
-                  size="sm"
-                  id="input-21"
-                  v-model="form.payment.bank.name"
-                  trim
-                  required
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Branch"
-                label-for="input-22"
-                label-cols="3"
-                label-size="sm"
-                label-cols-lg="autauto"
-              >
-                <b-form-input
-                  size="sm"
-                  id="input-22"
-                  v-model="form.payment.bank.branch"
-                  trim
-                  required
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="IFSC"
-                label-for="input-23"
-                label-cols="3"
-                label-size="sm"
-                label-cols-lg="autauto"
-              >
-                <b-form-input
-                  size="sm"
-                  id="input-23"
-                  v-model="form.payment.bank.ifsc"
-                  trim
-                  required
-                ></b-form-input>
-              </b-form-group>
-            </div>
-            <b v-if="form.payment.mode === 15">ON CREDIT</b>
-          </b-card>
-          <b-card class="mx-md-1 mb-2 mb-md-0" border-variant="secondary">
-            <div class="mb-3">
-              <b>Transport Details</b>
-            </div>
-            <b-form-group
-              label="Mode of Transport"
-              label-for="input-24"
-              label-size="sm"
-              label-cols="auto"
-            >
-              <b-form-select
-                size="sm"
-                id="input-24"
-                v-model="form.transport.mode"
-                :options="options.transportModes"
-              ></b-form-select>
-            </b-form-group>
-            <b-form-group
-              label="Vehicle No."
-              label-for="input-25"
-              label-cols="auto"
-              label-size="sm"
-              label-cols-lg="autauto"
-              v-if="form.transport.mode === 'Road'"
-            >
-              <b-form-input
-                size="sm"
-                id="input-25"
-                v-model="form.transport.vno"
-                trim
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              id="input-group-3"
-              label="Date of Supply"
-              label-cols="auto"
-              label-for="date-2"
-              label-size="sm"
-            >
-              <b-input-group>
-                <b-form-input
-                  size="sm"
-                  id="date-2"
-                  v-model="form.transport.date"
-                  type="text"
-                  placeholder="YYYY-MM-DD"
-                  autocomplete="off"
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
+            <b-row>
+              <b-col class="pr-lg-2" cols="12" lg="6">
+                <b-form-group
+                  label="Inv. No."
+                  label-for="input-1"
+                  label-cols-lg="4"
+                  label-cols="3"
+                  label-size="sm"
+                >
+                  <b-form-input
                     size="sm"
-                    v-model="form.transport.date"
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="date-1"
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
-              </b-input-group>
-            </b-form-group>
-            <b-form-checkbox size="sm" name="check-button" switch>
-              Reverse Charge
-            </b-form-checkbox>
-          </b-card>
-          <b-card class="ml-md-1 mb-2 mb-md-0" border-variant="secondary">
-            <div class="mb-3">
-              <b>Invoice Comments</b>
-            </div>
+                    id="input-1"
+                    v-model="form.inv.no"
+                    trim
+                    required
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col class="pl-lg-2">
+                <b-form-group
+                  id="input-group-3"
+                  label="Date"
+                  label-cols-lg="4"
+                  label-cols="3"
+                  label-for="date-1"
+                  label-size="sm"
+                >
+                  <b-input-group>
+                    <b-form-input
+                      size="sm"
+                      id="date-1"
+                      v-model="form.inv.date"
+                      type="text"
+                      placeholder="YYYY-MM-DD"
+                      autocomplete="off"
+                      required
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-form-datepicker
+                        size="sm"
+                        v-model="form.inv.date"
+                        button-only
+                        right
+                        locale="en-GB"
+                        aria-controls="date-1"
+                      >
+                      </b-form-datepicker>
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col class="pr-lg-2" cols="12" lg="6">
+                <b-form-group
+                  label="Del. Note"
+                  label-for="input-2"
+                  label-cols-lg="4"
+                  label-cols="3"
+                  label-size="sm"
+                >
+                  <b-form-select
+                    size="sm"
+                    id="input-2"
+                    v-model="form.inv.delNote"
+                  ></b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col class="pl-lg-2" v-if="isSale">
+                <b-form-group
+                  label="EBN"
+                  label-for="input-3"
+                  label-cols-lg="4"
+                  label-cols="3"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-3"
+                    v-model="form.inv.ebn"
+                    trim
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <hr
+              :style="{ marginLeft: '-1rem', marginRight: '-1rem' }"
+              class="mt-0 border-secondary"
+            />
             <b-form-group
-              label="Comments"
-              label-for="input-27"
-              label-cols="auto"
+              label-cols-lg="2"
+              label-cols="3"
+              label="Address"
+              label-for="input-4"
               label-size="sm"
-              label-cols-lg="autauto"
+              v-if="isSale"
             >
               <b-form-textarea
                 size="sm"
-                id="input-27"
-                v-model="form.narration"
+                id="input-4"
+                v-model="form.inv.addr"
+                rows="2"
+                max-rows="2"
                 trim
+                required
               ></b-form-textarea>
             </b-form-group>
-          </b-card>
-        </b-card-group>
-        <hr />
-        <div class="float-right">
-          <b-button
-            class="m-1"
-            size="sm"
-            variant="danger"
-            :to="{ name: 'Workflow' }"
+            <b-row>
+              <b-col class="pr-lg-2" cols="12" lg="6" v-if="isSale">
+                <b-form-group
+                  label-cols-lg="4"
+                  label-cols="3"
+                  label="PIN"
+                  label-for="input-5"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-5"
+                    v-model="form.inv.pin"
+                    trim
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col class="pl-lg-2">
+                <b-form-group
+                  label="State"
+                  label-for="input-6"
+                  label-size="sm"
+                  label-cols-lg="4"
+                  label-cols="3"
+                >
+                  <b-form-select
+                    size="sm"
+                    id="input-6"
+                    v-model="form.inv.state"
+                    :options="options.states"
+                    required
+                  ></b-form-select>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <hr
+              :style="{ marginLeft: '-1rem', marginRight: '-1rem' }"
+              class="mt-0 border-secondary"
+            />
+            <b-row v-if="isSale">
+              <b-col class="pr-lg-2" cols="12" lg="6">
+                <b-form-group
+                  label="Issuer"
+                  label-for="input-7"
+                  label-cols="3"
+                  label-size="sm"
+                  label-cols-lg="4"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-7"
+                    v-model="form.inv.issuer"
+                    trim
+                    required
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col class="pl-lg-2" cols="12" lg="6">
+                <b-form-group
+                  label="Role"
+                  label-for="input-8"
+                  label-cols="3"
+                  label-cols-lg="4"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-8"
+                    v-model="form.inv.role"
+                    trim
+                    required
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </div>
+        </b-card>
+        <!-- Buyer/Seller Details -->
+        <b-card class="mx-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+          <div class="p-3">
+            <div class="mb-3">
+              <b v-if="isSale"> Billed To</b>
+              <b v-else> Billed By</b>
+            </div>
+            <b-row>
+              <b-col cols="12">
+                <b-form-group>
+                  <b-form-radio-group
+                    button-variant="outline-success"
+                    size="sm"
+                    buttons
+                    v-model="form.party.type"
+                    @input="resetPartyDetails()"
+                  >
+                    <b-form-radio value="customer">Customer</b-form-radio>
+                    <b-form-radio value="supplier">Supplier</b-form-radio>
+                  </b-form-radio-group>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label="Name"
+                  label-for="input-9"
+                  label-cols="3"
+                  label-size="sm"
+                >
+                  <b-form-select
+                    size="sm"
+                    id="input-9"
+                    v-model="form.party.name"
+                    :options="
+                      form.party.type === 'customer'
+                        ? options.customers
+                        : options.suppliers
+                    "
+                    @input="fetchCustomerData(form.party.name.id)"
+                    required
+                  ></b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="Address"
+                  label-for="input-10"
+                  label-size="sm"
+                >
+                  <b-form-textarea
+                    size="sm"
+                    id="input-10"
+                    v-model="form.party.addr"
+                    rows="2"
+                    max-rows="2"
+                    trim
+                    plaintext
+                  ></b-form-textarea>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="PIN"
+                  label-for="input-11"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-11"
+                    v-model="form.party.pin"
+                    trim
+                    plaintext
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label="State"
+                  label-for="input-12"
+                  label-size="sm"
+                  label-cols="3"
+                >
+                  <b-form-select
+                    size="sm"
+                    id="input-12"
+                    v-model="form.party.state"
+                    :options="form.party.options.states"
+                    @input="setPartyGst()"
+                    trim
+                  ></b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col v-if="isGst" cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="GSTIN"
+                  label-for="input-13"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-13"
+                    v-model="form.party.gstin"
+                    trim
+                    plaintext
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col v-else cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="TIN"
+                  label-for="input-13"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-13"
+                    v-model="form.party.tin"
+                    trim
+                    plaintext
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </div>
+        </b-card>
+        <!-- Shipping Details -->
+        <b-card class="ml-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+          <div class="p-3">
+            <div class="mb-3"><b>Shipping Details</b></div>
+            <b-form-checkbox
+              id="checkbox-1"
+              v-model="sameBillAddress"
+              name="checkbox-1"
+              class="mb-3"
+              size="sm"
+              switch
+              v-if="isSale"
+            >
+              Same as Billing Address
+            </b-form-checkbox>
+            <b-row>
+              <b-col cols="12">
+                <b-form-group
+                  label="Name"
+                  label-for="input-14"
+                  label-cols="3"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-14"
+                    v-model="form.ship.name"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="Address"
+                  label-for="input-15"
+                  label-size="sm"
+                >
+                  <b-form-textarea
+                    size="sm"
+                    id="input-15"
+                    v-model="form.ship.addr"
+                    rows="2"
+                    max-rows="2"
+                    trim
+                  ></b-form-textarea>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="PIN"
+                  label-for="input-16"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-16"
+                    v-model="form.ship.pin"
+                    trim
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label="State"
+                  label-for="input-17"
+                  label-size="sm"
+                  label-cols="3"
+                >
+                  <b-form-select
+                    size="sm"
+                    id="input-17"
+                    v-model="form.ship.state"
+                    :options="options.states"
+                    trim
+                  ></b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col v-if="isGst" cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="GSTIN"
+                  label-for="input-18"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-18"
+                    v-model="form.ship.gstin"
+                    trim
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col v-else cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="TIN"
+                  label-for="input-18"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-18"
+                    v-model="form.ship.tin"
+                    trim
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </div>
+        </b-card>
+      </b-card-group>
+      <div class="my-2">
+        <b-form-radio-group
+          button-variant="outline-success"
+          size="sm"
+          buttons
+          v-model="form.taxType"
+        >
+          <b-form-radio value="gst">GST</b-form-radio>
+          <b-form-radio value="vat">VAT</b-form-radio>
+        </b-form-radio-group>
+      </div>
+      <b-table-simple hover small caption-top responsive bordered>
+        <b-thead head-variant="dark">
+          <!-- table header -->
+          <b-tr class="text-center">
+            <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
+              >No</b-th
+            >
+            <b-th
+              :style="{
+                maxWidth: '300px',
+                width: '150px',
+                minWidth: '100px',
+              }"
+              rowspan="2"
+              >Item</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
+              rowspan="2"
+              >HSN/SAC</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+              rowspan="2"
+              >Qty</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
+              rowspan="2"
+              >Rate</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+              rowspan="2"
+              >Discount</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+              rowspan="2"
+              >Taxable Amt</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
+              colspan="2"
+              v-if="isGst"
+              >IGST</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
+              colspan="2"
+              v-if="isGst"
+              >CESS</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
+              colspan="2"
+              v-if="!isGst"
+              >TAX</b-th
+            >
+            <b-th
+              :style="{
+                maxWidth: '300px',
+                width: '150px',
+                minWidth: '100px',
+              }"
+              rowspan="2"
+              >Total</b-th
+            >
+            <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
+              >+/-</b-th
+            >
+          </b-tr>
+          <!-- tax field sub headers -->
+          <b-tr class="text-center">
+            <b-th
+              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+              v-if="isGst"
+              >%</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+              v-if="isGst"
+              >Rs</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+              v-if="isGst"
+              >%</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+              v-if="isGst"
+              >Rs</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+              v-if="!isGst"
+              >%</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
+              v-if="!isGst"
+              >Rs</b-th
+            >
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr
+            class="text-center"
+            v-for="(field, index) in form.bill"
+            :key="index"
           >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle"
-              icon="arrow-left"
-            ></b-icon>
-            <span class="align-middle"> Back</span>
-          </b-button>
-          <b-button
-            class="m-1"
-            size="sm"
-            variant="warning"
-            @click.prevent="resetForm"
+            <!-- No.  -->
+            <b-td>
+              {{ index + 1 }}
+            </b-td>
+
+            <!-- Item -->
+            <b-td>
+              <b-form-select
+                size="sm"
+                v-model="field.product"
+                :options="options.products"
+                @input="fetchProductDetails(field.product.id, index)"
+                required
+              ></b-form-select>
+            </b-td>
+
+            <!-- HSN/SAC -->
+            <b-td>
+              <b>{{ field.hsn }}</b>
+            </b-td>
+
+            <!-- Qty -->
+            <b-td>
+              <b-input
+                v-model="field.qty"
+                class="hide-spin-button text-right"
+                type="number"
+                step="0.01"
+                min="0.01"
+                @input="updateTaxAndTotal(index)"
+                :readonly="field.isService"
+              ></b-input>
+            </b-td>
+
+            <!-- Rate -->
+            <b-td>
+              <b-input
+                v-model="field.rate"
+                class="hide-spin-button text-right"
+                type="number"
+                step="0.01"
+                min="0.01"
+                @input="updateTaxAndTotal(index)"
+              ></b-input>
+            </b-td>
+
+            <!-- Discount -->
+            <b-td>
+              <b-input
+                v-model="field.discount.amount"
+                class="hide-spin-button text-right"
+                type="number"
+                step="0.01"
+                min="0.00"
+                @input="updateTaxAndTotal(index)"
+              ></b-input>
+            </b-td>
+
+            <!-- Taxable Amt -->
+            <b-td>
+              {{ field.taxable }}
+            </b-td>
+
+            <!-- GST % -->
+            <b-td v-if="isGst">
+              {{ field.igst.rate }}
+            </b-td>
+
+            <!-- GST $ -->
+            <b-td v-if="isGst">
+              {{ field.igst.amount }}
+            </b-td>
+
+            <!-- CESS % -->
+            <b-td v-if="isGst">
+              {{ field.cess.rate }}
+            </b-td>
+
+            <!-- CESS $ -->
+            <b-td v-if="isGst">
+              {{ field.cess.amount }}
+            </b-td>
+
+            <!-- VAT Tax % -->
+            <b-td v-if="!isGst">
+              {{ field.vat.rate }}
+            </b-td>
+
+            <!-- VAT Tax $ -->
+            <b-td v-if="!isGst">
+              {{ field.vat.amount }}
+            </b-td>
+
+            <!-- Total -->
+            <b-td>
+              {{ field.total }}
+            </b-td>
+
+            <!-- +/- Buttons -->
+            <b-td>
+              <b-button
+                v-if="index < billLength - 1"
+                @click.prevent="deleteBillItem()"
+                size="sm"
+                >-</b-button
+              >
+              <b-button v-else @click.prevent="addBillItem()" size="sm"
+                >+</b-button
+              >
+            </b-td>
+          </b-tr>
+        </b-tbody>
+        <b-tfoot>
+          <b-tr variant="secondary" class="text-right">
+            <b-th colspan="5"> Total </b-th>
+            <b-th> ₹ {{ getTotal("discount", "amount") }}</b-th>
+            <b-th> ₹ {{ getTotal("taxable") }}</b-th>
+            <b-th colspan="2" v-if="isGst"
+              >₹ {{ getTotal("igst", "amount") }}</b-th
+            >
+            <b-th colspan="2" v-if="isGst"
+              >₹ {{ getTotal("cess", "amount") }}</b-th
+            >
+            <b-th colspan="2" v-else>{{ getTotal("vat", "amount") }}</b-th>
+            <b-th> ₹ {{ getTotal("total") }}</b-th>
+            <b-th></b-th>
+          </b-tr>
+        </b-tfoot>
+      </b-table-simple>
+
+      <b-row class="mt-5">
+        <b-col cols="12" lg="7"></b-col>
+        <b-col cols="12" lg="5">
+          <b-table-simple responsive>
+            <b-tbody>
+              <b-tr>
+                <b-th colspan="3">Taxable Amount</b-th>
+                <b-th class="text-right">₹ {{ getTotal("taxable") }}</b-th>
+              </b-tr>
+              <b-tr>
+                <b-th colspan="3">Total IGST</b-th>
+                <b-th class="text-right"
+                  >₹ {{ getTotal("igst", "amount") }}</b-th
+                >
+              </b-tr>
+              <b-tr>
+                <b-th colspan="3">Total CESS</b-th>
+                <b-th class="text-right"
+                  >₹ {{ getTotal("cess", "amount") }}</b-th
+                >
+              </b-tr>
+              <b-tr>
+                <b-th colspan="3">Total Discount</b-th>
+                <b-th class="text-right"
+                  >₹ {{ getTotal("discount", "amount") }}</b-th
+                >
+              </b-tr>
+              <b-tr>
+                <b-th colspan="3">Total Invoice Value</b-th>
+                <b-th class="text-right">₹ {{ getTotal("total") }}</b-th>
+              </b-tr>
+              <b-tr>
+                <b-th colspan="3">Total Invoice Value (Rounded Off)</b-th>
+                <b-th class="text-right"
+                  >₹ {{ Math.round(getTotal("total")) }}</b-th
+                >
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
+        </b-col>
+      </b-row>
+      <b-card-group class="d-block d-md-flex" deck>
+        <b-card class="mr-md-1 mb-2 mb-md-0" border-variant="secondary">
+          <div class="mb-3">
+            <b>Payment Details</b>
+          </div>
+          <b-form-group
+            label="Mode of Payment"
+            label-for="input-19"
+            label-size="sm"
+            label-cols="auto"
           >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle"
-              icon="arrow-repeat"
-            ></b-icon>
-            <span class="align-middle"> Reset</span>
-          </b-button>
-          <b-button type="submit" size="sm" class="m-1" variant="success">
-            <b-spinner v-if="isLoading" small></b-spinner>
-            <b-icon
-              v-else
-              aria-hidden="true"
-              class="align-middle"
-              icon="plus-square"
-            ></b-icon>
-            <span class="align-middle"> Save</span>
-          </b-button>
-        </div>
-      </b-form>
-    </b-card>
+            <b-form-select
+              size="sm"
+              id="input-19"
+              v-model="form.payment.mode"
+              :options="options.payModes"
+              required
+            ></b-form-select>
+          </b-form-group>
+          <b v-if="form.payment.mode === 3">CASH RECEIVED</b>
+          <div v-if="form.payment.mode === 2">
+            <b>Bank Details</b>
+            <b-form-group
+              label="Acc. No."
+              label-for="input-20"
+              label-cols="3"
+              label-size="sm"
+              label-cols-lg="autauto"
+            >
+              <b-form-input
+                size="sm"
+                id="input-20"
+                v-model="form.payment.bank.no"
+                trim
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              label="Bank Name"
+              label-for="input-21"
+              label-cols="3"
+              label-size="sm"
+              label-cols-lg="autauto"
+            >
+              <b-form-input
+                size="sm"
+                id="input-21"
+                v-model="form.payment.bank.name"
+                trim
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              label="Branch"
+              label-for="input-22"
+              label-cols="3"
+              label-size="sm"
+              label-cols-lg="autauto"
+            >
+              <b-form-input
+                size="sm"
+                id="input-22"
+                v-model="form.payment.bank.branch"
+                trim
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              label="IFSC"
+              label-for="input-23"
+              label-cols="3"
+              label-size="sm"
+              label-cols-lg="autauto"
+            >
+              <b-form-input
+                size="sm"
+                id="input-23"
+                v-model="form.payment.bank.ifsc"
+                trim
+                required
+              ></b-form-input>
+            </b-form-group>
+          </div>
+          <b v-if="form.payment.mode === 15">ON CREDIT</b>
+        </b-card>
+        <b-card class="mx-md-1 mb-2 mb-md-0" border-variant="secondary">
+          <div class="mb-3">
+            <b>Transport Details</b>
+          </div>
+          <b-form-group
+            label="Mode of Transport"
+            label-for="input-24"
+            label-size="sm"
+            label-cols="auto"
+          >
+            <b-form-select
+              size="sm"
+              id="input-24"
+              v-model="form.transport.mode"
+              :options="options.transportModes"
+            ></b-form-select>
+          </b-form-group>
+          <b-form-group
+            label="Vehicle No."
+            label-for="input-25"
+            label-cols="auto"
+            label-size="sm"
+            label-cols-lg="autauto"
+            v-if="form.transport.mode === 'Road'"
+          >
+            <b-form-input
+              size="sm"
+              id="input-25"
+              v-model="form.transport.vno"
+              trim
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            id="input-group-3"
+            label="Date of Supply"
+            label-cols="auto"
+            label-for="date-2"
+            label-size="sm"
+          >
+            <b-input-group>
+              <b-form-input
+                size="sm"
+                id="date-2"
+                v-model="form.transport.date"
+                type="text"
+                placeholder="YYYY-MM-DD"
+                autocomplete="off"
+              ></b-form-input>
+              <b-input-group-append>
+                <b-form-datepicker
+                  size="sm"
+                  v-model="form.transport.date"
+                  button-only
+                  right
+                  locale="en-GB"
+                  aria-controls="date-1"
+                >
+                </b-form-datepicker>
+              </b-input-group-append>
+            </b-input-group>
+          </b-form-group>
+          <b-form-checkbox size="sm" name="check-button" switch>
+            Reverse Charge
+          </b-form-checkbox>
+        </b-card>
+        <b-card class="ml-md-1 mb-2 mb-md-0" border-variant="secondary">
+          <div class="mb-3">
+            <b>Invoice Comments</b>
+          </div>
+          <b-form-group
+            label="Comments"
+            label-for="input-27"
+            label-cols="auto"
+            label-size="sm"
+            label-cols-lg="autauto"
+          >
+            <b-form-textarea
+              size="sm"
+              id="input-27"
+              v-model="form.narration"
+              trim
+            ></b-form-textarea>
+          </b-form-group>
+        </b-card>
+      </b-card-group>
+      <hr />
+      <div class="float-right">
+        <b-button
+          class="m-1"
+          size="sm"
+          variant="danger"
+          :to="{ name: 'Workflow' }"
+        >
+          <b-icon
+            aria-hidden="true"
+            class="align-middle"
+            icon="arrow-left"
+          ></b-icon>
+          <span class="align-middle"> Back</span>
+        </b-button>
+        <b-button
+          class="m-1"
+          size="sm"
+          variant="warning"
+          @click.prevent="resetForm"
+        >
+          <b-icon
+            aria-hidden="true"
+            class="align-middle"
+            icon="arrow-repeat"
+          ></b-icon>
+          <span class="align-middle"> Reset</span>
+        </b-button>
+        <b-button type="submit" size="sm" class="m-1" variant="success">
+          <b-spinner v-if="isLoading" small></b-spinner>
+          <b-icon
+            v-else
+            aria-hidden="true"
+            class="align-middle"
+            icon="plus-square"
+          ></b-icon>
+          <span class="align-middle"> Save</span>
+        </b-button>
+      </div>
+      <div class="clearfix"></div>
+    </b-form>
   </b-container>
 </template>
 
