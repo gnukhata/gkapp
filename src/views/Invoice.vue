@@ -1526,7 +1526,7 @@ export default {
             if (resp.data.gkstatus === 0) {
               invid = resp.data.invoiceid + "/";
               invid += this.isSale ? "SL" : "PU";
-              invid += "-" + String(this.yearEnd).substring(this.yearEnd.length - 2);
+              invid += "-" + String(this.yearEnd).substring(2, 4);
               self.form.inv.no = invid;
             }
           }
