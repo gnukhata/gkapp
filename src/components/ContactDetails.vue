@@ -233,106 +233,134 @@ export default {
      * Update customer/supplier details
      */
     updateContact() {
-      delete this.details.statelist;
-      this.isLoading = true;
-      const config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
-      axios
-        .put(`${this.gkCoreUrl}/customersupplier`, this.details, config)
-        .then((res) => {
-          switch (res.data.gkstatus) {
-            case 0:
-              this.isLoading = false;
-              this.$bvToast.toast(
-                `${this.details.custname} Profile Details Updated`,
-                {
-                  title: "Success",
-                  variant: "success",
-                  solid: true,
-                }
-              );
-              break;
-            case 2:
-              this.isLoading = false;
-              this.$bvToast.toast("Unauthorised Access", {
-                variant: "danger",
-                solid: true,
-              });
-              break;
-            case 4:
-              this.isLoading = false;
-              this.$bvToast.toast("You have no permissions to delete details", {
-                variant: "danger",
-                solid: true,
-              });
-              break;
-          }
+      this.$bvModal
+        .msgBoxConfirm(`Update ${this.details.custname} details ?`, {
+          centered: true,
+          size: "sm",
         })
-        .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            variant: "danger",
-            solid: true,
-          });
+        .then((val) => {
+          if (val) {
+            delete this.details.statelist;
+            this.isLoading = true;
+            const config = {
+              headers: {
+                gktoken: this.authToken,
+              },
+            };
+            axios
+              .put(`${this.gkCoreUrl}/customersupplier`, this.details, config)
+              .then((res) => {
+                switch (res.data.gkstatus) {
+                  case 0:
+                    this.isLoading = false;
+                    this.$bvToast.toast(
+                      `${this.details.custname} Profile Details Updated`,
+                      {
+                        title: "Success",
+                        variant: "success",
+                        solid: true,
+                      }
+                    );
+                    break;
+                  case 2:
+                    this.isLoading = false;
+                    this.$bvToast.toast("Unauthorised Access", {
+                      variant: "danger",
+                      solid: true,
+                    });
+                    break;
+                  case 4:
+                    this.isLoading = false;
+                    this.$bvToast.toast(
+                      "You have no permissions to delete details",
+                      {
+                        variant: "danger",
+                        solid: true,
+                      }
+                    );
+                    break;
+                }
+              })
+              .catch((e) => {
+                this.$bvToast.toast(e.message, {
+                  variant: "danger",
+                  solid: true,
+                });
+              });
+          }
         });
     },
     /**Delete contact details based on custid */
     deleteContact() {
-      this.isLoading = true;
-      const config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-        data: {
-          custid: this.details.custid,
-        },
-      };
-      axios
-        .delete(`${this.gkCoreUrl}/customersupplier`, config)
-        .then((res) => {
-          switch (res.data.gkstatus) {
-            case 0:
-              this.isLoading = false;
-              document.querySelector("#contactinfo").innerHTML = "";
-              this.$bvToast.toast(`${this.details.custname} Profile Deleted`, {
-                title: "Success",
-                variant: "success",
-                solid: true,
-              });
-              break;
-            case 2:
-              this.isLoading = false;
-              this.$bvToast.toast("Unauthorised Access", {
-                title: "Action Denied",
-                variant: "danger",
-                solid: true,
-              });
-              break;
-            case 4:
-              this.isLoading = false;
-              this.$bvToast.toast("You have no permissions to modify details", {
-                title: "Access Denied",
-                variant: "danger",
-                solid: true,
-              });
-              break;
-            case 5:
-              this.isLoading = false;
-              this.$bvToast.toast("Causes Integrity Issues", {
-                title: "Cannot Delete Contact",
-                variant: "danger",
-                solid: true,
-              });
-              break;
-          }
+      this.$bvModal
+        .msgBoxConfirm(`Delete ${this.details.custname} ?`, {
+          centered: true,
+          size: "sm",
         })
-        .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            variant: "danger",
-            solid: true,
-          });
+        .then((val) => {
+          if (val) {
+            const config = {
+              headers: {
+                gktoken: this.authToken,
+              },
+              data: {
+                custid: this.details.custid,
+              },
+            };
+            this.isLoading = true;
+            axios
+              .delete(`${this.gkCoreUrl}/customersupplier`, config)
+              .then((res) => {
+                this.isLoading = true;
+                switch (res.data.gkstatus) {
+                  case 0:
+                    this.isLoading = false;
+                    document.querySelector("#contactinfo").innerHTML = "";
+                    this.$bvToast.toast(
+                      `${this.details.custname} Profile Deleted`,
+                      {
+                        title: "Success",
+                        variant: "success",
+                        solid: true,
+                      }
+                    );
+                    break;
+                  case 2:
+                    this.isLoading = false;
+                    this.$bvToast.toast("Unauthorised Access", {
+                      title: "Action Denied",
+                      variant: "danger",
+                      solid: true,
+                    });
+                    break;
+                  case 4:
+                    this.isLoading = false;
+                    this.$bvToast.toast(
+                      "You have no permissions to modify details",
+                      {
+                        title: "Access Denied",
+                        variant: "danger",
+                        solid: true,
+                      }
+                    );
+                    break;
+                  case 5:
+                    this.isLoading = false;
+                    this.$bvToast.toast("Causes Integrity Issues", {
+                      title: "Cannot Delete Contact",
+                      variant: "danger",
+                      solid: true,
+                    });
+                    break;
+                }
+              })
+              .catch((e) => {
+                this.$bvToast.toast(e.message, {
+                  variant: "danger",
+                  solid: true,
+                });
+              });
+          }
         });
     },
     states() {
