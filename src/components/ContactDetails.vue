@@ -318,6 +318,14 @@ export default {
                 solid: true,
               });
               break;
+            case 5:
+              this.isLoading = false;
+              this.$bvToast.toast("Causes Integrity Issues", {
+                title: "Cannot Delete Contact",
+                variant: "danger",
+                solid: true,
+              });
+              break;
           }
         })
         .catch((e) => {
