@@ -2,155 +2,161 @@
   <b-form id="contactinfo" @submit.prevent="updateContact">
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
     <b-card
-      header="Details"
+      header="Info"
+      v-b-toggle.collapse-info
       header-text-variant="light"
       header-bg-variant="primary"
-      border-variant="secondary"
     >
-      <b-form-group
-        label="Name"
-        label-for="nested-street"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-input
-          :value="details.custname"
-          id="nested-street"
-          v-model="details.custname"
-        ></b-form-input>
-      </b-form-group>
+      <b-collapse id="collapse-info">
+        <b-form-group
+          label="Name"
+          label-for="Name"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            :value="details.custname"
+            id="nested-street"
+            v-model="details.custname"
+          ></b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        label="Phone"
-        label-for="nested-city"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-input
-          :value="details.custphone"
-          v-model="details.custphone"
-          id="nested-city"
-        ></b-form-input>
-      </b-form-group>
+        <b-form-group
+          label="Phone"
+          label-for="Phone Number"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            :value="details.custphone"
+            v-model="details.custphone"
+            id="nested-city"
+          ></b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        label="Email:"
-        label-for="nested-state"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-input
-          v-model="details.custemail"
-          :value="details.custemail"
-        ></b-form-input>
-      </b-form-group>
+        <b-form-group
+          label="Email:"
+          label-for="nested-state"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            v-model="details.custemail"
+            :value="details.custemail"
+          ></b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        label="Fax:"
-        label-for="nested-country"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-input
-          v-model="details.custfax"
-          :value="details.custfax"
-        ></b-form-input>
-      </b-form-group>
+        <b-form-group
+          label="Fax:"
+          label-for="nested-country"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            v-model="details.custfax"
+            :value="details.custfax"
+          ></b-form-input>
+        </b-form-group>
+      </b-collapse>
     </b-card>
     <!-- Contact Address -->
     <b-card
       header="Address"
       header-text-variant="light"
       header-bg-variant="primary"
-      border-variant="secondary"
       class="mt-2"
+      v-b-toggle.address
     >
-      <b-form-group
-        label="Street:"
-        label-for="nested-street"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-input
-          v-model="details.custaddr"
-          :value="details.custaddr"
-        ></b-form-input>
-      </b-form-group>
+      <b-collapse id="address">
+        <b-form-group
+          label="Street:"
+          label-for="nested-street"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            v-model="details.custaddr"
+            :value="details.custaddr"
+          ></b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        label="State:"
-        label-for="nested-state"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-select
-          :options="options.states"
-          :value="details.state"
-          v-model="details.state"
-        ></b-form-select>
-      </b-form-group>
+        <b-form-group
+          label="State:"
+          label-for="state"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-select
+            :options="options.states"
+            :value="details.state"
+            v-model="details.state"
+          ></b-form-select>
+        </b-form-group>
 
-      <b-form-group
-        label="Pincode"
-        label-for="nested-country"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-input
-          :value="details.pincode"
-          v-model="details.pincode"
-          id="nested-country"
-        ></b-form-input>
-      </b-form-group>
+        <b-form-group
+          label="Pincode"
+          label-for="nested-country"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            :value="details.pincode"
+            v-model="details.pincode"
+            id="nested-country"
+          ></b-form-input>
+        </b-form-group>
+      </b-collapse>
     </b-card>
     <!-- Contact Bank details -->
     <b-card
       header="Financial Details"
       header-bg-variant="primary"
       header-text-variant="light"
-      border-variant="secondary"
       class="mt-2"
+      v-b-toggle.financial
     >
-      <b-form-group
-        label="PAN:"
-        label-for="nested-street"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-input
-          :value="details.custpan"
-          v-model="details.custpan"
-          id="nested-street"
-        ></b-form-input>
-      </b-form-group>
+      <b-collapse id="financial">
+        <b-form-group
+          label="PAN:"
+          label-for="nested-street"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            :value="details.custpan"
+            v-model="details.custpan"
+            id="nested-street"
+          ></b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        label="TAN:"
-        label-for="nested-city"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-input
-          v-model="details.custtan"
-          :value="details.custtan"
-          id="nested-city"
-        ></b-form-input>
-      </b-form-group>
+        <b-form-group
+          label="TAN:"
+          label-for="nested-city"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            v-model="details.custtan"
+            :value="details.custtan"
+            id="nested-city"
+          ></b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        label="GSTIN"
-        label-for="nested-state"
-        label-cols-sm="3"
-        label-align-sm="right"
-      >
-        <b-form-input
-          v-for="i in details.gstin"
-          :key="i"
-          :value="i"
-          class="m-1"
-          disabled
-        ></b-form-input>
-      </b-form-group>
+        <b-form-group
+          label="GSTIN"
+          label-for="nested-state"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            v-for="i in details.gstin"
+            :key="i"
+            :value="i"
+            class="m-1"
+            disabled
+          ></b-form-input>
+        </b-form-group>
+      </b-collapse>
     </b-card>
     <!-- Action Buttons -->
     <div class="mt-2 mb-3 d-flex flex-row-reverse">
