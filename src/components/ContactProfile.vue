@@ -173,7 +173,7 @@ import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
-  name: "ContactDetails",
+  name: "ContactProfile",
   props: { customer: Object },
   data() {
     return {

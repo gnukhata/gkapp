@@ -174,10 +174,10 @@
             </h5>
           </template>
           <b-card-body style="height: 400px" v-if="selectedEntity !== null">
-            <contact-details
+            <contact-profile
               :customer="selectedEntity"
               :key="selectedEntity.custid"
-            ></contact-details>
+            ></contact-profile>
           </b-card-body>
         </b-card>
         <!-- Goods / Services Profile -->
@@ -215,13 +215,13 @@
 <script>
 import Axios from "axios";
 import { mapState } from "vuex";
-import ContactDetails from "@/components/ContactDetails";
+import ContactProfile from "@/components/ContactProfile";
 import BusinessProfile from "@/components/BusinessProfile.vue";
 // import HeroBar from '@/components/HeroBar'
 
 export default {
   name: "Workflow",
-  components: { ContactDetails, BusinessProfile },
+  components: { ContactProfile, BusinessProfile },
   data() {
     return {
       tabChoice: 0,
