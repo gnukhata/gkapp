@@ -82,7 +82,13 @@ export default {
   },
   computed: {
     activeNav: (self) => self.$route.name,
-    ...mapState(["userName", "orgName", "gkCoreUrl", "authToken"]),
+    ...mapState([
+      "userName",
+      "orgName",
+      "gkCoreUrl",
+      "authToken",
+      "userAuthenticated",
+    ]),
   },
   methods: {
     /**
@@ -139,6 +145,9 @@ export default {
           this.$workbox.messageSW({ type: "SKIP_WAITING" });
         }, 2000);
       });
+    }
+    if (this.userAuthenticated) {
+      this.$router.push("/workflow");
     }
   },
 };
