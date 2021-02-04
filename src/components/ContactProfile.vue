@@ -401,6 +401,8 @@ export default {
                 })
                 .then((res) => {
                   console.log("account delete status", res.data.gkstatus);
+                  // Add a log about the delete status
+                  this.addLog();
                 })
                 .catch((e) => {
                   console.log(e);
@@ -410,6 +412,27 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+        });
+    },
+    /**Add a record of contact delete action */
+    addLog() {
+      const config = {
+        headers: {
+          gktoken: this.authToken,
+        },
+      };
+      const payload = {
+        activity: `${this.details.custname} ${
+          this.details.csflag == 3 ? "customer" : "supplier"
+        } deleted`,
+      };
+      axios
+        .post(`${this.gkCoreUrl}/log`, payload, config)
+        .then((res) => {
+          console.log("log status ", res.data.gkstatus, payload);
+        })
+        .catch((e) => {
+          console.log("log ", e);
         });
     },
     states() {
