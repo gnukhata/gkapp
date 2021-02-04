@@ -4,7 +4,7 @@
     <h3 class="text-center mb-4 mt-2 text-muted">
       {{ details.orgname }} Profile
     </h3>
-    <b-form>
+    <b-form @submit.prevent="updateDetails">
       <!-- {{ details }} -->
       <b-card-group deck>
         <!-- general Card -->
@@ -97,7 +97,7 @@
           <b-form-group label="Name" label-cols="4" label-align="left">
             <b-input-group>
               <b-form-input
-                v-model="details['bankdetails']['bankname']"
+                v-model="details.bankdetails.bankname"
                 type="text"
               ></b-form-input>
             </b-input-group>
@@ -108,19 +108,19 @@
             label-align="left"
           >
             <b-form-input
-              v-model="details['bankdetails']['accountno']"
+              v-model="details.bankdetails.accountno"
               type="text"
             ></b-form-input>
           </b-form-group>
           <b-form-group label="Branch" label-cols="4">
             <b-form-input
-              v-model="details['bankdetails']['branchname']"
+              v-model="details.bankdetails.branchname"
               type="text"
             ></b-form-input>
           </b-form-group>
           <b-form-group label="IFSC Code" label-cols="4">
             <b-form-input
-              v-model="details['bankdetails']['ifsc']"
+              v-model="details.bankdetails.ifsc"
               type="text"
             ></b-form-input>
           </b-form-group>
@@ -138,7 +138,9 @@
           </b-form-group>
           <b-form-group label="GSTIN" label-cols="4">
             <b-form-input
-              v-model="details.gstin['28']"
+              v-for="(gst, index) in details.gstin"
+              :key="gst"
+              v-model="details.gstin[index]"
               type="text"
             ></b-form-input>
           </b-form-group>
@@ -158,18 +160,13 @@
 </template>
 
 <script>
-/**
- * TODO
- * 1. Update Company details
- * 2. Display few more fields
- */
 import { mapState } from "vuex";
 export default {
   name: "OrgProfile",
   data() {
     return {
       loading: true,
-      details: [],
+      details: "",
     };
   },
   computed: {
@@ -197,6 +194,64 @@ export default {
         })
         .catch((e) => {
           alert(e);
+        });
+    },
+    updateDetails() {
+      this.$bvModal
+        .msgBoxConfirm(`Update ${this.details.orgname} details ?`, {
+          centered: true,
+          size: "sm",
+        })
+        .then((val) => {
+          if (val) {
+            delete this.details.statelist;
+            this.isLoading = true;
+            const config = {
+              headers: {
+                gktoken: this.authToken,
+              },
+            };
+            axios
+              .put(`${this.gkCoreUrl}/organisations`, this.details, config)
+              .then((res) => {
+                switch (res.data.gkstatus) {
+                  case 0:
+                    this.isLoading = false;
+                    this.$bvToast.toast(
+                      `${this.details.orgname} Profile Details Updated`,
+                      {
+                        title: "Success",
+                        variant: "success",
+                        solid: true,
+                      }
+                    );
+                    break;
+                  case 2:
+                    this.isLoading = false;
+                    this.$bvToast.toast("Unauthorised Access", {
+                      variant: "danger",
+                      solid: true,
+                    });
+                    break;
+                  case 4:
+                    this.isLoading = false;
+                    this.$bvToast.toast(
+                      "You have no permissions to delete details",
+                      {
+                        variant: "danger",
+                        solid: true,
+                      }
+                    );
+                    break;
+                }
+              })
+              .catch((e) => {
+                this.$bvToast.toast(e.message, {
+                  variant: "danger",
+                  solid: true,
+                });
+              });
+          }
         });
     },
   },
