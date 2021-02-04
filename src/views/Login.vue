@@ -204,7 +204,7 @@ export default {
                         orgYears: {
                           yearStart: orgYearsResponse.data.gkdata[0].yearstart,
                           yearEnd: orgYearsResponse.data.gkdata[0].yearend,
-                        }
+                        },
                       });
                       this.$router.push("/workflow");
                       // Alert the user on successful login
@@ -332,9 +332,12 @@ export default {
   mounted() {
     this.fetchOrgs();
     this.genCaptcha();
+    if (this.userAuthenticated) {
+      this.$router.push("/workflow");
+    }
   },
   computed: {
-    ...mapState(["gkCoreUrl"]),
+    ...mapState(["gkCoreUrl", "userAuthenticated"]),
   },
 };
 </script>

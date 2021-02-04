@@ -146,9 +146,6 @@ export default {
         }, 2000);
       });
     }
-    if (this.userAuthenticated) {
-      this.$router.push("/workflow");
-    }
   },
 };
 </script>
