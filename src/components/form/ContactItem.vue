@@ -457,6 +457,16 @@ export default {
                 solid: true,
               });
               this.resetForm();
+
+
+              // === Server Log ===
+              let logdata = { activity: "" };
+              if (payload.csflag === 3) {
+                logdata.activity = payload.custname + " customer created";
+              } else {
+                logdata.activity = payload.custname + " supplier created";
+              }
+              axios.post(`${this.gkCoreUrl}/log`, logdata, config);
               break;
             case 1:
               this.$bvToast.toast(

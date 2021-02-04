@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :style="{minWidth: '300px'}">
+  <div class="card" :style="{ minWidth: '300px' }">
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <div class="card-header text-left py-2">
@@ -156,7 +156,7 @@
               </b-card-body>
             </b-card>
           </b-col>
-          <b-col cols="12" :md="(inOverlay)? 12 : 6" lg="6" class="mb-3">
+          <b-col cols="12" :md="inOverlay ? 12 : 6" lg="6" class="mb-3">
             <b-card no-body border-variant="primary">
               <b-card-body class="p-2">
                 <b>Tax</b>
@@ -473,6 +473,19 @@ export default {
               Promise.all(taxRequests).then((responses) => {
                 // console.log(responses)
               });
+
+              // === Server Log ===
+              let logdata = { activity: "" };
+              if (payload.godownflag === true) {
+                logdata.activity =
+                  payload.productdesc +
+                  " product created in " +
+                  payload.godetails.name +
+                  " godowns";
+              } else {
+                logdata.activity = payload.productdesc + " product created";
+              }
+              axios.post(`${this.gkCoreUrl}/log`, logdata, config);
               break;
             case 1:
               this.$bvToast.toast(
@@ -595,7 +608,7 @@ export default {
       return { product, tax };
     },
     resetForm() {
-      let uom = this.uom
+      let uom = this.uom;
       this.form = {
         name: null,
         uom: null,
@@ -612,7 +625,7 @@ export default {
         },
         hsn: null,
       };
-      this.uom = uom
+      this.uom = uom;
     },
     preloadData() {
       this.isPreloading = true;
