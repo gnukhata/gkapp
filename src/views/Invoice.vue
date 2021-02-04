@@ -1056,7 +1056,7 @@
 </template>
 
 <script>
-import Axios from "axios";
+import axios from "axios";
 import { mapState } from "vuex";
 
 import ContactItem from "../components/form/ContactItem.vue";
@@ -1293,7 +1293,7 @@ export default {
         },
       };
       const requests = [
-        Axios.get(`${this.gkCoreUrl}/state`, config).catch((error) => {
+        axios.get("/state", config).catch((error) => {
           this.displayToast(
             "Fetch State Data Failed!",
             error.message,
@@ -1375,8 +1375,8 @@ export default {
             gktoken: this.authToken,
           },
         };
-        Axios.get(
-          `${this.gkCoreUrl}/customersupplier?qty=single&custid=${id}`,
+        axios.get(
+          `/customersupplier?qty=single&custid=${id}`,
           config
         )
           .then((resp) => {
@@ -1453,14 +1453,14 @@ export default {
         },
       };
       const requests = [
-        Axios.get(
-          `${this.gkCoreUrl}/products?qty=single&productcode=${id}`,
+        axios.get(
+          `/products?qty=single&productcode=${id}`,
           config
         ).catch((error) => {
           return error;
         }),
-        Axios.get(
-          `${this.gkCoreUrl}/tax?pscflag=p&productcode=${id}`,
+        axios.get(
+          `/tax?pscflag=p&productcode=${id}`,
           config
         ).catch((error) => {
           return error;
@@ -1543,8 +1543,8 @@ export default {
           gktoken: this.authToken,
         },
       };
-      return Axios.get(
-        `${this.gkCoreUrl}/invoice?getinvid&type=${inoutflag}`,
+      return axios.get(
+        `/invoice?getinvid&type=${inoutflag}`,
         config
       )
         .then((resp) => {
@@ -1568,7 +1568,7 @@ export default {
         },
       };
       let self = this;
-      return Axios.get(`${this.gkCoreUrl}/users?user=single`, config)
+      return axios.get(`/users?user=single`, config)
         .then((resp) => {
           // === User name and role ===
           if (resp.status === 200) {
@@ -1594,8 +1594,8 @@ export default {
         },
       };
       const requests = [
-        Axios.get(
-          `${this.gkCoreUrl}/customersupplier?qty=custall`,
+        axios.get(
+          "/customersupplier?qty=custall",
           config
         ).catch((error) => {
           this.displayToast(
@@ -1605,8 +1605,8 @@ export default {
           );
           return error;
         }),
-        Axios.get(
-          `${this.gkCoreUrl}/customersupplier?qty=supall`,
+        axios.get(
+          "/customersupplier?qty=supall",
           config
         ).catch((error) => {
           this.displayToast(
@@ -1673,7 +1673,7 @@ export default {
         },
       };
       let self = this;
-      return Axios.get(`${this.gkCoreUrl}/products`, config)
+      return axios.get("/products", config)
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
@@ -1770,7 +1770,7 @@ export default {
 
       const payload = this.initPayload();
 
-      Axios.post(`${this.gkCoreUrl}/invoice`, payload, config)
+      axios.post("/invoice", payload, config)
         .then((resp) => {
           self.isLoading = false;
           if (resp.status === 200) {

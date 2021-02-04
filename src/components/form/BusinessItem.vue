@@ -443,7 +443,7 @@ export default {
       };
 
       axios
-        .post(`${this.gkCoreUrl}/products`, payload.product, config)
+        .post("/products", payload.product, config)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
@@ -468,7 +468,7 @@ export default {
                   taxrate: item.taxrate,
                   productcode: productCode,
                 };
-                return axios.post(`${this.gkCoreUrl}/tax`, taxPayload, config);
+                return axios.post("/tax", taxPayload, config);
               });
               Promise.all(taxRequests).then((responses) => {
                 // console.log(responses)
@@ -485,7 +485,7 @@ export default {
               } else {
                 logdata.activity = payload.productdesc + " product created";
               }
-              axios.post(`${this.gkCoreUrl}/log`, logdata, config);
+              axios.post("/log", logdata, config);
               break;
             case 1:
               this.$bvToast.toast(
@@ -635,17 +635,15 @@ export default {
         },
       };
       const requests = [
-        axios
-          .get(`${this.gkCoreUrl}/unitofmeasurement?qty=all`, config)
-          .catch((error) => {
-            this.displayToast(
-              "Fetch Unit of Measurement Failed!",
-              error.message,
-              "danger"
-            );
-            return error;
-          }),
-        axios.get(`${this.gkCoreUrl}/state`, config).catch((error) => {
+        axios.get("/unitofmeasurement?qty=all", config).catch((error) => {
+          this.displayToast(
+            "Fetch Unit of Measurement Failed!",
+            error.message,
+            "danger"
+          );
+          return error;
+        }),
+        axios.get("/state", config).catch((error) => {
           this.displayToast(
             "Fetch State Data Failed!",
             error.message,
