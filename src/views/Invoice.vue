@@ -7,7 +7,6 @@
     Add round off switch
     Add discount percent
     Add check conditions for the dates used in the form
-    Add load animation for various loading elements
  -->
 <template>
   <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2">
@@ -15,7 +14,7 @@
       <b-form-radio-group
         v-model="form.inv.type"
         @input="fetchInvoiceId()"
-        button-variant="outline-success"
+        button-variant="outline-secondary"
         size="sm"
         buttons
       >
@@ -230,7 +229,7 @@
               <b-col cols="12">
                 <b-form-group>
                   <b-form-radio-group
-                    button-variant="outline-success"
+                    button-variant="outline-secondary"
                     size="sm"
                     buttons
                     v-model="form.party.type"
@@ -239,6 +238,13 @@
                     <b-form-radio value="customer">Customer</b-form-radio>
                     <b-form-radio value="supplier">Supplier</b-form-radio>
                   </b-form-radio-group>
+                  <b-button
+                    @click.prevent="showContactForm = true"
+                    class="py-0 ml-3"
+                    variant="success"
+                    size="sm"
+                    >+</b-button
+                  >
                 </b-form-group>
               </b-col>
               <b-col cols="12">
@@ -464,7 +470,7 @@
       </b-card-group>
       <div class="my-2">
         <b-form-radio-group
-          button-variant="outline-success"
+          button-variant="outline-secondary"
           size="sm"
           buttons
           v-model="form.taxType"
@@ -475,7 +481,7 @@
       </div>
       <div class="position-relative">
         <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-          </b-overlay>
+        </b-overlay>
         <b-table-simple hover small caption-top responsive bordered>
           <b-thead head-variant="dark">
             <!-- table header -->
@@ -490,8 +496,15 @@
                   minWidth: '100px',
                 }"
                 rowspan="2"
-                >Item</b-th
-              >
+                >Item
+                <b-button
+                  @click.prevent="showBusinessForm = true"
+                  class="py-0 ml-3"
+                  variant="success"
+                  size="sm"
+                  >+</b-button
+                >
+              </b-th>
               <b-th
                 :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
                 rowspan="2"
@@ -718,48 +731,51 @@
           </b-tfoot>
         </b-table-simple>
       </div>
-
-      <b-row class="mt-5">
-        <b-col cols="12" lg="7"></b-col>
-        <b-col cols="12" lg="5">
-          <b-table-simple responsive>
-            <b-tbody>
-              <b-tr>
-                <b-th colspan="3">Taxable Amount</b-th>
-                <b-th class="text-right">₹ {{ getTotal("taxable") }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th colspan="3">Total IGST</b-th>
-                <b-th class="text-right"
-                  >₹ {{ getTotal("igst", "amount") }}</b-th
-                >
-              </b-tr>
-              <b-tr>
-                <b-th colspan="3">Total CESS</b-th>
-                <b-th class="text-right"
-                  >₹ {{ getTotal("cess", "amount") }}</b-th
-                >
-              </b-tr>
-              <b-tr>
-                <b-th colspan="3">Total Discount</b-th>
-                <b-th class="text-right"
-                  >₹ {{ getTotal("discount", "amount") }}</b-th
-                >
-              </b-tr>
-              <b-tr>
-                <b-th colspan="3">Total Invoice Value</b-th>
-                <b-th class="text-right">₹ {{ getTotal("total") }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th colspan="3">Total Invoice Value (Rounded Off)</b-th>
-                <b-th class="text-right"
-                  >₹ {{ Math.round(getTotal("total")) }}</b-th
-                >
-              </b-tr>
-            </b-tbody>
-          </b-table-simple>
-        </b-col>
-      </b-row>
+      <div class="px-2">
+        <!-- b-row has to be enclosed in a container tag with padding
+         atleast 2, to avoid creating an offset to the right -->
+        <b-row class="mt-5">
+          <b-col cols="12" lg="7"></b-col>
+          <b-col cols="12" lg="5">
+            <b-table-simple responsive>
+              <b-tbody>
+                <b-tr>
+                  <b-th colspan="3">Taxable Amount</b-th>
+                  <b-th class="text-right">₹ {{ getTotal("taxable") }}</b-th>
+                </b-tr>
+                <b-tr>
+                  <b-th colspan="3">Total IGST</b-th>
+                  <b-th class="text-right"
+                    >₹ {{ getTotal("igst", "amount") }}</b-th
+                  >
+                </b-tr>
+                <b-tr>
+                  <b-th colspan="3">Total CESS</b-th>
+                  <b-th class="text-right"
+                    >₹ {{ getTotal("cess", "amount") }}</b-th
+                  >
+                </b-tr>
+                <b-tr>
+                  <b-th colspan="3">Total Discount</b-th>
+                  <b-th class="text-right"
+                    >₹ {{ getTotal("discount", "amount") }}</b-th
+                  >
+                </b-tr>
+                <b-tr>
+                  <b-th colspan="3">Total Invoice Value</b-th>
+                  <b-th class="text-right">₹ {{ getTotal("total") }}</b-th>
+                </b-tr>
+                <b-tr>
+                  <b-th colspan="3">Total Invoice Value (Rounded Off)</b-th>
+                  <b-th class="text-right"
+                    >₹ {{ Math.round(getTotal("total")) }}</b-th
+                  >
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
+          </b-col>
+        </b-row>
+      </div>
       <b-card-group class="d-block d-md-flex" deck>
         <b-card class="mr-md-1 mb-2 mb-md-0" border-variant="secondary">
           <div class="mb-3">
@@ -971,14 +987,86 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
+
+    <!-- Modals -->
+    <!-- Create Contact Item -->
+    <b-modal
+      size="lg"
+      v-model="showContactForm"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-footer
+      hide-header
+    >
+      <contact-item
+        :hideBackButton="true"
+        :onSave="onContactSave"
+        mode="create"
+        :type="form.party.type"
+        :inOverlay="true"
+      >
+        <template #close-button>
+          <b-button
+            size="sm"
+            class="float-right py-0"
+            @click.prevent="
+              () => {
+                showContactForm = false;
+              }
+            "
+            >x</b-button
+          >
+        </template>
+      </contact-item>
+    </b-modal>
+
+    <b-modal
+      size="xl"
+      v-model="showBusinessForm"
+      centered
+      static
+      body-class="p-0"
+      id="business-item-modal"
+      hide-footer
+      hide-header
+    >
+      <business-item
+        :hideBackButton="true"
+        :onSave="onBusinessSave"
+        mode="create"
+        :inOverlay="true"
+      >
+        <template #close-button>
+          <b-button
+            size="sm"
+            class="float-right py-0"
+            @click.prevent="
+              () => {
+                showBusinessForm = false;
+              }
+            "
+            >x</b-button
+          >
+        </template>
+      </business-item>
+    </b-modal>
   </b-container>
 </template>
 
 <script>
 import Axios from "axios";
 import { mapState } from "vuex";
+
+import ContactItem from "../components/form/ContactItem.vue";
+import BusinessItem from "../components/form/BusinessItem.vue";
 export default {
   name: "Invoice",
+  components: {
+    ContactItem,
+    BusinessItem,
+  },
   data() {
     return {
       form: {
@@ -1020,7 +1108,7 @@ export default {
         taxType: "gst", // vat
         bill: [
           {
-            product: "",
+            product: { name: "", id: null },
             hsn: "",
             qty: 0,
             fqty: 0,
@@ -1058,6 +1146,8 @@ export default {
       },
       isLoading: false,
       isPreloading: false,
+      showContactForm: false,
+      showBusinessForm: false,
       temp: null,
       options: {
         customers: [],
@@ -1203,36 +1293,6 @@ export default {
         },
       };
       const requests = [
-        Axios.get(
-          `${this.gkCoreUrl}/customersupplier?qty=custall`,
-          config
-        ).catch((error) => {
-          this.displayToast(
-            "Fetch Customer Data Failed!",
-            error.message,
-            "danger"
-          );
-          return error;
-        }),
-        Axios.get(
-          `${this.gkCoreUrl}/customersupplier?qty=supall`,
-          config
-        ).catch((error) => {
-          this.displayToast(
-            "Fetch Supplier Data Failed!",
-            error.message,
-            "danger"
-          );
-          return error;
-        }),
-        Axios.get(`${this.gkCoreUrl}/products`, config).catch((error) => {
-          this.displayToast(
-            "Fetch Product Data Failed!",
-            error.message,
-            "danger"
-          );
-          return error;
-        }),
         Axios.get(`${this.gkCoreUrl}/state`, config).catch((error) => {
           this.displayToast(
             "Fetch State Data Failed!",
@@ -1241,12 +1301,15 @@ export default {
           );
           return error;
         }),
+        this.fetchContactList(),
+        this.fetchInvoiceId(),
+        this.fetchUserData(),
+        this.fetchBusinessList(),
       ];
 
       const self = this;
-      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
+      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4, resp5]) => {
         self.isPreloading = false;
-
         let preloadErrorList = ""; // To handle the unloaded data, at once than individually
 
         /**
@@ -1255,67 +1318,10 @@ export default {
          * and based on requirement
          */
 
-        // === Customer List ===
+        // === State List ===
         if (resp1.status === 200) {
           if (resp1.data.gkstatus === 0) {
-            self.options.customers = resp1.data.gkresult.map((item) => {
-              return {
-                text: item.custname,
-                value: {
-                  id: item.custid,
-                  name: item.custname,
-                },
-              };
-            });
-          } else {
-            preloadErrorList += " Customers,";
-          }
-        } else {
-          preloadErrorList += " Customers,";
-        }
-
-        // === Supplier List ===
-        if (resp2.status === 200) {
-          if (resp2.data.gkstatus === 0) {
-            self.options.suppliers = resp2.data.gkresult.map((item) => {
-              return {
-                text: item.custname,
-                value: {
-                  id: item.custid,
-                  name: item.custname,
-                },
-              };
-            });
-          } else {
-            preloadErrorList += " Suppliers,";
-          }
-        } else {
-          preloadErrorList += " Suppliers,";
-        }
-
-        // === Products & Services List ===
-        if (resp3.status === 200) {
-          if (resp3.data.gkstatus === 0) {
-            self.options.products = resp3.data.gkresult.map((item) => {
-              return {
-                text: item.productdesc,
-                value: {
-                  id: item.productcode,
-                  name: item.productdesc,
-                },
-              };
-            });
-          } else {
-            preloadErrorList += " Products/Services,";
-          }
-        } else {
-          preloadErrorList += " Products/Services,";
-        }
-
-        // === State List ===
-        if (resp4.status === 200) {
-          if (resp4.data.gkstatus === 0) {
-            self.options.states = resp4.data.gkresult.map((item) => {
+            self.options.states = resp1.data.gkresult.map((item) => {
               return {
                 text: Object.values(item)[0],
                 value: {
@@ -1329,6 +1335,22 @@ export default {
           }
         } else {
           preloadErrorList += " States,";
+        }
+
+        if (resp2 !== undefined) {
+          preloadErrorList += " Customers/Suppliers,";
+        }
+
+        if (resp3 !== undefined) {
+          preloadErrorList += " Invoice Id,";
+        }
+
+        if (resp4 !== undefined) {
+          preloadErrorList += " User Name  & Role,";
+        }
+
+        if (resp5 !== undefined) {
+          preloadErrorList += " Products/Services,";
         }
 
         if (preloadErrorList !== "") {
@@ -1384,7 +1406,9 @@ export default {
                   gstin: null,
                   tin: resp.data.gkresult.custtan || null,
                 });
-                self.setPartyGst(); // set gstin based on state
+                setTimeout(() => {
+                  self.setPartyGst(); // set gstin based on state
+                })
 
                 break;
               case 2:
@@ -1519,7 +1543,10 @@ export default {
           gktoken: this.authToken,
         },
       };
-      Axios.get(`${this.gkCoreUrl}/invoice?getinvid&type=${inoutflag}`, config)
+      return Axios.get(
+        `${this.gkCoreUrl}/invoice?getinvid&type=${inoutflag}`,
+        config
+      )
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
@@ -1541,7 +1568,7 @@ export default {
         },
       };
       let self = this;
-      Axios.get(`${this.gkCoreUrl}/users?user=single`, config)
+      return Axios.get(`${this.gkCoreUrl}/users?user=single`, config)
         .then((resp) => {
           // === User name and role ===
           if (resp.status === 200) {
@@ -1560,15 +1587,136 @@ export default {
           return error;
         });
     },
+    fetchContactList() {
+      let config = {
+        headers: {
+          gktoken: this.authToken,
+        },
+      };
+      const requests = [
+        Axios.get(
+          `${this.gkCoreUrl}/customersupplier?qty=custall`,
+          config
+        ).catch((error) => {
+          this.displayToast(
+            "Fetch Customer Data Failed!",
+            error.message,
+            "danger"
+          );
+          return error;
+        }),
+        Axios.get(
+          `${this.gkCoreUrl}/customersupplier?qty=supall`,
+          config
+        ).catch((error) => {
+          this.displayToast(
+            "Fetch Supplier Data Failed!",
+            error.message,
+            "danger"
+          );
+          return error;
+        }),
+      ];
+
+      let self = this;
+      return Promise.all([...requests])
+        .then(([resp1, resp2]) => {
+          // === Customer List ===
+          if (resp1.status === 200) {
+            if (resp1.data.gkstatus === 0) {
+              resp1.data.gkresult.sort((a, b) => a.custid - b.custid); // sorting items based on custid, to display in the order of creation
+              self.options.customers = resp1.data.gkresult.map((item) => {
+                return {
+                  text: item.custname,
+                  value: {
+                    id: item.custid,
+                    name: item.custname,
+                  },
+                };
+              });
+            } else {
+              // Customer List not loaded
+            }
+          }
+
+          // === Supplier List ===
+          if (resp2.status === 200) {
+            if (resp2.data.gkstatus === 0) {
+              resp2.data.gkresult.sort((a, b) => a.custid - b.custid); // sorting items based on custid, to display in the order of creation
+              self.options.suppliers = resp2.data.gkresult.map((item) => {
+                return {
+                  text: item.custname,
+                  value: {
+                    id: item.custid,
+                    name: item.custname,
+                  },
+                };
+              });
+            } else {
+              // Supplier list not loaded
+            }
+          }
+        })
+        .catch((error) => {
+          this.displayToast(
+            "Fetch Customer/Supplier Data Failed!",
+            error.message,
+            "danger"
+          );
+          return error;
+        });
+    },
+    fetchBusinessList() {
+      let config = {
+        headers: {
+          gktoken: this.authToken,
+        },
+      };
+      let self = this;
+      return Axios.get(`${this.gkCoreUrl}/products`, config)
+        .then((resp) => {
+          if (resp.status === 200) {
+            if (resp.data.gkstatus === 0) {
+              resp.data.gkresult.sort((a, b) => a.productcode - b.productcode);
+              self.options.products = resp.data.gkresult.map((item) => {
+                return {
+                  text: item.productdesc,
+                  value: {
+                    id: item.productcode,
+                    name: item.productdesc,
+                  },
+                };
+              });
+            } else {
+              this.displayToast(
+                "Fetch Product Data Failed!",
+                error.message,
+                "danger"
+              );
+            }
+          }
+        })
+        .catch((error) => {
+          this.displayToast(
+            "Fetch Product Data Failed!",
+            error.message,
+            "danger"
+          );
+          return error;
+        });
+    },
     /**
      * setPartyGst()
      *
      * Description: Sets the party GSTIN field, based on the state chosen
      */
     setPartyGst() {
+      /**
+       * form.party.options = {'stateid': 'gstin', 'stateid2': 'gstin2}
+       */
       if (this.form.party.options.gstin) {
         this.form.party.gstin =
-          this.form.party.options.gstin[this.form.party.state] || null;
+          this.form.party.options.gstin[this.form.party.state.id] || null;
       }
     },
     setShippingDetails() {
@@ -1631,7 +1779,7 @@ export default {
                 // success
                 this.displayToast(
                   "Create Invoice Successfull!",
-                  `Invoice saved with entry no. ${resp.data.gkresult.invoiceid}`,
+                  `Invoice saved with entry no. ${resp.data.invoiceid}`,
                   "success"
                 );
                 this.resetForm();
@@ -1666,6 +1814,38 @@ export default {
           self.isLoading = false;
           self.displayToast("Create Invoice Error!", error.message, "warning");
         });
+    },
+    onContactSave(data) {
+      // console.log(data);
+      this.showContactForm = false;
+      this.fetchContactList().then(() => {
+        if (this.options.customers.length) {
+          this.form.party.name =
+            this.form.party.type === "customer"
+              ? this.options.customers[this.options.customers.length - 1].value
+              : this.options.suppliers[this.options.suppliers.length - 1].value;
+        }
+      });
+    },
+    onBusinessSave(data) {
+      this.showBusinessForm = false;
+      this.fetchBusinessList().then(() => {
+        let billCount = this.form.bill.length;
+        let productCount = this.options.products.length;
+        if (this.form.bill[billCount - 1].product.id !== null) {
+          this.addBillItem();
+          billCount++;
+        }
+        this.form.bill[billCount - 1].product = this.options.products[
+          productCount - 1
+        ].value;
+        setTimeout(() => {
+          this.fetchProductDetails(
+            this.options.products[productCount - 1].id,
+            productCount - 1
+          );
+        }, 100);
+      });
     },
     initPayload() {
       let invoice = {
@@ -1816,7 +1996,7 @@ export default {
         invoice.vehicleno = this.form.transport.vno;
       }
 
-      console.log({ invoice, stock });
+      // console.log({ invoice, stock });
       return { invoice, stock };
     },
     resetForm() {
@@ -1859,7 +2039,7 @@ export default {
         // taxType: "gst", // vat
         bill: [
           {
-            product: "",
+            product: { name: "", id: null },
             hsn: "",
             qty: 0,
             fqty: 0,
@@ -1970,8 +2150,8 @@ export default {
   },
   mounted() {
     this.preloadData();
-    this.fetchInvoiceId();
-    this.fetchUserData();
+    // this.fetchInvoiceId();
+    // this.fetchUserData();
   },
 };
 </script>
