@@ -326,7 +326,7 @@
 </template>
 
 <script>
-import Axios from "axios";
+import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
@@ -440,7 +440,7 @@ export default {
           gktoken: this.authToken,
         },
       };
-      Axios.post(`${this.gkCoreUrl}/customersupplier`, payload, config)
+      axios.post("/customersupplier", payload, config)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
@@ -457,6 +457,16 @@ export default {
                 solid: true,
               });
               this.resetForm();
+
+
+              // === Server Log ===
+              let logdata = { activity: "" };
+              if (payload.csflag === 3) {
+                logdata.activity = payload.custname + " customer created";
+              } else {
+                logdata.activity = payload.custname + " supplier created";
+              }
+              axios.post("/log", logdata, config);
               break;
             case 1:
               this.$bvToast.toast(
@@ -585,7 +595,7 @@ export default {
           gktoken: this.authToken,
         },
       };
-      Axios.get(`${this.gkCoreUrl}/state`, config)
+      axios.get("/state", config)
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             this.options.states = resp.data.gkresult.map((item) => {

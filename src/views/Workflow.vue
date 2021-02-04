@@ -213,7 +213,7 @@
 </template>
 
 <script>
-import Axios from "axios";
+import axios from "axios";
 import { mapState } from "vuex";
 import ContactProfile from "@/components/ContactProfile";
 import BusinessProfile from "@/components/BusinessProfile.vue";
@@ -468,22 +468,22 @@ export default {
         },
       };
       const requests = [
-        Axios.get(
-          `${this.gkCoreUrl}/customersupplier?qty=custall`,
+        axios.get(
+          "/customersupplier?qty=custall",
           config
         ).catch((error) => {
           return error;
         }),
-        Axios.get(
-          `${this.gkCoreUrl}/customersupplier?qty=supall`,
+        axios.get(
+          "/customersupplier?qty=supall",
           config
         ).catch((error) => {
           return error;
         }),
-        Axios.get(`${this.gkCoreUrl}/products`, config).catch((error) => {
+        axios.get("/products", config).catch((error) => {
           return error;
         }),
-        Axios.get(`${this.gkCoreUrl}/invoice?inv=all`, config).catch(
+        axios.get("/invoice?inv=all", config).catch(
           (error) => {
             return error;
           }
@@ -547,7 +547,7 @@ export default {
     // fetch products & services list
     psList() {
       this.isLoading = true;
-      Axios.get(`${this.gkCoreUrl}/products`, {
+      axios.get("/products", {
         headers: {
           gktoken: this.authToken,
         },

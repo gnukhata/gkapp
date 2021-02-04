@@ -339,7 +339,7 @@ export default {
       if (this.captchaSolved) {
         this.isLoading = true
         const payload = this.initPayload()
-        axios.post(`${this.gkCoreUrl}/organisations`, payload)
+        axios.post("/organisations", payload)
           .then((response) => {
             // console.log(response)
             this.isLoading = false
