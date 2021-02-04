@@ -11,7 +11,8 @@
             class="d-inline-block align-top"
             alt="GNUKhata Logo"
           />
-          <span class="text-wrap"> <!-- Without textwrap, creates horizontal overlfow in mobile view -->
+          <span class="text-wrap">
+            <!-- Without textwrap, creates horizontal overlfow in mobile view -->
             {{ this.orgName || "GNUKhata" }}
           </span>
         </b-navbar-brand>
@@ -107,6 +108,7 @@ export default {
       });
       // reset orgname
       this.$store.commit("resetOrg");
+      this.$store.commit("setAuthStatus"); // change auth status
     },
     getUser() {
       axios
