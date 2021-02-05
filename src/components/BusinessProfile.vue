@@ -1,7 +1,8 @@
 <template>
-  <b-form>
+  <b-form @submit.prevent="updateProfile">
     <b-overlay :show="loading" blur no-wrap></b-overlay>
     {{ details }}
+    {{ godowns }}
     <!-- name --->
     <b-card class="mb-2" header="Info" header-bg-variant="warning">
       <b-form-group label="Name" label-cols="4">
@@ -114,7 +115,7 @@
     <!-- Tax details Cards -->
     <!-- Submit & delete buttons -->
     <div class="mt-2 mb-3 d-flex flex-row-reverse">
-      <b-button size="sm" class="ml-2" variant="success"
+      <b-button type="submit" size="sm" class="ml-2" variant="success"
         ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
       >
     </div>
@@ -138,6 +139,7 @@ export default {
   data() {
     return {
       details: [],
+      godowns: [],
       uom: [],
       loading: true,
       options: {
@@ -170,14 +172,18 @@ export default {
         .then((res) => {
           this.details = res.data.gkresult;
           this.getTaxDetails();
+          this.getGodowns();
           setTimeout(() => {
             this.loading = false;
           }, 500);
         });
     },
+    /*
+     * Update product/service details
+     */
     updateProfile() {
       this.$bvModal
-        .msgBoxConfirm(`Update ${this.details.custname} details ?`, {
+        .msgBoxConfirm(`Update ${this.details.productdesc} details ?`, {
           centered: true,
           size: "sm",
         })
@@ -187,19 +193,62 @@ export default {
               headers: {
                 gktoken: this.authToken,
               },
-              data: {
-                productcode: this.details.productcode,
-              },
             };
-            axios.delete(`${this.gkCoreUrl}/products`, config).then((res) => {
-              switch (res.data.gkstatus) {
-                case 0:
-                  break;
-              }
-            });
+            const payload = {
+              productdetails: this.details,
+              godownflag: false,
+            };
+            if (this.godowns.length > 0) {
+              payload["godetails"] = this.godowns;
+              payload.godownflag = true;
+            }
+            axios
+              .put(`/products`, payload, config)
+              .then((res) => {
+                switch (res.data.gkstatus) {
+                  case 0:
+                    this.$bvToast.toast(`${this.details.productdesc} updated`, {
+                      title: "Success",
+                      variant: "success",
+                      solid: true,
+                    });
+                    break;
+                  case 2:
+                    this.$bvToast.toast(`Unauthorised access`, {
+                      title: "Failure",
+                      variant: "danger",
+                      solid: true,
+                    });
+                    break;
+                  default:
+                    console.log("product update status ", res.data.gkstatus);
+                }
+              })
+              .catch((e) => {
+                console.log("update details ", e.message);
+              });
           }
         });
     },
+    /*
+     * Fetch godown details for selected product
+     */
+    getGodowns() {
+      axios
+        .get(`/products?by=godown&productcode=${this.details.productcode}`, {
+          headers: {
+            gktoken: this.authToken,
+          },
+        })
+        .then((res) => {
+          this.godowns = res.data.gkresult;
+          console.log("godown details fetched");
+        })
+        .catch((e) => {
+          console.log("godown fetch error ", e);
+        });
+    },
+    /** Fetch tax details for selected product */
     getTaxDetails() {
       axios
         .get(
@@ -251,6 +300,9 @@ export default {
         })
         .catch(() => {});
     },
+    /**
+     * Get state list
+     * */
     states() {
       axios
         .get(`${this.gkCoreUrl}/state`)
