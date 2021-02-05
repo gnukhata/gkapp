@@ -1,13 +1,19 @@
 <template>
   <b-form id="contactinfo" @submit.prevent="updateContact">
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
-    <b-card
-      header="Info"
-      v-b-toggle.collapse-info
-      header-text-variant="light"
-      header-bg-variant="primary"
-    >
-      <b-collapse id="collapse-info">
+    <b-card header-text-variant="light" header-bg-variant="primary">
+      <template #header>
+        <div class="d-flex">
+          <div class="mr-auto">Info</div>
+          <div v-b-toggle.collapse-info>
+            <b-icon icon="arrows-angle-expand"></b-icon>
+          </div>
+        </div>
+      </template>
+      <div v-if="!isCollapsed">
+        {{ details.custname }} | {{ details.custemail }}
+      </div>
+      <b-collapse v-model="isCollapsed" id="collapse-info">
         <b-form-group
           label="Name"
           label-for="Name"
@@ -61,12 +67,18 @@
     </b-card>
     <!-- Contact Address -->
     <b-card
-      header="Address"
       header-text-variant="light"
       header-bg-variant="primary"
       class="mt-2"
-      v-b-toggle.address
     >
+      <template #header>
+        <div class="d-flex">
+          <div class="mr-auto">Address</div>
+          <div v-b-toggle.address>
+            <b-icon icon="arrows-angle-expand"></b-icon>
+          </div>
+        </div>
+      </template>
       <b-collapse id="address">
         <b-form-group
           label="Street:"
@@ -109,12 +121,18 @@
     </b-card>
     <!-- Contact Bank details -->
     <b-card
-      header="Financial Details"
       header-bg-variant="primary"
       header-text-variant="light"
       class="mt-2"
-      v-b-toggle.financial
     >
+      <template #header>
+        <div class="d-flex">
+          <div class="mr-auto">Financial Details</div>
+          <div v-b-toggle.financial>
+            <b-icon icon="arrows-angle-expand"></b-icon>
+          </div>
+        </div>
+      </template>
       <b-collapse id="financial">
         <b-form-group
           label="PAN:"
@@ -185,6 +203,7 @@ export default {
     return {
       details: Array,
       isLoading: true,
+      isCollapsed: false,
       options: {
         states: [],
         selectedState: {},

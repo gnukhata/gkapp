@@ -85,38 +85,51 @@
         </b-input-group>
       </b-form-group>
     </b-card>
-    <b-card class="mt-2" header="Tax" header-bg-variant="warning">
-      {{ options.tax }}
-      <b-card-group deck>
-        <b-card
-          v-for="item in options.tax"
-          :key="item.taxid"
-          :header="item.taxname"
-        >
-          <b-input-group prepend="%">
-            <b-form-input
-              :value="item.taxrate"
-              v-model="item.taxrate"
-            ></b-form-input>
-          </b-input-group>
-          <b-input-group
-            v-if="item.state !== null"
-            class="mt-1"
-            prepend="State"
-          >
-            <b-form-input
-              :value="item.state"
-              v-model="item.state"
-            ></b-form-input>
-          </b-input-group>
-        </b-card>
-      </b-card-group>
-    </b-card>
+    <h3 class="text-muted text-center mt-3 mb-3">Taxes</h3>
+    <!-- <b-card class="mt-2" header="Tax" header-bg-variant="warning"> -->
+    <!-- {{ options.tax }} -->
+    <b-card-group deck>
+      <b-card
+        v-for="item in options.tax"
+        :key="item.taxid"
+        header-bg-variant="warning"
+        style="max-width: 30em"
+      >
+        <template #header>
+          <b-icon
+            class="float-right"
+            icon="x-circle-fill"
+            variant="danger"
+          ></b-icon>
+        </template>
+        <b-input-group :prepend="item.taxname + ' %'">
+          <b-form-input
+            :value="item.taxrate"
+            v-model="item.taxrate"
+          ></b-form-input>
+        </b-input-group>
+        <b-input-group v-if="item.state !== null" class="mt-2" prepend="State">
+          <b-form-select
+            :options="options.states"
+            :value="item.state"
+            v-model="item.state"
+          ></b-form-select>
+        </b-input-group>
+      </b-card>
+    </b-card-group>
+    <!-- </b-card> -->
     <!-- Tax details Cards -->
     <!-- Submit & delete buttons -->
-    <div class="mt-2 mb-3 d-flex flex-row-reverse">
+    <div class="mt-4 mb-3 d-flex flex-row-reverse">
       <b-button type="submit" size="sm" class="ml-2" variant="success"
         ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
+      >
+      <b-button
+        @click.prevent="deleteContact"
+        size="sm"
+        class="ml-2"
+        variant="danger"
+        ><b-icon icon="box"></b-icon> Delete Product</b-button
       >
     </div>
   </b-form>
@@ -125,9 +138,9 @@
 <script>
 /**
  * TODO
- * 1. Update records
- * 2. Delete records
- * 3. Add tax details
+ *
+ * Delete product
+ * add / delete tax
  */
 import axios from "axios";
 import { mapState } from "vuex";
@@ -185,9 +198,10 @@ export default {
       this.$bvModal
         .msgBoxConfirm(`Update ${this.details.productdesc} details ?`, {
           centered: true,
-          size: "sm",
+          size: "lg",
         })
         .then((val) => {
+          this.loading = true;
           if (val) {
             const config = {
               headers: {
@@ -198,6 +212,12 @@ export default {
               productdetails: this.details,
               godownflag: false,
             };
+
+            delete this.details.discountamount;
+            delete this.details.discountpercent;
+            delete this.details.deletable;
+            delete this.details.unitname;
+
             if (this.godowns.length > 0) {
               payload["godetails"] = this.godowns;
               payload.godownflag = true;
@@ -230,6 +250,10 @@ export default {
           }
         });
     },
+    /**
+     * Delete selected profile
+     */
+    delProfile() {},
     /*
      * Fetch godown details for selected product
      */

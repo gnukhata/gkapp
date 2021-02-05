@@ -1,8 +1,7 @@
 <template>
   <section class="container-fluid mt-2">
     <b-container fluid v-if="activeWorkflow.index === null">
-      <hr />
-      <b-card-group deck>
+      <b-card-group deck class="mt-5">
         <b-card
           v-for="(tab, tabName, index) in options.tabs"
           :key="index"
@@ -468,26 +467,18 @@ export default {
         },
       };
       const requests = [
-        axios.get(
-          "/customersupplier?qty=custall",
-          config
-        ).catch((error) => {
+        axios.get("/customersupplier?qty=custall", config).catch((error) => {
           return error;
         }),
-        axios.get(
-          "/customersupplier?qty=supall",
-          config
-        ).catch((error) => {
+        axios.get("/customersupplier?qty=supall", config).catch((error) => {
           return error;
         }),
         axios.get("/products", config).catch((error) => {
           return error;
         }),
-        axios.get("/invoice?inv=all", config).catch(
-          (error) => {
-            return error;
-          }
-        ),
+        axios.get("/invoice?inv=all", config).catch((error) => {
+          return error;
+        }),
       ];
 
       const self = this;
@@ -547,11 +538,12 @@ export default {
     // fetch products & services list
     psList() {
       this.isLoading = true;
-      axios.get("/products", {
-        headers: {
-          gktoken: this.authToken,
-        },
-      })
+      axios
+        .get("/products", {
+          headers: {
+            gktoken: this.authToken,
+          },
+        })
         .then((res) => {
           this.filterProducts(res.data.gkresult);
           this.isLoading = false;
