@@ -1,8 +1,8 @@
 <template>
-  <b-form @submit.prevent="updateProfile">
+  <b-form id="prod" @submit.prevent="updateProfile">
     <b-overlay :show="loading" blur no-wrap></b-overlay>
-    {{ details }}
-    {{ godowns }}
+    <!-- {{ details }} -->
+    <!-- {{ godowns }} -->
     <!-- name --->
     <b-card class="mb-2" header="Info" header-bg-variant="warning">
       <b-form-group label="Name" label-cols="4">
@@ -120,16 +120,17 @@
     <!-- </b-card> -->
     <!-- Tax details Cards -->
     <!-- Submit & delete buttons -->
-    <div class="mt-4 mb-3 d-flex flex-row-reverse">
+    <div class="mt-4 pb-4 d-flex flex-row-reverse">
       <b-button type="submit" size="sm" class="ml-2" variant="success"
         ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
       >
       <b-button
-        @click.prevent="deleteContact"
+        @click.prevent="delProfile"
         size="sm"
         class="ml-2"
         variant="danger"
-        ><b-icon icon="box"></b-icon> Delete Product</b-button
+        ><b-icon :icon="details.gsflag == 7 ? 'box' : 'headset'"></b-icon>
+        Delete {{ details.gsflag == 7 ? "Product" : "Service" }}</b-button
       >
     </div>
   </b-form>
@@ -183,12 +184,23 @@ export default {
           }
         )
         .then((res) => {
-          this.details = res.data.gkresult;
-          this.getTaxDetails();
-          this.getGodowns();
-          setTimeout(() => {
-            this.loading = false;
-          }, 500);
+          switch (res.data.gkstatus) {
+            case 0:
+              this.details = res.data.gkresult;
+              this.getTaxDetails();
+              this.getGodowns();
+              setTimeout(() => {
+                this.loading = false;
+              }, 500);
+              break;
+            case 3:
+              this.$bvToast.toast("Product does not exist", {
+                title: "Error",
+                variant: "danger",
+                solid: true,
+              });
+              break;
+          }
         });
     },
     /*
@@ -251,9 +263,83 @@ export default {
         });
     },
     /**
-     * Delete selected profile
+     * Delete selected product
      */
-    delProfile() {},
+    delProfile() {
+      this.$bvModal
+        .msgBoxConfirm(`Delete ${this.details.productdesc} ?`, {
+          centered: true,
+          variant: "danger",
+          size: "lg",
+        })
+        .then((val) => {
+          if (val == true) {
+            this.isLoading = true;
+            const config = {
+              headers: {
+                gktoken: this.authToken,
+              },
+              data: {
+                productcode: this.details.productcode,
+              },
+            };
+            axios
+              .delete("/products", config)
+              .then((res) => {
+                switch (res.data.gkstatus) {
+                  case 0:
+                    const payload = {
+                      activity: `${this.details.productdesc} ${
+                        this.details.csflag == 7 ? "product" : "service"
+                      } deleted`,
+                    };
+                    axios.post(`${this.gkCoreUrl}/log`, payload, config);
+                    this.$bvToast.toast(`${this.details.productdesc} deleted`, {
+                      title: "Success",
+                      solid: true,
+                      variant: "success",
+                    });
+                    this.isLoading = false;
+                    document.querySelector("#prod").innerHTML = "";
+                    break;
+                  case 3:
+                    this.$bvToast.toast(
+                      `${this.details.productdesc} Cannot be deleted`,
+                      {
+                        title: "",
+                        solid: true,
+                        variant: "danger",
+                      }
+                    );
+                    break;
+                  case 4:
+                    this.$bvToast.toast(
+                      `Cannot delete ${this.details.productdesc}`,
+                      {
+                        title: "Bad Privilige",
+                        solid: true,
+                        variant: "danger",
+                      }
+                    );
+                    break;
+                  case 5:
+                    this.$bvToast.toast(
+                      `Cannot delete ${this.details.productdesc}`,
+                      {
+                        title: "Action Disallowed",
+                        solid: true,
+                        variant: "danger",
+                      }
+                    );
+                    break;
+                }
+              })
+              .catch((e) => {
+                console.log("delete err ", e);
+              });
+          }
+        });
+    },
     /*
      * Fetch godown details for selected product
      */
