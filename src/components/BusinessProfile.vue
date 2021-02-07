@@ -288,6 +288,7 @@ export default {
               .then((res) => {
                 switch (res.data.gkstatus) {
                   case 0:
+                    // Add delete log to server
                     const payload = {
                       activity: `${this.details.productdesc} ${
                         this.details.csflag == 7 ? "product" : "service"
