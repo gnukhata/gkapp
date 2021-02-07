@@ -195,7 +195,7 @@
       </b-collapse>
     </b-card>
     <!-- Action Buttons -->
-    <div class="mt-2 mb-3 d-flex flex-row-reverse">
+    <div class="pt-2 pb-3 d-flex flex-row-reverse">
       <b-button
         @click.prevent="deleteContact"
         size="sm"
