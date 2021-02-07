@@ -3,15 +3,19 @@
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
     <b-card header-text-variant="light" header-bg-variant="primary">
       <template #header>
-        <div class="d-flex">
+        <div class="d-flex" v-b-toggle.collapse-info>
           <div class="mr-auto">Info</div>
-          <div v-b-toggle.collapse-info>
-            <b-icon icon="arrows-angle-expand"></b-icon>
+          <div>
+            <b-icon
+              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+            ></b-icon>
           </div>
         </div>
       </template>
       <div v-if="!isCollapsed">
-        {{ details.custname }} | {{ details.custemail }}
+        Name: {{ details.custname }} <br />
+        Email: {{ details.custemail }} <br />
+        Phone: {{ details.custphone }}
       </div>
       <b-collapse v-model="isCollapsed" id="collapse-info">
         <b-form-group
@@ -72,14 +76,21 @@
       class="mt-2"
     >
       <template #header>
-        <div class="d-flex">
+        <div v-b-toggle.address class="d-flex">
           <div class="mr-auto">Address</div>
-          <div v-b-toggle.address>
-            <b-icon icon="arrows-angle-expand"></b-icon>
+          <div>
+            <b-icon
+              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+            ></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse id="address">
+      <div v-if="!isCollapsed">
+        Street: {{ details.custaddr }} <br />
+        State: {{ details.state }} <br />
+        Pincode: {{ details.pincode }}
+      </div>
+      <b-collapse v-model="isCollapsed" id="address">
         <b-form-group
           label="Street:"
           label-for="nested-street"
@@ -126,14 +137,21 @@
       class="mt-2"
     >
       <template #header>
-        <div class="d-flex">
+        <div v-b-toggle.financial class="d-flex">
           <div class="mr-auto">Financial Details</div>
-          <div v-b-toggle.financial>
-            <b-icon icon="arrows-angle-expand"></b-icon>
+          <div>
+            <b-icon
+              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+            ></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse id="financial">
+      <div v-if="!isCollapsed">
+        PAN: {{ details.custpan }} <br />
+        TAN: {{ details.custtan }} <br />
+        GSTIN: {{ details.gstin }}
+      </div>
+      <b-collapse v-model="isCollapsed" id="financial">
         <b-form-group
           label="PAN:"
           label-for="nested-street"
@@ -178,15 +196,18 @@
     </b-card>
     <!-- Action Buttons -->
     <div class="mt-2 mb-3 d-flex flex-row-reverse">
-      <b-button type="submit" size="sm" class="ml-2" variant="success"
-        ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
-      >
       <b-button
         @click.prevent="deleteContact"
         size="sm"
         class="ml-2"
         variant="danger"
         ><b-icon icon="person-dash"></b-icon> Delete Contact</b-button
+      >
+      <b-button type="submit" size="sm" class="ml-2" variant="success"
+        ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
+      >
+      <b-button to="/invoice" size="sm" class="ml-2" variant="primary"
+        ><b-icon icon="receipt"></b-icon> Add Transaction</b-button
       >
     </div>
   </b-form>
@@ -261,7 +282,7 @@ export default {
       this.$bvModal
         .msgBoxConfirm(`Update ${this.details.custname} details ?`, {
           centered: true,
-          size: "sm",
+          size: "lg",
         })
         .then((val) => {
           if (val) {
@@ -320,7 +341,7 @@ export default {
       this.$bvModal
         .msgBoxConfirm(`Delete ${this.details.custname} ?`, {
           centered: true,
-          size: "sm",
+          size: "lg",
         })
         .then((val) => {
           if (val) {
