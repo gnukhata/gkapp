@@ -37,7 +37,7 @@
         <b-card no-body>
           <b-overlay :show="isLoading" blur no-wrap rounded="lg"></b-overlay>
           <!-- Workflow Selection & Filter -->
-          <b-card-header>
+          <b-card-header class="px-2">
             <!-- Drop down 1: Worflow selection -->
             <b-dropdown :variant="activeWorkflow.color" class="mr-3" dropright>
               <template #button-content>
@@ -132,14 +132,19 @@
                 button
                 v-for="(item, index3) in filteredData"
                 :key="index3"
+                class="data-list"
               >
-                <div>
+                <div v-if="activeWorkflow.name === 'Transactions'" :class="{'bg-light-yellow': item.rectifyFlag, 'bg-light-green': !item.rectifyFlag }">
                   <b-icon :icon="item.icon"></b-icon>
                   {{ item[tab.key] }}
-                  <div v-if="activeWorkflow.name === 'Transactions'">
+                  <div>
                     <small>{{ "₹ " + item.invoicetotal }}</small>
                     <small class="float-right">{{ item.invoicedate }}</small>
                   </div>
+                </div>
+                <div v-else>
+                  <b-icon :icon="item.icon"></b-icon>
+                  {{ item[tab.key] }}
                 </div>
               </b-list-group-item>
             </b-list-group>
@@ -161,7 +166,11 @@
           border-variant="dark"
           :style="{ height: '100%', overflowY: 'auto' }"
           class="ml-md-2 border-0"
-          v-if="selectedEntity && !selectedEntity.gsflag"
+          v-if="
+            selectedEntity &&
+            !selectedEntity.gsflag &&
+            activeWorkflow.name === 'Contacts'
+          "
         >
           <template #header v-if="selectedEntity !== null">
             <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"
@@ -189,7 +198,11 @@
           border-variant="dark"
           :style="{ height: '100%', overflowY: 'auto' }"
           class="ml-md-2 border-0"
-          v-if="selectedEntity && selectedEntity.gsflag"
+          v-if="
+            selectedEntity &&
+            selectedEntity.gsflag &&
+            activeWorkflow.name === 'Business'
+          "
         >
           <code class="m-3"> </code>
           <template #header v-if="selectedEntity !== null">
@@ -212,6 +225,38 @@
             ></business-profile>
           </b-card-body>
         </b-card>
+        <!-- Invoices Profile -->
+        <b-card
+          no-body
+          border-variant="dark"
+          class="ml-md-3"
+          v-if="
+            selectedEntity &&
+            selectedEntity.invoiceno &&
+            activeWorkflow.name === 'Transactions'
+          "
+        >
+          <template #header v-if="selectedEntity !== null">
+            <b-button
+              @click.prevent="unsetSelectedEntity"
+              class="d-md-none"
+              size="sm"
+              ><b-icon icon="arrow-left"></b-icon
+            ></b-button>
+            <h5 class="m-2 d-inline-block">
+              <b-icon :icon="selectedEntity.icon"></b-icon>
+              {{ selectedEntity.csflag === 3 ? "Sale" : "Purchase" }} Invoice :
+              {{ selectedEntity.invoiceno }}
+            </h5>
+          </template>
+          <b-card-body
+          class="px-0"
+            :style="{ height: listHeight + 'px', overflowY: 'auto' }"
+            v-if="selectedEntity !== null"
+          >
+          <transaction-profile :invid="selectedEntity.invid"></transaction-profile>
+          </b-card-body>
+        </b-card>
         <!-- Body -->
         <!-- <div :style="{ height: listHeight + 'px', overflowY: 'auto' }"></div> -->
       </b-col>
@@ -224,11 +269,12 @@ import axios from "axios";
 import { mapState } from "vuex";
 import ContactProfile from "@/components/ContactProfile";
 import BusinessProfile from "@/components/BusinessProfile.vue";
+import TransactionProfile from "@/components/TransactionProfile.vue"
 // import HeroBar from '@/components/HeroBar'
 
 export default {
   name: "Workflow",
-  components: { ContactProfile, BusinessProfile },
+  components: { ContactProfile, BusinessProfile, TransactionProfile },
   data() {
     return {
       tabChoice: 0,
@@ -474,6 +520,11 @@ export default {
           gktoken: this.authToken,
         },
       };
+
+      // stores the map of invoice id to corresponding invoice array indexes
+      // used for quickly updating rectifyflag in invoice data array
+      let invoiceMap = {};
+
       const requests = [
         axios.get("/customersupplier?qty=custall", config).catch((error) => {
           return error;
@@ -487,61 +538,114 @@ export default {
         axios.get("/invoice?inv=all", config).catch((error) => {
           return error;
         }),
+        // oncredit sale
+        axios
+          .get("/invoice?type=rectifyinvlist&invtype=15", config)
+          .catch((error) => {
+            return error;
+          }),
+        // oncredit purchase
+        axios
+          .get("/invoice?type=rectifyinvlist&invtype=9", config)
+          .catch((error) => {
+            return error;
+          }),
       ];
 
       const self = this;
-      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
-        self.isLoading = false;
+      Promise.all([...requests]).then(
+        ([resp1, resp2, resp3, resp4, resp5, resp6]) => {
+          self.isLoading = false;
 
-        let contacts = [];
+          let contacts = [];
 
-        // Customer List
-        if (resp1.status === 200) {
-          contacts = resp1.data.gkresult.map((item) =>
-            Object.assign({ csflag: true, icon: "person-fill" }, item)
-          );
-        } else {
-          console.log(resp1.message);
+          // Customer List
+          if (resp1.status === 200) {
+            contacts = resp1.data.gkresult.map((item) =>
+              Object.assign({ csflag: true, icon: "person-fill" }, item)
+            );
+          } else {
+            console.log(resp1.message);
+          }
+
+          // Supplier List
+          if (resp2.status === 200) {
+            contacts.push(
+              ...resp2.data.gkresult.map((item) =>
+                Object.assign({ csflag: false, icon: "briefcase-fill" }, item)
+              )
+            );
+            self.options.tabs["Contacts"].data = self.orderByFilter(
+              contacts,
+              "asc",
+              "custid"
+            );
+          } else {
+            console.log(resp2.message);
+          }
+
+          // Products & Services List
+          if (resp3.status === 200) {
+            self.options.tabs[
+              "Business"
+            ].data = resp3.data.gkresult.map((item) =>
+              Object.assign(
+                { icon: item.gsflag === 7 ? "box" : "headset" },
+                item
+              )
+            );
+          } else {
+            console.log(resp3.message);
+          }
+
+          // Invoices
+          if (resp4.status === 200) {
+            self.options.tabs["Transactions"].data = resp4.data.gkresult.map(
+              (item, index) => {
+                invoiceMap[item.invid] = index;
+                return Object.assign(
+                  { icon: item.csflag === 3 ? "cash-stack" : "bag-fill", rectifyFlag: false },
+                  item
+                );
+              }
+            );
+          } else {
+            console.log(resp4.message);
+          }
+
+          // Invoices for OnCredit Sale
+          if (resp5.status === 200) {
+            if(resp5.data.gkstatus === 0) {
+              if(self.options.tabs["Transactions"].data.length) {
+                let data = self.options.tabs["Transactions"].data
+                let index = ""
+                resp5.data.invoices.forEach(inv => {
+                  index = invoiceMap[inv.invid]
+                  data[index].rectifyFlag = true
+                });
+              }
+            }
+          } else {
+            console.log(resp5.message);
+          }
+
+          // Invoices for OnCredit Purchase
+          if (resp6.status === 200) {
+            if(resp6.data.gkstatus === 0) {
+              if(self.options.tabs["Transactions"].data.length) {
+                let data = self.options.tabs["Transactions"].data
+                let index = ""
+                resp6.data.invoices.forEach(inv => {
+                  index = invoiceMap[inv.invid]
+                  data[index].rectifyFlag = true
+                });
+              }
+            }
+          } else {
+            console.log(resp6.message);
+          }
         }
-
-        // Supplier List
-        if (resp2.status === 200) {
-          contacts.push(
-            ...resp2.data.gkresult.map((item) =>
-              Object.assign({ csflag: false, icon: "briefcase-fill" }, item)
-            )
-          );
-          self.options.tabs["Contacts"].data = self.orderByFilter(
-            contacts,
-            "asc",
-            "custid"
-          );
-        } else {
-          console.log(resp2.message);
-        }
-
-        // Products & Services List
-        if (resp3.status === 200) {
-          self.options.tabs["Business"].data = resp3.data.gkresult.map((item) =>
-            Object.assign({ icon: item.gsflag === 7 ? "box" : "headset" }, item)
-          );
-        } else {
-          console.log(resp3.message);
-        }
-
-        if (resp4.status === 200) {
-          self.options.tabs[
-            "Transactions"
-          ].data = resp4.data.gkresult.map((item) =>
-            Object.assign(
-              { icon: item.csflag === 3 ? "cash-stack" : "bag-fill" },
-              item
-            )
-          );
-        } else {
-          console.log(resp4.message);
-        }
-      });
+      );
     },
     // fetch products & services list
     psList() {
@@ -579,3 +683,17 @@ export default {
   },
 };
 </script>
+<style scoped>
+.data-list {
+  padding: 0;
+}
+.data-list > div {
+  padding: .75rem 1.25rem;
+}
+.bg-light-green {
+  background-color: #e3ffe5!important;
+}
+.bg-light-yellow {
+  background-color: #fff1c6!important;
+}
+</style>
