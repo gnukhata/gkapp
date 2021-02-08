@@ -1,7 +1,12 @@
 <template>
   <b-form id="contactinfo" @submit.prevent="updateContact">
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
-    <b-card header-text-variant="light" header-bg-variant="primary">
+    <b-card
+      class="mt-2"
+      header-text-variant="light"
+      header-bg-variant="primary"
+      no-body
+    >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-info>
           <div class="mr-auto">Info</div>
@@ -12,12 +17,7 @@
           </div>
         </div>
       </template>
-      <div v-if="!isCollapsed">
-        Name: {{ details.custname }} <br />
-        Email: {{ details.custemail }} <br />
-        Phone: {{ details.custphone }}
-      </div>
-      <b-collapse v-model="isCollapsed" id="collapse-info">
+      <b-collapse class="m-3" v-model="isCollapsed" id="collapse-info">
         <b-form-group
           label="Name"
           label-for="Name"
@@ -73,7 +73,8 @@
     <b-card
       header-text-variant="light"
       header-bg-variant="primary"
-      class="mt-2"
+      class="mt-3"
+      no-body
     >
       <template #header>
         <div v-b-toggle.address class="d-flex">
@@ -85,12 +86,7 @@
           </div>
         </div>
       </template>
-      <div v-if="!isCollapsed">
-        Street: {{ details.custaddr }} <br />
-        State: {{ details.state }} <br />
-        Pincode: {{ details.pincode }}
-      </div>
-      <b-collapse v-model="isCollapsed" id="address">
+      <b-collapse class="m-3" v-model="isCollapsed" id="address">
         <b-form-group
           label="Street:"
           label-for="nested-street"
@@ -123,6 +119,8 @@
           label-align-sm="right"
         >
           <b-form-input
+            type="number"
+            no-wheel
             :value="details.pincode"
             v-model="details.pincode"
             id="nested-country"
@@ -134,7 +132,8 @@
     <b-card
       header-bg-variant="primary"
       header-text-variant="light"
-      class="mt-2"
+      class="mt-3"
+      no-body
     >
       <template #header>
         <div v-b-toggle.financial class="d-flex">
@@ -146,12 +145,8 @@
           </div>
         </div>
       </template>
-      <div v-if="!isCollapsed">
-        PAN: {{ details.custpan }} <br />
-        TAN: {{ details.custtan }} <br />
-        GSTIN: {{ details.gstin }}
-      </div>
-      <b-collapse v-model="isCollapsed" id="financial">
+
+      <b-collapse class="m-3" v-model="isCollapsed" id="financial">
         <b-form-group
           label="PAN:"
           label-for="nested-street"
@@ -206,7 +201,7 @@
       <b-button type="submit" size="sm" class="ml-2" variant="success"
         ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
       >
-      <b-button to="/invoice" size="sm" class="ml-2" variant="primary"
+      <b-button to="/invoice" size="sm" class="ml-2" variant="dark"
         ><b-icon icon="receipt"></b-icon> Add Transaction</b-button
       >
     </div>
