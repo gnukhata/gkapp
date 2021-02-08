@@ -273,6 +273,7 @@ export default {
                       variant: "success",
                       solid: true,
                     });
+                    this.loading = false;
                     break;
                   case 2:
                     this.$bvToast.toast(`Unauthorised access`, {
