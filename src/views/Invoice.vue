@@ -24,8 +24,146 @@
     </div>
     <b-form @submit.prevent="onSubmit">
       <b-card-group class="d-block d-md-flex" deck>
-        <!-- Invoice Details -->
+        <!-- Buyer/Seller Details -->
         <b-card class="mr-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+          <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+          </b-overlay>
+          <div class="p-3">
+            <div class="mb-3">
+              <b v-if="isSale"> Billed To</b>
+              <b v-else> Billed By</b>
+            </div>
+            <b-row>
+              <b-col cols="12">
+                <b-form-group>
+                  <b-form-radio-group
+                    button-variant="outline-secondary"
+                    size="sm"
+                    buttons
+                    v-model="form.party.type"
+                    @input="resetPartyDetails()"
+                  >
+                    <b-form-radio value="customer">Customer</b-form-radio>
+                    <b-form-radio value="supplier">Supplier</b-form-radio>
+                  </b-form-radio-group>
+                  <b-button
+                    @click.prevent="showContactForm = true"
+                    class="py-0 ml-3"
+                    variant="success"
+                    size="sm"
+                    >+</b-button
+                  >
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label="Name"
+                  label-for="input-9"
+                  label-cols="3"
+                  label-size="sm"
+                >
+                  <b-form-select
+                    size="sm"
+                    id="input-9"
+                    v-model="form.party.name"
+                    :options="
+                      form.party.type === 'customer'
+                        ? options.customers
+                        : options.suppliers
+                    "
+                    @input="fetchCustomerData(form.party.name.id)"
+                    required
+                  ></b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="Address"
+                  label-for="input-10"
+                  label-size="sm"
+                >
+                  <b-form-textarea
+                    size="sm"
+                    id="input-10"
+                    v-model="form.party.addr"
+                    rows="2"
+                    max-rows="2"
+                    trim
+                    plaintext
+                  ></b-form-textarea>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="PIN"
+                  label-for="input-11"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-11"
+                    v-model="form.party.pin"
+                    trim
+                    plaintext
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col cols="12">
+                <b-form-group
+                  label="State"
+                  label-for="input-12"
+                  label-size="sm"
+                  label-cols="3"
+                >
+                  <b-form-select
+                    size="sm"
+                    id="input-12"
+                    v-model="form.party.state"
+                    :options="form.party.options.states"
+                    @input="setPartyGst()"
+                    trim
+                  ></b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col v-if="isGst" cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="GSTIN"
+                  label-for="input-13"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-13"
+                    v-model="form.party.gstin"
+                    trim
+                    plaintext
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col v-else cols="12">
+                <b-form-group
+                  label-cols="3"
+                  label="TIN"
+                  label-for="input-13"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="input-13"
+                    v-model="form.party.tin"
+                    trim
+                    plaintext
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-row>
+          </div>
+        </b-card>
+        <!-- Invoice Details -->
+        <b-card class="mx-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
           <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
           </b-overlay>
           <div class="p-3">
@@ -210,144 +348,6 @@
                     v-model="form.inv.role"
                     trim
                     required
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-            </b-row>
-          </div>
-        </b-card>
-        <!-- Buyer/Seller Details -->
-        <b-card class="mx-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
-          <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-          </b-overlay>
-          <div class="p-3">
-            <div class="mb-3">
-              <b v-if="isSale"> Billed To</b>
-              <b v-else> Billed By</b>
-            </div>
-            <b-row>
-              <b-col cols="12">
-                <b-form-group>
-                  <b-form-radio-group
-                    button-variant="outline-secondary"
-                    size="sm"
-                    buttons
-                    v-model="form.party.type"
-                    @input="resetPartyDetails()"
-                  >
-                    <b-form-radio value="customer">Customer</b-form-radio>
-                    <b-form-radio value="supplier">Supplier</b-form-radio>
-                  </b-form-radio-group>
-                  <b-button
-                    @click.prevent="showContactForm = true"
-                    class="py-0 ml-3"
-                    variant="success"
-                    size="sm"
-                    >+</b-button
-                  >
-                </b-form-group>
-              </b-col>
-              <b-col cols="12">
-                <b-form-group
-                  label="Name"
-                  label-for="input-9"
-                  label-cols="3"
-                  label-size="sm"
-                >
-                  <b-form-select
-                    size="sm"
-                    id="input-9"
-                    v-model="form.party.name"
-                    :options="
-                      form.party.type === 'customer'
-                        ? options.customers
-                        : options.suppliers
-                    "
-                    @input="fetchCustomerData(form.party.name.id)"
-                    required
-                  ></b-form-select>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12">
-                <b-form-group
-                  label-cols="3"
-                  label="Address"
-                  label-for="input-10"
-                  label-size="sm"
-                >
-                  <b-form-textarea
-                    size="sm"
-                    id="input-10"
-                    v-model="form.party.addr"
-                    rows="2"
-                    max-rows="2"
-                    trim
-                    plaintext
-                  ></b-form-textarea>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12">
-                <b-form-group
-                  label-cols="3"
-                  label="PIN"
-                  label-for="input-11"
-                  label-size="sm"
-                >
-                  <b-form-input
-                    size="sm"
-                    id="input-11"
-                    v-model="form.party.pin"
-                    trim
-                    plaintext
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col cols="12">
-                <b-form-group
-                  label="State"
-                  label-for="input-12"
-                  label-size="sm"
-                  label-cols="3"
-                >
-                  <b-form-select
-                    size="sm"
-                    id="input-12"
-                    v-model="form.party.state"
-                    :options="form.party.options.states"
-                    @input="setPartyGst()"
-                    trim
-                  ></b-form-select>
-                </b-form-group>
-              </b-col>
-              <b-col v-if="isGst" cols="12">
-                <b-form-group
-                  label-cols="3"
-                  label="GSTIN"
-                  label-for="input-13"
-                  label-size="sm"
-                >
-                  <b-form-input
-                    size="sm"
-                    id="input-13"
-                    v-model="form.party.gstin"
-                    trim
-                    plaintext
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col v-else cols="12">
-                <b-form-group
-                  label-cols="3"
-                  label="TIN"
-                  label-for="input-13"
-                  label-size="sm"
-                >
-                  <b-form-input
-                    size="sm"
-                    id="input-13"
-                    v-model="form.party.tin"
-                    trim
-                    plaintext
                   ></b-form-input>
                 </b-form-group>
               </b-col>
@@ -735,41 +735,63 @@
         <!-- b-row has to be enclosed in a container tag with padding
          atleast 2, to avoid creating an offset to the right -->
         <b-row class="mt-5">
-          <b-col cols="12" lg="7"></b-col>
-          <b-col cols="12" lg="5">
+          <b-col cols="12" lg="6"> </b-col>
+          <b-col cols="12" lg="6">
             <b-table-simple responsive>
               <b-tbody>
                 <b-tr>
+                  <b-th></b-th>
                   <b-th colspan="3">Taxable Amount</b-th>
                   <b-th class="text-right">₹ {{ getTotal("taxable") }}</b-th>
                 </b-tr>
-                <b-tr>
+                <b-tr v-if="isGst">
+                  <b-th></b-th>
                   <b-th colspan="3">Total IGST</b-th>
                   <b-th class="text-right"
                     >₹ {{ getTotal("igst", "amount") }}</b-th
                   >
                 </b-tr>
-                <b-tr>
+                <b-tr v-if="isGst">
+                  <b-th></b-th>
                   <b-th colspan="3">Total CESS</b-th>
                   <b-th class="text-right"
                     >₹ {{ getTotal("cess", "amount") }}</b-th
                   >
                 </b-tr>
+                <b-tr v-if="!isGst">
+                  <b-th></b-th>
+                  <b-th colspan="3">Total VAT</b-th>
+                  <b-th class="text-right"
+                    >₹ {{ getTotal("vat", "amount") }}</b-th
+                  >
+                </b-tr>
                 <b-tr>
+                  <b-th></b-th>
                   <b-th colspan="3">Total Discount</b-th>
                   <b-th class="text-right"
                     >₹ {{ getTotal("discount", "amount") }}</b-th
                   >
                 </b-tr>
                 <b-tr>
-                  <b-th colspan="3">Total Invoice Value</b-th>
+                  <b-th :style="{width: '30px'}">
+                    <b-form-checkbox inline size="sm" v-model="form.totalRoundFlag" v-b-tooltip.hover title="Roundoff Total Value?"></b-form-checkbox>
+                  </b-th>
+                  <b-th colspan="3">
+                    Total Invoice Value
+                  </b-th>
                   <b-th class="text-right">₹ {{ getTotal("total") }}</b-th>
                 </b-tr>
-                <b-tr>
+                <b-tr v-if="form.totalRoundFlag">
+                  <b-th></b-th>
                   <b-th colspan="3">Total Invoice Value (Rounded Off)</b-th>
                   <b-th class="text-right"
                     >₹ {{ Math.round(getTotal("total")) }}</b-th
                   >
+                </b-tr>
+                <b-tr>
+                  <b-th></b-th>
+                  <b-th colspan="3">Total Invoice Value (in words)</b-th>
+                  <b-th class="text-right"> {{ invoiceTotalText }}</b-th>
                 </b-tr>
               </b-tbody>
             </b-table-simple>
@@ -1138,11 +1160,7 @@ export default {
           reverseCharge: null,
         },
         narration: null,
-        total: {
-          words: "",
-          rounded: null,
-          roundFlag: false,
-        },
+        totalRoundFlag: false,
       },
       isLoading: false,
       isPreloading: false,
@@ -1173,6 +1191,21 @@ export default {
     };
   },
   computed: {
+    invoiceTotalText: (self) => {
+      let total = self.getTotal("total");
+      let text = "";
+      if (total > 0) {
+        if(self.form.totalRoundFlag) {
+          total = Math.round(total)
+        }
+        text = self.numToWords(total) + " Rupees";
+        let paise = (total * 100) % 100;
+        if (paise > 0) {
+          text += " " + self.numToWords(paise) + " Paise";
+        }
+      }
+      return text;
+    },
     billLength: (self) => self.form.bill.length,
     height: () =>
       window.innerHeight -
@@ -1275,10 +1308,8 @@ export default {
               item.cess.amount
             ).toFixed(2);
           } else {
-            if (item.tax.rate > 0) {
-              item.vat.amount = (item.taxable * (item.vat.rate * 0.01)).toFixed(
-                2
-              );
+            if (item.vat.rate > 0) {
+              item.vat.amount = item.taxable * (item.vat.rate * 0.01);
             }
             item.total = (item.taxable + item.vat.amount).toFixed(2);
           }
@@ -1375,10 +1406,8 @@ export default {
             gktoken: this.authToken,
           },
         };
-        axios.get(
-          `/customersupplier?qty=single&custid=${id}`,
-          config
-        )
+        axios
+          .get(`/customersupplier?qty=single&custid=${id}`, config)
           .then((resp) => {
             switch (resp.data.gkstatus) {
               case 0:
@@ -1408,7 +1437,7 @@ export default {
                 });
                 setTimeout(() => {
                   self.setPartyGst(); // set gstin based on state
-                })
+                });
 
                 break;
               case 2:
@@ -1453,16 +1482,12 @@ export default {
         },
       };
       const requests = [
-        axios.get(
-          `/products?qty=single&productcode=${id}`,
-          config
-        ).catch((error) => {
-          return error;
-        }),
-        axios.get(
-          `/tax?pscflag=p&productcode=${id}`,
-          config
-        ).catch((error) => {
+        axios
+          .get(`/products?qty=single&productcode=${id}`, config)
+          .catch((error) => {
+            return error;
+          }),
+        axios.get(`/tax?pscflag=p&productcode=${id}`, config).catch((error) => {
           return error;
         }),
       ];
@@ -1543,10 +1568,8 @@ export default {
           gktoken: this.authToken,
         },
       };
-      return axios.get(
-        `/invoice?getinvid&type=${inoutflag}`,
-        config
-      )
+      return axios
+        .get(`/invoice?getinvid&type=${inoutflag}`, config)
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
@@ -1568,7 +1591,8 @@ export default {
         },
       };
       let self = this;
-      return axios.get(`/users?user=single`, config)
+      return axios
+        .get(`/users?user=single`, config)
         .then((resp) => {
           // === User name and role ===
           if (resp.status === 200) {
@@ -1594,10 +1618,7 @@ export default {
         },
       };
       const requests = [
-        axios.get(
-          "/customersupplier?qty=custall",
-          config
-        ).catch((error) => {
+        axios.get("/customersupplier?qty=custall", config).catch((error) => {
           this.displayToast(
             "Fetch Customer Data Failed!",
             error.message,
@@ -1605,10 +1626,7 @@ export default {
           );
           return error;
         }),
-        axios.get(
-          "/customersupplier?qty=supall",
-          config
-        ).catch((error) => {
+        axios.get("/customersupplier?qty=supall", config).catch((error) => {
           this.displayToast(
             "Fetch Supplier Data Failed!",
             error.message,
@@ -1673,7 +1691,8 @@ export default {
         },
       };
       let self = this;
-      return axios.get("/products", config)
+      return axios
+        .get("/products", config)
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
@@ -1770,16 +1789,20 @@ export default {
 
       const payload = this.initPayload();
 
-      axios.post("/invoice", payload, config)
+      axios
+        .post("/invoice", payload, config)
         .then((resp) => {
           self.isLoading = false;
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
                 // success
+
                 this.displayToast(
                   "Create Invoice Successfull!",
-                  `Invoice saved with entry no. ${resp.data.invoiceid}`,
+                  `Invoice saved with entry no. ${
+                    resp.data.invoiceid || resp.data.gkresult
+                  }`,
                   "success"
                 );
                 this.resetForm();
@@ -2069,11 +2092,7 @@ export default {
           reverseCharge: null,
         },
         narration: null,
-        total: {
-          words: "",
-          rounded: null,
-          roundFlag: false,
-        },
+        totalRoundFlag: false,
       };
 
       this.fetchInvoiceId();
@@ -2092,7 +2111,7 @@ export default {
       // https://stackoverflow.com/questions/5529934/javascript-numbers-to-words/46221860#46221860
       var NS = [
         { value: 10000000, str: "Crore" },
-        { value: 100000, str: "Lakhs" },
+        { value: 100000, str: "Lakh" },
         { value: 1000, str: "Thousand" },
         { value: 100, str: "Hundred" },
         { value: 90, str: "Ninety" },
@@ -2127,7 +2146,7 @@ export default {
       var result = "";
       for (var n of NS) {
         if (number >= n.value) {
-          if (number <= 90) {
+          if (number <= 99) {
             result += n.str;
             number -= n.value;
             if (number > 0) result += " ";
