@@ -11,10 +11,10 @@
             class="d-inline-block align-top"
             alt="GNUKhata Logo"
           />
-          <span class="text-wrap">
+          <div :style="{maxWidth: '185px'}" class="ml-2 d-inline-block text-truncate">
             <!-- Without textwrap, creates horizontal overlfow in mobile view -->
             {{ this.orgName || "GNUKhata" }}
-          </span>
+          </div>
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
