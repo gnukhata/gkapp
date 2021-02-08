@@ -182,7 +182,7 @@ export default {
     return {
       details: [],
       godowns: [],
-      isCollapsed: true,
+      isCollapsed: false,
       uom: [],
       loading: true,
       options: {
