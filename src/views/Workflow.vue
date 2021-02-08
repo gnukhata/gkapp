@@ -188,7 +188,7 @@
           no-body
           border-variant="dark"
           :style="{ height: '100%', overflowY: 'auto' }"
-          :class="{ 'ml-3': !isMobileView }"
+          class="ml-md-2 border-0"
           v-if="selectedEntity && selectedEntity.gsflag"
         >
           <code class="m-3"> </code>
@@ -201,7 +201,11 @@
               {{ selectedEntity.productdesc }} Details
             </h5>
           </template>
-          <b-card-body style="height: 400px" v-if="selectedEntity !== null">
+          <b-card-body
+            class="p-0"
+            style="height: 400px"
+            v-if="selectedEntity !== null"
+          >
             <business-profile
               :name="selectedEntity"
               :key="selectedEntity.srno"

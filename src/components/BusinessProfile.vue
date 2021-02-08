@@ -4,86 +4,114 @@
     <!-- {{ details }} -->
     <!-- {{ godowns }} -->
     <!-- name --->
-    <b-card class="mb-2" header="Info" header-bg-variant="warning">
-      <b-form-group label="Name" label-cols="4">
-        <b-form-input
-          v-model="details.productdesc"
-          :value="details.productdesc"
-          type="text"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <!-- Opening Stock -->
-      <b-form-group
-        v-if="details.gsflag == 7"
-        label="Opening Stock"
-        label-cols="4"
-      >
-        <b-form-input
-          :value="details.openingstock"
-          v-model="details.openingstock"
-          type="number"
-        ></b-form-input>
-      </b-form-group>
-      <!-- UOM -->
-      <b-form-group
-        v-if="details.gsflag == 7"
-        label="Unit of Measure"
-        label-cols="4"
-      >
-        <b-input-group :prepend="details.unitname.name || details.unitname">
-          <b-form-select
-            :value="details.unitname"
-            v-model="details.unitname"
-            :options="options.uom"
-          >
-          </b-form-select>
-        </b-input-group>
-      </b-form-group>
-      <!-- HSN / SCN Code -->
-      <b-form-group v-if="details.gsflag == 7" label="HSN Code" label-cols="4">
-        <b-form-input
-          v-model="details.gscode"
-          :value="details.gscode"
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group v-else label="SAC Code" label-cols="4">
-        <b-form-input
-          v-model="details.gscode"
-          :value="details.gscode"
-        ></b-form-input>
-      </b-form-group>
+    <b-card class="mb-2" header-bg-variant="warning" no-body>
+      <template #header>
+        <div class="d-flex" v-b-toggle.collapse-info>
+          <div class="mr-auto">Info</div>
+          <div>
+            <b-icon
+              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+            ></b-icon>
+          </div>
+        </div>
+      </template>
+      <b-collapse v-model="isCollapsed" class="p-3" id="collapse-info">
+        <b-form-group label="Name" label-cols="4">
+          <b-form-input
+            v-model="details.productdesc"
+            :value="details.productdesc"
+            type="text"
+            required
+          ></b-form-input>
+        </b-form-group>
+        <!-- Opening Stock -->
+        <b-form-group
+          v-if="details.gsflag == 7"
+          label="Opening Stock"
+          label-cols="4"
+        >
+          <b-form-input
+            :value="details.openingstock"
+            v-model="details.openingstock"
+            type="number"
+          ></b-form-input>
+        </b-form-group>
+        <!-- UOM -->
+        <b-form-group
+          v-if="details.gsflag == 7"
+          label="Unit of Measure"
+          label-cols="4"
+        >
+          <b-input-group :prepend="details.unitname.name || details.unitname">
+            <b-form-select
+              :value="details.unitname"
+              v-model="details.unitname"
+              :options="options.uom"
+            >
+            </b-form-select>
+          </b-input-group>
+        </b-form-group>
+        <!-- HSN / SCN Code -->
+        <b-form-group
+          v-if="details.gsflag == 7"
+          label="HSN Code"
+          label-cols="4"
+        >
+          <b-form-input
+            v-model="details.gscode"
+            :value="details.gscode"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group v-else label="SAC Code" label-cols="4">
+          <b-form-input
+            v-model="details.gscode"
+            :value="details.gscode"
+          ></b-form-input>
+        </b-form-group>
+      </b-collapse>
     </b-card>
-    <b-card header="Price" header-bg-variant="warning">
-      <!-- MRP -->
-      <b-form-group label="MRP" label-cols="4">
-        <b-form-input
-          v-model="details.prodmrp"
-          :value="details.prodmrp"
-        ></b-form-input>
-      </b-form-group>
-      <!-- Selling Price -->
-      <b-form-group id="input-group-2" label="Selling Price" label-cols="4">
-        <b-form-input
-          :value="details.prodmrp"
-          v-model="details.prodsp"
-        ></b-form-input>
-      </b-form-group>
-      <!-- discount -->
-      <b-form-group label-cols="4" label="Discount" label-for="input-3">
-        <b-input-group prepend="₹">
+    <b-card no-body header-bg-variant="warning">
+      <template #header>
+        <div class="d-flex" v-b-toggle.collapse-price>
+          <div class="mr-auto">Price</div>
+          <div>
+            <b-icon
+              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+            ></b-icon>
+          </div>
+        </div>
+      </template>
+      <b-collapse v-model="isCollapsed" class="p-3" id="collapse-price">
+        <!-- MRP -->
+        <b-form-group label="MRP" label-cols="4">
           <b-form-input
-            :value="details.discountamount"
-            v-model="details.discountamount"
+            v-model="details.prodmrp"
+            :value="details.prodmrp"
           ></b-form-input>
-        </b-input-group>
-        <b-input-group class="mt-1" prepend="%">
+        </b-form-group>
+        <!-- Selling Price -->
+        <b-form-group id="input-group-2" label="Selling Price" label-cols="4">
           <b-form-input
-            :value="details.discountname"
-            v-model="details.discountpercent"
+            :value="details.prodmrp"
+            v-model="details.prodsp"
           ></b-form-input>
-        </b-input-group>
-      </b-form-group>
+        </b-form-group>
+        <!-- discount -->
+        <b-form-group label-cols="4" label="Discount" label-for="input-3">
+          <b-input-group prepend="₹">
+            <b-form-input
+              :value="details.discountamount"
+              v-model="details.discountamount"
+            ></b-form-input>
+          </b-input-group>
+          <b-input-group class="mt-1" prepend="%">
+            <b-form-input
+              :value="details.discountname"
+              v-model="details.discountpercent"
+            ></b-form-input>
+          </b-input-group>
+        </b-form-group>
+      </b-collapse>
     </b-card>
     <h3 class="text-muted text-center mt-3 mb-3">Taxes</h3>
     <!-- <b-card class="mt-2" header="Tax" header-bg-variant="warning"> -->
@@ -154,6 +182,7 @@ export default {
     return {
       details: [],
       godowns: [],
+      isCollapsed: true,
       uom: [],
       loading: true,
       options: {
