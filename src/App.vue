@@ -138,16 +138,16 @@ export default {
       this.$workbox.addEventListener("waiting", () => {
         // this.showUpdateUI = true;
         // notify the user before updating the app
-        this.$bvToast.toast(`Updating app to lastest version`, {
-          title: "Updating",
+        this.$bvToast.toast(`Updating app to the lastest version`, {
+          title: "New Update Available!",
           solid: "true",
           variant: "warning",
-          autoHideDelay: 2000,
+          autoHideDelay: 3000,
         });
         // pull the latest code
         setTimeout(() => {
           this.$workbox.messageSW({ type: "SKIP_WAITING" });
-        }, 2000);
+        }, 3000);
       });
     }
   },
