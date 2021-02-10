@@ -20,7 +20,13 @@ export default new Vuex.Store({
     yearEnd: null,
 
     gkCoreUrl: 'https://satheerthan.site:6543',
-    gkCoreTestUrl: 'http://localhost:6543'
+    gkCoreTestUrl: 'http://localhost:6543',
+
+    invoiceParty: {
+      id: null,
+      name: null,
+      type: null
+    }
   },
   mutations: {
     /* A fit-them-all commit */
@@ -93,6 +99,12 @@ export default new Vuex.Store({
       state.yearStart = payload.yearStart
       state.yearEnd = payload.yearEnd
       localStorage.setItem('orgYears', JSON.stringify({yearStart : state.yearStart, yearEnd: state.yearEnd}))
+    },
+
+    setInvoiceParty(state, payload) {
+      if(payload) {
+        state.invoiceParty = {id: payload.id, name: payload.name, type: payload.type}
+      }
     },
 
     /* User */
