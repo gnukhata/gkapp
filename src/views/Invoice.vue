@@ -4,7 +4,6 @@
     Print screen
     Display transaction in print screen
     Add customer and Products
-    Add round off switch
     Add discount percent
     Add check conditions for the dates used in the form
  -->
@@ -1297,7 +1296,7 @@ export default {
         this.setShippingDetails();
       },
     },
-    ...mapState(["authToken", "gkCoreUrl", "userName", "yearEnd"]),
+    ...mapState(["authToken", "gkCoreUrl", "userName", "yearEnd", "invoiceParty"]),
   },
   methods: {
     /**
@@ -1746,6 +1745,18 @@ export default {
             } else {
               // Supplier list not loaded
             }
+          }
+
+          // If coming from Contact's page, autofill invoice party details from store
+          if(self.invoiceParty.id !== null) {
+            self.form.inv.type = (self.invoiceParty.type === 'customer')? "sale" : "purchase"
+            Object.assign(self.form.party, {
+              type: self.invoiceParty.type,
+              name: {
+                id: self.invoiceParty.id,
+                name: self.invoiceParty.name
+              }
+            })
           }
         })
         .catch((error) => {
