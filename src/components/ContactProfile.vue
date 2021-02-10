@@ -199,7 +199,7 @@
         ><b-icon icon="person-dash"></b-icon> Delete Contact</b-button
       >
       <b-button type="submit" size="sm" class="ml-2" variant="success"
-        ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
+        ><b-icon icon="cloud-arrow-up"></b-icon> Save Changes</b-button
       >
       <b-button to="/invoice" size="sm" class="ml-2" variant="dark"
         ><b-icon icon="receipt"></b-icon> Add Transaction</b-button

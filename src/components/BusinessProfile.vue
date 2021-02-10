@@ -150,7 +150,7 @@
     <!-- Submit & delete buttons -->
     <div class="mt-4 pb-4 d-flex flex-row-reverse">
       <b-button type="submit" size="sm" class="ml-2" variant="success"
-        ><b-icon icon="arrow-up-circle"></b-icon> Update Details</b-button
+        ><b-icon icon="cloud-arrow-up"></b-icon> Save Changes</b-button
       >
       <b-button
         @click.prevent="delProfile"
