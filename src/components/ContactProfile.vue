@@ -487,6 +487,13 @@ export default {
   },
   mounted() {
     this.getDetails();
+
+    // This is used by the invoice form, to autofill party details
+    this.$store.commit('setInvoiceParty', {
+      id: this.customer.custid,
+      name: this.customer.custname,
+      type: (this.customer.csflag)? 'customer' : 'supplier', // 3 -> customer, 19-> supplier
+    })
   },
 };
 </script>

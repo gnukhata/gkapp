@@ -19,8 +19,14 @@ export default new Vuex.Store({
     yearStart: null,
     yearEnd: null,
 
-    gkCoreUrl: null, //'https://satheerthan.site:6543',
-    gkCoreTestUrl: 'http://localhost:6543'
+    gkCoreTestUrl: 'http://localhost:6543',
+    gkCoreUrl: 'https://satheerthan.site:6543',
+
+    invoiceParty: {
+      id: null,
+      name: null,
+      type: null
+    }
   },
   mutations: {
     /* A fit-them-all commit */
@@ -100,6 +106,12 @@ export default new Vuex.Store({
     setGkCoreUrl(state, payload) {
       state.gkCoreUrl = payload.gkCoreUrl
       localStorage.setItem('gkCoreUrl', state.gkCoreUrl)
+    },
+
+    setInvoiceParty(state, payload) {
+      if (payload) {
+        state.invoiceParty = { id: payload.id, name: payload.name, type: payload.type }
+      }
     },
 
     /* User */
