@@ -299,6 +299,7 @@ export default {
                           yearEnd: orgYearsResponse.data.gkdata[0].yearend,
                         },
                       });
+                      axios.defaults.baseURL = this.gkCoreUrl;
                       this.$router.push("/workflow");
                       // Alert the user on successful login
                       this.$bvToast.toast(`Welcome to gnukhata!`, {
