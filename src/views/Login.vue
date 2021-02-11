@@ -1,14 +1,14 @@
 <template>
-  <section class="d-flex justify-content-center mt-3">
+  <section class="d-flex justify-content-center mt-2">
+    <!-- Server Selection-->
     <b-card
-      header="Login"
-      class="shadow"
-      header-bg-variant="primary"
-      header-text-variant="light"
+      v-show="!showLogin"
+      header="Server Setup"
+      class="shadow m-1"
+      header-bg-variant="warning"
     >
-      <b-card-body class="card-body">
-        <!-- Server Selection-->
-        <b-form v-if="!showLogin" @submit.prevent="setServerUrl">
+      <b-card-body>
+        <b-form @submit.prevent="setServerUrl">
           <h5 class="text-muted text-center mb-4">
             Please Enter GKCore Server URL
           </h5>
@@ -26,11 +26,22 @@
               URL should not contain " / " in the end
             </b-form-invalid-feedback>
           </b-form-group>
-          <b-button type="submit" variant="primary" class="mx-0"
+          <b-button type="submit" variant="warning" class="mx-0"
             ><b-icon icon="arrow-right-circle"></b-icon> Continue</b-button
           >
         </b-form>
-        <b-form v-show="showLogin">
+      </b-card-body>
+    </b-card>
+    <!-- Login card -->
+    <b-card
+      v-show="showLogin"
+      header="Login"
+      class="shadow m-1"
+      header-bg-variant="primary"
+      header-text-variant="light"
+    >
+      <b-card-body>
+        <b-form @submit.prevent="login">
           <b-alert show variant="info"
             >Demo Username: <b>user_a</b> / Password: <b>user_a</b> / Company:
             <b>ABC Delivery</b></b-alert
@@ -140,10 +151,10 @@
           <div class="float-right">
             <b-button-group>
               <b-button
-                @click="login()"
                 :disabled="isDisabled"
                 class="mr-2"
                 variant="primary"
+                type="submit"
               >
                 <b-spinner v-if="isLoading" small></b-spinner>
                 <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
