@@ -7,6 +7,9 @@
       class="shadow m-1"
       header-bg-variant="warning"
     >
+      <template #header>
+        <h5 class="m-0">Server Setup <b-icon icon="cloud-ch"></b-icon></h5>
+      </template>
       <b-card-body>
         <b-form @submit.prevent="setServerUrl">
           <h5 class="text-muted text-center mb-4">
@@ -213,14 +216,15 @@ export default {
      * Validate given server URL
      */
     setServerUrl() {
+      // Check if gkcore is running locally
       if (this.serverUrl === "") {
-        // Check if gkcore is running locally
+        console.log("checking local server");
         axios
           .get(`http://localhost:6543/state`)
           .then((res) => {
             if (res.status == 200 && res.data.gkstatus == 0) {
-              this.$store.dispatch("setSessionStates", {
-                gkCoreUrl: this.serverUrl,
+              this.$store.commit("setGkCoreUrl", {
+                gkCoreUrl: "http://localhost:6543",
               });
               this.showLogin = true;
               this.fetchOrgs();
@@ -238,12 +242,12 @@ export default {
           });
       } else {
         // Check if it's a valid gkcore url
+        console.log("checking custom url ", this.serverUrl);
         axios
           .get(`${this.serverUrl}/state`)
           .then((res) => {
-            console.log(res);
             if (res.status == 200 && res.data.gkstatus == 0) {
-              this.$store.dispatch("setSessionStates", {
+              this.$store.commit("setGkCoreUrl", {
                 gkCoreUrl: this.serverUrl,
               });
               this.showLogin = true;

@@ -112,7 +112,7 @@ export default {
       this.$router.push("/");
       // clear localStorage
       localStorage.clear();
-      // set gkCore url to null
+      // set gkCore url
       this.$store.commit("setGkCoreUrl", { gkCoreUrl: this.gkCoreUrl });
       // alert the user on logout
       this.$bvToast.toast(`Logged out succesfully`, {

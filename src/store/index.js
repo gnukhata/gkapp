@@ -19,7 +19,7 @@ export default new Vuex.Store({
     yearStart: null,
     yearEnd: null,
 
-    gkCoreTestUrl: 'http://localhost:6543',
+    gkTestUrl: 'http://localhost:6543',
     gkCoreUrl: null,
 
     invoiceParty: {
