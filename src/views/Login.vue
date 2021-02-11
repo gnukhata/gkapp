@@ -6,9 +6,31 @@
       header-bg-variant="primary"
       header-text-variant="light"
     >
-      <!-- <div class="card-header">Login</div> -->
       <b-card-body class="card-body">
-        <b-form>
+        <!-- Server Selection-->
+        <b-form v-if="!showLogin" @submit.prevent="setServerUrl">
+          <h5 class="text-muted text-center mb-4">
+            Please Enter GKCore Server URL
+          </h5>
+          <b-form-group
+            description="Leave blank for default server (http://localhost:6543)"
+            label-cols="auto"
+          >
+            <b-form-input
+              :state="urlIsValid"
+              v-model="serverUrl"
+              type="url"
+              placeholder="https://example.com/gkcore"
+            ></b-form-input>
+            <b-form-invalid-feedback id="input-live-feedback">
+              URL should not contain " / " in the end
+            </b-form-invalid-feedback>
+          </b-form-group>
+          <b-button type="submit" variant="primary" class="mx-0"
+            ><b-icon icon="arrow-right-circle"></b-icon> Continue</b-button
+          >
+        </b-form>
+        <b-form v-show="showLogin">
           <b-alert show variant="info"
             >Demo Username: <b>user_a</b> / Password: <b>user_a</b> / Company:
             <b>ABC Delivery</b></b-alert
@@ -146,7 +168,6 @@ export default {
   name: "login",
   data() {
     return {
-      // gkCoreUrl: 'https://satheerthan.site:6543', // 'http://localhost:6543',
       notificationIsActive: true,
       captchaSolved: false,
       isLoading: false,
@@ -154,28 +175,86 @@ export default {
       options: null, // companys list
       question: null,
       userAnswer: null,
-
+      showLogin: false,
       orgList: null,
       orgIndex: null,
-
+      serverUrl: "",
       form: {
         username: null,
         userpassword: null,
         orgcode: null,
-        customUrl: null,
         orgName: null,
       },
     };
   },
   methods: {
+    /** Check if gkCoreUrl is not null,
+     * If so, show URL window
+     */
+    checkUrl() {
+      if (this.gkCoreUrl == null) {
+        this.showLogin = false;
+      } else {
+        this.showLogin = true;
+      }
+    },
     /**
-     * Vaidate & Login the user
+     * Validate given server URL
+     */
+    setServerUrl() {
+      if (this.serverUrl === "") {
+        // Check if gkcore is running locally
+        axios
+          .get(`http://localhost:6543/state`)
+          .then((res) => {
+            if (res.status == 200 && res.data.gkstatus == 0) {
+              this.$store.dispatch("setSessionStates", {
+                gkCoreUrl: this.serverUrl,
+              });
+              this.showLogin = true;
+              this.fetchOrgs();
+            }
+          })
+          .catch((e) => {
+            this.$bvToast.toast(
+              "Please check if gkcore is properly setup & running on port 6543",
+              {
+                title: "Connection Error",
+                solid: true,
+                variant: "danger",
+              }
+            );
+          });
+      } else {
+        // Check if it's a valid gkcore url
+        axios
+          .get(`${this.serverUrl}/state`)
+          .then((res) => {
+            console.log(res);
+            if (res.status == 200 && res.data.gkstatus == 0) {
+              this.$store.dispatch("setSessionStates", {
+                gkCoreUrl: this.serverUrl,
+              });
+              this.showLogin = true;
+              this.fetchOrgs();
+            }
+          })
+          .catch((e) => {
+            this.$bvToast.toast(e.message, {
+              title: "Invalid URL",
+              variant: "danger",
+              solid: true,
+            });
+          });
+      }
+    },
+    /**
+     * Validate & Login the user
      */
     login() {
       this.isLoading = true;
       // Validate user's captcha answer
       this.captcha();
-
       const orgname = this.orgList[this.orgIndex].orgname;
       const orgtype = this.orgList[this.orgIndex].orgtype;
 
@@ -200,7 +279,6 @@ export default {
                         orgName: this.form.orgName,
                         authToken: response.data.token,
                         user: { username: this.form.username },
-                        gkCoreUrl: this.customUrl,
                         orgYears: {
                           yearStart: orgYearsResponse.data.gkdata[0].yearstart,
                           yearEnd: orgYearsResponse.data.gkdata[0].yearend,
@@ -332,12 +410,18 @@ export default {
   mounted() {
     this.fetchOrgs();
     this.genCaptcha();
+    this.checkUrl();
     if (this.userAuthenticated) {
       this.$router.push("/workflow");
     }
   },
   computed: {
     ...mapState(["gkCoreUrl", "userAuthenticated"]),
+    urlIsValid() {
+      return this.serverUrl.split("").reverse().join("")[0] == "/"
+        ? false
+        : true;
+    },
   },
 };
 </script>

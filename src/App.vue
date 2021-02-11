@@ -11,7 +11,10 @@
             class="d-inline-block align-top"
             alt="GNUKhata Logo"
           />
-          <div :style="{maxWidth: '185px'}" class="ml-2 d-inline-block text-truncate">
+          <div
+            :style="{ maxWidth: '185px' }"
+            class="ml-2 d-inline-block text-truncate"
+          >
             <!-- Without textwrap, creates horizontal overlfow in mobile view -->
             {{ this.orgName || "GNUKhata" }}
           </div>
@@ -52,12 +55,15 @@
                 >
               </template>
               <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
+              <b-dropdown-item
+                @load="getUser"
+                v-if="userRole == -1"
+                to="/orgprofile"
+                ><b-icon icon="gear"></b-icon> Company Profile</b-dropdown-item
+              >
               <b-dropdown-item @click="logOut" href="#"
                 ><b-icon icon="box-arrow-in-left"></b-icon> Log
                 Out</b-dropdown-item
-              >
-              <b-dropdown-item v-if="userRole == -1" to="/orgprofile"
-                ><b-icon icon="gear"></b-icon> Company Profile</b-dropdown-item
               >
             </b-nav-item-dropdown>
           </b-navbar-nav>
@@ -95,20 +101,25 @@ export default {
   },
   methods: {
     /**
-     * Logout the user
+     * Logout the user, But preserve the gkcore url
      */
     logOut() {
-      localStorage.clear(); // clear localStorage
-      this.$router.push("/"); // redirect to login page
+      // reset orgname
+      this.$store.commit("resetOrg");
+      // change auth status
+      this.$store.commit("setAuthStatus");
+      // redirect to login page
+      this.$router.push("/");
+      // clear localStorage
+      localStorage.clear();
+      // set gkCore url to null
+      this.$store.commit("setGkCoreUrl", { gkCoreUrl: this.gkCoreUrl });
       // alert the user on logout
       this.$bvToast.toast(`Logged out succesfully`, {
         title: "Logout",
         solid: true,
         variant: "success",
       });
-      // reset orgname
-      this.$store.commit("resetOrg");
-      this.$store.commit("setAuthStatus"); // change auth status
     },
     getUser() {
       axios
@@ -138,7 +149,7 @@ export default {
       this.$workbox.addEventListener("waiting", () => {
         // this.showUpdateUI = true;
         // notify the user before updating the app
-        this.$bvToast.toast(`Updating app to the lastest version`, {
+        this.$bvToast.toast(`Updating app to the latest version`, {
           title: "New Update Available!",
           solid: "true",
           variant: "warning",

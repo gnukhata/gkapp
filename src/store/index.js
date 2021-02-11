@@ -19,7 +19,7 @@ export default new Vuex.Store({
     yearStart: null,
     yearEnd: null,
 
-    gkCoreUrl: 'https://satheerthan.site:6543',
+    gkCoreUrl: null, //'https://satheerthan.site:6543',
     gkCoreTestUrl: 'http://localhost:6543'
   },
   mutations: {
@@ -31,7 +31,6 @@ export default new Vuex.Store({
       state.orgName = null
       console.log('orgname cleared')
     },
-
     // Init the required vuex store states from session storage
     initStore(state) {
       const authStatus = localStorage.getItem('userAuthenticated')
@@ -40,6 +39,7 @@ export default new Vuex.Store({
       const authToken = localStorage.getItem('authToken')
       const userName = localStorage.getItem('userName')
       const orgYears = JSON.parse(localStorage.getItem('orgYears'))
+      const gkCoreUrl = localStorage.getItem('gkCoreUrl')
 
       if (authStatus === 'true') {
         state.userAuthenticated = true
@@ -61,9 +61,12 @@ export default new Vuex.Store({
         state.userName = userName
       }
 
-      if(orgYears) {
+      if (orgYears) {
         state.yearStart = orgYears.yearStart
         state.yearEnd = orgYears.yearEnd
+      }
+      if (gkCoreUrl) {
+        state.gkCoreUrl = gkCoreUrl
       }
 
     },
@@ -92,7 +95,11 @@ export default new Vuex.Store({
     setOrgYears(state, payload) {
       state.yearStart = payload.yearStart
       state.yearEnd = payload.yearEnd
-      localStorage.setItem('orgYears', JSON.stringify({yearStart : state.yearStart, yearEnd: state.yearEnd}))
+      localStorage.setItem('orgYears', JSON.stringify({ yearStart: state.yearStart, yearEnd: state.yearEnd }))
+    },
+    setGkCoreUrl(state, payload) {
+      state.gkCoreUrl = payload.gkCoreUrl
+      localStorage.setItem('gkCoreUrl', state.gkCoreUrl)
     },
 
     /* User */
@@ -132,8 +139,11 @@ export default new Vuex.Store({
       if (payload.user !== undefined) {
         commit('user', payload.user)
       }
-      if(payload.orgYears !== undefined) {
+      if (payload.orgYears !== undefined) {
         commit('setOrgYears', payload.orgYears)
+      }
+      if (payload.gkCoreUrl !== undefined) {
+        commit('setGkCoreUrl', payload)
       }
     }
   },
