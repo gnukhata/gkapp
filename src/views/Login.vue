@@ -237,7 +237,7 @@ export default {
             this.$bvToast.toast(
               "Please check if gkcore is properly setup & running on port 6543",
               {
-                title: "Connection Error",
+                title: e,
                 solid: true,
                 variant: "danger",
               }
