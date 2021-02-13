@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import axios from 'axios'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -73,6 +75,9 @@ export default new Vuex.Store({
       }
       if (gkCoreUrl) {
         state.gkCoreUrl = gkCoreUrl
+
+        // set axios default every time store inits, as its lost on page refresh
+        axios.defaults.baseURL = gkCoreUrl
       }
 
     },
