@@ -6,12 +6,16 @@
     Add customer and Products
     Add discount percent
     Add check conditions for the dates used in the form
+
+
+    Autofetch company details like address ,etc
  -->
 <template>
   <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2">
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.inv.type"
+        v-if="config.inv.type"
         @input="fetchInvoiceId()"
         button-variant="outline-secondary"
         size="sm"
@@ -20,28 +24,56 @@
         <b-form-radio value="sale">Sale</b-form-radio>
         <b-form-radio value="purchase">Purchase</b-form-radio>
       </b-form-radio-group>
+      <config
+        class="float-right"
+        title="Invoice Page Configuration"
+        getDefault="getDefaultInvoiceConfig"
+        setCustom="updateInvoiceConfig"
+        getCustom="getCustomInvoiceConfig"
+      >
+      </config>
+      <div class="clearfix"></div>
     </div>
     <b-form @submit.prevent="onSubmit">
-      <b-card-group class="d-block d-md-flex" deck>
+      <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Buyer/Seller Details -->
-        <b-card class="mr-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+        <b-card
+          v-if="config.party"
+          class="mb-2 mb-md-0"
+          :class="config.party.class"
+          border-variant="secondary"
+          no-body
+        >
           <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
           </b-overlay>
           <div class="p-2 p-md-3">
             <div>
               <b v-if="isSale"> Billed To</b>
               <b v-else> Billed By</b>
-              <b-button variant="primary" size="sm" class="float-right p-1 d-md-none" @click="function(){isCollapsed.billedTo = !isCollapsed.billedTo}">
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right p-1 d-md-none"
+                @click="
+                  () => {
+                    isCollapsed.billedTo = !isCollapsed.billedTo;
+                  }
+                "
+              >
                 <b-icon
                   :icon="
                     isCollapsed.billedTo ? 'arrows-collapse' : 'arrows-expand'
-                  " class="float-right"
+                  "
+                  class="float-right"
                 ></b-icon>
               </b-button>
             </div>
-            <div class="mt-3" :class="{'d-md-block': true, 'd-none': !isCollapsed.billedTo}">
+            <div
+              class="mt-3"
+              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.billedTo }"
+            >
               <b-row>
-                <b-col cols="12">
+                <b-col v-if="config.party.type" cols="12">
                   <b-form-group>
                     <b-form-radio-group
                       button-variant="outline-secondary"
@@ -62,7 +94,7 @@
                     >
                   </b-form-group>
                 </b-col>
-                <b-col cols="12">
+                <b-col cols="12" v-if="config.party.name">
                   <b-form-group
                     label="Name"
                     label-for="input-9"
@@ -83,7 +115,7 @@
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
-                <b-col cols="12">
+                <b-col cols="12" v-if="config.party.addr">
                   <b-form-group
                     label-cols="3"
                     label="Address"
@@ -101,7 +133,7 @@
                     ></b-form-textarea>
                   </b-form-group>
                 </b-col>
-                <b-col cols="12">
+                <b-col cols="12" v-if="config.party.pin">
                   <b-form-group
                     label-cols="3"
                     label="PIN"
@@ -117,7 +149,7 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col cols="12">
+                <b-col cols="12" v-if="config.party.state">
                   <b-form-group
                     label="State"
                     label-for="input-12"
@@ -134,7 +166,7 @@
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
-                <b-col v-if="isGst" cols="12">
+                <b-col v-if="isGst && config.party.gstin" cols="12">
                   <b-form-group
                     label-cols="3"
                     label="GSTIN"
@@ -150,7 +182,7 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col v-else cols="12">
+                <b-col v-else-if="config.party.tin" cols="12">
                   <b-form-group
                     label-cols="3"
                     label="TIN"
@@ -171,23 +203,42 @@
           </div>
         </b-card>
         <!-- Invoice Details -->
-        <b-card class="mx-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+        <b-card
+          v-if="config.inv"
+          class="mb-2 mb-md-0"
+          :class="config.inv.class"
+          border-variant="secondary"
+          no-body
+        >
           <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
           </b-overlay>
           <div class="p-2 p-md-3">
             <div>
               <b>Invoice Details</b>
-              <b-button variant="primary" size="sm" class="float-right p-1 d-md-none" @click="function(){isCollapsed.invoice = !isCollapsed.invoice}">
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right p-1 d-md-none"
+                @click="
+                  () => {
+                    isCollapsed.invoice = !isCollapsed.invoice;
+                  }
+                "
+              >
                 <b-icon
                   :icon="
                     isCollapsed.invoice ? 'arrows-collapse' : 'arrows-expand'
-                  " class="float-right"
+                  "
+                  class="float-right"
                 ></b-icon>
               </b-button>
             </div>
-            <div class="mt-3" :class="{'d-md-block': true, 'd-none': !isCollapsed.invoice}">
+            <div
+              class="mt-3"
+              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.invoice }"
+            >
               <b-row>
-                <b-col class="pr-lg-2" cols="12" lg="6">
+                <b-col v-if="config.inv.no" class="pr-lg-2" cols="12" lg="6">
                   <b-form-group
                     label="Inv. No."
                     label-for="input-1"
@@ -204,7 +255,7 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col class="pl-lg-2">
+                <b-col v-if="config.inv.date" class="pl-lg-2">
                   <b-form-group
                     id="input-group-3"
                     label="Date"
@@ -239,7 +290,12 @@
                 </b-col>
               </b-row>
               <b-row>
-                <b-col class="pr-lg-2" cols="12" lg="6">
+                <b-col
+                  v-if="config.inv.delNote"
+                  class="pr-lg-2"
+                  cols="12"
+                  lg="6"
+                >
                   <b-form-group
                     label="Del. Note"
                     label-for="input-2"
@@ -254,7 +310,7 @@
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
-                <b-col class="pl-lg-2" v-if="isSale">
+                <b-col class="pl-lg-2" v-if="isSale && config.inv.ebn">
                   <b-form-group
                     label="EBN"
                     label-for="input-3"
@@ -271,17 +327,17 @@
                   </b-form-group>
                 </b-col>
               </b-row>
-              <hr
+              <!-- <hr
                 :style="{ marginLeft: '-1rem', marginRight: '-1rem' }"
                 class="mt-0 border-secondary"
-              />
+              /> -->
               <b-form-group
                 label-cols-lg="2"
                 label-cols="3"
                 label="Address"
                 label-for="input-4"
                 label-size="sm"
-                v-if="isSale"
+                v-if="isSale && config.inv.addr"
               >
                 <b-form-textarea
                   size="sm"
@@ -294,7 +350,12 @@
                 ></b-form-textarea>
               </b-form-group>
               <b-row>
-                <b-col class="pr-lg-2" cols="12" lg="6" v-if="isSale">
+                <b-col
+                  class="pr-lg-2"
+                  cols="12"
+                  lg="6"
+                  v-if="isSale && config.inv.pin"
+                >
                   <b-form-group
                     label-cols-lg="4"
                     label-cols="3"
@@ -310,7 +371,7 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col class="pl-lg-2">
+                <b-col v-if="config.inv.state" class="pl-lg-2">
                   <b-form-group
                     label="State"
                     label-for="input-6"
@@ -328,12 +389,17 @@
                   </b-form-group>
                 </b-col>
               </b-row>
-              <hr
+              <!-- <hr
                 :style="{ marginLeft: '-1rem', marginRight: '-1rem' }"
                 class="mt-0 border-secondary"
-              />
+              /> -->
               <b-row v-if="isSale">
-                <b-col class="pr-lg-2" cols="12" lg="6">
+                <b-col
+                  v-if="config.inv.issuer"
+                  class="pr-lg-2"
+                  cols="12"
+                  lg="6"
+                >
                   <b-form-group
                     label="Issuer"
                     label-for="input-7"
@@ -350,7 +416,7 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col class="pl-lg-2" cols="12" lg="6">
+                <b-col v-if="config.inv.role" class="pl-lg-2" cols="12" lg="6">
                   <b-form-group
                     label="Role"
                     label-for="input-8"
@@ -372,20 +438,41 @@
           </div>
         </b-card>
         <!-- Shipping Details -->
-        <b-card class="ml-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+        <b-card
+          v-if="config.ship"
+          class="mb-2 mb-md-0"
+          :class="config.ship.class"
+          border-variant="secondary"
+          no-body
+        >
           <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
           </b-overlay>
           <div class="p-2 p-md-3">
-            <div><b>Shipping Details</b>
-            <b-button variant="primary" size="sm" class="float-right p-1 d-md-none" @click="function(){isCollapsed.shipping = !isCollapsed.shipping}">
+            <div>
+              <b>Shipping Details</b>
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right p-1 d-md-none"
+                @click="
+                  () => {
+                    isCollapsed.shipping = !isCollapsed.shipping;
+                  }
+                "
+              >
                 <b-icon
                   :icon="
                     isCollapsed.shipping ? 'arrows-collapse' : 'arrows-expand'
-                  " class="float-right"
+                  "
+                  class="float-right"
                 ></b-icon>
               </b-button>
             </div>
-            <div class="mt-3" :class="{'d-md-block': true, 'd-none': !isCollapsed.shipping}" id="shipping-details">
+            <div
+              class="mt-3"
+              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.shipping }"
+              id="shipping-details"
+            >
               <b-form-checkbox
                 id="checkbox-1"
                 v-model="sameBillAddress"
@@ -393,12 +480,12 @@
                 class="mb-3"
                 size="sm"
                 switch
-                v-if="isSale"
+                v-if="isSale && config.ship.copyflag"
               >
                 Same as Billing Address
               </b-form-checkbox>
               <b-row>
-                <b-col cols="12">
+                <b-col cols="12" v-if="config.ship.name">
                   <b-form-group
                     label="Name"
                     label-for="input-14"
@@ -412,7 +499,7 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col cols="12">
+                <b-col cols="12" v-if="config.ship.addr">
                   <b-form-group
                     label-cols="3"
                     label="Address"
@@ -429,7 +516,7 @@
                     ></b-form-textarea>
                   </b-form-group>
                 </b-col>
-                <b-col cols="12">
+                <b-col cols="12" v-if="config.ship.pin">
                   <b-form-group
                     label-cols="3"
                     label="PIN"
@@ -444,7 +531,7 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col cols="12">
+                <b-col cols="12" v-if="config.ship.state">
                   <b-form-group
                     label="State"
                     label-for="input-17"
@@ -460,7 +547,7 @@
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
-                <b-col v-if="isGst" cols="12">
+                <b-col v-if="isGst && config.ship.gstin" cols="12">
                   <b-form-group
                     label-cols="3"
                     label="GSTIN"
@@ -475,7 +562,7 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col v-else cols="12">
+                <b-col v-else-if="config.ship.tin" cols="12">
                   <b-form-group
                     label-cols="3"
                     label="TIN"
@@ -495,7 +582,7 @@
           </div>
         </b-card>
       </b-card-group>
-      <div class="my-2">
+      <div class="my-2" v-if="config.taxType">
         <b-form-radio-group
           button-variant="outline-secondary"
           size="sm"
@@ -506,14 +593,17 @@
           <b-form-radio value="vat">VAT</b-form-radio>
         </b-form-radio-group>
       </div>
-      <div class="position-relative">
+      <div v-if="config.bill" class="position-relative my-2">
         <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
         </b-overlay>
         <b-table-simple hover small caption-top responsive bordered>
           <b-thead head-variant="dark">
             <!-- table header -->
             <b-tr class="text-center">
-              <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
+              <b-th
+                :style="{ maxWidth: '40px', width: '40px' }"
+                rowspan="2"
+                v-if="config.bill.index"
                 >No</b-th
               >
               <b-th
@@ -523,6 +613,7 @@
                   minWidth: '100px',
                 }"
                 rowspan="2"
+                v-if="config.bill.product"
                 >Item
                 <b-button
                   @click.prevent="showBusinessForm = true"
@@ -535,44 +626,49 @@
               <b-th
                 :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
                 rowspan="2"
+                v-if="config.bill.hsn"
                 >HSN/SAC</b-th
               >
               <b-th
                 :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
                 rowspan="2"
+                v-if="config.bill.qty"
                 >Qty</b-th
               >
               <b-th
                 :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
                 rowspan="2"
+                v-if="config.bill.rate"
                 >Rate</b-th
               >
               <b-th
                 :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
                 rowspan="2"
+                v-if="config.bill.discount"
                 >Discount</b-th
               >
               <b-th
                 :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
                 rowspan="2"
+                v-if="config.bill.taxable"
                 >Taxable Amt</b-th
               >
               <b-th
                 :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
                 colspan="2"
-                v-if="isGst"
+                v-if="isGst && config.bill.igst"
                 >IGST</b-th
               >
               <b-th
                 :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
                 colspan="2"
-                v-if="isGst"
+                v-if="isGst && config.bill.cess"
                 >CESS</b-th
               >
               <b-th
                 :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
                 colspan="2"
-                v-if="!isGst"
+                v-if="!isGst && config.bill.vat"
                 >TAX</b-th
               >
               <b-th
@@ -582,6 +678,7 @@
                   minWidth: '100px',
                 }"
                 rowspan="2"
+                v-if="config.bill.total"
                 >Total</b-th
               >
               <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
@@ -592,33 +689,33 @@
             <b-tr class="text-center">
               <b-th
                 :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst"
+                v-if="isGst && config.bill.igst"
                 >%</b-th
               >
               <b-th
                 :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst"
-                >Rs</b-th
+                v-if="isGst && config.bill.igst"
+                >₹</b-th
               >
               <b-th
                 :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst"
+                v-if="isGst && config.bill.cess"
                 >%</b-th
               >
               <b-th
                 :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst"
-                >Rs</b-th
+                v-if="isGst && config.bill.cess"
+                >₹</b-th
               >
               <b-th
                 :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="!isGst"
+                v-if="!isGst && config.bill.vat"
                 >%</b-th
               >
               <b-th
                 :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="!isGst"
-                >Rs</b-th
+                v-if="!isGst && config.bill.vat"
+                >₹</b-th
               >
             </b-tr>
           </b-thead>
@@ -629,12 +726,12 @@
               :key="index"
             >
               <!-- No.  -->
-              <b-td>
+              <b-td v-if="config.bill.index">
                 {{ index + 1 }}
               </b-td>
 
               <!-- Item -->
-              <b-td>
+              <b-td v-if="config.bill.product">
                 <b-form-select
                   size="sm"
                   v-model="field.product"
@@ -645,12 +742,12 @@
               </b-td>
 
               <!-- HSN/SAC -->
-              <b-td>
+              <b-td v-if="config.bill.hsn">
                 <b>{{ field.hsn }}</b>
               </b-td>
 
               <!-- Qty -->
-              <b-td>
+              <b-td v-if="config.bill.qty">
                 <b-input
                   v-model="field.qty"
                   class="hide-spin-button text-right"
@@ -663,7 +760,7 @@
               </b-td>
 
               <!-- Rate -->
-              <b-td>
+              <b-td v-if="config.bill.rate">
                 <b-input
                   v-model="field.rate"
                   class="hide-spin-button text-right"
@@ -675,7 +772,7 @@
               </b-td>
 
               <!-- Discount -->
-              <b-td>
+              <b-td v-if="config.bill.discount">
                 <b-input
                   v-model="field.discount.amount"
                   class="hide-spin-button text-right"
@@ -687,42 +784,42 @@
               </b-td>
 
               <!-- Taxable Amt -->
-              <b-td>
+              <b-td v-if="config.bill.taxable">
                 {{ field.taxable }}
               </b-td>
 
               <!-- GST % -->
-              <b-td v-if="isGst">
+              <b-td v-if="isGst && config.bill.igst">
                 {{ field.igst.rate }}
               </b-td>
 
               <!-- GST $ -->
-              <b-td v-if="isGst">
+              <b-td v-if="isGst && config.bill.igst">
                 {{ field.igst.amount }}
               </b-td>
 
               <!-- CESS % -->
-              <b-td v-if="isGst">
+              <b-td v-if="isGst && config.bill.cess">
                 {{ field.cess.rate }}
               </b-td>
 
               <!-- CESS $ -->
-              <b-td v-if="isGst">
+              <b-td v-if="isGst && config.bill.cess">
                 {{ field.cess.amount }}
               </b-td>
 
               <!-- VAT Tax % -->
-              <b-td v-if="!isGst">
+              <b-td v-if="!isGst && config.bill.vat">
                 {{ field.vat.rate }}
               </b-td>
 
               <!-- VAT Tax $ -->
-              <b-td v-if="!isGst">
+              <b-td v-if="!isGst && config.bill.vat">
                 {{ field.vat.amount }}
               </b-td>
 
               <!-- Total -->
-              <b-td>
+              <b-td v-if="config.bill.total">
                 {{ field.total }}
               </b-td>
 
@@ -740,19 +837,40 @@
               </b-td>
             </b-tr>
           </b-tbody>
-          <b-tfoot>
+          <b-tfoot v-if="config.bill.footer">
             <b-tr variant="secondary" class="text-right">
-              <b-th colspan="5"> Total </b-th>
-              <b-th> ₹ {{ getTotal("discount", "amount") }}</b-th>
-              <b-th> ₹ {{ getTotal("taxable") }}</b-th>
-              <b-th colspan="2" v-if="isGst"
-                >₹ {{ getTotal("igst", "amount") }}</b-th
+              <b-th :colspan="config.bill.footer.headingColspan"> Total </b-th>
+              <b-th v-if="config.bill.discount">
+                <span v-if="config.bill.footer.discount"
+                  >₹ {{ getTotal("discount", "amount") }}</span
+                >
+              </b-th>
+              <b-th v-if="config.bill.taxable">
+                <span v-if="config.bill.footer.taxable"
+                  >₹ {{ getTotal("taxable") }}</span
+                >
+              </b-th>
+              <b-th colspan="2" v-if="isGst && config.bill.igst">
+                <span v-if="config.bill.footer.igst"
+                  >₹ {{ getTotal("igst", "amount") }}</span
+                ></b-th
               >
-              <b-th colspan="2" v-if="isGst"
-                >₹ {{ getTotal("cess", "amount") }}</b-th
+              <b-th colspan="2" v-if="isGst && config.bill.cess">
+                <span v-if="config.bill.footer.cess"
+                  >₹ {{ getTotal("cess", "amount") }}</span
+                ></b-th
               >
-              <b-th colspan="2" v-else>{{ getTotal("vat", "amount") }}</b-th>
-              <b-th> ₹ {{ getTotal("total") }}</b-th>
+              <b-th colspan="2" v-if="!isGst && config.bill.vat"
+                >{>
+                <span v-if="config.bill.footer.vat">{{
+                  getTotal("vat", "amount")
+                }}</span>
+              </b-th>
+              <b-th v-if="config.bill.total">
+                <span v-if="config.bill.footer.total"
+                  >₹ {{ getTotal("total") }}</span
+                >
+              </b-th>
               <b-th></b-th>
             </b-tr>
           </b-tfoot>
@@ -761,50 +879,51 @@
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
          atleast 2, to avoid creating an offset to the right -->
-        <b-row class="mt-5">
+        <b-row class="mt-5" v-if="config.total">
           <b-col cols="12" lg="6"> </b-col>
           <b-col cols="12" lg="6">
             <b-table-simple responsive>
               <b-tbody>
-                <b-tr>
+                <b-tr v-if="config.total.taxable">
                   <b-th></b-th>
                   <b-th colspan="3">Taxable Amount</b-th>
                   <b-th class="text-right">₹ {{ getTotal("taxable") }}</b-th>
                 </b-tr>
-                <b-tr v-if="isGst">
+                <b-tr v-if="isGst && config.total.igst">
                   <b-th></b-th>
                   <b-th colspan="3">Total IGST</b-th>
                   <b-th class="text-right"
                     >₹ {{ getTotal("igst", "amount") }}</b-th
                   >
                 </b-tr>
-                <b-tr v-if="isGst">
+                <b-tr v-if="isGst && config.total.cess">
                   <b-th></b-th>
                   <b-th colspan="3">Total CESS</b-th>
                   <b-th class="text-right"
                     >₹ {{ getTotal("cess", "amount") }}</b-th
                   >
                 </b-tr>
-                <b-tr v-if="!isGst">
+                <b-tr v-if="!isGst && config.total.vat">
                   <b-th></b-th>
                   <b-th colspan="3">Total VAT</b-th>
                   <b-th class="text-right"
                     >₹ {{ getTotal("vat", "amount") }}</b-th
                   >
                 </b-tr>
-                <b-tr>
+                <b-tr v-if="config.total.discount">
                   <b-th></b-th>
                   <b-th colspan="3">Total Discount</b-th>
                   <b-th class="text-right"
                     >₹ {{ getTotal("discount", "amount") }}</b-th
                   >
                 </b-tr>
-                <b-tr>
+                <b-tr v-if="config.total.value">
                   <b-th :style="{ width: '30px' }">
                     <b-form-checkbox
                       inline
                       size="sm"
                       v-model="form.totalRoundFlag"
+                      v-if="config.total.roundOff"
                       v-b-tooltip.hover
                       title="Roundoff Total Value?"
                     ></b-form-checkbox>
@@ -812,14 +931,14 @@
                   <b-th colspan="3"> Total Invoice Value </b-th>
                   <b-th class="text-right">₹ {{ getTotal("total") }}</b-th>
                 </b-tr>
-                <b-tr v-if="form.totalRoundFlag">
+                <b-tr v-if="form.totalRoundFlag && config.total.roundOff">
                   <b-th></b-th>
                   <b-th colspan="3">Total Invoice Value (Rounded Off)</b-th>
                   <b-th class="text-right"
                     >₹ {{ Math.round(getTotal("total")) }}</b-th
                   >
                 </b-tr>
-                <b-tr>
+                <b-tr v-if="config.total.valueText">
                   <b-th></b-th>
                   <b-th colspan="3">Total Invoice Value (in words)</b-th>
                   <b-th class="text-right"> {{ invoiceTotalText }}</b-th>
@@ -830,24 +949,44 @@
         </b-row>
       </div>
       <b-card-group class="d-block d-md-flex" deck>
-        <b-card class="mr-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+        <b-card
+          class="mb-2 mb-md-0"
+          :class="config.payment.class"
+          border-variant="secondary"
+          no-body
+          v-if="config.payment"
+        >
           <div class="p-2 p-md-3">
             <div>
               <b>Payment Details</b>
-              <b-button variant="primary" size="sm" class="float-right p-1 d-md-none" @click="function(){isCollapsed.payment = !isCollapsed.payment}">
-                  <b-icon
-                    :icon="
-                      isCollapsed.payment ? 'arrows-collapse' : 'arrows-expand'
-                    " class="float-right"
-                  ></b-icon>
-                </b-button>
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right p-1 d-md-none"
+                @click="
+                  () => {
+                    isCollapsed.payment = !isCollapsed.payment;
+                  }
+                "
+              >
+                <b-icon
+                  :icon="
+                    isCollapsed.payment ? 'arrows-collapse' : 'arrows-expand'
+                  "
+                  class="float-right"
+                ></b-icon>
+              </b-button>
             </div>
-            <div class="mt-3" :class="{'d-md-block': true, 'd-none': !isCollapsed.payment}">
+            <div
+              class="mt-3"
+              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.payment }"
+            >
               <b-form-group
                 label="Mode of Payment"
                 label-for="input-19"
                 label-size="sm"
                 label-cols="auto"
+                v-if="config.payment.mode"
               >
                 <b-form-select
                   size="sm"
@@ -866,6 +1005,7 @@
                   label-cols="3"
                   label-size="sm"
                   label-cols-lg="autauto"
+                  v-if="config.payment.bank.no"
                 >
                   <b-form-input
                     size="sm"
@@ -881,11 +1021,12 @@
                   label-cols="3"
                   label-size="sm"
                   label-cols-lg="autauto"
+                  v-model="form.payment.bank.name"
                 >
                   <b-form-input
                     size="sm"
                     id="input-21"
-                    v-model="form.payment.bank.name"
+                    v-if="config.payment.bank.name"
                     trim
                     required
                   ></b-form-input>
@@ -896,6 +1037,7 @@
                   label-cols="3"
                   label-size="sm"
                   label-cols-lg="autauto"
+                  v-if="config.payment.bank.branch"
                 >
                   <b-form-input
                     size="sm"
@@ -911,6 +1053,7 @@
                   label-cols="3"
                   label-size="sm"
                   label-cols-lg="autauto"
+                  v-if="config.payment.bank.ifsc"
                 >
                   <b-form-input
                     size="sm"
@@ -925,24 +1068,44 @@
             </div>
           </div>
         </b-card>
-        <b-card class="mx-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+        <b-card
+          class="mb-2 mb-md-0"
+          :class="config.transport.class"
+          border-variant="secondary"
+          no-body
+          v-if="config.transport"
+        >
           <div class="p-2 p-md-3">
             <div>
               <b>Transport Details</b>
-              <b-button variant="primary" size="sm" class="float-right p-1 d-md-none" @click="function(){isCollapsed.transport = !isCollapsed.transport}">
-                  <b-icon
-                    :icon="
-                      isCollapsed.transport ? 'arrows-collapse' : 'arrows-expand'
-                    " class="float-right"
-                  ></b-icon>
-                </b-button>
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right p-1 d-md-none"
+                @click="
+                  () => {
+                    isCollapsed.transport = !isCollapsed.transport;
+                  }
+                "
+              >
+                <b-icon
+                  :icon="
+                    isCollapsed.transport ? 'arrows-collapse' : 'arrows-expand'
+                  "
+                  class="float-right"
+                ></b-icon>
+              </b-button>
             </div>
-            <div class="mt-3" :class="{'d-md-block': true, 'd-none': !isCollapsed.transport}">
+            <div
+              class="mt-3"
+              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.transport }"
+            >
               <b-form-group
                 label="Mode of Transport"
                 label-for="input-24"
                 label-size="sm"
                 label-cols="auto"
+                v-if="config.transport.mode"
               >
                 <b-form-select
                   size="sm"
@@ -957,7 +1120,7 @@
                 label-cols="auto"
                 label-size="sm"
                 label-cols-lg="autauto"
-                v-if="form.transport.mode === 'Road'"
+                v-if="form.transport.mode === 'Road' && config.transport.vno"
               >
                 <b-form-input
                   size="sm"
@@ -972,6 +1135,7 @@
                 label-cols="auto"
                 label-for="date-2"
                 label-size="sm"
+                v-if="config.transport.date"
               >
                 <b-input-group>
                   <b-form-input
@@ -995,25 +1159,50 @@
                   </b-input-group-append>
                 </b-input-group>
               </b-form-group>
-              <b-form-checkbox size="sm" name="check-button" switch>
+              <b-form-checkbox
+                v-model="form.transport.reverseCharge"
+                size="sm"
+                name="check-button"
+                switch
+                v-if="config.transport.reverseCharge"
+              >
                 Reverse Charge
               </b-form-checkbox>
             </div>
           </div>
         </b-card>
-        <b-card class="ml-md-1 mb-2 mb-md-0" border-variant="secondary" no-body>
+        <b-card
+          class="mb-2 mb-md-0"
+          :class="config.comments.class"
+          border-variant="secondary"
+          no-body
+          v-if="config.comments"
+        >
           <div class="p-2 p-md-3">
             <div>
               <b>Invoice Comments</b>
-              <b-button variant="primary" size="sm" class="float-right p-1 d-md-none" @click="function(){isCollapsed.comments = !isCollapsed.comments}">
+              <b-button
+                variant="primary"
+                size="sm"
+                class="float-right p-1 d-md-none"
+                @click="
+                  () => {
+                    isCollapsed.comments = !isCollapsed.comments;
+                  }
+                "
+              >
                 <b-icon
                   :icon="
                     isCollapsed.comments ? 'arrows-collapse' : 'arrows-expand'
-                  " class="float-right"
+                  "
+                  class="float-right"
                 ></b-icon>
               </b-button>
             </div>
-            <div class="mt-3" :class="{'d-md-block': true, 'd-none': !isCollapsed.comments}">
+            <div
+              class="mt-3"
+              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.comments }"
+            >
               <b-form-group
                 label="Comments"
                 label-for="input-27"
@@ -1079,6 +1268,7 @@
     <b-modal
       size="lg"
       v-model="showContactForm"
+      v-if="config"
       centered
       static
       body-class="p-0"
@@ -1111,6 +1301,7 @@
     <b-modal
       size="xl"
       v-model="showBusinessForm"
+      v-if="config"
       centered
       static
       body-class="p-0"
@@ -1147,14 +1338,20 @@ import { mapState } from "vuex";
 
 import ContactItem from "../components/form/ContactItem.vue";
 import BusinessItem from "../components/form/BusinessItem.vue";
+import Config from "../components/Config.vue";
+
+import invoiceConfig from "../js/config/invoiceConfig";
+
 export default {
   name: "Invoice",
   components: {
     ContactItem,
     BusinessItem,
+    Config,
   },
   data() {
     return {
+      // config: {},
       form: {
         inv: {
           type: "sale", // purchase
@@ -1164,7 +1361,7 @@ export default {
           ebn: null,
           addr: null,
           pin: null,
-          state: null,
+          state: {},
           issuer: null,
           role: null,
         },
@@ -1175,9 +1372,9 @@ export default {
             gstin: [],
           },
           custid: null,
-          name: null,
+          name: {},
           addr: null,
-          state: null,
+          state: {},
           gstin: null,
           tin: null,
           pin: null,
@@ -1186,7 +1383,7 @@ export default {
           copyFlag: true,
           name: null,
           addr: null,
-          state: null,
+          state: {},
           gstin: null,
           tin: null,
           pin: null,
@@ -1221,7 +1418,7 @@ export default {
           mode: "Road",
           vno: null,
           date: null,
-          reverseCharge: null,
+          reverseCharge: false,
         },
         narration: null,
         totalRoundFlag: false,
@@ -1257,12 +1454,91 @@ export default {
         invoice: false,
         shipping: false,
         payment: false,
-        transport:false,
-        comments: false
+        transport: false,
+        comments: false,
       },
     };
   },
   computed: {
+    config: (self) => {
+      let newConf = self.$store.getters.getCustomInvoiceConfig;
+      if (newConf) {
+        newConf.bill.footer.headingColspan =
+          !!newConf.bill.index +
+            !!newConf.bill.product +
+            !!newConf.bill.hsn +
+            !!newConf.bill.qty +
+            !!newConf.bill.rate || 1;
+
+        if (newConf.inv.class) {
+          newConf.inv.class = {
+            "mr-md-1": !!newConf.ship,
+            "ml-md-1": !!newConf.party,
+          };
+        }
+        if (newConf.ship.class) {
+          newConf.ship.class = {
+            "ml-md-1": !!(newConf.inv || newConf.party),
+          };
+        }
+        if (newConf.party.class) {
+          newConf.party.class = {
+            "mr-md-1": !!(newConf.inv || newConf.ship),
+          };
+        }
+
+        if (newConf.payment.class) {
+          newConf.payment.class = {
+            "mr-md-1": !!(newConf.transport || newConf.comments),
+          };
+        }
+
+        if (newConf.transport.class) {
+          newConf.transport.class = {
+            "mr-md-1": !!newConf.comments,
+            "ml-md-1": !!newConf.payment,
+          };
+        }
+
+        if (newConf.comments.class) {
+          newConf.comments.class = {
+            "ml-md-1": !!(newConf.transport || newConf.payment),
+          };
+        }
+      } else {
+        newConf = {
+          inv: {
+            class: {},
+          },
+          party: {
+            class: {},
+          },
+          ship: {
+            class: {},
+          },
+          taxType: true,
+          bill: {
+            footer: {
+              headingColspan: 1,
+            },
+          },
+          payment: {
+            bank: {},
+            class: {},
+          },
+          transport: {
+            class: {},
+          },
+          comments: {
+            class: {},
+          },
+          total: {},
+        };
+      }
+
+      return newConf;
+    },
+    defaultConfig: (self) => self.$store.getters.getDefaultInvoiceConfig,
     invoiceTotalText: (self) => {
       let total = self.getTotal("total");
       let text = "";
@@ -1296,7 +1572,13 @@ export default {
         this.setShippingDetails();
       },
     },
-    ...mapState(["authToken", "gkCoreUrl", "userName", "yearEnd", "invoiceParty"]),
+    ...mapState([
+      "authToken",
+      "gkCoreUrl",
+      "userName",
+      "yearEnd",
+      "invoiceParty",
+    ]),
   },
   methods: {
     /**
@@ -1352,13 +1634,13 @@ export default {
       let item = this.form.bill[index];
       if (item) {
         if (item.rate > 0) {
-          if (item.qty > 0) {
-            item.taxable = parseFloat(
-              (item.rate * item.qty - item.discount.amount).toFixed(2)
-            );
-          } else if (item.isService) {
+          if (item.isService) {
             item.taxable = parseFloat(
               (item.rate - item.discount.amount).toFixed(2)
+            );
+          } else {
+            item.taxable = parseFloat(
+              (item.rate * item.qty - item.discount.amount).toFixed(2)
             );
           }
 
@@ -1385,6 +1667,9 @@ export default {
             }
             item.total = (item.taxable + item.vat.amount).toFixed(2);
           }
+        } else {
+          item.taxable = (0).toFixed(2);
+          item.total = (0).toFixed(2);
         }
       }
     },
@@ -1573,9 +1858,10 @@ export default {
             Object.assign(self.form.bill[index], {
               hsn: data.gscode,
               rate: data.prodmrp,
+              qty: 0,
               discount: {
                 rate: data.discountpercent,
-                amount: data.discountamount,
+                amount: self.config.bill.discount ? data.discountamount : 0,
               },
               isService: data.gsflag === 19,
             });
@@ -1593,9 +1879,15 @@ export default {
                 cess: { rate: 0, amount: 0 },
                 vat: { rate: 0, amount: 0 },
               },
-              igst = data.filter((item) => item.taxname === "IGST"),
-              cess = data.filter((item) => item.taxname === "CESS"),
-              vat = data.filter((item) => item.taxname === "CVAT");
+              igst = self.config.bill.igst
+                ? data.filter((item) => item.taxname === "IGST")
+                : 0,
+              cess = self.config.bill.cess
+                ? data.filter((item) => item.taxname === "CESS")
+                : 0,
+              vat = self.config.bill.vat
+                ? data.filter((item) => item.taxname === "CVAT")
+                : 0;
 
             if (igst.length) {
               tax["igst"] = {
@@ -1748,15 +2040,16 @@ export default {
           }
 
           // If coming from Contact's page, autofill invoice party details from store
-          if(self.invoiceParty.id !== null) {
-            self.form.inv.type = (self.invoiceParty.type === 'customer')? "sale" : "purchase"
+          if (self.invoiceParty.id !== null) {
+            self.form.inv.type =
+              self.invoiceParty.type === "customer" ? "sale" : "purchase";
             Object.assign(self.form.party, {
               type: self.invoiceParty.type,
               name: {
                 id: self.invoiceParty.id,
-                name: self.invoiceParty.name
-              }
-            })
+                name: self.invoiceParty.name,
+              },
+            });
           }
         })
         .catch((error) => {
@@ -1793,7 +2086,7 @@ export default {
             } else {
               this.displayToast(
                 "Fetch Product Data Failed!",
-                error.message,
+                "Please try again later, if problem persists, contact admin",
                 "danger"
               );
             }
@@ -1922,8 +2215,7 @@ export default {
           self.displayToast("Create Invoice Error!", error.message, "warning");
         });
     },
-    onContactSave(data) {
-      // console.log(data);
+    onContactSave() {
       this.showContactForm = false;
       this.fetchContactList().then(() => {
         if (this.options.customers.length) {
@@ -1934,7 +2226,7 @@ export default {
         }
       });
     },
-    onBusinessSave(data) {
+    onBusinessSave() {
       this.showBusinessForm = false;
       this.fetchBusinessList().then(() => {
         let billCount = this.form.bill.length;
@@ -1960,14 +2252,14 @@ export default {
         invoiceno: this.form.inv.no,
         ewaybillno: this.form.inv.ebn,
         invoicedate: this.form.inv.date,
-        sourcestate: this.form.inv.state.name,
+        sourcestate: this.form.inv.state.name || "",
         orgstategstin: null,
         issuername: this.form.inv.issuer,
         designation: this.form.inv.role,
         address: this.form.inv.addr,
         pincode: this.form.inv.pin,
 
-        custid: this.form.party.name.id,
+        custid: this.form.party.name.id || "",
         consignee: {},
 
         roundoffflag: 1,
@@ -1991,12 +2283,12 @@ export default {
 
       // === Sale / Purchase related data ===
       if (this.isSale) {
-        invoice.sourcestate = this.form.inv.state.name;
-        invoice.taxstate = this.form.party.state.name;
+        invoice.sourcestate = this.form.inv.state.name || "";
+        invoice.taxstate = this.form.party.state.name || "";
         invoice.inoutflag = 15; // sale
       } else {
-        invoice.sourcestate = this.form.party.state.name;
-        invoice.taxstate = this.form.inv.state.name;
+        invoice.sourcestate = this.form.party.state.name || "";
+        invoice.taxstate = this.form.inv.state.name || "";
         invoice.inoutflag = 9; // purchase
       }
 
@@ -2018,12 +2310,12 @@ export default {
       // === Consignee data ===
       if (this.form.ship.name) {
         invoice.consignee = {
-          consigneename: this.form.ship.name,
+          consigneename: this.form.ship.name || "",
           tinconsignee: this.form.ship.tin || "",
           gstinconsignee: this.form.ship.gstin || "",
           consigneeaddress: this.form.ship.addr,
-          consigneestate: this.form.ship.state.name,
-          consigneestatecode: this.form.ship.state.id,
+          consigneestate: this.form.ship.state.name || "",
+          consigneestatecode: this.form.ship.state.id || "",
           consigneepincode: this.form.ship.pin,
         };
       }
@@ -2069,7 +2361,7 @@ export default {
         av.totaltaxable += taxable;
 
         pricedetails.push({
-          custid: this.form.party.name.id,
+          custid: this.form.party.name.id || "",
           productcode: item.product.id,
           inoutflag: invoice.inoutflag,
           lastprice: item.rate,
@@ -2109,19 +2401,19 @@ export default {
     resetForm() {
       this.form = {
         inv: {
-          // type: "sale", // purchase
+          type: "sale", // purchase
           no: null,
           date: this.formatDateObj(new Date()),
           delNote: null,
           ebn: null,
           addr: null,
           pin: null,
-          state: null,
+          state: { id: null, name: null },
           issuer: null,
           role: null,
         },
         party: {
-          // type: "customer", // supplier
+          type: "customer", // supplier
           options: {
             states: [],
             gstin: [],
@@ -2129,7 +2421,7 @@ export default {
           custid: null,
           name: { id: null, name: null },
           addr: null,
-          state: null,
+          state: { id: null, name: null },
           gstin: null,
           tin: null,
           pin: null,
@@ -2143,7 +2435,7 @@ export default {
           tin: null,
           pin: null,
         },
-        // taxType: "gst", // vat
+        taxType: "gst", // vat
         bill: [
           {
             product: { name: "", id: null },
@@ -2173,7 +2465,7 @@ export default {
           mode: "Road",
           vno: null,
           date: null,
-          reverseCharge: null,
+          reverseCharge: false,
         },
         narration: null,
         totalRoundFlag: false,
@@ -2251,10 +2543,17 @@ export default {
       return result;
     },
   },
+  beforeMount() {
+    this.$store.registerModule("invoiceConfig", invoiceConfig);
+    this.$store.dispatch("initInvoiceConfig");
+  },
   mounted() {
     this.preloadData();
     // this.fetchInvoiceId();
     // this.fetchUserData();
+  },
+  beforeDestroy() {
+    this.$store.unregisterModule("invoiceConfig");
   },
 };
 </script>
