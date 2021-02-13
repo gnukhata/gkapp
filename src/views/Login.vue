@@ -23,7 +23,7 @@
               :state="urlIsValid"
               v-model="serverUrl"
               type="url"
-              placeholder="https://example.com/gkcore"
+              placeholder="https://example.com"
             ></b-form-input>
             <b-form-invalid-feedback id="input-live-feedback">
               URL should not contain " / " in the end
@@ -158,18 +158,17 @@
                 Change Server
               </b-button>
               <b-button
-                :disabled="isDisabled"
+                variant="success"
                 class="mr-2"
-                variant="primary"
-                type="submit"
+                :to="{ name: 'Create_Organisation' }"
               >
+                <b-icon icon="person-plus"></b-icon>
+                Create Account
+              </b-button>
+              <b-button :disabled="isDisabled" variant="primary" type="submit">
                 <b-spinner v-if="isLoading" small></b-spinner>
                 <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
                 Login
-              </b-button>
-              <b-button variant="success" :to="{ name: 'Create_Organisation' }">
-                <b-icon icon="person-plus"></b-icon>
-                Create Account
               </b-button>
             </b-button-group>
           </div>
