@@ -10,12 +10,12 @@
           <div class="mr-auto">Info</div>
           <div>
             <b-icon
-              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed1 ? 'arrows-collapse' : 'arrows-expand'"
             ></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse v-model="isCollapsed" class="p-3" id="collapse-info">
+      <b-collapse v-model="isCollapsed1" class="p-3" id="collapse-info">
         <b-form-group label="Name" label-cols="4">
           <b-form-input
             v-model="details.productdesc"
@@ -76,12 +76,12 @@
           <div class="mr-auto">Price</div>
           <div>
             <b-icon
-              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed2 ? 'arrows-collapse' : 'arrows-expand'"
             ></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse v-model="isCollapsed" class="p-3" id="collapse-price">
+      <b-collapse v-model="isCollapsed2" class="p-3" id="collapse-price">
         <!-- MRP -->
         <b-form-group label="MRP" label-cols="4">
           <b-form-input
@@ -113,40 +113,59 @@
         </b-form-group>
       </b-collapse>
     </b-card>
-    <h3 class="text-muted text-center mt-3 mb-3">Taxes</h3>
+    <!-- <h3 class="text-muted text-center mt-3 mb-3">Taxes</h3> -->
     <!-- <b-card class="mt-2" header="Tax" header-bg-variant="warning"> -->
-    <!-- {{ options.tax }} -->
-    <b-card-group deck>
-      <b-card
-        v-for="item in options.tax"
-        :key="item.taxid"
-        header-bg-variant="warning"
-        style="max-width: 30em"
-      >
-        <template #header>
-          <b-icon
-            class="float-right"
-            icon="x-circle-fill"
-            variant="danger"
-          ></b-icon>
-        </template>
-        <b-input-group :prepend="item.taxname + ' %'">
-          <b-form-input
-            :value="item.taxrate"
-            v-model="item.taxrate"
-          ></b-form-input>
-        </b-input-group>
-        <b-input-group v-if="item.state !== null" class="mt-2" prepend="State">
-          <b-form-select
-            :options="options.states"
-            :value="item.state"
-            v-model="item.state"
-          ></b-form-select>
-        </b-input-group>
-      </b-card>
-    </b-card-group>
-    <!-- </b-card> -->
-    <!-- Tax details Cards -->
+    {{ options.tax }}
+    <b-card no-body class="mt-2" header-bg-variant="warning">
+      <template #header>
+        <div class="d-flex" v-b-toggle.collapse-tax>
+          <div class="mr-auto">Taxes</div>
+          <div>
+            <b-icon
+              :icon="isCollapsed3 ? 'arrows-collapse' : 'arrows-expand'"
+            ></b-icon>
+          </div>
+        </div>
+      </template>
+      <b-collapse v-model="isCollapsed3" class="p-3" id="collapse-tax">
+        <div v-for="item in options.tax" :key="item.taxid">
+          <b-input-group
+            v-if="item.taxname == 'CESS'"
+            class="m-1"
+            :prepend="item.taxname"
+          >
+            <b-form-input
+              :value="item.taxrate"
+              v-model="item.taxrate"
+            ></b-form-input>
+          </b-input-group>
+
+          <b-input-group
+            v-else-if="item.taxname == 'VAT'"
+            class="mt-2"
+            :prepend="item.taxname"
+          >
+            <b-form-input
+              class="mr-1"
+              :value="item.taxrate"
+              v-model="item.taxrate"
+            ></b-form-input>
+            <b-form-select
+              :options="options.states"
+              :value="item.state"
+              v-model="item.state"
+            ></b-form-select>
+          </b-input-group>
+
+          <b-input-group v-else class="m-1" :prepend="item.taxname">
+            <b-form-input
+              :value="item.taxrate"
+              v-model="item.taxrate"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+      </b-collapse>
+    </b-card>
     <!-- Submit & delete buttons -->
     <div class="mt-4 pb-4 d-flex flex-row-reverse">
       <b-button type="submit" size="sm" class="ml-2" variant="success"
@@ -182,7 +201,9 @@ export default {
     return {
       details: [],
       godowns: [],
-      isCollapsed: false,
+      isCollapsed1: false,
+      isCollapsed2: false,
+      isCollapsed3: false,
       uom: [],
       loading: true,
       options: {

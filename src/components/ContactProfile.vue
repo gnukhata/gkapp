@@ -12,12 +12,12 @@
           <div class="mr-auto">Info</div>
           <div>
             <b-icon
-              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed1 ? 'arrows-collapse' : 'arrows-expand'"
             ></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse class="m-3" v-model="isCollapsed" id="collapse-info">
+      <b-collapse class="m-3" v-model="isCollapsed1" id="collapse-info">
         <b-form-group
           label="Name"
           label-for="Name"
@@ -81,12 +81,12 @@
           <div class="mr-auto">Address</div>
           <div>
             <b-icon
-              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed2 ? 'arrows-collapse' : 'arrows-expand'"
             ></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse class="m-3" v-model="isCollapsed" id="address">
+      <b-collapse class="m-3" v-model="isCollapsed2" id="address">
         <b-form-group
           label="Street:"
           label-for="nested-street"
@@ -140,13 +140,13 @@
           <div class="mr-auto">Financial Details</div>
           <div>
             <b-icon
-              :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed3 ? 'arrows-collapse' : 'arrows-expand'"
             ></b-icon>
           </div>
         </div>
       </template>
 
-      <b-collapse class="m-3" v-model="isCollapsed" id="financial">
+      <b-collapse class="m-3" v-model="isCollapsed3" id="financial">
         <b-form-group
           label="PAN:"
           label-for="nested-street"
@@ -219,7 +219,9 @@ export default {
     return {
       details: Array,
       isLoading: true,
-      isCollapsed: false,
+      isCollapsed1: false,
+      isCollapsed2: false,
+      isCollapsed3: false,
       options: {
         states: [],
         selectedState: {},
@@ -489,11 +491,11 @@ export default {
     this.getDetails();
 
     // This is used by the invoice form, to autofill party details
-    this.$store.commit('setInvoiceParty', {
+    this.$store.commit("setInvoiceParty", {
       id: this.customer.custid,
       name: this.customer.custname,
-      type: (this.customer.csflag)? 'customer' : 'supplier', // 3 -> customer, 19-> supplier
-    })
+      type: this.customer.csflag ? "customer" : "supplier", // 3 -> customer, 19-> supplier
+    });
   },
 };
 </script>
