@@ -8,7 +8,7 @@
       header-bg-variant="warning"
     >
       <template #header>
-        <h5 class="m-0">Server Setup <b-icon icon="cloud-ch"></b-icon></h5>
+        <h5 class="m-0">Server Setup <b-icon icon="cloud-plus"></b-icon></h5>
       </template>
       <b-card-body>
         <b-form @submit.prevent="setServerUrl">
@@ -152,7 +152,11 @@
           </b-form-group>
           <!-- Login & create account buttons-->
           <div class="float-right">
-            <b-button-group>
+            <b-button-group size="sm">
+              <b-button variant="warning" @click="switchServer" class="mr-2">
+                <b-icon icon="cloud"></b-icon>
+                Change Server
+              </b-button>
               <b-button
                 :disabled="isDisabled"
                 class="mr-2"
@@ -220,11 +224,11 @@ export default {
       if (this.serverUrl === "") {
         console.log("checking local server");
         axios
-          .get(`http://localhost:6543/state`)
+          .get(`https://satheerthan.site:6543/state`)
           .then((res) => {
             if (res.status == 200 && res.data.gkstatus == 0) {
               this.$store.commit("setGkCoreUrl", {
-                gkCoreUrl: "http://localhost:6543",
+                gkCoreUrl: "https://satheerthan.site:6543",
               });
               this.showLogin = true;
               this.fetchOrgs();
@@ -262,6 +266,17 @@ export default {
             });
           });
       }
+    },
+    /**
+     * Clear localStorage, reset vuex state
+     * and show the server setup menu
+     */
+    switchServer() {
+      localStorage.clear();
+      this.$store.commit("setGkCoreUrl", {
+        gkCoreUrl: null,
+      });
+      this.checkUrl();
     },
     /**
      * Validate & Login the user
