@@ -1460,6 +1460,8 @@ export default {
     };
   },
   computed: {
+    // config : Gets the custom config from the invoiceConfig Vuex module and 
+    //          prepares it for use by adding some custom additions to it (that should not be user editable)
     config: (self) => {
       let newConf = self.$store.getters.getCustomInvoiceConfig;
       if (newConf) {
@@ -1506,6 +1508,8 @@ export default {
           };
         }
       } else {
+        // Sometimes when hot reloading during dev, the dynamic Vuex module does not get loaded and errors are printed in console. 
+        // Adding a empty config as a short term fix for that
         newConf = {
           inv: {
             class: {},
@@ -2544,6 +2548,7 @@ export default {
     },
   },
   beforeMount() {
+    // Dynamically load the config to Vuex, just before the Invoice component is mounted
     this.$store.registerModule("invoiceConfig", invoiceConfig);
     this.$store.dispatch("initInvoiceConfig");
   },
@@ -2553,6 +2558,7 @@ export default {
     // this.fetchUserData();
   },
   beforeDestroy() {
+    // Remove the config from Vuex when exiting the Invoice page
     this.$store.unregisterModule("invoiceConfig");
   },
 };
