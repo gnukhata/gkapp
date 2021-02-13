@@ -35,9 +35,9 @@
             <b-nav-item :to="{ name: 'About' }" :active="activeNav === 'About'"
               ><b-icon icon="info-circle"></b-icon> About</b-nav-item
             >
-            <b-nav-item :to="{ name: 'Login' }" :active="activeNav === 'Login'"
+            <!-- <b-nav-item :to="{ name: 'Login' }" :active="activeNav === 'Login'"
               ><b-icon icon="box-arrow-in-right"></b-icon> Login</b-nav-item
-            >
+            > -->
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown
@@ -47,18 +47,13 @@
               "
               right
             >
-              <!-- Using 'button-content' slot -->
               <template #button-content>
-                <!-- <em>{{userName}} </em> -->
-                <b-button variant="primary"
+                <b-button @click="getUser" variant="primary"
                   ><b-icon icon="person"></b-icon> {{ userName }}</b-button
                 >
               </template>
               <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
-              <b-dropdown-item
-                @load="getUser"
-                v-if="userRole == -1"
-                to="/orgprofile"
+              <b-dropdown-item v-if="userRole == -1" to="/orgprofile"
                 ><b-icon icon="gear"></b-icon> Company Profile</b-dropdown-item
               >
               <b-dropdown-item @click="logOut" href="#"
