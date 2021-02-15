@@ -4,10 +4,9 @@
 
 **GKApp** is a Progressive Web App made using Vue and Buefy.
 
-* Free under AGPLv3 License
+* Free & Open Source under AGPLv3 License
 * PWA/SPA — Single page app
-* Built with Bulma, Buefy, Vue & Vue CLI
-* Light & Dark modes
+* Built with Vuejs & Bootstrap Vue
 * SCSS sources with variables
 
 ## Table of Contents
@@ -53,5 +52,4 @@ Production-ready with minified bundle `npm run build`
 - [GNUKhata Wiki](https://gitlab.com/gnukhata/gkapp/-/wikis/home)
 - [Vue.js](https://vuejs.org)
 - [Vue CLI](https://cli.vuejs.org)
-- [Buefy](https://buefy.org)
-- [Bulma](https://bulma.io)
+- [Bootstrap Vue](https://bootstrap-vue.org)
