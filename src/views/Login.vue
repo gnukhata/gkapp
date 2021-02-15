@@ -3,22 +3,24 @@
     <!-- Server Selection-->
     <b-card
       v-show="!showLogin"
+      header-bg-variant="primary"
       header="Server Setup"
       class="shadow m-1"
-      header-bg-variant="warning"
     >
       <template #header>
-        <h5 class="m-0">Server Setup <b-icon icon="cloud-plus"></b-icon></h5>
+        <h5 class="m-0 text-light">
+          <b-icon icon="cloud-plus"></b-icon> GNUKhata Server Setup
+        </h5>
       </template>
       <b-card-body>
-        <b-form @submit.prevent="setServerUrl">
-          <h5 class="text-muted text-center mb-4">
-            Please Enter GKCore Server URL
-          </h5>
-          <b-form-group
-            description="Leave blank for default server (http://localhost:6543)"
-            label-cols="auto"
-          >
+        <b-form @submit.prevent="setServerUrl" class="text-center">
+          <b-button class="bg-gk-orange text-dark" type="submit">
+            <b-icon @click="setServerUrl" icon="arrow-right-circle"></b-icon>
+            Continue with Default Server
+          </b-button>
+          <div class="mt-2 mb-2">OR</div>
+          <h5 class="text-muted text-center">Custom Server URL</h5>
+          <b-form-group label-cols="auto">
             <b-form-input
               :state="urlIsValid"
               v-model="serverUrl"
@@ -29,8 +31,12 @@
               URL should not contain " / " in the end
             </b-form-invalid-feedback>
           </b-form-group>
-          <b-button type="submit" variant="warning" class="mx-0"
-            ><b-icon icon="arrow-right-circle"></b-icon> Continue</b-button
+          <b-button
+            type="submit"
+            variant="success"
+            :disabled="serverUrl === '' ? true : false"
+            ><b-icon icon="arrow-right-circle"></b-icon> Save &amp;
+            Continue</b-button
           >
         </b-form>
       </b-card-body>
