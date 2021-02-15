@@ -21,17 +21,15 @@
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav
-            v-if="
-              $router.currentRoute.path !== '/' &&
-              $router.currentRoute.path !== '/createorg'
-            "
-          >
-            <b-nav-item
-              :to="{ name: 'Dashboard' }"
-              :active="activeNav === 'Dashboard'"
-              ><b-icon icon="tv"></b-icon> Dashboard</b-nav-item
-            >
+          <b-navbar-nav>
+            <!-- show only for authenticated user -->
+            <template v-if="userAuthenticated">
+              <b-nav-item
+                :to="{ name: 'Workflow' }"
+                :active="activeNav === 'Dashboard'"
+                ><b-icon icon="wrench"></b-icon> Workflow</b-nav-item
+              >
+            </template>
             <b-nav-item :to="{ name: 'About' }" :active="activeNav === 'About'"
               ><b-icon icon="info-circle"></b-icon> About</b-nav-item
             >
@@ -40,22 +38,22 @@
             > -->
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown
-              v-if="
-                $router.currentRoute.path !== '/' &&
-                $router.currentRoute.path !== '/createorg'
-              "
-              right
-            >
+            <b-nav-item-dropdown v-if="userAuthenticated" right>
               <template #button-content>
-                <b-button @click="getUser" variant="primary"
+                <b-button @click="getUser" variant="outline-primary"
                   ><b-icon icon="person"></b-icon> {{ userName }}</b-button
                 >
               </template>
-              <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
-              <b-dropdown-item v-if="userRole == -1" to="/orgprofile"
-                ><b-icon icon="gear"></b-icon> Company Profile</b-dropdown-item
-              >
+              <!-- admin only options -->
+              <template v-if="userRole == -1">
+                <b-dropdown-item to="/orgprofile"
+                  ><b-icon icon="gear"></b-icon> Company
+                  Profile</b-dropdown-item
+                >
+                <b-dropdown-item to="/logs"
+                  ><b-icon icon="stack"></b-icon> Company Logs</b-dropdown-item
+                >
+              </template>
               <b-dropdown-item @click="logOut" href="#"
                 ><b-icon icon="box-arrow-in-left"></b-icon> Log
                 Out</b-dropdown-item
@@ -116,9 +114,13 @@ export default {
         variant: "success",
       });
     },
+    /**
+     * Get the company's users role
+     * to decide which items to show in user menu
+     */
     getUser() {
       axios
-        .get(`${this.gkCoreUrl}/user?type=role`, {
+        .get(`/user?type=role`, {
           headers: {
             gktoken: this.authToken,
           },
@@ -128,13 +130,13 @@ export default {
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
+            title: "Admin Role Fetch",
             solid: true,
             variant: "danger",
           });
         });
     },
   },
-
   mounted() {
     this.getUser();
     /**

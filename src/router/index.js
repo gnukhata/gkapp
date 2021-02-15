@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
+import Login from '@/views/Login.vue'
 import OrgProfile from '@/views/OrgProfile.vue'
+import Logs from '@/views/Logs.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/orgprofile',
     name: 'Organisation Profile',
     component: OrgProfile
+  },
+  {
+    path: '/logs',
+    name: 'Organisation Logs',
+    component: Logs
   },
   {
     path: '/about',
