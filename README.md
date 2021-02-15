@@ -44,7 +44,7 @@ Production-ready with minified bundle `npm run build`
 
 - Licensed under AGPLv3
 
-![AGPLv3](public/img/icons/agpl3.png)
+![AGPLv3](public/img/agpl3.png)
 
 ## Useful Links
 
