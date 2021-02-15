@@ -5,7 +5,7 @@
       v-show="!showLogin"
       header-bg-variant="primary"
       header="Server Setup"
-      class="shadow m-1"
+      class="mt-2 shadow"
     >
       <template #header>
         <h5 class="m-0 text-light">
@@ -14,11 +14,11 @@
       </template>
       <b-card-body>
         <b-form @submit.prevent="setServerUrl" class="text-center">
-          <b-button class="bg-gk-orange text-dark" type="submit">
+          <b-button variant="primary" type="submit">
             <b-icon @click="setServerUrl" icon="arrow-right-circle"></b-icon>
             Continue with Default Server
           </b-button>
-          <div class="mt-2 mb-2">OR</div>
+          <div class="mt-2 mb-2"><b>OR</b></div>
           <h5 class="text-muted text-center">Custom Server URL</h5>
           <b-form-group label-cols="auto">
             <b-form-input
