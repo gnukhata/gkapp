@@ -2252,11 +2252,11 @@ export default {
     },
     initPayload() {
       let invoice = {
-        dcid: null,
+        // dcid: null, // Has to be filled when Delivery Note is implemented. If no Deliver Note is available skip this property
         invoiceno: this.form.inv.no,
         ewaybillno: this.form.inv.ebn,
         invoicedate: this.form.inv.date,
-        sourcestate: this.form.inv.state.name || "",
+        sourcestate: this.form.inv.state.name || null,
         orgstategstin: null,
         issuername: this.form.inv.issuer,
         designation: this.form.inv.role,
@@ -2287,12 +2287,12 @@ export default {
 
       // === Sale / Purchase related data ===
       if (this.isSale) {
-        invoice.sourcestate = this.form.inv.state.name || "";
-        invoice.taxstate = this.form.party.state.name || "";
+        invoice.sourcestate = this.form.inv.state.name || null;
+        invoice.taxstate = this.form.party.state.name || null;
         invoice.inoutflag = 15; // sale
       } else {
-        invoice.sourcestate = this.form.party.state.name || "";
-        invoice.taxstate = this.form.inv.state.name || "";
+        invoice.sourcestate = this.form.party.state.name || null;
+        invoice.taxstate = this.form.inv.state.name || null;
         invoice.inoutflag = 9; // purchase
       }
 
@@ -2317,10 +2317,10 @@ export default {
           consigneename: this.form.ship.name || "",
           tinconsignee: this.form.ship.tin || "",
           gstinconsignee: this.form.ship.gstin || "",
-          consigneeaddress: this.form.ship.addr,
-          consigneestate: this.form.ship.state.name || "",
-          consigneestatecode: this.form.ship.state.id || "",
-          consigneepincode: this.form.ship.pin,
+          consigneeaddress: this.form.ship.addr || "",
+          consigneestate: this.form.ship.state.name || null,
+          consigneestatecode: this.form.ship.state.id || null,
+          consigneepincode: this.form.ship.pin || "",
         };
       }
 
