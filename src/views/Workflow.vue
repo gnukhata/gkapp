@@ -75,45 +75,18 @@
                 </b-form-checkbox>
                 <hr />
                 <b-form-group
-                  label="Items"
+                  label="Type"
                   label-for="filter-form-item"
                   @submit.stop.prevent
                 >
-                  <b-form-select
-                    v-model="filter.item"
-                    :options="activeTabOptions.filters.items"
-                    id="filter-form-item"
-                    value-field="props"
-                    size="sm"
-                  >
-                  </b-form-select>
-                </b-form-group>
-                <b-form-group
-                  label="Property"
-                  label-for="filter-form-property"
-                  @submit.stop.prevent
-                >
-                  <b-form-select
-                    v-model="filter.property"
-                    :options="activeTabOptions.filters.properties"
-                    id="filter-form-property"
-                    value-field="props"
-                    size="sm"
-                  >
-                  </b-form-select>
-                </b-form-group>
-                <b-form-group label="Sort">
                   <b-form-radio-group
+                    id="filter-form-item"
+                    v-model="filter.props"
+                    :options="activeTabOptions.filters"
+                    value-field="props"
                     size="sm"
-                    button-variant="outline-primary"
-                    buttons
-                    v-model="filter.isAscending"
-                    aria-describedby="Sort by Ascending or Descending"
-                    name="filter-form-sort"
-                  >
-                    <b-form-radio :value="true">ASC</b-form-radio>
-                    <b-form-radio :value="false">DES</b-form-radio>
-                  </b-form-radio-group>
+                    stacked
+                  ></b-form-radio-group>
                 </b-form-group>
               </b-dropdown-form>
             </b-dropdown>
@@ -124,23 +97,63 @@
             :key="index1"
             :class="{ 'd-none': activeWorkflow.index !== index1 }"
           >
+            <!-- Sort Bar Start -->
+            <b-container>
+              <b-row>
+                <b-col
+                  class="p-1"
+                  v-for="(sortby, index4) in tab.sortby"
+                  :key="index4"
+                >
+                  <b-button
+                    @click="callSortData(tab.data, sortby.props)"
+                    block
+                    size="sm"
+                    class="py-0 px-1 text-left"
+                  >
+                    {{ sortby.text }}
+                    <span
+                      class="float-right"
+                      v-if="sort.props.key === sortby.props.key"
+                    >
+                      <span v-if="sortby.props.isAsc">▲</span>
+                      <span v-else>▼</span>
+                    </span>
+                  </b-button>
+                </b-col>
+              </b-row>
+            </b-container>
+            <!-- Sort bar End -->
+            <!-- Workflow Data List Start -->
             <b-list-group
               :style="{ height: listHeight + 'px', overflowY: 'auto' }"
             >
               <b-list-group-item
                 @click.prevent="setSelectedEntity(item)"
                 button
-                v-for="(item, index3) in filteredData"
+                v-for="(item, index3) in processedData"
                 :key="index3"
                 class="data-list"
               >
-                <div v-if="activeWorkflow.name === 'Transactions'" :class="{'bg-light-yellow': item.rectifyFlag, 'bg-light-green': !item.rectifyFlag }">
-                  <b-icon :icon="item.icon"></b-icon>
-                  {{ item[tab.key] }}
-                  <div>
-                    <small>{{ "₹ " + item.invoicetotal }}</small>
-                    <small class="float-right">{{ item.invoicedate }}</small>
-                  </div>
+                <div
+                  v-if="activeWorkflow.name === 'Transactions'"
+                  :class="{
+                    'bg-light-yellow': item.rectifyFlag,
+                    'bg-light-green': !item.rectifyFlag,
+                  }"
+                >
+                  <b-row>
+                    <b-col cols="4" class="px-0">
+                      <small>{{ item.invoicedate }}</small>
+                    </b-col>
+                    <b-col cols="4" class="px-1 text-truncate">
+                      <b-icon font-scale="0.75" :icon="item.icon"></b-icon>
+                      <small> {{ item[tab.key] }} </small>
+                    </b-col>
+                    <b-col cols="4" class="px-0 text-truncate text-right">
+                      <small>{{ "₹ " + item.invoicetotal }}</small>
+                    </b-col>
+                  </b-row>
                 </div>
                 <div v-else>
                   <b-icon :icon="item.icon"></b-icon>
@@ -148,8 +161,10 @@
                 </div>
               </b-list-group-item>
             </b-list-group>
+            <!-- Workflow Data List End -->
+            <!-- Add New Workflow Data Item -->
             <b-button
-              :to="tab.to"
+              :to="tab.createNewPath"
               class="btn shadow position-absolute"
               :style="{ bottom: '30px', right: '30px', zIndex: 2 }"
             >
@@ -250,11 +265,13 @@
             </h5>
           </template>
           <b-card-body
-          class="px-0"
-            :style="{ height: listHeight + 'px', overflowY: 'auto' }"
+            class="px-0"
+            :style="{ height: (listHeight + 26) + 'px', overflowY: 'auto' }"
             v-if="selectedEntity !== null"
           >
-          <transaction-profile :invid="selectedEntity.invid"></transaction-profile>
+            <transaction-profile
+              :invid="selectedEntity.invid"
+            ></transaction-profile>
           </b-card-body>
         </b-card>
         <!-- Body -->
@@ -269,7 +286,7 @@ import axios from "axios";
 import { mapState } from "vuex";
 import ContactProfile from "@/components/ContactProfile";
 import BusinessProfile from "@/components/BusinessProfile.vue";
-import TransactionProfile from "@/components/TransactionProfile.vue"
+import TransactionProfile from "@/components/TransactionProfile.vue";
 // import HeroBar from '@/components/HeroBar'
 
 export default {
@@ -291,128 +308,123 @@ export default {
       isFullPage: true,
       selectedEntity: null,
       filter: {
-        item: {},
+        props: {},
         property: {},
-        isAscending: true,
         isActive: false,
       },
+      sort: {
+        props: {},
+        isAscending: true,
+      },
       options: {
+        /**
+         * tabs: Contains the meta data based on which the left and right pane are rendered. 
+         *       Contains different workflow items, their data list, filter options, sortby options, etc
+         * 
+         * Explanation for the fields:
+         * icon             ->  icon associated with the workflow, used in workflow cards and dropdown
+         * color            ->  the color associated with the workflow, used in workflow cards and dropdown
+         * data             ->  the list of data associated with the workflow, listed in the left pane
+         * createNewPath    ->  the vue router path object for creating a new workflow item
+         * filters          ->  array of filter options, can be found by clicking the funnel icon in the left pane
+         * sortBy           ->  array of sorting options, can be found in the left pane just above the data list cards
+         */
         tabs: {
           Contacts: {
             icon: "person-lines-fill",
             color: "primary",
             data: [],
             key: "custname",
-            to: { name: "Contact_Details", params: { mode: "create" } },
-            filters: {
-              items: [
-                {
-                  text: "All",
-                  props: {},
-                },
-                {
-                  text: "Customers",
-                  props: { key: "csflag", value: true },
-                },
-                {
-                  text: "Suppliers",
-                  props: { key: "csflag", value: false },
-                },
-              ],
-              properties: [
-                {
-                  text: "None",
-                  props: {},
-                },
-                {
-                  text: "Name",
-                  props: { key: "custname" },
-                },
-              ],
-            },
+            createNewPath: { name: "Contact_Details", params: { mode: "create" } },
+            filters: [
+              {
+                text: "All", // text -> Display text for this filter
+                props: {}, // the properties required to perform the filter
+              },
+              {
+                text: "Customers",
+                props: { key: "csflag", value: true },
+              },
+              {
+                text: "Suppliers",
+                props: { key: "csflag", value: false },
+              },
+            ],
+            sortby: [
+              {
+                text: "Name",
+                props: { key: "custname", isAsc: true },
+              },
+            ],
           },
           Business: {
             icon: "box-seam",
             color: "warning",
             data: [],
             key: "productdesc",
-            to: { name: "Business_Details", params: { mode: "create" } },
-            filters: {
-              items: [
-                {
-                  text: "All",
-                  props: {},
-                },
-                {
-                  text: "Product",
-                  props: { key: "gsflag", value: 7 },
-                },
-                {
-                  text: "Service",
-                  props: { key: "gsflag", value: 19 },
-                },
-              ],
-              properties: [
-                {
-                  text: "None",
-                  props: {},
-                },
-                {
-                  text: "Name",
-                  props: { key: "productdesc" },
-                },
-              ],
-            },
+            createNewPath: { name: "Business_Details", params: { mode: "create" } },
+            filters: [
+              {
+                text: "All",
+                props: {},
+              },
+              {
+                text: "Product",
+                props: { key: "gsflag", value: 7 },
+              },
+              {
+                text: "Service",
+                props: { key: "gsflag", value: 19 },
+              },
+            ],
+            sortby: [
+              {
+                text: "Name",
+                props: { key: "productdesc", isAsc: true },
+              },
+            ],
           },
           Transactions: {
             icon: "receipt",
             color: "success",
             data: [],
             key: "custname",
-            to: { name: "Invoice" },
-            filters: {
-              items: [
-                {
-                  text: "All",
-                  props: {},
-                },
-                {
-                  text: "Sale",
-                  props: { key: "csflag", value: 3 },
-                },
-                {
-                  text: "Purchase",
-                  props: { key: "csflag", value: 19 },
-                },
-              ],
-              properties: [
-                {
-                  text: "None",
-                  props: {},
-                },
-                {
-                  text: "Name",
-                  props: { key: "custname" },
-                },
-                {
-                  text: "Amount",
-                  props: { key: "invoicetotal" },
-                },
-                {
-                  text: "Date",
-                  props: { key: "invoicedate" },
-                },
-              ],
-            },
+            createNewPath: { name: "Invoice" },
+            filters: [
+              {
+                text: "All",
+                props: {},
+              },
+              {
+                text: "Sale",
+                props: { key: "csflag", value: 3 },
+              },
+              {
+                text: "Purchase",
+                props: { key: "csflag", value: 19 },
+              },
+            ],
+            sortby: [
+              {
+                text: "Date",
+                props: { key: "invoicedate", isAsc: true },
+              },
+              {
+                text: "Name",
+                props: { key: "custname", isAsc: true },
+              },
+              {
+                text: "Amount",
+                props: { key: "invoicetotal", isAsc: true },
+              },
+            ],
           },
           Reports: {
             icon: "journals",
             color: "danger",
             data: [],
-            filters: {
-              items: [],
-              properties: [],
-            },
+            filters: [],
+            sortby: [],
           },
         },
       },
@@ -420,47 +432,61 @@ export default {
   },
   computed: {
     activeTabOptions: (self) => self.options.tabs[self.activeWorkflow.name],
-    isMobileView: () => window.innerWidth < 768,
+    // headerHeight is the height of the top nav bar
     headerHeight: () => document.getElementById("app-header").offsetHeight,
-    listHeight: (self) => window.innerHeight - (self.headerHeight + 100),
-    filteredData: function () {
+    // listHeight is the height that the left pane data list should be, (Total screen height - (top nav bar height - leftpane top bar height))
+    listHeight: (self) => window.innerHeight - (self.headerHeight + 125),
+    /**
+     * processedData()
+     * 
+     * Description: When the filter and sort object values are altered,
+     * this method runs the filter and sort methods on the data list
+     * of the current workflow page, and updates the left pane of cards.
+     * 
+     */
+    processedData: function () {
       let data = this.options.tabs[this.activeWorkflow.name].data;
       if (this.filter.isActive === true) {
         // console.log(this.filter)
-        if (this.filter.item.key !== undefined) {
+        if (this.filter.props.key !== undefined) {
           data = this.showByFilter(
             data,
-            this.filter.item.key,
-            this.filter.item.value
+            this.filter.props.key,
+            this.filter.props.value
           );
         }
 
-        if (this.filter.property.key !== undefined) {
-          data = this.orderByFilter(
-            data,
-            this.filter.isAscending,
-            this.filter.property.key
-          );
-        }
+      }
+      if (this.sort.props.key !== undefined) {
+        data = this.sortData(
+          data,
+          this.sort.isAscending,
+          this.sort.props.key
+        );
       }
       return data;
     },
     ...mapState(["authToken", "gkCoreUrl", "userName"]),
-    titleStack() {
-      return [this.userName, "Workflow"];
-    },
   },
   methods: {
-    orderByFilter(data, isAscending, orderBy) {
-      let filteredData = [];
+    callSortData(data, props) {
+      // this.sort.isActive = true;
+      if (this.sort.props.key === props.key) {
+        props.isAsc = !props.isAsc;
+      }
+      this.sort.props.key = props.key;
+      this.sort.isAscending = props.isAsc;
+    },
+    sortData(data, isAscending, sortBy) {
+      let sorted = [];
       if (data.length) {
-        let isString = isNaN(data[0][orderBy]);
+        let isString = isNaN(data[0][sortBy]);
         let min = isAscending ? -1 : 1;
         let max = min === 1 ? -1 : 1;
         if (isString) {
-          filteredData = data.sort((A, B) => {
-            let a = A[orderBy].toLowerCase(),
-              b = B[orderBy].toLowerCase();
+          sorted = data.sort((A, B) => {
+            let a = A[sortBy].toLowerCase(),
+              b = B[sortBy].toLowerCase();
             if (a < b) {
               return min;
             }
@@ -470,16 +496,29 @@ export default {
             return 0;
           });
         } else {
-          filteredData = data.sort((A, B) => {
-            return max * (A[orderBy] - B[orderBy]);
+          sorted = data.sort((A, B) => {
+            return max * (A[sortBy] - B[sortBy]);
           });
         }
       }
-      return filteredData.slice();
+      return sorted.slice();
     },
+    /**
+     * showByFilter(data, showBy, value)
+     * 
+     * Description: This is a visibility filter, that returns an array of data list that match a certain key value
+     * 
+     * e.g. Display all data items that have (csflag === 19), that is purchase
+     */
     showByFilter(data, showBy, value) {
       return data.filter((item) => item[showBy] === value);
     },
+    /**
+     * setActiveWorkflow(index, name, icon)
+     * 
+     * Description: As the name suggests it stores the details about the active workflow.
+     * Also initializes the filters and sorts, after that.
+     */
     setActiveWorkflow(index, name, icon) {
       this.activeWorkflow = {
         index,
@@ -487,20 +526,27 @@ export default {
         icon,
         color: this.options.tabs[name].color,
       };
+
       this.filter = {
-        item: {},
+        props: {},
         property: {},
-        isAscending: true,
         isActive: false,
       };
 
-      if (this.activeTabOptions.filters) {
-        if (this.activeTabOptions.filters.items.length) {
-          this.filter.item = this.activeTabOptions.filters.items[0].props;
-        }
-        if (this.activeTabOptions.filters.properties.length) {
-          this.filter.property = this.activeTabOptions.filters.properties[0].props;
-        }
+      //sets the first filter in the filter array, which should be "all" ( used to display every item )
+      if (this.activeTabOptions.filters.length) {
+        this.filter.props = Object.assign(
+          {},
+          this.activeTabOptions.filters[0].props
+        );
+      }
+
+      // sets the first sortby in the sortby array
+      if (this.activeTabOptions.sortby.length) {
+        this.sort.props = Object.assign(
+          {},
+          this.activeTabOptions.sortby[0].props
+        );
       }
     },
     setSelectedEntity(entity) {
@@ -575,7 +621,7 @@ export default {
                 Object.assign({ csflag: false, icon: "briefcase-fill" }, item)
               )
             );
-            self.options.tabs["Contacts"].data = self.orderByFilter(
+            self.options.tabs["Contacts"].data = self.sortData(
               contacts,
               "asc",
               "custid"
@@ -604,7 +650,10 @@ export default {
               (item, index) => {
                 invoiceMap[item.invid] = index;
                 return Object.assign(
-                  { icon: item.csflag === 3 ? "cash-stack" : "bag-fill", rectifyFlag: false },
+                  {
+                    icon: item.csflag === 3 ? "cash-stack" : "bag-fill",
+                    rectifyFlag: false,
+                  },
                   item
                 );
               }
@@ -615,13 +664,13 @@ export default {
 
           // Invoices for OnCredit Sale
           if (resp5.status === 200) {
-            if(resp5.data.gkstatus === 0) {
-              if(self.options.tabs["Transactions"].data.length) {
-                let data = self.options.tabs["Transactions"].data
-                let index = ""
-                resp5.data.invoices.forEach(inv => {
-                  index = invoiceMap[inv.invid]
-                  data[index].rectifyFlag = true
+            if (resp5.data.gkstatus === 0) {
+              if (self.options.tabs["Transactions"].data.length) {
+                let data = self.options.tabs["Transactions"].data;
+                let index = "";
+                resp5.data.invoices.forEach((inv) => {
+                  index = invoiceMap[inv.invid];
+                  data[index].rectifyFlag = true;
                 });
               }
             }
@@ -631,13 +680,13 @@ export default {
 
           // Invoices for OnCredit Purchase
           if (resp6.status === 200) {
-            if(resp6.data.gkstatus === 0) {
-              if(self.options.tabs["Transactions"].data.length) {
-                let data = self.options.tabs["Transactions"].data
-                let index = ""
-                resp6.data.invoices.forEach(inv => {
-                  index = invoiceMap[inv.invid]
-                  data[index].rectifyFlag = true
+            if (resp6.data.gkstatus === 0) {
+              if (self.options.tabs["Transactions"].data.length) {
+                let data = self.options.tabs["Transactions"].data;
+                let index = "";
+                resp6.data.invoices.forEach((inv) => {
+                  index = invoiceMap[inv.invid];
+                  data[index].rectifyFlag = true;
                 });
               }
             }
@@ -688,12 +737,12 @@ export default {
   padding: 0;
 }
 .data-list > div {
-  padding: .75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
 }
 .bg-light-green {
-  background-color: #e3ffe5!important;
+  background-color: #e3ffe5 !important;
 }
 .bg-light-yellow {
-  background-color: #fff1c6!important;
+  background-color: #fff1c6 !important;
 }
 </style>
