@@ -78,6 +78,7 @@ export default new Vuex.Store({
 
         // set axios default every time store inits, as its lost on page refresh
         axios.defaults.baseURL = gkCoreUrl
+        axios.defaults.headers = { gktoken: authToken }
       }
 
     },
