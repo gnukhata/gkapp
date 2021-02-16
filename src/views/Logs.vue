@@ -29,11 +29,7 @@ export default {
   methods: {
     getLogs() {
       axios
-        .get("/log", {
-          headers: {
-            gktoken: this.authToken,
-          },
-        })
+        .get("/log")
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
