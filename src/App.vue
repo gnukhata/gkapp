@@ -51,7 +51,7 @@
                   Profile</b-dropdown-item
                 >
                 <b-dropdown-item to="/logs"
-                  ><b-icon icon="stack"></b-icon> Company Logs</b-dropdown-item
+                  ><b-icon icon="server"></b-icon> Company Logs</b-dropdown-item
                 >
               </template>
               <b-dropdown-item @click="logOut" href="#"
@@ -138,7 +138,6 @@ export default {
     },
   },
   mounted() {
-    this.getUser();
     /**
      * fetch latest app changes
      */
