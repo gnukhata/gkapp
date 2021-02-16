@@ -1,7 +1,7 @@
 <template>
   <section class="container-fluid">
-    <h2 class="text-muted text-center mt-2 mb-2">Company Logs</h2>
-    <div class="text-center mt-5">
+    <h2 class="text-muted text-center mt-3">Company Logs</h2>
+    <div class="text-center mt-3">
       <b-icon
         v-if="isLoading"
         icon="arrow-clockwise"
@@ -9,15 +9,7 @@
         font-scale="4"
       ></b-icon>
     </div>
-    <b-table
-      busy="true"
-      responsive="true"
-      per-page="20"
-      current-page="1"
-      striped
-      hover
-      :items="log"
-    ></b-table>
+    <b-table stacked="sm" outlined small hover :items="log"></b-table>
   </section>
 </template>
 <script>
