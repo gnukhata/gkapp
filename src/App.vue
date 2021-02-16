@@ -129,11 +129,7 @@ export default {
           this.userRole = res.data.gkresult;
         })
         .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            title: "Admin Role Fetch",
-            solid: true,
-            variant: "danger",
-          });
+          console.log("admin fetch", e.message);
         });
     },
   },
