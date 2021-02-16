@@ -2252,7 +2252,7 @@ export default {
     },
     initPayload() {
       let invoice = {
-        dcid: null,
+        // dcid: null, // Has to be filled when Delivery Note is implemented. If no Deliver Note is available skip this property
         invoiceno: this.form.inv.no,
         ewaybillno: this.form.inv.ebn,
         invoicedate: this.form.inv.date,
