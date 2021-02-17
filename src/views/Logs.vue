@@ -23,9 +23,6 @@ export default {
       isLoading: true,
     };
   },
-  computed: {
-    ...mapState(["authToken"]),
-  },
   methods: {
     getLogs() {
       axios
