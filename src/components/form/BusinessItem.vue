@@ -435,15 +435,8 @@ export default {
       // console.log('in submit')
       this.isLoading = true;
       const payload = this.initPayload();
-      const config = {
-        headers: {
-          // gktoken: this.authToken
-          gktoken: this.authToken,
-        },
-      };
-
       axios
-        .post("/products", payload.product, config)
+        .post("/products", payload.product)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
@@ -468,7 +461,7 @@ export default {
                   taxrate: item.taxrate,
                   productcode: productCode,
                 };
-                return axios.post("/tax", taxPayload, config);
+                return axios.post("/tax", taxPayload);
               });
               Promise.all(taxRequests).then((responses) => {
                 // console.log(responses)
@@ -485,7 +478,7 @@ export default {
               } else {
                 logdata.activity = payload.productdesc + " product created";
               }
-              axios.post("/log", logdata, config);
+              axios.post("/log", logdata);
               break;
             case 1:
               this.$bvToast.toast(
@@ -629,13 +622,8 @@ export default {
     },
     preloadData() {
       this.isPreloading = true;
-      let config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       const requests = [
-        axios.get("/unitofmeasurement?qty=all", config).catch((error) => {
+        axios.get("/unitofmeasurement?qty=all").catch((error) => {
           this.displayToast(
             "Fetch Unit of Measurement Failed!",
             error.message,
@@ -643,7 +631,7 @@ export default {
           );
           return error;
         }),
-        axios.get("/state", config).catch((error) => {
+        axios.get("/state").catch((error) => {
           this.displayToast(
             "Fetch State Data Failed!",
             error.message,
