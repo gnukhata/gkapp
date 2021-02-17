@@ -77,7 +77,7 @@ export default {
         invItems: [],
         total: {
           amount: 0,
-          text: "Zero ruppees"
+          text: "Zero Rupee"
         }
       },
       tableFields: [
