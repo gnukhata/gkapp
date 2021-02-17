@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '@/views/Login.vue'
 import OrgProfile from '@/views/OrgProfile.vue'
 import Logs from '@/views/Logs.vue'
-
+import CloseBooks from '@/views/CloseBooks.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,6 +21,11 @@ const routes = [
     path: '/logs',
     name: 'Organisation Logs',
     component: Logs
+  },
+  {
+    path: '/closebooks',
+    name: 'Close Books & Roll Over',
+    component: CloseBooks
   },
   {
     path: '/about',
