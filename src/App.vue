@@ -47,11 +47,15 @@
               <!-- admin only options -->
               <template v-if="userRole == -1">
                 <b-dropdown-item to="/orgprofile"
-                  ><b-icon icon="gear"></b-icon> Company
+                  ><b-icon icon="building"></b-icon> Company
                   Profile</b-dropdown-item
                 >
+                <b-dropdown-item to="/closebooks"
+                  ><b-icon icon="journals"></b-icon> Close Books / Roll
+                  Over</b-dropdown-item
+                >
                 <b-dropdown-item to="/logs"
-                  ><b-icon icon="server"></b-icon> Company Logs</b-dropdown-item
+                  ><b-icon icon="server"></b-icon> Audit Logs</b-dropdown-item
                 >
               </template>
               <b-dropdown-item @click="logOut" href="#"
