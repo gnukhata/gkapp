@@ -320,6 +320,7 @@ export default {
                         },
                       });
                       axios.defaults.baseURL = this.gkCoreUrl;
+                      axios.defaults.headers = { gktoken: response.data.token };
                       this.$router.push("/workflow");
                       // Alert the user on successful login
                       this.$bvToast.toast(`Welcome to gnukhata!`, {
