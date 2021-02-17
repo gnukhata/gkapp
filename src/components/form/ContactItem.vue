@@ -434,13 +434,7 @@ export default {
       // console.log('in submit')
       this.isLoading = true;
       const payload = this.initPayload();
-      const config = {
-        headers: {
-          // gktoken: this.authToken
-          gktoken: this.authToken,
-        },
-      };
-      axios.post("/customersupplier", payload, config)
+      axios.post("/customersupplier", payload)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
@@ -466,7 +460,7 @@ export default {
               } else {
                 logdata.activity = payload.custname + " supplier created";
               }
-              axios.post("/log", logdata, config);
+              axios.post("/log", logdata);
               break;
             case 1:
               this.$bvToast.toast(
@@ -590,12 +584,7 @@ export default {
     },
     preloadData() {
       this.isPreloading = true;
-      let config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
-      axios.get("/state", config)
+      axios.get("/state")
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             this.options.states = resp.data.gkresult.map((item) => {

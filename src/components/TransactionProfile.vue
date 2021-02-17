@@ -77,7 +77,7 @@ export default {
         invItems: [],
         total: {
           amount: 0,
-          text: "Zero ruppees"
+          text: "Zero Rupee"
         }
       },
       tableFields: [
@@ -102,15 +102,8 @@ export default {
   },
   methods: {
     getDetails() {
-      const config = {
-        headers: {
-          // gktoken: this.authToken
-          gktoken: this.authToken,
-        },
-      };
-
       axios
-        .get(`/invoice?inv=single&invid=${this.invid}`, config)
+        .get(`/invoice?inv=single&invid=${this.invid}`)
         .then((response) => {
           switch (response.data.gkstatus) {
             case 0:

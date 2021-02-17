@@ -1679,13 +1679,8 @@ export default {
     },
     preloadData() {
       this.isPreloading = true;
-      let config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       const requests = [
-        axios.get("/state", config).catch((error) => {
+        axios.get("/state").catch((error) => {
           this.displayToast(
             "Fetch State Data Failed!",
             error.message,
@@ -1762,13 +1757,8 @@ export default {
     fetchCustomerData(id) {
       if (id !== null) {
         let self = this;
-        let config = {
-          headers: {
-            gktoken: this.authToken,
-          },
-        };
         axios
-          .get(`/customersupplier?qty=single&custid=${id}`, config)
+          .get(`/customersupplier?qty=single&custid=${id}`)
           .then((resp) => {
             switch (resp.data.gkstatus) {
               case 0:
@@ -1837,18 +1827,13 @@ export default {
      */
     fetchProductDetails(id, index) {
       let self = this;
-      const config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       const requests = [
         axios
-          .get(`/products?qty=single&productcode=${id}`, config)
+          .get(`/products?qty=single&productcode=${id}`)
           .catch((error) => {
             return error;
           }),
-        axios.get(`/tax?pscflag=p&productcode=${id}`, config).catch((error) => {
+        axios.get(`/tax?pscflag=p&productcode=${id}`).catch((error) => {
           return error;
         }),
       ];
@@ -1931,13 +1916,8 @@ export default {
       let self = this;
       let invid = "";
       let inoutflag = this.isSale ? 15 : 9;
-      const config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       return axios
-        .get(`/invoice?getinvid&type=${inoutflag}`, config)
+        .get(`/invoice?getinvid&type=${inoutflag}`)
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
@@ -1953,14 +1933,9 @@ export default {
         });
     },
     fetchUserData() {
-      let config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       let self = this;
       return axios
-        .get(`/users?user=single`, config)
+        .get(`/users?user=single`)
         .then((resp) => {
           // === User name and role ===
           if (resp.status === 200) {
@@ -1980,13 +1955,8 @@ export default {
         });
     },
     fetchContactList() {
-      let config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       const requests = [
-        axios.get("/customersupplier?qty=custall", config).catch((error) => {
+        axios.get("/customersupplier?qty=custall").catch((error) => {
           this.displayToast(
             "Fetch Customer Data Failed!",
             error.message,
@@ -1994,7 +1964,7 @@ export default {
           );
           return error;
         }),
-        axios.get("/customersupplier?qty=supall", config).catch((error) => {
+        axios.get("/customersupplier?qty=supall").catch((error) => {
           this.displayToast(
             "Fetch Supplier Data Failed!",
             error.message,
@@ -2066,14 +2036,9 @@ export default {
         });
     },
     fetchBusinessList() {
-      let config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       let self = this;
       return axios
-        .get("/products", config)
+        .get("/products")
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
@@ -2161,17 +2126,12 @@ export default {
     },
     onSubmit() {
       let self = this;
-      const config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       this.isLoading = true;
 
       const payload = this.initPayload();
 
       axios
-        .post("/invoice", payload, config)
+        .post("/invoice", payload) 
         .then((resp) => {
           self.isLoading = false;
           if (resp.status === 200) {

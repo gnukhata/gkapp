@@ -561,38 +561,32 @@ export default {
     },
     // fetch customers, suppliers, products, services list
     loadList() {
-      let config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
-
       // stores the map of invoice id to corresponding invoice array indexes
       // used for quickly updating rectifyflag in invoice data array
       let invoiceMap = {};
 
       const requests = [
-        axios.get("/customersupplier?qty=custall", config).catch((error) => {
+        axios.get("/customersupplier?qty=custall").catch((error) => {
           return error;
         }),
-        axios.get("/customersupplier?qty=supall", config).catch((error) => {
+        axios.get("/customersupplier?qty=supall").catch((error) => {
           return error;
         }),
-        axios.get("/products", config).catch((error) => {
+        axios.get("/products").catch((error) => {
           return error;
         }),
-        axios.get("/invoice?inv=all", config).catch((error) => {
+        axios.get("/invoice?inv=all").catch((error) => {
           return error;
         }),
         // oncredit sale
         axios
-          .get("/invoice?type=rectifyinvlist&invtype=15", config)
+          .get("/invoice?type=rectifyinvlist&invtype=15")
           .catch((error) => {
             return error;
           }),
         // oncredit purchase
         axios
-          .get("/invoice?type=rectifyinvlist&invtype=9", config)
+          .get("/invoice?type=rectifyinvlist&invtype=9")
           .catch((error) => {
             return error;
           }),
@@ -700,11 +694,7 @@ export default {
     psList() {
       this.isLoading = true;
       axios
-        .get("/products", {
-          headers: {
-            gktoken: this.authToken,
-          },
-        })
+        .get("/products")
         .then((res) => {
           this.filterProducts(res.data.gkresult);
           this.isLoading = false;
