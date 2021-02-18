@@ -38,7 +38,7 @@
         <b-card no-body>
           <b-overlay :show="isLoading" blur no-wrap rounded="lg"></b-overlay>
           <!-- Workflow Selection & Filter -->
-          <b-card-header class="px-2">
+          <b-card-header ref="leftHeader" class="px-2">
             <!-- Drop down 1: Worflow selection -->
             <b-dropdown :variant="activeWorkflow.color" class="mr-3" dropright>
               <template #button-content>
@@ -68,41 +68,34 @@
                 class="float-right w-100 mt-2"
                 :style="{
                   'max-width': '450px',
-                  'min-height': '210px',
                 }"
               >
                 <b-card-body class="p-2">
-                  <b-form-checkbox
-                    v-model="filter.isActive"
-                    name="filter-apply-button"
-                    switch
-                    size="sm"
-                  >
-                    Apply Filters
-                  </b-form-checkbox>
-                  <hr class="mx-0" />
-                  <b-form-group
-                    label="Type"
-                    label-for="filter-form-item"
-                    label-size="sm"
-                    @submit.stop.prevent
-                    label-cols="4"
-                  >
+                  <b>Filter By</b>
+                  <hr class="mx-0 my-1" />
+                  <div class="my-2 ml-1">
                     <b-form-radio-group
                       id="filter-form-item"
                       v-model="filter.value.props"
                       :options="activeTabOptions.filterBy.value"
                       value-field="props"
                       size="sm"
-                      class="h-100 d-flex align-items-center"
+                      class="d-inline-block"
                     ></b-form-radio-group>
-                  </b-form-group>
+                    <b-button
+                      @click="resetFilter"
+                      title="Reset Filter"
+                      class="py-0 px-1"
+                      size="sm"
+                      variant="primary"
+                    >
+                      <b-icon icon="arrow-clockwise"></b-icon>
+                    </b-button>
+                  </div>
                   <b-form-group
                     label="Date Range"
-                    label-cols-sm="4"
-                    label-cols-md="12"
-                    label-cols="12"
                     label-size="sm"
+                    v-if="activeTabOptions.filterBy.range.length"
                   >
                     <div class="px-3">
                       <b-row>
@@ -362,6 +355,10 @@ export default {
   components: { ContactProfile, BusinessProfile, TransactionProfile },
   data() {
     return {
+      leftHeaderHeight: {
+        min: 63,
+        max: 0,
+      },
       tabChoice: 0,
       isLoading: true,
       activeWorkflow: {
@@ -536,6 +533,18 @@ export default {
       },
     };
   },
+  watch: {
+    isFilterOpen: function () {
+      let self = this;
+      window.setTimeout(() => {
+        if (self.isFilterOpen) {
+          if (self.leftHeaderHeight.max === 0) {
+            self.leftHeaderHeight.max = self.$refs.leftHeader.offsetHeight;
+          }
+        }
+      }, 650);
+    },
+  },
   computed: {
     activeTabOptions: (self) => self.options.tabs[self.activeWorkflow.name],
     // headerHeight is the height of the top nav bar
@@ -543,7 +552,11 @@ export default {
     // listHeight is the height that the left pane data list should be, (Total screen height - (top nav bar height - leftpane top bar height))
     listHeight: (self) =>
       window.innerHeight -
-      (self.headerHeight + 125 + (self.isFilterOpen ? 220 : 0)),
+      (self.headerHeight +
+        70 +
+        (self.isFilterOpen
+          ? self.leftHeaderHeight.max
+          : self.leftHeaderHeight.min)),
     rightPaneHeight: (self) => window.innerHeight - (self.headerHeight + 96),
     /**
      * processedData()
@@ -555,27 +568,25 @@ export default {
      */
     processedData: function () {
       let data = this.options.tabs[this.activeWorkflow.name].data;
-      if (this.filter.isActive === true) {
-        // console.log(this.filter)
-        if (this.filter.value.props.key !== undefined) {
-          data = this.filterByValue(
-            data,
-            this.filter.value.props.key,
-            this.filter.value.props.value
-          );
-        }
+      // console.log(this.filter)
+      if (this.filter.value.props.key !== undefined) {
+        data = this.filterByValue(
+          data,
+          this.filter.value.props.key,
+          this.filter.value.props.value
+        );
+      }
 
-        if (this.filter.range.props.key !== undefined) {
-          // console.log("date filter")
-          // console.log(this.filter.range.from);
-          // console.log(this.filter.range.to);
-          data = this.filterByRange(
-            data,
-            this.filter.range.props.key,
-            Date.parse(this.filter.range.from), // converting date "yyyy-mm-dd" into a format that can be compared with logical operators
-            Date.parse(this.filter.range.to)
-          );
-        }
+      if (this.filter.range.props.key !== undefined) {
+        // console.log("date filter")
+        // console.log(this.filter.range.from);
+        // console.log(this.filter.range.to);
+        data = this.filterByRange(
+          data,
+          this.filter.range.props.key,
+          Date.parse(this.filter.range.from), // converting date "yyyy-mm-dd" into a format that can be compared with logical operators
+          Date.parse(this.filter.range.to)
+        );
       }
       if (this.sort.props.key !== undefined) {
         data = this.sortData(data, this.sort.isAscending, this.sort.props.key);
@@ -632,20 +643,7 @@ export default {
     filterByRange(data, key, from, to) {
       return data.filter((item) => item[key] >= from && item[key] <= to);
     },
-    /**
-     * setActiveWorkflow(index, name, icon)
-     *
-     * Description: As the name suggests it stores the details about the active workflow.
-     * Also initializes the filters and sorts, after that.
-     */
-    setActiveWorkflow(index, name, icon) {
-      this.activeWorkflow = {
-        index,
-        name,
-        icon,
-        color: this.options.tabs[name].color,
-      };
-
+    resetFilter() {
       this.filter = {
         value: {
           props: {},
@@ -680,6 +678,23 @@ export default {
           this.activeTabOptions.filterBy.range[0].props
         );
       }
+    },
+    /**
+     * setActiveWorkflow(index, name, icon)
+     *
+     * Description: As the name suggests it stores the details about the active workflow.
+     * Also initializes the filters and sorts, after that.
+     */
+    setActiveWorkflow(index, name, icon) {
+      this.activeWorkflow = {
+        index,
+        name,
+        icon,
+        color: this.options.tabs[name].color,
+      };
+      this.isFilterOpen = false;
+      this.leftHeaderHeight.max = 0;
+      this.resetFilter();
     },
     setSelectedEntity(entity) {
       this.selectedEntity = entity;
