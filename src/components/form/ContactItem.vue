@@ -450,7 +450,6 @@ export default {
                 appendToast: true,
                 solid: true,
               });
-              this.resetForm();
 
 
               // === Server Log ===
@@ -461,6 +460,9 @@ export default {
                 logdata.activity = payload.custname + " supplier created";
               }
               axios.post("/log", logdata);
+
+              // only reset form on success, otherwise leave it as is so that user may edit their input and try again
+              this.resetForm();
               break;
             case 1:
               this.$bvToast.toast(
