@@ -5,7 +5,7 @@
       {{ details.orgname }} Profile
     </h3>
     <b-form @submit.prevent="updateDetails">
-      <!-- {{ details }} -->
+      {{ details }}
       <b-card-group deck>
         <!-- general Card -->
         <b-card
@@ -90,6 +90,7 @@
       <!-- Bank card --->
       <b-card-group deck class="mt-4">
         <b-card
+          v-if="details.bankdetails"
           header="Bank Details"
           header-bg-variant="warning"
           header-text-variant="dark"
@@ -136,7 +137,11 @@
               <b-form-input v-model="details.orgpan" type="text"></b-form-input>
             </b-input-group>
           </b-form-group>
-          <b-form-group label="GSTIN" label-cols="4">
+          <b-form-group
+            v-if="details.gstin !== null"
+            label="GSTIN"
+            label-cols="4"
+          >
             <b-form-input
               v-for="(gst, index) in details.gstin"
               :key="gst"
@@ -144,6 +149,10 @@
               type="text"
             ></b-form-input>
           </b-form-group>
+          <b-form-group v-else label="GSTIN" label-cols="4">
+            <b-form-input type="text"></b-form-input>
+          </b-form-group>
+
           <b-form-group label="Service Tax Number" label-cols="4">
             <b-form-input v-model="details.orgstax" type="text"></b-form-input>
           </b-form-group>

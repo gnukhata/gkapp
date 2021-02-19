@@ -138,6 +138,7 @@ export default {
     },
   },
   mounted() {
+    this.getUser();
     /**
      * fetch latest app changes
      */
