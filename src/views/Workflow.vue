@@ -33,7 +33,6 @@
         lg="3"
         ref="col-left"
         class="d-none d-md-block d-block"
-        :style="{ 'min-width': '300px' }"
       >
         <b-card no-body>
           <b-overlay :show="isLoading" blur no-wrap rounded="lg"></b-overlay>
@@ -556,8 +555,8 @@ export default {
         70 +
         (self.isFilterOpen
           ? self.leftHeaderHeight.max
-          : self.leftHeaderHeight.min)),
-    rightPaneHeight: (self) => window.innerHeight - (self.headerHeight + 96),
+          : self.leftHeaderHeight.min)), // 70 is the sum of sortable heading height + remaining vertical space in the screen
+    rightPaneHeight: (self) => window.innerHeight - (self.headerHeight + self.leftHeaderHeight.min + 41), // 41 is the remaining vertical space in the screen
     /**
      * processedData()
      *
