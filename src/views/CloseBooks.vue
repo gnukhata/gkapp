@@ -1,130 +1,151 @@
 <template>
-  <section class="ml-2 mr-2">
-    <h3 class="text-muted text-center mt-2">Close Books / Roll Over</h3>
+  <section class="m-1">
+    <b-overlay :show="isLoading" no-wrap> </b-overlay>
+    <!-- {{ details }} -->
     <!-- Close Books -->
     <b-card
-      header="Close Books"
+      v-show="details.booksclosedflag == 0"
       header-bg-variant="dark"
       header-text-variant="light"
+      class="mt-4"
+      style="max-width: 40em; margin: auto"
     >
-      <b-overlay :show="isLoading" no-wrap> </b-overlay>
-      <b-row>
-        <b-col sm="6">
-          <b-alert show variant="dark">
-            On activating this option, balances in all expense and income
-            accounts will be transferred to Profit &amp; Loss or Income &amp;
-            Expenditure Account and these accounts will be closed. No
-            transactions can be recorded in these accounts but Ledger accounts
-            can be viewed, printed.
-          </b-alert>
-        </b-col>
-        <b-col>
-          <b-form-group label="Start year" label-cols="auto">
-            <b-form-datepicker
-              v-model="details.yearstart"
-              disabled
-              class="m-2"
-              :date-format-options="{
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
+      <template #header>
+        <div class="d-flex">
+          <div class="mr-auto">Close Books</div>
+          <div>
+            <b-icon
+              icon="question-circle"
+              v-b-popover.click.blur="{
+                variant: 'dark',
+                title: 'Close Books',
+                html: 'true',
+                content:
+                  'On activating this option, balances in all expense and income accounts will be transferred to Profit & Loss or Income & Expenditure Account and these accounts will be closed. No transactions can be recorded in these accounts but Ledger accounts can be viewed, printed. To <b>ROLL OVER</b> the company to new financial year, You have to close books first',
               }"
-            ></b-form-datepicker>
-          </b-form-group>
-          <b-form-group label="End year" label-cols="auto">
-            <b-form-datepicker
-              v-model="details.yearend"
-              class="m-2"
-              disabled
-              :date-format-options="{
-                day: 'numeric',
-                month: 'numeric',
-                year: 'numeric',
-              }"
-            ></b-form-datepicker>
-          </b-form-group>
-          <b-button variant="dark"
-            ><b-icon icon="journal"></b-icon> Close Books</b-button
-          >
-        </b-col>
-      </b-row>
+            ></b-icon>
+          </div>
+        </div>
+      </template>
+      <div class="text-left"><b>Current Financial Year: </b></div>
+      <!-- <div class="d-flex-inline justify-content-center"> -->
+      <b-form-group
+        label="Start Date"
+        class="mt-3"
+        label-align="right"
+        label-cols="auto"
+        content-cols="auto"
+      >
+        <b-form-datepicker
+          v-model="details.yearstart"
+          disabled
+          :date-format-options="{
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          }"
+        ></b-form-datepicker>
+      </b-form-group>
+      <b-form-group
+        label="End Date"
+        label-cols="auto"
+        content-cols="auto"
+        label-align="right"
+      >
+        <b-form-datepicker
+          v-model="details.yearend"
+          disabled
+          :date-format-options="{
+            day: 'numeric',
+            month: 'numeric',
+            year: 'numeric',
+          }"
+        ></b-form-datepicker>
+      </b-form-group>
+      <b-button class="float-right" @click="confirm('close')" variant="dark"
+        ><b-icon icon="journal"></b-icon> Close Books</b-button
+      >
     </b-card>
+
     <!-- Roll Over -->
     <b-card
-      class="mt-4"
-      header="Roll Over"
+      v-show="details.booksclosedflag == 1"
       header-bg-variant="info"
       header-text-variant="light"
+      style="max-width: 40em; margin: auto"
+      class="mt-4"
     >
-      <b-row>
-        <b-overlay :show="isLoading" no-wrap> </b-overlay>
-        <b-col>
-          <b-alert show variant="info">
-            <ul>
-              <li>
-                A new organization with the same name and type is created for
-                the next accounting year,
-              </li>
-              <li>
-                Every existing asset and liability account is automatically
-                opened under its respective Group and Sub-Group and correct
-                opening balance is brought down, in case of expense and income
-                accounts these are also opened under their respective Groups and
-                Sub-Groups, of course, without opening balances,
-              </li>
-              <li>
-                The Closing Stock of the earlier year gets transferred to the
-                next year as Opening Stock. This module can only be activated
-                after CLOSE BOOKS is done.
-              </li>
-            </ul>
-          </b-alert>
-        </b-col>
-        <b-col sm="6">
-          <span>Current Financial Year</span>
-          <div class="d-flex">
-            <b-form-datepicker
-              title="Year Start"
-              v-model="details.yearstart"
-              disabled
-              class="m-1"
-              :date-format-options="{
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
+      <template #header>
+        <div class="d-flex">
+          <div class="mr-auto">Roll Over</div>
+          <div>
+            <b-icon
+              icon="question-circle"
+              v-b-popover.click.blur="{
+                variant: 'info',
+                title: 'Roll Over',
+                content:
+                  '<ul><li>A new organization with the same name and type is created forthe next accounting year,</li><li>Every existing asset and liability account is automatically opened under its respective Group and Sub-Group and correct opening balance is brought down, in case of expense and income accounts these are also opened under their respective Groups and Sub-Groups, of course, without opening balances, </li><li>The Closing Stock of the earlier year gets transferred to thenext year as Opening Stock. This module can only be activated after CLOSE BOOKS is done.</li></ul>',
+                html: true,
               }"
-            ></b-form-datepicker>
-            <b-form-datepicker
-              v-model="details.yearend"
-              disabled
-              class="m-1"
-              :date-format-options="{
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-              }"
-            ></b-form-datepicker>
+            ></b-icon>
           </div>
-          <br />
-          <span>New Financial Year</span>
-          <div class="d-flex">
-            <b-form-datepicker
-              v-model="details.yearstart"
-              disabled
-              class="m-1"
-              :date-format-options="{
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-              }"
-            ></b-form-datepicker>
-            <b-form-datepicker class="m-1"></b-form-datepicker>
-          </div>
-          <b-button class="mt-3" variant="info"
-            ><b-icon icon="calendar-check"></b-icon> Roll Over</b-button
-          >
-        </b-col>
-      </b-row>
+        </div>
+      </template>
+      <b>Current Financial Year: </b>
+      <div class="d-flex">
+        <b-form-datepicker
+          title="Year Start"
+          v-model="details.yearstart"
+          disabled
+          class="m-1"
+          :date-format-options="{
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          }"
+        ></b-form-datepicker>
+        <b-form-datepicker
+          v-model="details.yearend"
+          disabled
+          class="m-1"
+          :date-format-options="{
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          }"
+        ></b-form-datepicker>
+      </div>
+      <br />
+      <b>New Financial Year: </b>
+      <b-form-group
+        label="Start Year"
+        label-cols="auto"
+        content-cols-md="auto"
+        content-cols-lg="auto"
+        class="mt-2"
+      >
+        <b-form-datepicker
+          v-model="details.yearend"
+          disabled
+          :date-format-options="{
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          }"
+        ></b-form-datepicker>
+      </b-form-group>
+      <b-form-group
+        label="End Year"
+        label-cols="auto"
+        content-cols-md="auto"
+        content-cols-lg="auto"
+      >
+        <b-form-datepicker placeholder="Select Date"></b-form-datepicker>
+      </b-form-group>
+      <b-button @click="confirm" class="mt-3" variant="info"
+        ><b-icon icon="calendar-check"></b-icon> Roll Over</b-button
+      >
     </b-card>
   </section>
 </template>
@@ -141,6 +162,27 @@ export default {
   },
   computed: {},
   methods: {
+    confirm(type) {
+      this.$bvModal
+        .msgBoxConfirm(`Confirm ?`, {
+          centered: true,
+          size: "sm",
+          okVariant: "danger",
+        })
+        .then((val) => {
+          if (val === true) {
+            if (type === "close") {
+              console.log("close books");
+              this.details.booksclosedflag = 1;
+              // closeBooks()
+            } else {
+              console.log("roll over");
+              this.details.booksclosedflag = 0;
+              // rollOver()
+            }
+          }
+        });
+    },
     getDetails() {
       axios
         .get("/organisation")
@@ -154,6 +196,39 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+        });
+    },
+    /**
+     * Close Company books for the current financial year
+     */
+    closeBooks() {
+      this.isLoading = true;
+      axios
+        .get(`/rollclose?task=closebooks&financialend=${this.details.yearend}`)
+        .then((r) => {
+          if (r.status == 200 && r.data.gkstatus == 0) {
+            switch (r.data.gkstatus) {
+              case 0:
+                this.$bvToast.toast("Close Books Complete", {
+                  title: "Success",
+                  variant: "success",
+                  solid: true,
+                });
+                this.isLoading = false;
+                this.updateDetails();
+                break;
+              case 1:
+                break;
+            }
+          }
+        })
+        .catch((e) => {
+          this.isLoading = false;
+          this.$bvToast.toast(e.message + " Please Retry", {
+            title: "Close Books Error",
+            variant: "danger",
+            solid: true,
+          });
         });
     },
   },
