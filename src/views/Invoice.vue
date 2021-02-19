@@ -480,7 +480,7 @@
                 class="mb-3"
                 size="sm"
                 switch
-                v-if="isSale && config.ship.copyflag"
+                v-if="isSale && config.ship.copyFlag"
               >
                 Same as Billing Address
               </b-form-checkbox>
