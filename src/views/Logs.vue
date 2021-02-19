@@ -1,15 +1,30 @@
 <template>
   <section class="container-fluid">
-    <h2 class="text-muted text-center mt-3">Company Logs</h2>
-    <div class="text-center mt-3">
-      <b-icon
+    <div class="d-flex justify-content-center mt-3 mb-3">
+      <b-form-input
+        class="border border-secondary w-75"
+        type="text"
+        placeholder="Search Logs"
+        v-model="searchText"
+      ></b-form-input>
+    </div>
+    <b-overlay :show="isLoading" no-wrap> </b-overlay>
+
+    <!-- <b-icon
         v-if="isLoading"
         icon="arrow-clockwise"
         animation="spin"
         font-scale="4"
-      ></b-icon>
-    </div>
-    <b-table stacked="sm" outlined small hover :items="log"></b-table>
+      ></b-icon> -->
+    <!-- </div> -->
+    <b-table
+      stacked="sm"
+      outlined
+      small
+      hover
+      :items="log"
+      :filter="searchText"
+    ></b-table>
   </section>
 </template>
 <script>
@@ -21,6 +36,7 @@ export default {
     return {
       log: [],
       isLoading: true,
+      searchText: "",
     };
   },
   methods: {
