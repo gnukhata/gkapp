@@ -788,7 +788,7 @@ export default {
                 invoiceMap[item.invid] = index;
                 return Object.assign(
                   {
-                    icon: item.csflag === 3 ? "cash-stack" : "bag-fill",
+                    icon: item.csflag === 3 ? "cash-stack" : "basket3",
                     rectifyFlag: false,
                     // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                     dateObj: Date.parse(
