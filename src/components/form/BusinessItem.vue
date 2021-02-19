@@ -435,6 +435,7 @@ export default {
       // console.log('in submit')
       this.isLoading = true;
       const payload = this.initPayload();
+      console.log(payload)
       axios
         .post("/products", payload.product)
         .then((response) => {
@@ -450,7 +451,6 @@ export default {
                 appendToast: true,
                 solid: true,
               });
-              this.resetForm();
 
               // store the tax when the product has been created successfully
               productCode = response.data.gkresult;
@@ -469,16 +469,19 @@ export default {
 
               // === Server Log ===
               let logdata = { activity: "" };
-              if (payload.godownflag === true) {
+              if (payload.product.godownflag === true) {
                 logdata.activity =
-                  payload.productdesc +
+                  payload.product.productdetails.productdesc +
                   " product created in " +
-                  payload.godetails.name +
+                  payload.product.godetails.name +
                   " godowns";
               } else {
-                logdata.activity = payload.productdesc + " product created";
+                logdata.activity = payload.product.productdetails.productdesc + " product created";
               }
               axios.post("/log", logdata);
+
+              // only reset form on success, otherwise leave it as is so that user may edit their input and try again
+              this.resetForm();
               break;
             case 1:
               this.$bvToast.toast(

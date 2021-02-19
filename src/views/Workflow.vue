@@ -33,11 +33,12 @@
         lg="3"
         ref="col-left"
         class="d-none d-md-block d-block"
+        :style="{ 'min-width': '300px' }"
       >
         <b-card no-body>
           <b-overlay :show="isLoading" blur no-wrap rounded="lg"></b-overlay>
           <!-- Workflow Selection & Filter -->
-          <b-card-header class="px-2">
+          <b-card-header ref="leftHeader" class="px-2">
             <!-- Drop down 1: Worflow selection -->
             <b-dropdown :variant="activeWorkflow.color" class="mr-3" dropright>
               <template #button-content>
@@ -53,43 +54,103 @@
               </b-dropdown-item>
             </b-dropdown>
             <!-- Drop down 2: Filter -->
-            <b-dropdown
+            <b-button
               class="float-right"
               variant="link"
-              toggle-class="text-decoration-none"
-              dropleft
-              no-caret
+              @click="isFilterOpen = !isFilterOpen"
             >
-              <template #button-content>
-                <b-icon icon="funnel"></b-icon
-                ><span class="sr-only">Filter</span>
-              </template>
-              <b-dropdown-form form-class="px-2">
-                <b-form-checkbox
-                  v-model="filter.isActive"
-                  name="filter-apply-button"
-                  switch
-                  size="sm"
-                >
-                  Apply Filters
-                </b-form-checkbox>
-                <hr />
-                <b-form-group
-                  label="Type"
-                  label-for="filter-form-item"
-                  @submit.stop.prevent
-                >
-                  <b-form-radio-group
-                    id="filter-form-item"
-                    v-model="filter.props"
-                    :options="activeTabOptions.filters"
-                    value-field="props"
-                    size="sm"
-                    stacked
-                  ></b-form-radio-group>
-                </b-form-group>
-              </b-dropdown-form>
-            </b-dropdown>
+              <b-icon icon="funnel"></b-icon><span class="sr-only">Filter</span>
+            </b-button>
+            <!-- Filter menu Collapsable card -->
+            <b-collapse v-model="isFilterOpen">
+              <b-card
+                no-body
+                class="float-right w-100 mt-2"
+                :style="{
+                  'max-width': '450px',
+                }"
+              >
+                <b-card-body class="p-2">
+                  <b>Filter By</b>
+                  <hr class="mx-0 my-1" />
+                  <div class="my-2 ml-1">
+                    <b-form-radio-group
+                      id="filter-form-item"
+                      v-model="filter.value.props"
+                      :options="activeTabOptions.filterBy.value"
+                      value-field="props"
+                      size="sm"
+                      class="d-inline-block"
+                    ></b-form-radio-group>
+                    <b-button
+                      @click="resetFilter"
+                      title="Reset Filter"
+                      class="py-0 px-1"
+                      size="sm"
+                      variant="primary"
+                    >
+                      <b-icon icon="arrow-clockwise"></b-icon>
+                    </b-button>
+                  </div>
+                  <b-form-group
+                    label="Date Range"
+                    label-size="sm"
+                    v-if="activeTabOptions.filterBy.range.length"
+                  >
+                    <div class="px-3">
+                      <b-row>
+                        <b-col class="px-1">
+                          <b-input-group>
+                            <b-form-input
+                              class="px-1"
+                              size="sm"
+                              v-model="filter.range.from"
+                              type="text"
+                              placeholder="YYYY-MM-DD"
+                              autocomplete="off"
+                            ></b-form-input>
+                            <b-input-group-append>
+                              <b-form-datepicker
+                                button-only
+                                v-model="filter.range.from"
+                                size="sm"
+                                right
+                                :min="yearStart"
+                                :max="yearEnd"
+                                locale="en-IN"
+                              ></b-form-datepicker>
+                            </b-input-group-append>
+                          </b-input-group>
+                        </b-col>
+                        <b-col class="px-1">
+                          <b-input-group>
+                            <b-form-input
+                              class="px-1"
+                              size="sm"
+                              v-model="filter.range.to"
+                              type="text"
+                              placeholder="YYYY-MM-DD"
+                              autocomplete="off"
+                            ></b-form-input>
+                            <b-input-group-append>
+                              <b-form-datepicker
+                                button-only
+                                v-model="filter.range.to"
+                                size="sm"
+                                right
+                                :min="filter.range.from"
+                                :max="yearEnd"
+                                locale="en-IN"
+                              ></b-form-datepicker>
+                            </b-input-group-append>
+                          </b-input-group>
+                        </b-col>
+                      </b-row>
+                    </div>
+                  </b-form-group>
+                </b-card-body>
+              </b-card>
+            </b-collapse>
           </b-card-header>
           <!-- Worflow Data List -->
           <div
@@ -98,31 +159,31 @@
             :class="{ 'd-none': activeWorkflow.index !== index1 }"
           >
             <!-- Sort Bar Start -->
-            <b-container>
+            <div class="px-3">
               <b-row>
                 <b-col
                   class="p-1"
-                  v-for="(sortby, index4) in tab.sortby"
+                  v-for="(sortBy, index4) in tab.sortBy"
                   :key="index4"
                 >
                   <b-button
-                    @click="callSortData(tab.data, sortby.props)"
+                    @click="callSortData(tab.data, sortBy.props)"
                     block
                     size="sm"
                     class="py-0 px-1 text-left"
                   >
-                    {{ sortby.text }}
+                    {{ sortBy.text }}
                     <span
                       class="float-right"
-                      v-if="sort.props.key === sortby.props.key"
+                      v-if="sort.props.key === sortBy.props.key"
                     >
-                      <span v-if="sortby.props.isAsc">▲</span>
+                      <span v-if="sortBy.props.isAsc">▲</span>
                       <span v-else>▼</span>
                     </span>
                   </b-button>
                 </b-col>
               </b-row>
-            </b-container>
+            </div>
             <!-- Sort bar End -->
             <!-- Workflow Data List Start -->
             <b-list-group
@@ -266,7 +327,7 @@
           </template>
           <b-card-body
             class="px-0"
-            :style="{ height: (listHeight + 26) + 'px', overflowY: 'auto' }"
+            :style="{ height: rightPaneHeight + 'px', overflowY: 'auto' }"
             v-if="selectedEntity !== null"
           >
             <transaction-profile
@@ -294,6 +355,10 @@ export default {
   components: { ContactProfile, BusinessProfile, TransactionProfile },
   data() {
     return {
+      leftHeaderHeight: {
+        min: 63,
+        max: 0,
+      },
       tabChoice: 0,
       isLoading: true,
       activeWorkflow: {
@@ -305,11 +370,17 @@ export default {
       supplierList: [],
       products: [],
       services: [],
-      isFullPage: true,
+      isFilterOpen: false,
       selectedEntity: null,
       filter: {
-        props: {},
-        property: {},
+        value: {
+          props: {},
+        },
+        range: {
+          props: {},
+          from: null,
+          to: null,
+        },
         isActive: false,
       },
       sort: {
@@ -318,9 +389,9 @@ export default {
       },
       options: {
         /**
-         * tabs: Contains the meta data based on which the left and right pane are rendered. 
-         *       Contains different workflow items, their data list, filter options, sortby options, etc
-         * 
+         * tabs: Contains the meta data based on which the left and right pane are rendered.
+         *       Contains different workflow items, their data list, filter options, sortBy options, etc
+         *
          * Explanation for the fields:
          * icon             ->  icon associated with the workflow, used in workflow cards and dropdown
          * color            ->  the color associated with the workflow, used in workflow cards and dropdown
@@ -335,22 +406,28 @@ export default {
             color: "primary",
             data: [],
             key: "custname",
-            createNewPath: { name: "Contact_Details", params: { mode: "create" } },
-            filters: [
-              {
-                text: "All", // text -> Display text for this filter
-                props: {}, // the properties required to perform the filter
-              },
-              {
-                text: "Customers",
-                props: { key: "csflag", value: true },
-              },
-              {
-                text: "Suppliers",
-                props: { key: "csflag", value: false },
-              },
-            ],
-            sortby: [
+            createNewPath: {
+              name: "Contact_Details",
+              params: { mode: "create" },
+            },
+            filterBy: {
+              value: [
+                {
+                  text: "All", // text -> Display text for this filter
+                  props: {}, // the properties required to perform the filter
+                },
+                {
+                  text: "Customers",
+                  props: { key: "csflag", value: true },
+                },
+                {
+                  text: "Suppliers",
+                  props: { key: "csflag", value: false },
+                },
+              ],
+              range: [],
+            },
+            sortBy: [
               {
                 text: "Name",
                 props: { key: "custname", isAsc: true },
@@ -362,22 +439,28 @@ export default {
             color: "warning",
             data: [],
             key: "productdesc",
-            createNewPath: { name: "Business_Details", params: { mode: "create" } },
-            filters: [
-              {
-                text: "All",
-                props: {},
-              },
-              {
-                text: "Product",
-                props: { key: "gsflag", value: 7 },
-              },
-              {
-                text: "Service",
-                props: { key: "gsflag", value: 19 },
-              },
-            ],
-            sortby: [
+            createNewPath: {
+              name: "Business_Details",
+              params: { mode: "create" },
+            },
+            filterBy: {
+              value: [
+                {
+                  text: "All",
+                  props: {},
+                },
+                {
+                  text: "Product",
+                  props: { key: "gsflag", value: 7 },
+                },
+                {
+                  text: "Service",
+                  props: { key: "gsflag", value: 19 },
+                },
+              ],
+              range: [],
+            },
+            sortBy: [
               {
                 text: "Name",
                 props: { key: "productdesc", isAsc: true },
@@ -390,24 +473,41 @@ export default {
             data: [],
             key: "custname",
             createNewPath: { name: "Invoice" },
-            filters: [
-              {
-                text: "All",
-                props: {},
-              },
-              {
-                text: "Sale",
-                props: { key: "csflag", value: 3 },
-              },
-              {
-                text: "Purchase",
-                props: { key: "csflag", value: 19 },
-              },
-            ],
-            sortby: [
+            filterBy: {
+              value: [
+                {
+                  text: "All",
+                  props: {},
+                },
+                {
+                  text: "Sale",
+                  props: { key: "csflag", value: 3 },
+                },
+                {
+                  text: "Purchase",
+                  props: { key: "csflag", value: 19 },
+                },
+              ],
+              range: [
+                {
+                  from: {
+                    text: "From Date",
+                  },
+                  to: {
+                    text: "To Date",
+                  },
+                  props: {
+                    key: "dateObj",
+                    min: this.yearStart,
+                    max: this.yearEnd,
+                  },
+                },
+              ],
+            },
+            sortBy: [
               {
                 text: "Date",
-                props: { key: "invoicedate", isAsc: true },
+                props: { key: "dateObj", isAsc: true },
               },
               {
                 text: "Name",
@@ -423,50 +523,77 @@ export default {
             icon: "journals",
             color: "danger",
             data: [],
-            filters: [],
-            sortby: [],
+            filterBy: {
+              value: [],
+              range: [],
+            },
+            sortBy: [],
           },
         },
       },
     };
+  },
+  watch: {
+    isFilterOpen: function () {
+      let self = this;
+      window.setTimeout(() => {
+        if (self.isFilterOpen) {
+          if (self.leftHeaderHeight.max === 0) {
+            self.leftHeaderHeight.max = self.$refs.leftHeader.offsetHeight;
+          }
+        }
+      }, 650);
+    },
   },
   computed: {
     activeTabOptions: (self) => self.options.tabs[self.activeWorkflow.name],
     // headerHeight is the height of the top nav bar
     headerHeight: () => document.getElementById("app-header").offsetHeight,
     // listHeight is the height that the left pane data list should be, (Total screen height - (top nav bar height - leftpane top bar height))
-    listHeight: (self) => window.innerHeight - (self.headerHeight + 125),
+    listHeight: (self) =>
+      window.innerHeight -
+      (self.headerHeight +
+        70 +
+        (self.isFilterOpen
+          ? self.leftHeaderHeight.max
+          : self.leftHeaderHeight.min)),
+    rightPaneHeight: (self) => window.innerHeight - (self.headerHeight + 96),
     /**
      * processedData()
-     * 
+     *
      * Description: When the filter and sort object values are altered,
      * this method runs the filter and sort methods on the data list
      * of the current workflow page, and updates the left pane of cards.
-     * 
+     *
      */
     processedData: function () {
       let data = this.options.tabs[this.activeWorkflow.name].data;
-      if (this.filter.isActive === true) {
-        // console.log(this.filter)
-        if (this.filter.props.key !== undefined) {
-          data = this.showByFilter(
-            data,
-            this.filter.props.key,
-            this.filter.props.value
-          );
-        }
+      // console.log(this.filter)
+      if (this.filter.value.props.key !== undefined) {
+        data = this.filterByValue(
+          data,
+          this.filter.value.props.key,
+          this.filter.value.props.value
+        );
+      }
 
+      if (this.filter.range.props.key !== undefined) {
+        // console.log("date filter")
+        // console.log(this.filter.range.from);
+        // console.log(this.filter.range.to);
+        data = this.filterByRange(
+          data,
+          this.filter.range.props.key,
+          Date.parse(this.filter.range.from), // converting date "yyyy-mm-dd" into a format that can be compared with logical operators
+          Date.parse(this.filter.range.to)
+        );
       }
       if (this.sort.props.key !== undefined) {
-        data = this.sortData(
-          data,
-          this.sort.isAscending,
-          this.sort.props.key
-        );
+        data = this.sortData(data, this.sort.isAscending, this.sort.props.key);
       }
       return data;
     },
-    ...mapState(["authToken", "gkCoreUrl", "userName"]),
+    ...mapState(["authToken", "gkCoreUrl", "userName", "yearStart", "yearEnd"]),
   },
   methods: {
     callSortData(data, props) {
@@ -504,18 +631,57 @@ export default {
       return sorted.slice();
     },
     /**
-     * showByFilter(data, showBy, value)
-     * 
+     * filterByValue(data, key, value)
+     *
      * Description: This is a visibility filter, that returns an array of data list that match a certain key value
-     * 
+     *
      * e.g. Display all data items that have (csflag === 19), that is purchase
      */
-    showByFilter(data, showBy, value) {
-      return data.filter((item) => item[showBy] === value);
+    filterByValue(data, key, value) {
+      return data.filter((item) => item[key] === value);
+    },
+    filterByRange(data, key, from, to) {
+      return data.filter((item) => item[key] >= from && item[key] <= to);
+    },
+    resetFilter() {
+      this.filter = {
+        value: {
+          props: {},
+        },
+        range: {
+          props: {},
+          from: this.yearStart,
+          to: this.yearEnd,
+        },
+        isActive: false,
+      };
+
+      //sets the first filter in the filter array, which should be "all" ( used to display every item )
+      if (this.activeTabOptions.filterBy.value.length) {
+        this.filter.value.props = Object.assign(
+          {},
+          this.activeTabOptions.filterBy.value[0].props
+        );
+      }
+
+      // sets the first sortBy in the sortBy array
+      if (this.activeTabOptions.sortBy.length) {
+        this.sort.props = Object.assign(
+          {},
+          this.activeTabOptions.sortBy[0].props
+        );
+      }
+
+      if (this.activeTabOptions.filterBy.range.length) {
+        this.filter.range.props = Object.assign(
+          {},
+          this.activeTabOptions.filterBy.range[0].props
+        );
+      }
     },
     /**
      * setActiveWorkflow(index, name, icon)
-     * 
+     *
      * Description: As the name suggests it stores the details about the active workflow.
      * Also initializes the filters and sorts, after that.
      */
@@ -526,28 +692,9 @@ export default {
         icon,
         color: this.options.tabs[name].color,
       };
-
-      this.filter = {
-        props: {},
-        property: {},
-        isActive: false,
-      };
-
-      //sets the first filter in the filter array, which should be "all" ( used to display every item )
-      if (this.activeTabOptions.filters.length) {
-        this.filter.props = Object.assign(
-          {},
-          this.activeTabOptions.filters[0].props
-        );
-      }
-
-      // sets the first sortby in the sortby array
-      if (this.activeTabOptions.sortby.length) {
-        this.sort.props = Object.assign(
-          {},
-          this.activeTabOptions.sortby[0].props
-        );
-      }
+      this.isFilterOpen = false;
+      this.leftHeaderHeight.max = 0;
+      this.resetFilter();
     },
     setSelectedEntity(entity) {
       this.selectedEntity = entity;
@@ -579,17 +726,13 @@ export default {
           return error;
         }),
         // oncredit sale
-        axios
-          .get("/invoice?type=rectifyinvlist&invtype=15")
-          .catch((error) => {
-            return error;
-          }),
+        axios.get("/invoice?type=rectifyinvlist&invtype=15").catch((error) => {
+          return error;
+        }),
         // oncredit purchase
-        axios
-          .get("/invoice?type=rectifyinvlist&invtype=9")
-          .catch((error) => {
-            return error;
-          }),
+        axios.get("/invoice?type=rectifyinvlist&invtype=9").catch((error) => {
+          return error;
+        }),
       ];
 
       const self = this;
@@ -647,6 +790,10 @@ export default {
                   {
                     icon: item.csflag === 3 ? "cash-stack" : "bag-fill",
                     rectifyFlag: false,
+                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                    dateObj: Date.parse(
+                      item.invoicedate.split("-").reverse().join("-") // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                    ),
                   },
                   item
                 );
