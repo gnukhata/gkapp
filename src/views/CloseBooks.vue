@@ -3,7 +3,7 @@
     <!-- {{ details }} -->
     <!-- Close Books -->
     <b-card
-      v-show="details.booksclosedflag == 0"
+      v-if="details.booksclosedflag == 0"
       header-bg-variant="dark"
       header-text-variant="light"
       class="mt-4"
@@ -94,7 +94,7 @@
 
     <!-- Roll Over -->
     <b-card
-      v-show="details.booksclosedflag == 1"
+      v-if="details.roflag == 0"
       header-bg-variant="info"
       header-text-variant="light"
       style="max-width: 40em; margin: auto"
@@ -250,6 +250,9 @@
         </b-button>
       </b-form>
     </b-card>
+    <b-alert v-if="details.roflag == 1" show variant="info"
+      >Close Books &amp; Roll Over is Done for this year</b-alert
+    >
   </section>
 </template>
 
@@ -284,11 +287,9 @@ export default {
         .then((val) => {
           if (val === true) {
             if (type === "close") {
-              this.details.booksclosedflag = 1;
-              // closeBooks()
+              this.closeBooks();
             } else {
-              this.details.booksclosedflag = 0;
-              // rollOver()
+              this.rollOver();
             }
           }
         });
@@ -347,8 +348,8 @@ export default {
                   variant: "success",
                   solid: true,
                 });
+                this.getDetails();
                 this.isLoading = false;
-                this.updateDetails();
                 break;
               case 1:
                 break;
@@ -383,8 +384,8 @@ export default {
                   variant: "success",
                   solid: true,
                 });
+                this.getDetails();
                 this.isLoading = false;
-                this.updateDetails();
                 break;
               case 3:
                 this.$bvToast.toast("Error occured while processing request", {
@@ -392,6 +393,7 @@ export default {
                   variant: "danger",
                   solid: true,
                 });
+                this.isLoading = false;
                 break;
               case 4:
                 this.$bvToast.toast(

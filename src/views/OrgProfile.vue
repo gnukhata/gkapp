@@ -1,11 +1,8 @@
 <template>
   <section class="container-fluid mt-2">
     <b-overlay :show="loading" blur no-wrap></b-overlay>
-    <h3 class="text-center mb-4 mt-2 text-muted">
-      {{ details.orgname }} Profile
-    </h3>
     <b-form @submit.prevent="updateDetails">
-      {{ details }}
+      <!-- {{ details }} -->
       <b-card-group deck>
         <!-- general Card -->
         <b-card
@@ -149,22 +146,90 @@
               type="text"
             ></b-form-input>
           </b-form-group>
-          <b-form-group v-else label="GSTIN" label-cols="4">
-            <b-form-input type="text"></b-form-input>
-          </b-form-group>
 
-          <b-form-group label="Service Tax Number" label-cols="4">
+          <b-form-group label="ServiceTax Number" label-cols="4">
             <b-form-input v-model="details.orgstax" type="text"></b-form-input>
           </b-form-group>
+          <b-button-group size="sm">
+            <b-button v-b-modal.gstin variant="dark" class="float-left">
+              <b-icon icon="plus"></b-icon>Add GSTIN
+            </b-button>
+            <b-button v-b-modal.cess variant="dark" class="ml-1">
+              <b-icon icon="plus"></b-icon>Add CESS
+            </b-button>
+          </b-button-group>
+          {{ details }}
         </b-card>
       </b-card-group>
       <!-- Submit & cancel buttons -->
       <div class="mt-2 mb-3 d-flex flex-row-reverse">
-        <b-button type="submit" size="sm" class="ml-2" variant="success"
-          ><b-icon icon="arrow-up-circle"></b-icon> Save Changes</b-button
-        >
+        <b-button type="submit" size="sm" class="ml-2" variant="success">
+          <b-icon icon="arrow-up-circle"></b-icon>Save Changes
+        </b-button>
       </div>
     </b-form>
+    <!-- 
+      Tax Creation Window 
+    -->
+    <!-- Add GSTIN -->
+    <b-modal
+      id="gstin"
+      centered
+      ok-title="Add"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      ok-variant="success"
+      title="Add GSTIN"
+    >
+      <b-form>
+        <b-form-group label="State" label-cols="auto">
+          <b-form-select
+            required
+            v-model="stateCode"
+            :options="states"
+          ></b-form-select>
+        </b-form-group>
+        <b-form-group label="GSTIN" label-cols="auto">
+          <div class="d-flex">
+            <b-form-input
+              :placeholder="stateCode"
+              type="text"
+              disabled
+              style="max-width: 3em"
+            ></b-form-input>
+            <b-form-input
+              :placeholder="details.orgpan"
+              type="text"
+              class="ml-1 mr-1"
+              disabled
+            ></b-form-input>
+            <b-form-input v-model="gstin" type="text"></b-form-input>
+          </div>
+        </b-form-group>
+      </b-form>
+    </b-modal>
+    <!-- Add CESS -->
+    <b-modal
+      id="cess"
+      centered
+      header-bg-variant="dark"
+      header-text-variant="light"
+      ok-title="Add"
+      ok-variant="success"
+      title="Add CESS"
+    >
+      <b-form>
+        <b-form-group label="CESS" label-cols="auto">
+          <b-input-group append="%">
+            <b-form-input
+              v-model="cess"
+              style="max-width: 5em"
+              type="text"
+            ></b-form-input>
+          </b-input-group>
+        </b-form-group>
+      </b-form>
+    </b-modal>
   </section>
 </template>
 
@@ -176,6 +241,10 @@ export default {
     return {
       loading: true,
       details: "",
+      states: [],
+      gstin: "",
+      stateCode: "",
+      cess: "",
     };
   },
   computed: {
@@ -263,12 +332,25 @@ export default {
           }
         });
     },
+    getStates() {
+      axios
+        .get(`${this.gkCoreUrl}/state`)
+        .then((res) => {
+          this.states = res.data.gkresult.map((val) => {
+            let obj = {};
+            obj.value = Object.keys(val)[0];
+            obj.text = Object.values(val)[0];
+            return obj;
+          });
+        })
+        .catch((e) => {
+          console.log("failed to get states", e.message);
+        });
+    },
   },
   mounted() {
     this.getDetails();
+    this.getStates();
   },
 };
 </script>
-
-<style>
-</style>
