@@ -1203,17 +1203,13 @@
               class="mt-3"
               :class="{ 'd-md-block': true, 'd-none': !isCollapsed.comments }"
             >
-              <b-form-group
-                label="Comments"
-                label-for="input-27"
-                label-cols="auto"
-                label-size="sm"
-                label-cols-lg="autauto"
-              >
+              <b-form-group>
                 <b-form-textarea
                   size="sm"
                   id="input-27"
                   v-model="form.narration"
+                  rows="4"
+                  max-rows="5"
                   trim
                 ></b-form-textarea>
               </b-form-group>
