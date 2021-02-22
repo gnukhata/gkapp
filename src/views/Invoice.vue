@@ -2222,10 +2222,10 @@ export default {
           this.addBillItem();
           billCount++;
         }
-        this.form.bill[billCount - 1].product = this.options.products[
-          productCount - 1
-        ].value;
         setTimeout(() => {
+          this.form.bill[billCount - 1].product = this.options.products[
+            productCount - 1
+          ].value;
           this.fetchProductDetails(
             this.options.products[productCount - 1].id,
             productCount - 1
