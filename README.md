@@ -2,7 +2,7 @@
 
 [![version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://gitlab.com/gnukhata/gkapp)  [![license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://gitlab.com/gnukhata/gkapp)
 
-**GKApp** is a Progressive Web App made using Vue and Buefy.
+**GKApp** is a Progressive Web App made using Vue & Bootstrap.
 
 * Free & Open Source under AGPLv3 License
 * PWA/SPA — Single page app
