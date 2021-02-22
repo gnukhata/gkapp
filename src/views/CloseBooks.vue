@@ -252,6 +252,13 @@
 </template>
 
 <script>
+/**
+ * This module implements close books & roll over functionality. Only admin can perform this
+ * action.
+ *
+ * TODO:
+ *  - Hook the functions to action buttons in confirm() method
+ */
 import axios from "axios";
 export default {
   name: "CloseBooks",
@@ -284,6 +291,9 @@ export default {
           }
         });
     },
+    /**
+     * Fetch the company details from api & assign it to 'details' variable
+     */
     getDetails() {
       axios
         .get("/organisation")
@@ -299,6 +309,9 @@ export default {
           console.log(e);
         });
     },
+    /**
+     * Automatically set year end when year start date is selected by the user
+     */
     setYearEnd() {
       if (this.yearStart !== null && this.year !== "") {
         const from = this.newYearStart.split("-"); // yyyy/mm/dd
@@ -316,7 +329,8 @@ export default {
       }
     },
     /**
-     * Close Company books for the current financial year
+     * Close Company books for the current financial year. This function takes the user selected dates
+     * and makes api request to perform close books
      */
     closeBooks() {
       this.isLoading = true;
@@ -349,7 +363,8 @@ export default {
         });
     },
     /**
-     * Roll Over The company to new financial year
+     * Roll Over The company to new financial year. This function takes user selected date range &
+     * makes api request to roll over the company to new financial year
      */
     rollOver() {
       this.isLoading = true;
