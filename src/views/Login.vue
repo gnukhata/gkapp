@@ -307,10 +307,12 @@ export default {
             case 0:
               this.isLoading = false;
               if (this.captchaSolved) {
+                let orgname = this.orgList[this.orgIndex].orgname;
+                let orgtype = this.orgList[this.orgIndex].orgtype;
                 this.$store.dispatch("setSessionStates", {
                   auth: true,
                   orgCode: this.form.orgcode,
-                  orgName: this.form.orgName,
+                  orgName: `${orgname} (${orgtype})`,
                   authToken: response.data.token,
                   user: { username: this.form.username },
                   // orgYears: {
