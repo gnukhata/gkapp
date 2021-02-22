@@ -1,6 +1,6 @@
 <template>
   <section class="m-1">
-    <b-overlay :show="isLoading" no-wrap> </b-overlay>
+    <b-overlay :show="isLoading" no-wrap></b-overlay>
     <!-- {{ details }} -->
     <!-- Close Books -->
     <b-card
@@ -27,44 +27,69 @@
           </div>
         </div>
       </template>
-      <div class="text-left"><b>Current Financial Year: </b></div>
-      <!-- <div class="d-flex-inline justify-content-center"> -->
       <b-form-group
-        label="Start Date"
-        class="mt-3"
-        label-align="right"
-        label-cols="auto"
-        content-cols="auto"
+        id="input-group-2"
+        label-class="font-weight-bold"
+        label="Current Financial Year:"
       >
-        <b-form-datepicker
-          v-model="details.yearstart"
-          disabled
-          :date-format-options="{
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-          }"
-        ></b-form-datepicker>
+        <div class="row">
+          <div class="col-6">
+            <b-form-group
+              content-cols="auto"
+              id="input-group-3"
+              label="From"
+              label-for="date-1"
+            >
+              <b-input-group class="mb-3">
+                <b-form-input
+                  v-model="details.yearstart"
+                  type="text"
+                  disabled
+                ></b-form-input>
+                <b-input-group-append>
+                  <b-form-datepicker
+                    button-only
+                    right
+                    locale="en-GB"
+                    aria-controls="date-1"
+                    disabled
+                  >
+                  </b-form-datepicker>
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </div>
+          <div class="col">
+            <b-form-group
+              content-cols="auto"
+              id="input-group-4"
+              label="To"
+              label-for="date-2"
+            >
+              <b-input-group class="mb-3">
+                <b-form-input
+                  v-model="details.yearend"
+                  type="text"
+                  disabled
+                ></b-form-input>
+                <b-input-group-append>
+                  <b-form-datepicker
+                    button-only
+                    right
+                    locale="en-GB"
+                    aria-controls="date-2"
+                    disabled
+                  >
+                  </b-form-datepicker>
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </div>
+        </div>
       </b-form-group>
-      <b-form-group
-        label="End Date"
-        label-cols="auto"
-        content-cols="auto"
-        label-align="right"
-      >
-        <b-form-datepicker
-          v-model="details.yearend"
-          disabled
-          :date-format-options="{
-            day: 'numeric',
-            month: 'numeric',
-            year: 'numeric',
-          }"
-        ></b-form-datepicker>
-      </b-form-group>
-      <b-button class="float-right" @click="confirm('close')" variant="dark"
-        ><b-icon icon="journal"></b-icon> Close Books</b-button
-      >
+      <b-button class="float-right" @click="confirm('close')" variant="dark">
+        <b-icon icon="journal"></b-icon> Close Books
+      </b-button>
     </b-card>
 
     <!-- Roll Over -->
@@ -92,60 +117,136 @@
           </div>
         </div>
       </template>
-      <b>Current Financial Year: </b>
-      <div class="d-flex">
-        <b-form-datepicker
-          title="Year Start"
-          v-model="details.yearstart"
-          disabled
-          class="m-1"
-          :date-format-options="{
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-          }"
-        ></b-form-datepicker>
-        <b-form-datepicker
-          v-model="details.yearend"
-          disabled
-          class="m-1"
-          :date-format-options="{
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-          }"
-        ></b-form-datepicker>
-      </div>
-      <br />
-      <b>New Financial Year: </b>
       <b-form-group
-        label="Start Year"
-        label-cols="auto"
-        content-cols-md="auto"
-        content-cols-lg="auto"
-        class="mt-2"
+        id="input-group-2"
+        label-class="font-weight-bold"
+        label="Current Financial Year:"
       >
-        <b-form-datepicker
-          v-model="details.yearend"
-          disabled
-          :date-format-options="{
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-          }"
-        ></b-form-datepicker>
+        <div class="row">
+          <div class="col-6">
+            <b-form-group
+              content-cols="auto"
+              id="input-group-3"
+              label="From"
+              label-for="date-1"
+            >
+              <b-input-group class="mb-3">
+                <b-form-input
+                  v-model="details.yearstart"
+                  type="text"
+                  disabled
+                ></b-form-input>
+                <b-input-group-append>
+                  <b-form-datepicker
+                    button-only
+                    right
+                    locale="en-GB"
+                    aria-controls="date-1"
+                    disabled
+                  >
+                  </b-form-datepicker>
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </div>
+          <div class="col">
+            <b-form-group
+              content-cols="auto"
+              id="input-group-4"
+              label="To"
+              label-for="date-2"
+            >
+              <b-input-group class="mb-3">
+                <b-form-input
+                  v-model="details.yearend"
+                  type="text"
+                  disabled
+                ></b-form-input>
+                <b-input-group-append>
+                  <b-form-datepicker
+                    button-only
+                    right
+                    locale="en-GB"
+                    aria-controls="date-2"
+                    disabled
+                  >
+                  </b-form-datepicker>
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </div>
+        </div>
       </b-form-group>
-      <b-form-group
-        label="End Year"
-        label-cols="auto"
-        content-cols-md="auto"
-        content-cols-lg="auto"
-      >
-        <b-form-datepicker placeholder="Select Date"></b-form-datepicker>
-      </b-form-group>
-      <b-button @click="confirm" class="mt-3" variant="info"
-        ><b-icon icon="calendar-check"></b-icon> Roll Over</b-button
-      >
+      <!-- Set New Financial Year -->
+      <b-form @submit.prevent="confirm">
+        <b-form-group
+          id="input-group-2"
+          label-class="font-weight-bold"
+          label="New Financial Year:"
+        >
+          <div class="row">
+            <div class="col-6">
+              <b-form-group
+                content-cols="auto"
+                id="input-group-3"
+                label="From"
+                label-for="date-1"
+              >
+                <b-input-group>
+                  <b-form-input
+                    id="setyearEnd"
+                    v-model="newYearStart"
+                    type="text"
+                    required
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-form-datepicker
+                      button-only
+                      right
+                      locale="en-GB"
+                      aria-controls="start-date"
+                      v-model="newYearStart"
+                      @context="setYearEnd"
+                      required
+                    >
+                    </b-form-datepicker>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </div>
+            <div class="col">
+              <b-form-group
+                content-cols="auto"
+                id="input-group-4"
+                label="To"
+                label-for="date-2"
+              >
+                <b-input-group class="mb-3">
+                  <b-form-input
+                    v-model="newYearEnd"
+                    required
+                    type="text"
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-form-datepicker
+                      v-model="newYearEnd"
+                      button-only
+                      right
+                      locale="en-GB"
+                      aria-controls="date-2"
+                      required
+                    >
+                    </b-form-datepicker>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </div>
+          </div>
+        </b-form-group>
+        <b-button type="submit" class="mt-3" variant="info">
+          <b-icon icon="calendar-check"></b-icon> Roll Over
+        </b-button>
+      </b-form>
     </b-card>
   </section>
 </template>
@@ -158,6 +259,8 @@ export default {
     return {
       details: [],
       isLoading: true,
+      newYearStart: "",
+      newYearEnd: "",
     };
   },
   computed: {},
@@ -172,11 +275,9 @@ export default {
         .then((val) => {
           if (val === true) {
             if (type === "close") {
-              console.log("close books");
               this.details.booksclosedflag = 1;
               // closeBooks()
             } else {
-              console.log("roll over");
               this.details.booksclosedflag = 0;
               // rollOver()
             }
@@ -198,6 +299,22 @@ export default {
           console.log(e);
         });
     },
+    setYearEnd() {
+      if (this.yearStart !== null && this.year !== "") {
+        const from = this.newYearStart.split("-"); // yyyy/mm/dd
+        const to = new Date(`${parseInt(from[0]) + 1}/${from[1]}/${from[2]}`);
+        let end = null;
+        to.setDate(to.getDate() - 1);
+        end = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()}`;
+        if (end.includes("NaN")) {
+          this.newYearEnd = null;
+        } else {
+          this.newYearEnd = end;
+        }
+      } else {
+        this.newYearEnd = null;
+      }
+    },
     /**
      * Close Company books for the current financial year
      */
@@ -218,6 +335,56 @@ export default {
                 this.updateDetails();
                 break;
               case 1:
+                break;
+            }
+          }
+        })
+        .catch((e) => {
+          this.isLoading = false;
+          this.$bvToast.toast(e.message + " Please Retry", {
+            title: "Close Books Error",
+            variant: "danger",
+            solid: true,
+          });
+        });
+    },
+    /**
+     * Roll Over The company to new financial year
+     */
+    rollOver() {
+      this.isLoading = true;
+      axios
+        .get(
+          `/rollclose?task=rollover&financialend=${this.newYearEnd}&financialstart=${this.newYearStart}"`
+        )
+        .then((r) => {
+          if (r.status == 200 && r.data.gkstatus == 0) {
+            switch (r.data.gkstatus) {
+              case 0:
+                this.$bvToast.toast("Roll Over Complete", {
+                  title: "Success",
+                  variant: "success",
+                  solid: true,
+                });
+                this.isLoading = false;
+                this.updateDetails();
+                break;
+              case 3:
+                this.$bvToast.toast("Error occured while processing request", {
+                  title: "Server Error",
+                  variant: "danger",
+                  solid: true,
+                });
+                break;
+              case 4:
+                this.$bvToast.toast(
+                  "You don't have permissions to do this action",
+                  {
+                    title: "Error",
+                    variant: "danger",
+                    solid: true,
+                  }
+                );
                 break;
             }
           }
