@@ -51,18 +51,18 @@
     >
       <b-card-body>
         <b-form @submit.prevent="login">
-          <b-alert show variant="info"
+          <!-- <b-alert show variant="info"
             >Demo Username: <b>user_a</b> / Password: <b>user_a</b> / Company:
             <b>ABC Delivery</b></b-alert
-          >
+          > -->
           <!--Username area-->
           <b-form-group
             label="Username"
             description="* Required"
             label-cols="auto"
+            content-cols="auto"
           >
             <b-form-input
-              id="input-1"
               v-model="form.username"
               type="text"
               placeholder="Enter Username"
@@ -76,6 +76,7 @@
             description="* Required"
             label-for="input-2"
             label-cols="auto"
+            content-cols="auto"
           >
             <b-form-input
               id="input-2"
@@ -85,6 +86,7 @@
               required
             ></b-form-input>
           </b-form-group>
+
           <!--Select company area-->
           <b-form-group
             id="input-group-3"
@@ -92,10 +94,12 @@
             description="* Required"
             label-cols="auto"
             label-for="input-3"
+            content-cols="auto"
           >
             <b-overlay :show="isDisabled" variant="secondary" no-wrap blur>
             </b-overlay>
             <b-form-select
+              v-on:change="getOrgYears"
               id="input-3"
               v-model="orgIndex"
               :options="options"
@@ -106,21 +110,24 @@
               >
             </b-form-select>
           </b-form-group>
-          <!--Gkcore url select-->
+          <!-- Financial Year-->
           <b-form-group
-            v-if="gkCoreUrl == ''"
-            label="gkcore url"
-            description="* Leave blank for default url"
-            label-cols-sm="1"
+            id="input-group-3"
+            label="Financial Year"
+            description="* Required"
+            label-cols="auto"
+            content-cols="auto"
           >
-            <b-form-input
-              placeholder="https://example.com"
-              v-model="form.customUrl"
-            >
-            </b-form-input>
+            <b-overlay :show="isDisabled" variant="secondary" no-wrap blur>
+            </b-overlay>
+            <b-form-select v-model="form.orgcode" :options="orgYears" required>
+              <b-form-select-option value="null" disabled
+                >-- Select Year --</b-form-select-option
+              >
+            </b-form-select>
           </b-form-group>
           <!--Captcha area-->
-          <b-form-group label="Question" label-cols="auto">
+          <b-form-group label="Question" content-cols="auto" label-cols="auto">
             <b-form-row>
               <canvas
                 aria-label="Question audio button"
@@ -147,6 +154,7 @@
             label="Answer"
             description="* Required"
             label-cols="auto"
+            content-cols="auto"
           >
             <b-form-input
               v-model="userAnswer"
@@ -201,6 +209,7 @@ export default {
       showLogin: false,
       orgList: null,
       orgIndex: null,
+      orgYears: [],
       serverUrl: "",
       form: {
         username: null,
@@ -290,100 +299,69 @@ export default {
       this.isLoading = true;
       // Validate user's captcha answer
       this.captcha();
-      const orgname = this.orgList[this.orgIndex].orgname;
-      const orgtype = this.orgList[this.orgIndex].orgtype;
-
-      // fetch orgcode from /orgyears API
       axios
-        .get(`${this.gkCoreUrl}/orgyears/${orgname}/${orgtype}`)
-        .then((orgYearsResponse) => {
-          if (orgYearsResponse.data.gkstatus === 0) {
-            this.form.orgcode = orgYearsResponse.data.gkdata[0].orgcode;
-            this.form.orgName = `${orgname} (${orgtype})`;
-            axios
-              .post(`${this.gkCoreUrl}/login`, this.form)
-              .then((response) => {
-                // alert user depending on the gkstatus code
-                switch (response.data.gkstatus) {
-                  case 0:
-                    this.isLoading = false;
-                    if (this.captchaSolved) {
-                      this.$store.dispatch("setSessionStates", {
-                        auth: true,
-                        orgCode: this.form.orgcode,
-                        orgName: this.form.orgName,
-                        authToken: response.data.token,
-                        user: { username: this.form.username },
-                        orgYears: {
-                          yearStart: orgYearsResponse.data.gkdata[0].yearstart,
-                          yearEnd: orgYearsResponse.data.gkdata[0].yearend,
-                        },
-                      });
-                      axios.defaults.baseURL = this.gkCoreUrl;
-                      axios.defaults.headers = { gktoken: response.data.token };
-                      this.$router.push("/workflow");
-                      // Alert the user on successful login
-                      this.$bvToast.toast(`Welcome to gnukhata!`, {
-                        title: "Login Successful",
-                        autoHideDelay: 3000,
-                        appendToast: true,
-                        variant: "success",
-                        solid: true,
-                      });
-                    } else {
-                      // Alert the user on captcha failure
-                      console.log("Invalid Captcha answer");
-                      this.$bvToast.toast(`Info`, {
-                        title: "Captcha failed",
-                        autoHideDelay: 3000,
-                        appendToast: true,
-                        variant: "danger",
-                        solid: true,
-                      });
-                      // And Generate new captcha
-                      this.genCaptcha();
-                    }
-                    break;
-                  case 2:
-                    // Alert user on wrong credentials
-                    console.log("Wrong login details");
-                    this.$bvToast.toast(`Invalid login details`, {
-                      title: "Login Error!",
-                      autoHideDelay: 3000,
-                      variant: "danger",
-                      appendToast: true,
-                      solid: true,
-                    });
-                    this.isLoading = false;
-                    break;
-                  default:
-                    this.isLoading = false;
-                } // end switch
-              })
-              .catch((error) => {
-                this.isLoading = false;
-                console.log(error.message);
+        .post(`${this.gkCoreUrl}/login`, this.form)
+        .then((response) => {
+          // alert user depending on the gkstatus code
+          switch (response.data.gkstatus) {
+            case 0:
+              this.isLoading = false;
+              if (this.captchaSolved) {
+                this.$store.dispatch("setSessionStates", {
+                  auth: true,
+                  orgCode: this.form.orgcode,
+                  orgName: this.form.orgName,
+                  authToken: response.data.token,
+                  user: { username: this.form.username },
+                  // orgYears: {
+                  //   yearStart: orgYearsResponse.data.gkdata[0].yearstart,
+                  //   yearEnd: orgYearsResponse.data.gkdata[0].yearend,
+                  // },
+                });
+                axios.defaults.baseURL = this.gkCoreUrl;
+                axios.defaults.headers = { gktoken: response.data.token };
+                this.$router.push("/workflow");
+                // Alert the user on successful login
+                this.$bvToast.toast(`Welcome to gnukhata!`, {
+                  title: "Login Successful",
+                  autoHideDelay: 3000,
+                  appendToast: true,
+                  variant: "success",
+                  solid: true,
+                });
+              } else {
+                // Alert the user on captcha failure
+                console.log("Invalid Captcha answer");
+                this.$bvToast.toast(`Info`, {
+                  title: "Captcha failed",
+                  autoHideDelay: 3000,
+                  appendToast: true,
+                  variant: "danger",
+                  solid: true,
+                });
+                // And Generate new captcha
+                this.genCaptcha();
+              }
+              break;
+            case 2:
+              // Alert user on wrong credentials
+              console.log("Wrong login details");
+              this.$bvToast.toast(`Invalid login details`, {
+                title: "Login Error!",
+                autoHideDelay: 3000,
+                variant: "danger",
+                appendToast: true,
+                solid: true,
               });
-          } else {
-            this.isLoading = false;
-            this.$bvToast.toast(`Error: Error fetching orgcode`, {
-              title: "Error fetching orgcode",
-              autoHideDelay: 3000,
-              variant: "warning",
-              appendToast: true,
-              solid: true,
-            });
-          }
+              this.isLoading = false;
+              break;
+            default:
+              this.isLoading = false;
+          } // end switch
         })
         .catch((error) => {
           this.isLoading = false;
-          this.$bvToast.toast(`Error: ${error.message}`, {
-            title: "Error fetching orgcode",
-            autoHideDelay: 3000,
-            variant: "warning",
-            appendToast: true,
-            solid: true,
-          });
+          console.log(error.message);
         });
     },
     /**
@@ -408,6 +386,33 @@ export default {
         })
         .catch(function (error) {
           console.log(error);
+        });
+    },
+    getOrgYears() {
+      this.isDisabled = true;
+      let name = this.orgList[this.orgIndex].orgname;
+      let type = this.orgList[this.orgIndex].orgtype;
+      console.log(name, type);
+      axios
+        .get(`/orgyears/${name}/${type}`)
+        .then((r) => {
+          if (r.status == 200) {
+            let data = r.data.gkdata.map((data) => {
+              // console.log(Object.values(data));
+              let obj = {};
+              obj.text = `${Object.values(data)[0]} to ${
+                Object.values(data)[1]
+              }`;
+              obj.value = Object.values(data)[2];
+              return obj;
+            });
+            this.orgYears = data;
+            this.isDisabled = false;
+          }
+        })
+        .catch((e) => {
+          console.log(e.message);
+          this.isDisabled = false;
         });
     },
     genCaptcha() {
