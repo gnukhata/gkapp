@@ -1,4 +1,4 @@
-image: node:14.15.4-buster-slim
+image: node:fermium-buster-slim
 
 pages:
   stage: build
