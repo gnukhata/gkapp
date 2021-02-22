@@ -51,10 +51,9 @@
     >
       <b-card-body>
         <b-form @submit.prevent="login">
-          <!-- <b-alert show variant="info"
+          <b-alert show variant="info"
             >Demo Username: <b>user_a</b> / Password: <b>user_a</b> / Company:
-            <b>ABC Delivery</b></b-alert
-          > -->
+            <b>ABC Delivery</b></b-alert>
           <!--Username area-->
           <b-form-group
             label="Username"
