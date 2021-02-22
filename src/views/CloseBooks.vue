@@ -1,6 +1,5 @@
 <template>
   <section class="m-1">
-    <b-overlay :show="isLoading" no-wrap></b-overlay>
     <!-- {{ details }} -->
     <!-- Close Books -->
     <b-card
@@ -10,6 +9,7 @@
       class="mt-4"
       style="max-width: 40em; margin: auto"
     >
+      <b-overlay :show="isLoading" no-wrap></b-overlay>
       <template #header>
         <div class="d-flex">
           <div class="mr-auto">Close Books</div>
@@ -100,6 +100,8 @@
       style="max-width: 40em; margin: auto"
       class="mt-4"
     >
+      <b-overlay :show="isLoading" no-wrap></b-overlay>
+
       <template #header>
         <div class="d-flex">
           <div class="mr-auto">Roll Over</div>
@@ -243,7 +245,7 @@
             </div>
           </div>
         </b-form-group>
-        <b-button type="submit" class="mt-3" variant="info">
+        <b-button type="submit" class="float-right" variant="info">
           <b-icon icon="calendar-check"></b-icon> Roll Over
         </b-button>
       </b-form>
