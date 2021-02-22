@@ -6,7 +6,7 @@
       <b>Business Item Details</b>
       <slot name="close-button"> </slot>
     </div>
-    <div class="card-body pb-2">
+    <div class="card-body pb-2 px-1 px-md-3">
       <b-form class="text-left" @submit.prevent="onSubmit">
         <b-row>
           <b-col class="mb-3">
@@ -70,18 +70,72 @@
                   label="Opening Stock"
                   label-for="bi-input-3"
                   label-cols="3"
+                  v-if="!form.stock.godownFlag"
                 >
                   <b-input-group :append="form.uomCode" size="sm">
                     <b-form-input
                       size="sm"
                       id="bi-input-3"
                       placeholder=""
-                      v-model="form.stock"
+                      v-model="form.stock.value"
                       type="number"
                       step="0.01"
                     ></b-form-input>
                   </b-input-group>
                 </b-form-group>
+                <b-card no-body>
+                  <div class="p-2">
+                    <b-form-checkbox
+                      size="sm"
+                      v-model="form.stock.godownFlag"
+                      class=""
+                      switch
+                    >
+                      Godownwise Opening Stock
+                    </b-form-checkbox>
+                    <div v-if="form.stock.godownFlag">
+                      <b-input-group
+                        v-for="(godown, index) in form.stock.godowns"
+                        :key="index"
+                        class="mb-2"
+                        :id="'vat-inp-' + index"
+                      >
+                        <b-input-group-prepend>
+                          <b-form-select
+                            size="sm"
+                            style="max-width: 150px"
+                            v-model="godown.id"
+                            :options="options.godowns"
+                            :required="!!godown.value"
+                          ></b-form-select>
+                        </b-input-group-prepend>
+                        <b-form-input
+                          size="sm"
+                          v-model="godown.value"
+                          type="number"
+                          step="0.01"
+                          placeholder="Stock qty"
+                        ></b-form-input>
+                        <b-input-group-append>
+                          <b-button
+                            size="sm"
+                            @click.prevent="addGodown"
+                            v-if="index === godownLength - 1"
+                          >
+                            +
+                          </b-button>
+                          <b-button
+                            size="sm"
+                            @click.prevent="deleteGodown"
+                            v-else
+                          >
+                            -
+                          </b-button>
+                        </b-input-group-append>
+                      </b-input-group>
+                    </div>
+                  </div>
+                </b-card>
               </b-card-body>
             </b-card>
             <b-card border-variant="primary" no-body>
@@ -259,6 +313,7 @@
                             v-model="vat.rate"
                             type="number"
                             step="0.01"
+                            placeholder="VAT %"
                           ></b-form-input>
                           <b-input-group-append>
                             <b-button
@@ -286,56 +341,91 @@
           </b-col>
         </b-row>
         <hr class="my-2" />
-        <div class="float-right">
+        <div>
           <b-button
-            v-if="!hideBackButton"
-            size="sm"
             class="m-1"
-            variant="danger"
-            :to="{ name: 'Workflow' }"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle"
-              icon="arrow-left"
-            ></b-icon>
-            <span class="align-middle"> Back</span>
-          </b-button>
-          <b-button
             size="sm"
-            class="m-1"
-            variant="warning"
-            @click.prevent="resetForm"
+            @click.prevent="showGodownForm = true"
           >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle"
-              icon="arrow-repeat"
-            ></b-icon>
-            <span class="align-middle"> Reset</span>
+            + Add Godown
           </b-button>
-          <b-button size="sm" type="submit" class="m-1" variant="success">
-            <b-spinner v-if="isLoading" small></b-spinner>
-            <b-icon
-              aria-hidden="true"
-              class="align-middle"
-              icon="plus-square"
-            ></b-icon>
-            <span class="align-middle"> Save</span>
-          </b-button>
+          <div class="float-right">
+            <b-button
+              v-if="!hideBackButton"
+              size="sm"
+              class="m-1"
+              variant="danger"
+              :to="{ name: 'Workflow' }"
+            >
+              <b-icon
+                aria-hidden="true"
+                class="align-middle"
+                icon="arrow-left"
+              ></b-icon>
+              <span class="align-middle"> Back</span>
+            </b-button>
+            <b-button
+              size="sm"
+              class="m-1"
+              variant="warning"
+              @click.prevent="resetForm"
+            >
+              <b-icon
+                aria-hidden="true"
+                class="align-middle"
+                icon="arrow-repeat"
+              ></b-icon>
+              <span class="align-middle"> Reset</span>
+            </b-button>
+            <b-button size="sm" type="submit" class="m-1" variant="success">
+              <b-spinner v-if="isLoading" small></b-spinner>
+              <b-icon
+                aria-hidden="true"
+                class="align-middle"
+                icon="plus-square"
+              ></b-icon>
+              <span class="align-middle"> Save</span>
+            </b-button>
+          </div>
         </div>
       </b-form>
     </div>
+    <b-modal
+      size="lg"
+      v-model="showGodownForm"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-footer
+      hide-header
+    >
+      <godown :hideBackButton="true" mode="create" :inOverlay="true" :onSave="onGodownSave">
+        <template #close-button>
+          <b-button
+            size="sm"
+            class="float-right py-0"
+            @click.prevent="
+              () => {
+                showGodownForm = false;
+              }
+            "
+            >x</b-button
+          >
+        </template>
+      </godown>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
+import Godown from "./Godown";
 
 export default {
   name: "BusinessItem",
-  components: {},
+  components: { Godown },
   props: {
     mode: {
       type: String,
@@ -361,6 +451,7 @@ export default {
   },
   data() {
     return {
+      showGodownForm: false,
       type: "product", // product, service
       blankURL: "http://localhost:1111",
       isLoading: false,
@@ -368,6 +459,7 @@ export default {
       showOptional: false,
       uomCode: "UOM",
       options: {
+        godowns: [],
         states: [],
         stateCodes: [],
         uom: [],
@@ -379,7 +471,16 @@ export default {
       form: {
         name: null,
         uom: null,
-        stock: null,
+        stock: {
+          godownFlag: false,
+          godowns: [
+            {
+              id: null,
+              value: null,
+            },
+          ], // opening stock based on godown
+          value: 0, // opening stock
+        },
         mrp: null,
         salePrice: null,
         discountAmount: null,
@@ -403,6 +504,7 @@ export default {
     titleIcon: (self) =>
       self.type === "product" ? "cart-variant" : "face-agent",
     vatLength: (self) => self.form.tax.vat.length,
+    godownLength: (self) => self.form.stock.godowns.length,
     uom: {
       set: function (newValue) {
         if (newValue) {
@@ -431,11 +533,17 @@ export default {
     deleteVat(index) {
       this.form.tax.vat.splice(index, 1);
     },
+    addGodown() {
+      this.form.stock.godowns.push({ id: null, value: null });
+    },
+    deleteGodown(index) {
+      this.form.stock.godowns.splice(index, 1);
+    },
     onSubmit() {
       // console.log('in submit')
       this.isLoading = true;
       const payload = this.initPayload();
-      console.log(payload)
+      console.log(payload);
       axios
         .post("/products", payload.product)
         .then((response) => {
@@ -444,14 +552,6 @@ export default {
           let productCode, taxPayload, taxRequests;
           switch (response.data.gkstatus) {
             case 0:
-              this.$bvToast.toast(`${this.formType} created successfully`, {
-                title: `${this.formMode} ${this.formType} Error!`,
-                autoHideDelay: 3000,
-                variant: "success",
-                appendToast: true,
-                solid: true,
-              });
-
               // store the tax when the product has been created successfully
               productCode = response.data.gkresult;
               taxPayload = {};
@@ -469,16 +569,41 @@ export default {
 
               // === Server Log ===
               let logdata = { activity: "" };
+              let name = "";
               if (payload.product.godownflag === true) {
+                let godownIds = Object.keys(payload.product.godetails);
+                // comma separated godown names
+                this.options.godowns.forEach((gdn) => {
+                  if (godownIds.includes(gdn.value + "")) {
+                    name += " " + gdn.text + ",";
+                  }
+                });
+
                 logdata.activity =
                   payload.product.productdetails.productdesc +
                   " product created in " +
-                  payload.product.godetails.name +
+                  name +
                   " godowns";
               } else {
-                logdata.activity = payload.product.productdetails.productdesc + " product created";
+                logdata.activity =
+                  payload.product.productdetails.productdesc +
+                  " product created";
               }
               axios.post("/log", logdata);
+
+              let message = `${this.formType} created successfully`;
+
+              if (name) {
+                message += " in " + name + " Godowns.";
+              }
+
+              this.$bvToast.toast(message, {
+                title: `${this.formMode} ${this.formType} Success!`,
+                autoHideDelay: 3000,
+                variant: "success",
+                appendToast: true,
+                solid: true,
+              });
 
               // only reset form on success, otherwise leave it as is so that user may edit their input and try again
               this.resetForm();
@@ -549,10 +674,31 @@ export default {
         godownflag: false,
       };
 
+      // === Product specific fields ===
       if (!this.isService) {
-        product.productdetails.openingstock = parseFloat(this.form.stock) || 0;
+        product.productdetails.openingstock =
+          parseFloat(this.form.stock.value) || 0;
         product.productdetails.uomid = this.form.uom;
         product.productdetails.categorycode = null;
+
+        // === Godown Stock Data ===
+        if (this.form.stock.godownFlag) {
+          // openingstock becomes 0, when godownflag is true
+          product.productdetails.openingstock = 0;
+
+          // format and store godetails, format -> {godownId : stockCount}
+          product.godetails = this.form.stock.godowns.reduce((acc, godown) => {
+            if (godown.value && godown.id) {
+              acc[godown.id] = godown.value;
+            }
+            return acc;
+          }, {});
+
+          // set godownflag true if length > 0, else remains false
+          if (Object.keys(product.godetails).length) {
+            product.godownflag = true;
+          }
+        }
       }
 
       if (this.uomSelected !== "") {
@@ -562,6 +708,7 @@ export default {
 
       const tax = [];
 
+      // GST
       if (this.form.tax.gst > 0) {
         tax.push({
           taxname: "IGST",
@@ -570,6 +717,7 @@ export default {
         });
       }
 
+      // CESS
       if (this.form.tax.cess > 0) {
         tax.push({
           taxname: "CESS",
@@ -578,6 +726,7 @@ export default {
         });
       }
 
+      // CVAT
       if (this.form.tax.cvat > 0) {
         tax.push({
           taxname: "CVAT",
@@ -586,29 +735,55 @@ export default {
         });
       }
 
+      // VAT []
       if (this.form.tax.vat[0].rate > 0) {
         tax.push(
-          ...this.form.tax.vat.map((vat) => {
-            return {
-              taxname: "VAT",
-              state: vat.state,
-              taxrate: parseFloat(vat.rate) || 0,
-            };
-          })
+          ...this.form.tax.vat.reduce((acc, vat) => {
+            if (vat.state && vat.rate >= 0) {
+              acc.push({
+                taxname: "VAT",
+                state: vat.state,
+                taxrate: parseFloat(vat.rate) || 0,
+              });
+            }
+            return acc;
+          }, [])
         );
       }
 
       // console.log(tax);
       // console.log(product);
-
+      // product and tax details will be used by separate API's
       return { product, tax };
+    },
+    onGodownSave() {
+      this.showGodownForm = false;
+      this.fetchGodownList().then(() => {
+        if(this.form.stock.godownFlag) {
+          let stockGdnCount = this.form.stock.godowns.length;
+          let godownCount = this.options.godowns.length;
+          if (this.form.stock.godowns[stockGdnCount - 1].id !== null) {
+            this.addGodown();
+            stockGdnCount++;
+          }
+          this.form.stock.godowns[stockGdnCount - 1].id = this.options.godowns[
+            godownCount - 1
+          ].value;
+        }
+
+        this.form.showGodownForm = false
+      });
     },
     resetForm() {
       let uom = this.uom;
       this.form = {
         name: null,
         uom: null,
-        stock: null,
+        stock: {
+          godownFlag: false,
+          godowns: [{ id: null, value: null }],
+          value: 0,
+        },
         mrp: null,
         salePrice: null,
         discountAmount: null,
@@ -622,6 +797,40 @@ export default {
         hsn: null,
       };
       this.uom = uom;
+    },
+    fetchGodownList() {
+      let self = this;
+      return axios
+        .get("/godown")
+        .then((resp) => {
+          if (resp.status === 200) {
+            if (resp.data.gkstatus === 0) {
+              // console.log(resp.data.gkresult);
+              resp.data.gkresult.sort((a, b) => a.goid - b.goid) // sorting the godown list based on goid, to order it in creation order
+              self.options.godowns = resp.data.gkresult.map((item) => {
+                return {
+                  text: `${item.goname} (${item.goaddr})`,
+                  value: item.goid,
+                };
+              });
+              self.options.godowns.unshift({
+                text: "Godown",
+                value: null,
+                disabled: true,
+              });
+            } else {
+              this.displayToast(
+                "Fetch Product Data Failed!",
+                "Please try again later, if problem persists, contact admin",
+                "danger"
+              );
+            }
+          }
+        })
+        .catch((error) => {
+          this.displayToast("Fetch Godowns Failed!", error.message, "danger");
+          return error;
+        });
     },
     preloadData() {
       this.isPreloading = true;
@@ -642,10 +851,11 @@ export default {
           );
           return error;
         }),
+        this.fetchGodownList(),
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(([resp1, resp2]) => {
+      return Promise.all([...requests]).then(([resp1, resp2, resp3]) => {
         self.isPreloading = false;
         let preloadErrorList = ""; // To handle the unloaded data, at once than individually
         /**
@@ -686,6 +896,11 @@ export default {
           } else {
             preloadErrorList += " States,";
           }
+        }
+
+        // === Godown List ===
+        if (resp3 !== undefined) {
+          preloadErrorList += " Godowns,";
         }
 
         if (preloadErrorList !== "") {
