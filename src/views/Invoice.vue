@@ -480,7 +480,7 @@
                 class="mb-3"
                 size="sm"
                 switch
-                v-if="isSale && config.ship.copyflag"
+                v-if="isSale && config.ship.copyFlag"
               >
                 Same as Billing Address
               </b-form-checkbox>
@@ -1448,6 +1448,7 @@ export default {
           "Ship",
           "Other",
         ],
+        orgDetails: null
       },
       isCollapsed: {
         billedTo: false,
@@ -1692,10 +1693,18 @@ export default {
         this.fetchInvoiceId(),
         this.fetchUserData(),
         this.fetchBusinessList(),
+        axios.get(`/organisation`).catch((error) => {
+          this.displayToast(
+            "Fetch Organisation Profile Data Failed!",
+            error.message,
+            "danger"
+          );
+          return error;
+        })
       ];
 
       const self = this;
-      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4, resp5]) => {
+      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4, resp5, resp6]) => {
         self.isPreloading = false;
         let preloadErrorList = ""; // To handle the unloaded data, at once than individually
 
@@ -1738,6 +1747,11 @@ export default {
 
         if (resp5 !== undefined) {
           preloadErrorList += " Products/Services,";
+        }
+
+        if (resp6.data.gkstatus === 0) {
+          self.options.orgDetails = resp6.data.gkdata
+          self.setOrgDetails()
         }
 
         if (preloadErrorList !== "") {
@@ -2100,6 +2114,19 @@ export default {
         };
       }
     },
+    setOrgDetails() {
+      if(this.options.orgDetails !== null) {
+        if(!!this.options.orgDetails.orgname) {
+          let orgstate = (this.options.orgDetails.orgstate || "").toLowerCase()
+          let state = (orgstate)? this.options.states.find((state) => (state.text).toLowerCase() === orgstate) : null
+          Object.assign(this.form.inv, {
+            addr: this.options.orgDetails.orgaddr,
+            pin: this.options.orgDetails.orgpincode,
+            state: (state) ? state.value : null
+          })
+        }
+      }
+    },
     resetPartyDetails() {
       Object.assign(this.form.party, {
         addr: null,
@@ -2437,6 +2464,7 @@ export default {
 
       this.fetchInvoiceId();
       this.fetchUserData();
+      this.setOrgDetails();
     },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
