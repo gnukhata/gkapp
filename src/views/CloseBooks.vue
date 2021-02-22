@@ -94,7 +94,7 @@
 
     <!-- Roll Over -->
     <b-card
-      v-if="details.booksclosedflag == 1"
+      v-if="details.roflag == 0 && details.booksclosedflag == 1"
       header-bg-variant="info"
       header-text-variant="light"
       style="max-width: 40em; margin: auto"
