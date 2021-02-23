@@ -53,7 +53,8 @@
         <b-form @submit.prevent="login">
           <b-alert show variant="info"
             >Demo Username: <b>user_a</b> / Password: <b>user_a</b> / Company:
-            <b>ABC Delivery</b></b-alert>
+            <b>ABC Delivery</b></b-alert
+          >
           <!--Username area-->
           <b-form-group
             label="Username"
@@ -208,7 +209,8 @@ export default {
       showLogin: false,
       orgList: null,
       orgIndex: null,
-      orgYears: [],
+      orgYears: [], //
+      orgYearsFull: [], // org array with org details objects
       serverUrl: "",
       form: {
         username: null,
@@ -308,16 +310,17 @@ export default {
               if (this.captchaSolved) {
                 let orgname = this.orgList[this.orgIndex].orgname;
                 let orgtype = this.orgList[this.orgIndex].orgtype;
+                let orgfy = this.orgFinancialYear();
                 this.$store.dispatch("setSessionStates", {
                   auth: true,
                   orgCode: this.form.orgcode,
                   orgName: `${orgname} (${orgtype})`,
                   authToken: response.data.token,
                   user: { username: this.form.username },
-                  // orgYears: {
-                  //   yearStart: orgYearsResponse.data.gkdata[0].yearstart,
-                  //   yearEnd: orgYearsResponse.data.gkdata[0].yearend,
-                  // },
+                  orgYears: {
+                    yearStart: orgfy.startYear,
+                    yearEnd: orgfy.endYear,
+                  },
                 });
                 axios.defaults.baseURL = this.gkCoreUrl;
                 axios.defaults.headers = { gktoken: response.data.token };
@@ -389,11 +392,13 @@ export default {
           console.log(error);
         });
     },
+    /*
+     * send org name & type & get a org's financial years as objects
+     */
     getOrgYears() {
       this.isDisabled = true;
       let name = this.orgList[this.orgIndex].orgname;
       let type = this.orgList[this.orgIndex].orgtype;
-      console.log(name, type);
       axios
         .get(`/orgyears/${name}/${type}`)
         .then((r) => {
@@ -408,6 +413,7 @@ export default {
               return obj;
             });
             this.orgYears = data;
+            this.orgYearsFull = r.data.gkdata;
             this.isDisabled = false;
           }
         })
@@ -415,6 +421,19 @@ export default {
           console.log(e.message);
           this.isDisabled = false;
         });
+    },
+    /* return an org's financial start & end year as object
+     */
+    orgFinancialYear() {
+      for (let i in this.orgYearsFull) {
+        if (this.orgYearsFull[i].orgcode === this.form.orgcode) {
+          return {
+            startYear: this.orgYearsFull[i].yearstart,
+            endYear: this.orgYearsFull[i].yearend,
+          };
+          break;
+        }
+      }
     },
     genCaptcha() {
       this.question = `${Math.floor(Math.random() * 11)} + ${Math.floor(
