@@ -1,7 +1,7 @@
 <template>
   <section class="container-fluid mt-2">
     <b-overlay :show="loading" blur no-wrap></b-overlay>
-    <b-form @submit.prevent="updateDetails">
+    <b-form @submit.prevent="confirm('update')">
       <!-- {{ details }} -->
       <b-card-group deck>
         <!-- general Card -->
@@ -158,18 +158,21 @@
               <b-icon icon="plus"></b-icon>Add CESS
             </b-button>
           </b-button-group>
-          {{ details }}
+          <!-- {{ details }} -->
         </b-card>
       </b-card-group>
       <!-- Submit & cancel buttons -->
       <div class="mt-2 mb-3 d-flex flex-row-reverse">
         <b-button type="submit" size="sm" class="ml-2" variant="success">
-          <b-icon icon="arrow-up-circle"></b-icon>Save Changes
+          <b-icon icon="arrow-up-circle"></b-icon> Save Changes
+        </b-button>
+        <b-button variant="danger" @click="confirm('delete')">
+          <b-icon icon="x-circle"></b-icon> Delete Company
         </b-button>
       </div>
     </b-form>
-    <!-- 
-      Tax Creation Window 
+    <!--
+      Tax Creation Window
     -->
     <!-- Add GSTIN -->
     <b-modal
@@ -251,7 +254,38 @@ export default {
     ...mapState(["gkCoreUrl", "authToken"]),
   },
   methods: {
+    /**
+     * Confirmation for actions
+     */
+    confirm(type) {
+      this.$bvModal
+        .msgBoxConfirm(
+          `Confirm ${type} company ? ${
+            type == "delete" ? "This action is Irreversable" : ""
+          }`,
+          {
+            centered: true,
+            size: "md",
+            okVariant: "danger",
+            headerBgVariant: "danger",
+            headerTextVariant: "light",
+          }
+        )
+        .then((val) => {
+          if (val === true) {
+            if (type === "update") {
+              this.updateOrg();
+            } else {
+              this.deleteOrg();
+            }
+          }
+        });
+    },
+    /**
+     * Fetch org details from api
+     */
     getDetails() {
+      this.loading = true;
       axios
         .get(`${this.gkCoreUrl}/organisation`, {
           headers: {
@@ -266,70 +300,115 @@ export default {
               break;
             case 2:
               alert("Access Denied");
+              this.loading = false;
               break;
             default:
+              this.loading = false;
           }
         })
         .catch((e) => {
           alert(e);
+          this.loading = false;
         });
     },
-    updateDetails() {
-      this.$bvModal
-        .msgBoxConfirm(`Update ${this.details.orgname} details ?`, {
-          centered: true,
-          size: "sm",
-        })
-        .then((val) => {
-          if (val) {
-            delete this.details.statelist;
-            this.isLoading = true;
-            const config = {
-              headers: {
-                gktoken: this.authToken,
-              },
-            };
-            axios
-              .put(`${this.gkCoreUrl}/organisations`, this.details, config)
-              .then((res) => {
-                switch (res.data.gkstatus) {
-                  case 0:
-                    this.isLoading = false;
-                    this.$bvToast.toast(
-                      `${this.details.orgname} Profile Details Updated`,
-                      {
-                        title: "Success",
-                        variant: "success",
-                        solid: true,
-                      }
-                    );
-                    break;
-                  case 2:
-                    this.isLoading = false;
-                    this.$bvToast.toast("Unauthorised Access", {
-                      variant: "danger",
-                      solid: true,
-                    });
-                    break;
-                  case 4:
-                    this.isLoading = false;
-                    this.$bvToast.toast(
-                      "You have no permissions to delete details",
-                      {
-                        variant: "danger",
-                        solid: true,
-                      }
-                    );
-                    break;
-                }
-              })
-              .catch((e) => {
-                this.$bvToast.toast(e.message, {
-                  variant: "danger",
+    /**
+     * Update organisation details
+     */
+    updateOrg() {
+      this.loading = true;
+      delete this.details.statelist;
+      const config = {
+        headers: {
+          gktoken: this.authToken,
+        },
+      };
+      axios
+        .put(`${this.gkCoreUrl}/organisations`, this.details, config)
+        .then((res) => {
+          switch (res.data.gkstatus) {
+            case 0:
+              this.loading = false;
+              this.$bvToast.toast(
+                `${this.details.orgname} Profile Details Updated`,
+                {
+                  title: "Success",
+                  variant: "success",
                   solid: true,
-                });
+                }
+              );
+              break;
+            case 2:
+              this.loading = false;
+              this.$bvToast.toast("Unauthorised Access", {
+                variant: "danger",
+                solid: true,
               });
+              break;
+            case 4:
+              this.loading = false;
+              this.$bvToast.toast("You have no permissions to delete details", {
+                variant: "danger",
+                solid: true,
+              });
+              break;
           }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            variant: "danger",
+            solid: true,
+          });
+          this.loading = false;
+        });
+    },
+    /**
+     * Delete organisation
+     */
+    deleteOrg() {
+      this.loading = true;
+
+      const config = {
+        headers: {
+          gktoken: this.authToken,
+        },
+      };
+      axios
+        .delete(`${this.gkCoreUrl}/organisations`, config)
+        .then((r) => {
+          console.trace(r);
+          if (r.status == "200" && r.data.gkstatus == 0) {
+            this.$bvToast.toast(`${this.details.orgname} Deleted`, {
+              title: "Success",
+              variant: "success",
+              solid: true,
+            });
+            // reset orgname
+            this.$store.commit("resetOrg");
+            // change auth status
+            this.$store.commit("setAuthStatus");
+            // redirect to login page
+            this.$router.push("/");
+            // clear localStorage
+            localStorage.clear();
+            // set gkCore url
+            this.$store.commit("setGkCoreUrl", { gkCoreUrl: this.gkCoreUrl });
+            this.loading = false;
+          } else {
+            this.$bvToast.toast(r.status, {
+              title: "Error",
+              variant: "danger",
+              solid: true,
+            });
+            this.loading = false;
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            title: "Error",
+            variant: "danger",
+            solid: true,
+          });
+          this.loading = false;
         });
     },
     getStates() {
