@@ -40,9 +40,15 @@
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown v-if="userAuthenticated" right>
               <template #button-content>
-                <b-button @click="getUser" variant="outline-primary"
+                <!-- <b-button @click="getUser" variant="outline-primary"
                   ><b-icon icon="person"></b-icon> {{ userName }}</b-button
-                >
+                > -->
+                <b-avatar
+                  @click="getUser"
+                  variant="dark"
+                  icon="person"
+                  :title="userName"
+                ></b-avatar>
               </template>
               <!-- admin only options -->
               <template v-if="userRole == -1">
@@ -50,12 +56,15 @@
                   ><b-icon icon="building"></b-icon> Company
                   Profile</b-dropdown-item
                 >
-                <b-dropdown-item to="/closebooks"
-                  ><b-icon icon="journals"></b-icon> Close Books / Roll
-                  Over</b-dropdown-item
+                <b-dropdown-item to="/user_management"
+                  ><b-icon icon="people"></b-icon> Manage Users</b-dropdown-item
                 >
                 <b-dropdown-item to="/logs"
                   ><b-icon icon="server"></b-icon> Audit Logs</b-dropdown-item
+                >
+                <b-dropdown-item to="/closebooks"
+                  ><b-icon icon="journals"></b-icon> Close Books / Roll
+                  Over</b-dropdown-item
                 >
               </template>
               <b-dropdown-item @click="logOut" href="#"
