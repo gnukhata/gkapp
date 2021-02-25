@@ -4,6 +4,7 @@ import Login from '@/views/Login.vue'
 import OrgProfile from '@/views/OrgProfile.vue'
 import Logs from '@/views/Logs.vue'
 import CloseBooks from '@/views/CloseBooks.vue'
+import UserManagement from '@/views/UserManagement.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,6 +22,11 @@ const routes = [
     path: '/logs',
     name: 'Organisation Logs',
     component: Logs
+  },
+  {
+    path: '/user_management',
+    name: 'User Management',
+    component: UserManagement
   },
   {
     path: '/closebooks',
