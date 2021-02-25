@@ -1,8 +1,8 @@
 <template>
   <section class="container-fluid mt-2">
-    <b-overlay :show="loading" blur no-wrap></b-overlay>
     <b-form @submit.prevent="confirm('update')">
       <!-- {{ details }} -->
+      <b-overlay :show="loading" blur no-wrap></b-overlay>
       <b-card-group deck>
         <!-- general Card -->
         <b-card
