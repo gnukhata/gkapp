@@ -88,6 +88,11 @@ const routes = [
     name: 'Create_Voucher',
     component: () => import(/* webpackChunkName: "invoice" */ '../views/CreateVoucher.vue'),
     props: true
+  },
+  {
+    path: '/billwise',
+    name: 'Billwise',
+    component: () => import(/* webpackChunkName: "invoice" */ '../views/Billwise.vue'),
   }
 ]
 
