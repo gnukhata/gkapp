@@ -261,7 +261,9 @@ export default {
       this.$bvModal
         .msgBoxConfirm(
           `Confirm ${type} company ? ${
-            type == "delete" ? "This action is Irreversable" : ""
+            type == "delete"
+              ? "This action is Irreversable. We recommend to backup company data before deleting"
+              : ""
           }`,
           {
             centered: true,
