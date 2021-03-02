@@ -70,6 +70,10 @@
                   Over</b-dropdown-item
                 >
               </template>
+              <b-dropdown-item to="/billwise"
+                ><b-icon icon="clipboard"></b-icon> Adjust
+                Bills</b-dropdown-item
+              >
               <b-dropdown-item @click="logOut" href="#"
                 ><b-icon icon="box-arrow-in-left"></b-icon> Log
                 Out</b-dropdown-item

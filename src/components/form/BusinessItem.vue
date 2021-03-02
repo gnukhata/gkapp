@@ -7,9 +7,9 @@
       <slot name="close-button"> </slot>
     </div>
     <div class="card-body pb-2 px-1 px-md-3">
-      <b-form class="text-left" @submit.prevent="onSubmit">
+      <b-form class="text-left px-2" @submit.prevent="onSubmit">
         <b-row>
-          <b-col class="mb-3">
+          <b-col class="mb-3 px-3">
             <b-row>
               <b-col cols="5" class="mb-3">
                 <b-form-radio-group
@@ -400,7 +400,12 @@
       hide-footer
       hide-header
     >
-      <godown :hideBackButton="true" mode="create" :inOverlay="true" :onSave="onGodownSave">
+      <godown
+        :hideBackButton="true"
+        mode="create"
+        :inOverlay="true"
+        :onSave="onGodownSave"
+      >
         <template #close-button>
           <b-button
             size="sm"
@@ -552,61 +557,63 @@ export default {
           let productCode, taxPayload, taxRequests;
           switch (response.data.gkstatus) {
             case 0:
-              // store the tax when the product has been created successfully
-              productCode = response.data.gkresult;
-              taxPayload = {};
-              taxRequests = payload.tax.map((item) => {
-                taxPayload = {
-                  taxname: item.taxname,
-                  taxrate: item.taxrate,
-                  productcode: productCode,
-                };
-                return axios.post("/tax", taxPayload);
-              });
-              Promise.all(taxRequests).then((responses) => {
-                // console.log(responses)
-              });
-
-              // === Server Log ===
-              let logdata = { activity: "" };
-              let name = "";
-              if (payload.product.godownflag === true) {
-                let godownIds = Object.keys(payload.product.godetails);
-                // comma separated godown names
-                this.options.godowns.forEach((gdn) => {
-                  if (godownIds.includes(gdn.value + "")) {
-                    name += " " + gdn.text + ",";
-                  }
+              {
+                // store the tax when the product has been created successfully
+                productCode = response.data.gkresult;
+                taxPayload = {};
+                taxRequests = payload.tax.map((item) => {
+                  taxPayload = {
+                    taxname: item.taxname,
+                    taxrate: item.taxrate,
+                    productcode: productCode,
+                  };
+                  return axios.post("/tax", taxPayload);
+                });
+                Promise.all(taxRequests).then(() => {
+                  // console.log(responses)
                 });
 
-                logdata.activity =
-                  payload.product.productdetails.productdesc +
-                  " product created in " +
-                  name +
-                  " godowns";
-              } else {
-                logdata.activity =
-                  payload.product.productdetails.productdesc +
-                  " product created";
+                // === Server Log ===
+                let logdata = { activity: "" };
+                let name = "";
+                if (payload.product.godownflag === true) {
+                  let godownIds = Object.keys(payload.product.godetails);
+                  // comma separated godown names
+                  this.options.godowns.forEach((gdn) => {
+                    if (godownIds.includes(gdn.value + "")) {
+                      name += " " + gdn.text + ",";
+                    }
+                  });
+
+                  logdata.activity =
+                    payload.product.productdetails.productdesc +
+                    " product created in " +
+                    name +
+                    " godowns";
+                } else {
+                  logdata.activity =
+                    payload.product.productdetails.productdesc +
+                    " product created";
+                }
+                axios.post("/log", logdata);
+
+                let message = `${this.formType} created successfully`;
+
+                if (name) {
+                  message += " in " + name + " Godowns.";
+                }
+
+                this.$bvToast.toast(message, {
+                  title: `${this.formMode} ${this.formType} Success!`,
+                  autoHideDelay: 3000,
+                  variant: "success",
+                  appendToast: true,
+                  solid: true,
+                });
+
+                // only reset form on success, otherwise leave it as is so that user may edit their input and try again
+                this.resetForm();
               }
-              axios.post("/log", logdata);
-
-              let message = `${this.formType} created successfully`;
-
-              if (name) {
-                message += " in " + name + " Godowns.";
-              }
-
-              this.$bvToast.toast(message, {
-                title: `${this.formMode} ${this.formType} Success!`,
-                autoHideDelay: 3000,
-                variant: "success",
-                appendToast: true,
-                solid: true,
-              });
-
-              // only reset form on success, otherwise leave it as is so that user may edit their input and try again
-              this.resetForm();
               break;
             case 1:
               this.$bvToast.toast(
@@ -759,7 +766,7 @@ export default {
     onGodownSave() {
       this.showGodownForm = false;
       this.fetchGodownList().then(() => {
-        if(this.form.stock.godownFlag) {
+        if (this.form.stock.godownFlag) {
           let stockGdnCount = this.form.stock.godowns.length;
           let godownCount = this.options.godowns.length;
           if (this.form.stock.godowns[stockGdnCount - 1].id !== null) {
@@ -771,7 +778,7 @@ export default {
           ].value;
         }
 
-        this.form.showGodownForm = false
+        this.form.showGodownForm = false;
       });
     },
     resetForm() {
@@ -806,7 +813,7 @@ export default {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
               // console.log(resp.data.gkresult);
-              resp.data.gkresult.sort((a, b) => a.goid - b.goid) // sorting the godown list based on goid, to order it in creation order
+              resp.data.gkresult.sort((a, b) => a.goid - b.goid); // sorting the godown list based on goid, to order it in creation order
               self.options.godowns = resp.data.gkresult.map((item) => {
                 return {
                   text: `${item.goname} (${item.goaddr})`,
