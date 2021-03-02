@@ -203,7 +203,7 @@ export default {
             }
           );
         }
-        console.log(this.invoice.invItems);
+        // console.log(this.invoice.invItems);
       }
     },
     displayToast(title, message, variant) {
