@@ -204,6 +204,9 @@
       <b-button to="/invoice" size="sm" class="ml-2" variant="dark"
         ><b-icon icon="receipt"></b-icon> Add Transaction</b-button
       >
+      <b-button :to="{name: 'Create_Voucher', params: {type: (customer.csflag)? 'receipt' : 'payment', customer: customer.custname || ''}}" size="sm" class="ml-2" variant="warning"
+        ><b-icon icon="file-earmark-plus"></b-icon> Create Voucher</b-button
+      >
     </div>
   </b-form>
 </template>
