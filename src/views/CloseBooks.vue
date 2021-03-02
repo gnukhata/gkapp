@@ -87,14 +87,21 @@
           </div>
         </div>
       </b-form-group>
-      <b-button class="float-right" @click="confirm('close')" variant="dark">
+      <b-button
+        :disabled="details.booksclosedflag == 1"
+        class="float-right"
+        @click="confirm('close')"
+        variant="dark"
+      >
         <b-icon icon="journal"></b-icon> Close Books
       </b-button>
+      <b-alert v-show="details.booksclosedflag == 1" show variant="dark"
+        >Close Books is done</b-alert
+      >
     </b-card>
 
     <!-- Roll Over -->
     <b-card
-      v-if="details.roflag == 0 && details.booksclosedflag == 1"
       header-bg-variant="info"
       header-text-variant="light"
       style="max-width: 40em; margin: auto"
@@ -245,14 +252,19 @@
             </div>
           </div>
         </b-form-group>
-        <b-button type="submit" class="float-right" variant="info">
+        <b-button
+          :disabled="details.booksclosedflag == 0"
+          type="submit"
+          class="float-right"
+          variant="info"
+        >
           <b-icon icon="calendar-check"></b-icon> Roll Over
         </b-button>
       </b-form>
+      <b-alert v-if="details.roflag == 1" show variant="info"
+        >Roll Over is done for this financial year</b-alert
+      >
     </b-card>
-    <b-alert v-if="details.roflag == 1" show variant="info"
-      >Close Books &amp; Roll Over is Done for this year</b-alert
-    >
   </section>
 </template>
 
