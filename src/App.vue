@@ -38,13 +38,16 @@
             > -->
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown v-if="userAuthenticated" right>
+            <b-nav-item-dropdown
+              v-if="userAuthenticated"
+              @click="getUser"
+              right
+            >
               <template #button-content>
                 <!-- <b-button @click="getUser" variant="outline-primary"
                   ><b-icon icon="person"></b-icon> {{ userName }}</b-button
                 > -->
                 <b-avatar
-                  @click="getUser"
                   variant="dark"
                   icon="person"
                   :title="userName"
