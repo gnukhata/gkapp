@@ -112,6 +112,7 @@ export default new Vuex.Store({
     setGkCoreUrl(state, payload) {
       state.gkCoreUrl = payload.gkCoreUrl
       localStorage.setItem('gkCoreUrl', state.gkCoreUrl)
+      axios.defaults.baseURL = payload.gkCoreUrl // update axios config when the url is set to use it when continuing without page refresh.
     },
 
     setInvoiceParty(state, payload) {
