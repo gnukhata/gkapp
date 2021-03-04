@@ -55,6 +55,7 @@
         </slot>
       </b-form>
     </b-col>
+    <b-col> </b-col>
   </b-row>
 </template>
 
@@ -104,7 +105,7 @@ export default {
       // remove spaces in username
       this.newUser.username = this.newUser.username.split(" ").join("");
       // username should be atleast three characters
-      if (this.newUser.username.length <= 3) {
+      if (this.newUser.username.length <= 2) {
         return false;
       } else {
         return true;
@@ -164,6 +165,14 @@ export default {
                       solid: true,
                     }
                   );
+                  // Add user created log to server
+                  const payload = {
+                    activity: `user ${this.newUser.username} created`,
+                  };
+                  axios.post(`${this.gkCoreUrl}/log`, payload, {
+                    headers: { gktoken: this.authToken },
+                  });
+                  // refresh users list in USerManagement.vue
                   this.$emit("refreshUsers");
                   this.isLoading = false;
                   break;
