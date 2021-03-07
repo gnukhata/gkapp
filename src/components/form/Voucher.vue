@@ -5,14 +5,6 @@
 <template>
   <div class="card">
     <div class="card-header py-1 px-2">
-      <!-- <b-form-select
-        size="sm"
-        v-model="form.vtype"
-        :options="options.vtype"
-        required
-        :style="{ 'max-width': '150px' }"
-        @input="preloadData()"
-      ></b-form-select> -->
       <b-dropdown size="sm" variant="outline-dark">
         <template #button-content>
           <b> {{ form.vtype.text }} Voucher </b>
@@ -31,50 +23,11 @@
         </b-dropdown-item>
       </b-dropdown>
       <slot name="close-button"> </slot>
-      <!-- <b-input-group class="float-right" :style="{ 'max-width': '200px' }">
-        <b-form-input
-          size="sm"
-          id="date-1"
-          v-model="form.date"
-          type="text"
-          placeholder="YYYY-MM-DD"
-          autocomplete="off"
-          required
-        ></b-form-input>
-        <b-input-group-append>
-          <b-form-datepicker
-            size="sm"
-            v-model="form.date"
-            button-only
-            right
-            locale="en-GB"
-            aria-controls="date-1"
-          >
-          </b-form-datepicker>
-        </b-input-group-append>
-      </b-input-group> -->
     </div>
     <div>
-      <b-form class="p-2 pt-3" @submit.prevent="onSubmit">
+      <b-form class="p-2 pt-3" @submit.prevent="confirmOnSubmit">
         <b-row no-gutters>
           <b-col>
-            <!-- <b-dropdown size="sm" variant="outline-dark">
-              <template #button-content>
-                <b> {{ form.vtype.text }} Voucher </b>
-              </template>
-              <b-dropdown-item
-                v-for="(type, index) in options.vtype"
-                :key="index"
-                @click.prevent="
-                  () => {
-                    form.vtype = type;
-                    preloadData();
-                  }
-                "
-              >
-                {{ type.text }}
-              </b-dropdown-item>
-            </b-dropdown> -->
           </b-col>
           <b-col class="mb-2" :style="{ 'max-width': '200px' }">
             <b-input-group>
@@ -280,6 +233,7 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
+import { numberToRupees } from "../../js/utils"
 export default {
   name: "Voucher",
   components: {},
@@ -384,6 +338,36 @@ export default {
     },
   },
   methods: {
+    confirmOnSubmit() {
+      let fromAcc = this.options.cr.find((account) => account.accountcode === this.form.voucher.cr.account).accountname
+      let toAcc = this.options.dr.find((account) => account.accountcode === this.form.voucher.dr.account).accountname
+      let text = `Create ${this.form.vtype.text} Voucher of ${numberToRupees(this.form.amount)} (₹ ${this.form.amount}), for transaction from Acc "${fromAcc}" to "${toAcc}?"`
+      this.$bvModal
+        .msgBoxConfirm(
+          text,
+          {
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'p-1 border-top-0',
+          bodyClass: 'p-2',
+          centered: true
+          }
+        )
+        .then((val) => {
+          if (val) {
+            this.onSubmit();
+          }
+        });
+    },
+    /**
+     * onAccountSelect()
+     * 
+     * Description: Does two things:
+     * 1. The balance amount in the account chosen is fetched from server
+     * 2. Makes the account selected disabled in the opposite account list
+     */
     onAccountSelect(accCode, type) {
       this.fetchAccountBalance(accCode, type);
       let oppType = type === "dr" ? "cr" : "dr";
@@ -391,6 +375,11 @@ export default {
         this.options[oppType][index].disabled = acc.accountcode === accCode;
       });
     },
+    /**
+     * fetchAccountBalance()
+     * 
+     * Description: Fetches an account's balance amount, given its accountcode and type
+     */
     fetchAccountBalance(accCode, type) {
       if (this.options.balances[accCode]) {
         this.form.voucher[type].balance = this.options.balances[accCode];
@@ -418,6 +407,11 @@ export default {
           });
       }
     },
+    /**
+     * preloadData()
+     * 
+     * Description: Fetches the Customers and Suppliers List 
+     */
     preloadData() {
       const requests = [
         axios
@@ -534,6 +528,16 @@ export default {
         solid: true,
       });
     },
+    /**
+     * updateAccounts()
+     * 
+     * Description: Automatically updates the Debit and Credit accounts,
+     * based on the voucher type.
+     * 
+     * Uses the 'customer' prop to fill the customer/supplier related Account
+     * 
+     * (Currently only supports receipt and payment vouchers)
+     */
     updateAccounts() {
       this.form.vtype = this.options.vtype.find(
         (type) => type.value === this.type
@@ -567,6 +571,7 @@ export default {
   mounted() {
     this.updateAccounts();
 
+    // By default use the current date as Voucher Date
     let today = new Date();
 
     this.form.date =

@@ -6,7 +6,7 @@
       <b>Billwise Acccounting</b>
     </div>
     <div class="card-body pb-2 px-0 px-md-1">
-      <b-form class="text-left px-2" @submit.prevent="onSubmit">
+      <b-form class="text-left px-2" @submit.prevent="confirmOnSubmit">
         <b-row no-gutters>
           <b-col>
             <b-form-radio-group
@@ -50,40 +50,55 @@
             </b-form-group>
           </b-col>
           <b-col cols="12" v-if="custid !== null">
-            <b-table
-              caption="Uncleared Invoices"
-              caption-top
-              bordered
-              small
-              head-variant="dark"
-              :fields="options.invFields"
-              :items="options.invoices"
-              responsive="sm"
-              v-if="options.invoices.length"
-            >
-              <template #cell(balanceamount)="data">
-                {{ data.value - data.item.adjusted }}
-              </template>
+            <div v-if="options.invoices.length">
+              <b-table
+                caption="Uncleared Invoices"
+                caption-top
+                bordered
+                small
+                head-variant="dark"
+                :fields="options.invFields"
+                :items="options.invoices"
+                responsive="sm"
+                table-class="text-center"
+              >
+                <template #cell(balanceamount)="data">
+                  <small class="text-secondary" v-if="data.item.adjusted"
+                    >( {{ data.value }} - {{ data.item.adjusted }} = )</small
+                  >
+                  {{ data.value - data.item.adjusted }}
+                </template>
 
-              <!-- Adjusted -->
-              <template #cell(adjusted)="data">
-                <b-input
-                  v-model="data.item.adjusted"
-                  class="hide-spin-button text-right"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  :max="data.item.balanceamount"
-                  size="sm"
-                ></b-input>
-              </template>
-              <template #custom-foot>
-                <b-tr>
-                  <b-th colspan="3">Total</b-th>
-                  <b-th>{{ totalAdjusted }}</b-th>
-                </b-tr>
-              </template>
-            </b-table>
+                <!-- Adjusted -->
+                <template #cell(adjusted)="data">
+                  <b-input
+                    v-model="data.item.adjusted"
+                    class="hide-spin-button text-right"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    :max="data.item.balanceamount"
+                    size="sm"
+                  ></b-input>
+                </template>
+                <template #custom-foot>
+                  <b-tr class="text-right">
+                    <b-th colspan="3">Total Adjusted</b-th>
+                    <b-th>₹ {{ totalAdjusted }}</b-th>
+                  </b-tr>
+                </template>
+              </b-table>
+              <span class="text-danger" v-if="!isTotalValid && vcode">
+                <span v-if="totalAdjusted > 0"
+                  >* Total amount (₹ {{ totalAdjusted }}) must not exceed the
+                  voucher amount (₹ {{ options.voucherPriceMap[vcode] }})</span
+                >
+                <span v-else
+                  >* Total amount (₹{{ totalAdjusted }}) must greater than
+                  0</span
+                >
+              </span>
+            </div>
             <b v-else>No Outstanding Invoices To Be Adjusted! </b>
           </b-col>
         </b-row>
@@ -100,7 +115,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-             Add Voucher
+            Add Voucher
           </b-button>
           <div class="float-right">
             <b-button
@@ -116,13 +131,19 @@
               ></b-icon>
               <span class="align-middle"> Back</span>
             </b-button>
-            <b-button size="sm" type="submit" class="m-1" variant="success">
+            <b-button
+              size="sm"
+              type="submit"
+              class="m-1"
+              variant="success"
+              :disabled="!isTotalValid"
+            >
               <b-spinner v-if="isLoading" small></b-spinner>
               <b-icon
                 v-else
                 aria-hidden="true"
                 class="align-middle"
-                icon="plus-square"
+                icon="check-square"
               ></b-icon>
               <span class="align-middle"> Adjust</span>
             </b-button>
@@ -169,6 +190,7 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import Voucher from "../components/form/Voucher.vue";
+import { numberToRupees } from "../js/utils";
 export default {
   name: "Billwise",
   components: {
@@ -185,6 +207,7 @@ export default {
         suppliers: [],
         vouchers: [],
         invoices: [],
+        voucherPriceMap: {},
         invFields: [
           {
             key: "invoiceno",
@@ -213,12 +236,20 @@ export default {
       let total = 0;
       if (self.options.invoices !== null) {
         total = self.options.invoices.reduce(
-          (sum, inv) => parseFloat(sum) + parseFloat(inv.adjusted),
+          (sum, inv) =>
+            (parseFloat(sum) || 0) + (parseFloat(inv.adjusted) || 0),
           0
         );
+        total = parseFloat(total.toFixed(2));
       }
 
       return total;
+    },
+    isTotalValid: (self) => {
+      return (
+        self.totalAdjusted > 0 &&
+        self.totalAdjusted <= self.options.voucherPriceMap[self.vcode]
+      );
     },
     custname: (self) => {
       let name = null;
@@ -238,13 +269,32 @@ export default {
     ...mapState([]),
   },
   methods: {
-    onVoucherSave({ vouchercode, vouchernumber }) {
+    onVoucherSave({ vouchercode }) {
       if (vouchercode) {
         this.fetchUnadjustedItems().then(() => {
           this.vcode = vouchercode;
         });
       }
       this.showVoucherForm = false;
+    },
+    confirmOnSubmit() {
+      let invCount = this.options.invoices.reduce((sum, inv) => sum + !!parseInt(inv.adjusted), 0)
+      let text = `Adjust ${numberToRupees(this.totalAdjusted)} (₹ ${this.totalAdjusted}) against ${invCount} Invoices?`;
+      this.$bvModal
+        .msgBoxConfirm(text, {
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "success",
+          headerClass: "p-0 border-bottom-0",
+          footerClass: "p-1 border-top-0",
+          bodyClass: "p-2",
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            this.onSubmit();
+          }
+        });
     },
     onSubmit() {
       // console.log('in submit')
@@ -319,6 +369,8 @@ export default {
             if (resp.data.gkstatus === 0) {
               resp.data.vouchers.sort((a, b) => a.vouchercode - b.vouchercode);
               this.options.vouchers = resp.data.vouchers.map((voucher) => {
+                this.options.voucherPriceMap[voucher.vouchercode] =
+                  voucher.amtadj;
                 return {
                   text: `${voucher.vouchernumber} - ₹ ${voucher.amtadj}`,
                   value: voucher.vouchercode,
@@ -351,6 +403,7 @@ export default {
             return error;
           });
       }
+      return Promise.resolve(); // an empty promise to continue on, in case the above condition is not met
     },
     preloadData() {
       this.isPreloading = true;

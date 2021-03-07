@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
 import Voucher from "../components/form/Voucher.vue";
 export default {
   name: "CreateVoucher",
