@@ -1,62 +1,57 @@
 <template>
   <!-- Create user -->
-  <b-row>
-    <b-col>
-      <b-form @submit.prevent="addUser">
-        <b-overlay :show="isLoading" blur no-wrap></b-overlay>
+  <b-form @submit.prevent="addUser">
+    <b-overlay :show="isLoading" blur no-wrap></b-overlay>
 
-        <b-form-group label="Name">
-          <b-form-input
-            :state="validateName"
-            v-model="newUser.username"
-            required
-            type="text"
-            trim
-          ></b-form-input>
-          <b-form-invalid-feedback id="input-live-feedback">
-            Username must be greater than 3 characters
-          </b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group label="Select Role">
-          <b-form-select v-model="newUser.userrole" :options="roles" required>
-          </b-form-select>
-        </b-form-group>
-        <b-form-group label="Password">
-          <b-form-input
-            required
-            type="password"
-            v-model="newUser.userpassword"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group label="Security Question">
-          <b-form-input
-            v-model="newUser.userquestion"
-            required
-            type="text"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group label="Answer">
-          <b-form-input
-            v-model="newUser.useranswer"
-            required
-            type="text"
-          ></b-form-input>
-        </b-form-group>
-        <slot name="modal-footer">
-          <b-button
-            type="submit"
-            class="float-right"
-            variant="success"
-            v-b-modal.create-user
-          >
-            <b-icon type="submit" icon="person-plus"></b-icon>
-            Create User</b-button
-          >
-        </slot>
-      </b-form>
-    </b-col>
-    <b-col> </b-col>
-  </b-row>
+    <b-form-group label="Name">
+      <b-form-input
+        :state="validateName"
+        v-model="newUser.username"
+        required
+        type="text"
+        trim
+      ></b-form-input>
+      <b-form-invalid-feedback id="input-live-feedback">
+        Username must be greater than 3 characters
+      </b-form-invalid-feedback>
+    </b-form-group>
+    <b-form-group label="Select Role">
+      <b-form-select v-model="newUser.userrole" :options="roles" required>
+      </b-form-select>
+    </b-form-group>
+    <b-form-group label="Password">
+      <b-form-input
+        required
+        type="password"
+        v-model="newUser.userpassword"
+      ></b-form-input>
+    </b-form-group>
+    <b-form-group label="Security Question">
+      <b-form-input
+        v-model="newUser.userquestion"
+        required
+        type="text"
+      ></b-form-input>
+    </b-form-group>
+    <b-form-group label="Answer">
+      <b-form-input
+        v-model="newUser.useranswer"
+        required
+        type="text"
+      ></b-form-input>
+    </b-form-group>
+    <slot name="modal-footer">
+      <b-button
+        type="submit"
+        class="float-right"
+        variant="success"
+        v-b-modal.create-user
+      >
+        <b-icon type="submit" icon="person-plus"></b-icon>
+        Create User</b-button
+      >
+    </slot>
+  </b-form>
 </template>
 
 <script>
