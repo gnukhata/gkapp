@@ -79,17 +79,12 @@
               label-for="ci-input-5"
               label-cols="3"
               invalid-feedback="Require 10 digit number"
-              :state="isContactNumberValid"
             >
               <b-form-input
                 size="sm"
                 id="go-input-5"
                 type="number"
                 v-model="form.contactNumber"
-                :state="isContactNumberValid"
-                aria-invalid="Require 10 digit number"
-                min="1000000000"
-                max="9999999999"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -140,7 +135,6 @@
 
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
 
 export default {
   name: "Godown",
@@ -160,14 +154,7 @@ export default {
       },
     };
   },
-  computed: {
-    isContactNumberValid: (self) => {
-      if(self.form.contactNumber === null) {
-        return null
-      } 
-      return self.form.contactNumber >= 1000000000 && self.form.contactNumber <= 9999999999
-    }
-  },
+  computed: {},
   props: {
     mode: {
       type: String,
@@ -193,7 +180,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.isLoading = true
+      this.isLoading = true;
       // console.log('in submit')
       const payload = this.initPayload();
       // console.log(payload);
@@ -202,25 +189,25 @@ export default {
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
-          let productCode, taxPayload, taxRequests;
           switch (response.data.gkstatus) {
             case 0:
-              this.$bvToast.toast(`Godown created successfully`, {
-                title: `Create Godown Error!`,
-                autoHideDelay: 3000,
-                variant: "success",
-                appendToast: true,
-                solid: true,
-              });
+              {
+                this.$bvToast.toast(`Godown created successfully`, {
+                  title: `Create Godown Error!`,
+                  autoHideDelay: 3000,
+                  variant: "success",
+                  appendToast: true,
+                  solid: true,
+                });
 
-              // === Server Log ===
-              let logdata = { activity: "" };
-              logdata.activity =
-                  payload.goname + " godown created";
-              axios.post("/log", logdata);
+                // === Server Log ===
+                let logdata = { activity: "" };
+                logdata.activity = payload.goname + " godown created";
+                axios.post("/log", logdata);
 
-              // only reset form on success, otherwise leave it as is so that user may edit their input and try again
-              this.resetForm();
+                // only reset form on success, otherwise leave it as is so that user may edit their input and try again
+                this.resetForm();
+              }
               break;
             case 1:
               this.$bvToast.toast(
@@ -268,12 +255,12 @@ export default {
     },
     initPayload() {
       return {
-        "goname": this.form.name,
-        "goaddr": this.form.address,
-        "state": this.form.state.name,
-        "gocontact": this.form.contactPerson || "",
-        "contactname": this.form.contactNumber || ""
-      }
+        goname: this.form.name,
+        goaddr: this.form.address,
+        state: this.form.state.name,
+        gocontact: this.form.contactPerson || "",
+        contactname: this.form.contactNumber || "",
+      };
     },
     resetForm() {
       this.form = {
@@ -282,7 +269,7 @@ export default {
         state: null,
         contactNumber: null,
         contactPerson: null,
-      }
+      };
     },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
