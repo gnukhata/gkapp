@@ -85,14 +85,24 @@
                 </b-form-group>
                 <b-card no-body>
                   <div class="p-2">
-                    <b-form-checkbox
-                      size="sm"
-                      v-model="form.stock.godownFlag"
-                      class=""
-                      switch
-                    >
-                      Godownwise Opening Stock
-                    </b-form-checkbox>
+                    <div class="mb-2">
+                      <b-form-checkbox
+                        size="sm"
+                        v-model="form.stock.godownFlag"
+                        class="d-inline-block"
+                        switch
+                      >
+                        Godownwise Opening Stock
+                      </b-form-checkbox>
+                      <b-button
+                        class="mx-2 py-0 px-1"
+                        size="sm"
+                        variant="success"
+                        @click.prevent="showGodownForm = true"
+                      >
+                        + Godown
+                      </b-button>
+                    </div>
                     <div v-if="form.stock.godownFlag">
                       <b-input-group
                         v-for="(godown, index) in form.stock.godowns"
@@ -342,13 +352,6 @@
         </b-row>
         <hr class="my-2" />
         <div>
-          <b-button
-            class="m-1"
-            size="sm"
-            @click.prevent="showGodownForm = true"
-          >
-            + Add Godown
-          </b-button>
           <div class="float-right">
             <b-button
               v-if="!hideBackButton"
