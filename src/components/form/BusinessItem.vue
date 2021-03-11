@@ -57,13 +57,14 @@
                   label-cols="3"
                   label-class="required"
                 >
-                  <b-form-select
+                  <autocomplete
                     size="sm"
                     id="bi-input-2"
                     v-model="uom"
                     :options="options.uom"
+                    valueUid="id"
                     required
-                  ></b-form-select>
+                  ></autocomplete>
                 </b-form-group>
                 <b-form-group
                   label-size="sm"
@@ -111,13 +112,15 @@
                         :id="'vat-inp-' + index"
                       >
                         <b-input-group-prepend>
-                          <b-form-select
+                          <autocomplete
                             size="sm"
                             style="max-width: 150px"
                             v-model="godown.id"
                             :options="options.godowns"
                             :required="!!godown.value"
-                          ></b-form-select>
+                            :isOptionsShared="true"
+                            emptyValue=""
+                          ></autocomplete>
                         </b-input-group-prepend>
                         <b-form-input
                           size="sm"
@@ -136,7 +139,7 @@
                           </b-button>
                           <b-button
                             size="sm"
-                            @click.prevent="deleteGodown"
+                            @click.prevent="deleteGodown(index)"
                             v-else
                           >
                             -
@@ -294,14 +297,7 @@
                   </b-col>
                   <b-col>
                     <b-card no-body>
-                      <b-card-body
-                        class="p-2"
-                        style="
-                          min-height: 100px;
-                          max-height: 150px;
-                          overflow-y: auto;
-                        "
-                      >
+                      <b-card-body class="p-2" style="min-height: 100px">
                         <b>VAT</b>
                         <b-input-group
                           v-for="(vat, index) in form.tax.vat"
@@ -310,13 +306,15 @@
                           :id="'vat-inp-' + index"
                         >
                           <b-input-group-prepend>
-                            <b-form-select
+                            <autocomplete
                               size="sm"
                               style="max-width: 150px"
                               v-model="vat.state"
                               :options="options.states"
                               :required="!!vat.rate"
-                            ></b-form-select>
+                              :isOptionsShared="true"
+                              emptyValue=""
+                            ></autocomplete>
                           </b-input-group-prepend>
                           <b-form-input
                             size="sm"
@@ -335,7 +333,7 @@
                             </b-button>
                             <b-button
                               size="sm"
-                              @click.prevent="deleteVat"
+                              @click.prevent="deleteVat(index)"
                               v-else
                             >
                               -
@@ -430,10 +428,10 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import Godown from "./Godown";
-
+import Autocomplete from "../Autocomplete";
 export default {
   name: "BusinessItem",
-  components: { Godown },
+  components: { Godown, Autocomplete },
   props: {
     mode: {
       type: String,
@@ -483,7 +481,7 @@ export default {
           godownFlag: false,
           godowns: [
             {
-              id: null,
+              id: "",
               value: null,
             },
           ], // opening stock based on godown
@@ -497,10 +495,11 @@ export default {
           cess: null,
           gst: null,
           cvat: null,
-          vat: [{ state: null, rate: null }],
+          vat: [{ state: "", rate: null }],
         },
         hsn: null,
       },
+      uom: {},
     };
   },
   computed: {
@@ -513,25 +512,19 @@ export default {
       self.type === "product" ? "cart-variant" : "face-agent",
     vatLength: (self) => self.form.tax.vat.length,
     godownLength: (self) => self.form.stock.godowns.length,
-    uom: {
-      set: function (newValue) {
-        if (newValue) {
-          this.form.uom = newValue.id;
-          this.form.uomCode = newValue.name;
-        }
-      },
-      get: function () {
-        return {
-          name: this.form.uomCode,
-          id: this.form.uom,
-        };
-      },
-    },
     ...mapState(["gkCoreUrl", "gkCoreTestUrl", "authToken"]),
+  },
+  watch: {
+    uom(newValue) {
+      if (newValue) {
+        this.form.uom = newValue.id;
+        this.form.uomCode = newValue.name;
+      }
+    },
   },
   methods: {
     addVat() {
-      this.form.tax.vat.push({ state: null, rate: null });
+      this.form.tax.vat.push({ state: "", rate: null });
       setTimeout(() => {
         document
           .getElementById(`vat-inp-${this.vatLength - 1}`)
@@ -542,7 +535,7 @@ export default {
       this.form.tax.vat.splice(index, 1);
     },
     addGodown() {
-      this.form.stock.godowns.push({ id: null, value: null });
+      this.form.stock.godowns.push({ id: "", value: "" });
     },
     deleteGodown(index) {
       this.form.stock.godowns.splice(index, 1);
@@ -802,7 +795,7 @@ export default {
           cess: null,
           gst: null,
           cvat: null,
-          vat: [{ state: null, rate: null }],
+          vat: [{ state: "", rate: null }],
         },
         hsn: null,
       };
@@ -822,11 +815,6 @@ export default {
                   text: `${item.goname} (${item.goaddr})`,
                   value: item.goid,
                 };
-              });
-              self.options.godowns.unshift({
-                text: "Godown",
-                value: null,
-                disabled: true,
               });
             } else {
               this.displayToast(
@@ -895,13 +883,11 @@ export default {
         // === State List ===
         if (resp2.status === 200) {
           if (resp2.data.gkstatus === 0) {
-            self.options.states = resp2.data.gkresult.map(
-              (item) => Object.values(item)[0]
-            );
-            self.options.states.unshift({
-              text: "State",
-              value: null,
-              disabled: true,
+            self.options.states = resp2.data.gkresult.map((item) => {
+              return {
+                text: Object.values(item)[0],
+                value: Object.values(item)[0],
+              };
             });
           } else {
             preloadErrorList += " States,";

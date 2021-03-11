@@ -26,7 +26,7 @@
                 required
               ></b-form-input>
             </b-form-group>
-            <b-form-group
+            <!-- <b-form-group
               label-size="sm"
               label="State"
               label-for="go-input-2"
@@ -38,7 +38,20 @@
                 v-model="form.state"
                 :options="options.states"
                 required
-              ></b-form-select>
+              ></b-form-select> -->
+            <b-form-group
+              label-size="sm"
+              label="State"
+              label-for="go-input-2"
+              label-cols="3"
+              label-class="required"
+            >
+              <autocomplete
+                id="go-input-2"
+                v-model="form.state"
+                :options="options.states"
+                required
+              ></autocomplete>
             </b-form-group>
             <b-form-group
               label-size="sm"
@@ -121,6 +134,7 @@
           <b-button size="sm" type="submit" class="m-1" variant="success">
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
+              v-else
               aria-hidden="true"
               class="align-middle"
               icon="plus-square"
@@ -135,9 +149,12 @@
 
 <script>
 import axios from "axios";
-
+import Autocomplete from "../Autocomplete.vue";
 export default {
   name: "Godown",
+  components: {
+    Autocomplete
+  },
   data() {
     return {
       form: {
@@ -266,7 +283,7 @@ export default {
       this.form = {
         name: null,
         address: null,
-        state: null,
+        state: "",
         contactNumber: null,
         contactPerson: null,
       };

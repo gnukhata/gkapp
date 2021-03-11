@@ -3,12 +3,8 @@
     Make the table fixed height
     Print screen
     Display transaction in print screen
-    Add customer and Products
     Add discount percent
     Add check conditions for the dates used in the form
-
-
-    Autofetch company details like address ,etc
  -->
 <template>
   <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2">
@@ -101,7 +97,7 @@
                     label-cols="3"
                     label-size="sm"
                   >
-                    <b-form-select
+                    <autocomplete
                       size="sm"
                       id="input-9"
                       v-model="form.party.name"
@@ -110,9 +106,11 @@
                           ? options.customers
                           : options.suppliers
                       "
-                      @input="fetchCustomerData(form.party.name.id)"
+                      @input="onPartyNameSelect(form.party.name)"
                       required
-                    ></b-form-select>
+                      valueUid="id"
+                    >
+                    </autocomplete>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" v-if="config.party.addr">
@@ -127,7 +125,6 @@
                       id="input-10"
                       v-model="form.party.addr"
                       rows="2"
-                      max-rows="2"
                       trim
                       plaintext
                     ></b-form-textarea>
@@ -379,13 +376,14 @@
                     label-cols-lg="4"
                     label-cols="3"
                   >
-                    <b-form-select
+                    <autocomplete
                       size="sm"
                       id="input-6"
+                      valueUid="id"
                       v-model="form.inv.state"
                       :options="options.states"
                       required
-                    ></b-form-select>
+                    ></autocomplete>
                   </b-form-group>
                 </b-col>
               </b-row>
@@ -532,7 +530,7 @@
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" v-if="config.ship.state">
-                  <b-form-group
+                  <!-- <b-form-group
                     label="State"
                     label-for="input-17"
                     label-size="sm"
@@ -545,6 +543,21 @@
                       :options="options.states"
                       trim
                     ></b-form-select>
+                  </b-form-group> -->
+                  <b-form-group
+                    label="State"
+                    label-for="input-17"
+                    label-size="sm"
+                    label-cols="3"
+                  >
+                    <autocomplete
+                      size="sm"
+                      id="input-17"
+                      v-model="form.ship.state"
+                      :options="options.states"
+                      trim
+                      valueUid="id"
+                    ></autocomplete>
                   </b-form-group>
                 </b-col>
                 <b-col v-if="isGst && config.ship.gstin" cols="12">
@@ -732,13 +745,23 @@
 
               <!-- Item -->
               <b-td v-if="config.bill.product">
-                <b-form-select
+                <!-- <b-form-select
                   size="sm"
                   v-model="field.product"
                   :options="options.products"
                   @input="fetchProductDetails(field.product.id, index)"
                   required
-                ></b-form-select>
+                ></b-form-select> -->
+                <autocomplete
+                  size="sm"
+                  v-model="field.product"
+                  :options="options.products"
+                  @input="onBillItemSelect(field.product, index)"
+                  valueUid="id"
+                  :isOptionsShared="true"
+                  required
+                  emptyValue=""
+                ></autocomplete>
               </b-td>
 
               <!-- HSN/SAC -->
@@ -827,7 +850,7 @@
               <b-td>
                 <b-button
                   v-if="index < billLength - 1"
-                  @click.prevent="deleteBillItem()"
+                  @click.prevent="deleteBillItem(index)"
                   size="sm"
                   >-</b-button
                 >
@@ -1335,9 +1358,10 @@ import { mapState } from "vuex";
 import ContactItem from "../components/form/ContactItem.vue";
 import BusinessItem from "../components/form/BusinessItem.vue";
 import Config from "../components/Config.vue";
+import Autocomplete from "../components/Autocomplete.vue";
 
 import invoiceConfig from "../js/config/invoiceConfig";
-import {numberToRupees} from "../js/utils"
+import { numberToRupees } from "../js/utils";
 
 export default {
   name: "Invoice",
@@ -1345,6 +1369,7 @@ export default {
     ContactItem,
     BusinessItem,
     Config,
+    Autocomplete,
   },
   data() {
     return {
@@ -1388,7 +1413,7 @@ export default {
         taxType: "gst", // vat
         bill: [
           {
-            product: { name: "", id: null },
+            product: { name: "", id: "" },
             hsn: "",
             qty: 0,
             fqty: 0,
@@ -1445,7 +1470,7 @@ export default {
           "Ship",
           "Other",
         ],
-        orgDetails: null
+        orgDetails: null,
       },
       isCollapsed: {
         billedTo: false,
@@ -1458,7 +1483,7 @@ export default {
     };
   },
   computed: {
-    // config : Gets the custom config from the invoiceConfig Vuex module and 
+    // config : Gets the custom config from the invoiceConfig Vuex module and
     //          prepares it for use by adding some custom additions to it (that should not be user editable)
     config: (self) => {
       let newConf = self.$store.getters.getCustomInvoiceConfig;
@@ -1506,7 +1531,8 @@ export default {
           };
         }
       } else {
-        // Sometimes when hot reloading during dev, the dynamic Vuex module does not get loaded and errors are printed in console. 
+        // In Hot Module Reloading during dev, the dynamic Vuex module does not get loaded and errors are printed in console.
+        // This is because during HMR, the Invoice component gets loaded before old one can be destroyed, causing an error (https://github.com/vuejs/vue/issues/6518)
         // Adding a empty config as a short term fix for that
         newConf = {
           inv: {
@@ -1548,7 +1574,7 @@ export default {
         if (self.form.totalRoundFlag) {
           total = Math.round(total);
         }
-        text = numberToRupees(total)
+        text = numberToRupees(total);
       }
       return text;
     },
@@ -1579,6 +1605,45 @@ export default {
     ]),
   },
   methods: {
+    onBillItemSelect(item, index) {
+      if(item) {
+        if(item.id) {
+          this.fetchProductDetails(item.id, index)
+        }
+      }
+    },
+    /**
+     * onPartyNameSelect(name)
+     *
+     * Description -> Updates the BilledTo and Shipping Details based on the Customer/Supplier chosen.
+     * Here party is the Customer/Supplier
+     *
+     * argument -> name: {id , name}
+     */
+    onPartyNameSelect(name) {
+      if (name) {
+        if (name.id) {
+          this.fetchCustomerData(name.id);
+          return;
+        }
+      }
+
+      // if the name is invalid, empty the BilledTo & Shipping Details if it exists
+      if (this.form.party.addr || this.form.party.options.states.length) {
+        Object.assign(this.form.party, {
+          options: {
+            states: [],
+            gstin: [],
+          },
+          addr: null,
+          state: {},
+          gstin: null,
+          tin: null,
+          pin: null,
+        });
+        this.setShippingDetails();
+      }
+    },
     /**
      * getTotal(key)
      *
@@ -1601,7 +1666,7 @@ export default {
     },
     addBillItem() {
       this.form.bill.push({
-        product: { id: null, name: "" },
+        product: { id: "", name: "" },
         hsn: "",
         qty: 0,
         fqty: 0,
@@ -1693,68 +1758,70 @@ export default {
             "danger"
           );
           return error;
-        })
+        }),
       ];
 
       const self = this;
-      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4, resp5, resp6]) => {
-        self.isPreloading = false;
-        let preloadErrorList = ""; // To handle the unloaded data, at once than individually
+      Promise.all([...requests]).then(
+        ([resp1, resp2, resp3, resp4, resp5, resp6]) => {
+          self.isPreloading = false;
+          let preloadErrorList = ""; // To handle the unloaded data, at once than individually
 
-        /**
-         * The data obtained are updated, to be comptaible with the
-         * component they are used with (<b-form-select>)
-         * and based on requirement
-         */
+          /**
+           * The data obtained are updated, to be comptaible with the
+           * component they are used with (<b-form-select>)
+           * and based on requirement
+           */
 
-        // === State List ===
-        if (resp1.status === 200) {
-          if (resp1.data.gkstatus === 0) {
-            self.options.states = resp1.data.gkresult.map((item) => {
-              return {
-                text: Object.values(item)[0],
-                value: {
-                  id: Object.keys(item)[0],
-                  name: Object.values(item)[0],
-                },
-              };
-            });
+          // === State List ===
+          if (resp1.status === 200) {
+            if (resp1.data.gkstatus === 0) {
+              self.options.states = resp1.data.gkresult.map((item) => {
+                return {
+                  text: Object.values(item)[0],
+                  value: {
+                    id: Object.keys(item)[0],
+                    name: Object.values(item)[0],
+                  },
+                };
+              });
+            } else {
+              preloadErrorList += " States,";
+            }
           } else {
             preloadErrorList += " States,";
           }
-        } else {
-          preloadErrorList += " States,";
-        }
 
-        if (resp2 !== undefined) {
-          preloadErrorList += " Customers/Suppliers,";
-        }
+          if (resp2 !== undefined) {
+            preloadErrorList += " Customers/Suppliers,";
+          }
 
-        if (resp3 !== undefined) {
-          preloadErrorList += " Invoice Id,";
-        }
+          if (resp3 !== undefined) {
+            preloadErrorList += " Invoice Id,";
+          }
 
-        if (resp4 !== undefined) {
-          preloadErrorList += " User Name  & Role,";
-        }
+          if (resp4 !== undefined) {
+            preloadErrorList += " User Name  & Role,";
+          }
 
-        if (resp5 !== undefined) {
-          preloadErrorList += " Products/Services,";
-        }
+          if (resp5 !== undefined) {
+            preloadErrorList += " Products/Services,";
+          }
 
-        if (resp6.data.gkstatus === 0) {
-          self.options.orgDetails = resp6.data.gkdata
-          self.setOrgDetails()
-        }
+          if (resp6.data.gkstatus === 0) {
+            self.options.orgDetails = resp6.data.gkdata;
+            self.setOrgDetails();
+          }
 
-        if (preloadErrorList !== "") {
-          this.displayToast(
-            "Error: Unable to Preload Data",
-            `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
-            "danger"
-          );
+          if (preloadErrorList !== "") {
+            this.displayToast(
+              "Error: Unable to Preload Data",
+              `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
+              "danger"
+            );
+          }
         }
-      });
+      );
     },
     /**
      * fetchCustomerData(id)
@@ -1835,11 +1902,9 @@ export default {
     fetchProductDetails(id, index) {
       let self = this;
       const requests = [
-        axios
-          .get(`/products?qty=single&productcode=${id}`)
-          .catch((error) => {
-            return error;
-          }),
+        axios.get(`/products?qty=single&productcode=${id}`).catch((error) => {
+          return error;
+        }),
         axios.get(`/tax?pscflag=p&productcode=${id}`).catch((error) => {
           return error;
         }),
@@ -2086,7 +2151,7 @@ export default {
       /**
        * form.party.options = {'stateid': 'gstin', 'stateid2': 'gstin2}
        */
-      if (this.form.party.options.gstin) {
+      if (this.form.party.options.gstin && this.form.party.state) {
         this.form.party.gstin =
           this.form.party.options.gstin[this.form.party.state.id] || null;
       }
@@ -2108,15 +2173,19 @@ export default {
       }
     },
     setOrgDetails() {
-      if(this.options.orgDetails !== null) {
-        if(this.options.orgDetails.orgname) {
-          let orgstate = (this.options.orgDetails.orgstate || "").toLowerCase()
-          let state = (orgstate)? this.options.states.find((state) => (state.text).toLowerCase() === orgstate) : null
+      if (this.options.orgDetails !== null) {
+        if (this.options.orgDetails.orgname) {
+          let orgstate = (this.options.orgDetails.orgstate || "").toLowerCase();
+          let state = orgstate
+            ? this.options.states.find(
+                (state) => state.text.toLowerCase() === orgstate
+              )
+            : null;
           Object.assign(this.form.inv, {
             addr: this.options.orgDetails.orgaddr,
             pin: this.options.orgDetails.orgpincode,
-            state: (state) ? state.value : null
-          })
+            state: state ? state.value : null,
+          });
         }
       }
     },
@@ -2151,7 +2220,7 @@ export default {
       const payload = this.initPayload();
 
       axios
-        .post("/invoice", payload) 
+        .post("/invoice", payload)
         .then((resp) => {
           self.isLoading = false;
           if (resp.status === 200) {
@@ -2422,7 +2491,7 @@ export default {
         taxType: "gst", // vat
         bill: [
           {
-            product: { name: "", id: null },
+            product: { name: "", id: "" },
             hsn: "",
             qty: 0,
             fqty: 0,
@@ -2481,6 +2550,7 @@ export default {
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
+    // prevent webpack HRM to destroy our store. But if you are production, please go away~
     this.$store.unregisterModule("invoiceConfig");
   },
 };
