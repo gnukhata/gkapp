@@ -170,9 +170,6 @@ export default {
       this.hovered = index;
     },
     selectOption(option) {
-      if(this.selected.value === null) {
-        debugger;
-      }
       if (
         !this.compareOptions(option, this.selected) &&
         typeof this.selected.text === "string"
@@ -186,7 +183,6 @@ export default {
         // this.optionsShown = false;
         if (this.searchFilter !== this.selected.text) {
           // console.log(this.selected.text)
-          if(!this.selected.text) debugger
           this.searchFilter = this.selected.text;
         }
         console.log(this.selected.value)
@@ -299,9 +295,6 @@ export default {
     value(newVal) {
       // console.log("In Value");
       // console.log(newVal);
-      if(newVal === null) {
-        debugger;
-      }
       if (!this.optionsB) {
         return;
       }
