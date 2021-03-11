@@ -20,7 +20,7 @@
               <b-form-radio value="3">Customer</b-form-radio>
               <b-form-radio value="19">Supplier</b-form-radio>
             </b-form-radio-group>
-            <b-form-group class="d-inline-block mb-2 ml-2">
+            <!-- <b-form-group class="d-inline-block mb-2 ml-2">
               <b-form-select
                 size="sm"
                 v-model="custid"
@@ -29,9 +29,21 @@
                 :options="
                   csflag === '3' ? options.customers : options.suppliers
                 "
-                @input="fetchUnadjustedItems()"
                 required
               ></b-form-select>
+            </b-form-group> -->
+            <b-form-group class="d-inline-block mb-2 ml-2">
+              <autocomplete
+                size="sm"
+                v-model="custid"
+                textField="custname"
+                valueField="custid"
+                :options="
+                  csflag === '3' ? options.customers : options.suppliers
+                "
+                @input="fetchUnadjustedItems()"
+                required
+              ></autocomplete>
             </b-form-group>
           </b-col>
           <b-col cols="12" sm="5">
@@ -41,12 +53,18 @@
               label-cols="3"
               label-size="sm"
             >
-              <b-form-select
+              <!-- <b-form-select
                 size="sm"
                 v-model="vcode"
                 :options="options.vouchers"
                 required
-              ></b-form-select>
+              ></b-form-select> -->
+              <autocomplete
+                size="sm"
+                v-model="vcode"
+                :options="options.vouchers"
+                required
+              ></autocomplete>
             </b-form-group>
           </b-col>
           <b-col cols="12" v-if="custid !== null">
@@ -191,10 +209,13 @@ import axios from "axios";
 import { mapState } from "vuex";
 import Voucher from "../components/form/Voucher.vue";
 import { numberToRupees } from "../js/utils";
+import Autocomplete from "../components/Autocomplete.vue";
+
 export default {
   name: "Billwise",
   components: {
     Voucher,
+    Autocomplete,
   },
   props: {},
   data() {
@@ -253,7 +274,7 @@ export default {
     },
     custname: (self) => {
       let name = null;
-      if (self.custid !== null) {
+      if (self.custid !== null && !isNaN(parseInt(self.custid))) {
         if (self.csflag === "3" && self.options.customers.length) {
           name = self.options.customers.find(
             (cust) => cust.custid === self.custid
@@ -278,8 +299,13 @@ export default {
       this.showVoucherForm = false;
     },
     confirmOnSubmit() {
-      let invCount = this.options.invoices.reduce((sum, inv) => sum + !!parseInt(inv.adjusted), 0)
-      let text = `Adjust ${numberToRupees(this.totalAdjusted)} (₹ ${this.totalAdjusted}) against ${invCount} Invoices?`;
+      let invCount = this.options.invoices.reduce(
+        (sum, inv) => sum + !!parseInt(inv.adjusted),
+        0
+      );
+      let text = `Adjust ${numberToRupees(this.totalAdjusted)} (₹ ${
+        this.totalAdjusted
+      }) against ${invCount} Invoices?`;
       this.$bvModal
         .msgBoxConfirm(text, {
           size: "sm",
@@ -359,10 +385,11 @@ export default {
       return payload;
     },
     fetchUnadjustedItems() {
+      // console.log(this.custid)
       this.options.vouchers = [];
       this.options.invoices = [];
       this.vcode = null;
-      if (this.custid !== null) {
+      if (this.custid !== null && !isNaN(parseInt(this.custid))) {
         return axios
           .get(`/billwise?csid=${this.custid}&csflag=${this.csflag}`)
           .then((resp) => {
@@ -375,11 +402,6 @@ export default {
                   text: `${voucher.vouchernumber} - ₹ ${voucher.amtadj}`,
                   value: voucher.vouchercode,
                 };
-              });
-              this.options.vouchers.unshift({
-                text: "-- Vouchers --",
-                value: null,
-                disabled: true,
               });
 
               resp.data.invoices.sort((a, b) => a.invid - b.invid);
@@ -435,11 +457,6 @@ export default {
         if (resp1.status === 200) {
           if (resp1.data.gkstatus === 0) {
             this.options.customers = resp1.data.gkresult;
-            this.options.customers.unshift({
-              custname: "-- Customers --",
-              custid: null,
-              disabled: true,
-            });
           } else {
             preloadErrorList += " Customer List, ";
           }

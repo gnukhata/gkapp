@@ -58,12 +58,7 @@
               label-for="ci-input-2"
               label-cols="3"
             >
-              <b-form-select
-                id="ci-input-2"
-                v-model="state"
-                :options="options.states"
-                required
-              ></b-form-select>
+              <autocomplete id="ci-input-2" v-model="state" :options="options.states" placeholder="Select a State" valueUid="code"> </autocomplete>
             </b-form-group>
             <b-form-group
               label-size="sm"
@@ -313,6 +308,7 @@
           <b-button type="submit" size="sm" class="m-1" variant="success">
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
+              v-else
               aria-hidden="true"
               class="align-middle"
               icon="plus-square"
@@ -328,10 +324,10 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
-
+import Autocomplete from "../Autocomplete";
 export default {
   name: "ContactItem",
-  components: {},
+  components: { Autocomplete },
   props: {
     mode: {
       type: String,
@@ -399,23 +395,12 @@ export default {
           ifsc: null,
         },
       },
+      state: {}
     };
   },
   computed: {
     columnOneWidth: (self) => (self.showOptional ? 4 : 12),
     columnTwoWidth: (self) => (self.showOptional ? 6 : 12),
-    state: {
-      set: function (newValue) {
-        this.form.state = newValue.name;
-        this.form.gstin.stateCode = newValue.code;
-      },
-      get: function () {
-        return {
-          code: this.form.gstin.stateCode,
-          name: this.form.state,
-        };
-      },
-    },
     isSupplier: (self) => self.type === "supplier",
     formType: (self) => (self.type === "customer" ? "Customer" : "Supplier"),
     formMode: (self) => (self.mode === "create" ? "Create" : "Edit"),
@@ -429,12 +414,21 @@ export default {
       self.form.pan ? self.regex.pan.test(self.form.pan) : null,
     ...mapState(["gkCoreUrl", "gkCoreTestUrl", "authToken"]),
   },
+  watch: {
+    state(newValue) {
+      if(newValue) {
+        this.form.state = newValue.name;
+        this.form.gstin.stateCode = newValue.code;
+      }
+    },
+  },
   methods: {
     onSubmit() {
       // console.log('in submit')
       this.isLoading = true;
       const payload = this.initPayload();
-      axios.post("/customersupplier", payload)
+      axios
+        .post("/customersupplier", payload)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
@@ -443,26 +437,27 @@ export default {
           }
           switch (response.data.gkstatus) {
             case 0:
-              this.$bvToast.toast(`${this.formType} created successfully`, {
-                title: "Create Customer Success!",
-                autoHideDelay: 3000,
-                variant: "success",
-                appendToast: true,
-                solid: true,
-              });
+              {
+                this.$bvToast.toast(`${this.formType} created successfully`, {
+                  title: "Create Customer Success!",
+                  autoHideDelay: 3000,
+                  variant: "success",
+                  appendToast: true,
+                  solid: true,
+                });
 
+                // === Server Log ===
+                let logdata = { activity: "" };
+                if (payload.csflag === 3) {
+                  logdata.activity = payload.custname + " customer created";
+                } else {
+                  logdata.activity = payload.custname + " supplier created";
+                }
+                axios.post("/log", logdata);
 
-              // === Server Log ===
-              let logdata = { activity: "" };
-              if (payload.csflag === 3) {
-                logdata.activity = payload.custname + " customer created";
-              } else {
-                logdata.activity = payload.custname + " supplier created";
+                // only reset form on success, otherwise leave it as is so that user may edit their input and try again
+                this.resetForm();
               }
-              axios.post("/log", logdata);
-
-              // only reset form on success, otherwise leave it as is so that user may edit their input and try again
-              this.resetForm();
               break;
             case 1:
               this.$bvToast.toast(
@@ -586,7 +581,8 @@ export default {
     },
     preloadData() {
       this.isPreloading = true;
-      axios.get("/state")
+      axios
+        .get("/state")
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             this.options.states = resp.data.gkresult.map((item) => {
