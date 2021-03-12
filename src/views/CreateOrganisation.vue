@@ -201,7 +201,7 @@
             </b-button>
             <b-button type="submit" class="mr-2" variant="primary">
               <b-spinner v-if="isLoading" small></b-spinner>
-              <b-icon aria-hidden="true" class="align-middle" icon="plus-square"></b-icon>
+              <b-icon v-else aria-hidden="true" class="align-middle" icon="plus-square"></b-icon>
               <span class="align-middle"> Create &amp; Login</span>
             </b-button>
           </div>
@@ -345,15 +345,59 @@ export default {
             this.isLoading = false
             switch (response.data.gkstatus) {
               case 0:
-                this.$router.push('/dashboard')
-                this.$bvToast.toast(`Logged in Successfully!`, {
-                  title: 'Create Account Success!',
+                this.$store.dispatch("setSessionStates", {
+                  orgCode: response.data.orgcode,
+                  authToken: response.data.token,
+                }).then(() => {
+                  axios.get("/organisation").then((response2) => {
+                    if(response2.data.gkstatus === 0) {
+                      this.$store.dispatch("setSessionStates", {
+                      auth: true,
+                      orgName: `${response2.data.gkdata.orgname} (${response2.data.gkdata.orgtype})`,
+                      user: { username: payload.userdetails.username },
+                      orgYears: {
+                        yearStart: response2.data.gkdata.yearstart,
+                        yearEnd: response2.data.gkdata.yearend,
+                      },
+                    }); 
+                      this.$router.push('/workflow')
+                      this.$bvToast.toast(`Logged in Successfully!`, {
+                        title: 'Create Account Success!',
+                        autoHideDelay: 3000,
+                        variant: 'success',
+                        appendToast: true,
+                        solid: true
+                      })
+                    } else {
+                      this.$bvToast.toast(`Unable to Login to Account, Please try again`, {
+                        title: 'Login Error!',
+                        autoHideDelay: 3000,
+                        variant: 'danger',
+                        appendToast: true,
+                        solid: true
+                      })
+                    }
+                  }).catch((error) => {
+                    this.$bvToast.toast(`Error: ${error.message}`, {
+                      title: 'Login Error!',
+                      autoHideDelay: 3000,
+                      variant: 'danger',
+                      appendToast: true,
+                      solid: true
+                    })
+                  })
+                })
+                break
+              case 1:
+                this.$bvToast.toast(`Duplicate Entry! Please Check the Organisation Name`, {
+                  title: 'Create Account Error!',
                   autoHideDelay: 3000,
-                  variant: 'success',
+                  variant: 'danger',
                   appendToast: true,
                   solid: true
                 })
-                break
+                break;
+              break;
               default:
                 this.$bvToast.toast(`Unable to create account, Please try again`, {
                   title: 'Create Account Error!',
