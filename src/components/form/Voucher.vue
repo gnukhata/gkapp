@@ -346,7 +346,7 @@ export default {
         .msgBoxConfirm(
           text,
           {
-          size: 'sm',
+          size: 'md',
           buttonSize: 'sm',
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',

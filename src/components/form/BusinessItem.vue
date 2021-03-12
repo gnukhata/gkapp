@@ -381,6 +381,7 @@
             <b-button size="sm" type="submit" class="m-1" variant="success">
               <b-spinner v-if="isLoading" small></b-spinner>
               <b-icon
+                v-else
                 aria-hidden="true"
                 class="align-middle"
                 icon="plus-square"
