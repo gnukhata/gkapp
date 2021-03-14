@@ -10,7 +10,12 @@
       </b-form-input>
     </b-form-group>
     <b-form-group label="Confirm Password">
-      <b-form-input type="text" :state="matchingPwds" v-model="confirmPwd">
+      <b-form-input
+        type="text"
+        :state="matchingPwds"
+        v-model="confirmPwd"
+        required
+      >
       </b-form-input>
       <b-form-invalid-feedback id="input-live-feedback">
         Passwords do not match
@@ -106,10 +111,13 @@ export default {
                 this.changePwd();
                 break;
               case 4:
-                this.$bvToast.toast("Invalid Password, Please try again", {
-                  solid: true,
-                  variant: "danger"
-                });
+                this.$bvToast.toast(
+                  "Invalid current Password, Please try again",
+                  {
+                    solid: true,
+                    variant: "danger"
+                  }
+                );
                 this.isLoading = false;
                 break;
               default:
@@ -156,6 +164,8 @@ export default {
                   }
                 );
                 this.isLoading = false;
+                // send event to close the window
+                this.$emit("close-pwd");
                 break;
               default:
                 this.$bvToast.toast(

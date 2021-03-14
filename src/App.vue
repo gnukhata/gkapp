@@ -45,7 +45,9 @@
                   variant="dark"
                   icon="person"
                   :title="userName"
-                ></b-avatar>
+                >
+                </b-avatar>
+                {{ userName }}
               </template>
               <!-- admin only options -->
               <template v-if="userRole == -1">
@@ -80,6 +82,7 @@
         </b-collapse>
         <!-- Change password dialog -->
         <b-modal
+          ref="change-pwd-close"
           id="change-pwd"
           size="md"
           :title="'Update Password for ' + userName"
@@ -87,7 +90,7 @@
           header-text-variant="light"
           hide-footer
         >
-          <change-pwd></change-pwd>
+          <change-pwd v-on:close-pwd="closeModal"></change-pwd>
         </b-modal>
       </b-navbar>
       <color-bar></color-bar>
@@ -121,7 +124,15 @@ export default {
     ])
   },
   methods: {
-    /**
+    /*
+     * Close Change password window on successful password change
+     */
+    closeModal() {
+      setTimeout(() => {
+        this.$refs["change-pwd-close"].hide();
+      }, 1500);
+    },
+    /*
      * Logout the user, But preserve the gkcore url
      */
     logOut() {
