@@ -19,13 +19,29 @@
       <b-table
         :filter="searchText"
         :items="userList"
+        :fields="['user', 'role']"
         style="margin: auto"
         head-variant="dark"
-        fixed
         hover
+        fixed
         outlined
+        class="table"
       >
         <!-- data.item.edit is userid -->
+        <template #cell(user)="data">
+          <b-badge
+            @click="showEditUser(data.item.edit)"
+            title="click to edit contact"
+            variant="primary"
+            >{{ data.item.user }}</b-badge
+          >
+          <!-- <b>{{ data.item.user }} </b> -->
+          <!-- <b-icon
+                 icon="pencil"
+                 class="mr-1"
+                 @click="showEditUser(data.item.edit)"
+                 ></b-icon> -->
+        </template>
         <template #cell(edit)="data">
           <b-icon
             icon="pencil-square"
@@ -110,3 +126,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.table {
+  width: 70%;
+}</style
+>>
