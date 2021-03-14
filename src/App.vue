@@ -38,16 +38,10 @@
             > -->
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown
-              v-if="userAuthenticated"
-              @click="getUser"
-              right
-            >
+            <b-nav-item-dropdown v-if="userAuthenticated" right>
               <template #button-content>
-                <!-- <b-button @click="getUser" variant="outline-primary"
-                  ><b-icon icon="person"></b-icon> {{ userName }}</b-button
-                > -->
                 <b-avatar
+                  @click="getUser"
                   variant="dark"
                   icon="person"
                   :title="userName"
@@ -74,6 +68,9 @@
                 ><b-icon icon="clipboard"></b-icon> Adjust
                 Bills</b-dropdown-item
               >
+              <b-dropdown-item v-b-modal.change-pwd
+                ><b-icon icon="key"></b-icon> Change Password
+              </b-dropdown-item>
               <b-dropdown-item @click="logOut" href="#"
                 ><b-icon icon="box-arrow-in-left"></b-icon> Log
                 Out</b-dropdown-item
@@ -81,6 +78,17 @@
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
+        <!-- Change password dialog -->
+        <b-modal
+          id="change-pwd"
+          size="md"
+          :title="'Update Password for ' + userName"
+          header-bg-variant="dark"
+          header-text-variant="light"
+          hide-footer
+        >
+          <change-pwd></change-pwd>
+        </b-modal>
       </b-navbar>
       <color-bar></color-bar>
     </header>
@@ -93,24 +101,24 @@
 import { mapState } from "vuex";
 import ColorBar from "@/components/ColorBar.vue";
 import axios from "axios";
-
+import ChangePwd from "@/components/form/ChangePwd.vue";
 export default {
   name: "App",
-  components: { ColorBar },
+  components: { ColorBar, ChangePwd },
   data() {
     return {
-      userRole: Number,
+      userRole: Number
     };
   },
   computed: {
-    activeNav: (self) => self.$route.name,
+    activeNav: self => self.$route.name,
     ...mapState([
       "userName",
       "orgName",
       "gkCoreUrl",
       "authToken",
-      "userAuthenticated",
-    ]),
+      "userAuthenticated"
+    ])
   },
   methods: {
     /**
@@ -131,7 +139,7 @@ export default {
       this.$bvToast.toast(`Logged out succesfully`, {
         title: "Logout",
         solid: true,
-        variant: "success",
+        variant: "success"
       });
     },
     /**
@@ -142,16 +150,16 @@ export default {
       axios
         .get(`/user?type=role`, {
           headers: {
-            gktoken: this.authToken,
-          },
+            gktoken: this.authToken
+          }
         })
-        .then((res) => {
+        .then(res => {
           this.userRole = res.data.gkresult;
         })
-        .catch((e) => {
+        .catch(e => {
           console.log("admin fetch", e.message);
         });
-    },
+    }
   },
   mounted() {
     this.getUser();
@@ -166,7 +174,7 @@ export default {
           title: "New Update Available!",
           solid: "true",
           variant: "warning",
-          autoHideDelay: 3000,
+          autoHideDelay: 3000
         });
         // pull the latest code
         setTimeout(() => {
@@ -174,7 +182,7 @@ export default {
         }, 3000);
       });
     }
-  },
+  }
 };
 </script>
 <style scoped>
