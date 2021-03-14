@@ -4,227 +4,273 @@
   * Check accessibility
 -->
 <template>
-  <div class="container-fluid mt-3">
-    <div class="card">
-      <div class="card-header">Create Organisation</div>
-      <div class="card-body">
-        <b-form class="text-left" @submit.prevent="onSubmit">
-          <div class="row">
-            <div class="col">
-              <b-form-group
-                id="input-group-1"
-                label="Name"
-                label-for="input-1"
-                label-cols-sm="1"
-              >
-                <b-form-input
-                  id="input-1"
-                  type="text"
-                  placeholder="ABC Organisation"
-                  v-model="orgName"
-                  required
+  <div class="d-flex justify-content-center mt-3 mx-3">
+    <div class="card shadow" :style="{'min-width': '350px'}">
+      <div class="card-header bg-primary text-light">Create Organisation</div>
+      <div class="card-body px-2 px-sm-4">
+        <b-form @submit.prevent="onSubmit">
+          <b-form-group
+            label-size="md"
+            id="input-group-1"
+            label="Name"
+            label-for="input-1"
+            label-cols-sm="3"
+            label-cols-lg="2"
+          >
+            <b-form-input
+              size="md"
+              id="input-1"
+              type="text"
+              placeholder="ABC Organisation"
+              v-model="orgName"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+          <b-form-group
+            label-size="md"
+            label="Type"
+            v-slot="{ ariaDescribedby }"
+            label-cols-sm="3"
+            label-cols-lg="2"
+          >
+            <b-form-radio-group
+              size="md"
+              id="btn-radios-1"
+              v-model="orgType"
+              :options="options.orgType"
+              :aria-describedby="ariaDescribedby"
+              button-variant="outline-primary"
+              name="radios-btn-outline"
+              buttons
+            ></b-form-radio-group>
+          </b-form-group>
+          <b-form-group
+            id="input-group-2"
+            label="Financial Year"
+            label-size="md"
+            label-class="mb-2"
+            class="mb-0 mt-4"
+            label-cols-sm="3"
+            label-cols-lg="2"
+          >
+            <div class="row">
+              <div class="col-6 pr-1">
+                <b-form-group
+                  label-size="md"
+                  id="input-group-3"
+                  label="From"
+                  label-for="date-1"
+                  label-class="label-on-input"
                 >
-                </b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="Type"
-                v-slot="{ ariaDescribedby }"
-                label-cols-sm="1"
-              >
-                <b-form-radio-group
-                  id="btn-radios-1"
-                  v-model="orgType"
-                  :options="options.orgType"
-                  :aria-describedby="ariaDescribedby"
-                  button-variant="outline-primary"
-                  name="radios-btn-outline"
-                  buttons
-                ></b-form-radio-group>
-              </b-form-group>
-              <b-form-group id="input-group-2" label="Financial Year">
-                <div class="row">
-                  <div class="col-6">
-                    <b-form-group
-                      id="input-group-3"
-                      label="From"
-                      label-for="date-1"
-                    >
-                      <b-input-group class="mb-3">
-                        <b-form-input
-                          @input="setYearEnd"
-                          id="date-1"
-                          v-model="yearStart"
-                          type="text"
-                          placeholder="YYYY-MM-DD"
-                          autocomplete="off"
-                          required
-                        ></b-form-input>
-                        <b-input-group-append>
-                          <b-form-datepicker
-                            v-model="yearStart"
-                            button-only
-                            right
-                            locale="en-GB"
-                            @context="setYearEnd"
-                            aria-controls="date-1"
-                          >
-                          </b-form-datepicker>
-                        </b-input-group-append>
-                      </b-input-group>
-                    </b-form-group>
-                  </div>
-                  <div class="col">
-                    <b-form-group
-                      id="input-group-4"
-                      label="To"
-                      label-for="date-2"
-                    >
-                      <b-input-group class="mb-3">
-                        <b-form-input
-                          id="date-2"
-                          v-model="yearEnd"
-                          type="text"
-                          placeholder="YYYY-MM-DD"
-                          autocomplete="off"
-                          required
-                        ></b-form-input>
-                        <b-input-group-append>
-                          <b-form-datepicker
-                            v-model="yearEnd"
-                            button-only
-                            right
-                            locale="en-GB"
-                            aria-controls="date-2"
-                          >
-                          </b-form-datepicker>
-                        </b-input-group-append>
-                      </b-input-group>
-                    </b-form-group>
-                  </div>
-                </div>
-              </b-form-group>
+                  <b-input-group class="mb-3">
+                    <b-form-input
+                      size="md"
+                      @input="setYearEnd"
+                      id="date-1"
+                      v-model="yearStart"
+                      type="text"
+                      placeholder="YYYY-MM-DD"
+                      autocomplete="off"
+                      required
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-form-datepicker
+                        size="md"
+                        v-model="yearStart"
+                        button-only
+                        right
+                        locale="en-GB"
+                        @context="setYearEnd"
+                        aria-controls="date-1"
+                      >
+                      </b-form-datepicker>
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>
+              </div>
+              <div class="col pl-1">
+                <b-form-group
+                  label-size="md"
+                  id="input-group-4"
+                  label="To"
+                  label-for="date-2"
+                  label-class="label-on-input"
+                >
+                  <b-input-group class="mb-3">
+                    <b-form-input
+                      size="md"
+                      id="date-2"
+                      v-model="yearEnd"
+                      type="text"
+                      placeholder="YYYY-MM-DD"
+                      autocomplete="off"
+                      required
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-form-datepicker
+                        size="md"
+                        v-model="yearEnd"
+                        button-only
+                        right
+                        locale="en-GB"
+                        aria-controls="date-2"
+                      >
+                      </b-form-datepicker>
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>
+              </div>
             </div>
-            <!--Right columns-->
-            <div class="col-md-6">
-              <b-form-group
-                id="input-group-5"
-                label="Name"
-                label-for="input-2"
-                label-cols-sm="1"
-              >
-                <b-form-input
-                  id="input-2"
-                  type="text"
-                  placeholder="Enter Admin Username"
-                  v-model="userName"
-                  required
+          </b-form-group>
+          <b-form-group
+            label-size="md"
+            id="input-group-5"
+            label="Name"
+            label-for="input-2"
+            label-cols-sm="3"
+            label-cols-lg="2"
+          >
+            <b-form-input
+              size="md"
+              id="input-2"
+              type="text"
+              placeholder="Enter Admin Username"
+              v-model="userName"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+          <b-form-group
+            label-size="md"
+            id="input-group-6"
+            label="Password"
+            label-for="password-1"
+            label-cols-sm="3"
+            label-cols-lg="2"
+            :state="isPasswordValid"
+            :invalid-feedback="passwordFeedback"
+            :valid-feedback="passwordFeedback"
+          >
+            <b-form-input
+              size="md"
+              id="password-1"
+              type="password"
+              placeholder="P@$$w0rd"
+              v-model="userPassword"
+              label-cols="1"
+              :state="isPasswordValid"
+              debounce="500"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+          <b-form-group
+            label-size="md"
+            id="input-group-7"
+            label="Password Recovery"
+            label-class="mb-2"
+            class="mb-0 mt-4"
+            label-cols-sm="3"
+            label-cols-lg="2"
+          >
+            <div class="row">
+              <div class="col-6 pr-1">
+                <b-form-group
+                  label-size="md"
+                  id="input-group-8"
+                  label="Question"
+                  label-for="input-3"
+                  label-class="label-on-input"
                 >
-                </b-form-input>
-              </b-form-group>
-              <b-form-group
-                id="input-group-6"
-                label="Password"
-                label-for="password-1"
-                label-cols-sm="1"
-                :state="isPasswordValid"
-                :invalid-feedback="passwordFeedback"
-                :valid-feedback="passwordFeedback"
-              >
-                <b-form-input
-                  id="password-1"
-                  type="password"
-                  placeholder="P@$$w0rd"
-                  v-model="userPassword"
-                  label-cols="1"
-                  :state="isPasswordValid"
-                  debounce="500"
-                  required
-                >
-                </b-form-input>
-              </b-form-group>
-              <b-form-group
-                id="input-group-7"
-                label="Password Recovery"
-                label-for="input-3"
-              >
-                <div class="row">
-                  <div class="col-6">
-                    <b-form-group
-                      id="input-group-8"
-                      label="Question"
-                      label-for="input-3"
-                    >
-                      <b-form-input
-                        id="input-3"
-                        type="text"
-                        placeholder="Who am I?"
-                        v-model="securityQuestion"
-                        required
-                      >
-                      </b-form-input>
-                    </b-form-group>
-                  </div>
-                  <div class="col-6">
-                    <b-form-group
-                      id="input-group-9"
-                      label="Answer"
-                      label-for="input-4"
-                    >
-                      <b-form-input
-                        id="input-4"
-                        type="text"
-                        placeholder="GNUKhata"
-                        v-model="securityAnswer"
-                        required
-                      >
-                      </b-form-input>
-                    </b-form-group>
-                  </div>
-                </div>
-              </b-form-group>
-              <b-form-group
-                id="input-group-1"
-                label="Captcha"
-                label-for="captcha-1"
-                description="* Required"
-              >
-                <b-row>
-                  <canvas
-                    ria-label="Captcha field"
-                    width="70"
-                    height="30"
-                    id="captchaCanvas"
-                    style="border: 1px solid #d3d3d3"
-                  ></canvas>
-                  <b-button
-                    size="sm"
-                    @click.prevent="audioCaptcha"
-                    role="button"
-                    title="listen to captcha"
-                    aria-label="Audio Captcha button"
-                    class="mb-button ml-1"
-                  >
-                    <b-icon aria-hidden="true" icon="play-circle"></b-icon>
-                    Audio
-                  </b-button>
-                  <!-- <b-col> -->
                   <b-form-input
-                    class="mt-3"
-                    id="captcha-1"
-                    v-model="userAnswer"
+                    size="md"
+                    id="input-3"
                     type="text"
-                    placeholder="Answer"
+                    placeholder="Who am I?"
+                    v-model="securityQuestion"
                     required
                   >
                   </b-form-input>
-                  <!-- </b-col> -->
-                </b-row>
-              </b-form-group>
+                </b-form-group>
+              </div>
+              <div class="col-6 pl-1">
+                <b-form-group
+                  label-size="md"
+                  id="input-group-9"
+                  label="Answer"
+                  label-for="input-4"
+                  label-class="label-on-input"
+                >
+                  <b-form-input
+                    size="md"
+                    id="input-4"
+                    type="text"
+                    placeholder="GNUKhata"
+                    v-model="securityAnswer"
+                    required
+                  >
+                  </b-form-input>
+                </b-form-group>
+              </div>
             </div>
-          </div>
-          <hr />
+          </b-form-group>
+          <b-form-group
+            label-size="md"
+            id="input-group-1"
+            label="Captcha"
+            label-for="captcha-1"
+            label-cols-sm="3"
+            label-cols-lg="2"
+          >
+          <template #label>
+            <div>
+              <canvas
+                ria-label="Captcha field"
+                width="80"
+                height="40"
+                id="captchaCanvas"
+                style="border: 1px solid #d3d3d3"
+                class="float-left"
+              ></canvas>
+              <b-button
+                size="md"
+                @click.prevent="audioCaptcha"
+                role="button"
+                title="Audio Captcha"
+                aria-label="Audio Captcha button"
+                class="px-1"
+                variant="link"
+              >
+                <b-icon
+                  icon="volume-up-fill"
+                  font-scale="1.35"
+                  variant="dark"
+                ></b-icon>
+              </b-button>
+            </div>
+          </template>
+            <!-- <b-col> -->
+            <b-form-input
+              size="md"
+              class="mt-1"
+              id="captcha-1"
+              v-model="userAnswer"
+              type="text"
+              placeholder="Answer"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+          <small>* All fields are required</small>
+          <!-- <hr /> -->
           <div class="float-right">
-            <b-button class="mr-2" variant="danger" :to="{ name: 'Login' }">
+            <b-button
+              size="sm"
+              class="mr-2"
+              variant="danger"
+              :to="{ name: 'Login' }"
+            >
               <b-icon
                 aria-hidden="true"
                 class="align-middle"
@@ -232,7 +278,7 @@
               ></b-icon>
               <span class="align-middle"> Back</span>
             </b-button>
-            <b-button type="submit" class="mr-2" variant="primary">
+            <b-button size="sm" type="submit" class="mr-2" variant="primary">
               <b-spinner v-if="isLoading" small></b-spinner>
               <b-icon
                 v-else
@@ -243,6 +289,7 @@
               <span class="align-middle"> Create &amp; Login</span>
             </b-button>
           </div>
+          <div class="clearfix"></div>
         </b-form>
       </div>
     </div>
