@@ -13,13 +13,17 @@
       @input="onInput"
       debounce="500"
       autocomplete="off"
+      :readonly="readonly"
     />
 
     <!-- Autocomplete Menu -->
-    <b-list-group class="gk-autocomplete-content" v-if="optionsShown">
+    <!-- <b-list-group> is conflicting with the CSS class "text-truncate", 
+      thus using <div> as the container -->
+    <div class="gk-autocomplete-content" v-if="optionsShown && !readonly">
+      <!--  -->
       <b-list-group-item
         button
-        class="gk-autocomplete-item"
+        class="gk-autocomplete-item text-truncate"
         :class="{ 'gk-autocomplete-item-hover': index === hovered }"
         v-for="(option, index) in filteredOptions"
         :key="index"
@@ -28,7 +32,7 @@
       >
         {{ option.text }}
       </b-list-group-item>
-    </b-list-group>
+    </div>
   </div>
 </template>
 
@@ -83,6 +87,12 @@ export default {
       required: false,
       default: null,
     },
+    readonly: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: "If readonly is true, then only update of data through code is possible"
+    }
   },
   data() {
     return {
@@ -185,7 +195,7 @@ export default {
           // console.log(this.selected.text)
           this.searchFilter = this.selected.text;
         }
-        console.log(this.selected.value)
+        // console.log(this.selected.value)
         this.$emit("input", this.selected.value);
       }
     },
@@ -351,11 +361,11 @@ export default {
   display: block;
   margin: auto;
   .gk-autocomplete-input {
-    background: #fff;
-    border: 1px solid #ced4da;
+    // background: #fff;
+    // border: 1px solid #ced4da;
     // border: 1px solid #e7ecf5;
-    border-radius: 0.25rem;
-    color: #333;
+    // border-radius: 0.25rem;
+    // color: #333;
     display: block;
     font-size: 0.8em;
     padding: 6px;
@@ -371,7 +381,8 @@ export default {
     max-height: 200px;
     border: 1px solid #e7ecf5;
     box-shadow: 0px -8px 34px 0px rgba(0, 0, 0, 0.05);
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     z-index: 99999;
     .gk-autocomplete-item {
       cursor: pointer;
