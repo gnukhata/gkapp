@@ -29,11 +29,12 @@
       >
         <!-- data.item.edit is userid -->
         <template #cell(user)="data">
-          <b-badge
+          <b-button
             @click="showEditUser(data.item.edit)"
             title="click to edit contact"
-            variant="primary"
-            >{{ data.item.user }}</b-badge
+            variant="dark"
+            size="sm"
+            ><b-icon icon="person"></b-icon> {{ data.item.user }}</b-button
           >
           <!-- <b>{{ data.item.user }} </b> -->
           <!-- <b-icon
@@ -129,5 +130,5 @@ export default {
 <style scoped>
 .table {
   width: 70%;
-}</style
->>
+}
+</style>
