@@ -14,7 +14,7 @@
               button-variant="outline-secondary"
               size="sm"
               buttons
-              @input="custid = null"
+              @input="custid = ''"
               class="d-inline-block float-left mb-2"
             >
               <b-form-radio value="3">Customer</b-form-radio>
@@ -38,9 +38,7 @@
                 v-model="custid"
                 textField="custname"
                 valueField="custid"
-                :options="
-                  csflag === '3' ? options.customers : options.suppliers
-                "
+                :options="currentPartyOptions"
                 @input="fetchUnadjustedItems()"
                 required
               ></autocomplete>
@@ -253,6 +251,10 @@ export default {
     };
   },
   computed: {
+    currentPartyOptions: (self) =>
+      parseInt(self.csflag) === 3
+        ? self.options.customers
+        : self.options.suppliers,
     totalAdjusted: (self) => {
       let total = 0;
       if (self.options.invoices !== null) {
@@ -466,11 +468,11 @@ export default {
         if (resp2.status === 200) {
           if (resp2.data.gkstatus === 0) {
             this.options.suppliers = resp2.data.gkresult;
-            this.options.suppliers.unshift({
-              custname: "-- Suppliers --",
-              custid: null,
-              disabled: true,
-            });
+            // this.options.suppliers.unshift({
+            //   custname: "-- Suppliers --",
+            //   custid: null,
+            //   disabled: true,
+            // });
           } else {
             preloadErrorList += " Supplier List,";
           }
