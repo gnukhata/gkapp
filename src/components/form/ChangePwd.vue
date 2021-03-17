@@ -11,7 +11,7 @@
     </b-form-group>
     <b-form-group label="Confirm Password">
       <b-form-input
-        type="text"
+        type="password"
         :state="matchingPwds"
         v-model="confirmPwd"
         required
