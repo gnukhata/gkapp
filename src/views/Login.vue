@@ -49,12 +49,13 @@
       header-bg-variant="primary"
       header-text-variant="light"
     >
+      <b-alert show variant="info">
+        Demo Username: <b>user_a</b> <br />
+        Password: <b>user_a</b> <br />
+        Company: <b>ABC Delivery</b></b-alert
+      >
       <b-card-body>
         <b-form @submit.prevent="login">
-          <b-alert show variant="info"
-            >Demo Username: <b>user_a</b> / Password: <b>user_a</b> / Company:
-            <b>ABC Delivery</b></b-alert
-          >
           <!--Username area-->
           <b-form-group
             label="Username"
@@ -128,26 +129,7 @@
           </b-form-group>
           <!--Captcha area-->
           <b-form-group label="Question" content-cols="auto" label-cols="auto">
-            <b-form-row>
-              <canvas
-                aria-label="Question audio button"
-                title="Audio question"
-                width="90"
-                height="30"
-                id="captchaCanvas"
-                style="border: 1px solid black; background-color: white"
-                class="ml-2"
-              ></canvas>
-              <b-icon
-                class="ml-3 mt-2 h3"
-                @click="audioCaptcha"
-                role="button"
-                icon="volume-up-fill"
-                sm
-                variant="dark"
-                aria-label="audio question button"
-              ></b-icon>
-            </b-form-row>
+            <captcha v-model="question"></captcha>
           </b-form-group>
           <!-- captcha answer -->
           <b-form-group
@@ -167,9 +149,15 @@
           <!-- Login & create account buttons-->
           <div class="float-right">
             <b-button-group size="sm">
-              <b-button variant="warning" @click="switchServer" class="mr-2">
-                <b-icon icon="cloud"></b-icon>
-                Change Server
+              <b-button
+                :disabled="isDisabled"
+                variant="primary"
+                class="mr-2"
+                type="submit"
+              >
+                <b-spinner v-if="isLoading" small></b-spinner>
+                <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
+                Login
               </b-button>
               <b-button
                 variant="success"
@@ -179,10 +167,9 @@
                 <b-icon icon="person-plus"></b-icon>
                 Create Account
               </b-button>
-              <b-button :disabled="isDisabled" variant="primary" type="submit">
-                <b-spinner v-if="isLoading" small></b-spinner>
-                <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
-                Login
+              <b-button variant="warning" @click="switchServer">
+                <b-icon icon="cloud"></b-icon>
+                Change Server
               </b-button>
             </b-button-group>
           </div>
@@ -194,9 +181,11 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
+import Captcha from "../components/Captcha.vue";
 
 export default {
   name: "login",
+  components: { Captcha },
   data() {
     return {
       notificationIsActive: true,
@@ -216,8 +205,8 @@ export default {
         username: null,
         userpassword: null,
         orgcode: null,
-        orgName: null,
-      },
+        orgName: null
+      }
     };
   },
   methods: {
@@ -240,22 +229,22 @@ export default {
         console.log("checking local server");
         axios
           .get(`https://satheerthan.site:6543/state`)
-          .then((res) => {
+          .then(res => {
             if (res.status == 200 && res.data.gkstatus == 0) {
               this.$store.commit("setGkCoreUrl", {
-                gkCoreUrl: "https://satheerthan.site:6543",
+                gkCoreUrl: "https://satheerthan.site:6543"
               });
               this.showLogin = true;
               this.fetchOrgs();
             }
           })
-          .catch((e) => {
+          .catch(e => {
             this.$bvToast.toast(
               "Please check if gkcore is properly setup & running on port 6543",
               {
                 title: e,
                 solid: true,
-                variant: "danger",
+                variant: "danger"
               }
             );
           });
@@ -264,20 +253,20 @@ export default {
         console.log("checking custom url ", this.serverUrl);
         axios
           .get(`${this.serverUrl}/state`)
-          .then((res) => {
+          .then(res => {
             if (res.status == 200 && res.data.gkstatus == 0) {
               this.$store.commit("setGkCoreUrl", {
-                gkCoreUrl: this.serverUrl,
+                gkCoreUrl: this.serverUrl
               });
               this.showLogin = true;
               this.fetchOrgs();
             }
           })
-          .catch((e) => {
+          .catch(e => {
             this.$bvToast.toast(e.message, {
               title: "Invalid URL",
               variant: "danger",
-              solid: true,
+              solid: true
             });
           });
       }
@@ -289,7 +278,7 @@ export default {
     switchServer() {
       localStorage.clear();
       this.$store.commit("setGkCoreUrl", {
-        gkCoreUrl: null,
+        gkCoreUrl: null
       });
       this.checkUrl();
     },
@@ -298,16 +287,14 @@ export default {
      */
     login() {
       this.isLoading = true;
-      // Validate user's captcha answer
-      this.captcha();
       axios
         .post(`${this.gkCoreUrl}/login`, this.form)
-        .then((response) => {
+        .then(response => {
           // alert user depending on the gkstatus code
           switch (response.data.gkstatus) {
             case 0:
               this.isLoading = false;
-              if (this.captchaSolved) {
+              if (this.question === this.userAnswer) {
                 let orgname = this.orgList[this.orgIndex].orgname;
                 let orgtype = this.orgList[this.orgIndex].orgtype;
                 let orgfy = this.orgFinancialYear();
@@ -319,8 +306,8 @@ export default {
                   user: { username: this.form.username },
                   orgYears: {
                     yearStart: orgfy.startYear,
-                    yearEnd: orgfy.endYear,
-                  },
+                    yearEnd: orgfy.endYear
+                  }
                 });
                 axios.defaults.baseURL = this.gkCoreUrl;
                 axios.defaults.headers = { gktoken: response.data.token };
@@ -331,20 +318,18 @@ export default {
                   autoHideDelay: 3000,
                   appendToast: true,
                   variant: "success",
-                  solid: true,
+                  solid: true
                 });
               } else {
                 // Alert the user on captcha failure
-                console.log("Invalid Captcha answer");
-                this.$bvToast.toast(`Info`, {
+                this.$bvToast.toast(`Incorrect Answer`, {
                   title: "Captcha failed",
                   autoHideDelay: 3000,
                   appendToast: true,
                   variant: "danger",
-                  solid: true,
+                  solid: true
                 });
-                // And Generate new captcha
-                this.genCaptcha();
+                console.log(this.question);
               }
               break;
             case 2:
@@ -355,7 +340,7 @@ export default {
                 autoHideDelay: 3000,
                 variant: "danger",
                 appendToast: true,
-                solid: true,
+                solid: true
               });
               this.isLoading = false;
               break;
@@ -363,7 +348,7 @@ export default {
               this.isLoading = false;
           } // end switch
         })
-        .catch((error) => {
+        .catch(error => {
           this.isLoading = false;
           console.log(error.message);
         });
@@ -374,21 +359,21 @@ export default {
     fetchOrgs() {
       axios
         .get(`${this.gkCoreUrl}/organisations`)
-        .then((response) => {
+        .then(response => {
           this.orgList = response.data.gkdata;
           // Convert the api data b-vue compatible
           let opt = [];
           for (const i in this.orgList) {
             const item = {
               value: i,
-              text: `${this.orgList[i].orgname} (${this.orgList[i].orgtype})`,
+              text: `${this.orgList[i].orgname} (${this.orgList[i].orgtype})`
             };
             opt.push(item);
           }
           this.options = opt;
           this.isDisabled = false; // hide the spinner
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     },
@@ -401,9 +386,9 @@ export default {
       let type = this.orgList[this.orgIndex].orgtype;
       axios
         .get(`/orgyears/${name}/${type}`)
-        .then((r) => {
+        .then(r => {
           if (r.status == 200) {
-            let data = r.data.gkdata.map((data) => {
+            let data = r.data.gkdata.map(data => {
               // console.log(Object.values(data));
               let obj = {};
               obj.text = `${Object.values(data)[0]} to ${
@@ -417,7 +402,7 @@ export default {
             this.isDisabled = false;
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e.message);
           this.isDisabled = false;
         });
@@ -429,49 +414,14 @@ export default {
         if (this.orgYearsFull[i].orgcode === this.form.orgcode) {
           return {
             startYear: this.orgYearsFull[i].yearstart,
-            endYear: this.orgYearsFull[i].yearend,
+            endYear: this.orgYearsFull[i].yearend
           };
-          break;
         }
       }
-    },
-    genCaptcha() {
-      this.question = `${Math.floor(Math.random() * 11)} + ${Math.floor(
-        Math.random() * 11
-      )}`;
-      const canvas = document.getElementById("captchaCanvas");
-      const ctx = canvas.getContext("2d");
-      ctx.font = "18px Arial";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillText(`${this.question} = `, canvas.width / 2, canvas.height / 2);
-    },
-    captcha() {
-      const q = this.question.split("+");
-      const ans = parseInt(q[0]) + parseInt(q[1]);
-      console.log(ans);
-      if (parseInt(this.userAnswer) === ans) {
-        this.captchaSolved = true;
-      }
-    },
-    audioCaptcha() {
-      if ("speechSynthesis" in window) {
-        const msg = new SpeechSynthesisUtterance();
-        msg.text = this.question;
-        window.speechSynthesis.speak(msg);
-      } else {
-        this.$buefy.toast({
-          message: "Your browser does not support speech synthesis",
-          type: "is-error",
-          queue: false,
-        });
-      }
-    },
+    }
   },
   mounted() {
     this.fetchOrgs();
-    this.genCaptcha();
     this.checkUrl();
     if (this.userAuthenticated) {
       this.$router.push("/workflow");
@@ -480,12 +430,14 @@ export default {
   computed: {
     ...mapState(["gkCoreUrl", "userAuthenticated"]),
     urlIsValid() {
-      return this.serverUrl.split("").reverse().join("")[0] == "/"
+      return this.serverUrl
+        .split("")
+        .reverse()
+        .join("")[0] == "/"
         ? false
         : true;
-    },
-  },
+    }
+  }
 };
 </script>
-<style>
-</style>
+<style></style>
