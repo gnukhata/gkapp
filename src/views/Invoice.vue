@@ -784,7 +784,7 @@
                 <b-input
                   v-model="field.qty"
                   class="hide-spin-button text-right"
-                  type="number"
+                  type="number" no-wheel
                   step="0.01"
                   min="0.01"
                   @input="updateTaxAndTotal(index)"
@@ -798,7 +798,7 @@
                 <b-input
                   v-model="field.rate"
                   class="hide-spin-button text-right"
-                  type="number"
+                  type="number" no-wheel
                   step="0.01"
                   min="0.01"
                   @input="updateTaxAndTotal(index)"
@@ -810,7 +810,7 @@
                 <b-input
                   v-model="field.discount.amount"
                   class="hide-spin-button text-right"
-                  type="number"
+                  type="number" no-wheel
                   step="0.01"
                   min="0.00"
                   @input="updateTaxAndTotal(index)"

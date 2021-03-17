@@ -90,7 +90,7 @@
                   <b-input
                     v-model="data.item.adjusted"
                     class="hide-spin-button text-right"
-                    type="number"
+                    type="number" no-wheel
                     step="0.01"
                     min="0"
                     :max="data.item.balanceamount"

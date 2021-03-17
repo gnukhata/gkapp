@@ -96,7 +96,7 @@
               <b-form-input
                 size="sm"
                 id="go-input-5"
-                type="number"
+                type="number" no-wheel
                 v-model="form.contactNumber"
               ></b-form-input>
             </b-form-group>

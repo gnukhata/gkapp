@@ -158,7 +158,7 @@
           >
             <b-form-input
               v-model="userAnswer"
-              type="number"
+              type="number" no-wheel
               placeholder="Enter the Answer"
               required
             >

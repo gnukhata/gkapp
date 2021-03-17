@@ -137,7 +137,7 @@
                     <b-input
                       v-model="form.amount"
                       class="hide-spin-button text-right px-1"
-                      type="number"
+                      type="number" no-wheel
                       step="0.01"
                       min="0.01"
                       v-if="data.debit"
@@ -152,7 +152,7 @@
                     <b-input
                       v-model="form.amount"
                       class="hide-spin-button text-right px-1"
-                      type="number"
+                      type="number" no-wheel
                       step="0.01"
                       min="0.01"
                       v-if="data.credit"

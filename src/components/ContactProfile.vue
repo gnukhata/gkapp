@@ -119,8 +119,7 @@
           label-align-sm="right"
         >
           <b-form-input
-            type="number"
-            no-wheel
+            type="number" no-wheel
             :value="details.pincode"
             v-model="details.pincode"
             id="nested-country"
