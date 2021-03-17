@@ -126,7 +126,8 @@
                       v-model="form.party.addr"
                       rows="2"
                       trim
-                      plaintext
+                      readonly
+                      tabindex="-1"
                     ></b-form-textarea>
                   </b-form-group>
                 </b-col>
@@ -142,7 +143,8 @@
                       id="input-11"
                       v-model="form.party.pin"
                       trim
-                      plaintext
+                      readonly
+                      tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -175,7 +177,8 @@
                       id="input-13"
                       v-model="form.party.gstin"
                       trim
-                      plaintext
+                      readonly
+                      tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -191,7 +194,8 @@
                       id="input-13"
                       v-model="form.party.tin"
                       trim
-                      plaintext
+                      readonly
+                      tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -344,6 +348,8 @@
                   max-rows="2"
                   trim
                   required
+                  readonly
+                  tabindex="-1"
                 ></b-form-textarea>
               </b-form-group>
               <b-row>
@@ -365,6 +371,8 @@
                       id="input-5"
                       v-model="form.inv.pin"
                       trim
+                      readonly
+                      tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -383,6 +391,8 @@
                       v-model="form.inv.state"
                       :options="options.states"
                       required
+                      readonly
+                      tabindex="-1"
                     ></autocomplete>
                   </b-form-group>
                 </b-col>
@@ -411,6 +421,8 @@
                       v-model="form.inv.issuer"
                       trim
                       required
+                      readonly
+                      tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -428,6 +440,8 @@
                       v-model="form.inv.role"
                       trim
                       required
+                      readonly
+                      tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -473,7 +487,7 @@
             >
               <b-form-checkbox
                 id="checkbox-1"
-                v-model="sameBillAddress"
+                v-model="useBillAddress"
                 name="checkbox-1"
                 class="mb-3"
                 size="sm"
@@ -494,6 +508,8 @@
                       size="sm"
                       id="input-14"
                       v-model="form.ship.name"
+                      :readonly="useBillAddress"
+                      tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -511,6 +527,8 @@
                       rows="2"
                       max-rows="2"
                       trim
+                      :readonly="useBillAddress"
+                      tabindex="-1"
                     ></b-form-textarea>
                   </b-form-group>
                 </b-col>
@@ -526,24 +544,12 @@
                       id="input-16"
                       v-model="form.ship.pin"
                       trim
+                      :readonly="useBillAddress"
+                      tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
                 <b-col cols="12" v-if="config.ship.state">
-                  <!-- <b-form-group
-                    label="State"
-                    label-for="input-17"
-                    label-size="sm"
-                    label-cols="3"
-                  >
-                    <b-form-select
-                      size="sm"
-                      id="input-17"
-                      v-model="form.ship.state"
-                      :options="options.states"
-                      trim
-                    ></b-form-select>
-                  </b-form-group> -->
                   <b-form-group
                     label="State"
                     label-for="input-17"
@@ -557,6 +563,8 @@
                       :options="options.states"
                       trim
                       valueUid="id"
+                      :readonly="useBillAddress"
+                      tabindex="-1"
                     ></autocomplete>
                   </b-form-group>
                 </b-col>
@@ -572,6 +580,8 @@
                       id="input-18"
                       v-model="form.ship.gstin"
                       trim
+                      :readonly="useBillAddress"
+                      tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -609,7 +619,7 @@
       <div v-if="config.bill" class="position-relative my-2">
         <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
         </b-overlay>
-        <b-table-simple hover small caption-top responsive bordered>
+        <b-table-simple hover small caption-top responsive bordered :style="{'overflow-y': 'visible','overflow-x': 'unset'}">
           <b-thead head-variant="dark">
             <!-- table header -->
             <b-tr class="text-center">
@@ -779,6 +789,7 @@
                   min="0.01"
                   @input="updateTaxAndTotal(index)"
                   :readonly="field.isService"
+                  tabindex="-1"
                 ></b-input>
               </b-td>
 
@@ -1587,7 +1598,7 @@ export default {
       self.form.party.type === "customer" ? "Customer" : "Supplier",
     isSale: (self) => self.form.inv.type === "sale",
     isGst: (self) => self.form.taxType === "gst",
-    sameBillAddress: {
+    useBillAddress: {
       get: function () {
         return this.form.ship.copyFlag;
       },
@@ -1606,9 +1617,9 @@ export default {
   },
   methods: {
     onBillItemSelect(item, index) {
-      if(item) {
-        if(item.id) {
-          this.fetchProductDetails(item.id, index)
+      if (item) {
+        if (item.id) {
+          this.fetchProductDetails(item.id, index);
         }
       }
     },
@@ -2166,7 +2177,7 @@ export default {
           copyFlag: false,
           name: null,
           addr: null,
-          state: null,
+          state: {},
           gstin: null,
           pin: null,
         };
@@ -2191,15 +2202,17 @@ export default {
     },
     resetPartyDetails() {
       Object.assign(this.form.party, {
+        name: "",
         addr: null,
         options: {
-          states: null,
+          states: [],
           gstin: null,
         },
         state: null,
         pin: null,
         gstin: null,
       });
+      this.setShippingDetails();
     },
     /**
      * formatDateObj(date)
