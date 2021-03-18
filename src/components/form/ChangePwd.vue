@@ -21,6 +21,26 @@
         Passwords do not match
       </b-form-invalid-feedback>
     </b-form-group>
+    <!--Captcha area-->
+    <b-form-group label="Question" content-cols="auto" label-cols="auto">
+      <captcha @answer="captchaAnswer"></captcha>
+    </b-form-group>
+    <!-- captcha answer -->
+    <b-form-group
+      label="Answer"
+      description="* Required"
+      label-cols="auto"
+      content-cols="auto"
+    >
+      <b-form-input
+        v-model="userAnswer"
+        type="number"
+        no-wheel
+        placeholder="Enter the Answer"
+        required
+      >
+      </b-form-input>
+    </b-form-group>
     <b-button
       type="submit"
       :disabled="!matchingPwds"
@@ -36,13 +56,17 @@
  /This module has functions to update current user's password
  */
 import { mapState } from "vuex";
+import Captcha from "../Captcha.vue";
 export default {
+  components: { Captcha },
   name: "ChangePwd",
   data() {
     return {
       isLoading: false,
       currentPwd: "",
       confirmPwd: "",
+      answer: "",
+      userAnswer: "",
       form: {
         userid: Number,
         userpassword: ""
@@ -60,6 +84,10 @@ export default {
     }
   },
   methods: {
+    /* Captcha Answer */
+    captchaAnswer(ans) {
+      this.answer = ans;
+    },
     /* Get user's details from api */
     getUserInfo() {
       this.isLoading = true;
@@ -108,7 +136,15 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                this.changePwd();
+                if (this.userAnswer == this.answer) {
+                  this.changePwd();
+                } else {
+                  this.$bvToast.toast("Invalid Captcha", {
+                    variant: "danger",
+                    solid: true
+                  });
+                  this.isLoading = false;
+                }
                 break;
               case 4:
                 this.$bvToast.toast(
