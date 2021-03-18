@@ -25,8 +25,8 @@
       role="button"
       icon="arrow-clockwise"
       variant="dark"
-      title="New captcha"
-      aria-label="new captcha button"
+      title="Generate New Captcha"
+      aria-label="generate new captcha button"
     ></b-icon>
   </b-form-row>
 </template>
@@ -35,22 +35,19 @@
 export default {
   name: "Captcha",
   props: {
-    value: {
-      type: Number,
-      default: 0
-    },
-    // Canvas width (optional)
     width: {
-      default: 90
+      default: 90,
+      note: "Canvas Width (optional). Default is 90"
     },
-    // canvas height (optional)
     height: {
-      default: 30
+      default: 30,
+      note: "Canvas height (optional), Default is 30"
     }
   },
   data() {
     return {
-      text: ""
+      text: "",
+      content: this.value
     };
   },
   methods: {
@@ -62,7 +59,7 @@ export default {
       let a = Math.floor(Math.random() * 11);
       let b = Math.floor(Math.random() * 11);
       this.text = `${a} + ${b}`;
-      this.value = a + b;
+      let answer = a + b;
       const canvas = document.getElementById("captchaCanvas");
       const ctx = canvas.getContext("2d");
       ctx.font = "20px Arial";
@@ -70,6 +67,7 @@ export default {
       ctx.textBaseline = "middle";
       ctx.clearRect(0, 0, this.width, this.height);
       ctx.fillText(`${this.text} = `, this.width / 2, this.height / 2);
+      this.$emit("answer", answer);
     },
     /* This method converts the question to audio
     / for the pupose of users who require accessibility features
@@ -77,8 +75,8 @@ export default {
     audioCaptcha() {
       if ("speechSynthesis" in window) {
         const msg = new SpeechSynthesisUtterance();
-        msg.text = this.question;
-        window.speechSynthesis.speak(msg + "=");
+        msg.text = this.text;
+        window.speechSynthesis.speak(msg);
       } else {
         this.$bvModal.msgBoxOk(
           "Your browser does not support speech synthesis"
