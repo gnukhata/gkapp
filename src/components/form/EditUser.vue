@@ -93,7 +93,7 @@
         >
         <b-button
           variant="danger"
-          :disabled="form.userrole === -1"
+          :disabled="form.userrole == -1 && admins.length == 1"
           @click="confirm('delete')"
         >
           <b-icon icon="x-circle"></b-icon>
@@ -120,6 +120,7 @@ export default {
       userGodowns: "",
       isLoading: false,
       isTableLoading: true,
+      admins: [],
       roles: [
         {
           value: -1,
@@ -212,19 +213,29 @@ export default {
         .catch(e => {
           console.log(e.message);
         });
+
+      this.getAdmins();
     },
-    // getUserName() {
-    //   for (let i in this.userList) {
-    //     if (this.userList[i].userid == this.form.userid) {
-    //       this.form.username = this.userList[i].username;
-    //       this.form.userrole = this.userList[i].userrole;
-    //       if (this.form.userrole === 3) {
-    //         this.getUserGodowns(this.userList[i].userid);
-    //       }
-    //       break;
-    //     }
-    //   }
-    // },
+    /*
+    / This method gets the array of admin objects of the org and assigns them to admins key. We can use this
+    / info to prevent deletion of all admins accidentally in an org which results in a zombie org which cannot
+    / be accessed in any other way. Since, gkcore does not have any validation as such, atleast at the time of
+    / writing this method
+    */
+    getAdmins() {
+      axios
+        .get("/user?sameRoleUsers&userrole=-1")
+        .then(r => {
+          if (r.status === 200 && r.data.gkstatus === 0) {
+            this.admins = r.data.gkresult;
+          } else {
+            console.log("failed to get admins list");
+          }
+        })
+        .catch(e => {
+          console.log("admin list fetch: ", e.message);
+        });
+    },
     /**
      * get all godowns & filter the one's which user is incharge
      */
