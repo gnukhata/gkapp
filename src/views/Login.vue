@@ -129,7 +129,7 @@
           </b-form-group>
           <!--Captcha area-->
           <b-form-group label="Question" content-cols="auto" label-cols="auto">
-            <captcha v-model="question"></captcha>
+            <captcha @answer="captchaAnswer"></captcha>
           </b-form-group>
           <!-- captcha answer -->
           <b-form-group
@@ -193,7 +193,7 @@ export default {
       isLoading: false,
       isDisabled: true,
       options: null, // companys list
-      question: null,
+      answer: null,
       userAnswer: null,
       showLogin: false,
       orgList: null,
@@ -282,6 +282,10 @@ export default {
       });
       this.checkUrl();
     },
+    /* Get answer from captcha component and assign it to answer key */
+    captchaAnswer(ans) {
+      this.answer = ans;
+    },
     /**
      * Validate & Login the user
      */
@@ -294,7 +298,7 @@ export default {
           switch (response.data.gkstatus) {
             case 0:
               this.isLoading = false;
-              if (this.question === this.userAnswer) {
+              if (this.answer == this.userAnswer) {
                 let orgname = this.orgList[this.orgIndex].orgname;
                 let orgtype = this.orgList[this.orgIndex].orgtype;
                 let orgfy = this.orgFinancialYear();
@@ -309,6 +313,7 @@ export default {
                     yearEnd: orgfy.endYear
                   }
                 });
+                // Initiate axios defaults
                 axios.defaults.baseURL = this.gkCoreUrl;
                 axios.defaults.headers = { gktoken: response.data.token };
                 this.$router.push("/workflow");
@@ -329,7 +334,6 @@ export default {
                   variant: "danger",
                   solid: true
                 });
-                console.log(this.question);
               }
               break;
             case 2:
