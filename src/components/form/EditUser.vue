@@ -16,8 +16,12 @@
         </b-form-invalid-feedback>
       </b-form-group>
       <!-- user role -->
+      <!-- If there is only one admin, Prevent admin from changing self's role -->
       <b-form-group label="User Role">
-        <b-form-select v-model="form.userrole">
+        <b-form-select
+          v-model="form.userrole"
+          :disabled="form.userrole == -1 && admins.length == 1"
+        >
           <template #first>
             <b-form-select-option value="null" disabled>
               -- Select User --
