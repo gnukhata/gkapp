@@ -236,31 +236,7 @@
             label-cols-sm="3"
           >
             <template #label>
-              <div>
-                <canvas
-                  ria-label="Captcha field"
-                  width="80"
-                  height="40"
-                  id="captchaCanvas"
-                  style="border: 1px solid #d3d3d3"
-                  class="float-left"
-                ></canvas>
-                <b-button
-                  size="md"
-                  @click.prevent="audioCaptcha"
-                  role="button"
-                  title="Audio Captcha"
-                  aria-label="Audio Captcha button"
-                  class="px-1"
-                  variant="link"
-                >
-                  <b-icon
-                    icon="volume-up-fill"
-                    font-scale="1.35"
-                    variant="dark"
-                  ></b-icon>
-                </b-button>
-              </div>
+              <captcha @answer="captchaAnswer"></captcha>
             </template>
             <!-- <b-col> -->
             <b-form-input
@@ -318,10 +294,11 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import passwordStrength from "check-password-strength";
+import Captcha from "../components/Captcha.vue";
 
 export default {
   name: "CreateOrganisation",
-  components: {},
+  components: { Captcha },
   data() {
     return {
       // gkCoreUrl: 'https://satheerthan.site:6543', // 'http://localhost:6543',
@@ -329,9 +306,9 @@ export default {
       options: {
         orgType: [
           { text: "Profit Making", value: 0 },
-          { text: "Not For Profit", value: 1 },
+          { text: "Not For Profit", value: 1 }
         ],
-        pwdFieldTypes: ["lowercase", "uppercase", "symbol", "number"],
+        pwdFieldTypes: ["lowercase", "uppercase", "symbol", "number"]
       },
       orgName: "",
       orgType: 0,
@@ -342,22 +319,21 @@ export default {
       confirmPassword: "",
       securityAnswer: "",
       securityQuestion: "",
-
-      userAnswer: null,
-      captchaSolved: false,
+      answer: null,
+      userAnswer: null
     };
   },
   computed: {
-    pwdStrength: (self) =>
+    pwdStrength: self =>
       self.userPassword !== "" && self.userPassword !== null
         ? passwordStrength(self.userPassword)
         : { value: "Empty" },
-    allFieldsValid: (self) => !self.isPasswordValid && !self.arePasswordsSame,
-    isPasswordValid: (self) =>
+    allFieldsValid: self => !self.isPasswordValid && !self.arePasswordsSame,
+    isPasswordValid: self =>
       self.pwdStrength.value === "Empty"
         ? null
         : self.pwdStrength.value === "Strong",
-    arePasswordsSame: (self) =>
+    arePasswordsSame: self =>
       self.userPassword && self.confirmPassword
         ? self.userPassword === self.confirmPassword
         : null,
@@ -384,44 +360,12 @@ export default {
       }
       return text;
     },
-    ...mapState(["gkCoreUrl", "gkCoreTestUrl"]),
+    ...mapState(["gkCoreUrl", "gkCoreTestUrl"])
   },
   methods: {
-    // Generate captcha using random numbers from 0-10
-    genCaptcha() {
-      this.question = `${Math.floor(Math.random() * 11)} + ${Math.floor(
-        Math.random() * 11
-      )}`;
-      const canvas = document.getElementById("captchaCanvas");
-      const ctx = canvas.getContext("2d");
-      ctx.font = "18px Arial";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillText(`${this.question} = `, canvas.width / 2, canvas.height / 2);
-    },
-    // Validate captcha based on user input
-    captcha() {
-      const q = this.question.split("+");
-      const ans = parseInt(q[0]) + parseInt(q[1]);
-      if (parseInt(this.userAnswer) === ans) {
-        this.captchaSolved = true;
-      } else {
-        this.captchaSolved = false;
-      }
-    },
-    audioCaptcha() {
-      if ("speechSynthesis" in window) {
-        const msg = new SpeechSynthesisUtterance();
-        msg.text = this.question;
-        window.speechSynthesis.speak(msg);
-      } else {
-        this.$buefy.toast({
-          message: "Your browser does not support speech synthesis",
-          type: "is-error",
-          queue: false,
-        });
-      }
+    /* Get answer from captcha component and assign it to answer key */
+    captchaAnswer(ans) {
+      this.answer = ans;
     },
     setYearEnd() {
       // console.log('On date change')
@@ -441,9 +385,9 @@ export default {
       }
     },
     getPasswordHint(pwdStrength) {
-      const available = pwdStrength.contains.map((item) => item.message);
+      const available = pwdStrength.contains.map(item => item.message);
       let hint = this.options.pwdFieldTypes
-        .filter((item) => !available.includes(item))
+        .filter(item => !available.includes(item))
         .reduce((prev, cur) => {
           return `${prev} ${cur},`;
         }, "");
@@ -457,13 +401,12 @@ export default {
       return hint;
     },
     onSubmit() {
-      this.captcha();
-      if (this.captchaSolved) {
+      if (this.userAnswer == this.answer) {
         this.isLoading = true;
         const payload = this.initPayload();
         axios
           .post("/organisations", payload)
-          .then((response) => {
+          .then(response => {
             // console.log(response)
             this.isLoading = false;
             switch (response.data.gkstatus) {
@@ -471,12 +414,12 @@ export default {
                 this.$store
                   .dispatch("setSessionStates", {
                     orgCode: response.data.orgcode,
-                    authToken: response.data.token,
+                    authToken: response.data.token
                   })
                   .then(() => {
                     axios
                       .get("/organisation")
-                      .then((response2) => {
+                      .then(response2 => {
                         if (response2.data.gkstatus === 0) {
                           this.$store.dispatch("setSessionStates", {
                             auth: true,
@@ -484,8 +427,8 @@ export default {
                             user: { username: payload.userdetails.username },
                             orgYears: {
                               yearStart: response2.data.gkdata.yearstart,
-                              yearEnd: response2.data.gkdata.yearend,
-                            },
+                              yearEnd: response2.data.gkdata.yearend
+                            }
                           });
                           this.$router.push("/workflow");
                           this.$bvToast.toast(`Logged in Successfully!`, {
@@ -493,7 +436,7 @@ export default {
                             autoHideDelay: 3000,
                             variant: "success",
                             appendToast: true,
-                            solid: true,
+                            solid: true
                           });
                         } else {
                           this.$bvToast.toast(
@@ -503,18 +446,18 @@ export default {
                               autoHideDelay: 3000,
                               variant: "danger",
                               appendToast: true,
-                              solid: true,
+                              solid: true
                             }
                           );
                         }
                       })
-                      .catch((error) => {
+                      .catch(error => {
                         this.$bvToast.toast(`Error: ${error.message}`, {
                           title: "Login Error!",
                           autoHideDelay: 3000,
                           variant: "danger",
                           appendToast: true,
-                          solid: true,
+                          solid: true
                         });
                       });
                   });
@@ -527,7 +470,7 @@ export default {
                     autoHideDelay: 3000,
                     variant: "danger",
                     appendToast: true,
-                    solid: true,
+                    solid: true
                   }
                 );
                 break;
@@ -539,18 +482,18 @@ export default {
                     autoHideDelay: 3000,
                     variant: "danger",
                     appendToast: true,
-                    solid: true,
+                    solid: true
                   }
                 );
             } // end switch
           })
-          .catch((error) => {
+          .catch(error => {
             this.$bvToast.toast(`Error: ${error.message}`, {
               title: "Create Account Error!",
               autoHideDelay: 3000,
               variant: "warning",
               appendToast: true,
-              solid: true,
+              solid: true
             });
           })
           .then(() => {
@@ -564,7 +507,7 @@ export default {
           autoHideDelay: 3000,
           variant: "warning",
           appendToast: true,
-          solid: true,
+          solid: true
         });
         // Generate new captcha
         this.genCaptcha();
@@ -577,7 +520,7 @@ export default {
           username: this.userName,
           userpassword: this.userPassword,
           userquestion: this.securityQuestion,
-          useranswer: this.securityAnswer,
+          useranswer: this.securityAnswer
         },
         orgdetails: {
           orgname: this.orgName,
@@ -606,14 +549,13 @@ export default {
           maflag: null,
           avnoflag: null,
           ainvnoflag: null,
-          modeflag: null,
-        },
+          modeflag: null
+        }
       };
-    },
+    }
   },
   mounted() {
-    this.genCaptcha();
     this.yearStart = `${new Date().getFullYear()}-04-01`; // 1st of April, current year. YYYY-MM-DD
-  },
+  }
 };
 </script>
