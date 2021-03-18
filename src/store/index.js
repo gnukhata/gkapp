@@ -102,6 +102,7 @@ export default new Vuex.Store({
     setAuthToken(state, payload) {
       state.authToken = payload
       localStorage.setItem('authToken', state.authToken)
+      axios.defaults.headers = { gktoken: state.authToken }
     },
 
     setOrgYears(state, payload) {

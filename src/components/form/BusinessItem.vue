@@ -79,7 +79,7 @@
                       id="bi-input-3"
                       placeholder=""
                       v-model="form.stock.value"
-                      type="number"
+                      type="number" no-wheel
                       step="0.01"
                     ></b-form-input>
                   </b-input-group>
@@ -125,7 +125,7 @@
                         <b-form-input
                           size="sm"
                           v-model="godown.value"
-                          type="number"
+                          type="number" no-wheel
                           step="0.01"
                           placeholder="Stock qty"
                         ></b-form-input>
@@ -165,7 +165,7 @@
                       id="bi-input-4"
                       placeholder=""
                       v-model="form.mrp"
-                      type="number"
+                      type="number" no-wheel
                       step="0.01"
                     ></b-form-input>
                   </b-input-group>
@@ -182,7 +182,7 @@
                       id="bi-input-5"
                       placeholder=""
                       v-model="form.salePrice"
-                      type="number"
+                      type="number" no-wheel
                       step="0.01"
                     ></b-form-input>
                   </b-input-group>
@@ -201,7 +201,7 @@
                           id="bi-input-6"
                           placeholder=""
                           v-model="form.discountAmount"
-                          type="number"
+                          type="number" no-wheel
                           step="0.01"
                         ></b-form-input>
                       </b-input-group>
@@ -213,7 +213,7 @@
                           id="bi-input-11"
                           placeholder=""
                           v-model="form.discountPercent"
-                          type="number"
+                          type="number" no-wheel
                           step="0.01"
                         ></b-form-input>
                       </b-input-group>
@@ -272,7 +272,7 @@
                           id="bi-input-8"
                           placeholder=""
                           v-model="form.tax.cess"
-                          type="number"
+                          type="number" no-wheel
                           step="0.01"
                         ></b-form-input>
                       </b-input-group>
@@ -289,7 +289,7 @@
                           id="bi-input-9"
                           placeholder=""
                           v-model="form.tax.cvat"
-                          type="number"
+                          type="number" no-wheel
                           step="0.01"
                         ></b-form-input>
                       </b-input-group>
@@ -319,7 +319,7 @@
                           <b-form-input
                             size="sm"
                             v-model="vat.rate"
-                            type="number"
+                            type="number" no-wheel
                             step="0.01"
                             placeholder="VAT %"
                           ></b-form-input>

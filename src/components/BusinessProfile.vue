@@ -33,7 +33,8 @@
           <b-form-input
             :value="details.openingstock"
             v-model="details.openingstock"
-            type="number"
+            type="number" no-wheel
+
           ></b-form-input>
         </b-form-group>
         <!-- UOM -->

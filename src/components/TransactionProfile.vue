@@ -14,39 +14,32 @@
         <b>{{ invoice.date }}</b>
       </b-col>
     </b-row>
-    <b-row>
-      <b-col cols="12">
-        <b>Billed Items:</b>
-      </b-col>
-      <b-col cols="12">
-        <b-table :items="invoice.invItems" :fields="tableFields">
-          <template #cell(price)="data">
-           ₹  {{data.value}}
-          </template>
-          <template #cell(discount)="data">
-           ₹  {{data.value}}
-          </template>
-          <template #cell(tax)="data">
-            {{data.value.rate}} %
-          </template>
-          <template #cell(cess)="data">
-            {{data.value.rate}} %
-          </template>
-          <template #cell(total)="data">
-           ₹  {{data.value}}
-          </template>
-          <template #custom-foot>
-            <b-tr>
-              <b-th colspan="6">Total</b-th>
-              <b-th>₹ {{invoice.total.amount}}</b-th>
-            </b-tr>
-          </template>
-        </b-table>
-      </b-col>
-      <b-col cols="12">
-        <b>Total in words: {{invoice.total.text}}</b>
-      </b-col>
-    </b-row>
+    <b-table
+      :items="invoice.invItems"
+      :fields="tableFields"
+      bordered
+      head-variant="dark"
+    >
+      <template #cell(price)="data"> ₹ {{ data.value }} </template>
+      <template #cell(discount)="data"> ₹ {{ data.value }} </template>
+      <template #cell(tax)="data"> {{ data.value.rate }} % </template>
+      <template #cell(cess)="data"> {{ data.value.rate }} % </template>
+      <template #cell(total)="data"> ₹ {{ data.value }} </template>
+      <template #custom-foot>
+        <b-tr>
+          <b-th colspan="6">Total</b-th>
+          <b-th>₹ {{ invoice.total.amount }}</b-th>
+        </b-tr>
+      </template>
+    </b-table>
+    <div>
+      <b>Total in words: {{ invoice.total.text }}</b>
+    </div>
+    <div class="float-right">
+      <b-button v-if="cancelFlag" size="sm" variant="warning" @click="confirmOnCancel"
+        > <b-icon icon="x-octagon"></b-icon> Cancel Invoice</b-button
+      >
+    </div>
   </b-container>
 </template>
 
@@ -61,6 +54,22 @@ export default {
     invid: {
       type: Number,
       required: true,
+    },
+    rectifyFlag: {
+      type: Boolean,
+      required: true,
+      note: "true if invoice is in credit",
+    },
+    cancelFlag: {
+      type: Boolean,
+      required: true,
+      note: "true if cancellation of invoice is possible",
+    },
+    onUpdate: {
+      type: Function,
+      required: false,
+      note: `Run after every update of Invoice, as a callback.
+      Used to update the data used in workflow.`,
     },
   },
   data() {
@@ -77,24 +86,25 @@ export default {
         invItems: [],
         total: {
           amount: 0,
-          text: "Zero Rupee"
-        }
+          text: "Zero Rupee",
+        },
+        number: ""
       },
       tableFields: [
         {
-          key: 'name',
-          label: 'Item'
+          key: "name",
+          label: "Item",
         },
-        'qty',
+        "qty",
         {
-          key: 'price',
-          label: 'Rate'
+          key: "price",
+          label: "Rate",
         },
-        'discount',
-        'tax',
-        'cess',
-        'total'
-      ]
+        "discount",
+        "tax",
+        "cess",
+        "total",
+      ],
     };
   },
   computed: {
@@ -102,45 +112,8 @@ export default {
   },
   methods: {
     getDetails() {
-      axios
+      return axios
         .get(`/invoice?inv=single&invid=${this.invid}`)
-        .then((response) => {
-          switch (response.data.gkstatus) {
-            case 0:
-              // this.invoice = response.data.gkresult;
-              this.formatInvoiceDetails(response.data.gkresult);
-              break;
-            case 2:
-              this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-                title: `${this.formMode} ${this.formType} Error!`,
-                autoHideDelay: 3000,
-                variant: "warning",
-                appendToast: true,
-                solid: true,
-              });
-              break;
-            case 3:
-              this.$bvToast.toast(`Unable to Fetch Transaction Details! Please Try after sometime.`, {
-                title: `Fetch Transaction Details Error!`,
-                autoHideDelay: 3000,
-                variant: "warning",
-                appendToast: true,
-                solid: true,
-              });
-              break;
-            default:
-            // this.$bvToast.toast(
-            //   `Unable to create ${this.formType}, Please try again`,
-            //   {
-            //     title: `${this.formMode} ${this.formType} Error!`,
-            //     autoHideDelay: 3000,
-            //     variant: "danger",
-            //     appendToast: true,
-            //     solid: true,
-            //   }
-            // );
-          } // end switch
-        })
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
             title: `${this.formMode} ${this.formType} Error!`,
@@ -172,8 +145,9 @@ export default {
           invItems: [],
           total: {
             amount: details.invoicetotal,
-            text: details.invoicetotalword
-          }
+            text: details.invoicetotalword,
+          },
+          number: details.invoiceno,
         };
         if (details.invcontents) {
           let product = {};
@@ -206,6 +180,69 @@ export default {
         // console.log(this.invoice.invItems);
       }
     },
+    cancelInvoice() {
+      const payload = {
+        data: {
+          invid: this.invid,
+        },
+      };
+      axios
+        .delete("/invoice?type=cancel", payload)
+        .then((response) => {
+          switch (response.data.gkstatus) {
+            case 0:
+              this.displayToast(
+                "Cancel Invoice Success!",
+                `Successfully cancelled Invoice ${this.invoice.number}`,
+                "success"
+              );
+              this.getDetails().then((response) => {
+                if(typeof this.onUpdate === "function") {
+                  this.onUpdate(response.data);
+                }
+              })
+              break;
+            case 3:
+              this.displayToast(
+                "Cancel Invoice Failure!",
+                `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
+                "danger"
+              );
+              break;
+            default:
+              this.displayToast(
+                "Cancel Invoice Failure!",
+                `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
+                "danger"
+              );
+          }
+        })
+        .catch((error) => {
+          this.displayToast("Cancel Invoice Failure!", error.message, "danger");
+        });
+    },
+     confirmOnCancel() {
+       let invType = this.invoice.isSale ? "Sale to" : "Purchase from"
+      let text = `About to cancel Invoice: ${this.invoice.number}, of ${this.invoice.total.text} for ${invType}  ${this.invoice.party.name}. Are you sure?`
+      this.$bvModal
+        .msgBoxConfirm(
+          text,
+          {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true
+          }
+        )
+        .then((val) => {
+          if (val) {
+            this.cancelInvoice();
+          }
+        });
+    },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
         title: title,
@@ -215,15 +252,45 @@ export default {
         solid: true,
       });
     },
+    fetchAndUpdateData() {
+      this.getDetails().then((response) => {
+        switch (response.data.gkstatus) {
+          case 0:
+            // this.invoice = response.data.gkresult;
+            this.formatInvoiceDetails(response.data.gkresult);
+            break;
+          case 2:
+            this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
+              title: `${this.formMode} ${this.formType} Error!`,
+              autoHideDelay: 3000,
+              variant: "warning",
+              appendToast: true,
+              solid: true,
+            });
+            break;
+          default:
+            this.$bvToast.toast(
+              `Unable to Fetch Transaction Details! Please Try after sometime.`,
+              {
+                title: `Fetch Transaction Details Error!`,
+                autoHideDelay: 3000,
+                variant: "warning",
+                appendToast: true,
+                solid: true,
+              }
+            );
+        } // end switch
+      });
+    },
   },
   watch: {
     invid: function () {
-      this.getDetails();
+      this.fetchAndUpdateData();
     },
   },
   mounted() {
     // console.log("mounted")
-    this.getDetails();
+    this.fetchAndUpdateData();
   },
 };
 </script>

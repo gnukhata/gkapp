@@ -189,11 +189,11 @@
               :style="{ height: listHeight + 'px', overflowY: 'auto' }"
             >
               <b-list-group-item
-                @click.prevent="setSelectedEntity(item)"
                 button
+                class="data-list"
                 v-for="(item, index3) in processedData"
                 :key="index3"
-                class="data-list"
+                @click.prevent="setSelectedEntity(item, index3)"
               >
                 <div
                   v-if="activeWorkflow.name === 'Transactions'"
@@ -211,7 +211,7 @@
                       <small> {{ item[tab.key] }} </small>
                     </b-col>
                     <b-col cols="4" class="px-0 text-truncate text-right">
-                      <small>{{ "₹ " + item.invoicetotal }}</small>
+                      <small>{{ "₹ " + item.netamt }}</small>
                     </b-col>
                   </b-row>
                 </div>
@@ -303,7 +303,6 @@
         <!-- Invoices Profile -->
         <b-card
           no-body
-          border-variant="dark"
           class="ml-md-3"
           v-if="
             selectedEntity &&
@@ -331,6 +330,9 @@
           >
             <transaction-profile
               :invid="selectedEntity.invid"
+              :rectifyFlag="selectedEntity.rectifyFlag"
+              :cancelFlag="!!selectedEntity.cancelflag"
+              :onUpdate="onSelectedEntityUpdate"
             ></transaction-profile>
           </b-card-body>
         </b-card>
@@ -371,6 +373,7 @@ export default {
       services: [],
       isFilterOpen: false,
       selectedEntity: null,
+      selectedEntityIndex: 0,
       filter: {
         value: {
           props: {},
@@ -695,21 +698,35 @@ export default {
       this.leftHeaderHeight.max = 0;
       this.resetFilter();
     },
-    setSelectedEntity(entity) {
+    setSelectedEntity(entity, index) {
       this.selectedEntity = entity;
+      this.selectedEntityIndex = index;
       this.$refs["col-left"].classList.remove("d-block");
       this.$refs["col-right"].classList.add("d-block");
     },
     unsetSelectedEntity() {
       this.selectedEntity = null;
+      this.selectedEntityIndex = null;
       this.$refs["col-left"].classList.add("d-block");
       this.$refs["col-right"].classList.remove("d-block");
+    },
+    onSelectedEntityUpdate(updatedData) {
+      switch(this.activeWorkflow.name) {
+        case "Transactions": {
+          if(updatedData.gkstatus === 0) { // if the invoice exists after update, gkstatus will be 0, else some other like 3
+            this.selectedEntity.rectifyFlag = !updatedData.gkresult.billentrysingleflag
+          } else {
+            this.options.tabs[this.activeWorkflow.name].data.splice(this.selectedEntityIndex, 1)
+            this.unsetSelectedEntity();
+          }
+        }
+          break;
+      }
     },
     // fetch customers, suppliers, products, services list
     loadList() {
       // stores the map of invoice id to corresponding invoice array indexes
       // used for quickly updating rectifyflag in invoice data array
-      let invoiceMap = {};
 
       const requests = [
         axios.get("/customersupplier?qty=custall").catch((error) => {
@@ -721,22 +738,14 @@ export default {
         axios.get("/products").catch((error) => {
           return error;
         }),
-        axios.get("/invoice?inv=all").catch((error) => {
-          return error;
-        }),
-        // oncredit sale
-        axios.get("/invoice?type=rectifyinvlist&invtype=15").catch((error) => {
-          return error;
-        }),
-        // oncredit purchase
-        axios.get("/invoice?type=rectifyinvlist&invtype=9").catch((error) => {
+        axios.get(`/invoice?type=list&flag=0&fromdate=${this.yearStart}&todate=${this.yearEnd}`).catch((error) => {
           return error;
         }),
       ];
 
       const self = this;
       Promise.all([...requests]).then(
-        ([resp1, resp2, resp3, resp4, resp5, resp6]) => {
+        ([resp1, resp2, resp3, resp4]) => {
           self.isLoading = false;
 
           let contacts = [];
@@ -783,12 +792,12 @@ export default {
           // Invoices
           if (resp4.status === 200) {
             self.options.tabs["Transactions"].data = resp4.data.gkresult.map(
-              (item, index) => {
-                invoiceMap[item.invid] = index;
+              (item) => {
+                // invoiceMap[item.invid] = index;
                 return Object.assign(
                   {
                     icon: item.csflag === 3 ? "cash-stack" : "basket3",
-                    rectifyFlag: false,
+                    rectifyFlag: !item.billentryflag, // onCredit or not
                     // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                     dateObj: Date.parse(
                       item.invoicedate.split("-").reverse().join("-") // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
@@ -800,38 +809,6 @@ export default {
             );
           } else {
             console.log(resp4.message);
-          }
-
-          // Invoices for OnCredit Sale
-          if (resp5.status === 200) {
-            if (resp5.data.gkstatus === 0) {
-              if (self.options.tabs["Transactions"].data.length) {
-                let data = self.options.tabs["Transactions"].data;
-                let index = "";
-                resp5.data.invoices.forEach((inv) => {
-                  index = invoiceMap[inv.invid];
-                  data[index].rectifyFlag = true;
-                });
-              }
-            }
-          } else {
-            console.log(resp5.message);
-          }
-
-          // Invoices for OnCredit Purchase
-          if (resp6.status === 200) {
-            if (resp6.data.gkstatus === 0) {
-              if (self.options.tabs["Transactions"].data.length) {
-                let data = self.options.tabs["Transactions"].data;
-                let index = "";
-                resp6.data.invoices.forEach((inv) => {
-                  index = invoiceMap[inv.invid];
-                  data[index].rectifyFlag = true;
-                });
-              }
-            }
-          } else {
-            console.log(resp6.message);
           }
         }
       );

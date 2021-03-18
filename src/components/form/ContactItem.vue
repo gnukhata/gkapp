@@ -45,7 +45,7 @@
                 size="sm"
                 id="ci-input-3"
                 v-model="form.pin"
-                type="number"
+                type="number" no-wheel
                 :state="validatePin"
                 debounce="500"
                 required
@@ -115,7 +115,7 @@
                     <b-form-input
                       size="sm"
                       id="ci-input-6"
-                      type="number"
+                      type="number" no-wheel
                       v-model="form.contact"
                       trim
                     ></b-form-input>

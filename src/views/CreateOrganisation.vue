@@ -5,7 +5,7 @@
 -->
 <template>
   <div class="d-flex justify-content-center mt-3 mx-3">
-    <div class="card shadow" :style="{'min-width': '350px'}">
+    <div class="card shadow" :style="{ 'min-width': '350px' }">
       <div class="card-header bg-primary text-light">Create Organisation</div>
       <div class="card-body px-2 px-sm-4">
         <b-form @submit.prevent="onSubmit">
@@ -15,13 +15,12 @@
             label="Name"
             label-for="input-1"
             label-cols-sm="3"
-            label-cols-lg="2"
           >
             <b-form-input
               size="md"
               id="input-1"
               type="text"
-              placeholder="ABC Organisation"
+              placeholder="Organisation Name"
               v-model="orgName"
               required
             >
@@ -32,7 +31,6 @@
             label="Type"
             v-slot="{ ariaDescribedby }"
             label-cols-sm="3"
-            label-cols-lg="2"
           >
             <b-form-radio-group
               size="md"
@@ -52,7 +50,6 @@
             label-class="mb-2"
             class="mb-0 mt-4"
             label-cols-sm="3"
-            label-cols-lg="2"
           >
             <div class="row">
               <div class="col-6 pr-1">
@@ -126,10 +123,9 @@
           <b-form-group
             label-size="md"
             id="input-group-5"
-            label="Name"
+            label="Admin User"
             label-for="input-2"
             label-cols-sm="3"
-            label-cols-lg="2"
           >
             <b-form-input
               size="md"
@@ -147,73 +143,90 @@
             label="Password"
             label-for="password-1"
             label-cols-sm="3"
-            label-cols-lg="2"
             :state="isPasswordValid"
             :invalid-feedback="passwordFeedback"
             :valid-feedback="passwordFeedback"
           >
-            <b-form-input
-              size="md"
-              id="password-1"
-              type="password"
-              placeholder="P@$$w0rd"
-              v-model="userPassword"
-              label-cols="1"
-              :state="isPasswordValid"
-              debounce="500"
-              required
-            >
-            </b-form-input>
+            <b-row>
+              <b-col class="pr-1">
+                <b-form-input
+                  size="md"
+                  id="password-1"
+                  type="password"
+                  placeholder=""
+                  v-model.lazy="userPassword"
+                  label-cols="1"
+                  :state="isPasswordValid"
+                  required
+                >
+                </b-form-input>
+              </b-col>
+              <b-col class="pl-1">
+                <b-form-group
+                  label="Confirmation"
+                  label-class="label-on-input"
+                  class="position-relative mb-2"
+                >
+                  <b-form-input
+                    size="md"
+                    id="password-2"
+                    type="password"
+                    placeholder=""
+                    v-model.lazy="confirmPassword"
+                    label-cols="1"
+                    :state="arePasswordsSame"
+                    required
+                  >
+                  </b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-row>
           </b-form-group>
           <b-form-group
             label-size="md"
             id="input-group-7"
             label="Password Recovery"
             label-class="mb-2"
-            class="mb-0 mt-4"
+            class="mb-0"
             label-cols-sm="3"
-            label-cols-lg="2"
           >
-            <div class="row">
-              <div class="col-6 pr-1">
-                <b-form-group
-                  label-size="md"
-                  id="input-group-8"
-                  label="Question"
-                  label-for="input-3"
-                  label-class="label-on-input"
-                >
-                  <b-form-input
-                    size="md"
-                    id="input-3"
-                    type="text"
-                    placeholder="Who am I?"
-                    v-model="securityQuestion"
-                    required
-                  >
-                  </b-form-input>
-                </b-form-group>
-              </div>
-              <div class="col-6 pl-1">
-                <b-form-group
-                  label-size="md"
-                  id="input-group-9"
-                  label="Answer"
-                  label-for="input-4"
-                  label-class="label-on-input"
-                >
-                  <b-form-input
-                    size="md"
-                    id="input-4"
-                    type="text"
-                    placeholder="GNUKhata"
-                    v-model="securityAnswer"
-                    required
-                  >
-                  </b-form-input>
-                </b-form-group>
-              </div>
-            </div>
+            <b-form-group
+              label-size="md"
+              id="input-group-8"
+              label="Question"
+              label-for="input-3"
+              label-class="label-on-input"
+              class="position-relative"
+            >
+              <b-form-input
+                size="md"
+                id="input-3"
+                type="text"
+                placeholder=""
+                v-model="securityQuestion"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+            <b-form-group
+              label-size="md"
+              id="input-group-9"
+              label="Answer"
+              label-for="input-4"
+              label-class="label-on-input"
+              class="position-relative"
+            >
+              <b-form-input
+                size="md"
+                id="input-4"
+                type="text"
+                placeholder=""
+                v-model="securityAnswer"
+                isVal
+                required
+              >
+              </b-form-input>
+            </b-form-group>
           </b-form-group>
           <b-form-group
             label-size="md"
@@ -221,35 +234,34 @@
             label="Captcha"
             label-for="captcha-1"
             label-cols-sm="3"
-            label-cols-lg="2"
           >
-          <template #label>
-            <div>
-              <canvas
-                ria-label="Captcha field"
-                width="80"
-                height="40"
-                id="captchaCanvas"
-                style="border: 1px solid #d3d3d3"
-                class="float-left"
-              ></canvas>
-              <b-button
-                size="md"
-                @click.prevent="audioCaptcha"
-                role="button"
-                title="Audio Captcha"
-                aria-label="Audio Captcha button"
-                class="px-1"
-                variant="link"
-              >
-                <b-icon
-                  icon="volume-up-fill"
-                  font-scale="1.35"
-                  variant="dark"
-                ></b-icon>
-              </b-button>
-            </div>
-          </template>
+            <template #label>
+              <div>
+                <canvas
+                  ria-label="Captcha field"
+                  width="80"
+                  height="40"
+                  id="captchaCanvas"
+                  style="border: 1px solid #d3d3d3"
+                  class="float-left"
+                ></canvas>
+                <b-button
+                  size="md"
+                  @click.prevent="audioCaptcha"
+                  role="button"
+                  title="Audio Captcha"
+                  aria-label="Audio Captcha button"
+                  class="px-1"
+                  variant="link"
+                >
+                  <b-icon
+                    icon="volume-up-fill"
+                    font-scale="1.35"
+                    variant="dark"
+                  ></b-icon>
+                </b-button>
+              </div>
+            </template>
             <!-- <b-col> -->
             <b-form-input
               size="md"
@@ -257,7 +269,7 @@
               id="captcha-1"
               v-model="userAnswer"
               type="text"
-              placeholder="Answer"
+              placeholder="Captcha Answer"
               required
             >
             </b-form-input>
@@ -278,7 +290,13 @@
               ></b-icon>
               <span class="align-middle"> Back</span>
             </b-button>
-            <b-button size="sm" type="submit" class="mr-2" variant="primary">
+            <b-button
+              size="sm"
+              type="submit"
+              class="mr-2"
+              variant="primary"
+              :disabled="allFieldsValid"
+            >
               <b-spinner v-if="isLoading" small></b-spinner>
               <b-icon
                 v-else
@@ -321,6 +339,7 @@ export default {
       yearEnd: null,
       userName: "",
       userPassword: "",
+      confirmPassword: "",
       securityAnswer: "",
       securityQuestion: "",
 
@@ -333,10 +352,15 @@ export default {
       self.userPassword !== "" && self.userPassword !== null
         ? passwordStrength(self.userPassword)
         : { value: "Empty" },
+    allFieldsValid: (self) => !self.isPasswordValid && !self.arePasswordsSame,
     isPasswordValid: (self) =>
       self.pwdStrength.value === "Empty"
         ? null
         : self.pwdStrength.value === "Strong",
+    arePasswordsSame: (self) =>
+      self.userPassword && self.confirmPassword
+        ? self.userPassword === self.confirmPassword
+        : null,
     passwordFeedback() {
       let text = "";
       if (this.userPassword) {
@@ -423,6 +447,7 @@ export default {
         .reduce((prev, cur) => {
           return `${prev} ${cur},`;
         }, "");
+      hint = hint.substring(0, hint.length - 1);
       if (available.length < 4) {
         hint = `Require atleast 1 ${hint}.`;
       }
@@ -588,6 +613,7 @@ export default {
   },
   mounted() {
     this.genCaptcha();
+    this.yearStart = `${new Date().getFullYear()}-04-01`; // 1st of April, current year. YYYY-MM-DD
   },
 };
 </script>
