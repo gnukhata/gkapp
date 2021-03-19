@@ -129,7 +129,7 @@
           </b-form-group>
           <!--Captcha area-->
           <b-form-group label="Question" content-cols="auto" label-cols="auto">
-            <captcha @answer="captchaAnswer"></captcha>
+            <captcha v-model="question"></captcha>
           </b-form-group>
           <!-- captcha answer -->
           <b-form-group
@@ -140,7 +140,8 @@
           >
             <b-form-input
               v-model="userAnswer"
-              type="number" no-wheel
+              type="number"
+              no-wheel
               placeholder="Enter the Answer"
               required
             >
@@ -281,10 +282,6 @@ export default {
         gkCoreUrl: null
       });
       this.checkUrl();
-    },
-    /* Get answer from captcha component and assign it to answer key */
-    captchaAnswer(ans) {
-      this.answer = ans;
     },
     /**
      * Validate & Login the user

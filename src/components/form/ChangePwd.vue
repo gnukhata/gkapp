@@ -23,7 +23,7 @@
     </b-form-group>
     <!--Captcha area-->
     <b-form-group label="Question" content-cols="auto" label-cols="auto">
-      <captcha @answer="captchaAnswer"></captcha>
+      <captcha v-model="answer"></captcha>
     </b-form-group>
     <!-- captcha answer -->
     <b-form-group
@@ -84,10 +84,6 @@ export default {
     }
   },
   methods: {
-    /* Captcha Answer */
-    captchaAnswer(ans) {
-      this.answer = ans;
-    },
     /* Get user's details from api */
     getUserInfo() {
       this.isLoading = true;

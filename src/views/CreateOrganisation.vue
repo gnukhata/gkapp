@@ -239,7 +239,7 @@
             label-cols-sm="3"
           >
             <template #label>
-              <captcha @answer="captchaAnswer"></captcha>
+              <captcha v-model="answer"></captcha>
             </template>
             <!-- <b-col> -->
             <b-form-input
@@ -367,10 +367,6 @@ export default {
     ...mapState(["gkCoreUrl", "gkCoreTestUrl"])
   },
   methods: {
-    /* Get answer from captcha component and assign it to answer key */
-    captchaAnswer(ans) {
-      this.answer = ans;
-    },
     setYearEnd() {
       // console.log('On date change')
       if (this.yearStart !== null && this.year !== "") {

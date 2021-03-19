@@ -34,7 +34,15 @@
 <script>
 export default {
   name: "Captcha",
+  model: {
+    prop: "value",
+    event: "change"
+  },
   props: {
+    value: {
+      type: Number,
+      note: "this prop gets the answer"
+    },
     width: {
       default: 90,
       note: "Canvas Width (optional). Default is 90"
@@ -46,8 +54,7 @@ export default {
   },
   data() {
     return {
-      text: "",
-      content: this.value
+      text: ""
     };
   },
   methods: {
@@ -67,7 +74,7 @@ export default {
       ctx.textBaseline = "middle";
       ctx.clearRect(0, 0, this.width, this.height);
       ctx.fillText(`${this.text} = `, this.width / 2, this.height / 2);
-      this.$emit("answer", answer);
+      this.$emit("change", answer);
     },
     /* This method converts the question to audio
     / for the pupose of users who require accessibility features
