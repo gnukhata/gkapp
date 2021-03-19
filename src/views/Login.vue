@@ -97,19 +97,19 @@
             label-for="input-3"
             content-cols="auto"
           >
-            <b-overlay :show="isDisabled" variant="secondary" no-wrap blur>
-            </b-overlay>
-            <b-form-select
-              v-on:change="getOrgYears"
-              id="input-3"
-              v-model="orgIndex"
-              :options="options"
-              required
-            >
-              <b-form-select-option value="null" disabled
-                >-- Select Company --</b-form-select-option
+            <b-overlay :show="isDisabled">
+              <b-form-select
+                v-on:change="getOrgYears"
+                id="input-3"
+                v-model="orgIndex"
+                :options="options"
+                required
               >
-            </b-form-select>
+                <b-form-select-option value="null" disabled
+                  >-- Select Company --</b-form-select-option
+                >
+              </b-form-select>
+            </b-overlay>
           </b-form-group>
           <!-- Financial Year-->
           <b-form-group
@@ -119,17 +119,21 @@
             label-cols="auto"
             content-cols="auto"
           >
-            <b-overlay :show="isDisabled" variant="secondary" no-wrap blur>
-            </b-overlay>
-            <b-form-select v-model="form.orgcode" :options="orgYears" required>
-              <b-form-select-option value="null" disabled
-                >-- Select Year --</b-form-select-option
+            <b-overlay :show="isDisabled">
+              <b-form-select
+                v-model="form.orgcode"
+                :options="orgYears"
+                required
               >
-            </b-form-select>
+                <b-form-select-option value="null" disabled
+                  >-- Select Year --</b-form-select-option
+                >
+              </b-form-select>
+            </b-overlay>
           </b-form-group>
           <!--Captcha area-->
           <b-form-group label="Question" content-cols="auto" label-cols="auto">
-            <captcha v-model="question"></captcha>
+            <captcha v-model="answer"></captcha>
           </b-form-group>
           <!-- captcha answer -->
           <b-form-group
