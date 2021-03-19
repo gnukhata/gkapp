@@ -68,11 +68,7 @@
       ></b-form-input>
     </b-form-group>
     <b-form-group label="Security Question">
-      <b-form-input
-        v-model="newUser.userquestion"
-        required
-        type="text"
-      ></b-form-input>
+      <security-questions v-model="newUser.userquestion"></security-questions>
     </b-form-group>
     <b-form-group label="Answer">
       <b-form-input
@@ -97,9 +93,11 @@
 
 <script>
 import { mapState } from "vuex";
+import SecurityQuestions from "../SecurityQuestions.vue";
 // import passwordStrength from "check-password-strength";
 
 export default {
+  components: { SecurityQuestions },
   name: "AddUser",
   data() {
     return {
@@ -111,30 +109,30 @@ export default {
         userrole: Number,
         userquestion: "",
         useranswer: "",
-        golist: [],
+        golist: []
       },
       roles: [
         {
           value: -1,
-          text: "Admin",
+          text: "Admin"
         },
         {
           value: 0,
-          text: "Manager",
+          text: "Manager"
         },
         {
           value: 1,
-          text: "Operator",
+          text: "Operator"
         },
         {
           value: 2,
-          text: "Internal Auditor",
+          text: "Internal Auditor"
         },
         {
           value: 3,
-          text: "Godown In Charge",
-        },
-      ],
+          text: "Godown In Charge"
+        }
+      ]
     };
   },
   computed: {
@@ -148,7 +146,7 @@ export default {
       } else {
         return true;
       }
-    },
+    }
     // pwdStrength: () =>
     //   this.newUser.userpassword !== "" && this.newUser.userpassword !== null
     //     ? passwordStrength(this.newUser.userpassword)
@@ -190,9 +188,9 @@ export default {
       console.log("fetching godowns");
       axios
         .get(`${this.gkCoreUrl}/godown`, {
-          headers: { gktoken: this.authToken },
+          headers: { gktoken: this.authToken }
         })
-        .then((r) => {
+        .then(r => {
           if (r.status == 200 && r.data.gkstatus == 0) {
             let godowns = r.data.gkresult;
             for (let i in godowns) {
@@ -202,12 +200,12 @@ export default {
             this.isLoading = false;
           }
         })
-        .catch((e) => {
+        .catch(e => {
           this.$bvToast.toast(
             "Failed to fetch godown info, Please reload the page",
             {
               variant: "danger",
-              solid: true,
+              solid: true
             }
           );
           this.isLoading = false;
@@ -229,10 +227,10 @@ export default {
       axios
         .post(`${this.gkCoreUrl}/users`, this.newUser, {
           headers: {
-            gktoken: this.authToken,
-          },
+            gktoken: this.authToken
+          }
         })
-        .then((r) => {
+        .then(r => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
@@ -241,15 +239,15 @@ export default {
                   {
                     title: "Success",
                     variant: "success",
-                    solid: true,
+                    solid: true
                   }
                 );
                 // Add user created log to server
                 const payload = {
-                  activity: `user ${this.newUser.username} created`,
+                  activity: `user ${this.newUser.username} created`
                 };
                 axios.post(`${this.gkCoreUrl}/log`, payload, {
-                  headers: { gktoken: this.authToken },
+                  headers: { gktoken: this.authToken }
                 });
                 // refresh users list in USerManagement.vue
                 this.$emit("refreshUsers");
@@ -260,7 +258,7 @@ export default {
                   `Username ${this.newUser.username} already exists`,
                   {
                     variant: "danger",
-                    solid: true,
+                    solid: true
                   }
                 );
                 this.isLoading = false;
@@ -268,27 +266,27 @@ export default {
               case 2:
                 this.$bvToast.toast("Unauthorised access", {
                   variant: "danger",
-                  solid: true,
+                  solid: true
                 });
                 this.isLoading = false;
                 break;
               case 3:
                 this.$bvToast.toast("Connection Failed", {
                   variant: "danger",
-                  solid: true,
+                  solid: true
                 });
                 this.isLoading = false;
                 break;
               case 4:
                 this.$bvToast.toast("Bad Privilege", {
                   variant: "danger",
-                  solid: true,
+                  solid: true
                 });
                 this.isLoading = false;
               case 5:
                 this.$bvToast.toast("Action Disallowed", {
                   variant: "danger",
-                  solid: true,
+                  solid: true
                 });
                 this.isLoading = false;
                 break;
@@ -298,13 +296,13 @@ export default {
               "Connection failed with status code " + r.status,
               {
                 variant: "danger",
-                solid: true,
+                solid: true
               }
             );
             this.isLoading = false;
           }
         });
-    },
+    }
     // getPasswordHint(pwdStrength) {
     //   const available = pwdStrength.contains.map((item) => item.message);
     //   let hint = this.options.pwdFieldTypes
@@ -320,7 +318,7 @@ export default {
     //   }
     //   return hint;
     // },
-  },
+  }
 };
 </script>
 

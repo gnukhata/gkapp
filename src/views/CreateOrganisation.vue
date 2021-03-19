@@ -198,15 +198,18 @@
               label-class="label-on-input"
               class="position-relative"
             >
-              <b-form-input
-                size="md"
-                id="input-3"
-                type="text"
-                placeholder=""
+              <!-- <b-form-input
+                     size="md"
+                     id="input-3"
+                     type="text"
+                     placeholder=""
+                     v-model="securityQuestion"
+                     required
+                     >
+                   </b-form-input> -->
+              <security-questions
                 v-model="securityQuestion"
-                required
-              >
-              </b-form-input>
+              ></security-questions>
             </b-form-group>
             <b-form-group
               label-size="md"
@@ -295,10 +298,11 @@ import axios from "axios";
 import { mapState } from "vuex";
 import passwordStrength from "check-password-strength";
 import Captcha from "../components/Captcha.vue";
+import SecurityQuestions from "../components/SecurityQuestions.vue";
 
 export default {
   name: "CreateOrganisation",
-  components: { Captcha },
+  components: { Captcha, SecurityQuestions },
   data() {
     return {
       // gkCoreUrl: 'https://satheerthan.site:6543', // 'http://localhost:6543',

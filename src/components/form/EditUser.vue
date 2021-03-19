@@ -80,7 +80,8 @@
       </b-form-group>
       <!-- Security question -->
       <b-form-group label="Security Question">
-        <b-form-input v-model="form.userquestion" type="text"></b-form-input>
+        <!-- <b-form-input v-model="form.userquestion" type="text"></b-form-input> -->
+        <security-questions v-model="form.userquestion"></security-questions>
       </b-form-group>
       <!-- answer -->
       <b-form-group label="Answer">
@@ -111,8 +112,10 @@
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
+import SecurityQuestions from "../SecurityQuestions.vue";
 
 export default {
+  components: { SecurityQuestions },
   name: "UserManagement",
   props: {
     id: Number
