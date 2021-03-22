@@ -23,7 +23,7 @@
       class="ml-2 mt-2"
       @click="newCaptcha"
       role="button"
-      icon="arrow-clockwise"
+      icon="arrow-repeat"
       variant="dark"
       title="Generate New Captcha"
       aria-label="generate new captcha button"
