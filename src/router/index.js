@@ -5,6 +5,7 @@ import OrgProfile from '@/views/OrgProfile.vue'
 import Logs from '@/views/Logs.vue'
 import CloseBooks from '@/views/CloseBooks.vue'
 import UserManagement from '@/views/UserManagement.vue'
+import UOM from '@/views/UOM.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
     path: '/closebooks',
     name: 'Close Books & Roll Over',
     component: CloseBooks
+  },
+  {
+    path: '/uom',
+    name: 'UnitOfMeasurement',
+    component: UOM
   },
   {
     path: '/about',
