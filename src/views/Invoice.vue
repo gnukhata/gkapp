@@ -624,7 +624,7 @@
       <div v-if="config.bill" class="position-relative my-2">
         <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
         </b-overlay>
-        <b-table-simple hover small caption-top responsive bordered :style="{'overflow-y': 'visible','overflow-x': 'unset'}">
+        <b-table-simple hover small caption-top responsive bordered>
           <b-thead head-variant="dark">
             <!-- table header -->
             <b-tr class="text-center">
@@ -794,7 +794,7 @@
                   min="0.01"
                   @input="updateTaxAndTotal(index)"
                   :readonly="field.isService"
-                  tabindex="-1"
+                  :tabindex="(field.isService)? -1 : 0"
                 ></b-input>
               </b-td>
 
