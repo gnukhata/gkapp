@@ -223,7 +223,7 @@ export default {
     },
      confirmOnCancel() {
        let invType = this.invoice.isSale ? "Sale to" : "Purchase from"
-      let text = `About to cancel Invoice: ${this.invoice.number}, of ${this.invoice.total.text} for ${invType}  ${this.invoice.party.name}. Are you sure?`
+      let text = this.$createElement('div', {domProps: {innerHTML: `About to cancel Invoice: <b>${this.invoice.number}</b>, of ${this.invoice.total.text} <b>(₹ ${this.invoice.total.amount})</b> for ${invType}  ${this.invoice.party.name}. Are you sure?`}})
       this.$bvModal
         .msgBoxConfirm(
           text,

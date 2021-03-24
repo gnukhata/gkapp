@@ -8,6 +8,7 @@
  -->
 <template>
   <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2">
+    <b-alert :show="isInvDateValid === false" variant="danger">Date must be within the Financial Year, from <b>{{yearStart}}</b> to <b>{{yearEnd}}</b> </b-alert>
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.inv.type"
@@ -239,11 +240,11 @@
               :class="{ 'd-md-block': true, 'd-none': !isCollapsed.invoice }"
             >
               <b-row>
-                <b-col v-if="config.inv.no" class="pr-lg-2" cols="12" lg="6">
+                <b-col v-if="config.inv.no" cols="12">
                   <b-form-group
                     label="Inv. No."
                     label-for="input-1"
-                    label-cols-lg="4"
+                    label-cols-lg="2"
                     label-cols="3"
                     label-size="sm"
                   >
@@ -256,11 +257,11 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col v-if="config.inv.date" class="pl-lg-2">
+                <b-col v-if="config.inv.date" cols="12">
                   <b-form-group
                     id="input-group-3"
                     label="Date"
-                    label-cols-lg="4"
+                    label-cols-lg="2"
                     label-cols="3"
                     label-for="date-1"
                     label-size="sm"
@@ -274,6 +275,8 @@
                         placeholder="YYYY-MM-DD"
                         autocomplete="off"
                         required
+                        :state="isInvDateValid"
+                        debounce="500"
                       ></b-form-input>
                       <b-input-group-append>
                         <b-form-datepicker
@@ -283,6 +286,8 @@
                           right
                           locale="en-GB"
                           aria-controls="date-1"
+                          :min="minDate"
+                          :max="maxDate"
                         >
                         </b-form-datepicker>
                       </b-input-group-append>
@@ -619,7 +624,7 @@
       <div v-if="config.bill" class="position-relative my-2">
         <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
         </b-overlay>
-        <b-table-simple hover small caption-top responsive bordered :style="{'overflow-y': 'visible','overflow-x': 'unset'}">
+        <b-table-simple hover small caption-top responsive bordered>
           <b-thead head-variant="dark">
             <!-- table header -->
             <b-tr class="text-center">
@@ -789,7 +794,7 @@
                   min="0.01"
                   @input="updateTaxAndTotal(index)"
                   :readonly="field.isService"
-                  tabindex="-1"
+                  :tabindex="(field.isService)? -1 : 0"
                 ></b-input>
               </b-td>
 
@@ -1251,6 +1256,9 @@
           </div>
         </b-card>
       </b-card-group>
+      <b-tooltip target="inv-submit" :show="showErrorToolTip" placement="top" triggers="manual">
+        Date must be within the Financial Year, from <b>{{yearStart}}</b> to <b>{{yearEnd}}</b> 
+      </b-tooltip>
       <hr />
       <div class="float-right">
         <b-button
@@ -1279,7 +1287,7 @@
           ></b-icon>
           <span class="align-middle"> Reset</span>
         </b-button>
-        <b-button type="submit" size="sm" class="m-1" variant="success">
+        <b-button id="inv-submit" :disabled="!isInvDateValid" type="submit" size="sm" class="m-1" variant="success">
           <b-spinner v-if="isLoading" small></b-spinner>
           <b-icon
             v-else
@@ -1607,10 +1615,18 @@ export default {
         this.setShippingDetails();
       },
     },
+    minDate: (self) => new Date(self.yearStart),
+    maxDate: (self) => new Date(self.yearEnd),
+    isInvDateValid: (self) => {
+      let currDate = new Date(self.form.inv.date).getTime(), minDate = self.minDate.getTime(), maxDate = self.maxDate.getTime();
+      return (!isNaN(currDate)) ? currDate >= minDate && currDate <= maxDate : null
+    },
+    showErrorToolTip: (self) => (self.isInvDateValid === null)? false : !self.isInvDateValid,
     ...mapState([
       "authToken",
       "gkCoreUrl",
       "userName",
+      "yearStart",
       "yearEnd",
       "invoiceParty",
     ]),
@@ -2558,6 +2574,11 @@ export default {
   },
   mounted() {
     this.preloadData();
+    this.$nextTick(() => {
+      if(!this.isInvDateValid) {
+        this.form.inv.date = this.yearStart
+      }
+    })
     // this.fetchInvoiceId();
     // this.fetchUserData();
   },

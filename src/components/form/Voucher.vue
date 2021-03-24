@@ -25,6 +25,7 @@
       <slot name="close-button"> </slot>
     </div>
     <div>
+      <b-alert class="m-2 mb-0" :show="isVoucherDateValid === false" variant="danger">Date must be within the Financial Year, from <b>{{yearStart}}</b> to <b>{{yearEnd}}</b> </b-alert>
       <b-form class="p-2 pt-3" @submit.prevent="confirmOnSubmit">
         <b-row no-gutters>
           <b-col>
@@ -39,6 +40,8 @@
                 placeholder="YYYY-MM-DD"
                 autocomplete="off"
                 required
+                :state="isVoucherDateValid"
+                debounce="500"
               ></b-form-input>
               <b-input-group-append>
                 <b-form-datepicker
@@ -48,6 +51,8 @@
                   right
                   locale="en-GB"
                   aria-controls="date-1"
+                  :min="minDate"
+                  :max="maxDate"
                 >
                 </b-form-datepicker>
               </b-input-group-append>
@@ -213,7 +218,7 @@
             ></b-icon>
             <span class="align-middle"> Back</span>
           </b-button>
-          <b-button size="sm" type="submit" class="mr-2" variant="success">
+          <b-button size="sm" type="submit" class="mr-2" variant="success" :disabled="!isVoucherDateValid">
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
               v-else
@@ -326,7 +331,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["yearStart"]),
+    minDate: (self) => new Date(self.yearStart),
+    maxDate: (self) => new Date(self.yearEnd),
+    isVoucherDateValid: (self) => {
+      let currDate = new Date(self.form.date).getTime(), minDate = self.minDate.getTime(), maxDate = self.maxDate.getTime();
+      return (!isNaN(currDate)) ? (currDate >= minDate && currDate <= maxDate) : null
+    },
+    ...mapState(["yearStart", "yearEnd"]),
   },
   watch: {
     isOpen(val) {
@@ -341,7 +352,7 @@ export default {
     confirmOnSubmit() {
       let fromAcc = this.options.cr.find((account) => account.accountcode === this.form.voucher.cr.account).accountname
       let toAcc = this.options.dr.find((account) => account.accountcode === this.form.voucher.dr.account).accountname
-      let text = `Create ${this.form.vtype.text} Voucher of ${numberToRupees(this.form.amount)} (₹ ${this.form.amount}), for transaction from Acc "${fromAcc}" to "${toAcc}?"`
+      let text = this.$createElement('div', { domProps: {innerHTML: `Create ${this.form.vtype.text} Voucher of ${numberToRupees(this.form.amount)} <b>(₹ ${this.form.amount})</b>, for transaction from Acc <b>"${fromAcc}"</b> to <b>"${toAcc}</b>?"`}})
       this.$bvModal
         .msgBoxConfirm(
           text,
@@ -350,8 +361,8 @@ export default {
           buttonSize: 'sm',
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',
-          footerClass: 'p-1 border-top-0',
-          bodyClass: 'p-2',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
           centered: true
           }
         )
