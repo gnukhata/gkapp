@@ -1,12 +1,11 @@
 <template>
   <section class="mt-2 mr-3 ml-3">
     <div>
-      <!--       {{ uomList }} -->
       <b-input-group class="mb-3 w-75 mx-auto">
         <template #prepend>
           <!-- <b-input-group-text>Username</b-input-group-text> -->
           <b-button variant="outline-primary" v-b-modal.create-uom
-            ><b-icon icon="person-plus"></b-icon> Add UOM</b-button
+            ><b-icon icon="thermometer"></b-icon> Add UOM</b-button
           >
         </template>
         <b-form-input
@@ -28,7 +27,12 @@
         :busy="isLoading"
       >
         <template #cell(unit_name)="data">
-          <b-button title="click to edit UOM" variant="dark" size="sm">
+          <b-button
+            @click="showEditUOM(data.item.uom_id)"
+            title="click to edit UOM"
+            variant="dark"
+            size="sm"
+          >
             {{ data.item.unit_name }}
           </b-button>
         </template>
@@ -40,7 +44,7 @@
         header-text-variant="light"
         hide-footer
       >
-        <AddUOM @refresh="getUOM"></AddUOM>
+        <add-uom @refresh="getUOM"></add-uom>
       </b-modal>
       <b-modal
         id="edit-uom"
@@ -49,37 +53,43 @@
         header-text-variant="light"
         hide-footer
       >
+        <edit-uom :id="selectedUomId"></edit-uom>
       </b-modal>
     </div>
   </section>
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import AddUOM from "@/components/form/AddUOM.vue";
+import axios from 'axios';
+import { mapState } from 'vuex';
+import AddUOM from '@/components/form/AddUOM.vue';
+import EditUOM from '../components/form/EditUOM.vue';
 export default {
-  name: "UOM",
-  components: { AddUOM },
+  name: 'UOM',
+  components: {
+    'add-uom': AddUOM,
+    'edit-uom': EditUOM,
+  },
   data() {
     return {
       uomList: [],
-      searchText: "",
+      selectedUomId: '',
+      searchText: '',
       isLoading: false,
-      selectedUserId: ""
+      selectedUserId: '',
     };
   },
   computed: {
-    ...mapState(["authToken", "gkCoreUrl"])
+    ...mapState(['authToken', 'gkCoreUrl']),
   },
   methods: {
     getUOM() {
       this.isLoading = true;
       axios
-        .get("/unitofmeasurement?qty=all")
-        .then(r => {
+        .get('/unitofmeasurement?qty=all')
+        .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
-            let usr = r.data.gkresult.map(data => {
+            let usr = r.data.gkresult.map((data) => {
               let obj = {};
               obj.unit_name = Object.values(data)[1];
               obj.description = Object.values(data)[2];
@@ -90,18 +100,18 @@ export default {
             this.isLoading = false;
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
         });
     },
-    showEditUser(id) {
+    showEditUOM(id) {
       this.selectedUomId = id;
-      this.$bvModal.show("edit-uom");
-    }
+      this.$bvModal.show('edit-uom');
+    },
   },
   mounted() {
     this.getUOM();
-  }
+  },
 };
 </script>
 <style scoped>
