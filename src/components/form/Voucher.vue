@@ -352,7 +352,7 @@ export default {
     confirmOnSubmit() {
       let fromAcc = this.options.cr.find((account) => account.accountcode === this.form.voucher.cr.account).accountname
       let toAcc = this.options.dr.find((account) => account.accountcode === this.form.voucher.dr.account).accountname
-      let text = `Create ${this.form.vtype.text} Voucher of ${numberToRupees(this.form.amount)} (₹ ${this.form.amount}), for transaction from Acc "${fromAcc}" to "${toAcc}?"`
+      let text = this.$createElement('div', { domProps: {innerHTML: `Create ${this.form.vtype.text} Voucher of ${numberToRupees(this.form.amount)} <b>(₹ ${this.form.amount})</b>, for transaction from Acc <b>"${fromAcc}"</b> to <b>"${toAcc}</b>?"`}})
       this.$bvModal
         .msgBoxConfirm(
           text,
@@ -361,8 +361,8 @@ export default {
           buttonSize: 'sm',
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',
-          footerClass: 'p-1 border-top-0',
-          bodyClass: 'p-2',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
           centered: true
           }
         )

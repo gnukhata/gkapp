@@ -90,7 +90,8 @@
                   <b-input
                     v-model="data.item.adjusted"
                     class="hide-spin-button text-right"
-                    type="number" no-wheel
+                    type="number"
+                    no-wheel
                     step="0.01"
                     min="0"
                     :max="data.item.balanceamount"
@@ -305,17 +306,21 @@ export default {
         (sum, inv) => sum + !!parseInt(inv.adjusted),
         0
       );
-      let text = `Adjust ${numberToRupees(this.totalAdjusted)} (₹ ${
-        this.totalAdjusted
-      }) against ${invCount} Invoices?`;
+      let text = this.$createElement("div", {
+        domProps: {
+          innerHTML: `Adjust ${numberToRupees(this.totalAdjusted)} <b>(₹ ${
+            this.totalAdjusted
+          }) </b> against <b>${invCount}</b> Invoices?`,
+        },
+      });
       this.$bvModal
         .msgBoxConfirm(text, {
           size: "sm",
           buttonSize: "sm",
           okVariant: "success",
           headerClass: "p-0 border-bottom-0",
-          footerClass: "p-1 border-top-0",
-          bodyClass: "p-2",
+          footerClass: "border-top-0", // p-1
+          // bodyClass: "p-2",
           centered: true,
         })
         .then((val) => {
