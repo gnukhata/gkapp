@@ -12,24 +12,25 @@
 
 <script>
 export default {
-  name: "SecurityQuestions",
+  name: 'SecurityQuestions',
   model: {
-    prop: "value",
-    event: "change"
+    prop: 'value',
+    event: 'change',
   },
-  props: ["value"],
+  props: ['value'],
   data() {
     return {
-      choice: "",
+      choice: '',
       questions: [
-        "Your favourite color ?",
-        "Your favourite Place ?",
-        "Your favourite ice cream ?",
-        "Your favourite Bike ?",
-        "Your lucky number ?",
-        "Your first school ?"
-      ]
+        'Your Favourite Place ?',
+        'Your Lucky number ?',
+        'Your Favourite Color ?',
+        "Your Mother's Maiden name",
+        'Your Favourite Ice Cream flavour ?',
+        'Your Favourite Bike ?',
+        'Your First School Name ?',
+      ],
     };
-  }
+  },
 };
 </script>
