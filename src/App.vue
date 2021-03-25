@@ -16,7 +16,7 @@
             class="ml-2 d-inline-block text-truncate"
           >
             <!-- Without textwrap, creates horizontal overlfow in mobile view -->
-            {{ this.orgName || "GNUKhata" }}
+            {{ this.orgName || 'GNUKhata' }}
           </div>
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -59,6 +59,9 @@
                   ><b-icon icon="building"></b-icon> Company
                   Profile</b-dropdown-item
                 >
+                <b-dropdown-item to="/uom"
+                  ><b-icon icon="thermometer"></b-icon> Unit of measurement
+                </b-dropdown-item>
                 <b-dropdown-item to="/user_management"
                   ><b-icon icon="people"></b-icon> Manage Users</b-dropdown-item
                 >
@@ -105,27 +108,27 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-import ColorBar from "@/components/ColorBar.vue";
-import axios from "axios";
-import ChangePwd from "@/components/form/ChangePwd.vue";
+import { mapState } from 'vuex';
+import ColorBar from '@/components/ColorBar.vue';
+import axios from 'axios';
+import ChangePwd from '@/components/form/ChangePwd.vue';
 export default {
-  name: "App",
+  name: 'App',
   components: { ColorBar, ChangePwd },
   data() {
     return {
-      userRole: Number
+      userRole: Number,
     };
   },
   computed: {
-    activeNav: self => self.$route.name,
+    activeNav: (self) => self.$route.name,
     ...mapState([
-      "userName",
-      "orgName",
-      "gkCoreUrl",
-      "authToken",
-      "userAuthenticated"
-    ])
+      'userName',
+      'orgName',
+      'gkCoreUrl',
+      'authToken',
+      'userAuthenticated',
+    ]),
   },
   methods: {
     /*
@@ -133,7 +136,7 @@ export default {
      */
     closeModal() {
       setTimeout(() => {
-        this.$refs["change-pwd-close"].hide();
+        this.$refs['change-pwd-close'].hide();
       }, 1500);
     },
     /*
@@ -141,20 +144,20 @@ export default {
      */
     logOut() {
       // reset orgname
-      this.$store.commit("resetOrg");
+      this.$store.commit('resetOrg');
       // change auth status
-      this.$store.commit("setAuthStatus");
+      this.$store.commit('setAuthStatus');
       // redirect to login page
-      this.$router.push("/");
+      this.$router.push('/');
       // clear localStorage
       localStorage.clear();
       // set gkCore url
-      this.$store.commit("setGkCoreUrl", { gkCoreUrl: this.gkCoreUrl });
+      this.$store.commit('setGkCoreUrl', { gkCoreUrl: this.gkCoreUrl });
       // alert the user on logout
       this.$bvToast.toast(`Logged out succesfully`, {
-        title: "Logout",
+        title: 'Logout',
         solid: true,
-        variant: "success"
+        variant: 'success',
       });
     },
     /**
@@ -165,16 +168,16 @@ export default {
       axios
         .get(`/user?type=role`, {
           headers: {
-            gktoken: this.authToken
-          }
+            gktoken: this.authToken,
+          },
         })
-        .then(res => {
+        .then((res) => {
           this.userRole = res.data.gkresult;
         })
-        .catch(e => {
-          console.log("admin fetch", e.message);
+        .catch((e) => {
+          console.log('admin fetch', e.message);
         });
-    }
+    },
   },
   mounted() {
     this.getUser();
@@ -182,22 +185,22 @@ export default {
      * fetch latest app changes
      */
     if (this.$workbox) {
-      this.$workbox.addEventListener("waiting", () => {
+      this.$workbox.addEventListener('waiting', () => {
         // this.showUpdateUI = true;
         // notify the user before updating the app
         this.$bvToast.toast(`Updating app to the latest version`, {
-          title: "New Update Available!",
-          solid: "true",
-          variant: "warning",
-          autoHideDelay: 3000
+          title: 'New Update Available!',
+          solid: 'true',
+          variant: 'warning',
+          autoHideDelay: 3000,
         });
         // pull the latest code
         setTimeout(() => {
-          this.$workbox.messageSW({ type: "SKIP_WAITING" });
+          this.$workbox.messageSW({ type: 'SKIP_WAITING' });
         }, 3000);
       });
     }
-  }
+  },
 };
 </script>
 <style scoped>
