@@ -118,6 +118,7 @@ export default {
                     solid: true,
                   }
                 );
+                this.resetForm();
                 this.isLoading = false;
                 this.$emit('refresh');
                 break;
@@ -170,6 +171,12 @@ export default {
             solid: true,
           });
         });
+    },
+    resetForm() {
+      this.form.unitname = '';
+      this.form.description = '';
+      this.form.subunitof = null;
+      this.form.conversionrate = 0.0;
     },
   },
   mounted() {
