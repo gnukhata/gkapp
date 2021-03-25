@@ -5,18 +5,18 @@
         <template #prepend>
           <!-- <b-input-group-text>Username</b-input-group-text> -->
           <b-button variant="outline-primary" v-b-modal.create-uom
-            ><b-icon icon="thermometer"></b-icon> Add UOM</b-button
+            ><b-icon icon="thermometer"></b-icon> Add Unit</b-button
           >
         </template>
         <b-form-input
           type="text"
-          placeholder="Search UOM"
+          placeholder="Search Units"
           v-model="searchText"
         ></b-form-input>
       </b-input-group>
       <b-table
         :filter="searchText"
-        :fields="['unit_name', 'description']"
+        :fields="fields"
         :items="uomList"
         class="mx-auto table"
         head-variant="dark"
@@ -39,7 +39,7 @@
       </b-table>
       <b-modal
         id="create-uom"
-        title="Add Unit Of Measurement (UOM)"
+        title="Add Unit"
         header-bg-variant="dark"
         header-text-variant="light"
         hide-footer
@@ -48,12 +48,12 @@
       </b-modal>
       <b-modal
         id="edit-uom"
-        title="Edit UOM"
+        title="Edit Unit"
         header-bg-variant="dark"
         header-text-variant="light"
         hide-footer
       >
-        <edit-uom :id="selectedUomId"></edit-uom>
+        <edit-uom @refresh="getUOM" :id="selectedUomId"></edit-uom>
       </b-modal>
     </div>
   </section>
@@ -73,6 +73,15 @@ export default {
   data() {
     return {
       uomList: [],
+      fields: [
+        {
+          key: 'unit_name',
+          sortable: true,
+        },
+        {
+          key: 'description',
+        },
+      ],
       selectedUomId: '',
       searchText: '',
       isLoading: false,
@@ -94,6 +103,7 @@ export default {
               obj.unit_name = Object.values(data)[1];
               obj.description = Object.values(data)[2];
               obj.uom_id = Object.values(data)[0];
+              obj.sortable = true;
               return obj;
             });
             this.uomList = usr;

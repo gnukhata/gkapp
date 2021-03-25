@@ -1,7 +1,7 @@
 <template>
   <b-overlay :show="isLoading">
     <b-form @submit.prevent="createUOM">
-      <b-form-group label="Unit Name" tooltip>
+      <b-form-group label="Name" tooltip>
         <b-form-input
           v-model="form.unitname"
           type="text"
@@ -32,7 +32,7 @@
         ></b-form-input>
       </b-form-group>
       <b-button type="submit" variant="success" class="float-right"
-        ><b-icon icon="thermometer"></b-icon> Create New UOM</b-button
+        ><b-icon icon="thermometer"></b-icon> Create New Unit</b-button
       >
     </b-form>
   </b-overlay>

@@ -1,8 +1,8 @@
 <template>
   <b-overlay :show="isLoading">
-    <b-form @submit.prevent="updateUOM">
-      {{ form }} {{ id }}
-      <b-form-group label="Unit Name" tooltip>
+    <b-form @submit.prevent="confirm()">
+      {{ form }}
+      <b-form-group label="Name" tooltip>
         <b-form-input
           v-model="form.unitname"
           type="text"
@@ -28,10 +28,18 @@
           type="text"
           required
         ></b-form-input>
-        <b-button type="submit" variant="success" class="float-right"
-          ><b-icon icon="thermometer"></b-icon> Update UOM</b-button
-        >
       </b-form-group>
+      <b-button-group size="sm" class="float-right">
+        <b-button type="submit" class="mr-1" variant="success"
+          ><b-icon icon="thermometer"></b-icon> Update Unit</b-button
+        >
+        <b-button
+          variant="danger"
+          :disabled="sysunit == 1"
+          @click="confirm('delete')"
+          ><b-icon icon="x-circle"></b-icon> Delete Unit</b-button
+        >
+      </b-button-group>
     </b-form>
   </b-overlay>
 </template>
@@ -51,14 +59,13 @@ export default {
       isLoading: false,
       uomInfo: [],
       uomList: [],
+      sysunit: Number,
       form: {
         unitname: '',
         description: '',
         subunitof: '',
         uomid: '',
         conversionrate: '',
-        sysunit: '',
-        flag: '',
       },
     };
   },
@@ -66,6 +73,38 @@ export default {
     ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {
+    /*Confirm dialog for  update & delete actions*/
+    confirm(type) {
+      if (type == 'delete') {
+        this.$bvModal
+          .msgBoxConfirm(`Delete unit ${this.form.unitname} ?`, {
+            centered: true,
+            size: 'md',
+            okVariant: 'danger',
+            okTitle: 'Delete',
+            headerBgVariant: 'danger',
+            headerTextVariant: 'light',
+          })
+          .then((r) => {
+            if (r) {
+              this.deleteUOM();
+            }
+          });
+      } else {
+        this.$bvModal
+          .msgBoxConfirm(`Update unit ${this.form.unitname} ?`, {
+            centered: true,
+            size: 'md',
+            okVariant: 'warning',
+            okTitle: 'Update',
+          })
+          .then((r) => {
+            if (r) {
+              this.updateUOM();
+            }
+          });
+      }
+    },
     /*
      * Get UOM info from 'id' prop & display the details
      */
@@ -81,7 +120,14 @@ export default {
         )
         .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
-            this.form = r.data.gkresult;
+            let res = r.data.gkresult;
+            this.form.uomid = res.uomid;
+            this.form.unitname = res.unitname;
+            this.form.description = res.description;
+            this.form.subunitof = res.subunitof;
+            this.form.conversionrate = res.conversionrate;
+            // Default gkcore unit
+            this.sysunit = res.sysunit;
           } else {
             this.$bvToast.toast('Unable to fetch UOM list from the server', {
               solid: true,
@@ -194,13 +240,10 @@ export default {
                 break;
             }
           } else {
-            this.$bvToast.toast(
-              `Connection failed with status code ${r.status}`,
-              {
-                variant: 'danger',
-                solid: true,
-              }
-            );
+            this.$bvToast.toast(`Request failed with status code ${r.status}`, {
+              variant: 'danger',
+              solid: true,
+            });
             this.isLoading = false;
           }
         })
@@ -210,6 +253,69 @@ export default {
             solid: true,
           });
           this.isLoading = false;
+        });
+    },
+    /*
+    / This method deletes UOM. It takes uomid as value
+    /*/
+    deleteUOM() {
+      this.isLoading = true;
+      axios
+        .delete(`${this.gkCoreUrl}/unitofmeasurement`, {
+          headers: { gktoken: this.authToken },
+          data: { uomid: this.form.uomid },
+        })
+        .then((r) => {
+          if (r.status == 200) {
+            switch (r.data.gkstatus) {
+              case 0:
+                this.$bvToast.toast(`${this.form.unitname} deleted`, {
+                  variant: 'success',
+                  solid: true,
+                });
+                this.isLoading = false;
+                this.$emit('refresh');
+                setTimeout(() => {
+                  this.$bvModal.hide('edit-uom');
+                }, 2000);
+                break;
+              case 1:
+                this.$bvToast.toast(`Duplicate Entry`, {
+                  variant: 'warning',
+                  solid: true,
+                });
+                this.isLoading = false;
+                break;
+              case 2:
+                this.$bvToast.toast(`Unauthorised Access`, {
+                  variant: 'danger',
+                  solid: true,
+                });
+                this.isLoading = false;
+                break;
+              case 3:
+                this.$bvToast.toast(`Connection Failed`, {
+                  variant: 'danger',
+                  solid: true,
+                });
+                this.isLoading = false;
+                break;
+              case 4:
+                this.$bvToast.toast(`Bad Privilege`, {
+                  variant: 'danger',
+                  solid: true,
+                });
+                this.isLoading = false;
+                break;
+              case 5:
+                this.$bvToast.toast(`Action Disallowed`, {
+                  variant: 'danger',
+                  solid: true,
+                });
+                this.isLoading = false;
+                break;
+            }
+          }
         });
     },
   },
