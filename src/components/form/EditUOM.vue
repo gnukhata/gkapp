@@ -1,7 +1,6 @@
 <template>
   <b-overlay :show="isLoading">
     <b-form @submit.prevent="confirm()">
-      {{ form }}
       <b-form-group label="Name" tooltip>
         <b-form-input
           v-model="form.unitname"
