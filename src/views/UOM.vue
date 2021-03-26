@@ -26,6 +26,12 @@
         small
         :busy="isLoading"
       >
+        <template #table-busy>
+          <div class="text-center">
+            <b-spinner class="align-middle" type="grow"></b-spinner>
+            <strong> Fetching All Units ... </strong>
+          </div>
+        </template>
         <template #cell(unit_name)="data">
           <b-button
             @click="showEditUOM(data.item.uom_id)"
