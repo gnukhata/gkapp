@@ -1,9 +1,11 @@
 <template>
   <section class="container-fluid mt-2">
     <b-container fluid v-if="activeWorkflow.index === null">
-      <b-card-group deck class="mt-5">
+      <b-card-group role="tab" deck class="mt-5">
         <b-card
+          tabindex="0"
           v-for="(tab, tabName, index) in options.tabs"
+          v-on:keyup.enter="setActiveWorkflow(index, tabName, tab.icon)"
           :key="index"
           @click.prevent="setActiveWorkflow(index, tabName, tab.icon)"
           class="text-center"
@@ -211,7 +213,7 @@
                       <small> {{ item[tab.key] }} </small>
                     </b-col>
                     <b-col cols="4" class="px-0 text-truncate text-right">
-                      <small>{{ "₹ " + item.netamt }}</small>
+                      <small>{{ '₹ ' + item.netamt }}</small>
                     </b-col>
                   </b-row>
                 </div>
@@ -243,8 +245,8 @@
           class="ml-md-2 border-0"
           v-if="
             selectedEntity &&
-            !selectedEntity.gsflag &&
-            activeWorkflow.name === 'Contacts'
+              !selectedEntity.gsflag &&
+              activeWorkflow.name === 'Contacts'
           "
         >
           <template #header v-if="selectedEntity !== null">
@@ -275,8 +277,8 @@
           class="ml-md-2 border-0"
           v-if="
             selectedEntity &&
-            selectedEntity.gsflag &&
-            activeWorkflow.name === 'Business'
+              selectedEntity.gsflag &&
+              activeWorkflow.name === 'Business'
           "
         >
           <code class="m-3"> </code>
@@ -306,8 +308,8 @@
           class="ml-md-3"
           v-if="
             selectedEntity &&
-            selectedEntity.invoiceno &&
-            activeWorkflow.name === 'Transactions'
+              selectedEntity.invoiceno &&
+              activeWorkflow.name === 'Transactions'
           "
         >
           <template #header v-if="selectedEntity !== null">
@@ -319,7 +321,7 @@
             ></b-button>
             <h5 class="m-2 d-inline-block">
               <b-icon :icon="selectedEntity.icon"></b-icon>
-              {{ selectedEntity.csflag === 3 ? "Sale" : "Purchase" }} Invoice :
+              {{ selectedEntity.csflag === 3 ? 'Sale' : 'Purchase' }} Invoice :
               {{ selectedEntity.invoiceno }}
             </h5>
           </template>
@@ -344,15 +346,15 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import ContactProfile from "@/components/ContactProfile";
-import BusinessProfile from "@/components/BusinessProfile.vue";
-import TransactionProfile from "@/components/TransactionProfile.vue";
+import axios from 'axios';
+import { mapState } from 'vuex';
+import ContactProfile from '@/components/ContactProfile';
+import BusinessProfile from '@/components/BusinessProfile.vue';
+import TransactionProfile from '@/components/TransactionProfile.vue';
 // import HeroBar from '@/components/HeroBar'
 
 export default {
-  name: "Workflow",
+  name: 'Workflow',
   components: { ContactProfile, BusinessProfile, TransactionProfile },
   data() {
     return {
@@ -364,8 +366,8 @@ export default {
       isLoading: true,
       activeWorkflow: {
         index: null,
-        icon: "",
-        name: "",
+        icon: '',
+        name: '',
       },
       customerList: [],
       supplierList: [],
@@ -404,102 +406,102 @@ export default {
          */
         tabs: {
           Contacts: {
-            icon: "person-lines-fill",
-            color: "primary",
+            icon: 'person-lines-fill',
+            color: 'primary',
             data: [],
-            key: "custname",
+            key: 'custname',
             createNewPath: {
-              name: "Contact_Details",
-              params: { mode: "create" },
+              name: 'Contact_Details',
+              params: { mode: 'create' },
             },
             filterBy: {
               value: [
                 {
-                  text: "All", // text -> Display text for this filter
+                  text: 'All', // text -> Display text for this filter
                   props: {}, // the properties required to perform the filter
                 },
                 {
-                  text: "Customers",
-                  props: { key: "csflag", value: true },
+                  text: 'Customers',
+                  props: { key: 'csflag', value: true },
                 },
                 {
-                  text: "Suppliers",
-                  props: { key: "csflag", value: false },
+                  text: 'Suppliers',
+                  props: { key: 'csflag', value: false },
                 },
               ],
               range: [],
             },
             sortBy: [
               {
-                text: "Name",
-                props: { key: "custname", isAsc: true },
+                text: 'Name',
+                props: { key: 'custname', isAsc: true },
               },
             ],
           },
           Business: {
-            icon: "box-seam",
-            color: "warning",
+            icon: 'box-seam',
+            color: 'warning',
             data: [],
-            key: "productdesc",
+            key: 'productdesc',
             createNewPath: {
-              name: "Business_Details",
-              params: { mode: "create" },
+              name: 'Business_Details',
+              params: { mode: 'create' },
             },
             filterBy: {
               value: [
                 {
-                  text: "All",
+                  text: 'All',
                   props: {},
                 },
                 {
-                  text: "Product",
-                  props: { key: "gsflag", value: 7 },
+                  text: 'Product',
+                  props: { key: 'gsflag', value: 7 },
                 },
                 {
-                  text: "Service",
-                  props: { key: "gsflag", value: 19 },
+                  text: 'Service',
+                  props: { key: 'gsflag', value: 19 },
                 },
               ],
               range: [],
             },
             sortBy: [
               {
-                text: "Name",
-                props: { key: "productdesc", isAsc: true },
+                text: 'Name',
+                props: { key: 'productdesc', isAsc: true },
               },
             ],
           },
           Transactions: {
-            icon: "receipt",
-            color: "success",
+            icon: 'receipt',
+            color: 'success',
             data: [],
-            key: "custname",
-            createNewPath: { name: "Invoice" },
+            key: 'custname',
+            createNewPath: { name: 'Invoice' },
             filterBy: {
               value: [
                 {
-                  text: "All",
+                  text: 'All',
                   props: {},
                 },
                 {
-                  text: "Sale",
-                  props: { key: "csflag", value: 3 },
+                  text: 'Sale',
+                  props: { key: 'csflag', value: 3 },
                 },
                 {
-                  text: "Purchase",
-                  props: { key: "csflag", value: 19 },
+                  text: 'Purchase',
+                  props: { key: 'csflag', value: 19 },
                 },
               ],
               range: [
                 {
                   from: {
-                    text: "From Date",
+                    text: 'From Date',
                   },
                   to: {
-                    text: "To Date",
+                    text: 'To Date',
                   },
                   props: {
-                    key: "dateObj",
+                    key: 'dateObj',
                     min: this.yearStart,
                     max: this.yearEnd,
                   },
@@ -508,22 +510,22 @@ export default {
             },
             sortBy: [
               {
-                text: "Date",
-                props: { key: "dateObj", isAsc: true },
+                text: 'Date',
+                props: { key: 'dateObj', isAsc: true },
               },
               {
-                text: "Name",
-                props: { key: "custname", isAsc: true },
+                text: 'Name',
+                props: { key: 'custname', isAsc: true },
               },
               {
-                text: "Amount",
-                props: { key: "invoicetotal", isAsc: true },
+                text: 'Amount',
+                props: { key: 'invoicetotal', isAsc: true },
               },
             ],
           },
           Reports: {
-            icon: "journals",
-            color: "danger",
+            icon: 'journals',
+            color: 'danger',
             data: [],
             filterBy: {
               value: [],
@@ -536,7 +538,7 @@ export default {
     };
   },
   watch: {
-    isFilterOpen: function () {
+    isFilterOpen: function() {
       let self = this;
       window.setTimeout(() => {
         if (self.isFilterOpen) {
@@ -550,7 +552,7 @@ export default {
   computed: {
     activeTabOptions: (self) => self.options.tabs[self.activeWorkflow.name],
     // headerHeight is the height of the top nav bar
-    headerHeight: () => document.getElementById("app-header").offsetHeight,
+    headerHeight: () => document.getElementById('app-header').offsetHeight,
     // listHeight is the height that the left pane data list should be, (Total screen height - (top nav bar height - leftpane top bar height))
     listHeight: (self) =>
       window.innerHeight -
@@ -559,7 +561,8 @@ export default {
         (self.isFilterOpen
           ? self.leftHeaderHeight.max
           : self.leftHeaderHeight.min)), // 70 is the sum of sortable heading height + remaining vertical space in the screen
-    rightPaneHeight: (self) => window.innerHeight - (self.headerHeight + self.leftHeaderHeight.min + 41), // 41 is the remaining vertical space in the screen
+    rightPaneHeight: (self) =>
+      window.innerHeight - (self.headerHeight + self.leftHeaderHeight.min + 41), // 41 is the remaining vertical space in the screen
     /**
      * processedData()
      *
@@ -568,7 +571,7 @@ export default {
      * of the current workflow page, and updates the left pane of cards.
      *
      */
-    processedData: function () {
+    processedData: function() {
       let data = this.options.tabs[this.activeWorkflow.name].data;
       // console.log(this.filter)
       if (this.filter.value.props.key !== undefined) {
@@ -595,7 +598,7 @@ export default {
       }
       return data;
     },
-    ...mapState(["authToken", "gkCoreUrl", "userName", "yearStart", "yearEnd"]),
+    ...mapState(['authToken', 'gkCoreUrl', 'userName', 'yearStart', 'yearEnd']),
   },
   methods: {
     callSortData(data, props) {
@@ -701,25 +704,31 @@ export default {
     setSelectedEntity(entity, index) {
       this.selectedEntity = entity;
       this.selectedEntityIndex = index;
-      this.$refs["col-left"].classList.remove("d-block");
-      this.$refs["col-right"].classList.add("d-block");
+      this.$refs['col-left'].classList.remove('d-block');
+      this.$refs['col-right'].classList.add('d-block');
     },
     unsetSelectedEntity() {
       this.selectedEntity = null;
       this.selectedEntityIndex = null;
-      this.$refs["col-left"].classList.add("d-block");
-      this.$refs["col-right"].classList.remove("d-block");
+      this.$refs['col-left'].classList.add('d-block');
+      this.$refs['col-right'].classList.remove('d-block');
     },
     onSelectedEntityUpdate(updatedData) {
-      switch(this.activeWorkflow.name) {
-        case "Transactions": {
-          if(updatedData.gkstatus === 0) { // if the invoice exists after update, gkstatus will be 0, else some other like 3
-            this.selectedEntity.rectifyFlag = !updatedData.gkresult.billentrysingleflag
-          } else {
-            this.options.tabs[this.activeWorkflow.name].data.splice(this.selectedEntityIndex, 1)
-            this.unsetSelectedEntity();
+      switch (this.activeWorkflow.name) {
+        case 'Transactions':
+          {
+            if (updatedData.gkstatus === 0) {
+              // if the invoice exists after update, gkstatus will be 0, else some other like 3
+              this.selectedEntity.rectifyFlag = !updatedData.gkresult
+                .billentrysingleflag;
+            } else {
+              this.options.tabs[this.activeWorkflow.name].data.splice(
+                this.selectedEntityIndex,
+                1
+              );
+              this.unsetSelectedEntity();
+            }
           }
-        }
           break;
       }
     },
@@ -729,95 +738,95 @@ export default {
       // used for quickly updating rectifyflag in invoice data array
 
       const requests = [
-        axios.get("/customersupplier?qty=custall").catch((error) => {
+        axios.get('/customersupplier?qty=custall').catch((error) => {
           return error;
         }),
-        axios.get("/customersupplier?qty=supall").catch((error) => {
+        axios.get('/customersupplier?qty=supall').catch((error) => {
           return error;
         }),
-        axios.get("/products").catch((error) => {
+        axios.get('/products').catch((error) => {
           return error;
         }),
-        axios.get(`/invoice?type=list&flag=0&fromdate=${this.yearStart}&todate=${this.yearEnd}`).catch((error) => {
-          return error;
-        }),
+        axios
+          .get(
+            `/invoice?type=list&flag=0&fromdate=${this.yearStart}&todate=${this.yearEnd}`
+          )
+          .catch((error) => {
+            return error;
+          }),
       ];
 
       const self = this;
-      Promise.all([...requests]).then(
-        ([resp1, resp2, resp3, resp4]) => {
-          self.isLoading = false;
+      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
+        self.isLoading = false;
 
-          let contacts = [];
+        let contacts = [];
 
-          // Customer List
-          if (resp1.status === 200) {
-            contacts = resp1.data.gkresult.map((item) =>
-              Object.assign({ csflag: true, icon: "person-fill" }, item)
-            );
-          } else {
-            console.log(resp1.message);
-          }
-
-          // Supplier List
-          if (resp2.status === 200) {
-            contacts.push(
-              ...resp2.data.gkresult.map((item) =>
-                Object.assign({ csflag: false, icon: "briefcase-fill" }, item)
-              )
-            );
-            self.options.tabs["Contacts"].data = self.sortData(
-              contacts,
-              "asc",
-              "custid"
-            );
-          } else {
-            console.log(resp2.message);
-          }
-
-          // Products & Services List
-          if (resp3.status === 200) {
-            self.options.tabs[
-              "Business"
-            ].data = resp3.data.gkresult.map((item) =>
-              Object.assign(
-                { icon: item.gsflag === 7 ? "box" : "headset" },
-                item
-              )
-            );
-          } else {
-            console.log(resp3.message);
-          }
-
-          // Invoices
-          if (resp4.status === 200) {
-            self.options.tabs["Transactions"].data = resp4.data.gkresult.map(
-              (item) => {
-                // invoiceMap[item.invid] = index;
-                return Object.assign(
-                  {
-                    icon: item.csflag === 3 ? "cash-stack" : "basket3",
-                    rectifyFlag: !item.billentryflag, // onCredit or not
-                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                    dateObj: Date.parse(
-                      item.invoicedate.split("-").reverse().join("-") // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                    ),
-                  },
-                  item
-                );
-              }
-            );
-          } else {
-            console.log(resp4.message);
-          }
+        // Customer List
+        if (resp1.status === 200) {
+          contacts = resp1.data.gkresult.map((item) =>
+            Object.assign({ csflag: true, icon: 'person-fill' }, item)
+          );
+        } else {
+          console.log(resp1.message);
         }
-      );
+
+        // Supplier List
+        if (resp2.status === 200) {
+          contacts.push(
+            ...resp2.data.gkresult.map((item) =>
+              Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)
+            )
+          );
+          self.options.tabs['Contacts'].data = self.sortData(
+            contacts,
+            'asc',
+            'custid'
+          );
+        } else {
+          console.log(resp2.message);
+        }
+
+        // Products & Services List
+        if (resp3.status === 200) {
+          self.options.tabs['Business'].data = resp3.data.gkresult.map((item) =>
+            Object.assign({ icon: item.gsflag === 7 ? 'box' : 'headset' }, item)
+          );
+        } else {
+          console.log(resp3.message);
+        }
+
+        // Invoices
+        if (resp4.status === 200) {
+          self.options.tabs['Transactions'].data = resp4.data.gkresult.map(
+            (item) => {
+              // invoiceMap[item.invid] = index;
+              return Object.assign(
+                {
+                  icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                  rectifyFlag: !item.billentryflag, // onCredit or not
+                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                  dateObj: Date.parse(
+                    item.invoicedate
+                      .split('-')
+                      .reverse()
+                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                  ),
+                },
+                item
+              );
+            }
+          );
+        } else {
+          console.log(resp4.message);
+        }
+      });
     },
     // fetch products & services list
     psList() {
       this.isLoading = true;
       axios
-        .get("/products")
+        .get('/products')
         .then((res) => {
           this.filterProducts(res.data.gkresult);
           this.isLoading = false;
