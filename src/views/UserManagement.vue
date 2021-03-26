@@ -1,8 +1,7 @@
 <template>
   <section class="mt-2 mr-3 ml-3">
     <!-- {{ userList }} -->
-    <div>
-      <b-overlay :show="isLoading" blur no-wrap></b-overlay>
+    <b-overlay :show="isLoading" blur>
       <b-input-group class="mb-3 w-75 mx-auto">
         <template #prepend>
           <!-- <b-input-group-text>Username</b-input-group-text> -->
@@ -70,39 +69,39 @@
       >
         <edit-user @refreshUsers="getUsers" :id="selectedUserId"></edit-user>
       </b-modal>
-    </div>
+    </b-overlay>
   </section>
 </template>
 
 <script>
-import axios from "axios";
-import AddUser from "@/components/form/AddUser.vue";
-import EditUser from "@/components/form/EditUser.vue";
-import { mapState } from "vuex";
+import axios from 'axios';
+import AddUser from '@/components/form/AddUser.vue';
+import EditUser from '@/components/form/EditUser.vue';
+import { mapState } from 'vuex';
 
 export default {
-  name: "UserManagement",
+  name: 'UserManagement',
   components: { AddUser, EditUser },
   data() {
     return {
       userList: [],
-      searchText: "",
+      searchText: '',
       isLoading: false,
-      selectedUserId: ""
+      selectedUserId: '',
     };
   },
   computed: {
-    ...mapState(["authToken", "gkCoreUrl"])
+    ...mapState(['authToken', 'gkCoreUrl']),
   },
   methods: {
     getUsers() {
       this.isLoading = true;
-      console.log("getting users list");
+      console.log('getting users list');
       axios
-        .get("/users")
-        .then(r => {
+        .get('/users')
+        .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
-            let usr = r.data.gkresult.map(data => {
+            let usr = r.data.gkresult.map((data) => {
               let obj = {};
               obj.user = Object.values(data)[1];
               obj.role = Object.values(data)[3];
@@ -113,18 +112,18 @@ export default {
             this.isLoading = false;
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
         });
     },
     showEditUser(id) {
       this.selectedUserId = id;
-      this.$bvModal.show("edit-user");
-    }
+      this.$bvModal.show('edit-user');
+    },
   },
   mounted() {
     this.getUsers();
-  }
+  },
 };
 </script>
 <style scoped>
