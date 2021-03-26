@@ -56,7 +56,7 @@
               <!-- admin only options -->
               <template v-if="userRole == -1">
                 <b-dropdown-item to="/orgprofile"
-                  ><b-icon icon="building"></b-icon> Company
+                  ><b-icon icon="building"></b-icon> Organisation
                   Profile</b-dropdown-item
                 >
                 <b-dropdown-item to="/uom"

@@ -167,7 +167,7 @@
           <b-icon icon="arrow-up-circle"></b-icon> Save Changes
         </b-button>
         <b-button variant="danger" @click="confirm('delete')">
-          <b-icon icon="x-circle"></b-icon> Delete Company
+          <b-icon icon="x-circle"></b-icon> Delete Organisation
         </b-button>
       </div>
     </b-form>
@@ -237,21 +237,21 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 export default {
-  name: "OrgProfile",
+  name: 'OrgProfile',
   data() {
     return {
       loading: true,
-      details: "",
+      details: '',
       states: [],
-      gstin: "",
-      stateCode: "",
-      cess: "",
+      gstin: '',
+      stateCode: '',
+      cess: '',
     };
   },
   computed: {
-    ...mapState(["gkCoreUrl", "authToken"]),
+    ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {
     /**
@@ -261,21 +261,21 @@ export default {
       this.$bvModal
         .msgBoxConfirm(
           `Confirm ${type} company ? ${
-            type == "delete"
-              ? "This action is Irreversable. We recommend to backup company data before deleting"
-              : ""
+            type == 'delete'
+              ? 'This action is Irreversable. We recommend to backup company data before deleting'
+              : ''
           }`,
           {
             centered: true,
-            size: "md",
-            okVariant: "danger",
-            headerBgVariant: "danger",
-            headerTextVariant: "light",
+            size: 'md',
+            okVariant: 'danger',
+            headerBgVariant: 'danger',
+            headerTextVariant: 'light',
           }
         )
         .then((val) => {
           if (val === true) {
-            if (type === "update") {
+            if (type === 'update') {
               this.updateOrg();
             } else {
               this.deleteOrg();
@@ -301,7 +301,7 @@ export default {
               this.loading = false;
               break;
             case 2:
-              alert("Access Denied");
+              alert('Access Denied');
               this.loading = false;
               break;
             default:
@@ -333,23 +333,23 @@ export default {
               this.$bvToast.toast(
                 `${this.details.orgname} Profile Details Updated`,
                 {
-                  title: "Success",
-                  variant: "success",
+                  title: 'Success',
+                  variant: 'success',
                   solid: true,
                 }
               );
               break;
             case 2:
               this.loading = false;
-              this.$bvToast.toast("Unauthorised Access", {
-                variant: "danger",
+              this.$bvToast.toast('Unauthorised Access', {
+                variant: 'danger',
                 solid: true,
               });
               break;
             case 4:
               this.loading = false;
-              this.$bvToast.toast("You have no permissions to delete details", {
-                variant: "danger",
+              this.$bvToast.toast('You have no permissions to delete details', {
+                variant: 'danger',
                 solid: true,
               });
               break;
@@ -357,7 +357,7 @@ export default {
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
-            variant: "danger",
+            variant: 'danger',
             solid: true,
           });
           this.loading = false;
@@ -378,27 +378,27 @@ export default {
         .delete(`${this.gkCoreUrl}/organisations`, config)
         .then((r) => {
           console.trace(r);
-          if (r.status == "200" && r.data.gkstatus == 0) {
+          if (r.status == '200' && r.data.gkstatus == 0) {
             this.$bvToast.toast(`${this.details.orgname} Deleted`, {
-              title: "Success",
-              variant: "success",
+              title: 'Success',
+              variant: 'success',
               solid: true,
             });
             // reset orgname
-            this.$store.commit("resetOrg");
+            this.$store.commit('resetOrg');
             // change auth status
-            this.$store.commit("setAuthStatus");
+            this.$store.commit('setAuthStatus');
             // redirect to login page
-            this.$router.push("/");
+            this.$router.push('/');
             // clear localStorage
             localStorage.clear();
             // set gkCore url
-            this.$store.commit("setGkCoreUrl", { gkCoreUrl: this.gkCoreUrl });
+            this.$store.commit('setGkCoreUrl', { gkCoreUrl: this.gkCoreUrl });
             this.loading = false;
           } else {
             this.$bvToast.toast(r.status, {
-              title: "Error",
-              variant: "danger",
+              title: 'Error',
+              variant: 'danger',
               solid: true,
             });
             this.loading = false;
@@ -406,8 +406,8 @@ export default {
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
-            title: "Error",
-            variant: "danger",
+            title: 'Error',
+            variant: 'danger',
             solid: true,
           });
           this.loading = false;
@@ -425,7 +425,7 @@ export default {
           });
         })
         .catch((e) => {
-          console.log("failed to get states", e.message);
+          console.log('failed to get states', e.message);
         });
     },
   },

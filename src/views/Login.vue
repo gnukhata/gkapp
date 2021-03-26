@@ -52,7 +52,7 @@
       <b-alert show variant="info">
         Demo Username: <b>user_a</b> <br />
         Password: <b>user_a</b> <br />
-        Company: <b>ABC Delivery</b></b-alert
+        Organisation: <b>ABC Delivery</b></b-alert
       >
       <b-card-body>
         <b-form @submit.prevent="login">
@@ -91,7 +91,7 @@
           <!--Select company area-->
           <b-form-group
             id="input-group-3"
-            label="Company"
+            label="Organisation"
             description="* Required"
             label-cols="auto"
             label-for="input-3"
@@ -106,7 +106,7 @@
                 required
               >
                 <b-form-select-option value="null" disabled
-                  >-- Select Company --</b-form-select-option
+                  >-- Select Organisation --</b-form-select-option
                 >
               </b-form-select>
             </b-overlay>
@@ -170,7 +170,7 @@
                 :to="{ name: 'Create_Organisation' }"
               >
                 <b-icon icon="person-plus"></b-icon>
-                Create Account
+                Create Organisation
               </b-button>
               <b-button variant="warning" @click="switchServer">
                 <b-icon icon="cloud"></b-icon>
@@ -184,12 +184,12 @@
   </section>
 </template>
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import Captcha from "../components/Captcha.vue";
+import axios from 'axios';
+import { mapState } from 'vuex';
+import Captcha from '../components/Captcha.vue';
 
 export default {
-  name: "login",
+  name: 'login',
   components: { Captcha },
   data() {
     return {
@@ -205,13 +205,13 @@ export default {
       orgIndex: null,
       orgYears: [], //
       orgYearsFull: [], // org array with org details objects
-      serverUrl: "",
+      serverUrl: '',
       form: {
         username: null,
         userpassword: null,
         orgcode: null,
-        orgName: null
-      }
+        orgName: null,
+      },
     };
   },
   methods: {
@@ -230,48 +230,48 @@ export default {
      */
     setServerUrl() {
       // Check if gkcore is running locally
-      if (this.serverUrl === "") {
-        console.log("checking local server");
+      if (this.serverUrl === '') {
+        console.log('checking local server');
         axios
           .get(`https://satheerthan.site:6543/state`)
-          .then(res => {
+          .then((res) => {
             if (res.status == 200 && res.data.gkstatus == 0) {
-              this.$store.commit("setGkCoreUrl", {
-                gkCoreUrl: "https://satheerthan.site:6543"
+              this.$store.commit('setGkCoreUrl', {
+                gkCoreUrl: 'https://satheerthan.site:6543',
               });
               this.showLogin = true;
               this.fetchOrgs();
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$bvToast.toast(
-              "Please check if gkcore is properly setup & running on port 6543",
+              'Please check if gkcore is properly setup & running on port 6543',
               {
                 title: e,
                 solid: true,
-                variant: "danger"
+                variant: 'danger',
               }
             );
           });
       } else {
         // Check if it's a valid gkcore url
-        console.log("checking custom url ", this.serverUrl);
+        console.log('checking custom url ', this.serverUrl);
         axios
           .get(`${this.serverUrl}/state`)
-          .then(res => {
+          .then((res) => {
             if (res.status == 200 && res.data.gkstatus == 0) {
-              this.$store.commit("setGkCoreUrl", {
-                gkCoreUrl: this.serverUrl
+              this.$store.commit('setGkCoreUrl', {
+                gkCoreUrl: this.serverUrl,
               });
               this.showLogin = true;
               this.fetchOrgs();
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$bvToast.toast(e.message, {
-              title: "Invalid URL",
-              variant: "danger",
-              solid: true
+              title: 'Invalid URL',
+              variant: 'danger',
+              solid: true,
             });
           });
       }
@@ -282,8 +282,8 @@ export default {
      */
     switchServer() {
       localStorage.clear();
-      this.$store.commit("setGkCoreUrl", {
-        gkCoreUrl: null
+      this.$store.commit('setGkCoreUrl', {
+        gkCoreUrl: null,
       });
       this.checkUrl();
     },
@@ -294,7 +294,7 @@ export default {
       this.isLoading = true;
       axios
         .post(`${this.gkCoreUrl}/login`, this.form)
-        .then(response => {
+        .then((response) => {
           // alert user depending on the gkstatus code
           switch (response.data.gkstatus) {
             case 0:
@@ -303,7 +303,7 @@ export default {
                 let orgname = this.orgList[this.orgIndex].orgname;
                 let orgtype = this.orgList[this.orgIndex].orgtype;
                 let orgfy = this.orgFinancialYear();
-                this.$store.dispatch("setSessionStates", {
+                this.$store.dispatch('setSessionStates', {
                   auth: true,
                   orgCode: this.form.orgcode,
                   orgName: `${orgname} (${orgtype})`,
@@ -311,41 +311,41 @@ export default {
                   user: { username: this.form.username },
                   orgYears: {
                     yearStart: orgfy.startYear,
-                    yearEnd: orgfy.endYear
-                  }
+                    yearEnd: orgfy.endYear,
+                  },
                 });
                 // Initiate axios defaults
                 axios.defaults.baseURL = this.gkCoreUrl;
                 axios.defaults.headers = { gktoken: response.data.token };
-                this.$router.push("/workflow");
+                this.$router.push('/workflow');
                 // Alert the user on successful login
                 this.$bvToast.toast(`Welcome to gnukhata!`, {
-                  title: "Login Successful",
+                  title: 'Login Successful',
                   autoHideDelay: 3000,
                   appendToast: true,
-                  variant: "success",
-                  solid: true
+                  variant: 'success',
+                  solid: true,
                 });
               } else {
                 // Alert the user on captcha failure
                 this.$bvToast.toast(`Incorrect Answer`, {
-                  title: "Captcha failed",
+                  title: 'Captcha failed',
                   autoHideDelay: 3000,
                   appendToast: true,
-                  variant: "danger",
-                  solid: true
+                  variant: 'danger',
+                  solid: true,
                 });
               }
               break;
             case 2:
               // Alert user on wrong credentials
-              console.log("Wrong login details");
+              console.log('Wrong login details');
               this.$bvToast.toast(`Invalid login details`, {
-                title: "Login Error!",
+                title: 'Login Error!',
                 autoHideDelay: 3000,
-                variant: "danger",
+                variant: 'danger',
                 appendToast: true,
-                solid: true
+                solid: true,
               });
               this.isLoading = false;
               break;
@@ -353,7 +353,7 @@ export default {
               this.isLoading = false;
           } // end switch
         })
-        .catch(error => {
+        .catch((error) => {
           this.isLoading = false;
           console.log(error.message);
         });
@@ -364,14 +364,14 @@ export default {
     fetchOrgs() {
       axios
         .get(`${this.gkCoreUrl}/organisations`)
-        .then(response => {
+        .then((response) => {
           this.orgList = response.data.gkdata;
           // Convert the api data b-vue compatible
           let opt = [];
           for (const i in this.orgList) {
             const item = {
               value: i,
-              text: `${this.orgList[i].orgname} (${this.orgList[i].orgtype})`
+              text: `${this.orgList[i].orgname} (${this.orgList[i].orgtype})`,
             };
             opt.push(item);
           }
@@ -391,9 +391,9 @@ export default {
       let type = this.orgList[this.orgIndex].orgtype;
       axios
         .get(`/orgyears/${name}/${type}`)
-        .then(r => {
+        .then((r) => {
           if (r.status == 200) {
-            let data = r.data.gkdata.map(data => {
+            let data = r.data.gkdata.map((data) => {
               // console.log(Object.values(data));
               let obj = {};
               obj.text = `${Object.values(data)[0]} to ${
@@ -407,7 +407,7 @@ export default {
             this.isDisabled = false;
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e.message);
           this.isDisabled = false;
         });
@@ -419,30 +419,30 @@ export default {
         if (this.orgYearsFull[i].orgcode === this.form.orgcode) {
           return {
             startYear: this.orgYearsFull[i].yearstart,
-            endYear: this.orgYearsFull[i].yearend
+            endYear: this.orgYearsFull[i].yearend,
           };
         }
       }
-    }
+    },
   },
   mounted() {
     this.fetchOrgs();
     this.checkUrl();
     if (this.userAuthenticated) {
-      this.$router.push("/workflow");
+      this.$router.push('/workflow');
     }
   },
   computed: {
-    ...mapState(["gkCoreUrl", "userAuthenticated"]),
+    ...mapState(['gkCoreUrl', 'userAuthenticated']),
     urlIsValid() {
       return this.serverUrl
-        .split("")
+        .split('')
         .reverse()
-        .join("")[0] == "/"
+        .join('')[0] == '/'
         ? false
         : true;
-    }
-  }
+    },
+  },
 };
 </script>
 <style></style>
