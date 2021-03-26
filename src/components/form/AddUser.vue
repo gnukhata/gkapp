@@ -1,6 +1,6 @@
 <template>
   <!-- Create user -->
-  <b-form @submit.prevent="addUser">
+  <b-form ref="createForm" @submit.prevent="addUser">
     <b-overlay :show="isLoading" blur no-wrap></b-overlay>
 
     <b-form-group label="Name">
@@ -92,61 +92,61 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import SecurityQuestions from "../SecurityQuestions.vue";
+import { mapState } from 'vuex';
+import SecurityQuestions from '../SecurityQuestions.vue';
 // import passwordStrength from "check-password-strength";
 
 export default {
   components: { SecurityQuestions },
-  name: "AddUser",
+  name: 'AddUser',
   data() {
     return {
       isLoading: false,
       allGodowns: [],
       newUser: {
-        username: "",
-        userpassword: "",
+        username: '',
+        userpassword: '',
         userrole: Number,
-        userquestion: "",
-        useranswer: "",
-        golist: []
+        userquestion: '',
+        useranswer: '',
+        golist: [],
       },
       roles: [
         {
           value: -1,
-          text: "Admin"
+          text: 'Admin',
         },
         {
           value: 0,
-          text: "Manager"
+          text: 'Manager',
         },
         {
           value: 1,
-          text: "Operator"
+          text: 'Operator',
         },
         {
           value: 2,
-          text: "Internal Auditor"
+          text: 'Internal Auditor',
         },
         {
           value: 3,
-          text: "Godown In Charge"
-        }
-      ]
+          text: 'Godown In Charge',
+        },
+      ],
     };
   },
   computed: {
-    ...mapState(["gkCoreUrl", "authToken"]),
+    ...mapState(['gkCoreUrl', 'authToken']),
     validateName() {
       // remove spaces in username
-      this.newUser.username = this.newUser.username.split(" ").join("");
+      this.newUser.username = this.newUser.username.split(' ').join('');
       // username should be atleast three characters
       if (this.newUser.username.length <= 2) {
         return false;
       } else {
         return true;
       }
-    }
+    },
     // pwdStrength: () =>
     //   this.newUser.userpassword !== "" && this.newUser.userpassword !== null
     //     ? passwordStrength(this.newUser.userpassword)
@@ -181,43 +181,44 @@ export default {
   },
   methods: {
     /**
-     * get all godowns from current organisation
+     * get all godowns in current organisation
      */
     getGodowns() {
       this.isLoading = true;
-      console.log("fetching godowns");
+      console.log('fetching godowns');
       axios
         .get(`${this.gkCoreUrl}/godown`, {
-          headers: { gktoken: this.authToken }
+          headers: { gktoken: this.authToken },
         })
-        .then(r => {
+        .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
             let godowns = r.data.gkresult;
             for (let i in godowns) {
-              godowns[i].checked = "not_accepted";
+              godowns[i].checked = 'not_accepted';
             }
             this.allGodowns = godowns;
             this.isLoading = false;
           }
         })
-        .catch(e => {
+        .catch((e) => {
           this.$bvToast.toast(
-            "Failed to fetch godown info, Please reload the page",
+            'Failed to fetch godown info, Please reload the page',
             {
-              variant: "danger",
-              solid: true
+              variant: 'danger',
+              solid: true,
             }
           );
           this.isLoading = false;
         });
     },
+    /* Create User */
     addUser() {
       this.isLoading = true;
       // If selected role is godown incharge, add selected godown id's to the submitted form
       if (this.newUser.userrole == 3) {
         let list = [];
         for (let i in this.allGodowns) {
-          if (this.allGodowns[i].checked === "accepted") {
+          if (this.allGodowns[i].checked === 'accepted') {
             list.push(this.allGodowns[i].goid);
           }
         }
@@ -227,82 +228,83 @@ export default {
       axios
         .post(`${this.gkCoreUrl}/users`, this.newUser, {
           headers: {
-            gktoken: this.authToken
-          }
+            gktoken: this.authToken,
+          },
         })
-        .then(r => {
+        .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
                 this.$bvToast.toast(
                   `${this.newUser.username} created successfully`,
                   {
-                    title: "Success",
-                    variant: "success",
-                    solid: true
+                    title: 'Success',
+                    variant: 'success',
+                    solid: true,
                   }
                 );
                 // Add user created log to server
                 const payload = {
-                  activity: `user ${this.newUser.username} created`
+                  activity: `user ${this.newUser.username} created`,
                 };
                 axios.post(`${this.gkCoreUrl}/log`, payload, {
-                  headers: { gktoken: this.authToken }
+                  headers: { gktoken: this.authToken },
                 });
                 // refresh users list in USerManagement.vue
-                this.$emit("refreshUsers");
+                this.$emit('refreshUsers');
                 this.isLoading = false;
+                this.$refs.createForm.reset();
                 break;
               case 1:
                 this.$bvToast.toast(
                   `Username ${this.newUser.username} already exists`,
                   {
-                    variant: "danger",
-                    solid: true
+                    variant: 'danger',
+                    solid: true,
                   }
                 );
                 this.isLoading = false;
                 break;
               case 2:
-                this.$bvToast.toast("Unauthorised access", {
-                  variant: "danger",
-                  solid: true
+                this.$bvToast.toast('Unauthorised access', {
+                  variant: 'danger',
+                  solid: true,
                 });
                 this.isLoading = false;
                 break;
               case 3:
-                this.$bvToast.toast("Connection Failed", {
-                  variant: "danger",
-                  solid: true
+                this.$bvToast.toast('Connection Failed', {
+                  variant: 'danger',
+                  solid: true,
                 });
                 this.isLoading = false;
                 break;
               case 4:
-                this.$bvToast.toast("Bad Privilege", {
-                  variant: "danger",
-                  solid: true
+                this.$bvToast.toast('Bad Privilege', {
+                  variant: 'danger',
+                  solid: true,
                 });
                 this.isLoading = false;
               case 5:
-                this.$bvToast.toast("Action Disallowed", {
-                  variant: "danger",
-                  solid: true
+                this.$bvToast.toast('Action Disallowed', {
+                  variant: 'danger',
+                  solid: true,
                 });
                 this.isLoading = false;
                 break;
             }
           } else {
             this.$bvToast.toast(
-              "Connection failed with status code " + r.status,
+              'Connection failed with status code ' + r.status,
               {
-                variant: "danger",
-                solid: true
+                variant: 'danger',
+                solid: true,
               }
             );
             this.isLoading = false;
           }
         });
-    }
+    },
     // getPasswordHint(pwdStrength) {
     //   const available = pwdStrength.contains.map((item) => item.message);
     //   let hint = this.options.pwdFieldTypes
@@ -318,8 +320,6 @@ export default {
     //   }
     //   return hint;
     // },
-  }
+  },
 };
 </script>
-
-<style></style>

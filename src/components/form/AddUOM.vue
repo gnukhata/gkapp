@@ -1,6 +1,6 @@
 <template>
   <b-overlay :show="isLoading">
-    <b-form @submit.prevent="createUOM">
+    <b-form ref="editingForm" @submit.prevent="createUOM">
       <b-form-group label="Name" tooltip>
         <b-form-input
           v-model="form.unitname"
@@ -98,10 +98,6 @@ export default {
      * Create a new UOM with name, description & sub unit value (optional)
      */
     createUOM() {
-      // if (this.form.subunitof == null) {
-      //   this.form.subunitof = ' ';
-      // }
-      console.log(this.form);
       this.isLoading = true;
       axios
         .post(`${this.gkCoreUrl}/unitofmeasurement`, this.form, {
@@ -118,9 +114,9 @@ export default {
                     solid: true,
                   }
                 );
-                this.resetForm();
                 this.isLoading = false;
                 this.$emit('refresh');
+                this.$refs.editingForm.reset();
                 break;
               case 1:
                 this.$bvToast.toast(`Duplicate Entry`, {
@@ -171,12 +167,6 @@ export default {
             solid: true,
           });
         });
-    },
-    resetForm() {
-      this.form.unitname = '';
-      this.form.description = '';
-      this.form.subunitof = null;
-      this.form.conversionrate = 0.0;
     },
   },
   mounted() {
