@@ -25,8 +25,7 @@
           label-align-sm="right"
         >
           <b-form-input
-            :value="details.custname"
-            id="nested-street"
+            id="nested-name"
             v-model="details.custname"
           ></b-form-input>
         </b-form-group>
@@ -38,34 +37,27 @@
           label-align-sm="right"
         >
           <b-form-input
-            :value="details.custphone"
             v-model="details.custphone"
             id="nested-city"
           ></b-form-input>
         </b-form-group>
 
         <b-form-group
-          label="Email:"
+          label="Email"
           label-for="nested-state"
           label-cols-sm="3"
           label-align-sm="right"
         >
-          <b-form-input
-            v-model="details.custemail"
-            :value="details.custemail"
-          ></b-form-input>
+          <b-form-input v-model="details.custemail"></b-form-input>
         </b-form-group>
 
         <b-form-group
-          label="Fax:"
+          label="Fax"
           label-for="nested-country"
           label-cols-sm="3"
           label-align-sm="right"
         >
-          <b-form-input
-            v-model="details.custfax"
-            :value="details.custfax"
-          ></b-form-input>
+          <b-form-input v-model="details.custfax"></b-form-input>
         </b-form-group>
       </b-collapse>
     </b-card>
@@ -88,27 +80,27 @@
       </template>
       <b-collapse class="m-3" v-model="isCollapsed2" id="address">
         <b-form-group
-          label="Street:"
+          label="Street"
           label-for="nested-street"
           label-cols-sm="3"
           label-align-sm="right"
         >
           <b-form-input
+            id="nested-street"
             v-model="details.custaddr"
-            :value="details.custaddr"
           ></b-form-input>
         </b-form-group>
 
         <b-form-group
-          label="State:"
+          label="State"
           label-for="state"
           label-cols-sm="3"
           label-align-sm="right"
         >
           <b-form-select
             :options="options.states"
-            :value="details.state"
             v-model="details.state"
+            @change="gstin.stateCode = options.stateMap[details.state]"
           ></b-form-select>
         </b-form-group>
 
@@ -119,8 +111,8 @@
           label-align-sm="right"
         >
           <b-form-input
-            type="number" no-wheel
-            :value="details.pincode"
+            type="number"
+            no-wheel
             v-model="details.pincode"
             id="nested-country"
           ></b-form-input>
@@ -147,28 +139,34 @@
 
       <b-collapse class="m-3" v-model="isCollapsed3" id="financial">
         <b-form-group
-          label="PAN:"
-          label-for="nested-street"
+          label="PAN"
+          label-for="nested-pan"
           label-cols-sm="3"
           label-align-sm="right"
+          :state="isPanValid"
+          invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
         >
           <b-form-input
             :value="details.custpan"
             v-model="details.custpan"
-            id="nested-street"
+            id="nested-pan"
+            :state="isPanValid"
+            pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+            @change="gstin.pan = details.custpan"
+            :required="!!details.custpan"
           ></b-form-input>
         </b-form-group>
 
         <b-form-group
-          label="TAN:"
-          label-for="nested-city"
+          label="TAN"
+          label-for="nested-tan"
           label-cols-sm="3"
           label-align-sm="right"
         >
           <b-form-input
             v-model="details.custtan"
             :value="details.custtan"
-            id="nested-city"
+            id="nested-tan"
           ></b-form-input>
         </b-form-group>
 
@@ -178,13 +176,28 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
-          <b-form-input
-            v-for="i in details.gstin"
-            :key="i"
-            :value="i"
-            class="m-1"
-            disabled
-          ></b-form-input>
+          <div class="d-flex">
+            <b-form-input
+              type="text"
+              disabled
+              style="max-width: 3em"
+              v-model="gstin.stateCode"
+            ></b-form-input>
+            <b-form-input
+              type="text"
+              class="ml-1 mr-1"
+              disabled
+              v-model="gstin.pan"
+            ></b-form-input>
+            <b-form-input
+              type="text"
+              v-model="gstin.checksum"
+              title="Format: [Number] [Alphabet] [Number / Alphabet]"
+              pattern="[0-9]{1}[A-Z]{1}[A-Z0-9]{1}"
+              :state="isChecksumValid"
+              :required="!!gstin.checksum"
+            ></b-form-input>
+          </div>
         </b-form-group>
       </b-collapse>
     </b-card>
@@ -203,7 +216,17 @@
       <b-button to="/invoice" size="sm" class="ml-2" variant="dark"
         ><b-icon icon="receipt"></b-icon> Add Transaction</b-button
       >
-      <b-button :to="{name: 'Create_Voucher', params: {type: (customer.csflag)? 'receipt' : 'payment', customer: customer.custname || ''}}" size="sm" class="ml-2" variant="warning"
+      <b-button
+        :to="{
+          name: 'Create_Voucher',
+          params: {
+            type: customer.csflag ? 'receipt' : 'payment',
+            customer: customer.custname || '',
+          },
+        }"
+        size="sm"
+        class="ml-2"
+        variant="warning"
         ><b-icon icon="file-earmark-plus"></b-icon> Create Voucher</b-button
       >
     </div>
@@ -227,10 +250,26 @@ export default {
       options: {
         states: [],
         selectedState: {},
+        stateMap: {},
+      },
+      gstin: {
+        stateCode: null,
+        pan: null,
+        checksum: null,
+      },
+      regex: {
+        checksum: new RegExp("[0-9]{1}[A-Z]{1}[0-9A-Z]{1}"),
+        pan: new RegExp("[A-Z]{5}[0-9]{4}[A-Z]{1}"),
       },
     };
   },
   computed: {
+    isChecksumValid: (self) =>
+      self.gstin.checksum
+        ? self.regex.checksum.test(self.gstin.checksum)
+        : null,
+    isPanValid: (self) =>
+      self.details.custpan ? self.regex.pan.test(self.details.custpan) : null,
     ...mapState(["gkCoreUrl", "authToken"]),
   },
   methods: {
@@ -250,7 +289,13 @@ export default {
             case 0:
               this.details = res.data.gkresult;
               this.isLoading = false;
-              this.states();
+              this.states().then(() => {
+                if (this.details.gstin) {
+                  this.splitGstin(Object.values(this.details.gstin)[0]);
+                } else {
+                  this.splitGstin();
+                }
+              })
               break;
             case 2:
               this.$bvToast.toast("Unauthorised Access", {
@@ -287,13 +332,12 @@ export default {
           if (val) {
             delete this.details.statelist;
             this.isLoading = true;
-            const config = {
-              headers: {
-                gktoken: this.authToken,
-              },
-            };
+            if(this.gstin.stateCode.length === 2 && this.gstin.pan.length === 10 && this.gstin.checksum.length === 3) {
+              this.details.gstin = {}
+              this.details.gstin[this.gstin.stateCode] = `${this.gstin.stateCode}${this.gstin.pan}${this.gstin.checksum}`
+            }
             axios
-              .put(`${this.gkCoreUrl}/customersupplier`, this.details, config)
+              .put(`/customersupplier`, this.details)
               .then((res) => {
                 switch (res.data.gkstatus) {
                   case 0:
@@ -474,13 +518,45 @@ export default {
           console.log("log ", e);
         });
     },
+    /** Splits the GSTIN into state code, pan and checksum */
+    splitGstin(gstin) {
+      let gstinUpdated = false;
+      if (gstin) {
+        if (gstin.length === 15) {
+          gstinUpdated = true;
+          this.gstin = {
+            stateCode: gstin.substring(0, 2),
+            pan: gstin.substring(2, 12),
+            checksum: gstin.substring(12, 15),
+          };
+        }
+      }
+      if(!gstinUpdated) {
+          this.gstin.stateCode = this.options.stateMap[this.details.state] || ""
+          console.log(this.options.stateMap[this.details.state])
+          this.gstin.pan = this.details.custpan;
+      }
+    },
+    /** Fetches statelist from gkcore and prepares it for b-select.
+     *  Also creates stateName to stateCode map, for quick lookup of state codes
+     */
     states() {
-      axios
+      return axios
         .get(`${this.gkCoreUrl}/state`)
         .then((res) => {
-          this.options.states = res.data.gkresult.map(
-            (item) => Object.values(item)[0]
-          );
+          if (res.data.gkstatus === 0) {
+            this.options.states = [];
+            let name, code;
+            res.data.gkresult.forEach((item) => {
+              name = Object.values(item)[0];
+              code = Object.keys(item)[0];
+              if (parseInt(code) < 10) {
+                code = "0" + code;
+              }
+              this.options.states.push(name);
+              this.options.stateMap[name] = code;
+            });
+          }
         })
         .catch((e) => {
           this.$bvToast.toast(e, {

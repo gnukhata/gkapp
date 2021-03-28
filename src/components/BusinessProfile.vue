@@ -19,7 +19,6 @@
         <b-form-group label="Name" label-cols="4">
           <b-form-input
             v-model="details.productdesc"
-            :value="details.productdesc"
             type="text"
             required
           ></b-form-input>
@@ -31,10 +30,9 @@
           label-cols="4"
         >
           <b-form-input
-            :value="details.openingstock"
             v-model="details.openingstock"
-            type="number" no-wheel
-
+            type="number"
+            no-wheel
           ></b-form-input>
         </b-form-group>
         <!-- UOM -->
@@ -43,12 +41,8 @@
           label="Unit of Measure"
           label-cols="4"
         >
-          <b-input-group :prepend="details.unitname.name || details.unitname">
-            <b-form-select
-              :value="details.unitname"
-              v-model="details.unitname"
-              :options="options.uom"
-            >
+          <b-input-group :prepend="details.unitname">
+            <b-form-select v-model="details.unitname" :options="options.uom">
             </b-form-select>
           </b-input-group>
         </b-form-group>
@@ -58,16 +52,10 @@
           label="HSN Code"
           label-cols="4"
         >
-          <b-form-input
-            v-model="details.gscode"
-            :value="details.gscode"
-          ></b-form-input>
+          <b-form-input v-model="details.gscode"></b-form-input>
         </b-form-group>
         <b-form-group v-else label="SAC Code" label-cols="4">
-          <b-form-input
-            v-model="details.gscode"
-            :value="details.gscode"
-          ></b-form-input>
+          <b-form-input v-model="details.gscode"></b-form-input>
         </b-form-group>
       </b-collapse>
     </b-card>
@@ -85,38 +73,26 @@
       <b-collapse v-model="isCollapsed2" class="p-3" id="collapse-price">
         <!-- MRP -->
         <b-form-group label="MRP" label-cols="4">
-          <b-form-input
-            v-model="details.prodmrp"
-            :value="details.prodmrp"
-          ></b-form-input>
+          <b-form-input v-model="details.prodmrp"></b-form-input>
         </b-form-group>
         <!-- Selling Price -->
         <b-form-group id="input-group-2" label="Selling Price" label-cols="4">
-          <b-form-input
-            :value="details.prodmrp"
-            v-model="details.prodsp"
-          ></b-form-input>
+          <b-form-input v-model="details.prodsp"></b-form-input>
         </b-form-group>
         <!-- discount -->
         <b-form-group label-cols="4" label="Discount" label-for="input-3">
           <b-input-group prepend="₹">
-            <b-form-input
-              :value="details.discountamount"
-              v-model="details.discountamount"
-            ></b-form-input>
+            <b-form-input v-model="details.discountamount"></b-form-input>
           </b-input-group>
           <b-input-group class="mt-1" prepend="%">
-            <b-form-input
-              :value="details.discountname"
-              v-model="details.discountpercent"
-            ></b-form-input>
+            <b-form-input v-model="details.discountpercent"></b-form-input>
           </b-input-group>
         </b-form-group>
       </b-collapse>
     </b-card>
     <!-- <h3 class="text-muted text-center mt-3 mb-3">Taxes</h3> -->
     <!-- <b-card class="mt-2" header="Tax" header-bg-variant="warning"> -->
-    {{ options.tax }}
+    <!-- {{ options.tax }} -->
     <b-card no-body class="mt-2" header-bg-variant="warning">
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-tax>
@@ -129,42 +105,73 @@
         </div>
       </template>
       <b-collapse v-model="isCollapsed3" class="p-3" id="collapse-tax">
-        <div v-for="item in options.tax" :key="item.taxid">
-          <b-input-group
-            v-if="item.taxname == 'CESS'"
-            class="m-1"
-            :prepend="item.taxname"
-          >
+        <b-form-group label="HSN" label-cols="4">
+          <b-input-group>
             <b-form-input
-              :value="item.taxrate"
-              v-model="item.taxrate"
+              type="number"
+              min="100000"
+              max="999999"
+              no-wheel
+              required
+              v-model="details.gscode"
             ></b-form-input>
           </b-input-group>
+        </b-form-group>
 
-          <b-input-group
-            v-else-if="item.taxname == 'VAT'"
-            class="mt-2"
-            :prepend="item.taxname"
-          >
-            <b-form-input
-              class="mr-1"
-              :value="item.taxrate"
-              v-model="item.taxrate"
-            ></b-form-input>
-            <b-form-select
-              :options="options.states"
-              :value="item.state"
-              v-model="item.state"
-            ></b-form-select>
+        <b-form-group label="GST" label-cols="4">
+          <b-input-group append="%">
+            <b-form-select v-model="tax.igst.taxrate">
+              <b-form-select-option value="0.00">0.00</b-form-select-option>
+              <b-form-select-option value="5.00">5.00</b-form-select-option>
+              <b-form-select-option value="18.00">18.00</b-form-select-option>
+              <b-form-select-option value="28.00">28.00</b-form-select-option>
+            </b-form-select>
           </b-input-group>
+        </b-form-group>
 
-          <b-input-group v-else class="m-1" :prepend="item.taxname">
+        <b-form-group label="CESS" label-cols="4">
+          <b-input-group append="%">
             <b-form-input
-              :value="item.taxrate"
-              v-model="item.taxrate"
+              type="number"
+              step="0.01"
+              no-wheel
+              v-model="tax.cess.taxrate"
             ></b-form-input>
           </b-input-group>
-        </div>
+        </b-form-group>
+
+        <b-form-group label="CVAT" label-cols="4">
+          <b-input-group append="%">
+            <b-form-input
+              type="number"
+              step="0.01"
+              no-wheel
+              v-model="tax.cvat.taxrate"
+            ></b-form-input>
+          </b-input-group>
+        </b-form-group>
+
+        <b-form-group label="VAT" label-cols="4">
+          <div v-for="(item, index) in tax.vat" :key="index">
+            <b-input-group v-if="item.taxname === 'VAT'" class="mb-2">
+              <b-form-input
+                type="number"
+                step="0.01"
+                no-wheel
+                v-model="item.taxrate"
+              ></b-form-input>
+              <b-input-group-append>
+                <b-form-select
+                  :options="options.states"
+                  v-model="item.state"
+                  :style="{ 'border-radius': 0, 'max-width': '200px' }"
+                ></b-form-select>
+                <b-button @click.prevent="removeVatEntry(index)">-</b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </div>
+          <b-button @click.prevent="addVatEntry" class="float-right p-1">+ VAT</b-button>
+        </b-form-group>
       </b-collapse>
     </b-card>
     <!-- Submit & delete buttons -->
@@ -206,6 +213,12 @@ export default {
       isCollapsed2: false,
       isCollapsed3: false,
       uom: [],
+      tax: {
+        igst: {},
+        cess: {},
+        cvat: {},
+        vat: [],
+      },
       loading: true,
       options: {
         uom: [],
@@ -214,6 +227,7 @@ export default {
         cess: 0,
         cvat: 0,
         tax: [],
+        taxIdMap: {},
       },
     };
   },
@@ -296,6 +310,7 @@ export default {
                       solid: true,
                     });
                     this.loading = false;
+                    this.updateTaxDetails();
                     break;
                   case 2:
                     this.$bvToast.toast(`Unauthorised access`, {
@@ -313,6 +328,48 @@ export default {
               });
           }
         });
+    },
+    /** Update the Tax Details (Add, edit & Delete) */
+    updateTaxDetails() {
+      const self = this;
+      const updateTaxItem = function (item) {
+        const tax = Object.assign({ productcode: self.name.productcode }, item);
+        if (item.taxid === undefined) {
+          if(parseFloat(item.taxrate) > 0) {
+            // create a new tax entry, or newly added tax items
+            axios.post("/tax", tax);
+          }
+        } else {
+          if (!self.options.taxIdMap[item.taxid] || parseFloat(item.taxrate) === 0) {
+            // delete items that were deleted as an update or equal to 0
+            axios.delete("/tax", {
+              data: {
+                taxid: item.taxid,
+              },
+            });
+          } else {
+            // update existing tax items 
+            axios.put("/tax", tax);
+          }
+        }
+      };
+      for (const name in this.tax) {
+        if (name === "vat") {
+          this.tax[name].forEach(function(item){updateTaxItem(item)});
+        } else {
+          updateTaxItem(this.tax[name]);
+        }
+      }
+    },
+    /** Add a new VAT entry to the VAT list */
+    addVatEntry() {
+      this.tax.vat.push({
+        "taxname": "VAT", "taxrate": "0.00", "state": null 
+      })
+    },
+    /** Remove VAT entry from the VAT list, from the given position */
+    removeVatEntry(index) {
+      this.tax.vat.splice(index, 1);
     },
     /**
      * Delete selected product
@@ -339,7 +396,7 @@ export default {
               .delete("/products", config)
               .then((res) => {
                 switch (res.data.gkstatus) {
-                  case 0:
+                  case 0: {
                     // Add delete log to server
                     const payload = {
                       activity: `${this.details.productdesc} ${
@@ -354,6 +411,7 @@ export default {
                     });
                     this.isLoading = false;
                     document.querySelector("#prod").innerHTML = "";
+                  }
                     break;
                   case 3:
                     this.$bvToast.toast(
@@ -424,6 +482,16 @@ export default {
         )
         .then((res) => {
           this.options.tax = res.data.gkresult;
+          this.options.taxIdMap = {};
+          this.options.tax.forEach((item) => {
+            this.options.taxIdMap[item.taxid] = true;
+            let taxname = item.taxname.toLowerCase();
+            if (taxname === "vat") {
+              this.tax.vat.push(item);
+            } else {
+              this.tax[taxname] = item;
+            }
+          });
         });
     },
     /**

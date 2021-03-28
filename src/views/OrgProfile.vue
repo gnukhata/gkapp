@@ -1,3 +1,7 @@
+<!--
+  Todo:
+  Add CESS accounts
+-->
 <template>
   <section class="container-fluid mt-2">
     <b-form @submit.prevent="confirm('update')">
@@ -52,11 +56,11 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group label="State" label-cols="4">
-            <b-form-input
-              v-model="details.orgstate"
-              type="text"
+            <b-form-select
+              v-model="stateCode"
+              :options="states"
               required
-            ></b-form-input>
+            ></b-form-select>
           </b-form-group>
           <b-form-group label="Country" label-cols="4">
             <b-form-input
@@ -129,12 +133,25 @@
           header-bg-variant="danger"
           header-text-variant="light"
         >
-          <b-form-group label="PAN" label-cols="4" label-align="left">
+          <b-form-group
+            label="PAN"
+            label-cols="4"
+            label-align="left"
+            :state="isPanValid"
+            invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
+          >
             <b-input-group>
-              <b-form-input v-model="details.orgpan" type="text"></b-form-input>
+              <b-form-input
+                v-model="details.orgpan"
+                type="text"
+                :state="isPanValid"
+                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                @change="gstin.pan = details.orgpan"
+                :required="!!details.orgpan"
+              ></b-form-input>
             </b-input-group>
           </b-form-group>
-          <b-form-group
+          <!-- <b-form-group
             v-if="details.gstin !== null"
             label="GSTIN"
             label-cols="4"
@@ -145,19 +162,57 @@
               v-model="details.gstin[index]"
               type="text"
             ></b-form-input>
-          </b-form-group>
+          </b-form-group> -->
 
           <b-form-group label="ServiceTax Number" label-cols="4">
             <b-form-input v-model="details.orgstax" type="text"></b-form-input>
           </b-form-group>
-          <b-button-group size="sm">
-            <b-button v-b-modal.gstin variant="dark" class="float-left">
-              <b-icon icon="plus"></b-icon>Add GSTIN
+
+          <b-form-group label="GSTIN" label-cols="4">
+            <div
+              v-for="(gst, sc, index) in gstin"
+              :key="index"
+              class="mb-2 d-flex align-items-center"
+            >
+              <b>
+                {{ gst }}
+              </b>
+              <b-button class="mx-2" size="sm" variant="warning"
+                ><b-icon font-scale="0.95" icon="pencil"></b-icon
+              ></b-button>
+              <b-button class="" size="sm" variant="danger">-</b-button>
+            </div>
+            <b-button
+              v-b-modal.gstin
+              variant="dark"
+              class="p-0 px-1 float-left"
+              @click="resetGstin"
+            >
+              <b-icon icon="plus"></b-icon>GSTIN
             </b-button>
-            <b-button v-b-modal.cess variant="dark" class="ml-1">
-              <b-icon icon="plus"></b-icon>Add CESS
+          </b-form-group>
+          <b-form-group label="CESS" label-cols="4">
+            <div
+              v-for="(value, cessAmount, index) in cess"
+              :key="index"
+              class="mb-2 d-flex align-items-center"
+            >
+              <b>
+                {{ cessAmount }}
+              </b>
+              <b-button class="p-0 px-1" variant="link"
+                ><b-icon font-scale="0.95" icon="pencil"></b-icon
+              ></b-button>
+            </div>
+            <b-button
+              v-b-modal.cess
+              variant="dark"
+              class="p-0 px-1 float-left"
+              @click="newCess = 0"
+            >
+              <b-icon icon="plus"></b-icon>CESS
             </b-button>
-          </b-button-group>
+          </b-form-group>
           <!-- {{ details }} -->
         </b-card>
       </b-card-group>
@@ -183,33 +238,52 @@
       header-text-variant="light"
       ok-variant="success"
       title="Add GSTIN"
+      @ok="addGstin"
     >
       <b-form>
         <b-form-group label="State" label-cols="auto">
           <b-form-select
             required
-            v-model="stateCode"
+            v-model="newGstin.stateCode"
             :options="states"
           ></b-form-select>
         </b-form-group>
         <b-form-group label="GSTIN" label-cols="auto">
           <div class="d-flex">
             <b-form-input
-              :placeholder="stateCode"
+              v-model="newGstin.stateCode"
               type="text"
               disabled
               style="max-width: 3em"
             ></b-form-input>
             <b-form-input
-              :placeholder="details.orgpan"
+              v-model="details.orgpan"
               type="text"
               class="ml-1 mr-1"
               disabled
             ></b-form-input>
-            <b-form-input v-model="gstin" type="text"></b-form-input>
+            <b-form-input
+              type="text"
+              title="Format: [Number] [Alphabet] [Number / Alphabet]"
+              v-model="newGstin.checksum"
+            ></b-form-input>
           </div>
         </b-form-group>
       </b-form>
+
+      <template #modal-footer="{ ok, cancel }">
+        <b-button size="sm" variant="danger" @click="cancel()">
+          Cancel
+        </b-button>
+        <b-button
+          size="sm"
+          variant="success"
+          @click="ok()"
+          :disabled="!isGstinValid"
+        >
+          OK
+        </b-button>
+      </template>
     </b-modal>
     <!-- Add CESS -->
     <b-modal
@@ -220,24 +294,43 @@
       ok-title="Add"
       ok-variant="success"
       title="Add CESS"
+      @ok="addCess"
     >
       <b-form>
         <b-form-group label="CESS" label-cols="auto">
           <b-input-group append="%">
             <b-form-input
-              v-model="cess"
+              v-model="newCess"
               style="max-width: 5em"
-              type="text"
+              type="number"
+              step="0.01"
+              min="0"
             ></b-form-input>
           </b-input-group>
         </b-form-group>
       </b-form>
+
+      <template #modal-footer="{ ok, cancel }">
+        <b-button size="sm" variant="danger" @click="cancel()">
+          Cancel
+        </b-button>
+        <b-button
+          size="sm"
+          variant="success"
+          @click="ok()"
+          :disabled="!(newCess > 0)"
+        >
+          OK
+        </b-button>
+      </template>
     </b-modal>
   </section>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import axios from 'axios';
+
 export default {
   name: 'OrgProfile',
   data() {
@@ -245,12 +338,33 @@ export default {
       loading: true,
       details: '',
       states: [],
-      gstin: '',
+      gstin: {},
+      cess: {},
+      newGstin: {
+        stateCode: null,
+        checksum: '',
+      },
+      newCess: 0,
       stateCode: '',
-      cess: '',
+      regex: {
+        checksum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
+        pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
+      },
     };
   },
   computed: {
+    isGstinValid: function () {
+      if (
+        this.newGstin.stateCode !== null &&
+        this.regex.pan.test(this.details.orgpan) &&
+        this.regex.checksum.test(this.newGstin.checksum)
+      ) {
+        return true;
+      }
+      return false;
+    },
+    isPanValid: (self) =>
+      self.details.orgpan ? self.regex.pan.test(self.details.orgpan) : null,
     ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {
@@ -288,7 +402,7 @@ export default {
      */
     getDetails() {
       this.loading = true;
-      axios
+      return axios
         .get(`${this.gkCoreUrl}/organisation`, {
           headers: {
             gktoken: this.authToken,
@@ -298,6 +412,9 @@ export default {
           switch (res.data.gkstatus) {
             case 0:
               this.details = res.data.gkdata;
+              if (this.details.gstin) {
+                this.gstin = Object.assign({}, this.details.gstin);
+              }
               this.loading = false;
               break;
             case 2:
@@ -319,6 +436,16 @@ export default {
     updateOrg() {
       this.loading = true;
       delete this.details.statelist;
+
+      // update state
+      let state = this.states.find((state) => state.value === this.stateCode);
+      state = state ? state.text : null;
+
+      this.details.orgstate = state;
+
+      // update GSTIN
+      this.details.gstin = Object.assign({}, this.gstin);
+
       const config = {
         headers: {
           gktoken: this.authToken,
@@ -413,14 +540,38 @@ export default {
           this.loading = false;
         });
     },
+    addGstin() {
+      if (this.newGstin.stateCode !== null && this.newGstin.checksum !== '') {
+        this.gstin[
+          this.newGstin.stateCode
+        ] = `${this.newGstin.stateCode}${this.details.orgpan}${this.newGstin.checksum}`;
+        this.$forceUpdate();
+      }
+    },
+    addCess() {
+      if (this.newCess > 0) {
+        this.cess[parseFloat(this.newCess).toFixed(2)] = true;
+        this.$forceUpdate();
+      }
+    },
+    resetGstin() {
+      this.newGstin = {
+        stateCode: null,
+        checksum: '',
+      };
+    },
+
     getStates() {
-      axios
+      return axios
         .get(`${this.gkCoreUrl}/state`)
         .then((res) => {
           this.states = res.data.gkresult.map((val) => {
             let obj = {};
             obj.value = Object.keys(val)[0];
             obj.text = Object.values(val)[0];
+            if (parseInt(obj.value) < 10) {
+              obj.value = '0' + obj.value;
+            }
             return obj;
           });
         })
@@ -430,8 +581,16 @@ export default {
     },
   },
   mounted() {
-    this.getDetails();
-    this.getStates();
+    Promise.all([this.getStates(), this.getDetails()]).then(() => {
+      if (this.details.orgstate && this.states.length) {
+        let state = this.states.find(
+          (state) => state.text === this.details.orgstate
+        );
+        if (state) {
+          this.stateCode = state.value;
+        }
+      }
+    });
   },
 };
 </script>
