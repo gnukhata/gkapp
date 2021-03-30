@@ -8,7 +8,10 @@
  -->
 <template>
   <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2">
-    <b-alert :show="isInvDateValid === false" variant="danger">Date must be within the Financial Year, from <b>{{yearStart}}</b> to <b>{{yearEnd}}</b> </b-alert>
+    <b-alert :show="isInvDateValid === false" variant="danger"
+      >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
+      <b>{{ yearEnd }}</b>
+    </b-alert>
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.inv.type"
@@ -332,32 +335,27 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-              </b-row>
-              <!-- <hr
-                :style="{ marginLeft: '-1rem', marginRight: '-1rem' }"
-                class="mt-0 border-secondary"
-              /> -->
-              <b-form-group
-                label-cols-lg="2"
-                label-cols="3"
-                label="Address"
-                label-for="input-4"
-                label-size="sm"
-                v-if="isSale && config.inv.addr"
-              >
-                <b-form-textarea
-                  size="sm"
-                  id="input-4"
-                  v-model="form.inv.addr"
-                  rows="2"
-                  max-rows="2"
-                  trim
-                  required
-                  readonly
-                  tabindex="-1"
-                ></b-form-textarea>
-              </b-form-group>
-              <b-row>
+                <b-col cols="12" v-if="isSale && config.inv.addr">
+                  <b-form-group
+                    label-cols-lg="2"
+                    label-cols="3"
+                    label="Address"
+                    label-for="input-4"
+                    label-size="sm"
+                  >
+                    <b-form-textarea
+                      size="sm"
+                      id="input-4"
+                      v-model="form.inv.addr"
+                      rows="2"
+                      max-rows="2"
+                      trim
+                      required
+                      readonly
+                      tabindex="-1"
+                    ></b-form-textarea>
+                  </b-form-group>
+                </b-col>
                 <b-col
                   class="pr-lg-2"
                   cols="12"
@@ -381,7 +379,7 @@
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
-                <b-col v-if="config.inv.state" class="pl-lg-2">
+                <b-col v-if="config.inv.state" cols="12" lg="6" class="pl-lg-2">
                   <b-form-group
                     label="State"
                     label-for="input-6"
@@ -402,10 +400,6 @@
                   </b-form-group>
                 </b-col>
               </b-row>
-              <!-- <hr
-                :style="{ marginLeft: '-1rem', marginRight: '-1rem' }"
-                class="mt-0 border-secondary"
-              /> -->
               <b-row v-if="isSale">
                 <b-col
                   v-if="config.inv.issuer"
@@ -789,12 +783,13 @@
                 <b-input
                   v-model="field.qty"
                   class="hide-spin-button text-right"
-                  type="number" no-wheel
+                  type="number"
+                  no-wheel
                   step="0.01"
                   min="0.01"
                   @input="updateTaxAndTotal(index)"
                   :readonly="field.isService"
-                  :tabindex="(field.isService)? -1 : 0"
+                  :tabindex="field.isService ? -1 : 0"
                 ></b-input>
               </b-td>
 
@@ -803,7 +798,8 @@
                 <b-input
                   v-model="field.rate"
                   class="hide-spin-button text-right"
-                  type="number" no-wheel
+                  type="number"
+                  no-wheel
                   step="0.01"
                   min="0.01"
                   @input="updateTaxAndTotal(index)"
@@ -815,7 +811,8 @@
                 <b-input
                   v-model="field.discount.amount"
                   class="hide-spin-button text-right"
-                  type="number" no-wheel
+                  type="number"
+                  no-wheel
                   step="0.01"
                   min="0.00"
                   @input="updateTaxAndTotal(index)"
@@ -881,33 +878,33 @@
               <b-th :colspan="config.bill.footer.headingColspan"> Total </b-th>
               <b-th v-if="config.bill.discount">
                 <span v-if="config.bill.footer.discount"
-                  >₹ {{ getTotal("discount", "amount") }}</span
+                  >₹ {{ getTotal('discount', 'amount') }}</span
                 >
               </b-th>
               <b-th v-if="config.bill.taxable">
                 <span v-if="config.bill.footer.taxable"
-                  >₹ {{ getTotal("taxable") }}</span
+                  >₹ {{ getTotal('taxable') }}</span
                 >
               </b-th>
               <b-th colspan="2" v-if="isGst && config.bill.igst">
                 <span v-if="config.bill.footer.igst"
-                  >₹ {{ getTotal("igst", "amount") }}</span
+                  >₹ {{ getTotal('igst', 'amount') }}</span
                 ></b-th
               >
               <b-th colspan="2" v-if="isGst && config.bill.cess">
                 <span v-if="config.bill.footer.cess"
-                  >₹ {{ getTotal("cess", "amount") }}</span
+                  >₹ {{ getTotal('cess', 'amount') }}</span
                 ></b-th
               >
               <b-th colspan="2" v-if="!isGst && config.bill.vat"
                 >{>
                 <span v-if="config.bill.footer.vat">{{
-                  getTotal("vat", "amount")
+                  getTotal('vat', 'amount')
                 }}</span>
               </b-th>
               <b-th v-if="config.bill.total">
                 <span v-if="config.bill.footer.total"
-                  >₹ {{ getTotal("total") }}</span
+                  >₹ {{ getTotal('total') }}</span
                 >
               </b-th>
               <b-th></b-th>
@@ -926,34 +923,34 @@
                 <b-tr v-if="config.total.taxable">
                   <b-th></b-th>
                   <b-th colspan="3">Taxable Amount</b-th>
-                  <b-th class="text-right">₹ {{ getTotal("taxable") }}</b-th>
+                  <b-th class="text-right">₹ {{ getTotal('taxable') }}</b-th>
                 </b-tr>
                 <b-tr v-if="isGst && config.total.igst">
                   <b-th></b-th>
                   <b-th colspan="3">Total IGST</b-th>
                   <b-th class="text-right"
-                    >₹ {{ getTotal("igst", "amount") }}</b-th
+                    >₹ {{ getTotal('igst', 'amount') }}</b-th
                   >
                 </b-tr>
                 <b-tr v-if="isGst && config.total.cess">
                   <b-th></b-th>
                   <b-th colspan="3">Total CESS</b-th>
                   <b-th class="text-right"
-                    >₹ {{ getTotal("cess", "amount") }}</b-th
+                    >₹ {{ getTotal('cess', 'amount') }}</b-th
                   >
                 </b-tr>
                 <b-tr v-if="!isGst && config.total.vat">
                   <b-th></b-th>
                   <b-th colspan="3">Total VAT</b-th>
                   <b-th class="text-right"
-                    >₹ {{ getTotal("vat", "amount") }}</b-th
+                    >₹ {{ getTotal('vat', 'amount') }}</b-th
                   >
                 </b-tr>
                 <b-tr v-if="config.total.discount">
                   <b-th></b-th>
                   <b-th colspan="3">Total Discount</b-th>
                   <b-th class="text-right"
-                    >₹ {{ getTotal("discount", "amount") }}</b-th
+                    >₹ {{ getTotal('discount', 'amount') }}</b-th
                   >
                 </b-tr>
                 <b-tr v-if="config.total.value">
@@ -968,13 +965,13 @@
                     ></b-form-checkbox>
                   </b-th>
                   <b-th colspan="3"> Total Invoice Value </b-th>
-                  <b-th class="text-right">₹ {{ getTotal("total") }}</b-th>
+                  <b-th class="text-right">₹ {{ getTotal('total') }}</b-th>
                 </b-tr>
                 <b-tr v-if="form.totalRoundFlag && config.total.roundOff">
                   <b-th></b-th>
                   <b-th colspan="3">Total Invoice Value (Rounded Off)</b-th>
                   <b-th class="text-right"
-                    >₹ {{ Math.round(getTotal("total")) }}</b-th
+                    >₹ {{ Math.round(getTotal('total')) }}</b-th
                   >
                 </b-tr>
                 <b-tr v-if="config.total.valueText">
@@ -1256,8 +1253,14 @@
           </div>
         </b-card>
       </b-card-group>
-      <b-tooltip target="inv-submit" :show="showErrorToolTip" placement="top" triggers="manual">
-        Date must be within the Financial Year, from <b>{{yearStart}}</b> to <b>{{yearEnd}}</b> 
+      <b-tooltip
+        target="inv-submit"
+        :show="showErrorToolTip"
+        placement="top"
+        triggers="manual"
+      >
+        Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
+        <b>{{ yearEnd }}</b>
       </b-tooltip>
       <hr />
       <div class="float-right">
@@ -1287,15 +1290,35 @@
           ></b-icon>
           <span class="align-middle"> Reset</span>
         </b-button>
-        <b-button id="inv-submit" :disabled="!isInvDateValid" type="submit" size="sm" class="m-1" variant="success">
-          <b-spinner v-if="isLoading" small></b-spinner>
-          <b-icon
-            v-else
-            aria-hidden="true"
-            class="align-middle"
-            icon="plus-square"
-          ></b-icon>
-          <span class="align-middle"> Save</span>
+        <b-button
+          id="inv-submit"
+          :disabled="!isInvDateValid"
+          type="submit"
+          size="sm"
+          class="m-1"
+          variant="success"
+        >
+          <span v-if="editFlag === null">
+            <b-spinner v-if="isLoading" small></b-spinner>
+            <b-icon
+              v-else
+              aria-hidden="true"
+              class="align-middle"
+              icon="plus-square"
+            ></b-icon>
+            <span class="align-middle"> Create</span>
+          </span>
+
+          <span v-else>
+            <b-spinner v-if="isLoading" small></b-spinner>
+            <b-icon
+              v-else
+              aria-hidden="true"
+              class="align-middle"
+              icon="cloud-arrow-up"
+            ></b-icon>
+            <span class="align-middle"> Save Changes</span>
+          </span>
         </b-button>
       </div>
       <div class="clearfix"></div>
@@ -1371,31 +1394,44 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
+import axios from 'axios';
+import { mapState } from 'vuex';
 
-import ContactItem from "../components/form/ContactItem.vue";
-import BusinessItem from "../components/form/BusinessItem.vue";
-import Config from "../components/Config.vue";
-import Autocomplete from "../components/Autocomplete.vue";
+import ContactItem from '../components/form/ContactItem.vue';
+import BusinessItem from '../components/form/BusinessItem.vue';
+import Config from '../components/Config.vue';
+import Autocomplete from '../components/Autocomplete.vue';
 
-import invoiceConfig from "../js/config/invoiceConfig";
-import { numberToRupees } from "../js/utils";
+import invoiceConfig from '../js/config/invoiceConfig';
+import { numberToRupees } from '../js/utils';
 
 export default {
-  name: "Invoice",
+  name: 'Invoice',
   components: {
     ContactItem,
     BusinessItem,
     Config,
     Autocomplete,
   },
+  props: {
+    mode: {
+      type: String,
+      validator: function (value) {
+        return ['create', 'edit'].indexOf(value) !== -1;
+      },
+      required: true,
+    },
+    invid: {
+      type: [String, Number],
+      required: true,
+    },
+  },
   data() {
     return {
       // config: {},
       form: {
         inv: {
-          type: "sale", // purchase
+          type: 'sale', // purchase
           no: null,
           date: this.formatDateObj(new Date()),
           delNote: null,
@@ -1407,7 +1443,7 @@ export default {
           role: null,
         },
         party: {
-          type: "customer", // supplier
+          type: 'customer', // supplier
           options: {
             states: [],
             gstin: [],
@@ -1429,11 +1465,11 @@ export default {
           tin: null,
           pin: null,
         },
-        taxType: "gst", // vat
+        taxType: 'gst', // vat
         bill: [
           {
-            product: { name: "", id: "" },
-            hsn: "",
+            product: { name: '', id: '' },
+            hsn: '',
             qty: 0,
             fqty: 0,
             rate: 0,
@@ -1456,7 +1492,7 @@ export default {
           },
         },
         transport: {
-          mode: "Road",
+          mode: 'Road',
           vno: null,
           date: null,
           reverseCharge: false,
@@ -1476,20 +1512,21 @@ export default {
         services: [],
         states: [],
         payModes: [
-          { text: "-- Payment Mode --", value: null },
-          { text: "Cash", value: 3 },
-          { text: "Bank", value: 2 },
-          { text: "On Credit", value: 15 },
+          { text: '-- Payment Mode --', value: null },
+          { text: 'Cash', value: 3 },
+          { text: 'Bank', value: 2 },
+          { text: 'On Credit', value: 15 },
         ],
         transportModes: [
-          { text: "-- Transport Mode --", value: null },
-          "Road",
-          "Rail",
-          "Air",
-          "Ship",
-          "Other",
+          { text: '-- Transport Mode --', value: null },
+          'Road',
+          'Rail',
+          'Air',
+          'Ship',
+          'Other',
         ],
         orgDetails: null,
+        bill: [],
       },
       isCollapsed: {
         billedTo: false,
@@ -1499,6 +1536,7 @@ export default {
         transport: false,
         comments: false,
       },
+      editFlag: null,
     };
   },
   computed: {
@@ -1516,37 +1554,37 @@ export default {
 
         if (newConf.inv.class) {
           newConf.inv.class = {
-            "mr-md-1": !!newConf.ship,
-            "ml-md-1": !!newConf.party,
+            'mr-md-1': !!newConf.ship,
+            'ml-md-1': !!newConf.party,
           };
         }
         if (newConf.ship.class) {
           newConf.ship.class = {
-            "ml-md-1": !!(newConf.inv || newConf.party),
+            'ml-md-1': !!(newConf.inv || newConf.party),
           };
         }
         if (newConf.party.class) {
           newConf.party.class = {
-            "mr-md-1": !!(newConf.inv || newConf.ship),
+            'mr-md-1': !!(newConf.inv || newConf.ship),
           };
         }
 
         if (newConf.payment.class) {
           newConf.payment.class = {
-            "mr-md-1": !!(newConf.transport || newConf.comments),
+            'mr-md-1': !!(newConf.transport || newConf.comments),
           };
         }
 
         if (newConf.transport.class) {
           newConf.transport.class = {
-            "mr-md-1": !!newConf.comments,
-            "ml-md-1": !!newConf.payment,
+            'mr-md-1': !!newConf.comments,
+            'ml-md-1': !!newConf.payment,
           };
         }
 
         if (newConf.comments.class) {
           newConf.comments.class = {
-            "ml-md-1": !!(newConf.transport || newConf.payment),
+            'ml-md-1': !!(newConf.transport || newConf.payment),
           };
         }
       } else {
@@ -1587,8 +1625,8 @@ export default {
     },
     defaultConfig: (self) => self.$store.getters.getDefaultInvoiceConfig,
     invoiceTotalText: (self) => {
-      let total = self.getTotal("total");
-      let text = "";
+      let total = self.getTotal('total');
+      let text = '';
       if (total > 0) {
         if (self.form.totalRoundFlag) {
           total = Math.round(total);
@@ -1600,12 +1638,12 @@ export default {
     billLength: (self) => self.form.bill.length,
     height: () =>
       window.innerHeight -
-      document.getElementById("app-header").offsetHeight -
+      document.getElementById('app-header').offsetHeight -
       30,
     party: (self) =>
-      self.form.party.type === "customer" ? "Customer" : "Supplier",
-    isSale: (self) => self.form.inv.type === "sale",
-    isGst: (self) => self.form.taxType === "gst",
+      self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
+    isSale: (self) => self.form.inv.type === 'sale',
+    isGst: (self) => self.form.taxType === 'gst',
     useBillAddress: {
       get: function () {
         return this.form.ship.copyFlag;
@@ -1618,17 +1656,22 @@ export default {
     minDate: (self) => new Date(self.yearStart),
     maxDate: (self) => new Date(self.yearEnd),
     isInvDateValid: (self) => {
-      let currDate = new Date(self.form.inv.date).getTime(), minDate = self.minDate.getTime(), maxDate = self.maxDate.getTime();
-      return (!isNaN(currDate)) ? currDate >= minDate && currDate <= maxDate : null
+      let currDate = new Date(self.form.inv.date).getTime(),
+        minDate = self.minDate.getTime(),
+        maxDate = self.maxDate.getTime();
+      return !isNaN(currDate)
+        ? currDate >= minDate && currDate <= maxDate
+        : null;
     },
-    showErrorToolTip: (self) => (self.isInvDateValid === null)? false : !self.isInvDateValid,
+    showErrorToolTip: (self) =>
+      self.isInvDateValid === null ? false : !self.isInvDateValid,
     ...mapState([
-      "authToken",
-      "gkCoreUrl",
-      "userName",
-      "yearStart",
-      "yearEnd",
-      "invoiceParty",
+      'authToken',
+      'gkCoreUrl',
+      'userName',
+      'yearStart',
+      'yearEnd',
+      'invoiceParty',
     ]),
   },
   methods: {
@@ -1693,8 +1736,8 @@ export default {
     },
     addBillItem() {
       this.form.bill.push({
-        product: { id: "", name: "" },
-        hsn: "",
+        product: { id: '', name: '' },
+        hsn: '',
         qty: 0,
         fqty: 0,
         rate: 0,
@@ -1734,7 +1777,7 @@ export default {
             );
           }
 
-          if (this.form.taxType === "gst") {
+          if (this.form.taxType === 'gst') {
             if (item.igst.rate > 0) {
               item.igst.amount = parseFloat(
                 (item.taxable * (item.igst.rate * 0.01)).toFixed(2)
@@ -1766,11 +1809,11 @@ export default {
     preloadData() {
       this.isPreloading = true;
       const requests = [
-        axios.get("/state").catch((error) => {
+        axios.get('/state').catch((error) => {
           this.displayToast(
-            "Fetch State Data Failed!",
+            'Fetch State Data Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
         }),
@@ -1780,19 +1823,19 @@ export default {
         this.fetchBusinessList(),
         axios.get(`/organisation`).catch((error) => {
           this.displayToast(
-            "Fetch Organisation Profile Data Failed!",
+            'Fetch Organisation Profile Data Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
         }),
       ];
 
       const self = this;
-      Promise.all([...requests]).then(
+      return Promise.all([...requests]).then(
         ([resp1, resp2, resp3, resp4, resp5, resp6]) => {
           self.isPreloading = false;
-          let preloadErrorList = ""; // To handle the unloaded data, at once than individually
+          let preloadErrorList = ''; // To handle the unloaded data, at once than individually
 
           /**
            * The data obtained are updated, to be comptaible with the
@@ -1813,26 +1856,26 @@ export default {
                 };
               });
             } else {
-              preloadErrorList += " States,";
+              preloadErrorList += ' States,';
             }
           } else {
-            preloadErrorList += " States,";
+            preloadErrorList += ' States,';
           }
 
           if (resp2 !== undefined) {
-            preloadErrorList += " Customers/Suppliers,";
+            preloadErrorList += ' Customers/Suppliers,';
           }
 
           if (resp3 !== undefined) {
-            preloadErrorList += " Invoice Id,";
+            preloadErrorList += ' Invoice Id,';
           }
 
           if (resp4 !== undefined) {
-            preloadErrorList += " User Name  & Role,";
+            preloadErrorList += ' User Name  & Role,';
           }
 
           if (resp5 !== undefined) {
-            preloadErrorList += " Products/Services,";
+            preloadErrorList += ' Products/Services,';
           }
 
           if (resp6.data.gkstatus === 0) {
@@ -1840,11 +1883,11 @@ export default {
             self.setOrgDetails();
           }
 
-          if (preloadErrorList !== "") {
+          if (preloadErrorList !== '') {
             this.displayToast(
-              "Error: Unable to Preload Data",
+              'Error: Unable to Preload Data',
               `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
-              "danger"
+              'danger'
             );
           }
         }
@@ -1895,27 +1938,27 @@ export default {
               case 2:
                 self.resetPartyDetails(); // if there no data, then reset the fields
                 this.displayToast(
-                  "Fetch Customer/Supplier Data Error!",
-                  "Unauthorized Access, Please contact Admin",
-                  "warning"
+                  'Fetch Customer/Supplier Data Error!',
+                  'Unauthorized Access, Please contact Admin',
+                  'warning'
                 );
                 break;
               case 3:
               default:
                 self.resetPartyDetails(); // if there no data, then reset the fields
                 this.displayToast(
-                  "Fetch Customer/Supplier Data Error!",
-                  "Unable to Fetch Customer/Supplier Data, Please try again",
-                  "danger"
+                  'Fetch Customer/Supplier Data Error!',
+                  'Unable to Fetch Customer/Supplier Data, Please try again',
+                  'danger'
                 );
             }
             self.setShippingDetails(); // updates shipping details as well if flag is set
           })
           .catch((error) => {
             this.displayToast(
-              "Fetch Customer/Supplier Data Error!",
+              'Fetch Customer/Supplier Data Error!',
               error.message,
-              "warning"
+              'warning'
             );
           });
       }
@@ -1926,7 +1969,7 @@ export default {
      * Description: Fetches product details like price, discount and taxes,
      * when a product is selected in the bill area
      */
-    fetchProductDetails(id, index) {
+    fetchProductDetails(id, index, callback) {
       let self = this;
       const requests = [
         axios.get(`/products?qty=single&productcode=${id}`).catch((error) => {
@@ -1943,16 +1986,20 @@ export default {
         if (resp1.status === 200) {
           if (resp1.data.gkstatus === 0) {
             let data = resp1.data.gkresult;
-            Object.assign(self.form.bill[index], {
-              hsn: data.gscode,
-              rate: data.prodmrp,
-              qty: 0,
-              discount: {
-                rate: data.discountpercent,
-                amount: self.config.bill.discount ? data.discountamount : 0,
-              },
-              isService: data.gsflag === 19,
-            });
+            if (!self.editFlag) {
+              Object.assign(self.form.bill[index], {
+                hsn: data.gscode,
+                isService: data.gsflag === 19,
+                rate: data.prodmrp,
+                qty: 0,
+                discount: {
+                  rate: data.discountpercent,
+                  amount: self.config.bill.discount ? data.discountamount : 0,
+                },
+              });
+            } else {
+              self.editFlag--;
+            }
           }
         } else {
           console.log(resp1.message);
@@ -1968,29 +2015,29 @@ export default {
                 vat: { rate: 0, amount: 0 },
               },
               igst = self.config.bill.igst
-                ? data.filter((item) => item.taxname === "IGST")
+                ? data.filter((item) => item.taxname === 'IGST')
                 : 0,
               cess = self.config.bill.cess
-                ? data.filter((item) => item.taxname === "CESS")
+                ? data.filter((item) => item.taxname === 'CESS')
                 : 0,
               vat = self.config.bill.vat
-                ? data.filter((item) => item.taxname === "CVAT")
+                ? data.filter((item) => item.taxname === 'CVAT')
                 : 0;
 
             if (igst.length) {
-              tax["igst"] = {
+              tax['igst'] = {
                 rate: igst[0].taxrate,
                 amount: 0,
               };
             }
             if (cess.length) {
-              tax["cess"] = {
+              tax['cess'] = {
                 rate: cess[0].taxrate,
                 amount: 0,
               };
             }
             if (vat.length) {
-              tax["vat"] = {
+              tax['vat'] = {
                 rate: vat[0].taxrate,
                 amount: 0,
               };
@@ -2013,16 +2060,16 @@ export default {
     fetchInvoiceId() {
       // inoutflag = 9-purchase, 15-sale
       let self = this;
-      let invid = "";
+      let invid = '';
       let inoutflag = this.isSale ? 15 : 9;
       return axios
         .get(`/invoice?getinvid&type=${inoutflag}`)
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
-              invid = resp.data.invoiceid + "/";
-              invid += this.isSale ? "SL" : "PU";
-              invid += "-" + String(this.yearEnd).substring(2, 4);
+              invid = resp.data.invoiceid + '/';
+              invid += this.isSale ? 'SL' : 'PU';
+              invid += '-' + String(this.yearEnd).substring(2, 4);
               self.form.inv.no = invid;
             }
           }
@@ -2049,25 +2096,25 @@ export default {
           }
         })
         .catch((error) => {
-          this.displayToast("Fetch User Data Failed!", error.message, "danger");
+          this.displayToast('Fetch User Data Failed!', error.message, 'danger');
           return error;
         });
     },
     fetchContactList() {
       const requests = [
-        axios.get("/customersupplier?qty=custall").catch((error) => {
+        axios.get('/customersupplier?qty=custall').catch((error) => {
           this.displayToast(
-            "Fetch Customer Data Failed!",
+            'Fetch Customer Data Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
         }),
-        axios.get("/customersupplier?qty=supall").catch((error) => {
+        axios.get('/customersupplier?qty=supall').catch((error) => {
           this.displayToast(
-            "Fetch Supplier Data Failed!",
+            'Fetch Supplier Data Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
         }),
@@ -2115,7 +2162,7 @@ export default {
           // If coming from Contact's page, autofill invoice party details from store
           if (self.invoiceParty.id !== null) {
             self.form.inv.type =
-              self.invoiceParty.type === "customer" ? "sale" : "purchase";
+              self.invoiceParty.type === 'customer' ? 'sale' : 'purchase';
             Object.assign(self.form.party, {
               type: self.invoiceParty.type,
               name: {
@@ -2127,9 +2174,9 @@ export default {
         })
         .catch((error) => {
           this.displayToast(
-            "Fetch Customer/Supplier Data Failed!",
+            'Fetch Customer/Supplier Data Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
         });
@@ -2137,7 +2184,7 @@ export default {
     fetchBusinessList() {
       let self = this;
       return axios
-        .get("/products")
+        .get('/products')
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
@@ -2153,20 +2200,158 @@ export default {
               });
             } else {
               this.displayToast(
-                "Fetch Product Data Failed!",
-                "Please try again later, if problem persists, contact admin",
-                "danger"
+                'Fetch Product Data Failed!',
+                'Please try again later, if problem persists, contact admin',
+                'danger'
               );
             }
           }
         })
         .catch((error) => {
           this.displayToast(
-            "Fetch Product Data Failed!",
+            'Fetch Product Data Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
+        });
+    },
+
+    fetchInvoiceData() {
+      let self = this;
+      axios
+        .get(`/invoice?inv=single&invid=${this.invid}`)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let data = resp.data.gkresult;
+            console.log(resp.data);
+            let invState =
+              data.inoutflag === 15 // if sale inv state will be source else it will destination
+                ? self.options.states.find(
+                    (state) => state.text === data.sourcestate
+                  )
+                : self.options.states.find(
+                    (state) => state.text === data.destinationstate
+                  );
+            // set invoice details
+            self.form.inv = {
+              type: data.inoutflag === 15 ? 'sale' : 'purchase',
+              no: data.invoiceno,
+              date: (data.invoicedate).split("-").reverse().join("-"),
+              delNote: null, /////////////////////////
+              ebn: data.ewaybillno || null,
+              addr: data.address,
+              pin: data.pincode,
+              state: invState ? invState.value : {},
+              issuer: data.issuername,
+              role: data.designation,
+            };
+
+            self.form.ship.copyFlag =
+              data.consignee.consigneename === data.custSupDetails.custname &&
+              data.consignee.consigneeaddress === data.custSupDetails.custaddr;
+            self.form.party.type =
+              data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+            self.form.taxType = data.taxflag === 7 ? 'gst' : 'vat';
+            self.form.payment.mode = data.paymentmode;
+            self.form.transport = {
+              mode: data.transportationmode,
+              vno: data.vehicleno,
+              date: data.dateofsupply,
+              reverseCharge: data.reversecharge,
+            };
+            self.form.narration = data.narration;
+            self.form.totalRoundFlag = !!data.roundoff;
+
+            if (data.bankdetails) {
+              self.form.payment.bank = {
+                no: data.bankdetails.accountno,
+                name: data.bankdetails.bankname,
+                branch: data.bankdetails.branch,
+                ifsc: data.bankdetails.ifsc,
+              };
+            }
+            // debugger;
+            this.$nextTick().then(() => {
+              // set party details
+              self.form.party.type =
+                data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+              if (self.form.party.type === 'customer') {
+                self.form.party.name = self.options.customers.find(
+                  (cust) => cust.text === data.custSupDetails.custname
+                );
+              } else {
+                self.form.party.name = self.options.suppliers.find(
+                  (sup) => sup.text === data.custSupDetails.custname
+                );
+              }
+              // ;
+              self.form.party.name = self.form.party.name
+                ? self.form.party.name.value
+                : { name: '', id: null };
+
+              // set shipping details
+              if (!self.form.ship.copyFlag) {
+                let ship = data.consignee;
+                Object.assign(self.form.ship, {
+                  name: ship.consigneename,
+                  addr: ship.consigneeaddress,
+                  state: {
+                    name: ship.consigneestate,
+                    id: ship.consigneestatecode,
+                  },
+                  gstin: ship.gstinconsignee,
+                  tin: ship.tinconsignee,
+                  pin: ship.consigneepincode,
+                });
+              }
+            });
+
+            // set bill items
+            self.form.bill = [];
+            self.editFlag = 0;
+            for (const itemCode in data.invcontents) {
+              self.editFlag++;
+              this.addBillItem();
+              // continue;
+              let item = data.invcontents[itemCode];
+              let itemName = data.invcontents[itemCode].proddesc;
+              let product = self.options.products.find(
+                (prod) => prod.text === itemName
+              );
+              let billItem = {
+                product: product ? product.value : { name: 'null', id: '' },
+                discount: { amount: parseFloat(item.discount) },
+                hsn: item.gscode,
+                igst: {
+                  amount: parseFloat(item.taxamount),
+                  rate: parseFloat(item.taxrate),
+                },
+                cess: {
+                  amount: parseFloat(item.cessrate),
+                  rate: parseFloat(item.cess),
+                },
+                vat: {
+                  amount: parseFloat(item.taxamount),
+                  rate: parseFloat(item.taxrate),
+                },
+                qty: parseFloat(item.qty),
+                fqty: item.freeqty,
+                rate: parseFloat(item.priceperunit),
+                isService: item.gsflag === 19,
+              };
+              // console.log(itemName)
+              self.options.bill.push(billItem);
+              // self.fetchProductDetails(product.id, self.editFlag-1);
+            }
+          }
+        })
+        .catch((error) => {
+          this.displayToast(
+            'Fetch Invoice ${this.invid} data Error!',
+            error.message,
+            'warning'
+          );
         });
     },
     /**
@@ -2202,7 +2387,7 @@ export default {
     setOrgDetails() {
       if (this.options.orgDetails !== null) {
         if (this.options.orgDetails.orgname) {
-          let orgstate = (this.options.orgDetails.orgstate || "").toLowerCase();
+          let orgstate = (this.options.orgDetails.orgstate || '').toLowerCase();
           let state = orgstate
             ? this.options.states.find(
                 (state) => state.text.toLowerCase() === orgstate
@@ -2218,13 +2403,13 @@ export default {
     },
     resetPartyDetails() {
       Object.assign(this.form.party, {
-        name: "",
+        name: '',
         addr: null,
         options: {
           states: [],
           gstin: null,
         },
-        state: null,
+        state: {},
         pin: null,
         gstin: null,
       });
@@ -2237,9 +2422,9 @@ export default {
      */
     formatDateObj(date) {
       let month = date.getMonth() + 1;
-      month = month > 9 ? month : "0" + month;
+      month = month > 9 ? month : '0' + month;
       let day = date.getDate();
-      day = day > 9 ? day : "0" + day;
+      day = day > 9 ? day : '0' + day;
       return `${date.getFullYear()}-${month}-${day}`;
     },
     onSubmit() {
@@ -2247,9 +2432,9 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-
-      axios
-        .post("/invoice", payload)
+      const method = this.editFlag === null ? 'get' : 'put';
+      const actionText = this.editFlag === null ? 'Create' : 'Edit';
+      axios({ method: method, url: '/invoice', data: payload })
         .then((resp) => {
           self.isLoading = false;
           if (resp.status === 200) {
@@ -2258,43 +2443,49 @@ export default {
                 // success
 
                 this.displayToast(
-                  "Create Invoice Successfull!",
+                  `${actionText} Invoice Successfull!`,
                   `Invoice saved with entry no. ${
-                    resp.data.invoiceid || resp.data.gkresult
+                    resp.data.invoiceid || resp.data.gkresult || resp.data.vchData.vchno
                   }`,
-                  "success"
+                  'success'
                 );
-                this.resetForm();
+                if(this.editFlag === null) {
+                  this.resetForm();
+                }
                 break;
               case 1:
                 // Duplicate entry
                 this.displayToast(
-                  "Create Invoice Failed!",
-                  "Duplicate Entry, Check Invoice Id",
-                  "warning"
+                  `${actionText} Invoice Failed!`,
+                  'Duplicate Entry, Check Invoice Id',
+                  'warning'
                 );
                 break;
               case 2:
                 // Unauthorized access
                 this.displayToast(
-                  "Create Invoice Failed!",
-                  "Unauthorized Access, Contact Admin",
-                  "warning"
+                  `${actionText} Invoice Failed!`,
+                  'Unauthorized Access, Contact Admin',
+                  'warning'
                 );
                 break;
               case 3:
                 // Connection failed, Check inputs and try again
                 this.displayToast(
-                  "Create Invoice Failed!",
-                  "Please check your input and try again later",
-                  "danger"
+                  `${actionText} Invoice Failed!`,
+                  'Please check your input and try again later',
+                  'danger'
                 );
             }
           }
         })
         .catch((error) => {
           self.isLoading = false;
-          self.displayToast("Create Invoice Error!", error.message, "warning");
+          self.displayToast(
+            `${actionText} Invoice Error!`,
+            error.message,
+            'warning'
+          );
         });
     },
     onContactSave() {
@@ -2302,7 +2493,7 @@ export default {
       this.fetchContactList().then(() => {
         if (this.options.customers.length) {
           this.form.party.name =
-            this.form.party.type === "customer"
+            this.form.party.type === 'customer'
               ? this.options.customers[this.options.customers.length - 1].value
               : this.options.suppliers[this.options.suppliers.length - 1].value;
         }
@@ -2341,12 +2532,12 @@ export default {
         address: this.form.inv.addr,
         pincode: this.form.inv.pin,
 
-        custid: this.form.party.name.id || "",
+        custid: this.form.party.name.id || '',
         consignee: {},
 
         roundoffflag: 1,
-        invtotal: this.getTotal("total"),
-        invtotalword: null,
+        // invtotal: this.getTotal('total'),
+        // invtotalword: null,
 
         taxflag: null,
         taxstate: null,
@@ -2357,7 +2548,6 @@ export default {
 
         transportationmode: this.form.transport.mode,
         reversecharge: this.form.transport.reverseCharge ? 1 : 0,
-        dateofsupply: this.form.transport.date,
 
         discflag: 1,
         invnarration: this.form.narration,
@@ -2372,6 +2562,7 @@ export default {
         invoice.sourcestate = this.form.party.state.name || null;
         invoice.taxstate = this.form.inv.state.name || null;
         invoice.inoutflag = 9; // purchase
+        delete invoice.ewaybillno;
       }
 
       // === GST/ VAT related data ===
@@ -2382,7 +2573,7 @@ export default {
       }
 
       // === Total Invoice price data ===
-      let total = this.getTotal("total");
+      let total = this.getTotal('total');
       let roundoff = Math.round(total);
       let words = numberToRupees(roundoff);
 
@@ -2392,19 +2583,19 @@ export default {
       // === Consignee data ===
       if (this.form.ship.name) {
         invoice.consignee = {
-          consigneename: this.form.ship.name || "",
-          tinconsignee: this.form.ship.tin || "",
-          gstinconsignee: this.form.ship.gstin || "",
-          consigneeaddress: this.form.ship.addr || "",
+          consigneename: this.form.ship.name || '',
+          tinconsignee: this.form.ship.tin || '',
+          gstinconsignee: this.form.ship.gstin || '',
+          consigneeaddress: this.form.ship.addr || '',
           consigneestate: this.form.ship.state.name || null,
           consigneestatecode: this.form.ship.state.id || null,
-          consigneepincode: this.form.ship.pin || "",
+          consigneepincode: this.form.ship.pin || '',
         };
       }
 
       // === Bill data ===
       let contents = {};
-      let stock = { items: {}, inout: 9 };
+      let stock = { items: {}, inout: invoice.inoutflag };
       let pricedetails = [];
       let tax = {};
       let cess = {};
@@ -2429,7 +2620,7 @@ export default {
         if (this.isGst) {
           tax[item.product.id] = parseFloat(item.igst.rate).toFixed(2);
           cess[item.product.id] = parseFloat(item.cess.rate).toFixed(2);
-          av.avtax = { GSTName: "IGST", CESSName: "CESS" };
+          av.avtax = { GSTName: 'IGST', CESSName: 'CESS' };
         } else {
           tax[item.product.id] = parseFloat(item.vat.rate).toFixed(2);
           av.taxpayment += taxable;
@@ -2443,7 +2634,7 @@ export default {
         av.totaltaxable += taxable;
 
         pricedetails.push({
-          custid: this.form.party.name.id || "",
+          custid: this.form.party.name.id || '',
           productcode: item.product.id,
           inoutflag: invoice.inoutflag,
           lastprice: item.rate,
@@ -2473,8 +2664,23 @@ export default {
         };
       }
 
-      if (this.form.transport.mode === "Road") {
+      if (this.form.transport.mode === 'Road') {
         invoice.vehicleno = this.form.transport.vno;
+      }
+
+      if(this.form.transport.date) {
+        invoice.dateofsupply = this.form.transport.date;
+      }
+
+      if (this.editFlag !== null) {
+        const av = Object.assign({}, invoice.av);
+        invoice.invid = parseInt(this.invid);
+
+        delete invoice.av;
+        delete invoice.pincode;
+        delete invoice.discflag;
+
+        return { invoice, stock, av };
       }
 
       // console.log({ invoice, stock });
@@ -2483,7 +2689,7 @@ export default {
     resetForm() {
       this.form = {
         inv: {
-          type: "sale", // purchase
+          type: 'sale', // purchase
           no: null,
           date: this.formatDateObj(new Date()),
           delNote: null,
@@ -2495,7 +2701,7 @@ export default {
           role: null,
         },
         party: {
-          type: "customer", // supplier
+          type: 'customer', // supplier
           options: {
             states: [],
             gstin: [],
@@ -2512,16 +2718,16 @@ export default {
           copyFlag: true,
           name: null,
           addr: null,
-          state: null,
+          state: {},
           gstin: null,
           tin: null,
           pin: null,
         },
-        taxType: "gst", // vat
+        taxType: 'gst', // vat
         bill: [
           {
-            product: { name: "", id: "" },
-            hsn: "",
+            product: { name: '', id: '' },
+            hsn: '',
             qty: 0,
             fqty: 0,
             rate: 0,
@@ -2544,7 +2750,7 @@ export default {
           },
         },
         transport: {
-          mode: "Road",
+          mode: 'Road',
           vno: null,
           date: null,
           reverseCharge: false,
@@ -2569,23 +2775,29 @@ export default {
   },
   beforeMount() {
     // Dynamically load the config to Vuex, just before the Invoice component is mounted
-    this.$store.registerModule("invoiceConfig", invoiceConfig);
-    this.$store.dispatch("initInvoiceConfig");
+    this.$store.registerModule('invoiceConfig', invoiceConfig);
+    this.$store.dispatch('initInvoiceConfig');
   },
   mounted() {
-    this.preloadData();
-    this.$nextTick(() => {
-      if(!this.isInvDateValid) {
-        this.form.inv.date = this.yearStart
-      }
-    })
-    // this.fetchInvoiceId();
-    // this.fetchUserData();
+    this.preloadData().then(() => {
+      this.$nextTick().then(() => {
+        if (this.mode === 'edit') {
+          this.fetchInvoiceData();
+          setTimeout(() => {
+            this.options.bill.forEach((bill, index) => {
+              Object.assign(this.form.bill[index], bill);
+            });
+          }, 500);
+        } else if (!this.isInvDateValid) {
+          this.form.inv.date = this.yearStart;
+        }
+      });
+    });
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
     // prevent webpack HRM to destroy our store. But if you are production, please go away~
-    this.$store.unregisterModule("invoiceConfig");
+    this.$store.unregisterModule('invoiceConfig');
   },
 };
 </script>

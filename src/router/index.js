@@ -84,7 +84,7 @@ const routes = [
     props: true
   },
   {
-    path: '/invoice',
+    path: '/invoice/:mode/:invid',
     name: 'Invoice',
     component: () => import(/* webpackChunkName: "invoice" */ '../views/Invoice.vue'),
     props: true

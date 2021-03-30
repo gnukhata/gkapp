@@ -200,8 +200,8 @@
                 <div
                   v-if="activeWorkflow.name === 'Transactions'"
                   :class="{
-                    'bg-light-yellow': item.rectifyFlag,
-                    'bg-light-green': !item.rectifyFlag,
+                    'bg-light-yellow': item.onCreditFlag,
+                    'bg-light-green': !item.onCreditFlag,
                   }"
                 >
                   <b-row>
@@ -245,8 +245,8 @@
           class="ml-md-2 border-0"
           v-if="
             selectedEntity &&
-              !selectedEntity.gsflag &&
-              activeWorkflow.name === 'Contacts'
+            !selectedEntity.gsflag &&
+            activeWorkflow.name === 'Contacts'
           "
         >
           <template #header v-if="selectedEntity !== null">
@@ -277,8 +277,8 @@
           class="ml-md-2 border-0"
           v-if="
             selectedEntity &&
-              selectedEntity.gsflag &&
-              activeWorkflow.name === 'Business'
+            selectedEntity.gsflag &&
+            activeWorkflow.name === 'Business'
           "
         >
           <code class="m-3"> </code>
@@ -308,8 +308,8 @@
           class="ml-md-3"
           v-if="
             selectedEntity &&
-              selectedEntity.invoiceno &&
-              activeWorkflow.name === 'Transactions'
+            selectedEntity.invoiceno &&
+            activeWorkflow.name === 'Transactions'
           "
         >
           <template #header v-if="selectedEntity !== null">
@@ -332,6 +332,7 @@
           >
             <transaction-profile
               :invid="selectedEntity.invid"
+              :onCreditFlag="selectedEntity.onCreditFlag"
               :rectifyFlag="selectedEntity.rectifyFlag"
               :cancelFlag="!!selectedEntity.cancelflag"
               :onUpdate="onSelectedEntityUpdate"
@@ -476,7 +477,13 @@ export default {
             color: 'success',
             data: [],
             key: 'custname',
-            createNewPath: { name: 'Invoice' },
+            createNewPath: {
+              name: 'Invoice',
+              params: {
+                mode: 'create',
+                invid: 0,
+              },
+            },
             filterBy: {
               value: [
                 {
@@ -538,7 +545,7 @@ export default {
     };
   },
   watch: {
-    isFilterOpen: function() {
+    isFilterOpen: function () {
       let self = this;
       window.setTimeout(() => {
         if (self.isFilterOpen) {
@@ -571,7 +578,7 @@ export default {
      * of the current workflow page, and updates the left pane of cards.
      *
      */
-    processedData: function() {
+    processedData: function () {
       let data = this.options.tabs[this.activeWorkflow.name].data;
       // console.log(this.filter)
       if (this.filter.value.props.key !== undefined) {
@@ -719,7 +726,7 @@ export default {
           {
             if (updatedData.gkstatus === 0) {
               // if the invoice exists after update, gkstatus will be 0, else some other like 3
-              this.selectedEntity.rectifyFlag = !updatedData.gkresult
+              this.selectedEntity.onCreditFlag = !updatedData.gkresult
                 .billentrysingleflag;
             } else {
               this.options.tabs[this.activeWorkflow.name].data.splice(
@@ -754,73 +761,119 @@ export default {
           .catch((error) => {
             return error;
           }),
+        // oncredit sale
+        axios.get('/invoice?type=rectifyinvlist&invtype=15').catch((error) => {
+          return error;
+        }),
+        // oncredit purchase
+        axios.get('/invoice?type=rectifyinvlist&invtype=9').catch((error) => {
+          return error;
+        }),
       ];
 
       const self = this;
-      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
-        self.isLoading = false;
+      Promise.all([...requests]).then(
+        ([resp1, resp2, resp3, resp4, resp5, resp6]) => {
+          self.isLoading = false;
 
-        let contacts = [];
+          let contacts = [];
+          let invoiceMap = {};
 
-        // Customer List
-        if (resp1.status === 200) {
-          contacts = resp1.data.gkresult.map((item) =>
-            Object.assign({ csflag: true, icon: 'person-fill' }, item)
-          );
-        } else {
-          console.log(resp1.message);
-        }
+          // Customer List
+          if (resp1.status === 200) {
+            contacts = resp1.data.gkresult.map((item) =>
+              Object.assign({ csflag: true, icon: 'person-fill' }, item)
+            );
+          } else {
+            console.log(resp1.message);
+          }
 
-        // Supplier List
-        if (resp2.status === 200) {
-          contacts.push(
-            ...resp2.data.gkresult.map((item) =>
-              Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)
-            )
-          );
-          self.options.tabs['Contacts'].data = self.sortData(
-            contacts,
-            'asc',
-            'custid'
-          );
-        } else {
-          console.log(resp2.message);
-        }
+          // Supplier List
+          if (resp2.status === 200) {
+            contacts.push(
+              ...resp2.data.gkresult.map((item) =>
+                Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)
+              )
+            );
+            self.options.tabs['Contacts'].data = self.sortData(
+              contacts,
+              'asc',
+              'custid'
+            );
+          } else {
+            console.log(resp2.message);
+          }
 
-        // Products & Services List
-        if (resp3.status === 200) {
-          self.options.tabs['Business'].data = resp3.data.gkresult.map((item) =>
-            Object.assign({ icon: item.gsflag === 7 ? 'box' : 'headset' }, item)
-          );
-        } else {
-          console.log(resp3.message);
-        }
-
-        // Invoices
-        if (resp4.status === 200) {
-          self.options.tabs['Transactions'].data = resp4.data.gkresult.map(
-            (item) => {
-              // invoiceMap[item.invid] = index;
-              return Object.assign(
-                {
-                  icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                  rectifyFlag: !item.billentryflag, // onCredit or not
-                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                  dateObj: Date.parse(
-                    item.invoicedate
-                      .split('-')
-                      .reverse()
-                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                  ),
-                },
+          // Products & Services List
+          if (resp3.status === 200) {
+            self.options.tabs[
+              'Business'
+            ].data = resp3.data.gkresult.map((item) =>
+              Object.assign(
+                { icon: item.gsflag === 7 ? 'box' : 'headset' },
                 item
-              );
+              )
+            );
+          } else {
+            console.log(resp3.message);
+          }
+
+          // Invoices
+          if (resp4.status === 200) {
+            self.options.tabs['Transactions'].data = resp4.data.gkresult.map(
+              (item, index) => {
+                invoiceMap[item.invid] = index;
+                return Object.assign(
+                  {
+                    icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                    onCreditFlag: !item.billentryflag, // onCredit or not
+                    rectifyFlag: false,
+                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                    dateObj: Date.parse(
+                      item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                    ),
+                  },
+                  item
+                );
+              }
+            );
+          } else {
+            console.log(resp4.message);
+          }
+
+          // Sale Invoices rectification data
+          if (resp5.status === 200) {
+            if (resp5.data.gkstatus === 0) {
+              if (self.options.tabs['Transactions'].data.length) {
+                let data = self.options.tabs['Transactions'].data;
+                let index = '';
+                resp5.data.invoices.forEach((inv) => {
+                  index = invoiceMap[inv.invid];
+                  if (index >= 0) data[index].rectifyFlag = true;
+                });
+              }
             }
-          );
-        } else {
-          console.log(resp4.message);
+          } else {
+            console.log(resp5.message);
+          }
+
+          // Purchase Invoices rectification data
+          if (resp6.status === 200) {
+            if (resp6.data.gkstatus === 0) {
+              if (self.options.tabs['Transactions'].data.length) {
+                let data = self.options.tabs['Transactions'].data;
+                let index = '';
+                resp6.data.invoices.forEach((inv) => {
+                  index = invoiceMap[inv.invid];
+                  if (index >= 0) data[index].rectifyFlag = true;
+                });
+              }
+            }
+          } else {
+            console.log(resp6.message);
+          }
         }
-      });
+      );
     },
     // fetch products & services list
     psList() {
