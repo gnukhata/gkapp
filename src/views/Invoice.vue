@@ -1678,7 +1678,10 @@ export default {
     onBillItemSelect(item, index) {
       if (item) {
         if (item.id) {
-          this.fetchProductDetails(item.id, index);
+          if(this.form.bill[index].pid !== item.id) {
+            this.form.bill[index].pid = item.id;
+            this.fetchProductDetails(item.id, index);
+          }
         }
       }
     },
@@ -1747,6 +1750,7 @@ export default {
         cess: { rate: 0, amount: 0 },
         vat: { rate: 0, amount: 0 },
         total: 0,
+        pid: null
       });
     },
     deleteBillItem(index) {
@@ -1969,7 +1973,7 @@ export default {
      * Description: Fetches product details like price, discount and taxes,
      * when a product is selected in the bill area
      */
-    fetchProductDetails(id, index, callback) {
+    fetchProductDetails(id, index) {
       let self = this;
       const requests = [
         axios.get(`/products?qty=single&productcode=${id}`).catch((error) => {
