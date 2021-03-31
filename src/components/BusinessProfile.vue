@@ -159,18 +159,20 @@
                 step="0.01"
                 no-wheel
                 v-model="item.taxrate"
+                :required="!!item.state"
               ></b-form-input>
               <b-input-group-append>
                 <b-form-select
                   :options="options.states"
                   v-model="item.state"
                   :style="{ 'border-radius': 0, 'max-width': '200px' }"
+                  :required="!!item.taxrate"
                 ></b-form-select>
                 <b-button @click.prevent="removeVatEntry(index)">-</b-button>
               </b-input-group-append>
             </b-input-group>
           </div>
-          <b-button @click.prevent="addVatEntry" class="float-right p-1">+ VAT</b-button>
+          <b-button @click.prevent="addVatEntry" class="float-right p-0 px-1">+ VAT</b-button>
         </b-form-group>
       </b-collapse>
     </b-card>
@@ -278,8 +280,8 @@ export default {
           size: "lg",
         })
         .then((val) => {
-          this.loading = true;
           if (val) {
+            this.loading = true;
             const config = {
               headers: {
                 gktoken: this.authToken,
