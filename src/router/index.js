@@ -6,6 +6,7 @@ import Logs from '@/views/Logs.vue'
 import CloseBooks from '@/views/CloseBooks.vue'
 import UserManagement from '@/views/UserManagement.vue'
 import UOM from '@/views/UOM.vue'
+import ResetPassword from '@/views/ResetPassword.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,6 +39,11 @@ const routes = [
     path: '/uom',
     name: 'UnitOfMeasurement',
     component: UOM
+  },
+  {
+    path: '/resetpassword',
+    name: 'Reset Password',
+    component: ResetPassword
   },
   {
     path: '/about',
