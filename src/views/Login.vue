@@ -172,9 +172,13 @@
                 <b-icon icon="person-plus"></b-icon>
                 Create Organisation
               </b-button>
-              <b-button variant="warning" @click="switchServer">
+              <b-button variant="warning" class="mr-2" @click="switchServer">
                 <b-icon icon="cloud"></b-icon>
                 Change Server
+              </b-button>
+              <b-button variant="info" @click="$router.push('/resetpassword')">
+                <b-icon icon="life-preserver"></b-icon>
+                Forgot Password?
               </b-button>
             </b-button-group>
           </div>
