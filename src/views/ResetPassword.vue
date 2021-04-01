@@ -1,13 +1,27 @@
 <template>
   <section class="m-2">
     <b-card
-      header="Password Reset"
+      header="Reset Password"
       header-bg-variant="dark"
       header-text-variant="light"
       class="mx-auto"
       style="max-width: 40em"
     >
       <b-form @submit.prevent="changePassword">
+        <b-form-group label="Select Organisation">
+          <b-overlay :show="loadingOrgs">
+            <b-select
+              v-model="selectedOrg"
+              @change="getOrgYears"
+              :options="orgList"
+              required
+            >
+              <b-form-select-option :value="null"
+                >-- Select an Organisation --</b-form-select-option
+              >
+            </b-select>
+          </b-overlay>
+        </b-form-group>
         <!-- username -->
         <b-form-group label="Username" tooltip>
           <b-form-input
@@ -87,9 +101,12 @@ export default {
   name: 'ResetPassword',
   data() {
     return {
+      orgList: [],
+      loadingOrgs: true,
       isLoading: false,
       submitting: false,
       isValidUser: null,
+      selectedOrg: Object,
       password2: '',
       uid: Number,
       form: {
@@ -110,12 +127,60 @@ export default {
       }
     },
   },
+  mounted() {
+    this.fetchOrgs();
+  },
   methods: {
+    /**
+     * Get list of companies & show them in login form for user to select
+     * */
+    fetchOrgs() {
+      this.loadingOrgs = true;
+      axios
+        .get(`/organisations`)
+        .then((response) => {
+          this.orgList = response.data.gkdata;
+          let opt = [];
+          for (const i in this.orgList) {
+            const item = {
+              value: this.orgList[i],
+              text: `${this.orgList[i].orgname} (${this.orgList[i].orgtype})`,
+            };
+            opt.push(item);
+          }
+          this.orgList = opt;
+          this.loadingOrgs = false;
+        })
+        .catch(function(error) {
+          console.log(error);
+          this.loadingOrgs = false;
+        });
+    },
+    /*
+     * send org name & type & get a org's financial years as objects
+     */
+    getOrgYears() {
+      axios
+        .get(
+          `/orgyears/${this.selectedOrg.orgname}/${this.selectedOrg.orgtype}`
+        )
+        .then((r) => {
+          if (r.status == 200) {
+            this.uid = r.data.gkdata[0].orgcode;
+          } else {
+            console.log('Unable to fetch org years');
+          }
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
+    },
+    /* Get user's security question */
     getQuestion() {
       this.isLoading = true;
       axios
         .get(
-          `/forgotpassword?username=${this.form.username}&orgcode=${this.orgCode}`
+          `/forgotpassword?username=${this.form.username}&orgcode=${this.uid}`
         )
         .then((r) => {
           if (r.status == 200) {
@@ -162,12 +227,12 @@ export default {
               case 0:
                 this.$bvModal
                   .msgBoxOk(
-                    'Password Change Successful, Press ok to redirect to login page',
+                    'Password Change Successful, Memorize it well this time ;-)',
                     {
                       title: 'Success',
                       headerTextVariant: 'light',
                       headerBgVariant: 'success',
-                      okVariant: 'dark',
+                      okVariant: 'success',
                     }
                   )
                   .then((res) => {
