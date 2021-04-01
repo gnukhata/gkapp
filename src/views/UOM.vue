@@ -18,12 +18,13 @@
         :filter="searchText"
         :fields="fields"
         :items="uomList"
-        class="mx-auto table"
+        class="mx-auto"
         head-variant="dark"
         hover
         fixed
         outlined
         small
+        striped
         :busy="isLoading"
       >
         <template #table-busy>
@@ -131,7 +132,12 @@ export default {
 };
 </script>
 <style scoped>
-.table {
+table {
   width: 70%;
+}
+@media all and (max-width: 600px) {
+  table {
+    width: 100%;
+  }
 }
 </style>

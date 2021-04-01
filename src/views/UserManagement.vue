@@ -24,6 +24,7 @@
       hover
       fixed
       outlined
+      striped
       class="table"
     >
       <template #table-busy>
@@ -141,7 +142,12 @@ export default {
 };
 </script>
 <style scoped>
-.table {
+table {
   width: 70%;
+}
+@media all and (max-width: 600px) {
+  table {
+    width: 100%;
+  }
 }
 </style>
