@@ -198,21 +198,26 @@
                 @click.prevent="setSelectedEntity(item, index3)"
               >
                 <div
+                  class="py-0"
+                  :style="{ height: '45px', 'line-height': '45px' }"
                   v-if="activeWorkflow.name === 'Transactions'"
-                  :class="{
-                    'bg-light-yellow': item.onCreditFlag,
-                    'bg-light-green': !item.onCreditFlag,
-                  }"
                 >
                   <b-row>
                     <b-col cols="4" class="px-0">
                       <small>{{ item.invoicedate }}</small>
                     </b-col>
                     <b-col cols="4" class="px-1 text-truncate">
-                      <b-icon font-scale="0.75" :icon="item.icon"></b-icon>
+                      <span>
+                        <b-icon font-scale="0.75" :icon="item.icon"></b-icon>
+                      </span>
                       <small> {{ item[tab.key] }} </small>
                     </b-col>
-                    <b-col cols="4" class="px-0 text-truncate text-right">
+                    <b-col
+                      cols="4"
+                      class="px-0 text-truncate text-right"
+                      :title="`₹ ${item.netamt}`"
+                      :class="{'text-overline': item.onCreditFlag}"
+                    >
                       <small>{{ '₹ ' + item.netamt }}</small>
                     </b-col>
                   </b-row>
@@ -229,6 +234,7 @@
               :to="tab.createNewPath"
               class="btn shadow position-absolute"
               :style="{ bottom: '30px', right: '30px', zIndex: 2 }"
+              id="add-item"
             >
               <b-icon icon="plus-circle"></b-icon>
             </b-button>
@@ -526,7 +532,7 @@ export default {
               },
               {
                 text: 'Amount',
-                props: { key: 'invoicetotal', isAsc: true },
+                props: { key: 'netamt', isAsc: true },
               },
             ],
           },
@@ -720,15 +726,20 @@ export default {
       this.$refs['col-left'].classList.add('d-block');
       this.$refs['col-right'].classList.remove('d-block');
     },
+    /** Description: A callback to update the left pane list, based on the changes in the right pane
+     *
+     * params: updatedData - The rightpane's data from gkcore after update
+     */
     onSelectedEntityUpdate(updatedData) {
       switch (this.activeWorkflow.name) {
         case 'Transactions':
           {
             if (updatedData.gkstatus === 0) {
-              // if the invoice exists after update, gkstatus will be 0, else some other like 3
+              // if the invoice exists after update, gkstatus will be 0
               this.selectedEntity.onCreditFlag = !updatedData.gkresult
                 .billentrysingleflag;
             } else {
+              // If the invoice was deleted as an update, then gkstatus will be 3 or something else
               this.options.tabs[this.activeWorkflow.name].data.splice(
                 this.selectedEntityIndex,
                 1
@@ -761,119 +772,89 @@ export default {
           .catch((error) => {
             return error;
           }),
-        // oncredit sale
-        axios.get('/invoice?type=rectifyinvlist&invtype=15').catch((error) => {
-          return error;
-        }),
-        // oncredit purchase
-        axios.get('/invoice?type=rectifyinvlist&invtype=9').catch((error) => {
+        axios.get('/billwise?type=all').catch((error) => {
           return error;
         }),
       ];
 
       const self = this;
-      Promise.all([...requests]).then(
-        ([resp1, resp2, resp3, resp4, resp5, resp6]) => {
-          self.isLoading = false;
+      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4, resp5]) => {
+        self.isLoading = false;
 
-          let contacts = [];
-          let invoiceMap = {};
+        let contacts = [];
+        let invoiceMap = {};
 
-          // Customer List
-          if (resp1.status === 200) {
-            contacts = resp1.data.gkresult.map((item) =>
-              Object.assign({ csflag: true, icon: 'person-fill' }, item)
-            );
-          } else {
-            console.log(resp1.message);
-          }
-
-          // Supplier List
-          if (resp2.status === 200) {
-            contacts.push(
-              ...resp2.data.gkresult.map((item) =>
-                Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)
-              )
-            );
-            self.options.tabs['Contacts'].data = self.sortData(
-              contacts,
-              'asc',
-              'custid'
-            );
-          } else {
-            console.log(resp2.message);
-          }
-
-          // Products & Services List
-          if (resp3.status === 200) {
-            self.options.tabs[
-              'Business'
-            ].data = resp3.data.gkresult.map((item) =>
-              Object.assign(
-                { icon: item.gsflag === 7 ? 'box' : 'headset' },
-                item
-              )
-            );
-          } else {
-            console.log(resp3.message);
-          }
-
-          // Invoices
-          if (resp4.status === 200) {
-            self.options.tabs['Transactions'].data = resp4.data.gkresult.map(
-              (item, index) => {
-                invoiceMap[item.invid] = index;
-                return Object.assign(
-                  {
-                    icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                    onCreditFlag: !item.billentryflag, // onCredit or not
-                    rectifyFlag: false,
-                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                    dateObj: Date.parse(
-                      item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                    ),
-                  },
-                  item
-                );
-              }
-            );
-          } else {
-            console.log(resp4.message);
-          }
-
-          // Sale Invoices rectification data
-          if (resp5.status === 200) {
-            if (resp5.data.gkstatus === 0) {
-              if (self.options.tabs['Transactions'].data.length) {
-                let data = self.options.tabs['Transactions'].data;
-                let index = '';
-                resp5.data.invoices.forEach((inv) => {
-                  index = invoiceMap[inv.invid];
-                  if (index >= 0) data[index].rectifyFlag = true;
-                });
-              }
-            }
-          } else {
-            console.log(resp5.message);
-          }
-
-          // Purchase Invoices rectification data
-          if (resp6.status === 200) {
-            if (resp6.data.gkstatus === 0) {
-              if (self.options.tabs['Transactions'].data.length) {
-                let data = self.options.tabs['Transactions'].data;
-                let index = '';
-                resp6.data.invoices.forEach((inv) => {
-                  index = invoiceMap[inv.invid];
-                  if (index >= 0) data[index].rectifyFlag = true;
-                });
-              }
-            }
-          } else {
-            console.log(resp6.message);
-          }
+        // Customer List
+        if (resp1.status === 200) {
+          contacts = resp1.data.gkresult.map((item) =>
+            Object.assign({ csflag: true, icon: 'person-fill' }, item)
+          );
+        } else {
+          console.log(resp1.message);
         }
-      );
+
+        // Supplier List
+        if (resp2.status === 200) {
+          contacts.push(
+            ...resp2.data.gkresult.map((item) =>
+              Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)
+            )
+          );
+          self.options.tabs['Contacts'].data = self.sortData(
+            contacts,
+            'asc',
+            'custid'
+          );
+        } else {
+          console.log(resp2.message);
+        }
+
+        // Products & Services List
+        if (resp3.status === 200) {
+          self.options.tabs['Business'].data = resp3.data.gkresult.map((item) =>
+            Object.assign({ icon: item.gsflag === 7 ? 'box' : 'headset' }, item)
+          );
+        } else {
+          console.log(resp3.message);
+        }
+
+        // Invoices
+        if (resp4.status === 200) {
+          self.options.tabs['Transactions'].data = resp4.data.gkresult.map(
+            (item, index) => {
+              invoiceMap[item.invid] = index;
+              return Object.assign(
+                {
+                  icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                  onCreditFlag: false,
+                  rectifyFlag: !item.billentryflag, // can be rectified or not
+                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                  dateObj: Date.parse(
+                    item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                  ),
+                },
+                item
+              );
+            }
+          );
+        } else {
+          console.log(resp4.message);
+        }
+
+        // Invoice in credit
+        if (resp5.status === 200) {
+          let data = self.options.tabs['Transactions'].data;
+          if (resp5.data.gkstatus === 0 && data.length) {
+            let index = '';
+            resp5.data.invoices.forEach((inv) => {
+              index = invoiceMap[inv.invid];
+              if (index >= 0) data[index].onCreditFlag = true;
+            });
+          }
+        } else {
+          console.log(resp5.message);
+        }
+      });
     },
     // fetch products & services list
     psList() {
@@ -914,10 +895,16 @@ export default {
 .data-list > div {
   padding: 0.75rem 1.25rem;
 }
-.bg-light-green {
-  background-color: #e3ffe5 !important;
+.text-overline {
+  text-decoration: overline
 }
-.bg-light-yellow {
-  background-color: #fff1c6 !important;
+
+#add-item {
+  opacity: 0.55;
+}
+
+
+#add-item:hover {
+  opacity: 1;
 }
 </style>
