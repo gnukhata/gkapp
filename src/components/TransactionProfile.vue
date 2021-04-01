@@ -19,6 +19,7 @@
       :fields="tableFields"
       bordered
       head-variant="dark"
+      stacked="sm"
     >
       <template #cell(price)="data"> ₹ {{ data.value }} </template>
       <template #cell(discount)="data"> ₹ {{ data.value }} </template>
@@ -35,8 +36,11 @@
     <div>
       <b>Total in words: {{ invoice.total.text }}</b>
     </div>
-    <div class="float-right">
-      <b-button v-if="cancelFlag" size="sm" variant="warning" @click="confirmOnCancel"
+    <div class="float-right my-2">
+      <b-button v-if="rectifyFlag" class="mr-2" size="sm" variant="warning" :to="{name: 'Invoice', params: {mode: 'edit', invid: invid}}"
+        > <b-icon icon="pencil"></b-icon> Rectify Invoice</b-button
+      >
+      <b-button v-if="cancelFlag" size="sm" variant="danger" @click="confirmOnCancel"
         > <b-icon icon="x-octagon"></b-icon> Cancel Invoice</b-button
       >
     </div>
@@ -55,10 +59,15 @@ export default {
       type: Number,
       required: true,
     },
-    rectifyFlag: {
+    onCreditFlag: {
       type: Boolean,
       required: true,
       note: "true if invoice is in credit",
+    },
+    rectifyFlag: {
+      type: Boolean,
+      required: true,
+      note: "true if invoice can be edited",
     },
     cancelFlag: {
       type: Boolean,

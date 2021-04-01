@@ -23,7 +23,7 @@
             Configuration formatted successfully!
             </div>
           </b-col>
-          <b-col cols="12" md="6" class="mb-1 pl-md-2">
+          <b-col cols="12" md="6" class="mb-1 pl-md-2" :class="{'mb-4': !(Object.keys(formattedConfig).length), 'mb-md-1': true}">
             <b>Formatted Config</b>
             <div class="border border-dark h-100 rounded overflow-auto p-1 position-relative" :style="{ height: '300px', maxHeight: '300px' }">
               <b-overlay :show="isFormatting" variant="secondary" no-wrap blur>

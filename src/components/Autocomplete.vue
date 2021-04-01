@@ -3,9 +3,9 @@
     <!-- Autocomplete Input -->
     <b-form-input
       class="gk-autocomplete-input"
+      v-bind:value="searchFilter"
       v-bind="$attrs"
       v-on="$listeners"
-      v-bind:value="searchFilter"
       ref="inputField"
       @focus="showOptions()"
       @blur="exit()"
@@ -61,7 +61,8 @@ export default {
       type: Array,
       required: true,
       default: () => [],
-      note: "Options of autocomplete. An array of options with id and name",
+      note: `Options of autocomplete. An array of options with id and name. 
+      This can be a shared array between several autocomplete instaces (since arrays are shared by reference)`,
     },
     textField: {
       type: String,
@@ -105,7 +106,8 @@ export default {
       hovered: null,
       isSelected: false,
       filteredOptions: [],
-      optionsB: [],
+      optionsB: [], // Since the options given can be shared, 
+                    //a separate options object (optionsB) is created to store local changes
     };
   },
   created() {
@@ -115,6 +117,7 @@ export default {
   computed: {
   },
   methods: {
+    /** Creates a local copy of Options prop in a desired format, {text: , value:} */
     initOptions() {
       // console.log("in optionsB");
       let options = [];
@@ -156,6 +159,7 @@ export default {
       this.filterOptions();
       // this.$emit("filter", this.searchFilter);
     },
+    /** Filter the given options based on the query string */
     filterOptions() {
       if (typeof this.searchFilter === "string") {
         // console.log("In FilteredOptions");
@@ -176,9 +180,11 @@ export default {
         this.filteredOptions = filtered;
       }
     },
+    /** store the index of the currently hovered dropdown item */
     setHovered(index) {
       this.hovered = index;
     },
+    /** Select an option from the dropdown down menu */
     selectOption(option) {
       if (
         !this.compareOptions(option, this.selected) &&
@@ -199,6 +205,7 @@ export default {
         this.$emit("input", this.selected.value);
       }
     },
+    /** Disable the dropdown item currently active and free the previously disabled dropdown item*/
     updateDisabledStatus(option) {
       if (this.selected && this.selected.value) {
         this.selected.disabled = false;
@@ -207,18 +214,22 @@ export default {
         option.disabled = true;
       }
     },
+    /** Perform required inits and Display the dropdown menu */
     showOptions() {
       // console.log("In showOptions");
       if (!this.searchFilter) {
         this.searchFilter = "";
       }
       if (this.optionsB.length < this.options.length) {
-        this.initOptions();
+        this.initOptions(); // run the first time the component is used
       }
       this.filterOptions();
       this.optionsShown = true;
       this.setHovered(0);
     },
+    /**Compares two option values. Options can be Objects or elementary values like string or number. 
+     * If the option is an object then valueUid is required for comparing the two objects quickly.
+     */
     compareOptions(a, b) {
       if (typeof a.value === typeof b.value) {
         if (typeof a.value === "object") {
@@ -231,6 +242,7 @@ export default {
       }
       return false;
     },
+    /** When the component loses focus, update the component and hide the drop down menu */
     exit() {
       // console.log("In Exit");
       // console.log(this.selected.value)
@@ -246,6 +258,7 @@ export default {
       this.optionsShown = false;
       this.hovered = false;
     },
+    /** Keyboard press event handlers for arrow keys, enter and escape key */
     keyMonitor: function (event) {
       switch (event.which) {
         case 38: // ArrowUp
@@ -302,6 +315,11 @@ export default {
     },
   },
   watch: {
+    /** On value update handler.
+     * This handler is called in two instaces. 
+     * 1. When the user updates the searchQuery
+     * 2. When the program assigns a value via v-model to the component
+    */
     value(newVal) {
       // console.log("In Value");
       // console.log(newVal);
@@ -345,6 +363,11 @@ export default {
       this.filterOptions();
     },
   },
+  /** Before being destroyed, remove the disabled state on the active option of this component.
+   * This is usefull in cases like the bill item list in Invoice page, where the options are shared
+   * between the autocomplete components. When one bill Item is deleted, the product /service chosen 
+   * in that bill item should be released in the shared data store.
+    */
   beforeDestroy() {
     this.updateDisabledStatus({
       text: this.searchFilter,
