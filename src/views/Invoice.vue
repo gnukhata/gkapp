@@ -12,6 +12,15 @@
       >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
       <b>{{ yearEnd }}</b>
     </b-alert>
+    <div class="text-center">
+      <span class="d-inline-block">
+        <b-form-select @change="initForm()" v-model="formMode" plain class="border-0 p-2 text-dark" :style="{'font-size': '1.5em'}">
+          <b-form-select-option value="create">Create Invoice</b-form-select-option>
+          <b-form-select-option value="edit">Edit Invoice</b-form-select-option>
+        </b-form-select>
+      </span>
+    </div>
+    <hr class="mb-2 mt-0">
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.inv.type"
@@ -20,18 +29,23 @@
         button-variant="outline-secondary"
         size="sm"
         buttons
+        class="mx-1"
       >
         <b-form-radio value="sale">Sale</b-form-radio>
         <b-form-radio value="purchase">Purchase</b-form-radio>
       </b-form-radio-group>
-      <config
-        class="float-right"
-        title="Invoice Page Configuration"
-        getDefault="getDefaultInvoiceConfig"
-        setCustom="updateInvoiceConfig"
-        getCustom="getCustomInvoiceConfig"
-      >
-      </config>
+      <span id="edit-invoice-list" class="d-inline-block" v-if="formMode === 'edit'">
+        <b-form-select size="sm" v-model="invoiceId" :options="options.editableInvoices[form.inv.type]" @change="initForm()"></b-form-select>
+      </span>
+      <span class="float-right">
+        <config
+          title="Invoice Page Configuration"
+          getDefault="getDefaultInvoiceConfig"
+          setCustom="updateInvoiceConfig"
+          getCustom="getCustomInvoiceConfig"
+        >
+        </config>
+      </span>
       <div class="clearfix"></div>
     </div>
     <b-form @submit.prevent="onSubmit">
@@ -1298,7 +1312,7 @@
           class="m-1"
           variant="success"
         >
-          <span v-if="editFlag === null">
+          <span v-if="formMode === 'create'">
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
               v-else
@@ -1429,6 +1443,8 @@ export default {
   data() {
     return {
       // config: {},
+      formMode: "",
+      invoiceId: "",
       form: {
         inv: {
           type: 'sale', // purchase
@@ -1527,6 +1543,10 @@ export default {
         ],
         orgDetails: null,
         bill: [],
+        editableInvoices: {
+          purchase: [],
+          sale: []
+        }
       },
       isCollapsed: {
         billedTo: false,
@@ -1536,7 +1556,8 @@ export default {
         transport: false,
         comments: false,
       },
-      editFlag: null,
+      editFlag: null, // A flag used to skip fetchProductDetails() method call, 
+                      // when the bill table is populated when the page loads in edit mode
     };
   },
   computed: {
@@ -1678,7 +1699,7 @@ export default {
     onBillItemSelect(item, index) {
       if (item) {
         if (item.id) {
-          if(this.form.bill[index].pid !== item.id) {
+          if (this.form.bill[index].pid !== item.id) {
             this.form.bill[index].pid = item.id;
             this.fetchProductDetails(item.id, index);
           }
@@ -1750,7 +1771,7 @@ export default {
         cess: { rate: 0, amount: 0 },
         vat: { rate: 0, amount: 0 },
         total: 0,
-        pid: null
+        pid: null,
       });
     },
     deleteBillItem(index) {
@@ -2222,13 +2243,15 @@ export default {
     },
 
     fetchInvoiceData() {
+      this.isPreloading = true;
       let self = this;
       axios
-        .get(`/invoice?inv=single&invid=${this.invid}`)
+        .get(`/invoice?inv=single&invid=${this.invoiceId}`)
         .then((resp) => {
+          self.isPreloading = false;
           if (resp.data.gkstatus === 0) {
             let data = resp.data.gkresult;
-            console.log(resp.data);
+            // console.log(resp.data);
             let invState =
               data.inoutflag === 15 // if sale inv state will be source else it will destination
                 ? self.options.states.find(
@@ -2241,7 +2264,7 @@ export default {
             self.form.inv = {
               type: data.inoutflag === 15 ? 'sale' : 'purchase',
               no: data.invoiceno,
-              date: (data.invoicedate).split("-").reverse().join("-"),
+              date: data.invoicedate.split('-').reverse().join('-'),
               delNote: null, /////////////////////////
               ebn: data.ewaybillno || null,
               addr: data.address,
@@ -2313,6 +2336,7 @@ export default {
 
             // set bill items
             self.form.bill = [];
+            self.options.bill = [];
             self.editFlag = 0;
             for (const itemCode in data.invcontents) {
               self.editFlag++;
@@ -2436,8 +2460,8 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-      const method = this.editFlag === null ? 'get' : 'put';
-      const actionText = this.editFlag === null ? 'Create' : 'Edit';
+      const method = this.formMode === "create" ? 'get' : 'put';
+      const actionText = this.formMode === "create" ? 'Create' : 'Edit';
       axios({ method: method, url: '/invoice', data: payload })
         .then((resp) => {
           self.isLoading = false;
@@ -2449,11 +2473,13 @@ export default {
                 this.displayToast(
                   `${actionText} Invoice Successfull!`,
                   `Invoice saved with entry no. ${
-                    resp.data.invoiceid || resp.data.gkresult || resp.data.vchData.vchno
+                    resp.data.invoiceid ||
+                    resp.data.gkresult ||
+                    resp.data.vchData.vchno
                   }`,
                   'success'
                 );
-                if(this.editFlag === null) {
+                if (this.formMode === "create") {
                   this.resetForm();
                 }
                 break;
@@ -2672,13 +2698,13 @@ export default {
         invoice.vehicleno = this.form.transport.vno;
       }
 
-      if(this.form.transport.date) {
+      if (this.form.transport.date) {
         invoice.dateofsupply = this.form.transport.date;
       }
 
-      if (this.editFlag !== null) {
+      if (this.formMode === "edit") {
         const av = Object.assign({}, invoice.av);
-        invoice.invid = parseInt(this.invid);
+        invoice.invid = parseInt(this.invoiceId);
 
         delete invoice.av;
         delete invoice.pincode;
@@ -2767,6 +2793,24 @@ export default {
       this.fetchUserData();
       this.setOrgDetails();
     },
+    fetchEditableInvoices() {
+      const invtype = this.isSale ? 15 : 9;
+      axios
+        .get(`/invoice?type=rectifyinvlist&invtype=${invtype}`)
+        .then((resp) => {
+          if(resp.data.gkstatus === 0) {
+            this.options.editableInvoices[this.form.inv.type] = resp.data.invoices.map((inv => {
+              return {
+                text: `${inv.invoiceno}, ${inv.invoicedate}, ${inv.custname}`,
+                value: inv.invid
+              }
+            }));
+          }
+        })
+        .catch((error) => {
+          return error;
+        });
+    },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
         title: title,
@@ -2776,6 +2820,25 @@ export default {
         solid: true,
       });
     },
+    initForm() {
+      let self = this;
+      this.resetForm();
+      this.preloadData().then(() => {
+        self.$nextTick().then(() => {
+          if (self.formMode === 'edit') {
+            self.fetchEditableInvoices();
+            self.fetchInvoiceData();
+            setTimeout(() => {
+              self.options.bill.forEach((bill, index) => {
+                Object.assign(self.form.bill[index], bill);
+              });
+            }, 500);
+          } else if (!self.isInvDateValid) {
+            self.form.inv.date = self.yearStart;
+          }
+        });
+      });
+    }
   },
   beforeMount() {
     // Dynamically load the config to Vuex, just before the Invoice component is mounted
@@ -2783,20 +2846,10 @@ export default {
     this.$store.dispatch('initInvoiceConfig');
   },
   mounted() {
-    this.preloadData().then(() => {
-      this.$nextTick().then(() => {
-        if (this.mode === 'edit') {
-          this.fetchInvoiceData();
-          setTimeout(() => {
-            this.options.bill.forEach((bill, index) => {
-              Object.assign(this.form.bill[index], bill);
-            });
-          }, 500);
-        } else if (!this.isInvDateValid) {
-          this.form.inv.date = this.yearStart;
-        }
-      });
-    });
+    // Using non props to store these props, as these can be edited in the future
+    this.formMode = this.mode;
+    this.invoiceId = this.invid;
+    this.initForm()
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
@@ -2805,3 +2858,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  @media only screen and (max-width: 450px){
+    #edit-invoice-list{
+      max-width: 150px;
+    }
+  }
+</style>
