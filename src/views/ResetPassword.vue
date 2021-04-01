@@ -24,17 +24,15 @@
         </b-form-group>
         <!-- username -->
         <b-form-group label="Username" tooltip>
-          <b-form-input
-            @blur="getQuestion"
-            v-model="form.username"
-            type="text"
-            required
-            :state="isValidUser"
-          ></b-form-input>
-          <!-- This will only be shown if the preceding input has an invalid state -->
-          <b-form-invalid-feedback>
-            Invalid Username
-          </b-form-invalid-feedback>
+          <b-overlay :show="userNameIsLoading">
+            <b-form-input
+              @blur="getQuestion"
+              v-model="form.username"
+              type="text"
+              required
+              :disabled="disableUserName"
+            ></b-form-input>
+          </b-overlay>
         </b-form-group>
         <!-- security question -->
         <b-form-group label="Security Question" tooltip>
@@ -104,8 +102,9 @@ export default {
       orgList: [],
       loadingOrgs: true,
       isLoading: false,
+      userNameIsLoading: false,
+      disableUserName: true,
       submitting: false,
-      isValidUser: null,
       selectedOrg: Object,
       password2: '',
       uid: Number,
@@ -160,6 +159,7 @@ export default {
      * send org name & type & get a org's financial years as objects
      */
     getOrgYears() {
+      this.userNameIsLoading = true;
       axios
         .get(
           `/orgyears/${this.selectedOrg.orgname}/${this.selectedOrg.orgtype}`
@@ -167,6 +167,8 @@ export default {
         .then((r) => {
           if (r.status == 200) {
             this.uid = r.data.gkdata[0].orgcode;
+            this.disableUserName = false;
+            this.userNameIsLoading = false;
           } else {
             console.log('Unable to fetch org years');
           }
@@ -189,7 +191,6 @@ export default {
               case 0:
                 this.form.userquestion = usr.userquestion;
                 this.uid = usr.userid;
-                this.isValidUser = true;
                 break;
               default:
                 this.$bvToast.toast('Invalid Username', {
@@ -197,12 +198,12 @@ export default {
                   solid: true,
                 });
                 this.form.userquestion = '';
-                this.isValidUser = false;
             }
           } else {
             console.log(r.status);
           }
           this.isLoading = false;
+          this.cardLoading = false;
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
