@@ -22,26 +22,27 @@
       outlined
       small
       hover
+      striped
       :items="log"
       :filter="searchText"
     ></b-table>
   </section>
 </template>
 <script>
-import axios from "axios";
+import axios from 'axios';
 export default {
-  name: "Logs",
+  name: 'Logs',
   data() {
     return {
       log: [],
       isLoading: true,
-      searchText: "",
+      searchText: '',
     };
   },
   methods: {
     getLogs() {
       axios
-        .get("/log")
+        .get('/log')
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
@@ -50,16 +51,16 @@ export default {
                 this.isLoading = false;
                 break;
               case 2:
-                this.$bvToast.toast("Unauthorised Access", {
-                  title: "Error",
-                  variant: "danger",
+                this.$bvToast.toast('Unauthorised Access', {
+                  title: 'Error',
+                  variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast("You have no permission to access", {
-                  title: "Error",
-                  variant: "danger",
+                this.$bvToast.toast('You have no permission to access', {
+                  title: 'Error',
+                  variant: 'danger',
                   solid: true,
                 });
                 break;
@@ -72,7 +73,7 @@ export default {
           console.log(e);
           this.$bvToast.toast(e.message, {
             title: e.message,
-            variant: "danger",
+            variant: 'danger',
             solid: true,
           });
         });
