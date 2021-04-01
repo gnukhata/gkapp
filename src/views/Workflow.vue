@@ -640,7 +640,7 @@ export default {
           });
         }
       }
-      return sorted.slice();
+      return sorted;
     },
     /**
      * filterByValue(data, key, value)
