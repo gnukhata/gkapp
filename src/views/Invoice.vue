@@ -2460,7 +2460,7 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-      const method = this.formMode === "create" ? 'get' : 'put';
+      const method = this.formMode === "create" ? 'post' : 'put';
       const actionText = this.formMode === "create" ? 'Create' : 'Edit';
       axios({ method: method, url: '/invoice', data: payload })
         .then((resp) => {
