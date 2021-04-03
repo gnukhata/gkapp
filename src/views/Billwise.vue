@@ -20,18 +20,6 @@
               <b-form-radio value="3">Customer</b-form-radio>
               <b-form-radio value="19">Supplier</b-form-radio>
             </b-form-radio-group>
-            <!-- <b-form-group class="d-inline-block mb-2 ml-2">
-              <b-form-select
-                size="sm"
-                v-model="custid"
-                text-field="custname"
-                value-field="custid"
-                :options="
-                  csflag === '3' ? options.customers : options.suppliers
-                "
-                required
-              ></b-form-select>
-            </b-form-group> -->
             <b-form-group class="d-inline-block mb-2 ml-2">
               <autocomplete
                 size="sm"
@@ -51,12 +39,6 @@
               label-cols="3"
               label-size="sm"
             >
-              <!-- <b-form-select
-                size="sm"
-                v-model="vcode"
-                :options="options.vouchers"
-                required
-              ></b-form-select> -->
               <autocomplete
                 size="sm"
                 v-model="vcode"
@@ -293,6 +275,7 @@ export default {
     ...mapState([]),
   },
   methods: {
+    /**After creating a new voucher, refetch the List of vouchers and select the new Voucher  */
     onVoucherSave({ vouchercode }) {
       if (vouchercode) {
         this.fetchUnadjustedItems().then(() => {
@@ -333,6 +316,7 @@ export default {
       // console.log('in submit')
       this.isLoading = true;
       const payload = this.initPayload();
+      // return;
       // console.log(payload);
       axios
         .post("/billwise", payload)
@@ -370,6 +354,7 @@ export default {
           this.isLoading = false;
         });
     },
+    /**Format the data before submitting it */
     initPayload() {
       const payload = {
         adjbills: [],
@@ -377,6 +362,8 @@ export default {
 
       this.options.invoices.forEach((inv) => {
         // console.log(inv);
+        inv.adjusted = parseFloat(inv.adjusted)
+        inv.balanceamount = parseFloat(inv.balanceamount)
         if (inv.adjusted > 0) {
           if (inv.adjusted > inv.balanceamount) {
             inv.adjusted = inv.balanceamount;
@@ -391,16 +378,19 @@ export default {
 
       return payload;
     },
+    /**Fetch Invoices that are still in credit for a given Customer/Supplier and 
+     * the list of vouchers that can adjust them */
     fetchUnadjustedItems() {
       // console.log(this.custid)
       this.options.vouchers = [];
       this.options.invoices = [];
-      this.vcode = null;
+      this.vcode = "";
       if (this.custid !== null && !isNaN(parseInt(this.custid))) {
         return axios
           .get(`/billwise?csid=${this.custid}&csflag=${this.csflag}`)
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
+              // vouchers
               resp.data.vouchers.sort((a, b) => a.vouchercode - b.vouchercode);
               this.options.vouchers = resp.data.vouchers.map((voucher) => {
                 this.options.voucherPriceMap[voucher.vouchercode] =
@@ -411,6 +401,7 @@ export default {
                 };
               });
 
+              // invoices on credit
               resp.data.invoices.sort((a, b) => a.invid - b.invid);
               this.options.invoices = resp.data.invoices.map((inv) =>
                 Object.assign({ adjusted: 0 }, inv)
@@ -434,6 +425,7 @@ export default {
       }
       return Promise.resolve(); // an empty promise to continue on, in case the above condition is not met
     },
+    /**Pre-Load the Customer/Supplier list */
     preloadData() {
       this.isPreloading = true;
       const requests = [
@@ -473,11 +465,6 @@ export default {
         if (resp2.status === 200) {
           if (resp2.data.gkstatus === 0) {
             this.options.suppliers = resp2.data.gkresult;
-            // this.options.suppliers.unshift({
-            //   custname: "-- Suppliers --",
-            //   custid: null,
-            //   disabled: true,
-            // });
           } else {
             preloadErrorList += " Supplier List,";
           }
