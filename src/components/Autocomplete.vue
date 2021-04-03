@@ -315,6 +315,19 @@ export default {
     },
   },
   watch: {
+    /**When the options sent as prop are changed, then the options have to be initialized again.
+     * If the search filter is not in the current options array, then clear the searchquery and
+     * call filteroptions again
+     */
+    options() {
+      this.initOptions();
+      if(!this.optionsB.find((option) => {
+        option.text === this.searchFilter
+      })) {
+        this.selectOption({ text: "", value: this.emptyValue });
+      }
+      this.filterOptions();
+    },
     /** On value update handler.
      * This handler is called in two instaces. 
      * 1. When the user updates the searchQuery
