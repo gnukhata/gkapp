@@ -216,7 +216,7 @@
                       cols="4"
                       class="px-0 text-truncate text-right"
                       :title="`₹ ${item.netamt}`"
-                      :class="{'text-overline': item.onCreditFlag}"
+                      :class="{'text-overline-danger': item.onCreditFlag}"
                     >
                       <small>{{ '₹ ' + item.netamt }}</small>
                     </b-col>
@@ -895,8 +895,9 @@ export default {
 .data-list > div {
   padding: 0.75rem 1.25rem;
 }
-.text-overline {
-  text-decoration: overline
+.text-overline-danger {
+  text-decoration: overline;
+  text-decoration-color: #dc3545;
 }
 
 #add-item {
