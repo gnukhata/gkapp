@@ -751,13 +751,15 @@ export default {
         this.updateUrl();
       }
     },
+    /** Update the URL based on current entity selected */
     updateUrl() {
       let url = window.location.href.split('#')[0];
       let wfName = this.activeWorkflow.name;
       let key = this.options.tabs[wfName].uidKey;
       let wfId = this.selectedEntity ? this.selectedEntity[key] || -1 : -1;
       url += `#/workflow/${wfName}/${wfId}`;
-      history.replaceState(null, '', url);
+      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace, 
+                                           // instead of creating a new history instances for every entity selected
     },
     unsetSelectedEntity() {
       this.selectedEntity = null;

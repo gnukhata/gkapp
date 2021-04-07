@@ -75,7 +75,7 @@
                   Over</b-dropdown-item
                 >
               </template>
-              <b-dropdown-item to="/billwise"
+              <b-dropdown-item :to="{name: 'Billwise', params: {'custType': 3, 'custName': '-1'}}"
                 ><b-icon icon="clipboard"></b-icon> Adjust
                 Bills</b-dropdown-item
               >

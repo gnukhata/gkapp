@@ -100,9 +100,10 @@ const routes = [
     props: true
   },
   {
-    path: '/billwise',
+    path: '/billwise/:custType/:custName',
     name: 'Billwise',
     component: () => import(/* webpackChunkName: "invoice" */ '../views/Billwise.vue'),
+    props: true
   }
 ]
 

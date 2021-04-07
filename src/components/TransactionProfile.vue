@@ -37,13 +37,17 @@
       <b>Total in words: {{ invoice.total.text }}</b>
     </div>
     <div class="float-right my-2">
+      <b-button v-if="onCreditFlag" class="mr-2" size="sm" variant="success" :to="{name: 'Billwise', params: {custType: invoice.party.csflag, custName: invoice.party.name}}"
+        > <b-icon icon="clipboard-check"></b-icon> Adjust</b-button
+      >
       <b-button v-if="rectifyFlag" class="mr-2" size="sm" variant="warning" :to="{name: 'Invoice', params: {mode: 'edit', invid: invid}}"
-        > <b-icon icon="pencil"></b-icon> Rectify Invoice</b-button
+        > <b-icon icon="pencil"></b-icon> Rectify</b-button
       >
       <b-button v-if="cancelFlag" size="sm" variant="danger" @click="confirmOnCancel"
-        > <b-icon icon="x-octagon"></b-icon> Cancel Invoice</b-button
+        > <b-icon icon="x-octagon"></b-icon> Cancel</b-button
       >
     </div>
+    <div class="clearfix"></div>
   </b-container>
 </template>
 
@@ -86,7 +90,8 @@ export default {
       invoice: {
         date: "",
         party: {
-          name: "",
+          csflag: "3", // 3 -> customer, 19 -> supplier
+          name: " ",
           state: "",
           addr: "",
           pincodce: "",
@@ -149,6 +154,7 @@ export default {
             state: party.custsupstate,
             addr: party.custaddr,
             pincodce: party.pincode,
+            csflag: party.csflag
           },
           isSale: details.inoutflag === 15,
           invItems: [],

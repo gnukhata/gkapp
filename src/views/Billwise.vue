@@ -186,19 +186,31 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import Voucher from "../components/form/Voucher.vue";
-import { numberToRupees } from "../js/utils";
-import Autocomplete from "../components/Autocomplete.vue";
+import axios from 'axios';
+import { mapState } from 'vuex';
+import Voucher from '../components/form/Voucher.vue';
+import { numberToRupees } from '../js/utils';
+import Autocomplete from '../components/Autocomplete.vue';
 
 export default {
-  name: "Billwise",
+  name: 'Billwise',
   components: {
     Voucher,
     Autocomplete,
   },
-  props: {},
+  props: {
+    custType: {
+      type: [String, Number],
+      validator: function (value) {
+        return value == 3 || value == 19;
+      },
+      required: true,
+    },
+    custName: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       isLoading: false,
@@ -212,22 +224,22 @@ export default {
         voucherPriceMap: {},
         invFields: [
           {
-            key: "invoiceno",
-            label: "No",
+            key: 'invoiceno',
+            label: 'No',
           },
           {
-            key: "invoiceamount",
-            label: "Amount",
+            key: 'invoiceamount',
+            label: 'Amount',
           },
           {
-            key: "balanceamount",
-            label: "Pending",
+            key: 'balanceamount',
+            label: 'Pending',
           },
-          "adjusted",
+          'adjusted',
         ],
       },
       custid: null,
-      csflag: "3",
+      csflag: '3',
       vcode: null,
 
       form: {},
@@ -260,11 +272,11 @@ export default {
     custname: (self) => {
       let name = null;
       if (self.custid !== null && !isNaN(parseInt(self.custid))) {
-        if (self.csflag === "3" && self.options.customers.length) {
+        if (self.csflag === '3' && self.options.customers.length) {
           name = self.options.customers.find(
             (cust) => cust.custid === self.custid
           ).custname;
-        } else if (self.csflag === "19" && self.options.suppliers.length) {
+        } else if (self.csflag === '19' && self.options.suppliers.length) {
           name = self.options.suppliers.find(
             (cust) => cust.custid === self.custid
           ).custname;
@@ -289,7 +301,7 @@ export default {
         (sum, inv) => sum + !!parseInt(inv.adjusted),
         0
       );
-      let text = this.$createElement("div", {
+      let text = this.$createElement('div', {
         domProps: {
           innerHTML: `Adjust ${numberToRupees(this.totalAdjusted)} <b>(₹ ${
             this.totalAdjusted
@@ -298,11 +310,11 @@ export default {
       });
       this.$bvModal
         .msgBoxConfirm(text, {
-          size: "sm",
-          buttonSize: "sm",
-          okVariant: "success",
-          headerClass: "p-0 border-bottom-0",
-          footerClass: "border-top-0", // p-1
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
           // bodyClass: "p-2",
           centered: true,
         })
@@ -319,16 +331,16 @@ export default {
       // return;
       // console.log(payload);
       axios
-        .post("/billwise", payload)
+        .post('/billwise', payload)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
           switch (response.data.gkstatus) {
             case 0:
               this.displayToast(
-                "Bill Adjustment Success!",
-                "Selected Bills were successfully adjusted",
-                "success"
+                'Bill Adjustment Success!',
+                'Selected Bills were successfully adjusted',
+                'success'
               );
 
               this.fetchUnadjustedItems();
@@ -336,21 +348,21 @@ export default {
               break;
             case 2:
               this.displayToast(
-                "Bill Adjustment Error!",
-                "Unauthorized access, Please contact admin",
-                "warning"
+                'Bill Adjustment Error!',
+                'Unauthorized access, Please contact admin',
+                'warning'
               );
               break;
             default:
               this.displayToast(
-                "Bill Adjustment Error!",
-                "Unable to adjust the chosen bills, Please try again later. Contact admin if problem persists.",
-                "danger"
+                'Bill Adjustment Error!',
+                'Unable to adjust the chosen bills, Please try again later. Contact admin if problem persists.',
+                'danger'
               );
           } // end switch
         })
         .catch((error) => {
-          this.displayToast("Bill Adjustment Error!", error.message, "warning");
+          this.displayToast('Bill Adjustment Error!', error.message, 'warning');
           this.isLoading = false;
         });
     },
@@ -362,8 +374,8 @@ export default {
 
       this.options.invoices.forEach((inv) => {
         // console.log(inv);
-        inv.adjusted = parseFloat(inv.adjusted)
-        inv.balanceamount = parseFloat(inv.balanceamount)
+        inv.adjusted = parseFloat(inv.adjusted);
+        inv.balanceamount = parseFloat(inv.balanceamount);
         if (inv.adjusted > 0) {
           if (inv.adjusted > inv.balanceamount) {
             inv.adjusted = inv.balanceamount;
@@ -378,14 +390,15 @@ export default {
 
       return payload;
     },
-    /**Fetch Invoices that are still in credit for a given Customer/Supplier and 
+    /**Fetch Invoices that are still in credit for a given Customer/Supplier and
      * the list of vouchers that can adjust them */
     fetchUnadjustedItems() {
       // console.log(this.custid)
       this.options.vouchers = [];
       this.options.invoices = [];
-      this.vcode = "";
+      this.vcode = '';
       if (this.custid !== null && !isNaN(parseInt(this.custid))) {
+        this.updateUrl();
         return axios
           .get(`/billwise?csid=${this.custid}&csflag=${this.csflag}`)
           .then((resp) => {
@@ -408,17 +421,17 @@ export default {
               );
             } else {
               this.displayToast(
-                "Fetch Unadjusted Invoices and Vouchers Failed!",
-                "Please Try again later",
-                "warning"
+                'Fetch Unadjusted Invoices and Vouchers Failed!',
+                'Please Try again later',
+                'warning'
               );
             }
           })
           .catch((error) => {
             this.displayToast(
-              "Fetch Unadjusted Invoices and Vouchers Failed!",
+              'Fetch Unadjusted Invoices and Vouchers Failed!',
               error.message,
-              "danger"
+              'danger'
             );
             return error;
           });
@@ -429,19 +442,19 @@ export default {
     preloadData() {
       this.isPreloading = true;
       const requests = [
-        axios.get("/customersupplier?qty=custall").catch((error) => {
+        axios.get('/customersupplier?qty=custall').catch((error) => {
           this.displayToast(
-            "Fetch Customer List Failed!",
+            'Fetch Customer List Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
         }),
-        axios.get("/customersupplier?qty=supall").catch((error) => {
+        axios.get('/customersupplier?qty=supall').catch((error) => {
           this.displayToast(
-            "Fetch Supplier List Failed!",
+            'Fetch Supplier List Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
         }),
@@ -450,14 +463,14 @@ export default {
       const self = this;
       return Promise.all([...requests]).then(([resp1, resp2]) => {
         self.isPreloading = false;
-        let preloadErrorList = ""; // To handle the unloaded data, at once than individually
+        let preloadErrorList = ''; // To handle the unloaded data, at once than individually
 
         // === Customer List ===
         if (resp1.status === 200) {
           if (resp1.data.gkstatus === 0) {
             this.options.customers = resp1.data.gkresult;
           } else {
-            preloadErrorList += " Customer List, ";
+            preloadErrorList += ' Customer List, ';
           }
         }
 
@@ -466,18 +479,29 @@ export default {
           if (resp2.data.gkstatus === 0) {
             this.options.suppliers = resp2.data.gkresult;
           } else {
-            preloadErrorList += " Supplier List,";
+            preloadErrorList += ' Supplier List,';
           }
         }
 
-        if (preloadErrorList !== "") {
+        if (preloadErrorList !== '') {
           this.displayToast(
-            "Error: Unable to Preload Data",
+            'Error: Unable to Preload Data',
             `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
-            "danger"
+            'danger'
           );
         }
       });
+    },
+    /** Update the URL based on customer/supplier selected */
+    updateUrl() {
+      let url = window.location.href.split('#')[0];
+      let custType = this.csflag;
+      let party = this.currentPartyOptions.find(party => party.custid === this.custid)
+      let custName = (party) ? party.custname : '-1';
+      
+      url += `#/billwise/${custType}/${custName}`;
+      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
+      // instead of creating a new history instance every time a customer / supplier is selected
     },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
@@ -490,7 +514,15 @@ export default {
     },
   },
   mounted() {
-    this.preloadData();
+    this.csflag = this.custType;
+    this.preloadData().then(() => {
+      if (this.custName !== '-1') {
+        let party = this.currentPartyOptions.find(
+          (party) => party.custname === this.custName
+        );
+        this.custid = party ? party.custid : this.custid;
+      }
+    });
   },
 };
 </script>
