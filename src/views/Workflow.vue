@@ -872,7 +872,7 @@ export default {
                   {
                     icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
                     onCreditFlag: false,
-                    rectifyFlag: !item.billentryflag, // can be rectified or not
+                    rectifyFlag: false, // can be rectified or not
                     // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                     dateObj: Date.parse(
                       item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
@@ -893,7 +893,10 @@ export default {
               let index = '';
               resp5.data.invoices.forEach((inv) => {
                 index = invoiceMap[inv.invid];
-                if (index >= 0) data[index].onCreditFlag = true;
+                if (index >= 0) {
+                  data[index].onCreditFlag = true;
+                  data[index].rectifyFlag = (inv.balanceamount === inv.invoicetotal); // can be rectified or not
+                }
               });
             }
           } else {
