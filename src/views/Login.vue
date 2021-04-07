@@ -321,7 +321,7 @@ export default {
                 // Initiate axios defaults
                 axios.defaults.baseURL = this.gkCoreUrl;
                 axios.defaults.headers = { gktoken: response.data.token };
-                this.$router.push('/workflow');
+                this.$router.push('/workflow/Transactions/-1');
                 // Alert the user on successful login
                 this.$bvToast.toast(`Welcome to gnukhata!`, {
                   title: 'Login Successful',
@@ -433,7 +433,7 @@ export default {
     this.fetchOrgs();
     this.checkUrl();
     if (this.userAuthenticated) {
-      this.$router.push('/workflow');
+      this.$router.push('/workflow/Transactions/-1');
     }
   },
   computed: {

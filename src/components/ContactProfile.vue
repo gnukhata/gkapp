@@ -533,7 +533,7 @@ export default {
       }
       if(!gstinUpdated) {
           this.gstin.stateCode = this.options.stateMap[this.details.state] || ""
-          console.log(this.options.stateMap[this.details.state])
+          // console.log(this.options.stateMap[this.details.state])
           this.gstin.pan = this.details.custpan;
       }
     },

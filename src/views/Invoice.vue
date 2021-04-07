@@ -1282,7 +1282,7 @@
           class="m-1"
           size="sm"
           variant="danger"
-          :to="{ name: 'Workflow' }"
+          @click.prevent="$router.go(-1)"
         >
           <b-icon
             aria-hidden="true"

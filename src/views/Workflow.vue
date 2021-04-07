@@ -216,7 +216,7 @@
                       cols="4"
                       class="px-0 text-truncate text-right"
                       :title="`₹ ${item.netamt}`"
-                      :class="{'text-overline-danger': item.onCreditFlag}"
+                      :class="{ 'text-overline-danger': item.onCreditFlag }"
                     >
                       <small>{{ '₹ ' + item.netamt }}</small>
                     </b-col>
@@ -363,6 +363,24 @@ import TransactionProfile from '@/components/TransactionProfile.vue';
 export default {
   name: 'Workflow',
   components: { ContactProfile, BusinessProfile, TransactionProfile },
+  props: {
+    wfName: {
+      type: String,
+      validator: function (value) {
+        return (
+          ['Contacts', 'Business', 'Transactions', 'Reports'].indexOf(value) !==
+          -1
+        );
+      },
+      required: true,
+      default: 'Transactions',
+    },
+    wfId: {
+      type: [Number, String],
+      required: true,
+      default: null,
+    },
+  },
   data() {
     return {
       leftHeaderHeight: {
@@ -417,6 +435,7 @@ export default {
             color: 'primary',
             data: [],
             key: 'custname',
+            uidKey: 'custid',
             createNewPath: {
               name: 'Contact_Details',
               params: { mode: 'create' },
@@ -450,6 +469,7 @@ export default {
             color: 'warning',
             data: [],
             key: 'productdesc',
+            uidKey: 'productcode',
             createNewPath: {
               name: 'Business_Details',
               params: { mode: 'create' },
@@ -483,6 +503,7 @@ export default {
             color: 'success',
             data: [],
             key: 'custname',
+            uidKey: 'invid',
             createNewPath: {
               name: 'Invoice',
               params: {
@@ -540,6 +561,8 @@ export default {
             icon: 'journals',
             color: 'danger',
             data: [],
+            key: '',
+            uidKey: '',
             filterBy: {
               value: [],
               range: [],
@@ -703,7 +726,7 @@ export default {
      * Description: As the name suggests it stores the details about the active workflow.
      * Also initializes the filters and sorts, after that.
      */
-    setActiveWorkflow(index, name, icon) {
+    setActiveWorkflow(index, name, icon, skipUpdate) {
       this.activeWorkflow = {
         index,
         name,
@@ -713,12 +736,28 @@ export default {
       this.isFilterOpen = false;
       this.leftHeaderHeight.max = 0;
       this.resetFilter();
+      if (!skipUpdate) {
+        this.updateUrl();
+      }
     },
-    setSelectedEntity(entity, index) {
+    setSelectedEntity(entity, index, skipUpdate) {
       this.selectedEntity = entity;
       this.selectedEntityIndex = index;
-      this.$refs['col-left'].classList.remove('d-block');
-      this.$refs['col-right'].classList.add('d-block');
+      if (this.$refs['col-left'])
+        this.$refs['col-left'].classList.remove('d-block');
+      if (this.$refs['col-right'])
+        this.$refs['col-right'].classList.add('d-block');
+      if (!skipUpdate) {
+        this.updateUrl();
+      }
+    },
+    updateUrl() {
+      let url = window.location.href.split('#')[0];
+      let wfName = this.activeWorkflow.name;
+      let key = this.options.tabs[wfName].uidKey;
+      let wfId = this.selectedEntity ? this.selectedEntity[key] || -1 : -1;
+      url += `#/workflow/${wfName}/${wfId}`;
+      history.replaceState(null, '', url);
     },
     unsetSelectedEntity() {
       this.selectedEntity = null;
@@ -778,83 +817,90 @@ export default {
       ];
 
       const self = this;
-      Promise.all([...requests]).then(([resp1, resp2, resp3, resp4, resp5]) => {
-        self.isLoading = false;
+      return Promise.all([...requests]).then(
+        ([resp1, resp2, resp3, resp4, resp5]) => {
+          self.isLoading = false;
 
-        let contacts = [];
-        let invoiceMap = {};
+          let contacts = [];
+          let invoiceMap = {};
 
-        // Customer List
-        if (resp1.status === 200) {
-          contacts = resp1.data.gkresult.map((item) =>
-            Object.assign({ csflag: true, icon: 'person-fill' }, item)
-          );
-        } else {
-          console.log(resp1.message);
-        }
-
-        // Supplier List
-        if (resp2.status === 200) {
-          contacts.push(
-            ...resp2.data.gkresult.map((item) =>
-              Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)
-            )
-          );
-          self.options.tabs['Contacts'].data = self.sortData(
-            contacts,
-            'asc',
-            'custid'
-          );
-        } else {
-          console.log(resp2.message);
-        }
-
-        // Products & Services List
-        if (resp3.status === 200) {
-          self.options.tabs['Business'].data = resp3.data.gkresult.map((item) =>
-            Object.assign({ icon: item.gsflag === 7 ? 'box' : 'headset' }, item)
-          );
-        } else {
-          console.log(resp3.message);
-        }
-
-        // Invoices
-        if (resp4.status === 200) {
-          self.options.tabs['Transactions'].data = resp4.data.gkresult.map(
-            (item, index) => {
-              invoiceMap[item.invid] = index;
-              return Object.assign(
-                {
-                  icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                  onCreditFlag: false,
-                  rectifyFlag: !item.billentryflag, // can be rectified or not
-                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                  dateObj: Date.parse(
-                    item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                  ),
-                },
-                item
-              );
-            }
-          );
-        } else {
-          console.log(resp4.message);
-        }
-
-        // Invoice in credit
-        if (resp5.status === 200) {
-          let data = self.options.tabs['Transactions'].data;
-          if (resp5.data.gkstatus === 0 && data.length) {
-            let index = '';
-            resp5.data.invoices.forEach((inv) => {
-              index = invoiceMap[inv.invid];
-              if (index >= 0) data[index].onCreditFlag = true;
-            });
+          // Customer List
+          if (resp1.status === 200) {
+            contacts = resp1.data.gkresult.map((item) =>
+              Object.assign({ csflag: true, icon: 'person-fill' }, item)
+            );
+          } else {
+            console.log(resp1.message);
           }
-        } else {
-          console.log(resp5.message);
+
+          // Supplier List
+          if (resp2.status === 200) {
+            contacts.push(
+              ...resp2.data.gkresult.map((item) =>
+                Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)
+              )
+            );
+            self.options.tabs['Contacts'].data = self.sortData(
+              contacts,
+              'asc',
+              'custid'
+            );
+          } else {
+            console.log(resp2.message);
+          }
+
+          // Products & Services List
+          if (resp3.status === 200) {
+            self.options.tabs[
+              'Business'
+            ].data = resp3.data.gkresult.map((item) =>
+              Object.assign(
+                { icon: item.gsflag === 7 ? 'box' : 'headset' },
+                item
+              )
+            );
+          } else {
+            console.log(resp3.message);
+          }
+
+          // Invoices
+          if (resp4.status === 200) {
+            self.options.tabs['Transactions'].data = resp4.data.gkresult.map(
+              (item, index) => {
+                invoiceMap[item.invid] = index;
+                return Object.assign(
+                  {
+                    icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                    onCreditFlag: false,
+                    rectifyFlag: !item.billentryflag, // can be rectified or not
+                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                    dateObj: Date.parse(
+                      item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                    ),
+                  },
+                  item
+                );
+              }
+            );
+          } else {
+            console.log(resp4.message);
+          }
+
+          // Invoice in credit
+          if (resp5.status === 200) {
+            let data = self.options.tabs['Transactions'].data;
+            if (resp5.data.gkstatus === 0 && data.length) {
+              let index = '';
+              resp5.data.invoices.forEach((inv) => {
+                index = invoiceMap[inv.invid];
+                if (index >= 0) data[index].onCreditFlag = true;
+              });
+            }
+          } else {
+            console.log(resp5.message);
+          }
         }
-      });
+      );
     },
     // fetch products & services list
     psList() {
@@ -884,7 +930,21 @@ export default {
     // this.loadList('custall')
     // this.loadList('supall')
     // this.psList()
-    this.loadList();
+    let self = this;
+    this.loadList().then(() => {
+      let tab = self.options.tabs[self.wfName];
+      let index = Object.keys(self.options.tabs).indexOf(self.wfName);
+      let icon = tab.icon;
+      self.setActiveWorkflow(index, this.wfName, icon, true);
+      if (self.wfId) {
+        let wfId = parseInt(self.wfId);
+        let key = tab.uidKey;
+        let entityIndex = tab.data.findIndex((item) => item[key] === wfId);
+        if (entityIndex >= 0) {
+          self.setSelectedEntity(tab.data[entityIndex], entityIndex, true);
+        }
+      }
+    });
   },
 };
 </script>
@@ -903,7 +963,6 @@ export default {
 #add-item {
   opacity: 0.55;
 }
-
 
 #add-item:hover {
   opacity: 1;
