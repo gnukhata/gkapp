@@ -350,6 +350,9 @@ export default {
         checksum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
         pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
       },
+      options: {
+        gstAccounts: [],
+      },
     };
   },
   computed: {
@@ -430,6 +433,111 @@ export default {
           this.loading = false;
         });
     },
+    /** Get GST accounts and update the CESS fields */
+    getCessDetails() {
+      axios
+        .get('/organisation?getgstaccounts')
+        .then((res) => {
+          if (res.data.gkstatus === 0) {
+            let cess = {};
+            let percent;
+            this.options.gstAccounts = res.data.accounts;
+            res.data.accounts.forEach((account) => {
+              if (account.includes('CESSIN_')) {
+                percent = account.split('@')[1].split('%')[0];
+                cess[percent] = true;
+              }
+            });
+            Object.assign(this.cess, cess);
+            this.$forceUpdate();
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            title: 'Error',
+            variant: 'danger',
+            solid: true,
+          });
+        });
+    },
+    /** Gets all the meta data required from the server for creating CESS accounts */
+    getAccountsMetaData() {
+      let requests = [];
+
+      return axios.get('/organisation?getgstgroupcode').then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          let groupCode = resp.data.groupcode,
+            subGroupCode = resp.data.subgroupcode;
+          let stateCodes = Object.keys(this.gstin);
+
+          stateCodes.forEach((code) => {
+            requests.push(axios.get(`/state?abbreviation&statecode=${code}`));
+          });
+          return Promise.all([...requests])
+            .then((res) => {
+              let taxStates = res.map((r) => r.data.abbreviation);
+              if (subGroupCode === 'New') {
+                return axios
+                  .post('/groupsubgroups', {
+                    groupname: 'Duties & Taxes',
+                    subgroupof: groupCode,
+                  })
+                  .then((res2) => {
+                    let data = JSON.parse(res2.data);
+                    if (data.gkstatus === 0) {
+                      return {
+                        taxStates,
+                        groupcode: data.gkresult,
+                      };
+                    } else {
+                      return false;
+                    }
+                  })
+                  .catch((e) => e);
+              }
+              return {
+                taxStates,
+                groupcode: subGroupCode === 'None' ? groupCode : subGroupCode,
+              };
+            })
+            .catch((e) => e);
+        }
+      });
+    },
+    /**Create / Update the CESS accounts, based on the CESS rates and the states in GSTIN list */
+    updateCessAccounts() {
+      let cess = Object.keys(this.cess);
+      let saveAccount = function (payload) {
+        axios.post('/accounts', payload);
+      };
+
+      // let editAccount = function () {};
+      let self = this;
+      this.getAccountsMetaData().then((meta) => {
+        let acc = {
+          accountname: '',
+          groupcode: meta.groupcode,
+          openingbal: '0.00',
+          sysaccount: 1,
+        };
+        cess.forEach((rate) => {
+          meta.taxStates.forEach((taxState) => {
+            acc.accountname = `CESSIN_${taxState}@${rate}%`;
+            if (self.options.gstAccounts.indexOf(acc.accountname) < 0) {
+              saveAccount(acc);
+            } else {
+              // call edit
+            }
+            acc.accountname = `CESSOUT_${taxState}@${rate}%`;
+            if (self.options.gstAccounts.indexOf(acc.accountname) < 0) {
+              saveAccount(acc);
+            } else {
+              // call edit
+            }
+          });
+        });
+      });
+    },
     /**
      * Update organisation details
      */
@@ -457,6 +565,7 @@ export default {
           switch (res.data.gkstatus) {
             case 0:
               this.loading = false;
+              this.updateCessAccounts();
               this.$bvToast.toast(
                 `${this.details.orgname} Profile Details Updated`,
                 {
@@ -550,7 +659,8 @@ export default {
     },
     addCess() {
       if (this.newCess > 0) {
-        this.cess[parseFloat(this.newCess).toFixed(2)] = true;
+        let percent = parseFloat(parseFloat(this.newCess).toFixed(2));
+        this.cess[percent] = true;
         this.$forceUpdate();
       }
     },
@@ -581,7 +691,11 @@ export default {
     },
   },
   mounted() {
-    Promise.all([this.getStates(), this.getDetails()]).then(() => {
+    Promise.all([
+      this.getStates(),
+      this.getDetails(),
+      this.getCessDetails(),
+    ]).then(() => {
       if (this.details.orgstate && this.states.length) {
         let state = this.states.find(
           (state) => state.text === this.details.orgstate
