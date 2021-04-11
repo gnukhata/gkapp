@@ -200,15 +200,27 @@
               <b>
                 {{ cessAmount }}
               </b>
-              <b-button class="p-0 px-1" variant="link"
+              <b-button
+                v-b-modal.cess
+                @click="onCessEdit(cessAmount)"
+                class="mx-2"
+                size="sm"
+                variant="warning"
                 ><b-icon font-scale="0.95" icon="pencil"></b-icon
               ></b-button>
+              <b-button
+                class=""
+                size="sm"
+                variant="danger"
+                @click="deleteCess(cessAmount)"
+                >-</b-button
+              >
             </div>
             <b-button
               v-b-modal.cess
               variant="dark"
               class="p-0 px-1 float-left"
-              @click="newCess = 0"
+              @click="onCessAdd"
             >
               <b-icon icon="plus"></b-icon>CESS
             </b-button>
@@ -294,13 +306,13 @@
       ok-title="Add"
       ok-variant="success"
       title="Add CESS"
-      @ok="addCess"
+      @ok="onCessModalOk"
     >
       <b-form>
         <b-form-group label="CESS" label-cols="auto">
           <b-input-group append="%">
             <b-form-input
-              v-model="newCess"
+              v-model="cessModal.rate"
               style="max-width: 5em"
               type="number"
               step="0.01"
@@ -318,9 +330,9 @@
           size="sm"
           variant="success"
           @click="ok()"
-          :disabled="!(newCess > 0)"
+          :disabled="!(cessModal.rate > 0)"
         >
-          OK
+          {{ cessModal.mode === 'create' ? 'Add' : 'Update' }}
         </b-button>
       </template>
     </b-modal>
@@ -344,11 +356,17 @@ export default {
         stateCode: null,
         checksum: '',
       },
-      newCess: 0,
       stateCode: '',
       regex: {
         checksum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
         pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
+      },
+      cessModal: {
+        rate: 0,
+        mode: 'create',
+        inEdit: null,
+        toBeEdited: {},
+        toBeDeleted: {},
       },
       options: {
         gstAccounts: [],
@@ -493,14 +511,14 @@ export default {
                       return false;
                     }
                   })
-                  .catch((e) => e);
+                  .catch(() => false);
               }
               return {
                 taxStates,
                 groupcode: subGroupCode === 'None' ? groupCode : subGroupCode,
               };
             })
-            .catch((e) => e);
+            .catch(() => false);
         }
       });
     },
@@ -513,7 +531,10 @@ export default {
 
       // let editAccount = function () {};
       let self = this;
-      this.getAccountsMetaData().then((meta) => {
+      return this.getAccountsMetaData().then((meta) => {
+        if (!meta) {
+          return;
+        }
         let acc = {
           accountname: '',
           groupcode: meta.groupcode,
@@ -535,6 +556,112 @@ export default {
               // call edit
             }
           });
+        });
+        return this.deleteCessAccounts();
+      });
+    },
+    deleteCessAccounts() {
+      let cess = Object.keys(this.cessModal.toBeDeleted);
+      let states = this.options.gstAccounts
+        .filter((acc) => {
+          let rate =
+            acc.indexOf('@') >= 0 ? acc.split('@')[1].split('%')[0] : '';
+          return cess.indexOf(rate) >= 0;
+        })
+        .map((acc) =>
+          acc.indexOf('CESSIN') >= 0
+            ? acc.split('@')[0].split('CESSIN_')[1]
+            : acc.split('@')[0].split('CESSOUT_')[1]
+        );
+      let temp = {};
+      states.forEach((state) => {
+        temp[state] = true;
+      });
+      states = Object.keys(temp);
+      let toDelete = [];
+      let accounts = [];
+      cess.forEach((rate) => {
+        states.forEach((taxState) => {
+          if (this.options.gstAccounts.indexOf(`CESSIN_${taxState}@${rate}%`)) {
+            toDelete.push(
+              axios.get(
+                `/accounts?type=getAccCode&accountname=CESSIN_${taxState}@${rate}%`
+              )
+            );
+            accounts.push(`CESSIN_${taxState}@${rate}%`);
+          }
+          if (
+            this.options.gstAccounts.indexOf(`CESSOUT_${taxState}@${rate}%`)
+          ) {
+            toDelete.push(
+              axios.get(
+                `/accounts?type=getAccCode&accountname=CESSOUT_${taxState}@${rate}%`
+              )
+            );
+            accounts.push(`CESSOUT_${taxState}@${rate}%`);
+          }
+        });
+      });
+
+      return Promise.all([...toDelete]).then((accCodes) => {
+        // debugger;
+        let deletedCess = '',
+          failedCess = '',
+          error = '';
+        let deleteCalls = accCodes.map((accCode) => {
+          // debugger;
+          return axios.delete(`/accounts`, {
+            data: { accountcode: accCode.data.accountcode },
+          });
+        });
+        return Promise.all([...deleteCalls]).then((delAccounts) => {
+          // debugger;
+          delAccounts.forEach((delAccount, i) => {
+            switch (delAccount.data.gkstatus) {
+              case 0:
+                deletedCess += `${accounts[i]} `;
+                break;
+              case 2:
+                error = 'Unauthorized Access, Please contact Admin.';
+                break;
+              case 3:
+                error = 'Internal Server Error, Please contact Admin.';
+                break;
+              case 4:
+                error = 'Bad Privilege, Only Admin can delete CESS accounts.';
+                break;
+              case 5:
+                failedCess += `${accounts[i]}`;
+                break;
+            }
+          });
+          if (deletedCess) {
+            this.$bvToast.toast(
+              `${deletedCess} accounts were successfully deleted`,
+              {
+                title: 'CESS accounts deleted successfully',
+                variant: 'success',
+                solid: true,
+              }
+            );
+          }
+          if (failedCess) {
+            this.$bvToast.toast(
+              `${failedCess} accounts were not deleted to avoid integrity issues.`,
+              {
+                title: 'CESS accounts delete failure',
+                variant: 'warning',
+                solid: true,
+              }
+            );
+          }
+          if (!(deletedCess || failedCess) && error) {
+            this.$bvToast.toast(error, {
+              title: 'CESS accounts delete failure',
+              variant: 'danger',
+              solid: true,
+            });
+          }
         });
       });
     },
@@ -565,7 +692,9 @@ export default {
           switch (res.data.gkstatus) {
             case 0:
               this.loading = false;
-              this.updateCessAccounts();
+              this.updateCessAccounts().then(() => {
+                this.init();
+              });
               this.$bvToast.toast(
                 `${this.details.orgname} Profile Details Updated`,
                 {
@@ -658,9 +787,16 @@ export default {
       }
     },
     addCess() {
-      if (this.newCess > 0) {
-        let percent = parseFloat(parseFloat(this.newCess).toFixed(2));
-        this.cess[percent] = true;
+      if (this.cessModal.rate > 0) {
+        let rate = parseFloat(parseFloat(this.cessModal.rate).toFixed(2));
+        this.cess[rate] = true;
+        this.$forceUpdate();
+      }
+    },
+    deleteCess(rate) {
+      if (this.cess[rate]) {
+        this.cessModal.toBeDeleted[rate] = true;
+        delete this.cess[rate];
         this.$forceUpdate();
       }
     },
@@ -689,13 +825,34 @@ export default {
           console.log('failed to get states', e.message);
         });
     },
+    onCessModalOk() {
+      if (this.cessModal.mode === 'create') {
+        this.addCess();
+      } else {
+        // delete the old tax rate accounts and create new tax rate accounts
+        // debugger;
+      }
+    },
+    onCessAdd() {
+      this.cessModal.mode = 'create';
+      this.cessModal.rate = 0;
+      this.cessModal.inEdit = null;
+    },
+    onCessEdit(cessRate) {
+      this.cessModal.mode = 'edit';
+      this.cessModal.rate = cessRate;
+      this.cessModal.inEdit = cessRate;
+    },
+    init() {
+      return Promise.all([
+        this.getStates(),
+        this.getDetails(),
+        this.getCessDetails(),
+      ]);
+    },
   },
   mounted() {
-    Promise.all([
-      this.getStates(),
-      this.getDetails(),
-      this.getCessDetails(),
-    ]).then(() => {
+    this.init().then(() => {
       if (this.details.orgstate && this.states.length) {
         let state = this.states.find(
           (state) => state.text === this.details.orgstate
