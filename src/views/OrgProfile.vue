@@ -168,11 +168,11 @@
             <b-form-input v-model="details.orgstax" type="text"></b-form-input>
           </b-form-group>
 
-          <b-form-group label="GSTIN" label-cols="4">
+          <b-form-group label="GSTIN" label-cols="auto" label-cols-sm="4">
             <div
               v-for="(gst, sc, index) in gstin"
               :key="index"
-              class="mb-2 d-flex align-items-center"
+              class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
             >
               <b>
                 {{ gst }}
@@ -190,7 +190,7 @@
             <b-button
               v-b-modal.gstin
               variant="dark"
-              class="p-0 px-1 float-left"
+              class="p-0 px-1 float-right float-sm-left"
               @click="onGstinAdd"
             >
               <b-icon icon="plus"></b-icon>GSTIN
@@ -200,9 +200,9 @@
             <div
               v-for="(value, cessAmount, index) in cess"
               :key="index"
-              class="mb-2 d-flex align-items-center"
+              class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
             >
-              <b>
+              <b :style="{width: '25px'}">
                 {{ cessAmount }}
               </b>
               <b-button
@@ -224,7 +224,7 @@
             <b-button
               v-b-modal.cess
               variant="dark"
-              class="p-0 px-1 float-left"
+              class="p-0 px-1 float-right float-sm-left"
               @click="onCessAdd"
             >
               <b-icon icon="plus"></b-icon>CESS
