@@ -14,13 +14,21 @@
     </b-alert>
     <div class="text-center">
       <span class="d-inline-block">
-        <b-form-select @change="initForm()" v-model="formMode" plain class="border-0 p-2 text-dark" :style="{'font-size': '1.5em'}">
-          <b-form-select-option value="create">Create Invoice</b-form-select-option>
+        <b-form-select
+          @change="initForm()"
+          v-model="formMode"
+          plain
+          class="border-0 p-2 text-dark"
+          :style="{ 'font-size': '1.5em' }"
+        >
+          <b-form-select-option value="create"
+            >Create Invoice</b-form-select-option
+          >
           <b-form-select-option value="edit">Edit Invoice</b-form-select-option>
         </b-form-select>
       </span>
     </div>
-    <hr class="mb-2 mt-0">
+    <hr class="mb-2 mt-0" />
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.inv.type"
@@ -34,8 +42,17 @@
         <b-form-radio value="sale">Sale</b-form-radio>
         <b-form-radio value="purchase">Purchase</b-form-radio>
       </b-form-radio-group>
-      <span id="edit-invoice-list" class="d-inline-block" v-if="formMode === 'edit'">
-        <b-form-select size="sm" v-model="invoiceId" :options="options.editableInvoices[form.inv.type]" @change="initForm()"></b-form-select>
+      <span
+        id="edit-invoice-list"
+        class="d-inline-block"
+        v-if="formMode === 'edit'"
+      >
+        <b-form-select
+          size="sm"
+          v-model="invoiceId"
+          :options="options.editableInvoices[form.inv.type]"
+          @change="initForm()"
+        ></b-form-select>
       </span>
       <span class="float-right">
         <config
@@ -58,7 +75,12 @@
           border-variant="secondary"
           no-body
         >
-          <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+          <b-overlay
+            :show="isPreloading || form.party.loading"
+            variant="secondary"
+            no-wrap
+            blur
+          >
           </b-overlay>
           <div class="p-2 p-md-3">
             <div>
@@ -104,10 +126,22 @@
                       class="py-0 ml-3"
                       variant="success"
                       size="sm"
+                      title="Add Contact"
                       >+</b-button
                     >
+                    <b-button
+                      v-if="form.party.name"
+                      class="py-0 ml-2"
+                      variant="warning"
+                      size="sm"
+                      @click.prevent="initPartyEdit"
+                      :disabled="form.party.editFlag"
+                      title="Edit Contact"
+                      ><b-icon font-scale="0.95" icon="pencil"></b-icon
+                    ></b-button>
                   </b-form-group>
                 </b-col>
+
                 <b-col cols="12" v-if="config.party.name">
                   <b-form-group
                     label="Name"
@@ -127,6 +161,7 @@
                       @input="onPartyNameSelect(form.party.name)"
                       required
                       valueUid="id"
+                      :readonly="form.party.editFlag"
                     >
                     </autocomplete>
                   </b-form-group>
@@ -144,7 +179,7 @@
                       v-model="form.party.addr"
                       rows="2"
                       trim
-                      readonly
+                      :readonly="!form.party.editFlag"
                       tabindex="-1"
                     ></b-form-textarea>
                   </b-form-group>
@@ -161,8 +196,24 @@
                       id="input-11"
                       v-model="form.party.pin"
                       trim
-                      readonly
+                      :readonly="!form.party.editFlag"
                       tabindex="-1"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col cols="12" v-if="form.party.editFlag">
+                  <b-form-group
+                    label="PAN"
+                    label-for="input-12-1"
+                    label-size="sm"
+                    label-cols="3"
+                  >
+                    <b-form-input
+                      size="sm"
+                      id="input-12-1"
+                      v-model="form.party.pan"
+                      trim
+                      :disabled="!form.party.editFlag"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -177,9 +228,14 @@
                       size="sm"
                       id="input-12"
                       v-model="form.party.state"
-                      :options="form.party.options.states"
+                      :options="
+                        !form.party.editFlag
+                          ? form.party.options.states
+                          : options.states
+                      "
                       @input="setPartyGst()"
                       trim
+                      :disabled="!form.party.editFlag"
                     ></b-form-select>
                   </b-form-group>
                 </b-col>
@@ -191,13 +247,36 @@
                     label-size="sm"
                   >
                     <b-form-input
+                      v-if="!form.party.editFlag"
                       size="sm"
                       id="input-13"
                       v-model="form.party.gstin"
                       trim
-                      readonly
+                      :readonly="!form.party.editFlag"
                       tabindex="-1"
                     ></b-form-input>
+                    <div v-else class="d-flex">
+                      <b-form-input
+                        v-model="form.party.state.id"
+                        type="text"
+                        disabled
+                        style="max-width: 2.5em"
+                        class="px-1 text-center"
+                      ></b-form-input>
+                      <b-form-input
+                        v-model="form.party.pan"
+                        type="text"
+                        class="ml-1 mr-1 px-1 text-center"
+                        disabled
+                      ></b-form-input>
+                      <b-form-input
+                        type="text"
+                        title="Format: [Number] [Alphabet] [Number / Alphabet]"
+                        v-model="form.party.checksum"
+                        style="max-width: 3em"
+                        class="px-1 text-center"
+                      ></b-form-input>
+                    </div>
                   </b-form-group>
                 </b-col>
                 <b-col v-else-if="config.party.tin" cols="12">
@@ -212,10 +291,37 @@
                       id="input-13"
                       v-model="form.party.tin"
                       trim
-                      readonly
+                      :readonly="!form.party.editFlag"
                       tabindex="-1"
                     ></b-form-input>
                   </b-form-group>
+                </b-col>
+                <b-col cols="12" v-if="form.party.editFlag">
+                  <b-button
+                    @click.prevent="onPartyEdit(false)"
+                    variant="danger"
+                    size="sm"
+                    class="mr-1"
+                  >
+                    <b-icon
+                      aria-hidden="true"
+                      class="align-middle"
+                      icon="x-circle"
+                    ></b-icon
+                    ><span class="align-middle"> Cancel</span></b-button
+                  >
+                  <b-button
+                    @click.prevent="onPartyEdit(true)"
+                    variant="success"
+                    size="sm"
+                  >
+                    <b-icon
+                      aria-hidden="true"
+                      class="align-middle"
+                      icon="cloud-arrow-up"
+                    ></b-icon>
+                    <span class="align-middle"> Save Changes</span>
+                  </b-button>
                 </b-col>
               </b-row>
             </div>
@@ -1443,8 +1549,8 @@ export default {
   data() {
     return {
       // config: {},
-      formMode: "",
-      invoiceId: "",
+      formMode: '',
+      invoiceId: '',
       form: {
         inv: {
           type: 'sale', // purchase
@@ -1471,6 +1577,16 @@ export default {
           gstin: null,
           tin: null,
           pin: null,
+          pan: '',
+          checksum: '',
+          editFlag: false,
+          loading: false,
+          editMode: {
+            addr: null,
+            state: {},
+            gstin: null,
+            pin: null,
+          },
         },
         ship: {
           copyFlag: true,
@@ -1545,8 +1661,8 @@ export default {
         bill: [],
         editableInvoices: {
           purchase: [],
-          sale: []
-        }
+          sale: [],
+        },
       },
       isCollapsed: {
         billedTo: false,
@@ -1556,8 +1672,8 @@ export default {
         transport: false,
         comments: false,
       },
-      editFlag: null, // A flag used to skip fetchProductDetails() method call, 
-                      // when the bill table is populated when the page loads in edit mode
+      editFlag: null, // A flag used to skip fetchProductDetails() method call,
+      // when the bill table is populated when the page loads in edit mode
     };
   },
   computed: {
@@ -1951,8 +2067,10 @@ export default {
                     gstin: resp.data.gkresult.gstin,
                   },
                   state: states[0].value,
+                  pan: resp.data.gkresult.custpan,
+                  checksum: '',
                   pin: resp.data.gkresult.pincode,
-                  gstin: null,
+                  gstin: '',
                   tin: resp.data.gkresult.custtan || null,
                 });
                 setTimeout(() => {
@@ -2394,6 +2512,9 @@ export default {
       if (this.form.party.options.gstin && this.form.party.state) {
         this.form.party.gstin =
           this.form.party.options.gstin[this.form.party.state.id] || null;
+        if(this.form.party.gstin) {
+          this.form.party.checksum = this.form.party.gstin.substr(12, 3);
+        }
       }
     },
     setShippingDetails() {
@@ -2438,8 +2559,10 @@ export default {
           gstin: null,
         },
         state: {},
-        pin: null,
-        gstin: null,
+        pin: '',
+        gstin: '',
+        checksum: '',
+        editFlag: false,
       });
       this.setShippingDetails();
     },
@@ -2460,8 +2583,8 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-      const method = this.formMode === "create" ? 'post' : 'put';
-      const actionText = this.formMode === "create" ? 'Create' : 'Edit';
+      const method = this.formMode === 'create' ? 'post' : 'put';
+      const actionText = this.formMode === 'create' ? 'Create' : 'Edit';
       axios({ method: method, url: '/invoice', data: payload })
         .then((resp) => {
           self.isLoading = false;
@@ -2479,7 +2602,7 @@ export default {
                   }`,
                   'success'
                 );
-                if (this.formMode === "create") {
+                if (this.formMode === 'create') {
                   this.resetForm();
                 }
                 break;
@@ -2702,7 +2825,7 @@ export default {
         invoice.dateofsupply = this.form.transport.date;
       }
 
-      if (this.formMode === "edit") {
+      if (this.formMode === 'edit') {
         const av = Object.assign({}, invoice.av);
         invoice.invid = parseInt(this.invoiceId);
 
@@ -2743,6 +2866,8 @@ export default {
           gstin: null,
           tin: null,
           pin: null,
+          editFlag: false,
+          loading: false,
         },
         ship: {
           copyFlag: true,
@@ -2793,18 +2918,57 @@ export default {
       this.fetchUserData();
       this.setOrgDetails();
     },
+    initPartyEdit() {
+      this.form.party.editFlag = true;
+      this.form.party.editMode = {
+        addr: this.form.party.addr,
+        state: this.form.party.state,
+        gstin: this.form.party.gstin,
+        pin: this.form.party.pin,
+      };
+    },
+    onPartyEdit(edited) {
+      if (edited) {
+        this.form.party.loading = true;
+        let payload = {
+          csflag: this.form.party.type === 'customer' ? 3 : 19,
+          custaddr: this.form.party.addr,
+          custid: this.form.party.name.id,
+          custname: this.form.party.name.name,
+          pincode: this.form.party.pin,
+          state: this.form.party.state.name,
+          custpan: this.form.party.pan
+        };
+        if(this.form.party.pan.length === 10 && this.form.party.checksum.length === 3) {
+          payload.gstin = {}
+          payload.gstin[this.form.party.state.id] = `${this.form.party.state.id}${this.form.party.pan}${this.form.party.checksum}`;
+        }
+        axios.put('customersupplier', payload).then(() => {
+          this.form.party.loading = false;
+          this.onPartyNameSelect(this.form.party.name);
+        });
+      } else {
+        this.form.party.addr = this.form.party.editMode.addr;
+        this.form.party.state = this.form.party.editMode.state;
+        this.form.party.gstin = this.form.party.editMode.gstin;
+        this.form.party.pin = this.form.party.editMode.pin;
+      }
+      this.form.party.editFlag = false;
+    },
     fetchEditableInvoices() {
       const invtype = this.isSale ? 15 : 9;
       axios
         .get(`/invoice?type=rectifyinvlist&invtype=${invtype}`)
         .then((resp) => {
-          if(resp.data.gkstatus === 0) {
-            this.options.editableInvoices[this.form.inv.type] = resp.data.invoices.map((inv => {
+          if (resp.data.gkstatus === 0) {
+            this.options.editableInvoices[
+              this.form.inv.type
+            ] = resp.data.invoices.map((inv) => {
               return {
                 text: `${inv.invoiceno}, ${inv.invoicedate}, ${inv.custname}`,
-                value: inv.invid
-              }
-            }));
+                value: inv.invid,
+              };
+            });
           }
         })
         .catch((error) => {
@@ -2838,7 +3002,7 @@ export default {
           }
         });
       });
-    }
+    },
   },
   beforeMount() {
     // Dynamically load the config to Vuex, just before the Invoice component is mounted
@@ -2849,7 +3013,7 @@ export default {
     // Using non props to store these props, as these can be edited in the future
     this.formMode = this.mode;
     this.invoiceId = this.invid;
-    this.initForm()
+    this.initForm();
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
@@ -2860,9 +3024,9 @@ export default {
 </script>
 
 <style scoped>
-  @media only screen and (max-width: 450px){
-    #edit-invoice-list{
-      max-width: 150px;
-    }
+@media only screen and (max-width: 450px) {
+  #edit-invoice-list {
+    max-width: 150px;
   }
+}
 </style>
