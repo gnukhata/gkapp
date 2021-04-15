@@ -253,9 +253,9 @@ export default {
         stateMap: {},
       },
       gstin: {
-        stateCode: null,
-        pan: null,
-        checksum: null,
+        stateCode: '',
+        pan: '',
+        checksum: '',
       },
       regex: {
         checksum: new RegExp("[0-9]{1}[A-Z]{1}[0-9A-Z]{1}"),
