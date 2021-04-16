@@ -14,8 +14,12 @@
       </template>
       <b-card-body>
         <b-form @submit.prevent="setServerUrl" class="text-center">
-          <b-button variant="primary" type="submit">
-            <b-icon @click="setServerUrl" icon="arrow-right-circle"></b-icon>
+          <b-button
+            @click.prevent="setDefaultServer"
+            variant="primary"
+            type="submit"
+          >
+            <b-icon icon="arrow-right-circle"></b-icon>
             Continue with Default Server
           </b-button>
           <div class="mt-2 mb-2"><b>OR</b></div>
@@ -50,9 +54,9 @@
       header-text-variant="light"
     >
       <b-alert show variant="info">
-        Demo Username: <b>user_a</b> <br />
-        Password: <b>user_a</b> <br />
-        Organisation: <b>ABC Delivery</b></b-alert
+        Demo Username: <b>admin</b> <br />
+        Password: <b>admin</b> <br />
+        Organisation: <b>WALLMART</b></b-alert
       >
       <b-card-body>
         <b-form @submit.prevent="login">
@@ -191,7 +195,6 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Captcha from '../components/Captcha.vue';
-
 export default {
   name: 'login',
   components: { Captcha },
@@ -229,56 +232,70 @@ export default {
         this.showLogin = true;
       }
     },
+    setDefaultServer() {
+      // If you want to change this value, Set environment variable VUE_APP_GKCORE_URL (only updates during build)
+      const defaultGkCoreUrl =
+        process.env.VUE_APP_GKCORE_URL !== undefined
+          ? process.env.VUE_APP_GKCORE_URL
+          : 'http://localhost:6543';
+      axios
+        .get(defaultGkCoreUrl)
+        .then((res) => {
+          if (res.status == 200 && res.data.gkstatus == 0) {
+            this.$store.commit('setGkCoreUrl', {
+              gkCoreUrl: defaultGkCoreUrl,
+            });
+            this.showLogin = true;
+            this.fetchOrgs();
+          } else {
+            this.$bvToast.toast('Please check your server setup', {
+              title: 'Unable to Connect To The Server :-(',
+              variant: 'danger',
+              solid: true,
+            });
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(
+            'Please check if gkcore is properly setup & running on port 6543',
+            {
+              title: e.message,
+              solid: true,
+              variant: 'danger',
+            }
+          );
+        });
+    },
     /**
      * Validate given server URL
      */
     setServerUrl() {
-      // Check if gkcore is running locally
-      if (this.serverUrl === '') {
-        console.log('checking local server');
-        axios
-          .get(`https://satheerthan.site:6543/state`)
-          .then((res) => {
-            if (res.status == 200 && res.data.gkstatus == 0) {
-              this.$store.commit('setGkCoreUrl', {
-                gkCoreUrl: 'https://satheerthan.site:6543',
-              });
-              this.showLogin = true;
-              this.fetchOrgs();
-            }
-          })
-          .catch((e) => {
-            this.$bvToast.toast(
-              'Please check if gkcore is properly setup & running on port 6543',
-              {
-                title: e,
-                solid: true,
-                variant: 'danger',
-              }
-            );
-          });
-      } else {
-        // Check if it's a valid gkcore url
-        console.log('checking custom url ', this.serverUrl);
-        axios
-          .get(`${this.serverUrl}/state`)
-          .then((res) => {
-            if (res.status == 200 && res.data.gkstatus == 0) {
-              this.$store.commit('setGkCoreUrl', {
-                gkCoreUrl: this.serverUrl,
-              });
-              this.showLogin = true;
-              this.fetchOrgs();
-            }
-          })
-          .catch((e) => {
-            this.$bvToast.toast(e.message, {
-              title: 'Invalid URL',
+      // Check if it's a valid gkcore url
+      console.log('checking custom url ', this.serverUrl);
+      axios
+        .get(`${this.serverUrl}/state`)
+        .then((res) => {
+          if (res.status == 200 && res.data.gkstatus == 0) {
+            this.$store.commit('setGkCoreUrl', {
+              gkCoreUrl: this.serverUrl,
+            });
+            this.showLogin = true;
+            this.fetchOrgs();
+          } else {
+            this.$bvToast.toast('Please check your server setup', {
+              title: 'Unable to Connect To The Server :-(',
               variant: 'danger',
               solid: true,
             });
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            title: 'Invalid URL',
+            variant: 'danger',
+            solid: true,
           });
-      }
+        });
     },
     /**
      * Clear localStorage, reset vuex state
