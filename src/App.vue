@@ -25,7 +25,9 @@
             <!-- show only for authenticated user -->
             <template v-if="userAuthenticated">
               <b-nav-item
-                :to="{ name: 'Workflow' }"
+                :to="{ name: 'Workflow',  params: {
+                  wfName: 'Transactions', wfId: -1
+                }}"
                 :active="activeNav === 'Dashboard'"
                 ><b-icon icon="wrench"></b-icon> Workflow</b-nav-item
               >
@@ -73,7 +75,7 @@
                   Over</b-dropdown-item
                 >
               </template>
-              <b-dropdown-item to="/billwise"
+              <b-dropdown-item :to="{name: 'Billwise', params: {'custType': 3, 'custName': '-1'}}"
                 ><b-icon icon="clipboard"></b-icon> Adjust
                 Bills</b-dropdown-item
               >

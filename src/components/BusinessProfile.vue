@@ -109,8 +109,6 @@
           <b-input-group>
             <b-form-input
               type="number"
-              min="100000"
-              max="999999"
               no-wheel
               required
               v-model="details.gscode"

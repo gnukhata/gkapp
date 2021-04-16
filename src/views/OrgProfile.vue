@@ -168,16 +168,21 @@
             <b-form-input v-model="details.orgstax" type="text"></b-form-input>
           </b-form-group>
 
-          <b-form-group label="GSTIN" label-cols="4">
+          <b-form-group label="GSTIN" label-cols="auto" label-cols-sm="4">
             <div
               v-for="(gst, sc, index) in gstin"
               :key="index"
-              class="mb-2 d-flex align-items-center"
+              class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
             >
               <b>
                 {{ gst }}
               </b>
-              <b-button class="mx-2" size="sm" variant="warning"
+              <b-button
+                v-b-modal.gstin
+                class="mx-2"
+                size="sm"
+                variant="warning"
+                @click="onGstinEdit(gst)"
                 ><b-icon font-scale="0.95" icon="pencil"></b-icon
               ></b-button>
               <b-button class="" size="sm" variant="danger">-</b-button>
@@ -185,8 +190,8 @@
             <b-button
               v-b-modal.gstin
               variant="dark"
-              class="p-0 px-1 float-left"
-              @click="resetGstin"
+              class="p-0 px-1 float-right float-sm-left"
+              @click="onGstinAdd"
             >
               <b-icon icon="plus"></b-icon>GSTIN
             </b-button>
@@ -195,20 +200,32 @@
             <div
               v-for="(value, cessAmount, index) in cess"
               :key="index"
-              class="mb-2 d-flex align-items-center"
+              class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
             >
-              <b>
+              <b :style="{width: '25px'}">
                 {{ cessAmount }}
               </b>
-              <b-button class="p-0 px-1" variant="link"
+              <b-button
+                v-b-modal.cess
+                @click="onCessEdit(cessAmount)"
+                class="mx-2"
+                size="sm"
+                variant="warning"
                 ><b-icon font-scale="0.95" icon="pencil"></b-icon
               ></b-button>
+              <b-button
+                class=""
+                size="sm"
+                variant="danger"
+                @click="deleteCess(cessAmount)"
+                >-</b-button
+              >
             </div>
             <b-button
               v-b-modal.cess
               variant="dark"
-              class="p-0 px-1 float-left"
-              @click="newCess = 0"
+              class="p-0 px-1 float-right float-sm-left"
+              @click="onCessAdd"
             >
               <b-icon icon="plus"></b-icon>CESS
             </b-button>
@@ -238,20 +255,20 @@
       header-text-variant="light"
       ok-variant="success"
       title="Add GSTIN"
-      @ok="addGstin"
+      @ok="onGstinModalOk"
     >
       <b-form>
         <b-form-group label="State" label-cols="auto">
           <b-form-select
             required
-            v-model="newGstin.stateCode"
+            v-model="gstinModal.stateCode"
             :options="states"
           ></b-form-select>
         </b-form-group>
         <b-form-group label="GSTIN" label-cols="auto">
           <div class="d-flex">
             <b-form-input
-              v-model="newGstin.stateCode"
+              v-model="gstinModal.stateCode"
               type="text"
               disabled
               style="max-width: 3em"
@@ -265,7 +282,7 @@
             <b-form-input
               type="text"
               title="Format: [Number] [Alphabet] [Number / Alphabet]"
-              v-model="newGstin.checksum"
+              v-model="gstinModal.checksum"
             ></b-form-input>
           </div>
         </b-form-group>
@@ -281,7 +298,7 @@
           @click="ok()"
           :disabled="!isGstinValid"
         >
-          OK
+          {{ gstinModal.mode === 'create' ? 'Add' : 'Update' }}
         </b-button>
       </template>
     </b-modal>
@@ -294,13 +311,13 @@
       ok-title="Add"
       ok-variant="success"
       title="Add CESS"
-      @ok="addCess"
+      @ok="onCessModalOk"
     >
       <b-form>
         <b-form-group label="CESS" label-cols="auto">
           <b-input-group append="%">
             <b-form-input
-              v-model="newCess"
+              v-model="cessModal.rate"
               style="max-width: 5em"
               type="number"
               step="0.01"
@@ -318,9 +335,9 @@
           size="sm"
           variant="success"
           @click="ok()"
-          :disabled="!(newCess > 0)"
+          :disabled="!(cessModal.rate > 0)"
         >
-          OK
+          {{ cessModal.mode === 'create' ? 'Add' : 'Update' }}
         </b-button>
       </template>
     </b-modal>
@@ -344,20 +361,39 @@ export default {
         stateCode: null,
         checksum: '',
       },
-      newCess: 0,
       stateCode: '',
       regex: {
         checksum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
         pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
+      },
+      cessModal: {
+        rate: 0,
+        mode: 'create',
+        inEdit: null,
+        toBeEdited: {},
+        toBeDeleted: {},
+      },
+      gstinModal: {
+        stateCode: null,
+        checksum: '',
+        mode: 'create',
+        inEdit: {
+          stateCode: null,
+          checksum: '',
+        },
+        edited: {}, // edited: {edit: source}
+      },
+      options: {
+        gstAccounts: [],
       },
     };
   },
   computed: {
     isGstinValid: function () {
       if (
-        this.newGstin.stateCode !== null &&
+        this.gstinModal.stateCode !== null &&
         this.regex.pan.test(this.details.orgpan) &&
-        this.regex.checksum.test(this.newGstin.checksum)
+        this.regex.checksum.test(this.gstinModal.checksum)
       ) {
         return true;
       }
@@ -430,6 +466,303 @@ export default {
           this.loading = false;
         });
     },
+    /** Get GST accounts and update the CESS fields */
+    getCessDetails() {
+      axios
+        .get('/organisation?getgstaccounts')
+        .then((res) => {
+          if (res.data.gkstatus === 0) {
+            let cess = {};
+            let rate;
+            this.options.gstAccounts = res.data.accounts;
+            res.data.accounts.forEach((account) => {
+              if (account.includes('CESSIN_') || account.includes('CESSOUT_')) {
+                rate = account.split('@')[1].split('%')[0]; // CESS rate
+                cess[rate] = true;
+              }
+            });
+            Object.assign(this.cess, cess);
+            this.$forceUpdate();
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            title: 'Error',
+            variant: 'danger',
+            solid: true,
+          });
+        });
+    },
+    /** Gets all the meta data required from the server for creating CESS accounts */
+    getCreateCessData() {
+      return axios.get('/organisation?getgstgroupcode').then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          let groupCode = resp.data.groupcode,
+            subGroupCode = resp.data.subgroupcode;
+          let stateCodes = Object.keys(this.gstin);
+
+          return this.getStateAbbreviations(stateCodes)
+            .then((taxStates) => {
+              if (subGroupCode === 'New') {
+                return axios
+                  .post('/groupsubgroups', {
+                    groupname: 'Duties & Taxes',
+                    subgroupof: groupCode,
+                  })
+                  .then((res2) => {
+                    let data = JSON.parse(res2.data);
+                    if (data.gkstatus === 0) {
+                      return {
+                        taxStates,
+                        groupcode: data.gkresult,
+                      };
+                    } else {
+                      return false;
+                    }
+                  })
+                  .catch(() => false);
+              }
+              return {
+                taxStates,
+                groupcode: subGroupCode === 'None' ? groupCode : subGroupCode,
+              };
+            })
+            .catch(() => false);
+        }
+      });
+    },
+    /**Create / Update the CESS accounts, based on the CESS rates and the states in GSTIN list */
+    updateCessAccounts() {
+      let cess = Object.keys(this.cess);
+      let saveAccount = function (payload) {
+        return axios.post('/accounts', payload);
+      };
+
+      // let editAccount = function () {};
+      let self = this;
+      return this.getCreateCessData().then((meta) => {
+        if (!meta) {
+          return;
+        }
+        let acc = {
+          accountname: '',
+          groupcode: meta.groupcode,
+          openingbal: '0.00',
+          sysaccount: 1,
+        };
+        let createCalls = [];
+        let createdAccs = [];
+        cess.forEach((rate) => {
+          meta.taxStates.forEach((taxState) => {
+            acc.accountname = `CESSIN_${taxState}@${rate}%`;
+            if (self.options.gstAccounts.indexOf(acc.accountname) < 0) {
+              createCalls.push(saveAccount(acc));
+              createdAccs.push(acc.accountname);
+            } else {
+              // call edit
+            }
+            acc.accountname = `CESSOUT_${taxState}@${rate}%`;
+            if (self.options.gstAccounts.indexOf(acc.accountname) < 0) {
+              createCalls.push(saveAccount(acc));
+              createdAccs.push(acc.accountname);
+            } else {
+              // call edit
+            }
+          });
+        });
+        Promise.all([...createCalls]).then((results) => {
+          let accs = '';
+          results.forEach((res, i) => {
+            if (res.data.gkstatus === 0) {
+              accs += `${createdAccs[i]} `;
+            }
+          });
+          if (accs) {
+            this.$bvToast.toast(`${accs} accounts were successfully created`, {
+              title: 'CESS accounts created successfully',
+              variant: 'success',
+              solid: true,
+            });
+          }
+        });
+        return this.deleteCessAccounts();
+      });
+    },
+    /** Get the state abbraviations of the given statecodes.
+     *
+     * params: stateCodes -> array of state codes */
+    getStateAbbreviations(stateCodes) {
+      let requests = [];
+      stateCodes.forEach((code) => {
+        requests.push(axios.get(`/state?abbreviation&statecode=${code}`));
+      });
+      return Promise.all([...requests]).then((res) => {
+        return res.map((r) => r.data.abbreviation);
+      });
+    },
+    /** returns the account codes for CESS accounts that are no longer required.
+     *
+     * The CESS accounts with states other than the GSTIN states, CESS accounts with edited or deleted rates
+     * are no longer required.
+     */
+    getDeleteCessData() {
+      let cess = Object.keys(this.cessModal.toBeDeleted);
+      let states = this.options.gstAccounts
+        .filter((acc) => {
+          let rate =
+            acc.indexOf('@') >= 0 ? acc.split('@')[1].split('%')[0] : ''; // CESS rate
+          return cess.indexOf(rate) >= 0;
+        })
+        .map(
+          (acc) =>
+            acc.indexOf('CESSIN') >= 0
+              ? acc.split('@')[0].split('CESSIN_')[1]
+              : acc.split('@')[0].split('CESSOUT_')[1]
+          // CESS State
+        );
+
+      // if gstin state is edited, delete that state associated with all the cess values
+      let gstinEditedStates = Object.values(this.gstinModal.edited);
+      return this.getStateAbbreviations(gstinEditedStates).then(
+        (editedStates) => {
+          if (editedStates.length) states.push(...editedStates);
+          if (gstinEditedStates.length) cess = Object.keys(this.cess);
+
+          let temp = {};
+          states.forEach((state) => {
+            temp[state] = true;
+          });
+          states = Object.keys(temp);
+          let toDelete = [];
+          let accounts = [];
+          cess.forEach((rate) => {
+            states.forEach((taxState) => {
+              if (
+                this.options.gstAccounts.indexOf(`CESSIN_${taxState}@${rate}%`)
+              ) {
+                toDelete.push(
+                  axios.get(
+                    `/accounts?type=getAccCode&accountname=CESSIN_${taxState}@${rate}%`
+                  )
+                );
+                accounts.push(`CESSIN_${taxState}@${rate}%`);
+              }
+              if (
+                this.options.gstAccounts.indexOf(`CESSOUT_${taxState}@${rate}%`)
+              ) {
+                toDelete.push(
+                  axios.get(
+                    `/accounts?type=getAccCode&accountname=CESSOUT_${taxState}@${rate}%`
+                  )
+                );
+                accounts.push(`CESSOUT_${taxState}@${rate}%`);
+              }
+            });
+          });
+
+          return Promise.all([...toDelete]).then((accCodes) => {
+            let codes = accCodes.map((accCode) => accCode.data.accountcode);
+            return { codes, accounts };
+          });
+        }
+      );
+    },
+    /** Deletes the CESS accounts that have become absolete because of the updates made recently in orgprofile */
+    deleteCessAccounts() {
+      this.getDeleteCessData().then((data) => {
+        let accCodes = data.codes,
+          accounts = data.accounts;
+        let deletedCess = '',
+          failedCess = '',
+          error = '';
+        let deleteCalls = accCodes.map((accCode) => {
+          return axios.delete(`/accounts`, {
+            data: { accountcode: accCode },
+          });
+        });
+        return Promise.all([...deleteCalls]).then((delAccounts) => {
+          delAccounts.forEach((delAccount, i) => {
+            switch (delAccount.data.gkstatus) {
+              case 0:
+                deletedCess += `${accounts[i]} `;
+                break;
+              case 2:
+                error = 'Unauthorized Access, Please contact Admin.';
+                break;
+              case 3:
+                error = 'Internal Server Error, Please contact Admin.';
+                break;
+              case 4:
+                error = 'Bad Privilege, Only Admin can delete CESS accounts.';
+                break;
+              case 5:
+                failedCess += `${accounts[i]}`;
+                break;
+            }
+          });
+          if (deletedCess) {
+            this.$bvToast.toast(
+              `${deletedCess} accounts were successfully deleted`,
+              {
+                title: 'CESS accounts deleted successfully',
+                variant: 'success',
+                solid: true,
+              }
+            );
+          }
+          if (failedCess) {
+            this.$bvToast.toast(
+              `${failedCess} accounts were not deleted to avoid integrity issues.`,
+              {
+                title: 'CESS accounts delete failure',
+                variant: 'warning',
+                solid: true,
+              }
+            );
+          }
+          if (!(deletedCess || failedCess) && error) {
+            this.$bvToast.toast(error, {
+              title: 'CESS accounts delete failure',
+              variant: 'danger',
+              solid: true,
+            });
+          }
+        });
+      });
+    },
+    /** Deletes all the CESS accounts that have states other than those in the GSTIN.
+     *
+     * Currently used only for dev purpose and data cleanup during dev.
+     */
+    deleteNonGstCess() {
+      let gstStates = Object.keys(this.gstin);
+      this.getStateAbbreviations(gstStates).then((states) => {
+        let toDelete = this.options.gstAccounts.filter((acc) => {
+          if (acc.indexOf('CESSIN_') >= 0 || acc.indexOf('CESSOUT_') >= 0) {
+            let state =
+              acc.indexOf('CESSIN') >= 0
+                ? acc.split('@')[0].split('CESSIN_')[1]
+                : acc.split('@')[0].split('CESSOUT_')[1];
+            if (states.indexOf(state) < 0) {
+              return true;
+            }
+          }
+          return false;
+        });
+        let codeRequests = toDelete.map((acc) =>
+          axios.get(`/accounts?type=getAccCode&accountname=${acc}`)
+        );
+        Promise.all([...codeRequests]).then((accCodes) => {
+          let codes = accCodes.map((accCode) => accCode.data.accountcode);
+          codes.map((accCode) => {
+            // debugger;
+            return axios.delete(`/accounts`, {
+              data: { accountcode: accCode },
+            });
+          });
+        });
+      });
+    },
     /**
      * Update organisation details
      */
@@ -457,6 +790,9 @@ export default {
           switch (res.data.gkstatus) {
             case 0:
               this.loading = false;
+              this.updateCessAccounts().then(() => {
+                this.init();
+              });
               this.$bvToast.toast(
                 `${this.details.orgname} Profile Details Updated`,
                 {
@@ -540,27 +876,34 @@ export default {
           this.loading = false;
         });
     },
+    /** Add an extra GSTIN to the list */
     addGstin() {
-      if (this.newGstin.stateCode !== null && this.newGstin.checksum !== '') {
+      if (
+        this.gstinModal.stateCode !== null &&
+        this.gstinModal.checksum !== ''
+      ) {
         this.gstin[
-          this.newGstin.stateCode
-        ] = `${this.newGstin.stateCode}${this.details.orgpan}${this.newGstin.checksum}`;
+          this.gstinModal.stateCode
+        ] = `${this.gstinModal.stateCode}${this.details.orgpan}${this.gstinModal.checksum}`;
         this.$forceUpdate();
       }
     },
+    /** Add an extra CESS to the list */
     addCess() {
-      if (this.newCess > 0) {
-        this.cess[parseFloat(this.newCess).toFixed(2)] = true;
+      if (this.cessModal.rate > 0) {
+        let rate = parseFloat(parseFloat(this.cessModal.rate).toFixed(2));
+        this.cess[rate] = true;
         this.$forceUpdate();
       }
     },
-    resetGstin() {
-      this.newGstin = {
-        stateCode: null,
-        checksum: '',
-      };
+    /** Delete a CESS from the list */
+    deleteCess(rate) {
+      if (this.cess[rate]) {
+        this.cessModal.toBeDeleted[rate] = true;
+        delete this.cess[rate];
+        this.$forceUpdate();
+      }
     },
-
     getStates() {
       return axios
         .get(`${this.gkCoreUrl}/state`)
@@ -579,9 +922,99 @@ export default {
           console.log('failed to get states', e.message);
         });
     },
+    /** The ADD/Update BUtton callback for the GSTIN modal */
+    onGstinModalOk() {
+      if (this.gstinModal.mode === 'create') {
+        this.addGstin();
+      } else {
+        // edit gstin
+        let state = this.gstinModal.inEdit.stateCode,
+          state_new = this.gstinModal.stateCode,
+          checksum = this.gstinModal.inEdit.checksum,
+          checksum_new = this.gstinModal.checksum;
+        if (state != state_new || checksum != checksum_new) {
+          // if gstin was already edited, then the state code will be present as a key in the gstinModal.edited object
+          if (this.gstinModal.edited[state]) {
+            this.gstinModal.edited[state_new] = this.gstinModal.edited[state];
+            delete this.gstinModal.edited[state];
+          } else {
+            this.gstinModal.edited[state_new] = state;
+          }
+          delete this.gstin[state];
+          this.addGstin();
+        }
+      }
+    },
+    /** Initialize the GSTIN modal after clicking the Add GSTIN button */
+    onGstinAdd() {
+      this.gstinModal.mode = 'create';
+      this.gstinModal.stateCode = null;
+      this.gstinModal.checksum = '';
+      this.gstinModal.inEdit = {
+        stateCode: null,
+        checksum: '',
+      };
+    },
+    /** Initialize the GSTIN modal after clicking the Edit GSTIN button */
+    onGstinEdit(gstin) {
+      let stateCode = gstin.substr(0, 2);
+      let checksum = gstin.substr(12, 3);
+      this.gstinModal.mode = 'edit';
+      this.gstinModal.stateCode = stateCode;
+      this.gstinModal.checksum = checksum;
+      this.gstinModal.inEdit = {
+        stateCode: stateCode,
+        checksum: checksum,
+      };
+    },
+    /** Callback for the Add/Update button in the CESS modal*/
+    onCessModalOk() {
+      if (this.cessModal.mode === 'create') {
+        this.addCess();
+      } else {
+        // delete the old tax rate accounts and create new tax rate accounts
+        // debugger;
+      }
+    },
+    /** Initialize the CESS modal after clicking the Add CESS button */
+    onCessAdd() {
+      this.cessModal.mode = 'create';
+      this.cessModal.rate = 0;
+      this.cessModal.inEdit = null;
+    },
+    /** Initialize the CESS modal after clicking the Edit CESS button */
+    onCessEdit(cessRate) {
+      this.cessModal.mode = 'edit';
+      this.cessModal.rate = cessRate;
+      this.cessModal.inEdit = cessRate;
+    },
+    init() {
+      this.cessModal = {
+        rate: 0,
+        mode: 'create',
+        inEdit: null,
+        toBeEdited: {},
+        toBeDeleted: {},
+      };
+      this.gstinModal = {
+        stateCode: null,
+        checksum: '',
+        mode: 'create',
+        inEdit: {
+          stateCode: null,
+          checksum: '',
+        },
+        edited: {}, // edited: {edit: source}
+      };
+      return Promise.all([
+        this.getStates(),
+        this.getDetails(),
+        this.getCessDetails(),
+      ]);
+    },
   },
   mounted() {
-    Promise.all([this.getStates(), this.getDetails()]).then(() => {
+    this.init().then(() => {
       if (this.details.orgstate && this.states.length) {
         let state = this.states.find(
           (state) => state.text === this.details.orgstate

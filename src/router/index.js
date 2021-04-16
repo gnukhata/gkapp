@@ -83,12 +83,10 @@ const routes = [
     component: () => import(/* webpackChunkName: "createorg" */ '../views/CreateOrganisation.vue')
   },
   {
-    path: '/workflow',
+    path: '/workflow/:wfName/:wfId',// wf -> workflow
     name: 'Workflow',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "workflow" */ '../views/Workflow.vue')
+    component: () => import(/* webpackChunkName: "workflow" */ '../views/Workflow.vue'),
+    props: true
   },
   {
     path: '/contact_details/:mode',
@@ -115,9 +113,10 @@ const routes = [
     props: true
   },
   {
-    path: '/billwise',
+    path: '/billwise/:custType/:custName',
     name: 'Billwise',
     component: () => import(/* webpackChunkName: "invoice" */ '../views/Billwise.vue'),
+    props: true
   }
 ]
 

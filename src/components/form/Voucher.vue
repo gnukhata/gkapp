@@ -208,7 +208,7 @@
             size="sm"
             class="mr-2"
             variant="danger"
-            :to="{ name: 'Workflow' }"
+            @click.prevent="$router.go(-1)"
             v-if="!hideBackButton"
           >
             <b-icon
@@ -553,21 +553,21 @@ export default {
       this.form.vtype = this.options.vtype.find(
         (type) => type.value === this.type
       );
-
+      let self = this;
       this.preloadData().then(() => {
-        if (this.customer !== null) {
-          if (this.type === "receipt") {
-            this.form.voucher.dr.account = this.options.dr.find(
+        if (self.customer !== null) {
+          if (self.type === "receipt") {
+            self.form.voucher.dr.account = self.options.dr.find(
               (acc) => acc.accountname === "Bank A/C"
             ).accountcode;
-            this.form.voucher.cr.account = this.options.cr.find(
-              (acc) => acc.accountname === this.customer
+            self.form.voucher.cr.account = self.options.cr.find(
+              (acc) => acc.accountname === self.customer
             ).accountcode;
-          } else if (this.type === "payment") {
-            this.form.voucher.dr.account = this.options.dr.find(
-              (acc) => acc.accountname === this.customer
+          } else if (self.type === "payment") {
+            self.form.voucher.dr.account = self.options.dr.find(
+              (acc) => acc.accountname === self.customer
             ).accountcode;
-            this.form.voucher.cr.account = this.options.cr.find(
+            self.form.voucher.cr.account = self.options.cr.find(
               (acc) => acc.accountname === "Bank A/C"
             ).accountcode;
           }
