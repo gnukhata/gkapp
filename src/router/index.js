@@ -7,6 +7,9 @@ import CloseBooks from '@/views/CloseBooks.vue'
 import UserManagement from '@/views/UserManagement.vue'
 import UOM from '@/views/UOM.vue'
 import ResetPassword from '@/views/ResetPassword.vue'
+import Categories from '@/views/Categories.vue'
+import AddCategory from '@/views/AddCategory.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -44,6 +47,16 @@ const routes = [
     path: '/resetpassword',
     name: 'Reset Password',
     component: ResetPassword
+  },
+  {
+    path: '/categories',
+    name: 'Categories',
+    component: Categories
+  },
+  {
+    path: '/categories/add',
+    name: 'Add Category',
+    component: AddCategory
   },
   {
     path: '/about',
