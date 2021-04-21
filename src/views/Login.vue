@@ -14,11 +14,7 @@
       </template>
       <b-card-body>
         <b-form @submit.prevent="setServerUrl" class="text-center">
-          <b-button
-            @click.prevent="setDefaultServer"
-            variant="primary"
-            type="submit"
-          >
+          <b-button @click.prevent="setDefaultServer">
             <b-icon icon="arrow-right-circle"></b-icon>
             Continue with Default Server
           </b-button>
