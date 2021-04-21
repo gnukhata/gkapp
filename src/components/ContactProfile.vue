@@ -243,6 +243,7 @@ export default {
   data() {
     return {
       details: Array,
+      oldContactName: '',
       isLoading: true,
       isCollapsed1: false,
       isCollapsed2: false,
@@ -288,6 +289,7 @@ export default {
           switch (res.data.gkstatus) {
             case 0:
               this.details = res.data.gkresult;
+              this.oldContactName = this.details.custname;
               this.isLoading = false;
               this.states().then(() => {
                 if (this.details.gstin) {
@@ -342,6 +344,7 @@ export default {
                 switch (res.data.gkstatus) {
                   case 0:
                     this.isLoading = false;
+                    this.updateAccountDetails(this.oldContactName);
                     this.$bvToast.toast(
                       `${this.details.custname} Profile Details Updated`,
                       {
@@ -497,6 +500,27 @@ export default {
           console.log(e);
         });
     },
+    /**Update the account associated with this contact when the contact name is changed*/
+    updateAccountDetails(oldContactName) {
+      axios.get('/accounts').then(res => {
+        if(res.data.gkstatus === 0) {
+          let acc = res.data.gkresult.find((account) => account.accountname === oldContactName);
+          if(acc) {
+            let payload = {
+              custsupflag: 1,
+              oldcustname: oldContactName,
+              gkdata: {
+                accountname: this.details["custname"],
+                openingbal: acc["openingbal"],
+                accountcode: acc["accountcode"]
+              }
+            }
+            axios.put('accounts', payload);
+          }
+        }
+        this.oldContactName = this.details.custname;
+      })
+    },
     /**Add a record of contact delete action */
     addLog() {
       const config = {
@@ -534,7 +558,7 @@ export default {
       if(!gstinUpdated) {
           this.gstin.stateCode = this.options.stateMap[this.details.state] || ""
           // console.log(this.options.stateMap[this.details.state])
-          this.gstin.pan = this.details.custpan;
+          this.gstin.pan = this.details.custpan || '';
       }
     },
     /** Fetches statelist from gkcore and prepares it for b-select.
