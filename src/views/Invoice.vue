@@ -2021,7 +2021,9 @@ export default {
 
           if (resp6.data.gkstatus === 0) {
             self.options.orgDetails = resp6.data.gkdata;
-            self.setOrgDetails();
+            setTimeout(() => {
+              self.setOrgDetails();
+            }, 1);
           }
 
           if (preloadErrorList !== '') {
