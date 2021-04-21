@@ -206,14 +206,6 @@
                 {{ cessAmount }}
               </b>
               <b-button
-                v-b-modal.cess
-                @click="onCessEdit(cessAmount)"
-                class="mx-2"
-                size="sm"
-                variant="warning"
-                ><b-icon font-scale="0.95" icon="pencil"></b-icon
-              ></b-button>
-              <b-button
                 class=""
                 size="sm"
                 variant="danger"
@@ -972,8 +964,7 @@ export default {
       if (this.cessModal.mode === 'create') {
         this.addCess();
       } else {
-        // delete the old tax rate accounts and create new tax rate accounts
-        // debugger;
+        // CESS rate accounts can't be edited, they can only be deleted if not used in any transactions
       }
     },
     /** Initialize the CESS modal after clicking the Add CESS button */
@@ -981,12 +972,6 @@ export default {
       this.cessModal.mode = 'create';
       this.cessModal.rate = 0;
       this.cessModal.inEdit = null;
-    },
-    /** Initialize the CESS modal after clicking the Edit CESS button */
-    onCessEdit(cessRate) {
-      this.cessModal.mode = 'edit';
-      this.cessModal.rate = cessRate;
-      this.cessModal.inEdit = cessRate;
     },
     init() {
       this.cessModal = {
