@@ -96,7 +96,8 @@
               <b-form-input
                 size="sm"
                 id="go-input-5"
-                type="number" no-wheel
+                type="number"
+                no-wheel
                 v-model="form.contactNumber"
               ></b-form-input>
             </b-form-group>
@@ -148,12 +149,12 @@
 </template>
 
 <script>
-import axios from "axios";
-import Autocomplete from "../Autocomplete.vue";
+import axios from 'axios';
+import Autocomplete from '../Autocomplete.vue';
 export default {
-  name: "Godown",
+  name: 'Godown',
   components: {
-    Autocomplete
+    Autocomplete,
   },
   data() {
     return {
@@ -175,8 +176,8 @@ export default {
   props: {
     mode: {
       type: String,
-      validator: function (value) {
-        return ["create", "edit"].indexOf(value) !== -1;
+      validator: function(value) {
+        return ['create', 'edit'].indexOf(value) !== -1;
       },
       required: true,
     },
@@ -202,7 +203,7 @@ export default {
       const payload = this.initPayload();
       // console.log(payload);
       axios
-        .post("/godown", payload)
+        .post('/godown', payload)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
@@ -210,17 +211,17 @@ export default {
             case 0:
               {
                 this.$bvToast.toast(`Godown created successfully`, {
-                  title: `Create Godown Error!`,
+                  title: `Success!`,
                   autoHideDelay: 3000,
-                  variant: "success",
+                  variant: 'success',
                   appendToast: true,
                   solid: true,
                 });
-
+                this.$emit('godownCreated');
                 // === Server Log ===
-                let logdata = { activity: "" };
-                logdata.activity = payload.goname + " godown created";
-                axios.post("/log", logdata);
+                let logdata = { activity: '' };
+                logdata.activity = 'godown created ' + payload.goname;
+                axios.post('/log', logdata);
 
                 // only reset form on success, otherwise leave it as is so that user may edit their input and try again
                 this.resetForm();
@@ -232,7 +233,7 @@ export default {
                 {
                   title: `Create Godown Error!`,
                   autoHideDelay: 3000,
-                  variant: "warning",
+                  variant: 'warning',
                   appendToast: true,
                   solid: true,
                 }
@@ -242,7 +243,7 @@ export default {
               this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
                 title: `Create Godown Error!`,
                 autoHideDelay: 3000,
-                variant: "warning",
+                variant: 'warning',
                 appendToast: true,
                 solid: true,
               });
@@ -251,7 +252,7 @@ export default {
               this.$bvToast.toast(`Unable to create Godown, Please try again`, {
                 title: `Create Godown Error!`,
                 autoHideDelay: 3000,
-                variant: "danger",
+                variant: 'danger',
                 appendToast: true,
                 solid: true,
               });
@@ -264,7 +265,7 @@ export default {
           this.$bvToast.toast(`Error: ${error.message}`, {
             title: `Create Godown Error!`,
             autoHideDelay: 3000,
-            variant: "warning",
+            variant: 'warning',
             appendToast: true,
             solid: true,
           });
@@ -275,15 +276,15 @@ export default {
         goname: this.form.name,
         goaddr: this.form.address,
         state: this.form.state.name,
-        gocontact: this.form.contactPerson || "",
-        contactname: this.form.contactNumber || "",
+        gocontact: this.form.contactPerson || '',
+        contactname: this.form.contactNumber || '',
       };
     },
     resetForm() {
       this.form = {
         name: null,
         address: null,
-        state: "",
+        state: '',
         contactNumber: null,
         contactPerson: null,
       };
@@ -300,15 +301,15 @@ export default {
     preloadData() {
       this.isPreloading = true;
       axios
-        .get("/state")
+        .get('/state')
         .then((resp) => {
           this.isPreloading = false;
           if (resp.data.gkstatus === 0) {
             this.options.states = resp.data.gkresult.map((item) => {
               const name = Object.values(item)[0];
-              let code = Object.keys(item)[0] + "";
+              let code = Object.keys(item)[0] + '';
               if (code.length < 2) {
-                code = "0" + code;
+                code = '0' + code;
               }
 
               return {
@@ -321,14 +322,14 @@ export default {
             });
           } else {
             this.displayToast(
-              "Preload Data Failed!",
-              "Error fetching State List, please try again after sometime.",
-              "warning"
+              'Preload Data Failed!',
+              'Error fetching State List, please try again after sometime.',
+              'warning'
             );
           }
         })
         .catch((error) => {
-          this.displayToast("Preload Data Failed!", error.message, "warning");
+          this.displayToast('Preload Data Failed!', error.message, 'warning');
           return error;
         });
     },
@@ -338,4 +339,3 @@ export default {
   },
 };
 </script>
-
