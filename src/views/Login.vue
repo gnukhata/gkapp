@@ -235,7 +235,7 @@ export default {
           ? process.env.VUE_APP_GKCORE_URL
           : 'http://localhost:6543';
       axios
-        .get(defaultGkCoreUrl)
+        .get(`${defaultGkCoreUrl}/state`)
         .then((res) => {
           if (res.status == 200 && res.data.gkstatus == 0) {
             this.$store.commit('setGkCoreUrl', {
