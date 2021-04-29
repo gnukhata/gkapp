@@ -25,10 +25,7 @@
           ></b-icon>
         </b-button>
       </div>
-      <div
-        class="mt-3"
-        :class="{ 'd-md-block': true, 'd-none': !isCollapsed }"
-      >
+      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
           label="Mode of Payment"
           label-for="input-19"
@@ -124,7 +121,7 @@ export default {
   props: {
     config: {
       type: Object,
-      required: true
+      required: true,
     },
     updateCounter: {
       type: Number,
@@ -134,14 +131,16 @@ export default {
     parentData: {
       type: Object,
       required: false,
-      default: {
-        mode: 3,
-        bank: {
-          no: null,
-          name: null,
-          branch: null,
-          ifsc: null,
-        },
+      default: function () {
+        return {
+          mode: 3,
+          bank: {
+            no: null,
+            name: null,
+            branch: null,
+            ifsc: null,
+          },
+        };
       },
     },
   },

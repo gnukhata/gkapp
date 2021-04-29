@@ -211,7 +211,7 @@ export default {
     },
   },
   watch: {
-    copyFlag(newVal, oldVal) {
+    copyFlag() {
       this.setShippingDetails();
     },
     updateCounter() {

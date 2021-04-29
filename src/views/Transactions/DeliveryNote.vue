@@ -183,7 +183,6 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 
 import Config from '../../components/Config.vue';
-import Autocomplete from '../../components/Autocomplete.vue';
 
 import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
 import ShipDetails from '../../components/form/transaction/ShipDetails.vue';
@@ -194,13 +193,11 @@ import Comments from '../../components/form/transaction/Comments.vue';
 import DeliveryNoteDetails from '../../components/form/transaction_details/DeliveryNoteDetails.vue';
 
 import invoiceConfig from '../../js/config/invoiceConfig';
-import { numberToRupees } from '../../js/utils';
 
 export default {
   name: 'DeliveryNote',
   components: {
     Config,
-    Autocomplete,
 
     PartyDetails,
     ShipDetails,

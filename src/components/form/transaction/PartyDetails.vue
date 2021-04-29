@@ -323,7 +323,9 @@ export default {
     invoiceParty: {
       type: Object,
       required: false,
-      default: {},
+      default: function () {
+        return {};
+      },
     },
     updateCounter: {
       type: Number,
@@ -333,22 +335,24 @@ export default {
     parentData: {
       type: Object,
       required: false,
-      default: {
-        loading: false,
-        options: {
-          states: [],
-          gstin: [],
-        },
-        type: 'customer', // supplier
-        custid: null,
-        name: {},
-        addr: null,
-        state: {},
-        gstin: null,
-        tin: null,
-        pin: null,
-        pan: '',
-        checksum: '',
+      default: function () {
+        return {
+          loading: false,
+          options: {
+            states: [],
+            gstin: [],
+          },
+          type: 'customer', // supplier
+          custid: null,
+          name: {},
+          addr: null,
+          state: {},
+          gstin: null,
+          tin: null,
+          pin: null,
+          pan: '',
+          checksum: '',
+        };
       },
     },
   },
@@ -570,7 +574,7 @@ export default {
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(([resp1, resp2]) => {
+      return Promise.all([...requests]).then(([resp1]) => {
         self.isPreloading = false;
         if (resp1.data.gkstatus === 0) {
           self.options.states = resp1.data.gkresult.map((item) => {

@@ -131,12 +131,14 @@ export default {
     parentData: {
       type: Object,
       required: false,
-      default: {
-        mode: 'Road',
-        vno: null,
-        date: null,
-        reverseCharge: false,
-        packageCount: 0,
+      default: function () {
+        return {
+          mode: 'Road',
+          vno: null,
+          date: null,
+          reverseCharge: false,
+          packageCount: 0,
+        };
       },
     },
   },

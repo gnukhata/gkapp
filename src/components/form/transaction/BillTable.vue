@@ -327,7 +327,6 @@ import axios from 'axios';
 import Autocomplete from '../../Autocomplete.vue';
 import BusinessItem from '../BusinessItem.vue';
 
-import { numberToRupees } from '../../../js/utils';
 export default {
   name: 'BillTable',
   components: {
@@ -351,20 +350,24 @@ export default {
     parentData: {
       type: Array,
       required: false,
-      default: [{
-        product: { name: '', id: '' },
-        hsn: '',
-        qty: 0,
-        fqty: 0,
-        rate: 0,
-        discount: { rate: 0, amount: 0 },
-        taxable: 0,
-        igst: { rate: 0, amount: 0 },
-        cess: { rate: 0, amount: 0 },
-        vat: { rate: 0, amount: 0 },
-        total: 0,
-        isService: false, // used to make certain fields readonly
-      }],
+      default: function () {
+        return [
+          {
+            product: { name: '', id: '' },
+            hsn: '',
+            qty: 0,
+            fqty: 0,
+            rate: 0,
+            discount: { rate: 0, amount: 0 },
+            taxable: 0,
+            igst: { rate: 0, amount: 0 },
+            cess: { rate: 0, amount: 0 },
+            vat: { rate: 0, amount: 0 },
+            total: 0,
+            isService: false, // used to make certain fields readonly
+          },
+        ];
+      },
     },
   },
   computed: {
