@@ -1017,7 +1017,7 @@
                 ></b-th
               >
               <b-th colspan="2" v-if="!isGst && config.bill.vat"
-                >{>
+                >₹
                 <span v-if="config.bill.footer.vat">{{
                   getTotal('vat', 'amount')
                 }}</span>
@@ -1517,13 +1517,13 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import ContactItem from '../components/form/ContactItem.vue';
-import BusinessItem from '../components/form/BusinessItem.vue';
-import Config from '../components/Config.vue';
-import Autocomplete from '../components/Autocomplete.vue';
+import ContactItem from '../../components/form/ContactItem.vue';
+import BusinessItem from '../../components/form/BusinessItem.vue';
+import Config from '../../components/Config.vue';
+import Autocomplete from '../../components/Autocomplete.vue';
 
-import invoiceConfig from '../js/config/invoiceConfig';
-import { numberToRupees } from '../js/utils';
+import invoiceConfig from '../../js/config/invoiceConfig';
+import { numberToRupees } from '../../js/utils';
 
 export default {
   name: 'Invoice',
@@ -1803,9 +1803,6 @@ export default {
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
     ...mapState([
-      'authToken',
-      'gkCoreUrl',
-      'userName',
       'yearStart',
       'yearEnd',
       'invoiceParty',

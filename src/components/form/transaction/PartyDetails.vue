@@ -15,8 +15,8 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b v-if="saleFlag"> Billed To</b>
-        <b v-else> Billed By</b>
+        <b v-if="saleFlag"> Buyer Details</b>
+        <b v-else> Seller Details</b>
         <b-button
           variant="primary"
           size="sm"
@@ -33,10 +33,7 @@
           ></b-icon>
         </b-button>
       </div>
-      <div
-        class="mt-3"
-        :class="{ 'd-md-block': true, 'd-none': !isCollapsed }"
-      >
+      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-row>
           <b-col v-if="config.type" cols="12">
             <b-form-group>
@@ -157,11 +154,7 @@
                 size="sm"
                 id="input-12"
                 v-model="form.state"
-                :options="
-                  !editFlag
-                    ? form.options.states
-                    : options.states
-                "
+                :options="!editFlag ? form.options.states : options.states"
                 @input="setPartyGst()"
                 trim
                 :disabled="!editFlag"
@@ -256,7 +249,7 @@
       </div>
     </div>
 
-     <!-- Create Contact Item -->
+    <!-- Create Contact Item -->
     <b-modal
       size="lg"
       v-model="showContactForm"
@@ -297,9 +290,67 @@ import axios from 'axios';
 import Autocomplete from '../../Autocomplete.vue';
 import ContactItem from '../ContactItem.vue';
 export default {
-  name: 'BillDetails',
+  name: 'PartyDetails',
   components: {
-    Autocomplete, ContactItem
+    Autocomplete,
+    ContactItem,
+  },
+  props: {
+    mode: {
+      type: String,
+      validator: function (value) {
+        return ['sale', 'purchase'].indexOf(value) !== -1;
+      },
+      required: true,
+    },
+    isLoading: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    config: {
+      type: Object,
+      required: false,
+    },
+    gstFlag: {
+      type: Boolean,
+      required: true,
+    },
+    saleFlag: {
+      type: Boolean,
+      required: true,
+    },
+    invoiceParty: {
+      type: Object,
+      required: false,
+      default: {},
+    },
+    updateCounter: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    parentData: {
+      type: Object,
+      required: false,
+      default: {
+        loading: false,
+        options: {
+          states: [],
+          gstin: [],
+        },
+        type: 'customer', // supplier
+        custid: null,
+        name: {},
+        addr: null,
+        state: {},
+        gstin: null,
+        tin: null,
+        pin: null,
+        pan: '',
+        checksum: '',
+      },
+    },
   },
   data() {
     return {
@@ -322,7 +373,7 @@ export default {
       },
       options: {
         customers: [],
-        suppliers: []
+        suppliers: [],
       },
       editFlag: false,
       loading: false,
@@ -334,45 +385,17 @@ export default {
       },
       isCollapsed: false,
       showContactForm: false,
-      isPreloading: false
+      isPreloading: false,
     };
   },
-  computed: {
-  },
-  props: {
-    mode: {
-      type: String,
-      validator: function (value) {
-        return ['sale', 'purchase'].indexOf(value) !== -1;
-      },
-      required: true,
+  computed: {},
+  watch: {
+    saleFlag(isSale) {
+      this.form.type = isSale ? 'customer' : 'supplier';
     },
-    data: {
-      type: Object,
-      required: true,
+    updateCounter() {
+      Object.assign(this.form, this.parentData);
     },
-    isLoading: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    config: {
-      type: Object,
-      required: false,
-    },
-    gstFlag: {
-      type: Boolean,
-      required: true
-    },
-    saleFlag: {
-      type: Boolean,
-      required: true
-    },
-    invoiceParty: {
-      type: Object,
-      required: false,
-      default: {}
-    }
   },
   methods: {
     resetPartyDetails() {
@@ -401,8 +424,7 @@ export default {
        * form.party.options = {'stateid': 'gstin', 'stateid2': 'gstin2}
        */
       if (this.form.options.gstin && this.form.state) {
-        this.form.gstin =
-          this.form.options.gstin[this.form.state.id] || null;
+        this.form.gstin = this.form.options.gstin[this.form.state.id] || null;
         if (this.form.gstin) {
           this.form.checksum = this.form.gstin.substr(12, 3);
         }
@@ -471,7 +493,7 @@ export default {
             }
             // debugger;
             // self.setShippingDetails(); // updates shipping details as well if flag is set
-            setTimeout(() => this.$emit('details-updated',this.form));
+            setTimeout(() => this.$emit('details-updated', this.form));
           })
           .catch((error) => {
             this.displayToast(
@@ -482,7 +504,7 @@ export default {
           });
       }
     },
-     /**
+    /**
      * onPartyNameSelect(name)
      *
      * Description -> Updates the BilledTo and Shipping Details based on the Customer/Supplier chosen.
@@ -512,7 +534,7 @@ export default {
           pin: null,
         });
         // this.setShippingDetails();
-        setTimeout(() => this.$emit('details-updated',this.form));
+        setTimeout(() => this.$emit('details-updated', this.form));
       }
     },
     resetForm() {
@@ -544,7 +566,7 @@ export default {
           );
           return error;
         }),
-        this.fetchContactList()
+        this.fetchContactList(),
       ];
 
       const self = this;
@@ -678,10 +700,7 @@ export default {
           state: this.form.state.name,
           custpan: this.form.pan,
         };
-        if (
-          this.form.pan.length === 10 &&
-          this.form.checksum.length === 3
-        ) {
+        if (this.form.pan.length === 10 && this.form.checksum.length === 3) {
           payload.gstin = {};
           payload.gstin[
             this.form.state.id

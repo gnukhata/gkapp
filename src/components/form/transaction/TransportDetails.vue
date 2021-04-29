@@ -25,10 +25,7 @@
           ></b-icon>
         </b-button>
       </div>
-      <div
-        class="mt-3"
-        :class="{ 'd-md-block': true, 'd-none': !isCollapsed }"
-      >
+      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
           label="Number of packages"
           label-for="input-24-1"
@@ -129,8 +126,24 @@ export default {
     updateCounter: {
       type: Number,
       required: false,
-      default: 0
-    }
+      default: 0,
+    },
+    parentData: {
+      type: Object,
+      required: false,
+      default: {
+        mode: 'Road',
+        vno: null,
+        date: null,
+        reverseCharge: false,
+        packageCount: 0,
+      },
+    },
+  },
+  watch: {
+    updateCounter() {
+      Object.assign(this.form, this.parentData);
+    },
   },
   data() {
     return {
@@ -140,6 +153,7 @@ export default {
         vno: null,
         date: null,
         reverseCharge: false,
+        packageCount: 0,
       },
       options: {
         transportModes: [

@@ -125,7 +125,30 @@ export default {
     config: {
       type: Object,
       required: true
-    }
+    },
+    updateCounter: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    parentData: {
+      type: Object,
+      required: false,
+      default: {
+        mode: 3,
+        bank: {
+          no: null,
+          name: null,
+          branch: null,
+          ifsc: null,
+        },
+      },
+    },
+  },
+  watch: {
+    updateCounter() {
+      Object.assign(this.form, this.parentData);
+    },
   },
   data() {
     return {

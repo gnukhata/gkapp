@@ -39,9 +39,9 @@
           class="mb-3"
           size="sm"
           switch
-          v-if="saleFlag && config.copyFlag"
+          v-if="config.copyFlag"
         >
-          Same as Billing Address
+          {{(saleFlag)? 'Use Billing Address' : 'Use Organisation Address'}}
         </b-form-checkbox>
         <b-row>
           <b-col cols="12" v-if="config.name">
@@ -196,6 +196,10 @@ export default {
       type: Object,
       required: true,
     },
+    organisationDetails: {
+      type: Object,
+      required: true
+    },
     config: {
       type: Object,
       required: true
@@ -213,11 +217,9 @@ export default {
     updateCounter() {
       this.setShippingDetails();
     },
-    saleFlag(newVal) {
-      if (!newVal) {
-        this.copyFlag = false;
-      }
-    },
+    saleFlag() {
+      this.setShippingDetails();
+    }
   },
   methods: {
     preloadData() {
@@ -251,20 +253,32 @@ export default {
     },
     setShippingDetails() {
       if (this.copyFlag) {
-        Object.assign(this.form, this.billingDetails);
-        this.form.name = this.billingDetails.name.name;
-        delete this.form.type;
+        if(this.saleFlag) {
+          if(this.billingDetails.name) {
+            Object.assign(this.form, this.billingDetails);
+            this.form.name = this.billingDetails.name.name;
+            delete this.form.type;
+          } else {
+            this.resetForm();
+          }
+        } else {
+          Object.assign(this.form, this.organisationDetails);
+        }
       } else {
-        this.form = {
-          name: null,
-          addr: null,
-          state: {},
-          gstin: null,
-          pin: null,
-        };
+        this.resetForm();
       }
     },
+    resetForm() {
+      this.form = {
+        name: null,
+        addr: null,
+        state: {},
+        gstin: null,
+        tin: null,
+        pin: null,
+      };
 
+    },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
         title: title,

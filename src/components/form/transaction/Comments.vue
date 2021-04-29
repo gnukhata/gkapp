@@ -25,10 +25,7 @@
           ></b-icon>
         </b-button>
       </div>
-      <div
-        class="mt-3"
-        :class="{ 'd-md-block': true, 'd-none': !isCollapsed }"
-      >
+      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group>
           <b-form-textarea
             size="sm"
@@ -52,14 +49,31 @@ export default {
       type: Object,
       required: true,
     },
+    updateCounter: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    parentData: {
+      type: Object,
+      required: false,
+      default: function () {
+        return { narration: '' };
+      },
+    },
+  },
+  watch: {
+    updateCounter() {
+      Object.assign(this.form, this.parentData);
+    },
   },
   data() {
     return {
       isCollapsed: false,
       form: {
         narration: '',
-      }
-    }
+      },
+    };
   },
 };
 </script>

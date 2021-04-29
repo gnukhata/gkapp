@@ -103,7 +103,7 @@ const routes = [
   {
     path: '/invoice/:mode/:invid',
     name: 'Invoice',
-    component: () => import(/* webpackChunkName: "invoice" */ '../views/Invoice.vue'),
+    component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/Invoice.vue'),
     props: true
   },
   {
@@ -116,6 +116,12 @@ const routes = [
     path: '/billwise/:custType/:custName',
     name: 'Billwise',
     component: () => import(/* webpackChunkName: "invoice" */ '../views/Billwise.vue'),
+    props: true
+  },
+  {
+    path: '/delivery_note/:mode/:invid',
+    name: 'Delivery Note',
+    component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/DeliveryNote.vue'),
     props: true
   }
 ]
