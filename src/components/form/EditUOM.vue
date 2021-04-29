@@ -199,6 +199,18 @@ export default {
                     solid: true,
                   }
                 );
+                // Create log
+                axios.post(
+                  `${this.gkCoreUrl}/log`,
+                  {
+                    activity: `uom updated: ${this.form.unitname}`,
+                  },
+                  {
+                    headers: {
+                      gktoken: this.authToken,
+                    },
+                  }
+                );
                 this.isLoading = false;
                 this.$emit('refresh');
                 break;
@@ -272,6 +284,18 @@ export default {
                   variant: 'success',
                   solid: true,
                 });
+                // Create log
+                axios.post(
+                  `${this.gkCoreUrl}/log`,
+                  {
+                    activity: `uom deleted: ${this.form.unitname}`,
+                  },
+                  {
+                    headers: {
+                      gktoken: this.authToken,
+                    },
+                  }
+                );
                 this.isLoading = false;
                 this.$emit('refresh');
                 setTimeout(() => {

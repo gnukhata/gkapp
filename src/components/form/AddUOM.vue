@@ -115,6 +115,18 @@ export default {
                   }
                 );
                 this.isLoading = false;
+                // Create log
+                axios.post(
+                  `${this.gkCoreUrl}/log`,
+                  {
+                    activity: `uom created: ${this.form.unitname}`,
+                  },
+                  {
+                    headers: {
+                      gktoken: this.authToken,
+                    },
+                  }
+                );
                 this.$emit('refresh');
                 this.$refs.editingForm.reset();
                 break;
