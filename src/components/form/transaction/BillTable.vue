@@ -1,16 +1,22 @@
 <template>
   <div>
-    <div v-if="config.bill" class="position-relative my-2">
+    <div v-if="config" class="position-relative my-2">
       <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
       </b-overlay>
-      <b-table-simple hover small caption-top responsive bordered>
+      <b-table-simple
+        hover
+        small
+        caption-top
+        :responsive="isResponsive"
+        bordered
+      >
         <b-thead head-variant="dark">
           <!-- table header -->
           <b-tr class="text-center">
             <b-th
               :style="{ maxWidth: '40px', width: '40px' }"
               rowspan="2"
-              v-if="config.bill.index"
+              v-if="config.index"
               >No</b-th
             >
             <b-th
@@ -20,7 +26,7 @@
                 minWidth: '100px',
               }"
               rowspan="2"
-              v-if="config.bill.product"
+              v-if="config.product"
               >Item
               <b-button
                 @click.prevent="showBusinessForm = true"
@@ -33,49 +39,49 @@
             <b-th
               :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
               rowspan="2"
-              v-if="config.bill.hsn"
+              v-if="config.hsn"
               >HSN/SAC</b-th
             >
             <b-th
               :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
               rowspan="2"
-              v-if="config.bill.qty"
+              v-if="config.qty"
               >Qty</b-th
             >
             <b-th
               :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
               rowspan="2"
-              v-if="config.bill.rate"
+              v-if="config.rate"
               >Rate</b-th
             >
             <b-th
               :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
               rowspan="2"
-              v-if="config.bill.discount"
+              v-if="config.discount"
               >Discount</b-th
             >
             <b-th
               :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
               rowspan="2"
-              v-if="config.bill.taxable"
+              v-if="config.taxable"
               >Taxable Amt</b-th
             >
             <b-th
               :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
               colspan="2"
-              v-if="gstFlag && config.bill.igst"
+              v-if="gstFlag && config.igst"
               >IGST</b-th
             >
             <b-th
               :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
               colspan="2"
-              v-if="gstFlag && config.bill.cess"
+              v-if="gstFlag && config.cess"
               >CESS</b-th
             >
             <b-th
               :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
               colspan="2"
-              v-if="!gstFlag && config.bill.vat"
+              v-if="!gstFlag && config.vat"
               >TAX</b-th
             >
             <b-th
@@ -85,7 +91,7 @@
                 minWidth: '100px',
               }"
               rowspan="2"
-              v-if="config.bill.total"
+              v-if="config.total"
               >Total</b-th
             >
             <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
@@ -96,32 +102,32 @@
           <b-tr class="text-center">
             <b-th
               :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="gstFlag && config.bill.igst"
+              v-if="gstFlag && config.igst"
               >%</b-th
             >
             <b-th
               :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="gstFlag && config.bill.igst"
+              v-if="gstFlag && config.igst"
               >₹</b-th
             >
             <b-th
               :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="gstFlag && config.bill.cess"
+              v-if="gstFlag && config.cess"
               >%</b-th
             >
             <b-th
               :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="gstFlag && config.bill.cess"
+              v-if="gstFlag && config.cess"
               >₹</b-th
             >
             <b-th
               :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="!gstFlag && config.bill.vat"
+              v-if="!gstFlag && config.vat"
               >%</b-th
             >
             <b-th
               :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="!gstFlag && config.bill.vat"
+              v-if="!gstFlag && config.vat"
               >₹</b-th
             >
           </b-tr>
@@ -129,12 +135,12 @@
         <b-tbody>
           <b-tr class="text-center" v-for="(field, index) in form" :key="index">
             <!-- No.  -->
-            <b-td v-if="config.bill.index">
+            <b-td v-if="config.index">
               {{ index + 1 }}
             </b-td>
 
             <!-- Item -->
-            <b-td v-if="config.bill.product">
+            <b-td v-if="config.product">
               <autocomplete
                 size="sm"
                 v-model="field.product"
@@ -148,13 +154,14 @@
             </b-td>
 
             <!-- HSN/SAC -->
-            <b-td v-if="config.bill.hsn">
+            <b-td v-if="config.hsn">
               <b>{{ field.hsn }}</b>
             </b-td>
 
             <!-- Qty -->
-            <b-td v-if="config.bill.qty">
+            <b-td v-if="config.qty">
               <b-input
+                size="sm"
                 v-model="field.qty"
                 class="hide-spin-button text-right"
                 type="number"
@@ -168,9 +175,10 @@
             </b-td>
 
             <!-- Rate -->
-            <b-td v-if="config.bill.rate">
+            <b-td v-if="config.rate">
               <b-input
                 v-model="field.rate"
+                size="sm"
                 class="hide-spin-button text-right"
                 type="number"
                 no-wheel
@@ -181,8 +189,9 @@
             </b-td>
 
             <!-- Discount -->
-            <b-td v-if="config.bill.discount">
+            <b-td v-if="config.discount">
               <b-input
+                size="sm"
                 v-model="field.discount.amount"
                 class="hide-spin-button text-right"
                 type="number"
@@ -194,42 +203,42 @@
             </b-td>
 
             <!-- Taxable Amt -->
-            <b-td v-if="config.bill.taxable">
+            <b-td v-if="config.taxable">
               {{ field.taxable }}
             </b-td>
 
             <!-- GST % -->
-            <b-td v-if="gstFlag && config.bill.igst">
+            <b-td v-if="gstFlag && config.igst">
               {{ field.igst.rate }}
             </b-td>
 
             <!-- GST $ -->
-            <b-td v-if="gstFlag && config.bill.igst">
+            <b-td v-if="gstFlag && config.igst">
               {{ field.igst.amount }}
             </b-td>
 
             <!-- CESS % -->
-            <b-td v-if="gstFlag && config.bill.cess">
+            <b-td v-if="gstFlag && config.cess">
               {{ field.cess.rate }}
             </b-td>
 
             <!-- CESS $ -->
-            <b-td v-if="gstFlag && config.bill.cess">
+            <b-td v-if="gstFlag && config.cess">
               {{ field.cess.amount }}
             </b-td>
 
             <!-- VAT Tax % -->
-            <b-td v-if="!gstFlag && config.bill.vat">
+            <b-td v-if="!gstFlag && config.vat">
               {{ field.vat.rate }}
             </b-td>
 
             <!-- VAT Tax $ -->
-            <b-td v-if="!gstFlag && config.bill.vat">
+            <b-td v-if="!gstFlag && config.vat">
               {{ field.vat.amount }}
             </b-td>
 
             <!-- Total -->
-            <b-td v-if="config.bill.total">
+            <b-td v-if="config.total">
               {{ field.total }}
             </b-td>
 
@@ -247,39 +256,37 @@
             </b-td>
           </b-tr>
         </b-tbody>
-        <b-tfoot v-if="config.bill.footer">
+        <b-tfoot v-if="config.footer">
           <b-tr variant="secondary" class="text-right">
-            <b-th :colspan="config.bill.footer.headingColspan"> Total </b-th>
-            <b-th v-if="config.bill.discount">
-              <span v-if="config.bill.footer.discount"
+            <b-th :colspan="config.footer.headingColspan"> Total </b-th>
+            <b-th v-if="config.discount">
+              <span v-if="config.footer.discount"
                 >₹ {{ getTotal('discount', 'amount') }}</span
               >
             </b-th>
-            <b-th v-if="config.bill.taxable">
-              <span v-if="config.bill.footer.taxable"
+            <b-th v-if="config.taxable">
+              <span v-if="config.footer.taxable"
                 >₹ {{ getTotal('taxable') }}</span
               >
             </b-th>
-            <b-th colspan="2" v-if="gstFlag && config.bill.igst">
-              <span v-if="config.bill.footer.igst"
+            <b-th colspan="2" v-if="gstFlag && config.igst">
+              <span v-if="config.footer.igst"
                 >₹ {{ getTotal('igst', 'amount') }}</span
               ></b-th
             >
-            <b-th colspan="2" v-if="gstFlag && config.bill.cess">
-              <span v-if="config.bill.footer.cess"
+            <b-th colspan="2" v-if="gstFlag && config.cess">
+              <span v-if="config.footer.cess"
                 >₹ {{ getTotal('cess', 'amount') }}</span
               ></b-th
             >
-            <b-th colspan="2" v-if="!gstFlag && config.bill.vat"
+            <b-th colspan="2" v-if="!gstFlag && config.vat"
               >₹
-              <span v-if="config.bill.footer.vat">{{
+              <span v-if="config.footer.vat">{{
                 getTotal('vat', 'amount')
               }}</span>
             </b-th>
-            <b-th v-if="config.bill.total">
-              <span v-if="config.bill.footer.total"
-                >₹ {{ getTotal('total') }}</span
-              >
+            <b-th v-if="config.total">
+              <span v-if="config.footer.total">₹ {{ getTotal('total') }}</span>
             </b-th>
             <b-th></b-th>
           </b-tr>
@@ -372,6 +379,7 @@ export default {
   },
   computed: {
     billLength: (self) => self.form.length,
+    isResponsive: (self) => (self.config.attr ? self.config.attr.responsive : true),
   },
   watch: {
     updateCounter() {
@@ -435,7 +443,7 @@ export default {
                 qty: 0,
                 discount: {
                   rate: data.discountpercent,
-                  amount: self.config.bill.discount ? data.discountamount : 0,
+                  amount: self.config.discount ? data.discountamount : 0,
                 },
               });
             } else {
@@ -455,13 +463,13 @@ export default {
                 cess: { rate: 0, amount: 0 },
                 vat: { rate: 0, amount: 0 },
               },
-              igst = self.config.bill.igst
+              igst = self.config.igst
                 ? data.filter((item) => item.taxname === 'IGST')
                 : 0,
-              cess = self.config.bill.cess
+              cess = self.config.cess
                 ? data.filter((item) => item.taxname === 'CESS')
                 : 0,
-              vat = self.config.bill.vat
+              vat = self.config.vat
                 ? data.filter((item) => item.taxname === 'CVAT')
                 : 0;
 
@@ -499,7 +507,7 @@ export default {
             this.form[index].pid = item.id;
             const self = this;
             this.fetchProductDetails(item.id, index).then(() => {
-              setTimeout(() => self.$emit('details-updated', self.form));
+              self.onUpdateDetails();
             });
           }
         }
@@ -618,7 +626,7 @@ export default {
           item.total = (0).toFixed(2);
         }
       }
-      setTimeout(() => this.$emit('details-updated', this.form));
+      this.onUpdateDetails();
     },
     fetchBusinessList() {
       let self = this;
@@ -658,11 +666,16 @@ export default {
           return error;
         });
     },
+    onUpdateDetails() {
+      setTimeout(() =>
+        this.$emit('details-updated', { data: this.form, name: 'bill-table' })
+      );
+    },
   },
   mounted() {
     const self = this;
     this.fetchBusinessList().then(() => {
-      setTimeout(() => self.$emit('details-updated', self.form));
+      self.onUpdateDetails();
     });
   },
 };

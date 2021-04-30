@@ -60,7 +60,7 @@
               required
               :state="isInvDateValid"
               debounce="500"
-              @input="onDetailsUpdated"
+              @input="onUpdateDetails"
             ></b-form-input>
             <b-input-group-append>
               <b-form-datepicker
@@ -121,7 +121,7 @@
             valueUid="id"
             v-model="form.godown"
             :options="options.godowns"
-            @input="onDetailsUpdated"
+            @input="onUpdateDetails"
             required
           ></autocomplete>
         </b-form-group>
@@ -286,15 +286,15 @@ export default {
         return parseInt(no);
       }
     },
-    onDetailsUpdated() {
-      setTimeout(() => this.$emit('details-updated', this.form));
+    onUpdateDetails() {
+      setTimeout(() => this.$emit('details-updated', {data: this.form, name: 'delivery-note-details'}));
     },
     onSelectState(state) {
       // set DelNote Gstin based on state
       if (state) {
         this.form.gstin = this.form.options.gstin[state.id];
       }
-      this.onDetailsUpdated();
+      this.onUpdateDetails();
     },
     /**
      * formatDateObj(date)
@@ -376,10 +376,10 @@ export default {
       const self = this;
       return Promise.all([...requests]).then(([resp1, resp2]) => {
         if (resp1.data.gkstatus === 0) {
-          this.options.lastDelChal.purchase = resp1.data.gkresult.dcno;
+          self.options.lastDelChal.purchase = resp1.data.gkresult.dcno;
         }
         if (resp2.data.gkstatus === 0) {
-          this.options.lastDelChal.sale = resp2.data.gkresult.dcno;
+          self.options.lastDelChal.sale = resp2.data.gkresult.dcno;
         }
       });
     },
@@ -452,7 +452,7 @@ export default {
         this.form.date = this.yearStart;
       }
       this.setDelChalNo();
-      this.onDetailsUpdated();
+      this.onUpdateDetails();
     },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
@@ -467,7 +467,7 @@ export default {
   mounted() {
     const self = this;
     this.preloadData().then(() => {
-      this.resetForm();
+      self.resetForm();
     });
   },
 };

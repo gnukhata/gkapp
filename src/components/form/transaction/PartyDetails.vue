@@ -402,6 +402,9 @@ export default {
     },
   },
   methods: {
+    onUpdateDetails() {
+      setTimeout(() => this.$emit('details-updated', {data: this.form, name: 'party-details'}));
+    },
     resetPartyDetails() {
       Object.assign(this.form, {
         name: '',
@@ -497,7 +500,7 @@ export default {
             }
             // debugger;
             // self.setShippingDetails(); // updates shipping details as well if flag is set
-            setTimeout(() => this.$emit('details-updated', this.form));
+            self.onUpdateDetails();
           })
           .catch((error) => {
             this.displayToast(
@@ -538,7 +541,7 @@ export default {
           pin: null,
         });
         // this.setShippingDetails();
-        setTimeout(() => this.$emit('details-updated', this.form));
+        this.onUpdateDetails();
       }
     },
     resetForm() {
