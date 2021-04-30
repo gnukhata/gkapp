@@ -15,7 +15,7 @@
         <b-form-radio value="sale">Sale</b-form-radio>
         <b-form-radio value="purchase">Purchase</b-form-radio>
       </b-form-radio-group>
-      <span class="float-right">
+      <!-- <span class="float-right">
         <config
           title="Invoice Page Configuration"
           getDefault="getDefaultInvoiceConfig"
@@ -23,7 +23,7 @@
           getCustom="getCustomInvoiceConfig"
         >
         </config>
-      </span>
+      </span> -->
       <div class="clearfix"></div>
     </div>
     <b-form @submit.prevent="onSubmit">
@@ -36,16 +36,16 @@
           :invoiceParty="invoiceParty"
           :config="config.party"
           :saleFlag="isSale"
-          @details-updated="updatePartyDetails"
+          @details-updated="onComponentDataUpdate"
           :updateCounter="updateCounter.party"
           ref="party"
         >
         </party-details>
         <!-- Delivery Note Details -->
         <delivery-note-details
-          :config="config.inv"
+          :config="config.delNote"
           :saleFlag="isSale"
-          @details-updated="updateDelNoteDetails"
+          @details-updated="onComponentDataUpdate"
           :updateCounter="updateCounter.delNote"
           ref="delNote"
         ></delivery-note-details>
@@ -76,8 +76,8 @@
       <!-- Bill Table -->
       <bill-table
         :gstFlag="isGst"
-        :config="billTableConfig"
-        @details-updated="updateBillDetails"
+        :config="config.bill"
+        @details-updated="onComponentDataUpdate"
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
         ref="bill"
@@ -192,7 +192,7 @@ import TransportDetails from '../../components/form/transaction/TransportDetails
 import Comments from '../../components/form/transaction/Comments.vue';
 import DeliveryNoteDetails from '../../components/form/transaction_details/DeliveryNoteDetails.vue';
 
-import invoiceConfig from '../../js/config/invoiceConfig';
+import delNoteConfig from '../../js/config/deliveryNote';
 
 export default {
   name: 'DeliveryNote',
@@ -222,6 +222,7 @@ export default {
   },
   data() {
     return {
+      vuexNameSpace: '',
       // config: {},
       updateCounter: {
         party: 0,
@@ -255,7 +256,7 @@ export default {
           purchase: [],
           sale: [],
         },
-        orgDetails: {}
+        orgDetails: {},
       },
       editFlag: null, // A flag used to skip fetchProductDetails() method call,
       // when the bill table is populated when the page loads in edit mode
@@ -265,7 +266,7 @@ export default {
     // config : Gets the custom config from the invoiceConfig Vuex module and
     //          prepares it for use by adding some custom additions to it (that should not be user editable)
     config: (self) => {
-      let newConf = self.$store.getters.getCustomInvoiceConfig;
+      let newConf = self.$store.getters[`${self.vuexNameSpace}/getCustomDelNoteConfig`];
       if (newConf) {
         newConf.bill.footer.headingColspan =
           !!newConf.bill.index +
@@ -274,26 +275,20 @@ export default {
             !!newConf.bill.qty +
             !!newConf.bill.rate || 1;
 
-        if (newConf.inv.class) {
-          newConf.inv.class = {
+        if (newConf.delNote.class) {
+          newConf.delNote.class = {
             'mr-md-1': !!newConf.ship,
             'ml-md-1': !!newConf.party,
           };
         }
         if (newConf.ship.class) {
           newConf.ship.class = {
-            'ml-md-1': !!(newConf.inv || newConf.party),
+            'ml-md-1': !!(newConf.delNote || newConf.party),
           };
         }
         if (newConf.party.class) {
           newConf.party.class = {
-            'mr-md-1': !!(newConf.inv || newConf.ship),
-          };
-        }
-
-        if (newConf.payment.class) {
-          newConf.payment.class = {
-            'mr-md-1': !!(newConf.transport || newConf.comments),
+            'mr-md-1': !!(newConf.delNote || newConf.ship),
           };
         }
 
@@ -314,7 +309,7 @@ export default {
         // This is because during HMR, the Invoice component gets loaded before old one can be destroyed, causing an error (https://github.com/vuejs/vue/issues/6518)
         // Adding a empty config as a short term fix for that
         newConf = {
-          inv: {
+          delNote: {
             class: {},
           },
           party: {
@@ -329,10 +324,6 @@ export default {
               headingColspan: 1,
             },
           },
-          payment: {
-            bank: {},
-            class: {},
-          },
           transport: {
             class: {},
           },
@@ -345,29 +336,11 @@ export default {
 
       return newConf;
     },
-    billTableConfig: (self) => {
-      if (self.config) {
-        return {
-          bill: self.config.bill || {},
-          taxType: self.config.taxType || {},
-          total: self.config.total || {},
-        };
-      }
-    },
-    defaultConfig: (self) => self.$store.getters.getDefaultInvoiceConfig,
+    defaultConfig: (self) => self.$store.getters[`${self.vuexNameSpace}/getDefaultDelNoteConfig`],
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
-    useBillAddress: {
-      get: function () {
-        return this.form.ship.copyFlag;
-      },
-      set: function (flag) {
-        this.form.ship.copyFlag = !!flag;
-        this.setShippingDetails();
-      },
-    },
     minDate: (self) => new Date(self.yearStart),
     maxDate: (self) => new Date(self.yearEnd),
     isInvDateValid: (self) => {
@@ -380,7 +353,7 @@ export default {
     },
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
-    ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
+    ...mapState(['yearStart', 'yearEnd', 'invoiceParty', 'orgCode']),
   },
   methods: {
     collectComponentData() {
@@ -401,20 +374,21 @@ export default {
       this.updateCounter.transport++;
       this.updateCounter.comments++;
     },
-    updateDelNoteDetails(delNoteDetails) {
-      // debugger;
-      Object.assign(this.form.delNote, delNoteDetails);
-      // this.updateCounter.delNote++;
+    onComponentDataUpdate(payload) {
+      switch (payload.name) {
+        case 'delivery-note-details':
+          Object.assign(this.form.delNote, payload.data);
+          break;
+        case 'party-details':
+          Object.assign(this.form.party, payload.data);
+          this.updateCounter.ship++;
+          break;
+        case 'bill-table':
+          Object.assign(this.form.bill, payload.data);
+          this.updateCounter.totalTable++;
+          break;
+      }
     },
-    updateBillDetails(billDetails) {
-      Object.assign(this.form.bill, billDetails);
-      this.updateCounter.totalTable++;
-    },
-    updatePartyDetails(partyDetails) {
-      Object.assign(this.form.party, partyDetails);
-      this.updateCounter.ship++;
-    },
-
     preloadData() {
       this.isPreloading = true;
       const requests = [
@@ -433,7 +407,7 @@ export default {
             'danger'
           );
           return error;
-        })
+        }),
       ];
 
       const self = this;
@@ -453,16 +427,18 @@ export default {
           });
         }
         if (resp2.data.gkstatus === 0) {
-          let state = self.options.states.find((state) => state.text === resp2.data.gkdata.orgstate)
-          let stateCode = (state)? state.value.id : null
+          let state = self.options.states.find(
+            (state) => state.text === resp2.data.gkdata.orgstate
+          );
+          let stateCode = state ? state.value.id : null;
           self.options.orgDetails = {
             name: resp2.data.gkdata.orgname,
             addr: resp2.data.gkdata.orgaddr,
             state: state.value,
-            gstin: (stateCode !== null) ? resp2.data.gkdata.gstin[stateCode] : "" ,
+            gstin: stateCode !== null ? resp2.data.gkdata.gstin[stateCode] : '',
             tin: '',
             pin: resp2.data.gkdata.orgpincode,
-            }
+          };
         }
       });
     },
@@ -796,9 +772,10 @@ export default {
     },
   },
   beforeMount() {
+    this.vuexNameSpace = 'deliveryNoteConfig_' + Date.now();
     // Dynamically load the config to Vuex, just before the Invoice component is mounted
-    this.$store.registerModule('invoiceConfig', invoiceConfig);
-    this.$store.dispatch('initInvoiceConfig');
+    this.$store.registerModule(this.vuexNameSpace, delNoteConfig);
+    this.$store.dispatch(`${this.vuexNameSpace}/initDelNoteConfig`, {orgCode: this.orgCode});
   },
   mounted() {
     // Using non props to store these props, as these can be edited in the future
@@ -809,7 +786,7 @@ export default {
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
     // prevent webpack HRM to destroy our store. But if you are production, please go away~
-    this.$store.unregisterModule('invoiceConfig');
+    this.$store.unregisterModule(this.vuexNameSpace);
   },
 };
 </script>

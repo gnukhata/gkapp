@@ -1549,6 +1549,7 @@ export default {
   data() {
     return {
       // config: {},
+      vuexNameSpace: '',
       formMode: '',
       invoiceId: '',
       form: {
@@ -1680,7 +1681,7 @@ export default {
     // config : Gets the custom config from the invoiceConfig Vuex module and
     //          prepares it for use by adding some custom additions to it (that should not be user editable)
     config: (self) => {
-      let newConf = self.$store.getters.getCustomInvoiceConfig;
+      let newConf = self.$store.getters[`${self.vuexNameSpace}/getCustomInvoiceConfig`];
       if (newConf) {
         newConf.bill.footer.headingColspan =
           !!newConf.bill.index +
@@ -1760,7 +1761,7 @@ export default {
 
       return newConf;
     },
-    defaultConfig: (self) => self.$store.getters.getDefaultInvoiceConfig,
+    defaultConfig: (self) => self.$store.getters[`${self.vuexNameSpace}/getDefaultInvoiceConfig`],
     invoiceTotalText: (self) => {
       let total = self.getTotal('total');
       let text = '';
@@ -3004,9 +3005,10 @@ export default {
     },
   },
   beforeMount() {
+    this.vuexNameSpace = 'invoiceConfig_' + Date.now();
     // Dynamically load the config to Vuex, just before the Invoice component is mounted
-    this.$store.registerModule('invoiceConfig', invoiceConfig);
-    this.$store.dispatch('initInvoiceConfig');
+    this.$store.registerModule(this.vuexNameSpace, invoiceConfig);
+    this.$store.dispatch(`${this.vuexNameSpace}/initInvoiceConfig`);
   },
   mounted() {
     // Using non props to store these props, as these can be edited in the future
@@ -3017,7 +3019,7 @@ export default {
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
     // prevent webpack HRM to destroy our store. But if you are production, please go away~
-    this.$store.unregisterModule('invoiceConfig');
+    this.$store.unregisterModule(this.vuexNameSpace);
   },
 };
 </script>
