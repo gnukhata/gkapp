@@ -123,7 +123,12 @@ const routes = [
     name: 'Delivery Note',
     component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/DeliveryNote.vue'),
     props: true
-  }
+  },
+  {
+    path: '/cash_memo',
+    name: 'Cash Memo',
+    component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/CashMemo.vue'),
+  },
 ]
 
 const router = new VueRouter({

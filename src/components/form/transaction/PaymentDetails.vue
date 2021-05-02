@@ -41,7 +41,9 @@
             required
           ></b-form-select>
         </b-form-group>
-        <b v-if="form.mode === 3">CASH RECEIVED</b>
+        <b v-if="form.mode === 3">{{
+          saleFlag === true ? 'CASH RECEIVED' : 'CASH PAID'
+        }}</b>
         <div v-if="form.mode === 2">
           <b>Bank Details</b>
           <b-form-group
@@ -119,6 +121,10 @@
 export default {
   name: 'PaymentDetails',
   props: {
+    saleFlag: {
+      type: Boolean,
+      required: true,
+    },
     config: {
       type: Object,
       required: true,
@@ -141,6 +147,13 @@ export default {
             ifsc: null,
           },
         };
+      },
+    },
+    optionsData: {
+      type: Object,
+      required: false,
+      default: function () {
+        return {};
       },
     },
   },
@@ -170,6 +183,11 @@ export default {
       },
       isCollapsed: false,
     };
+  },
+  mounted() {
+    if (this.optionsData.payModes) {
+      this.options.payModes = this.optionsData.payModes;
+    }
   },
 };
 </script>
