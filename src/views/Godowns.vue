@@ -17,7 +17,7 @@
       v-if="allGodowns.length > 0"
       :filter="searchText"
       :items="allGodowns"
-      :fields="['godown_name', 'state']"
+      :fields="fields"
       striped
       sort-direction="asc"
       head-variant="dark"
@@ -76,6 +76,10 @@ export default {
   data() {
     return {
       searchText: '',
+      fields: [
+        { key: 'godown_name', sortable: true },
+        { key: 'state', sortable: true },
+      ],
       loading: false,
       allGodowns: [],
       godownId: Number,
