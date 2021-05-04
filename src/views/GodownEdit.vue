@@ -51,7 +51,7 @@ export default {
   methods: {
     confirm() {
       this.$bvModal
-        .msgBoxConfirm('Confirm?', {
+        .msgBoxConfirm(`Confirm delete ${this.form.goname}?`, {
           centered: true,
           okVariant: 'danger',
         })
