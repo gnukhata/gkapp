@@ -129,6 +129,11 @@ const routes = [
     name: 'Cash Memo',
     component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/CashMemo.vue'),
   },
+  {
+    path: '/ps_order',
+    name: 'Purchase/Sale Order',
+    component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/PurchaseSaleOrder.vue'),
+  },
 ]
 
 const router = new VueRouter({
