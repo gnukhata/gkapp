@@ -27,10 +27,11 @@
       </div>
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
-          label="Number of packages"
+          label="No. of packages"
           label-for="input-24-1"
           label-size="sm"
           label-cols="3"
+          v-if="config.packageCount"
         >
           <b-form-input
             size="sm"
@@ -43,10 +44,10 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          label="Mode of Transport"
+          label="Transport By"
           label-for="input-24"
           label-size="sm"
-          label-cols="auto"
+          label-cols="3"
           v-if="config.mode"
         >
           <b-form-select
@@ -59,7 +60,7 @@
         <b-form-group
           label="Vehicle No."
           label-for="input-25"
-          label-cols="auto"
+          label-cols="3"
           label-size="sm"
           label-cols-lg="autauto"
           v-if="form.mode === 'Road' && config.vno"
@@ -74,7 +75,7 @@
         <b-form-group
           id="input-group-3"
           label="Date of Supply"
-          label-cols="auto"
+          label-cols="3"
           label-for="date-2"
           label-size="sm"
           v-if="config.date"
@@ -99,6 +100,55 @@
               >
               </b-form-datepicker>
             </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+        <b-form-group
+          id="input-group-4"
+          label="Receipt Date"
+          label-cols="3"
+          label-for="date-3"
+          label-size="sm"
+          v-if="config.receiptDate"
+        >
+          <b-input-group>
+            <b-form-input
+              size="sm"
+              id="date-3"
+              v-model="form.receiptDate"
+              type="text"
+              placeholder="YYYY-MM-DD"
+              autocomplete="off"
+            ></b-form-input>
+            <b-input-group-append>
+              <b-form-datepicker
+                size="sm"
+                v-model="form.receiptDate"
+                button-only
+                right
+                locale="en-GB"
+                aria-controls="date-1"
+              >
+              </b-form-datepicker>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+        <b-form-group
+          label="Grace Period"
+          label-for="input-24-2"
+          label-size="sm"
+          label-cols="3"
+          v-if="config.packageCount"
+        >
+          <b-input-group append="days" size="sm">
+            <b-form-input
+              size="sm"
+              id="input-24-2"
+              v-model="form.packageCount"
+              type="number"
+              min="0"
+              no-wheel
+              required
+            ></b-form-input>
           </b-input-group>
         </b-form-group>
         <b-form-checkbox
@@ -138,6 +188,7 @@ export default {
           date: null,
           reverseCharge: false,
           packageCount: 0,
+          deliveryDate: null,
         };
       },
     },

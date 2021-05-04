@@ -49,7 +49,13 @@
               >Qty</b-th
             >
             <b-th
-              :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
+              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+              rowspan="2"
+              v-if="config.packageCount"
+              >No. of Packages</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '200px', width: '150px', minWidth: '70px' }"
               rowspan="2"
               v-if="config.rate"
               >Rate</b-th
@@ -163,7 +169,7 @@
               <b-input
                 size="sm"
                 v-model="field.qty"
-                class="hide-spin-button text-right"
+                class="hide-spin-button text-right px-1"
                 type="number"
                 no-wheel
                 step="0.01"
@@ -174,12 +180,27 @@
               ></b-input>
             </b-td>
 
+            <!-- No. of Packages -->
+            <b-td v-if="config.packageCount">
+              <b-input
+                size="sm"
+                v-model="field.packageCount"
+                class="hide-spin-button text-right px-1"
+                type="number"
+                no-wheel
+                step="0.01"
+                min="0.01"
+                :readonly="field.isService"
+                :tabindex="field.isService ? -1 : 0"
+              ></b-input>
+            </b-td>
+
             <!-- Rate -->
             <b-td v-if="config.rate">
               <b-input
                 v-model="field.rate"
                 size="sm"
-                class="hide-spin-button text-right"
+                class="hide-spin-button text-right px-1"
                 type="number"
                 no-wheel
                 step="0.01"
@@ -193,7 +214,7 @@
               <b-input
                 size="sm"
                 v-model="field.discount.amount"
-                class="hide-spin-button text-right"
+                class="hide-spin-button text-right px-1"
                 type="number"
                 no-wheel
                 step="0.01"
@@ -245,13 +266,9 @@
             <!-- +/- Buttons -->
             <b-td>
               <b-button
-                v-if="index < billLength - 1"
                 @click.prevent="deleteBillItem(index)"
                 size="sm"
                 >-</b-button
-              >
-              <b-button v-else @click.prevent="addBillItem()" size="sm"
-                >+</b-button
               >
             </b-td>
           </b-tr>
@@ -288,7 +305,11 @@
             <b-th v-if="config.total">
               <span v-if="config.footer.total">₹ {{ getTotal('total') }}</span>
             </b-th>
-            <b-th></b-th>
+            <b-th class="text-center">
+              <b-button @click.prevent="addBillItem()" size="sm"
+                >+</b-button
+              >
+            </b-th>
           </b-tr>
         </b-tfoot>
       </b-table-simple>
@@ -364,6 +385,7 @@ export default {
             hsn: '',
             qty: 0,
             fqty: 0,
+            packageCount: 0,
             rate: 0,
             discount: { rate: 0, amount: 0 },
             taxable: 0,
@@ -397,6 +419,7 @@ export default {
           hsn: '',
           qty: 0,
           fqty: 0,
+          packageCount: 0,
           rate: 0,
           discount: { rate: 0, amount: 0 },
           taxable: 0,
@@ -559,6 +582,7 @@ export default {
         product: { id: '', name: '' },
         hsn: '',
         qty: 0,
+        packageCount: 0,
         fqty: 0,
         rate: 0,
         discount: { rate: 0, amount: 0 },
