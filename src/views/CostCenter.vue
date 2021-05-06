@@ -29,7 +29,7 @@
       <template #table-busy>
         <div class="text-center">
           <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong> Fetching Cost Center... </strong>
+          <strong> Fetching List... </strong>
         </div>
       </template>
       <template #cell(manage)="data">
@@ -65,7 +65,7 @@
     >
       <cost-center-edit
         :id="ccId"
-        @created="getCostCenterList"
+        @modified="getCostCenterList"
       ></cost-center-edit>
     </b-modal>
   </section>
@@ -80,6 +80,7 @@ export default {
   name: 'Godowns',
   data() {
     return {
+      loading: false,
       searchText: '',
       fields: [
         { key: 'name', sortable: true },
