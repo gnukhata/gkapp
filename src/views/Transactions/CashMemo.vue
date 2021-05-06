@@ -272,13 +272,9 @@ export default {
         // dcid: null, // Has to be filled when Delivery Note is implemented. If no Deliver Note is available skip this property
         invoiceno: this.form.memo.no,
         invoicedate: this.form.memo.date,
-        sourcestate: this.form.memo.state.name || null,
         orgstategstin: this.form.memo.gstin || null,
 
         roundoffflag: this.form.total.roundFlag ? 1 : 0,
-
-        taxflag: null,
-        taxstate: null,
 
         paymentmode: this.form.payment.mode,
 
@@ -424,12 +420,11 @@ export default {
             }
           }
         })
-        .catch((error) => {
+        .catch(() => {
           this.isLoading = false;
         });
     },
     resetForm() {
-      let delNote = this.form.delNote;
       this.form = {
         type: 'sale',
         memo: {
