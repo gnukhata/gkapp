@@ -25,9 +25,13 @@
             <!-- show only for authenticated user -->
             <template v-if="userAuthenticated">
               <b-nav-item
-                :to="{ name: 'Workflow',  params: {
-                  wfName: 'Transactions', wfId: -1
-                }}"
+                :to="{
+                  name: 'Workflow',
+                  params: {
+                    wfName: 'Transactions',
+                    wfId: -1,
+                  },
+                }"
                 :active="activeNav === 'Dashboard'"
                 ><b-icon icon="wrench"></b-icon> Workflow</b-nav-item
               >
@@ -56,29 +60,33 @@
                 {{ userName }}
               </template>
               <!-- admin only options -->
-              <template v-if="userRole == -1">
-                <b-dropdown-item to="/orgprofile"
-                  ><b-icon icon="building"></b-icon> Organisation
-                  Profile</b-dropdown-item
-                >
-                <b-dropdown-item to="/uom"
-                  ><b-icon icon="thermometer"></b-icon> Unit of measurement
-                </b-dropdown-item>
-                <b-dropdown-item to="/user_management"
-                  ><b-icon icon="people"></b-icon> Manage Users</b-dropdown-item
-                >
-                <b-dropdown-item to="/logs"
-                  ><b-icon icon="server"></b-icon> Audit Logs</b-dropdown-item
-                >
-                <b-dropdown-item to="/closebooks"
-                  ><b-icon icon="journals"></b-icon> Close Books / Roll
-                  Over</b-dropdown-item
-                >
-              </template>
-              <b-dropdown-item :to="{name: 'Billwise', params: {'custType': 3, 'custName': '-1'}}"
+              <!-- <template v-if="userRole == -1">
+                   <b-dropdown-item to="/orgprofile"
+                   ><b-icon icon="building"></b-icon> Organisation
+                   Profile</b-dropdown-item
+                   >
+                   <b-dropdown-item to="/uom"
+                   ><b-icon icon="thermometer"></b-icon> Unit of measurement
+                   </b-dropdown-item>
+                   <b-dropdown-item to="/user_management"
+                   ><b-icon icon="people"></b-icon> Manage Users</b-dropdown-item
+                   >
+                   <b-dropdown-item to="/logs"
+                   ><b-icon icon="server"></b-icon> Audit Logs</b-dropdown-item
+                   >
+                   <b-dropdown-item to="/closebooks"
+                   ><b-icon icon="journals"></b-icon> Close Books / Roll
+                   Over</b-dropdown-item
+                   >
+              <b-dropdown-item
+                :to="{
+                  name: 'Billwise',
+                  params: { custType: 3, custName: '-1' },
+                }"
                 ><b-icon icon="clipboard"></b-icon> Adjust
                 Bills</b-dropdown-item
               >
+                   </template> -->
               <b-dropdown-item v-b-modal.change-pwd
                 ><b-icon icon="key"></b-icon> Change Password
               </b-dropdown-item>
@@ -103,6 +111,7 @@
         </b-modal>
       </b-navbar>
       <color-bar></color-bar>
+      <sidebar></sidebar>
     </header>
     <main role="main">
       <router-view />
@@ -114,9 +123,10 @@ import { mapState } from 'vuex';
 import ColorBar from '@/components/ColorBar.vue';
 import axios from 'axios';
 import ChangePwd from '@/components/form/ChangePwd.vue';
+import Sidebar from './components/Sidebar.vue';
 export default {
   name: 'App',
-  components: { ColorBar, ChangePwd },
+  components: { ColorBar, ChangePwd, Sidebar },
   data() {
     return {
       userRole: Number,

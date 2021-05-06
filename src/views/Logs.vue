@@ -23,8 +23,10 @@
       small
       hover
       striped
+      head-variant="dark"
       :items="log"
       :filter="searchText"
+      :fields="['activity', 'time', 'username']"
     ></b-table>
   </section>
 </template>
