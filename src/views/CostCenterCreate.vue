@@ -1,22 +1,25 @@
 <template>
   <section class="m-2">
-    <b-form @submit.prevent="createCostCenter">
-      <b-form-group label="Name">
-        <b-form-input v-model="form.projectname" required></b-form-input>
-      </b-form-group>
-      <b-form-group label="Budgeted Amount">
-        <b-form-input
-          v-model="form.sanctionedamount"
-          required
-          no-wheel
-          type="number"
-          placeholder="0.00"
-        ></b-form-input>
-      </b-form-group>
-      <b-button type="submit" variant="success"
-        ><b-icon icon="plus"></b-icon> Add</b-button
-      >
-    </b-form>
+    <b-overlay :show="loading" fixed spinner-type="grow" blur>
+      <b-form @submit.prevent="createCostCenter">
+        <b-form-group label="Name">
+          <b-form-input v-model="form.projectname" required></b-form-input>
+        </b-form-group>
+        <b-form-group label="Budgeted Amount">
+          <b-form-input
+            v-model="form.sanctionedamount"
+            required
+            no-wheel
+            type="number"
+            placeholder="0.00"
+            step="0.01"
+          ></b-form-input>
+        </b-form-group>
+        <b-button type="submit" variant="success"
+          ><b-icon icon="plus"></b-icon> Add</b-button
+        >
+      </b-form>
+    </b-overlay>
   </section>
 </template>
 
@@ -27,6 +30,7 @@ export default {
   name: 'CostCenterCreate',
   data() {
     return {
+      loading: false,
       form: {
         projectname: '',
         sanctionedamount: null,
@@ -86,12 +90,15 @@ export default {
                   solid: true,
                 });
                 break;
+              default:
+                this.loading = false;
             }
           } else {
             this.$bvToast.toast(r.status + ' error', {
               variant: 'danger',
               solid: true,
             });
+            this.loading = false;
           }
         })
         .catch((e) => {
@@ -99,6 +106,7 @@ export default {
             variant: 'danger',
             solid: true,
           });
+          this.loading = false;
         });
     },
   },
