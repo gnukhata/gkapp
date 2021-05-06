@@ -111,7 +111,7 @@
         </b-modal>
       </b-navbar>
       <color-bar></color-bar>
-      <sidebar></sidebar>
+      <sidebar v-if="userAuthenticated"></sidebar>
     </header>
     <main role="main">
       <router-view />
