@@ -46,7 +46,7 @@ variable `VUE_APP_GKCORE_URL` to your preferred url.
 Example:
 
 ```bash
-export VUE_APP_GKCORE_URL
+export VUE_APP_GKCORE_URL=https://gkcore.example.com
 npm run build
 ```
 
