@@ -40,7 +40,7 @@ To pre-compile & hot-reload for development run `npm run serve`
 
 Production-ready with minified bundle `npm run build`
 
-In The default gkcore url is `localhost:6543`, It can changed by setting environmental
+The default server url is `localhost:6543`, It can changed by setting environmental
 variable `VUE_APP_GKCORE_URL` to your preferred url.
 
 Example:
