@@ -27,8 +27,10 @@
       >
         <b-form-input
           v-model="form.conversionrate"
-          type="text"
+          type="number"
           required
+          step="0.01"
+          placeholder="0.00"
         ></b-form-input>
       </b-form-group>
       <b-button type="submit" variant="success" class="float-right"

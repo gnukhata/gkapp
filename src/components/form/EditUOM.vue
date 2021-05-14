@@ -24,7 +24,10 @@
       <b-form-group label="Conversion Rate">
         <b-form-input
           v-model="form.conversionrate"
-          type="text"
+          type="number"
+          no-wheel
+          placeholder="0.00"
+          step="0.01"
           required
         ></b-form-input>
       </b-form-group>
