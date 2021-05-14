@@ -14,6 +14,18 @@
           v-model="searchText"
         ></b-form-input>
       </b-input-group>
+      <b-alert
+        dismissible
+        variant="dark"
+        class="container text-dark"
+        :show="true"
+      >
+        System generated units are displayed in
+        <b-badge variant="dark">black</b-badge>, User created units which are
+        mapped to system units are displayed
+        <b-badge variant="success">green</b-badge>. If not mapped, Units will be
+        dispalyed in <b-badge variant="warning">yellow</b-badge>
+      </b-alert>
       <b-table
         :filter="searchText"
         :fields="fields"
@@ -37,7 +49,7 @@
           <b-button
             @click="showEditUOM(data.item.uom_id)"
             title="click to edit UOM"
-            variant="dark"
+            :variant="subUnitStatus(data.item)"
             size="sm"
           >
             {{ data.item.unit_name }}
@@ -110,7 +122,8 @@ export default {
               obj.unit_name = Object.values(data)[1];
               obj.description = Object.values(data)[2];
               obj.uom_id = Object.values(data)[0];
-              obj.sortable = true;
+              obj.subunitof = Object.values(data)[3];
+              obj.sysunit = Object.values(data)[4];
               return obj;
             });
             this.uomList = usr;
@@ -120,6 +133,16 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+    },
+    /* As per Indian GST laws, A custom unit should be mapped to a officially valid unit */
+    subUnitStatus(item) {
+      if (item.sysunit === 1) {
+        return 'dark';
+      } else if (item.sysunit === 0 && item.subunitof == null) {
+        return 'warning';
+      } else {
+        return 'success';
+      }
     },
     showEditUOM(id) {
       this.selectedUomId = id;
