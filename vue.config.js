@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: process.env.GKAPP_URL || '/',
+    publicPath: '/gkapp/',
     lintOnSave: 'warning',
     // Disable js source maps for production build
     productionSourceMap: false
