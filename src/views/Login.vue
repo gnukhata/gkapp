@@ -458,8 +458,8 @@ export default {
     },
   },
   created() {
-    this.fetchOrgs();
     this.checkUrl();
+    this.fetchOrgs();
     if (this.userAuthenticated) {
       this.$router.push('/workflow/Transactions/-1');
     }
