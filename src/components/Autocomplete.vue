@@ -14,6 +14,7 @@
       debounce="500"
       autocomplete="off"
       :readonly="readonly"
+      :tabindex="(readonly)? -1 : 0"
     />
 
     <!-- Autocomplete Menu -->

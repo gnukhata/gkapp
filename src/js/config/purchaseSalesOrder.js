@@ -119,7 +119,7 @@ export default {
     initPSOrderConfig({ state, commit }, payload) {
       let conf 
       try { // if the PSOrderConfig isn't a valid JSON, catch the error and  use null to get the default config
-        conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-PSOrderConfig`))
+        conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-psOrderConfig`))
       } catch(error) {
         conf = null
       }
@@ -131,7 +131,7 @@ export default {
     },
     updatePSOrderConfig({ commit }, payload) {
       commit("setPSOrderConfig", payload.data)
-      localStorage.setItem(`${payload.orgCode}-PSOrderConfig`, JSON.stringify(payload.data))
+      localStorage.setItem(`${payload.orgCode}-psOrderConfig`, JSON.stringify(payload.data))
     }
   },
   namespaced: true

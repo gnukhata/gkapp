@@ -182,13 +182,13 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import Config from '../../components/Config.vue';
+// import Config from '../../components/Config.vue';
 
 import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
 import ShipDetails from '../../components/form/transaction/ShipDetails.vue';
 import BillTable from '../../components/form/transaction/BillTable.vue';
 import TotalTable from '../../components/form/transaction/TotalTable.vue';
-import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
+// import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
 import DeliveryNoteDetails from '../../components/form/transaction_details/DeliveryNoteDetails.vue';
 
@@ -197,13 +197,13 @@ import delNoteConfig from '../../js/config/deliveryNote';
 export default {
   name: 'DeliveryNote',
   components: {
-    Config,
+    // Config,
 
     PartyDetails,
     ShipDetails,
     BillTable,
     TotalTable,
-    TransportDetails,
+    // TransportDetails,
     Comments,
     DeliveryNoteDetails,
   },

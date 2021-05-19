@@ -22,8 +22,8 @@
         <transfer-note-details
           :config="config.transferNote"
           @details-updated="onComponentDataUpdate"
-          :updateCounter="updateCounter.delNote"
-          ref="delNote"
+          :updateCounter="updateCounter.transferNote"
+          ref="transferNote"
         ></transfer-note-details>
         <transport-details
           ref="transport"

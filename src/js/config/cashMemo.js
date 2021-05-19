@@ -77,10 +77,10 @@ export default {
     }
   },
   actions: {
-    initCashMemoConfig({ state, commit }) {
+    initCashMemoConfig({ state, commit }, payload) {
       let conf 
       try { // if the CashMemoConfig isn't a valid JSON, catch the error and  use null to get the default config
-        conf = JSON.parse(localStorage.getItem("CashMemoConfig"))
+        conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-cashMemoConfig`))
       } catch(error) {
         conf = null
       }
@@ -91,8 +91,8 @@ export default {
       }
     },
     updateCashMemoConfig({ commit }, payload) {
-      commit("setCashMemoConfig", payload)
-      localStorage.setItem("CashMemoConfig", JSON.stringify(payload))
+      commit("setCashMemoConfig", payload.data)
+      localStorage.setItem(`${payload.orgCode}-cashMemoConfig`, JSON.stringify(payload.data))
     }
   },
   namespaced: true
