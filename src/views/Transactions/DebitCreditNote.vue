@@ -15,26 +15,25 @@
         <b-form-radio value="sale">Sale</b-form-radio>
         <b-form-radio value="purchase">Purchase</b-form-radio>
       </b-form-radio-group>
-      <span class="float-right">
-        <config
-          title="Invoice Page Configuration"
-          getDefault="getDefaultInvoiceConfig"
-          setCustom="updateInvoiceConfig"
-          getCustom="getCustomInvoiceConfig"
-        >
-        </config>
-      </span>
       <div class="clearfix"></div>
     </div>
     <b-form @submit.prevent="onSubmit">
       <b-card-group class="d-block d-md-flex my-2" deck>
+        <!-- Debit Credit Note Details -->
+        <dc-note-details
+          :config="config.dcNote"
+          :saleFlag="isSale"
+          @details-updated="onComponentDataUpdate"
+          :updateCounter="updateCounter.dcNote"
+          ref="dcNote"
+        ></dc-note-details>
         <!-- Invoice Details -->
         <invoice-details
           :config="config.inv"
           :saleFlag="isSale"
           @details-updated="onComponentDataUpdate"
-          :updateCounter="updateCounter.delNote"
-          ref="delNote"
+          :updateCounter="updateCounter.invoice"
+          ref="invoice"
         ></invoice-details>
         <!-- Buyer/Seller Details -->
         <party-details
@@ -152,30 +151,32 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import Config from '../../components/Config.vue';
+// import Config from '../../components/Config.vue';
 
 import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
-import ShipDetails from '../../components/form/transaction/ShipDetails.vue';
+// import ShipDetails from '../../components/form/transaction/ShipDetails.vue';
 import BillTable from '../../components/form/transaction/BillTable.vue';
 import TotalTable from '../../components/form/transaction/TotalTable.vue';
-import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
+// import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
-import DeliveryNoteDetails from '../../components/form/transaction_details/DeliveryNoteDetails.vue';
+import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
+import DcNoteDetails from '../../components/form/transaction_details/DcNoteDetails.vue';
 
-import invoiceConfig from '../../js/config/invoiceConfig';
+import dcNoteConfig from '../../js/config/debitCreditNote.js';
 
 export default {
   name: 'DebitCreditNote',
   components: {
-    Config,
+    // Config,
 
     PartyDetails,
-    ShipDetails,
+    // ShipDetails,
+    DcNoteDetails,
     BillTable,
     TotalTable,
-    TransportDetails,
+    // TransportDetails,
     Comments,
-    DeliveryNoteDetails,
+    InvoiceDetails,
   },
   data() {
     return {
@@ -185,17 +186,15 @@ export default {
       updateCounter: {
         party: 0,
         invoice: 0,
-        psOrder:0,
-        ship: 0,
+        dcNote: 0,
         bill: 0,
         totalTable: 0,
-        transport: 0,
         comments: 0,
       },
       form: {
         type: 'sale',
         invoice: {},
-        psOrder:[],
+        dcNote: [],
         party: {},
         ship: {},
         taxType: 'gst', // vat
@@ -204,6 +203,7 @@ export default {
         narration: null,
         total: {},
       },
+      invId: null,
       options: {
         states: [],
         orgDetails: {},
@@ -212,7 +212,8 @@ export default {
   },
   computed: {
     config: (self) => {
-      let newConf = self.$store.getters[`${self.vuexNameSpace}/getCustomInvoiceConfig`];
+      let newConf =
+        self.$store.getters[`${self.vuexNameSpace}/getCustomDCNoteConfig`];
       if (newConf) {
         newConf.bill.footer.headingColspan =
           !!newConf.bill.index +
@@ -223,31 +224,20 @@ export default {
 
         if (newConf.inv.class) {
           newConf.inv.class = {
-            'mr-md-1': !!newConf.ship,
-            'ml-md-1': !!newConf.party,
+            'mr-md-1': !!newConf.party,
+            'ml-md-1': !!newConf.dcNote,
           };
         }
-        if (newConf.ship.class) {
-          newConf.ship.class = {
-            'ml-md-1': !!(newConf.inv || newConf.party),
-          };
-        }
+
         if (newConf.party.class) {
           newConf.party.class = {
-            'mr-md-1': !!(newConf.inv || newConf.ship),
+            'ml-md-1': !!(newConf.inv || newConf.dcNote),
           };
         }
 
-        if (newConf.payment.class) {
-          newConf.payment.class = {
-            'mr-md-1': !!(newConf.transport || newConf.comments),
-          };
-        }
-
-        if (newConf.transport.class) {
-          newConf.transport.class = {
-            'mr-md-1': !!newConf.comments,
-            // 'ml-md-1': !!newConf.payment,
+        if (newConf.dcNote.class) {
+          newConf.dcNote.class = {
+            'mr-md-1': !!(newConf.inv || newConf.party),
           };
         }
 
@@ -261,13 +251,11 @@ export default {
         // This is because during HMR, the Invoice component gets loaded before old one can be destroyed, causing an error (https://github.com/vuejs/vue/issues/6518)
         // Adding a empty config as a short term fix for that
         newConf = {
+          dcNote: {},
           inv: {
             class: {},
           },
           party: {
-            class: {},
-          },
-          ship: {
             class: {},
           },
           taxType: true,
@@ -275,13 +263,6 @@ export default {
             footer: {
               headingColspan: 1,
             },
-          },
-          payment: {
-            bank: {},
-            class: {},
-          },
-          transport: {
-            class: {},
           },
           comments: {
             class: {},
@@ -303,8 +284,12 @@ export default {
   methods: {
     onComponentDataUpdate(payload) {
       switch (payload.name) {
-        case 'delivery-note-details':
-          Object.assign(this.form.delNote, payload.data);
+        case 'dc-note-details':
+          Object.assign(this.form.dcNote, payload.data);
+          if (this.form.dcNote.invNo !== this.invId) {
+            this.fetchInvoiceData();
+          }
+          // console.log(this.form.dcNote)
           break;
         case 'party-details':
           Object.assign(this.form.party, payload.data);
@@ -317,26 +302,145 @@ export default {
       }
     },
     collectComponentData() {
-      Object.assign(this.form.delNote, this.$refs.delNote.form);
+      Object.assign(this.form.dcNote, this.$refs.dcNote.form);
+      Object.assign(this.form.invoice, this.$refs.invoice.form);
       Object.assign(this.form.party, this.$refs.party.form);
-      Object.assign(this.form.ship, this.$refs.ship.form);
       Object.assign(this.form.bill, this.$refs.bill.form);
       Object.assign(this.form.total, this.$refs.totalTable.form);
-      Object.assign(this.form.transport, this.$refs.transport.form);
       this.form.narration = this.$refs.narration.form.narration;
     },
     updateComponentData() {
       this.updateCounter.party++;
-      this.updateCounter.delNote++;
-      this.updateCounter.ship++;
+      this.updateCounter.dcNote++;
+      this.updateCounter.invoice++;
       this.updateCounter.bill++;
       this.updateCounter.totalTable++;
-      this.updateCounter.transport++;
       this.updateCounter.comments++;
+    },
+    fetchInvoiceData() {
+      let invId = this.form.dcNote.invNo;
+      if (!invId) {
+        return;
+      }
+      this.isPreloading = true;
+      let self = this;
+      axios
+        .get(`/invoice?inv=single&invid=${invId}`)
+        .then((resp) => {
+          self.isPreloading = false;
+          if (resp.data.gkstatus === 0) {
+            let data = resp.data.gkresult;
+            // console.log(resp.data);
+            let invState =
+              data.inoutflag === 15 // if sale inv state will be source else it will destination
+                ? self.options.states.find(
+                    (state) => state.text === data.sourcestate
+                  )
+                : self.options.states.find(
+                    (state) => state.text === data.destinationstate
+                  );
+            // set invoice details
+            self.form.invoice = {
+              type: data.inoutflag === 15 ? 'sale' : 'purchase',
+              no: data.invoiceno,
+              date: data.invoicedate.split('-').reverse().join('-'),
+              delNote: null, /////////////////////////
+              ebn: data.ewaybillno || null,
+              addr: data.address,
+              pin: data.pincode,
+              state: invState ? invState.value : {},
+              issuer: data.issuername,
+              role: data.designation,
+            };
+
+            self.form.party.type =
+              data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+            self.form.taxType = data.taxflag === 7 ? 'gst' : 'vat';
+            self.form.narration = data.narration;
+            self.form.totalRoundFlag = !!data.roundoff;
+
+            // debugger;
+            this.$nextTick().then(() => {
+              // set party details
+              self.form.party.type =
+                data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+              if (self.form.party.type === 'customer') {
+                self.form.party.name = self.options.customers.find(
+                  (cust) => cust.text === data.custSupDetails.custname
+                );
+              } else {
+                self.form.party.name = self.options.suppliers.find(
+                  (sup) => sup.text === data.custSupDetails.custname
+                );
+              }
+              // ;
+              self.form.party.name = self.form.party.name
+                ? self.form.party.name.value
+                : { name: '', id: null };
+            });
+
+            // set bill items
+            self.form.bill = [];
+            self.options.bill = [];
+            self.editFlag = 0;
+            for (const itemCode in data.invcontents) {
+              self.editFlag++;
+              // this.addBillItem();
+              // continue;
+              let item = data.invcontents[itemCode];
+              let itemName = data.invcontents[itemCode].proddesc;
+              let product = self.options.products.find(
+                (prod) => prod.text === itemName
+              );
+              let billItem = {
+                product: product ? product.value : { name: 'null', id: '' },
+                discount: { amount: parseFloat(item.discount) },
+                hsn: item.gscode,
+                igst: {
+                  amount: parseFloat(item.taxamount),
+                  rate: parseFloat(item.taxrate),
+                },
+                cess: {
+                  amount: parseFloat(item.cessrate),
+                  rate: parseFloat(item.cess),
+                },
+                vat: {
+                  amount: parseFloat(item.taxamount),
+                  rate: parseFloat(item.taxrate),
+                },
+                qty: parseFloat(item.qty),
+                fqty: item.freeqty,
+                rate: parseFloat(item.priceperunit),
+                isService: item.gsflag === 19,
+              };
+              // console.log(itemName)
+              self.options.bill.push(billItem);
+              // self.fetchProductDetails(product.id, self.editFlag-1);
+            }
+          }
+          self.updateComponentData();
+        })
+        .catch((error) => {
+          this.displayToast(
+            'Fetch Invoice ${this.invid} data Error!',
+            error.message,
+            'warning'
+          );
+        });
     },
     resetForm() {
       this.form = {
         type: 'sale', // purchase
+        dcNote: {
+          type: 'debit',
+          no: null,
+          invNo: null,
+          date: this.formatDateObj(new Date()),
+          gstin: null,
+          referenceFlag: false,
+          badQuality: false,
+          purpose: 'price', // 'qty'
+        },
         invoice: {
           no: null,
           date: this.formatDateObj(new Date()),
@@ -399,8 +503,10 @@ export default {
   beforeMount() {
     this.vuexNameSpace = 'dcNoteConfig_' + Date.now();
     // Dynamically load the config to Vuex, just before the Invoice component is mounted
-    this.$store.registerModule(this.vuexNameSpace, invoiceConfig);
-    this.$store.dispatch(`${this.vuexNameSpace}/initInvoiceConfig`, {orgCode: this.orgCode});
+    this.$store.registerModule(this.vuexNameSpace, dcNoteConfig);
+    this.$store.dispatch(`${this.vuexNameSpace}/initDCNoteConfig`, {
+      orgCode: this.orgCode,
+    });
   },
   mounted() {
     // Using non props to store these props, as these can be edited in the future
