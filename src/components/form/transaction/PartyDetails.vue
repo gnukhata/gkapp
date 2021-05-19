@@ -87,7 +87,7 @@
                 @input="onPartyNameSelect(form.name)"
                 required
                 valueUid="id"
-                :readonly="editFlag"
+                :readonly="editFlag || isNameDisabled"
               >
               </autocomplete>
             </b-form-group>
@@ -378,6 +378,7 @@ export default {
       options: {
         customers: [],
         suppliers: [],
+        csData: {},
       },
       editFlag: false,
       loading: false,
@@ -392,18 +393,39 @@ export default {
       isPreloading: false,
     };
   },
-  computed: {},
+  computed: {
+    isNameDisabled: (self) => {
+      if (typeof self.config['name'] === 'object') {
+        return !!self.config['name'].disabled;
+      }
+      return false;
+    },
+  },
   watch: {
     saleFlag(isSale) {
       this.form.type = isSale ? 'customer' : 'supplier';
     },
     updateCounter() {
-      Object.assign(this.form, this.parentData);
+      let party;
+      const partyName = this.parentData.name;
+      if (this.parentData.type === 'customer') {
+        party = this.options.customers.find((cust) => cust.text === partyName);
+      } else {
+        party = this.options.suppliers.find((sup) => sup.text === partyName);
+      }
+      if (party) {
+        this.form.name = party.value;
+      }
     },
   },
   methods: {
     onUpdateDetails() {
-      setTimeout(() => this.$emit('details-updated', {data: this.form, name: 'party-details'}));
+      setTimeout(() =>
+        this.$emit('details-updated', {
+          data: this.form,
+          name: 'party-details',
+        })
+      );
     },
     resetPartyDetails() {
       Object.assign(this.form, {
@@ -444,6 +466,11 @@ export default {
      */
     fetchCustomerData(id) {
       if (id !== null) {
+        let data = this.options.csData[id];
+        if (data) {
+          this.setCustomerData(data);
+          return;
+        }
         let self = this;
         axios
           .get(`/customersupplier?qty=single&custid=${id}`)
@@ -463,23 +490,7 @@ export default {
                     value: { id: key, name: stateList[key] },
                   };
                 });
-                Object.assign(self.form, {
-                  addr: resp.data.gkresult.custaddr,
-                  options: {
-                    states,
-                    gstin: resp.data.gkresult.gstin,
-                  },
-                  state: states[0].value,
-                  pan: resp.data.gkresult.custpan,
-                  checksum: '',
-                  pin: resp.data.gkresult.pincode,
-                  gstin: '',
-                  tin: resp.data.gkresult.custtan || null,
-                });
-                setTimeout(() => {
-                  self.setPartyGst(); // set gstin based on state
-                });
-
+                self.setCustomerData(resp.data.gkresult);
                 break;
               case 2:
                 self.resetPartyDetails(); // if there no data, then reset the fields
@@ -510,6 +521,43 @@ export default {
             );
           });
       }
+    },
+    /**
+     * setCustomerData
+     *
+     * Sets the customer/supplier data and adds the data to csData = {custid :data} for future use
+     */
+    setCustomerData(data) {
+      // convert [{id: name}, {id2: name}] to {id: name, id2: name}, to remove duplicates
+      var stateList =
+        data.statelist.reduce((acc, item) => {
+          acc[Object.keys(item)[0]] = Object.values(item)[0];
+          return acc;
+        }, {}) || {};
+      // convert it back to array format for <b-form-select> options
+      var states = Object.keys(stateList).map((key) => {
+        return {
+          text: stateList[key],
+          value: { id: key, name: stateList[key] },
+        };
+      });
+      Object.assign(this.form, {
+        addr: data.custaddr,
+        options: {
+          states,
+          gstin: data.gstin,
+        },
+        state: states[0].value,
+        pan: data.custpan,
+        checksum: '',
+        pin: data.pincode,
+        gstin: '',
+        tin: data.custtan || null,
+      });
+      setTimeout(() => {
+        this.setPartyGst(); // set gstin based on state
+      });
+      this.options.csData[data.custid] = data;
     },
     /**
      * onPartyNameSelect(name)

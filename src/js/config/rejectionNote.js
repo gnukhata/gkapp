@@ -3,8 +3,8 @@ export default {
   state: {
     default: {
       inv: {
-        no: true,
-        date: true,
+        no: { disabled: true },
+        date: { disabled: true, validate: false },
         delNote: false,
         ebn: false,
         addr: true,
@@ -22,7 +22,9 @@ export default {
           gstin: true,
         },
         custid: true,
-        name: true,
+        name: {
+          disabled: true
+        },
         addr: true,
         state: true,
         gstin: true,
@@ -30,25 +32,19 @@ export default {
         pin: false,
         class: {},
       },
-      ship: {
-        copyFlag: true,
-        name: true,
-        addr: true,
-        state: true,
-        gstin: true,
-        tin: true,
-        pin: true,
+      rnote: {
         class: {},
       },
       taxType: true,
       bill: {
         index: true,
-        product: true,
+        product: { disabled: true },
         hsn: true,
-        qty: true,
-        fqty: true,
-        rate: true,
-        discount: true,
+        qty: { disabled: true },
+        rejectedQty: true,
+        fqty: { disabled: true },
+        rate: { disabled: true },
+        discount: { disabled: true },
         taxable: true,
         igst: true,
         cess: true,
@@ -63,6 +59,7 @@ export default {
           total: true,
           headingColspan: 1,
         },
+        addBtn: false
       },
       payment: {
         mode: true,
@@ -86,13 +83,13 @@ export default {
       },
       total: {
         taxable: true,
-        discount: true,
+        discount: false,
         vat: true,
         igst: true,
         cess: true,
-        roundOff: true,
+        roundOff: false,
         value: true,
-        valueText: true,
+        valueText: false,
       },
     },
     custom: {}
@@ -114,10 +111,10 @@ export default {
   },
   actions: {
     initRejectionNoteConfig({ state, commit }, payload) {
-      let conf 
+      let conf
       try { // if the RejectionNoteConfig isn't a valid JSON, catch the error and  use null to get the default config
         conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-RejectionNoteConfig`))
-      } catch(error) {
+      } catch (error) {
         conf = null
       }
       if (conf !== null) {

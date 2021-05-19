@@ -51,6 +51,12 @@
             <b-th
               :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
               rowspan="2"
+              v-if="config.rejectedQty"
+              >Rejected Qty</b-th
+            >
+            <b-th
+              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+              rowspan="2"
               v-if="config.packageCount"
               >No. of Packages</b-th
             >
@@ -100,7 +106,7 @@
               v-if="config.total"
               >Total</b-th
             >
-            <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
+            <b-th v-if="config.addBtn" :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
               >+/-</b-th
             >
           </b-tr>
@@ -156,6 +162,7 @@
                 :isOptionsShared="true"
                 required
                 emptyValue=""
+                :readonly="disabled.product"
               ></autocomplete>
             </b-td>
 
@@ -175,8 +182,23 @@
                 step="0.01"
                 min="0.01"
                 @input="updateTaxAndTotal(index)"
-                :readonly="field.isService"
+                :readonly="field.isService || disabled.qty"
                 :tabindex="field.isService ? -1 : 0"
+              ></b-input>
+            </b-td>
+
+            <!-- Rejected Qty -->
+            <b-td v-if="config.rejectedQty">
+              <b-input
+                size="sm"
+                v-model="field.rejectedQty"
+                class="hide-spin-button text-right px-1"
+                type="number"
+                no-wheel
+                step="0.01"
+                min="0"
+                :max="field.qty"
+                @input="updateTaxAndTotal(index)"
               ></b-input>
             </b-td>
 
@@ -206,6 +228,7 @@
                 step="0.01"
                 min="0.01"
                 @input="updateTaxAndTotal(index)"
+                :readonly="disabled.rate"
               ></b-input>
             </b-td>
 
@@ -220,6 +243,7 @@
                 step="0.01"
                 min="0.00"
                 @input="updateTaxAndTotal(index)"
+                :readonly="disabled.discount"
               ></b-input>
             </b-td>
 
@@ -264,10 +288,8 @@
             </b-td>
 
             <!-- +/- Buttons -->
-            <b-td>
-              <b-button
-                @click.prevent="deleteBillItem(index)"
-                size="sm"
+            <b-td v-if="config.addBtn">
+              <b-button @click.prevent="deleteBillItem(index)" size="sm"
                 >-</b-button
               >
             </b-td>
@@ -305,10 +327,8 @@
             <b-th v-if="config.total">
               <span v-if="config.footer.total">₹ {{ getTotal('total') }}</span>
             </b-th>
-            <b-th class="text-center">
-              <b-button @click.prevent="addBillItem()" size="sm"
-                >+</b-button
-              >
+            <b-th class="text-center" v-if="config.addBtn">
+              <b-button @click.prevent="addBillItem()" size="sm">+</b-button>
             </b-th>
           </b-tr>
         </b-tfoot>
@@ -401,18 +421,62 @@ export default {
   },
   computed: {
     billLength: (self) => self.form.length,
-    isResponsive: (self) => (self.config.attr ? self.config.attr.responsive : true),
+    isResponsive: (self) =>
+      self.config.attr ? self.config.attr.responsive : true,
+    disabled: (self) => {
+      let disabled = {};
+      for(const item in self.config) {
+        if(typeof self.config[item] === 'object'){
+          disabled[item] = !!self.config[item].disabled;
+        } else {
+          disabled[item] = false;
+        }
+      }
+      return disabled;
+    }
   },
   watch: {
     updateCounter() {
-      this.form = this.parentData;
-      this.$forceUpdate();
+      this.isPreloading = true;
+      this.editFlag = 0;
+      const self = this;
+      this.form = [];
+      let products = [];
+      this.parentData.forEach((item) => {
+        let product = self.options.products.find(
+          (p) => p.text === item.product
+        );
+        if (product) {
+          self.editFlag++;
+          self.addBillItem();
+          products.push({
+            pid: product.value.id,
+            product: product.value,
+            discount: item.discount,
+            qty: item.qty,
+            fqty: item.fqty,
+            rate: item.rate,
+            isService: item.isService
+          });
+        }
+      });
+      setTimeout(() => {
+        if (products.length) {
+          products.forEach((product, index) => {
+            Object.assign(self.form[index], product);
+            self.fetchProductDetails(self.form[index].product.id, index);
+          });
+        }
+        // self.$forceUpdate();
+        self.isPreloading = false;
+      }, 500);
     },
   },
   data() {
     return {
       showBusinessForm: false,
       isPreloading: false,
+      editFlag: 0,
       form: [
         {
           product: { name: '', id: '' },
@@ -581,8 +645,9 @@ export default {
       this.form.push({
         product: { id: '', name: '' },
         hsn: '',
-        qty: 0,
+        qty: 1,
         packageCount: 0,
+        rejectedQty: 0,
         fqty: 0,
         rate: 0,
         discount: { rate: 0, amount: 0 },
@@ -612,15 +677,19 @@ export default {
       let item = this.form[index];
       if (item) {
         if (item.rate > 0) {
-          if (item.isService) {
-            item.taxable = parseFloat(
-              (item.rate - item.discount.amount).toFixed(2)
-            );
-          } else {
-            item.taxable = parseFloat(
-              (item.rate * item.qty - item.discount.amount).toFixed(2)
-            );
+          let qty = item.qty;
+          if(this.config.rejectedQty) {
+            qty = item.rejectedQty;
           }
+          // if (item.isService) {
+          //   item.taxable = parseFloat(
+          //     (item.rate - item.discount.amount).toFixed(2)
+          //   );
+          // } else {
+          //   }
+          item.taxable = parseFloat(
+            (item.rate * qty - item.discount.amount * qty).toFixed(2)
+          );
 
           if (this.form.taxType === 'gst') {
             if (item.igst.rate > 0) {

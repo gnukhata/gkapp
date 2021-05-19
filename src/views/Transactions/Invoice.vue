@@ -1523,7 +1523,7 @@ import Config from '../../components/Config.vue';
 import Autocomplete from '../../components/Autocomplete.vue';
 
 import invoiceConfig from '../../js/config/invoiceConfig';
-import { numberToRupees } from '../../js/utils';
+import { numberToRupees, formatDateObj } from '../../js/utils';
 
 export default {
   name: 'Invoice',
@@ -1556,7 +1556,7 @@ export default {
         inv: {
           type: 'sale', // purchase
           no: null,
-          date: this.formatDateObj(new Date()),
+          date: formatDateObj(new Date()),
           delNote: null,
           ebn: null,
           addr: null,
@@ -2566,18 +2566,6 @@ export default {
       });
       this.setShippingDetails();
     },
-    /**
-     * formatDateObj(date)
-     *
-     * Description: Converts a js Date object, into yyyy-mm-dd string
-     */
-    formatDateObj(date) {
-      let month = date.getMonth() + 1;
-      month = month > 9 ? month : '0' + month;
-      let day = date.getDate();
-      day = day > 9 ? day : '0' + day;
-      return `${date.getFullYear()}-${month}-${day}`;
-    },
     onSubmit() {
       let self = this;
       this.isLoading = true;
@@ -2844,7 +2832,7 @@ export default {
         inv: {
           type: 'sale', // purchase
           no: null,
-          date: this.formatDateObj(new Date()),
+          date: formatDateObj(new Date()),
           delNote: null,
           ebn: null,
           addr: null,

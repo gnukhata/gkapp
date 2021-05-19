@@ -1,8 +1,9 @@
 <template>
   <b-card
-    class="mb-2 mb-md-0 mr-md-1 ml-md-1"
+    class="mb-2 mb-md-0"
     border-variant="secondary"
     no-body
+    :class="config.class"
   >
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
@@ -27,7 +28,7 @@
       </div>
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
-          label="Del. Note No."
+          label="No."
           label-for="input-1"
           label-cols-md="4"
           label-cols="3"
@@ -91,6 +92,7 @@
             v-model="form.godown"
             :options="options.godowns"
             @input="onUpdateDetails"
+            :readonly="true"
             required
           ></autocomplete>
         </b-form-group>
@@ -105,6 +107,7 @@
             v-model="form.type"
             size="sm"
             :options="options.transactionTypes"
+            :disabled="true"
           >
           </b-form-select>
         </b-form-group>
@@ -155,6 +158,10 @@ export default {
   name: 'RejectionNoteDetails',
   components: { Autocomplete },
   props: {
+    invDate: {
+      type: String,
+      required: true,
+    },
     saleFlag: {
       type: Boolean,
       required: true,
@@ -173,15 +180,28 @@ export default {
     return {
       isPreloading: false,
       isCollapsed: false,
-      form: {},
+      form: {
+        date: this.formatDateObj(new Date()),
+        issuer: null,
+        role: null,
+      },
       options: {
         delNotes: [],
-        invoices: [],
+        invoices: {
+          sale: [],
+          purchase: [],
+        },
       },
     };
   },
+  watch: {
+    invDate() {
+      this.onUpdateDetails();
+    },
+  },
   computed: {
-    minDate: (self) => new Date(self.yearStart),
+    minDate: (self) =>
+      self.invDate ? new Date(self.invDate) : new Date(self.yearStart),
     maxDate: (self) => new Date(self.yearEnd),
     isInvDateValid: (self) => {
       let currDate = new Date(self.form.date).getTime(),
@@ -195,48 +215,30 @@ export default {
   },
   methods: {
     preloadData() {
-      const payload1 = {
-        inputdate: this.yearEnd,
-        type: "rejectionnote"
-      };
-      const requests = [
-        axios
-          .get('/invoice?unbilled_delnotes=true', {
-            data: payload1,
-          })
-          .catch((error) => {
-            this.displayToast(
-              'Fetch Delivery Note List Failed!',
-              error.message,
-              'danger'
-            );
-            return error;
-          }),
-        axios
-          .get('/invoice?type=nonrejected', {
-            data: { inputdate: this.yearEnd },
-          })
-          .catch((error) => {
-            this.displayToast(
-              'Fetch Non Rejected Invoice List Failed!',
-              error.message,
-              'danger'
-            );
-            return error;
-          }),
-      ];
-      const self = this;
-      return Promise.all([...requests]).then(([resp1, resp2]) => {
-        if (resp1.data.gkstatus === 0) {
-          console.log(resp1.data);
-          self.options.delNotes = resp1.data.gkresult;
-        }
-
-        if (resp2.data.gkstatus === 0) {
-          console.log(resp2.data);
-          self.options.invoices = resp2.data.gkresult;
-        }
-      });
+      const requests = [this.fetchUserData()];
+      return Promise.all([...requests]).then(() => {});
+    },
+    fetchUserData() {
+      let self = this;
+      return axios
+        .get(`/users?user=single`)
+        .then((resp) => {
+          // === User name and role ===
+          if (resp.status === 200) {
+            if (resp.data.gkstatus === 0) {
+              self.form.issuer = resp.data.gkresult.username;
+              self.form.role = resp.data.gkresult.userroleName;
+            } else {
+              // User data not available, check again
+            }
+          } else {
+            // User data not available, check again
+          }
+        })
+        .catch((error) => {
+          this.displayToast('Fetch User Data Failed!', error.message, 'danger');
+          return error;
+        });
     },
     /**
      * formatDateObj(date)
@@ -251,16 +253,26 @@ export default {
       return `${date.getFullYear()}-${month}-${day}`;
     },
     onUpdateDetails() {
-      setTimeout(() =>
-        this.$emit('details-updated', {
-          data: this.form,
-          name: 'rejection-note-details',
-        })
+      const self = this
+      setTimeout(
+        () =>
+          self.$emit('details-updated', {
+            data: self.form,
+            name: 'rejection-note-details',
+            options: {
+              isDateValid: self.isInvDateValid,
+            },
+          }),
+        1000
       );
     },
   },
   mounted() {
     this.preloadData();
+    if (!this.isInvDateValid) {
+      this.form.date = this.yearStart;
+    }
+    this.onUpdateDetails();
   },
 };
 </script>

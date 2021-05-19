@@ -1,7 +1,8 @@
 <template>
   <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2">
     <b-alert :show="isInvDateValid === false" variant="danger"
-      >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
+      >Date must be from
+      <b>{{ form.invoice.date ? form.invoice.date : yearStart }}</b> to
       <b>{{ yearEnd }}</b>
     </b-alert>
     <div class="mb-2">
@@ -11,10 +12,23 @@
         size="sm"
         buttons
         class="mx-1"
+        @input="resetForm"
       >
         <b-form-radio value="sale">Sale</b-form-radio>
         <b-form-radio value="purchase">Purchase</b-form-radio>
       </b-form-radio-group>
+      <span id="edit-invoice-list" class="d-inline-block">
+        <autocomplete
+          size="sm"
+          id="input-8-2"
+          v-model="invIndex"
+          :options="invList"
+          required
+          @input="updateFormData"
+          placeholder="Invoice"
+        >
+        </autocomplete>
+      </span>
       <!-- <span class="float-right">
         <config
           title="Invoice Page Configuration"
@@ -29,14 +43,21 @@
     <b-form @submit.prevent="onSubmit">
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Rejection Note Details -->
-        <rejection-note-details :saleFlag="isSale" :config="{}"></rejection-note-details>
+        <rejection-note-details
+          :saleFlag="isSale"
+          :config="config.rnote"
+          :invDate="form.invoice.date"
+          ref="rnote"
+          @details-updated="onComponentDataUpdate"
+        ></rejection-note-details>
         <!-- Invoice Details -->
         <invoice-details
           :config="config.inv"
           :saleFlag="isSale"
+          :parentData="form.invoice"
           @details-updated="onComponentDataUpdate"
-          :updateCounter="updateCounter.delNote"
-          ref="delNote"
+          :updateCounter="updateCounter.invoice"
+          ref="invoice"
         ></invoice-details>
         <!-- Buyer/Seller Details -->
         <party-details
@@ -61,22 +82,32 @@
         :parentData="form.bill"
         ref="bill"
       ></bill-table>
-      <total-table
-        :config="config.total"
-        :gstFlag="isGst"
-        :billData="form.bill"
-        :updateCounter="updateCounter.totalTable"
-        ref="totalTable"
-      ></total-table>
-      <b-card-group class="d-block d-md-flex" deck>
-        <!-- Invoice Comments -->
-        <comments
-          ref="narration"
-          :config="config.comments"
-          :updateCounter="updateCounter.comments"
-          :parentData="form.comments"
-        ></comments>
-      </b-card-group>
+      <div class="px-2">
+        <!-- b-row has to be enclosed in a container tag with padding
+         atleast 2, to avoid creating an offset to the right -->
+        <b-row class="mt-5" v-if="config.total">
+          <b-col cols="12" lg="6" order-lg="1" order="2">
+            <b-card-group class="d-block d-md-flex" deck>
+              <!-- Invoice Comments -->
+              <comments
+                ref="narration"
+                :config="config.comments"
+                :updateCounter="updateCounter.comments"
+                :parentData="form.comments"
+              ></comments>
+            </b-card-group>
+          </b-col>
+          <b-col cols="12" lg="6" order-lg="2" order="1">
+            <total-table
+              :config="config.total"
+              :gstFlag="isGst"
+              :billData="form.bill"
+              :updateCounter="updateCounter.totalTable"
+              ref="totalTable"
+            ></total-table>
+          </b-col>
+        </b-row>
+      </div>
       <b-tooltip
         target="inv-submit"
         :show="showErrorToolTip"
@@ -143,30 +174,36 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import Config from '../../components/Config.vue';
+// import Config from '../../components/Config.vue';
 
 import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
 import RejectionNoteDetails from '../../components/form/transaction_details/RejectionNoteDetails.vue';
 import BillTable from '../../components/form/transaction/BillTable.vue';
 import TotalTable from '../../components/form/transaction/TotalTable.vue';
-import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
+// import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
 import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
 
 import rejectionNoteConfig from '../../js/config/rejectionNote.js';
 
+import Autocomplete from '../../components/Autocomplete.vue';
+
+import { reverseDate } from '../../js/utils';
+
 export default {
   name: '',
   components: {
-    Config,
+    // Config,
 
     PartyDetails,
     RejectionNoteDetails,
     BillTable,
     TotalTable,
-    TransportDetails,
+    // TransportDetails,
     Comments,
     InvoiceDetails,
+
+    Autocomplete,
   },
   data() {
     return {
@@ -174,78 +211,100 @@ export default {
       isLoading: false,
       isInvDateValid: false,
       updateCounter: {
+        invoice: 0,
         party: 0,
-        delNote: 0,
-        ship: 0,
+        rnote: 0,
         bill: 0,
         totalTable: 0,
-        transport: 0,
         comments: 0,
       },
+      saleInvIndex: 1,
+      purchaseInvIndex: 1,
       form: {
         type: 'sale',
-        delNote: {},
+        rnote: {},
+        invoice: {
+          date: '',
+        },
         party: {},
-        ship: {},
         taxType: 'gst', // vat
         bill: [],
-        transport: {},
         narration: null,
         total: {},
       },
       options: {
-        states: [],
-        orgDetails: {},
+        invData: {
+          sale: [],
+          purchase: [],
+        },
+        invoices: {
+          sale: [],
+          purchase: [],
+        },
       },
     };
   },
   computed: {
+    invIndex: {
+      set: function (newValue) {
+        if (this.isSale) {
+          this.saleInvIndex = newValue;
+        } else {
+          this.purchaseInvIndex = newValue;
+        }
+      },
+      get: function () {
+        return this.isSale ? this.saleInvIndex : this.purchaseInvIndex;
+      },
+    },
+    invSelected: (self) =>
+      self.isSale
+        ? self.options.invData.sale[self.invIndex]
+        : self.options.invData.purchase[self.invIndex],
+    invList: (self) =>
+      self.isSale ? self.options.invoices.sale : self.options.invoices.purchase,
     config: (self) => {
       let newConf =
-        self.$store.getters[`${self.vuexNameSpace}/getCustomRejectionNoteConfig`];
+        self.$store.getters[
+          `${self.vuexNameSpace}/getCustomRejectionNoteConfig`
+        ];
       if (newConf) {
         newConf.bill.footer.headingColspan =
           !!newConf.bill.index +
             !!newConf.bill.product +
             !!newConf.bill.hsn +
             !!newConf.bill.qty +
+            !!newConf.bill.rejectedQty +
             !!newConf.bill.rate || 1;
 
         if (newConf.inv.class) {
           newConf.inv.class = {
-            'mr-md-1': !!newConf.ship,
-            'ml-md-1': !!newConf.party,
+            'mr-md-1': !!newConf.party,
+            'ml-md-1': !!newConf.rnote,
           };
         }
-        if (newConf.ship.class) {
-          newConf.ship.class = {
-            'ml-md-1': !!(newConf.inv || newConf.party),
-          };
-        }
+        // if (newConf.ship.class) {
+        //   newConf.ship.class = {
+        //     'ml-md-1': !!(newConf.inv || newConf.party),
+        //   };
+        // }
         if (newConf.party.class) {
           newConf.party.class = {
-            'ml-md-1': !!(newConf.inv || newConf.ship),
+            'ml-md-1': !!(newConf.inv || newConf.rnote),
           };
         }
 
-        if (newConf.payment.class) {
-          newConf.payment.class = {
-            'mr-md-1': !!(newConf.transport || newConf.comments),
+        if (newConf.rnote.class) {
+          newConf.rnote.class = {
+            'mr-md-1': !!(newConf.inv || newConf.party),
           };
         }
 
-        if (newConf.transport.class) {
-          newConf.transport.class = {
-            'mr-md-1': !!newConf.comments,
-            // 'ml-md-1': !!newConf.payment,
-          };
-        }
-
-        if (newConf.comments.class) {
-          newConf.comments.class = {
-            'ml-md-1': !!(newConf.transport || newConf.payment),
-          };
-        }
+        // if (newConf.comments.class) {
+        //   newConf.comments.class = {
+        //     'ml-md-1': !!(newConf.transport || newConf.payment),
+        //   };
+        // }
       } else {
         // In Hot Module Reloading during dev, the dynamic Vuex module does not get loaded and errors are printed in console.
         // This is because during HMR, the Invoice component gets loaded before old one can be destroyed, causing an error (https://github.com/vuejs/vue/issues/6518)
@@ -257,21 +316,11 @@ export default {
           party: {
             class: {},
           },
-          ship: {
-            class: {},
-          },
           taxType: true,
           bill: {
             footer: {
               headingColspan: 1,
             },
-          },
-          payment: {
-            bank: {},
-            class: {},
-          },
-          transport: {
-            class: {},
           },
           comments: {
             class: {},
@@ -293,8 +342,9 @@ export default {
   methods: {
     onComponentDataUpdate(payload) {
       switch (payload.name) {
-        case 'delivery-note-details':
-          Object.assign(this.form.delNote, payload.data);
+        case 'rejection-note-details':
+          Object.assign(this.form.rnote, payload.data);
+          this.isInvDateValid = payload.options.isDateValid;
           break;
         case 'party-details':
           Object.assign(this.form.party, payload.data);
@@ -307,25 +357,257 @@ export default {
       }
     },
     collectComponentData() {
-      Object.assign(this.form.delNote, this.$refs.delNote.form);
+      Object.assign(this.form.invoice, this.$refs.invoice.form);
+      Object.assign(this.form.rnote, this.$refs.rnote.form);
       Object.assign(this.form.party, this.$refs.party.form);
-      Object.assign(this.form.ship, this.$refs.ship.form);
       Object.assign(this.form.bill, this.$refs.bill.form);
       Object.assign(this.form.total, this.$refs.totalTable.form);
-      Object.assign(this.form.transport, this.$refs.transport.form);
       this.form.narration = this.$refs.narration.form.narration;
     },
     updateComponentData() {
+      this.updateCounter.invoice++;
       this.updateCounter.party++;
-      this.updateCounter.delNote++;
-      this.updateCounter.ship++;
+      this.updateCounter.rejectionNote++;
       this.updateCounter.bill++;
       this.updateCounter.totalTable++;
-      this.updateCounter.transport++;
       this.updateCounter.comments++;
     },
-    resetForm() {},
-    initForm() {},
+    initPayload() {
+      this.collectComponentData();
+
+      let rndata = {
+        rnno: this.form.rnote.no,
+        rndate: this.form.rnote.date,
+        inout: this.isSale ? 15 : 9,
+        rejprods: {},
+        rejectedtotal: this.form.total.amount,
+        invid: this.invSelected.invid,
+      };
+
+      let stock = {
+        inout: this.isSale ? 15 : 9,
+        items: {},
+      };
+
+      let products = {};
+
+      this.form.bill.forEach((item) => {
+        products[item.pid] = {};
+        products[item.pid][item.rate] = item.rejectedQty;
+      });
+
+      rndata.rejprods = stock.items = products;
+
+      if (this.form.narration) {
+        rndata.rejnarration = this.form.narration;
+      }
+
+      return {
+        rejectionnotedata: rndata,
+        stockdata: stock,
+      };
+    },
+    onSubmit() {
+      const self = this;
+      this.isLoading = true;
+
+      const payload = this.initPayload();
+      console.log(payload);
+      // return;
+      // const method = this.formMode === 'create' ? 'post' : 'put';
+      axios
+        .post('/rejectionnote', payload)
+        .then((resp) => {
+          self.isLoading = false;
+          if (resp.status === 200) {
+            switch (resp.data.gkstatus) {
+              case 0:
+                // success
+                console.log(resp.data);
+                this.displayToast(
+                  `Create Rejection Note Successfull!`,
+                  `Rejection Note #${self.form.rnote.no} was successfully created`,
+                  'success'
+                );
+                this.resetForm();
+                break;
+              case 1:
+                // Duplicate entry
+                this.displayToast(
+                  `Create Rejection Note Failed!`,
+                  'Duplicate Entry, Check No.',
+                  'warning'
+                );
+                break;
+              case 2:
+                // Unauthorized access
+                this.displayToast(
+                  `Create Rejection Note Failed!`,
+                  'Unauthorized Access, Contact Admin',
+                  'warning'
+                );
+                break;
+              case 3:
+                // Connection failed, Check inputs and try again
+                this.displayToast(
+                  `Create Rejection Note Failed!`,
+                  'Please check your input and try again later',
+                  'danger'
+                );
+            }
+          }
+        })
+        .catch((error) => {
+          self.isLoading = false;
+          self.displayToast(
+            `Create Rejection Note Error!`,
+            error.message,
+            'warning'
+          );
+        });
+    },
+    preloadData() {
+      const requests = [
+        axios
+          .get('/invoice?type=nonrejected', {
+            data: { inputdate: this.yearEnd },
+          })
+          .catch((error) => {
+            this.displayToast(
+              'Fetch Non Rejected Invoice List Failed!',
+              error.message,
+              'danger'
+            );
+            return error;
+          }),
+      ];
+      const self = this;
+      return Promise.all([...requests]).then(([resp1]) => {
+        if (resp1.data.gkstatus === 0) {
+          let saleData = [],
+            purchaseData = [],
+            sale = [],
+            purchase = [];
+          resp1.data.gkresult.forEach((inv) => {
+            if (inv.inoutflag === 15) {
+              saleData.push(inv);
+              sale.push({
+                text: `${inv.invoiceno},${inv.invoicedate},${inv.custsupdetail.custname}`,
+                value: saleData.length - 1,
+              });
+            } else {
+              purchaseData.push(inv);
+              purchase.push({
+                text: `${inv.invoiceno},${inv.invoicedate},${inv.custsupdetail.custname}`,
+                value: purchaseData.length - 1,
+              });
+            }
+          });
+          self.options.invData = {
+            sale: saleData,
+            purchase: purchaseData,
+          };
+          self.options.invoices = {
+            sale,
+            purchase,
+          };
+        }
+      });
+    },
+    /**
+     * updateBillTable()
+     *
+     * Given an invoice id, updates the products in the bill table
+     */
+    updateBillTable(invoiceId, prodCount) {
+      let self = this;
+      axios
+        .get(`/invoice?inv=single&invid=${invoiceId}`)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let data = resp.data.gkresult;
+            self.form.party.type =
+              data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+            self.form.taxType = data.taxflag === 7 ? 'gst' : 'vat';
+
+            let item, itemName, billItem;
+            self.form.bill = [];
+            for (const itemCode in data.invcontents) {
+              let qty = prodCount[itemCode];
+              if (!qty) {
+                continue;
+              }
+              item = data.invcontents[itemCode];
+              itemName = data.invcontents[itemCode].proddesc;
+              billItem = {
+                product: itemName,
+                discount: { amount: parseFloat(item.discount) },
+                qty: parseFloat(qty),
+                fqty: item.freeqty,
+                rate: parseFloat(item.priceperunit),
+                isService: item.gsflag === 19,
+              };
+              if (billItem.isService) {
+                billItem.qty = 1;
+              }
+              self.form.bill.push(billItem);
+            }
+
+            self.updateCounter.bill++;
+          }
+        })
+        .catch(() => {
+          return false;
+        });
+    },
+    /**
+     * updateFormData()
+     *
+     * Update the form's data based on the invoice selected
+     */
+    updateFormData() {
+      if (!this.invIndex && this.invIndex !== 0) {
+        return;
+      }
+      const inv = this.invSelected;
+      Object.assign(this.form.invoice, {
+        no: inv.invoiceno,
+        date: reverseDate(inv.invoicedate),
+      });
+      Object.assign(this.form.party, {
+        name: inv.custsupdetail.custname,
+        type: inv.custsupdetail.csflag === 3 ? 'customer' : 'supplier',
+      });
+      this.updateComponentData();
+      this.updateBillTable(inv.invid, inv.rejcontent);
+    },
+    resetForm() {
+      Object.assign(this.form, {
+        rnote: {},
+        invoice: {
+          no: null,
+          date: '',
+          addr: null,
+          gstin: null,
+          state: {},
+        },
+        party: {
+          custid: null,
+          name: {},
+          addr: null,
+          state: {},
+          gstin: null,
+        },
+        bill: [],
+        narration: null,
+        total: {},
+      });
+      this.updateComponentData();
+      // this.invIndex = 0;
+    },
+    initForm() {
+      this.preloadData();
+    },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
         title: title,

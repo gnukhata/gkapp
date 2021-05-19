@@ -43,6 +43,8 @@
                 v-model="form.no"
                 trim
                 required
+                :readonly="disabled.no"
+                :tabindex="disabled.no ? -1 : 0"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -66,6 +68,8 @@
                   required
                   :state="isInvDateValid"
                   debounce="500"
+                  :readonly="disabled.date"
+                  :tabindex="disabled.date ? -1 : 0"
                 ></b-form-input>
                 <b-input-group-append>
                   <b-form-datepicker
@@ -77,6 +81,8 @@
                     aria-controls="date-1"
                     :min="minDate"
                     :max="maxDate"
+                    :disabled="disabled.date"
+                    :tabindex="disabled.date ? -1 : 0"
                   >
                   </b-form-datepicker>
                 </b-input-group-append>
@@ -131,6 +137,7 @@
                 trim
                 required
                 readonly
+                tabindex="-1"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -173,7 +180,12 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col v-if="config.state" cols="12" lg="6" class="pl-lg-2">
+          <b-col
+            v-if="config.state"
+            cols="12"
+            lg="6"
+            :class="{ 'pl-lg-2': config.pin }"
+          >
             <b-form-group
               label="State"
               label-for="input-6"
@@ -194,7 +206,12 @@
           </b-col>
         </b-row>
         <b-row v-if="saleFlag">
-          <b-col v-if="config.issuer" class="pr-lg-2" cols="12" lg="6">
+          <b-col
+            v-if="config.issuer"
+            :class="{ 'pr-lg-2': config.role }"
+            cols="12"
+            lg="6"
+          >
             <b-form-group
               label="Issuer"
               label-for="input-7"
@@ -213,7 +230,12 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col v-if="config.role" class="pl-lg-2" cols="12" lg="6">
+          <b-col
+            v-if="config.role"
+            :class="{ 'pl-lg-2': config.issuer }"
+            cols="12"
+            lg="6"
+          >
             <b-form-group
               label="Role"
               label-for="input-8"
@@ -240,6 +262,7 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import { formatDateObj } from '../../../js/utils';
 
 export default {
   name: 'InvoiceDetails',
@@ -257,6 +280,13 @@ export default {
       required: false,
       default: 0,
     },
+    parentData: {
+      type: Object,
+      required: false,
+      default: function () {
+        return {};
+      },
+    },
   },
   data() {
     return {
@@ -264,7 +294,7 @@ export default {
       isPreloading: false,
       form: {
         no: null,
-        date: this.formatDateObj(new Date()),
+        date: formatDateObj(new Date()),
         delNote: null,
         ebn: null,
         addr: null,
@@ -281,9 +311,29 @@ export default {
     };
   },
   computed: {
+    disabled: (self) => {
+      let disabled = {
+        no: false,
+        date: false,
+      };
+
+      if (typeof self.config.no === 'object') {
+        disabled.no = !!self.config.no.disabled;
+      }
+
+      if (typeof self.config.date === 'object') {
+        disabled.date = !!self.config.date.disabled;
+      }
+      return disabled;
+    },
     minDate: (self) => new Date(self.yearStart),
     maxDate: (self) => new Date(self.yearEnd),
     isInvDateValid: (self) => {
+      if (self.disabled.date) {
+        if (!self.config.date.validate) {
+          return null;
+        }
+      }
       let currDate = new Date(self.form.date).getTime(),
         minDate = self.minDate.getTime(),
         maxDate = self.maxDate.getTime();
@@ -296,6 +346,15 @@ export default {
   watch: {
     updateCounter() {
       this.resetForm();
+
+      if (this.parentData.no) {
+        this.form.no = this.parentData.no;
+      }
+
+      if (this.parentData.date) {
+        this.form.date = this.parentData.date;
+      }
+      this.onUpdateDetails();
     },
   },
   methods: {
@@ -402,19 +461,8 @@ export default {
       if (!this.isInvDateValid) {
         this.form.date = this.yearStart;
       }
+      this.form.no = '';
       this.onUpdateDetails();
-    },
-    /**
-     * formatDateObj(date)
-     *
-     * Description: Converts a js Date object, into yyyy-mm-dd string
-     */
-    formatDateObj(date) {
-      let month = date.getMonth() + 1;
-      month = month > 9 ? month : '0' + month;
-      let day = date.getDate();
-      day = day > 9 ? day : '0' + day;
-      return `${date.getFullYear()}-${month}-${day}`;
     },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {

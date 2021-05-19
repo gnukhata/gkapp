@@ -125,30 +125,45 @@ const routes = [
   {
     path: '/createvoucher/:type/:customer',
     name: 'Create_Voucher',
-    component: () => import(/* webpackChunkName: "invoice" */ '../views/CreateVoucher.vue'),
+    component: () => import(/* webpackChunkName: "createvoucher" */ '../views/CreateVoucher.vue'),
     props: true
   },
   {
     path: '/billwise/:custType/:custName',
     name: 'Billwise',
-    component: () => import(/* webpackChunkName: "invoice" */ '../views/Billwise.vue'),
+    component: () => import(/* webpackChunkName: "billwise" */ '../views/Billwise.vue'),
     props: true
   },
   {
     path: '/delivery_note/:mode/:invid',
     name: 'Delivery Note',
-    component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/DeliveryNote.vue'),
+    component: () => import(/* webpackChunkName: "delivery_note" */ '../views/Transactions/DeliveryNote.vue'),
     props: true
   },
   {
     path: '/cash_memo',
     name: 'Cash Memo',
-    component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/CashMemo.vue'),
+    component: () => import(/* webpackChunkName: "cash_memo" */ '../views/Transactions/CashMemo.vue'),
   },
   {
     path: '/ps_order',
     name: 'Purchase/Sale Order',
-    component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/PurchaseSaleOrder.vue'),
+    component: () => import(/* webpackChunkName: "ps_order" */ '../views/Transactions/PurchaseSaleOrder.vue'),
+  },
+  {
+    path: '/dc_note',
+    name: 'Debit/Credit Note',
+    component: () => import(/* webpackChunkName: "dc_note" */ '../views/Transactions/DebitCreditNote.vue'),
+  },
+  {
+    path: '/transfer_note',
+    name: 'Transfer Note',
+    component: () => import(/* webpackChunkName: "transfer_note" */ '../views/Transactions/TransferNote.vue'),
+  },
+  {
+    path: '/rejection_note',
+    name: 'Rejection Note',
+    component: () => import(/* webpackChunkName: "rejection_note" */ '../views/Transactions/RejectionNote.vue'),
   },
 ]
 
