@@ -1,7 +1,7 @@
 <template>
   <section class="m-2">
     <b-overlay :show="loading" fixed spinner-type="grow" blur>
-      <b-form @submit.prevent="createCostCenter">
+      <b-form @submit.prevent="updateCostCenter">
         <b-form-group label="Name">
           <b-form-input v-model="form.projectname" required></b-form-input>
         </b-form-group>
@@ -16,7 +16,7 @@
           ></b-form-input>
         </b-form-group>
         <b-button type="submit" variant="success"
-          ><b-icon icon="plus"></b-icon> Add</b-button
+          ><b-icon icon="cloud-arrow-up"></b-icon> Update</b-button
         >
       </b-form>
     </b-overlay>
@@ -25,9 +25,9 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
 export default {
-  name: 'CostCenterCreate',
+  name: 'CostCenterEdit',
+  props: ['id'],
   data() {
     return {
       loading: false,
@@ -37,28 +37,49 @@ export default {
       },
     };
   },
-  computed: {
-    ...mapState(['gkCoreUrl', 'authToken']),
-  },
   methods: {
-    createCostCenter() {
+    getCostCenterInfo() {
+      this.loading = true;
       axios
-        .post('/projects', this.form)
+        .get(`/project/${this.id}`)
+        .then((r) => {
+          if (r.status == 200) {
+            let data = r.data.gkresult;
+            this.form.projectname = data.projectname;
+            this.form.sanctionedamount = data.sanctionedamount;
+            this.form.projectcode = data.projectcode;
+          } else {
+            console.log(r.status);
+          }
+          this.loading = false;
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            variant: 'danger',
+            solid: true,
+          });
+          this.loading = false;
+        });
+    },
+    updateCostCenter() {
+      this.loading = true;
+      axios
+        .put('/projects', this.form)
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
                 this.$bvToast.toast(
-                  `${this.form.projectname} Created Successfully`,
+                  `${this.form.projectname} updated Successfully`,
                   {
                     variant: 'success',
                     solid: true,
                   }
                 );
                 axios.post('/log', {
-                  activity: 'cost center create: ' + this.form.projectname,
+                  activity: `cost center modified: ${this.form.projectname}`,
                 });
-                this.$emit('created');
+                this.$emit('modified');
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {
@@ -90,16 +111,14 @@ export default {
                   solid: true,
                 });
                 break;
-              default:
-                this.loading = false;
             }
           } else {
             this.$bvToast.toast(r.status + ' error', {
               variant: 'danger',
               solid: true,
             });
-            this.loading = false;
           }
+          this.loading = false;
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
@@ -109,6 +128,9 @@ export default {
           this.loading = false;
         });
     },
+  },
+  mounted() {
+    this.getCostCenterInfo();
   },
 };
 </script>

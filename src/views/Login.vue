@@ -3,7 +3,7 @@
     <!-- Server Selection-->
     <b-card
       v-show="!showLogin"
-      header-bg-variant="primary"
+      header-bg-variant="dark"
       header="Server Setup"
       class="mt-2 shadow"
     >
@@ -14,7 +14,7 @@
       </template>
       <b-card-body>
         <b-form @submit.prevent="setServerUrl" class="text-center">
-          <b-button @click.prevent="setDefaultServer">
+          <b-button variant="dark" @click.prevent="setDefaultServer">
             <b-icon icon="arrow-right-circle"></b-icon>
             Continue with Default Server
           </b-button>
@@ -46,12 +46,12 @@
       v-show="showLogin"
       header="Login"
       class="shadow m-1"
-      header-bg-variant="primary"
+      header-bg-variant="dark"
       header-text-variant="light"
     >
       <b-alert show variant="info">
-        Demo Username: <b>admin</b> <br />
-        Password: <b>admin</b> <br />
+        Demo Username: <b>admin</b><br />
+        Password: <b>admin</b><br />
         Organisation: <b>WALLMART</b></b-alert
       >
       <b-card-body>
@@ -103,9 +103,10 @@
                 id="input-3"
                 v-model="orgIndex"
                 :options="options"
+                :disabled="options.length == 1"
                 required
               >
-                <b-form-select-option value="null" disabled
+                <b-form-select-option value="null"
                   >-- Select Organisation --</b-form-select-option
                 >
               </b-form-select>
@@ -123,6 +124,7 @@
               <b-form-select
                 v-model="form.orgcode"
                 :options="orgYears"
+                :disabled="orgYears.length == 1"
                 required
               >
                 <b-form-select-option value="null" disabled
@@ -200,7 +202,7 @@ export default {
       captchaSolved: false,
       isLoading: false,
       isDisabled: true,
-      options: null, // companys list
+      options: [], // companys list
       answer: null,
       userAnswer: null,
       showLogin: false,
@@ -267,7 +269,6 @@ export default {
      */
     setServerUrl() {
       // Check if it's a valid gkcore url
-      console.log('checking custom url ', this.serverUrl);
       axios
         .get(`${this.serverUrl}/state`)
         .then((res) => {
@@ -356,7 +357,6 @@ export default {
               break;
             case 2:
               // Alert user on wrong credentials
-              console.log('Wrong login details');
               this.$bvToast.toast(`Invalid login details`, {
                 title: 'Login Error!',
                 autoHideDelay: 3000,
@@ -392,11 +392,20 @@ export default {
             };
             opt.push(item);
           }
-          this.options = opt;
+          // In case of only one org, Use it as default to authenticate
+          if (opt.length == 1) {
+            this.orgIndex = 0;
+            this.getOrgYears();
+            this.options = opt;
+          } else {
+            this.options = opt;
+          }
           this.isDisabled = false; // hide the spinner
         })
-        .catch(function(error) {
-          console.log(error);
+        .catch(function(e) {
+          this.$bvToast.toast(e.message, {
+            variant: 'danger',
+          });
         });
     },
     /*
@@ -419,7 +428,13 @@ export default {
               obj.value = Object.values(data)[2];
               return obj;
             });
-            this.orgYears = data;
+            // if only one fy is present, use it by default
+            if (data.length === 1) {
+              this.form.orgcode = data[0].value;
+              this.orgYears = data;
+            } else {
+              this.orgYears = data;
+            }
             this.orgYearsFull = r.data.gkdata;
             this.isDisabled = false;
           }
@@ -442,9 +457,9 @@ export default {
       }
     },
   },
-  mounted() {
-    this.fetchOrgs();
+  created() {
     this.checkUrl();
+    this.fetchOrgs();
     if (this.userAuthenticated) {
       this.$router.push('/workflow/Transactions/-1');
     }

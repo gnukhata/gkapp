@@ -20,41 +20,42 @@
       scale="1.5x"
     ></b-icon>
     <b-icon
-      class="ml-2 mt-2"
+      class="ml-3 mt-2"
       @click="newCaptcha"
       role="button"
       icon="arrow-repeat"
-      variant="dark"
+      variant="danger"
       title="Generate New Captcha"
       aria-label="generate new captcha button"
+      scale="1.2x"
     ></b-icon>
   </b-form-row>
 </template>
 
 <script>
 export default {
-  name: "Captcha",
+  name: 'Captcha',
   model: {
-    prop: "value",
-    event: "change"
+    prop: 'value',
+    event: 'change',
   },
   props: {
     value: {
       type: Number,
-      note: "this prop gets the answer"
+      note: 'this prop gets the answer',
     },
     width: {
       default: 90,
-      note: "Canvas Width (optional). Default is 90"
+      note: 'Canvas Width (optional). Default is 90',
     },
     height: {
       default: 30,
-      note: "Canvas height (optional), Default is 30"
-    }
+      note: 'Canvas height (optional), Default is 30',
+    },
   },
   data() {
     return {
-      text: ""
+      text: '',
     };
   },
   methods: {
@@ -67,32 +68,32 @@ export default {
       let b = Math.floor(Math.random() * 11);
       this.text = `${a} + ${b}`;
       let answer = a + b;
-      const canvas = document.getElementById("captchaCanvas");
-      const ctx = canvas.getContext("2d");
-      ctx.font = "20px Arial";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+      const canvas = document.getElementById('captchaCanvas');
+      const ctx = canvas.getContext('2d');
+      ctx.font = '20px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
       ctx.clearRect(0, 0, this.width, this.height);
       ctx.fillText(`${this.text} = `, this.width / 2, this.height / 2);
-      this.$emit("change", answer);
+      this.$emit('change', answer);
     },
     /* This method converts the question to audio
     / for the pupose of users who require accessibility features
     /*/
     audioCaptcha() {
-      if ("speechSynthesis" in window) {
+      if ('speechSynthesis' in window) {
         const msg = new SpeechSynthesisUtterance();
         msg.text = this.text;
         window.speechSynthesis.speak(msg);
       } else {
         this.$bvModal.msgBoxOk(
-          "Your browser does not support speech synthesis"
+          'Your browser does not support speech synthesis'
         );
       }
-    }
+    },
   },
   mounted() {
     this.newCaptcha();
-  }
+  },
 };
 </script>

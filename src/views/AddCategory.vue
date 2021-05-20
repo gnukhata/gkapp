@@ -8,6 +8,9 @@
         header-bg-variant="dark"
         header-text-variant="light"
       >
+        {{ specs }}
+        <br />
+        {{ taxes }}
         <b-form-group description="* required" label="Name">
           <b-form-input
             required
@@ -17,70 +20,99 @@
         </b-form-group>
         <b-form-group description="* Optional" label="Sub Category Of">
           <b-form-select>
-            <b-form-select-option disabled> None</b-form-select-option>
             <b-form-select-option
               v-for="category in allCategories"
               :key="category.srno"
               :value="category.categorycode"
-              >{{ category.categoryname }}
+              >{{ category.categoryname }} ({{ category.subcount }})
             </b-form-select-option>
           </b-form-select>
-          <autocomplete></autocomplete>
         </b-form-group>
-        <!-- Spec card -->
-        <b-table :items="specs" head-variant="dark">
+        <!-- add tax & spec buttons -->
+        <b-button-group size="sm" class="mb-1">
+          <b-button
+            variant="dark"
+            class="mr-1"
+            v-if="specs.length < 1"
+            @click="specs.push(spec)"
+            ><b-icon icon="plus"></b-icon> Add Spec</b-button
+          >
+          <b-button
+            variant="dark"
+            v-if="taxes.length < 1"
+            @click="taxes.push(tax)"
+            ><b-icon icon="plus"></b-icon> Add Tax</b-button
+          >
+        </b-button-group>
+        <!-- Spec table -->
+        <b-table class="w-100" :items="specs" head-variant="light">
           <template #cell(spec_name)="data">
             <b-form-input
-              :title="data"
+              v-model="specs[data.index].spec_name"
               type="text"
               placeholder="Name"
-            ></b-form-input>
+              required
+            >
+            </b-form-input>
           </template>
           <template #cell(type)="data">
-            <b-form-select :title="data">
-              <b-form-select-option>Text</b-form-select-option>
-              <b-form-select-option value="">Number</b-form-select-option>
-              <b-form-select-option>Date</b-form-select-option>
+            <b-form-select v-model="specs[data.index].type" :options="specType">
             </b-form-select>
           </template>
-          <template #cell(edit)>
-            <b-button
-              :title="edit"
-              variant="dark"
-              @click="
-                specs.push({ spec_name: 'category', type: 'any', edit: '' })
-              "
-            >
-              +</b-button
-            >
+          <template #cell(edit)="data">
+            <b-button-group size="sm">
+              <b-button
+                title="Add"
+                variant="dark"
+                class="mr-1"
+                @click="specs.push(spec)"
+              >
+                <b-icon icon="plus"></b-icon
+              ></b-button>
+              <!-- delete spec -->
+              <b-button
+                title="delete"
+                variant="danger"
+                @click="specs.splice(data.index, 1)"
+              >
+                <b-icon icon="trash"></b-icon>
+              </b-button>
+            </b-button-group>
           </template>
         </b-table>
-        <!-- Tax card -->
-        <b-table :items="taxes" head-variant="dark">
+        <!-- Tax -->
+        <b-table class="w-100" :items="taxes" head-variant="light">
           <template #cell(tax_name)="data">
             <b-form-input
               :title="data"
-              type="text"
-              placeholder="Name"
+              type="number"
+              placeholder="%"
+              no-wheel
             ></b-form-input>
           </template>
-          <template #cell(type)="data">
-            <b-form-select :title="data">
-              <b-form-select-option>GST</b-form-select-option>
-              <b-form-select-option>CESS</b-form-select-option>
-            </b-form-select>
+          <template #cell(type)>
+            <b-form-select :options="taxType"> </b-form-select>
           </template>
 
-          <template #cell(edit)>
-            <b-button
-              :title="edit"
-              variant="dark"
-              @click="
-                specs.push({ spec_name: 'category', type: 'any', edit: '' })
-              "
-            >
-              +</b-button
-            >
+          <template #cell(edit)="data">
+            <b-button-group size="sm">
+              <b-button
+                title="Add"
+                variant="dark"
+                class="mr-1"
+                @click="taxes.push(tax)"
+              >
+                <b-icon icon="plus"></b-icon
+              ></b-button>
+              <!-- delete spec -->
+              <b-button
+                title="delete"
+                variant="danger"
+                @click="taxes.splice(data.index, 1)"
+              >
+                <b-icon icon="trash"></b-icon>
+              </b-button>
+            </b-button-group>
           </template>
         </b-table>
       </b-card>
@@ -98,8 +130,20 @@ export default {
   data() {
     return {
       allCategories: [],
-      specs: [{ spec_name: 'category', type: 'any', edit: '' }],
-      taxes: [{ tax_name: 'category', type: 'any', edit: '' }],
+      spec: { type: '', spec_name: '', edit: '' },
+      specs: [],
+      tax: { type: '', tax_name: '', edit: '' },
+      taxes: [],
+
+      specType: [
+        { value: 0, text: 'Text' },
+        { value: 1, text: 'Number' },
+        { value: 2, text: 'Date' },
+      ],
+      taxType: [
+        { value: 0, text: 'GST' },
+        { value: 1, text: 'CESS' },
+      ],
     };
   },
   computed: {

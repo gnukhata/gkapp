@@ -18,7 +18,7 @@
 
 ## Description & Demo
 
-#### Free Dashboard Demo
+#### Demo Instance
 
 https://gnukhata.gitlab.io/gkapp
 
@@ -40,9 +40,19 @@ To pre-compile & hot-reload for development run `npm run serve`
 
 Production-ready with minified bundle `npm run build`
 
+The default server url is `localhost:6543`, It can changed by setting environmental
+variable `VUE_APP_GKCORE_URL` to your preferred url.
+
+Example:
+
+```bash
+export VUE_APP_GKCORE_URL=https://gkcore.example.com
+npm run build
+```
+
 ## Licensing
 
-- Licensed under AGPLv3
+- Gkapp is Licensed under `AGPLv3`
 
 ![AGPLv3](public/img/agpl3.png)
 

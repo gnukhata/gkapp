@@ -70,3 +70,12 @@ body {
   font-size: 0.75rem;
   width: auto;
 }
+
+.rtable {
+  width: 70%;
+}
+@media all and (max-width: 600px) {
+  .rtable {
+    width: 100%;
+  }
+}
