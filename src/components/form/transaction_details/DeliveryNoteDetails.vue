@@ -28,31 +28,31 @@
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
           label="Del. Note No."
-          label-for="input-1"
+          label-for="dnd-input-10"
           label-cols-md="4"
           label-cols="3"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-1"
+            id="dnd-input-10"
             v-model="form.no"
             trim
             required
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          id="input-group-3"
+          id="dnd-input-group-1"
           label="Date"
           label-cols-md="4"
           label-cols="3"
-          label-for="date-1"
+          label-for="dnd-date-1"
           label-size="sm"
         >
           <b-input-group>
             <b-form-input
               size="sm"
-              id="date-1"
+              id="dnd-date-1"
               v-model="form.date"
               type="text"
               placeholder="YYYY-MM-DD"
@@ -69,7 +69,7 @@
                 button-only
                 right
                 locale="en-GB"
-                aria-controls="date-1"
+                aria-controls="dnd-date-1"
                 :min="minDate"
                 :max="maxDate"
               >
@@ -79,12 +79,13 @@
         </b-form-group>
         <b-form-group
           label="Transaction Type"
-          label-for="input-1"
+          label-for="dnd-input-20"
           label-cols-md="4"
           label-cols="3"
           label-size="sm"
         >
           <b-form-select
+            id="dnd-input-20"
             v-model="form.type"
             size="sm"
             :options="options.transactionTypes"
@@ -93,14 +94,14 @@
         </b-form-group>
         <b-form-group
           :label="saleFlag ? 'Origin State' : 'Destination State'"
-          label-for="input-6"
+          label-for="dnd-input-30"
           label-size="sm"
           label-cols-md="4"
           label-cols="3"
         >
           <autocomplete
             size="sm"
-            id="input-6"
+            id="dnd-input-30"
             valueUid="id"
             v-model="form.state"
             :options="options.states"
@@ -110,14 +111,14 @@
         </b-form-group>
         <b-form-group
           :label="saleFlag ? 'Dispatch From' : 'Received At'"
-          label-for="input-7"
+          label-for="dnd-input-40"
           label-size="sm"
           label-cols-md="4"
           label-cols="3"
         >
           <autocomplete
             size="sm"
-            id="input-7"
+            id="dnd-input-40"
             valueUid="id"
             v-model="form.godown"
             :options="options.godowns"
@@ -127,14 +128,14 @@
         </b-form-group>
         <b-form-group
           label="GSTIN"
-          label-for="input-8"
+          label-for="dnd-input-50"
           label-cols-md="4"
           label-cols="3"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-8"
+            id="dnd-input-50"
             v-model="form.gstin"
             trim
             required
@@ -143,14 +144,14 @@
         </b-form-group>
         <b-form-group
           label="Issuer"
-          label-for="input-7-1"
+          label-for="dnd-input-60"
           label-cols="3"
           label-size="sm"
           label-cols-md="4"
         >
           <b-form-input
             size="sm"
-            id="input-7-1"
+            id="dnd-input-60"
             v-model="form.issuer"
             trim
             required
@@ -160,14 +161,14 @@
         </b-form-group>
         <b-form-group
           label="Role"
-          label-for="input-8-1"
+          label-for="dnd-input-70"
           label-cols="3"
           label-cols-md="4"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-8-1"
+            id="dnd-input-70"
             v-model="form.role"
             trim
             required

@@ -188,7 +188,7 @@ import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
 import ShipDetails from '../../components/form/transaction/ShipDetails.vue';
 import BillTable from '../../components/form/transaction/BillTable.vue';
 import TotalTable from '../../components/form/transaction/TotalTable.vue';
-// import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
+import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
 import DeliveryNoteDetails from '../../components/form/transaction_details/DeliveryNoteDetails.vue';
 
@@ -203,7 +203,7 @@ export default {
     ShipDetails,
     BillTable,
     TotalTable,
-    // TransportDetails,
+    TransportDetails,
     Comments,
     DeliveryNoteDetails,
   },

@@ -71,13 +71,13 @@
           <b-col cols="12" v-if="config.name">
             <b-form-group
               label="Name"
-              label-for="input-9"
+              label-for="ptd-input-10"
               label-cols="3"
               label-size="sm"
             >
               <autocomplete
                 size="sm"
-                id="input-9"
+                id="ptd-input-10"
                 v-model="form.name"
                 :options="
                   form.type === 'customer'
@@ -96,12 +96,12 @@
             <b-form-group
               label-cols="3"
               label="Address"
-              label-for="input-10"
+              label-for="ptd-input-20"
               label-size="sm"
             >
               <b-form-textarea
                 size="sm"
-                id="input-10"
+                id="ptd-input-20"
                 v-model="form.addr"
                 rows="2"
                 trim
@@ -114,12 +114,12 @@
             <b-form-group
               label-cols="3"
               label="PIN"
-              label-for="input-11"
+              label-for="ptd-input-30"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-11"
+                id="ptd-input-30"
                 v-model="form.pin"
                 trim
                 :readonly="!editFlag"
@@ -130,13 +130,13 @@
           <b-col cols="12" v-if="editFlag">
             <b-form-group
               label="PAN"
-              label-for="input-12-1"
+              label-for="ptd-input-40"
               label-size="sm"
               label-cols="3"
             >
               <b-form-input
                 size="sm"
-                id="input-12-1"
+                id="ptd-input-40"
                 v-model="form.pan"
                 trim
                 :disabled="!editFlag"
@@ -146,13 +146,13 @@
           <b-col cols="12" v-if="config.state">
             <b-form-group
               label="State"
-              label-for="input-12"
+              label-for="ptd-input-50"
               label-size="sm"
               label-cols="3"
             >
               <b-form-select
                 size="sm"
-                id="input-12"
+                id="ptd-input-50"
                 v-model="form.state"
                 :options="!editFlag ? form.options.states : options.states"
                 @input="setPartyGst()"
@@ -165,13 +165,13 @@
             <b-form-group
               label-cols="3"
               label="GSTIN"
-              label-for="input-13"
+              label-for="ptd-input-60"
               label-size="sm"
             >
               <b-form-input
                 v-if="!editFlag"
                 size="sm"
-                id="input-13"
+                id="ptd-input-60"
                 v-model="form.gstin"
                 trim
                 :readonly="!editFlag"
@@ -205,12 +205,12 @@
             <b-form-group
               label-cols="3"
               label="TIN"
-              label-for="input-13"
+              label-for="ptd-input-70"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-13"
+                id="ptd-input-70"
                 v-model="form.tin"
                 trim
                 :readonly="!editFlag"
@@ -477,19 +477,6 @@ export default {
           .then((resp) => {
             switch (resp.data.gkstatus) {
               case 0:
-                // convert [{id: name}, {id2: name}] to {id: name, id2: name}, to remove duplicates
-                var stateList =
-                  resp.data.gkresult.statelist.reduce((acc, item) => {
-                    acc[Object.keys(item)[0]] = Object.values(item)[0];
-                    return acc;
-                  }, {}) || {};
-                // convert it back to array format for <b-form-select> options
-                var states = Object.keys(stateList).map((key) => {
-                  return {
-                    text: stateList[key],
-                    value: { id: key, name: stateList[key] },
-                  };
-                });
                 self.setCustomerData(resp.data.gkresult);
                 break;
               case 2:

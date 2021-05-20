@@ -104,21 +104,21 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import { mapState } from 'vuex';
 
-import Config from '../../components/Config.vue';
+// import Config from '../../components/Config.vue';
 
 import BillTable from '../../components/form/transaction/BillTable.vue';
 import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import TransferNoteDetails from '../../components/form/transaction_details/TransferNoteDetails.vue';
 
-import TransferNoteConfig from '../../js/config/transferNote';
+import TransferNoteConfig from '../../js/config/transferNote.js';
 
 export default {
   name: '',
   components: {
-    Config,
+    // Config,
 
     BillTable,
     TransportDetails,
@@ -150,24 +150,6 @@ export default {
       if (newConf) {
         newConf.transferNote.class = { 'mr-md-1': true };
         newConf.transport.class = { 'ml-md-1': true };
-        newConf.bill = {
-          index: false,
-          product: true,
-          hsn: false,
-          qty: true,
-          fqty: false,
-          rate: false,
-          discount: false,
-          taxable: false,
-          igst: false,
-          cess: false,
-          vat: false,
-          total: false,
-          footer: false,
-          attr:{
-            responsive: false
-          }
-        };
       } else {
         // In Hot Module Reloading during dev, the dynamic Vuex module does not get loaded and errors are printed in console.
         // This is because during HMR, the Invoice component gets loaded before old one can be destroyed, causing an error (https://github.com/vuejs/vue/issues/6518)

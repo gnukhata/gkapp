@@ -32,14 +32,14 @@
           <b-col v-if="config.no" cols="12">
             <b-form-group
               label="Inv. No."
-              label-for="input-1"
+              label-for="ivd-input-10"
               label-cols-lg="2"
               label-cols="3"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-1"
+                id="ivd-input-10"
                 v-model="form.no"
                 trim
                 required
@@ -50,17 +50,17 @@
           </b-col>
           <b-col v-if="config.date" cols="12">
             <b-form-group
-              id="input-group-3"
+              id="ivd-input-group-1"
               label="Date"
               label-cols-lg="2"
               label-cols="3"
-              label-for="date-1"
+              label-for="ivd-date-1"
               label-size="sm"
             >
               <b-input-group>
                 <b-form-input
                   size="sm"
-                  id="date-1"
+                  id="ivd-date-1"
                   v-model="form.date"
                   type="text"
                   placeholder="YYYY-MM-DD"
@@ -78,7 +78,7 @@
                     button-only
                     right
                     locale="en-GB"
-                    aria-controls="date-1"
+                    aria-controls="ivd-date-1"
                     :min="minDate"
                     :max="maxDate"
                     :disabled="disabled.date"
@@ -94,14 +94,14 @@
           <b-col v-if="config.delNote" class="pr-lg-2" cols="12" lg="6">
             <b-form-group
               label="Del. Note"
-              label-for="input-2"
+              label-for="ivd-input-20"
               label-cols-lg="4"
               label-cols="3"
               label-size="sm"
             >
               <b-form-select
                 size="sm"
-                id="input-2"
+                id="ivd-input-20"
                 v-model="form.delNote"
               ></b-form-select>
             </b-form-group>
@@ -109,14 +109,14 @@
           <b-col class="pl-lg-2" v-if="saleFlag && config.ebn">
             <b-form-group
               label="EBN"
-              label-for="input-3"
+              label-for="ivd-input-30"
               label-cols-lg="4"
               label-cols="3"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-3"
+                id="ivd-input-30"
                 v-model="form.ebn"
                 trim
               ></b-form-input>
@@ -125,14 +125,14 @@
           <b-col cols="12" v-if="config.gstin">
             <b-form-group
               label="GSTIN"
-              label-for="input-8-1"
+              label-for="ivd-input-40"
               label-cols-lg="2"
               label-cols="3"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-8-1"
+                id="ivd-input-40"
                 v-model="form.gstin"
                 trim
                 required
@@ -146,12 +146,12 @@
               label-cols-lg="2"
               label-cols="3"
               label="Address"
-              label-for="input-4"
+              label-for="ivd-input-50"
               label-size="sm"
             >
               <b-form-textarea
                 size="sm"
-                id="input-4"
+                id="ivd-input-50"
                 v-model="form.addr"
                 rows="2"
                 max-rows="2"
@@ -167,12 +167,12 @@
               label-cols-lg="4"
               label-cols="3"
               label="PIN"
-              label-for="input-5"
+              label-for="ivd-input-60"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-5"
+                id="ivd-input-60"
                 v-model="form.pin"
                 trim
                 readonly
@@ -188,14 +188,14 @@
           >
             <b-form-group
               label="State"
-              label-for="input-6"
+              label-for="ivd-input-70"
               label-size="sm"
               label-cols-lg="4"
               label-cols="3"
             >
               <b-form-select
                 size="sm"
-                id="input-6"
+                id="ivd-input-70"
                 v-model="form.state"
                 :options="options.states"
                 required
@@ -214,14 +214,14 @@
           >
             <b-form-group
               label="Issuer"
-              label-for="input-7"
+              label-for="ivd-input-80"
               label-cols="3"
               label-size="sm"
               label-cols-lg="4"
             >
               <b-form-input
                 size="sm"
-                id="input-7"
+                id="ivd-input-80"
                 v-model="form.issuer"
                 trim
                 required
@@ -238,14 +238,14 @@
           >
             <b-form-group
               label="Role"
-              label-for="input-8"
+              label-for="ivd-input-90"
               label-cols="3"
               label-cols-lg="4"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-8"
+                id="ivd-input-90"
                 v-model="form.role"
                 trim
                 required

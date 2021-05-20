@@ -30,31 +30,31 @@
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
           label="No."
-          label-for="input-1"
+          label-for="cmd-input-10"
           label-cols-md="2"
           label-cols="3"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-1"
+            id="cmd-input-10"
             v-model="form.no"
             trim
             required
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          id="input-group-3"
+          id="cmd-input-group-1"
           label="Date"
           label-cols-md="2"
           label-cols="3"
-          label-for="date-1"
+          label-for="cmd-date-1"
           label-size="sm"
         >
           <b-input-group>
             <b-form-input
               size="sm"
-              id="date-1"
+              id="cmd-date-1"
               v-model="form.date"
               type="text"
               placeholder="YYYY-MM-DD"
@@ -81,14 +81,14 @@
         </b-form-group>
         <b-form-group
           label="State"
-          label-for="input-6"
+          label-for="cmd-input-20"
           label-size="sm"
           label-cols-md="2"
           label-cols="3"
         >
           <autocomplete
             size="sm"
-            id="input-6"
+            id="cmd-input-20"
             valueUid="id"
             v-model="form.state"
             :options="options.states"
@@ -98,14 +98,14 @@
         </b-form-group>
         <b-form-group
           label="GSTIN"
-          label-for="input-8"
+          label-for="cmd-input-30"
           label-cols-md="2"
           label-cols="3"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-8"
+            id="cmd-input-30"
             v-model="form.gstin"
             trim
             readonly

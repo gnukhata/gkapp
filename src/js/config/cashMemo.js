@@ -26,6 +26,7 @@ export default {
         cess: true,
         vat: true,
         total: true,
+        addBtn: true,
         footer: {
           discount: true,
           taxable: true,

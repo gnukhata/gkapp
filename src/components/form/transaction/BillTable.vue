@@ -106,7 +106,10 @@
               v-if="config.total"
               >Total</b-th
             >
-            <b-th v-if="config.addBtn" :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
+            <b-th
+              v-if="config.addBtn"
+              :style="{ maxWidth: '40px', width: '40px' }"
+              rowspan="2"
               >+/-</b-th
             >
           </b-tr>
@@ -297,7 +300,9 @@
         </b-tbody>
         <b-tfoot v-if="config.footer">
           <b-tr variant="secondary" class="text-right">
-            <b-th :colspan="config.footer.headingColspan"> Total </b-th>
+            <b-th :colspan="config.footer.headingColspan">
+              {{ showTotalFooterText ? 'Total' : '' }}
+            </b-th>
             <b-th v-if="config.discount">
               <span v-if="config.footer.discount"
                 >₹ {{ getTotal('discount', 'amount') }}</span
@@ -420,23 +425,41 @@ export default {
     },
   },
   computed: {
+    showTotalFooterText: (self) =>
+      self.config.discount ||
+      self.config.amount ||
+      self.config.igst ||
+      self.config.cess ||
+      self.config.vat ||
+      self.config.total,
     billLength: (self) => self.form.length,
     isResponsive: (self) =>
       self.config.attr ? self.config.attr.responsive : true,
     disabled: (self) => {
       let disabled = {};
-      for(const item in self.config) {
-        if(typeof self.config[item] === 'object'){
+      for (const item in self.config) {
+        if (typeof self.config[item] === 'object') {
           disabled[item] = !!self.config[item].disabled;
         } else {
           disabled[item] = false;
         }
       }
       return disabled;
-    }
+    },
   },
   watch: {
     updateCounter() {
+      let updateBillTable = !(
+        this.parentData.length &&
+        typeof this.parentData[0].product === 'object' &&
+        !this.parentData[0].product.name
+      );
+      if(!updateBillTable) {
+        this.form = [];
+        this.addBillItem();
+        return;
+      }
+
       this.isPreloading = true;
       this.editFlag = 0;
       const self = this;
@@ -456,7 +479,7 @@ export default {
             qty: item.qty,
             fqty: item.fqty,
             rate: item.rate,
-            isService: item.isService
+            isService: item.isService,
           });
         }
       });
@@ -527,7 +550,7 @@ export default {
                 hsn: data.gscode,
                 isService: data.gsflag === 19,
                 rate: data.prodmrp,
-                qty: 0,
+                qty: 1,
                 discount: {
                   rate: data.discountpercent,
                   amount: self.config.discount ? data.discountamount : 0,
@@ -645,7 +668,7 @@ export default {
       this.form.push({
         product: { id: '', name: '' },
         hsn: '',
-        qty: 1,
+        qty: 0,
         packageCount: 0,
         rejectedQty: 0,
         fqty: 0,
@@ -678,7 +701,7 @@ export default {
       if (item) {
         if (item.rate > 0) {
           let qty = item.qty;
-          if(this.config.rejectedQty) {
+          if (this.config.rejectedQty) {
             qty = item.rejectedQty;
           }
           // if (item.isService) {

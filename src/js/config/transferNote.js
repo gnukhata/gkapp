@@ -24,7 +24,13 @@ export default {
         cess: false,
         vat: false,
         total: false,
-        footer: false,
+        addBtn: true,
+        attr:{
+          responsive: false
+        },
+        footer: {
+          headingColspan: 2,
+        },
       },
       transport: {
         mode: true,

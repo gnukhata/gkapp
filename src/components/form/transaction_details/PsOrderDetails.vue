@@ -32,14 +32,14 @@
           <b-col v-if="config.no" cols="12">
             <b-form-group
               label="No."
-              label-for="input-1"
+              label-for="pod-input-10"
               label-cols-lg="2"
               label-cols="3"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-1"
+                id="pod-input-10"
                 v-model="form.no"
                 trim
                 required
@@ -48,17 +48,17 @@
           </b-col>
           <b-col v-if="config.date" cols="12">
             <b-form-group
-              id="input-group-3"
+              id="pod-input-group-1"
               label="Date"
               label-cols-lg="2"
               label-cols="3"
-              label-for="date-1"
+              label-for="pod-date-1"
               label-size="sm"
             >
               <b-input-group>
                 <b-form-input
                   size="sm"
-                  id="date-1"
+                  id="pod-date-1"
                   v-model="form.date"
                   type="text"
                   placeholder="YYYY-MM-DD"
@@ -74,7 +74,7 @@
                     button-only
                     right
                     locale="en-GB"
-                    aria-controls="date-1"
+                    aria-controls="pod-date-1"
                     :min="minDate"
                     :max="maxDate"
                   >
@@ -88,14 +88,14 @@
           <b-col cols="12" v-if="config.gstin">
             <b-form-group
               label="GSTIN"
-              label-for="input-1-1"
+              label-for="pod-input-20"
               label-cols-lg="2"
               label-cols="3"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-1-1"
+                id="pod-input-20"
                 v-model="form.gstin"
                 trim
                 required
@@ -108,12 +108,12 @@
               label-cols-lg="2"
               label-cols="3"
               label="Address"
-              label-for="input-4"
+              label-for="pod-input-30"
               label-size="sm"
             >
               <b-form-textarea
                 size="sm"
-                id="input-4"
+                id="pod-input-30"
                 v-model="form.addr"
                 rows="2"
                 max-rows="2"
@@ -129,12 +129,12 @@
               label-cols-lg="4"
               label-cols="3"
               label="PIN"
-              label-for="input-5"
+              label-for="pod-input-40"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-5"
+                id="pod-input-40"
                 v-model="form.pin"
                 trim
                 readonly
@@ -150,14 +150,14 @@
           >
             <b-form-group
               label="State"
-              label-for="input-6"
+              label-for="pod-input-50"
               label-size="sm"
               :label-cols-lg="saleFlag ? 4 : 2"
               :label-cols="3"
             >
               <b-form-select
                 size="sm"
-                id="input-6"
+                id="pod-input-50"
                 v-model="form.state"
                 :options="options.states"
                 required
@@ -171,14 +171,14 @@
           <b-col v-if="config.issuer" class="pr-lg-2" cols="12" lg="6">
             <b-form-group
               label="Issuer"
-              label-for="input-7"
+              label-for="pod-input-60"
               label-cols="3"
               label-size="sm"
               label-cols-lg="4"
             >
               <b-form-input
                 size="sm"
-                id="input-7"
+                id="pod-input-60"
                 v-model="form.issuer"
                 trim
                 required
@@ -190,14 +190,14 @@
           <b-col v-if="config.role" class="pl-lg-2" cols="12" lg="6">
             <b-form-group
               label="Role"
-              label-for="input-8"
+              label-for="pod-input-70"
               label-cols="3"
               label-cols-lg="4"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-8"
+                id="pod-input-70"
                 v-model="form.role"
                 trim
                 required
@@ -211,14 +211,14 @@
           <b-col v-if="config.terms" cols="12">
             <b-form-group
               label="Terms"
-              label-for="input-7"
+              label-for="pod-input-80"
               label-cols="3"
               label-size="sm"
               label-cols-lg="4"
             >
               <b-form-input
                 size="sm"
-                id="input-7-1"
+                id="pod-input-80"
                 v-model="form.terms"
                 trim
                 required
@@ -228,14 +228,14 @@
           <b-col v-if="config.creditPeriod" cols="12">
             <b-form-group
               label="Credit Period"
-              label-for="input-8-1"
+              label-for="pod-input-90"
               label-cols="3"
               label-cols-lg="4"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-8-1"
+                id="pod-input-90"
                 v-model="form.creditPeriod"
                 trim
                 required
@@ -248,14 +248,14 @@
           <b-col cols="12" v-if="config.godown">
             <b-form-group
               :label="saleFlag ? 'Dispatch From' : 'Dispatch To'"
-              label-for="input-8-2"
+              label-for="pod-input-100"
               label-cols="3"
               label-cols-lg="auto"
               label-size="sm"
             >
               <autocomplete
                 size="sm"
-                id="input-8-2"
+                id="pod-input-100"
                 valueUid="id"
                 v-model="form.godown"
                 :options="options.godowns"

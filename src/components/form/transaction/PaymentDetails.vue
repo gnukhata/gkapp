@@ -28,14 +28,14 @@
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
           label="Mode of Payment"
-          label-for="input-19"
+          label-for="pmd-input-10"
           label-size="sm"
           label-cols="auto"
           v-if="config.mode"
         >
           <b-form-select
             size="sm"
-            id="input-19"
+            id="pmd-input-10"
             v-model="form.mode"
             :options="options.payModes"
             required
@@ -48,7 +48,7 @@
           <b>Bank Details</b>
           <b-form-group
             label="Acc. No."
-            label-for="input-20"
+            label-for="pmd-input-20"
             label-cols="3"
             label-size="sm"
             label-cols-lg="autauto"
@@ -56,7 +56,7 @@
           >
             <b-form-input
               size="sm"
-              id="input-20"
+              id="pmd-input-20"
               v-model="form.bank.no"
               trim
               required
@@ -64,7 +64,7 @@
           </b-form-group>
           <b-form-group
             label="Bank Name"
-            label-for="input-21"
+            label-for="pmd-input-30"
             label-cols="3"
             label-size="sm"
             label-cols-lg="autauto"
@@ -72,7 +72,7 @@
           >
             <b-form-input
               size="sm"
-              id="input-21"
+              id="pmd-input-30"
               v-if="config.bank.name"
               trim
               required
@@ -80,7 +80,7 @@
           </b-form-group>
           <b-form-group
             label="Branch"
-            label-for="input-22"
+            label-for="pmd-input-40"
             label-cols="3"
             label-size="sm"
             label-cols-lg="autauto"
@@ -88,7 +88,7 @@
           >
             <b-form-input
               size="sm"
-              id="input-22"
+              id="pmd-input-40"
               v-model="form.bank.branch"
               trim
               required
@@ -96,7 +96,7 @@
           </b-form-group>
           <b-form-group
             label="IFSC"
-            label-for="input-23"
+            label-for="pmd-input-50"
             label-cols="3"
             label-size="sm"
             label-cols-lg="autauto"
@@ -104,7 +104,7 @@
           >
             <b-form-input
               size="sm"
-              id="input-23"
+              id="pmd-input-50"
               v-model="form.bank.ifsc"
               trim
               required

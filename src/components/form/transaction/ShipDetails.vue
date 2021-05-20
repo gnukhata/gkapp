@@ -47,13 +47,13 @@
           <b-col cols="12" v-if="config.name">
             <b-form-group
               label="Name"
-              label-for="input-14"
+              label-for="spd-input-10"
               label-cols="3"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-14"
+                id="spd-input-10"
                 v-model="form.name"
                 :readonly="copyFlag"
                 tabindex="-1"
@@ -64,12 +64,12 @@
             <b-form-group
               label-cols="3"
               label="Address"
-              label-for="input-15"
+              label-for="spd-input-20"
               label-size="sm"
             >
               <b-form-textarea
                 size="sm"
-                id="input-15"
+                id="spd-input-20"
                 v-model="form.addr"
                 rows="2"
                 max-rows="2"
@@ -83,12 +83,12 @@
             <b-form-group
               label-cols="3"
               label="PIN"
-              label-for="input-16"
+              label-for="spd-input-30"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-16"
+                id="spd-input-30"
                 v-model="form.pin"
                 trim
                 :readonly="copyFlag"
@@ -99,13 +99,13 @@
           <b-col cols="12" v-if="config.state">
             <b-form-group
               label="State"
-              label-for="input-17"
+              label-for="spd-input-40"
               label-size="sm"
               label-cols="3"
             >
               <autocomplete
                 size="sm"
-                id="input-17"
+                id="spd-input-40"
                 v-model="form.state"
                 :options="options.states"
                 trim
@@ -119,12 +119,12 @@
             <b-form-group
               label-cols="3"
               label="GSTIN"
-              label-for="input-18"
+              label-for="spd-input-50"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-18"
+                id="spd-input-50"
                 v-model="form.gstin"
                 trim
                 :readonly="copyFlag"
@@ -136,12 +136,12 @@
             <b-form-group
               label-cols="3"
               label="TIN"
-              label-for="input-18"
+              label-for="spd-input-60"
               label-size="sm"
             >
               <b-form-input
                 size="sm"
-                id="input-18"
+                id="spd-input-60"
                 v-model="form.tin"
                 trim
               ></b-form-input>

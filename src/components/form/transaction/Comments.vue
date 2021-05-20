@@ -29,7 +29,7 @@
         <b-form-group>
           <b-form-textarea
             size="sm"
-            id="input-27"
+            id="n-input-1"
             v-model="form.narration"
             rows="4"
             max-rows="5"

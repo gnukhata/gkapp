@@ -28,14 +28,14 @@
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
           label="No. of packages"
-          label-for="input-24-1"
+          label-for="tpd-input-10"
           label-size="sm"
           label-cols="3"
           v-if="config.packageCount"
         >
           <b-form-input
             size="sm"
-            id="input-24-1"
+            id="tpd-input-10"
             v-model="form.packageCount"
             type="number"
             min="0"
@@ -45,21 +45,21 @@
         </b-form-group>
         <b-form-group
           label="Transport By"
-          label-for="input-24"
+          label-for="tpd-input-20"
           label-size="sm"
           label-cols="3"
           v-if="config.mode"
         >
           <b-form-select
             size="sm"
-            id="input-24"
+            id="tpd-input-20"
             v-model="form.mode"
             :options="options.transportModes"
           ></b-form-select>
         </b-form-group>
         <b-form-group
           label="Vehicle No."
-          label-for="input-25"
+          label-for="tpd-input-30"
           label-cols="3"
           label-size="sm"
           label-cols-lg="autauto"
@@ -67,23 +67,23 @@
         >
           <b-form-input
             size="sm"
-            id="input-25"
+            id="tpd-input-30"
             v-model="form.vno"
             trim
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          id="input-group-3"
+          id="tpd-input-group-1"
           label="Date of Supply"
           label-cols="3"
-          label-for="date-2"
+          label-for="tpd-date-1"
           label-size="sm"
           v-if="config.date"
         >
           <b-input-group>
             <b-form-input
               size="sm"
-              id="date-2"
+              id="tpd-date-1"
               v-model="form.date"
               type="text"
               placeholder="YYYY-MM-DD"
@@ -96,24 +96,24 @@
                 button-only
                 right
                 locale="en-GB"
-                aria-controls="date-1"
+                aria-controls="tpd-date-1"
               >
               </b-form-datepicker>
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
         <b-form-group
-          id="input-group-4"
+          id="tpd-input-group-2"
           label="Receipt Date"
           label-cols="3"
-          label-for="date-3"
+          label-for="tpd-date-2"
           label-size="sm"
           v-if="config.receiptDate"
         >
           <b-input-group>
             <b-form-input
               size="sm"
-              id="date-3"
+              id="tpd-date-2"
               v-model="form.receiptDate"
               type="text"
               placeholder="YYYY-MM-DD"
@@ -126,7 +126,7 @@
                 button-only
                 right
                 locale="en-GB"
-                aria-controls="date-1"
+                aria-controls="tpd-date-2"
               >
               </b-form-datepicker>
             </b-input-group-append>
@@ -134,7 +134,7 @@
         </b-form-group>
         <b-form-group
           label="Grace Period"
-          label-for="input-24-2"
+          label-for="tpd-input-40"
           label-size="sm"
           label-cols="3"
           v-if="config.packageCount"
@@ -142,7 +142,7 @@
           <b-input-group append="days" size="sm">
             <b-form-input
               size="sm"
-              id="input-24-2"
+              id="tpd-input-40"
               v-model="form.packageCount"
               type="number"
               min="0"

@@ -41,31 +41,31 @@
         </b-form-group>
         <b-form-group
           :label="isCredit ? 'Cr Note No.' : 'Dr Note No.'"
-          label-for="input-1"
+          label-for="dcd-input-10"
           label-cols-lg="3"
           label-cols="4"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-1"
+            id="dcd-input-10"
             v-model="form.no"
             trim
             required
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          id="input-group-3"
+          id="dcd-input-group-1"
           :label="isCredit ? 'Cr Note Date' : 'Dr Note Date'"
           label-cols-lg="3"
           label-cols="4"
-          label-for="date-1"
+          label-for="dcd-date-1"
           label-size="sm"
         >
           <b-input-group>
             <b-form-input
               size="sm"
-              id="date-1"
+              id="dcd-date-1"
               v-model="form.date"
               type="text"
               placeholder="YYYY-MM-DD"
@@ -81,7 +81,7 @@
                 button-only
                 right
                 locale="en-GB"
-                aria-controls="date-1"
+                aria-controls="dcd-date-1"
                 :min="minDate"
                 :max="maxDate"
               >
@@ -91,14 +91,14 @@
         </b-form-group>
         <b-form-group
           label="Invoice"
-          label-for="input-8-2"
+          label-for="dcd-input-20"
           label-cols-lg="3"
           label-cols="4"
           label-size="sm"
         >
           <autocomplete
             size="sm"
-            id="input-8-2"
+            id="dcd-input-20"
             v-model="form.invNo"
             :options="invList"
             required
@@ -108,14 +108,14 @@
         </b-form-group>
         <b-form-group
           label="GSTIN"
-          label-for="input-8-1"
+          label-for="dcd-input-30"
           label-cols-lg="3"
           label-cols="4"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-8-1"
+            id="dcd-input-30"
             v-model="form.gstin"
             trim
             required
@@ -124,14 +124,14 @@
         </b-form-group>
         <b-form-group
           label="Purpose"
-          label-for="input-6"
+          label-for="dcd-input-40"
           label-size="sm"
           label-cols-lg="3"
           label-cols="4"
         >
           <b-form-select
             size="sm"
-            id="input-6"
+            id="dcd-input-40"
             v-model="form.purpose"
             required
             tabindex="-1"
@@ -157,14 +157,14 @@
         <b-form-group
           v-if="form.referenceFlag"
           :label="isCredit ? 'Dr Note No.' : 'Cr Note No.'"
-          label-for="input-1"
+          label-for="dcd-input-50"
           label-cols-lg="3"
           label-cols="4"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-1"
+            id="dcd-input-50"
             v-model="form.no"
             trim
             required
@@ -172,17 +172,17 @@
         </b-form-group>
         <b-form-group
           v-if="form.referenceFlag"
-          id="input-group-3"
+          id="dcd-input-group-2"
           :label="isCredit ? 'Dr Note Date' : 'Cr Note Date'"
           label-cols-lg="3"
           label-cols="4"
-          label-for="date-1"
+          label-for="dcd-date-2"
           label-size="sm"
         >
           <b-input-group>
             <b-form-input
               size="sm"
-              id="date-1"
+              id="dcd-date-2"
               v-model="form.date"
               type="text"
               placeholder="YYYY-MM-DD"
@@ -198,7 +198,7 @@
                 button-only
                 right
                 locale="en-GB"
-                aria-controls="date-1"
+                aria-controls="dcd-date-2"
                 :min="minDate"
                 :max="maxDate"
               >

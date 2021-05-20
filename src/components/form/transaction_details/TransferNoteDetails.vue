@@ -29,31 +29,31 @@
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
           label="Transfer Note No."
-          label-for="input-1"
+          label-for="tnd-input-10"
           label-cols-md="4"
           label-cols="3"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-1"
+            id="tnd-input-10"
             v-model="form.no"
             trim
             required
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          id="input-group-3"
+          id="tnd-input-group-1"
           label="Date"
           label-cols-md="4"
           label-cols="3"
-          label-for="date-1"
+          label-for="tnd-date-1"
           label-size="sm"
         >
           <b-input-group>
             <b-form-input
               size="sm"
-              id="date-1"
+              id="tnd-date-1"
               v-model="form.date"
               type="text"
               placeholder="YYYY-MM-DD"
@@ -70,7 +70,7 @@
                 button-only
                 right
                 locale="en-GB"
-                aria-controls="date-1"
+                aria-controls="tnd-date-1"
                 :min="minDate"
                 :max="maxDate"
               >
@@ -80,14 +80,14 @@
         </b-form-group>
         <b-form-group
           label="Dispatch From"
-          label-for="input-4"
+          label-for="tnd-input-20"
           label-size="sm"
           label-cols-md="4"
           label-cols="3"
         >
           <autocomplete
             size="sm"
-            id="input-4"
+            id="tnd-input-20"
             valueUid="id"
             v-model="form.godown"
             :options="options.godowns"
@@ -97,14 +97,14 @@
         </b-form-group>
         <b-form-group
           label="Dispatch To"
-          label-for="input-7"
+          label-for="tnd-input-30"
           label-size="sm"
           label-cols-md="4"
           label-cols="3"
         >
           <autocomplete
             size="sm"
-            id="input-7"
+            id="tnd-input-30"
             valueUid="id"
             v-model="form.godown"
             :options="options.godowns"
@@ -114,14 +114,14 @@
         </b-form-group>
         <b-form-group
           label="Issuer"
-          label-for="input-8"
+          label-for="tnd-input-40"
           label-cols="3"
           label-size="sm"
           label-cols-md="4"
         >
           <b-form-input
             size="sm"
-            id="input-8"
+            id="tnd-input-40"
             v-model="form.issuer"
             trim
             required
@@ -131,14 +131,14 @@
         </b-form-group>
         <b-form-group
           label="Role"
-          label-for="input-9"
+          label-for="tnd-input-50"
           label-cols="3"
           label-cols-md="4"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="input-9"
+            id="tnd-input-50"
             v-model="form.role"
             trim
             required
