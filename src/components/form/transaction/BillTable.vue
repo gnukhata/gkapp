@@ -15,17 +15,16 @@
           <b-tr class="text-center">
             <b-th
               :style="{ maxWidth: '40px', width: '40px' }"
-              rowspan="2"
               v-if="config.index"
+              class="d-none d-sm-table-cell"
               >No</b-th
             >
             <b-th
               :style="{
                 maxWidth: '300px',
                 width: '150px',
-                minWidth: '100px',
+                minWidth: '91px',
               }"
-              rowspan="2"
               v-if="config.product"
               >Item
               <b-button
@@ -37,84 +36,75 @@
               >
             </b-th>
             <b-th
-              :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
-              rowspan="2"
-              v-if="config.hsn"
-              >HSN/SAC</b-th
-            >
-            <b-th
               :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              rowspan="2"
               v-if="config.qty"
               >Qty</b-th
             >
             <b-th
               :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              rowspan="2"
               v-if="config.rejectedQty"
               >Rejected Qty</b-th
             >
             <b-th
               :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              rowspan="2"
               v-if="config.packageCount"
               >No. of Packages</b-th
             >
             <b-th
               :style="{ maxWidth: '200px', width: '150px', minWidth: '70px' }"
-              rowspan="2"
               v-if="config.rate"
-              >Rate</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              rowspan="2"
-              v-if="config.discount"
-              >Discount</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              rowspan="2"
-              v-if="config.taxable"
-              >Taxable Amt</b-th
+              >Rate <small>₹</small></b-th
             >
             <b-th
               :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              colspan="2"
               v-if="gstFlag && config.igst"
-              >IGST</b-th
+              class="d-none d-sm-table-cell"
+              >IGST <small>%</small></b-th
             >
+            <!-- colspan="2" -->
             <b-th
               :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              colspan="2"
-              v-if="gstFlag && config.cess"
-              >CESS</b-th
+              v-if="showCess && config.cess"
+              class="d-none d-sm-table-cell"
+              >CESS <small>%</small></b-th
             >
+            <!-- colspan="2" -->
             <b-th
               :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              colspan="2"
               v-if="!gstFlag && config.vat"
-              >TAX</b-th
+              class="d-none d-sm-table-cell"
+              >TAX <small>%</small></b-th
             >
+            <!-- colspan="2" -->
+            <b-th
+              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+              v-if="config.discount"
+              ><span class="d-none d-sm-inline">Discount</span><span class="d-inline d-sm-none">Dis.</span> <small>₹</small></b-th
+            >
+            <!-- <b-th
+              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
+              v-if="config.taxable"
+              >Taxable Amt <small>₹</small></b-th
+            > -->
             <b-th
               :style="{
                 maxWidth: '300px',
                 width: '150px',
-                minWidth: '100px',
+                minWidth: '89px',
               }"
-              rowspan="2"
               v-if="config.total"
-              >Total</b-th
+              >Total <small>₹</small></b-th
             >
+            <!-- rowspan="2" -->
             <b-th
               v-if="config.addBtn"
               :style="{ maxWidth: '40px', width: '40px' }"
-              rowspan="2"
               >+/-</b-th
             >
           </b-tr>
+          <!-- rowspan="2" -->
           <!-- tax field sub headers -->
-          <b-tr class="text-center">
+          <!-- <b-tr class="text-center">
             <b-th
               :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
               v-if="gstFlag && config.igst"
@@ -145,12 +135,12 @@
               v-if="!gstFlag && config.vat"
               >₹</b-th
             >
-          </b-tr>
+          </b-tr> -->
         </b-thead>
         <b-tbody>
           <b-tr class="text-center" v-for="(field, index) in form" :key="index">
             <!-- No.  -->
-            <b-td v-if="config.index">
+            <b-td v-if="config.index" class="d-none d-sm-table-cell">
               {{ index + 1 }}
             </b-td>
 
@@ -170,9 +160,9 @@
             </b-td>
 
             <!-- HSN/SAC -->
-            <b-td v-if="config.hsn">
+            <!-- <b-td v-if="config.hsn">
               <b>{{ field.hsn }}</b>
-            </b-td>
+            </b-td> -->
 
             <!-- Qty -->
             <b-td v-if="config.qty">
@@ -235,6 +225,36 @@
               ></b-input>
             </b-td>
 
+            <!-- GST % -->
+            <b-td v-if="gstFlag && config.igst" class="d-none d-sm-table-cell">
+              {{ field.igst.rate }}
+            </b-td>
+
+            <!-- GST $ -->
+            <!-- <b-td v-if="gstFlag && config.igst" class="d-none d-sm-table-cell">
+              {{ field.igst.amount }}
+            </b-td> -->
+
+            <!-- CESS % -->
+            <b-td v-if="showCess && config.cess" class="d-none d-sm-table-cell">
+              {{ field.cess.rate }}
+            </b-td>
+
+            <!-- CESS $ -->
+            <!-- <b-td v-if="gstFlag && config.cess" class="d-none d-sm-table-cell">
+              {{ field.cess.amount }}
+            </b-td> -->
+
+            <!-- VAT Tax % -->
+            <b-td v-if="!gstFlag && config.vat" class="d-none d-sm-table-cell">
+              {{ field.vat.rate }}
+            </b-td>
+
+            <!-- VAT Tax $ -->
+            <!-- <b-td v-if="!gstFlag && config.vat" class="d-none d-sm-table-cell">
+              {{ field.vat.amount }}
+            </b-td> -->
+
             <!-- Discount -->
             <b-td v-if="config.discount">
               <b-input
@@ -251,39 +271,9 @@
             </b-td>
 
             <!-- Taxable Amt -->
-            <b-td v-if="config.taxable">
+            <!-- <b-td v-if="config.taxable">
               {{ field.taxable }}
-            </b-td>
-
-            <!-- GST % -->
-            <b-td v-if="gstFlag && config.igst">
-              {{ field.igst.rate }}
-            </b-td>
-
-            <!-- GST $ -->
-            <b-td v-if="gstFlag && config.igst">
-              {{ field.igst.amount }}
-            </b-td>
-
-            <!-- CESS % -->
-            <b-td v-if="gstFlag && config.cess">
-              {{ field.cess.rate }}
-            </b-td>
-
-            <!-- CESS $ -->
-            <b-td v-if="gstFlag && config.cess">
-              {{ field.cess.amount }}
-            </b-td>
-
-            <!-- VAT Tax % -->
-            <b-td v-if="!gstFlag && config.vat">
-              {{ field.vat.rate }}
-            </b-td>
-
-            <!-- VAT Tax $ -->
-            <b-td v-if="!gstFlag && config.vat">
-              {{ field.vat.amount }}
-            </b-td>
+            </b-td> -->
 
             <!-- Total -->
             <b-td v-if="config.total">
@@ -304,33 +294,17 @@
               {{ showTotalFooterText ? 'Total' : '' }}
             </b-th>
             <b-th v-if="config.discount">
-              <span v-if="config.footer.discount"
-                >₹ {{ getTotal('discount', 'amount') }}</span
-              >
-            </b-th>
-            <b-th v-if="config.taxable">
-              <span v-if="config.footer.taxable"
-                >₹ {{ getTotal('taxable') }}</span
-              >
-            </b-th>
-            <b-th colspan="2" v-if="gstFlag && config.igst">
-              <span v-if="config.footer.igst"
-                >₹ {{ getTotal('igst', 'amount') }}</span
-              ></b-th
-            >
-            <b-th colspan="2" v-if="gstFlag && config.cess">
-              <span v-if="config.footer.cess"
-                >₹ {{ getTotal('cess', 'amount') }}</span
-              ></b-th
-            >
-            <b-th colspan="2" v-if="!gstFlag && config.vat"
-              >₹
-              <span v-if="config.footer.vat">{{
-                getTotal('vat', 'amount')
+              <span v-if="config.footer.discount">{{
+                getTotal('discount', 'amount')
               }}</span>
             </b-th>
+            <!-- <b-th v-if="config.taxable">
+              <span v-if="config.footer.taxable">{{
+                getTotal('taxable')
+              }}</span>
+            </b-th> -->
             <b-th v-if="config.total">
-              <span v-if="config.footer.total">₹ {{ getTotal('total') }}</span>
+              <span v-if="config.footer.total">{{ getTotal('total') }}</span>
             </b-th>
             <b-th class="text-center" v-if="config.addBtn">
               <b-button @click.prevent="addBillItem()" size="sm">+</b-button>
@@ -425,6 +399,12 @@ export default {
     },
   },
   computed: {
+    showCess: (self) => {
+      let cessIndex = self.form.findIndex((item) => {
+        return item.cess.rate > 0;
+      });
+      return cessIndex > -1 && self.gstFlag;
+    },
     showTotalFooterText: (self) =>
       self.config.discount ||
       self.config.amount ||
@@ -434,7 +414,7 @@ export default {
       self.config.total,
     billLength: (self) => self.form.length,
     isResponsive: (self) =>
-      self.config.attr ? self.config.attr.responsive : true,
+      self.config.attr ? self.config.attr.responsive : false,
     disabled: (self) => {
       let disabled = {};
       for (const item in self.config) {
@@ -448,13 +428,16 @@ export default {
     },
   },
   watch: {
+    showCess() {
+      this.updateConfig();
+    },
     updateCounter() {
       let updateBillTable = !(
         this.parentData.length &&
         typeof this.parentData[0].product === 'object' &&
         !this.parentData[0].product.name
       );
-      if(!updateBillTable) {
+      if (!updateBillTable) {
         this.form = [];
         this.addBillItem();
         return;
@@ -493,6 +476,9 @@ export default {
         // self.$forceUpdate();
         self.isPreloading = false;
       }, 500);
+    },
+    gstFlag() {
+      this.updateConfig();
     },
   },
   data() {
@@ -714,7 +700,7 @@ export default {
             (item.rate * qty - item.discount.amount * qty).toFixed(2)
           );
 
-          if (this.form.taxType === 'gst') {
+          if (this.gstFlag) {
             if (item.igst.rate > 0) {
               item.igst.amount = parseFloat(
                 (item.taxable * (item.igst.rate * 0.01)).toFixed(2)
@@ -787,12 +773,42 @@ export default {
         this.$emit('details-updated', { data: this.form, name: 'bill-table' })
       );
     },
+    updateConfig() {
+      let config = this.config;
+      let tax = this.gstFlag
+        ? (!!config.cess && this.showCess) + !!config.igst
+        : !!config.vat;
+      config.footer.headingColspan =
+        !!config.index +
+          !!config.product +
+          !!config.qty +
+          !!config.rate +
+          !!config.packageCount +
+          !!config.rejectedQty +
+          tax || 1;
+      if (window.innerWidth < 576) {
+        config.footer.headingColspan -= (!!config.index + tax);
+      }
+    },
   },
   mounted() {
     const self = this;
     this.fetchBusinessList().then(() => {
       self.onUpdateDetails();
+      self.updateConfig();
     });
+    window.addEventListener(
+      'resize',
+      (function () {
+        let timeout;
+        return function () {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            self.updateConfig();
+          }, 250);
+        };
+      })()
+    );
   },
 };
 </script>
