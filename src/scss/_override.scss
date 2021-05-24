@@ -1,0 +1,9 @@
+label[class*=col-].col-form-label {
+  text-align: right;
+}
+/** 
+  label[class*=col-] is added so that this style only
+  applies when the input label and the input field are
+  in the same line.
+  label  [________]
+*/
