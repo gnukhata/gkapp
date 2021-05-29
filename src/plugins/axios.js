@@ -5,7 +5,7 @@ import axios from "axios";
 // import store from '@/store'
 
 // axios.defaults.baseURL = store.state.gkCoreUrl
-;
+
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

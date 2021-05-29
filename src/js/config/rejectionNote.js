@@ -3,52 +3,48 @@ export default {
   state: {
     default: {
       inv: {
-        type: true,
-        no: true,
-        date: true,
-        delNote: true,
-        ebn: true,
+        no: { disabled: true },
+        date: { disabled: true, validate: false },
+        delNote: false,
+        ebn: false,
         addr: true,
-        pin: true,
+        pin: false,
         state: true,
-        issuer: true,
-        role: true,
+        issuer: false,
+        role: false,
+        gstin: true,
         class: {},
       },
       party: {
-        type: true,
+        type: false,
         options: {
           states: true,
           gstin: true,
         },
         custid: true,
-        name: true,
+        name: {
+          disabled: true
+        },
         addr: true,
         state: true,
         gstin: true,
         tin: true,
-        pin: true,
+        pin: false,
         class: {},
       },
-      ship: {
-        copyFlag: true,
-        name: true,
-        addr: true,
-        state: true,
-        gstin: true,
-        tin: true,
-        pin: true,
+      rnote: {
         class: {},
       },
       taxType: true,
       bill: {
         index: true,
-        product: true,
+        product: { disabled: true },
         hsn: true,
-        qty: true,
-        fqty: true,
-        rate: true,
-        discount: true,
+        qty: { disabled: true },
+        rejectedQty: true,
+        fqty: { disabled: true },
+        rate: { disabled: true },
+        discount: { disabled: true },
         taxable: true,
         igst: true,
         cess: true,
@@ -63,6 +59,7 @@ export default {
           total: true,
           headingColspan: 1,
         },
+        addBtn: false
       },
       payment: {
         mode: true,
@@ -86,49 +83,49 @@ export default {
       },
       total: {
         taxable: true,
-        discount: true,
+        discount: false,
         vat: true,
         igst: true,
         cess: true,
-        roundOff: true,
+        roundOff: false,
         value: true,
-        valueText: true,
+        valueText: false,
       },
     },
     custom: {}
   },
   getters: {
-    getDefaultInvoiceConfig: (state) => {
+    getDefaultRejectionNoteConfig: (state) => {
       return state.default
     },
-    getCustomInvoiceConfig: (state) => {
+    getCustomRejectionNoteConfig: (state) => {
       return state.custom
     }
   },
   mutations: {
     // note that this mutation, directly stores whatever data is being sent, so 
     // config must be validated before commit
-    setInvoiceConfig(state, payload) {
+    setRejectionNoteConfig(state, payload) {
       state.custom = payload
     }
   },
   actions: {
-    initInvoiceConfig({ state, commit }) {
-      let conf 
-      try { // if the invoiceConfig isn't a valid JSON, catch the error and  use null to get the default config
-        conf = JSON.parse(localStorage.getItem("invoiceConfig"))
-      } catch(error) {
+    initRejectionNoteConfig({ state, commit }, payload) {
+      let conf
+      try { // if the RejectionNoteConfig isn't a valid JSON, catch the error and  use null to get the default config
+        conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-RejectionNoteConfig`))
+      } catch (error) {
         conf = null
       }
       if (conf !== null) {
-        commit("setInvoiceConfig", conf)
+        commit("setRejectionNoteConfig", conf)
       } else {
-        commit("setInvoiceConfig", state.default)
+        commit("setRejectionNoteConfig", state.default)
       }
     },
-    updateInvoiceConfig({ commit }, payload) {
-      commit("setInvoiceConfig", payload)
-      localStorage.setItem("invoiceConfig", JSON.stringify(payload))
+    updateRejectionNoteConfig({ commit }, payload) {
+      commit("setRejectionNoteConfig", payload.data)
+      localStorage.setItem(`${payload.orgCode}-RejectionNoteConfig`, JSON.stringify(payload.data))
     }
   },
   namespaced: true

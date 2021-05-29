@@ -3,35 +3,36 @@ export default {
   state: {
     default: {
       inv: {
-        type: true,
+        type: false,
         no: true,
-        date: true,
-        delNote: true,
-        ebn: true,
-        addr: true,
-        pin: true,
+        date: false,
+        delNote: false,
+        ebn: false,
+        addr: false,
+        pin: false,
         state: true,
         issuer: true,
         role: true,
         class: {},
       },
-      party: {
+      dcNote: {
         type: true,
+        invNo: true,
+        no: true,
+        date: true,
+        gstin: true,
+        referenceFlag: true,
+        badQuality: true,
+        purpose: true,
+        class: {}
+      },
+      party: {
+        type: false,
         options: {
           states: true,
           gstin: true,
         },
         custid: true,
-        name: true,
-        addr: true,
-        state: true,
-        gstin: true,
-        tin: true,
-        pin: true,
-        class: {},
-      },
-      ship: {
-        copyFlag: true,
         name: true,
         addr: true,
         state: true,
@@ -54,6 +55,7 @@ export default {
         cess: true,
         vat: true,
         total: true,
+        addBtn: true,
         footer: {
           discount: true,
           taxable: true,
@@ -63,23 +65,6 @@ export default {
           total: true,
           headingColspan: 1,
         },
-      },
-      payment: {
-        mode: true,
-        bank: {
-          no: true,
-          name: true,
-          branch: true,
-          ifsc: true,
-        },
-        class: {}
-      },
-      transport: {
-        mode: true,
-        vno: true,
-        date: true,
-        reverseCharge: true,
-        class: {}
       },
       comments: {
         class: {}
@@ -98,37 +83,37 @@ export default {
     custom: {}
   },
   getters: {
-    getDefaultInvoiceConfig: (state) => {
+    getDefaultDCNoteConfig: (state) => {
       return state.default
     },
-    getCustomInvoiceConfig: (state) => {
+    getCustomDCNoteConfig: (state) => {
       return state.custom
     }
   },
   mutations: {
     // note that this mutation, directly stores whatever data is being sent, so 
     // config must be validated before commit
-    setInvoiceConfig(state, payload) {
+    setDCNoteConfig(state, payload) {
       state.custom = payload
     }
   },
   actions: {
-    initInvoiceConfig({ state, commit }) {
+    initDCNoteConfig({ state, commit }, payload) {
       let conf 
-      try { // if the invoiceConfig isn't a valid JSON, catch the error and  use null to get the default config
-        conf = JSON.parse(localStorage.getItem("invoiceConfig"))
+      try { // if the DCNoteConfig isn't a valid JSON, catch the error and  use null to get the default config
+        conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-dcNoteConfig`))
       } catch(error) {
         conf = null
       }
       if (conf !== null) {
-        commit("setInvoiceConfig", conf)
+        commit("setDCNoteConfig", conf)
       } else {
-        commit("setInvoiceConfig", state.default)
+        commit("setDCNoteConfig", state.default)
       }
     },
-    updateInvoiceConfig({ commit }, payload) {
-      commit("setInvoiceConfig", payload)
-      localStorage.setItem("invoiceConfig", JSON.stringify(payload))
+    updateDCNoteConfig({ commit }, payload) {
+      commit("setDCNoteConfig", payload.data)
+      localStorage.setItem(`${payload.orgCode}-dcNoteConfig`, JSON.stringify(payload.data))
     }
   },
   namespaced: true

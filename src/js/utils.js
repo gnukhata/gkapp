@@ -67,4 +67,29 @@ function numberToRupees(number) {
   return text
 }
 
-export { numberToWords, numberToRupees }
+/**
+ * reverseDate
+ * @param {*} date
+ * 
+ * Description: Given a date in yyyy-mm-dd or dd-mm-yyyy format, 
+ * returns a reversed string
+ */
+function reverseDate(date) {
+  return date.split('-').reverse().join('-');
+}
+
+/**
+ * formatDateObj
+ * @param {*} date 
+ * 
+ * Description: Converts a js Date object, into yyyy-mm-dd string
+ */
+function formatDateObj(date) {
+  let month = date.getMonth() + 1;
+  month = month > 9 ? month : '0' + month;
+  let day = date.getDate();
+  day = day > 9 ? day : '0' + day;
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
+export { numberToWords, numberToRupees, reverseDate, formatDateObj }

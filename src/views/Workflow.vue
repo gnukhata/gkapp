@@ -189,6 +189,7 @@
             <!-- Workflow Data List Start -->
             <b-list-group
               :style="{ height: listHeight + 'px', overflowY: 'auto' }"
+              data-name="workflow-list"
             >
               <b-list-group-item
                 button
@@ -741,6 +742,14 @@ export default {
       }
     },
     setSelectedEntity(entity, index, skipUpdate) {
+      let activeListContainerDom = document.querySelectorAll(
+        'div[data-name="workflow-list"]'
+      )[this.activeWorkflow.index];
+      let selectedDom = activeListContainerDom.querySelector(
+        `button:nth-child(${this.selectedEntityIndex + 1})`
+      );
+      if (selectedDom) selectedDom.classList.remove('selected-data-list');
+
       this.selectedEntity = entity;
       this.selectedEntityIndex = index;
       if (this.$refs['col-left'])
@@ -750,6 +759,12 @@ export default {
       if (!skipUpdate) {
         this.updateUrl();
       }
+
+      // set selected class
+      selectedDom = activeListContainerDom.querySelector(
+        `button:nth-child(${index + 1})`
+      );
+      selectedDom.classList.add('selected-data-list');
     },
     /** Update the URL based on current entity selected */
     updateUrl() {
@@ -758,10 +773,15 @@ export default {
       let key = this.options.tabs[wfName].uidKey;
       let wfId = this.selectedEntity ? this.selectedEntity[key] || -1 : -1;
       url += `#/workflow/${wfName}/${wfId}`;
-      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace, 
-                                           // instead of creating a new history instances for every entity selected
+      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
+      // instead of creating a new history instances for every entity selected
     },
     unsetSelectedEntity() {
+      let selectedDom = document
+        .querySelectorAll('div[data-name="workflow-list"]')[this.activeWorkflow.index].querySelector(
+          `button:nth-child(${this.selectedEntityIndex + 1})`
+        );
+      if (selectedDom) selectedDom.classList.remove('selected-data-list');
       this.selectedEntity = null;
       this.selectedEntityIndex = null;
       this.$refs['col-left'].classList.add('d-block');
@@ -897,7 +917,8 @@ export default {
                 index = invoiceMap[inv.invid];
                 if (index >= 0) {
                   data[index].onCreditFlag = true;
-                  data[index].rectifyFlag = (inv.balanceamount === inv.invoicetotal); // can be rectified or not
+                  data[index].rectifyFlag =
+                    inv.balanceamount === inv.invoicetotal; // can be rectified or not
                 }
               });
             }
@@ -946,7 +967,9 @@ export default {
         let key = tab.uidKey;
         let entityIndex = tab.data.findIndex((item) => item[key] === wfId);
         if (entityIndex >= 0) {
-          self.setSelectedEntity(tab.data[entityIndex], entityIndex, true);
+          self.$nextTick().then(() => {
+            self.setSelectedEntity(tab.data[entityIndex], entityIndex, true);
+          });
         }
       }
     });
@@ -971,5 +994,10 @@ export default {
 
 #add-item:hover {
   opacity: 1;
+}
+
+.selected-data-list {
+  border: 2px solid black;
+  background-color: #f3f3f3;
 }
 </style>

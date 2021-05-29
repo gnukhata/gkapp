@@ -421,7 +421,7 @@ export default {
     /**
      * preloadData()
      * 
-     * Description: Fetches the Customers and Suppliers List 
+     * Description: Fetches the list of Accounts for Dr and Cr fields for the current Voucher type
      */
     preloadData() {
       const requests = [

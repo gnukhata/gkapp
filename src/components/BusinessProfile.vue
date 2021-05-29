@@ -259,12 +259,15 @@ export default {
               }, 500);
               break;
             case 3:
+              this.loading = false;
               this.$bvToast.toast("Product does not exist", {
                 title: "Error",
                 variant: "danger",
                 solid: true,
               });
               break;
+            default:
+              this.loading = false;
           }
         });
     },

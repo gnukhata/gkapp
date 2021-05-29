@@ -2,15 +2,13 @@
 export default {
   state: {
     default: {
-      inv: {
-        type: true,
+      delNote: {
         no: true,
         date: true,
-        delNote: true,
-        ebn: true,
-        addr: true,
-        pin: true,
+        type: true,
         state: true,
+        dispatch: true,
+        gstin: true,
         issuer: true,
         role: true,
         class: {},
@@ -54,6 +52,7 @@ export default {
         cess: true,
         vat: true,
         total: true,
+        addBtn: true,
         footer: {
           discount: true,
           taxable: true,
@@ -64,17 +63,8 @@ export default {
           headingColspan: 1,
         },
       },
-      payment: {
-        mode: true,
-        bank: {
-          no: true,
-          name: true,
-          branch: true,
-          ifsc: true,
-        },
-        class: {}
-      },
       transport: {
+        packageCount: true,
         mode: true,
         vno: true,
         date: true,
@@ -98,37 +88,37 @@ export default {
     custom: {}
   },
   getters: {
-    getDefaultInvoiceConfig: (state) => {
+    getDefaultDelNoteConfig: (state) => {
       return state.default
     },
-    getCustomInvoiceConfig: (state) => {
+    getCustomDelNoteConfig: (state) => {
       return state.custom
     }
   },
   mutations: {
     // note that this mutation, directly stores whatever data is being sent, so 
     // config must be validated before commit
-    setInvoiceConfig(state, payload) {
+    setDelNoteConfig(state, payload) {
       state.custom = payload
     }
   },
   actions: {
-    initInvoiceConfig({ state, commit }) {
+    initDelNoteConfig({ state, commit }, payload) {
       let conf 
-      try { // if the invoiceConfig isn't a valid JSON, catch the error and  use null to get the default config
-        conf = JSON.parse(localStorage.getItem("invoiceConfig"))
+      try { // if the DelNoteConfig isn't a valid JSON, catch the error and  use null to get the default config
+        conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-delNoteConfig`))
       } catch(error) {
         conf = null
       }
       if (conf !== null) {
-        commit("setInvoiceConfig", conf)
+        commit("setDelNoteConfig", conf)
       } else {
-        commit("setInvoiceConfig", state.default)
+        commit("setDelNoteConfig", state.default)
       }
     },
-    updateInvoiceConfig({ commit }, payload) {
-      commit("setInvoiceConfig", payload)
-      localStorage.setItem("invoiceConfig", JSON.stringify(payload))
+    updateDelNoteConfig({ commit }, payload) {
+      commit("setDelNoteConfig", payload.data)
+      localStorage.setItem(`${payload.orgCode}-delNoteConfig`, JSON.stringify(payload.data))
     }
   },
   namespaced: true

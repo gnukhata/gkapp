@@ -1017,7 +1017,7 @@
                 ></b-th
               >
               <b-th colspan="2" v-if="!isGst && config.bill.vat"
-                >{>
+                >₹
                 <span v-if="config.bill.footer.vat">{{
                   getTotal('vat', 'amount')
                 }}</span>
@@ -1517,13 +1517,13 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import ContactItem from '../components/form/ContactItem.vue';
-import BusinessItem from '../components/form/BusinessItem.vue';
-import Config from '../components/Config.vue';
-import Autocomplete from '../components/Autocomplete.vue';
+import ContactItem from '../../components/form/ContactItem.vue';
+import BusinessItem from '../../components/form/BusinessItem.vue';
+import Config from '../../components/Config.vue';
+import Autocomplete from '../../components/Autocomplete.vue';
 
-import invoiceConfig from '../js/config/invoiceConfig';
-import { numberToRupees } from '../js/utils';
+import invoiceConfig from '../../js/config/invoiceConfig';
+import { numberToRupees, formatDateObj } from '../../js/utils';
 
 export default {
   name: 'Invoice',
@@ -1549,13 +1549,14 @@ export default {
   data() {
     return {
       // config: {},
+      vuexNameSpace: '',
       formMode: '',
       invoiceId: '',
       form: {
         inv: {
           type: 'sale', // purchase
           no: null,
-          date: this.formatDateObj(new Date()),
+          date: formatDateObj(new Date()),
           delNote: null,
           ebn: null,
           addr: null,
@@ -1680,7 +1681,7 @@ export default {
     // config : Gets the custom config from the invoiceConfig Vuex module and
     //          prepares it for use by adding some custom additions to it (that should not be user editable)
     config: (self) => {
-      let newConf = self.$store.getters.getCustomInvoiceConfig;
+      let newConf = self.$store.getters[`${self.vuexNameSpace}/getCustomInvoiceConfig`];
       if (newConf) {
         newConf.bill.footer.headingColspan =
           !!newConf.bill.index +
@@ -1760,7 +1761,7 @@ export default {
 
       return newConf;
     },
-    defaultConfig: (self) => self.$store.getters.getDefaultInvoiceConfig,
+    defaultConfig: (self) => self.$store.getters[`${self.vuexNameSpace}/getDefaultInvoiceConfig`],
     invoiceTotalText: (self) => {
       let total = self.getTotal('total');
       let text = '';
@@ -1803,9 +1804,6 @@ export default {
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
     ...mapState([
-      'authToken',
-      'gkCoreUrl',
-      'userName',
       'yearStart',
       'yearEnd',
       'invoiceParty',
@@ -2021,7 +2019,9 @@ export default {
 
           if (resp6.data.gkstatus === 0) {
             self.options.orgDetails = resp6.data.gkdata;
-            self.setOrgDetails();
+            setTimeout(() => {
+              self.setOrgDetails();
+            }, 1);
           }
 
           if (preloadErrorList !== '') {
@@ -2566,18 +2566,6 @@ export default {
       });
       this.setShippingDetails();
     },
-    /**
-     * formatDateObj(date)
-     *
-     * Description: Converts a js Date object, into yyyy-mm-dd string
-     */
-    formatDateObj(date) {
-      let month = date.getMonth() + 1;
-      month = month > 9 ? month : '0' + month;
-      let day = date.getDate();
-      day = day > 9 ? day : '0' + day;
-      return `${date.getFullYear()}-${month}-${day}`;
-    },
     onSubmit() {
       let self = this;
       this.isLoading = true;
@@ -2844,7 +2832,7 @@ export default {
         inv: {
           type: 'sale', // purchase
           no: null,
-          date: this.formatDateObj(new Date()),
+          date: formatDateObj(new Date()),
           delNote: null,
           ebn: null,
           addr: null,
@@ -3005,9 +2993,10 @@ export default {
     },
   },
   beforeMount() {
+    this.vuexNameSpace = 'invoiceConfig_' + Date.now();
     // Dynamically load the config to Vuex, just before the Invoice component is mounted
-    this.$store.registerModule('invoiceConfig', invoiceConfig);
-    this.$store.dispatch('initInvoiceConfig');
+    this.$store.registerModule(this.vuexNameSpace, invoiceConfig);
+    this.$store.dispatch(`${this.vuexNameSpace}/initInvoiceConfig`);
   },
   mounted() {
     // Using non props to store these props, as these can be edited in the future
@@ -3018,7 +3007,7 @@ export default {
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
     // prevent webpack HRM to destroy our store. But if you are production, please go away~
-    this.$store.unregisterModule('invoiceConfig');
+    this.$store.unregisterModule(this.vuexNameSpace);
   },
 };
 </script>

@@ -2,15 +2,17 @@
 export default {
   state: {
     default: {
-      inv: {
-        type: true,
+      type: true,
+      psOrder: {
         no: true,
         date: true,
-        delNote: true,
-        ebn: true,
         addr: true,
         pin: true,
         state: true,
+        gstin: true,
+        terms: true,
+        creditPeriod: true,
+        godown: true,
         issuer: true,
         role: true,
         class: {},
@@ -42,11 +44,12 @@ export default {
       },
       taxType: true,
       bill: {
-        index: true,
+        index: false,
         product: true,
-        hsn: true,
+        hsn: false,
         qty: true,
         fqty: true,
+        packageCount: true,
         rate: true,
         discount: true,
         taxable: true,
@@ -54,6 +57,7 @@ export default {
         cess: true,
         vat: true,
         total: true,
+        addBtn: true,
         footer: {
           discount: true,
           taxable: true,
@@ -98,37 +102,37 @@ export default {
     custom: {}
   },
   getters: {
-    getDefaultInvoiceConfig: (state) => {
+    getDefaultPSOrderConfig: (state) => {
       return state.default
     },
-    getCustomInvoiceConfig: (state) => {
+    getCustomPSOrderConfig: (state) => {
       return state.custom
     }
   },
   mutations: {
     // note that this mutation, directly stores whatever data is being sent, so 
     // config must be validated before commit
-    setInvoiceConfig(state, payload) {
+    setPSOrderConfig(state, payload) {
       state.custom = payload
     }
   },
   actions: {
-    initInvoiceConfig({ state, commit }) {
+    initPSOrderConfig({ state, commit }, payload) {
       let conf 
-      try { // if the invoiceConfig isn't a valid JSON, catch the error and  use null to get the default config
-        conf = JSON.parse(localStorage.getItem("invoiceConfig"))
+      try { // if the PSOrderConfig isn't a valid JSON, catch the error and  use null to get the default config
+        conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-psOrderConfig`))
       } catch(error) {
         conf = null
       }
       if (conf !== null) {
-        commit("setInvoiceConfig", conf)
+        commit("setPSOrderConfig", conf)
       } else {
-        commit("setInvoiceConfig", state.default)
+        commit("setPSOrderConfig", state.default)
       }
     },
-    updateInvoiceConfig({ commit }, payload) {
-      commit("setInvoiceConfig", payload)
-      localStorage.setItem("invoiceConfig", JSON.stringify(payload))
+    updatePSOrderConfig({ commit }, payload) {
+      commit("setPSOrderConfig", payload.data)
+      localStorage.setItem(`${payload.orgCode}-psOrderConfig`, JSON.stringify(payload.data))
     }
   },
   namespaced: true
