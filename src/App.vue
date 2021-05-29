@@ -157,14 +157,25 @@ export default {
     logOut() {
       // reset orgname
       this.$store.commit('resetOrg');
+
       // change auth status
       this.$store.commit('setAuthStatus');
-      // redirect to login page
-      this.$router.push('/');
+
+      const orgChoice = localStorage.getItem('orgChoice');
+      const orgCodeChoice = localStorage.getItem('orgCodeChoice');
+
       // clear localStorage
       localStorage.clear();
+
+      localStorage.setItem('orgChoice', orgChoice);
+      localStorage.setItem('orgCodeChoice', orgCodeChoice);
+
       // set gkCore url
       this.$store.commit('setGkCoreUrl', { gkCoreUrl: this.gkCoreUrl });
+
+      // redirect to login page
+      this.$router.push('/');
+
       // alert the user on logout
       this.$bvToast.toast(`Logged out succesfully`, {
         title: 'Logout',
