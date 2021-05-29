@@ -425,7 +425,9 @@ export default {
             this.form.orgcode = this.orgYears[0].orgcode;
             this.isDisabled = false;
             if (localStorage.getItem('orgCodeChoice') !== null) {
-              this.form.orgcode = localStorage.getItem('orgCodeChoice');
+              this.form.orgcode = parseInt(
+                localStorage.getItem('orgCodeChoice')
+              );
             }
           }
         })
