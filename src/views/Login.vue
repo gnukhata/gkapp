@@ -396,14 +396,15 @@ export default {
                 break;
               }
             }
+            this.getOrgYears();
           }
-          this.getOrgYears();
           this.isDisabled = false; // hide the spinner
         })
         .catch(function(e) {
           this.$bvToast.toast(e.message, {
             variant: 'danger',
           });
+          this.isDisabled = false; // hide the spinner
         });
     },
 
