@@ -49,13 +49,63 @@
       header-bg-variant="dark"
       header-text-variant="light"
     >
-      <b-alert show variant="info">
-        Demo Username: <b>admin</b><br />
-        Password: <b>admin</b><br />
-        Organisation: <b>WALLMART</b></b-alert
-      >
       <b-card-body>
+        <b-alert show variant="info">
+          Organisation: <b>WALLMART</b><br />
+          Username: <b>admin</b><br />
+          Password: <b>admin</b>
+        </b-alert>
         <b-form @submit.prevent="login">
+          <!--Select company area-->
+          <b-form-group
+            id="input-group-3"
+            label="Organisation"
+            description="* Required"
+            label-cols="auto"
+            label-for="input-3"
+            content-cols="auto"
+          >
+            <b-overlay :show="isDisabled">
+              <b-form-select
+                v-on:change="getOrgYears"
+                v-model="orgIndex"
+                required
+              >
+                <b-form-select-option value="null" disabled
+                  >-- Select Organisation --</b-form-select-option
+                >
+                <b-form-select-option
+                  v-for="(org, index) in orgList"
+                  :key="index"
+                  :value="index"
+                  >{{ org.orgname }} ({{ org.orgtype }})
+                </b-form-select-option>
+              </b-form-select>
+            </b-overlay>
+          </b-form-group>
+          <!-- Financial Year-->
+          <b-form-group
+            id="input-group-3"
+            label="Financial Year"
+            description="* Required"
+            label-cols="auto"
+            content-cols="auto"
+          >
+            <b-overlay :show="isDisabled">
+              <b-form-select v-model="form.orgcode" required>
+                <b-form-select-option value="null" disabled
+                  >-- Select Year --</b-form-select-option
+                >
+                <b-form-select-option
+                  v-for="(org, index) in orgYears"
+                  :key="index"
+                  :value="org.orgcode"
+                >
+                  {{ org.yearstart }} to {{ org.yearend }}
+                </b-form-select-option>
+              </b-form-select>
+            </b-overlay>
+          </b-form-group>
           <!--Username area-->
           <b-form-group
             label="Username"
@@ -88,51 +138,6 @@
             ></b-form-input>
           </b-form-group>
 
-          <!--Select company area-->
-          <b-form-group
-            id="input-group-3"
-            label="Organisation"
-            description="* Required"
-            label-cols="auto"
-            label-for="input-3"
-            content-cols="auto"
-          >
-            <b-overlay :show="isDisabled">
-              <b-form-select
-                v-on:change="getOrgYears"
-                id="input-3"
-                v-model="orgIndex"
-                :options="options"
-                :disabled="options.length == 1"
-                required
-              >
-                <b-form-select-option value="null"
-                  >-- Select Organisation --</b-form-select-option
-                >
-              </b-form-select>
-            </b-overlay>
-          </b-form-group>
-          <!-- Financial Year-->
-          <b-form-group
-            id="input-group-3"
-            label="Financial Year"
-            description="* Required"
-            label-cols="auto"
-            content-cols="auto"
-          >
-            <b-overlay :show="isDisabled">
-              <b-form-select
-                v-model="form.orgcode"
-                :options="orgYears"
-                :disabled="orgYears.length == 1"
-                required
-              >
-                <b-form-select-option value="null" disabled
-                  >-- Select Year --</b-form-select-option
-                >
-              </b-form-select>
-            </b-overlay>
-          </b-form-group>
           <!--Captcha area-->
           <b-form-group label="Question" content-cols="auto" label-cols="auto">
             <captcha v-model="answer"></captcha>
@@ -202,14 +207,12 @@ export default {
       captchaSolved: false,
       isLoading: false,
       isDisabled: true,
-      options: [], // companys list
       answer: null,
       userAnswer: null,
       showLogin: false,
       orgList: null,
       orgIndex: null,
       orgYears: [], //
-      orgYearsFull: [], // org array with org details objects
       serverUrl: '',
       form: {
         username: null,
@@ -335,15 +338,10 @@ export default {
                 // Initiate axios defaults
                 axios.defaults.baseURL = this.gkCoreUrl;
                 axios.defaults.headers = { gktoken: response.data.token };
+                // Store org details in browser storage to set values on next login
+                localStorage.setItem('orgCodeChoice', this.form.orgcode);
+                // redirect to workflow on login
                 this.$router.push('/workflow/Transactions/-1');
-                // Alert the user on successful login
-                this.$bvToast.toast(`Welcome to gnukhata!`, {
-                  title: 'Login Successful',
-                  autoHideDelay: 3000,
-                  appendToast: true,
-                  variant: 'success',
-                  solid: true,
-                });
               } else {
                 // Alert the user on captcha failure
                 this.$bvToast.toast(`Incorrect Answer`, {
@@ -383,22 +381,22 @@ export default {
         .get(`${this.gkCoreUrl}/organisations`)
         .then((response) => {
           this.orgList = response.data.gkdata;
-          // Convert the api data b-vue compatible
-          let opt = [];
-          for (const i in this.orgList) {
-            const item = {
-              value: i,
-              text: `${this.orgList[i].orgname} (${this.orgList[i].orgtype})`,
-            };
-            opt.push(item);
-          }
-          // In case of only one org, Use it as default to authenticate
-          if (opt.length == 1) {
+          // if only one org, Set it as default
+          if (this.orgList.length == 1) {
             this.orgIndex = 0;
+          }
+          const orgChoice = localStorage.getItem('orgChoice');
+          if (orgChoice !== null) {
+            for (let i in this.orgList) {
+              if (
+                `${this.orgList[i].orgname} (${this.orgList[i].orgtype})` ===
+                orgChoice
+              ) {
+                this.orgIndex = i;
+                break;
+              }
+            }
             this.getOrgYears();
-            this.options = opt;
-          } else {
-            this.options = opt;
           }
           this.isDisabled = false; // hide the spinner
         })
@@ -406,8 +404,10 @@ export default {
           this.$bvToast.toast(e.message, {
             variant: 'danger',
           });
+          this.isDisabled = false; // hide the spinner
         });
     },
+
     /*
      * send org name & type & get a org's financial years as objects
      */
@@ -415,43 +415,38 @@ export default {
       this.isDisabled = true;
       let name = this.orgList[this.orgIndex].orgname;
       let type = this.orgList[this.orgIndex].orgtype;
+      // Save org name for next login
+      localStorage.setItem('orgChoice', `${name} (${type})`);
       axios
         .get(`/orgyears/${name}/${type}`)
         .then((r) => {
           if (r.status == 200) {
-            let data = r.data.gkdata.map((data) => {
-              // console.log(Object.values(data));
-              let obj = {};
-              obj.text = `${Object.values(data)[0]} to ${
-                Object.values(data)[1]
-              }`;
-              obj.value = Object.values(data)[2];
-              return obj;
-            });
-            // if only one fy is present, use it by default
-            if (data.length === 1) {
-              this.form.orgcode = data[0].value;
-              this.orgYears = data;
-            } else {
-              this.orgYears = data;
-            }
-            this.orgYearsFull = r.data.gkdata;
+            this.orgYears = r.data.gkdata;
+            // Set default financial year to latest one
+            this.form.orgcode = this.orgYears[0].orgcode;
             this.isDisabled = false;
+            if (localStorage.getItem('orgCodeChoice') !== null) {
+              this.form.orgcode = parseInt(
+                localStorage.getItem('orgCodeChoice')
+              );
+            }
           }
         })
         .catch((e) => {
-          console.log(e.message);
+          this.$bvToast.toast(e.message, {
+            variant: 'danger',
+          });
           this.isDisabled = false;
         });
     },
     /* return an org's financial start & end year as object
      */
     orgFinancialYear() {
-      for (let i in this.orgYearsFull) {
-        if (this.orgYearsFull[i].orgcode === this.form.orgcode) {
+      for (let i in this.orgYears) {
+        if (this.orgYears[i].orgcode === this.form.orgcode) {
           return {
-            startYear: this.orgYearsFull[i].yearstart,
-            endYear: this.orgYearsFull[i].yearend,
+            startYear: this.orgYears[i].yearstart,
+            endYear: this.orgYears[i].yearend,
           };
         }
       }
@@ -477,4 +472,3 @@ export default {
   },
 };
 </script>
-<style></style>
