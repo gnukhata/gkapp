@@ -10,7 +10,13 @@
     >
       <b-icon icon="arrow-bar-right"></b-icon>
     </b-button>
-    <b-sidebar v-model="opened" id="sidebar-1" title="MENU" shadow>
+    <b-sidebar
+      width="250px"
+      v-model="opened"
+      id="sidebar-1"
+      title="MENU"
+      shadow
+    >
       <template>
         <b-dropdown-item to="/orgprofile"
           ><b-icon icon="building"></b-icon> Organisation
