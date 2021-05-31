@@ -15,7 +15,18 @@
         <b-form-radio value="sale">Sale</b-form-radio>
         <b-form-radio value="purchase">Purchase</b-form-radio>
       </b-form-radio-group>
-      <div class="clearfix"></div>
+      <span id="edit-invoice-list" class="d-inline-block">
+        <autocomplete
+          size="sm"
+          id="input-8-2"
+          v-model="invId"
+          :options="invList"
+          @input="updateInvoiceData(invId)"
+          required
+          placeholder="Invoice"
+        >
+        </autocomplete>
+      </span>
     </div>
     <b-form @submit.prevent="onSubmit">
       <b-card-group class="d-block d-md-flex my-2" deck>
@@ -31,6 +42,7 @@
         <invoice-details
           :config="config.inv"
           :saleFlag="isSale"
+          :parentData="form.invoice"
           @details-updated="onComponentDataUpdate"
           :updateCounter="updateCounter.invoice"
           ref="invoice"
@@ -150,6 +162,7 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import { reverseDate } from '../../js/utils';
 
 // import Config from '../../components/Config.vue';
 
@@ -161,6 +174,8 @@ import TotalTable from '../../components/form/transaction/TotalTable.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
 import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
 import DcNoteDetails from '../../components/form/transaction_details/DcNoteDetails.vue';
+
+import Autocomplete from '../../components/Autocomplete.vue';
 
 import dcNoteConfig from '../../js/config/debitCreditNote.js';
 
@@ -177,12 +192,15 @@ export default {
     // TransportDetails,
     Comments,
     InvoiceDetails,
+
+    Autocomplete,
   },
   data() {
     return {
       vuexNameSpace: '',
       isLoading: false,
       isInvDateValid: false,
+      isCredit: false,
       updateCounter: {
         party: 0,
         invoice: 0,
@@ -194,7 +212,7 @@ export default {
       form: {
         type: 'sale',
         invoice: {},
-        dcNote: [],
+        dcNote: {},
         party: {},
         ship: {},
         taxType: 'gst', // vat
@@ -205,8 +223,14 @@ export default {
       },
       invId: null,
       options: {
-        states: [],
-        orgDetails: {},
+        drInvoices: {
+          sale: [],
+          purchase: [],
+        },
+        crInvoices: {
+          sale: [],
+          purchase: [],
+        },
       },
     };
   },
@@ -215,13 +239,6 @@ export default {
       let newConf =
         self.$store.getters[`${self.vuexNameSpace}/getCustomDCNoteConfig`];
       if (newConf) {
-        newConf.bill.footer.headingColspan =
-          !!newConf.bill.index +
-            !!newConf.bill.product +
-            !!newConf.bill.hsn +
-            !!newConf.bill.qty +
-            !!newConf.bill.rate || 1;
-
         if (newConf.inv.class) {
           newConf.inv.class = {
             'mr-md-1': !!newConf.party,
@@ -273,6 +290,11 @@ export default {
 
       return newConf;
     },
+    invList: (self) => {
+      const noteType = self.isCredit ? 'crInvoices' : 'drInvoices';
+      const invType = self.form.type;
+      return self.options[noteType][invType];
+    },
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isSale: (self) => self.form.type === 'sale',
@@ -286,9 +308,10 @@ export default {
       switch (payload.name) {
         case 'dc-note-details':
           Object.assign(this.form.dcNote, payload.data);
-          if (this.form.dcNote.invNo !== this.invId) {
-            this.fetchInvoiceData();
-          }
+          this.isCredit = this.form.dcNote.type === 'credit';
+          // if (this.form.dcNote.invNo !== this.invId) {
+          //   this.fetchInvoiceData();
+          // }
           // console.log(this.form.dcNote)
           break;
         case 'party-details':
@@ -428,6 +451,60 @@ export default {
           );
         });
     },
+    /**
+     * updateInvoiceData()
+     *
+     * Given an invoice id, updates the products in the bill table
+     */
+    updateInvoiceData(invoiceId) {
+      if(!isNaN(invoiceId) && !invoiceId) {
+        return;
+      }
+      let self = this;
+      axios
+        .get(`/invoice?inv=single&invid=${invoiceId}`)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            const inv = resp.data.gkresult;
+            self.form.taxType = inv.taxflag === 7 ? 'gst' : 'vat';
+
+            Object.assign(self.form.invoice, {
+              no: inv.invoiceno,
+              date: reverseDate(inv.invoicedate),
+              state: inv.inoutflag === 9
+                ? { id: inv.taxstatecode, name: inv.destinationstate }
+                : { id: inv.sourcestatecode, name: inv.sourcestate }
+            });
+            Object.assign(this.form.party, {
+              name: inv.custSupDetails.custname,
+              type: inv.custSupDetails.csflag === 3 ? 'customer' : 'supplier',
+            });
+
+            let item, billItem;
+            self.form.bill = [];
+            for (const itemCode in inv.invcontents) {
+              item = inv.invcontents[itemCode];
+              billItem = {
+                product: item.proddesc,
+                discount: { amount: parseFloat(item.discount) },
+                qty: parseFloat(item.qty),
+                fqty: item.freeqty,
+                rate: parseFloat(item.priceperunit),
+                isService: item.gsflag === 19,
+              };
+              if (billItem.isService) {
+                billItem.qty = 1;
+              }
+              self.form.bill.push(billItem);
+            }
+
+            this.updateComponentData();
+          }
+        })
+        .catch(() => {
+          return false;
+        });
+    },
     resetForm() {
       this.form = {
         type: 'sale', // purchase
@@ -488,8 +565,79 @@ export default {
         narration: null,
         totalRoundFlag: false,
       };
+      this.updateComponentData();
     },
-    initForm() {},
+    preloadData() {
+      const requests = [
+        // credit note invoice list
+        axios.get('/drcrnote?inv=all&type=sale&drcrflag=3').catch((error) => {
+          this.displayToast(
+            'Fetch Non Rejected Invoice List Failed!',
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
+        axios
+          .get('/drcrnote?inv=all&type=purchase&drcrflag=3')
+          .catch((error) => {
+            this.displayToast(
+              'Fetch Non Rejected Invoice List Failed!',
+              error.message,
+              'danger'
+            );
+            return error;
+          }),
+        // debit note invoice list
+        axios.get('/drcrnote?inv=all&type=sale&drcrflag=4').catch((error) => {
+          this.displayToast(
+            'Fetch Non Rejected Invoice List Failed!',
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
+        axios
+          .get('/drcrnote?inv=all&type=purchase&drcrflag=4')
+          .catch((error) => {
+            this.displayToast(
+              'Fetch Non Rejected Invoice List Failed!',
+              error.message,
+              'danger'
+            );
+            return error;
+          }),
+      ];
+      const self = this;
+      function formatInvoice(inv) {
+        return {
+          text: `${inv.invoiceno},${inv.invoicedate},${inv.custname}`,
+          value: inv.invid,
+        };
+      }
+      return Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
+        if (resp1.data.gkstatus === 0) {
+          self.options.crInvoices.sale = resp1.data.gkresult.map(formatInvoice);
+        }
+        if (resp2.data.gkstatus === 0) {
+          self.options.crInvoices.purchase = resp2.data.gkresult.map(
+            formatInvoice
+          );
+        }
+        if (resp3.data.gkstatus === 0) {
+          self.options.drInvoices.sale = resp3.data.gkresult.map(formatInvoice);
+        }
+        if (resp4.data.gkstatus === 0) {
+          self.options.drInvoices.purchase = resp4.data.gkresult.map(
+            formatInvoice
+          );
+        }
+      });
+    },
+    initForm() {
+      this.preloadData();
+      // this.resetForm();
+    },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
         title: title,

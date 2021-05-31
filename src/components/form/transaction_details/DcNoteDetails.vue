@@ -34,6 +34,7 @@
             size="sm"
             buttons
             v-model="form.type"
+            @input="onUpdateDetails"
           >
             <b-form-radio value="debit">Debit Note</b-form-radio>
             <b-form-radio value="credit">Credit Note</b-form-radio>
@@ -89,49 +90,32 @@
             </b-input-group-append>
           </b-input-group>
         </b-form-group>
-        <b-form-group
-          label="Invoice"
-          label-for="dcd-input-20"
-          label-cols-lg="3"
-          label-cols="4"
-          label-size="sm"
-        >
-          <autocomplete
-            size="sm"
-            id="dcd-input-20"
-            v-model="form.invNo"
-            :options="invList"
-            required
-            @input="onUpdateDetails"
-          >
-          </autocomplete>
-        </b-form-group>
-        <b-form-group
+        <!-- <b-form-group
           label="GSTIN"
-          label-for="dcd-input-30"
+          label-for="dcd-input-20"
           label-cols-lg="3"
           label-cols="4"
           label-size="sm"
         >
           <b-form-input
             size="sm"
-            id="dcd-input-30"
+            id="dcd-input-20"
             v-model="form.gstin"
             trim
             required
             readonly
           ></b-form-input>
-        </b-form-group>
+        </b-form-group> -->
         <b-form-group
           label="Purpose"
-          label-for="dcd-input-40"
+          label-for="dcd-input-20"
           label-size="sm"
           label-cols-lg="3"
           label-cols="4"
         >
           <b-form-select
             size="sm"
-            id="dcd-input-40"
+            id="dcd-input-20"
             v-model="form.purpose"
             required
             tabindex="-1"
@@ -241,7 +225,6 @@ export default {
       form: {
         type: 'debit',
         no: null,
-        invNo: null,
         date: this.formatDateObj(new Date()),
         gstin: null,
         referenceFlag: false,
@@ -257,11 +240,6 @@ export default {
     };
   },
   computed: {
-    invList: (self) => {
-      let note = self.isCredit ? 'cr' : 'dr';
-      let inv = self.saleFlag ? 'sale' : 'purchase';
-      return self.options.invoices[note][inv];
-    },
     isReturn: (self) => self.form.purpose === 'qty',
     isCredit: (self) => self.form.type === 'credit',
     formType: (self) =>
@@ -292,74 +270,6 @@ export default {
         })
       );
     },
-    preloadData() {
-      this.isPreloading = true;
-      const requests = [
-        axios.get('/drcrnote?inv=all&type=sale&drcrflag=3').catch((error) => {
-          this.displayToast(
-            'Fetch Sale Invoice Data Failed!',
-            error.message,
-            'danger'
-          );
-          return error;
-        }),
-        axios.get(`/drcrnote?inv=all&type=sale&drcrflag=4`).catch((error) => {
-          this.displayToast(
-            'Fetch Sale Invoice Data Failed!',
-            error.message,
-            'danger'
-          );
-          return error;
-        }),
-        axios
-          .get(`/drcrnote?inv=all&type=purchase&drcrflag=3`)
-          .catch((error) => {
-            this.displayToast(
-              'Fetch Purchase Invoice Data Failed!',
-              error.message,
-              'danger'
-            );
-            return error;
-          }),
-        axios
-          .get(`/drcrnote?inv=all&type=purchase&drcrflag=4`)
-          .catch((error) => {
-            this.displayToast(
-              'Fetch Purchase Invoice Data Failed!',
-              error.message,
-              'danger'
-            );
-            return error;
-          }),
-      ];
-      const self = this;
-      return Promise.all([...requests])
-        .then(([resp1, resp2, resp3, resp4]) => {
-          this.isPreloading = false;
-          let formatInv = function (inv) {
-            return {
-              text: `${inv.invoiceno},${inv.invoicedate},${inv.custname}`,
-              value: inv.invid,
-            };
-          };
-          if (resp1.data.gkstatus === 0) {
-            self.options.invoices.cr.sale = resp1.data.gkresult.map(formatInv);
-          }
-          if (resp2.data.gkstatus === 0) {
-            self.options.invoices.dr.sale = resp2.data.gkresult.map(formatInv);
-          }
-          if (resp3.data.gkstatus === 0) {
-            self.options.invoices.cr.purchase = resp3.data.gkresult.map(formatInv);
-          }
-          if (resp4.data.gkstatus === 0) {
-            self.options.invoices.dr.purchase = resp4.data.gkresult.map(formatInv);
-          }
-        })
-        .catch(() => {
-          this.isPreloading = false;
-        });
-    },
-    getInvoiceData() {},
     resetForm() {
       if (!this.isInvDateValid) {
         this.form.date = this.yearStart;
@@ -389,10 +299,7 @@ export default {
     },
   },
   mounted() {
-    const self = this;
-    this.preloadData().then(() => {
-      self.resetForm();
-    });
+    this.resetForm();
   },
 };
 </script>
