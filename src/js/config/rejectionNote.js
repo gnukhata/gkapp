@@ -9,7 +9,7 @@ export default {
         ebn: false,
         addr: true,
         pin: false,
-        state: true,
+        state: {disabled: true},
         issuer: false,
         role: false,
         gstin: true,
@@ -37,7 +37,7 @@ export default {
       },
       taxType: true,
       bill: {
-        index: true,
+        index: false,
         product: { disabled: true },
         hsn: true,
         qty: { disabled: true },
@@ -59,7 +59,8 @@ export default {
           total: true,
           headingColspan: 1,
         },
-        addBtn: false
+        addBtn: false,
+        rowSelected: true
       },
       payment: {
         mode: true,

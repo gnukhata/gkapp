@@ -33,7 +33,7 @@
           ></b-icon>
         </b-button>
       </div>
-      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
+      <div class="mt-3 px-2" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-row>
           <b-col v-if="config.type" cols="12">
             <b-form-group>

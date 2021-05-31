@@ -199,8 +199,8 @@
                 v-model="form.state"
                 :options="options.states"
                 required
-                disabled
-                tabindex="-1"
+                :disabled="disabled.state"
+                :tabindex="disabled.state ? -1 : 0"
               ></b-form-select>
             </b-form-group>
           </b-col>
@@ -315,6 +315,7 @@ export default {
       let disabled = {
         no: false,
         date: false,
+        state: false,
       };
 
       if (typeof self.config.no === 'object') {
@@ -323,6 +324,10 @@ export default {
 
       if (typeof self.config.date === 'object') {
         disabled.date = !!self.config.date.disabled;
+      }
+
+      if (typeof self.config.state === 'object') {
+        disabled.state = !!self.config.state.disabled;
       }
       return disabled;
     },
