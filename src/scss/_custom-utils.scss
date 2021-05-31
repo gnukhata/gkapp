@@ -1,5 +1,4 @@
-/* Sticky footer styles
--------------------------------------------------- */
+/* Sticky footer styles Start */
 html {
   position: relative;
   min-height: 100%;
@@ -7,6 +6,8 @@ html {
 body {
   margin-bottom: $footer-height; /* Margin bottom by footer height */
 }
+
+/* Sticky footer styles End */
 
 .gk-blue {
   color: #000080;
@@ -42,21 +43,22 @@ body {
 }
 
 
+
 // Styles to remove Spin buttons in number input fields
 
 .hide-spin-button {
-    /* Chrome, Safari, Edge, Opera */
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    
-    /* Firefox */
-    &[type=number] {
-      -moz-appearance: textfield;
-    }
-
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* Firefox */
+  &[type=number] {
+    -moz-appearance: textfield;
+  }
+  
 }
 
 .label-on-input {
@@ -79,3 +81,14 @@ body {
     width: 100%;
   }
 }
+
+// Right align form labels
+label[class*=col-].col-form-label, legend[class*=col-].col-form-label {
+  text-align: right;
+}
+/** 
+  label[class*=col-] is added so that this style only
+  applies when the input label and the input field are
+  in the same line.
+  label  [________]
+*/
