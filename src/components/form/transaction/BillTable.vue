@@ -4,6 +4,7 @@
       <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
       </b-overlay>
       <b-table-simple
+        v-if="false"
         hover
         small
         caption-top
@@ -61,31 +62,25 @@
               class="d-none d-sm-table-cell"
               >IGST <small>%</small></b-th
             >
-            <!-- colspan="2" -->
             <b-th
               :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              v-if="showCess && config.cess"
+              v-if="config.cess"
               class="d-none d-sm-table-cell"
               >CESS <small>%</small></b-th
             >
-            <!-- colspan="2" -->
             <b-th
               :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
               v-if="!gstFlag && config.vat"
               class="d-none d-sm-table-cell"
               >TAX <small>%</small></b-th
             >
-            <!-- colspan="2" -->
             <b-th
               :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
               v-if="config.discount"
-              ><span class="d-none d-sm-inline">Discount</span><span class="d-inline d-sm-none">Dis.</span> <small>₹</small></b-th
+              ><span class="d-none d-sm-inline">Discount</span
+              ><span class="d-inline d-sm-none">Dis.</span>
+              <small>₹</small></b-th
             >
-            <!-- <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              v-if="config.taxable"
-              >Taxable Amt <small>₹</small></b-th
-            > -->
             <b-th
               :style="{
                 maxWidth: '300px',
@@ -95,47 +90,12 @@
               v-if="config.total"
               >Total <small>₹</small></b-th
             >
-            <!-- rowspan="2" -->
             <b-th
               v-if="config.addBtn"
               :style="{ maxWidth: '40px', width: '40px' }"
               >+/-</b-th
             >
           </b-tr>
-          <!-- rowspan="2" -->
-          <!-- tax field sub headers -->
-          <!-- <b-tr class="text-center">
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="gstFlag && config.igst"
-              >%</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="gstFlag && config.igst"
-              >₹</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="gstFlag && config.cess"
-              >%</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="gstFlag && config.cess"
-              >₹</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="!gstFlag && config.vat"
-              >%</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-              v-if="!gstFlag && config.vat"
-              >₹</b-th
-            >
-          </b-tr> -->
         </b-thead>
         <b-tbody>
           <b-tr class="text-center" v-for="(field, index) in form" :key="index">
@@ -158,11 +118,6 @@
                 :readonly="disabled.product"
               ></autocomplete>
             </b-td>
-
-            <!-- HSN/SAC -->
-            <!-- <b-td v-if="config.hsn">
-              <b>{{ field.hsn }}</b>
-            </b-td> -->
 
             <!-- Qty -->
             <b-td v-if="config.qty">
@@ -230,30 +185,15 @@
               {{ field.igst.rate }}
             </b-td>
 
-            <!-- GST $ -->
-            <!-- <b-td v-if="gstFlag && config.igst" class="d-none d-sm-table-cell">
-              {{ field.igst.amount }}
-            </b-td> -->
-
             <!-- CESS % -->
-            <b-td v-if="showCess && config.cess" class="d-none d-sm-table-cell">
+            <b-td v-if="config.cess" class="d-none d-sm-table-cell">
               {{ field.cess.rate }}
             </b-td>
-
-            <!-- CESS $ -->
-            <!-- <b-td v-if="gstFlag && config.cess" class="d-none d-sm-table-cell">
-              {{ field.cess.amount }}
-            </b-td> -->
 
             <!-- VAT Tax % -->
             <b-td v-if="!gstFlag && config.vat" class="d-none d-sm-table-cell">
               {{ field.vat.rate }}
             </b-td>
-
-            <!-- VAT Tax $ -->
-            <!-- <b-td v-if="!gstFlag && config.vat" class="d-none d-sm-table-cell">
-              {{ field.vat.amount }}
-            </b-td> -->
 
             <!-- Discount -->
             <b-td v-if="config.discount">
@@ -269,11 +209,6 @@
                 :readonly="disabled.discount"
               ></b-input>
             </b-td>
-
-            <!-- Taxable Amt -->
-            <!-- <b-td v-if="config.taxable">
-              {{ field.taxable }}
-            </b-td> -->
 
             <!-- Total -->
             <b-td v-if="config.total">
@@ -298,11 +233,6 @@
                 getTotal('discount', 'amount')
               }}</span>
             </b-th>
-            <!-- <b-th v-if="config.taxable">
-              <span v-if="config.footer.taxable">{{
-                getTotal('taxable')
-              }}</span>
-            </b-th> -->
             <b-th v-if="config.total">
               <span v-if="config.footer.total">{{ getTotal('total') }}</span>
             </b-th>
@@ -312,6 +242,240 @@
           </b-tr>
         </b-tfoot>
       </b-table-simple>
+      <b-card body-class="py-2 px-2" v-if="showAddProduct || config.addBtn">
+        <b-button
+          v-if="showAddProduct"
+          @click.prevent="showBusinessForm = true"
+          class="py-0 mr-1"
+          variant="success"
+          size="sm"
+          >+ Item</b-button
+        >
+        <b-button
+          v-if="config.addBtn"
+          @click.prevent="addBillItem()"
+          class="py-0 ml-1"
+          variant="success"
+          size="sm"
+          >+ Row</b-button
+        >
+      </b-card>
+      <b-table
+        v-if="true"
+        hover
+        small
+        caption-top
+        bordered
+        striped
+        :items="form"
+        :fields="fields"
+        :primary-key="`tbl_${Date.now()}`"
+        :foot-clone="true"
+        stacked="sm"
+        :per-page="mobileMode ? 1 : 10"
+        :current-page="currentPage"
+        head-variant="dark"
+        tbody-tr-class="text-center"
+        thead-tr-class="text-center"
+      >
+        <!-- Index -->
+        <template #cell(index)="data">
+          {{ data.value + 1 }}
+        </template>
+
+        <!-- Row Selected -->
+        <template #head(rowSelected)>
+          <b-form-checkbox
+            @input="selectAllRows"
+            v-model="allRowsSelected"
+          ></b-form-checkbox>
+        </template>
+        <template #cell(rowSelected)="data">
+          <b-form-checkbox
+            @input="callRowSelected(data.item.index)"
+            v-model="form[data.item.index].rowSelected"
+          ></b-form-checkbox>
+        </template>
+
+        <!-- Product -->
+        <template #head(product)="data">
+          <span>{{ data.label }}</span>
+        </template>
+        <template #cell(product)="data">
+          <autocomplete
+            v-if="!disabled.product"
+            size="sm"
+            v-model="form[data.item.index].product"
+            :options="options.products"
+            @input="
+              onBillItemSelect(form[data.item.index].product, data.item.index)
+            "
+            valueUid="id"
+            :isOptionsShared="true"
+            required
+            emptyValue=""
+            :readonly="disabled.product"
+          ></autocomplete>
+          <span v-else>{{ data.value.name }}</span>
+        </template>
+
+        <!-- Qty -->
+        <template #cell(qty)="data">
+          <b-input
+            v-if="!disabled.qty"
+            size="sm"
+            v-model="data.value"
+            class="hide-spin-button text-right px-1"
+            type="number"
+            no-wheel
+            step="0.01"
+            min="0.01"
+            @input="updateTaxAndTotal(data.item.index)"
+            :readonly="data.item.isService || disabled.qty"
+            :tabindex="data.item.isService ? -1 : 0"
+          ></b-input>
+          <span v-else>{{ data.value }}</span>
+        </template>
+
+        <!-- Package Count (Purchase Sales Order) -->
+        <template #cell(packageCount)="data">
+          <b-input
+            v-if="!disabled.packageCount"
+            size="sm"
+            v-model="data.value"
+            class="hide-spin-button text-right px-1"
+            type="number"
+            no-wheel
+            step="0.01"
+            min="0.01"
+            :readonly="data.item.isService"
+            :tabindex="data.item.isService ? -1 : 0"
+          ></b-input>
+          <span v-else>{{ data.value }}</span>
+        </template>
+
+        <!-- Rejected Qty (Rejection Note) -->
+        <template #cell(rejectedQty)="data">
+          <b-input
+            v-if="!disabled.rejectedQty"
+            size="sm"
+            v-model="form[data.item.index].rejectedQty"
+            class="hide-spin-button text-right px-1"
+            type="number"
+            no-wheel
+            step="0.01"
+            min="0"
+            :max="data.item.qty"
+            @input="onRejectedQty(data.item.index)"
+          ></b-input>
+          <span v-else>{{ form[data.item.index].rejectedQty }}</span>
+        </template>
+
+        <!-- Debit Credit Value (Debit Credit Note) -->
+        <template #head(dcValue)="">
+          {{ creditFlag ? 'Credited Value' : 'Debited Value' }}
+        </template>
+        <template #cell(dcValue)="data">
+          <b-input
+            v-if="!disabled.dcValue"
+            size="sm"
+            v-model="form[data.item.index].dcValue"
+            class="hide-spin-button text-right px-1"
+            type="number"
+            no-wheel
+            step="0.01"
+            min="0"
+            :max="data.item.qty * data.item.rate"
+            @input="updateTaxAndTotal(data.item.index)"
+          ></b-input>
+          <span v-else>{{ form[data.item.index].dcValue }}</span>
+        </template>
+
+        <!-- Rate -->
+        <template #cell(rate)="data">
+          <b-input
+            v-if="!disabled.rate"
+            v-model="data.value"
+            size="sm"
+            class="hide-spin-button text-right px-1"
+            type="number"
+            no-wheel
+            step="0.01"
+            min="0.01"
+            @input="updateTaxAndTotal(data.item.index)"
+            :readonly="disabled.rate"
+          ></b-input>
+          <span v-else>{{ data.value }}</span>
+        </template>
+
+        <!-- IGST -->
+        <template #cell(igst)="data">
+          {{ data.value.rate }}
+        </template>
+
+        <!-- CESS -->
+        <template #cell(cess)="data">
+          {{ data.value.rate }}
+        </template>
+
+        <!-- VAT -->
+        <template #cell(vat)="data">
+          {{ data.value.rate }}
+        </template>
+
+        <!-- Discount -->
+        <template #cell(discount)="data">
+          <b-input
+            v-if="!disabled.discount"
+            size="sm"
+            v-model="data.value.amount"
+            class="hide-spin-button text-right px-1"
+            type="number"
+            no-wheel
+            step="0.01"
+            min="0.00"
+            @input="updateTaxAndTotal(data.item.index)"
+            :readonly="disabled.discount"
+          ></b-input>
+          <span v-else>{{ data.value.amount }}</span>
+        </template>
+
+        <template #foot(discount)="">
+          <div class="text-right" v-if="config.footer.discount">
+            {{ getTotal('discount', 'amount') }}
+          </div>
+        </template>
+
+        <!-- Total -->
+        <template #cell(total)="data">
+          {{ data.value }}
+        </template>
+
+        <template v-if="config.footer.total" #foot(total)="">
+          <div class="text-right">{{ getTotal('total') }}</div>
+        </template>
+
+        <!-- +/- Buttons -->
+        <template #cell(addBtn)="data">
+          <b-button @click.prevent="deleteBillItem(data.item.index)" size="sm"
+            >-</b-button
+          >
+        </template>
+
+        <!-- Default fall-back custom formatted footer cell -->
+        <template #foot()="">
+          {{ '' }}
+        </template>
+      </b-table>
+      <b-pagination
+        v-if="mobileMode || form.length > 10"
+        v-model="currentPage"
+        :per-page="mobileMode ? 1 : 10"
+        :total-rows="form.length"
+        align="fill"
+        size="sm"
+        class="my-0"
+      ></b-pagination>
     </div>
 
     <!-- Create Business Modal -->
@@ -374,6 +538,12 @@ export default {
       required: false,
       default: 0,
     },
+    onRowSelected: {
+      type: Function,
+      required: false,
+      note: 'Used for applying row select callbacks',
+      default: function () {},
+    },
     parentData: {
       type: Array,
       required: false,
@@ -398,23 +568,75 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      showBusinessForm: false,
+      isPreloading: false,
+      editCounter: 0,
+      mobileMode: false,
+      currentPage: 1,
+      allRowsSelected: false,
+      skipAllRowSelect: false,
+      // fields: [],
+      form: [
+        {
+          index: 0,
+          product: { name: '', id: '' },
+          hsn: '',
+          qty: 0,
+          fqty: 0,
+          packageCount: 0,
+          rejectedQty: 0,
+          dcValue: 0,
+          rate: 0,
+          discount: { rate: 0, amount: 0 },
+          taxable: 0,
+          igst: { rate: 0, amount: 0 },
+          cess: { rate: 0, amount: 0 },
+          vat: { rate: 0, amount: 0 },
+          total: 0,
+          isService: false, // used to make certain fields readonly
+        },
+      ],
+      options: {
+        products: [],
+      },
+    };
+  },
   computed: {
-    showCess: (self) => {
-      let cessIndex = self.form.findIndex((item) => {
-        return item.cess.rate > 0;
+    fields: (self) => {
+      let data = [
+        { key: 'index', label: 'No' },
+        { key: 'rowSelected', label: '\u2611' },
+        { key: 'product', label: 'Item' },
+        { key: 'qty', label: 'Qty' },
+        { key: 'packageCount', label: 'No. of Packages' },
+        { key: 'rejectedQty', label: 'Rejected Qty' },
+        { key: 'dcValue', label: 'Value' },
+        { key: 'rate', label: 'Rate ₹', tdClass: 'text-right' },
+        { key: 'discount', label: 'Discount ₹', tdClass: 'text-right' },
+        { key: 'igst', label: 'IGST %' },
+        { key: 'cess', label: 'CESS %' },
+        { key: 'vat', label: 'VAT %' },
+        { key: 'total', label: 'Total ₹', tdClass: 'text-right' },
+        { key: 'addBtn', label: '+/-' },
+      ];
+      if (self.gstFlag) {
+        data.splice(8, 1);
+      } else {
+        data.splice(6, 2);
+      }
+      if (!self.config.addBtn) {
+        data.pop();
+      }
+      let fields = [];
+      data.forEach((field) => {
+        if (self.config[field.key]) {
+          fields.push(field);
+        }
       });
-      return cessIndex > -1 && self.gstFlag;
+      return fields;
     },
-    showTotalFooterText: (self) =>
-      self.config.discount ||
-      self.config.amount ||
-      self.config.igst ||
-      self.config.cess ||
-      self.config.vat ||
-      self.config.total,
-    billLength: (self) => self.form.length,
-    isResponsive: (self) =>
-      self.config.attr ? self.config.attr.responsive : false,
     disabled: (self) => {
       let disabled = {};
       for (const item in self.config) {
@@ -426,11 +648,17 @@ export default {
       }
       return disabled;
     },
+    showAddProduct: (self) => {
+      if (self.config.product) {
+        if (typeof self.config.product === 'object') {
+          return !!self.config.product.addBtn;
+        }
+      }
+      return true; // by default show addProductBtn
+    },
+    creditFlag: (self) => self.form.drcrFlag === 'credit', // used by debit credit note
   },
   watch: {
-    showCess() {
-      this.updateConfig();
-    },
     updateCounter() {
       let updateBillTable = !(
         this.parentData.length &&
@@ -444,7 +672,7 @@ export default {
       }
 
       this.isPreloading = true;
-      this.editFlag = 0;
+      this.editCounter = 0;
       const self = this;
       this.form = [];
       let products = [];
@@ -453,7 +681,7 @@ export default {
           (p) => p.text === item.product
         );
         if (product) {
-          self.editFlag++;
+          self.editCounter++;
           self.addBillItem();
           products.push({
             pid: product.value.id,
@@ -481,33 +709,6 @@ export default {
       this.updateConfig();
     },
   },
-  data() {
-    return {
-      showBusinessForm: false,
-      isPreloading: false,
-      editFlag: 0,
-      form: [
-        {
-          product: { name: '', id: '' },
-          hsn: '',
-          qty: 0,
-          fqty: 0,
-          packageCount: 0,
-          rate: 0,
-          discount: { rate: 0, amount: 0 },
-          taxable: 0,
-          igst: { rate: 0, amount: 0 },
-          cess: { rate: 0, amount: 0 },
-          vat: { rate: 0, amount: 0 },
-          total: 0,
-          isService: false, // used to make certain fields readonly
-        },
-      ],
-      options: {
-        products: [],
-      },
-    };
-  },
   methods: {
     /**
      * fetchProductDetails(id, index)
@@ -531,7 +732,7 @@ export default {
         if (resp1.status === 200) {
           if (resp1.data.gkstatus === 0) {
             let data = resp1.data.gkresult;
-            if (!self.editFlag) {
+            if (!self.editCounter) {
               Object.assign(self.form[index], {
                 hsn: data.gscode,
                 isService: data.gsflag === 19,
@@ -543,7 +744,7 @@ export default {
                 },
               });
             } else {
-              self.editFlag--;
+              self.editCounter--;
             }
           }
         } else {
@@ -652,11 +853,14 @@ export default {
     },
     addBillItem() {
       this.form.push({
+        index: this.form.length,
+        rowSelected: false,
         product: { id: '', name: '' },
         hsn: '',
         qty: 0,
         packageCount: 0,
         rejectedQty: 0,
+        dcValue: 0,
         fqty: 0,
         rate: 0,
         discount: { rate: 0, amount: 0 },
@@ -773,30 +977,60 @@ export default {
         this.$emit('details-updated', { data: this.form, name: 'bill-table' })
       );
     },
-    updateConfig() {
-      let config = this.config;
-      let tax = this.gstFlag
-        ? (!!config.cess && this.showCess) + !!config.igst
-        : !!config.vat;
-      config.footer.headingColspan =
-        !!config.index +
-          !!config.product +
-          !!config.qty +
-          !!config.rate +
-          !!config.packageCount +
-          !!config.rejectedQty +
-          tax || 1;
-      if (window.innerWidth < 576) {
-        config.footer.headingColspan -= (!!config.index + tax);
+    /**
+     * onRejectedQty
+     * 
+     * input event callback for rejectedQty field
+     */
+    onRejectedQty(index) {
+      const row = this.form[index];
+      if(!row.rejectedQty && row.rowSelected) {
+        row.rowSelected = false;
       }
+      this.updateTaxAndTotal(index);
+      this.onUpdateDetails();
+    },
+    /**
+     * callRowSelected
+     *
+     * Calls the rowSelected callback and the emits details-updated event
+     */
+    callRowSelected(rowIndex) {
+      // deselect allRowsSelected when the current row is unselected
+      if (!this.form[rowIndex].rowSelected && this.allRowsSelected) {
+        this.allRowsSelected = false;
+        this.skipAllRowSelect = true;
+      }
+      this.onRowSelected(rowIndex, this.form);
+      this.updateTaxAndTotal(rowIndex);
+      this.onUpdateDetails();
+    },
+    /**
+     * selectAllRows
+     *
+     * Will select all rows in the bill table
+     */
+    selectAllRows() {
+      // If selectAllRows is called by methods other than @input event,
+      // set skipAllRowSelect to true, to avoid setting/unsetting all rows
+      if (this.skipAllRowSelect) {
+        this.skipAllRowSelect = false;
+        return;
+      }
+      this.form.forEach((row) => {
+        row.rowSelected = this.allRowsSelected;
+        if(!this.allRowsSelected) {
+          row.rejectedQty = 0;  
+        }
+      });
     },
   },
   mounted() {
     const self = this;
     this.fetchBusinessList().then(() => {
       self.onUpdateDetails();
-      self.updateConfig();
     });
+    this.mobileMode = window.innerWidth < 576;
     window.addEventListener(
       'resize',
       (function () {
@@ -804,8 +1038,8 @@ export default {
         return function () {
           clearTimeout(timeout);
           timeout = setTimeout(() => {
-            self.updateConfig();
-          }, 250);
+            self.mobileMode = window.innerWidth < 576;
+          }, 100);
         };
       })()
     );
