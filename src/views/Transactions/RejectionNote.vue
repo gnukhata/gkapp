@@ -413,8 +413,7 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-      console.log(payload);
-      return;
+      // console.log(payload);
       // const method = this.formMode === 'create' ? 'post' : 'put';
       axios
         .post('/rejectionnote', payload)
@@ -592,8 +591,8 @@ export default {
      * When a row is selected, that rejected quantity for that product is made equal
      * to qty available
      */
-    onRowSelected(index, billArr, qty) {
-      if(!!billArr[index].rowSelected) {
+    onRowSelected(index, billArr) {
+      if(billArr[index].rowSelected) {
         billArr[index].rejectedQty = billArr[index].qty;
       } else {
         billArr[index].rejectedQty = 0;
