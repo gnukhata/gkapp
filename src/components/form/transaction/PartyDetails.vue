@@ -33,7 +33,10 @@
           ></b-icon>
         </b-button>
       </div>
-      <div class="mt-3 px-2" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
+      <div
+        class="mt-3 px-2"
+        :class="{ 'd-md-block': true, 'd-none': !isCollapsed }"
+      >
         <b-row>
           <b-col v-if="config.type" cols="12">
             <b-form-group>
@@ -406,8 +409,12 @@ export default {
       this.form.type = isSale ? 'customer' : 'supplier';
     },
     updateCounter() {
-      let party;
       const partyName = this.parentData.name;
+      if (!partyName) {
+        this.resetPartyDetails();
+        return;
+      }
+      let party;
       if (this.parentData.type === 'customer') {
         party = this.options.customers.find((cust) => cust.text === partyName);
       } else {
