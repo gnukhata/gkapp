@@ -28,7 +28,7 @@
         </b-button>
       </div>
       <div
-        class="mt-3"
+        class="mt-3 px-2"
         :class="{ 'd-md-block': true, 'd-none': !isCollapsed }"
         id="shipping-details"
       >

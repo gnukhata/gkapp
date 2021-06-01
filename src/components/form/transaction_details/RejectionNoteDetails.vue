@@ -50,7 +50,8 @@
           label-for="rnd-date-1"
           label-size="sm"
         >
-          <b-input-group>
+          <gk-date id="asd" format="dd-mm-yyyy" v-model="form.date" :min="minDate" :max="maxDate" @validity="setDateValidity"></gk-date>
+          <!-- <b-input-group>
             <b-form-input
               size="sm"
               id="rnd-date-1"
@@ -76,7 +77,7 @@
               >
               </b-form-datepicker>
             </b-input-group-append>
-          </b-input-group>
+          </b-input-group> -->
         </b-form-group>
         <b-form-group
           :label="saleFlag ? 'Dispatch From' : 'Received At'"
@@ -155,9 +156,10 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 
 import Autocomplete from '../../Autocomplete.vue';
+import GkDate from '../../GkDate.vue';
 export default {
   name: 'RejectionNoteDetails',
-  components: { Autocomplete },
+  components: { Autocomplete, GkDate },
   props: {
     invDate: {
       type: String,
@@ -181,6 +183,7 @@ export default {
     return {
       isPreloading: false,
       isCollapsed: false,
+      isInvDateValid: null,
       form: {
         date: this.formatDateObj(new Date()),
         issuer: null,
@@ -202,19 +205,32 @@ export default {
   },
   computed: {
     minDate: (self) =>
-      self.invDate ? new Date(self.invDate) : new Date(self.yearStart),
-    maxDate: (self) => new Date(self.yearEnd),
-    isInvDateValid: (self) => {
-      let currDate = new Date(self.form.date).getTime(),
-        minDate = self.minDate.getTime(),
-        maxDate = self.maxDate.getTime();
-      return !isNaN(currDate)
-        ? currDate >= minDate && currDate <= maxDate
-        : null;
-    },
+      self.invDate ? self.toDMYDate(self.invDate) : self.toDMYDate(self.yearStart),
+    maxDate: (self) => self.toDMYDate(self.yearEnd),
+    // // isInvDateValid: (self) => {
+    // //   let currDate = new Date(self.form.date).getTime(),
+    // //     minDate = self.minDate.getTime(),
+    // //     maxDate = self.maxDate.getTime();
+    //   return !isNaN(currDate)
+    //     ? currDate >= minDate && currDate <= maxDate
+    //     : null;
+    // },
     ...mapState(['yearStart', 'yearEnd']),
   },
   methods: {
+    toDMYDate(date) {
+      return date.split("-").reverse().join("-");
+    },
+    setDateValidity(validity) {
+      if(validity === 0) {
+        this.isInvDateValid = true;
+      } else if(validity === null) {
+        this.isInvDateValid = null;
+      } else {
+        this.isInvDateValid = false;
+      }
+      this.onUpdateDetails();
+    },
     preloadData() {
       const requests = [this.fetchUserData()];
       return Promise.all([...requests]).then(() => {});
@@ -254,7 +270,7 @@ export default {
       return `${date.getFullYear()}-${month}-${day}`;
     },
     onUpdateDetails() {
-      const self = this
+      const self = this;
       setTimeout(
         () =>
           self.$emit('details-updated', {

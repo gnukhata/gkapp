@@ -80,6 +80,7 @@
         @details-updated="onComponentDataUpdate"
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
+        :onRowSelected="onRowSelected"
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -412,8 +413,7 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-      console.log(payload);
-      // return;
+      // console.log(payload);
       // const method = this.formMode === 'create' ? 'post' : 'put';
       axios
         .post('/rejectionnote', payload)
@@ -529,6 +529,10 @@ export default {
             self.form.party.type =
               data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
             self.form.taxType = data.taxflag === 7 ? 'gst' : 'vat';
+            self.form.invoice.state =
+              data.inoutflag === 9
+                ? { id: data.taxstatecode, name: data.destintationstate }
+                : { id: data.sourcestatecode, name: data.sourcestate };
 
             let item, itemName, billItem;
             self.form.bill = [];
@@ -580,6 +584,19 @@ export default {
       });
       this.updateComponentData();
       this.updateBillTable(inv.invid, inv.rejcontent);
+    },
+    /**
+     * onRowSelected
+     * 
+     * When a row is selected, that rejected quantity for that product is made equal
+     * to qty available
+     */
+    onRowSelected(index, billArr) {
+      if(billArr[index].rowSelected) {
+        billArr[index].rejectedQty = billArr[index].qty;
+      } else {
+        billArr[index].rejectedQty = 0;
+      }
     },
     resetForm() {
       Object.assign(this.form, {

@@ -14,7 +14,7 @@
             id="input-group-1"
             label="Name"
             label-for="input-1"
-            label-cols-sm="3"
+            label-cols="3"
           >
             <b-form-input
               size="md"
@@ -30,7 +30,7 @@
             label-size="md"
             label="Type"
             v-slot="{ ariaDescribedby }"
-            label-cols-sm="3"
+            label-cols="3"
           >
             <b-form-radio-group
               size="md"
@@ -49,10 +49,10 @@
             label-size="md"
             label-class="mb-2"
             class="mb-0 mt-4"
-            label-cols-sm="3"
+            label-cols="3"
           >
             <div class="row">
-              <div class="col-6 pr-1">
+              <div class="col-sm-6 pr-sm-1">
                 <b-form-group
                   label-size="md"
                   id="input-group-3"
@@ -86,7 +86,7 @@
                   </b-input-group>
                 </b-form-group>
               </div>
-              <div class="col pl-1">
+              <div class="col-sm-6 pl-sm-1">
                 <b-form-group
                   label-size="md"
                   id="input-group-4"
@@ -125,7 +125,7 @@
             id="input-group-5"
             label="Admin User"
             label-for="input-2"
-            label-cols-sm="3"
+            label-cols="3"
           >
             <b-form-input
               size="md"
@@ -142,13 +142,13 @@
             id="input-group-6"
             label="Password"
             label-for="password-1"
-            label-cols-sm="3"
+            label-cols="3"
             :state="isPasswordValid"
             :invalid-feedback="passwordFeedback"
             :valid-feedback="passwordFeedback"
           >
             <b-row>
-              <b-col class="pr-1">
+              <b-col sm="6" class="mb-1 mb-sm-0 pr-sm-1">
                 <b-form-input
                   size="md"
                   id="password-1"
@@ -161,7 +161,7 @@
                 >
                 </b-form-input>
               </b-col>
-              <b-col class="pl-1">
+              <b-col sm="6" class="mt-2 mt-sm-0 pl-sm-1">
                 <b-form-group
                   label="Confirmation"
                   label-class="label-on-input"
@@ -188,7 +188,7 @@
             label="Password Recovery"
             label-class="mb-2"
             class="mb-0"
-            label-cols-sm="3"
+            label-cols="3"
           >
             <b-form-group
               label-size="md"
@@ -236,10 +236,10 @@
             id="input-group-1"
             label="Captcha"
             label-for="captcha-1"
-            label-cols-sm="3"
+            label-cols="3"
           >
             <template #label>
-              <captcha v-model="answer"></captcha>
+              <captcha width="70" v-model="answer"></captcha>
             </template>
             <!-- <b-col> -->
             <b-form-input

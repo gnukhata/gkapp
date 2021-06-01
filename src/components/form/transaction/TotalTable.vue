@@ -1,33 +1,37 @@
 <template>
   <b-table-simple responsive>
+    <b-thead>
+      <b-tr>
+        <b-th>Total</b-th>
+        <b-th :style="{ minWidth: '70px' }" class="text-right text-truncate"
+          >₹</b-th
+        >
+      </b-tr>
+    </b-thead>
     <b-tbody>
       <b-tr v-if="config.taxable">
-        <b-th></b-th>
-        <b-th colspan="3">Taxable Amount</b-th>
-        <b-th class="text-right">₹ {{ form.taxable }}</b-th>
+        <b-td>Taxable Amount</b-td>
+        <b-td class="text-right">₹ {{ form.taxable }}</b-td>
       </b-tr>
       <b-tr v-if="gstFlag && config.igst">
-        <b-th></b-th>
-        <b-th colspan="3">Total IGST</b-th>
-        <b-th class="text-right">₹ {{ form.igst }}</b-th>
+        <b-td>IGST</b-td>
+        <b-td class="text-right">₹ {{ form.igst }}</b-td>
       </b-tr>
       <b-tr v-if="gstFlag && config.cess">
-        <b-th></b-th>
-        <b-th colspan="3">Total CESS</b-th>
-        <b-th class="text-right">₹ {{ form.cess }}</b-th>
+        <b-td>CESS</b-td>
+        <b-td class="text-right">₹ {{ form.cess }}</b-td>
       </b-tr>
       <b-tr v-if="!gstFlag && config.vat">
-        <b-th></b-th>
-        <b-th colspan="3">Total VAT</b-th>
-        <b-th class="text-right">₹ {{ form.vat }}</b-th>
+        <b-td>VAT</b-td>
+        <b-td class="text-right">₹ {{ form.vat }}</b-td>
       </b-tr>
       <b-tr v-if="config.discount">
-        <b-th></b-th>
-        <b-th colspan="3">Total Discount</b-th>
-        <b-th class="text-right">₹ {{ form.discount }}</b-th>
+        <b-td>Discount</b-td>
+        <b-td class="text-right">₹ {{ form.discount }}</b-td>
       </b-tr>
       <b-tr v-if="config.value">
-        <b-th :style="{ width: '30px' }">
+        <b-td>
+          <span class="float-left">Invoice Value</span>
           <b-form-checkbox
             inline
             size="sm"
@@ -35,20 +39,18 @@
             v-if="config.roundOff"
             v-b-tooltip.hover
             title="Roundoff Total Value?"
+            class="ml-2 float-left"
           ></b-form-checkbox>
-        </b-th>
-        <b-th colspan="3"> Total Invoice Value </b-th>
-        <b-th class="text-right">₹ {{ form.amount }}</b-th>
+        </b-td>
+        <b-td class="text-right">₹ {{ form.amount }}</b-td>
       </b-tr>
       <b-tr v-if="form.roundFlag && config.roundOff">
-        <b-th></b-th>
-        <b-th colspan="3">Total Invoice Value (Rounded Off)</b-th>
-        <b-th class="text-right">₹ {{ form.rounded }}</b-th>
+        <b-td>Invoice Value (Rounded Off)</b-td>
+        <b-td class="text-right">₹ {{ form.rounded }}</b-td>
       </b-tr>
       <b-tr v-if="config.valueText">
-        <b-th></b-th>
-        <b-th colspan="3">Total Invoice Value (in words)</b-th>
-        <b-th class="text-right"> {{ form.text }}</b-th>
+        <b-td>Invoice Value (in words)</b-td>
+        <b-td class="text-right"> {{ form.text }}</b-td>
       </b-tr>
     </b-tbody>
   </b-table-simple>
