@@ -24,10 +24,10 @@
       @click="newCaptcha"
       role="button"
       icon="arrow-repeat"
-      variant="danger"
+      variant="dark"
       title="Generate New Captcha"
       aria-label="generate new captcha button"
-      scale="1.2x"
+      scale="1.3x"
     ></b-icon>
   </b-form-row>
 </template>

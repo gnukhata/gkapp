@@ -1,15 +1,29 @@
 <template>
   <b-form @submit.prevent="validatePwd"
     ><b-overlay :show="isLoading" blur no-wrap></b-overlay>
-    <b-form-group label="Current Password">
+    <b-form-group
+      label-cols="4"
+      label-size="sm"
+      label-align="right"
+      label="Current Password"
+    >
       <b-form-input type="password" v-model.lazy="currentPwd" required>
       </b-form-input>
     </b-form-group>
-    <b-form-group label="New Password">
-      <b-form-input type="password" v-model="form.userpassword" required>
-      </b-form-input>
+    <b-form-group
+      label-cols="4"
+      label-align="right"
+      label-size="sm"
+      label="New Password"
+    >
+      <password v-model="form.userpassword"></password>
     </b-form-group>
-    <b-form-group label="Confirm Password">
+    <b-form-group
+      label-cols="4"
+      label-align="right"
+      label-size="sm"
+      label="Confirm Password"
+    >
       <b-form-input
         type="password"
         :state="matchingPwds"
@@ -22,15 +36,21 @@
       </b-form-invalid-feedback>
     </b-form-group>
     <!--Captcha area-->
-    <b-form-group label="Question" content-cols="auto" label-cols="auto">
+    <b-form-group
+      label="Question"
+      label-size="sm"
+      label-align="right"
+      label-cols="4"
+    >
       <captcha v-model="answer"></captcha>
     </b-form-group>
     <!-- captcha answer -->
     <b-form-group
       label="Answer"
+      label-size="sm"
+      label-align="right"
       description="* Required"
-      label-cols="auto"
-      content-cols="auto"
+      label-cols="4"
     >
       <b-form-input
         v-model="userAnswer"
@@ -55,33 +75,37 @@
 /*
  /This module has functions to update current user's password
  */
-import { mapState } from "vuex";
-import Captcha from "../Captcha.vue";
+import { mapState } from 'vuex';
+import Captcha from '../Captcha.vue';
+import Password from '../Password.vue';
 export default {
-  components: { Captcha },
-  name: "ChangePwd",
+  components: { Captcha, Password },
+  name: 'ChangePwd',
   data() {
     return {
       isLoading: false,
-      currentPwd: "",
-      confirmPwd: "",
-      answer: "",
-      userAnswer: "",
+      currentPwd: '',
+      confirmPwd: '',
+      answer: '',
+      userAnswer: '',
       form: {
         userid: Number,
-        userpassword: ""
-      }
+        userpassword: '',
+      },
     };
   },
   computed: {
-    ...mapState(["userName", "gkCoreUrl", "authToken"]),
+    ...mapState(['userName', 'gkCoreUrl', 'authToken']),
     matchingPwds() {
+      if (this.confirmPwd === '') {
+        return null;
+      }
       if (this.form.userpassword === this.confirmPwd) {
         return true;
       } else {
         return false;
       }
-    }
+    },
   },
   methods: {
     /* Get user's details from api */
@@ -90,10 +114,10 @@ export default {
       axios
         .get(`${this.gkCoreUrl}/users?user=single`, {
           headers: {
-            gktoken: this.authToken
-          }
+            gktoken: this.authToken,
+          },
         })
-        .then(r => {
+        .then((r) => {
           if (r.status == 200) {
             let info = r.data.gkresult;
             switch (r.data.gkstatus) {
@@ -102,16 +126,16 @@ export default {
                 this.isLoading = false;
                 break;
               default:
-                this.$bvToast.toast("Request failed", {
+                this.$bvToast.toast('Request failed', {
                   title: `status code ${r.data.gkstatus}`,
-                  variant: "danger",
-                  solid: true
+                  variant: 'danger',
+                  solid: true,
                 });
                 this.isLoading = false;
             }
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
           this.isLoading = false;
         });
@@ -124,30 +148,30 @@ export default {
           `${this.gkCoreUrl}/users?userloginstatus`,
           {
             username: this.userName,
-            userpassword: this.currentPwd
+            userpassword: this.currentPwd,
           },
           { headers: { gktoken: this.authToken } }
         )
-        .then(r => {
+        .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
                 if (this.userAnswer == this.answer) {
                   this.changePwd();
                 } else {
-                  this.$bvToast.toast("Invalid Captcha", {
-                    variant: "danger",
-                    solid: true
+                  this.$bvToast.toast('Invalid Captcha', {
+                    variant: 'danger',
+                    solid: true,
                   });
                   this.isLoading = false;
                 }
                 break;
               case 4:
                 this.$bvToast.toast(
-                  "Invalid current Password, Please try again",
+                  'Invalid current Password, Please try again',
                   {
                     solid: true,
-                    variant: "danger"
+                    variant: 'danger',
                   }
                 );
                 this.isLoading = false;
@@ -155,16 +179,16 @@ export default {
               default:
                 this.$bvToast.toast(`Failed with gkstatus ${r.data.gkstatus}`, {
                   solid: true,
-                  variant: "danger"
+                  variant: 'danger',
                 });
                 this.isLoading = false;
             }
           }
         })
-        .catch(e => {
+        .catch((e) => {
           this.$bvToast.toast(e.message, {
             solid: true,
-            variant: "danger"
+            variant: 'danger',
           });
           this.isLoading = false;
         });
@@ -177,52 +201,52 @@ export default {
           {
             userid: this.form.userid,
             username: this.userName,
-            userpassword: this.form.userpassword
+            userpassword: this.form.userpassword,
           },
           {
-            headers: { gktoken: this.authToken }
+            headers: { gktoken: this.authToken },
           }
         )
-        .then(r => {
+        .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
                 this.$bvToast.toast(
                   `Password Change Successful for ${this.userName}`,
                   {
-                    title: "Success",
-                    variant: "success",
-                    solid: true
+                    title: 'Success',
+                    variant: 'success',
+                    solid: true,
                   }
                 );
                 this.isLoading = false;
                 // send event to close the window
-                this.$emit("close-pwd");
+                this.$emit('close-pwd');
                 break;
               default:
                 this.$bvToast.toast(
                   `Failed to update password for ${this.userName}`,
                   {
                     title: `gkstatus ${r.data.gkstatus}`,
-                    variant: "danger",
-                    solid: true
+                    variant: 'danger',
+                    solid: true,
                   }
                 );
                 this.isLoading = false;
             }
           }
         })
-        .catch(e => {
+        .catch((e) => {
           this.$bvToast.toast(e.message, {
-            variant: "danger",
-            solid: true
+            variant: 'danger',
+            solid: true,
           });
           this.isLoading = false;
         });
-    }
+    },
   },
   mounted() {
     this.getUserInfo();
-  }
+  },
 };
 </script>
