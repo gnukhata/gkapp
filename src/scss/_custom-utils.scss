@@ -83,12 +83,10 @@ body {
 }
 
 // Right align form labels
-label[class*=col-].col-form-label, legend[class*=col-].col-form-label {
-  text-align: right;
+.align-label-right{
+  .form-row{
+    .col-form-label {
+      text-align: right;
+    }
+  }
 }
-/** 
-  label[class*=col-] is added so that this style only
-  applies when the input label and the input field are
-  in the same line.
-  label  [________]
-*/
