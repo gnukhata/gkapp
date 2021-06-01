@@ -10,7 +10,8 @@
         autocomplete="off"
         :readonly="readonly"
         :tabindex="readonly ? -1 : 0"
-        :state="isDateValid"
+        :state="isInputValid && isDateValid"
+        :required="required"
       ></b-form-input>
       <b-input-group-append>
         <b-form-datepicker
@@ -44,17 +45,9 @@ export default {
       default: null,
       note: 'used for exposing v-model',
     },
-    readonly: {
-      type: Boolean,
-      required: false,
-      default: false,
-      note:
-        'If readonly is true, then only update of data through code is possible',
-    },
     format: {
       type: String,
-      required: false,
-      default: 'yyyy-mm-dd',
+      required: true,
       validator: function (value) {
         return ['yyyy-mm-dd', 'dd-mm-yyyy'].indexOf(value) !== -1;
       },
@@ -65,15 +58,29 @@ export default {
       type: String,
       required: false,
       default: '',
+      note: 'The date has to be in the same format as the "format" prop',
     },
     max: {
       type: String,
       required: false,
       default: '',
+      note: 'The date has to be in the same format as the "format" prop',
     },
     id: {
       type: String,
       required: true,
+    },
+    readonly: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note:
+        'If readonly is true, then only update of data through code is possible',
+    },
+    required: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data() {
@@ -86,12 +93,15 @@ export default {
     isDateValid: (self) => {
       const validity = self.validateDate(self.date);
       let result = false;
-      if (validity === null) {
+      if (validity === null || self.readonly) {
         result = null;
       } else if (validity === 0) {
         result = true;
       }
       return result;
+    },
+    isInputValid: (self) => {
+      return self.input ? self.validateFormat(self.input, self.format) : null;
     },
     formatText: (self) => self.format.toUpperCase(),
     minDate: (self) =>
@@ -115,10 +125,14 @@ export default {
           this.$emit('input', newDate);
           this.$emit('validity', this.validateDate(newDate));
         }
-      } else if(newInput === ""){
-        this.date = "";
-        this.$emit('input', "");
-        this.$emit('validity', null);
+      } else {
+        this.date = '';
+        this.$emit('input', '');
+        if (newInput === '') {
+          this.$emit('validity', null);
+        } else {
+          this.$emit('validity', false);
+        }
       }
     },
     date(newDate) {
@@ -129,10 +143,24 @@ export default {
           this.$emit('input', newDate); // emit internal format for v-model
           this.$emit('validity', this.validateDate(newDate)); // must use internal format for validation
         }
-      } else if(!newDate) {
-        this.input = "";
-        this.$emit('input', "");
+      } else if (!newDate) {
+        // "input" is not updated here, as the user may want
+        // to update the faulty date via input field
+        this.$emit('input', '');
         this.$emit('validity', null);
+      }
+    },
+    // "date" and "input" are user's way of updating the component
+    // with "value", the component can be updated via code,
+    // e.g. after preloading, date can be updated via code with v-model
+    value(date) {
+      if (this.date !== date) {
+        if (!date) {
+          // used when the component has to be reset
+          this.input = '';
+        } else {
+          this.date = date;
+        }
       }
     },
     min(date) {
@@ -147,30 +175,6 @@ export default {
     },
   },
   methods: {
-    // setDate(date, isInput) {
-    //   const type = isInput ? 'input' : 'date';
-    //   const type2 = isInput ?  'date' : 'input';
-    //   const isValid = this.validateDate(date);
-    //   if (this[type] === date) {
-    //     return;
-    //   }
-    //   switch (isValid) {
-    //     case 0:
-    //       this[type] = date;
-    //       break;
-    //     case 1:
-    //       this[type] = this.maxDate;
-    //       this[type2] = this.maxDate;
-    //       break;
-    //     case -1:
-    //       this[type] = this.minDate;
-    //       this[type2] = this.minDate;
-    //       break;
-    //     default:
-    //       return;
-    //   }
-    //   this.$emit('input', date);
-    // },
     /**
      * toInternalFormat
      *
@@ -268,11 +272,11 @@ export default {
      */
     validateDate(date) {
       let result = null;
+      let currTime = new Date(date).getTime();
       if (this.minDate && this.maxDate) {
         if (this.minTime > this.maxTime) {
           result = null;
         } else {
-          let currTime = new Date(date).getTime();
           if (!isNaN(currTime)) {
             if (currTime < this.minTime) {
               result = -1;
@@ -282,6 +286,13 @@ export default {
               result = 0;
             }
           }
+        }
+      } else {
+        // if only min or max validation is required
+        if (this.minDate) {
+          result = currTime < this.minTime ? -1 : 0;
+        } else {
+          result = currTime > this.maxTime ? 1 : 0;
         }
       }
       return result;
