@@ -1,5 +1,5 @@
 <template>
-  <div class="card mx-2 align-label-right" :style="{ minWidth: '300px' }">
+  <div class="card mx-2 align-form-label-right" :style="{ minWidth: '300px' }">
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <div class="card-header text-left py-2">

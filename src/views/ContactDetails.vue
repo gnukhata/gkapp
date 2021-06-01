@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center mt-4 mx-2 align-label-right">
+  <div class="d-flex justify-content-center mt-4 mx-2 align-form-label-right">
     <div class="d-inline-block" style="min-width: 300px">
       <contact-item :mode="mode"></contact-item>
     </div>

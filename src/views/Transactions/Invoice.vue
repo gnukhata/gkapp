@@ -7,7 +7,7 @@
     Add check conditions for the dates used in the form
  -->
 <template>
-  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-label-right">
+  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-form-label-right">
     <b-alert :show="isInvDateValid === false" variant="danger"
       >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
       <b>{{ yearEnd }}</b>
