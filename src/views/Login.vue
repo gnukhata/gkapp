@@ -50,7 +50,7 @@
       header-text-variant="light"
     >
       <b-card-body>
-        <b-alert show variant="info">
+        <b-alert show variant="dark">
           Organisation: <b>WALLMART</b><br />
           Username: <b>admin</b><br />
           Password: <b>admin</b>
@@ -58,12 +58,11 @@
         <b-form @submit.prevent="login">
           <!--Select company area-->
           <b-form-group
-            id="input-group-3"
             label="Organisation"
+            label-align="right"
+            label-size="sm"
             description="* Required"
             label-cols="auto"
-            label-for="input-3"
-            content-cols="auto"
           >
             <b-overlay :show="isDisabled">
               <b-form-select
@@ -85,11 +84,10 @@
           </b-form-group>
           <!-- Financial Year-->
           <b-form-group
-            id="input-group-3"
             label="Financial Year"
             description="* Required"
             label-cols="auto"
-            content-cols="auto"
+            label-size="sm"
           >
             <b-overlay :show="isDisabled">
               <b-form-select v-model="form.orgcode" required>
@@ -111,7 +109,7 @@
             label="Username"
             description="* Required"
             label-cols="auto"
-            content-cols="auto"
+            label-size="sm"
           >
             <b-form-input
               v-model="form.username"
@@ -122,12 +120,10 @@
           </b-form-group>
           <!-- Password area -->
           <b-form-group
-            id="input-group-2"
             label="Password"
             description="* Required"
-            label-for="input-2"
             label-cols="auto"
-            content-cols="auto"
+            label-size="sm"
           >
             <b-form-input
               id="input-2"
@@ -136,18 +132,21 @@
               type="password"
               required
             ></b-form-input>
+            <router-link class="float-right" to="/resetpassword">
+              <small>Forgot Password?</small>
+            </router-link>
           </b-form-group>
 
           <!--Captcha area-->
-          <b-form-group label="Question" content-cols="auto" label-cols="auto">
+          <b-form-group label="Question" label-cols="auto" label-size="sm">
             <captcha v-model="answer"></captcha>
           </b-form-group>
           <!-- captcha answer -->
           <b-form-group
             label="Answer"
-            description="* Required"
             label-cols="auto"
-            content-cols="auto"
+            label-size="sm"
+            description="* Required"
           >
             <b-form-input
               v-model="userAnswer"
@@ -155,6 +154,7 @@
               no-wheel
               placeholder="Enter the Answer"
               required
+              size
             >
             </b-form-input>
           </b-form-group>
@@ -163,7 +163,7 @@
             <b-button-group size="sm">
               <b-button
                 :disabled="isDisabled"
-                variant="primary"
+                variant="success"
                 class="mr-2"
                 type="submit"
               >
@@ -172,21 +172,21 @@
                 Login
               </b-button>
               <b-button
-                variant="success"
+                variant="dark"
                 class="mr-2"
                 :to="{ name: 'Create_Organisation' }"
               >
                 <b-icon icon="person-plus"></b-icon>
                 Create Organisation
               </b-button>
-              <b-button variant="warning" class="mr-2" @click="switchServer">
+              <b-button variant="dark" class="mr-2" @click="switchServer">
                 <b-icon icon="cloud"></b-icon>
                 Change Server
               </b-button>
-              <b-button variant="info" @click="$router.push('/resetpassword')">
-                <b-icon icon="life-preserver"></b-icon>
-                Forgot Password?
-              </b-button>
+              <!-- <b-button variant="info" @click="$router.push('/resetpassword')">
+                   <b-icon icon="life-preserver"></b-icon>
+                   Forgot Password?
+                   </b-button> -->
             </b-button-group>
           </div>
         </b-form>
