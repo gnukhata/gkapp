@@ -47,41 +47,21 @@
             </b-form-group>
           </b-col>
           <b-col v-if="config.date" cols="12">
-            <b-form-group
-              id="pod-input-group-1"
+            <gk-form-date
               label="Date"
               label-cols-lg="2"
               label-cols="3"
-              label-for="pod-date-1"
               label-size="sm"
+              id="pod-input-group-1"
+              dateId="pod-date-1"
+              :format="date.format"
+              v-model="form.date"
+              :min="minDate"
+              :max="maxDate"
+              @validity="setDateValidity"
+              :required="true"
             >
-              <b-input-group>
-                <b-form-input
-                  size="sm"
-                  id="pod-date-1"
-                  v-model="form.date"
-                  type="text"
-                  placeholder="YYYY-MM-DD"
-                  autocomplete="off"
-                  required
-                  :state="isInvDateValid"
-                  debounce="500"
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    size="sm"
-                    v-model="form.date"
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="pod-date-1"
-                    :min="minDate"
-                    :max="maxDate"
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
-              </b-input-group>
-            </b-form-group>
+            </gk-form-date>
           </b-col>
         </b-row>
         <b-row>
@@ -274,11 +254,12 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 
 import Autocomplete from '../../Autocomplete.vue';
+import GkFormDate from '../../GkFormDate.vue';
 
 export default {
   name: 'PsOrderDetails',
   components: {
-    Autocomplete
+    Autocomplete, GkFormDate
   },
   props: {
     saleFlag: {
@@ -299,6 +280,10 @@ export default {
     return {
       isCollapsed: false,
       isPreloading: false,
+      date: {
+        format: "dd-mm-yyyy",
+        valid: null
+      },
       form: {
         no: null,
         date: this.formatDateObj(new Date()),
@@ -320,16 +305,8 @@ export default {
     };
   },
   computed: {
-    minDate: (self) => new Date(self.yearStart),
-    maxDate: (self) => new Date(self.yearEnd),
-    isInvDateValid: (self) => {
-      let currDate = new Date(self.form.date).getTime(),
-        minDate = self.minDate.getTime(),
-        maxDate = self.maxDate.getTime();
-      return !isNaN(currDate)
-        ? currDate >= minDate && currDate <= maxDate
-        : null;
-    },
+    minDate: (self) => self.toDMYDate(self.yearStart),
+    maxDate: (self) => self.toDMYDate(self.yearEnd),
     ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
@@ -338,13 +315,20 @@ export default {
     },
   },
   methods: {
+    setDateValidity(validity) {
+      this.date.valid = validity;
+      this.onUpdateDetails();
+    },
+    toDMYDate(date) {
+      return date.split('-').reverse().join('-');
+    },
     onUpdateDetails() {
       setTimeout(() =>
         this.$emit('details-updated', {
           data: this.form,
           name: 'ps-order-details',
           options: {
-            isDateValid: this.isInvDateValid
+            isDateValid: this.date.valid
           }
         })
       );
@@ -453,7 +437,7 @@ export default {
     },
     resetForm() {
       this.setOrgDetails();
-      if (!this.isInvDateValid) {
+      if (!this.date.valid) {
         this.form.date = this.yearStart;
       }
       this.form.terms = null;

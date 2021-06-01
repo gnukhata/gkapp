@@ -42,43 +42,20 @@
             required
           ></b-form-input>
         </b-form-group>
-        <b-form-group
-          id="rnd-input-group-1"
+        <gk-form-date
           label="Date"
           label-cols-md="4"
           label-cols="3"
-          label-for="rnd-date-1"
           label-size="sm"
-        >
-          <gk-date id="asd" format="dd-mm-yyyy" v-model="form.date" :min="minDate" :max="maxDate" @validity="setDateValidity"></gk-date>
-          <!-- <b-input-group>
-            <b-form-input
-              size="sm"
-              id="rnd-date-1"
-              v-model="form.date"
-              type="text"
-              placeholder="YYYY-MM-DD"
-              autocomplete="off"
-              required
-              :state="isInvDateValid"
-              debounce="500"
-              @input="onUpdateDetails"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-form-datepicker
-                size="sm"
-                v-model="form.date"
-                button-only
-                right
-                locale="en-GB"
-                aria-controls="rnd-date-1"
-                :min="minDate"
-                :max="maxDate"
-              >
-              </b-form-datepicker>
-            </b-input-group-append>
-          </b-input-group> -->
-        </b-form-group>
+          id="rnd-input-group-1"
+          dateId="rnd-date-1"
+          :format="date.format"
+          v-model="form.date"
+          :min="minDate"
+          :max="maxDate"
+          @validity="setDateValidity"
+          :required="true"
+        ></gk-form-date>
         <b-form-group
           :label="saleFlag ? 'Dispatch From' : 'Received At'"
           label-for="rnd-input-20"
@@ -156,14 +133,16 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 
 import Autocomplete from '../../Autocomplete.vue';
-import GkDate from '../../GkDate.vue';
+// import GkDate from '../../GkDate.vue';
+import GkFormDate from '../../GkFormDate.vue';
 export default {
   name: 'RejectionNoteDetails',
-  components: { Autocomplete, GkDate },
+  components: { Autocomplete, GkFormDate },
   props: {
     invDate: {
       type: String,
       required: true,
+      note: "The date from Invoice Details. Its used as the min date here"
     },
     saleFlag: {
       type: Boolean,
@@ -183,8 +162,12 @@ export default {
     return {
       isPreloading: false,
       isCollapsed: false,
-      isInvDateValid: null,
+      date: {
+        valid: null,
+        format: 'dd-mm-yyyy',
+      },
       form: {
+        no: "",
         date: this.formatDateObj(new Date()),
         issuer: null,
         role: null,
@@ -202,34 +185,25 @@ export default {
     invDate() {
       this.onUpdateDetails();
     },
+    updateCounter() {
+      this.resetForm();
+    }
   },
   computed: {
     minDate: (self) =>
-      self.invDate ? self.toDMYDate(self.invDate) : self.toDMYDate(self.yearStart),
+      self.invDate
+        ? self.toDMYDate(self.invDate)
+        : self.toDMYDate(self.yearStart),
     maxDate: (self) => self.toDMYDate(self.yearEnd),
-    // // isInvDateValid: (self) => {
-    // //   let currDate = new Date(self.form.date).getTime(),
-    // //     minDate = self.minDate.getTime(),
-    // //     maxDate = self.maxDate.getTime();
-    //   return !isNaN(currDate)
-    //     ? currDate >= minDate && currDate <= maxDate
-    //     : null;
-    // },
     ...mapState(['yearStart', 'yearEnd']),
   },
   methods: {
-    toDMYDate(date) {
-      return date.split("-").reverse().join("-");
-    },
     setDateValidity(validity) {
-      if(validity === 0) {
-        this.isInvDateValid = true;
-      } else if(validity === null) {
-        this.isInvDateValid = null;
-      } else {
-        this.isInvDateValid = false;
-      }
+      this.date.valid = validity;
       this.onUpdateDetails();
+    },
+    toDMYDate(date) {
+      return date.split('-').reverse().join('-');
     },
     preloadData() {
       const requests = [this.fetchUserData()];
@@ -269,6 +243,12 @@ export default {
       day = day > 9 ? day : '0' + day;
       return `${date.getFullYear()}-${month}-${day}`;
     },
+    resetForm() {
+      Object.assign(this.form, {
+        no: "",
+        date: ""
+      })
+    },
     onUpdateDetails() {
       const self = this;
       setTimeout(
@@ -277,7 +257,7 @@ export default {
             data: self.form,
             name: 'rejection-note-details',
             options: {
-              isDateValid: self.isInvDateValid,
+              isDateValid: self.date.valid,
             },
           }),
         1000
@@ -286,7 +266,7 @@ export default {
   },
   mounted() {
     this.preloadData();
-    if (!this.isInvDateValid) {
+    if (!this.date.valid) {
       this.form.date = this.yearStart;
     }
     this.onUpdateDetails();

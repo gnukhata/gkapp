@@ -43,42 +43,21 @@
             required
           ></b-form-input>
         </b-form-group>
-        <b-form-group
-          id="cmd-input-group-1"
+        <gk-form-date
           label="Date"
           label-cols-md="2"
           label-cols="3"
-          label-for="cmd-date-1"
           label-size="sm"
+          id="cmd-input-group-1"
+          dateId="cmd-date-1"
+          :format="date.format"
+          v-model="form.date"
+          :min="minDate"
+          :max="maxDate"
+          @validity="setDateValidity"
+          :required="true"
         >
-          <b-input-group>
-            <b-form-input
-              size="sm"
-              id="cmd-date-1"
-              v-model="form.date"
-              type="text"
-              placeholder="YYYY-MM-DD"
-              autocomplete="off"
-              required
-              :state="isInvDateValid"
-              debounce="500"
-              @input="onUpdateDetails"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-form-datepicker
-                size="sm"
-                v-model="form.date"
-                button-only
-                right
-                locale="en-GB"
-                aria-controls="date-1"
-                :min="minDate"
-                :max="maxDate"
-              >
-              </b-form-datepicker>
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group>
+        </gk-form-date>
         <b-form-group
           label="State"
           label-for="cmd-input-20"
@@ -120,10 +99,11 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import Autocomplete from '../../Autocomplete.vue'
+import Autocomplete from '../../Autocomplete.vue';
+import GkFormDate from '../../GkFormDate.vue';
 export default {
   name: 'CashMemoDetails',
-  components: { Autocomplete },
+  components: { Autocomplete, GkFormDate },
   props: {
     config: {
       type: Object,
@@ -135,18 +115,22 @@ export default {
     },
     parentData: {
       type: Object,
-      required: true
+      required: true,
     },
     updateCounter: {
       type: Number,
       required: false,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
       isCollapsed: false,
       isPreloading: false,
+      date: {
+        format: 'dd-mm-yyyy',
+        valid: null,
+      },
       form: {
         no: null,
         date: this.formatDateObj(new Date()),
@@ -163,26 +147,31 @@ export default {
     };
   },
   computed: {
-    minDate: (self) => new Date(self.yearStart),
-    maxDate: (self) => new Date(self.yearEnd),
-    isInvDateValid: (self) => {
-      let currDate = new Date(self.form.date).getTime(),
-        minDate = self.minDate.getTime(),
-        maxDate = self.maxDate.getTime();
-      return !isNaN(currDate)
-        ? currDate >= minDate && currDate <= maxDate
-        : null;
-    },
+    minDate: (self) => self.toDMYDate(self.yearStart),
+    maxDate: (self) => self.toDMYDate(self.yearEnd),
     ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
     updateCounter() {
       this.resetForm();
-    }
+    },
   },
   methods: {
+    setDateValidity(validity) {
+      this.date.valid = validity;
+      this.onUpdateDetails();
+    },
+    toDMYDate(date) {
+      return date.split('-').reverse().join('-');
+    },
     onUpdateDetails() {
-      setTimeout(() => this.$emit('details-updated', {data: this.form, name: 'cash-memo-details', options: {isDateValid: this.isInvDateValid}}));
+      setTimeout(() =>
+        this.$emit('details-updated', {
+          data: this.form,
+          name: 'cash-memo-details',
+          options: { isDateValid: this.date.valid },
+        })
+      );
     },
     onSelectState(state) {
       // set DelNote Gstin based on state
@@ -272,7 +261,7 @@ export default {
     },
     resetForm() {
       this.setOrgDetails();
-      if (!this.isInvDateValid) {
+      if (!this.date.valid) {
         this.form.date = this.yearStart;
       }
       this.onUpdateDetails();

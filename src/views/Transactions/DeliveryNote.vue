@@ -1,9 +1,5 @@
 <template>
   <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-form-label-right">
-    <b-alert :show="isInvDateValid === false" variant="danger"
-      >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-      <b>{{ yearEnd }}</b>
-    </b-alert>
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.type"
@@ -15,15 +11,6 @@
         <b-form-radio value="sale">Sale</b-form-radio>
         <b-form-radio value="purchase">Purchase</b-form-radio>
       </b-form-radio-group>
-      <!-- <span class="float-right">
-        <config
-          title="Invoice Page Configuration"
-          getDefault="getDefaultInvoiceConfig"
-          setCustom="updateInvoiceConfig"
-          getCustom="getCustomInvoiceConfig"
-        >
-        </config>
-      </span> -->
       <div class="clearfix"></div>
     </div>
     <b-form @submit.prevent="onSubmit">
@@ -96,6 +83,8 @@
           :config="config.transport"
           :updateCounter="updateCounter.transport"
           :parentData="form.transport"
+          :invDate="form.delNote.date"
+          @details-updated="onComponentDataUpdate"
         ></transport-details>
         <!-- Invoice Comments -->
         <comments
@@ -386,6 +375,9 @@ export default {
         case 'bill-table':
           Object.assign(this.form.bill, payload.data);
           this.updateCounter.totalTable++;
+          break;
+        case 'transport-details':
+          Object.assign(this.form.transport, payload.data);
           break;
       }
     },

@@ -72,36 +72,19 @@
             trim
           ></b-form-input>
         </b-form-group>
-        <b-form-group
-          id="tpd-input-group-1"
+        <gk-form-date
           label="Date of Supply"
           label-cols="3"
-          label-for="tpd-date-1"
           label-size="sm"
-          v-if="config.date"
+          id="tpd-input-group-1"
+          dateId="tpd-date-1"
+          :format="date.format"
+          v-model="form.date"
+          :min="minDate"
+          @validity="setDateValidity"
+          :required="true"
         >
-          <b-input-group>
-            <b-form-input
-              size="sm"
-              id="tpd-date-1"
-              v-model="form.date"
-              type="text"
-              placeholder="YYYY-MM-DD"
-              autocomplete="off"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-form-datepicker
-                size="sm"
-                v-model="form.date"
-                button-only
-                right
-                locale="en-GB"
-                aria-controls="tpd-date-1"
-              >
-              </b-form-datepicker>
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group>
+        </gk-form-date>
         <b-form-group
           id="tpd-input-group-2"
           label="Receipt Date"
@@ -166,8 +149,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import GkFormDate from '../../GkFormDate.vue';
 export default {
   name: 'TransportDetails',
+  components: {
+    GkFormDate,
+  },
   props: {
     config: {
       type: Object,
@@ -177,6 +165,11 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+    invDate: {
+      type: String,
+      required: false,
+      default: '',
     },
     parentData: {
       type: Object,
@@ -193,14 +186,13 @@ export default {
       },
     },
   },
-  watch: {
-    updateCounter() {
-      Object.assign(this.form, this.parentData);
-    },
-  },
   data() {
     return {
       isCollapsed: false,
+      date: {
+        format: 'dd-mm-yyyy',
+        valid: null,
+      },
       form: {
         mode: 'Road',
         vno: null,
@@ -220,5 +212,35 @@ export default {
       },
     };
   },
+  watch: {
+    updateCounter() {
+      Object.assign(this.form, this.parentData);
+    },
+  },
+  computed: {
+    minDate: (self) => (self.invDate)? self.toDMYDate(self.invDate) :  self.toDMYDate(self.yearStart),
+    ...mapState(['yearStart']),
+  },
+  methods: {
+    setDateValidity(validity) {
+      this.date.valid = validity;
+      this.onUpdateDetails();
+    },
+    toDMYDate(date) {
+      return date.split('-').reverse().join('-');
+    },
+    onUpdateDetails() {
+      setTimeout(() =>
+        this.$emit('details-updated', {
+          data: this.form,
+          name: 'transport-details',
+          options: {
+            dateValid: this.date.valid
+          }
+        })
+      );
+    },
+  }
+  
 };
 </script>

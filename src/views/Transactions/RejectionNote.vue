@@ -1,10 +1,5 @@
 <template>
   <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-form-label-right">
-    <b-alert :show="isInvDateValid === false" variant="danger"
-      >Date must be from
-      <b>{{ form.invoice.date ? form.invoice.date : yearStart }}</b> to
-      <b>{{ yearEnd }}</b>
-    </b-alert>
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.type"
@@ -29,15 +24,6 @@
         >
         </autocomplete>
       </span>
-      <!-- <span class="float-right">
-        <config
-          title="Invoice Page Configuration"
-          getDefault="getDefaultInvoiceConfig"
-          setCustom="updateInvoiceConfig"
-          getCustom="getCustomInvoiceConfig"
-        >
-        </config>
-      </span> -->
       <div class="clearfix"></div>
     </div>
     <b-form @submit.prevent="onSubmit">
@@ -49,6 +35,7 @@
           :invDate="form.invoice.date"
           ref="rnote"
           @details-updated="onComponentDataUpdate"
+          :updateCounter="updateCounter.rnote"
         ></rejection-note-details>
         <!-- Invoice Details -->
         <invoice-details
@@ -368,7 +355,7 @@ export default {
     updateComponentData() {
       this.updateCounter.invoice++;
       this.updateCounter.party++;
-      this.updateCounter.rejectionNote++;
+      this.updateCounter.rnote++;
       this.updateCounter.bill++;
       this.updateCounter.totalTable++;
       this.updateCounter.comments++;
@@ -600,7 +587,10 @@ export default {
     },
     resetForm() {
       Object.assign(this.form, {
-        rnote: {},
+        rnote: {
+          no: "",
+          date: ""
+        },
         invoice: {
           no: null,
           date: '',
@@ -609,11 +599,7 @@ export default {
           state: {},
         },
         party: {
-          custid: null,
-          name: {},
-          addr: null,
-          state: {},
-          gstin: null,
+          name: null,
         },
         bill: [],
         narration: null,

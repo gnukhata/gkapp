@@ -1,9 +1,5 @@
 <template>
   <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-form-label-right">
-    <b-alert :show="isInvDateValid === false" variant="danger"
-      >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-      <b>{{ yearEnd }}</b>
-    </b-alert>
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.type"
@@ -110,6 +106,8 @@
           :config="config.transport"
           :updateCounter="updateCounter.transport"
           :parentData="form.transport"
+          :invDate="form.psOrder.date"
+          @details-updated="onComponentDataUpdate"
         ></transport-details>
         <!-- Invoice Comments -->
         <comments
@@ -351,6 +349,9 @@ export default {
           Object.assign(this.form.bill, payload.data);
           this.updateCounter.totalTable++;
           break;
+        case 'transport-details':
+          Object.assign(this.form.transport, payload.data);
+          break;
       }
     },
     collectComponentData() {
@@ -449,7 +450,7 @@ export default {
       let freeqty = {};
       let discount = {};
       this.form.bill.forEach((item) => {
-        let taxable = item.total * item.qty - item.discount.amount;
+        // let taxable = item.total * item.qty - item.discount.amount;
         
         schedule[item.product.id] = {}
         schedule[item.product.id]['quantity'] = parseFloat(item.qty).toFixed(2);
