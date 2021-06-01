@@ -8,22 +8,33 @@
       style="max-width: 40em"
     >
       <b-form @submit.prevent="changePassword">
-        <b-form-group label="Select Organisation">
+        <b-form-group
+          label-cols="4"
+          label-align="right"
+          label-size="sm"
+          label="Select Organisation"
+        >
           <b-overlay :show="loadingOrgs">
-            <b-select
+            <b-form-select
               v-model="selectedOrg"
               @change="getOrgYears"
               :options="orgList"
               required
             >
-              <b-form-select-option :value="null"
+              <b-form-select-option disabled value="null"
                 >-- Select an Organisation --</b-form-select-option
               >
-            </b-select>
+            </b-form-select>
           </b-overlay>
         </b-form-group>
         <!-- username -->
-        <b-form-group label="Username" tooltip>
+        <b-form-group
+          label-cols="4"
+          label-align="right"
+          label-size="sm"
+          label="Username"
+          tooltip
+        >
           <b-overlay :show="userNameIsLoading">
             <b-form-input
               @blur="getQuestion"
@@ -35,7 +46,13 @@
           </b-overlay>
         </b-form-group>
         <!-- security question -->
-        <b-form-group label="Security Question" tooltip>
+        <b-form-group
+          label-cols="4"
+          label-align="right"
+          label-size="sm"
+          label="Security Question"
+          tooltip
+        >
           <b-overlay :show="isLoading">
             <b-form-input
               v-model="form.userquestion"
@@ -59,20 +76,39 @@
           </b-overlay>
         </b-form-group>
         <!-- Answer  -->
-        <b-form-group label="Answer">
+        <b-form-group
+          label-cols="4"
+          label-size="sm"
+          label-align="right"
+          label="Answer"
+        >
           <b-form-input v-model="form.useranswer" required></b-form-input>
         </b-form-group>
         <!--New Password -->
-        <b-form-group label="New Password">
-          <b-form-input v-model="form.userpassword" required></b-form-input>
+        <b-form-group
+          label-cols="4"
+          label-size="sm"
+          label-align="right"
+          label="New Password"
+        >
+          <!-- <b-form-input v-model="form.userpassword" required></b-form-input> -->
+          <password v-model="form.userpassword"></password>
         </b-form-group>
         <!-- Confirm Password -->
-        <b-form-group label="Confirm Password">
+        <b-form-group
+          label-cols="4"
+          label-align="right"
+          label-size="sm"
+          label="Confirm Password"
+        >
           <b-form-input
             :state="matchingPwd"
             required
             v-model="password2"
           ></b-form-input>
+          <b-form-valid-feedback>
+            Passwords Match
+          </b-form-valid-feedback>
           <b-form-invalid-feedback>
             passwords does not match
           </b-form-invalid-feedback>
@@ -81,7 +117,7 @@
         <b-button
           :disabled="!matchingPwd"
           type="submit"
-          variant="info"
+          variant="success"
           class="float-right"
           ><b-icon v-if="!submitting" icon="key-fill"></b-icon
           ><b-spinner v-if="submitting" small></b-spinner> Reset
@@ -95,7 +131,9 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import Password from '../components/Password.vue';
 export default {
+  components: { Password },
   name: 'ResetPassword',
   data() {
     return {
@@ -119,7 +157,10 @@ export default {
   computed: {
     ...mapState(['orgCode']),
     matchingPwd() {
-      if (this.form.userpassword == this.password2) {
+      if (this.password2 == '') {
+        return null;
+      }
+      if (this.form.userpassword === this.password2) {
         return true;
       } else {
         return false;
@@ -228,7 +269,7 @@ export default {
               case 0:
                 this.$bvModal
                   .msgBoxOk(
-                    'Password Change Successful, Memorize it well this time ;-)',
+                    'Password Change Successful, Memorize it well this time 😉',
                     {
                       title: 'Success',
                       headerTextVariant: 'light',
