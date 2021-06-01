@@ -1,5 +1,5 @@
 <template>
-  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2">
+  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-label-right">
     <b-alert :show="isInvDateValid === false" variant="danger"
       >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
       <b>{{ yearEnd }}</b>

@@ -1,5 +1,5 @@
 <template>
-  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2">
+  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-label-right align-label-right">
     <b-alert :show="isInvDateValid === false" variant="danger"
       >Date must be from
       <b>{{ form.invoice.date ? form.invoice.date : yearStart }}</b> to

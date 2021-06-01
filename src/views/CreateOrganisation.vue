@@ -4,7 +4,7 @@
   * Check accessibility
 -->
 <template>
-  <div class="d-flex justify-content-center mt-3 mx-3">
+  <div class="d-flex justify-content-center mt-3 mx-3 align-label-right">
     <div class="card shadow" :style="{ 'min-width': '350px' }">
       <div class="card-header bg-primary text-light">Create Organisation</div>
       <div class="card-body px-2 px-sm-4">
