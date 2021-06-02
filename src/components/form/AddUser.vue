@@ -2,26 +2,40 @@
   <!-- Create user -->
   <b-form ref="createForm" @submit.prevent="addUser">
     <b-overlay :show="isLoading" blur no-wrap></b-overlay>
-
-    <b-form-group label="Name">
+    <b-form-group
+      label="Name"
+      label-align="right"
+      label-cols="2"
+      label-size="sm"
+    >
       <b-form-input
         :state="validateName"
         v-model="newUser.username"
         required
         type="text"
         trim
+        size="sm"
       ></b-form-input>
       <b-form-invalid-feedback id="input-live-feedback">
         Username must be minimum 3 characters
       </b-form-invalid-feedback>
     </b-form-group>
-    <b-form-group label="Select Role">
+    <b-form-group
+      label="Role"
+      label-size="sm"
+      label-align="right"
+      label-cols="2"
+    >
       <b-form-select
         v-model="newUser.userrole"
         :options="roles"
         required
+        size="sm"
         @change="getGodowns"
       >
+        <b-form-select-option disabled value="null"
+          >-- Select Role --</b-form-select-option
+        >
       </b-form-select>
     </b-form-group>
     <b-table-simple
@@ -60,29 +74,45 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
-    <b-form-group label="Password">
-      <b-form-input
-        required
-        type="password"
-        v-model="newUser.userpassword"
-      ></b-form-input>
+    <b-form-group
+      label="Password"
+      label-align="right"
+      label-cols="auto"
+      label-size="sm"
+    >
+      <password size="sm" v-model="newUser.userpassword"></password>
     </b-form-group>
-    <b-form-group label="Security Question">
-      <security-questions v-model="newUser.userquestion"></security-questions>
+    <b-form-group
+      label="Confirm Password"
+      label-align="right"
+      label-cols="2"
+      label-size="sm"
+    >
+      <b-form-input :state="pwdMatch" v-model="cnfPassword" size="sm">
+      </b-form-input>
+      <b-form-invalid-feedback>Passwords do not match</b-form-invalid-feedback>
     </b-form-group>
-    <b-form-group label="Answer">
+    <b-form-group label-size="sm" label-cols="2" label="Security Question">
+      <security-questions
+        size="sm"
+        v-model="newUser.userquestion"
+      ></security-questions>
+    </b-form-group>
+    <b-form-group label-cols="auto" label-size="sm" label="Answer">
       <b-form-input
         v-model="newUser.useranswer"
         required
         type="text"
+        size="sm"
       ></b-form-input>
     </b-form-group>
     <slot name="modal-footer">
       <b-button
+        :disabled="!pwdMatch"
+        size="sm"
         type="submit"
         class="float-right"
         variant="success"
-        v-b-modal.create-user
       >
         <b-icon type="submit" icon="person-plus"></b-icon>
         Create User</b-button
@@ -93,16 +123,17 @@
 
 <script>
 import { mapState } from 'vuex';
+import Password from '../Password.vue';
 import SecurityQuestions from '../SecurityQuestions.vue';
-// import passwordStrength from "check-password-strength";
 
 export default {
-  components: { SecurityQuestions },
+  components: { SecurityQuestions, Password },
   name: 'AddUser',
   data() {
     return {
       isLoading: false,
       allGodowns: [],
+      cnfPassword: '',
       newUser: {
         username: '',
         userpassword: '',
@@ -137,6 +168,17 @@ export default {
   },
   computed: {
     ...mapState(['gkCoreUrl', 'authToken']),
+    pwdMatch() {
+      if (this.cnfPassword == '') {
+        return null;
+      }
+
+      if (this.newUser.userpassword === this.cnfPassword) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     validateName() {
       // remove spaces in username
       this.newUser.username = this.newUser.username.split(' ').join('');
@@ -147,37 +189,6 @@ export default {
         return true;
       }
     },
-    // pwdStrength: () =>
-    //   this.newUser.userpassword !== "" && this.newUser.userpassword !== null
-    //     ? passwordStrength(this.newUser.userpassword)
-    //     : { value: "Empty" },
-    // isPasswordValid: self =>
-    //   self.pwdStrength.value === "Empty"
-    //     ? null
-    //     : self.pwdStrength.value === "Strong",
-    // passwordFeedback() {
-    //   let text = "";
-    //   if (this.userPassword) {
-    //     switch (this.pwdStrength.value) {
-    //       case "Strong":
-    //         text = "Password is Strong.";
-    //         break;
-    //       case "Medium":
-    //         text = this.getPasswordHint(this.pwdStrength);
-    //         break;
-    //       case "Weak":
-    //         text = this.getPasswordHint(this.pwdStrength);
-    //         break;
-    //       default:
-    //         if (this.userPassword.length < 8) {
-    //           text = "is-danger";
-    //         } else {
-    //           text = "is-success";
-    //         }
-    //     }
-    //   }
-    //   return text;
-    // }
   },
   methods: {
     /**
@@ -204,6 +215,7 @@ export default {
           this.$bvToast.toast(
             'Failed to fetch godown info, Please reload the page',
             {
+              title: e.message,
               variant: 'danger',
               solid: true,
             }

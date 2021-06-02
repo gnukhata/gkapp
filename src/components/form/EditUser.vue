@@ -4,10 +4,16 @@
     <b-form @submit.prevent="confirm('update')">
       <b-overlay :show="isLoading" blur no-wrap></b-overlay>
       <!-- username -->
-      <b-form-group label="Name">
+      <b-form-group
+        label-size="sm"
+        label-align="right"
+        label-cols="3"
+        label="Name"
+      >
         <b-form-input
           :state="validateName"
           required
+          size="sm"
           v-model="form.username"
           trim
         ></b-form-input>
@@ -17,8 +23,14 @@
       </b-form-group>
       <!-- user role -->
       <!-- If there is only one admin, Prevent admin from changing self's role -->
-      <b-form-group label="User Role">
+      <b-form-group
+        label-size="sm"
+        label-align="right"
+        label-cols="3"
+        label="Role"
+      >
         <b-form-select
+          size="sm"
           v-model="form.userrole"
           :disabled="form.userrole == -1 && admins.length == 1"
         >
@@ -72,21 +84,40 @@
         </b-tbody>
       </b-table-simple>
       <!-- password -->
-      <b-form-group label="New Password">
-        <b-form-input
-          v-model="form.userpassword"
-          type="password"
-        ></b-form-input>
+      <b-form-group
+        label-align="right"
+        label-size="sm"
+        label-cols="3"
+        label="New Password"
+      >
+        <!-- <b-form-input
+               v-model="form.userpassword"
+               type="password"
+               ></b-form-input> -->
+        <password size="sm" v-model="form.userpassword"></password>
       </b-form-group>
       <!-- Security question -->
-      <b-form-group label="Security Question">
-        <!-- <b-form-input v-model="form.userquestion" type="text"></b-form-input> -->
-        <security-questions v-model="form.userquestion"></security-questions>
+      <b-form-group
+        label-align="right"
+        label-size="sm"
+        label-cols="3"
+        label="Security Question"
+      >
+        <security-questions
+          size="sm"
+          v-model="form.userquestion"
+        ></security-questions>
       </b-form-group>
       <!-- answer -->
-      <b-form-group label="Answer">
+      <b-form-group
+        label-align="right"
+        label-size="sm"
+        label-cols="3"
+        label="Answer"
+      >
         <b-form-input
           v-model="form.useranswer"
+          size="sm"
           type="text"
           :required="form.userquestion !== ''"
         ></b-form-input>
@@ -113,9 +144,10 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import SecurityQuestions from '../SecurityQuestions.vue';
+import Password from '../Password.vue';
 
 export default {
-  components: { SecurityQuestions },
+  components: { SecurityQuestions, Password },
   name: 'UserManagement',
   props: {
     id: Number,
@@ -210,9 +242,11 @@ export default {
         .get(`/user?userAllData&userid=${this.id}`)
         .then((r) => {
           if (r.status == 200) {
-            this.form.username = r.data.gkresult.username;
-            this.form.userrole = r.data.gkresult.userrole;
-            this.form.userid = r.data.gkresult.userid;
+            let data = r.data.gkresult;
+            this.form.username = data.username;
+            this.form.userrole = data.userrole;
+            this.form.userid = data.userid;
+
             this.isLoading = false;
             this.getUserGodowns(this.id);
           }
@@ -248,7 +282,6 @@ export default {
      */
     getUserGodowns(id) {
       this.isLoading = true;
-      console.log('fetching user godowns', id);
       const ug = axios.get(`/godown?type=byuser&userid=${id}`);
       const ag = axios.get('/godown');
       Promise.all([ug, ag])
