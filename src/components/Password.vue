@@ -5,12 +5,9 @@
     :valid-feedback="passwordFeedback"
   >
     <b-form-input
-      size="md"
-      id="password-1"
+      :size="size"
       type="password"
-      placeholder="Password"
       v-model.lazy="userPassword"
-      label-cols="1"
       :state="isPasswordValid"
       required
     >
@@ -26,6 +23,9 @@ export default {
   model: {
     prop: 'value',
     event: 'change',
+  },
+  props: {
+    size: String,
   },
   data() {
     return {
