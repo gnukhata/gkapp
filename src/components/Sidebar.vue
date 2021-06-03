@@ -8,9 +8,17 @@
       :lazy="true"
       v-b-toggle.sidebar-1
     >
-      <b-icon icon="arrow-bar-right"></b-icon>
+      <b-icon icon="caret-right"></b-icon>
     </b-button>
     <b-sidebar width="250px" v-model="opened" id="sidebar-1" shadow>
+      <template #title>
+        <div class="d-flex">
+          <img src="/img/gk.svg" width="40px" alt="GNUKhata Logo" />
+          <div class="font-weight-normal mt-1 ml-2">
+            GNUKhata
+          </div>
+        </div>
+      </template>
       <template>
         <b-nav>
           <b-nav-item to="/orgprofile">
