@@ -5,9 +5,11 @@
     :options="questions"
     @change="$emit('change', choice)"
   >
-    <b-form-select-option disabled value="null">
-      -- Please select a question --
-    </b-form-select-option>
+    <template #first>
+      <b-form-select-option disabled value="">
+        -- Please select a question --
+      </b-form-select-option>
+    </template>
   </b-form-select>
 </template>
 
