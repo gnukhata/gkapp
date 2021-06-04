@@ -13,7 +13,7 @@
     <b-sidebar width="250px" v-model="opened" id="sidebar-1" shadow>
       <template #title>
         <div class="d-flex">
-          <img src="/img/gk.svg" width="40px" alt="GNUKhata Logo" />
+          <img src="../../public/img/gk.svg" width="40px" alt="GNUKhata Logo" />
           <div class="font-weight-normal mt-1 ml-2">
             GNUKhata
           </div>
