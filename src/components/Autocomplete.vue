@@ -18,7 +18,11 @@
     <!-- Autocomplete Menu -->
     <!-- <b-list-group> is conflicting with the CSS class "text-truncate", 
       thus using <div> as the container -->
-    <div class="gk-autocomplete-content" v-if="optionsShown && !readonly">
+    <div
+      class="gk-autocomplete-content"
+      v-if="optionsShown && !readonly"
+      v-bind:style="{ minWidth: dropDownWidth }"
+    >
       <!--  -->
       <b-list-group-item
         button
@@ -30,6 +34,13 @@
         @mouseenter="setHovered(index)"
       >
         {{ option.text }}
+      </b-list-group-item>
+      <b-list-group-item
+        button
+        class="gk-autocomplete-item text-truncate"
+        @mousedown="clearSelection()"
+      >
+        Clear Selection
       </b-list-group-item>
     </div>
   </div>
@@ -93,6 +104,11 @@ export default {
       note:
         'If readonly is true, then only update of data through code is possible',
     },
+    dropDownWidth: {
+      type: [Number, String],
+      required: false,
+      default: '100%',
+    },
   },
   data() {
     return {
@@ -109,8 +125,6 @@ export default {
       //a separate options object (optionsB) is created to store local changes
     };
   },
-  created() {},
-  mounted() {},
   computed: {},
   methods: {
     /** Creates a local copy of Options prop in a desired format, {text: , value:} */
@@ -309,6 +323,9 @@ export default {
         }
       }
     },
+    clearSelection() {
+      this.selectOption({ text: '', value: this.emptyValue });
+    },
   },
   watch: {
     /**When the options sent as prop are changed, then the options have to be initialized again.
@@ -322,7 +339,7 @@ export default {
           option.text === this.searchFilter;
         })
       ) {
-        this.selectOption({ text: '', value: this.emptyValue });
+        this.clearSelection();
       }
       this.filterOptions();
     },
@@ -332,8 +349,10 @@ export default {
      * 2. When the program assigns a value via v-model to the component
      */
     value(newVal) {
+      // debugger;
       // console.log('In Value');
       // console.log(newVal);
+      const self = this;
       if (!this.optionsB) {
         return;
       }
@@ -344,8 +363,7 @@ export default {
       // if the query string entered doesn't have any matching options, its value will become null.
       // Then this method will again be called with null as newVal. At that time the text entered must not vanish.
       if (newVal === null || newVal === undefined) {
-        // console.log(this.searchFilter)
-        // this.selectOption({ text: this.searchFilter, value: this.emptyValue });
+        this.clearSelection();
         return;
       }
       if (this.optionsB && Array.isArray(this.optionsB)) {
@@ -354,20 +372,25 @@ export default {
           let newType = typeof newVal;
           if (newType === optionsType) {
             let selected = null;
-            if (newType === "object") {
+            if (newType === 'object') {
               selected = this.optionsB.find((option) =>
                 option
                   ? option.value[this.valueUid] === newVal[this.valueUid]
                   : !!option
-              ) || { text: "", val: this.emptyValue };
+              ) || { text: '', val: this.emptyValue };
             } else {
               selected = this.optionsB.find((option) =>
                 option ? option.value === newVal : !!option
-              ) || { text: "", value: this.emptyValue };
+              ) || { text: '', value: this.emptyValue };
             }
-            this.selectOption(selected);
+            setTimeout(() => {
+              self.selectOption(selected);
+            }, 100); // using time outs here to overcome the race condition caused
+            // when this component is rendered based on data stored in array
           } else {
-            this.selectOption({ text: newVal, value: this.emptyValue });
+            setTimeout(() => {
+              self.selectOption({ text: newVal, value: this.emptyValue });
+            }, 100);
           }
         }
       }
@@ -395,11 +418,10 @@ export default {
     });
   },
   created() {
-    // debugger;
-    if(this.value && this.value.name) {
-      this.selectOption({text: this.value.name, value: this.value});
+    if (this.value && this.value.name) {
+      this.selectOption({ text: this.value.name, value: this.value });
     }
-  }
+  },
 };
 </script>
 
