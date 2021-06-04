@@ -25,11 +25,16 @@
       <slot name="close-button"> </slot>
     </div>
     <div>
-      <b-alert class="m-2 mb-0" :show="isVoucherDateValid === false" variant="danger">Date must be within the Financial Year, from <b>{{yearStart}}</b> to <b>{{yearEnd}}</b> </b-alert>
+      <b-alert
+        class="m-2 mb-0"
+        :show="isVoucherDateValid === false"
+        variant="danger"
+        >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
+        <b>{{ yearEnd }}</b>
+      </b-alert>
       <b-form class="p-2 pt-3" @submit.prevent="confirmOnSubmit">
         <b-row no-gutters>
-          <b-col>
-          </b-col>
+          <b-col> </b-col>
           <b-col class="mb-2" :style="{ 'max-width': '200px' }">
             <b-input-group>
               <b-form-input
@@ -59,13 +64,11 @@
             </b-input-group>
           </b-col>
           <b-col cols="12">
-            <b-table-simple hover small caption-top responsive bordered>
+            <b-table-simple hover small caption-top bordered>
               <b-thead head-variant="dark">
                 <!-- table header -->
                 <b-tr class="text-center">
-                  <!-- <b-th :style="{ maxWidth: '40px', width: '40px' }"
-                    >Dr/Cr</b-th
-                  > -->
+                  <b-th :style="{ maxWidth: '25px', width: '25px' }">-</b-th>
                   <b-th
                     :style="{
                       maxWidth: '300px',
@@ -78,7 +81,7 @@
                     :style="{
                       maxWidth: '200px',
                       width: '150px',
-                      minWidth: '80px',
+                      minWidth: '70px',
                     }"
                     >Balance</b-th
                   >
@@ -88,45 +91,75 @@
                       width: '110px',
                       minWidth: '75px',
                     }"
-                    >Debit</b-th
                   >
+                    <b-button
+                      @click.prevent="addRow('dr')"
+                      class="py-0"
+                      variant="success"
+                      size="sm"
+                      >+</b-button
+                    >
+                    Dr
+                  </b-th>
                   <b-th
                     :style="{
                       maxWidth: '200px',
                       width: '110px',
                       minWidth: '75px',
                     }"
-                    >Credit</b-th
+                  >
+                    <b-button
+                      @click.prevent="addRow('cr')"
+                      class="py-0"
+                      variant="success"
+                      size="sm"
+                      >+</b-button
+                    >
+                    Cr</b-th
                   >
                 </b-tr>
               </b-thead>
               <b-tbody>
+                <!-- Debit Row -->
                 <b-tr
                   class="text-center"
-                  v-for="(data, key, index) in form.voucher"
-                  :key="index"
+                  v-for="(data, indexDr) in form.dr"
+                  :key="indexDr + '-dr'"
+                  variant="success"
                 >
                   <!-- Type  -->
-                  <!-- <b-td class="text-capitalize align-middle">
-                    {{ key }}
-                  </b-td> -->
+                  <b-td class="text-capitalize align-middle">
+                    <b-button
+                      @click.prevent="deleteRow('dr', indexDr)"
+                      class="py-0 px-1"
+                      variant="success"
+                      size="sm"
+                      >-</b-button
+                    >
+                  </b-td>
 
                   <!-- Account -->
                   <b-td>
-                    <b-form-select
+                    <autocomplete
                       size="sm"
-                      v-model="data.account"
-                      :options="options[key]"
+                      v-model="form.dr[indexDr].account"
+                      :options="options['dr']"
                       text-field="accountname"
                       value-field="accountcode"
                       disabled-field="disabled"
                       required
-                      @input="onAccountSelect(data.account, key)"
-                    ></b-form-select>
+                      @input="onAccountSelect(data.account, 'dr', indexDr)"
+                      :isOptionsShared="true"
+                      class="text-left"
+                      dropDownWidth="200px"
+                    ></autocomplete>
                   </b-td>
 
                   <!-- Balance -->
-                  <b-td class="position-relative" :style="{'font-size': '0.85rem'}">
+                  <b-td
+                    class="position-relative"
+                    :style="{ 'font-size': '0.85rem' }"
+                  >
                     <b-overlay
                       :show="data.isLoading"
                       variant="secondary"
@@ -140,12 +173,12 @@
                   <!-- Dr Amount -->
                   <b-td>
                     <b-input
-                      v-model="form.amount"
+                      v-model="data.amount"
                       class="hide-spin-button text-right px-1"
-                      type="number" no-wheel
+                      type="number"
+                      no-wheel
                       step="0.01"
                       min="0.01"
-                      v-if="data.debit"
                       debounce="500"
                       required
                       size="sm"
@@ -153,14 +186,70 @@
                   </b-td>
 
                   <!-- Cr Amount -->
+                  <b-td> </b-td>
+                </b-tr>
+                <!-- Credit Row -->
+                <b-tr
+                  class="text-center"
+                  v-for="(data, indexCr) in form.cr"
+                  :key="indexCr + '-cr'"
+                  variant="warning"
+                >
+                  <!-- Type  -->
+                  <b-td class="text-capitalize align-middle">
+                    <b-button
+                      @click.prevent="deleteRow('cr', indexCr)"
+                      class="py-0 px-1"
+                      variant="success"
+                      size="sm"
+                      >-</b-button
+                    >
+                  </b-td>
+
+                  <!-- Account -->
+                  <b-td>
+                    <autocomplete
+                      class="text-left"
+                      size="sm"
+                      v-model="data.account"
+                      :options="options['cr']"
+                      text-field="accountname"
+                      value-field="accountcode"
+                      disabled-field="disabled"
+                      :isOptionsShared="true"
+                      required
+                      @input="onAccountSelect(data.account, 'cr', indexCr)"
+                      dropDownWidth="200px"
+                    ></autocomplete>
+                  </b-td>
+
+                  <!-- Balance -->
+                  <b-td
+                    class="position-relative"
+                    :style="{ 'font-size': '0.85rem' }"
+                  >
+                    <b-overlay
+                      :show="data.isLoading"
+                      variant="secondary"
+                      no-wrap
+                      blur
+                    >
+                    </b-overlay>
+                    <b>{{ data.balance }}</b>
+                  </b-td>
+
+                  <!-- Dr Amount -->
+                  <b-td> </b-td>
+
+                  <!-- Cr Amount -->
                   <b-td>
                     <b-input
-                      v-model="form.amount"
+                      v-model="data.amount"
                       class="hide-spin-button text-right px-1"
-                      type="number" no-wheel
+                      type="number"
+                      no-wheel
                       step="0.01"
                       min="0.01"
-                      v-if="data.credit"
                       debounce="500"
                       required
                       size="sm"
@@ -170,12 +259,12 @@
               </b-tbody>
               <b-tfoot>
                 <b-tr variant="secondary" class="text-right">
-                  <b-th colspan="2"> Total </b-th>
+                  <b-th colspan="3"> Total </b-th>
                   <b-th>
-                    <span>₹ {{ form.amount }}</span>
+                    <span>₹ {{ totalDr }}</span>
                   </b-th>
                   <b-th>
-                    <span>₹ {{ form.amount }}</span>
+                    <span>₹ {{ totalCr }}</span>
                   </b-th>
                 </b-tr>
               </b-tfoot>
@@ -218,7 +307,13 @@
             ></b-icon>
             <span class="align-middle"> Back</span>
           </b-button>
-          <b-button size="sm" type="submit" class="mr-2" variant="success" :disabled="!isVoucherDateValid">
+          <b-button
+            size="sm"
+            type="submit"
+            class="mr-2"
+            variant="success"
+            :disabled="!isVoucherDateValid || !isVoucherTotalValid"
+          >
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
               v-else
@@ -236,28 +331,30 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import { numberToRupees } from "../../js/utils"
+import axios from 'axios';
+import { mapState } from 'vuex';
+import { numberToRupees } from '../../js/utils';
+
+import Autocomplete from '../Autocomplete.vue';
 export default {
-  name: "Voucher",
-  components: {},
+  name: 'Voucher',
+  components: { Autocomplete },
   props: {
     type: {
       type: String,
       validator: function (value) {
         return (
           [
-            "receipt",
-            "payment",
-            "purchase",
-            "sales",
-            "journal",
-            "contra",
+            'receipt',
+            'payment',
+            'purchase',
+            'sales',
+            'journal',
+            'contra',
           ].indexOf(value) !== -1
         );
       },
-      default: "receipt",
+      default: 'receipt',
       required: false,
     },
     customer: {
@@ -268,7 +365,7 @@ export default {
     onSave: {
       type: Function,
       required: false,
-      default: null
+      default: null,
     },
     hideBackButton: {
       type: Boolean,
@@ -290,82 +387,110 @@ export default {
     return {
       isLoading: false,
       options: {
+        acc: {}, // account id to name map
         dr: [],
         cr: [],
         balances: {},
         vtype: [
-          { text: "Receipt", value: "receipt" },
-          { text: "Payment", value: "payment" },
-          { text: "Purchase", value: "purchase" },
-          { text: "Sales", value: "sales" },
-          { text: "Contra", value: "contra" },
-          { text: "Journal", value: "journal" },
-          { text: "Credit Note", value: "journal" },
-          { text: "Debit Note", value: "journal" },
-          { text: "Sales Return", value: "journal" },
-          { text: "Purchase Return", value: "journal" },
+          { text: 'Receipt', value: 'receipt' },
+          { text: 'Payment', value: 'payment' },
+          { text: 'Purchase', value: 'purchase' },
+          { text: 'Sales', value: 'sales' },
+          { text: 'Contra', value: 'contra' },
+          { text: 'Journal', value: 'journal' },
+          { text: 'Credit Note', value: 'journal' },
+          { text: 'Debit Note', value: 'journal' },
+          { text: 'Sales Return', value: 'journal' },
+          { text: 'Purchase Return', value: 'journal' },
         ],
       },
       form: {
-        vtype: { text: "", value: "" },
+        vtype: { text: '', value: '' },
         date: null,
-        voucher: {
-          dr: {
-            account: null,
-            balance: null,
-            isLoading: false,
-            debit: true,
-            credit: false,
-          },
-          cr: {
-            account: null,
-            balance: null,
-            isLoading: false,
-            debit: false,
-            credit: true,
-          },
-        },
+        dr: [],
+        cr: [],
         amount: 0,
-        narration: "",
+        narration: '',
       },
     };
   },
   computed: {
+    totalDr: (self) =>
+      self.form.dr.reduce((acc, item) => acc + parseFloat(item.amount), 0) ||
+      null,
+    totalCr: (self) =>
+      self.form.cr.reduce((acc, item) => acc + parseFloat(item.amount), 0) ||
+      null,
     minDate: (self) => new Date(self.yearStart),
     maxDate: (self) => new Date(self.yearEnd),
     isVoucherDateValid: (self) => {
-      let currDate = new Date(self.form.date).getTime(), minDate = self.minDate.getTime(), maxDate = self.maxDate.getTime();
-      return (!isNaN(currDate)) ? (currDate >= minDate && currDate <= maxDate) : null
+      let currDate = new Date(self.form.date).getTime(),
+        minDate = self.minDate.getTime(),
+        maxDate = self.maxDate.getTime();
+      return !isNaN(currDate)
+        ? currDate >= minDate && currDate <= maxDate
+        : null;
     },
-    ...mapState(["yearStart", "yearEnd"]),
+    isVoucherTotalValid: (self) =>
+      self.totalCr && self.totalDr && self.totalCr === self.totalDr,
+    ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
     isOpen(val) {
       if (this.inOverlay) {
-        if(val) {
+        if (val) {
           this.updateAccounts();
         }
       }
     },
   },
   methods: {
+    getTotal(type) {
+      return this.form[type].reduce(
+        (acc, item) => acc + parseFloat(item.amount),
+        0
+      );
+    },
+    addRow(type) {
+      this.form[type].push({
+        account: null,
+        balance: null,
+        isLoading: false,
+        debit: true,
+        credit: false,
+        amount: null,
+      });
+    },
+    deleteRow(type, index) {
+      this.form[type].splice(index, 1);
+    },
     confirmOnSubmit() {
-      let fromAcc = this.options.cr.find((account) => account.accountcode === this.form.voucher.cr.account).accountname
-      let toAcc = this.options.dr.find((account) => account.accountcode === this.form.voucher.dr.account).accountname
-      let text = this.$createElement('div', { domProps: {innerHTML: `Create ${this.form.vtype.text} Voucher of ${numberToRupees(this.form.amount)} <b>(₹ ${this.form.amount})</b>, for transaction from Acc <b>"${fromAcc}"</b> to <b>"${toAcc}</b>?"`}})
+      const self = this;
+      const fromAcc = this.form.cr
+        .reduce((acc, cr) => (acc += `  ${self.options.acc[cr.account]},`), '')
+        .slice(0, -1);
+      const toAcc = this.form.dr
+        .reduce((acc, dr) => (acc += `  ${self.options.acc[dr.account]},`), '')
+        .slice(0, -1);
+      const text = this.$createElement('div', {
+        domProps: {
+          innerHTML: `Create ${
+            this.form.vtype.text
+          } Voucher of ${numberToRupees(this.totalDr)} <b>(₹ ${
+            this.totalDr
+          })</b>, for transaction from Acc <b>"${fromAcc}"</b> to <b>"${toAcc}</b>?"`,
+        },
+      });
       this.$bvModal
-        .msgBoxConfirm(
-          text,
-          {
+        .msgBoxConfirm(text, {
           size: 'md',
           buttonSize: 'sm',
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',
           footerClass: 'border-top-0', // p-1
           // bodyClass: 'p-2',
-          centered: true
-          }
-        )
+          centered: true,
+        })
         .then((val) => {
           if (val) {
             this.onSubmit();
@@ -374,53 +499,53 @@ export default {
     },
     /**
      * onAccountSelect()
-     * 
+     *
      * Description: Does two things:
      * 1. The balance amount in the account chosen is fetched from server
      * 2. Makes the account selected disabled in the opposite account list
      */
-    onAccountSelect(accCode, type) {
-      this.fetchAccountBalance(accCode, type);
-      let oppType = type === "dr" ? "cr" : "dr";
+    onAccountSelect(accCode, type, index) {
+      this.fetchAccountBalance(accCode, type, index);
+      let oppType = type === 'dr' ? 'cr' : 'dr';
       this.options[oppType].forEach((acc, index) => {
         this.options[oppType][index].disabled = acc.accountcode === accCode;
       });
     },
     /**
      * fetchAccountBalance()
-     * 
+     *
      * Description: Fetches an account's balance amount, given its accountcode and type
      */
-    fetchAccountBalance(accCode, type) {
+    fetchAccountBalance(accCode, type, index) {
       if (this.options.balances[accCode]) {
-        this.form.voucher[type].balance = this.options.balances[accCode];
+        this.form[type][index].balance = this.options.balances[accCode];
       } else {
-        this.form.voucher[type].isLoading = true;
+        this.form[type][index].isLoading = true;
         axios
           .get(
             `/report?type=closingbalance&accountcode=${accCode}&financialstart=${this.yearStart}&calculateto=${this.form.date}`
           )
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
-              this.form.voucher[type].balance = resp.data.gkresult;
+              this.form[type][index].balance = resp.data.gkresult;
               this.options.balances[accCode] = resp.data.gkresult;
             }
-            this.form.voucher[type].isLoading = false;
+            this.form[type][index].isLoading = false;
           })
           .catch((error) => {
             this.displayToast(
-              "Fetch State Data Failed!",
+              'Fetch State Data Failed!',
               error.message,
-              "danger"
+              'danger'
             );
-            this.form.voucher[type].isLoading = false;
+            this.form[type][index].isLoading = false;
             return error;
           });
       }
     },
     /**
      * preloadData()
-     * 
+     *
      * Description: Fetches the list of Accounts for Dr and Cr fields for the current Voucher type
      */
     preloadData() {
@@ -429,9 +554,9 @@ export default {
           .get(`/accountsbyrule?type=${this.form.vtype.value}&side=Dr`)
           .catch((error) => {
             this.displayToast(
-              "Fetch State Data Failed!",
+              'Fetch State Data Failed!',
               error.message,
-              "danger"
+              'danger'
             );
             return error;
           }),
@@ -439,9 +564,9 @@ export default {
           .get(`/accountsbyrule?type=${this.form.vtype.value}&side=Cr`)
           .catch((error) => {
             this.displayToast(
-              "Fetch State Data Failed!",
+              'Fetch State Data Failed!',
               error.message,
-              "danger"
+              'danger'
             );
             return error;
           }),
@@ -449,32 +574,35 @@ export default {
 
       const self = this;
       return Promise.all([...requests]).then(([resp1, resp2]) => {
-        let preloadErrorList = ""; // To handle the unloaded data, at once than individually
+        let preloadErrorList = ''; // To handle the unloaded data, at once than individually
 
         // === Dr Accounts ===
         if (resp1.data.gkstatus === 0) {
-          self.options.dr = resp1.data.gkresult.map((item) => {
-            // console.log(item);
-            return Object.assign(item, { disabled: false });
+          self.options.dr = [];
+          resp1.data.gkresult.forEach((item) => {
+            self.options.dr.push(Object.assign(item, { disabled: false }));
+            self.options.acc[item.accountcode] = item.accountname;
           });
         } else {
-          preloadErrorList += " Dr Accounts,";
+          preloadErrorList += ' Dr Accounts,';
         }
 
         // === Cr Accounts ===
         if (resp2.data.gkstatus === 0) {
-          self.options.cr = resp2.data.gkresult.map((item) => {
-            return Object.assign(item, { disabled: false });
+          self.options.cr = [];
+          resp2.data.gkresult.forEach((item) => {
+            self.options.cr.push(Object.assign(item, { disabled: false }));
+            self.options.acc[item.accountcode] = item.accountname;
           });
         } else {
-          preloadErrorList += " Cr Accounts,";
+          preloadErrorList += ' Cr Accounts,';
         }
 
-        if (preloadErrorList !== "") {
+        if (preloadErrorList !== '') {
           this.displayToast(
-            "Error: Unable to Preload Data",
+            'Error: Unable to Preload Data',
             `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
-            "danger"
+            'danger'
           );
         }
       });
@@ -483,34 +611,36 @@ export default {
     onSubmit() {
       this.isLoading = true;
       const payload = this.initPayload();
+      // console.log(payload);
+      // return;
       axios
-        .post("/transaction", payload)
+        .post('/transaction', payload)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
           switch (response.data.gkstatus) {
             case 0:
               this.displayToast(
-                "Create Voucher Success!",
-                "Voucher Created Successfully!",
-                "success"
+                'Create Voucher Success!',
+                'Voucher Created Successfully!',
+                'success'
               );
-              if(this.onSave !== null) {
-                this.onSave(response.data)
+              if (this.onSave !== null) {
+                this.onSave(response.data);
               }
-              this.resetForm()
+              this.resetForm();
               break;
             default:
               this.displayToast(
-                "Create Voucher Failure!",
-                "Voucher Creation Failed!",
-                "danger"
+                'Create Voucher Failure!',
+                'Voucher Creation Failed!',
+                'danger'
               );
           } // end switch
         })
         .catch((error) => {
           this.isLoading = false;
-          this.displayToast("Create Voucher Failure!", error.message, "danger");
+          this.displayToast('Create Voucher Failure!', error.message, 'danger');
         });
     },
     initPayload() {
@@ -521,9 +651,16 @@ export default {
         crs: {},
         vouchertype: this.form.vtype.value,
       };
-
-      payload.drs[this.form.voucher.dr.account] = this.form.amount;
-      payload.crs[this.form.voucher.cr.account] = this.form.amount;
+      payload.drs = this.form.dr.reduce((acc, dr) => {
+        acc[dr.account] = dr.amount;
+        return acc;
+      }, {});
+      payload.crs = this.form.cr.reduce(
+        (acc, cr) => {acc[cr.account] = cr.amount; return acc;},
+        {}
+      );
+      // payload.drs[this.form.voucher.dr.account] = this.form.amount;
+      // payload.crs[this.form.voucher.cr.account] = this.form.amount;
 
       if (this.form.vno) {
         payload.vouchernumber = this.form.vno; // doubt on how to obtain this vno
@@ -541,12 +678,12 @@ export default {
     },
     /**
      * updateAccounts()
-     * 
+     *
      * Description: Automatically updates the Debit and Credit accounts,
      * based on the voucher type.
-     * 
+     *
      * Uses the 'customer' prop to fill the customer/supplier related Account
-     * 
+     *
      * (Currently only supports receipt and payment vouchers)
      */
     updateAccounts() {
@@ -556,19 +693,19 @@ export default {
       let self = this;
       this.preloadData().then(() => {
         if (self.customer !== null) {
-          if (self.type === "receipt") {
-            self.form.voucher.dr.account = self.options.dr.find(
-              (acc) => acc.accountname === "Bank A/C"
+          if (self.type === 'receipt') {
+            self.form.dr[0].account = self.options.dr.find(
+              (acc) => acc.accountname === 'Bank A/C'
             ).accountcode;
-            self.form.voucher.cr.account = self.options.cr.find(
+            self.form.cr[0].account = self.options.cr.find(
               (acc) => acc.accountname === self.customer
             ).accountcode;
-          } else if (self.type === "payment") {
-            self.form.voucher.dr.account = self.options.dr.find(
+          } else if (self.type === 'payment') {
+            self.form.dr[0].account = self.options.dr.find(
               (acc) => acc.accountname === self.customer
             ).accountcode;
-            self.form.voucher.cr.account = self.options.cr.find(
-              (acc) => acc.accountname === "Bank A/C"
+            self.form.cr[0].account = self.options.cr.find(
+              (acc) => acc.accountname === 'Bank A/C'
             ).accountcode;
           }
         }
@@ -576,10 +713,12 @@ export default {
     },
     resetForm() {
       this.form.amount = 0;
-      this.form.narration = "";
-    }
+      this.form.narration = '';
+    },
   },
   mounted() {
+    this.addRow('cr');
+    this.addRow('dr');
     this.updateAccounts();
 
     // By default use the current date as Voucher Date
@@ -587,11 +726,11 @@ export default {
 
     this.form.date =
       today.getFullYear() +
-      "-" +
-      (today.getMonth() < 9 ? "0" : "") +
+      '-' +
+      (today.getMonth() < 9 ? '0' : '') +
       (today.getMonth() + 1) +
-      "-" +
-      (today.getDate() < 9 ? "0" : "") +
+      '-' +
+      (today.getDate() < 9 ? '0' : '') +
       today.getDate();
   },
 };
