@@ -13,7 +13,15 @@
         <b-td>Taxable Amount</b-td>
         <b-td class="text-right">₹ {{ form.taxable }}</b-td>
       </b-tr>
-      <b-tr v-if="gstFlag && config.igst">
+      <b-tr v-if="gstFlag && cgstFlag && config.igst">
+        <b-td>CGST</b-td>
+        <b-td class="text-right">₹ {{ form.igst / 2 }}</b-td>
+      </b-tr>
+      <b-tr v-if="gstFlag &&  cgstFlag && config.igst">
+        <b-td>SGST</b-td>
+        <b-td class="text-right">₹ {{ form.igst / 2 }}</b-td>
+      </b-tr>
+      <b-tr v-if="gstFlag && !cgstFlag && config.igst">
         <b-td>IGST</b-td>
         <b-td class="text-right">₹ {{ form.igst }}</b-td>
       </b-tr>
@@ -79,6 +87,11 @@ export default {
       required: false,
       default: 0,
     },
+    cgstFlag: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   data() {
     return {

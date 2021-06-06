@@ -408,6 +408,16 @@
           <span v-else>{{ data.value }}</span>
         </template>
 
+        <!-- CGST -->
+        <template #cell(cgst)="data">
+          {{ data.value.rate }}
+        </template>
+
+        <!-- SGST -->
+        <template #cell(sgst)="data">
+          {{ data.value.rate }}
+        </template>
+
         <!-- IGST -->
         <template #cell(igst)="data">
           {{ data.value.rate }}
@@ -544,6 +554,11 @@ export default {
       note: 'Used for applying row select callbacks',
       default: function () {},
     },
+    cgstFlag: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     parentData: {
       type: Array,
       required: false,
@@ -615,16 +630,23 @@ export default {
         { key: 'dcValue', label: 'Value' },
         { key: 'rate', label: 'Rate ₹', tdClass: 'text-right' },
         { key: 'discount', label: 'Discount ₹', tdClass: 'text-right' },
+        { key: 'vat', label: 'VAT %' },
+        { key: 'cgst', label: 'CGST %' },
+        { key: 'sgst', label: 'SGST %' },
         { key: 'igst', label: 'IGST %' },
         { key: 'cess', label: 'CESS %' },
-        { key: 'vat', label: 'VAT %' },
         { key: 'total', label: 'Total ₹', tdClass: 'text-right' },
         { key: 'addBtn', label: '+/-' },
       ];
       if (self.gstFlag) {
-        data.splice(8, 1);
+        data.splice(9, 1); // remove vat
+        if(self.cgstFlag) {
+          data.splice(11, 1); // remove igst
+        } else {
+          data.splice(9, 2); // remove cgst, sgst
+        }
       } else {
-        data.splice(6, 2);
+        data.splice(10, 4); // remove igst, cgst, sgst and cess
       }
       if (!self.config.addBtn) {
         data.pop();
@@ -705,9 +727,6 @@ export default {
         self.isPreloading = false;
       }, 500);
     },
-    gstFlag() {
-      this.updateConfig();
-    },
   },
   methods: {
     /**
@@ -757,11 +776,16 @@ export default {
             let data = resp2.data.gkresult,
               tax = {
                 igst: { rate: 0, amount: 0 },
+                cgst: { rate: 0, amount: 0 },
+                sgst: { rate: 0, amount: 0 },
                 cess: { rate: 0, amount: 0 },
                 vat: { rate: 0, amount: 0 },
               },
               igst = self.config.igst
                 ? data.filter((item) => item.taxname === 'IGST')
+                : 0,
+              cgst = self.config.igst
+                ? data.filter((item) => item.taxname === 'CGST')
                 : 0,
               cess = self.config.cess
                 ? data.filter((item) => item.taxname === 'CESS')
@@ -773,6 +797,24 @@ export default {
             if (igst.length) {
               tax['igst'] = {
                 rate: igst[0].taxrate,
+                amount: 0,
+              };
+              tax['cgst'] = {
+                rate: igst[0].taxrate/2,
+                amount: 0,
+              };
+              tax['sgst'] = {
+                rate: igst[0].taxrate/2,
+                amount: 0,
+              };
+            }
+            if (cgst.length) {
+              tax['cgst'] = {
+                rate: cgst[0].taxrate,
+                amount: 0,
+              };
+              tax['sgst'] = {
+                rate: cgst[0].taxrate,
                 amount: 0,
               };
             }
@@ -865,6 +907,8 @@ export default {
         rate: 0,
         discount: { rate: 0, amount: 0 },
         taxable: 0,
+        cgst: { rate: 0, amount: 0 },
+        sgst: { rate: 0, amount: 0 },
         igst: { rate: 0, amount: 0 },
         cess: { rate: 0, amount: 0 },
         vat: { rate: 0, amount: 0 },
@@ -979,12 +1023,12 @@ export default {
     },
     /**
      * onRejectedQty
-     * 
+     *
      * input event callback for rejectedQty field
      */
     onRejectedQty(index) {
       const row = this.form[index];
-      if(!row.rejectedQty && row.rowSelected) {
+      if (!row.rejectedQty && row.rowSelected) {
         row.rowSelected = false;
       }
       this.updateTaxAndTotal(index);
@@ -1019,8 +1063,8 @@ export default {
       }
       this.form.forEach((row) => {
         row.rowSelected = this.allRowsSelected;
-        if(!this.allRowsSelected) {
-          row.rejectedQty = 0;  
+        if (!this.allRowsSelected) {
+          row.rejectedQty = 0;
         }
       });
     },

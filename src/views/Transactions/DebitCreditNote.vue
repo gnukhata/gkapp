@@ -1,5 +1,9 @@
 <template>
-  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-form-label-right">
+  <b-container
+    style="min-width: 300px"
+    fluid
+    class="mt-2 px-md-3 px-2 align-form-label-right"
+  >
     <b-alert :show="isInvDateValid === false" variant="danger"
       >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
       <b>{{ yearEnd }}</b>
@@ -79,6 +83,7 @@
         @details-updated="onComponentDataUpdate"
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
+        :cgstFlag="isCgst"
         ref="bill"
       ></bill-table>
       <total-table
@@ -86,6 +91,7 @@
         :gstFlag="isGst"
         :billData="form.bill"
         :updateCounter="updateCounter.totalTable"
+        :cgstFlag="isCgst"
         ref="totalTable"
       ></total-table>
       <b-card-group class="d-block d-md-flex" deck>
@@ -299,6 +305,14 @@ export default {
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
+    isCgst: (self) => {
+      if (self.form.invoice.state && self.form.party.state) {
+        if (self.form.invoice.state.name === self.form.party.state.name) {
+          return true;
+        }
+      }
+      return false;
+    },
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
@@ -457,7 +471,7 @@ export default {
      * Given an invoice id, updates the products in the bill table
      */
     updateInvoiceData(invoiceId) {
-      if(!isNaN(invoiceId) && !invoiceId) {
+      if (!isNaN(invoiceId) && !invoiceId) {
         return;
       }
       let self = this;
@@ -471,9 +485,10 @@ export default {
             Object.assign(self.form.invoice, {
               no: inv.invoiceno,
               date: reverseDate(inv.invoicedate),
-              state: inv.inoutflag === 9
-                ? { id: inv.taxstatecode, name: inv.destinationstate }
-                : { id: inv.sourcestatecode, name: inv.sourcestate }
+              state:
+                inv.inoutflag === 9
+                  ? { id: inv.taxstatecode, name: inv.destinationstate }
+                  : { id: inv.sourcestatecode, name: inv.sourcestate },
             });
             Object.assign(this.form.party, {
               name: inv.custSupDetails.custname,

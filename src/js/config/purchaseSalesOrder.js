@@ -54,6 +54,8 @@ export default {
         discount: true,
         taxable: true,
         igst: true,
+        cgst: true,
+        sgst: true,
         cess: true,
         vat: true,
         total: true,

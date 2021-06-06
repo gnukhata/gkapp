@@ -48,6 +48,8 @@ export default {
         rate: true,
         discount: true,
         taxable: true,
+        cgst: true,
+        sgst: true,
         igst: true,
         cess: true,
         vat: true,
