@@ -54,8 +54,8 @@ export default {
     format: {
       type: String,
       required: false,
-      default: 'yyyy-mm-dd',
-      validator: function (value) {
+      default: 'dd-mm-yyyy',
+      validator: function(value) {
         return ['yyyy-mm-dd', 'dd-mm-yyyy'].indexOf(value) !== -1;
       },
       note: `The format, input will be provided in. 
@@ -115,9 +115,9 @@ export default {
           this.$emit('input', newDate);
           this.$emit('validity', this.validateDate(newDate));
         }
-      } else if(newInput === ""){
-        this.date = "";
-        this.$emit('input', "");
+      } else if (newInput === '') {
+        this.date = '';
+        this.$emit('input', '');
         this.$emit('validity', null);
       }
     },
@@ -129,9 +129,9 @@ export default {
           this.$emit('input', newDate); // emit internal format for v-model
           this.$emit('validity', this.validateDate(newDate)); // must use internal format for validation
         }
-      } else if(!newDate) {
-        this.input = "";
-        this.$emit('input', "");
+      } else if (!newDate) {
+        this.input = '';
+        this.$emit('input', '');
         this.$emit('validity', null);
       }
     },
@@ -181,7 +181,10 @@ export default {
       let date = '';
       switch (this.format) {
         case 'dd-mm-yyyy': {
-          date = input.split('-').reverse().join('-');
+          date = input
+            .split('-')
+            .reverse()
+            .join('-');
           break;
         }
         case 'yyyy-mm-dd':
@@ -202,7 +205,10 @@ export default {
       let input = '';
       switch (this.format) {
         case 'dd-mm-yyyy': {
-          input = date.split('-').reverse().join('-');
+          input = date
+            .split('-')
+            .reverse()
+            .join('-');
           break;
         }
         case 'yyyy-mm-dd':
@@ -289,7 +295,3 @@ export default {
   },
 };
 </script>
-
-
-<style lang="scss" scoped>
-</style>
