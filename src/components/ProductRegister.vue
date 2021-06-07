@@ -2,7 +2,7 @@
   <section class="m-2">
     <b-overlay :show="loading">
       <b-card
-        header="Product Report"
+        header="Product Register"
         header-bg-variant="dark"
         header-text-variant="light"
         style="max-width: 40em"
@@ -13,20 +13,21 @@
             <autocomplete
               v-model="productId"
               :options="productList"
-              required
             ></autocomplete>
           </b-form-group>
-          <b-form-group label="From" label-align="right" label-cols="auto">
-            <div class="d-flex">
+          <div class="d-flex">
+            <b-form-group label="From" label-align="right" label-cols="auto">
               <gk-date
-                required
+                :required="true"
                 v-model="fromDate"
                 id="from"
                 class="mr-4"
               ></gk-date>
-              <gk-date required v-model="toDate" id="to"></gk-date>
-            </div>
-          </b-form-group>
+            </b-form-group>
+            <b-form-group label="TO" label-cols="auto">
+              <gk-date :required="true" v-model="toDate" id="to"></gk-date>
+            </b-form-group>
+          </div>
           <b-form-group label="Godown Wise Stock" label-cols="auto">
             <b-checkbox size="lg" class="mt-1" switch></b-checkbox>
           </b-form-group>
@@ -36,6 +37,7 @@
     </b-overlay>
     <!-- Table -->
     <b-table-simple
+      stacked="sm"
       v-show="report.length > 0"
       class="mt-3"
       small
@@ -48,8 +50,8 @@
         <b-tr>
           <b-th>Date</b-th>
           <b-th>Particulars</b-th>
-          <b-th>Deli Note No.</b-th>
-          <b-th>INV/DR/CR No.</b-th>
+          <b-th>Document Type</b-th>
+          <b-th>Document Id</b-th>
           <b-th>RN No.</b-th>
           <b-th>Inward</b-th>
           <b-th>Outward</b-th>
@@ -57,28 +59,32 @@
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr
-          class="font-weight-light"
-          v-for="(row, index) in report"
-          :key="index"
-        >
-          <b-th>{{ row.date }}</b-th>
-          <b-th :variant="row.particulars == 'Total' ? 'warning' : ''">{{
-            row.particulars
-          }}</b-th>
-          <b-th>{{ row.trntype }}</b-th>
-          <b-th>{{ row.invno }}</b-th>
-          <b-th>{{ row.rnno }}</b-th>
+        <b-tr v-for="(row, index) in report" :key="index">
+          <b-th class="font-weight-normal">{{ row.date }}</b-th>
+          <b-th
+            :class="
+              row.particulars == 'Total'
+                ? 'font-weight-bold'
+                : 'font-weight-normal'
+            "
+            :variant="row.particulars == 'Total' ? 'warning' : ''"
+            >{{ row.particulars }}</b-th
+          >
+          <b-th class="font-weight-normal">{{ row.trntype }}</b-th>
+          <router-link :to="'/workflow/Transactions/' + row.invid">
+            <b-th class="font-weight-normal">{{ row.invno }}</b-th>
+          </router-link>
+          <b-th class="font-weight-normal">{{ row.rnno }}</b-th>
           <b-th v-if="row.particulars == 'Total'">{{
             row.totalinwardqty
           }}</b-th>
-          <b-th v-else> {{ row.inwardqty }} </b-th>
+          <b-th class="font-weight-normal" v-else> {{ row.inwardqty }} </b-th>
 
           <b-th v-if="row.particulars == 'Total'">{{
             row.totaloutwardqty
           }}</b-th>
-          <b-th v-else> {{ row.outwardqty }} </b-th>
-          <b-th>{{ row.balance }}</b-th>
+          <b-th class="font-weight-normal" v-else> {{ row.outwardqty }} </b-th>
+          <b-th class="font-weight-normal">{{ row.balance }}</b-th>
         </b-tr>
       </b-tbody>
     </b-table-simple>
@@ -92,7 +98,7 @@ import GkDate from './GkDate.vue';
 import { mapState } from 'vuex';
 export default {
   components: { Autocomplete, GkDate },
-  name: 'ProductReport',
+  name: 'ProductRegister',
   data() {
     return {
       productList: [],
@@ -188,11 +194,9 @@ export default {
   },
   mounted() {
     this.getProductList();
-    const org = localStorage.getItem('orgYears');
+    const org = JSON.parse(localStorage.getItem('orgYears'));
     this.fromDate = org.yearStart;
     this.toDate = org.yearEnd;
   },
 };
 </script>
-
-<style></style>
