@@ -361,6 +361,7 @@ export default {
             if (resp.data.gkstatus === 0) {
               self.form.issuer = resp.data.gkresult.username;
               self.form.role = resp.data.gkresult.userroleName;
+              self.form.userid = resp.data.gkresult.userid;
             } else {
               // User data not available, check again
             }
