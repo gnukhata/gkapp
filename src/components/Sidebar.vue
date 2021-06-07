@@ -8,46 +8,52 @@
       :lazy="true"
       v-b-toggle.sidebar-1
     >
-      <b-icon icon="arrow-bar-right"></b-icon>
+      <b-icon icon="caret-right"></b-icon>
     </b-button>
-    <b-sidebar
-      width="250px"
-      v-model="opened"
-      id="sidebar-1"
-      title="MENU"
-      shadow
-    >
+    <b-sidebar width="250px" v-model="opened" id="sidebar-1" shadow>
+      <template #title>
+        <div class="d-flex">
+          <img src="../../public/img/gk.svg" width="40px" alt="GNUKhata Logo" />
+          <div class="font-weight-normal mt-1 ml-2">
+            GNUKhata
+          </div>
+        </div>
+      </template>
       <template>
-        <b-dropdown-item to="/orgprofile"
-          ><b-icon icon="building"></b-icon> Organisation
-          Profile</b-dropdown-item
-        >
-        <b-dropdown-item to="/uom"
-          ><b-icon icon="thermometer"></b-icon> Unit of measurement
-        </b-dropdown-item>
-        <b-dropdown-item to="/user_management"
-          ><b-icon icon="people"></b-icon> Manage Users</b-dropdown-item
-        >
-        <b-dropdown-item to="/logs"
-          ><b-icon icon="server"></b-icon> Audit Logs</b-dropdown-item
-        >
-        <b-dropdown-item
-          :to="{
-            name: 'Billwise',
-            params: { custType: 3, custName: '-1' },
-          }"
-          ><b-icon icon="clipboard"></b-icon> Adjust Bills</b-dropdown-item
-        >
-        <b-dropdown-item to="/closebooks"
-          ><b-icon icon="journals"></b-icon> Close Books / Roll
-          Over</b-dropdown-item
-        >
-        <b-dropdown-item to="/godowns"
-          ><b-icon icon="building"></b-icon> Godowns</b-dropdown-item
-        >
-        <b-dropdown-item to="/costcenter"
-          ><b-icon icon="cash-stack"></b-icon> Cost Center</b-dropdown-item
-        >
+        <b-nav>
+          <b-nav-item to="/orgprofile">
+            <b-icon icon="building"></b-icon> Organisation Profile
+          </b-nav-item>
+          <b-nav-item to="/uom">
+            <b-icon icon="thermometer"></b-icon> Unit of measurement
+          </b-nav-item>
+          <b-nav-item to="/user_management">
+            <b-icon icon="people"></b-icon> Manage Users
+          </b-nav-item>
+          <b-nav-item to="/logs"
+            ><b-icon icon="server"></b-icon> Audit Logs</b-nav-item
+          >
+          <b-nav-item
+            :to="{
+              name: 'Billwise',
+              params: { custType: 3, custName: '-1' },
+            }"
+          >
+            <b-icon icon="clipboard"></b-icon> Adjust Bills
+          </b-nav-item>
+          <b-nav-item to="/closebooks">
+            <b-icon icon="journals"></b-icon> Close Books / Roll Over
+          </b-nav-item>
+          <b-nav-item to="/godowns"
+            ><b-icon icon="building"></b-icon> Godowns</b-nav-item
+          >
+          <b-nav-item to="/costcenter">
+            <b-icon icon="cash-stack"></b-icon> Cost Center
+          </b-nav-item>
+          <b-nav-item to="/categories">
+            <b-icon icon="tags"></b-icon> Categories
+          </b-nav-item>
+        </b-nav>
       </template>
     </b-sidebar>
   </section>

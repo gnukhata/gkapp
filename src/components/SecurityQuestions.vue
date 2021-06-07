@@ -1,13 +1,16 @@
 <template>
-  <b-select
+  <b-form-select
+    :size="size"
     v-model="choice"
     :options="questions"
     @change="$emit('change', choice)"
   >
-    <b-form-select-option disabled :value="null">
-      -- Please select a question --
-    </b-form-select-option>
-  </b-select>
+    <template #first>
+      <b-form-select-option disabled value="">
+        -- Please select a question --
+      </b-form-select-option>
+    </template>
+  </b-form-select>
 </template>
 
 <script>
@@ -17,7 +20,9 @@ export default {
     prop: 'value',
     event: 'change',
   },
-  props: ['value'],
+  props: {
+    size: String,
+  },
   data() {
     return {
       choice: '',

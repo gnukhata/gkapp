@@ -59,6 +59,14 @@ const routes = [
     component: AddCategory
   },
   {
+    path: '/productreport',
+    name: 'Product Report',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "productreport" */ '../components/ProductReport.vue')
+  },
+  {
     path: '/costcenter',
     name: 'Cost Center',
     // route level code-splitting

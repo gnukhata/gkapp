@@ -63,6 +63,7 @@
     </b-form-group>
     <b-button
       type="submit"
+      size="sm"
       :disabled="!matchingPwds"
       variant="success"
       class="float-right"

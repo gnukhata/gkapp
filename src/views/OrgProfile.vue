@@ -11,7 +11,7 @@
         <!-- general Card -->
         <b-card
           header="General"
-          header-bg-variant="primary"
+          header-bg-variant="dark"
           header-text-variant="light"
         >
           <b-form-group label="Name" label-cols="4">
@@ -38,7 +38,7 @@
         <!-- Contact Card -->
         <b-card
           header="Contact Details"
-          header-bg-variant="secondary"
+          header-bg-variant="dark"
           header-text-variant="light"
         >
           <b-form-group label="Address" label-cols="4">
@@ -93,8 +93,8 @@
         <b-card
           v-if="details.bankdetails"
           header="Bank Details"
-          header-bg-variant="warning"
-          header-text-variant="dark"
+          header-bg-variant="dark"
+          header-text-variant="light"
         >
           <b-form-group label="Name" label-cols="4" label-align="left">
             <b-input-group>
@@ -130,7 +130,7 @@
         <!-- Tax card-->
         <b-card
           header="Tax Details"
-          header-bg-variant="danger"
+          header-bg-variant="dark"
           header-text-variant="light"
         >
           <b-form-group
@@ -202,7 +202,7 @@
               :key="index"
               class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
             >
-              <b :style="{width: '25px'}">
+              <b :style="{ width: '25px' }">
                 {{ cessAmount }}
               </b>
               <b-button
@@ -231,7 +231,7 @@
           <b-icon icon="arrow-up-circle"></b-icon> Save Changes
         </b-button>
         <b-button variant="danger" @click="confirm('delete')">
-          <b-icon icon="x-circle"></b-icon> Delete Organisation
+          <b-icon icon="building"></b-icon> Delete Organisation
         </b-button>
       </div>
     </b-form>
@@ -381,7 +381,7 @@ export default {
     };
   },
   computed: {
-    isGstinValid: function () {
+    isGstinValid: function() {
       if (
         this.gstinModal.stateCode !== null &&
         this.regex.pan.test(this.details.orgpan) &&
@@ -526,7 +526,7 @@ export default {
     /**Create / Update the CESS accounts, based on the CESS rates and the states in GSTIN list */
     updateCessAccounts() {
       let cess = Object.keys(this.cess);
-      let saveAccount = function (payload) {
+      let saveAccount = function(payload) {
         return axios.post('/accounts', payload);
       };
 
