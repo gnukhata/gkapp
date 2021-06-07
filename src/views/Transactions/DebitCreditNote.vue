@@ -321,23 +321,25 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                const vchCode = resp.data.vchCode;
-                let message = '';
-                if (vchCode) {
-                  if (vchCode.vflag === 0) {
-                    message =
-                      'Accounting entry could not be made due to mismatch of accounts. Please make the entry yourself.';
-                  } else {
-                    message = `Accounting entry made with voucher no ${vchCode['vchCode']}`;
+                {
+                  // success
+                  const vchCode = resp.data.vchCode;
+                  let message = '';
+                  if (vchCode) {
+                    if (vchCode.vflag === 0) {
+                      message =
+                        'Accounting entry could not be made due to mismatch of accounts. Please make the entry yourself.';
+                    } else {
+                      message = `Accounting entry made with voucher no ${vchCode['vchCode']}`;
+                    }
                   }
+                  self.displayToast(
+                    `Create ${noteType} Note Successfull!`,
+                    message,
+                    vchCode.vflag === 0 ? 'warning' : 'success'
+                  );
+                  self.resetForm();
                 }
-                self.displayToast(
-                  `Create ${noteType} Note Successfull!`,
-                  message,
-                  vchCode.vflag === 0 ? 'warning' : 'success'
-                );
-                self.resetForm();
                 break;
               case 1:
                 // Duplicate entry

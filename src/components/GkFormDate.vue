@@ -87,7 +87,7 @@ export default {
     }
   },
   methods: {
-    onInput(newDate) {
+    onInput() {
       // update v-model when new date is chosen
       this.$emit('input', this.date);
     },
