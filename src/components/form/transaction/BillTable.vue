@@ -244,20 +244,20 @@
       </b-table-simple>
       <b-card body-class="py-2 px-2" v-if="showAddProduct || config.addBtn">
         <b-button
-          v-if="showAddProduct"
-          @click.prevent="showBusinessForm = true"
-          class="py-0 mr-1"
-          variant="success"
-          size="sm"
-          >+ Item</b-button
-        >
-        <b-button
           v-if="config.addBtn"
           @click.prevent="addBillItem()"
-          class="py-0 ml-1"
+          class="py-0 mx-1"
           variant="success"
           size="sm"
-          >+ Row</b-button
+          >Add Item</b-button
+        >
+        <b-button
+          v-if="showAddProduct"
+          @click.prevent="showBusinessForm = true"
+          class="py-0 mx-1"
+          variant="success"
+          size="sm"
+          >Create Item</b-button
         >
       </b-card>
       <b-table
@@ -324,7 +324,7 @@
           <b-input
             v-if="!disabled.qty"
             size="sm"
-            v-model="data.value"
+            v-model="form[data.item.index].qty"
             class="hide-spin-button text-right px-1"
             type="number"
             no-wheel
@@ -334,7 +334,7 @@
             :readonly="data.item.isService || disabled.qty"
             :tabindex="data.item.isService ? -1 : 0"
           ></b-input>
-          <span v-else>{{ data.value }}</span>
+          <span v-else>{{ form[data.item.index].qty }}</span>
         </template>
 
         <!-- Package Count (Purchase Sales Order) -->
@@ -342,7 +342,7 @@
           <b-input
             v-if="!disabled.packageCount"
             size="sm"
-            v-model="data.value"
+            v-model="form[data.item.index].packageCount"
             class="hide-spin-button text-right px-1"
             type="number"
             no-wheel
@@ -351,7 +351,7 @@
             :readonly="data.item.isService"
             :tabindex="data.item.isService ? -1 : 0"
           ></b-input>
-          <span v-else>{{ data.value }}</span>
+          <span v-else>{{ form[data.item.index].packageCount }}</span>
         </template>
 
         <!-- Rejected Qty (Rejection Note) -->
@@ -395,7 +395,7 @@
         <template #cell(rate)="data">
           <b-input
             v-if="!disabled.rate"
-            v-model="data.value"
+            v-model="form[data.item.index].rate"
             size="sm"
             class="hide-spin-button text-right px-1"
             type="number"
@@ -405,7 +405,7 @@
             @input="updateTaxAndTotal(data.item.index)"
             :readonly="disabled.rate"
           ></b-input>
-          <span v-else>{{ data.value }}</span>
+          <span v-else>{{ form[data.item.index].rate }}</span>
         </template>
 
         <!-- CGST -->
@@ -438,7 +438,7 @@
           <b-input
             v-if="!disabled.discount"
             size="sm"
-            v-model="data.value.amount"
+            v-model="form[data.item.index].discount.amount"
             class="hide-spin-button text-right px-1"
             type="number"
             no-wheel
@@ -447,7 +447,7 @@
             @input="updateTaxAndTotal(data.item.index)"
             :readonly="disabled.discount"
           ></b-input>
-          <span v-else>{{ data.value.amount }}</span>
+          <span v-else>{{ form[data.item.index].discount.amount }}</span>
         </template>
 
         <template #foot(discount)="">
@@ -462,7 +462,7 @@
         </template>
 
         <template v-if="config.footer.total" #foot(total)="">
-          <div class="text-right">{{ getTotal('total') }}</div>
+          <div class="text-right">{{ getTotal('total') || "-" }}</div>
         </template>
 
         <!-- +/- Buttons -->
@@ -557,7 +557,15 @@ export default {
     cgstFlag: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
+      note: `true if the org state and party state are the same 
+      (use CGST and SGST). If false use IGST.`,
+    },
+    creditFlag: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: 'Used in Debit/Credit Note form',
     },
     parentData: {
       type: Array,
@@ -624,7 +632,7 @@ export default {
         { key: 'index', label: 'No' },
         { key: 'rowSelected', label: '\u2611' },
         { key: 'product', label: 'Item' },
-        { key: 'qty', label: 'Qty' },
+        { key: 'qty', label: 'Qty', tdClass: 'bt-cell-qty' },
         { key: 'packageCount', label: 'No. of Packages' },
         { key: 'rejectedQty', label: 'Rejected Qty' },
         { key: 'dcValue', label: 'Value' },
@@ -638,9 +646,10 @@ export default {
         { key: 'total', label: 'Total ₹', tdClass: 'text-right' },
         { key: 'addBtn', label: '+/-' },
       ];
+      data[6].label = self.creditFlag ? 'Credited Value' : 'Debited Value';
       if (self.gstFlag) {
         data.splice(9, 1); // remove vat
-        if(self.cgstFlag) {
+        if (self.cgstFlag) {
           data.splice(11, 1); // remove igst
         } else {
           data.splice(9, 2); // remove cgst, sgst
@@ -678,7 +687,6 @@ export default {
       }
       return true; // by default show addProductBtn
     },
-    creditFlag: (self) => self.form.drcrFlag === 'credit', // used by debit credit note
   },
   watch: {
     updateCounter() {
@@ -690,6 +698,7 @@ export default {
       if (!updateBillTable) {
         this.form = [];
         this.addBillItem();
+        this.updateTaxAndTotal(0);
         return;
       }
 
@@ -800,11 +809,11 @@ export default {
                 amount: 0,
               };
               tax['cgst'] = {
-                rate: igst[0].taxrate/2,
+                rate: igst[0].taxrate / 2,
                 amount: 0,
               };
               tax['sgst'] = {
-                rate: igst[0].taxrate/2,
+                rate: igst[0].taxrate / 2,
                 amount: 0,
               };
             }
@@ -882,14 +891,17 @@ export default {
       let total = 0;
       if (subKey) {
         total = this.form.reduce(
-          (acc, curr) => parseFloat(acc) + parseFloat(curr[key][subKey]),
+          (acc, curr) => parseFloat(acc) + (parseFloat(curr[key][subKey]) || 0),
           0
         );
       } else {
         total = this.form.reduce(
-          (acc, curr) => parseFloat(acc) + parseFloat(curr[key]),
+          (acc, curr) => parseFloat(acc) + (parseFloat(curr[key]) || 0),
           0
         );
+      }
+      if (isNaN(total)) {
+        return null;
       }
       return total.toFixed(2);
     },
@@ -899,14 +911,14 @@ export default {
         rowSelected: false,
         product: { id: '', name: '' },
         hsn: '',
-        qty: 0,
-        packageCount: 0,
-        rejectedQty: 0,
-        dcValue: 0,
-        fqty: 0,
-        rate: 0,
-        discount: { rate: 0, amount: 0 },
-        taxable: 0,
+        qty: null,
+        packageCount: null,
+        rejectedQty: null,
+        dcValue: null,
+        fqty: null,
+        rate: null,
+        discount: { rate: 0, amount: null },
+        taxable: null,
         cgst: { rate: 0, amount: 0 },
         sgst: { rate: 0, amount: 0 },
         igst: { rate: 0, amount: 0 },
@@ -944,9 +956,15 @@ export default {
           //   );
           // } else {
           //   }
+          const discount = (this.config.dcValue)? 0 : item.discount.amount;
+
           item.taxable = parseFloat(
-            (item.rate * qty - item.discount.amount * qty).toFixed(2)
+            (item.rate * qty - discount * qty).toFixed(2)
           );
+
+          if (this.config.dcValue) {
+            item.taxable = parseFloat(item.dcValue);
+          }
 
           if (this.gstFlag) {
             if (item.igst.rate > 0) {
@@ -975,6 +993,9 @@ export default {
           item.taxable = (0).toFixed(2);
           item.total = (0).toFixed(2);
         }
+      }
+      if (isNaN(item.taxable) || isNaN(item.total)) {
+        item.total = '';
       }
       this.onUpdateDetails();
     },
@@ -1090,3 +1111,11 @@ export default {
   },
 };
 </script>
+
+<style>
+@media screen and (min-width: 576px) {
+  .bt-cell-qty {
+    max-width: 100px;
+  }
+}
+</style>
