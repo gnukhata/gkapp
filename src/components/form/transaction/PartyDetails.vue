@@ -505,7 +505,6 @@ export default {
             }
             // debugger;
             // self.setShippingDetails(); // updates shipping details as well if flag is set
-            self.onUpdateDetails();
           })
           .catch((error) => {
             this.displayToast(
@@ -552,6 +551,7 @@ export default {
         this.setPartyGst(); // set gstin based on state
       });
       this.options.csData[data.custid] = data;
+      this.onUpdateDetails();
     },
     /**
      * onPartyNameSelect(name)
