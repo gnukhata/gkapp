@@ -55,41 +55,21 @@
             required
           ></b-form-input>
         </b-form-group>
-        <b-form-group
+        <gk-form-date
           id="dcd-input-group-1"
           :label="isCredit ? 'Cr Note Date' : 'Dr Note Date'"
           label-cols-lg="3"
           label-cols="4"
           label-for="dcd-date-1"
           label-size="sm"
-        >
-          <b-input-group>
-            <b-form-input
-              size="sm"
-              id="dcd-date-1"
-              v-model="form.date"
-              type="text"
-              placeholder="YYYY-MM-DD"
-              autocomplete="off"
-              required
-              :state="isInvDateValid"
-              debounce="500"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-form-datepicker
-                size="sm"
-                v-model="form.date"
-                button-only
-                right
-                locale="en-GB"
-                aria-controls="dcd-date-1"
-                :min="minDate"
-                :max="maxDate"
-              >
-              </b-form-datepicker>
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group>
+          v-model="form.date"
+          format="dd-mm-yyyy"
+          :min="minDate"
+          :max="maxDate"
+          dateId="dcd-date-1"
+          @validity="setDateValidity"
+          :required="true"
+        ></gk-form-date>
         <!-- <b-form-group
           label="GSTIN"
           label-for="dcd-input-20"
@@ -119,6 +99,7 @@
             v-model="form.purpose"
             required
             tabindex="-1"
+            @input="onUpdateDetails"
           >
             <b-form-select-option value="price"
               >Adjust Price / Discount</b-form-select-option
@@ -149,12 +130,12 @@
           <b-form-input
             size="sm"
             id="dcd-input-50"
-            v-model="form.no"
+            v-model="form.ref.no"
             trim
             required
           ></b-form-input>
         </b-form-group>
-        <b-form-group
+        <gk-form-date
           v-if="form.referenceFlag"
           id="dcd-input-group-2"
           :label="isCredit ? 'Dr Note Date' : 'Cr Note Date'"
@@ -162,46 +143,28 @@
           label-cols="4"
           label-for="dcd-date-2"
           label-size="sm"
-        >
-          <b-input-group>
-            <b-form-input
-              size="sm"
-              id="dcd-date-2"
-              v-model="form.date"
-              type="text"
-              placeholder="YYYY-MM-DD"
-              autocomplete="off"
-              required
-              :state="isInvDateValid"
-              debounce="500"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-form-datepicker
-                size="sm"
-                v-model="form.date"
-                button-only
-                right
-                locale="en-GB"
-                aria-controls="dcd-date-2"
-                :min="minDate"
-                :max="maxDate"
-              >
-              </b-form-datepicker>
-            </b-input-group-append>
-          </b-input-group>
-        </b-form-group>
+          v-model="form.ref.date"
+          format="dd-mm-yyyy"
+          :min="minDate"
+          :max="maxDate"
+          dateId="dcd-date-2"
+          @validity="setDateValidity"
+          :required="true"
+        ></gk-form-date>
       </div>
     </div>
   </b-card>
 </template>
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 import { mapState } from 'vuex';
-import Autocomplete from '../../Autocomplete.vue';
+// import Autocomplete from '../../Autocomplete.vue';
+import GkFormDate from '../../GkFormDate.vue';
 export default {
   name: 'DcNoteDetails',
   components: {
-    Autocomplete,
+    // Autocomplete,
+    GkFormDate,
   },
   props: {
     saleFlag: {
@@ -211,6 +174,10 @@ export default {
     config: {
       type: Object,
       required: true,
+    },
+    invDate: {
+      type: String,
+      required: false,
     },
     updateCounter: {
       type: Number,
@@ -222,6 +189,10 @@ export default {
     return {
       isCollapsed: false,
       isPreloading: false,
+      date: {
+        valid: null,
+        format: 'dd-mm-yyyy',
+      },
       form: {
         type: 'debit',
         no: null,
@@ -230,6 +201,10 @@ export default {
         referenceFlag: false,
         badQuality: false,
         purpose: 'price', // 'qty'
+        ref: {
+          date: '',
+          number: '',
+        },
       },
       options: {
         invoices: {
@@ -244,16 +219,16 @@ export default {
     isCredit: (self) => self.form.type === 'credit',
     formType: (self) =>
       self.form.type === 'credit' ? 'Credit Note' : 'Debit Note',
-    minDate: (self) => new Date(self.yearStart),
-    maxDate: (self) => new Date(self.yearEnd),
-    isInvDateValid: (self) => {
-      let currDate = new Date(self.form.date).getTime(),
-        minDate = self.minDate.getTime(),
-        maxDate = self.maxDate.getTime();
-      return !isNaN(currDate)
-        ? currDate >= minDate && currDate <= maxDate
-        : null;
+    minDate: (self) => {
+      let date = self.toDMYDate(self.yearStart);
+      if (self.form.ref.date) {
+        date = self.toDMYDate(self.form.ref.date);
+      } else if(self.invDate) {
+        date = self.toDMYDate(self.invDate);
+      }
+      return date;
     },
+    maxDate: (self) => self.toDMYDate(self.yearEnd),
     ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
@@ -262,16 +237,27 @@ export default {
     },
   },
   methods: {
+    setDateValidity(validity) {
+      this.date.valid = validity;
+      this.onUpdateDetails();
+    },
+    toDMYDate(date) {
+      return date.split('-').reverse().join('-');
+    },
     onUpdateDetails() {
+      const self = this;
       setTimeout(() =>
-        this.$emit('details-updated', {
-          data: this.form,
+        self.$emit('details-updated', {
+          data: self.form,
           name: 'dc-note-details',
+          options: {
+            isDateValid: self.date.valid,
+          },
         })
       );
     },
     resetForm() {
-      if (!this.isInvDateValid) {
+      if (!this.date.valid) {
         this.form.date = this.yearStart;
       }
       this.onUpdateDetails();

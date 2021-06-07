@@ -50,7 +50,7 @@ export default {
         qty: { disabled: true },
         fqty: { disabled: true },
         rate: { disabled: true },
-        discount: { disabled: true },
+        discount: false,
         taxable: true,
         igst: true,
         cgst: true,

@@ -4,10 +4,6 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <b-alert :show="isInvDateValid === false" variant="danger"
-      >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-      <b>{{ yearEnd }}</b>
-    </b-alert>
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.type"
@@ -40,6 +36,7 @@
           :saleFlag="isSale"
           @details-updated="onComponentDataUpdate"
           :updateCounter="updateCounter.dcNote"
+          :invDate="form.invoice.date"
           ref="dcNote"
         ></dc-note-details>
         <!-- Invoice Details -->
@@ -84,6 +81,7 @@
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
         :cgstFlag="isCgst"
+        :creditFlag="isCredit"
         ref="bill"
       ></bill-table>
       <total-table
@@ -109,7 +107,8 @@
         placement="top"
         triggers="manual"
       >
-        Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
+        Date must be within the Financial Year, from
+        <b>{{ form.invoice.date }}</b> to
         <b>{{ yearEnd }}</b>
       </b-tooltip>
       <hr />
@@ -203,10 +202,26 @@ export default {
   },
   data() {
     return {
+      config: {
+        dcNote: {},
+        inv: {
+          class: {},
+        },
+        party: {
+          class: {},
+        },
+        taxType: true,
+        bill: {
+          footer: { total: true },
+        },
+        comments: {
+          class: {},
+        },
+        total: {},
+      },
       vuexNameSpace: '',
       isLoading: false,
       isInvDateValid: false,
-      isCredit: false,
       updateCounter: {
         party: 0,
         invoice: 0,
@@ -217,9 +232,16 @@ export default {
       },
       form: {
         type: 'sale',
-        invoice: {},
-        dcNote: {},
-        party: {},
+        invoice: {
+          state: { name: '', id: '' },
+        },
+        dcNote: {
+          type: 'debit',
+          purpose: 'price',
+        },
+        party: {
+          state: { name: '', id: '' },
+        },
         ship: {},
         taxType: 'gst', // vat
         bill: [],
@@ -241,61 +263,6 @@ export default {
     };
   },
   computed: {
-    config: (self) => {
-      let newConf =
-        self.$store.getters[`${self.vuexNameSpace}/getCustomDCNoteConfig`];
-      if (newConf) {
-        if (newConf.inv.class) {
-          newConf.inv.class = {
-            'mr-md-1': !!newConf.party,
-            'ml-md-1': !!newConf.dcNote,
-          };
-        }
-
-        if (newConf.party.class) {
-          newConf.party.class = {
-            'ml-md-1': !!(newConf.inv || newConf.dcNote),
-          };
-        }
-
-        if (newConf.dcNote.class) {
-          newConf.dcNote.class = {
-            'mr-md-1': !!(newConf.inv || newConf.party),
-          };
-        }
-
-        if (newConf.comments.class) {
-          newConf.comments.class = {
-            'ml-md-1': !!(newConf.transport || newConf.payment),
-          };
-        }
-      } else {
-        // In Hot Module Reloading during dev, the dynamic Vuex module does not get loaded and errors are printed in console.
-        // This is because during HMR, the Invoice component gets loaded before old one can be destroyed, causing an error (https://github.com/vuejs/vue/issues/6518)
-        // Adding a empty config as a short term fix for that
-        newConf = {
-          dcNote: {},
-          inv: {
-            class: {},
-          },
-          party: {
-            class: {},
-          },
-          taxType: true,
-          bill: {
-            footer: {
-              headingColspan: 1,
-            },
-          },
-          comments: {
-            class: {},
-          },
-          total: {},
-        };
-      }
-
-      return newConf;
-    },
     invList: (self) => {
       const noteType = self.isCredit ? 'crInvoices' : 'drInvoices';
       const invType = self.form.type;
@@ -313,6 +280,8 @@ export default {
       }
       return false;
     },
+
+    isCredit: (self) => self.form.dcNote.type === 'credit',
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
@@ -321,22 +290,89 @@ export default {
     onComponentDataUpdate(payload) {
       switch (payload.name) {
         case 'dc-note-details':
-          Object.assign(this.form.dcNote, payload.data);
-          this.isCredit = this.form.dcNote.type === 'credit';
-          // if (this.form.dcNote.invNo !== this.invId) {
-          //   this.fetchInvoiceData();
-          // }
-          // console.log(this.form.dcNote)
+          {
+            const oldPurpose = this.form.dcNote.purpose;
+            Object.assign(this.form.dcNote, payload.data);
+            this.isInvDateValid = payload.options.isDateValid;
+            if (oldPurpose !== payload.data.purpose) {
+              this.updateConfig(); // updates dcValue and qty field config
+            }
+          }
           break;
         case 'party-details':
           Object.assign(this.form.party, payload.data);
-          this.updateCounter.ship++;
           break;
         case 'bill-table':
           Object.assign(this.form.bill, payload.data);
           this.updateCounter.totalTable++;
           break;
       }
+    },
+    onSubmit() {
+      const self = this;
+      this.isLoading = true;
+      const payload = this.initPayload();
+      const noteType = this.isCredit ? 'Credit' : 'Debit';
+      console.log(payload);
+      axios
+        .post('/drcrnote', payload)
+        .then((resp) => {
+          self.isLoading = false;
+          if (resp.status === 200) {
+            switch (resp.data.gkstatus) {
+              case 0:
+                // success
+                const vchCode = resp.data.vchCode;
+                let message = '';
+                if (vchCode) {
+                  if (vchCode.vflag === 0) {
+                    message =
+                      'Accounting entry could not be made due to mismatch of accounts. Please make the entry yourself.';
+                  } else {
+                    message = `Accounting entry made with voucher no ${vchCode['vchCode']}`;
+                  }
+                }
+                self.displayToast(
+                  `Create ${noteType} Note Successfull!`,
+                  message,
+                  vchCode.vflag === 0 ? 'warning' : 'success'
+                );
+                self.resetForm();
+                break;
+              case 1:
+                // Duplicate entry
+                self.displayToast(
+                  `Create ${noteType} Note Failed!`,
+                  'Duplicate Entry, Check Invoice Id',
+                  'warning'
+                );
+                break;
+              case 2:
+                // Unauthorized access
+                self.displayToast(
+                  `Create ${noteType} Note Failed!`,
+                  'Unauthorized Access, Contact Admin',
+                  'warning'
+                );
+                break;
+              case 3:
+                // Connection failed, Check inputs and try again
+                self.displayToast(
+                  `Create ${noteType} Note Failed!`,
+                  'Please check your input and try again later',
+                  'danger'
+                );
+            }
+          }
+        })
+        .catch((error) => {
+          self.isLoading = false;
+          self.displayToast(
+            `Create ${noteType} Note Error!`,
+            error.message,
+            'warning'
+          );
+        });
     },
     collectComponentData() {
       Object.assign(this.form.dcNote, this.$refs.dcNote.form);
@@ -472,6 +508,10 @@ export default {
      */
     updateInvoiceData(invoiceId) {
       if (!isNaN(invoiceId) && !invoiceId) {
+        this.form.bill = [{ product: { name: '' } }];
+        this.form.party.name = '';
+        this.updateCounter.party++;
+        this.updateCounter.bill++;
         return;
       }
       let self = this;
@@ -506,6 +546,13 @@ export default {
                 fqty: item.freeqty,
                 rate: parseFloat(item.priceperunit),
                 isService: item.gsflag === 19,
+
+                // this will be overwritten with data from DB in the bill-table component
+                igst: { rate: 0 },
+                cgst: { rate: 0 },
+                sgst: { rate: 0 },
+                cess: { rate: 0 },
+                vat: { rate: 0 },
               };
               if (billItem.isService) {
                 billItem.qty = 1;
@@ -520,14 +567,87 @@ export default {
           return false;
         });
     },
+    initPayload() {
+      this.collectComponentData();
+      const isPrice = this.form.dcNote.purpose === 'price';
+      let drcrdata = {
+        invid: this.invId,
+        drcrdate: this.form.dcNote.date,
+        drcrno: this.form.dcNote.no,
+        totreduct: this.form.total.amount,
+        dctypeflag: this.isCredit ? 4 : 3,
+        reductionval: {},
+        drcrmode: isPrice ? 4 : 18,
+        dcinvtnflag: this.form.dcNote.badQuality ? 2 : 7,
+        roundoffflag: this.form.total.roundFlag ? 1 : 0,
+      };
+
+      let vdataset = {
+        custname: this.form.party.name.name,
+        taxflag: this.isGst ? 7 : 22,
+        taxname: this.isGst ? (this.isCgst ? 'SGST' : 'IGST') : 'VAT',
+        inoutflag: this.isSale ? 15 : 9,
+        taxstate: this.isSale
+          ? this.form.party.state.name
+          : this.form.invoice.state,
+        totaltaxable: this.form.total.taxable,
+      };
+
+      if (this.form.narration) {
+        drcrdata.drcrnarration = this.form.narration;
+      }
+
+      if (this.form.invoice.userid) {
+        drcrdata.userid = this.form.invoice.userid;
+      }
+
+      if (this.form.dcNote.referenceFlag) {
+        drcrdata.reference = {
+          dcref: '1',
+          dcdate: '2020-01-01',
+        };
+      }
+
+      let product = {},
+        prodData = {},
+        taxes = {},
+        cess = {},
+        reductionval = {},
+        quantities = {};
+      this.form.bill.forEach((item) => {
+        if (item.qty) {
+          const rate = isPrice ? item.dcValue || 0 : item.rate;
+          product[item.product.name] = rate;
+          prodData[item.pid] = rate;
+          taxes[item.pid] = this.isGst
+            ? this.isCgst
+              ? (item.igst.rate / 2).toFixed(2)
+              : item.igst.rate
+            : item.vat.rate;
+          cess[item.pid] = item.cess.rate;
+          reductionval[item.pid] = rate;
+          quantities[item.pid] = item.qty;
+        }
+      });
+      if (!isPrice) {
+        reductionval.quantities = quantities;
+      }
+      drcrdata.reductionval = reductionval;
+      Object.assign(vdataset, {
+        product,
+        prodData,
+        taxes,
+        cess,
+      });
+      return { dataset: drcrdata, vdataset };
+    },
     resetForm() {
-      this.form = {
+      Object.assign(this.form, {
         type: 'sale', // purchase
         dcNote: {
           type: 'debit',
           no: null,
           invNo: null,
-          date: this.formatDateObj(new Date()),
           gstin: null,
           referenceFlag: false,
           badQuality: false,
@@ -535,7 +655,6 @@ export default {
         },
         invoice: {
           no: null,
-          date: this.formatDateObj(new Date()),
           delNote: null,
           ebn: null,
           addr: null,
@@ -545,41 +664,17 @@ export default {
           role: null,
         },
         party: {
-          type: 'customer', // supplier
-          options: {
-            states: [],
-            gstin: [],
-          },
-          custid: null,
-          name: { id: null, name: null },
-          addr: null,
-          state: { id: null, name: null },
-          gstin: null,
-          tin: null,
-          pin: null,
-          editFlag: false,
-          loading: false,
+          name: null,
         },
         taxType: 'gst', // vat
         bill: [
           {
             product: { name: '', id: '' },
-            hsn: '',
-            qty: 0,
-            fqty: 0,
-            rate: 0,
-            discount: { rate: 0, amount: 0 },
-            taxable: 0,
-            igst: { rate: 0, amount: 0 },
-            cess: { rate: 0, amount: 0 },
-            vat: { rate: 0, amount: 0 },
-            total: 0,
-            isService: false, // used to make certain fields readonly
           },
         ],
         narration: null,
         totalRoundFlag: false,
-      };
+      });
       this.updateComponentData();
     },
     preloadData() {
@@ -649,6 +744,70 @@ export default {
         }
       });
     },
+    updateConfig() {
+      let newConf = this.$store.getters[
+        `${this.vuexNameSpace}/getCustomDCNoteConfig`
+      ];
+      if (newConf) {
+        if (this.form.dcNote.purpose === 'price') {
+          newConf.bill.qty.disabled = true;
+          newConf.bill.dcValue = true;
+        } else {
+          newConf.bill.qty.disabled = false;
+          newConf.bill.dcValue = false;
+        }
+
+        if (newConf.inv.class) {
+          newConf.inv.class = {
+            'mr-md-1': !!newConf.party,
+            'ml-md-1': !!newConf.dcNote,
+          };
+        }
+
+        if (newConf.party.class) {
+          newConf.party.class = {
+            'ml-md-1': !!(newConf.inv || newConf.dcNote),
+          };
+        }
+
+        if (newConf.dcNote.class) {
+          newConf.dcNote.class = {
+            'mr-md-1': !!(newConf.inv || newConf.party),
+          };
+        }
+
+        if (newConf.comments.class) {
+          newConf.comments.class = {
+            'ml-md-1': !!(newConf.transport || newConf.payment),
+          };
+        }
+      } else {
+        // In Hot Module Reloading during dev, the dynamic Vuex module does not get loaded and errors are printed in console.
+        // This is because during HMR, the Invoice component gets loaded before old one can be destroyed, causing an error (https://github.com/vuejs/vue/issues/6518)
+        // Adding a empty config as a short term fix for that
+        newConf = {
+          dcNote: {},
+          inv: {
+            class: {},
+          },
+          party: {
+            class: {},
+          },
+          taxType: true,
+          bill: {
+            footer: {
+              headingColspan: 1,
+            },
+          },
+          comments: {
+            class: {},
+          },
+          total: {},
+        };
+      }
+
+      this.config = newConf;
+    },
     initForm() {
       this.preloadData();
       // this.resetForm();
@@ -672,8 +831,8 @@ export default {
     });
   },
   mounted() {
+    this.updateConfig();
     // Using non props to store these props, as these can be edited in the future
-
     this.initForm();
   },
   beforeDestroy() {
