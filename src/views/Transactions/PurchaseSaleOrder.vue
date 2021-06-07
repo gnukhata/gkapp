@@ -11,6 +11,7 @@
         size="sm"
         buttons
         class="mx-1"
+        @input="updateConfig"
       >
         <b-form-radio value="sale">Sale</b-form-radio>
         <b-form-radio value="purchase">Purchase</b-form-radio>
@@ -227,6 +228,32 @@ export default {
   },
   data() {
     return {
+      config: {
+        psOrder: {
+          class: {},
+        },
+        party: {
+          class: {},
+        },
+        ship: {
+          class: {},
+        },
+        taxType: true,
+        bill: {
+          footer: { total: true },
+        },
+        payment: {
+          bank: {},
+          class: {},
+        },
+        transport: {
+          class: {},
+        },
+        comments: {
+          class: {},
+        },
+        total: {},
+      },
       vuexNameSpace: '',
       isLoading: false,
       isInvDateValid: false,
@@ -258,89 +285,6 @@ export default {
     };
   },
   computed: {
-    config: (self) => {
-      let newConf =
-        self.$store.getters[`${self.vuexNameSpace}/getCustomPSOrderConfig`];
-      if (newConf) {
-        newConf.bill.footer.headingColspan =
-          !!newConf.bill.index +
-            !!newConf.bill.product +
-            !!newConf.bill.hsn +
-            !!newConf.bill.qty +
-            !!newConf.bill.packageCount +
-            !!newConf.bill.rate || 1;
-
-        if (newConf.psOrder.class) {
-          newConf.psOrder.class = {
-            'mr-md-1': !!newConf.ship,
-            'ml-md-1': !!newConf.party,
-          };
-        }
-        if (newConf.ship.class) {
-          newConf.ship.class = {
-            'ml-md-1': !!(newConf.psOrder || newConf.party),
-          };
-        }
-        if (newConf.party.class) {
-          newConf.party.class = {
-            'mr-md-1': !!(newConf.psOrder || newConf.ship),
-          };
-        }
-
-        if (newConf.payment.class) {
-          newConf.payment.class = {
-            'mr-md-1': !!(newConf.transport || newConf.comments),
-          };
-        }
-
-        if (newConf.transport.class) {
-          newConf.transport.class = {
-            'mr-md-1': !!newConf.comments,
-            'ml-md-1': !!newConf.payment,
-          };
-        }
-
-        if (newConf.comments.class) {
-          newConf.comments.class = {
-            'ml-md-1': !!(newConf.transport || newConf.payment),
-          };
-        }
-      } else {
-        // In Hot Module Reloading during dev, the dynamic Vuex module does not get loaded and errors are printed in console.
-        // This is because during HMR, the Invoice component gets loaded before old one can be destroyed, causing an error (https://github.com/vuejs/vue/issues/6518)
-        // Adding a empty config as a short term fix for that
-        newConf = {
-          inv: {
-            class: {},
-          },
-          party: {
-            class: {},
-          },
-          ship: {
-            class: {},
-          },
-          taxType: true,
-          bill: {
-            footer: {
-              headingColspan: 1,
-            },
-          },
-          payment: {
-            bank: {},
-            class: {},
-          },
-          transport: {
-            class: {},
-          },
-          comments: {
-            class: {},
-          },
-          total: {},
-        };
-      }
-
-      return newConf;
-    },
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isSale: (self) => self.form.type === 'sale',
@@ -662,6 +606,85 @@ export default {
     initForm() {
       this.resetForm();
     },
+    updateConfig() {
+      let newConf = this.$store.getters[
+        `${this.vuexNameSpace}/getCustomPSOrderConfig`
+      ];
+      if (newConf) {
+        newConf.total.value = {
+          text: this.isSale ? 'Sale Order Value' : 'Purchase Order Value',
+        };
+        if (newConf.psOrder.class) {
+          newConf.psOrder.class = {
+            'mr-md-1': !!newConf.ship,
+            'ml-md-1': !!newConf.party,
+          };
+        }
+        if (newConf.ship.class) {
+          newConf.ship.class = {
+            'ml-md-1': !!(newConf.psOrder || newConf.party),
+          };
+        }
+        if (newConf.party.class) {
+          newConf.party.class = {
+            'mr-md-1': !!(newConf.psOrder || newConf.ship),
+          };
+        }
+
+        if (newConf.payment.class) {
+          newConf.payment.class = {
+            'mr-md-1': !!(newConf.transport || newConf.comments),
+          };
+        }
+
+        if (newConf.transport.class) {
+          newConf.transport.class = {
+            'mr-md-1': !!newConf.comments,
+            'ml-md-1': !!newConf.payment,
+          };
+        }
+
+        if (newConf.comments.class) {
+          newConf.comments.class = {
+            'ml-md-1': !!(newConf.transport || newConf.payment),
+          };
+        }
+      } else {
+        // In Hot Module Reloading during dev, the dynamic Vuex module does not get loaded and errors are printed in console.
+        // This is because during HMR, the Invoice component gets loaded before old one can be destroyed, causing an error (https://github.com/vuejs/vue/issues/6518)
+        // Adding a empty config as a short term fix for that
+        newConf = {
+          inv: {
+            class: {},
+          },
+          party: {
+            class: {},
+          },
+          ship: {
+            class: {},
+          },
+          taxType: true,
+          bill: {
+            footer: {
+              headingColspan: 1,
+            },
+          },
+          payment: {
+            bank: {},
+            class: {},
+          },
+          transport: {
+            class: {},
+          },
+          comments: {
+            class: {},
+          },
+          total: {},
+        };
+      }
+
+      this.config = newConf;
+    },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
         title: title,
@@ -680,7 +703,7 @@ export default {
   },
   mounted() {
     // Using non props to store these props, as these can be edited in the future
-
+    this.updateConfig();
     this.initForm();
   },
   beforeDestroy() {

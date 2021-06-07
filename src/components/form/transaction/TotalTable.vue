@@ -39,16 +39,16 @@
       </b-tr>
       <b-tr v-if="config.value">
         <b-td>
-          <span class="float-left">Invoice Value</span>
+          <span class="float-left">{{ transactionName }}</span>
         </b-td>
         <b-td class="text-right">{{ form.amount || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="form.roundFlag && config.roundOff">
-        <b-td>Invoice Value (Rounded Off)</b-td>
+        <b-td>{{ transactionName }} (Rounded Off)</b-td>
         <b-td class="text-right">{{ form.rounded || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="config.valueText">
-        <b-td>Invoice Value (in words)</b-td>
+        <b-td>{{ transactionName }} (in words)</b-td>
         <b-td class="text-right"> {{ form.text }}</b-td>
       </b-tr>
       <b-tr>
@@ -108,7 +108,7 @@ export default {
         discount: this.getTotal('discount', 'amount'),
         amount: this.getTotal('total'),
         rounded: Math.round(this.getTotal('total')),
-        text: this.invoiceTotalText,
+        text: this.totalText,
         roundFlag: false,
       },
     };
@@ -123,13 +123,13 @@ export default {
         discount: this.getTotal('discount', 'amount'),
         amount: this.getTotal('total'),
         rounded: Math.round(this.getTotal('total')),
-        text: this.invoiceTotalText,
+        text: this.totalText,
         roundFlag: this.form.roundFlag,
       };
     },
   },
   computed: {
-    invoiceTotalText: (self) => {
+    totalText: (self) => {
       let total = self.getTotal('total');
       let text = '';
       if (total > 0) {
@@ -139,6 +139,11 @@ export default {
         text = numberToRupees(total);
       }
       return text;
+    },
+    transactionName: (self) => {
+      return typeof self.config.value === 'object'
+        ? self.config.value.text
+        : 'Grand Total';
     },
   },
   methods: {

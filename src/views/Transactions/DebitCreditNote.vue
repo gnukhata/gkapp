@@ -88,7 +88,13 @@
         <!-- b-row has to be enclosed in a container tag with padding
          atleast 2, to avoid creating an offset to the right -->
         <b-row class="mt-5" v-if="config.total">
-          <b-col class="align-self-lg-end" cols="12" lg="6" order-lg="1" order="2">
+          <b-col
+            class="align-self-lg-end"
+            cols="12"
+            lg="6"
+            order-lg="1"
+            order="2"
+          >
             <b-card-group class="d-block d-md-flex" deck>
               <!-- Invoice Comments -->
               <comments
@@ -295,6 +301,11 @@ export default {
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
+  },
+  watch: {
+    isCredit() {
+      this.updateConfig();
+    }
   },
   methods: {
     onComponentDataUpdate(payload) {
@@ -761,6 +772,10 @@ export default {
         `${this.vuexNameSpace}/getCustomDCNoteConfig`
       ];
       if (newConf) {
+        newConf.total.value = {
+          text: this.isCredit ? 'Credit Note Value' : 'Debit Note Value',
+        };
+
         if (this.form.dcNote.purpose === 'price') {
           newConf.bill.qty.disabled = true;
           newConf.bill.dcValue = true;
