@@ -45,12 +45,13 @@
     <b-card
       v-show="showLogin"
       header="Login"
-      class="shadow m-1"
+      class="shadow ml-1 mr-1"
       header-bg-variant="dark"
       header-text-variant="light"
     >
-      <b-card-body>
-        <b-alert show variant="dark">
+      <b-card-body class="p-0 m-0">
+        <b-alert show variant="dark" class="mb-2">
+          <u>Demo Account Details:</u><br />
           Organisation: <b>WALLMART</b><br />
           Username: <b>admin</b><br />
           Password: <b>admin</b>
@@ -61,14 +62,15 @@
             label="Organisation"
             label-align="right"
             label-size="sm"
-            description="* Required"
-            label-cols="auto"
+            label-cols="4"
+            label-class="required"
           >
             <b-overlay :show="isDisabled">
               <b-form-select
                 v-on:change="getOrgYears"
                 v-model="orgIndex"
                 required
+                size="sm"
               >
                 <b-form-select-option value="null" disabled
                   >-- Select Organisation --</b-form-select-option
@@ -85,12 +87,13 @@
           <!-- Financial Year-->
           <b-form-group
             label="Financial Year"
-            description="* Required"
-            label-cols="auto"
+            label-class="required"
+            label-cols="4"
+            label-align="right"
             label-size="sm"
           >
             <b-overlay :show="isDisabled">
-              <b-form-select v-model="form.orgcode" required>
+              <b-form-select size="sm" v-model="form.orgcode" required>
                 <b-form-select-option value="null" disabled
                   >-- Select Year --</b-form-select-option
                 >
@@ -107,13 +110,15 @@
           <!--Username area-->
           <b-form-group
             label="Username"
-            description="* Required"
-            label-cols="auto"
+            label-class="required"
+            label-cols="4"
             label-size="sm"
+            label-align="right"
           >
             <b-form-input
               v-model="form.username"
               type="text"
+              size="sm"
               placeholder="Enter Username"
               required
             ></b-form-input>
@@ -121,8 +126,9 @@
           <!-- Password area -->
           <b-form-group
             label="Password"
-            description="* Required"
-            label-cols="auto"
+            label-class="required"
+            label-cols="4"
+            label-align="right"
             label-size="sm"
           >
             <b-form-input
@@ -130,6 +136,7 @@
               v-model="form.userpassword"
               placeholder="Enter password"
               type="password"
+              size="sm"
               required
             ></b-form-input>
             <router-link class="float-right" to="/resetpassword">
@@ -137,16 +144,22 @@
             </router-link>
           </b-form-group>
 
-          <!--Captcha area-->
-          <b-form-group label="Question" label-cols="auto" label-size="sm">
+          <!--Captcha question -->
+          <b-form-group
+            label="Question"
+            label-align="right"
+            label-cols="4"
+            label-size="sm"
+          >
             <captcha v-model="answer"></captcha>
           </b-form-group>
           <!-- captcha answer -->
           <b-form-group
             label="Answer"
-            label-cols="auto"
+            label-cols="4"
             label-size="sm"
-            description="* Required"
+            label-align="right"
+            label-class="required"
           >
             <b-form-input
               v-model="userAnswer"
@@ -154,7 +167,7 @@
               no-wheel
               placeholder="Enter the Answer"
               required
-              size
+              size="sm"
             >
             </b-form-input>
           </b-form-group>
