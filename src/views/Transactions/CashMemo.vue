@@ -1,6 +1,10 @@
 <template>
   <div>
-    <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-form-label-right">
+    <b-container
+      style="min-width: 300px"
+      fluid
+      class="mt-2 px-md-3 px-2 align-form-label-right"
+    >
       <div class="mb-2">
         <b-form-radio-group
           v-model="form.type"
@@ -69,13 +73,22 @@
           :parentData="form.bill"
           ref="bill"
         ></bill-table>
-        <total-table
-          ref="totalTable"
-          :config="config.total"
-          :billData="form.bill"
-          :gstFlag="isGst"
-          :updateCounter="updateCounter.totalTable"
-        ></total-table>
+        <div class="px-2">
+          <!-- b-row has to be enclosed in a container tag with padding
+         atleast 2, to avoid creating an offset to the right -->
+          <b-row class="mt-5" v-if="config.total">
+            <b-col cols="12" lg="6"> </b-col>
+            <b-col cols="12" lg="6">
+              <total-table
+                ref="totalTable"
+                :config="config.total"
+                :billData="form.bill"
+                :gstFlag="isGst"
+                :updateCounter="updateCounter.totalTable"
+              ></total-table>
+            </b-col>
+          </b-row>
+        </div>
         <b-tooltip
           target="inv-submit"
           :show="showErrorToolTip"
@@ -281,13 +294,13 @@ export default {
         // === Sale / Purchase related data ===
         sourcestate: this.form.memo.state.name || null,
         taxstate: this.form.memo.state.name || null,
-        
+
         // === GST/ VAT related data ===
         inoutflag: this.isSale ? 15 : 9,
         taxflag: this.isGst ? 7 : 22,
-        
+
         discflag: 1,
-        icflag: 3
+        icflag: 3,
       };
 
       // === Bill data ===

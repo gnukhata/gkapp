@@ -74,14 +74,24 @@
         :cgstFlag="isCgst"
         ref="bill"
       ></bill-table>
-      <total-table
-        :config="config.total"
-        :gstFlag="isGst"
-        :billData="form.bill"
-        :updateCounter="updateCounter.totalTable"
-        :cgstFlag="isCgst"
-        ref="totalTable"
-      ></total-table>
+      <div class="px-2">
+        <!-- b-row has to be enclosed in a container tag with padding
+         atleast 2, to avoid creating an offset to the right -->
+        <b-row class="mt-5" v-if="config.total">
+          <b-col cols="12" lg="6">
+          </b-col>
+          <b-col cols="12" lg="6">
+            <total-table
+              :config="config.total"
+              :gstFlag="isGst"
+              :billData="form.bill"
+              :updateCounter="updateCounter.totalTable"
+              :cgstFlag="isCgst"
+              ref="totalTable"
+            ></total-table>
+          </b-col>
+        </b-row>
+      </div>
       <b-card-group class="d-block d-md-flex" deck>
         <!-- Transport Details -->
         <transport-details

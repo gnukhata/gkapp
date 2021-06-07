@@ -84,23 +84,33 @@
         :creditFlag="isCredit"
         ref="bill"
       ></bill-table>
-      <total-table
-        :config="config.total"
-        :gstFlag="isGst"
-        :billData="form.bill"
-        :updateCounter="updateCounter.totalTable"
-        :cgstFlag="isCgst"
-        ref="totalTable"
-      ></total-table>
-      <b-card-group class="d-block d-md-flex" deck>
-        <!-- Invoice Comments -->
-        <comments
-          ref="narration"
-          :config="config.comments"
-          :updateCounter="updateCounter.comments"
-          :parentData="form.comments"
-        ></comments>
-      </b-card-group>
+      <div class="px-2">
+        <!-- b-row has to be enclosed in a container tag with padding
+         atleast 2, to avoid creating an offset to the right -->
+        <b-row class="mt-5" v-if="config.total">
+          <b-col class="align-self-lg-end" cols="12" lg="6" order-lg="1" order="2">
+            <b-card-group class="d-block d-md-flex" deck>
+              <!-- Invoice Comments -->
+              <comments
+                ref="narration"
+                :config="config.comments"
+                :updateCounter="updateCounter.comments"
+                :parentData="form.comments"
+              ></comments>
+            </b-card-group>
+          </b-col>
+          <b-col cols="12" lg="6" order-lg="2" order="1">
+            <total-table
+              :config="config.total"
+              :gstFlag="isGst"
+              :billData="form.bill"
+              :updateCounter="updateCounter.totalTable"
+              :cgstFlag="isCgst"
+              ref="totalTable"
+            ></total-table>
+          </b-col>
+        </b-row>
+      </div>
       <b-tooltip
         target="inv-submit"
         :show="showErrorToolTip"
