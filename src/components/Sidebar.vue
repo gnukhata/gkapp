@@ -8,19 +8,30 @@
       :lazy="true"
       v-b-toggle.sidebar-1
     >
-      <b-icon icon="caret-right"></b-icon>
+      <b-icon icon="list"></b-icon>
     </b-button>
     <b-sidebar width="250px" v-model="opened" id="sidebar-1" shadow>
       <template #title>
         <div class="d-flex">
-          <img src="../../public/img/gk.svg" width="40px" alt="GNUKhata Logo" />
-          <div class="font-weight-normal mt-1 ml-2">
+          <img
+            src="../../public/img/gk.svg"
+            width="30px"
+            height="30px"
+            class="ml-4 mt-1"
+            alt="GNUKhata Logo"
+          />
+          <div style="font-size: 20px" class="font-weight-normal mt-1 ml-2">
             GNUKhata
           </div>
         </div>
       </template>
+      <hr class="m-0" />
       <template>
-        <b-nav>
+        <!-- <div class="ml-2 mr-2">
+               <b-input size="sm" placeholder="search"></b-input>
+               </div> -->
+        <b-nav class="">
+          <b-table :items="list"></b-table>
           <b-nav-item to="/orgprofile">
             <b-icon icon="building"></b-icon> Organisation Profile
           </b-nav-item>
