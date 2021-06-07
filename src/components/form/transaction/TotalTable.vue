@@ -11,54 +11,59 @@
     <b-tbody>
       <b-tr v-if="config.taxable">
         <b-td>Taxable Amount</b-td>
-        <b-td class="text-right">₹ {{ form.taxable }}</b-td>
+        <b-td class="text-right">{{ form.taxable || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="gstFlag && cgstFlag && config.igst">
         <b-td>CGST</b-td>
-        <b-td class="text-right">₹ {{ form.igst / 2 }}</b-td>
+        <b-td class="text-right">{{ form.igst / 2 || '-' }}</b-td>
       </b-tr>
-      <b-tr v-if="gstFlag &&  cgstFlag && config.igst">
+      <b-tr v-if="gstFlag && cgstFlag && config.igst">
         <b-td>SGST</b-td>
-        <b-td class="text-right">₹ {{ form.igst / 2 }}</b-td>
+        <b-td class="text-right">{{ form.igst / 2 || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="gstFlag && !cgstFlag && config.igst">
         <b-td>IGST</b-td>
-        <b-td class="text-right">₹ {{ form.igst }}</b-td>
+        <b-td class="text-right">{{ form.igst || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="gstFlag && config.cess">
         <b-td>CESS</b-td>
-        <b-td class="text-right">₹ {{ form.cess }}</b-td>
+        <b-td class="text-right">{{ form.cess || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="!gstFlag && config.vat">
         <b-td>VAT</b-td>
-        <b-td class="text-right">₹ {{ form.vat }}</b-td>
+        <b-td class="text-right">{{ form.vat || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="config.discount">
         <b-td>Discount</b-td>
-        <b-td class="text-right">₹ {{ form.discount }}</b-td>
+        <b-td class="text-right">{{ form.discount || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="config.value">
         <b-td>
           <span class="float-left">Invoice Value</span>
-          <b-form-checkbox
-            inline
-            size="sm"
-            v-model="form.roundFlag"
-            v-if="config.roundOff"
-            v-b-tooltip.hover
-            title="Roundoff Total Value?"
-            class="ml-2 float-left"
-          ></b-form-checkbox>
         </b-td>
-        <b-td class="text-right">₹ {{ form.amount }}</b-td>
+        <b-td class="text-right">{{ form.amount || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="form.roundFlag && config.roundOff">
         <b-td>Invoice Value (Rounded Off)</b-td>
-        <b-td class="text-right">₹ {{ form.rounded }}</b-td>
+        <b-td class="text-right">{{ form.rounded || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="config.valueText">
         <b-td>Invoice Value (in words)</b-td>
         <b-td class="text-right"> {{ form.text }}</b-td>
+      </b-tr>
+      <b-tr>
+        <b-td>
+          <b-form-checkbox
+            switch
+            inline
+            size="sm"
+            v-model="form.roundFlag"
+            v-if="config.roundOff"
+            class="ml-2 float-left"
+            >Round Off Total Value</b-form-checkbox
+          ></b-td
+        >
+        <b-td></b-td>
       </b-tr>
     </b-tbody>
   </b-table-simple>
@@ -90,8 +95,8 @@ export default {
     cgstFlag: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -146,14 +151,17 @@ export default {
       let total = 0;
       if (subKey) {
         total = this.billData.reduce(
-          (acc, curr) => parseFloat(acc) + parseFloat(curr[key][subKey]),
+          (acc, curr) => parseFloat(acc) + (parseFloat(curr[key][subKey]) || 0),
           0
         );
       } else {
         total = this.billData.reduce(
-          (acc, curr) => parseFloat(acc) + parseFloat(curr[key]),
+          (acc, curr) => parseFloat(acc) + (parseFloat(curr[key]) || 0),
           0
         );
+      }
+      if (isNaN(total)) {
+        return null;
       }
       return total.toFixed(2);
     },
