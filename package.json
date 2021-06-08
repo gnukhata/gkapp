@@ -10,9 +10,9 @@
   "dependencies": {
     "bootstrap-vue": "^2.21.2",
     "check-password-strength": "^1.0.15",
-    "core-js": "^3.13.1",
+    "core-js": "^3.14.0",
     "register-service-worker": "^1.7.1",
-    "vue": "^2.6.13",
+    "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
   },
@@ -36,7 +36,7 @@
     "sass-loader": "^10.2.0",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-bootstrap-vue": "~0.7.0",
-    "vue-template-compiler": "^2.6.13"
+    "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {
     "root": true,
