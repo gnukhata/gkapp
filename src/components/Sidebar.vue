@@ -31,7 +31,7 @@
                <b-input size="sm" placeholder="search"></b-input>
                </div> -->
         <b-nav class="">
-          <b-table :items="list"></b-table>
+          <!-- <b-table :items="list"></b-table> -->
           <b-nav-item to="/orgprofile">
             <b-icon icon="building"></b-icon> Organisation Profile
           </b-nav-item>
@@ -63,6 +63,9 @@
           </b-nav-item>
           <b-nav-item to="/categories">
             <b-icon icon="tags"></b-icon> Categories
+          </b-nav-item>
+          <b-nav-item to="/product_register">
+            <b-icon icon="box-seam"></b-icon> Product Register
           </b-nav-item>
         </b-nav>
       </template>

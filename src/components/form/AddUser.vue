@@ -123,6 +123,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import axios from 'axios';
 import Password from '../Password.vue';
 import SecurityQuestions from '../SecurityQuestions.vue';
 
