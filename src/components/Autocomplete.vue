@@ -13,6 +13,7 @@
       autocomplete="off"
       :readonly="readonly"
       :tabindex="readonly ? -1 : 0"
+      :required="required"
     />
 
     <!-- Autocomplete Menu -->
@@ -108,6 +109,10 @@ export default {
       type: [Number, String],
       required: false,
       default: '100%',
+    },
+    required: {
+      type: [Boolean, String],
+      default: true,
     },
   },
   data() {
@@ -269,7 +274,7 @@ export default {
       this.hovered = false;
     },
     /** Keyboard press event handlers for arrow keys, enter and escape key */
-    keyMonitor: function (event) {
+    keyMonitor: function(event) {
       switch (event.which) {
         case 38: // ArrowUp
           {
@@ -424,7 +429,6 @@ export default {
   },
 };
 </script>
-
 
 <style lang="scss" scoped>
 .gk-autocomplete {
