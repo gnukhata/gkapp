@@ -20,11 +20,9 @@
         class="container text-dark"
         :show="true"
       >
-        System generated units are displayed in
-        <b-badge variant="dark">black</b-badge>, User created units which are
-        mapped to system units are displayed
-        <b-badge variant="success">green</b-badge>. If not mapped, Units will be
-        dispalyed in <b-badge variant="warning">yellow</b-badge>
+        Valid GST Units are displayed
+        <b-badge variant="success">green</b-badge> If not mapped, Units will be
+        dispalyed in <b-badge variant="primary">Blue</b-badge>
       </b-alert>
       <b-table
         :filter="searchText"
@@ -137,9 +135,9 @@ export default {
     /* As per Indian GST laws, A custom unit should be mapped to a officially valid unit */
     subUnitStatus(item) {
       if (item.sysunit === 1) {
-        return 'dark';
+        return 'success';
       } else if (item.sysunit === 0 && item.subunitof == null) {
-        return 'warning';
+        return 'primary';
       } else {
         return 'success';
       }
