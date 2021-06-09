@@ -19,14 +19,19 @@
     <!-- </div> -->
     <b-table
       stacked="sm"
-      outlined
       small
       hover
       striped
       head-variant="dark"
+      bordered
       :items="log"
       :filter="searchText"
-      :fields="['activity', 'time', 'username']"
+      :fields="[
+        { key: 'logid', sortable: true },
+        { key: 'activity', sortable: true },
+        { key: 'time', sortable: true },
+        { key: 'username', sortable: true },
+      ]"
     ></b-table>
   </section>
 </template>
