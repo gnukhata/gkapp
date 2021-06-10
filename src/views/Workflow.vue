@@ -1,5 +1,7 @@
 <template>
   <section class="container-fluid mt-2">
+    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+    </b-overlay>
     <b-container fluid v-if="activeWorkflow.index === null">
       <b-card-group role="tab" deck class="mt-5">
         <b-card
@@ -389,6 +391,7 @@ export default {
         max: 0,
       },
       tabChoice: 0,
+      isPreloading: false,
       isLoading: true,
       activeWorkflow: {
         index: null,
@@ -956,23 +959,29 @@ export default {
     // this.loadList('custall')
     // this.loadList('supall')
     // this.psList()
+    this.isPreloading = true;
     let self = this;
-    this.loadList().then(() => {
-      let tab = self.options.tabs[self.wfName];
-      let index = Object.keys(self.options.tabs).indexOf(self.wfName);
-      let icon = tab.icon;
-      self.setActiveWorkflow(index, this.wfName, icon, true);
-      if (self.wfId) {
-        let wfId = parseInt(self.wfId);
-        let key = tab.uidKey;
-        let entityIndex = tab.data.findIndex((item) => item[key] === wfId);
-        if (entityIndex >= 0) {
-          self.$nextTick().then(() => {
-            self.setSelectedEntity(tab.data[entityIndex], entityIndex, true);
-          });
+    this.loadList()
+      .then(() => {
+        self.isPreloading = false;
+        let tab = self.options.tabs[self.wfName];
+        let index = Object.keys(self.options.tabs).indexOf(self.wfName);
+        let icon = tab.icon;
+        self.setActiveWorkflow(index, this.wfName, icon, true);
+        if (self.wfId) {
+          let wfId = parseInt(self.wfId);
+          let key = tab.uidKey;
+          let entityIndex = tab.data.findIndex((item) => item[key] === wfId);
+          if (entityIndex >= 0) {
+            self.$nextTick().then(() => {
+              self.setSelectedEntity(tab.data[entityIndex], entityIndex, true);
+            });
+          }
         }
-      }
-    });
+      })
+      .catch(() => {
+        self.isPreloading = false;
+      });
   },
 };
 </script>
