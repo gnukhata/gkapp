@@ -35,7 +35,7 @@
             <autocomplete v-model="godownId" :options="godowns"></autocomplete>
           </b-form-group>
           <b-button type="submit" variant="success" class="float-right"
-            >Get Details</b-button
+            ><b-icon icon="cloud-download"></b-icon> Get Details</b-button
           >
         </b-form>
       </b-card>
@@ -161,10 +161,9 @@
 import axios from 'axios';
 import Autocomplete from './Autocomplete.vue';
 import GkDate from './GkDate.vue';
-import { mapState } from 'vuex';
 export default {
-  components: { Autocomplete, GkDate },
   name: 'ProductRegister',
+  components: { Autocomplete, GkDate },
   data() {
     return {
       productList: [],
@@ -178,9 +177,6 @@ export default {
       godownId: '',
       godownReport: [],
     };
-  },
-  computed: {
-    ...mapState(['orgYears']),
   },
   methods: {
     check() {
@@ -307,5 +303,4 @@ export default {
     this.toDate = org.yearEnd;
   },
 };
-// report?type=godownstockreport&goid=%d&productcode=%d&startdate=%s&enddate=%s
 </script>
