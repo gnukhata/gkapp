@@ -53,7 +53,14 @@
       caption-top
     >
       <caption>
-        Product Stock
+        Product Name:
+        <b>{{
+          productList.filter((p) => p['value'] == productId)[0]['text']
+        }}</b>
+        | From
+        <b>{{ fromDate }}</b>
+        to
+        <b>{{ toDate }}</b>
       </caption>
       <b-thead head-variant="dark">
         <b-tr>
@@ -87,6 +94,9 @@
           <b-th v-if="row.particulars == 'Total'">{{
             row.totalinwardqty
           }}</b-th>
+          <b-th v-else-if="row.particulars == 'opening stock'">{{
+            row.inward
+          }}</b-th>
           <b-th class="font-weight-normal" v-else> {{ row.inwardqty }} </b-th>
 
           <b-th v-if="row.particulars == 'Total'">{{
@@ -110,7 +120,14 @@
       caption-top
     >
       <caption>
-        Godown Wise Stock
+        Product Name:
+        <b>{{
+          productList.filter((p) => p['value'] == productId)[0]['text']
+        }}</b>
+        | From
+        <b>{{ fromDate }}</b>
+        to
+        <b>{{ toDate }}</b>
       </caption>
       <b-thead head-variant="dark">
         <b-tr>
@@ -143,6 +160,9 @@
           <b-th class="font-weight-normal">{{ row.rnno }}</b-th>
           <b-th v-if="row.particulars == 'Total'">{{
             row.totalinwardqty
+          }}</b-th>
+          <b-th v-else-if="row.particulars == 'opening stock'">{{
+            row.inward
           }}</b-th>
           <b-th class="font-weight-normal" v-else> {{ row.inwardqty }} </b-th>
 
