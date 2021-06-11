@@ -15,18 +15,22 @@
               :options="productList"
             ></autocomplete>
           </b-form-group>
-          <div class="d-flex">
-            <b-form-group label="From" label-align="right" label-cols="auto">
-              <gk-date
-                :required="true"
-                v-model="fromDate"
-                id="from"
-                class="mr-4"
-              ></gk-date>
-            </b-form-group>
-            <b-form-group label="To" label-cols="auto">
-              <gk-date :required="true" v-model="toDate" id="to"></gk-date>
-            </b-form-group>
+          <div class="row">
+            <div class="col">
+              <b-form-group label="From" label-align="left">
+                <gk-date
+                  :required="true"
+                  v-model="fromDate"
+                  id="from"
+                  class="mr-4"
+                ></gk-date>
+              </b-form-group>
+            </div>
+            <div class="col">
+              <b-form-group label="To" label-align="left">
+                <gk-date :required="true" v-model="toDate" id="to"></gk-date>
+              </b-form-group>
+            </div>
           </div>
           <b-checkbox v-model="showGodowns" class="mb-2" switch
             >Godown Wise Product Register</b-checkbox
