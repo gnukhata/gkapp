@@ -26,7 +26,11 @@
           </div>
         </template>
         <b-form @submit.prevent="projectReport">
-          <b-form-group label="Product" label-align="right" label-cols="auto">
+          <b-form-group
+            label="Cost Center"
+            label-align="right"
+            label-cols="auto"
+          >
             <autocomplete
               v-model="projectId"
               :options="projectList"

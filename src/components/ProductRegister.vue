@@ -32,8 +32,12 @@
               </b-form-group>
             </div>
           </div>
-          <b-checkbox v-model="showGodowns" class="mb-2" switch
-            >Godown Wise Product Register</b-checkbox
+          <b-form-checkbox
+            v-model="showGodowns"
+            @change="report = []"
+            class="mb-2"
+            switch
+            >Godown Wise Product Register</b-form-checkbox
           >
           <b-form-group v-if="showGodowns" label="Godown" label-cols="auto">
             <autocomplete v-model="godownId" :options="godowns"></autocomplete>
