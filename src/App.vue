@@ -8,7 +8,7 @@
             :src="orgImg"
             width="30"
             height="30"
-            class="rounded d-inline-block align-top"
+            class="rounded border border-secondary s d-inline-block align-top"
             alt="GNUKhata Logo"
           />
           <div
@@ -160,12 +160,12 @@ export default {
           if (r.status == 200 && r.data.logo !== null) {
             this.orgImg = `data:image/png;base64,${r.data.logo}`;
           } else {
-            this.orgImg = '/img/gk.png';
+            this.orgImg = 'img/gk.png';
           }
         })
         .catch((e) => {
           console.log(e.message);
-          this.orgImg = '/img/gk.png';
+          this.orgImg = 'img/gk.png';
         });
     },
     /*
