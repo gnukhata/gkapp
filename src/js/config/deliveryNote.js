@@ -41,9 +41,9 @@ export default {
       taxType: true,
       bill: {
         index: true,
-        product: true,
+        product: { mobileMode: { disabled: true }, addBtn: true },
         hsn: true,
-        qty: true,
+        qty: { mobileMode: { disabled: true } },
         fqty: true,
         rate: true,
         discount: true,
@@ -53,8 +53,9 @@ export default {
         igst: true,
         cess: true,
         vat: true,
-        total: true,
-        addBtn: true,
+        total: { mobileMode: true },
+        addBtn: { mobileMode: true },
+        editBtn: { mobileMode: true },
         footer: {
           discount: true,
           taxable: true,
@@ -106,10 +107,10 @@ export default {
   },
   actions: {
     initDelNoteConfig({ state, commit }, payload) {
-      let conf 
+      let conf
       try { // if the DelNoteConfig isn't a valid JSON, catch the error and  use null to get the default config
         conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-delNoteConfig`))
-      } catch(error) {
+      } catch (error) {
         conf = null
       }
       if (conf !== null) {

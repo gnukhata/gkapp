@@ -9,7 +9,7 @@ export default {
         ebn: false,
         addr: true,
         pin: false,
-        state: {disabled: true},
+        state: { disabled: true },
         issuer: false,
         role: false,
         gstin: true,
@@ -38,10 +38,10 @@ export default {
       taxType: true,
       bill: {
         index: false,
-        product: { disabled: true },
+        product: { disabled: true, mobileMode: true },
         hsn: true,
-        qty: { disabled: true },
-        rejectedQty: true,
+        qty: { disabled: true, mobileMode: true },
+        rejectedQty: { mobileMode: { disabled: true } },
         fqty: { disabled: true },
         rate: { disabled: true },
         discount: { disabled: true },
@@ -49,7 +49,7 @@ export default {
         igst: true,
         cess: true,
         vat: true,
-        total: true,
+        total: { mobileMode: true },
         footer: {
           discount: true,
           taxable: true,
@@ -60,7 +60,8 @@ export default {
           headingColspan: 1,
         },
         addBtn: false,
-        rowSelected: true
+        rowSelected: true,
+        editBtn: { mobileMode: true },
       },
       payment: {
         mode: true,

@@ -15,9 +15,9 @@ export default {
       taxType: true,
       bill: {
         index: true,
-        product: true,
+        product: { mobileMode: { disabled: true }, addBtn: true },
         hsn: true,
-        qty: true,
+        qty: { mobileMode: { disabled: true } },
         fqty: true,
         rate: true,
         discount: true,
@@ -25,8 +25,9 @@ export default {
         igst: true,
         cess: true,
         vat: true,
-        total: true,
+        total: { mobileMode: true },
         addBtn: true,
+        editBtn: { mobileMode: true },
         footer: {
           discount: true,
           taxable: true,

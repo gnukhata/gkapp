@@ -3,265 +3,35 @@
     <div v-if="config" class="position-relative my-2">
       <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
       </b-overlay>
-      <b-table-simple
-        v-if="false"
-        hover
-        small
-        caption-top
-        :responsive="isResponsive"
-        bordered
-      >
-        <b-thead head-variant="dark">
-          <!-- table header -->
-          <b-tr class="text-center">
-            <b-th
-              :style="{ maxWidth: '40px', width: '40px' }"
-              v-if="config.index"
-              class="d-none d-sm-table-cell"
-              >No</b-th
-            >
-            <b-th
-              :style="{
-                maxWidth: '300px',
-                width: '150px',
-                minWidth: '91px',
-              }"
-              v-if="config.product"
-              >Item
-              <b-button
-                @click.prevent="showBusinessForm = true"
-                class="py-0 ml-3"
-                variant="success"
-                size="sm"
-                >+</b-button
-              >
-            </b-th>
-            <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              v-if="config.qty"
-              >Qty</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              v-if="config.rejectedQty"
-              >Rejected Qty</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              v-if="config.packageCount"
-              >No. of Packages</b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '150px', minWidth: '70px' }"
-              v-if="config.rate"
-              >Rate <small>₹</small></b-th
-            >
-            <b-th
-              :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              v-if="gstFlag && config.igst"
-              class="d-none d-sm-table-cell"
-              >IGST <small>%</small></b-th
-            >
-            <b-th
-              :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              v-if="config.cess"
-              class="d-none d-sm-table-cell"
-              >CESS <small>%</small></b-th
-            >
-            <b-th
-              :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-              v-if="!gstFlag && config.vat"
-              class="d-none d-sm-table-cell"
-              >TAX <small>%</small></b-th
-            >
-            <b-th
-              :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-              v-if="config.discount"
-              ><span class="d-none d-sm-inline">Discount</span
-              ><span class="d-inline d-sm-none">Dis.</span>
-              <small>₹</small></b-th
-            >
-            <b-th
-              :style="{
-                maxWidth: '300px',
-                width: '150px',
-                minWidth: '89px',
-              }"
-              v-if="config.total"
-              >Total <small>₹</small></b-th
-            >
-            <b-th
-              v-if="config.addBtn"
-              :style="{ maxWidth: '40px', width: '40px' }"
-              >+/-</b-th
-            >
-          </b-tr>
-        </b-thead>
-        <b-tbody>
-          <b-tr class="text-center" v-for="(field, index) in form" :key="index">
-            <!-- No.  -->
-            <b-td v-if="config.index" class="d-none d-sm-table-cell">
-              {{ index + 1 }}
-            </b-td>
-
-            <!-- Item -->
-            <b-td v-if="config.product">
-              <autocomplete
-                size="sm"
-                v-model="field.product"
-                :options="options.products"
-                @input="onBillItemSelect(field.product, index)"
-                valueUid="id"
-                :isOptionsShared="true"
-                required
-                emptyValue=""
-                :readonly="disabled.product"
-              ></autocomplete>
-            </b-td>
-
-            <!-- Qty -->
-            <b-td v-if="config.qty">
-              <b-input
-                size="sm"
-                v-model="field.qty"
-                class="hide-spin-button text-right px-1"
-                type="number"
-                no-wheel
-                step="0.01"
-                min="0.01"
-                @input="updateTaxAndTotal(index)"
-                :readonly="field.isService || disabled.qty"
-                :tabindex="field.isService ? -1 : 0"
-              ></b-input>
-            </b-td>
-
-            <!-- Rejected Qty -->
-            <b-td v-if="config.rejectedQty">
-              <b-input
-                size="sm"
-                v-model="field.rejectedQty"
-                class="hide-spin-button text-right px-1"
-                type="number"
-                no-wheel
-                step="0.01"
-                min="0"
-                :max="field.qty"
-                @input="updateTaxAndTotal(index)"
-              ></b-input>
-            </b-td>
-
-            <!-- No. of Packages -->
-            <b-td v-if="config.packageCount">
-              <b-input
-                size="sm"
-                v-model="field.packageCount"
-                class="hide-spin-button text-right px-1"
-                type="number"
-                no-wheel
-                step="0.01"
-                min="0.01"
-                :readonly="field.isService"
-                :tabindex="field.isService ? -1 : 0"
-              ></b-input>
-            </b-td>
-
-            <!-- Rate -->
-            <b-td v-if="config.rate">
-              <b-input
-                v-model="field.rate"
-                size="sm"
-                class="hide-spin-button text-right px-1"
-                type="number"
-                no-wheel
-                step="0.01"
-                min="0.01"
-                @input="updateTaxAndTotal(index)"
-                :readonly="disabled.rate"
-              ></b-input>
-            </b-td>
-
-            <!-- GST % -->
-            <b-td v-if="gstFlag && config.igst" class="d-none d-sm-table-cell">
-              {{ field.igst.rate }}
-            </b-td>
-
-            <!-- CESS % -->
-            <b-td v-if="config.cess" class="d-none d-sm-table-cell">
-              {{ field.cess.rate }}
-            </b-td>
-
-            <!-- VAT Tax % -->
-            <b-td v-if="!gstFlag && config.vat" class="d-none d-sm-table-cell">
-              {{ field.vat.rate }}
-            </b-td>
-
-            <!-- Discount -->
-            <b-td v-if="config.discount">
-              <b-input
-                size="sm"
-                v-model="field.discount.amount"
-                class="hide-spin-button text-right px-1"
-                type="number"
-                no-wheel
-                step="0.01"
-                min="0.00"
-                @input="updateTaxAndTotal(index)"
-                :readonly="disabled.discount"
-              ></b-input>
-            </b-td>
-
-            <!-- Total -->
-            <b-td v-if="config.total">
-              {{ field.total }}
-            </b-td>
-
-            <!-- +/- Buttons -->
-            <b-td v-if="config.addBtn">
-              <b-button @click.prevent="deleteBillItem(index)" size="sm"
-                >-</b-button
-              >
-            </b-td>
-          </b-tr>
-        </b-tbody>
-        <b-tfoot v-if="config.footer">
-          <b-tr variant="secondary" class="text-right">
-            <b-th :colspan="config.footer.headingColspan">
-              {{ showTotalFooterText ? 'Total' : '' }}
-            </b-th>
-            <b-th v-if="config.discount">
-              <span v-if="config.footer.discount">{{
-                getTotal('discount', 'amount')
-              }}</span>
-            </b-th>
-            <b-th v-if="config.total">
-              <span v-if="config.footer.total">{{ getTotal('total') }}</span>
-            </b-th>
-            <b-th class="text-center" v-if="config.addBtn">
-              <b-button @click.prevent="addBillItem()" size="sm">+</b-button>
-            </b-th>
-          </b-tr>
-        </b-tfoot>
-      </b-table-simple>
-      <b-card body-class="py-2 px-2" v-if="showAddProduct || config.addBtn">
+      <b-card body-class="py-2 px-2">
         <b-button
-          v-if="config.addBtn"
-          @click.prevent="addBillItem()"
-          class="py-0 mx-1"
-          variant="success"
-          size="sm"
-          >Add Item</b-button
-        >
-        <b-button
-          v-if="showAddProduct"
-          @click.prevent="showBusinessForm = true"
-          class="py-0 mx-1"
-          variant="success"
-          size="sm"
-          >Create Item</b-button
-        >
+            v-if="editMode"
+            @click.prevent="onItemView"
+            class="py-0 mx-1"
+            variant="secondary"
+            size="sm"
+            >Back</b-button
+          >
+        <span class="float-right">
+          <b-button
+            v-if="config.addBtn"
+            @click.prevent="addBillItem()"
+            class="py-0 mx-1"
+            variant="success"
+            size="sm"
+            >Add Item</b-button
+          >
+          <b-button
+            v-if="showAddProduct"
+            @click.prevent="showBusinessForm = true"
+            class="py-0 mx-1"
+            variant="success"
+            size="sm"
+            >Create Item</b-button
+          >
+        </span>
       </b-card>
       <b-table
-        v-if="true"
         hover
         small
         caption-top
@@ -271,8 +41,8 @@
         :fields="fields"
         :primary-key="`tbl_${Date.now()}`"
         :foot-clone="true"
-        stacked="sm"
-        :per-page="mobileMode ? 1 : 10"
+        :stacked="editMode"
+        :per-page="editMode ? 1 : 10"
         :current-page="currentPage"
         head-variant="dark"
         tbody-tr-class="text-center"
@@ -280,7 +50,14 @@
       >
         <!-- Index -->
         <template #cell(index)="data">
-          {{ data.value + 1 }}
+          {{ data.item.index + 1 }}
+        </template>
+
+        <!-- Edit Btn -->
+        <template #cell(editBtn)="data">
+          <b-button variant="outline" @click.prevent="onItemEdit(data.item.index)" size="sm"
+            ><b-icon icon="pencil"></b-icon
+          ></b-button>
         </template>
 
         <!-- Row Selected -->
@@ -307,9 +84,7 @@
             size="sm"
             v-model="form[data.item.index].product"
             :options="options.products"
-            @input="
-              onBillItemSelect(form[data.item.index].product, data.item.index)
-            "
+            @input="onBillItemSelect(form[data.item.index].product, data.item.index)"
             valueUid="id"
             :isOptionsShared="true"
             required
@@ -334,7 +109,7 @@
             :readonly="data.item.isService || disabled.qty"
             :tabindex="data.item.isService ? -1 : 0"
           ></b-input>
-          <span v-else>{{ form[data.item.index].qty }}</span>
+          <span v-else>{{ form[data.item.index] ? form[data.item.index].qty : '' }}</span>
         </template>
 
         <!-- Package Count (Purchase Sales Order) -->
@@ -462,7 +237,7 @@
         </template>
 
         <template v-if="config.footer.total" #foot(total)="">
-          <div class="text-right">{{ getTotal('total') || "-" }}</div>
+          <div class="text-right">{{ getTotal('total') || '-' }}</div>
         </template>
 
         <!-- +/- Buttons -->
@@ -478,9 +253,9 @@
         </template>
       </b-table>
       <b-pagination
-        v-if="mobileMode || form.length > 10"
+        v-if="editMode || form.length > 10"
         v-model="currentPage"
-        :per-page="mobileMode ? 1 : 10"
+        :per-page="editMode ? 1 : 10"
         :total-rows="form.length"
         align="fill"
         size="sm"
@@ -593,6 +368,7 @@ export default {
   },
   data() {
     return {
+      editMode: false,
       showBusinessForm: false,
       isPreloading: false,
       editCounter: 0,
@@ -628,7 +404,19 @@ export default {
   },
   computed: {
     fields: (self) => {
+      function remove(names) {
+        if (!Array.isArray(names)) {
+          names = [names];
+        }
+        names.forEach((name) => {
+          let index = data.findIndex((item) => item.key === name);
+          if (index >= 0) {
+            data.splice(index, 1);
+          }
+        });
+      }
       let data = [
+        { key: 'editBtn', label: 'Edit' },
         { key: 'index', label: 'No' },
         { key: 'rowSelected', label: '\u2611' },
         { key: 'product', label: 'Item' },
@@ -648,33 +436,50 @@ export default {
       ];
       data[6].label = self.creditFlag ? 'Credited Value' : 'Debited Value';
       if (self.gstFlag) {
-        data.splice(9, 1); // remove vat
+        remove('vat');
         if (self.cgstFlag) {
-          data.splice(11, 1); // remove igst
+          remove('igst');
         } else {
-          data.splice(9, 2); // remove cgst, sgst
+          remove(['cgst', 'sgst']);
         }
       } else {
-        data.splice(10, 4); // remove igst, cgst, sgst and cess
+        remove(['cgst', 'sgst', 'igst', 'cess']);
       }
-      if (!self.config.addBtn) {
-        data.pop();
+      if (self.editMode || !self.mobileMode) {
+        remove('editBtn');
       }
       let fields = [];
-      data.forEach((field) => {
-        if (self.config[field.key]) {
-          fields.push(field);
-        }
-      });
+      if (self.mobileMode && !self.editMode) {
+        data.forEach((field) => {
+          if (self.config[field.key]) {
+            if (self.config[field.key].mobileMode) {
+              fields.push(field);
+            }
+          }
+        });
+      } else {
+        data.forEach((field) => {
+          if (self.config[field.key]) {
+            fields.push(field);
+          }
+        });
+      }
       return fields;
     },
     disabled: (self) => {
       let disabled = {};
       for (const item in self.config) {
-        if (typeof self.config[item] === 'object') {
-          disabled[item] = !!self.config[item].disabled;
-        } else {
-          disabled[item] = false;
+        disabled[item] = self.config[item]
+          ? !!self.config[item].disabled
+          : false;
+      }
+      if (self.mobileMode && !self.editMode) {
+        for (const item in self.config) {
+          if (self.config[item] && self.config[item].mobileMode) {
+            disabled[item] =
+              !!self.config[item].disabled ||
+              self.config[item].mobileMode.disabled;
+          }
         }
       }
       return disabled;
@@ -848,6 +653,14 @@ export default {
         self.updateTaxAndTotal(index);
       });
     },
+    onItemEdit(index) {
+      this.editMode = true;
+      this.currentPage = index + 1;
+    },
+    onItemView() {
+      this.currentPage = 1;
+      this.editMode = false;
+    },
     onBillItemSelect(item, index) {
       if (item) {
         if (item.id) {
@@ -905,9 +718,13 @@ export default {
       }
       return total.toFixed(2);
     },
+    indexBillItems() {
+      this.form.forEach((item, index) => {
+        item.index = index;
+      });
+    },
     addBillItem() {
       this.form.push({
-        index: this.form.length,
         rowSelected: false,
         product: { id: '', name: '' },
         hsn: '',
@@ -927,9 +744,11 @@ export default {
         total: 0,
         pid: null,
       });
+      this.indexBillItems();
     },
     deleteBillItem(index) {
       this.form.splice(index, 1);
+      this.indexBillItems();
     },
     /**
      * updateTaxAndTotal(index)
@@ -956,7 +775,7 @@ export default {
           //   );
           // } else {
           //   }
-          const discount = (this.config.dcValue)? 0 : item.discount.amount;
+          const discount = this.config.dcValue ? 0 : item.discount.amount;
 
           item.taxable = parseFloat(
             (item.rate * qty - discount * qty).toFixed(2)
@@ -1104,6 +923,10 @@ export default {
           clearTimeout(timeout);
           timeout = setTimeout(() => {
             self.mobileMode = window.innerWidth < 576;
+            if(!self.mobileMode) {
+              self.currentPage = 1;
+              self.editMode = false;
+            }
           }, 100);
         };
       })()
