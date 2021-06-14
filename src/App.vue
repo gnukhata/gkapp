@@ -28,7 +28,7 @@
                 :to="{
                   name: 'Workflow',
                   params: {
-                    wfName: 'Transactions',
+                    wfName: 'Transactions-Invoice',
                     wfId: -1,
                   },
                 }"

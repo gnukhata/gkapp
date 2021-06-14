@@ -354,7 +354,7 @@ export default {
                 // Store org details in browser storage to set values on next login
                 localStorage.setItem('orgCodeChoice', this.form.orgcode);
                 // redirect to workflow on login
-                this.$router.push('/workflow/Transactions/-1');
+                this.$router.push('/workflow/Transactions-Invoice/-1');
               } else {
                 // Alert the user on captcha failure
                 this.$bvToast.toast(`Incorrect Answer`, {
@@ -469,7 +469,7 @@ export default {
     this.checkUrl();
     this.fetchOrgs();
     if (this.userAuthenticated) {
-      this.$router.push('/workflow/Transactions/-1');
+      this.$router.push('/workflow/Transactions-Invoice/-1');
     }
   },
   computed: {

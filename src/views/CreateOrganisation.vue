@@ -430,7 +430,7 @@ export default {
                               yearEnd: response2.data.gkdata.yearend
                             }
                           });
-                          this.$router.push("/workflow/Transactions/-1");
+                          this.$router.push("/workflow/Transactions-Invoice/-1");
                           this.$bvToast.toast(`Logged in Successfully!`, {
                             title: "Create Account Success!",
                             autoHideDelay: 3000,
