@@ -144,33 +144,33 @@ const routes = [
   },
   {
     path: '/delivery_note/:mode/:invid',
-    name: 'Delivery Note',
+    name: 'Delivery_Note',
     component: () => import(/* webpackChunkName: "delivery_note" */ '../views/Transactions/DeliveryNote.vue'),
     props: true
   },
   {
     path: '/cash_memo',
-    name: 'Cash Memo',
+    name: 'Cash_Memo',
     component: () => import(/* webpackChunkName: "cash_memo" */ '../views/Transactions/CashMemo.vue'),
   },
   {
     path: '/ps_order',
-    name: 'Purchase/Sale Order',
+    name: 'Purchase_Sales_Order',
     component: () => import(/* webpackChunkName: "ps_order" */ '../views/Transactions/PurchaseSaleOrder.vue'),
   },
   {
     path: '/dc_note',
-    name: 'Debit/Credit Note',
+    name: 'Debit_Credit_Note',
     component: () => import(/* webpackChunkName: "dc_note" */ '../views/Transactions/DebitCreditNote.vue'),
   },
   {
     path: '/transfer_note',
-    name: 'Transfer Note',
+    name: 'Transfer_Note',
     component: () => import(/* webpackChunkName: "transfer_note" */ '../views/Transactions/TransferNote.vue'),
   },
   {
     path: '/rejection_note',
-    name: 'Rejection Note',
+    name: 'Rejection_Note',
     component: () => import(/* webpackChunkName: "rejection_note" */ '../views/Transactions/RejectionNote.vue'),
   },
 ]
