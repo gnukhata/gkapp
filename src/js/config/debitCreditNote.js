@@ -11,7 +11,7 @@ export default {
         addr: true,
         gstin: true,
         pin: false,
-        state: {disabled: true},
+        state: { disabled: true },
         issuer: true,
         role: true,
         class: {},
@@ -45,9 +45,9 @@ export default {
       taxType: true,
       bill: {
         index: true,
-        product: { disabled: true, addBtn: false },
+        product: { disabled: true, addBtn: false, mobileMode: true },
         hsn: true,
-        qty: { disabled: true },
+        qty: { disabled: true, mobileMode: true },
         fqty: { disabled: true },
         rate: { disabled: true },
         discount: false,
@@ -57,9 +57,10 @@ export default {
         sgst: true,
         cess: true,
         vat: true,
-        total: true,
+        total: { mobileMode: true },
         addBtn: false,
-        dcValue: true,
+        editBtn: { mobileMode: true },
+        dcValue: { mobileMode: { disabled: true } },
         footer: {
           discount: true,
           taxable: true,
@@ -103,10 +104,10 @@ export default {
   },
   actions: {
     initDCNoteConfig({ state, commit }, payload) {
-      let conf 
+      let conf
       try { // if the DCNoteConfig isn't a valid JSON, catch the error and  use null to get the default config
         conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-dcNoteConfig`))
-      } catch(error) {
+      } catch (error) {
         conf = null
       }
       if (conf !== null) {

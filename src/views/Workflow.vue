@@ -43,22 +43,72 @@
           <!-- Workflow Selection & Filter -->
           <b-card-header ref="leftHeader" class="px-2">
             <!-- Drop down 1: Worflow selection -->
-            <b-dropdown :variant="activeWorkflow.color" class="mr-3" dropright>
+            <b-dropdown
+              :variant="activeWorkflow.color"
+              class="mr-3"
+              dropright
+              @hide="onDropdownHide"
+              id="main-menu"
+              ref="mainMenu"
+            >
               <template #button-content>
-                <b-icon :icon="activeWorkflow.icon"></b-icon>
-                {{ activeWorkflow.name }}
+                <div
+                  class="d-inline-block text-truncate float-left mr-1"
+                  style="max-width: 150px"
+                >
+                  <b-icon :icon="activeWorkflow.icon"></b-icon>
+                  {{
+                    activeWorkflow.name.includes('-')
+                      ? activeWorkflow.tabName
+                      : activeWorkflow.name
+                  }}
+                </div>
               </template>
               <b-dropdown-item
                 v-for="(tab, tabName, index1) in options.tabs"
                 :key="index1"
                 @click.prevent="setActiveWorkflow(index1, tabName, tab.icon)"
+                :link-class="{ 'p-0': tab.tabs }"
               >
-                <b-icon :icon="tab.icon"></b-icon> {{ tabName }}
+                <!-- Option with Sub Menu -->
+                <b-dropdown
+                  v-if="tab.tabs"
+                  id="sub-menu"
+                  @show="onDropdownShow"
+                  @hide="onDropdownHide"
+                  variant="outline"
+                  :toggle-class="['border-0', 'p-0']"
+                  style="width: 100%"
+                  class=""
+                  dropleft
+                  no-flip
+                >
+                  <template #button-content>
+                    <b-icon :icon="tab.icon"></b-icon> {{ tabName }}
+                  </template>
+                  <b-dropdown-item
+                    v-for="(tab2, tabName2, index2) in tab.tabs"
+                    :key="index2"
+                    @click.prevent="
+                      setActiveWorkflow(
+                        index2,
+                        { parent: tabName, child: tabName2 },
+                        tab2.icon
+                      )
+                    "
+                  >
+                    <b-icon :icon="tab2.icon"></b-icon> {{ tabName2 }}
+                  </b-dropdown-item>
+                </b-dropdown>
+                <!-- Option without Sub Menu -->
+                <span v-else>
+                  <b-icon :icon="tab.icon"></b-icon> {{ tabName }}
+                </span>
               </b-dropdown-item>
             </b-dropdown>
             <!-- Drop down 2: Filter -->
             <b-button
-              class="float-right"
+              class="float-right px-1"
               variant="link"
               @click="isFilterOpen = !isFilterOpen"
             >
@@ -157,9 +207,9 @@
           </b-card-header>
           <!-- Worflow Data List -->
           <div
-            v-for="(tab, tabName, index1) in options.tabs"
-            :key="index1"
-            :class="{ 'd-none': activeWorkflow.index !== index1 }"
+            v-for="(tab, tabName) in allTabs"
+            :key="tabName"
+            :class="{ 'd-none': activeWorkflow.tabName !== tabName }"
           >
             <!-- Sort Bar Start -->
             <div class="px-3">
@@ -191,7 +241,7 @@
             <!-- Workflow Data List Start -->
             <b-list-group
               :style="{ height: listHeight + 'px', overflowY: 'auto' }"
-              data-name="workflow-list"
+              :data-name="`workflow-list-${tabName}`"
             >
               <b-list-group-item
                 button
@@ -203,25 +253,25 @@
                 <div
                   class="py-0"
                   :style="{ height: '45px', 'line-height': '45px' }"
-                  v-if="activeWorkflow.name === 'Transactions'"
+                  v-if="activeWorkflow.name.includes('Transactions')"
                 >
                   <b-row>
-                    <b-col cols="4" class="px-0">
-                      <small>{{ item.invoicedate }}</small>
+                    <b-col class="px-0">
+                      <small>{{ item.date }}</small>
                     </b-col>
-                    <b-col cols="4" class="px-1 text-truncate">
+                    <b-col class="px-1 text-truncate">
                       <span>
                         <b-icon font-scale="0.75" :icon="item.icon"></b-icon>
                       </span>
-                      <small> {{ item[tab.key] }} </small>
+                      <small> {{ item.text1 }} </small>
                     </b-col>
                     <b-col
-                      cols="4"
+                      v-if="item.text2"
                       class="px-0 text-truncate text-right"
-                      :title="`₹ ${item.netamt}`"
+                      :title="item.text2"
                       :class="{ 'text-overline-danger': item.onCreditFlag }"
                     >
-                      <small>{{ '₹ ' + item.netamt }}</small>
+                      <small>{{ item.text2 }}</small>
                     </b-col>
                   </b-row>
                 </div>
@@ -317,8 +367,8 @@
           class="ml-md-3"
           v-if="
             selectedEntity &&
-            selectedEntity.invoiceno &&
-            activeWorkflow.name === 'Transactions'
+            selectedEntity.id &&
+            activeWorkflow.name.includes('Transactions')
           "
         >
           <template #header v-if="selectedEntity !== null">
@@ -340,10 +390,13 @@
             v-if="selectedEntity !== null"
           >
             <transaction-profile
-              :invid="selectedEntity.invid"
-              :onCreditFlag="selectedEntity.onCreditFlag"
-              :rectifyFlag="selectedEntity.rectifyFlag"
-              :cancelFlag="!!selectedEntity.cancelflag"
+              :name="activeWorkflow.tabName"
+              :id="selectedEntity.id"
+              :pdata="{
+                onCreditFlag: selectedEntity.onCreditFlag,
+                rectifyFlag: selectedEntity.rectifyFlag,
+                cancelFlag: !!selectedEntity.cancelflag,
+              }"
               :onUpdate="onSelectedEntityUpdate"
             ></transaction-profile>
           </b-card-body>
@@ -360,7 +413,7 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 import ContactProfile from '@/components/ContactProfile';
 import BusinessProfile from '@/components/BusinessProfile.vue';
-import TransactionProfile from '@/components/TransactionProfile.vue';
+import TransactionProfile from '@/components/workflow/profile/Transaction.vue';
 // import HeroBar from '@/components/HeroBar'
 
 export default {
@@ -371,12 +424,21 @@ export default {
       type: String,
       validator: function (value) {
         return (
-          ['Contacts', 'Business', 'Transactions', 'Reports'].indexOf(value) !==
-          -1
+          [
+            'Contacts',
+            'Business',
+            'Transactions',
+            'Reports',
+            'Transactions-Invoice',
+            'Transactions-DebitCreditNote',
+            'Transactions-CashMemo',
+            'Transactions-DeliveryNote',
+            'Transactions-PurchaseSalesOrder',
+            'Transactions-RejectionNote',
+          ].indexOf(value) !== -1
         );
       },
       required: true,
-      default: 'Transactions',
     },
     wfId: {
       type: [Number, String],
@@ -393,6 +455,7 @@ export default {
       tabChoice: 0,
       isPreloading: false,
       isLoading: true,
+      isSubMenuOpen: false,
       activeWorkflow: {
         index: null,
         icon: '',
@@ -515,6 +578,333 @@ export default {
                 invid: 0,
               },
             },
+            tabs: {
+              Invoice: {
+                icon: 'receipt',
+                color: 'success',
+                data: [],
+                key: 'custname',
+                uidKey: 'invid',
+                createNewPath: {
+                  name: 'Invoice',
+                  params: {
+                    mode: 'create',
+                    invid: 0,
+                  },
+                },
+                filterBy: {
+                  value: [
+                    {
+                      text: 'All',
+                      props: {},
+                    },
+                    {
+                      text: 'Sale',
+                      props: { key: 'csflag', value: 3 },
+                    },
+                    {
+                      text: 'Purchase',
+                      props: { key: 'csflag', value: 19 },
+                    },
+                  ],
+                  range: [
+                    {
+                      from: {
+                        text: 'From Date',
+                      },
+                      to: {
+                        text: 'To Date',
+                      },
+                      props: {
+                        key: 'dateObj',
+                        min: this.yearStart,
+                        max: this.yearEnd,
+                      },
+                    },
+                  ],
+                },
+                sortBy: [
+                  {
+                    text: 'Date',
+                    props: { key: 'dateObj', isAsc: true },
+                  },
+                  {
+                    text: 'Name',
+                    props: { key: 'custname', isAsc: true },
+                  },
+                  {
+                    text: 'Amount',
+                    props: { key: 'netamt', isAsc: true },
+                  },
+                ],
+              },
+              DebitCreditNote: {
+                icon: 'receipt',
+                color: 'success',
+                data: [],
+                key: 'custname',
+                uidKey: 'drcrid',
+                createNewPath: {
+                  name: 'Debit_Credit_Note',
+                },
+                filterBy: {
+                  value: [
+                    {
+                      text: 'All',
+                      props: {},
+                    },
+                    {
+                      text: 'Sale',
+                      props: { key: 'csflag', value: 3 },
+                    },
+                    {
+                      text: 'Purchase',
+                      props: { key: 'csflag', value: 19 },
+                    },
+                  ],
+                  range: [
+                    {
+                      from: {
+                        text: 'From Date',
+                      },
+                      to: {
+                        text: 'To Date',
+                      },
+                      props: {
+                        key: 'dateObj',
+                        min: this.yearStart,
+                        max: this.yearEnd,
+                      },
+                    },
+                  ],
+                },
+                sortBy: [
+                  {
+                    text: 'Date',
+                    props: { key: 'dateObj', isAsc: true },
+                  },
+                  {
+                    text: 'Name',
+                    props: { key: 'custname', isAsc: true },
+                  },
+                  {
+                    text: 'Amount',
+                    props: { key: 'totalreduct', isAsc: true },
+                  },
+                ],
+              },
+              CashMemo: {
+                icon: 'receipt',
+                color: 'success',
+                data: [],
+                key: 'custname',
+                uidKey: 'invid',
+                createNewPath: {
+                  name: 'Cash_Memo',
+                  params: {},
+                },
+                filterBy: {
+                  value: [
+                    {
+                      text: 'All',
+                      props: {},
+                    },
+                  ],
+                  range: [
+                    {
+                      from: {
+                        text: 'From Date',
+                      },
+                      to: {
+                        text: 'To Date',
+                      },
+                      props: {
+                        key: 'dateObj',
+                        min: this.yearStart,
+                        max: this.yearEnd,
+                      },
+                    },
+                  ],
+                },
+                sortBy: [
+                  {
+                    text: 'Date',
+                    props: { key: 'dateObj', isAsc: true },
+                  },
+                  {
+                    text: 'No.',
+                    props: { key: 'invoiceno', isAsc: true },
+                  },
+                ],
+              },
+              DeliveryNote: {
+                icon: 'receipt',
+                color: 'success',
+                data: [],
+                key: 'custname',
+                uidKey: 'dcid',
+                createNewPath: {
+                  name: 'Delivery_Note',
+                  params: {
+                    mode: 'create',
+                    invid: 0,
+                  },
+                },
+                filterBy: {
+                  value: [
+                    {
+                      text: 'All',
+                      props: {},
+                    },
+                    {
+                      text: 'Sale',
+                      props: { key: 'csflag', value: 3 },
+                    },
+                    {
+                      text: 'Purchase',
+                      props: { key: 'csflag', value: 19 },
+                    },
+                  ],
+                  range: [
+                    {
+                      from: {
+                        text: 'From Date',
+                      },
+                      to: {
+                        text: 'To Date',
+                      },
+                      props: {
+                        key: 'dateObj',
+                        min: this.yearStart,
+                        max: this.yearEnd,
+                      },
+                    },
+                  ],
+                },
+                sortBy: [
+                  {
+                    text: 'Date',
+                    props: { key: 'dateObj', isAsc: true },
+                  },
+                  {
+                    text: 'Name',
+                    props: { key: 'custname', isAsc: true },
+                  },
+                  {
+                    text: 'No.',
+                    props: { key: 'dcno', isAsc: true },
+                  },
+                ],
+              },
+              PurchaseSalesOrder: {
+                icon: 'receipt',
+                color: 'success',
+                data: [],
+                key: 'custname',
+                uidKey: 'orderid',
+                createNewPath: {
+                  name: 'Purchase_Sales_Order',
+                  params: {},
+                },
+                filterBy: {
+                  value: [
+                    {
+                      text: 'All',
+                      props: {},
+                    },
+                    {
+                      text: 'Sale',
+                      props: { key: 'csflag', value: 3 },
+                    },
+                    {
+                      text: 'Purchase',
+                      props: { key: 'csflag', value: 19 },
+                    },
+                  ],
+                  range: [
+                    {
+                      from: {
+                        text: 'From Date',
+                      },
+                      to: {
+                        text: 'To Date',
+                      },
+                      props: {
+                        key: 'dateObj',
+                        min: this.yearStart,
+                        max: this.yearEnd,
+                      },
+                    },
+                  ],
+                },
+                sortBy: [
+                  {
+                    text: 'Date',
+                    props: { key: 'dateObj', isAsc: true },
+                  },
+                  {
+                    text: 'Name',
+                    props: { key: 'customer', isAsc: true },
+                  },
+                  {
+                    text: 'No.',
+                    props: { key: 'orderno', isAsc: true },
+                  },
+                ],
+              },
+              RejectionNote: {
+                icon: 'receipt',
+                color: 'success',
+                data: [],
+                key: 'custname',
+                uidKey: 'rnid',
+                createNewPath: {
+                  name: 'Rejection_Note',
+                  params: {},
+                },
+                filterBy: {
+                  value: [
+                    {
+                      text: 'All',
+                      props: {},
+                    },
+                    {
+                      text: 'Sale',
+                      props: { key: 'inout', value: 15 },
+                    },
+                    {
+                      text: 'Purchase',
+                      props: { key: 'inout', value: 9 },
+                    },
+                  ],
+                  range: [
+                    {
+                      from: {
+                        text: 'From Date',
+                      },
+                      to: {
+                        text: 'To Date',
+                      },
+                      props: {
+                        key: 'dateObj',
+                        min: this.yearStart,
+                        max: this.yearEnd,
+                      },
+                    },
+                  ],
+                },
+                sortBy: [
+                  {
+                    text: 'Date',
+                    props: { key: 'dateObj', isAsc: true },
+                  },
+                  {
+                    text: 'No.',
+                    props: { key: 'rnno', isAsc: true },
+                  },
+                ],
+              },
+            },
             filterBy: {
               value: [
                 {
@@ -590,7 +980,25 @@ export default {
     },
   },
   computed: {
-    activeTabOptions: (self) => self.options.tabs[self.activeWorkflow.name],
+    allTabs: (self) => {
+      let tabs = {};
+      const transactionTabs = self.options.tabs['Transactions'].tabs;
+      for (let tab in self.options.tabs) {
+        tabs[tab] = self.options.tabs[tab];
+      }
+      for (let tab2 in transactionTabs) {
+        tabs[tab2] = transactionTabs[tab2];
+      }
+      return tabs;
+    },
+    activeTabOptions: (self) => {
+      // debugger;
+      if (self.activeWorkflow.name.includes('-')) {
+        const name = self.activeWorkflow.name.split('-');
+        return self.options.tabs[name[0]].tabs[name[1]];
+      }
+      return self.options.tabs[self.activeWorkflow.name];
+    },
     // headerHeight is the height of the top nav bar
     headerHeight: () => document.getElementById('app-header').offsetHeight,
     // listHeight is the height that the left pane data list should be, (Total screen height - (top nav bar height - leftpane top bar height))
@@ -612,7 +1020,7 @@ export default {
      *
      */
     processedData: function () {
-      let data = this.options.tabs[this.activeWorkflow.name].data;
+      let data = this.activeTabOptions.data;
       // console.log(this.filter)
       if (this.filter.value.props.key !== undefined) {
         data = this.filterByValue(
@@ -731,11 +1139,24 @@ export default {
      * Also initializes the filters and sorts, after that.
      */
     setActiveWorkflow(index, name, icon, skipUpdate) {
+      let color, tabName;
+      if (name.parent && name.child) {
+        tabName = name.child;
+        color = this.options.tabs[name.parent].tabs[name.child].color;
+        name = `${name.parent}-${name.child}`;
+      } else {
+        if (name === 'Transactions') {
+          return;
+        }
+        color = this.options.tabs[name].color;
+        tabName = name;
+      }
       this.activeWorkflow = {
         index,
         name,
         icon,
-        color: this.options.tabs[name].color,
+        color: color,
+        tabName,
       };
       this.isFilterOpen = false;
       this.leftHeaderHeight.max = 0;
@@ -744,10 +1165,34 @@ export default {
         this.updateUrl();
       }
     },
+    getProfileData(entity) {
+      let data = {};
+      switch (this.activeWorkflow.tabName) {
+        case 'Invoice':
+          data = {
+            onCreditFlag: entity.onCreditFlag,
+            rectifyFlag: entity.rectifyFlag,
+            cancelFlag: !!entity.cancelflag,
+          };
+          break;
+        case 'CashMemo':
+          break;
+        case 'DebitCreditNote':
+          break;
+        case 'DeliveryNote':
+          break;
+        case 'PurchaseSalesOrder':
+          break;
+        case 'RejectionNote':
+          break;
+      }
+      return data;
+    },
     setSelectedEntity(entity, index, skipUpdate) {
-      let activeListContainerDom = document.querySelectorAll(
-        'div[data-name="workflow-list"]'
-      )[this.activeWorkflow.index];
+      // remove selected class from the last selected item
+      let activeListContainerDom = document.querySelector(
+        `div[data-name="workflow-list-${this.activeWorkflow.tabName}"]`
+      );
       let selectedDom = activeListContainerDom.querySelector(
         `button:nth-child(${this.selectedEntityIndex + 1})`
       );
@@ -773,7 +1218,7 @@ export default {
     updateUrl() {
       let url = window.location.href.split('#')[0];
       let wfName = this.activeWorkflow.name;
-      let key = this.options.tabs[wfName].uidKey;
+      let key = this.activeTabOptions.uidKey;
       let wfId = this.selectedEntity ? this.selectedEntity[key] || -1 : -1;
       url += `#/workflow/${wfName}/${wfId}`;
       history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
@@ -781,9 +1226,10 @@ export default {
     },
     unsetSelectedEntity() {
       let selectedDom = document
-        .querySelectorAll('div[data-name="workflow-list"]')[this.activeWorkflow.index].querySelector(
-          `button:nth-child(${this.selectedEntityIndex + 1})`
-        );
+        .querySelector(
+          `div[data-name="workflow-list-${this.activeWorkflow.tabName}"]`
+        )
+        .querySelector(`button:nth-child(${this.selectedEntityIndex + 1})`);
       if (selectedDom) selectedDom.classList.remove('selected-data-list');
       this.selectedEntity = null;
       this.selectedEntityIndex = null;
@@ -804,10 +1250,7 @@ export default {
                 .billentrysingleflag;
             } else {
               // If the invoice was deleted as an update, then gkstatus will be 3 or something else
-              this.options.tabs[this.activeWorkflow.name].data.splice(
-                this.selectedEntityIndex,
-                1
-              );
+              this.activeTabOptions.data.splice(this.selectedEntityIndex, 1);
               this.unsetSelectedEntity();
             }
           }
@@ -839,21 +1282,57 @@ export default {
         axios.get('/billwise?type=all').catch((error) => {
           return error;
         }),
+        axios.get('/delchal?delchal=all').catch((error) => {
+          return error;
+        }),
+        axios.get('/invoice?cash=all&inoutflag=15').catch((error) => {
+          return error;
+        }),
+        axios.get('/invoice?cash=all&inoutflag=9').catch((error) => {
+          return error;
+        }),
+        axios.get('/transfernote?tn=all').catch((error) => {
+          return error;
+        }),
+        axios.get('/purchaseorder').catch((error) => {
+          return error;
+        }),
+        axios.get('/drcrnote?drcr=all').catch((error) => {
+          return error;
+        }),
+        axios.get('/rejectionnote?type=all').catch((error) => {
+          return error;
+        }),
       ];
 
       const self = this;
       return Promise.all([...requests]).then(
-        ([resp1, resp2, resp3, resp4, resp5]) => {
+        ([
+          resp1,
+          resp2,
+          resp3,
+          resp4,
+          resp5,
+          resp6,
+          resp7,
+          resp8,
+          resp9,
+          resp10,
+          resp11,
+          resp12,
+        ]) => {
           self.isLoading = false;
 
           let contacts = [];
           let invoiceMap = {};
+          let custSupMap = {}; // customer/suppliername : isCustomer
 
           // Customer List
           if (resp1.status === 200) {
-            contacts = resp1.data.gkresult.map((item) =>
-              Object.assign({ csflag: true, icon: 'person-fill' }, item)
-            );
+            contacts = resp1.data.gkresult.map((item) => {
+              custSupMap[item.custname] = true;
+              return Object.assign({ csflag: true, icon: 'person-fill' }, item);
+            });
           } else {
             console.log(resp1.message);
           }
@@ -861,9 +1340,13 @@ export default {
           // Supplier List
           if (resp2.status === 200) {
             contacts.push(
-              ...resp2.data.gkresult.map((item) =>
-                Object.assign({ csflag: false, icon: 'briefcase-fill' }, item)
-              )
+              ...resp2.data.gkresult.map((item) => {
+                custSupMap[item.custname] = false;
+                return Object.assign(
+                  { csflag: false, icon: 'briefcase-fill' },
+                  item
+                );
+              })
             );
             self.options.tabs['Contacts'].data = self.sortData(
               contacts,
@@ -888,6 +1371,8 @@ export default {
             console.log(resp3.message);
           }
 
+          const transactionTab = self.options.tabs['Transactions'].tabs;
+
           // Invoices
           if (resp4.status === 200) {
             self.options.tabs['Transactions'].data = resp4.data.gkresult.map(
@@ -895,6 +1380,10 @@ export default {
                 invoiceMap[item.invid] = index;
                 return Object.assign(
                   {
+                    id: item.invid,
+                    date: item.invoicedate,
+                    text1: item.custname,
+                    text2: `₹ ${item.netamt}`,
                     icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
                     onCreditFlag: false,
                     rectifyFlag: false, // can be rectified or not
@@ -907,13 +1396,15 @@ export default {
                 );
               }
             );
+            transactionTab['Invoice'].data =
+              self.options.tabs['Transactions'].data;
           } else {
             console.log(resp4.message);
           }
 
           // Invoice in credit
           if (resp5.status === 200) {
-            let data = self.options.tabs['Transactions'].data;
+            let data = transactionTab['Invoice'].data;
             if (resp5.data.gkstatus === 0 && data.length) {
               let index = '';
               resp5.data.invoices.forEach((inv) => {
@@ -927,6 +1418,183 @@ export default {
             }
           } else {
             console.log(resp5.message);
+          }
+
+          // Delivery Note
+          if (resp6.status === 200) {
+            if (resp6.data.gkstatus === 0) {
+              transactionTab['DeliveryNote'].data = resp6.data.gkresult.map(
+                (item) => {
+                  return Object.assign(
+                    {
+                      id: item.dcid,
+                      text1: item.custname,
+                      text2: item.dcno,
+                      icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                      date: item.dcdate,
+                      dateObj: Date.parse(
+                        item.dcdate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      ),
+                    },
+                    item
+                  );
+                }
+              );
+            }
+          } else {
+            console.log(resp6.message);
+          }
+
+          // Cash Memo Sale
+          if (resp7.status === 200) {
+            if (resp7.data.gkstatus === 0) {
+              transactionTab['CashMemo'].data = resp7.data.gkresult.map(
+                (item) => {
+                  return Object.assign(
+                    {
+                      id: item.invid,
+                      text1: item.invoiceno,
+                      icon: 'cash-stack',
+                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                      date: item.invoicedate,
+                      dateObj: Date.parse(
+                        item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      ),
+                    },
+                    item
+                  );
+                }
+              );
+            }
+          } else {
+            console.log(resp7.message);
+          }
+
+          // Cash Memo Purchase
+          if (resp8.status === 200) {
+            if (resp8.data.gkstatus === 0) {
+              transactionTab['CashMemo'].data = resp8.data.gkresult.map(
+                (item) => {
+                  return Object.assign(
+                    {
+                      id: item.invid,
+                      text1: item.invoiceno,
+                      icon: 'basket3',
+                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                      date: item.invoicedate,
+                      dateObj: Date.parse(
+                        item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      ),
+                    },
+                    item
+                  );
+                }
+              );
+            }
+          } else {
+            console.log(resp8.message);
+          }
+
+          // Transfer Notes
+          if (resp9.status === 200) {
+            if (resp9.data.gkstatus === 0) {
+              // transactionTab['TransferNote'].data = resp9.data.gkresult.map(
+              //   (item) => {
+              //     return Object.assign(
+              //       {
+              //         icon: 'truck',
+              //         // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+              //         date: transfernotedate,
+              //         dateObj: Date.parse(
+              //           item.transfernotedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+              //         ),
+              //       },
+              //       item
+              //     );
+              //   }
+              // );
+            }
+          } else {
+            console.log(resp9.message);
+          }
+
+          // Purchase Sales Order
+          if (resp10.status === 200) {
+            if (resp10.data.gkstatus === 0) {
+              transactionTab[
+                'PurchaseSalesOrder'
+              ].data = resp10.data.gkresult.map((item) => {
+                return Object.assign(
+                  {
+                    id: item.orderid,
+                    text1: item.customer,
+                    text2: item.orderno,
+                    csflag: custSupMap[item.customer] ? 3 : 19,
+                    icon: custSupMap[item.customer] ? 'cash-stack' : 'basket3',
+                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                    date: item.orderdate,
+                    dateObj: Date.parse(
+                      item.orderdate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                    ),
+                  },
+                  item
+                );
+              });
+            }
+          } else {
+            console.log(resp10.message);
+          }
+
+          // Debit Credit Note
+          if (resp11.status === 200) {
+            if (resp11.data.gkstatus === 0) {
+              transactionTab['DebitCreditNote'].data = resp11.data.gkresult.map(
+                (item) => {
+                  return Object.assign(
+                    {
+                      id: item.drcrid,
+                      text1: item.custname,
+                      text2: `₹ ${item.totreduct}`,
+                      icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                      date: item.drcrdate,
+                      dateObj: Date.parse(
+                        item.drcrdate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      ),
+                    },
+                    item
+                  );
+                }
+              );
+            }
+          } else {
+            console.log(resp11.message);
+          }
+
+          // Rejection Note
+          if (resp12.status === 200) {
+            if (resp12.data.gkstatus === 0) {
+              transactionTab['RejectionNote'].data = resp12.data.gkresult.map(
+                (item) => {
+                  return Object.assign(
+                    {
+                      id: item.rnid,
+                      text1: item.rnno,
+                      icon: item.inout === 15 ? 'cash-stack' : 'basket3',
+                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                      date: item.rndate,
+                      dateObj: Date.parse(
+                        item.rndate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      ),
+                    },
+                    item
+                  );
+                }
+              );
+            }
+          } else {
+            console.log(resp12.message);
           }
         }
       );
@@ -954,6 +1622,21 @@ export default {
         }
       }
     },
+    onDropdownHide(event) {
+      // console.log(`${event.componentId} is closing`);
+      if (event.componentId === 'sub-menu') {
+        this.isSubMenuOpen = false;
+        this.$refs.mainMenu.hide();
+      }
+      if (this.isSubMenuOpen) {
+        event.preventDefault();
+      }
+    },
+    onDropdownShow(event) {
+      if (event.componentId === 'sub-menu') {
+        this.isSubMenuOpen = true;
+      }
+    },
   },
   mounted() {
     // this.loadList('custall')
@@ -964,10 +1647,22 @@ export default {
     this.loadList()
       .then(() => {
         self.isPreloading = false;
-        let tab = self.options.tabs[self.wfName];
-        let index = Object.keys(self.options.tabs).indexOf(self.wfName);
-        let icon = tab.icon;
-        self.setActiveWorkflow(index, this.wfName, icon, true);
+        let tab, index;
+        if (self.wfName.includes('-')) {
+          let name = self.wfName.split('-');
+          tab = self.options.tabs[name[0]].tabs[name[1]];
+          index = Object.keys(self.options.tabs[name[0]]).indexOf(name[1]);
+          self.setActiveWorkflow(
+            index,
+            { parent: name[0], child: name[1] },
+            tab.icon,
+            true
+          );
+        } else {
+          tab = self.options.tabs[self.wfName];
+          index = Object.keys(self.options.tabs).indexOf(self.wfName);
+          self.setActiveWorkflow(index, this.wfName, tab.icon, true);
+        }
         if (self.wfId) {
           let wfId = parseInt(self.wfId);
           let key = tab.uidKey;
@@ -979,7 +1674,8 @@ export default {
           }
         }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         self.isPreloading = false;
       });
   },

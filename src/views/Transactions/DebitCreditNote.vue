@@ -305,7 +305,7 @@ export default {
   watch: {
     isCredit() {
       this.updateConfig();
-    }
+    },
   },
   methods: {
     onComponentDataUpdate(payload) {
@@ -778,7 +778,7 @@ export default {
 
         if (this.form.dcNote.purpose === 'price') {
           newConf.bill.qty.disabled = true;
-          newConf.bill.dcValue = true;
+          newConf.bill.dcValue = { mobileMode: { disabled: true } };
         } else {
           newConf.bill.qty.disabled = false;
           newConf.bill.dcValue = false;

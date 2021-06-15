@@ -8,6 +8,7 @@
     <gk-date
       :id="dateId"
       :format="format"
+      :formatOutput="formatOutput"
       v-model="date"
       :min="min"
       :max="max"
@@ -40,6 +41,12 @@ export default {
       },
       note: `The format, input will be provided in. 
       This can be different from the format supported by the date component`,
+    },
+    formatOutput: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: `If true, output will be formatted to the format provided for input`,
     },
     min: {
       type: String,

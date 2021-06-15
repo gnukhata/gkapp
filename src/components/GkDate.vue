@@ -49,11 +49,17 @@ export default {
       type: String,
       required: false,
       default: 'dd-mm-yyyy',
-      validator: function(value) {
+      validator: function (value) {
         return ['yyyy-mm-dd', 'dd-mm-yyyy'].indexOf(value) !== -1;
       },
       note: `The format, input will be provided in. 
       This can be different from the format supported by the date component`,
+    },
+    formatOutput: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: `If true v-model will use the same format as input format provided`,
     },
     min: {
       type: String,
@@ -123,7 +129,7 @@ export default {
         const newDate = this.toInternalFormat(newInput);
         if (this.date !== newDate) {
           this.date = newDate;
-          this.$emit('input', newDate);
+          this.onDateUpdate(newDate); // emit internal format for v-model
           this.$emit('validity', this.validateDate(newDate));
         }
       } else {
@@ -141,7 +147,7 @@ export default {
         const newInput = this.toExternalFormat(newDate);
         if (this.input !== newInput) {
           this.input = newInput;
-          this.$emit('input', newDate); // emit internal format for v-model
+          this.onDateUpdate(newDate); // emit internal format for v-model
           this.$emit('validity', this.validateDate(newDate)); // must use internal format for validation
         }
       } else if (!newDate) {
@@ -160,7 +166,7 @@ export default {
           // used when the component has to be reset
           this.input = '';
         } else {
-          this.date = date;
+          this.date = (this.formatOutput)? this.toInternalFormat(date) : date;
         }
       }
     },
@@ -177,6 +183,19 @@ export default {
   },
   methods: {
     /**
+     * onDateUpdate
+     *
+     * emits the input event and thereby passes data to v-model,
+     * in the desired output format
+     */
+    onDateUpdate(newDate) {
+      if (this.formatOutput) {
+        this.$emit('input', this.toExternalFormat(newDate));
+      } else {
+        this.$emit('input', newDate);
+      }
+    },
+    /**
      * toInternalFormat
      *
      * Given a date, it will be converted from the input format
@@ -186,10 +205,7 @@ export default {
       let date = '';
       switch (this.format) {
         case 'dd-mm-yyyy': {
-          date = input
-            .split('-')
-            .reverse()
-            .join('-');
+          date = input.split('-').reverse().join('-');
           break;
         }
         case 'yyyy-mm-dd':
@@ -210,10 +226,7 @@ export default {
       let input = '';
       switch (this.format) {
         case 'dd-mm-yyyy': {
-          input = date
-            .split('-')
-            .reverse()
-            .join('-');
+          input = date.split('-').reverse().join('-');
           break;
         }
         case 'yyyy-mm-dd':
