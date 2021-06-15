@@ -5,10 +5,10 @@
       <b-navbar toggleable="lg" type="light" variant="light">
         <b-navbar-brand>
           <img
-            src="img/gk.png"
+            :src="orgImg"
             width="30"
             height="30"
-            class="d-inline-block align-top"
+            class="rounded d-inline-block align-top"
             alt="GNUKhata Logo"
           />
           <div
@@ -130,6 +130,7 @@ export default {
   data() {
     return {
       userRole: Number,
+      orgImg: '',
     };
   },
   computed: {
@@ -150,6 +151,22 @@ export default {
       setTimeout(() => {
         this.$refs['change-pwd-close'].hide();
       }, 1500);
+    },
+    /* Get org image from server */
+    getOrgimage() {
+      axios
+        .get('/organisation?attach=image')
+        .then((r) => {
+          if (r.status == 200 && r.data.logo !== null) {
+            this.orgImg = `data:image/png;base64,${r.data.logo}`;
+          } else {
+            this.orgImg = '/img/gk.png';
+          }
+        })
+        .catch((e) => {
+          console.log(e.message);
+          this.orgImg = '/img/gk.png';
+        });
     },
     /*
      * Logout the user, But preserve the gkcore url
@@ -204,6 +221,7 @@ export default {
   },
   mounted() {
     this.getUser();
+    this.getOrgimage();
     /**
      * fetch latest app changes
      */

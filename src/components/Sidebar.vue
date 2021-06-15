@@ -64,8 +64,11 @@
           <b-nav-item to="/categories">
             <b-icon icon="tags"></b-icon> Categories
           </b-nav-item>
-          <b-nav-item to="/product_register">
+          <b-nav-item to="/product-register">
             <b-icon icon="box-seam"></b-icon> Product Register
+          </b-nav-item>
+          <b-nav-item to="/cost-center-statement">
+            <b-icon icon="cash"></b-icon> Cost Center Statement
           </b-nav-item>
         </b-nav>
       </template>

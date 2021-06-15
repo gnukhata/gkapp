@@ -15,27 +15,35 @@
               :options="productList"
             ></autocomplete>
           </b-form-group>
-          <div class="d-flex">
-            <b-form-group label="From" label-align="right" label-cols="auto">
-              <gk-date
-                :required="true"
-                v-model="fromDate"
-                id="from"
-                class="mr-4"
-              ></gk-date>
-            </b-form-group>
-            <b-form-group label="To" label-cols="auto">
-              <gk-date :required="true" v-model="toDate" id="to"></gk-date>
-            </b-form-group>
+          <div class="row">
+            <div class="col">
+              <b-form-group label="From" label-align="left">
+                <gk-date
+                  :required="true"
+                  v-model="fromDate"
+                  id="from"
+                  class="mr-4"
+                ></gk-date>
+              </b-form-group>
+            </div>
+            <div class="col">
+              <b-form-group label="To" label-align="left">
+                <gk-date :required="true" v-model="toDate" id="to"></gk-date>
+              </b-form-group>
+            </div>
           </div>
-          <b-checkbox v-model="showGodowns" class="mb-2" switch
-            >Godown Wise Product Register</b-checkbox
+          <b-form-checkbox
+            v-model="showGodowns"
+            @change="report = []"
+            class="mb-2"
+            switch
+            >Godown Wise Product Register</b-form-checkbox
           >
           <b-form-group v-if="showGodowns" label="Godown" label-cols="auto">
             <autocomplete v-model="godownId" :options="godowns"></autocomplete>
           </b-form-group>
           <b-button type="submit" variant="success" class="float-right"
-            >Get Details</b-button
+            ><b-icon icon="cloud-download"></b-icon> Get Details</b-button
           >
         </b-form>
       </b-card>
@@ -53,7 +61,14 @@
       caption-top
     >
       <caption>
-        Product Stock
+        Product Name:
+        <b>{{
+          productList.filter((p) => p['value'] == productId)[0]['text']
+        }}</b>
+        | From
+        <b>{{ fromDate }}</b>
+        to
+        <b>{{ toDate }}</b>
       </caption>
       <b-thead head-variant="dark">
         <b-tr>
@@ -87,6 +102,9 @@
           <b-th v-if="row.particulars == 'Total'">{{
             row.totalinwardqty
           }}</b-th>
+          <b-th v-else-if="row.particulars == 'opening stock'">{{
+            row.inward
+          }}</b-th>
           <b-th class="font-weight-normal" v-else> {{ row.inwardqty }} </b-th>
 
           <b-th v-if="row.particulars == 'Total'">{{
@@ -110,7 +128,14 @@
       caption-top
     >
       <caption>
-        Godown Wise Stock
+        Product Name:
+        <b>{{
+          productList.filter((p) => p['value'] == productId)[0]['text']
+        }}</b>
+        | From
+        <b>{{ fromDate }}</b>
+        to
+        <b>{{ toDate }}</b>
       </caption>
       <b-thead head-variant="dark">
         <b-tr>
@@ -144,6 +169,9 @@
           <b-th v-if="row.particulars == 'Total'">{{
             row.totalinwardqty
           }}</b-th>
+          <b-th v-else-if="row.particulars == 'opening stock'">{{
+            row.inward
+          }}</b-th>
           <b-th class="font-weight-normal" v-else> {{ row.inwardqty }} </b-th>
 
           <b-th v-if="row.particulars == 'Total'">{{
@@ -161,10 +189,9 @@
 import axios from 'axios';
 import Autocomplete from './Autocomplete.vue';
 import GkDate from './GkDate.vue';
-import { mapState } from 'vuex';
 export default {
-  components: { Autocomplete, GkDate },
   name: 'ProductRegister',
+  components: { Autocomplete, GkDate },
   data() {
     return {
       productList: [],
@@ -178,9 +205,6 @@ export default {
       godownId: '',
       godownReport: [],
     };
-  },
-  computed: {
-    ...mapState(['orgYears']),
   },
   methods: {
     check() {
@@ -307,5 +331,4 @@ export default {
     this.toDate = org.yearEnd;
   },
 };
-// report?type=godownstockreport&goid=%d&productcode=%d&startdate=%s&enddate=%s
 </script>
