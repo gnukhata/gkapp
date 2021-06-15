@@ -14,6 +14,7 @@
       :readonly="readonly"
       :tabindex="readonly ? -1 : 0"
       :required="required"
+      :placeholder="placeholder"
     />
 
     <!-- Autocomplete Menu -->
@@ -113,6 +114,10 @@ export default {
     required: {
       type: [Boolean, String],
       default: true,
+    },
+    placeholder: {
+      type: String,
+      default: 'value',
     },
   },
   data() {
