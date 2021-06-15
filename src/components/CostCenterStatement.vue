@@ -5,8 +5,7 @@
         header="Cost Center Statement"
         header-bg-variant="dark"
         header-text-variant="light"
-        style="max-width: 40em"
-        class="mx-auto"
+        class="mx-auto gkcard"
       >
         <template #header>
           <div class="d-flex">
@@ -34,6 +33,7 @@
             <autocomplete
               v-model="projectId"
               :options="projectList"
+              placeholder="Search Cost Center"
             ></autocomplete>
           </b-form-group>
           <div class="row">
@@ -96,6 +96,7 @@
 import axios from 'axios';
 import Autocomplete from './Autocomplete.vue';
 import GkDate from './GkDate.vue';
+import { mapState } from 'vuex';
 export default {
   components: { Autocomplete, GkDate },
   name: 'ProductRegister',
@@ -189,11 +190,13 @@ export default {
       this.loading = true;
     },
   },
+  computed: {
+    ...mapState(['yearStart', 'yearEnd']),
+  },
   mounted() {
     this.getProjectList();
-    const org = JSON.parse(localStorage.getItem('orgYears'));
-    this.fromDate = org.yearStart;
-    this.toDate = org.yearEnd;
+    this.fromDate = this.yearStart;
+    this.toDate = this.yearEnd;
   },
 };
 </script>

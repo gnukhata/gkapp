@@ -13,6 +13,7 @@
             <autocomplete
               v-model="productId"
               :options="productList"
+              placeholder="Select Product"
             ></autocomplete>
           </b-form-group>
           <div class="row">
@@ -189,6 +190,7 @@
 import axios from 'axios';
 import Autocomplete from './Autocomplete.vue';
 import GkDate from './GkDate.vue';
+import { mapState } from 'vuex';
 export default {
   name: 'ProductRegister',
   components: { Autocomplete, GkDate },
@@ -323,12 +325,14 @@ export default {
         });
     },
   },
+  computed: {
+    ...mapState(['yearStart', 'yearEnd']),
+  },
   mounted() {
     this.getProductList();
     this.getGodownList();
-    const org = JSON.parse(localStorage.getItem('orgYears'));
-    this.fromDate = org.yearStart;
-    this.toDate = org.yearEnd;
+    this.fromDate = this.yearStart;
+    this.toDate = this.yearEnd;
   },
 };
 </script>
