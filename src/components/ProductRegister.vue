@@ -40,8 +40,13 @@
             switch
             >Godown Wise Product Register</b-form-checkbox
           >
+          <!-- Godown select -->
           <b-form-group v-if="showGodowns" label="Godown" label-cols="auto">
-            <autocomplete v-model="godownId" :options="godowns"></autocomplete>
+            <autocomplete
+              placeholder="Search / Select a godown"
+              v-model="godownId"
+              :options="godowns"
+            ></autocomplete>
           </b-form-group>
           <b-button type="submit" variant="success" class="float-right"
             ><b-icon icon="cloud-download"></b-icon> Get Details</b-button
@@ -315,7 +320,7 @@ export default {
             this.godowns = r.data.gkresult.map((data) => {
               return {
                 value: Object.values(data)[2],
-                text: Object.values(data)[3],
+                text: `${Object.values(data)[3]} (${Object.values(data)[4]}) `,
               };
             });
           }

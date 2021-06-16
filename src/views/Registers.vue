@@ -76,6 +76,7 @@
 </template>
 <!-- TODOS
      * Fix Table fields
+     * API response has object with multiple key/values. Process them
      * Add Button for export as spreadsheet
 -->
 <script>
