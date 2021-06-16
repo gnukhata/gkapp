@@ -96,7 +96,7 @@
             >{{ row.particulars }}</b-th
           >
           <b-th class="font-weight-normal">{{ row.trntype }}</b-th>
-          <router-link :to="'/workflow/Transactions/' + row.invid">
+          <router-link :to="'/workflow/Transactions-Invoice/' + row.invid">
             <b-th class="font-weight-normal">{{ row.invno }}</b-th>
           </router-link>
           <b-th class="font-weight-normal">{{ row.rnno }}</b-th>
@@ -163,7 +163,7 @@
             >{{ row.particulars }}</b-th
           >
           <b-th class="font-weight-normal">{{ row.trntype }}</b-th>
-          <router-link :to="'/workflow/Transactions/' + row.invid">
+          <router-link :to="'/workflow/Transactions-Invoice/' + row.invid">
             <b-th class="font-weight-normal">{{ row.invno }}</b-th>
           </router-link>
           <b-th class="font-weight-normal">{{ row.rnno }}</b-th>
