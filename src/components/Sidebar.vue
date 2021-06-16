@@ -70,6 +70,9 @@
           <b-nav-item to="/cost-center-statement">
             <b-icon icon="cash"></b-icon> Cost Center Statement
           </b-nav-item>
+          <b-nav-item to="/registers">
+            <b-icon icon="receipt"></b-icon> Sale / Purchase Registers
+          </b-nav-item>
         </b-nav>
       </template>
     </b-sidebar>
