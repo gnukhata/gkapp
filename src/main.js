@@ -14,6 +14,14 @@ Vue.prototype.$workbox = wb
 
 store.commit('initStore') // initialize the required vuex states from local storage
 
+Vue.mixin({
+  methods: {
+    dateReverse(date){
+      let d = date.split('-').reverse();
+      return `${d[0]}-${d[1]}-${d[2]}`;
+    }
+  }
+})
 new Vue({
   router,
   store,
