@@ -158,10 +158,6 @@ export default {
           this.loading = false;
         });
     },
-    dateReverse(date) {
-      let d = date.split('-').reverse();
-      return `${d[0]}-${d[1]}-${d[2]}`;
-    },
   },
   computed: {
     ...mapState(['yearStart', 'yearEnd']),
