@@ -2,6 +2,7 @@
   <section class="m-2">
     <b-overlay :show="loading">
       <b-card
+        v-show="showCard"
         header="Product Register"
         header-bg-variant="dark"
         header-text-variant="light"
@@ -55,72 +56,86 @@
       </b-card>
     </b-overlay>
 
-    <!-- Godown Stock Table -->
-    <b-table-simple
-      v-if="report.length > 0 && !showGodowns"
-      class="mt-3"
-      small
-      responsive="sm"
-      bordered
-      striped
-      hover
-      caption-top
-    >
-      <caption>
+    <!-- Stock Table -->
+    <div v-if="report.length > 0 && !showGodowns" class="mb-5">
+      <h3 class="text-center">{{ orgName.split('(')[0] }}</h3>
+      <div class="text-center">
         Product Name:
         <b>{{
           productList.filter((p) => p['value'] == productId)[0]['text']
         }}</b>
         | From
-        <b>{{ fromDate }}</b>
+        <b>{{ dateReverse(fromDate) }}</b>
         to
-        <b>{{ toDate }}</b>
-      </caption>
-      <b-thead head-variant="dark">
-        <b-tr>
-          <b-th>Date</b-th>
-          <b-th>Particulars</b-th>
-          <b-th>Document Type</b-th>
-          <b-th>Document Id</b-th>
-          <b-th>RN No.</b-th>
-          <b-th>Inward</b-th>
-          <b-th>Outward</b-th>
-          <b-th>Balance</b-th>
-        </b-tr>
-      </b-thead>
-      <b-tbody>
-        <b-tr v-for="(row, index) in report" :key="index">
-          <b-th class="font-weight-normal">{{ row.date }}</b-th>
-          <b-th
-            :class="
-              row.particulars == 'Total'
-                ? 'font-weight-bold'
-                : 'font-weight-normal'
-            "
-            :variant="row.particulars == 'Total' ? 'warning' : ''"
-            >{{ row.particulars }}</b-th
-          >
-          <b-th class="font-weight-normal">{{ row.trntype }}</b-th>
-          <router-link :to="'/workflow/Transactions-Invoice/' + row.invid">
-            <b-th class="font-weight-normal">{{ row.invno }}</b-th>
-          </router-link>
-          <b-th class="font-weight-normal">{{ row.rnno }}</b-th>
-          <b-th v-if="row.particulars == 'Total'">{{
-            row.totalinwardqty
-          }}</b-th>
-          <b-th v-else-if="row.particulars == 'opening stock'">{{
-            row.inward
-          }}</b-th>
-          <b-th class="font-weight-normal" v-else> {{ row.inwardqty }} </b-th>
+        <b>{{ dateReverse(toDate) }}</b>
+      </div>
+      <div class="float-right mt-5">
+        <b-button
+          size="sm"
+          variant="warning"
+          class="mb-2"
+          @click="(showCard = true), (report = [])"
+        >
+          Select another product</b-button
+        >
+      </div>
+      <b-table-simple
+        class="mt-3"
+        small
+        responsive="sm"
+        bordered
+        striped
+        hover
+        caption-top
+      >
+        <b-thead head-variant="dark">
+          <b-tr>
+            <b-th>Date</b-th>
+            <b-th>Particulars</b-th>
+            <b-th>Document Type</b-th>
+            <b-th>Document Id</b-th>
+            <b-th>RN No.</b-th>
+            <b-th>Inward</b-th>
+            <b-th>Outward</b-th>
+            <b-th>Balance</b-th>
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr v-for="(row, index) in report" :key="index">
+            <b-th class="font-weight-normal">{{ row.date }}</b-th>
+            <b-th
+              :class="
+                row.particulars == 'Total'
+                  ? 'font-weight-bold'
+                  : 'font-weight-normal'
+              "
+              :variant="row.particulars == 'Total' ? 'warning' : ''"
+              >{{ row.particulars }}</b-th
+            >
+            <b-th class="font-weight-normal">{{ row.trntype }}</b-th>
+            <router-link :to="'/workflow/Transactions-Invoice/' + row.invid">
+              <b-th class="font-weight-normal">{{ row.invno }}</b-th>
+            </router-link>
+            <b-th class="font-weight-normal">{{ row.rnno }}</b-th>
+            <b-th v-if="row.particulars == 'Total'">{{
+              row.totalinwardqty
+            }}</b-th>
+            <b-th v-else-if="row.particulars == 'opening stock'">{{
+              row.inward
+            }}</b-th>
+            <b-th class="font-weight-normal" v-else> {{ row.inwardqty }} </b-th>
 
-          <b-th v-if="row.particulars == 'Total'">{{
-            row.totaloutwardqty
-          }}</b-th>
-          <b-th class="font-weight-normal" v-else> {{ row.outwardqty }} </b-th>
-          <b-th class="font-weight-normal">{{ row.balance }}</b-th>
-        </b-tr>
-      </b-tbody>
-    </b-table-simple>
+            <b-th v-if="row.particulars == 'Total'">{{
+              row.totaloutwardqty
+            }}</b-th>
+            <b-th class="font-weight-normal" v-else>
+              {{ row.outwardqty }}
+            </b-th>
+            <b-th class="font-weight-normal">{{ row.balance }}</b-th>
+          </b-tr>
+        </b-tbody>
+      </b-table-simple>
+    </div>
     <!-- Godown Wise Stock Table -->
     <b-table-simple
       v-model="godownReport"
@@ -142,6 +157,11 @@
         <b>{{ fromDate }}</b>
         to
         <b>{{ toDate }}</b>
+        <div class="float-right">
+          <b-button size="sm" variant="dark" @click="!showCard">
+            Select another product</b-button
+          >
+        </div>
       </caption>
       <b-thead head-variant="dark">
         <b-tr>
@@ -211,6 +231,7 @@ export default {
       showGodowns: false,
       godownId: '',
       godownReport: [],
+      showCard: true,
     };
   },
   methods: {
@@ -233,6 +254,7 @@ export default {
             switch (data.gkstatus) {
               case 0:
                 this.report = data.gkresult;
+                this.showCard = false;
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {
@@ -284,6 +306,7 @@ export default {
         .then((r) => {
           if (r.status == 200) {
             this.godownReport = r.data.gkresult;
+            this.showCard = false;
           }
           this.loading = false;
         });
@@ -291,7 +314,7 @@ export default {
     getProductList() {
       this.loading = true;
       axios
-        .get('/products')
+        .get('/products?invdc=4')
         .then((r) => {
           if (r.status == 200) {
             this.productList = r.data.gkresult.map((data) => {
@@ -331,7 +354,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   mounted() {
     this.getProductList();
