@@ -4,19 +4,24 @@
       <!--navbar-->
       <b-navbar toggleable="lg" type="light" variant="light">
         <b-navbar-brand>
-          <img
-            :src="orgImg"
-            width="30"
-            height="30"
-            class="rounded border border-secondary s d-inline-block align-top"
-            alt="GNUKhata Logo"
-          />
+          <router-link
+            style="border-bottom: 0px"
+            to="/workflow/Transactions-Invoice/-1"
+          >
+            <img
+              :src="orgImg"
+              width="30"
+              height="30"
+              class="rounded d-inline-block align-top"
+              alt="GNUKhata Logo"
+            />
+          </router-link>
           <div
             :style="{ maxWidth: '185px' }"
             class="ml-2 d-inline-block text-truncate"
           >
             <!-- Without textwrap, creates horizontal overlfow in mobile view -->
-            {{ this.orgName || 'GNUKhata' }}
+            {{ this.orgName.split('(')[0] || 'GNUKhata' }}
           </div>
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
