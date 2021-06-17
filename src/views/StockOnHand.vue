@@ -28,6 +28,7 @@
             ref="allstock"
             class="mb-2"
             switch
+            :disabled="showGodowns"
             :unchecked-value="false"
             >All Products Stock On Hand Report</b-form-checkbox
           >
@@ -37,6 +38,7 @@
             class="mb-2"
             switch
             :unchecked-value="false"
+            :disabled="allProducts"
             >Godown Wise Stock On Hand Report</b-form-checkbox
           >
           <!-- Godown select -->
@@ -105,6 +107,23 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
+    getGodownList() {
+      axios
+        .get('/godown')
+        .then((r) => {
+          if (r.status == 200 && r.data.gkstatus == 0) {
+            this.godowns = r.data.gkresult.map((data) => {
+              return {
+                value: Object.values(data)[2],
+                text: `${Object.values(data)[3]} (${Object.values(data)[4]}) `,
+              };
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
+    },
     getProductList() {
       this.loading = true;
       axios
@@ -132,13 +151,19 @@ export default {
     stockOnHand() {
       this.report = [];
       this.loading = true;
+
       if (this.allProducts) {
         this.productId = 'all';
       }
+
+      let url = `/report?stockonhandreport&productcode=${this.productId}&enddate=${this.toDate}`;
+
+      if (this.showGodowns) {
+        url = `/report?godownwisestockonhand&type=pg&goid=${this.godownId}&productcode=${this.godownId}&enddate=${this.toDate}`;
+      }
+
       axios
-        .get(
-          `/report?stockonhandreport&productcode=${this.productId}&enddate=${this.toDate}`
-        )
+        .get(url)
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
@@ -198,6 +223,7 @@ export default {
   },
   mounted() {
     this.getProductList();
+    this.getGodownList();
     this.toDate = this.yearEnd;
   },
 };
