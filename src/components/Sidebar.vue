@@ -71,7 +71,10 @@
             <b-icon icon="cash"></b-icon> Cost Center Statement
           </b-nav-item>
           <b-nav-item to="/registers">
-            <b-icon icon="receipt"></b-icon> Sale / Purchase Registers
+            <b-icon icon="receipt"></b-icon> View Registers
+          </b-nav-item>
+          <b-nav-item to="/stock-on-hand">
+            <b-icon icon="receipt"></b-icon> Stock On Hand
           </b-nav-item>
         </b-nav>
       </template>

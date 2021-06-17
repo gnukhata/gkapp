@@ -59,12 +59,20 @@ const routes = [
     component: AddCategory
   },
   {
+    path: '/stock-on-hand',
+    name: 'Stock On Hand',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "stockonhand" */ '../views/StockOnHand.vue')
+  },
+  {
     path: '/registers',
     name: 'View Registers',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "productregister" */ '../views/Registers.vue')
+    component: () => import(/* webpackChunkName: "registers" */ '../views/Registers.vue')
   },
   {
     path: '/cost-center-statement',
@@ -72,7 +80,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "productregister" */ '../components/CostCenterStatement.vue')
+    component: () => import(/* webpackChunkName: "costcenterstatement" */ '../components/CostCenterStatement.vue')
   },
   {
     path: '/product-register',
