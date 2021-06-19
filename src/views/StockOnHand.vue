@@ -159,7 +159,7 @@ export default {
       let url = `/report?stockonhandreport&productcode=${this.productId}&enddate=${this.toDate}`;
 
       if (this.showGodowns) {
-        url = `/report?godownwisestockonhand&type=pg&goid=${this.godownId}&productcode=${this.godownId}&enddate=${this.toDate}`;
+        url = `/report?godownwisestockonhand&type=pg&goid=${this.godownId}&productcode=${this.productId}&enddate=${this.toDate}`;
       }
 
       axios
