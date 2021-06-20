@@ -21,7 +21,7 @@
             class="ml-2 d-inline-block text-truncate"
           >
             <!-- Without textwrap, creates horizontal overlfow in mobile view -->
-            {{ this.orgName.split('(')[0] || 'GNUKhata' }}
+            {{ this.orgName || 'GNUKhata' }}
           </div>
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
