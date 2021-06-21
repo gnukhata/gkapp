@@ -28,18 +28,26 @@
       <!--  -->
       <b-list-group-item
         button
-        class="gk-autocomplete-item text-truncate"
+        class="gk-autocomplete-item"
         :class="{ 'gk-autocomplete-item-hover': index === hovered }"
         v-for="(option, index) in filteredOptions"
         :key="index"
-        @mousedown="selectOption(option)"
+        @mousedown="onMouseDown(option)"
         @mouseenter="setHovered(index)"
       >
-        {{ option.text }}
+        <div class="text-truncate">
+          {{ option.text }}
+        </div>
+        <small class="text-danger" v-if="!option.active && checkActive">
+          ({{inactiveText}})
+        </small>
       </b-list-group-item>
       <b-list-group-item
         button
         class="gk-autocomplete-item text-truncate"
+        :class="{
+          'gk-autocomplete-item-hover': filteredOptions.length === hovered,
+        }"
         @mousedown="clearSelection()"
       >
         Clear Selection
@@ -119,6 +127,11 @@ export default {
       type: String,
       default: 'value',
     },
+    inactiveText: {
+      type: String,
+      required: false,
+      default: ""
+    }
   },
   data() {
     return {
@@ -135,7 +148,9 @@ export default {
       //a separate options object (optionsB) is created to store local changes
     };
   },
-  computed: {},
+  computed: {
+    checkActive: (self) => !! self.inactiveText, // used for applying (active/not active) related settings  
+  },
   methods: {
     /** Creates a local copy of Options prop in a desired format, {text: , value:} */
     initOptions() {
@@ -278,8 +293,16 @@ export default {
       this.optionsShown = false;
       this.hovered = false;
     },
+    onMouseEnter(isActive, index) {
+      this.setHovered(index);
+    },
+    onMouseDown(option) {
+      if(option.active || !this.checkActive){
+        this.selectOption(option)
+      }
+    },
     /** Keyboard press event handlers for arrow keys, enter and escape key */
-    keyMonitor: function(event) {
+    keyMonitor: function (event) {
       switch (event.which) {
         case 38: // ArrowUp
           {
@@ -289,17 +312,22 @@ export default {
         case 40: // ArrowDown
           {
             this.setHovered(
-              Math.min(this.filteredOptions.length - 1, ++this.hovered)
+              Math.min(this.filteredOptions.length, ++this.hovered)
             );
           }
           break;
         case 13:
           {
             // Enter Key
-            if (this.filteredOptions[this.hovered]) {
+            if (this.filteredOptions.length === this.hovered) {
               event.preventDefault();
-              this.selectOption(this.filteredOptions[this.hovered]);
-              this.isSelected = true;
+              this.clearSelection();
+            } else if (this.filteredOptions[this.hovered]) {
+              if(this.filteredOptions[this.hovered].active){
+                event.preventDefault();
+                this.selectOption(this.filteredOptions[this.hovered]);
+                this.isSelected = true;
+              }
             }
           }
           break;

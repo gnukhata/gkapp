@@ -5,13 +5,13 @@
       </b-overlay>
       <b-card body-class="py-2 px-2">
         <b-button
-            v-if="editMode"
-            @click.prevent="onItemView"
-            class="py-0 mx-1"
-            variant="secondary"
-            size="sm"
-            >Back</b-button
-          >
+          v-if="editMode"
+          @click.prevent="onItemView"
+          class="py-0 mx-1"
+          variant="secondary"
+          size="sm"
+          >Back</b-button
+        >
         <span class="float-right">
           <b-button
             v-if="config.addBtn"
@@ -55,7 +55,10 @@
 
         <!-- Edit Btn -->
         <template #cell(editBtn)="data">
-          <b-button variant="outline" @click.prevent="onItemEdit(data.item.index)" size="sm"
+          <b-button
+            variant="outline"
+            @click.prevent="onItemEdit(data.item.index)"
+            size="sm"
             ><b-icon icon="pencil"></b-icon
           ></b-button>
         </template>
@@ -84,12 +87,15 @@
             size="sm"
             v-model="form[data.item.index].product"
             :options="options.products"
-            @input="onBillItemSelect(form[data.item.index].product, data.item.index)"
+            @input="
+              onBillItemSelect(form[data.item.index].product, data.item.index)
+            "
             valueUid="id"
             :isOptionsShared="true"
             required
             emptyValue=""
             :readonly="disabled.product"
+            inactiveText="Out of Stock"
           ></autocomplete>
           <span v-else>{{ data.value.name }}</span>
         </template>
@@ -105,11 +111,18 @@
             no-wheel
             step="0.01"
             min="0.01"
-            @input="updateTaxAndTotal(data.item.index)"
+            @input="onQtyUpdate(data.item.index, data.item.pid)"
             :readonly="data.item.isService || disabled.qty"
             :tabindex="data.item.isService ? -1 : 0"
           ></b-input>
-          <span v-else>{{ form[data.item.index] ? form[data.item.index].qty : '' }}</span>
+          <span v-else>{{
+            form[data.item.index] ? form[data.item.index].qty : ''
+          }}</span>
+          <small
+            class="text-danger"
+            v-if="form[data.item.index].qty > options.stock[data.item.pid] && config.qty.checkStock"
+            >Stock On Hand = {{ options.stock[data.item.pid] }}</small
+          >
         </template>
 
         <!-- Package Count (Purchase Sales Order) -->
@@ -302,6 +315,7 @@
 import axios from 'axios';
 import Autocomplete from '../../Autocomplete.vue';
 import BusinessItem from '../BusinessItem.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'BillTable',
@@ -368,6 +382,7 @@ export default {
   },
   data() {
     return {
+      endDate: null,
       editMode: false,
       showBusinessForm: false,
       isPreloading: false,
@@ -399,6 +414,7 @@ export default {
       ],
       options: {
         products: [],
+        stock: {},
       },
     };
   },
@@ -414,6 +430,12 @@ export default {
             data.splice(index, 1);
           }
         });
+      }
+      function replace(key, label) {
+        let index = data.findIndex((item) => item.key === key);
+        if(index >= 0) {
+          data[index].label = label;
+        }
       }
       let data = [
         { key: 'editBtn', label: 'Edit' },
@@ -434,7 +456,7 @@ export default {
         { key: 'total', label: 'Total ₹', tdClass: 'text-right' },
         { key: 'addBtn', label: '+/-' },
       ];
-      data[6].label = self.creditFlag ? 'Credited Value' : 'Debited Value';
+      replace('dcValue', self.creditFlag ? 'Credited Value' : 'Debited Value');
       if (self.gstFlag) {
         remove('vat');
         if (self.cgstFlag) {
@@ -492,6 +514,7 @@ export default {
       }
       return true; // by default show addProductBtn
     },
+    ...mapState(['yearEnd']),
   },
   watch: {
     updateCounter() {
@@ -543,6 +566,11 @@ export default {
     },
   },
   methods: {
+    onQtyUpdate(index, pid) {
+      if (parseFloat(this.form[index].qty) <= this.options.stock[pid]) {
+        this.updateTaxAndTotal(index);
+      }
+    },
     /**
      * fetchProductDetails(id, index)
      *
@@ -558,8 +586,15 @@ export default {
         axios.get(`/tax?pscflag=p&productcode=${id}`).catch((error) => {
           return error;
         }),
+        axios
+          .get(
+            `/report?stockonhandreport&productcode=${id}&enddate=${this.endDate}`
+          )
+          .catch((error) => {
+            return error;
+          }),
       ];
-      return Promise.all([...requests]).then(([resp1, resp2]) => {
+      return Promise.all([...requests]).then(([resp1, resp2, resp3]) => {
         self.isLoading = false;
         // Product Data
         if (resp1.status === 200) {
@@ -649,8 +684,12 @@ export default {
         } else {
           console.log(resp2.message);
         }
-
         self.updateTaxAndTotal(index);
+
+        // Stock On Hand
+        if (resp3.data.gkstatus === 0) {
+          self.options.stock[id] = parseFloat(resp3.data.gkresult[0].balance);
+        }
       });
     },
     onItemEdit(index) {
@@ -818,6 +857,32 @@ export default {
       }
       this.onUpdateDetails();
     },
+    fetchStockOnHandData(prodList) {
+      const self = this;
+      let requests = prodList.map((item) => {
+        return axios
+          .get(
+            `/report?stockonhandreport&productcode=${item.productcode}&enddate=${this.endDate}`
+          )
+          .catch((error) => {
+            return error;
+          });
+      });
+      return Promise.all([...requests]).then((stockResp) => {
+        let id;
+        stockResp.forEach((r, index) => {
+          id = prodList[index].productcode;
+          if (r.data.gkstatus === 0) {
+            self.options.stock[id] = parseFloat(r.data.gkresult[0].balance);
+            // option is marked active if stock is greater than 1 or its a service (gsflag=19)
+            self.options.products[index].active = self.options.stock[id] > 0;
+          } else if (prodList[index].gsflag === 19) {
+            self.options.products[index].active = true;
+            self.options.stock[id] = 1;
+          }
+        });
+      });
+    },
     fetchBusinessList() {
       let self = this;
       this.isPreloading = true;
@@ -837,6 +902,7 @@ export default {
                   },
                 };
               });
+              self.fetchStockOnHandData(resp.data.gkresult);
             } else {
               this.displayToast(
                 'Fetch Product Data Failed!',
@@ -914,6 +980,14 @@ export default {
     this.fetchBusinessList().then(() => {
       self.onUpdateDetails();
     });
+
+    // update endDate used for getting product's StockOnHand
+    let date = new Date().getTime();
+    let maxDate = new Date(this.yearEnd).getTime();
+    this.endDate =
+      date > maxDate ? new Date().toISOString().slice(0, 10) : this.yearEnd;
+
+    // add event listener for tracking screen size
     this.mobileMode = window.innerWidth < 576;
     window.addEventListener(
       'resize',
@@ -923,7 +997,7 @@ export default {
           clearTimeout(timeout);
           timeout = setTimeout(() => {
             self.mobileMode = window.innerWidth < 576;
-            if(!self.mobileMode) {
+            if (!self.mobileMode) {
               self.currentPage = 1;
               self.editMode = false;
             }
