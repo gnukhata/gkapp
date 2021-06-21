@@ -43,7 +43,7 @@ export default {
         index: true,
         product: { mobileMode: { disabled: true }, addBtn: true },
         hsn: true,
-        qty: { mobileMode: { disabled: true } },
+        qty: { mobileMode: { disabled: true }, checkStock: true },
         fqty: true,
         rate: true,
         discount: true,
