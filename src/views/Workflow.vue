@@ -380,8 +380,7 @@
             ></b-button>
             <h5 class="m-2 d-inline-block">
               <b-icon :icon="selectedEntity.icon"></b-icon>
-              {{ selectedEntity.csflag === 3 ? 'Sale' : 'Purchase' }} Invoice :
-              {{ selectedEntity.invoiceno }}
+              {{ selectedEntity.noteName }} : {{ selectedEntity.no }}
             </h5>
           </template>
           <b-card-body
@@ -1381,6 +1380,10 @@ export default {
                 return Object.assign(
                   {
                     id: item.invid,
+                    no: item.invoiceno,
+                    noteName: `${
+                      item.csflag === 3 ? 'Sale' : 'Purchase'
+                    } Invoice`,
                     date: item.invoicedate,
                     text1: item.custname,
                     text2: `₹ ${item.netamt}`,
@@ -1428,6 +1431,8 @@ export default {
                   return Object.assign(
                     {
                       id: item.dcid,
+                      no: item.dcno,
+                      noteName: `Delivery Note`,
                       text1: item.custname,
                       text2: item.dcno,
                       icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
@@ -1454,6 +1459,8 @@ export default {
                   return Object.assign(
                     {
                       id: item.invid,
+                      no: item.invoiceno,
+                      noteName: `Cash Memo`,
                       text1: item.invoiceno,
                       icon: 'cash-stack',
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
@@ -1473,12 +1480,14 @@ export default {
 
           // Cash Memo Purchase
           if (resp8.status === 200) {
-            if (resp8.data.gkstatus === 0) {
-              transactionTab['CashMemo'].data = resp8.data.gkresult.map(
+            if (resp8.data.gkstatus === 0) { 
+              let cmPurchase = resp8.data.gkresult.map(
                 (item) => {
                   return Object.assign(
                     {
                       id: item.invid,
+                      no: item.invoiceno,
+                      noteName: `Cash Memo`,
                       text1: item.invoiceno,
                       icon: 'basket3',
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
@@ -1491,6 +1500,9 @@ export default {
                   );
                 }
               );
+              if(cmPurchase.length) {
+                transactionTab['CashMemo'].data.push(...cmPurchase)
+              }
             }
           } else {
             console.log(resp8.message);
@@ -1528,6 +1540,10 @@ export default {
                 return Object.assign(
                   {
                     id: item.orderid,
+                    no: item.orderno,
+                    noteName: `${
+                      custSupMap[item.customer] ? 'Sale' : 'Purchase'
+                    } Order`,
                     text1: item.customer,
                     text2: item.orderno,
                     csflag: custSupMap[item.customer] ? 3 : 19,
@@ -1554,6 +1570,10 @@ export default {
                   return Object.assign(
                     {
                       id: item.drcrid,
+                      no: item.drcrno,
+                      noteName: `${
+                        item.dctypeflag === 3 ? 'Credit' : 'Debit'
+                      } Note`,
                       text1: item.custname,
                       text2: `₹ ${item.totreduct}`,
                       icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
@@ -1580,6 +1600,8 @@ export default {
                   return Object.assign(
                     {
                       id: item.rnid,
+                      no: item.rnno,
+                      noteName: `Rejection Note`,
                       text1: item.rnno,
                       icon: item.inout === 15 ? 'cash-stack' : 'basket3',
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.

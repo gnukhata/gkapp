@@ -58,6 +58,5 @@ export default {
       Used to update the data used in workflow.`,
     },
   },
-  data: {},
 };
 </script>
