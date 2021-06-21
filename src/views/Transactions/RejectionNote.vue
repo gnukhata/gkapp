@@ -9,8 +9,8 @@
         class="mx-1"
         @input="resetForm"
       >
-        <b-form-radio value="sale">Sale</b-form-radio>
-        <b-form-radio value="purchase">Purchase</b-form-radio>
+        <b-form-radio value="sale">Rejection In</b-form-radio>
+        <b-form-radio value="purchase">Rejection Out</b-form-radio>
       </b-form-radio-group>
       <span id="edit-invoice-list" class="d-inline-block">
         <autocomplete
@@ -366,14 +366,14 @@ export default {
       let rndata = {
         rnno: this.form.rnote.no,
         rndate: this.form.rnote.date,
-        inout: this.isSale ? 15 : 9,
+        inout: this.isSale ? 9 : 15,
         rejprods: {},
         rejectedtotal: this.form.total.amount,
         invid: this.invSelected.invid,
       };
 
       let stock = {
-        inout: this.isSale ? 15 : 9,
+        inout: this.isSale ? 9 : 15, // for rejection note 9 is used for IN and 15 for OUT
         items: {},
       };
 
@@ -381,7 +381,7 @@ export default {
 
       this.form.bill.forEach((item) => {
         products[item.pid] = {};
-        products[item.pid][item.rate] = item.rejectedQty;
+        products[item.pid][item.rate] = item.rejectedQty || 0;
       });
 
       rndata.rejprods = stock.items = products;
