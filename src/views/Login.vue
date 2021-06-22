@@ -340,7 +340,7 @@ export default {
                 this.$store.dispatch('setSessionStates', {
                   auth: true,
                   orgCode: this.form.orgcode,
-                  orgName: `${orgname} (${orgtype})`,
+                  orgName: orgname,
                   authToken: response.data.token,
                   user: { username: this.form.username },
                   orgYears: {
