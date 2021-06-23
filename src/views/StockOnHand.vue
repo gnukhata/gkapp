@@ -5,7 +5,7 @@
         header="Stock On Hand"
         header-bg-variant="dark"
         header-text-variant="light"
-        class="mx-auto gkcard"
+        class="mx-auto gkcard d-print-none"
       >
         <b-form @submit.prevent="stockOnHand">
           <!-- product select -->
@@ -16,31 +16,36 @@
               placeholder="Select Product"
               :required="!allProducts"
             ></autocomplete>
+            <div class="text-left">
+              <b-form-checkbox
+                v-model="allProducts"
+                ref="allstock"
+                class="mt-2"
+                switch
+                :disabled="showGodowns"
+                :unchecked-value="false"
+                >All Products</b-form-checkbox
+              >
+            </div>
           </b-form-group>
+
           <div class="col">
-            <b-form-group label="As on" label-cols="auto">
+            <b-form-group label="As on" label-cols="auto" label-align="right">
               <gk-date :required="true" v-model="toDate" id="to"></gk-date>
             </b-form-group>
           </div>
           <!-- checkboxes -->
-          <b-form-checkbox
-            v-model="allProducts"
-            ref="allstock"
-            class="mb-2"
-            switch
-            :disabled="showGodowns"
-            :unchecked-value="false"
-            >All Products Stock On Hand Report</b-form-checkbox
-          >
-          <b-form-checkbox
-            v-model="showGodowns"
-            ref="allstock"
-            class="mb-2"
-            switch
-            :unchecked-value="false"
-            :disabled="allProducts"
-            >Godown Wise Stock On Hand Report</b-form-checkbox
-          >
+          <b-form-group>
+            <b-form-checkbox
+              v-model="showGodowns"
+              ref="allstock"
+              class="mb-2"
+              switch
+              :unchecked-value="false"
+              :disabled="allProducts"
+              >Godown Wise Stock On Hand Report</b-form-checkbox
+            >
+          </b-form-group>
           <!-- Godown select -->
           <b-form-group v-if="showGodowns" label="Godown" label-cols="auto">
             <autocomplete
@@ -63,6 +68,11 @@
         </div>
         <i>Stock report as on: {{ dateReverse(toDate) }}</i>
       </div>
+      <b-form-input
+        v-model="search"
+        placeholder="Search Products"
+        class="gkcard mx-auto d-print-none"
+      ></b-form-input>
       <b-table
         caption-top
         class="mt-3"
@@ -71,6 +81,7 @@
         bordered
         striped
         stacked="sm"
+        :filter="search"
         v-if="report.length > 0"
         :items="report"
       >
@@ -101,6 +112,7 @@ export default {
       godownId: '',
       godownReport: [],
       showCard: true,
+      search: '',
     };
   },
   computed: {
@@ -168,7 +180,15 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                this.report = r.data.gkresult;
+                this.report = r.data.gkresult.map((data) => {
+                  return {
+                    no: Object.values(data)[0],
+                    product: Object.values(data)[1],
+                    total_inward_qty: Object.values(data)[2],
+                    total_outward_qty: Object.values(data)[3],
+                    balance: Object.values(data)[4],
+                  };
+                });
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {

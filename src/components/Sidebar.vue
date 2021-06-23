@@ -2,7 +2,7 @@
   <section>
     <b-button
       size="sm"
-      class="ml-2"
+      class="ml-2 d-print-none"
       variant="light"
       title="Open Sidebar"
       :lazy="true"
