@@ -78,8 +78,7 @@
         <!-- b-row has to be enclosed in a container tag with padding
          atleast 2, to avoid creating an offset to the right -->
         <b-row class="mt-5" v-if="config.total">
-          <b-col cols="12" lg="6">
-          </b-col>
+          <b-col cols="12" lg="6"> </b-col>
           <b-col cols="12" lg="6">
             <total-table
               :config="config.total"
@@ -392,7 +391,14 @@ export default {
     onComponentDataUpdate(payload) {
       switch (payload.name) {
         case 'delivery-note-details':
-          Object.assign(this.form.delNote, payload.data);
+          {
+            Object.assign(this.form.delNote, payload.data);
+            this.form.transport.date = this.form.delNote.date;
+            const self = this;
+            setTimeout(function () {
+              self.updateCounter.transport++;
+            });
+          }
           break;
         case 'party-details':
           Object.assign(this.form.party, payload.data);

@@ -436,11 +436,20 @@ export default {
           this.isPreloading = false;
         });
     },
+    updateDate() {
+      let today = new Date().getTime(),
+        min = new Date(this.yearStart).getTime(),
+        max = new Date(this.yearEnd).getTime();
+
+      if (today >= min && today <= max) {
+        this.form.date = this.formatDateObj(new Date());
+      } else {
+        this.form.date = this.yearEnd;
+      }
+    },
     resetForm() {
       this.setOrgDetails();
-      if (!this.date.valid) {
-        this.form.date = this.yearStart;
-      }
+      this.updateDate();
       this.setDelChalNo();
       this.onUpdateDetails();
     },

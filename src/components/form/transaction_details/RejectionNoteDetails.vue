@@ -243,11 +243,23 @@ export default {
       day = day > 9 ? day : '0' + day;
       return `${date.getFullYear()}-${month}-${day}`;
     },
+    updateDate() {
+      let today = new Date().getTime(),
+        min = new Date(this.yearStart).getTime(),
+        max = new Date(this.yearEnd).getTime();
+
+      if (today >= min && today <= max) {
+        this.form.date = this.formatDateObj(new Date());
+      } else {
+        this.form.date = this.yearEnd;
+      }
+    },
     resetForm() {
       Object.assign(this.form, {
-        no: "",
-        date: ""
+        no: ""
       })
+      this.updateDate();
+      this.onUpdateDetails();
     },
     onUpdateDetails() {
       const self = this;
@@ -266,10 +278,7 @@ export default {
   },
   mounted() {
     this.preloadData();
-    if (!this.date.valid) {
-      this.form.date = this.yearStart;
-    }
-    this.onUpdateDetails();
+    this.resetForm();
   },
 };
 </script>

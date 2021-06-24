@@ -305,8 +305,15 @@ export default {
     onComponentDataUpdate(payload) {
       switch (payload.name) {
         case 'ps-order-details':
-          Object.assign(this.form.psOrder, payload.data);
-          this.isInvDateValid = payload.options.isDateValid;
+          {
+            Object.assign(this.form.psOrder, payload.data);
+            this.isInvDateValid = payload.options.isDateValid;
+            this.form.transport.date = this.form.psOrder.date;
+            const self = this;
+            setTimeout(function () {
+              self.updateCounter.transport++;
+            });
+          }
           break;
         case 'party-details':
           Object.assign(this.form.party, payload.data);

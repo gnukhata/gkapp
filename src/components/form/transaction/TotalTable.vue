@@ -155,10 +155,11 @@ export default {
     getTotal(key, subKey) {
       let total = 0;
       if (subKey) {
-        total = this.billData.reduce(
-          (acc, curr) => parseFloat(acc) + (parseFloat(curr[key][subKey]) || 0),
-          0
-        );
+        total = this.billData.reduce((acc, curr) => {
+          return parseFloat(acc) + curr[key]
+            ? parseFloat(curr[key][subKey]) || 0
+            : 0;
+        }, 0);
       } else {
         total = this.billData.reduce(
           (acc, curr) => parseFloat(acc) + (parseFloat(curr[key]) || 0),

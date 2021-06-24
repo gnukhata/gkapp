@@ -221,10 +221,18 @@ export default {
       self.form.type === 'credit' ? 'Credit Note' : 'Debit Note',
     minDate: (self) => {
       let date = self.toDMYDate(self.yearStart);
-      if (self.form.ref.date) {
-        date = self.toDMYDate(self.form.ref.date);
-      } else if(self.invDate) {
-        date = self.toDMYDate(self.invDate);
+      let ref = self.form.ref.date ? new Date(self.form.ref.date).getTime : '';
+      let inv = self.invDate ? new Date(self.invDate).getTime : '';
+      let invDate = inv ? self.toDMYDate(self.invDate) : '';
+      if (ref) {
+        let refDate = self.toDMYDate(self.form.ref.date);
+        if (inv) {
+          date = ref < inv ? refDate : invDate;
+        } else {
+          date = refDate;
+        }
+      } else if (inv) {
+        date = invDate;
       }
       return date;
     },
@@ -256,10 +264,19 @@ export default {
         })
       );
     },
-    resetForm() {
-      if (!this.date.valid) {
-        this.form.date = this.yearStart;
+    updateDate() {
+      let today = new Date().getTime(),
+        min = new Date(this.yearStart).getTime(),
+        max = new Date(this.yearEnd).getTime();
+
+      if (today >= min && today <= max) {
+        this.form.date = this.formatDateObj(new Date());
+      } else {
+        this.form.date = this.yearEnd;
       }
+    },
+    resetForm() {
+      this.updateDate();
       this.onUpdateDetails();
     },
     /**
