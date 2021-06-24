@@ -335,12 +335,12 @@ export default {
               this.isLoading = false;
               if (this.answer == this.userAnswer) {
                 let orgname = this.orgList[this.orgIndex].orgname;
-                let orgtype = this.orgList[this.orgIndex].orgtype;
+                //let orgtype = this.orgList[this.orgIndex].orgtype;
                 let orgfy = this.orgFinancialYear();
                 this.$store.dispatch('setSessionStates', {
                   auth: true,
                   orgCode: this.form.orgcode,
-                  orgName: `${orgname} (${orgtype})`,
+                  orgName: orgname,
                   authToken: response.data.token,
                   user: { username: this.form.username },
                   orgYears: {

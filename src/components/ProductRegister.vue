@@ -2,12 +2,11 @@
   <section class="m-2">
     <b-overlay :show="loading">
       <b-card
-        v-show="showCard"
         header="Product Register"
         header-bg-variant="dark"
         header-text-variant="light"
         style="max-width: 40em"
-        class="mx-auto"
+        class="mx-auto d-print-none"
       >
         <b-form @submit.prevent="check">
           <b-form-group label="Product" label-align="right" label-cols="auto">
@@ -68,16 +67,6 @@
         <b>{{ dateReverse(fromDate) }}</b>
         to
         <b>{{ dateReverse(toDate) }}</b>
-      </div>
-      <div class="float-right mt-5">
-        <b-button
-          size="sm"
-          variant="warning"
-          class="mb-2"
-          @click="(showCard = true), (report = [])"
-        >
-          Select another product</b-button
-        >
       </div>
       <b-table-simple
         class="mt-3"
@@ -157,11 +146,6 @@
         <b>{{ fromDate }}</b>
         to
         <b>{{ toDate }}</b>
-        <div class="float-right">
-          <b-button size="sm" variant="dark" @click="!showCard">
-            Select another product</b-button
-          >
-        </div>
       </caption>
       <b-thead head-variant="dark">
         <b-tr>
@@ -231,7 +215,6 @@ export default {
       showGodowns: false,
       godownId: '',
       godownReport: [],
-      showCard: true,
     };
   },
   methods: {
@@ -254,7 +237,6 @@ export default {
             switch (data.gkstatus) {
               case 0:
                 this.report = data.gkresult;
-                this.showCard = false;
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {

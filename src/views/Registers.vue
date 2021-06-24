@@ -5,12 +5,12 @@
         header="View Registers"
         header-bg-variant="dark"
         header-text-variant="light"
-        class="mx-auto gkcard"
+        class="mx-auto gkcard d-print-none"
       >
         <b-form @submit.prevent="getRegisters">
           <!-- Select Register -->
           <b-form-group label="Type" label-cols="auto">
-            <b-form-select v-model="registerType" required>
+            <b-form-select ref="register-type" v-model="registerType" required>
               <template #first>
                 <b-form-select-option disabled value=""
                   >-- Select Type Of Register --</b-form-select-option
@@ -51,27 +51,41 @@
     </b-overlay>
 
     <!-- Table -->
-    <b-table
-      caption-top
-      :filter="search"
-      class="mt-3"
-      head-variant="dark"
-      small
-      bordered
-      striped
-      stacked="sm"
-      v-if="report.length > 0"
-      :items="report"
-    >
-      <template #table-caption>
-        <b-form-input
-          type="text"
-          class="mx-auto gkcard mt-2"
-          placeholder="search Register"
-          v-model="search"
-        ></b-form-input>
-      </template>
-    </b-table>
+    <div v-if="report.length > 0">
+      <div class="text-center mt-3">
+        <h3>{{ orgName }}</h3>
+        <b
+          >{{
+            $refs['register-type'].value == 0 ? 'Sale' : 'Purchase'
+          }}
+          Register</b
+        >
+        | From
+        <b>{{ fromDate }}</b>
+        to
+        <b>{{ toDate }}</b>
+      </div>
+      <b-form-input
+        type="text"
+        class="mx-auto gkcard mt-3 border border-dark d-print-none"
+        placeholder="search Register"
+        v-model="search"
+      ></b-form-input>
+      <b-table
+        caption-top
+        :filter="search"
+        class="mt-3"
+        head-variant="dark"
+        responsive="lg"
+        small
+        bordered
+        striped
+        stacked="sm"
+        v-if="report.length > 0"
+        :items="report"
+      >
+      </b-table>
+    </div>
   </section>
 </template>
 <!-- TODOS
@@ -97,7 +111,29 @@ export default {
     };
   },
   methods: {
+    formatTable(data) {
+      console.log(data);
+      const newdata = data.gkresult.map((d) => {
+        return {
+          sr_no: Object.values(d)[0],
+          invoice_id: Object.values(d)[1],
+          invoice_no: Object.values(d)[2],
+          date: Object.values(d)[3],
+          name: Object.values(d)[4],
+          GSTIN: Object.values(d)[10],
+          TIN: Object.values(d)[5],
+          gross_amount: Object.values(d)[6],
+          tax_free: Object.values(d)[7],
+          tax: Object.values(d)[8],
+          tax_amount: Object.values(d)[9],
+        };
+      });
+      data.totalrow.name = 'Total';
+      newdata.push(data.totalrow);
+      return newdata;
+    },
     getRegisters() {
+      this.report = [];
       this.loading = true;
       axios
         .get(
@@ -107,8 +143,7 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                this.report = r.data.gkresult;
-                console.log(r.data);
+                this.report = this.formatTable(r.data);
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {
@@ -143,7 +178,7 @@ export default {
             }
             this.loading = false;
           } else {
-            this.$bvToast.toast('failed to load register data ' + e.message, {
+            this.$bvToast.toast('failed to load register data ', {
               variant: 'danger',
               solid: true,
             });
@@ -160,7 +195,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   mounted() {
     this.fromDate = this.dateReverse(this.yearStart);

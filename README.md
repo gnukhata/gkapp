@@ -38,19 +38,24 @@ To pre-compile & hot-reload for development run `npm run serve`
 
 #### Build
 
-Production-ready with minified bundle `npm run build`
+* Production-ready with minified bundle `npm run build`.
 
-The default server url is `localhost:6543`, It can changed by setting environmental
+* By default app is served from site's root `/`. To change the url, Set the `GKAPP_URL` environment variable to your custom domain. 
+
+* The default `gkcore` server url is `localhost:6543`, It can changed by setting environmental
 variable `VUE_APP_GKCORE_URL` to your preferred url.
 
 Example:
 
 ```bash
 export VUE_APP_GKCORE_URL=https://gkcore.example.com
+
+export GKAPP_URL=https://example.com
+
 npm run build
 ```
 
-## Licensing
+## License
 
 - Gkapp is Licensed under `AGPLv3`
 
