@@ -1,6 +1,8 @@
 image: node:fermium-buster-slim
-environment:
+
+variables:
   GKAPP_URL: 'https://gnukhata.gitlab.io/gkapp'
+
 pages:
   stage: build
   script:
