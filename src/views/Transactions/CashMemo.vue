@@ -162,7 +162,7 @@ import BillTable from '../../components/form/transaction/BillTable.vue';
 import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue';
 import TotalTable from '../../components/form/transaction/TotalTable.vue';
 
-import cashMemoConfig from '../../js/config/cashMemo';
+import cashMemoConfig from '../../js/config/transaction/cashMemo';
 export default {
   name: 'CashMemo',
   components: {

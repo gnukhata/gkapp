@@ -113,7 +113,7 @@ import BillTable from '../../components/form/transaction/BillTable.vue';
 import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import TransferNoteDetails from '../../components/form/transaction_details/TransferNoteDetails.vue';
 
-import TransferNoteConfig from '../../js/config/transferNote.js';
+import TransferNoteConfig from '../../js/config/transaction/transferNote.js';
 
 export default {
   name: '',

@@ -3,7 +3,14 @@ export default {
   state: {
     default: {
       delNote: {
-        no: true,
+        no: {
+          format: {
+            code: {
+              in: 'DIN',
+              out: 'DOUT'
+            }
+          }
+        },
         date: true,
         type: true,
         state: true,

@@ -198,7 +198,7 @@ import DcNoteDetails from '../../components/form/transaction_details/DcNoteDetai
 
 import Autocomplete from '../../components/Autocomplete.vue';
 
-import dcNoteConfig from '../../js/config/debitCreditNote.js';
+import dcNoteConfig from '../../js/config/transaction/debitCreditNote.js';
 
 export default {
   name: 'DebitCreditNote',

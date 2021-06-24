@@ -210,7 +210,7 @@ import Comments from '../../components/form/transaction/Comments.vue';
 import PsOrderDetails from '../../components/form/transaction_details/PsOrderDetails.vue';
 import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue';
 
-import psOrderConfig from '../../js/config/purchaseSalesOrder';
+import psOrderConfig from '../../js/config/transaction/purchaseSalesOrder';
 
 export default {
   name: '',

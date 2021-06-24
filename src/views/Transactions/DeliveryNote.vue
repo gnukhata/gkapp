@@ -196,7 +196,7 @@ import TransportDetails from '../../components/form/transaction/TransportDetails
 import Comments from '../../components/form/transaction/Comments.vue';
 import DeliveryNoteDetails from '../../components/form/transaction_details/DeliveryNoteDetails.vue';
 
-import delNoteConfig from '../../js/config/deliveryNote';
+import delNoteConfig from '../../js/config/transaction/deliveryNote';
 
 export default {
   name: 'DeliveryNote',

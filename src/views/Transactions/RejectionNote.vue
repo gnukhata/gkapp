@@ -172,7 +172,7 @@ import TotalTable from '../../components/form/transaction/TotalTable.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
 import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
 
-import rejectionNoteConfig from '../../js/config/rejectionNote.js';
+import rejectionNoteConfig from '../../js/config/transaction/rejectionNote.js';
 
 import Autocomplete from '../../components/Autocomplete.vue';
 

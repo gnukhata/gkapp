@@ -1522,7 +1522,7 @@ import BusinessItem from '../../components/form/BusinessItem.vue';
 import Config from '../../components/Config.vue';
 import Autocomplete from '../../components/Autocomplete.vue';
 
-import invoiceConfig from '../../js/config/invoiceConfig';
+import invoiceConfig from '../../js/config/transaction/invoiceConfig';
 import { numberToRupees, formatDateObj } from '../../js/utils';
 
 export default {
