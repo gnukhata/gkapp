@@ -49,7 +49,7 @@
           label-size="sm"
           id="rnd-input-group-1"
           dateId="rnd-date-1"
-          :format="date.format"
+          :format="dateFormat"
           v-model="form.date"
           :min="minDate"
           :max="maxDate"
@@ -130,14 +130,16 @@
 </template>
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 
 import Autocomplete from '../../Autocomplete.vue';
 // import GkDate from '../../GkDate.vue';
 import GkFormDate from '../../GkFormDate.vue';
+import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'RejectionNoteDetails',
   components: { Autocomplete, GkFormDate },
+  mixins: [trnDetailsMixin],
   props: {
     invDate: {
       type: String,
@@ -168,7 +170,7 @@ export default {
       },
       form: {
         no: "",
-        date: this.formatDateObj(new Date()),
+        date: new Date().toISOString().slice(0, 10),
         issuer: null,
         role: null,
       },
@@ -190,20 +192,15 @@ export default {
     }
   },
   computed: {
-    minDate: (self) =>
+    minimumDate: (self) =>
       self.invDate
         ? self.toDMYDate(self.invDate)
         : self.toDMYDate(self.yearStart),
-    maxDate: (self) => self.toDMYDate(self.yearEnd),
-    ...mapState(['yearStart', 'yearEnd']),
   },
   methods: {
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
-    },
-    toDMYDate(date) {
-      return date.split('-').reverse().join('-');
     },
     preloadData() {
       const requests = [this.fetchUserData()];
@@ -231,34 +228,9 @@ export default {
           return error;
         });
     },
-    /**
-     * formatDateObj(date)
-     *
-     * Description: Converts a js Date object, into yyyy-mm-dd string
-     */
-    formatDateObj(date) {
-      let month = date.getMonth() + 1;
-      month = month > 9 ? month : '0' + month;
-      let day = date.getDate();
-      day = day > 9 ? day : '0' + day;
-      return `${date.getFullYear()}-${month}-${day}`;
-    },
-    updateDate() {
-      let today = new Date().getTime(),
-        min = new Date(this.yearStart).getTime(),
-        max = new Date(this.yearEnd).getTime();
-
-      if (today >= min && today <= max) {
-        this.form.date = this.formatDateObj(new Date());
-      } else {
-        this.form.date = this.yearEnd;
-      }
-    },
     resetForm() {
-      Object.assign(this.form, {
-        no: ""
-      })
-      this.updateDate();
+      this.form.no = "";
+      this.form.date = this.getNoteDate();
       this.onUpdateDetails();
     },
     onUpdateDetails() {

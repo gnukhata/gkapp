@@ -56,7 +56,7 @@
               label-size="sm"
               id="ivd-input-group-1"
               dateId="ivd-date-1"
-              :format="date.format"
+              :format="dateFormat"
               v-model="form.date"
               :min="minDate"
               :max="maxDate"
@@ -238,13 +238,14 @@
 </template>
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
-import { formatDateObj } from '../../../js/utils';
+// import { mapState } from 'vuex';
 import GkFormDate from '../../GkFormDate.vue';
+import trnDetailsMixin from '@/mixins/transactionProfile.js';
 
 export default {
   name: 'InvoiceDetails',
   components: { GkFormDate },
+  mixins: [trnDetailsMixin],
   props: {
     saleFlag: {
       type: Boolean,
@@ -277,7 +278,7 @@ export default {
       },
       form: {
         no: null,
-        date: formatDateObj(new Date()),
+        date: new Date().toISOString().slice(0, 10),
         delNote: null,
         ebn: null,
         addr: null,
@@ -314,9 +315,6 @@ export default {
       }
       return disabled;
     },
-    minDate: (self) => self.toDMYDate(self.yearStart),
-    maxDate: (self) => self.toDMYDate(self.yearEnd),
-    ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
     updateCounter() {
@@ -336,9 +334,6 @@ export default {
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
-    },
-    toDMYDate(date) {
-      return date.split('-').reverse().join('-');
     },
     onUpdateDetails() {
       setTimeout(() =>
@@ -444,20 +439,9 @@ export default {
     },
     resetForm() {
       this.setOrgDetails();
-      if (!this.date.valid) {
-        this.form.date = this.yearStart;
-      }
+      this.form.date = this.getNoteDate();
       this.form.no = '';
       this.onUpdateDetails();
-    },
-    displayToast(title, message, variant) {
-      this.$bvToast.toast(message, {
-        title: title,
-        autoHideDelay: 3000,
-        variant: variant,
-        appendToast: true,
-        solid: true,
-      });
     },
   },
   mounted() {

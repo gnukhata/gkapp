@@ -48,7 +48,7 @@
           label-size="sm"
           id="dnd-input-group-1"
           dateId="dnd-date-1"
-          :format="date.format"
+          :format="dateFormat"
           v-model="form.date"
           :min="minDate"
           :max="maxDate"
@@ -161,9 +161,11 @@
 </template>
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 import Autocomplete from '../../Autocomplete.vue';
 import GkFormDate from '../../GkFormDate.vue';
+
+import trnDetailsMixin from '@/mixins/transactionProfile.js';
 
 export default {
   name: 'DeliveryNoteDetails',
@@ -171,6 +173,7 @@ export default {
     Autocomplete,
     GkFormDate,
   },
+  mixins: [trnDetailsMixin],
   props: {
     saleFlag: {
       type: Boolean,
@@ -212,7 +215,7 @@ export default {
       },
       form: {
         no: null,
-        date: this.formatDateObj(new Date()),
+        date: new Date().toISOString().slice(0, 10),
         state: {},
         godown: null,
         type: null,
@@ -226,9 +229,6 @@ export default {
     };
   },
   computed: {
-    minDate: (self) => self.toDMYDate(self.yearStart),
-    maxDate: (self) => self.toDMYDate(self.yearEnd),
-    ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
     saleFlag() {
@@ -243,18 +243,19 @@ export default {
       this.date.valid = validity;
       this.onUpdateDetails();
     },
-    toDMYDate(date) {
-      return date.split('-').reverse().join('-');
-    },
     setDelChalNo() {
-      let no = this.getLastDelChalNo();
-      if (isNaN(no)) {
-        this.form.no = no;
-      } else {
-        no++;
-        let year = new Date(this.form.date).getFullYear() % 100;
-        let delType = this.saleFlag ? 'DOUT' : 'DIN';
-        this.form.no = `${no}/${delType}-${year}`;
+      if (this.config.no) {
+        let no = this.getLastDelChalNo();
+        let codes = this.config.no.form
+          ? this.config.no.format.code
+          : { in: 'DIN', out: 'DOUT' };
+        let code = this.saleFlag ? codes.out : codes.in;
+        if (isNaN(no)) {
+          this.form.no = no;
+        } else {
+          no++;
+          this.form.no = this.formatNoteNo(this.numberFormat, no, code, this.form.date);
+        }
       }
     },
     getLastDelChalNo() {
@@ -285,18 +286,6 @@ export default {
         this.form.gstin = this.form.options.gstin[state.id];
       }
       this.onUpdateDetails();
-    },
-    /**
-     * formatDateObj(date)
-     *
-     * Description: Converts a js Date object, into yyyy-mm-dd string
-     */
-    formatDateObj(date) {
-      let month = date.getMonth() + 1;
-      month = month > 9 ? month : '0' + month;
-      let day = date.getDate();
-      day = day > 9 ? day : '0' + day;
-      return `${date.getFullYear()}-${month}-${day}`;
     },
     setOrgDetails() {
       if (this.options.orgDetails !== null) {
@@ -436,31 +425,11 @@ export default {
           this.isPreloading = false;
         });
     },
-    updateDate() {
-      let today = new Date().getTime(),
-        min = new Date(this.yearStart).getTime(),
-        max = new Date(this.yearEnd).getTime();
-
-      if (today >= min && today <= max) {
-        this.form.date = this.formatDateObj(new Date());
-      } else {
-        this.form.date = this.yearEnd;
-      }
-    },
     resetForm() {
       this.setOrgDetails();
-      this.updateDate();
+      this.form.date = this.getNoteDate();
       this.setDelChalNo();
       this.onUpdateDetails();
-    },
-    displayToast(title, message, variant) {
-      this.$bvToast.toast(message, {
-        title: title,
-        autoHideDelay: 3000,
-        variant: variant,
-        appendToast: true,
-        solid: true,
-      });
     },
   },
   mounted() {

@@ -54,7 +54,7 @@
               label-size="sm"
               id="pod-input-group-1"
               dateId="pod-date-1"
-              :format="date.format"
+              :format="dateFormat"
               v-model="form.date"
               :min="minDate"
               :max="maxDate"
@@ -251,16 +251,19 @@
 </template>
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 
 import Autocomplete from '../../Autocomplete.vue';
 import GkFormDate from '../../GkFormDate.vue';
+
+import trnDetailsMixin from '@/mixins/transactionProfile.js';
 
 export default {
   name: 'PsOrderDetails',
   components: {
     Autocomplete, GkFormDate
   },
+  mixins: [trnDetailsMixin],
   props: {
     saleFlag: {
       type: Boolean,
@@ -286,7 +289,7 @@ export default {
       },
       form: {
         no: null,
-        date: this.formatDateObj(new Date()),
+        date: new Date().toISOString().slice(0, 10),
         addr: null,
         pin: null,
         gstin: null,
@@ -305,9 +308,6 @@ export default {
     };
   },
   computed: {
-    minDate: (self) => self.toDMYDate(self.yearStart),
-    maxDate: (self) => self.toDMYDate(self.yearEnd),
-    ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
     updateCounter() {
@@ -318,9 +318,6 @@ export default {
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
-    },
-    toDMYDate(date) {
-      return date.split('-').reverse().join('-');
     },
     onUpdateDetails() {
       setTimeout(() =>
@@ -435,48 +432,16 @@ export default {
           this.isPreloading = false;
         });
     },
-    updateDate() {
-      let today = new Date().getTime(),
-        min = new Date(this.yearStart).getTime(),
-        max = new Date(this.yearEnd).getTime();
-
-      if (today >= min && today <= max) {
-        this.form.date = this.formatDateObj(new Date());
-      } else {
-        this.form.date = this.yearEnd;
-      }
-    },
     resetForm() {
       const self = this;
       this.setOrgDetails();
       setTimeout(function(){
-        self.updateDate();
+        self.form.date = self.getNoteDate();
       })
       this.form.terms = null;
       this.form.creditPeriod = null;
       this.form.godown = null;
       this.onUpdateDetails();
-    },
-    /**
-     * formatDateObj(date)
-     *
-     * Description: Converts a js Date object, into yyyy-mm-dd string
-     */
-    formatDateObj(date) {
-      let month = date.getMonth() + 1;
-      month = month > 9 ? month : '0' + month;
-      let day = date.getDate();
-      day = day > 9 ? day : '0' + day;
-      return `${date.getFullYear()}-${month}-${day}`;
-    },
-    displayToast(title, message, variant) {
-      this.$bvToast.toast(message, {
-        title: title,
-        autoHideDelay: 3000,
-        variant: variant,
-        appendToast: true,
-        solid: true,
-      });
     },
   },
   mounted() {

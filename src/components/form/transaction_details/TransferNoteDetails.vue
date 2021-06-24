@@ -207,6 +207,7 @@ export default {
     };
   },
   computed: {
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     minDate: (self) => new Date(self.yearStart),
     maxDate: (self) => new Date(self.yearEnd),
     isInvDateValid: (self) => {

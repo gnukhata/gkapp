@@ -63,8 +63,8 @@
           label-for="dcd-date-1"
           label-size="sm"
           v-model="form.date"
-          format="dd-mm-yyyy"
-          :min="minDate"
+          :format="dateFormat"
+          :min="minimumDate"
           :max="maxDate"
           dateId="dcd-date-1"
           @validity="setDateValidity"
@@ -144,8 +144,8 @@
           label-for="dcd-date-2"
           label-size="sm"
           v-model="form.ref.date"
-          format="dd-mm-yyyy"
-          :min="minDate"
+          :format="dateFormat"
+          :min="minimumDate"
           :max="maxDate"
           dateId="dcd-date-2"
           @validity="setDateValidity"
@@ -157,15 +157,17 @@
 </template>
 <script>
 // import axios from 'axios';
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 // import Autocomplete from '../../Autocomplete.vue';
 import GkFormDate from '../../GkFormDate.vue';
+import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'DcNoteDetails',
   components: {
     // Autocomplete,
     GkFormDate,
   },
+  mixins: [trnDetailsMixin],
   props: {
     saleFlag: {
       type: Boolean,
@@ -196,7 +198,7 @@ export default {
       form: {
         type: 'debit',
         no: null,
-        date: this.formatDateObj(new Date()),
+        date: new Date().toISOString().slice(0, 10),
         gstin: null,
         referenceFlag: false,
         badQuality: false,
@@ -219,13 +221,13 @@ export default {
     isCredit: (self) => self.form.type === 'credit',
     formType: (self) =>
       self.form.type === 'credit' ? 'Credit Note' : 'Debit Note',
-    minDate: (self) => {
-      let date = self.toDMYDate(self.yearStart);
+    minimumDate: (self) => {
+      let date = self.reverseDate(self.yearStart);
       let ref = self.form.ref.date ? new Date(self.form.ref.date).getTime : '';
       let inv = self.invDate ? new Date(self.invDate).getTime : '';
-      let invDate = inv ? self.toDMYDate(self.invDate) : '';
+      let invDate = inv ? self.reverseDate(self.invDate) : '';
       if (ref) {
-        let refDate = self.toDMYDate(self.form.ref.date);
+        let refDate = self.reverseDate(self.form.ref.date);
         if (inv) {
           date = ref < inv ? refDate : invDate;
         } else {
@@ -236,8 +238,6 @@ export default {
       }
       return date;
     },
-    maxDate: (self) => self.toDMYDate(self.yearEnd),
-    ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
     updateCounter() {
@@ -248,9 +248,6 @@ export default {
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
-    },
-    toDMYDate(date) {
-      return date.split('-').reverse().join('-');
     },
     onUpdateDetails() {
       const self = this;
@@ -264,41 +261,9 @@ export default {
         })
       );
     },
-    updateDate() {
-      let today = new Date().getTime(),
-        min = new Date(this.yearStart).getTime(),
-        max = new Date(this.yearEnd).getTime();
-
-      if (today >= min && today <= max) {
-        this.form.date = this.formatDateObj(new Date());
-      } else {
-        this.form.date = this.yearEnd;
-      }
-    },
     resetForm() {
-      this.updateDate();
+      this.form.date = this.getNoteDate();
       this.onUpdateDetails();
-    },
-    /**
-     * formatDateObj(date)
-     *
-     * Description: Converts a js Date object, into yyyy-mm-dd string
-     */
-    formatDateObj(date) {
-      let month = date.getMonth() + 1;
-      month = month > 9 ? month : '0' + month;
-      let day = date.getDate();
-      day = day > 9 ? day : '0' + day;
-      return `${date.getFullYear()}-${month}-${day}`;
-    },
-    displayToast(title, message, variant) {
-      this.$bvToast.toast(message, {
-        title: title,
-        autoHideDelay: 3000,
-        variant: variant,
-        appendToast: true,
-        solid: true,
-      });
     },
   },
   mounted() {
