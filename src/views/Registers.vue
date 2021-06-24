@@ -178,7 +178,7 @@ export default {
             }
             this.loading = false;
           } else {
-            this.$bvToast.toast('failed to load register data ' + e.message, {
+            this.$bvToast.toast('failed to load register data ', {
               variant: 'danger',
               solid: true,
             });
