@@ -84,6 +84,7 @@
         :filter="search"
         v-if="report.length > 0"
         :items="report"
+        :fields="fields"
       >
       </b-table>
     </section>
@@ -113,6 +114,27 @@ export default {
       godownReport: [],
       showCard: true,
       search: '',
+      fields: [
+        {
+          key: 'no',
+        },
+        {
+          key: 'product',
+          sortable: true,
+        },
+        {
+          key: 'total_inward_qty',
+          sortable: true,
+        },
+        {
+          key: 'total_outward_qty',
+          sortable: true,
+        },
+        {
+          key: 'balance',
+          sortable: true,
+        },
+      ],
     };
   },
   computed: {
