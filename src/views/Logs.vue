@@ -1,22 +1,18 @@
 <template>
   <section class="container-fluid">
-    <div class="d-flex justify-content-center mt-3 mb-3">
+    <b-overlay :show="isLoading" no-wrap> </b-overlay>
+    <div class="text-center mb-2 d-none d-print-block">
+      <h3>{{ orgName }}</h3>
+      <i>Audit Logs</i>
+    </div>
+    <div class="d-flex justify-content-center mt-3 mb-3 d-print-none">
       <b-form-input
-        class="border border-secondary w-75"
+        class="border border-secondary container-sm gksearch"
         type="text"
         placeholder="Search Logs"
         v-model="searchText"
       ></b-form-input>
     </div>
-    <b-overlay :show="isLoading" no-wrap> </b-overlay>
-
-    <!-- <b-icon
-        v-if="isLoading"
-        icon="arrow-clockwise"
-        animation="spin"
-        font-scale="4"
-      ></b-icon> -->
-    <!-- </div> -->
     <b-table
       stacked="sm"
       small
@@ -37,6 +33,7 @@
 </template>
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
 export default {
   name: 'Logs',
   data() {
@@ -45,6 +42,9 @@ export default {
       isLoading: true,
       searchText: '',
     };
+  },
+  computed: {
+    ...mapState(['orgName']),
   },
   methods: {
     getLogs() {

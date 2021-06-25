@@ -5,7 +5,7 @@
         header="Cost Center Statement"
         header-bg-variant="dark"
         header-text-variant="light"
-        class="mx-auto gkcard"
+        class="mx-auto gkcard d-print-none"
       >
         <template #header>
           <div class="d-flex">
