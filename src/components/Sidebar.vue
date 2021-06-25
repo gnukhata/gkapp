@@ -10,7 +10,7 @@
     >
       <b-icon icon="list"></b-icon>
     </b-button>
-    <b-sidebar width="250px" v-model="opened" id="sidebar" shadow>
+    <b-sidebar width="250px" v-model="opened" id="sidebar" shadow backdrop>
       <template #title>
         <div class="d-flex">
           <img
@@ -30,7 +30,7 @@
         <!-- <div class="ml-2 mr-2">
                <b-input size="sm" placeholder="search"></b-input>
                </div> -->
-        <b-nav class="">
+        <b-nav class="text-small">
           <!-- <b-table :items="list"></b-table> -->
           <b-nav-item
             :to="{
