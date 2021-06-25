@@ -67,6 +67,7 @@
     <main role="main">
       <router-view />
     </main>
+    <title-bar></title-bar>
   </div>
 </template>
 <script>
@@ -75,9 +76,10 @@ import ColorBar from '@/components/ColorBar.vue';
 import axios from 'axios';
 import ChangePwd from '@/components/form/ChangePwd.vue';
 import Sidebar from './components/Sidebar.vue';
+import TitleBar from './components/TitleBar.vue';
 export default {
   name: 'App',
-  components: { ColorBar, ChangePwd, Sidebar },
+  components: { ColorBar, ChangePwd, Sidebar, TitleBar },
   data() {
     return {
       userRole: Number,

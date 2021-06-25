@@ -22,6 +22,8 @@ Vue.mixin({
     }
   }
 })
+
+Vue.prototype.$reload = () => location.reload();
 new Vue({
   router,
   store,
