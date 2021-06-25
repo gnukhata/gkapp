@@ -2,7 +2,8 @@
   <div id="app">
     <header id="app-header">
       <!--navbar-->
-      <b-navbar toggleable="lg" type="light" variant="light">
+      <b-navbar toggleable="lg" size="sm" type="light" variant="light">
+        <sidebar v-if="userAuthenticated"></sidebar>
         <b-navbar-brand>
           <router-link
             style="border-bottom: 0px"
@@ -26,28 +27,6 @@
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <!-- show only for authenticated user -->
-            <template v-if="userAuthenticated">
-              <b-nav-item
-                :to="{
-                  name: 'Workflow',
-                  params: {
-                    wfName: 'Transactions-Invoice',
-                    wfId: -1,
-                  },
-                }"
-                :active="activeNav === 'Dashboard'"
-                ><b-icon icon="wrench"></b-icon> Workflow</b-nav-item
-              >
-            </template>
-            <b-nav-item :to="{ name: 'About' }" :active="activeNav === 'About'"
-              ><b-icon icon="info-circle"></b-icon> About</b-nav-item
-            >
-            <!-- <b-nav-item :to="{ name: 'Login' }" :active="activeNav === 'Login'"
-              ><b-icon icon="box-arrow-in-right"></b-icon> Login</b-nav-item
-            > -->
-          </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown
               v-if="userAuthenticated"
@@ -116,7 +95,6 @@
         </b-modal>
       </b-navbar>
       <color-bar></color-bar>
-      <sidebar v-if="userAuthenticated"></sidebar>
     </header>
     <main role="main">
       <router-view />

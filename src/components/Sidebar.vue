@@ -1,16 +1,16 @@
 <template>
   <section>
     <b-button
-      size="sm"
-      class="ml-2 d-print-none"
+      size="lg"
+      class="d-print-none p-0 mr-2 mb-1 bordered"
       variant="light"
       title="Open Sidebar"
       :lazy="true"
-      v-b-toggle.sidebar-1
+      v-b-toggle.sidebar
     >
       <b-icon icon="list"></b-icon>
     </b-button>
-    <b-sidebar width="250px" v-model="opened" id="sidebar-1" shadow>
+    <b-sidebar width="250px" v-model="opened" id="sidebar" shadow>
       <template #title>
         <div class="d-flex">
           <img
@@ -32,6 +32,16 @@
                </div> -->
         <b-nav class="">
           <!-- <b-table :items="list"></b-table> -->
+          <b-nav-item
+            :to="{
+              name: 'Workflow',
+              params: {
+                wfName: 'Transactions-Invoice',
+                wfId: -1,
+              },
+            }"
+            ><b-icon icon="wrench"></b-icon> Workflow</b-nav-item
+          >
           <b-nav-item to="/orgprofile">
             <b-icon icon="building"></b-icon> Organisation Profile
           </b-nav-item>
@@ -76,6 +86,9 @@
           <b-nav-item to="/stock-on-hand">
             <b-icon icon="receipt"></b-icon> Stock On Hand
           </b-nav-item>
+          <b-nav-item to="/about"
+            ><b-icon icon="info-circle"></b-icon> About</b-nav-item
+          >
         </b-nav>
       </template>
     </b-sidebar>
