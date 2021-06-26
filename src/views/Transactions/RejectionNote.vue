@@ -7,7 +7,7 @@
         size="sm"
         buttons
         class="mx-1"
-        @input="resetForm"
+        @input="resetForm(false)"
       >
         <b-form-radio value="sale">Rejection In</b-form-radio>
         <b-form-radio value="purchase">Rejection Out</b-form-radio>
@@ -352,10 +352,12 @@ export default {
       Object.assign(this.form.total, this.$refs.totalTable.form);
       this.form.narration = this.$refs.narration.form.narration;
     },
-    updateComponentData() {
+    updateComponentData(updateNoteDetails) {
       this.updateCounter.invoice++;
       this.updateCounter.party++;
-      this.updateCounter.rnote++;
+      if(updateNoteDetails) {
+        this.updateCounter.rnote++;
+      }
       this.updateCounter.bill++;
       this.updateCounter.totalTable++;
       this.updateCounter.comments++;
@@ -569,7 +571,7 @@ export default {
         name: inv.custsupdetail.custname,
         type: inv.custsupdetail.csflag === 3 ? 'customer' : 'supplier',
       });
-      this.updateComponentData();
+      this.updateComponentData(true);
       this.updateBillTable(inv.invid, inv.rejcontent);
     },
     /**
@@ -585,7 +587,7 @@ export default {
         billArr[index].rejectedQty = 0;
       }
     },
-    resetForm() {
+    resetForm(resetNoteDetails) {
       Object.assign(this.form, {
         rnote: {
           no: "",
@@ -605,7 +607,7 @@ export default {
         narration: null,
         total: {},
       });
-      this.updateComponentData();
+      this.updateComponentData(resetNoteDetails);
       // this.invIndex = 0;
     },
     initForm() {

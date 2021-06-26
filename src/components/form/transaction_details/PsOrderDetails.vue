@@ -261,7 +261,8 @@ import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'PsOrderDetails',
   components: {
-    Autocomplete, GkFormDate
+    Autocomplete,
+    GkFormDate,
   },
   mixins: [trnDetailsMixin],
   props: {
@@ -283,9 +284,13 @@ export default {
     return {
       isCollapsed: false,
       isPreloading: false,
+      orderNo: {
+        purchase: '',
+        sale: '',
+      },
       date: {
-        format: "dd-mm-yyyy",
-        valid: null
+        format: 'dd-mm-yyyy',
+        valid: null,
       },
       form: {
         no: null,
@@ -298,23 +303,63 @@ export default {
         role: null,
         terms: null,
         creditPeriod: null,
-        godown: null
+        godown: null,
       },
       options: {
         states: [],
         orgDetails: {},
-        godowns: []
+        godowns: [],
       },
     };
   },
-  computed: {
-  },
+  computed: {},
   watch: {
+    saleFlag() {
+      this.setNoteNo();
+    },
     updateCounter() {
       this.resetForm();
     },
   },
   methods: {
+    setNoteNo(fetchNew) {
+      if (!fetchNew) {
+        this.form.no = this.saleFlag
+          ? this.orderNo['sale']
+          : this.orderNo['purchase'];
+        if (this.form.no) {
+          return;
+        }
+      } else {
+        this.orderNo = {
+          sale: '',
+          purchase: '',
+        };
+      }
+      let url = `/purchaseorder?psflag=${this.saleFlag ? 19 : 16}`;
+      axios
+        .get(url)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let counter = resp.data.gkresult.length;
+            let codes = this.config.no.form
+              ? this.config.no.format.code
+              : { sale: 'SO', purchase: 'PO' };
+            let code = this.saleFlag ? codes.sale : codes.purchase;
+            this.form.no = this.formatNoteNo(
+              this.numberFormat,
+              counter + 1,
+              code,
+              this.form.date,
+              this.yearEnd
+            );
+            this.orderNo[this.saleFlag ? 'sale' : 'purchase'] = this.form.no;
+          }
+        })
+        .catch((error) => {
+          return error;
+        });
+    },
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
@@ -325,8 +370,8 @@ export default {
           data: this.form,
           name: 'ps-order-details',
           options: {
-            isDateValid: this.date.valid
-          }
+            isDateValid: this.date.valid,
+          },
         })
       );
     },
@@ -435,12 +480,13 @@ export default {
     resetForm() {
       const self = this;
       this.setOrgDetails();
-      setTimeout(function(){
+      setTimeout(function () {
         self.form.date = self.getNoteDate();
-      })
+      });
       this.form.terms = null;
       this.form.creditPeriod = null;
       this.form.godown = null;
+      this.setNoteNo(true);
       this.onUpdateDetails();
     },
   },

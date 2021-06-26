@@ -1284,9 +1284,11 @@ export default {
         axios.get('/delchal?delchal=all').catch((error) => {
           return error;
         }),
+        //sale
         axios.get('/invoice?cash=all&inoutflag=15').catch((error) => {
           return error;
         }),
+        //purchase
         axios.get('/invoice?cash=all&inoutflag=9').catch((error) => {
           return error;
         }),

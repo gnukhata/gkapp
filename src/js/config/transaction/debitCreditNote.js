@@ -19,7 +19,14 @@ export default {
       dcNote: {
         type: true,
         invNo: true,
-        no: true,
+        no: {
+          format: {
+            code: {
+              dr: 'DN',
+              cr: 'CN'
+            }
+          }
+        },
         date: true,
         gstin: true,
         referenceFlag: true,

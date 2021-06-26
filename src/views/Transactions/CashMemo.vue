@@ -33,10 +33,11 @@
           <!-- Delivery Note Details -->
           <cash-memo-details
             ref="memo"
-            :config="config.inv"
+            :config="config.memo"
             :parentData="form.memo"
             :updateCounter="updateCounter.memo"
             @details-updated="onComponentDataUpdate"
+            :saleFlag="isSale"
           ></cash-memo-details>
           <!-- Payment Details -->
           <payment-details

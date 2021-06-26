@@ -33,6 +33,7 @@ export default {
         class: {},
       },
       rnote: {
+        no: { format: { code: { sale: 'RIN', purchase: 'ROUT' } } },
         class: {},
       },
       taxType: true,

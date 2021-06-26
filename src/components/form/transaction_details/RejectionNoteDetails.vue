@@ -144,7 +144,7 @@ export default {
     invDate: {
       type: String,
       required: true,
-      note: "The date from Invoice Details. Its used as the min date here"
+      note: 'The date from Invoice Details. Its used as the min date here',
     },
     saleFlag: {
       type: Boolean,
@@ -168,8 +168,12 @@ export default {
         valid: null,
         format: 'dd-mm-yyyy',
       },
+      noteNo: {
+        purchase: '',
+        sale: '',
+      },
       form: {
-        no: "",
+        no: '',
         date: new Date().toISOString().slice(0, 10),
         issuer: null,
         role: null,
@@ -184,12 +188,15 @@ export default {
     };
   },
   watch: {
+    saleFlag() {
+      this.setNoteNo();
+    },
     invDate() {
       this.onUpdateDetails();
     },
     updateCounter() {
       this.resetForm();
-    }
+    },
   },
   computed: {
     minimumDate: (self) =>
@@ -198,6 +205,45 @@ export default {
         : self.toDMYDate(self.yearStart),
   },
   methods: {
+    setNoteNo(fetchNew) {
+      if (!fetchNew) {
+        this.form.no = this.saleFlag
+          ? this.noteNo['sale']
+          : this.noteNo['purchase'];
+        if (this.form.no) {
+          return;
+        }
+      } else {
+        this.noteNo = {
+          purchase: '',
+          sale: '',
+        };
+      }
+      axios
+        .get('/rejectionnote?type=all')
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let counter = this.saleFlag
+              ? resp.data.rejincount
+              : resp.data.rejoutcount;
+            let codes = this.config.no.form
+              ? this.config.no.format.code
+              : { sale: 'RIN', purchase: 'ROUT' };
+            let code = this.saleFlag ? codes.sale : codes.purchase;
+            this.form.no = this.formatNoteNo(
+              this.numberFormat,
+              counter + 1,
+              code,
+              this.form.date,
+              this.yearEnd
+            );
+            this.noteNo[this.saleFlag ? 'sale' : 'purchase'] = this.form.no;
+          }
+        })
+        .catch((error) => {
+          return error;
+        });
+    },
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
@@ -229,7 +275,7 @@ export default {
         });
     },
     resetForm() {
-      this.form.no = "";
+      this.setNoteNo(true);
       this.form.date = this.getNoteDate();
       this.onUpdateDetails();
     },

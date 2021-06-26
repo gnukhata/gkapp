@@ -4,7 +4,7 @@ export default {
     default: {
       type: true,
       psOrder: {
-        no: true,
+        no: { format: { code: { sale: 'SO', purchase: 'PO' } } },
         date: true,
         addr: true,
         pin: true,
@@ -121,10 +121,10 @@ export default {
   },
   actions: {
     initPSOrderConfig({ state, commit }, payload) {
-      let conf 
+      let conf
       try { // if the PSOrderConfig isn't a valid JSON, catch the error and  use null to get the default config
         conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-psOrderConfig`))
-      } catch(error) {
+      } catch (error) {
         conf = null
       }
       if (conf !== null) {

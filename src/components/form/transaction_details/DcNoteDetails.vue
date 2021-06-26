@@ -34,7 +34,7 @@
             size="sm"
             buttons
             v-model="form.type"
-            @input="onUpdateDetails"
+            @input="onNoteTypeUpdate"
           >
             <b-form-radio value="debit">Debit Note</b-form-radio>
             <b-form-radio value="credit">Credit Note</b-form-radio>
@@ -156,7 +156,7 @@
   </b-card>
 </template>
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 // import { mapState } from 'vuex';
 // import Autocomplete from '../../Autocomplete.vue';
 import GkFormDate from '../../GkFormDate.vue';
@@ -195,6 +195,8 @@ export default {
         valid: null,
         format: 'dd-mm-yyyy',
       },
+      drNo: '',
+      crNo: '',
       form: {
         type: 'debit',
         no: null,
@@ -245,6 +247,48 @@ export default {
     },
   },
   methods: {
+    onNoteTypeUpdate() {
+      this.setNoteNo();
+      this.onUpdateDetails();
+    },
+    setNoteNo(fetchNew) {
+      if(!fetchNew){
+        this.form.no = this.isCredit? this.crNo : this.drNo;
+        if(this.form.no) {
+           return;
+        }
+      } else {
+        this.crNo = '';
+        this.drNo = '';
+      }
+      const url = `/drcrnote?drcr=all&drcrflag=${this.isCredit ? 3 : 4}`;
+      axios
+        .get(url)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let counter = resp.data.gkresult.length;
+            let codes = this.config.no.form
+              ? this.config.no.format.code
+              : { dr: 'DN', cr: 'CN' };
+            let code = this.isCredit ? codes.cr : codes.dr;
+            this.form.no = this.formatNoteNo(
+              this.numberFormat,
+              counter + 1,
+              code,
+              this.form.date,
+              this.yearEnd
+            );
+            if(this.isCredit) {
+              this.crNo = this.form.no;
+            } else {
+              this.drNo = this.form.no;
+            }
+          }
+        })
+        .catch((error) => {
+          return error;
+        });
+    },
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
@@ -263,11 +307,12 @@ export default {
     },
     resetForm() {
       this.form.date = this.getNoteDate();
+      this.setNoteNo(true);
       this.onUpdateDetails();
     },
   },
   mounted() {
-    this.resetForm();
+    this.resetForm(true);
   },
 };
 </script>

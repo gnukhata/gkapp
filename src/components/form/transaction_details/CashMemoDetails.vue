@@ -125,6 +125,10 @@ export default {
       required: false,
       default: 0,
     },
+    saleFlag: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
@@ -133,6 +137,10 @@ export default {
       date: {
         format: 'dd-mm-yyyy',
         valid: null,
+      },
+      memoNo: {
+        purchase: '',
+        sale: '',
       },
       form: {
         no: null,
@@ -149,14 +157,52 @@ export default {
       },
     };
   },
-  computed: {
-  },
+  computed: {},
   watch: {
+    saleFlag() {
+      this.setNoteNo();
+    },
     updateCounter() {
       this.resetForm();
     },
   },
   methods: {
+    setNoteNo(fetchNew) {
+      if (!fetchNew) {
+        this.form.no = this.saleFlag ? this.memoNo.sale : this.memoNo.purchase;
+        if (this.form.no) {
+          return;
+        }
+      } else {
+        this.memoNo = {
+          purchase: '',
+          sale: '',
+        };
+      }
+      let url = `/invoice?cash=all&inoutflag=${this.saleFlag ? 15 : 9}`;
+      axios
+        .get(url)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let counter = resp.data.gkresult.length;
+            let codes = this.config.no.form
+              ? this.config.no.format.code
+              : { sale: 'CMS', purchase: 'CMP' };
+            let code = this.saleFlag ? codes.sale : codes.purchase;
+            this.form.no = this.formatNoteNo(
+              this.numberFormat,
+              counter + 1,
+              code,
+              this.form.date,
+              this.yearEnd
+            );
+            this.memoNo[this.saleFlag ? 'sale' : 'purchase'] = this.form.no;
+          }
+        })
+        .catch((error) => {
+          return error;
+        });
+    },
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
@@ -247,6 +293,7 @@ export default {
     resetForm() {
       this.setOrgDetails();
       this.form.date = this.getNoteDate();
+      this.setNoteNo(true);
       this.onUpdateDetails();
     },
   },

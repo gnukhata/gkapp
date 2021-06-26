@@ -3,8 +3,8 @@ export default {
   state: {
     default: {
       type: true,
-      inv: {
-        no: true,
+      memo: {
+        no: { format: { code: { sale: 'CMS', purchase: 'CMP' } } },
         date: true,
         state: true,
         gstin: true,
@@ -80,10 +80,10 @@ export default {
   },
   actions: {
     initCashMemoConfig({ state, commit }, payload) {
-      let conf 
+      let conf
       try { // if the CashMemoConfig isn't a valid JSON, catch the error and  use null to get the default config
         conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-cashMemoConfig`))
-      } catch(error) {
+      } catch (error) {
         conf = null
       }
       if (conf !== null) {
