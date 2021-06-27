@@ -42,20 +42,23 @@
             required
           ></b-form-input>
         </b-form-group>
-        <gk-form-date
+        <b-form-group
           label="Date"
           label-cols-md="4"
           label-cols="3"
           label-size="sm"
           id="rnd-input-group-1"
-          dateId="rnd-date-1"
-          :format="dateFormat"
-          v-model="form.date"
-          :min="minDate"
-          :max="maxDate"
-          @validity="setDateValidity"
-          :required="true"
-        ></gk-form-date>
+        >
+          <gk-date
+            id="rnd-date-1"
+            :format="dateFormat"
+            v-model="form.date"
+            :min="minDate"
+            :max="maxDate"
+            @validity="setDateValidity"
+            :required="true"
+          ></gk-date>
+        </b-form-group>
         <b-form-group
           :label="saleFlag ? 'Dispatch From' : 'Received At'"
           label-for="rnd-input-20"
@@ -134,11 +137,11 @@ import axios from 'axios';
 
 import Autocomplete from '../../Autocomplete.vue';
 // import GkDate from '../../GkDate.vue';
-import GkFormDate from '../../GkFormDate.vue';
+import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'RejectionNoteDetails',
-  components: { Autocomplete, GkFormDate },
+  components: { Autocomplete, GkDate },
   mixins: [trnDetailsMixin],
   props: {
     invDate: {

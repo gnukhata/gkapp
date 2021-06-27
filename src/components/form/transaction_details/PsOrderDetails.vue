@@ -47,21 +47,24 @@
             </b-form-group>
           </b-col>
           <b-col v-if="config.date" cols="12">
-            <gk-form-date
+            <b-form-group
               label="Date"
               label-cols-lg="2"
               label-cols="3"
               label-size="sm"
               id="pod-input-group-1"
-              dateId="pod-date-1"
-              :format="dateFormat"
-              v-model="form.date"
-              :min="minDate"
-              :max="maxDate"
-              @validity="setDateValidity"
-              :required="true"
             >
-            </gk-form-date>
+              <gk-date
+                id="pod-date-1"
+                :format="dateFormat"
+                v-model="form.date"
+                :min="minDate"
+                :max="maxDate"
+                @validity="setDateValidity"
+                :required="true"
+              >
+              </gk-date>
+            </b-form-group>
           </b-col>
         </b-row>
         <b-row>
@@ -254,7 +257,7 @@ import axios from 'axios';
 // import { mapState } from 'vuex';
 
 import Autocomplete from '../../Autocomplete.vue';
-import GkFormDate from '../../GkFormDate.vue';
+import GkDate from '../../GkDate.vue';
 
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 
@@ -262,7 +265,7 @@ export default {
   name: 'PsOrderDetails',
   components: {
     Autocomplete,
-    GkFormDate,
+    GkDate,
   },
   mixins: [trnDetailsMixin],
   props: {

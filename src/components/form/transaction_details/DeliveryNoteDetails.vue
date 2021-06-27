@@ -41,21 +41,24 @@
             required
           ></b-form-input>
         </b-form-group>
-        <gk-form-date
+        <b-form-group
           label="Date"
           label-cols-md="4"
           label-cols="3"
           label-size="sm"
           id="dnd-input-group-1"
-          dateId="dnd-date-1"
-          :format="dateFormat"
-          v-model="form.date"
-          :min="minDate"
-          :max="maxDate"
-          @validity="setDateValidity"
-          :required="true"
         >
-        </gk-form-date>
+          <gk-date
+            id="dnd-date-1"
+            :format="dateFormat"
+            v-model="form.date"
+            :min="minDate"
+            :max="maxDate"
+            @validity="setDateValidity"
+            :required="true"
+          >
+          </gk-date>
+        </b-form-group>
         <b-form-group
           label="Transaction Type"
           label-for="dnd-input-20"
@@ -163,7 +166,7 @@
 import axios from 'axios';
 // import { mapState } from 'vuex';
 import Autocomplete from '../../Autocomplete.vue';
-import GkFormDate from '../../GkFormDate.vue';
+import GkDate from '../../GkDate.vue';
 
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 
@@ -171,7 +174,7 @@ export default {
   name: 'DeliveryNoteDetails',
   components: {
     Autocomplete,
-    GkFormDate,
+    GkDate,
   },
   mixins: [trnDetailsMixin],
   props: {
@@ -228,8 +231,7 @@ export default {
       },
     };
   },
-  computed: {
-  },
+  computed: {},
   watch: {
     saleFlag() {
       this.setDelChalNo();
@@ -254,7 +256,12 @@ export default {
           this.form.no = no;
         } else {
           no++;
-          this.form.no = this.formatNoteNo(this.numberFormat, no, code, this.form.date);
+          this.form.no = this.formatNoteNo(
+            this.numberFormat,
+            no,
+            code,
+            this.form.date
+          );
         }
       }
     },

@@ -27,6 +27,10 @@
         >
         </b-form-datepicker>
       </b-input-group-append>
+
+      <b-form-invalid-feedback id="input-live-feedback">
+        {{ notValidText }}
+      </b-form-invalid-feedback>
     </b-input-group>
   </div>
 </template>
@@ -94,6 +98,8 @@ export default {
     return {
       input: '',
       date: '',
+      valid: null,
+      notValidText: '',
     };
   },
   computed: {
@@ -130,15 +136,15 @@ export default {
         if (this.date !== newDate) {
           this.date = newDate;
           this.onDateUpdate(newDate); // emit internal format for v-model
-          this.$emit('validity', this.validateDate(newDate));
+          this.setDateValidity(this.validateDate(newDate));
         }
       } else {
         this.date = '';
         this.$emit('input', '');
         if (newInput === '') {
-          this.$emit('validity', null);
+          this.setDateValidity(null);
         } else {
-          this.$emit('validity', false);
+          this.setDateValidity(false);
         }
       }
     },
@@ -148,13 +154,13 @@ export default {
         if (this.input !== newInput) {
           this.input = newInput;
           this.onDateUpdate(newDate); // emit internal format for v-model
-          this.$emit('validity', this.validateDate(newDate)); // must use internal format for validation
+          this.setDateValidity(this.validateDate(newDate)); // must use internal format for validation
         }
       } else if (!newDate) {
         // "input" is not updated here, as the user may want
         // to update the faulty date via input field
         this.$emit('input', '');
-        this.$emit('validity', null);
+        this.setDateValidity(null);
       }
     },
     // "date" and "input" are user's way of updating the component
@@ -166,22 +172,49 @@ export default {
           // used when the component has to be reset
           this.input = '';
         } else {
-          this.date = (this.formatOutput)? this.toInternalFormat(date) : date;
+          this.date = this.formatOutput ? this.toInternalFormat(date) : date;
         }
       }
     },
     min(date) {
       if (this.validateFormat(date, this.format)) {
-        this.$emit('validity', this.validateDate(this.input));
+        this.setDateValidity(this.validateDate(this.input));
       }
     },
     max(date) {
       if (this.validateFormat(date, this.format)) {
-        this.$emit('validity', this.validateDate(this.input));
+        this.setDateValidity(this.validateDate(this.input));
       }
     },
   },
   methods: {
+    setDateValidity(validity) {
+      if (this.readonly) {
+        this.valid = null;
+      } else {
+        if (validity === 0) {
+          this.valid = true;
+        } else if (validity === null) {
+          this.valid = null;
+        } else {
+          if (validity === false) {
+            this.notValidText = `Date Invalid. Use valid format: (${this.format})`;
+          } else {
+            if (this.min && this.max) {
+              this.notValidText = `Date Invalid. Choose between (${this.min}) and (${this.max})`;
+            } else {
+              if (this.min) {
+                this.notValidText = `Date Invalid. Choose on or after (${this.min})`;
+              } else {
+                this.notValidText = `Date Invalid. Choose on or before (${this.max})`;
+              }
+            }
+          }
+          this.valid = false;
+        }
+      }
+      this.$emit('validity', this.valid);
+    },
     /**
      * onDateUpdate
      *

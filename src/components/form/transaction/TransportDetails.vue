@@ -72,19 +72,22 @@
             trim
           ></b-form-input>
         </b-form-group>
-        <gk-form-date
+        <b-form-group
           label="Date of Supply"
           label-cols="3"
           label-size="sm"
           id="tpd-input-group-1"
-          dateId="tpd-date-1"
-          :format="date.format"
-          v-model="form.date"
-          :min="minDate"
-          @validity="setDateValidity"
-          :required="true"
         >
-        </gk-form-date>
+          <gk-date
+            id="tpd-date-1"
+            :format="date.format"
+            v-model="form.date"
+            :min="minDate"
+            @validity="setDateValidity"
+            :required="true"
+          >
+          </gk-date>
+        </b-form-group>
         <b-form-group
           id="tpd-input-group-2"
           label="Receipt Date"
@@ -150,11 +153,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import GkFormDate from '../../GkFormDate.vue';
+import GkDate from '../../GkDate.vue';
 export default {
   name: 'TransportDetails',
   components: {
-    GkFormDate,
+    GkDate,
   },
   props: {
     config: {
@@ -218,7 +221,10 @@ export default {
     },
   },
   computed: {
-    minDate: (self) => (self.invDate)? self.toDMYDate(self.invDate) :  self.toDMYDate(self.yearStart),
+    minDate: (self) =>
+      self.invDate
+        ? self.toDMYDate(self.invDate)
+        : self.toDMYDate(self.yearStart),
     ...mapState(['yearStart']),
   },
   methods: {
@@ -235,12 +241,11 @@ export default {
           data: this.form,
           name: 'transport-details',
           options: {
-            dateValid: this.date.valid
-          }
+            dateValid: this.date.valid,
+          },
         })
       );
     },
-  }
-  
+  },
 };
 </script>

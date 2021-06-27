@@ -49,22 +49,25 @@
             </b-form-group>
           </b-col>
           <b-col v-if="config.date" cols="12">
-            <gk-form-date
+            <b-form-group
               label="Date"
               label-cols-lg="2"
               label-cols="3"
               label-size="sm"
               id="ivd-input-group-1"
-              dateId="ivd-date-1"
-              :format="dateFormat"
-              v-model="form.date"
-              :min="minDate"
-              :max="maxDate"
-              @validity="setDateValidity"
-              :required="true"
-              :readonly="disabled.date"
             >
-            </gk-form-date>
+              <gk-date
+                id="ivd-date-1"
+                :format="dateFormat"
+                v-model="form.date"
+                :min="minDate"
+                :max="maxDate"
+                @validity="setDateValidity"
+                :required="true"
+                :readonly="disabled.date"
+              >
+              </gk-date>
+            </b-form-group>
           </b-col>
         </b-row>
         <b-row>
@@ -239,12 +242,12 @@
 <script>
 import axios from 'axios';
 // import { mapState } from 'vuex';
-import GkFormDate from '../../GkFormDate.vue';
+import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 
 export default {
   name: 'InvoiceDetails',
-  components: { GkFormDate },
+  components: { GkDate },
   mixins: [trnDetailsMixin],
   props: {
     saleFlag: {
@@ -273,8 +276,8 @@ export default {
       isCollapsed: false,
       isPreloading: false,
       date: {
-        format: "dd-mm-yyyy",
-        valid: null
+        format: 'dd-mm-yyyy',
+        valid: null,
       },
       form: {
         no: null,
@@ -341,8 +344,8 @@ export default {
           data: this.form,
           name: 'invoice-details',
           options: {
-            dateValid: this.date.valid
-          }
+            dateValid: this.date.valid,
+          },
         })
       );
     },

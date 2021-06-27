@@ -55,21 +55,24 @@
             required
           ></b-form-input>
         </b-form-group>
-        <gk-form-date
+        <b-form-group
           id="dcd-input-group-1"
           :label="isCredit ? 'Cr Note Date' : 'Dr Note Date'"
           label-cols-lg="3"
           label-cols="4"
           label-for="dcd-date-1"
           label-size="sm"
-          v-model="form.date"
-          :format="dateFormat"
-          :min="minimumDate"
-          :max="maxDate"
-          dateId="dcd-date-1"
-          @validity="setDateValidity"
-          :required="true"
-        ></gk-form-date>
+        >
+          <gk-date
+            v-model="form.date"
+            :format="dateFormat"
+            :min="minimumDate"
+            :max="maxDate"
+            id="dcd-date-1"
+            @validity="setDateValidity"
+            :required="true"
+          ></gk-date>
+        </b-form-group>
         <!-- <b-form-group
           label="GSTIN"
           label-for="dcd-input-20"
@@ -135,7 +138,7 @@
             required
           ></b-form-input>
         </b-form-group>
-        <gk-form-date
+        <b-form-group
           v-if="form.referenceFlag"
           id="dcd-input-group-2"
           :label="isCredit ? 'Dr Note Date' : 'Cr Note Date'"
@@ -143,14 +146,17 @@
           label-cols="4"
           label-for="dcd-date-2"
           label-size="sm"
-          v-model="form.ref.date"
-          :format="dateFormat"
-          :min="minimumDate"
-          :max="maxDate"
-          dateId="dcd-date-2"
-          @validity="setDateValidity"
-          :required="true"
-        ></gk-form-date>
+        >
+          <gk-date
+            v-model="form.ref.date"
+            :format="dateFormat"
+            :min="refMinDate"
+            :max="maxDate"
+            id="dcd-date-2"
+            @validity="setDateValidity"
+            :required="true"
+          ></gk-date>
+        </b-form-group>
       </div>
     </div>
   </b-card>
@@ -159,13 +165,13 @@
 import axios from 'axios';
 // import { mapState } from 'vuex';
 // import Autocomplete from '../../Autocomplete.vue';
-import GkFormDate from '../../GkFormDate.vue';
+import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'DcNoteDetails',
   components: {
     // Autocomplete,
-    GkFormDate,
+    GkDate,
   },
   mixins: [trnDetailsMixin],
   props: {
@@ -240,11 +246,16 @@ export default {
       }
       return date;
     },
+    refMinDate: (self) =>
+      self.reverseDate(self.invDate ? self.invDate : self.yearStart),
   },
   watch: {
     updateCounter() {
       this.resetForm();
     },
+    invDate() {
+      this.form.ref.date = this.invDate;
+    }
   },
   methods: {
     onNoteTypeUpdate() {
@@ -252,10 +263,10 @@ export default {
       this.onUpdateDetails();
     },
     setNoteNo(fetchNew) {
-      if(!fetchNew){
-        this.form.no = this.isCredit? this.crNo : this.drNo;
-        if(this.form.no) {
-           return;
+      if (!fetchNew) {
+        this.form.no = this.isCredit ? this.crNo : this.drNo;
+        if (this.form.no) {
+          return;
         }
       } else {
         this.crNo = '';
@@ -278,7 +289,7 @@ export default {
               this.form.date,
               this.yearEnd
             );
-            if(this.isCredit) {
+            if (this.isCredit) {
               this.crNo = this.form.no;
             } else {
               this.drNo = this.form.no;

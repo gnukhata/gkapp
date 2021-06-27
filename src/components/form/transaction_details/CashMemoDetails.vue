@@ -43,21 +43,24 @@
             required
           ></b-form-input>
         </b-form-group>
-        <gk-form-date
+        <b-form-group
           label="Date"
           label-cols-md="2"
           label-cols="3"
           label-size="sm"
           id="cmd-input-group-1"
-          dateId="cmd-date-1"
-          :format="dateFormat"
-          v-model="form.date"
-          :min="minDate"
-          :max="maxDate"
-          @validity="setDateValidity"
-          :required="true"
         >
-        </gk-form-date>
+          <gk-date
+            id="cmd-date-1"
+            :format="dateFormat"
+            v-model="form.date"
+            :min="minDate"
+            :max="maxDate"
+            @validity="setDateValidity"
+            :required="true"
+          >
+          </gk-date>
+        </b-form-group>
         <b-form-group
           label="State"
           label-for="cmd-input-20"
@@ -100,12 +103,12 @@ import axios from 'axios';
 // import { mapState } from 'vuex';
 
 import Autocomplete from '../../Autocomplete.vue';
-import GkFormDate from '../../GkFormDate.vue';
+import GkDate from '../../GkDate.vue';
 
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'CashMemoDetails',
-  components: { Autocomplete, GkFormDate },
+  components: { Autocomplete, GkDate },
   mixins: [trnDetailsMixin],
   props: {
     config: {
