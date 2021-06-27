@@ -39,7 +39,7 @@
           {{ option.text }}
         </div>
         <small class="text-danger" v-if="!option.active && checkActive">
-          ({{inactiveText}})
+          ({{ inactiveText }})
         </small>
       </b-list-group-item>
       <b-list-group-item
@@ -130,8 +130,8 @@ export default {
     inactiveText: {
       type: String,
       required: false,
-      default: ""
-    }
+      default: '',
+    },
   },
   data() {
     return {
@@ -149,7 +149,7 @@ export default {
     };
   },
   computed: {
-    checkActive: (self) => !! self.inactiveText, // used for applying (active/not active) related settings  
+    checkActive: (self) => !!self.inactiveText, // used for applying (active/not active) related settings
   },
   methods: {
     /** Creates a local copy of Options prop in a desired format, {text: , value:} */
@@ -297,8 +297,8 @@ export default {
       this.setHovered(index);
     },
     onMouseDown(option) {
-      if(option.active || !this.checkActive){
-        this.selectOption(option)
+      if (option.active || !this.checkActive) {
+        this.selectOption(option);
       }
     },
     /** Keyboard press event handlers for arrow keys, enter and escape key */
@@ -319,15 +319,21 @@ export default {
         case 13:
           {
             // Enter Key
-            if (this.filteredOptions.length === this.hovered) {
+            if (this.hovered === this.filteredOptions.length) {
+              // to choose clear selection on enter key press
               event.preventDefault();
               this.clearSelection();
             } else if (this.filteredOptions[this.hovered]) {
-              if(this.filteredOptions[this.hovered].active){
-                event.preventDefault();
-                this.selectOption(this.filteredOptions[this.hovered]);
-                this.isSelected = true;
+              // if options have active data, only select options that are active = true
+              // else select the option that is being hovered
+              if (this.checkActive) {
+                if (!this.filteredOptions[this.hovered].active) {
+                  break;
+                }
               }
+              event.preventDefault();
+              this.selectOption(this.filteredOptions[this.hovered]);
+              this.isSelected = true;
             }
           }
           break;
