@@ -25,43 +25,20 @@
       <slot name="close-button"> </slot>
     </div>
     <div>
-      <b-alert
-        class="m-2 mb-0"
-        :show="isVoucherDateValid === false"
-        variant="danger"
-        >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-        <b>{{ yearEnd }}</b>
-      </b-alert>
       <b-form class="p-2 pt-3" @submit.prevent="confirmOnSubmit">
         <b-row no-gutters>
           <b-col> </b-col>
           <b-col class="mb-2" :style="{ 'max-width': '200px' }">
-            <b-input-group>
-              <b-form-input
-                size="sm"
-                id="date-1"
-                v-model="form.date"
-                type="text"
-                placeholder="YYYY-MM-DD"
-                autocomplete="off"
-                required
-                :state="isVoucherDateValid"
-                debounce="500"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-form-datepicker
-                  size="sm"
-                  v-model="form.date"
-                  button-only
-                  right
-                  locale="en-GB"
-                  aria-controls="date-1"
-                  :min="minDate"
-                  :max="maxDate"
-                >
-                </b-form-datepicker>
-              </b-input-group-append>
-            </b-input-group>
+            <gk-date
+              id="v-date-1"
+              :format="dateFormat"
+              v-model="form.date"
+              :min="minDate"
+              :max="maxDate"
+              @validity="setDateValidity"
+              :required="true"
+            >
+            </gk-date>
           </b-col>
           <b-col cols="12">
             <b-table-simple hover small caption-top bordered>
@@ -312,7 +289,7 @@
             type="submit"
             class="mr-2"
             variant="success"
-            :disabled="!isVoucherDateValid || !isVoucherTotalValid"
+            :disabled="!isDateValid || !isVoucherTotalValid"
           >
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
@@ -336,9 +313,10 @@ import { mapState } from 'vuex';
 import { numberToRupees } from '../../js/utils';
 
 import Autocomplete from '../Autocomplete.vue';
+import GkDate from '../GkDate.vue';
 export default {
   name: 'Voucher',
-  components: { Autocomplete },
+  components: { Autocomplete, GkDate },
   props: {
     type: {
       type: String,
@@ -404,6 +382,7 @@ export default {
           { text: 'Purchase Return', value: 'journal' },
         ],
       },
+      isDateValid: null,
       form: {
         vtype: { text: '', value: '' },
         date: null,
@@ -415,22 +394,25 @@ export default {
     };
   },
   computed: {
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     totalDr: (self) =>
-      self.form.dr.reduce((acc, item) => acc + parseFloat(item.amount), 0) ||
-      null,
+      self.form.dr.reduce(
+        (acc, item) => acc + (item.amount ? parseFloat(item.amount) : 0),
+        0
+      ) || null,
     totalCr: (self) =>
-      self.form.cr.reduce((acc, item) => acc + parseFloat(item.amount), 0) ||
-      null,
-    minDate: (self) => new Date(self.yearStart),
-    maxDate: (self) => new Date(self.yearEnd),
-    isVoucherDateValid: (self) => {
-      let currDate = new Date(self.form.date).getTime(),
-        minDate = self.minDate.getTime(),
-        maxDate = self.maxDate.getTime();
-      return !isNaN(currDate)
-        ? currDate >= minDate && currDate <= maxDate
-        : null;
-    },
+      self.form.cr.reduce(
+        (acc, item) => acc + (item.amount ? parseFloat(item.amount) : 0),
+        0
+      ) || null,
+    minDate: (self) =>
+      self.dateFormat === 'dd-mm-yyyy'
+        ? self.dateReverse(self.yearStart)
+        : self.yearStart,
+    maxDate: (self) =>
+      self.dateFormat === 'dd-mm-yyyy'
+        ? self.dateReverse(self.yearEnd)
+        : self.yearEnd,
     isVoucherTotalValid: (self) =>
       self.totalCr && self.totalDr && self.totalCr === self.totalDr,
     ...mapState(['yearStart', 'yearEnd']),
@@ -445,11 +427,8 @@ export default {
     },
   },
   methods: {
-    getTotal(type) {
-      return this.form[type].reduce(
-        (acc, item) => acc + parseFloat(item.amount),
-        0
-      );
+    setDateValidity(validity) {
+      this.isDateValid = validity;
     },
     addRow(type) {
       this.form[type].push({
@@ -504,7 +483,11 @@ export default {
      * 1. The balance amount in the account chosen is fetched from server
      * 2. Makes the account selected disabled in the opposite account list
      */
-    onAccountSelect(accCode, type, index) {
+    onAccountSelect(accCode, type, index) { 
+      if(!accCode) {
+        this.form[type][index].balance = '';
+        return;
+      }
       this.fetchAccountBalance(accCode, type, index);
       let oppType = type === 'dr' ? 'cr' : 'dr';
       this.options[oppType].forEach((acc, index) => {
@@ -529,6 +512,9 @@ export default {
             if (resp.data.gkstatus === 0) {
               this.form[type][index].balance = resp.data.gkresult;
               this.options.balances[accCode] = resp.data.gkresult;
+            } else {
+              this.form[type][index].balance = '';
+              this.options.balances[accCode] = '';
             }
             this.form[type][index].isLoading = false;
           })
@@ -575,7 +561,6 @@ export default {
       const self = this;
       return Promise.all([...requests]).then(([resp1, resp2]) => {
         let preloadErrorList = ''; // To handle the unloaded data, at once than individually
-
         // === Dr Accounts ===
         if (resp1.data.gkstatus === 0) {
           self.options.dr = [];
@@ -655,10 +640,10 @@ export default {
         acc[dr.account] = dr.amount;
         return acc;
       }, {});
-      payload.crs = this.form.cr.reduce(
-        (acc, cr) => {acc[cr.account] = cr.amount; return acc;},
-        {}
-      );
+      payload.crs = this.form.cr.reduce((acc, cr) => {
+        acc[cr.account] = cr.amount;
+        return acc;
+      }, {});
       // payload.drs[this.form.voucher.dr.account] = this.form.amount;
       // payload.crs[this.form.voucher.cr.account] = this.form.amount;
 
@@ -714,24 +699,25 @@ export default {
     resetForm() {
       this.form.amount = 0;
       this.form.narration = '';
+      this.form.dr = [];
+      this.form.cr = [];
+      this.addRow('cr');
+      this.addRow('dr');
+      this.updateDate();
+      this.updateAccounts();
+    },
+    updateDate() {
+      let today = new Date().getTime();
+      let maxDate = new Date(this.yearEnd).getTime();
+      if (today > maxDate) {
+        this.form.date = this.yearEnd;
+      } else {
+        this.form.date = new Date().toISOString().slice(0, 10);
+      }
     },
   },
   mounted() {
-    this.addRow('cr');
-    this.addRow('dr');
-    this.updateAccounts();
-
-    // By default use the current date as Voucher Date
-    let today = new Date();
-
-    this.form.date =
-      today.getFullYear() +
-      '-' +
-      (today.getMonth() < 9 ? '0' : '') +
-      (today.getMonth() + 1) +
-      '-' +
-      (today.getDate() < 9 ? '0' : '') +
-      today.getDate();
+    this.resetForm();
   },
 };
 </script>
