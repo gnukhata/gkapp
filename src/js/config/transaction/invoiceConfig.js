@@ -2,8 +2,8 @@
 export default {
   state: {
     default: {
+      type: true,
       inv: {
-        type: true,
         no: true,
         date: true,
         delNote: true,
@@ -43,17 +43,21 @@ export default {
       taxType: true,
       bill: {
         index: true,
-        product: true,
+        product: { mobileMode: { disabled: true }, addBtn: true },
         hsn: true,
-        qty: true,
+        qty: { mobileMode: { disabled: true }, checkStock: true },
         fqty: true,
         rate: true,
         discount: true,
         taxable: true,
+        cgst: true,
+        sgst: true,
         igst: true,
         cess: true,
         vat: true,
-        total: true,
+        total: { mobileMode: true },
+        addBtn: { mobileMode: true },
+        editBtn: { mobileMode: true },
         footer: {
           discount: true,
           taxable: true,

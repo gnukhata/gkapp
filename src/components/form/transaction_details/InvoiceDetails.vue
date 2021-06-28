@@ -275,6 +275,10 @@ export default {
     return {
       isCollapsed: false,
       isPreloading: false,
+      invNo: {
+        sale: '',
+        purchase: '',
+      },
       date: {
         format: 'dd-mm-yyyy',
         valid: null,
@@ -332,6 +336,9 @@ export default {
       }
       this.onUpdateDetails();
     },
+    saleFlag() {
+      this.setInvoiceNo();
+    }
   },
   methods: {
     setDateValidity(validity) {
@@ -348,6 +355,51 @@ export default {
           },
         })
       );
+    },
+
+    /**
+     * setInvoiceNo()
+     *
+     * Description: Auto invoice numbering, based on invoice type
+     * Using the /invoice?getinvid API
+     */
+    setInvoiceNo(fetchNew) {
+      if (!fetchNew) {
+        this.form.no = this.saleFlag ? this.invNo.sale : this.invNo.purchase;
+        if (this.form.no) {
+          return;
+        }
+      } else {
+        this.invNo = {
+          sale: '',
+          purchase: '',
+        };
+      }
+      // inoutflag = 9-purchase, 15-sale
+      let self = this;
+      let invid = '';
+      let inoutflag = this.saleFlag ? 15 : 9;
+      return axios
+        .get(`/invoice?getinvid&type=${inoutflag}`)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let codes = this.config.no.form
+              ? this.config.no.format.code
+              : { sale: 'SL', purchase: 'PU' };
+            let code = this.saleFlag ? codes.sale : codes.purchase;
+            this.form.no = this.formatNoteNo(
+              this.numberFormat,
+              parseInt(resp.data.invoiceid),
+              code,
+              this.form.date,
+              this.yearEnd
+            );
+            this.invNo[this.saleFlag ? 'sale' : 'purchase'] = this.form.no;
+          }
+        })
+        .catch((error) => {
+          return error;
+        });
     },
     fetchUserData() {
       let self = this;
@@ -443,7 +495,7 @@ export default {
     resetForm() {
       this.setOrgDetails();
       this.form.date = this.getNoteDate();
-      this.form.no = '';
+      this.setInvoiceNo(true);
       this.onUpdateDetails();
     },
   },

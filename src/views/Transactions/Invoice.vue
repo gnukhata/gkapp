@@ -7,11 +7,11 @@
     Add check conditions for the dates used in the form
  -->
 <template>
-  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-form-label-right">
-    <b-alert :show="isInvDateValid === false" variant="danger"
-      >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-      <b>{{ yearEnd }}</b>
-    </b-alert>
+  <b-container
+    style="min-width: 300px"
+    fluid
+    class="mt-2 px-md-3 px-2 align-form-label-right"
+  >
     <div class="text-center">
       <span class="d-inline-block">
         <b-form-select
@@ -31,9 +31,8 @@
     <hr class="mb-2 mt-0" />
     <div class="mb-2">
       <b-form-radio-group
-        v-model="form.inv.type"
-        v-if="config.inv.type"
-        @input="fetchInvoiceId()"
+        v-model="form.type"
+        v-if="config.type"
         button-variant="outline-secondary"
         size="sm"
         buttons
@@ -50,7 +49,7 @@
         <b-form-select
           size="sm"
           v-model="invoiceId"
-          :options="options.editableInvoices[form.inv.type]"
+          :options="options.editableInvoices[form.type]"
           @change="initForm()"
         ></b-form-select>
       </span>
@@ -68,661 +67,39 @@
     <b-form @submit.prevent="onSubmit">
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Buyer/Seller Details -->
-        <b-card
-          v-if="config.party"
-          class="mb-2 mb-md-0"
-          :class="config.party.class"
-          border-variant="secondary"
-          no-body
+        <party-details
+          :mode="form.type"
+          :parentData="form.party"
+          :gstFlag="isGst"
+          :invoiceParty="invoiceParty"
+          :config="config.party"
+          :saleFlag="isSale"
+          @details-updated="onComponentDataUpdate"
+          :updateCounter="updateCounter.party"
+          ref="party"
         >
-          <b-overlay
-            :show="isPreloading || form.party.loading"
-            variant="secondary"
-            no-wrap
-            blur
-          >
-          </b-overlay>
-          <div class="p-2 p-md-3">
-            <div>
-              <b v-if="isSale"> Billed To</b>
-              <b v-else> Billed By</b>
-              <b-button
-                variant="primary"
-                size="sm"
-                class="float-right p-1 d-md-none"
-                @click="
-                  () => {
-                    isCollapsed.billedTo = !isCollapsed.billedTo;
-                  }
-                "
-              >
-                <b-icon
-                  :icon="
-                    isCollapsed.billedTo ? 'arrows-collapse' : 'arrows-expand'
-                  "
-                  class="float-right"
-                ></b-icon>
-              </b-button>
-            </div>
-            <div
-              class="mt-3"
-              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.billedTo }"
-            >
-              <b-row>
-                <b-col v-if="config.party.type" cols="12">
-                  <b-form-group>
-                    <b-form-radio-group
-                      button-variant="outline-secondary"
-                      size="sm"
-                      buttons
-                      v-model="form.party.type"
-                      @input="resetPartyDetails()"
-                    >
-                      <b-form-radio value="customer">Customer</b-form-radio>
-                      <b-form-radio value="supplier">Supplier</b-form-radio>
-                    </b-form-radio-group>
-                    <b-button
-                      @click.prevent="showContactForm = true"
-                      class="py-0 ml-3"
-                      variant="success"
-                      size="sm"
-                      title="Add Contact"
-                      >+</b-button
-                    >
-                    <b-button
-                      v-if="form.party.name"
-                      class="py-0 ml-2"
-                      variant="warning"
-                      size="sm"
-                      @click.prevent="initPartyEdit"
-                      :disabled="form.party.editFlag"
-                      title="Edit Contact"
-                      ><b-icon font-scale="0.95" icon="pencil"></b-icon
-                    ></b-button>
-                  </b-form-group>
-                </b-col>
-
-                <b-col cols="12" v-if="config.party.name">
-                  <b-form-group
-                    label="Name"
-                    label-for="input-9"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <autocomplete
-                      size="sm"
-                      id="input-9"
-                      v-model="form.party.name"
-                      :options="
-                        form.party.type === 'customer'
-                          ? options.customers
-                          : options.suppliers
-                      "
-                      @input="onPartyNameSelect(form.party.name)"
-                      required
-                      valueUid="id"
-                      :readonly="form.party.editFlag"
-                    >
-                    </autocomplete>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" v-if="config.party.addr">
-                  <b-form-group
-                    label-cols="3"
-                    label="Address"
-                    label-for="input-10"
-                    label-size="sm"
-                  >
-                    <b-form-textarea
-                      size="sm"
-                      id="input-10"
-                      v-model="form.party.addr"
-                      rows="2"
-                      trim
-                      :readonly="!form.party.editFlag"
-                      tabindex="-1"
-                    ></b-form-textarea>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" v-if="config.party.pin">
-                  <b-form-group
-                    label-cols="3"
-                    label="PIN"
-                    label-for="input-11"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-11"
-                      v-model="form.party.pin"
-                      trim
-                      :readonly="!form.party.editFlag"
-                      tabindex="-1"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" v-if="form.party.editFlag">
-                  <b-form-group
-                    label="PAN"
-                    label-for="input-12-1"
-                    label-size="sm"
-                    label-cols="3"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-12-1"
-                      v-model="form.party.pan"
-                      trim
-                      :disabled="!form.party.editFlag"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" v-if="config.party.state">
-                  <b-form-group
-                    label="State"
-                    label-for="input-12"
-                    label-size="sm"
-                    label-cols="3"
-                  >
-                    <b-form-select
-                      size="sm"
-                      id="input-12"
-                      v-model="form.party.state"
-                      :options="
-                        !form.party.editFlag
-                          ? form.party.options.states
-                          : options.states
-                      "
-                      @input="setPartyGst()"
-                      trim
-                      :disabled="!form.party.editFlag"
-                    ></b-form-select>
-                  </b-form-group>
-                </b-col>
-                <b-col v-if="isGst && config.party.gstin" cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="GSTIN"
-                    label-for="input-13"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      v-if="!form.party.editFlag"
-                      size="sm"
-                      id="input-13"
-                      v-model="form.party.gstin"
-                      trim
-                      :readonly="!form.party.editFlag"
-                      tabindex="-1"
-                    ></b-form-input>
-                    <div v-else class="d-flex">
-                      <b-form-input
-                        v-model="form.party.state.id"
-                        type="text"
-                        disabled
-                        style="max-width: 2.5em"
-                        class="px-1 text-center"
-                      ></b-form-input>
-                      <b-form-input
-                        v-model="form.party.pan"
-                        type="text"
-                        class="ml-1 mr-1 px-1 text-center"
-                        disabled
-                      ></b-form-input>
-                      <b-form-input
-                        type="text"
-                        title="Format: [Number] [Alphabet] [Number / Alphabet]"
-                        v-model="form.party.checksum"
-                        style="max-width: 3em"
-                        class="px-1 text-center"
-                      ></b-form-input>
-                    </div>
-                  </b-form-group>
-                </b-col>
-                <b-col v-else-if="config.party.tin" cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="TIN"
-                    label-for="input-13"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-13"
-                      v-model="form.party.tin"
-                      trim
-                      :readonly="!form.party.editFlag"
-                      tabindex="-1"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" v-if="form.party.editFlag">
-                  <b-button
-                    @click.prevent="onPartyEdit(false)"
-                    variant="danger"
-                    size="sm"
-                    class="mr-1"
-                  >
-                    <b-icon
-                      aria-hidden="true"
-                      class="align-middle"
-                      icon="x-circle"
-                    ></b-icon
-                    ><span class="align-middle"> Cancel</span></b-button
-                  >
-                  <b-button
-                    @click.prevent="onPartyEdit(true)"
-                    variant="success"
-                    size="sm"
-                  >
-                    <b-icon
-                      aria-hidden="true"
-                      class="align-middle"
-                      icon="cloud-arrow-up"
-                    ></b-icon>
-                    <span class="align-middle"> Save Changes</span>
-                  </b-button>
-                </b-col>
-              </b-row>
-            </div>
-          </div>
-        </b-card>
+        </party-details>
         <!-- Invoice Details -->
-        <b-card
-          v-if="config.inv"
-          class="mb-2 mb-md-0"
-          :class="config.inv.class"
-          border-variant="secondary"
-          no-body
-        >
-          <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-          </b-overlay>
-          <div class="p-2 p-md-3">
-            <div>
-              <b>Invoice Details</b>
-              <b-button
-                variant="primary"
-                size="sm"
-                class="float-right p-1 d-md-none"
-                @click="
-                  () => {
-                    isCollapsed.invoice = !isCollapsed.invoice;
-                  }
-                "
-              >
-                <b-icon
-                  :icon="
-                    isCollapsed.invoice ? 'arrows-collapse' : 'arrows-expand'
-                  "
-                  class="float-right"
-                ></b-icon>
-              </b-button>
-            </div>
-            <div
-              class="mt-3"
-              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.invoice }"
-            >
-              <b-row>
-                <b-col v-if="config.inv.no" cols="12">
-                  <b-form-group
-                    label="Inv. No."
-                    label-for="input-1"
-                    label-cols-lg="2"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-1"
-                      v-model="form.inv.no"
-                      trim
-                      required
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col v-if="config.inv.date" cols="12">
-                  <b-form-group
-                    id="input-group-3"
-                    label="Date"
-                    label-cols-lg="2"
-                    label-cols="3"
-                    label-for="date-1"
-                    label-size="sm"
-                  >
-                    <b-input-group>
-                      <b-form-input
-                        size="sm"
-                        id="date-1"
-                        v-model="form.inv.date"
-                        type="text"
-                        placeholder="YYYY-MM-DD"
-                        autocomplete="off"
-                        required
-                        :state="isInvDateValid"
-                        debounce="500"
-                      ></b-form-input>
-                      <b-input-group-append>
-                        <b-form-datepicker
-                          size="sm"
-                          v-model="form.inv.date"
-                          button-only
-                          right
-                          locale="en-GB"
-                          aria-controls="date-1"
-                          :min="minDate"
-                          :max="maxDate"
-                        >
-                        </b-form-datepicker>
-                      </b-input-group-append>
-                    </b-input-group>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col
-                  v-if="config.inv.delNote"
-                  class="pr-lg-2"
-                  cols="12"
-                  lg="6"
-                >
-                  <b-form-group
-                    label="Del. Note"
-                    label-for="input-2"
-                    label-cols-lg="4"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <b-form-select
-                      size="sm"
-                      id="input-2"
-                      v-model="form.inv.delNote"
-                    ></b-form-select>
-                  </b-form-group>
-                </b-col>
-                <b-col class="pl-lg-2" v-if="isSale && config.inv.ebn">
-                  <b-form-group
-                    label="EBN"
-                    label-for="input-3"
-                    label-cols-lg="4"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-3"
-                      v-model="form.inv.ebn"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" v-if="isSale && config.inv.addr">
-                  <b-form-group
-                    label-cols-lg="2"
-                    label-cols="3"
-                    label="Address"
-                    label-for="input-4"
-                    label-size="sm"
-                  >
-                    <b-form-textarea
-                      size="sm"
-                      id="input-4"
-                      v-model="form.inv.addr"
-                      rows="2"
-                      max-rows="2"
-                      trim
-                      required
-                      readonly
-                      tabindex="-1"
-                    ></b-form-textarea>
-                  </b-form-group>
-                </b-col>
-                <b-col
-                  class="pr-lg-2"
-                  cols="12"
-                  lg="6"
-                  v-if="isSale && config.inv.pin"
-                >
-                  <b-form-group
-                    label-cols-lg="4"
-                    label-cols="3"
-                    label="PIN"
-                    label-for="input-5"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-5"
-                      v-model="form.inv.pin"
-                      trim
-                      readonly
-                      tabindex="-1"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col v-if="config.inv.state" cols="12" lg="6" class="pl-lg-2">
-                  <b-form-group
-                    label="State"
-                    label-for="input-6"
-                    label-size="sm"
-                    label-cols-lg="4"
-                    label-cols="3"
-                  >
-                    <autocomplete
-                      size="sm"
-                      id="input-6"
-                      valueUid="id"
-                      v-model="form.inv.state"
-                      :options="options.states"
-                      required
-                      readonly
-                      tabindex="-1"
-                    ></autocomplete>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-              <b-row v-if="isSale">
-                <b-col
-                  v-if="config.inv.issuer"
-                  class="pr-lg-2"
-                  cols="12"
-                  lg="6"
-                >
-                  <b-form-group
-                    label="Issuer"
-                    label-for="input-7"
-                    label-cols="3"
-                    label-size="sm"
-                    label-cols-lg="4"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-7"
-                      v-model="form.inv.issuer"
-                      trim
-                      required
-                      readonly
-                      tabindex="-1"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col v-if="config.inv.role" class="pl-lg-2" cols="12" lg="6">
-                  <b-form-group
-                    label="Role"
-                    label-for="input-8"
-                    label-cols="3"
-                    label-cols-lg="4"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-8"
-                      v-model="form.inv.role"
-                      trim
-                      required
-                      readonly
-                      tabindex="-1"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-            </div>
-          </div>
-        </b-card>
+        <invoice-details
+          :config="config.inv"
+          :saleFlag="isSale"
+          :parentData="form.inv"
+          @details-updated="onComponentDataUpdate"
+          :updateCounter="updateCounter.inv"
+          ref="inv"
+        ></invoice-details>
         <!-- Shipping Details -->
-        <b-card
-          v-if="config.ship"
-          class="mb-2 mb-md-0"
-          :class="config.ship.class"
-          border-variant="secondary"
-          no-body
+        <ship-details
+          :states="options.states"
+          :gstFlag="isGst"
+          :saleFlag="isSale"
+          :billingDetails="form.party"
+          :organisationDetails="options.orgDetails"
+          :updateCounter="updateCounter.ship"
+          :config="config.ship"
+          ref="ship"
         >
-          <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-          </b-overlay>
-          <div class="p-2 p-md-3">
-            <div>
-              <b>Shipping Details</b>
-              <b-button
-                variant="primary"
-                size="sm"
-                class="float-right p-1 d-md-none"
-                @click="
-                  () => {
-                    isCollapsed.shipping = !isCollapsed.shipping;
-                  }
-                "
-              >
-                <b-icon
-                  :icon="
-                    isCollapsed.shipping ? 'arrows-collapse' : 'arrows-expand'
-                  "
-                  class="float-right"
-                ></b-icon>
-              </b-button>
-            </div>
-            <div
-              class="mt-3"
-              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.shipping }"
-              id="shipping-details"
-            >
-              <b-form-checkbox
-                id="checkbox-1"
-                v-model="useBillAddress"
-                name="checkbox-1"
-                class="mb-3"
-                size="sm"
-                switch
-                v-if="isSale && config.ship.copyFlag"
-              >
-                Same as Billing Address
-              </b-form-checkbox>
-              <b-row>
-                <b-col cols="12" v-if="config.ship.name">
-                  <b-form-group
-                    label="Name"
-                    label-for="input-14"
-                    label-cols="3"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-14"
-                      v-model="form.ship.name"
-                      :readonly="useBillAddress"
-                      tabindex="-1"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" v-if="config.ship.addr">
-                  <b-form-group
-                    label-cols="3"
-                    label="Address"
-                    label-for="input-15"
-                    label-size="sm"
-                  >
-                    <b-form-textarea
-                      size="sm"
-                      id="input-15"
-                      v-model="form.ship.addr"
-                      rows="2"
-                      max-rows="2"
-                      trim
-                      :readonly="useBillAddress"
-                      tabindex="-1"
-                    ></b-form-textarea>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" v-if="config.ship.pin">
-                  <b-form-group
-                    label-cols="3"
-                    label="PIN"
-                    label-for="input-16"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-16"
-                      v-model="form.ship.pin"
-                      trim
-                      :readonly="useBillAddress"
-                      tabindex="-1"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col cols="12" v-if="config.ship.state">
-                  <b-form-group
-                    label="State"
-                    label-for="input-17"
-                    label-size="sm"
-                    label-cols="3"
-                  >
-                    <autocomplete
-                      size="sm"
-                      id="input-17"
-                      v-model="form.ship.state"
-                      :options="options.states"
-                      trim
-                      valueUid="id"
-                      :readonly="useBillAddress"
-                      tabindex="-1"
-                    ></autocomplete>
-                  </b-form-group>
-                </b-col>
-                <b-col v-if="isGst && config.ship.gstin" cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="GSTIN"
-                    label-for="input-18"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-18"
-                      v-model="form.ship.gstin"
-                      trim
-                      :readonly="useBillAddress"
-                      tabindex="-1"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-                <b-col v-else-if="config.ship.tin" cols="12">
-                  <b-form-group
-                    label-cols="3"
-                    label="TIN"
-                    label-for="input-18"
-                    label-size="sm"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="input-18"
-                      v-model="form.ship.tin"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-row>
-            </div>
-          </div>
-        </b-card>
+        </ship-details>
       </b-card-group>
       <div class="my-2" v-if="config.taxType">
         <b-form-radio-group
@@ -735,643 +112,60 @@
           <b-form-radio value="vat">VAT</b-form-radio>
         </b-form-radio-group>
       </div>
-      <div v-if="config.bill" class="position-relative my-2">
-        <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-        </b-overlay>
-        <b-table-simple hover small caption-top responsive bordered>
-          <b-thead head-variant="dark">
-            <!-- table header -->
-            <b-tr class="text-center">
-              <b-th
-                :style="{ maxWidth: '40px', width: '40px' }"
-                rowspan="2"
-                v-if="config.bill.index"
-                >No</b-th
-              >
-              <b-th
-                :style="{
-                  maxWidth: '300px',
-                  width: '150px',
-                  minWidth: '100px',
-                }"
-                rowspan="2"
-                v-if="config.bill.product"
-                >Item
-                <b-button
-                  @click.prevent="showBusinessForm = true"
-                  class="py-0 ml-3"
-                  variant="success"
-                  size="sm"
-                  >+</b-button
-                >
-              </b-th>
-              <b-th
-                :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
-                rowspan="2"
-                v-if="config.bill.hsn"
-                >HSN/SAC</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-                rowspan="2"
-                v-if="config.bill.qty"
-                >Qty</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '200px', width: '150px', minWidth: '80px' }"
-                rowspan="2"
-                v-if="config.bill.rate"
-                >Rate</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-                rowspan="2"
-                v-if="config.bill.discount"
-                >Discount</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '200px', width: '80px', minWidth: '50px' }"
-                rowspan="2"
-                v-if="config.bill.taxable"
-                >Taxable Amt</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-                colspan="2"
-                v-if="isGst && config.bill.igst"
-                >IGST</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-                colspan="2"
-                v-if="isGst && config.bill.cess"
-                >CESS</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '100px', width: '80px', minWidth: '80px' }"
-                colspan="2"
-                v-if="!isGst && config.bill.vat"
-                >TAX</b-th
-              >
-              <b-th
-                :style="{
-                  maxWidth: '300px',
-                  width: '150px',
-                  minWidth: '100px',
-                }"
-                rowspan="2"
-                v-if="config.bill.total"
-                >Total</b-th
-              >
-              <b-th :style="{ maxWidth: '40px', width: '40px' }" rowspan="2"
-                >+/-</b-th
-              >
-            </b-tr>
-            <!-- tax field sub headers -->
-            <b-tr class="text-center">
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst && config.bill.igst"
-                >%</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst && config.bill.igst"
-                >₹</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst && config.bill.cess"
-                >%</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="isGst && config.bill.cess"
-                >₹</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="!isGst && config.bill.vat"
-                >%</b-th
-              >
-              <b-th
-                :style="{ maxWidth: '50px', width: '30px', minWidth: '30px' }"
-                v-if="!isGst && config.bill.vat"
-                >₹</b-th
-              >
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr
-              class="text-center"
-              v-for="(field, index) in form.bill"
-              :key="index"
-            >
-              <!-- No.  -->
-              <b-td v-if="config.bill.index">
-                {{ index + 1 }}
-              </b-td>
-
-              <!-- Item -->
-              <b-td v-if="config.bill.product">
-                <!-- <b-form-select
-                  size="sm"
-                  v-model="field.product"
-                  :options="options.products"
-                  @input="fetchProductDetails(field.product.id, index)"
-                  required
-                ></b-form-select> -->
-                <autocomplete
-                  size="sm"
-                  v-model="field.product"
-                  :options="options.products"
-                  @input="onBillItemSelect(field.product, index)"
-                  valueUid="id"
-                  :isOptionsShared="true"
-                  required
-                  emptyValue=""
-                ></autocomplete>
-              </b-td>
-
-              <!-- HSN/SAC -->
-              <b-td v-if="config.bill.hsn">
-                <b>{{ field.hsn }}</b>
-              </b-td>
-
-              <!-- Qty -->
-              <b-td v-if="config.bill.qty">
-                <b-input
-                  v-model="field.qty"
-                  class="hide-spin-button text-right"
-                  type="number"
-                  no-wheel
-                  step="0.01"
-                  min="0.01"
-                  @input="updateTaxAndTotal(index)"
-                  :readonly="field.isService"
-                  :tabindex="field.isService ? -1 : 0"
-                ></b-input>
-              </b-td>
-
-              <!-- Rate -->
-              <b-td v-if="config.bill.rate">
-                <b-input
-                  v-model="field.rate"
-                  class="hide-spin-button text-right"
-                  type="number"
-                  no-wheel
-                  step="0.01"
-                  min="0.01"
-                  @input="updateTaxAndTotal(index)"
-                ></b-input>
-              </b-td>
-
-              <!-- Discount -->
-              <b-td v-if="config.bill.discount">
-                <b-input
-                  v-model="field.discount.amount"
-                  class="hide-spin-button text-right"
-                  type="number"
-                  no-wheel
-                  step="0.01"
-                  min="0.00"
-                  @input="updateTaxAndTotal(index)"
-                ></b-input>
-              </b-td>
-
-              <!-- Taxable Amt -->
-              <b-td v-if="config.bill.taxable">
-                {{ field.taxable }}
-              </b-td>
-
-              <!-- GST % -->
-              <b-td v-if="isGst && config.bill.igst">
-                {{ field.igst.rate }}
-              </b-td>
-
-              <!-- GST $ -->
-              <b-td v-if="isGst && config.bill.igst">
-                {{ field.igst.amount }}
-              </b-td>
-
-              <!-- CESS % -->
-              <b-td v-if="isGst && config.bill.cess">
-                {{ field.cess.rate }}
-              </b-td>
-
-              <!-- CESS $ -->
-              <b-td v-if="isGst && config.bill.cess">
-                {{ field.cess.amount }}
-              </b-td>
-
-              <!-- VAT Tax % -->
-              <b-td v-if="!isGst && config.bill.vat">
-                {{ field.vat.rate }}
-              </b-td>
-
-              <!-- VAT Tax $ -->
-              <b-td v-if="!isGst && config.bill.vat">
-                {{ field.vat.amount }}
-              </b-td>
-
-              <!-- Total -->
-              <b-td v-if="config.bill.total">
-                {{ field.total }}
-              </b-td>
-
-              <!-- +/- Buttons -->
-              <b-td>
-                <b-button
-                  v-if="index < billLength - 1"
-                  @click.prevent="deleteBillItem(index)"
-                  size="sm"
-                  >-</b-button
-                >
-                <b-button v-else @click.prevent="addBillItem()" size="sm"
-                  >+</b-button
-                >
-              </b-td>
-            </b-tr>
-          </b-tbody>
-          <b-tfoot v-if="config.bill.footer">
-            <b-tr variant="secondary" class="text-right">
-              <b-th :colspan="config.bill.footer.headingColspan"> Total </b-th>
-              <b-th v-if="config.bill.discount">
-                <span v-if="config.bill.footer.discount"
-                  >₹ {{ getTotal('discount', 'amount') }}</span
-                >
-              </b-th>
-              <b-th v-if="config.bill.taxable">
-                <span v-if="config.bill.footer.taxable"
-                  >₹ {{ getTotal('taxable') }}</span
-                >
-              </b-th>
-              <b-th colspan="2" v-if="isGst && config.bill.igst">
-                <span v-if="config.bill.footer.igst"
-                  >₹ {{ getTotal('igst', 'amount') }}</span
-                ></b-th
-              >
-              <b-th colspan="2" v-if="isGst && config.bill.cess">
-                <span v-if="config.bill.footer.cess"
-                  >₹ {{ getTotal('cess', 'amount') }}</span
-                ></b-th
-              >
-              <b-th colspan="2" v-if="!isGst && config.bill.vat"
-                >₹
-                <span v-if="config.bill.footer.vat">{{
-                  getTotal('vat', 'amount')
-                }}</span>
-              </b-th>
-              <b-th v-if="config.bill.total">
-                <span v-if="config.bill.footer.total"
-                  >₹ {{ getTotal('total') }}</span
-                >
-              </b-th>
-              <b-th></b-th>
-            </b-tr>
-          </b-tfoot>
-        </b-table-simple>
-      </div>
+      <!-- Bill Table -->
+      <bill-table
+        :gstFlag="isGst"
+        :config="config.bill"
+        @details-updated="onComponentDataUpdate"
+        :updateCounter="updateCounter.bill"
+        :parentData="form.bill"
+        :cgstFlag="isCgst"
+        ref="bill"
+      ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
          atleast 2, to avoid creating an offset to the right -->
         <b-row class="mt-5" v-if="config.total">
           <b-col cols="12" lg="6"> </b-col>
           <b-col cols="12" lg="6">
-            <b-table-simple responsive>
-              <b-tbody>
-                <b-tr v-if="config.total.taxable">
-                  <b-th></b-th>
-                  <b-th colspan="3">Taxable Amount</b-th>
-                  <b-th class="text-right">₹ {{ getTotal('taxable') }}</b-th>
-                </b-tr>
-                <b-tr v-if="isGst && config.total.igst">
-                  <b-th></b-th>
-                  <b-th colspan="3">Total IGST</b-th>
-                  <b-th class="text-right"
-                    >₹ {{ getTotal('igst', 'amount') }}</b-th
-                  >
-                </b-tr>
-                <b-tr v-if="isGst && config.total.cess">
-                  <b-th></b-th>
-                  <b-th colspan="3">Total CESS</b-th>
-                  <b-th class="text-right"
-                    >₹ {{ getTotal('cess', 'amount') }}</b-th
-                  >
-                </b-tr>
-                <b-tr v-if="!isGst && config.total.vat">
-                  <b-th></b-th>
-                  <b-th colspan="3">Total VAT</b-th>
-                  <b-th class="text-right"
-                    >₹ {{ getTotal('vat', 'amount') }}</b-th
-                  >
-                </b-tr>
-                <b-tr v-if="config.total.discount">
-                  <b-th></b-th>
-                  <b-th colspan="3">Total Discount</b-th>
-                  <b-th class="text-right"
-                    >₹ {{ getTotal('discount', 'amount') }}</b-th
-                  >
-                </b-tr>
-                <b-tr v-if="config.total.value">
-                  <b-th :style="{ width: '30px' }">
-                    <b-form-checkbox
-                      inline
-                      size="sm"
-                      v-model="form.totalRoundFlag"
-                      v-if="config.total.roundOff"
-                      v-b-tooltip.hover
-                      title="Roundoff Total Value?"
-                    ></b-form-checkbox>
-                  </b-th>
-                  <b-th colspan="3"> Total Invoice Value </b-th>
-                  <b-th class="text-right">₹ {{ getTotal('total') }}</b-th>
-                </b-tr>
-                <b-tr v-if="form.totalRoundFlag && config.total.roundOff">
-                  <b-th></b-th>
-                  <b-th colspan="3">Total Invoice Value (Rounded Off)</b-th>
-                  <b-th class="text-right"
-                    >₹ {{ Math.round(getTotal('total')) }}</b-th
-                  >
-                </b-tr>
-                <b-tr v-if="config.total.valueText">
-                  <b-th></b-th>
-                  <b-th colspan="3">Total Invoice Value (in words)</b-th>
-                  <b-th class="text-right"> {{ invoiceTotalText }}</b-th>
-                </b-tr>
-              </b-tbody>
-            </b-table-simple>
+            <total-table
+              :config="config.total"
+              :gstFlag="isGst"
+              :billData="form.bill"
+              :updateCounter="updateCounter.totalTable"
+              :cgstFlag="isCgst"
+              ref="totalTable"
+            ></total-table>
           </b-col>
         </b-row>
       </div>
       <b-card-group class="d-block d-md-flex" deck>
-        <b-card
-          class="mb-2 mb-md-0"
-          :class="config.payment.class"
-          border-variant="secondary"
-          no-body
-          v-if="config.payment"
-        >
-          <div class="p-2 p-md-3">
-            <div>
-              <b>Payment Details</b>
-              <b-button
-                variant="primary"
-                size="sm"
-                class="float-right p-1 d-md-none"
-                @click="
-                  () => {
-                    isCollapsed.payment = !isCollapsed.payment;
-                  }
-                "
-              >
-                <b-icon
-                  :icon="
-                    isCollapsed.payment ? 'arrows-collapse' : 'arrows-expand'
-                  "
-                  class="float-right"
-                ></b-icon>
-              </b-button>
-            </div>
-            <div
-              class="mt-3"
-              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.payment }"
-            >
-              <b-form-group
-                label="Mode of Payment"
-                label-for="input-19"
-                label-size="sm"
-                label-cols="auto"
-                v-if="config.payment.mode"
-              >
-                <b-form-select
-                  size="sm"
-                  id="input-19"
-                  v-model="form.payment.mode"
-                  :options="options.payModes"
-                  required
-                ></b-form-select>
-              </b-form-group>
-              <b v-if="form.payment.mode === 3">CASH RECEIVED</b>
-              <div v-if="form.payment.mode === 2">
-                <b>Bank Details</b>
-                <b-form-group
-                  label="Acc. No."
-                  label-for="input-20"
-                  label-cols="3"
-                  label-size="sm"
-                  label-cols-lg="autauto"
-                  v-if="config.payment.bank.no"
-                >
-                  <b-form-input
-                    size="sm"
-                    id="input-20"
-                    v-model="form.payment.bank.no"
-                    trim
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                  label="Bank Name"
-                  label-for="input-21"
-                  label-cols="3"
-                  label-size="sm"
-                  label-cols-lg="autauto"
-                  v-model="form.payment.bank.name"
-                >
-                  <b-form-input
-                    size="sm"
-                    id="input-21"
-                    v-if="config.payment.bank.name"
-                    trim
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                  label="Branch"
-                  label-for="input-22"
-                  label-cols="3"
-                  label-size="sm"
-                  label-cols-lg="autauto"
-                  v-if="config.payment.bank.branch"
-                >
-                  <b-form-input
-                    size="sm"
-                    id="input-22"
-                    v-model="form.payment.bank.branch"
-                    trim
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                  label="IFSC"
-                  label-for="input-23"
-                  label-cols="3"
-                  label-size="sm"
-                  label-cols-lg="autauto"
-                  v-if="config.payment.bank.ifsc"
-                >
-                  <b-form-input
-                    size="sm"
-                    id="input-23"
-                    v-model="form.payment.bank.ifsc"
-                    trim
-                    required
-                  ></b-form-input>
-                </b-form-group>
-              </div>
-              <b v-if="form.payment.mode === 15">ON CREDIT</b>
-            </div>
-          </div>
-        </b-card>
-        <b-card
-          class="mb-2 mb-md-0"
-          :class="config.transport.class"
-          border-variant="secondary"
-          no-body
-          v-if="config.transport"
-        >
-          <div class="p-2 p-md-3">
-            <div>
-              <b>Transport Details</b>
-              <b-button
-                variant="primary"
-                size="sm"
-                class="float-right p-1 d-md-none"
-                @click="
-                  () => {
-                    isCollapsed.transport = !isCollapsed.transport;
-                  }
-                "
-              >
-                <b-icon
-                  :icon="
-                    isCollapsed.transport ? 'arrows-collapse' : 'arrows-expand'
-                  "
-                  class="float-right"
-                ></b-icon>
-              </b-button>
-            </div>
-            <div
-              class="mt-3"
-              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.transport }"
-            >
-              <b-form-group
-                label="Mode of Transport"
-                label-for="input-24"
-                label-size="sm"
-                label-cols="auto"
-                v-if="config.transport.mode"
-              >
-                <b-form-select
-                  size="sm"
-                  id="input-24"
-                  v-model="form.transport.mode"
-                  :options="options.transportModes"
-                ></b-form-select>
-              </b-form-group>
-              <b-form-group
-                label="Vehicle No."
-                label-for="input-25"
-                label-cols="auto"
-                label-size="sm"
-                label-cols-lg="autauto"
-                v-if="form.transport.mode === 'Road' && config.transport.vno"
-              >
-                <b-form-input
-                  size="sm"
-                  id="input-25"
-                  v-model="form.transport.vno"
-                  trim
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                id="input-group-3"
-                label="Date of Supply"
-                label-cols="auto"
-                label-for="date-2"
-                label-size="sm"
-                v-if="config.transport.date"
-              >
-                <b-input-group>
-                  <b-form-input
-                    size="sm"
-                    id="date-2"
-                    v-model="form.transport.date"
-                    type="text"
-                    placeholder="YYYY-MM-DD"
-                    autocomplete="off"
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-form-datepicker
-                      size="sm"
-                      v-model="form.transport.date"
-                      button-only
-                      right
-                      locale="en-GB"
-                      aria-controls="date-1"
-                    >
-                    </b-form-datepicker>
-                  </b-input-group-append>
-                </b-input-group>
-              </b-form-group>
-              <b-form-checkbox
-                v-model="form.transport.reverseCharge"
-                size="sm"
-                name="check-button"
-                switch
-                v-if="config.transport.reverseCharge"
-              >
-                Reverse Charge
-              </b-form-checkbox>
-            </div>
-          </div>
-        </b-card>
-        <b-card
-          class="mb-2 mb-md-0"
-          :class="config.comments.class"
-          border-variant="secondary"
-          no-body
-          v-if="config.comments"
-        >
-          <div class="p-2 p-md-3">
-            <div>
-              <b>Invoice Comments</b>
-              <b-button
-                variant="primary"
-                size="sm"
-                class="float-right p-1 d-md-none"
-                @click="
-                  () => {
-                    isCollapsed.comments = !isCollapsed.comments;
-                  }
-                "
-              >
-                <b-icon
-                  :icon="
-                    isCollapsed.comments ? 'arrows-collapse' : 'arrows-expand'
-                  "
-                  class="float-right"
-                ></b-icon>
-              </b-button>
-            </div>
-            <div
-              class="mt-3"
-              :class="{ 'd-md-block': true, 'd-none': !isCollapsed.comments }"
-            >
-              <b-form-group>
-                <b-form-textarea
-                  size="sm"
-                  id="input-27"
-                  v-model="form.narration"
-                  rows="4"
-                  max-rows="5"
-                  trim
-                ></b-form-textarea>
-              </b-form-group>
-            </div>
-          </div>
-        </b-card>
+        <!-- Payment Details -->
+        <payment-details
+          ref="payment"
+          :updateCounter="updateCounter.payment"
+          :config="config.payment"
+          :saleFlag="isSale"
+          :optionsData="{
+            payModes: options.payModes,
+          }"
+        ></payment-details>
+        <!-- Transport Details -->
+        <transport-details
+          ref="transport"
+          :config="config.transport"
+          :updateCounter="updateCounter.transport"
+          :parentData="form.transport"
+          :invDate="form.inv.date"
+          @details-updated="onComponentDataUpdate"
+        ></transport-details>
+        <!-- Invoice Comments -->
+        <comments
+          ref="narration"
+          :config="config.comments"
+          :updateCounter="updateCounter.comments"
+          :parentData="form.comments"
+        ></comments>
       </b-card-group>
       <b-tooltip
         target="inv-submit"
@@ -1412,7 +206,7 @@
         </b-button>
         <b-button
           id="inv-submit"
-          :disabled="!isInvDateValid"
+          :disabled="isInvDateValid === false"
           type="submit"
           size="sm"
           class="m-1"
@@ -1443,73 +237,6 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
-
-    <!-- Modals -->
-    <!-- Create Contact Item -->
-    <b-modal
-      size="lg"
-      v-model="showContactForm"
-      v-if="config"
-      centered
-      static
-      body-class="p-0"
-      id="contact-item-modal"
-      hide-footer
-      hide-header
-    >
-      <contact-item
-        :hideBackButton="true"
-        :onSave="onContactSave"
-        mode="create"
-        :type="form.party.type"
-        :inOverlay="true"
-      >
-        <template #close-button>
-          <b-button
-            size="sm"
-            class="float-right py-0"
-            @click.prevent="
-              () => {
-                showContactForm = false;
-              }
-            "
-            >x</b-button
-          >
-        </template>
-      </contact-item>
-    </b-modal>
-
-    <b-modal
-      size="xl"
-      v-model="showBusinessForm"
-      v-if="config"
-      centered
-      static
-      body-class="p-0"
-      id="business-item-modal"
-      hide-footer
-      hide-header
-    >
-      <business-item
-        :hideBackButton="true"
-        :onSave="onBusinessSave"
-        mode="create"
-        :inOverlay="true"
-      >
-        <template #close-button>
-          <b-button
-            size="sm"
-            class="float-right py-0"
-            @click.prevent="
-              () => {
-                showBusinessForm = false;
-              }
-            "
-            >x</b-button
-          >
-        </template>
-      </business-item>
-    </b-modal>
   </b-container>
 </template>
 
@@ -1517,21 +244,32 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import ContactItem from '../../components/form/ContactItem.vue';
-import BusinessItem from '../../components/form/BusinessItem.vue';
+import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
+import ShipDetails from '../../components/form/transaction/ShipDetails.vue';
+import BillTable from '../../components/form/transaction/BillTable.vue';
+import TotalTable from '../../components/form/transaction/TotalTable.vue';
+import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
+import Comments from '../../components/form/transaction/Comments.vue';
+import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue';
+import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
+
 import Config from '../../components/Config.vue';
-import Autocomplete from '../../components/Autocomplete.vue';
 
 import invoiceConfig from '../../js/config/transaction/invoiceConfig';
-import { numberToRupees, formatDateObj } from '../../js/utils';
 
 export default {
   name: 'Invoice',
   components: {
-    ContactItem,
-    BusinessItem,
     Config,
-    Autocomplete,
+
+    PartyDetails,
+    InvoiceDetails,
+    ShipDetails,
+    BillTable,
+    TotalTable,
+    PaymentDetails,
+    TransportDetails,
+    Comments,
   },
   props: {
     mode: {
@@ -1552,84 +290,26 @@ export default {
       vuexNameSpace: '',
       formMode: '',
       invoiceId: '',
+      updateCounter: {
+        party: 0,
+        ship: 0,
+        bill: 0,
+        totalTable: 0,
+        payment: 0,
+        transport: 0,
+        comments: 0,
+        inv: 0,
+      },
       form: {
-        inv: {
-          type: 'sale', // purchase
-          no: null,
-          date: formatDateObj(new Date()),
-          delNote: null,
-          ebn: null,
-          addr: null,
-          pin: null,
-          state: {},
-          issuer: null,
-          role: null,
-        },
-        party: {
-          type: 'customer', // supplier
-          options: {
-            states: [],
-            gstin: [],
-          },
-          custid: null,
-          name: {},
-          addr: null,
-          state: {},
-          gstin: null,
-          tin: null,
-          pin: null,
-          pan: '',
-          checksum: '',
-          editFlag: false,
-          loading: false,
-          editMode: {
-            addr: null,
-            state: {},
-            gstin: null,
-            pin: null,
-          },
-        },
-        ship: {
-          copyFlag: true,
-          name: null,
-          addr: null,
-          state: {},
-          gstin: null,
-          tin: null,
-          pin: null,
-        },
+        type: 'sale', // purchase
+        inv: {},
+        party: {},
+        ship: {},
         taxType: 'gst', // vat
-        bill: [
-          {
-            product: { name: '', id: '' },
-            hsn: '',
-            qty: 0,
-            fqty: 0,
-            rate: 0,
-            discount: { rate: 0, amount: 0 },
-            taxable: 0,
-            igst: { rate: 0, amount: 0 },
-            cess: { rate: 0, amount: 0 },
-            vat: { rate: 0, amount: 0 },
-            total: 0,
-            isService: false, // used to make certain fields readonly
-          },
-        ],
-        payment: {
-          mode: 3,
-          bank: {
-            no: null,
-            name: null,
-            branch: null,
-            ifsc: null,
-          },
-        },
-        transport: {
-          mode: 'Road',
-          vno: null,
-          date: null,
-          reverseCharge: false,
-        },
+        bill: [],
+        payment: {},
+        transport: {},
+        total: {},
         narration: null,
         totalRoundFlag: false,
       },
@@ -1658,7 +338,7 @@ export default {
           'Ship',
           'Other',
         ],
-        orgDetails: null,
+        orgDetails: {},
         bill: [],
         editableInvoices: {
           purchase: [],
@@ -1681,7 +361,8 @@ export default {
     // config : Gets the custom config from the invoiceConfig Vuex module and
     //          prepares it for use by adding some custom additions to it (that should not be user editable)
     config: (self) => {
-      let newConf = self.$store.getters[`${self.vuexNameSpace}/getCustomInvoiceConfig`];
+      let newConf =
+        self.$store.getters[`${self.vuexNameSpace}/getCustomInvoiceConfig`];
       if (newConf) {
         newConf.bill.footer.headingColspan =
           !!newConf.bill.index +
@@ -1761,18 +442,8 @@ export default {
 
       return newConf;
     },
-    defaultConfig: (self) => self.$store.getters[`${self.vuexNameSpace}/getDefaultInvoiceConfig`],
-    invoiceTotalText: (self) => {
-      let total = self.getTotal('total');
-      let text = '';
-      if (total > 0) {
-        if (self.form.totalRoundFlag) {
-          total = Math.round(total);
-        }
-        text = numberToRupees(total);
-      }
-      return text;
-    },
+    defaultConfig: (self) =>
+      self.$store.getters[`${self.vuexNameSpace}/getDefaultInvoiceConfig`],
     billLength: (self) => self.form.bill.length,
     height: () =>
       window.innerHeight -
@@ -1780,8 +451,16 @@ export default {
       30,
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
-    isSale: (self) => self.form.inv.type === 'sale',
+    isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
+    isCgst: (self) => {
+      if (self.form.inv.state && self.form.party.state) {
+        if (self.form.inv.state.name === self.form.party.state.name) {
+          return true;
+        }
+      }
+      return false;
+    },
     useBillAddress: {
       get: function () {
         return this.form.ship.copyFlag;
@@ -1803,148 +482,55 @@ export default {
     },
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
-    ...mapState([
-      'yearStart',
-      'yearEnd',
-      'invoiceParty',
-    ]),
+    ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
   },
   methods: {
-    onBillItemSelect(item, index) {
-      if (item) {
-        if (item.id) {
-          if (this.form.bill[index].pid !== item.id) {
-            this.form.bill[index].pid = item.id;
-            this.fetchProductDetails(item.id, index);
+    collectComponentData() {
+      Object.assign(this.form.inv, this.$refs.inv.form);
+      Object.assign(this.form.party, this.$refs.party.form);
+      Object.assign(this.form.ship, this.$refs.ship.form);
+      Object.assign(this.form.bill, this.$refs.bill.form);
+      Object.assign(this.form.payment, this.$refs.payment.form);
+      Object.assign(this.form.total, this.$refs.totalTable.form);
+      Object.assign(this.form.transport, this.$refs.transport.form);
+      this.form.narration = this.$refs.narration.form.narration;
+    },
+    updateComponentData() {
+      this.updateCounter.party++;
+      this.updateCounter.inv++;
+      this.updateCounter.ship++;
+      this.updateCounter.bill++;
+      this.updateCounter.totalTable++;
+      this.updateCounter.payment++;
+      this.updateCounter.transport++;
+      this.updateCounter.comments++;
+    },
+    onComponentDataUpdate(payload) {
+      switch (payload.name) {
+        case 'invoice-details':
+          {
+            Object.assign(this.form.inv, payload.data);
+            this.form.transport.date = this.form.inv.date;
+            const self = this;
+            setTimeout(function () {
+              self.updateCounter.transport++;
+            });
           }
-        }
+          break;
+        case 'party-details':
+          Object.assign(this.form.party, payload.data);
+          this.updateCounter.ship++;
+          break;
+        case 'bill-table':
+          Object.assign(this.form.bill, payload.data);
+          this.updateCounter.totalTable++;
+          break;
+        case 'transport-details':
+          Object.assign(this.form.transport, payload.data);
+          break;
       }
     },
-    /**
-     * onPartyNameSelect(name)
-     *
-     * Description -> Updates the BilledTo and Shipping Details based on the Customer/Supplier chosen.
-     * Here party is the Customer/Supplier
-     *
-     * argument -> name: {id , name}
-     */
-    onPartyNameSelect(name) {
-      if (name) {
-        if (name.id) {
-          this.fetchCustomerData(name.id);
-          return;
-        }
-      }
 
-      // if the name is invalid, empty the BilledTo & Shipping Details if it exists
-      if (this.form.party.addr || this.form.party.options.states.length) {
-        Object.assign(this.form.party, {
-          options: {
-            states: [],
-            gstin: [],
-          },
-          addr: null,
-          state: {},
-          gstin: null,
-          tin: null,
-          pin: null,
-        });
-        this.setShippingDetails();
-      }
-    },
-    /**
-     * getTotal(key)
-     *
-     * returns the total sum of the given key for all items in bill
-     */
-    getTotal(key, subKey) {
-      let total = 0;
-      if (subKey) {
-        total = this.form.bill.reduce(
-          (acc, curr) => parseFloat(acc) + parseFloat(curr[key][subKey]),
-          0
-        );
-      } else {
-        total = this.form.bill.reduce(
-          (acc, curr) => parseFloat(acc) + parseFloat(curr[key]),
-          0
-        );
-      }
-      return total.toFixed(2);
-    },
-    addBillItem() {
-      this.form.bill.push({
-        product: { id: '', name: '' },
-        hsn: '',
-        qty: 0,
-        fqty: 0,
-        rate: 0,
-        discount: { rate: 0, amount: 0 },
-        taxable: 0,
-        igst: { rate: 0, amount: 0 },
-        cess: { rate: 0, amount: 0 },
-        vat: { rate: 0, amount: 0 },
-        total: 0,
-        pid: null,
-      });
-    },
-    deleteBillItem(index) {
-      this.form.bill.splice(index, 1);
-    },
-    /**
-     * updateTaxAndTotal(index)
-     *
-     * Params:
-     * index - Bill item index to update
-     *
-     * Description:
-     * Calculates the taxable amt, GST, CESS, VAT and Total Price for a bill item
-     * Invoke it while updating qty, rate and discount fields
-     *
-     */
-    updateTaxAndTotal(index) {
-      let item = this.form.bill[index];
-      if (item) {
-        if (item.rate > 0) {
-          if (item.isService) {
-            item.taxable = parseFloat(
-              (item.rate - item.discount.amount).toFixed(2)
-            );
-          } else {
-            item.taxable = parseFloat(
-              (item.rate * item.qty - item.discount.amount).toFixed(2)
-            );
-          }
-
-          if (this.form.taxType === 'gst') {
-            if (item.igst.rate > 0) {
-              item.igst.amount = parseFloat(
-                (item.taxable * (item.igst.rate * 0.01)).toFixed(2)
-              );
-            }
-            if (item.cess.rate > 0) {
-              item.cess.amount = parseFloat(
-                (item.taxable * (item.cess.rate * 0.01)).toFixed(2)
-              );
-            }
-
-            item.total = (
-              item.taxable +
-              item.igst.amount +
-              item.cess.amount
-            ).toFixed(2);
-          } else {
-            if (item.vat.rate > 0) {
-              item.vat.amount = item.taxable * (item.vat.rate * 0.01);
-            }
-            item.total = (item.taxable + item.vat.amount).toFixed(2);
-          }
-        } else {
-          item.taxable = (0).toFixed(2);
-          item.total = (0).toFixed(2);
-        }
-      }
-    },
     preloadData() {
       this.isPreloading = true;
       const requests = [
@@ -1956,10 +542,6 @@ export default {
           );
           return error;
         }),
-        this.fetchContactList(),
-        this.fetchInvoiceId(),
-        this.fetchUserData(),
-        this.fetchBusinessList(),
         axios.get(`/organisation`).catch((error) => {
           this.displayToast(
             'Fetch Organisation Profile Data Failed!',
@@ -1971,255 +553,58 @@ export default {
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(
-        ([resp1, resp2, resp3, resp4, resp5, resp6]) => {
-          self.isPreloading = false;
-          let preloadErrorList = ''; // To handle the unloaded data, at once than individually
+      return Promise.all([...requests]).then(([resp1, resp6]) => {
+        self.isPreloading = false;
+        let preloadErrorList = ''; // To handle the unloaded data, at once than individually
 
-          /**
-           * The data obtained are updated, to be comptaible with the
-           * component they are used with (<b-form-select>)
-           * and based on requirement
-           */
+        /**
+         * The data obtained are updated, to be comptaible with the
+         * component they are used with (<b-form-select>)
+         * and based on requirement
+         */
 
-          // === State List ===
-          if (resp1.status === 200) {
-            if (resp1.data.gkstatus === 0) {
-              self.options.states = resp1.data.gkresult.map((item) => {
-                return {
-                  text: Object.values(item)[0],
-                  value: {
-                    id: Object.keys(item)[0],
-                    name: Object.values(item)[0],
-                  },
-                };
-              });
-            } else {
-              preloadErrorList += ' States,';
-            }
-          } else {
-            preloadErrorList += ' States,';
-          }
-
-          if (resp2 !== undefined) {
-            preloadErrorList += ' Customers/Suppliers,';
-          }
-
-          if (resp3 !== undefined) {
-            preloadErrorList += ' Invoice Id,';
-          }
-
-          if (resp4 !== undefined) {
-            preloadErrorList += ' User Name  & Role,';
-          }
-
-          if (resp5 !== undefined) {
-            preloadErrorList += ' Products/Services,';
-          }
-
-          if (resp6.data.gkstatus === 0) {
-            self.options.orgDetails = resp6.data.gkdata;
-            setTimeout(() => {
-              self.setOrgDetails();
-            }, 1);
-          }
-
-          if (preloadErrorList !== '') {
-            this.displayToast(
-              'Error: Unable to Preload Data',
-              `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
-              'danger'
-            );
-          }
-        }
-      );
-    },
-    /**
-     * fetchCustomerData(id)
-     *
-     * Description: Fetch customer/supplier data, for 'Billed To/By' section
-     */
-    fetchCustomerData(id) {
-      if (id !== null) {
-        let self = this;
-        axios
-          .get(`/customersupplier?qty=single&custid=${id}`)
-          .then((resp) => {
-            switch (resp.data.gkstatus) {
-              case 0:
-                // convert [{id: name}, {id2: name}] to {id: name, id2: name}, to remove duplicates
-                var stateList =
-                  resp.data.gkresult.statelist.reduce((acc, item) => {
-                    acc[Object.keys(item)[0]] = Object.values(item)[0];
-                    return acc;
-                  }, {}) || {};
-                // convert it back to array format for <b-form-select> options
-                var states = Object.keys(stateList).map((key) => {
-                  return {
-                    text: stateList[key],
-                    value: { id: key, name: stateList[key] },
-                  };
-                });
-                Object.assign(self.form.party, {
-                  addr: resp.data.gkresult.custaddr,
-                  options: {
-                    states,
-                    gstin: resp.data.gkresult.gstin,
-                  },
-                  state: states[0].value,
-                  pan: resp.data.gkresult.custpan,
-                  checksum: '',
-                  pin: resp.data.gkresult.pincode,
-                  gstin: '',
-                  tin: resp.data.gkresult.custtan || null,
-                });
-                setTimeout(() => {
-                  self.setPartyGst(); // set gstin based on state
-                });
-
-                break;
-              case 2:
-                self.resetPartyDetails(); // if there no data, then reset the fields
-                this.displayToast(
-                  'Fetch Customer/Supplier Data Error!',
-                  'Unauthorized Access, Please contact Admin',
-                  'warning'
-                );
-                break;
-              case 3:
-              default:
-                self.resetPartyDetails(); // if there no data, then reset the fields
-                this.displayToast(
-                  'Fetch Customer/Supplier Data Error!',
-                  'Unable to Fetch Customer/Supplier Data, Please try again',
-                  'danger'
-                );
-            }
-            self.setShippingDetails(); // updates shipping details as well if flag is set
-          })
-          .catch((error) => {
-            this.displayToast(
-              'Fetch Customer/Supplier Data Error!',
-              error.message,
-              'warning'
-            );
-          });
-      }
-    },
-    /**
-     * fetchProductDetails(id, index)
-     *
-     * Description: Fetches product details like price, discount and taxes,
-     * when a product is selected in the bill area
-     */
-    fetchProductDetails(id, index) {
-      let self = this;
-      const requests = [
-        axios.get(`/products?qty=single&productcode=${id}`).catch((error) => {
-          return error;
-        }),
-        axios.get(`/tax?pscflag=p&productcode=${id}`).catch((error) => {
-          return error;
-        }),
-      ];
-      Promise.all([...requests]).then(([resp1, resp2]) => {
-        self.isLoading = false;
-
-        // Product Data
-        if (resp1.status === 200) {
-          if (resp1.data.gkstatus === 0) {
-            let data = resp1.data.gkresult;
-            if (!self.editFlag) {
-              Object.assign(self.form.bill[index], {
-                hsn: data.gscode,
-                isService: data.gsflag === 19,
-                rate: data.prodmrp,
-                qty: 0,
-                discount: {
-                  rate: data.discountpercent,
-                  amount: self.config.bill.discount ? data.discountamount : 0,
-                },
-              });
-            } else {
-              self.editFlag--;
-            }
-          }
-        } else {
-          console.log(resp1.message);
-        }
-
-        // Tax details
-        if (resp2.status === 200) {
-          if (resp2.data.gkstatus === 0) {
-            let data = resp2.data.gkresult,
-              tax = {
-                igst: { rate: 0, amount: 0 },
-                cess: { rate: 0, amount: 0 },
-                vat: { rate: 0, amount: 0 },
+        // === State List ===
+        if (resp1.data.gkstatus === 0) {
+          self.options.states = resp1.data.gkresult.map((item) => {
+            return {
+              text: Object.values(item)[0],
+              value: {
+                id: Object.keys(item)[0],
+                name: Object.values(item)[0],
               },
-              igst = self.config.bill.igst
-                ? data.filter((item) => item.taxname === 'IGST')
-                : 0,
-              cess = self.config.bill.cess
-                ? data.filter((item) => item.taxname === 'CESS')
-                : 0,
-              vat = self.config.bill.vat
-                ? data.filter((item) => item.taxname === 'CVAT')
-                : 0;
-
-            if (igst.length) {
-              tax['igst'] = {
-                rate: igst[0].taxrate,
-                amount: 0,
-              };
-            }
-            if (cess.length) {
-              tax['cess'] = {
-                rate: cess[0].taxrate,
-                amount: 0,
-              };
-            }
-            if (vat.length) {
-              tax['vat'] = {
-                rate: vat[0].taxrate,
-                amount: 0,
-              };
-            }
-            Object.assign(self.form.bill[index], tax);
-          }
+            };
+          });
         } else {
-          console.log(resp2.message);
+          preloadErrorList += ' States,';
         }
 
-        self.updateTaxAndTotal(index);
+        if (resp6.data.gkstatus === 0) {
+          let orgState = resp6.data.gkdata.orgstate;
+          let state = self.options.states.find(
+            (state) => state.text === orgState
+          );
+          let stateCode = state ? state.value.id : null;
+          self.options.orgDetails = {
+            name: resp6.data.gkdata.orgname,
+            addr: resp6.data.gkdata.orgaddr,
+            state: state.value,
+            gstin: stateCode !== null ? resp6.data.gkdata.gstin[stateCode] : '',
+            tin: '',
+            pin: resp6.data.gkdata.orgpincode,
+          };
+          setTimeout(() => {
+            self.setOrgDetails();
+          }, 1);
+        }
+
+        if (preloadErrorList !== '') {
+          this.displayToast(
+            'Error: Unable to Preload Data',
+            `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
+            'danger'
+          );
+        }
       });
-    },
-    /**
-     * fetchInvoiceId()
-     *
-     * Description: Auto invoice numbering, based on invoice type
-     * Using the /invoice?getinvid API
-     */
-    fetchInvoiceId() {
-      // inoutflag = 9-purchase, 15-sale
-      let self = this;
-      let invid = '';
-      let inoutflag = this.isSale ? 15 : 9;
-      return axios
-        .get(`/invoice?getinvid&type=${inoutflag}`)
-        .then((resp) => {
-          if (resp.status === 200) {
-            if (resp.data.gkstatus === 0) {
-              invid = resp.data.invoiceid + '/';
-              invid += this.isSale ? 'SL' : 'PU';
-              invid += '-' + String(this.yearEnd).substring(2, 4);
-              self.form.inv.no = invid;
-            }
-          }
-        })
-        .catch((error) => {
-          return error;
-        });
     },
     fetchUserData() {
       let self = this;
@@ -2304,7 +689,7 @@ export default {
 
           // If coming from Contact's page, autofill invoice party details from store
           if (self.invoiceParty.id !== null) {
-            self.form.inv.type =
+            self.form.type =
               self.invoiceParty.type === 'customer' ? 'sale' : 'purchase';
             Object.assign(self.form.party, {
               type: self.invoiceParty.type,
@@ -2318,41 +703,6 @@ export default {
         .catch((error) => {
           this.displayToast(
             'Fetch Customer/Supplier Data Failed!',
-            error.message,
-            'danger'
-          );
-          return error;
-        });
-    },
-    fetchBusinessList() {
-      let self = this;
-      return axios
-        .get('/products')
-        .then((resp) => {
-          if (resp.status === 200) {
-            if (resp.data.gkstatus === 0) {
-              resp.data.gkresult.sort((a, b) => a.productcode - b.productcode);
-              self.options.products = resp.data.gkresult.map((item) => {
-                return {
-                  text: item.productdesc,
-                  value: {
-                    id: item.productcode,
-                    name: item.productdesc,
-                  },
-                };
-              });
-            } else {
-              this.displayToast(
-                'Fetch Product Data Failed!',
-                'Please try again later, if problem persists, contact admin',
-                'danger'
-              );
-            }
-          }
-        })
-        .catch((error) => {
-          this.displayToast(
-            'Fetch Product Data Failed!',
             error.message,
             'danger'
           );
@@ -2379,8 +729,8 @@ export default {
                     (state) => state.text === data.destinationstate
                   );
             // set invoice details
+            self.form.type = data.inoutflag === 15 ? 'sale' : 'purchase';
             self.form.inv = {
-              type: data.inoutflag === 15 ? 'sale' : 'purchase',
               no: data.invoiceno,
               date: data.invoicedate.split('-').reverse().join('-'),
               delNote: null, /////////////////////////
@@ -2395,8 +745,7 @@ export default {
             self.form.ship.copyFlag =
               data.consignee.consigneename === data.custSupDetails.custname &&
               data.consignee.consigneeaddress === data.custSupDetails.custaddr;
-            self.form.party.type =
-              data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+
             self.form.taxType = data.taxflag === 7 ? 'gst' : 'vat';
             self.form.payment.mode = data.paymentmode;
             self.form.transport = {
@@ -2406,7 +755,7 @@ export default {
               reverseCharge: data.reversecharge,
             };
             self.form.narration = data.narration;
-            self.form.totalRoundFlag = !!data.roundoff;
+            self.form.total.roundFlag = !!data.roundoff;
 
             if (data.bankdetails) {
               self.form.payment.bank = {
@@ -2416,24 +765,11 @@ export default {
                 ifsc: data.bankdetails.ifsc,
               };
             }
-            // debugger;
-            this.$nextTick().then(() => {
-              // set party details
-              self.form.party.type =
-                data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
-              if (self.form.party.type === 'customer') {
-                self.form.party.name = self.options.customers.find(
-                  (cust) => cust.text === data.custSupDetails.custname
-                );
-              } else {
-                self.form.party.name = self.options.suppliers.find(
-                  (sup) => sup.text === data.custSupDetails.custname
-                );
-              }
-              // ;
-              self.form.party.name = self.form.party.name
-                ? self.form.party.name.value
-                : { name: '', id: null };
+
+            self.form.party.type =
+              data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+            self.$nextTick().then(() => {
+              self.form.party.name = data.custSupDetails.custname;
 
               // set shipping details
               if (!self.form.ship.copyFlag) {
@@ -2450,46 +786,36 @@ export default {
                   pin: ship.consigneepincode,
                 });
               }
+              self.updateComponentData();
             });
+
+            // debugger;
+            this.$nextTick().then(() => {});
 
             // set bill items
             self.form.bill = [];
-            self.options.bill = [];
-            self.editFlag = 0;
             for (const itemCode in data.invcontents) {
-              self.editFlag++;
-              this.addBillItem();
-              // continue;
               let item = data.invcontents[itemCode];
-              let itemName = data.invcontents[itemCode].proddesc;
-              let product = self.options.products.find(
-                (prod) => prod.text === itemName
-              );
               let billItem = {
-                product: product ? product.value : { name: 'null', id: '' },
+                product: item.proddesc,
                 discount: { amount: parseFloat(item.discount) },
-                hsn: item.gscode,
-                igst: {
-                  amount: parseFloat(item.taxamount),
-                  rate: parseFloat(item.taxrate),
-                },
-                cess: {
-                  amount: parseFloat(item.cessrate),
-                  rate: parseFloat(item.cess),
-                },
-                vat: {
-                  amount: parseFloat(item.taxamount),
-                  rate: parseFloat(item.taxrate),
-                },
                 qty: parseFloat(item.qty),
                 fqty: item.freeqty,
                 rate: parseFloat(item.priceperunit),
                 isService: item.gsflag === 19,
+                igst: { rate: 0 },
+                cgst: { rate: 0 },
+                sgst: { rate: 0 },
+                cess: { rate: 0 },
+                vat: { rate: 0 },
               };
-              // console.log(itemName)
-              self.options.bill.push(billItem);
-              // self.fetchProductDetails(product.id, self.editFlag-1);
+              if (billItem.isService) {
+                billItem.qty = 1;
+              }
+              self.form.bill.push(billItem);
             }
+
+            self.updateComponentData();
           }
         })
         .catch((error) => {
@@ -2500,77 +826,12 @@ export default {
           );
         });
     },
-    /**
-     * setPartyGst()
-     *
-     * Description: Sets the party GSTIN field, based on the state chosen
-     */
-    setPartyGst() {
-      /**
-       * form.party.options = {'stateid': 'gstin', 'stateid2': 'gstin2}
-       */
-      if (this.form.party.options.gstin && this.form.party.state) {
-        this.form.party.gstin =
-          this.form.party.options.gstin[this.form.party.state.id] || null;
-        if(this.form.party.gstin) {
-          this.form.party.checksum = this.form.party.gstin.substr(12, 3);
-        }
-      }
-    },
-    setShippingDetails() {
-      if (this.form.ship.copyFlag) {
-        Object.assign(this.form.ship, this.form.party);
-        this.form.ship.name = this.form.party.name.name;
-        delete this.form.ship.type;
-      } else {
-        this.form.ship = {
-          copyFlag: false,
-          name: null,
-          addr: null,
-          state: {},
-          gstin: null,
-          pin: null,
-        };
-      }
-    },
-    setOrgDetails() {
-      if (this.options.orgDetails !== null) {
-        if (this.options.orgDetails.orgname) {
-          let orgstate = (this.options.orgDetails.orgstate || '').toLowerCase();
-          let state = orgstate
-            ? this.options.states.find(
-                (state) => state.text.toLowerCase() === orgstate
-              )
-            : null;
-          Object.assign(this.form.inv, {
-            addr: this.options.orgDetails.orgaddr,
-            pin: this.options.orgDetails.orgpincode,
-            state: state ? state.value : null,
-          });
-        }
-      }
-    },
-    resetPartyDetails() {
-      Object.assign(this.form.party, {
-        name: '',
-        addr: null,
-        options: {
-          states: [],
-          gstin: null,
-        },
-        state: {},
-        pin: '',
-        gstin: '',
-        checksum: '',
-        editFlag: false,
-      });
-      this.setShippingDetails();
-    },
     onSubmit() {
       let self = this;
       this.isLoading = true;
 
       const payload = this.initPayload();
+      console.log(payload);
       const method = this.formMode === 'create' ? 'post' : 'put';
       const actionText = this.formMode === 'create' ? 'Create' : 'Edit';
       axios({ method: method, url: '/invoice', data: payload })
@@ -2629,38 +890,8 @@ export default {
           );
         });
     },
-    onContactSave() {
-      this.showContactForm = false;
-      this.fetchContactList().then(() => {
-        if (this.options.customers.length) {
-          this.form.party.name =
-            this.form.party.type === 'customer'
-              ? this.options.customers[this.options.customers.length - 1].value
-              : this.options.suppliers[this.options.suppliers.length - 1].value;
-        }
-      });
-    },
-    onBusinessSave() {
-      this.showBusinessForm = false;
-      this.fetchBusinessList().then(() => {
-        let billCount = this.form.bill.length;
-        let productCount = this.options.products.length;
-        if (this.form.bill[billCount - 1].product.id !== null) {
-          this.addBillItem();
-          billCount++;
-        }
-        setTimeout(() => {
-          this.form.bill[billCount - 1].product = this.options.products[
-            productCount - 1
-          ].value;
-          this.fetchProductDetails(
-            this.options.products[productCount - 1].id,
-            productCount - 1
-          );
-        }, 100);
-      });
-    },
     initPayload() {
+      this.collectComponentData();
       let invoice = {
         // dcid: null, // Has to be filled when Delivery Note is implemented. If no Deliver Note is available skip this property
         invoiceno: this.form.inv.no,
@@ -2676,7 +907,7 @@ export default {
         custid: this.form.party.name.id || '',
         consignee: {},
 
-        roundoffflag: 1,
+        roundoffflag: this.form.total.roundFlag ? 1 : 0,
         // invtotal: this.getTotal('total'),
         // invtotalword: null,
 
@@ -2714,12 +945,8 @@ export default {
       }
 
       // === Total Invoice price data ===
-      let total = this.getTotal('total');
-      let roundoff = Math.round(total);
-      let words = numberToRupees(roundoff);
-
-      invoice.invoicetotal = total;
-      invoice.invoicetotalword = words;
+      invoice.invoicetotal = this.form.total.amount;
+      invoice.invoicetotalword = this.form.total.text;
 
       // === Consignee data ===
       if (this.form.ship.name) {
@@ -2761,13 +988,16 @@ export default {
         if (this.isGst) {
           tax[item.product.id] = parseFloat(item.igst.rate).toFixed(2);
           cess[item.product.id] = parseFloat(item.cess.rate).toFixed(2);
-          av.avtax = { GSTName: 'IGST', CESSName: 'CESS' };
+          av.avtax = {
+            GSTName: this.isCgst ? 'CGST' : 'IGST',
+            CESSName: 'CESS',
+          };
         } else {
           tax[item.product.id] = parseFloat(item.vat.rate).toFixed(2);
           av.taxpayment += taxable;
         }
 
-        freeqty[item.product.id] = parseFloat(item.fqty).toFixed(2);
+        freeqty[item.product.id] = parseFloat(item.fqty).toFixed(2) || 0;
         discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
 
         av.product[item.product.name] = parseFloat(taxable).toFixed(2);
@@ -2829,58 +1059,16 @@ export default {
     },
     resetForm() {
       this.form = {
-        inv: {
-          type: 'sale', // purchase
-          no: null,
-          date: formatDateObj(new Date()),
-          delNote: null,
-          ebn: null,
-          addr: null,
-          pin: null,
-          state: { id: null, name: null },
-          issuer: null,
-          role: null,
-        },
+        type: 'sale', // purchase
+        inv: {},
         party: {
-          type: 'customer', // supplier
-          options: {
-            states: [],
-            gstin: [],
-          },
-          custid: null,
-          name: { id: null, name: null },
-          addr: null,
-          state: { id: null, name: null },
-          gstin: null,
-          tin: null,
-          pin: null,
-          editFlag: false,
-          loading: false,
+          name: false,
         },
-        ship: {
-          copyFlag: true,
-          name: null,
-          addr: null,
-          state: {},
-          gstin: null,
-          tin: null,
-          pin: null,
-        },
+        ship: {},
         taxType: 'gst', // vat
         bill: [
           {
             product: { name: '', id: '' },
-            hsn: '',
-            qty: 0,
-            fqty: 0,
-            rate: 0,
-            discount: { rate: 0, amount: 0 },
-            taxable: 0,
-            igst: { rate: 0, amount: 0 },
-            cess: { rate: 0, amount: 0 },
-            vat: { rate: 0, amount: 0 },
-            total: 0,
-            isService: false, // used to make certain fields readonly
           },
         ],
         payment: {
@@ -2899,13 +1087,26 @@ export default {
           reverseCharge: false,
         },
         narration: null,
-        totalRoundFlag: false,
+        total: {},
       };
 
-      this.fetchInvoiceId();
-      this.fetchUserData();
       this.setOrgDetails();
+      this.updateComponentData();
     },
+    setOrgDetails() {
+      if (this.options.orgDetails !== null) {
+        if (this.options.orgDetails.orgname) {
+          Object.assign(this.form.inv, {
+            addr: this.options.orgDetails.addr,
+            pin: this.options.orgDetails.pin,
+            state: this.options.orgDetails.state
+              ? this.options.orgDetails.state.value
+              : null,
+          });
+        }
+      }
+    },
+
     initPartyEdit() {
       this.form.party.editFlag = true;
       this.form.party.editMode = {
@@ -2915,53 +1116,36 @@ export default {
         pin: this.form.party.pin,
       };
     },
-    onPartyEdit(edited) {
-      if (edited) {
-        this.form.party.loading = true;
-        let payload = {
-          csflag: this.form.party.type === 'customer' ? 3 : 19,
-          custaddr: this.form.party.addr,
-          custid: this.form.party.name.id,
-          custname: this.form.party.name.name,
-          pincode: this.form.party.pin,
-          state: this.form.party.state.name,
-          custpan: this.form.party.pan
-        };
-        if(this.form.party.pan.length === 10 && this.form.party.checksum.length === 3) {
-          payload.gstin = {}
-          payload.gstin[this.form.party.state.id] = `${this.form.party.state.id}${this.form.party.pan}${this.form.party.checksum}`;
-        }
-        axios.put('customersupplier', payload).then(() => {
-          this.form.party.loading = false;
-          this.onPartyNameSelect(this.form.party.name);
-        });
-      } else {
-        this.form.party.addr = this.form.party.editMode.addr;
-        this.form.party.state = this.form.party.editMode.state;
-        this.form.party.gstin = this.form.party.editMode.gstin;
-        this.form.party.pin = this.form.party.editMode.pin;
-      }
-      this.form.party.editFlag = false;
-    },
     fetchEditableInvoices() {
-      const invtype = this.isSale ? 15 : 9;
-      axios
-        .get(`/invoice?type=rectifyinvlist&invtype=${invtype}`)
-        .then((resp) => {
-          if (resp.data.gkstatus === 0) {
-            this.options.editableInvoices[
-              this.form.inv.type
-            ] = resp.data.invoices.map((inv) => {
+      const self = this;
+      const requests = [
+        axios.get(`/invoice?type=rectifyinvlist&invtype=15`),
+        axios.get(`/invoice?type=rectifyinvlist&invtype=9`),
+      ];
+
+      Promise.all([...requests]).then(([resp1, resp2]) => {
+        if (resp1.data.gkstatus === 0) {
+          self.options.editableInvoices['sale'] = resp1.data.invoices.map(
+            (inv) => {
               return {
                 text: `${inv.invoiceno}, ${inv.invoicedate}, ${inv.custname}`,
                 value: inv.invid,
               };
-            });
-          }
-        })
-        .catch((error) => {
-          return error;
-        });
+            }
+          );
+        }
+
+        if (resp2.data.gkstatus === 0) {
+          self.options.editableInvoices['purchase'] = resp2.data.invoices.map(
+            (inv) => {
+              return {
+                text: `${inv.invoiceno}, ${inv.invoicedate}, ${inv.custname}`,
+                value: inv.invid,
+              };
+            }
+          );
+        }
+      });
     },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
@@ -2976,17 +1160,10 @@ export default {
       let self = this;
       this.resetForm();
       this.preloadData().then(() => {
+        self.fetchEditableInvoices();
         self.$nextTick().then(() => {
           if (self.formMode === 'edit') {
-            self.fetchEditableInvoices();
             self.fetchInvoiceData();
-            setTimeout(() => {
-              self.options.bill.forEach((bill, index) => {
-                Object.assign(self.form.bill[index], bill);
-              });
-            }, 500);
-          } else if (!self.isInvDateValid) {
-            self.form.inv.date = self.yearStart;
           }
         });
       });
