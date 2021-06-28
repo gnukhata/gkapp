@@ -2,8 +2,9 @@
   <div id="app">
     <header id="app-header">
       <!--navbar-->
-      <b-navbar toggleable="lg" type="light" variant="light">
-        <b-navbar-brand>
+      <b-navbar size="sm" type="light" variant="light">
+        <sidebar v-if="userAuthenticated"></sidebar>
+        <b-navbar-brand class="mt-2">
           <router-link
             style="border-bottom: 0px"
             to="/workflow/Transactions-Invoice/-1"
@@ -24,84 +25,30 @@
             {{ this.orgName || 'GNUKhata' }}
           </div>
         </b-navbar-brand>
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <!-- show only for authenticated user -->
-            <template v-if="userAuthenticated">
-              <b-nav-item
-                :to="{
-                  name: 'Workflow',
-                  params: {
-                    wfName: 'Transactions-Invoice',
-                    wfId: -1,
-                  },
-                }"
-                :active="activeNav === 'Dashboard'"
-                ><b-icon icon="wrench"></b-icon> Workflow</b-nav-item
+        <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item-dropdown v-if="userAuthenticated" @click="getUser" right>
+            <template #button-content>
+              <b-avatar
+                @click="getUser"
+                variant="dark"
+                icon="person"
+                :title="userName"
               >
+              </b-avatar>
+              {{ userName }}
             </template>
-            <b-nav-item :to="{ name: 'About' }" :active="activeNav === 'About'"
-              ><b-icon icon="info-circle"></b-icon> About</b-nav-item
+            <b-dropdown-item v-b-modal.change-pwd
+              ><b-icon icon="key"></b-icon> Change Password
+            </b-dropdown-item>
+            <b-dropdown-item @click="logOut" href="#"
+              ><b-icon icon="box-arrow-in-left"></b-icon> Log
+              Out</b-dropdown-item
             >
-            <!-- <b-nav-item :to="{ name: 'Login' }" :active="activeNav === 'Login'"
-              ><b-icon icon="box-arrow-in-right"></b-icon> Login</b-nav-item
-            > -->
-          </b-navbar-nav>
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown
-              v-if="userAuthenticated"
-              @click="getUser"
-              right
-            >
-              <template #button-content>
-                <b-avatar
-                  @click="getUser"
-                  variant="dark"
-                  icon="person"
-                  :title="userName"
-                >
-                </b-avatar>
-                {{ userName }}
-              </template>
-              <!-- admin only options -->
-              <!-- <template v-if="userRole == -1">
-                   <b-dropdown-item to="/orgprofile"
-                   ><b-icon icon="building"></b-icon> Organisation
-                   Profile</b-dropdown-item
-                   >
-                   <b-dropdown-item to="/uom"
-                   ><b-icon icon="thermometer"></b-icon> Unit of measurement
-                   </b-dropdown-item>
-                   <b-dropdown-item to="/user_management"
-                   ><b-icon icon="people"></b-icon> Manage Users</b-dropdown-item
-                   >
-                   <b-dropdown-item to="/logs"
-                   ><b-icon icon="server"></b-icon> Audit Logs</b-dropdown-item
-                   >
-                   <b-dropdown-item to="/closebooks"
-                   ><b-icon icon="journals"></b-icon> Close Books / Roll
-                   Over</b-dropdown-item
-                   >
-              <b-dropdown-item
-                :to="{
-                  name: 'Billwise',
-                  params: { custType: 3, custName: '-1' },
-                }"
-                ><b-icon icon="clipboard"></b-icon> Adjust
-                Bills</b-dropdown-item
-              >
-                   </template> -->
-              <b-dropdown-item v-b-modal.change-pwd
-                ><b-icon icon="key"></b-icon> Change Password
-              </b-dropdown-item>
-              <b-dropdown-item @click="logOut" href="#"
-                ><b-icon icon="box-arrow-in-left"></b-icon> Log
-                Out</b-dropdown-item
-              >
-            </b-nav-item-dropdown>
-          </b-navbar-nav>
-        </b-collapse>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+        <!-- <b-collapse id="nav-collapse" is-nav>
+               </b-collapse> -->
         <!-- Change password dialog -->
         <b-modal
           ref="change-pwd-close"
@@ -116,11 +63,11 @@
         </b-modal>
       </b-navbar>
       <color-bar></color-bar>
-      <sidebar v-if="userAuthenticated"></sidebar>
     </header>
     <main role="main">
       <router-view />
     </main>
+    <title-bar></title-bar>
   </div>
 </template>
 <script>
@@ -129,9 +76,10 @@ import ColorBar from '@/components/ColorBar.vue';
 import axios from 'axios';
 import ChangePwd from '@/components/form/ChangePwd.vue';
 import Sidebar from './components/Sidebar.vue';
+import TitleBar from './components/TitleBar.vue';
 export default {
   name: 'App',
-  components: { ColorBar, ChangePwd, Sidebar },
+  components: { ColorBar, ChangePwd, Sidebar, TitleBar },
   data() {
     return {
       userRole: Number,

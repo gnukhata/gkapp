@@ -1,6 +1,6 @@
 <template>
   <section class="mt-2 mr-3 ml-3">
-    <b-input-group class="mb-3 w-100 mx-auto">
+    <b-input-group class="mb-3 container-sm gksearch d-print-none">
       <template #prepend>
         <!-- <b-input-group-text>Username</b-input-group-text> -->
         <b-button variant="outline-primary" v-b-modal.create-user

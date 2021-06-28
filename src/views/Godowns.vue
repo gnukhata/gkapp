@@ -1,8 +1,8 @@
 <template>
   <section class="m-2">
-    <b-input-group class="mb-3 w-75 mx-auto">
+    <b-input-group class="mb-3 container-sm gksearch d-print-none">
       <template #prepend>
-        <b-button v-b-modal.add-godown variant="warning"
+        <b-button v-b-modal.add-godown variant="warning" size="sm"
           ><b-icon icon="building"></b-icon> Create Godown</b-button
         >
       </template>
