@@ -200,6 +200,10 @@ export default {
         format: 'dd-mm-yyyy',
         valid: null,
       },
+      delchalNo: {
+        sale: '',
+        purchase: '',
+      },
       options: {
         orgDetails: null,
         transactionTypes: [
@@ -245,39 +249,57 @@ export default {
       this.date.valid = validity;
       this.onUpdateDetails();
     },
-    setDelChalNo() {
-      if (this.config.no) {
-        let no = this.getLastDelChalNo();
-        let codes = this.config.no.form
-          ? this.config.no.format.code
-          : { in: 'DIN', out: 'DOUT' };
-        let code = this.saleFlag ? codes.out : codes.in;
-        if (isNaN(no)) {
-          this.form.no = no;
-        } else {
-          no++;
-          this.form.no = this.formatNoteNo(
-            this.numberFormat,
-            no,
-            code,
-            this.form.date
-          );
+    setDelChalNo(fetchNew) {
+      if (!fetchNew) {
+        this.form.no = this.saleFlag
+          ? this.delchalNo['sale']
+          : this.delchalNo['purchase'];
+        if (this.form.no) {
+          return;
         }
+      } else {
+        this.delchalNo = {
+          sale: '',
+          purchase: '',
+        };
+      }
+      if (this.config.no) {
+        this.getLastDelChalNo().then((no) => {
+          let codes = this.config.no.form
+            ? this.config.no.format.code
+            : { in: 'DIN', out: 'DOUT' };
+          let code = this.saleFlag ? codes.out : codes.in;
+          if (isNaN(no)) {
+            this.form.no = no;
+          } else {
+            no++;
+            this.form.no = this.formatNoteNo(
+              this.numberFormat,
+              no,
+              code,
+              this.form.date
+            );
+            this.delchalNo[this.saleFlag ? 'sale' : 'purchase'] = this.form.no;
+          }
+        });
       }
     },
     getLastDelChalNo() {
-      let no = this.saleFlag
-        ? this.options.lastDelChal.sale
-        : this.options.lastDelChal.purchase;
-      if (isNaN(no)) {
-        if (no.indexOf('/D') >= 0) {
-          no = no.split('/D')[0];
+      const self = this;
+      return this.fetchLastDelChalNo().then(() => {
+        let no = self.saleFlag
+          ? self.options.lastDelChal.sale
+          : self.options.lastDelChal.purchase;
+        if (isNaN(no)) {
+          if (no.indexOf('/D') >= 0) {
+            no = no.split('/D')[0];
+            return parseInt(no);
+          }
+          return no;
+        } else {
           return parseInt(no);
         }
-        return no;
-      } else {
-        return parseInt(no);
-      }
+      });
     },
     onUpdateDetails() {
       setTimeout(() =>
@@ -435,7 +457,7 @@ export default {
     resetForm() {
       this.setOrgDetails();
       this.form.date = this.getNoteDate();
-      this.setDelChalNo();
+      this.setDelChalNo(true);
       this.onUpdateDetails();
     },
   },
