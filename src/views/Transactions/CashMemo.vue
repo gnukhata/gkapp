@@ -1,156 +1,156 @@
 <template>
-  <div>
-    <b-container
-      style="min-width: 300px"
-      fluid
-      class="mt-2 px-md-3 px-2 align-form-label-right"
-    >
-      <div class="mb-2">
+  <b-container
+    style="min-width: 300px"
+    fluid
+    class="mt-2 px-md-3 px-2 align-form-label-right"
+  >
+    <div class="mb-2">
+      <b-form-radio-group
+        v-model="form.type"
+        v-if="config.type"
+        button-variant="outline-secondary"
+        size="sm"
+        buttons
+        class="mx-1"
+      >
+        <b-form-radio value="sale">Sale</b-form-radio>
+        <b-form-radio value="purchase">Purchase</b-form-radio>
+      </b-form-radio-group>
+      <span class="float-right">
+        <config
+          title="Invoice Page Configuration"
+          getDefault="getDefaultInvoiceConfig"
+          setCustom="updateInvoiceConfig"
+          getCustom="getCustomInvoiceConfig"
+        >
+        </config>
+      </span>
+      <div class="clearfix"></div>
+    </div>
+    <b-form @submit.prevent="onSubmit">
+      <b-card-group class="d-block d-md-flex my-2" deck>
+        <!-- Delivery Note Details -->
+        <cash-memo-details
+          ref="memo"
+          :config="config.memo"
+          :parentData="form.memo"
+          :updateCounter="updateCounter.memo"
+          @details-updated="onComponentDataUpdate"
+          :saleFlag="isSale"
+        ></cash-memo-details>
+        <!-- Payment Details -->
+        <payment-details
+          ref="payment"
+          :updateCounter="updateCounter.payment"
+          :config="config.payment"
+          :saleFlag="isSale"
+          :optionsData="{
+            payModes: [
+              { text: '-- Payment Mode --', value: null },
+              { text: 'Cash', value: 3 },
+              { text: 'Bank', value: 2 },
+            ],
+          }"
+        ></payment-details>
+      </b-card-group>
+      <div class="my-2" v-if="config.taxType">
         <b-form-radio-group
-          v-model="form.type"
-          v-if="config.type"
           button-variant="outline-secondary"
           size="sm"
           buttons
-          class="mx-1"
+          v-model="form.taxType"
         >
-          <b-form-radio value="sale">Sale</b-form-radio>
-          <b-form-radio value="purchase">Purchase</b-form-radio>
+          <b-form-radio value="gst">GST</b-form-radio>
+          <b-form-radio value="vat">VAT</b-form-radio>
         </b-form-radio-group>
-        <span class="float-right">
-          <config
-            title="Invoice Page Configuration"
-            getDefault="getDefaultInvoiceConfig"
-            setCustom="updateInvoiceConfig"
-            getCustom="getCustomInvoiceConfig"
-          >
-          </config>
-        </span>
-        <div class="clearfix"></div>
       </div>
-      <b-form @submit.prevent="onSubmit">
-        <b-card-group class="d-block d-md-flex my-2" deck>
-          <!-- Delivery Note Details -->
-          <cash-memo-details
-            ref="memo"
-            :config="config.memo"
-            :parentData="form.memo"
-            :updateCounter="updateCounter.memo"
-            @details-updated="onComponentDataUpdate"
-            :saleFlag="isSale"
-          ></cash-memo-details>
-          <!-- Payment Details -->
-          <payment-details
-            ref="payment"
-            :updateCounter="updateCounter.payment"
-            :config="config.payment"
-            :saleFlag="isSale"
-            :optionsData="{
-              payModes: [
-                { text: '-- Payment Mode --', value: null },
-                { text: 'Cash', value: 3 },
-                { text: 'Bank', value: 2 },
-              ],
-            }"
-          ></payment-details>
-        </b-card-group>
-        <div class="my-2" v-if="config.taxType">
-          <b-form-radio-group
-            button-variant="outline-secondary"
-            size="sm"
-            buttons
-            v-model="form.taxType"
-          >
-            <b-form-radio value="gst">GST</b-form-radio>
-            <b-form-radio value="vat">VAT</b-form-radio>
-          </b-form-radio-group>
-        </div>
-        <!-- Bill Table -->
-        <bill-table
-          :config="config.bill"
-          :gstFlag="isGst"
-          @details-updated="onComponentDataUpdate"
-          :updateCounter="updateCounter.bill"
-          :parentData="form.bill"
-          ref="bill"
-        ></bill-table>
-        <div class="px-2">
-          <!-- b-row has to be enclosed in a container tag with padding
-         atleast 2, to avoid creating an offset to the right -->
-          <b-row class="mt-5" v-if="config.total">
-            <b-col cols="12" lg="6"> </b-col>
-            <b-col cols="12" lg="6">
-              <total-table
-                ref="totalTable"
-                :config="config.total"
-                :billData="form.bill"
-                :gstFlag="isGst"
-                :updateCounter="updateCounter.totalTable"
-              ></total-table>
-            </b-col>
-          </b-row>
-        </div>
-        <b-tooltip
-          target="inv-submit"
-          :show="showErrorToolTip"
-          placement="top"
-          triggers="manual"
+      <!-- Bill Table -->
+      <bill-table
+        :config="config.bill"
+        :gstFlag="isGst"
+        @details-updated="onComponentDataUpdate"
+        :updateCounter="updateCounter.bill"
+        :parentData="form.bill"
+        ref="bill"
+      ></bill-table>
+      <div class="px-2">
+        <!-- b-row has to be enclosed in a container tag with padding
+        atleast 2, to avoid creating an offset to the right -->
+        <b-row class="mt-5" v-if="config.total">
+          <b-col cols="12" lg="6"> </b-col>
+          <b-col cols="12" lg="6">
+            <total-table
+              ref="totalTable"
+              :config="config.total"
+              :billData="form.bill"
+              :gstFlag="isGst"
+              :updateCounter="updateCounter.totalTable"
+            ></total-table>
+          </b-col>
+        </b-row>
+      </div>
+      <b-tooltip
+        target="inv-submit"
+        :show="showErrorToolTip"
+        placement="top"
+        triggers="manual"
+      >
+        Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
+        <b>{{ yearEnd }}</b>
+      </b-tooltip>
+      <hr />
+      <div class="float-right">
+        <b-button
+          class="m-1"
+          size="sm"
+          variant="danger"
+          @click.prevent="$router.go(-1)"
         >
-          Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-          <b>{{ yearEnd }}</b>
-        </b-tooltip>
-        <hr />
-        <div class="float-right">
-          <b-button
-            class="m-1"
-            size="sm"
-            variant="danger"
-            @click.prevent="$router.go(-1)"
-          >
+          <b-icon
+            aria-hidden="true"
+            class="align-middle"
+            icon="arrow-left"
+          ></b-icon>
+          <span class="align-middle"> Back</span>
+        </b-button>
+        <b-button
+          class="m-1"
+          size="sm"
+          variant="warning"
+          @click.prevent="resetForm"
+        >
+          <b-icon
+            aria-hidden="true"
+            class="align-middle"
+            icon="arrow-repeat"
+          ></b-icon>
+          <span class="align-middle"> Reset</span>
+        </b-button>
+        <b-button
+          id="inv-submit"
+          :disabled="!isInvDateValid"
+          type="submit"
+          size="sm"
+          class="m-1"
+          variant="success"
+        >
+          <span>
+            <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
+              v-else
               aria-hidden="true"
               class="align-middle"
-              icon="arrow-left"
+              icon="plus-square"
             ></b-icon>
-            <span class="align-middle"> Back</span>
-          </b-button>
-          <b-button
-            class="m-1"
-            size="sm"
-            variant="warning"
-            @click.prevent="resetForm"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle"
-              icon="arrow-repeat"
-            ></b-icon>
-            <span class="align-middle"> Reset</span>
-          </b-button>
-          <b-button
-            id="inv-submit"
-            :disabled="!isInvDateValid"
-            type="submit"
-            size="sm"
-            class="m-1"
-            variant="success"
-          >
-            <span>
-              <b-spinner v-if="isLoading" small></b-spinner>
-              <b-icon
-                v-else
-                aria-hidden="true"
-                class="align-middle"
-                icon="plus-square"
-              ></b-icon>
-              <span class="align-middle"> Create</span>
-            </span>
-          </b-button>
-        </div>
-        <div class="clearfix"></div>
-      </b-form>
-    </b-container>
-  </div>
+            <span class="align-middle"> Create</span>
+          </span>
+        </b-button>
+      </div>
+      <div class="clearfix"></div>
+    </b-form>
+    <print-page :show="showPrintModal" name="CashMemo" title="Cash Memo" :id="memoId" :pdata="{}">
+    </print-page>
+  </b-container>
 </template>
 
 <script>
@@ -164,6 +164,8 @@ import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue
 import TotalTable from '../../components/form/transaction/TotalTable.vue';
 
 import cashMemoConfig from '../../js/config/transaction/cashMemo';
+
+import PrintPage from '../../components/workflow/PrintPage.vue';
 export default {
   name: 'CashMemo',
   components: {
@@ -172,9 +174,12 @@ export default {
     Config,
     PaymentDetails,
     TotalTable,
+    PrintPage
   },
   data() {
     return {
+      showPrintModal: false,
+      memoId: 0,
       isInvDateValid: false,
       vuexNameSpace: '',
       isLoading: false,
@@ -402,6 +407,8 @@ export default {
                   }`,
                   'success'
                 );
+                this.showPrintModal = true;
+                this.memoId = resp.data.gkresult;
                 this.resetForm();
                 break;
               case 1:

@@ -179,6 +179,8 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
+    <print-page :show="showPrintModal" name="DeliveryNote" title="Delivery Note" :id="delNoteId" :pdata="{}">
+    </print-page>
   </b-container>
 </template>
 
@@ -198,6 +200,8 @@ import DeliveryNoteDetails from '../../components/form/transaction_details/Deliv
 
 import delNoteConfig from '../../js/config/transaction/deliveryNote';
 
+import PrintPage from '../../components/workflow/PrintPage.vue';
+
 export default {
   name: 'DeliveryNote',
   components: {
@@ -210,6 +214,8 @@ export default {
     TransportDetails,
     Comments,
     DeliveryNoteDetails,
+
+    PrintPage,
   },
   props: {
     mode: {
@@ -226,6 +232,8 @@ export default {
   },
   data() {
     return {
+      showPrintModal: false,
+      delNoteId: 0,
       vuexNameSpace: '',
       // config: {},
       updateCounter: {
@@ -501,9 +509,9 @@ export default {
                   `Delivery Note ${payload.delchaldata.dcno} was successfully ${actionText}`,
                   'success'
                 );
-                if (this.formMode === 'create') {
-                  this.resetForm();
-                }
+                this.delNoteId = resp.data.gkresult;
+                this.showPrintModal = true;
+                this.resetForm();
                 break;
               case 1:
                 // Duplicate entry

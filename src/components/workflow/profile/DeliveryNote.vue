@@ -10,7 +10,16 @@
         ><br />
         <br />
       </b-col>
-      <b-col class="text-right">
+       <b-col class="text-md-right" cols="12" md="6">
+        <h5>Delivery Note Details</h5>
+        Date:{{ delnote.date }} <br />
+        Supply Date: {{ delnote.supplyDate ? delnote.supplyDate : '-' }} <br />
+        Transport By : {{ delnote.transport.mode }} <br />
+        <span v-if="delnote.transport.vehicleNo">
+          Vehicle No : {{ delnote.transport.vehicleNo }} <br />
+        </span>
+        Package Count: {{ delnote.transport.packageQty }}
+        <br /><br />
       </b-col>
     </b-row>
     <b-row>
@@ -24,7 +33,7 @@
         ><br /><br />
       </b-col>
       <b-col class="text-md-right" cols="12" md="6">
-        <h5>Delivery Note Details</h5>
+        <!-- <h5>Delivery Note Details</h5>
         Date:{{ delnote.date }} <br />
         Supply Date: {{ delnote.supplyDate ? delnote.supplyDate : '-' }} <br />
         Transport By : {{ delnote.transport.mode }} <br />
@@ -32,7 +41,7 @@
           Vehicle No : {{ delnote.transport.vehicleNo }} <br />
         </span>
         Package Count: {{ delnote.transport.packageQty }}
-        <br /><br />
+        <br /><br /> -->
       </b-col>
     </b-row>
     <b-table-lite
@@ -41,6 +50,7 @@
       bordered
       head-variant="dark"
       stacked="sm"
+      :responsive="true"
     >
     </b-table-lite>
     <b-row>
