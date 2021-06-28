@@ -47,7 +47,7 @@ export default {
         index: false,
         product: { mobileMode: { disabled: true }, addBtn: true },
         hsn: false,
-        qty: { mobileMode: { disabled: true } },
+        qty: { mobileMode: { disabled: true }, checkStock: true },
         fqty: true,
         packageCount: { mobileMode: { disabled: true } },
         rate: true,

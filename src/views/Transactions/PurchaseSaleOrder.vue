@@ -494,9 +494,7 @@ export default {
                   `${orderType} was successfully created`,
                   'success'
                 );
-                if (this.formMode === 'create') {
-                  this.resetForm();
-                }
+                this.resetForm();
                 break;
               case 1:
                 // Duplicate entry

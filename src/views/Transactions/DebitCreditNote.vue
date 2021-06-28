@@ -157,7 +157,7 @@
         </b-button>
         <b-button
           id="inv-submit"
-          :disabled="!isInvDateValid"
+          :disabled="isInvDateValid === false"
           type="submit"
           size="sm"
           class="m-1"
@@ -228,6 +228,7 @@ export default {
         },
         taxType: true,
         bill: {
+          qty: {},
           footer: { total: true },
         },
         comments: {

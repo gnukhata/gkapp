@@ -124,7 +124,7 @@
           class="m-1"
           size="sm"
           variant="warning"
-          @click.prevent="resetForm"
+          @click.prevent="resetForm(true)"
         >
           <b-icon
             aria-hidden="true"
@@ -418,7 +418,7 @@ export default {
                   `Rejection Note #${self.form.rnote.no} was successfully created`,
                   'success'
                 );
-                this.resetForm();
+                this.resetForm(true);
                 break;
               case 1:
                 // Duplicate entry
