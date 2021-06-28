@@ -95,7 +95,7 @@
             required
             emptyValue=""
             :readonly="disabled.product"
-            inactiveText="Out of Stock"
+            :inactiveText="(config.qty.checkStock)? 'Out of Stock' : ''"
           ></autocomplete>
           <span v-else>{{ data.value.name }}</span>
         </template>
@@ -120,7 +120,10 @@
           }}</span>
           <small
             class="text-danger"
-            v-if="form[data.item.index].qty > options.stock[data.item.pid] && config.qty.checkStock"
+            v-if="
+              config.qty.checkStock &&
+              form[data.item.index].qty > options.stock[data.item.pid]
+            "
             >Stock On Hand = {{ options.stock[data.item.pid] }}</small
           >
         </template>
@@ -433,7 +436,7 @@ export default {
       }
       function replace(key, label) {
         let index = data.findIndex((item) => item.key === key);
-        if(index >= 0) {
+        if (index >= 0) {
           data[index].label = label;
         }
       }
@@ -902,7 +905,9 @@ export default {
                   },
                 };
               });
-              self.fetchStockOnHandData(resp.data.gkresult);
+              if (self.config.qty.checkStock) {
+                self.fetchStockOnHandData(resp.data.gkresult);
+              }
             } else {
               this.displayToast(
                 'Fetch Product Data Failed!',
