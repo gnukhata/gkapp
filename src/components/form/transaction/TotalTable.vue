@@ -49,7 +49,7 @@
       </b-tr>
       <b-tr v-if="config.valueText">
         <b-td>{{ transactionName }} (in words)</b-td>
-        <b-td class="text-right"> {{ form.text }}</b-td>
+        <b-td class="text-right"> {{ totalText }}</b-td>
       </b-tr>
       <b-tr>
         <b-td>
