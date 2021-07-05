@@ -9,8 +9,8 @@
         class="mx-1"
         @input="resetForm(false)"
       >
-        <b-form-radio value="sale">Rejection In</b-form-radio>
-        <b-form-radio value="purchase">Rejection Out</b-form-radio>
+        <b-form-radio value="sale">Sale Rejection</b-form-radio>
+        <b-form-radio value="purchase">Purchase Rejection</b-form-radio>
       </b-form-radio-group>
       <span id="edit-invoice-list" class="d-inline-block">
         <autocomplete
@@ -110,7 +110,7 @@
         <b-button
           class="m-1"
           size="sm"
-          variant="danger"
+          variant=""
           @click.prevent="$router.go(-1)"
         >
           <b-icon
@@ -139,7 +139,7 @@
           type="submit"
           size="sm"
           class="m-1"
-          variant="success"
+          variant="danger"
         >
           <span>
             <b-spinner v-if="isLoading" small></b-spinner>
@@ -147,9 +147,9 @@
               v-else
               aria-hidden="true"
               class="align-middle"
-              icon="plus-square"
+              icon="x-circle"
             ></b-icon>
-            <span class="align-middle"> Create</span>
+            <span class="align-middle"> Reject {{(isSale)? 'Sale' : 'Purchase'}}</span>
           </span>
         </b-button>
       </div>
