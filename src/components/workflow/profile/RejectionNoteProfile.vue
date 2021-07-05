@@ -2,57 +2,30 @@
   <b-container fluid>
     <b-row>
       <b-col>
-        <h5>Dispatch From</h5>
-        <b>{{ delnote.from.name }}</b> <br />
-        <span>{{ delnote.from.addr }}</span
+        <h5>{{ party.isCustomer ? 'Customer' : 'Supplier' }} Details</h5>
+        <b>{{ party.name }}</b
         ><br />
-        <span>{{ delnote.from.state }}</span
+        <span>{{ party.addr }}</span
+        ><br />
+        <span>{{ party.state }}</span
         ><br />
         <br />
       </b-col>
-       <b-col class="text-md-right" cols="12" md="6">
-        <h5>Delivery Note Details</h5>
-        Date:{{ delnote.date }} <br />
-        Supply Date: {{ delnote.supplyDate ? delnote.supplyDate : '-' }} <br />
-        Transport By : {{ delnote.transport.mode }} <br />
-        <span v-if="delnote.transport.vehicleNo">
-          Vehicle No : {{ delnote.transport.vehicleNo }} <br />
-        </span>
-        Package Count: {{ delnote.transport.packageQty }}
+      <b-col class="text-md-right" cols="12" md="6">
+        <h5>Rejection Note Details</h5>
+        Date: {{ rnote.date }} <br />
+        Invoice No: {{ rnote.inv.no }} <br />
+        Invoice Date: {{ rnote.inv.date }} <br />
         <br /><br />
       </b-col>
     </b-row>
-    <b-row>
-      <b-col>
-        <h5>Deliver To</h5>
-        <b>{{ delnote.to.name }}</b
-        ><br />
-        <span>{{ delnote.to.addr }}</span
-        ><br />
-        <span>{{ delnote.to.state }}</span
-        ><br /><br />
-      </b-col>
-      <b-col class="text-md-right" cols="12" md="6">
-        <!-- <h5>Delivery Note Details</h5>
-        Date:{{ delnote.date }} <br />
-        Supply Date: {{ delnote.supplyDate ? delnote.supplyDate : '-' }} <br />
-        Transport By : {{ delnote.transport.mode }} <br />
-        <span v-if="delnote.transport.vehicleNo">
-          Vehicle No : {{ delnote.transport.vehicleNo }} <br />
-        </span>
-        Package Count: {{ delnote.transport.packageQty }}
-        <br /><br /> -->
-      </b-col>
-    </b-row>
     <b-table-lite
-      :items="delnote.contents"
+      :items="rnote.contents"
       :fields="tableFields"
       bordered
       head-variant="dark"
       stacked="sm"
-      :responsive="true"
-    >
-    </b-table-lite>
+    ></b-table-lite>
     <b-row>
       <b-col cols="12" md="6" class="my-2" order="2" order-md="1"> </b-col>
       <b-col cols="12" md="6" class="my-2" order="1" order-md="2">
@@ -85,7 +58,7 @@
               <b-td class="text-right">{{ total.cess }}</b-td>
             </b-tr>
             <b-tr>
-              <b-th>Delivery Note Value</b-th>
+              <b-th>Rejected Value</b-th>
               <b-td class="text-right">{{ total.amount }}</b-td>
             </b-tr>
           </b-tbody>
@@ -98,7 +71,7 @@
 <script>
 import axios from 'axios';
 export default {
-  name: '',
+  name: 'RejectionNoteProfile',
   props: {
     id: {
       type: Number,
@@ -117,19 +90,14 @@ export default {
   },
   data() {
     return {
-      delnote: {
-        contents: [],
+      rnote: {
         date: '',
+        contents: [],
         narration: '',
-        transport: {},
-        supplyDate: '',
-        from: {},
-        to: {},
+        inv: {},
       },
+      total: {},
       party: {},
-      total: {
-        isIgst: true,
-      },
     };
   },
   computed: {
@@ -139,12 +107,11 @@ export default {
           key: 'name',
           label: 'Item',
         },
-        'qty',
+        { key: 'qty', label: 'Rejected Qty' },
         {
           key: 'rate',
           label: 'Rate',
         },
-        'discount',
         { key: 'igst', label: 'IGST %' },
         { key: 'cgst', label: 'CGST %' },
         { key: 'sgst', label: 'SGST %' },
@@ -152,9 +119,9 @@ export default {
         'total',
       ];
       if (self.total.isIgst) {
-        fields.splice(5, 2);
+        fields.splice(4, 2);
       } else {
-        fields.splice(4, 1);
+        fields.splice(3, 1);
       }
 
       return fields;
@@ -162,55 +129,39 @@ export default {
   },
   methods: {
     formatDetails(details) {
+      this.saleFlag = details.psflag === 19;
+
       this.total = {
-        amount: details.delchaldata.delchaltotal,
+        amount: details.rejectedtotal,
         isIgst: details.taxname === 'IGST',
         cess: details.totalcessamt,
         tax: details.totaltaxamt,
-        discount: details.totaldiscount,
         taxable: details.totaltaxablevalue,
       };
-      this.delnote = {
+      this.rnote = {
         contents: [],
-        date: details.delchaldata.dcdate,
-        narration: details.delchaldata.dcnarration,
-        supplyDate: details.dateofsupply,
-        transport: {
-          mode: details.delchaldata.modeoftransport,
-
-          packageQty: details.delchaldata.noofpackages,
-          vehicleNo: details.delchaldata.vehicleno,
+        date: details.rndate,
+        narration: details.rejnarration,
+        inv: {
+          no: details.rejinvdata.invno,
+          date: details.rejinvdata.invdate,
         },
       };
-
-      let party = {
-        name: details.custSupDetails.custname,
-        addr: details.custSupDetails.custaddr,
-        state: details.custSupDetails.custsupstate,
-        pin: details.custSupDetails.pincode,
+      let party = details.rejinvdata.custSupDetails;
+      this.party = {
+        name: party.custname,
+        addr: party.custaddr,
+        state: party.custsupstate,
+        gstin: party.custgstin,
+        isCustomer: party.csflag === 3,
       };
 
-      let godown = {
-        name: details.delchaldata.goname,
-        addr: details.delchaldata.goaddr,
-        state: details.delchaldata.gostate,
-      };
-
-      if (details.delchaldata.inoutflag === 15) {
-        this.delnote.from = godown;
-        this.delnote.to = party;
-      } else {
-        this.delnote.from = party;
-        this.delnote.to = godown;
-      }
-
-      for (const name in details.delchalContents) {
-        const item = details.delchalContents[name];
-        this.delnote.contents.push({
+      for (const name in details.rejcontents) {
+        const item = details.rejcontents[name];
+        this.rnote.contents.push({
           name: item.proddesc,
           qty: item.qty,
           rate: item.priceperunit,
-          discount: item.discount,
           igst: item.taxrate,
           cgst: item.taxrate / 2,
           sgst: item.taxrate / 2,
@@ -221,10 +172,10 @@ export default {
     },
     getDetails() {
       return axios
-        .get(`/delchal?delchal=single&dcid=${this.id}`)
+        .get(`/rejectionnote?type=single&rnid=${this.id}`)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `Fetch Cash Memo Error!`,
+            title: `Fetch Rejection Note Error!`,
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
@@ -243,7 +194,7 @@ export default {
             break;
           case 2:
             this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `Fetch Cash Memo Error!`,
+              title: `Fetch Rejection Note Error!`,
               autoHideDelay: 3000,
               variant: 'warning',
               appendToast: true,

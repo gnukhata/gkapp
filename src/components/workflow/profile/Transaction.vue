@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import Invoice from './Invoice.vue';
-import CashMemo from './CashMemo.vue';
-import DebitCreditNote from './DebitCreditNote.vue';
-import DeliveryNote from './DeliveryNote.vue';
-import PurchaseSalesOrder from './PurchaseSalesOrder.vue';
-import RejectionNote from './RejectionNote.vue';
+import Invoice from './InvoiceProfile.vue';
+import CashMemo from './CashMemoProfile.vue';
+import DebitCreditNote from './DcNoteProfile.vue';
+import DeliveryNote from './DeliveryNoteProfile.vue';
+import PurchaseSalesOrder from './PsOrderProfile.vue';
+import RejectionNote from './RejectionNoteProfile.vue';
 export default {
   name: 'TransactionProfile',
   components: {

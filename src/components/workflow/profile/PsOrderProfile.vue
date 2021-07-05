@@ -65,7 +65,7 @@
               <b-td class="text-right">{{ total.cess }}</b-td>
             </b-tr>
             <b-tr>
-              <b-th>{{saleFlag? 'Sale': 'Purchase'}} Order Value</b-th>
+              <b-th>{{ saleFlag ? 'Sale' : 'Purchase' }} Order Value</b-th>
               <b-td class="text-right">{{ total.amount }}</b-td>
             </b-tr>
           </b-tbody>
@@ -78,7 +78,7 @@
 <script>
 import axios from 'axios';
 export default {
-  name: '',
+  name: 'PsOrderProfile',
   props: {
     id: {
       type: Number,
@@ -193,7 +193,7 @@ export default {
         .get(`/purchaseorder?poso=single&orderid=${this.id}`)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `Fetch Cash Memo Error!`,
+            title: `Fetch ${this.saleFlag ? 'Sale' : 'Purchase'} order Error!`,
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
@@ -212,7 +212,9 @@ export default {
             break;
           case 2:
             this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `Fetch Cash Memo Error!`,
+              title: `Fetch ${
+                this.saleFlag ? 'Sale' : 'Purchase'
+              } order Error!`,
               autoHideDelay: 3000,
               variant: 'warning',
               appendToast: true,

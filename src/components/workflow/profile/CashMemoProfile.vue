@@ -60,7 +60,7 @@
 <script>
 import axios from 'axios';
 export default {
-  name: '',
+  name: 'CashMemoProfile',
   props: {
     id: {
       type: Number,

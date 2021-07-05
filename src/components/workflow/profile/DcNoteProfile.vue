@@ -69,7 +69,7 @@
 <script>
 import axios from 'axios';
 export default {
-  name: '',
+  name: 'DcNoteProfile',
   props: {
     id: {
       type: Number,
