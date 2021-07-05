@@ -434,6 +434,8 @@ export default {
             'Transactions-DeliveryNote',
             'Transactions-PurchaseSalesOrder',
             'Transactions-RejectionNote',
+            'Transactions-TransferNote',
+            'Transactions-Voucher',
           ].indexOf(value) !== -1
         );
       },
@@ -688,7 +690,7 @@ export default {
                   },
                   {
                     text: 'Amount',
-                    props: { key: 'totalreduct', isAsc: true },
+                    props: { key: 'totreduct', isAsc: true },
                   },
                 ],
               },
@@ -900,6 +902,124 @@ export default {
                   {
                     text: 'No.',
                     props: { key: 'rnno', isAsc: true },
+                  },
+                ],
+              },
+              TransferNote: {
+                icon: 'receipt',
+                color: 'success',
+                data: [],
+                key: 'custname',
+                uidKey: 'transfernoteid',
+                createNewPath: {
+                  name: 'Transfer_Note',
+                  params: {},
+                },
+                filterBy: {
+                  value: [
+                    {
+                      text: 'All',
+                      props: {},
+                    },
+                  ],
+                  range: [
+                    {
+                      from: {
+                        text: 'From Date',
+                      },
+                      to: {
+                        text: 'To Date',
+                      },
+                      props: {
+                        key: 'dateObj',
+                        min: this.yearStart,
+                        max: this.yearEnd,
+                      },
+                    },
+                  ],
+                },
+                sortBy: [
+                  {
+                    text: 'Date',
+                    props: { key: 'dateObj', isAsc: true },
+                  },
+                  {
+                    text: 'No.',
+                    props: { key: 'transfernoteno', isAsc: true },
+                  },
+                ],
+              },
+              Voucher: {
+                icon: 'receipt',
+                color: 'success',
+                data: [],
+                uidKey: 'vouchercode',
+                createNewPath: {
+                  name: 'Create_Voucher',
+                  params: {
+                    type: 'receipt',
+                    customer: -1,
+                  },
+                },
+                filterBy: {
+                  value: [
+                    {
+                      text: 'All',
+                      props: {},
+                    },
+                    {
+                      text: 'Receipt',
+                      props: { key: 'vouchertype', value: 'receipt' },
+                    },
+                    {
+                      text: 'Payment',
+                      props: { key: 'vouchertype', value: 'payment' },
+                    },
+                    {
+                      text: 'Purchase',
+                      props: { key: 'vouchertype', value: 'purchase' },
+                    },
+                    {
+                      text: 'Sales',
+                      props: { key: 'vouchertype', value: 'sales' },
+                    },
+                    {
+                      text: 'Journal',
+                      props: { key: 'vouchertype', value: 'journal' },
+                    },
+                    {
+                      text: 'Contra',
+                      props: { key: 'vouchertype', value: 'contra' },
+                    },
+                  ],
+                  range: [
+                    {
+                      from: {
+                        text: 'From Date',
+                      },
+                      to: {
+                        text: 'To Date',
+                      },
+                      props: {
+                        key: 'dateObj',
+                        min: this.yearStart,
+                        max: this.yearEnd,
+                      },
+                    },
+                  ],
+                },
+                sortBy: [
+                  {
+                    text: 'Date',
+                    props: { key: 'dateObj', isAsc: true },
+                  },
+                  {
+                    text: 'Dr',
+                    props: { key: 'drAmount', isAsc: true },
+                  },
+                  {
+                    text: 'Cr',
+                    props: { key: 'crAmount', isAsc: true },
                   },
                 ],
               },
@@ -1292,7 +1412,7 @@ export default {
         axios.get('/invoice?cash=all&inoutflag=9').catch((error) => {
           return error;
         }),
-        axios.get('/transfernote?tn=all').catch((error) => {
+        axios.get('/transfernote?type=all').catch((error) => {
           return error;
         }),
         axios.get('/purchaseorder').catch((error) => {
@@ -1302,6 +1422,9 @@ export default {
           return error;
         }),
         axios.get('/rejectionnote?type=all').catch((error) => {
+          return error;
+        }),
+        axios.get(`/transaction?searchby=date&from=${this.yearStart}&to=${this.yearEnd}`).catch((error) => {
           return error;
         }),
       ];
@@ -1321,6 +1444,7 @@ export default {
           resp10,
           resp11,
           resp12,
+          resp13
         ]) => {
           self.isLoading = false;
 
@@ -1482,28 +1606,26 @@ export default {
 
           // Cash Memo Purchase
           if (resp8.status === 200) {
-            if (resp8.data.gkstatus === 0) { 
-              let cmPurchase = resp8.data.gkresult.map(
-                (item) => {
-                  return Object.assign(
-                    {
-                      id: item.invid,
-                      no: item.invoiceno,
-                      noteName: `Cash Memo`,
-                      text1: item.invoiceno,
-                      icon: 'basket3',
-                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                      date: item.invoicedate,
-                      dateObj: Date.parse(
-                        item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                      ),
-                    },
-                    item
-                  );
-                }
-              );
-              if(cmPurchase.length) {
-                transactionTab['CashMemo'].data.push(...cmPurchase)
+            if (resp8.data.gkstatus === 0) {
+              let cmPurchase = resp8.data.gkresult.map((item) => {
+                return Object.assign(
+                  {
+                    id: item.invid,
+                    no: item.invoiceno,
+                    noteName: `Cash Memo`,
+                    text1: item.invoiceno,
+                    icon: 'basket3',
+                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                    date: item.invoicedate,
+                    dateObj: Date.parse(
+                      item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                    ),
+                  },
+                  item
+                );
+              });
+              if (cmPurchase.length) {
+                transactionTab['CashMemo'].data.push(...cmPurchase);
               }
             }
           } else {
@@ -1513,21 +1635,25 @@ export default {
           // Transfer Notes
           if (resp9.status === 200) {
             if (resp9.data.gkstatus === 0) {
-              // transactionTab['TransferNote'].data = resp9.data.gkresult.map(
-              //   (item) => {
-              //     return Object.assign(
-              //       {
-              //         icon: 'truck',
-              //         // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-              //         date: transfernotedate,
-              //         dateObj: Date.parse(
-              //           item.transfernotedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-              //         ),
-              //       },
-              //       item
-              //     );
-              //   }
-              // );
+              transactionTab['TransferNote'].data = resp9.data.gkresult.map(
+                (item) => {
+                  return Object.assign(
+                    {
+                      icon: 'truck',
+                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                      date: item.transfernotedate,
+                      dateObj: Date.parse(
+                        item.transfernotedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      ),
+                      id: item.transfernoteid,
+                      no: item.transfernoteno,
+                      noteName: 'Transfer Note',
+                      text1: item.transfernoteno,
+                    },
+                    item
+                  );
+                }
+              );
             }
           } else {
             console.log(resp9.message);
@@ -1619,6 +1745,40 @@ export default {
             }
           } else {
             console.log(resp12.message);
+          }
+
+          // Vouchers
+          if (resp13.status === 200) {
+            if (resp13.data.gkstatus === 0) {
+              transactionTab['Voucher'].data = resp13.data.gkresult.map(
+                (item) => {
+                  let drAccount = Object.keys(item.drs)[0];
+                  let drAmount = parseFloat(item.drs[drAccount]).toFixed(2);
+                  let crAccount = Object.keys(item.crs)[0];
+                  let crAmount = parseFloat(item.crs[crAccount]).toFixed(2);
+                  return Object.assign(
+                    {
+                      id: item.vouchercode,
+                      no: item.vouchernumber,
+                      noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(1)} Voucher`,
+                      text1: `${drAmount} (${drAccount})`,
+                      text2: `${crAmount} (${crAccount})`,
+                      drAmount: drAmount,
+                      crAmount: crAmount,
+                      icon: 'cash-stack',
+                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                      date: item.voucherdate,
+                      dateObj: Date.parse(
+                        item.voucherdate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      ),
+                    },
+                    item
+                  );
+                }
+              );
+            }
+          } else {
+            console.log(resp13.message);
           }
         }
       );

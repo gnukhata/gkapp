@@ -14,6 +14,8 @@ import DebitCreditNote from './DcNoteProfile.vue';
 import DeliveryNote from './DeliveryNoteProfile.vue';
 import PurchaseSalesOrder from './PsOrderProfile.vue';
 import RejectionNote from './RejectionNoteProfile.vue';
+import TransferNote from './TransferNoteProfile.vue';
+import Voucher from './VoucherProfile.vue';
 export default {
   name: 'TransactionProfile',
   components: {
@@ -23,6 +25,8 @@ export default {
     DeliveryNote,
     PurchaseSalesOrder,
     RejectionNote,
+    TransferNote,
+    Voucher
   },
   props: {
     name: {
@@ -37,6 +41,8 @@ export default {
             'DeliveryNote',
             'PurchaseSalesOrder',
             'RejectionNote',
+            'TransferNote',
+            'Voucher'
           ].indexOf(value) !== -1
         );
       },
