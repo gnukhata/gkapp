@@ -377,24 +377,23 @@ export default {
       }
       // inoutflag = 9-purchase, 15-sale
       let self = this;
-      let invid = '';
       let inoutflag = this.saleFlag ? 15 : 9;
       return axios
         .get(`/invoice?getinvid&type=${inoutflag}`)
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
-            let codes = this.config.no.form
-              ? this.config.no.format.code
+            let codes = self.config.no.format
+              ? self.config.no.format.code
               : { sale: 'SL', purchase: 'PU' };
-            let code = this.saleFlag ? codes.sale : codes.purchase;
-            this.form.no = this.formatNoteNo(
-              this.numberFormat,
+            let code = self.saleFlag ? codes.sale : codes.purchase;
+            self.form.no = self.formatNoteNo(
+              self.numberFormat,
               parseInt(resp.data.invoiceid),
               code,
-              this.form.date,
-              this.yearEnd
+              self.form.date,
+              self.yearEnd
             );
-            this.invNo[this.saleFlag ? 'sale' : 'purchase'] = this.form.no;
+            self.invNo[self.saleFlag ? 'sale' : 'purchase'] = self.form.no;
           }
         })
         .catch((error) => {

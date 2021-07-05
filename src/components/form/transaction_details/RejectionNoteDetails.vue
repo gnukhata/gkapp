@@ -229,7 +229,7 @@ export default {
             let counter = this.saleFlag
               ? resp.data.rejincount
               : resp.data.rejoutcount;
-            let codes = this.config.no.form
+            let codes = this.config.no.format
               ? this.config.no.format.code
               : { sale: 'RIN', purchase: 'ROUT' };
             let code = this.saleFlag ? codes.sale : codes.purchase;

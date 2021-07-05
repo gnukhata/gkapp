@@ -278,7 +278,7 @@ export default {
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             let counter = resp.data.gkresult.length;
-            let codes = this.config.no.form
+            let codes = this.config.no.format
               ? this.config.no.format.code
               : { dr: 'DN', cr: 'CN' };
             let code = this.isCredit ? codes.cr : codes.dr;

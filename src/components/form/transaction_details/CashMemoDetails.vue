@@ -188,7 +188,7 @@ export default {
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             let counter = resp.data.gkresult.length;
-            let codes = this.config.no.form
+            let codes = this.config.no.format
               ? this.config.no.format.code
               : { sale: 'CMS', purchase: 'CMP' };
             let code = this.saleFlag ? codes.sale : codes.purchase;

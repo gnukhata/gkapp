@@ -265,7 +265,7 @@ export default {
       }
       if (this.config.no) {
         this.getLastDelChalNo().then((no) => {
-          let codes = this.config.no.form
+          let codes = this.config.no.format
             ? this.config.no.format.code
             : { in: 'DIN', out: 'DOUT' };
           let code = this.saleFlag ? codes.out : codes.in;
