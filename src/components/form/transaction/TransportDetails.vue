@@ -62,7 +62,6 @@
           label-for="tpd-input-30"
           label-cols="3"
           label-size="sm"
-          label-cols-lg="autauto"
           v-if="form.mode === 'Road' && config.vno"
         >
           <b-form-input
@@ -96,40 +95,27 @@
           label-size="sm"
           v-if="config.receiptDate"
         >
-          <b-input-group>
-            <b-form-input
-              size="sm"
-              id="tpd-date-2"
-              v-model="form.receiptDate"
-              type="text"
-              placeholder="YYYY-MM-DD"
-              autocomplete="off"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-form-datepicker
-                size="sm"
-                v-model="form.receiptDate"
-                button-only
-                right
-                locale="en-GB"
-                aria-controls="tpd-date-2"
-              >
-              </b-form-datepicker>
-            </b-input-group-append>
-          </b-input-group>
+          <gk-date
+          id="tpd-date-2"
+            :format="date.format"
+            v-model="form.receiptDate"
+            :min="(form.date)? dateReverse(form.date) : ''"
+            @validity="setDateValidity"
+            :required="true"
+          ></gk-date>
         </b-form-group>
         <b-form-group
           label="Grace Period"
           label-for="tpd-input-40"
           label-size="sm"
           label-cols="3"
-          v-if="config.packageCount"
+          v-if="config.gracePeriod"
         >
           <b-input-group append="days" size="sm">
             <b-form-input
               size="sm"
               id="tpd-input-40"
-              v-model="form.packageCount"
+              v-model="form.gracePeriod"
               type="number"
               min="0"
               no-wheel
@@ -202,6 +188,8 @@ export default {
         date: null,
         reverseCharge: false,
         packageCount: 0,
+        receiptDate: null,
+        gracePeriod: 0
       },
       options: {
         transportModes: [
@@ -223,17 +211,14 @@ export default {
   computed: {
     minDate: (self) =>
       self.invDate
-        ? self.toDMYDate(self.invDate)
-        : self.toDMYDate(self.yearStart),
+        ? self.dateReverse(self.invDate)
+        : self.dateReverse(self.yearStart),
     ...mapState(['yearStart']),
   },
   methods: {
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
-    },
-    toDMYDate(date) {
-      return date.split('-').reverse().join('-');
     },
     onUpdateDetails() {
       setTimeout(() =>

@@ -50,33 +50,15 @@
           label-for="tnd-date-1"
           label-size="sm"
         >
-          <b-input-group>
-            <b-form-input
-              size="sm"
-              id="tnd-date-1"
-              v-model="form.date"
-              type="text"
-              placeholder="YYYY-MM-DD"
-              autocomplete="off"
-              required
-              :state="isInvDateValid"
-              debounce="500"
-              @input="onUpdateDetails"
-            ></b-form-input>
-            <b-input-group-append>
-              <b-form-datepicker
-                size="sm"
-                v-model="form.date"
-                button-only
-                right
-                locale="en-GB"
-                aria-controls="tnd-date-1"
-                :min="minDate"
-                :max="maxDate"
-              >
-              </b-form-datepicker>
-            </b-input-group-append>
-          </b-input-group>
+          <gk-date
+            id="tnd-date-1"
+            :format="dateFormat"
+            v-model="form.date"
+            :min="minDate"
+            :max="maxDate"
+            @validity="setDateValidity"
+            :required="true"
+          ></gk-date>
         </b-form-group>
         <b-form-group
           label="Dispatch From"
@@ -89,7 +71,7 @@
             size="sm"
             id="tnd-input-20"
             valueUid="id"
-            v-model="form.godown"
+            v-model="form.godownFrom"
             :options="options.godowns"
             @input="onUpdateDetails"
             required
@@ -106,7 +88,7 @@
             size="sm"
             id="tnd-input-30"
             valueUid="id"
-            v-model="form.godown"
+            v-model="form.godownTo"
             :options="options.godowns"
             @input="onUpdateDetails"
             required
@@ -154,12 +136,15 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Autocomplete from '../../Autocomplete.vue';
-
+import GkDate from '../../GkDate.vue';
+import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'TransferNoteDetails',
   components: {
     Autocomplete,
+    GkDate,
   },
+  mixins: [trnDetailsMixin],
   props: {
     config: {
       type: Object,
@@ -175,6 +160,7 @@ export default {
     return {
       isCollapsed: false,
       isPreloading: false,
+      noteNo: '',
       options: {
         orgDetails: null,
         transactionTypes: [
@@ -191,11 +177,15 @@ export default {
           purchase: null,
         },
       },
+      date: {
+        valid: null,
+      },
       form: {
         no: null,
-        date: this.formatDateObj(new Date()),
+        date: null,
         state: {},
-        godown: null,
+        godownFrom: null,
+        godownTo: null,
         type: null,
         gstin: null,
         issuer: null,
@@ -206,20 +196,7 @@ export default {
       },
     };
   },
-  computed: {
-    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
-    minDate: (self) => new Date(self.yearStart),
-    maxDate: (self) => new Date(self.yearEnd),
-    isInvDateValid: (self) => {
-      let currDate = new Date(self.form.date).getTime(),
-        minDate = self.minDate.getTime(),
-        maxDate = self.maxDate.getTime();
-      return !isNaN(currDate)
-        ? currDate >= minDate && currDate <= maxDate
-        : null;
-    },
-    ...mapState(['yearStart', 'yearEnd']),
-  },
+  computed: {},
   watch: {
     saleFlag() {
       this.setDelChalNo();
@@ -229,33 +206,50 @@ export default {
     },
   },
   methods: {
-    setDelChalNo() {
-      let no = this.getLastDelChalNo();
-      if (isNaN(no)) {
-        this.form.no = no;
-      } else {
-        no++;
-        let year = new Date(this.form.date).getFullYear() % 100;
-        let delType = this.saleFlag ? 'DOUT' : 'DIN';
-        this.form.no = `${no}/${delType}-${year}`;
-      }
+    setDateValidity(validity) {
+      this.date.valid = validity;
+      this.onUpdateDetails();
     },
-    getLastDelChalNo() {
-      let no = this.saleFlag
-        ? this.options.lastDelChal.sale
-        : this.options.lastDelChal.purchase;
-      if (isNaN(no)) {
-        if (no.indexOf('/D') >= 0) {
-          no = no.split('/D')[0];
-          return parseInt(no);
+    setNoteNo(fetchNew) {
+      if (!fetchNew) {
+        this.form.no = this.noteNo;
+        if (this.form.no) {
+          return;
         }
-        return no;
       } else {
-        return parseInt(no);
+        this.noteNo = '';
       }
+      axios
+        .get('/transfernote?type=all')
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let counter = resp.data.gkresult.length;
+            let code = this.config.no.format ? this.config.no.format.code : 'TN';
+            this.form.no = this.formatNoteNo(
+              this.numberFormat,
+              counter + 1,
+              code,
+              this.form.date,
+              this.yearEnd
+            );
+            this.noteNo = this.form.no;
+          }
+        })
+        .catch((error) => {
+          return error;
+        });
     },
     onUpdateDetails() {
-      setTimeout(() => this.$emit('details-updated', {data: this.form, name: 'transfer-note-details'}));
+      const self = this;
+      setTimeout(() =>
+        this.$emit('details-updated', {
+          data: self.form,
+          name: 'transfer-note-details',
+          options: {
+            isDateValid: self.date.valid,
+          },
+        })
+      );
     },
     onSelectState(state) {
       // set DelNote Gstin based on state
@@ -263,18 +257,6 @@ export default {
         this.form.gstin = this.form.options.gstin[state.id];
       }
       this.onUpdateDetails();
-    },
-    /**
-     * formatDateObj(date)
-     *
-     * Description: Converts a js Date object, into yyyy-mm-dd string
-     */
-    formatDateObj(date) {
-      let month = date.getMonth() + 1;
-      month = month > 9 ? month : '0' + month;
-      let day = date.getDate();
-      day = day > 9 ? day : '0' + day;
-      return `${date.getFullYear()}-${month}-${day}`;
     },
     setOrgDetails() {
       if (this.options.orgDetails !== null) {
@@ -416,20 +398,11 @@ export default {
     },
     resetForm() {
       this.setOrgDetails();
-      if (!this.isInvDateValid) {
-        this.form.date = this.yearStart;
-      }
-      this.setDelChalNo();
+      this.form.date = this.getNoteDate();
+      this.form.godownFrom = null;
+      this.form.godownTo = null;
+      this.setNoteNo(true);
       this.onUpdateDetails();
-    },
-    displayToast(title, message, variant) {
-      this.$bvToast.toast(message, {
-        title: title,
-        autoHideDelay: 3000,
-        variant: variant,
-        appendToast: true,
-        solid: true,
-      });
     },
   },
   mounted() {

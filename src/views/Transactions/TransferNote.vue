@@ -1,9 +1,9 @@
 <template>
-  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-form-label-right">
-    <b-alert :show="isInvDateValid === false" variant="danger"
-      >Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-      <b>{{ yearEnd }}</b>
-    </b-alert>
+  <b-container
+    style="min-width: 300px"
+    fluid
+    class="mt-2 px-md-3 px-2 align-form-label-right"
+  >
     <div class="mb-2">
       <!-- <span class="float-right">
         <config
@@ -30,6 +30,7 @@
           :config="config.transport"
           :updateCounter="updateCounter.transport"
           :parentData="form.transport"
+          :invDate="form.transferNote.date"
         ></transport-details>
       </b-card-group>
       <!-- Bill Table -->
@@ -39,6 +40,7 @@
         @details-updated="onComponentDataUpdate"
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
+        :godownId="form.transferNote.godownFrom"
         ref="bill"
       ></bill-table>
       <b-tooltip
@@ -104,7 +106,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
 import { mapState } from 'vuex';
 
 // import Config from '../../components/Config.vue';
@@ -135,7 +137,9 @@ export default {
         transport: 0,
       },
       form: {
-        transferNote: {},
+        transferNote: {
+          godownFrom: -1,
+        },
         bill: [],
         transport: {},
       },
@@ -146,7 +150,10 @@ export default {
   },
   computed: {
     config: (self) => {
-      let newConf = self.$store.getters[`${self.vuexNameSpace}/getCustomTransferNoteConfig`];
+      let newConf =
+        self.$store.getters[
+          `${self.vuexNameSpace}/getCustomTransferNoteConfig`
+        ];
       if (newConf) {
         newConf.transferNote.class = { 'mr-md-1': true };
         newConf.transport.class = { 'ml-md-1': true };
@@ -176,6 +183,7 @@ export default {
       switch (payload.name) {
         case 'transfer-note-details':
           Object.assign(this.form.transferNote, payload.data);
+          this.isInvDateValid = payload.options.isDateValid;
           break;
       }
     },
@@ -189,7 +197,122 @@ export default {
       this.updateCounter.transport++;
       this.updateCounter.bill++;
     },
-    resetForm() {},
+    onSubmit() {
+      const self = this;
+      this.isLoading = true;
+
+      const payload = this.initPayload();
+      console.log(payload);
+      // return;
+      // const method = this.formMode === 'create' ? 'post' : 'put';
+      axios
+        .post('/transfernote', payload)
+        .then((resp) => {
+          self.isLoading = false;
+          if (resp.status === 200) {
+            switch (resp.data.gkstatus) {
+              case 0:
+                // success
+                console.log(resp.data);
+                this.displayToast(
+                  `Create Transfer Note Successfull!`,
+                  `Transfer Note #${self.form.transferNote.no} was successfully created`,
+                  'success'
+                );
+                this.resetForm();
+                break;
+              case 1:
+                // Duplicate entry
+                this.displayToast(
+                  `Create Transfer Note Failed!`,
+                  'Duplicate Entry, Check No.',
+                  'warning'
+                );
+                break;
+              case 2:
+                // Unauthorized access
+                this.displayToast(
+                  `Create Transfer Note Failed!`,
+                  'Unauthorized Access, Contact Admin',
+                  'warning'
+                );
+                break;
+              case 3:
+                // Connection failed, Check inputs and try again
+                this.displayToast(
+                  `Create Transfer Note Failed!`,
+                  'Please check your input and try again later',
+                  'danger'
+                );
+            }
+          }
+        })
+        .catch((error) => {
+          self.isLoading = false;
+          self.displayToast(
+            `Create Transfer Note Error!`,
+            error.message,
+            'warning'
+          );
+        });
+    },
+    initPayload() {
+      this.collectComponentData();
+
+      const tnote = this.form.transferNote;
+      const transport = this.form.transport;
+      let transferdata = {
+        transfernoteno: tnote.no,
+        transfernotedate: tnote.date,
+        togodown: tnote.godownTo,
+        fromgodown: tnote.godownFrom,
+        transportationmode: transport.mode,
+        issuername: tnote.issuer,
+        designation: tnote.designation,
+      };
+      let stockdata = {};
+
+      if (this.form.transport.packageCount) {
+        transferdata['nopkt'] = this.form.transport.packageCount;
+      }
+
+      if (this.form.transport.date) {
+        transferdata['duedate'] = this.form.transport.date;
+      }
+      if (this.form.transport.gracePeriod) {
+        transferdata['grace'] = this.form.transport.gracePeriod;
+      }
+
+      let products = {};
+      this.form.bill.forEach((prod) => {
+        products[prod.product.id] = prod.qty;
+      });
+      stockdata = { items: products };
+
+      return { transferdata, stockdata };
+    },
+    resetForm() {
+      this.form = {
+        transferNote: {
+          godownFrom: -1,
+        },
+        bill: [
+          {
+            product: { name: '' },
+          },
+        ],
+        transport: {
+          mode: 'Road',
+          vno: null,
+          date: null,
+          reverseCharge: false,
+          packageCount: 0,
+          receiptDate: null,
+          gracePeriod: 0,
+        },
+      };
+      this.updateComponentData();
+    },
     initForm() {},
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
@@ -202,10 +325,12 @@ export default {
     },
   },
   beforeMount() {
-    this.vuexNameSpace = 'transferNoteConfig_' + Date.now()
+    this.vuexNameSpace = 'transferNoteConfig_' + Date.now();
     // Dynamically load the config to Vuex, just before the Invoice component is mounted
     this.$store.registerModule(this.vuexNameSpace, TransferNoteConfig);
-    this.$store.dispatch(`${this.vuexNameSpace}/initTransferNoteConfig`, {orgCode: this.orgCode});
+    this.$store.dispatch(`${this.vuexNameSpace}/initTransferNoteConfig`, {
+      orgCode: this.orgCode,
+    });
   },
   mounted() {
     // Using non props to store these props, as these can be edited in the future

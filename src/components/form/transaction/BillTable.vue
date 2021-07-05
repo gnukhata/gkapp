@@ -95,7 +95,7 @@
             required
             emptyValue=""
             :readonly="disabled.product"
-            :inactiveText="(config.qty.checkStock)? 'Out of Stock' : ''"
+            :inactiveText="config.qty.checkStock ? 'Out of Stock' : ''"
           ></autocomplete>
           <span v-else>{{ data.value.name }}</span>
         </template>
@@ -359,6 +359,12 @@ export default {
       default: false,
       note: 'Used in Debit/Credit Note form',
     },
+    godownId: {
+      type: Number,
+      required: false,
+      default: -1,
+      note: 'Used in Transfer note to fetch godownwise stock on hand',
+    },
     parentData: {
       type: Array,
       required: false,
@@ -416,8 +422,10 @@ export default {
         },
       ],
       options: {
+        productData: [],
         products: [],
         stock: {},
+        godownStock: {},
       },
     };
   },
@@ -567,12 +575,16 @@ export default {
         self.isPreloading = false;
       }, 500);
     },
+    godownId() {
+      this.fetchStockOnHandData();
+    },
   },
   methods: {
     onQtyUpdate(index, pid) {
       if (parseFloat(this.form[index].qty) <= this.options.stock[pid]) {
         this.updateTaxAndTotal(index);
       }
+      this.$forceUpdate();
     },
     /**
      * fetchProductDetails(id, index)
@@ -582,6 +594,14 @@ export default {
      */
     fetchProductDetails(id, index) {
       let self = this;
+      const stockPath =
+        this.godownId === -1
+          ? '/report?stockonhandreport'
+          : '/report?godownwisestockonhand';
+      let stockParams = `&productcode=${id}&enddate=${this.endDate}`;
+      if (this.godownId !== -1) {
+        stockParams += `goid=${this.godownId}&type=pg`;
+      }
       const requests = [
         axios.get(`/products?qty=single&productcode=${id}`).catch((error) => {
           return error;
@@ -591,7 +611,7 @@ export default {
         }),
         axios
           .get(
-            `/report?stockonhandreport&productcode=${id}&enddate=${this.endDate}`
+            `${stockPath}${stockParams}`
           )
           .catch((error) => {
             return error;
@@ -860,30 +880,77 @@ export default {
       }
       this.onUpdateDetails();
     },
-    fetchStockOnHandData(prodList) {
+    /**
+     * fetchStockOnHand()
+     *
+     * Description: Fetches the stock on hand for all the products in the org.
+     *
+     * Note: This is a work around till an API is written
+     * for it in gkcore
+     */
+    fetchStockOnHandData() {
+      const prodList = this.options.productData;
       const self = this;
-      let requests = prodList.map((item) => {
-        return axios
-          .get(
-            `/report?stockonhandreport&productcode=${item.productcode}&enddate=${this.endDate}`
-          )
-          .catch((error) => {
-            return error;
-          });
+
+      // if godown id is -1, uses stockonhand, else uses godownwise stock on hand
+      const url =
+        this.godownId === -1
+          ? '/report?stockonhandreport'
+          : '/report?godownwisestockonhand';
+      let params;
+      if (self.godownId !== -1) {
+        if (self.godownId === null) {
+          return;
+        } else if (this.options.godownStock[this.godownId]) {
+          this.options.stock = this.options.godownStock[this.godownId];
+          this.setStockStatus();
+          return;
+        }
+      }
+
+      const requests = prodList.map((item) => {
+        params = `&productcode=${item.productcode}&enddate=${this.endDate}`;
+        if (self.godownId !== -1) {
+          params += `&goid=${self.godownId}&type=pg`;
+        }
+        return axios.get(`${url}${params}`).catch((error) => {
+          return error;
+        });
       });
+
       return Promise.all([...requests]).then((stockResp) => {
+        self.options.godownStock[self.godownId] = {};
+        self.options.stock = {};
+        let stock = self.options.stock;
+        let godownStock = self.options.godownStock[self.godownId];
+        let prodOptions = self.options.products;
         let id;
         stockResp.forEach((r, index) => {
           id = prodList[index].productcode;
           if (r.data.gkstatus === 0) {
-            self.options.stock[id] = parseFloat(r.data.gkresult[0].balance);
+            stock[id] = parseFloat(r.data.gkresult[0].balance);
             // option is marked active if stock is greater than 1 or its a service (gsflag=19)
-            self.options.products[index].active = self.options.stock[id] > 0;
-          } else if (prodList[index].gsflag === 19) {
-            self.options.products[index].active = true;
-            self.options.stock[id] = 1;
+            prodOptions[index].active = stock[id] > 0;
           }
+          if (prodList[index].gsflag === 19) {
+            prodOptions[index].active = true;
+            stock[id] = 1;
+          }
+          godownStock[id] = stock[id];
         });
+      });
+    },
+    setStockStatus() {
+      const self = this;
+      let id;
+      let prodOptions = self.options.products;
+      this.options.productData.forEach((product, index) => {
+        id = product.productcode;
+        // option is marked active if stock is greater than 1 or its a service (gsflag=19)
+        prodOptions[index].active = self.options.stock[id] > 0;
+        if (product.gsflag === 19) {
+          prodOptions[index].active = true;
+        }
       });
     },
     fetchBusinessList() {
@@ -896,17 +963,23 @@ export default {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
               resp.data.gkresult.sort((a, b) => a.productcode - b.productcode);
-              self.options.products = resp.data.gkresult.map((item) => {
-                return {
+              self.options.products = [];
+              self.options.productData = [];
+              resp.data.gkresult.forEach((item) => {
+                self.options.products.push({
                   text: item.productdesc,
                   value: {
                     id: item.productcode,
                     name: item.productdesc,
                   },
-                };
+                });
+                self.options.productData.push({
+                  productcode: item.productcode,
+                  gsflag: item.gsflag,
+                });
               });
               if (self.config.qty.checkStock) {
-                self.fetchStockOnHandData(resp.data.gkresult);
+                self.fetchStockOnHandData();
               }
             } else {
               this.displayToast(

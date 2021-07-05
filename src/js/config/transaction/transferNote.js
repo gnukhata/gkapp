@@ -3,19 +3,21 @@ export default {
   state: {
     default: {
       transferNote: {
-        no: true,
+        no: { format: { code: "TN" } },
         date: true,
         dispatchFrom: true,
         dispatchTo: true,
         issuer: true,
         role: true,
+        receiptDate: true,
+        gracePeriod: true,
         class: {},
       },
       bill: {
         index: false,
-        product: true,
+        product: {mobileMode: true},
         hsn: false,
-        qty: true,
+        qty: { checkStock: true, mobileMode: true },
         fqty: false,
         rate: false,
         discount: false,

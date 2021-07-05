@@ -92,6 +92,7 @@ export default {
             'DeliveryNote',
             'PurchaseSalesOrder',
             'RejectionNote',
+            'TransferNote'
           ].indexOf(value) !== -1
         );
       },
