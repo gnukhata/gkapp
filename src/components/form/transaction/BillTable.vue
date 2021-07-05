@@ -609,13 +609,9 @@ export default {
         axios.get(`/tax?pscflag=p&productcode=${id}`).catch((error) => {
           return error;
         }),
-        axios
-          .get(
-            `${stockPath}${stockParams}`
-          )
-          .catch((error) => {
-            return error;
-          }),
+        axios.get(`${stockPath}${stockParams}`).catch((error) => {
+          return error;
+        }),
       ];
       return Promise.all([...requests]).then(([resp1, resp2, resp3]) => {
         self.isLoading = false;
@@ -739,22 +735,33 @@ export default {
     onBusinessSave() {
       this.showBusinessForm = false;
       let self = this;
+
+      /**
+       * Fetching the business list, clears the options variable and repopulates it.
+       * This action makes the autocomplete component's value null. To counter this
+       * the table data is copied by value before that and pasted afterwards.
+       */
+
+      let tableData = this.form.map((item) => {
+        return { id: item.product.id, name: item.product.name };
+      });
       this.fetchBusinessList().then(() => {
         let billCount = self.form.length;
         let productCount = self.options.products.length;
-        if (self.form[billCount - 1].product.id !== null) {
+        tableData.forEach((item, i) => {
+          self.form[i].product = item;
+        });
+        if (self.form[billCount - 1].product.id) {
           self.addBillItem();
           billCount++;
         }
-        setTimeout(() => {
-          self.form[billCount - 1].product =
-            self.options.products[productCount - 1].value;
-          self.fetchProductDetails(
-            self.options.products[productCount - 1].id,
-            productCount - 1
-          );
-          self.$forceUpdate();
-        }, 100);
+        self.form[billCount - 1].product =
+          self.options.products[productCount - 1].value;
+        self.fetchProductDetails(
+          self.options.products[productCount - 1].id,
+          billCount - 1
+        );
+        self.$forceUpdate();
       });
     },
     /**
