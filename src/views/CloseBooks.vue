@@ -276,15 +276,15 @@
  * TODO:
  *  - Hook the functions to action buttons in confirm() method
  */
-import axios from "axios";
+import axios from 'axios';
 export default {
-  name: "CloseBooks",
+  name: 'CloseBooks',
   data() {
     return {
       details: [],
       isLoading: true,
-      newYearStart: "",
-      newYearEnd: "",
+      newYearStart: '',
+      newYearEnd: '',
     };
   },
   computed: {},
@@ -293,12 +293,12 @@ export default {
       this.$bvModal
         .msgBoxConfirm(`Confirm ?`, {
           centered: true,
-          size: "sm",
-          okVariant: "danger",
+          size: 'sm',
+          okVariant: 'danger',
         })
         .then((val) => {
           if (val === true) {
-            if (type === "close") {
+            if (type === 'close') {
               this.closeBooks();
             } else {
               this.rollOver();
@@ -311,7 +311,7 @@ export default {
      */
     getDetails() {
       axios
-        .get("/organisation")
+        .get('/organisation')
         .then((res) => {
           if (res.status == 200)
             switch (res.data.gkstatus) {
@@ -328,13 +328,13 @@ export default {
      * Automatically set year end when year start date is selected by the user
      */
     setYearEnd() {
-      if (this.yearStart !== null && this.year !== "") {
-        const from = this.newYearStart.split("-"); // yyyy/mm/dd
+      if (this.yearStart !== null && this.year !== '') {
+        const from = this.newYearStart.split('-'); // yyyy/mm/dd
         const to = new Date(`${parseInt(from[0]) + 1}/${from[1]}/${from[2]}`);
         let end = null;
         to.setDate(to.getDate() - 1);
         end = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()}`;
-        if (end.includes("NaN")) {
+        if (end.includes('NaN')) {
           this.newYearEnd = null;
         } else {
           this.newYearEnd = end;
@@ -355,9 +355,9 @@ export default {
           if (r.status == 200 && r.data.gkstatus == 0) {
             switch (r.data.gkstatus) {
               case 0:
-                this.$bvToast.toast("Close Books Complete", {
-                  title: "Success",
-                  variant: "success",
+                this.$bvToast.toast('Close Books Complete', {
+                  title: 'Success',
+                  variant: 'success',
                   solid: true,
                 });
                 this.getDetails();
@@ -370,9 +370,9 @@ export default {
         })
         .catch((e) => {
           this.isLoading = false;
-          this.$bvToast.toast(e.message + " Please Retry", {
-            title: "Close Books Error",
-            variant: "danger",
+          this.$bvToast.toast(e.message + ' Please Retry', {
+            title: 'Close Books Error',
+            variant: 'danger',
             solid: true,
           });
         });
@@ -388,43 +388,66 @@ export default {
           `/rollclose?task=rollover&financialend=${this.newYearEnd}&financialstart=${this.newYearStart}"`
         )
         .then((r) => {
-          if (r.status == 200 && r.data.gkstatus == 0) {
+          if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                this.$bvToast.toast("Roll Over Complete", {
-                  title: "Success",
-                  variant: "success",
+                this.$bvToast.toast('Roll Over Complete', {
+                  title: 'Success',
+                  variant: 'success',
                   solid: true,
                 });
                 this.getDetails();
-                this.isLoading = false;
                 break;
-              case 3:
-                this.$bvToast.toast("Error occured while processing request", {
-                  title: "Server Error",
-                  variant: "danger",
+              case 1:
+                this.$bvToast.toast('Duplicate Financial Year', {
+                  title: 'Data Error',
+                  variant: 'danger',
                   solid: true,
                 });
-                this.isLoading = false;
+                break;
+              case 2:
+                this.$bvToast.toast('Please login to access', {
+                  title: 'Unauthorised Access',
+                  variant: 'danger',
+                  solid: true,
+                });
+                break;
+              case 3:
+                this.$bvToast.toast('Invalid Data', {
+                  title: 'Data Error',
+                  variant: 'danger',
+                  solid: true,
+                });
                 break;
               case 4:
                 this.$bvToast.toast(
-                  "You don't have permissions to do this action",
+                  'You have no access for perform this task',
                   {
-                    title: "Error",
-                    variant: "danger",
+                    title: 'Privilige Error',
+                    variant: 'danger',
+                    solid: true,
+                  }
+                );
+                break;
+              case 5:
+                this.$bvToast.toast(
+                  'You are not allowed to perform this action',
+                  {
+                    title: 'Action Disallowed',
+                    variant: 'danger',
                     solid: true,
                   }
                 );
                 break;
             }
           }
+          this.isLoading = false;
         })
         .catch((e) => {
           this.isLoading = false;
-          this.$bvToast.toast(e.message + " Please Retry", {
-            title: "Close Books Error",
-            variant: "danger",
+          this.$bvToast.toast(e.message + ' Please Retry', {
+            title: 'Role Over Error',
+            variant: 'danger',
             solid: true,
           });
         });
