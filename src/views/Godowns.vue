@@ -79,6 +79,7 @@ export default {
       fields: [
         { key: 'godown_name', sortable: true },
         { key: 'state', sortable: true },
+        { key: 'address', sortable: true },
       ],
       loading: false,
       allGodowns: [],
@@ -103,6 +104,7 @@ export default {
               obj.goid = Object.values(data)[2];
               obj.godown_name = Object.values(data)[3];
               obj.state = Object.values(data)[6];
+              obj.address = Object.values(data)[4];
               return obj;
             });
             this.allGodowns = u;
