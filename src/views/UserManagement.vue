@@ -21,9 +21,9 @@
       style="margin: auto"
       head-variant="dark"
       hover
-      fixed
       outlined
       striped
+      small
       class="table"
     >
       <template #table-busy>
@@ -34,12 +34,12 @@
       </template>
       <!-- data.item.edit is userid -->
       <template #cell(user)="data">
-        <b-button
+        <b-link
           @click="showEditUser(data.item.edit)"
           title="click to edit contact"
           variant="dark"
           size="sm"
-          ><b-icon icon="person"></b-icon> {{ data.item.user }}</b-button
+          ><b-icon icon="person"></b-icon> {{ data.item.user }}</b-link
         >
         <!-- <b>{{ data.item.user }} </b> -->
         <!-- <b-icon
