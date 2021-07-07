@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :style="{ minWidth: '300px' }">
+  <div class="card " :style="{ minWidth: '300px' }">
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <div class="card-header text-left py-2">
@@ -276,8 +276,8 @@ export default {
         goname: this.form.name,
         goaddr: this.form.address,
         state: this.form.state.name,
-        gocontact: this.form.contactPerson || '',
-        contactname: this.form.contactNumber || '',
+        gocontact: this.form.contactNumber || '',
+        contactname: this.form.contactPerson || '',
       };
     },
     resetForm() {
