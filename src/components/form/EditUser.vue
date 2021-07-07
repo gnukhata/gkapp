@@ -1,142 +1,149 @@
 <template>
   <section class="m-1">
-    <!-- Manage Users -->
-    <b-form @submit.prevent="confirm('update')">
-      <b-overlay :show="isLoading" blur no-wrap></b-overlay>
-      <!-- username -->
-      <b-form-group
-        label-size="sm"
-        label-align="right"
-        label-cols="3"
-        label="Name"
-      >
-        <b-form-input
-          :state="validateName"
-          required
-          size="sm"
-          v-model="form.username"
-          trim
-        ></b-form-input>
-        <b-form-invalid-feedback id="userid-feedback">
-          Username must be minimum 3 characters
-        </b-form-invalid-feedback>
-      </b-form-group>
-      <!-- user role -->
-      <!-- If there is only one admin, Prevent admin from changing self's role -->
-      <b-form-group
-        label-size="sm"
-        label-align="right"
-        label-cols="3"
-        label="Role"
-      >
-        <b-form-select
-          size="sm"
-          v-model="form.userrole"
-          :disabled="form.userrole == -1 && admins.length == 1"
+    <b-card
+      header="Edit User"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      class="gkcard mx-auto"
+    >
+      <!-- Manage Users -->
+      <b-form @submit.prevent="confirm('update')">
+        <b-overlay :show="isLoading" blur no-wrap></b-overlay>
+        <!-- username -->
+        <b-form-group
+          label-size="sm"
+          label-align="right"
+          label-cols="3"
+          label="Name"
         >
-          <template #first>
-            <b-form-select-option value="null" disabled>
-              -- Select User --
-            </b-form-select-option>
-          </template>
-          <b-form-select-option
-            v-for="role in roles"
-            :key="role.value"
-            :value="role.value"
-            >{{ role.text }}</b-form-select-option
+          <b-form-input
+            :state="validateName"
+            required
+            size="sm"
+            v-model="form.username"
+            trim
+          ></b-form-input>
+          <b-form-invalid-feedback id="userid-feedback">
+            Username must be minimum 3 characters
+          </b-form-invalid-feedback>
+        </b-form-group>
+        <!-- user role -->
+        <!-- If there is only one admin, Prevent admin from changing self's role -->
+        <b-form-group
+          label-size="sm"
+          label-align="right"
+          label-cols="3"
+          label="Role"
+        >
+          <b-form-select
+            size="sm"
+            v-model="form.userrole"
+            :disabled="form.userrole == -1 && admins.length == 1"
           >
-        </b-form-select>
-      </b-form-group>
-      <!-- user godowns -->
-      <b-table-simple
-        v-if="form.userrole === 3"
-        hover
-        small
-        caption-top
-        responsive
-      >
-        <caption>
-          Select Godowns
-        </caption>
-        <b-thead head-variant="dark">
-          <b-tr>
-            <b-th>Select</b-th>
-            <b-th>Name</b-th>
-            <b-th>State</b-th>
-            <b-th>Address</b-th>
-          </b-tr>
-        </b-thead>
-        <b-tbody>
-          <b-tr v-for="godown in userGodowns" :key="godown.goid">
-            <b-td>
-              <b-form-checkbox
-                value="accepted"
-                unchecked-value="not_accepted"
-                v-model="godown.checked"
-                switch
-              >
-              </b-form-checkbox>
-            </b-td>
-            <b-td>{{ godown.goname }}</b-td>
-            <b-td>{{ godown.state }}</b-td>
-            <b-td>{{ godown.goaddr }}</b-td>
-          </b-tr>
-        </b-tbody>
-      </b-table-simple>
-      <!-- password -->
-      <b-form-group
-        label-align="right"
-        label-size="sm"
-        label-cols="3"
-        label="New Password"
-      >
-        <!-- <b-form-input
+            <template #first>
+              <b-form-select-option value="null" disabled>
+                -- Select User --
+              </b-form-select-option>
+            </template>
+            <b-form-select-option
+              v-for="role in roles"
+              :key="role.value"
+              :value="role.value"
+              >{{ role.text }}</b-form-select-option
+            >
+          </b-form-select>
+        </b-form-group>
+        <!-- user godowns -->
+        <b-table-simple
+          v-if="form.userrole === 3"
+          hover
+          small
+          caption-top
+          responsive
+        >
+          <caption>
+            Select Godowns
+          </caption>
+          <b-thead head-variant="dark">
+            <b-tr>
+              <b-th>Select</b-th>
+              <b-th>Name</b-th>
+              <b-th>State</b-th>
+              <b-th>Address</b-th>
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr v-for="godown in userGodowns" :key="godown.goid">
+              <b-td>
+                <b-form-checkbox
+                  value="accepted"
+                  unchecked-value="not_accepted"
+                  v-model="godown.checked"
+                  switch
+                >
+                </b-form-checkbox>
+              </b-td>
+              <b-td>{{ godown.goname }}</b-td>
+              <b-td>{{ godown.state }}</b-td>
+              <b-td>{{ godown.goaddr }}</b-td>
+            </b-tr>
+          </b-tbody>
+        </b-table-simple>
+        <!-- password -->
+        <b-form-group
+          label-align="right"
+          label-size="sm"
+          label-cols="3"
+          label="New Password"
+        >
+          <!-- <b-form-input
                v-model="form.userpassword"
                type="password"
                ></b-form-input> -->
-        <password size="sm" v-model="form.userpassword"></password>
-      </b-form-group>
-      <!-- Security question -->
-      <b-form-group
-        label-align="right"
-        label-size="sm"
-        label-cols="3"
-        label="Security Question"
-      >
-        <security-questions
-          size="sm"
-          v-model="form.userquestion"
-        ></security-questions>
-      </b-form-group>
-      <!-- answer -->
-      <b-form-group
-        label-align="right"
-        label-size="sm"
-        label-cols="3"
-        label="Answer"
-      >
-        <b-form-input
-          v-model="form.useranswer"
-          size="sm"
-          type="text"
-          :required="form.userquestion !== ''"
-        ></b-form-input>
-      </b-form-group>
-      <b-button-group size="sm">
-        <b-button type="submit" class="mr-1" variant="warning">
-          <b-icon icon="cloud-arrow-up"></b-icon>
-          Update user</b-button
+          <password size="sm" v-model="form.userpassword"></password>
+        </b-form-group>
+        <!-- Security question -->
+        <b-form-group
+          label-align="right"
+          label-size="sm"
+          label-cols="3"
+          label="Question"
         >
-        <b-button
-          variant="danger"
-          :disabled="form.userrole == -1 && admins.length == 1"
-          @click="confirm('delete')"
+          <security-questions
+            size="sm"
+            v-model="form.userquestion"
+          ></security-questions>
+        </b-form-group>
+        <!-- answer -->
+        <b-form-group
+          label-align="right"
+          label-size="sm"
+          label-cols="3"
+          label="Answer"
         >
-          <b-icon icon="x-circle"></b-icon>
-          Delete User</b-button
-        >
-      </b-button-group>
-    </b-form>
+          <b-form-input
+            v-model="form.useranswer"
+            size="sm"
+            type="text"
+            :required="form.userquestion !== ''"
+          ></b-form-input>
+        </b-form-group>
+        <b-button-group size="sm" class="float-right">
+          <b-button type="submit" class="mr-1" variant="warning">
+            <b-icon icon="cloud-arrow-up"></b-icon>
+            Update user</b-button
+          >
+          <b-button
+            variant="danger"
+            :disabled="form.userrole == -1 && admins.length == 1"
+            @click="confirm('delete')"
+          >
+            <b-icon icon="x-circle"></b-icon>
+            Delete User</b-button
+          >
+        </b-button-group>
+      </b-form>
+    </b-card>
   </section>
 </template>
 
@@ -149,11 +156,9 @@ import Password from '../Password.vue';
 export default {
   components: { SecurityQuestions, Password },
   name: 'UserManagement',
-  props: {
-    id: Number,
-  },
   data() {
     return {
+      id: Number,
       userList: [],
       user: '',
       userGodowns: '',
@@ -246,6 +251,8 @@ export default {
             this.form.username = data.username;
             this.form.userrole = data.userrole;
             this.form.userid = data.userid;
+            this.form.userquestion = data.userquestion;
+            this.form.useranswer = data.useranswer;
 
             this.isLoading = false;
             this.getUserGodowns(this.id);
@@ -432,9 +439,8 @@ export default {
     },
   },
   mounted() {
+    this.id = this.$route.params.id;
     this.getUserInfo();
   },
 };
 </script>
-
-<style></style>

@@ -48,7 +48,7 @@
           <b-nav-item to="/uom">
             <b-icon icon="thermometer"></b-icon> Unit of measurement
           </b-nav-item>
-          <b-nav-item to="/user_management">
+          <b-nav-item to="/users">
             <b-icon icon="people"></b-icon> Manage Users
           </b-nav-item>
           <b-nav-item to="/logs"
