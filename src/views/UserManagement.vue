@@ -3,7 +3,10 @@
     <b-input-group class="mb-3 container-sm gksearch d-print-none">
       <template #prepend>
         <!-- <b-input-group-text>Username</b-input-group-text> -->
-        <b-button variant="outline-primary" v-b-modal.create-user
+        <b-button
+          @click="$router.push('/users/add')"
+          variant="outline-primary"
+          v-b-modal.create-user
           ><b-icon icon="person-plus"></b-icon> Add User</b-button
         >
       </template>
@@ -35,7 +38,7 @@
       <!-- data.item.edit is userid -->
       <template #cell(user)="data">
         <b-link
-          @click="showEditUser(data.item.edit)"
+          @click="$router.push(`/users/${data.item.edit}`)"
           title="click to edit contact"
           variant="dark"
           size="sm"
@@ -57,24 +60,6 @@
         ></b-icon>
       </template>
     </b-table>
-    <b-modal
-      id="create-user"
-      title="Add User"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      hide-footer
-    >
-      <add-user @refreshUsers="getUsers"></add-user>
-    </b-modal>
-    <b-modal
-      id="edit-user"
-      title="Edit User"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      hide-footer
-    >
-      <edit-user @refreshUsers="getUsers" :id="selectedUserId"></edit-user>
-    </b-modal>
   </section>
 </template>
 

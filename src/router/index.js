@@ -29,9 +29,19 @@ const routes = [
     component: Logs
   },
   {
-    path: '/user_management',
+    path: '/users',
     name: 'User Management',
     component: UserManagement
+  },
+  {
+    path: '/users/add',
+    name: 'User Add',
+    component: () => import(/* webpackChunkName: "useradd" */ '../components/form/AddUser.vue')
+  },
+  {
+    path: '/users/:id',
+    name: 'User Edit',
+    component: () => import(/* webpackChunkName: "useredit" */ '../components/form/EditUser.vue')
   },
   {
     path: '/closebooks',
