@@ -117,6 +117,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "godowns" */ '../views/Godowns.vue')
   },
   {
+    path: '/godowns/add',
+    name: 'Add Godown',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "addgodown" */ '../components/form/Godown.vue')
+  },
+  {
+    path: '/godowns/:id',
+    name: 'Edit Godown',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "editgodown" */ '../views/GodownEdit.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

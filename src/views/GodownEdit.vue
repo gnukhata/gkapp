@@ -1,36 +1,74 @@
 <template>
-  <section>
+  <section class="m-2">
     <b-overlay :show="loading" blur no-wrap></b-overlay>
-    <b-form @submit.prevent="updateGodownInfo">
-      <b-form-group label="Name">
-        <b-form-input required v-model="form.goname"> </b-form-input>
-      </b-form-group>
-      <b-form-group label="State">
-        <b-form-input v-model="form.state"> </b-form-input>
-      </b-form-group>
-      <b-form-group label="Address">
-        <b-form-input v-model="form.goaddr"> </b-form-input>
-      </b-form-group>
-      <b-form-group label="Contact Person">
-        <b-form-input v-model="form.contactname"> </b-form-input>
-      </b-form-group>
-      <b-form-group label="Contact Number">
-        <b-form-input v-model="form.gocontact"> </b-form-input>
-      </b-form-group>
-      <b-form-group label="Designation">
-        <b-form-input v-model="form.designation"> </b-form-input>
-      </b-form-group>
-      <div class="float-right">
-        <b-button-group size="sm">
-          <b-button variant="success" type="submit" class="mr-1"
-            ><b-icon icon="cloud-arrow-up"></b-icon> Update</b-button
-          >
-          <b-button variant="danger" @click="confirm"
-            ><b-icon icon="x-circle"></b-icon> Delete</b-button
-          >
-        </b-button-group>
-      </div>
-    </b-form>
+    <b-card
+      header="Edit Godown"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      class="mx-auto gkcard p-0"
+    >
+      <b-form @submit.prevent="updateGodownInfo">
+        <b-form-group
+          label="Name"
+          label-size="sm"
+          label-align="right"
+          label-cols="4"
+        >
+          <b-form-input size="sm" required v-model="form.goname">
+          </b-form-input>
+        </b-form-group>
+        <b-form-group
+          size="sm"
+          label="State"
+          label-align="right"
+          label-cols="4"
+        >
+          <b-form-input size="sm" v-model="form.state"> </b-form-input>
+        </b-form-group>
+        <b-form-group
+          size="sm"
+          label="Address"
+          label-align="right"
+          label-cols="4"
+        >
+          <b-form-input size="sm" v-model="form.goaddr"> </b-form-input>
+        </b-form-group>
+        <b-form-group
+          size="sm"
+          label="Contact Person"
+          label-align="right"
+          label-cols="4"
+        >
+          <b-form-input size="sm" v-model="form.contactname"> </b-form-input>
+        </b-form-group>
+        <b-form-group
+          size="sm"
+          label="Contact Number"
+          label-align="right"
+          label-cols="4"
+        >
+          <b-form-input size="sm" v-model="form.gocontact"> </b-form-input>
+        </b-form-group>
+        <b-form-group
+          size="sm"
+          label="Designation"
+          label-align="right"
+          label-cols="4"
+        >
+          <b-form-input size="sm" v-model="form.designation"> </b-form-input>
+        </b-form-group>
+        <div class="float-right">
+          <b-button-group size="sm">
+            <b-button variant="success" type="submit" class="mr-1"
+              ><b-icon icon="cloud-arrow-up"></b-icon> Update</b-button
+            >
+            <b-button variant="danger" @click="confirm"
+              ><b-icon icon="x-circle"></b-icon> Delete</b-button
+            >
+          </b-button-group>
+        </div>
+      </b-form>
+    </b-card>
   </section>
 </template>
 
@@ -38,11 +76,11 @@
 import { mapState } from 'vuex';
 export default {
   name: 'GodownEdit',
-  props: ['id'],
   data() {
     return {
       loading: false,
       form: {},
+      id: Number,
     };
   },
   computed: {
@@ -202,6 +240,7 @@ export default {
     },
   },
   mounted() {
+    this.id = this.$route.params.id;
     this.getGodownInfo();
   },
 };
