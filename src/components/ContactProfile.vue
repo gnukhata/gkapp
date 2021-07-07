@@ -213,7 +213,7 @@
       <b-button type="submit" size="sm" class="ml-2" variant="success"
         ><b-icon icon="cloud-arrow-up"></b-icon> Save Changes</b-button
       >
-      <b-button to="/invoice" size="sm" class="ml-2" variant="dark"
+      <b-button to="/invoice/create/0" size="sm" class="ml-2" variant="dark"
         ><b-icon icon="receipt"></b-icon> Add Transaction</b-button
       >
       <b-button
@@ -234,11 +234,11 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
+import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
-  name: "ContactProfile",
+  name: 'ContactProfile',
   props: { customer: Object },
   data() {
     return {
@@ -259,8 +259,8 @@ export default {
         checksum: '',
       },
       regex: {
-        checksum: new RegExp("[0-9]{1}[A-Z]{1}[0-9A-Z]{1}"),
-        pan: new RegExp("[A-Z]{5}[0-9]{4}[A-Z]{1}"),
+        checksum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
+        pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
       },
     };
   },
@@ -271,7 +271,7 @@ export default {
         : null,
     isPanValid: (self) =>
       self.details.custpan ? self.regex.pan.test(self.details.custpan) : null,
-    ...mapState(["gkCoreUrl", "authToken"]),
+    ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {
     getDetails() {
@@ -297,20 +297,20 @@ export default {
                 } else {
                   this.splitGstin();
                 }
-              })
+              });
               break;
             case 2:
-              this.$bvToast.toast("Unauthorised Access", {
-                variant: "danger",
-                title: "Alert",
+              this.$bvToast.toast('Unauthorised Access', {
+                variant: 'danger',
+                title: 'Alert',
                 solid: true,
               });
               this.isLoading = false;
               break;
             case 3:
-              this.$bvToast.toast("Contact not found", {
-                variant: "danger",
-                title: "Alert",
+              this.$bvToast.toast('Contact not found', {
+                variant: 'danger',
+                title: 'Alert',
                 solid: true,
               });
               this.isLoading = false;
@@ -328,15 +328,21 @@ export default {
       this.$bvModal
         .msgBoxConfirm(`Update ${this.details.custname} details ?`, {
           centered: true,
-          size: "lg",
+          size: 'lg',
         })
         .then((val) => {
           if (val) {
             delete this.details.statelist;
             this.isLoading = true;
-            if(this.gstin.stateCode.length === 2 && this.gstin.pan.length === 10 && this.gstin.checksum.length === 3) {
-              this.details.gstin = {}
-              this.details.gstin[this.gstin.stateCode] = `${this.gstin.stateCode}${this.gstin.pan}${this.gstin.checksum}`
+            if (
+              this.gstin.stateCode.length === 2 &&
+              this.gstin.pan.length === 10 &&
+              this.gstin.checksum.length === 3
+            ) {
+              this.details.gstin = {};
+              this.details.gstin[
+                this.gstin.stateCode
+              ] = `${this.gstin.stateCode}${this.gstin.pan}${this.gstin.checksum}`;
             }
             axios
               .put(`/customersupplier`, this.details)
@@ -348,25 +354,25 @@ export default {
                     this.$bvToast.toast(
                       `${this.details.custname} Profile Details Updated`,
                       {
-                        title: "Success",
-                        variant: "success",
+                        title: 'Success',
+                        variant: 'success',
                         solid: true,
                       }
                     );
                     break;
                   case 2:
                     this.isLoading = false;
-                    this.$bvToast.toast("Unauthorised Access", {
-                      variant: "danger",
+                    this.$bvToast.toast('Unauthorised Access', {
+                      variant: 'danger',
                       solid: true,
                     });
                     break;
                   case 4:
                     this.isLoading = false;
                     this.$bvToast.toast(
-                      "You have no permissions to delete details",
+                      'You have no permissions to delete details',
                       {
-                        variant: "danger",
+                        variant: 'danger',
                         solid: true,
                       }
                     );
@@ -375,7 +381,7 @@ export default {
               })
               .catch((e) => {
                 this.$bvToast.toast(e.message, {
-                  variant: "danger",
+                  variant: 'danger',
                   solid: true,
                 });
               });
@@ -387,7 +393,7 @@ export default {
       this.$bvModal
         .msgBoxConfirm(`Delete ${this.details.custname} ?`, {
           centered: true,
-          size: "lg",
+          size: 'lg',
         })
         .then((val) => {
           if (val) {
@@ -409,40 +415,40 @@ export default {
                     // Delete Contact's Account
                     this.delAccount(this.details.custname);
                     this.isLoading = false;
-                    document.querySelector("#contactinfo").innerHTML = "";
+                    document.querySelector('#contactinfo').innerHTML = '';
                     this.$bvToast.toast(
                       `${this.details.custname} Profile Deleted`,
                       {
-                        title: "Success",
-                        variant: "success",
+                        title: 'Success',
+                        variant: 'success',
                         solid: true,
                       }
                     );
                     break;
                   case 2:
                     this.isLoading = false;
-                    this.$bvToast.toast("Unauthorised Access", {
-                      title: "Action Denied",
-                      variant: "danger",
+                    this.$bvToast.toast('Unauthorised Access', {
+                      title: 'Action Denied',
+                      variant: 'danger',
                       solid: true,
                     });
                     break;
                   case 4:
                     this.isLoading = false;
                     this.$bvToast.toast(
-                      "You have no permissions to modify details",
+                      'You have no permissions to modify details',
                       {
-                        title: "Access Denied",
-                        variant: "danger",
+                        title: 'Access Denied',
+                        variant: 'danger',
                         solid: true,
                       }
                     );
                     break;
                   case 5:
                     this.isLoading = false;
-                    this.$bvToast.toast("Causes Integrity Issues", {
-                      title: "Cannot Delete Contact",
-                      variant: "danger",
+                    this.$bvToast.toast('Causes Integrity Issues', {
+                      title: 'Cannot Delete Contact',
+                      variant: 'danger',
                       solid: true,
                     });
                     break;
@@ -450,7 +456,7 @@ export default {
               })
               .catch((e) => {
                 this.$bvToast.toast(e.message, {
-                  variant: "danger",
+                  variant: 'danger',
                   solid: true,
                 });
               });
@@ -486,7 +492,7 @@ export default {
                   },
                 })
                 .then((res) => {
-                  console.log("account delete status", res.data.gkstatus);
+                  console.log('account delete status', res.data.gkstatus);
                   // Add a log about the delete status
                   this.addLog();
                 })
@@ -502,24 +508,26 @@ export default {
     },
     /**Update the account associated with this contact when the contact name is changed*/
     updateAccountDetails(oldContactName) {
-      axios.get('/accounts').then(res => {
-        if(res.data.gkstatus === 0) {
-          let acc = res.data.gkresult.find((account) => account.accountname === oldContactName);
-          if(acc) {
+      axios.get('/accounts').then((res) => {
+        if (res.data.gkstatus === 0) {
+          let acc = res.data.gkresult.find(
+            (account) => account.accountname === oldContactName
+          );
+          if (acc) {
             let payload = {
               custsupflag: 1,
               oldcustname: oldContactName,
               gkdata: {
-                accountname: this.details["custname"],
-                openingbal: acc["openingbal"],
-                accountcode: acc["accountcode"]
-              }
-            }
+                accountname: this.details['custname'],
+                openingbal: acc['openingbal'],
+                accountcode: acc['accountcode'],
+              },
+            };
             axios.put('accounts', payload);
           }
         }
         this.oldContactName = this.details.custname;
-      })
+      });
     },
     /**Add a record of contact delete action */
     addLog() {
@@ -530,16 +538,16 @@ export default {
       };
       const payload = {
         activity: `${this.details.custname} ${
-          this.details.csflag == 3 ? "customer" : "supplier"
+          this.details.csflag == 3 ? 'customer' : 'supplier'
         } deleted`,
       };
       axios
         .post(`${this.gkCoreUrl}/log`, payload, config)
         .then((res) => {
-          console.log("log status ", res.data.gkstatus, payload);
+          console.log('log status ', res.data.gkstatus, payload);
         })
         .catch((e) => {
-          console.log("log ", e);
+          console.log('log ', e);
         });
     },
     /** Splits the GSTIN into state code, pan and checksum */
@@ -555,10 +563,10 @@ export default {
           };
         }
       }
-      if(!gstinUpdated) {
-          this.gstin.stateCode = this.options.stateMap[this.details.state] || ""
-          // console.log(this.options.stateMap[this.details.state])
-          this.gstin.pan = this.details.custpan || '';
+      if (!gstinUpdated) {
+        this.gstin.stateCode = this.options.stateMap[this.details.state] || '';
+        // console.log(this.options.stateMap[this.details.state])
+        this.gstin.pan = this.details.custpan || '';
       }
     },
     /** Fetches statelist from gkcore and prepares it for b-select.
@@ -575,7 +583,7 @@ export default {
               name = Object.values(item)[0];
               code = Object.keys(item)[0];
               if (parseInt(code) < 10) {
-                code = "0" + code;
+                code = '0' + code;
               }
               this.options.states.push(name);
               this.options.stateMap[name] = code;
@@ -584,7 +592,7 @@ export default {
         })
         .catch((e) => {
           this.$bvToast.toast(e, {
-            variant: "danger",
+            variant: 'danger',
           });
         });
     },
@@ -593,10 +601,10 @@ export default {
     this.getDetails();
 
     // This is used by the invoice form, to autofill party details
-    this.$store.commit("setInvoiceParty", {
+    this.$store.commit('setInvoiceParty', {
       id: this.customer.custid,
       name: this.customer.custname,
-      type: this.customer.csflag ? "customer" : "supplier", // 3 -> customer, 19-> supplier
+      type: this.customer.csflag ? 'customer' : 'supplier', // 3 -> customer, 19-> supplier
     });
   },
 };
