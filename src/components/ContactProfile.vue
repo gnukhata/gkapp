@@ -4,7 +4,7 @@
     <b-card
       class="mt-2"
       header-text-variant="light"
-      header-bg-variant="primary"
+      header-bg-variant="dark"
       no-body
     >
       <template #header>
@@ -12,7 +12,7 @@
           <div class="mr-auto">Info</div>
           <div>
             <b-icon
-              :icon="isCollapsed1 ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed1 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
@@ -64,7 +64,7 @@
     <!-- Contact Address -->
     <b-card
       header-text-variant="light"
-      header-bg-variant="primary"
+      header-bg-variant="dark"
       class="mt-3"
       no-body
     >
@@ -73,7 +73,7 @@
           <div class="mr-auto">Address</div>
           <div>
             <b-icon
-              :icon="isCollapsed2 ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed2 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
@@ -121,7 +121,7 @@
     </b-card>
     <!-- Contact Bank details -->
     <b-card
-      header-bg-variant="primary"
+      header-bg-variant="dark"
       header-text-variant="light"
       class="mt-3"
       no-body
@@ -131,7 +131,8 @@
           <div class="mr-auto">Financial Details</div>
           <div>
             <b-icon
-              :icon="isCollapsed3 ? 'arrows-collapse' : 'arrows-expand'"
+              variant="light"
+              :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
@@ -596,6 +597,24 @@ export default {
           });
         });
     },
+  },
+  created() {
+    if (window.screen.width > 600) {
+      this.isCollapsed1 = true;
+      this.isCollapsed2 = true;
+      this.isCollapsed3 = true;
+    }
+    window.addEventListener('resize', () => {
+      if (window.screen.width > 600) {
+        this.isCollapsed1 = true;
+        this.isCollapsed2 = true;
+        this.isCollapsed3 = true;
+      } else {
+        this.isCollapsed1 = false;
+        this.isCollapsed2 = false;
+        this.isCollapsed3 = false;
+      }
+    });
   },
   mounted() {
     this.getDetails();
