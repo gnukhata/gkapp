@@ -15,7 +15,7 @@
           <div class="mr-auto">Info</div>
           <div>
             <b-icon
-              :icon="isCollapsed1 ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed1 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
@@ -70,7 +70,7 @@
           <div class="mr-auto">Price</div>
           <div>
             <b-icon
-              :icon="isCollapsed2 ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed2 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
@@ -109,7 +109,7 @@
           <div class="mr-auto">Taxes</div>
           <div>
             <b-icon
-              :icon="isCollapsed3 ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
