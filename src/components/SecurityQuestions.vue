@@ -7,7 +7,7 @@
   >
     <template #first>
       <b-form-select-option disabled value="">
-        -- Please select a question --
+        Select a security question
       </b-form-select-option>
     </template>
   </b-form-select>

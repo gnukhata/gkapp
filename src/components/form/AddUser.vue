@@ -1,124 +1,145 @@
 <template>
-  <!-- Create user -->
-  <b-form ref="createForm" @submit.prevent="addUser">
-    <b-overlay :show="isLoading" blur no-wrap></b-overlay>
-    <b-form-group
-      label="Name"
-      label-align="right"
-      label-cols="2"
-      label-size="sm"
+  <section class="m-2">
+    <!-- Create user -->
+    <b-card
+      header="Add User"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      class="gkcard mx-auto"
     >
-      <b-form-input
-        :state="validateName"
-        v-model="newUser.username"
-        required
-        type="text"
-        trim
-        size="sm"
-      ></b-form-input>
-      <b-form-invalid-feedback id="input-live-feedback">
-        Username must be minimum 3 characters
-      </b-form-invalid-feedback>
-    </b-form-group>
-    <b-form-group
-      label="Role"
-      label-size="sm"
-      label-align="right"
-      label-cols="2"
-    >
-      <b-form-select
-        v-model="newUser.userrole"
-        :options="roles"
-        required
-        size="sm"
-        @change="getGodowns"
-      >
-        <b-form-select-option disabled value="null"
-          >-- Select Role --</b-form-select-option
+      <b-form ref="createForm" @submit.prevent="addUser">
+        <b-overlay :show="isLoading" blur no-wrap></b-overlay>
+        <b-form-group
+          label="Name"
+          label-align="right"
+          label-cols="4"
+          label-size="sm"
         >
-      </b-form-select>
-    </b-form-group>
-    <b-table-simple
-      v-if="newUser.userrole === 3"
-      hover
-      small
-      caption-top
-      responsive
-    >
-      <caption>
-        Select Godowns
-      </caption>
-      <b-thead head-variant="dark">
-        <b-tr>
-          <b-th>Select</b-th>
-          <b-th>Name</b-th>
-          <b-th>State</b-th>
-          <b-th>Address</b-th>
-        </b-tr>
-      </b-thead>
-      <b-tbody>
-        <b-tr v-for="godown in allGodowns" :key="godown.goid">
-          <b-td>
-            <b-form-checkbox
-              value="accepted"
-              unchecked-value="not_accepted"
-              v-model="godown.checked"
-              switch
+          <b-form-input
+            :state="validateName"
+            v-model="newUser.username"
+            required
+            type="text"
+            trim
+            size="sm"
+          ></b-form-input>
+          <b-form-invalid-feedback id="input-live-feedback">
+            Username must be minimum 3 characters
+          </b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group
+          label="Role"
+          label-size="sm"
+          label-align="right"
+          label-cols="4"
+        >
+          <b-form-select
+            v-model="newUser.userrole"
+            :options="roles"
+            required
+            size="sm"
+            @change="getGodowns"
+          >
+            <b-form-select-option disabled value="null"
+              >-- Select Role --</b-form-select-option
             >
-            </b-form-checkbox>
-          </b-td>
-          <b-td>{{ godown.goname }}</b-td>
-          <b-td>{{ godown.state }}</b-td>
-          <b-td>{{ godown.goaddr }}</b-td>
-          <!-- <b-td>{{ godown.checked }}</b-td> -->
-        </b-tr>
-      </b-tbody>
-    </b-table-simple>
-    <b-form-group
-      label="Password"
-      label-align="right"
-      label-cols="auto"
-      label-size="sm"
-    >
-      <password size="sm" v-model="newUser.userpassword"></password>
-    </b-form-group>
-    <b-form-group
-      label="Confirm Password"
-      label-align="right"
-      label-cols="2"
-      label-size="sm"
-    >
-      <b-form-input :state="pwdMatch" v-model="cnfPassword" size="sm">
-      </b-form-input>
-      <b-form-invalid-feedback>Passwords do not match</b-form-invalid-feedback>
-    </b-form-group>
-    <b-form-group label-size="sm" label-cols="2" label="Security Question">
-      <security-questions
-        size="sm"
-        v-model="newUser.userquestion"
-      ></security-questions>
-    </b-form-group>
-    <b-form-group label-cols="auto" label-size="sm" label="Answer">
-      <b-form-input
-        v-model="newUser.useranswer"
-        required
-        type="text"
-        size="sm"
-      ></b-form-input>
-    </b-form-group>
-    <slot name="modal-footer">
-      <b-button
-        :disabled="!pwdMatch"
-        size="sm"
-        type="submit"
-        class="float-right"
-        variant="success"
-      >
-        <b-icon type="submit" icon="person-plus"></b-icon>
-        Create User</b-button
-      >
-    </slot>
-  </b-form>
+          </b-form-select>
+        </b-form-group>
+        <b-table-simple
+          v-if="newUser.userrole === 3"
+          hover
+          small
+          caption-top
+          responsive
+        >
+          <caption>
+            Select Godowns
+          </caption>
+          <b-thead head-variant="dark">
+            <b-tr>
+              <b-th>Select</b-th>
+              <b-th>Name</b-th>
+              <b-th>State</b-th>
+              <b-th>Address</b-th>
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr v-for="godown in allGodowns" :key="godown.goid">
+              <b-td>
+                <b-form-checkbox
+                  value="accepted"
+                  unchecked-value="not_accepted"
+                  v-model="godown.checked"
+                  switch
+                >
+                </b-form-checkbox>
+              </b-td>
+              <b-td>{{ godown.goname }}</b-td>
+              <b-td>{{ godown.state }}</b-td>
+              <b-td>{{ godown.goaddr }}</b-td>
+              <!-- <b-td>{{ godown.checked }}</b-td> -->
+            </b-tr>
+          </b-tbody>
+        </b-table-simple>
+        <b-form-group
+          label="Password"
+          label-align="right"
+          label-cols="4"
+          label-size="sm"
+        >
+          <password size="sm" v-model="newUser.userpassword"></password>
+        </b-form-group>
+        <b-form-group
+          label="Confirm Password"
+          label-align="right"
+          label-cols="4"
+          label-size="sm"
+        >
+          <b-form-input :state="pwdMatch" v-model="cnfPassword" size="sm">
+          </b-form-input>
+          <b-form-invalid-feedback
+            >Passwords do not match</b-form-invalid-feedback
+          >
+        </b-form-group>
+        <b-form-group
+          label-size="sm"
+          label-cols="4"
+          label-align="right"
+          label="Question"
+        >
+          <security-questions
+            size="sm"
+            v-model="newUser.userquestion"
+          ></security-questions>
+        </b-form-group>
+        <b-form-group
+          label-cols="4"
+          label-size="sm"
+          label-align="right"
+          label="Answer"
+        >
+          <b-form-input
+            v-model="newUser.useranswer"
+            required
+            type="text"
+            size="sm"
+          ></b-form-input>
+        </b-form-group>
+        <slot name="modal-footer">
+          <b-button
+            :disabled="!pwdMatch"
+            size="sm"
+            type="submit"
+            class="float-right"
+            variant="success"
+          >
+            <b-icon type="submit" icon="person-plus"></b-icon>
+            Create User</b-button
+          >
+        </slot>
+      </b-form>
+    </b-card>
+  </section>
 </template>
 
 <script>

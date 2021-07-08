@@ -413,7 +413,7 @@ export default {
           }
           this.isDisabled = false; // hide the spinner
         })
-        .catch(function(e) {
+        .catch((e) => {
           this.$bvToast.toast(e.message, {
             variant: 'danger',
           });
@@ -446,6 +446,7 @@ export default {
           }
         })
         .catch((e) => {
+          console.log(e);
           this.$bvToast.toast(e.message, {
             variant: 'danger',
           });
