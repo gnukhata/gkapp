@@ -3,7 +3,7 @@
     <b-input-group class="mb-3 container-sm gksearch d-print-none">
       <template #prepend>
         <!-- <b-input-group-text>Username</b-input-group-text> -->
-        <b-button variant="outline-primary" v-b-modal.create-uom
+        <b-button variant="outline-primary" @click="$router.push('/uom/add')"
           ><b-icon icon="thermometer"></b-icon> Add Unit</b-button
         >
       </template>
@@ -44,7 +44,7 @@
       </template>
       <template #cell(unit_name)="data">
         <b-button
-          @click="showEditUOM(data.item.uom_id)"
+          @click="$router.push('/uom/' + data.item.uom_id)"
           title="click to edit UOM"
           :variant="subUnitStatus(data.item)"
           size="sm"
@@ -53,38 +53,14 @@
         </b-button>
       </template>
     </b-table>
-    <b-modal
-      id="create-uom"
-      title="Add Unit"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      hide-footer
-    >
-      <add-uom @refresh="getUOM"></add-uom>
-    </b-modal>
-    <b-modal
-      id="edit-uom"
-      title="Edit Unit"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      hide-footer
-    >
-      <edit-uom @refresh="getUOM" :id="selectedUomId"></edit-uom>
-    </b-modal>
   </section>
 </template>
 
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-import AddUOM from '@/components/form/AddUOM.vue';
-import EditUOM from '../components/form/EditUOM.vue';
 export default {
   name: 'UOM',
-  components: {
-    'add-uom': AddUOM,
-    'edit-uom': EditUOM,
-  },
   data() {
     return {
       uomList: [],
