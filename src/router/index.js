@@ -223,6 +223,11 @@ const routes = [
     name: 'Rejection_Note',
     component: () => import(/* webpackChunkName: "rejection_note" */ '../views/Transactions/RejectionNote.vue'),
   },
+  {
+    path: '/accounts',
+    name: 'Accounts',
+    component: () => import(/* webpackChunkName: "accounts" */ '../views/Accounts.vue'),
+  },
 ]
 
 const router = new VueRouter({
