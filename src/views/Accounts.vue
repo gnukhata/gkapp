@@ -173,7 +173,7 @@ export default {
                   let custType = isCustomer ? 'customer' : 'supplier';
                   if (resp2.data.gkstatus !== 0) {
                     this.$bvToast.toast(
-                      `Delete ${custType} ${custname} Failed!`,
+                      `Delete ${custType} ${custName} Failed!`,
                       {
                         variant: 'danger',
                         solid: true,

@@ -430,10 +430,6 @@ export default {
     },
     fetchDelNotes() {
       const self = this;
-      const payload = {
-        inputdate: '',
-        type: 'invoice',
-      };
       axios
         .get(
           `/invoice?unbilled_delnotes&inputdate=${this.form.date}&type=invoice`

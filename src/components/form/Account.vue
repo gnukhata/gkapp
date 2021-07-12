@@ -375,18 +375,19 @@ export default {
         .then((resp) => {
           switch (resp.data.gkstatus) {
             case 0:
-              self.displayToast(
-                'Create Account Success',
-                `Account: ${self.form.name} was created Successfully!`,
-                'success'
-              );
-              
-              const log = {"activity": `${self.form.name} account created.`};
-              axios.post('/log', log);
+              {
+                self.displayToast(
+                  'Create Account Success',
+                  `Account: ${self.form.name} was created Successfully!`,
+                  'success'
+                );
 
-              self.resetForm();
-              self.$emit('account-created');
-              
+                const log = { activity: `${self.form.name} account created.` };
+                axios.post('/log', log);
+
+                self.resetForm();
+                self.$emit('account-created');
+              }
               break;
             case 1:
               self.displayToast(
@@ -477,7 +478,7 @@ export default {
           });
       } else {
         this[submitMethod](payload)
-          .then((resp) => {
+          .then(() => {
             self.isLoading = false;
           })
           .catch((e) => {
