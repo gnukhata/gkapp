@@ -32,6 +32,7 @@
           label-cols-md="4"
           label-cols="3"
           label-size="sm"
+          label-class="required"
         >
           <b-form-input
             size="sm"
@@ -47,6 +48,7 @@
           label-cols="3"
           label-size="sm"
           id="dnd-input-group-1"
+          label-class="required"
         >
           <gk-date
             id="dnd-date-1"
@@ -65,6 +67,7 @@
           label-cols-md="4"
           label-cols="3"
           label-size="sm"
+          label-class="required"
         >
           <b-form-select
             id="dnd-input-20"
@@ -80,6 +83,7 @@
           label-size="sm"
           label-cols-md="4"
           label-cols="3"
+          label-class="required"
         >
           <autocomplete
             size="sm"
@@ -97,6 +101,7 @@
           label-size="sm"
           label-cols-md="4"
           label-cols="3"
+          label-class="required"
         >
           <autocomplete
             size="sm"
@@ -457,6 +462,7 @@ export default {
     resetForm() {
       this.setOrgDetails();
       this.form.date = this.getNoteDate();
+      this.form.type = 1
       this.setDelChalNo(true);
       this.onUpdateDetails();
     },
