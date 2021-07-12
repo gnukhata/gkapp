@@ -178,6 +178,14 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
+    <print-page
+      :show="showPrintModal"
+      name="DebitCreditNote"
+      :title="isCredit ? 'Credit Note' : 'Debit Note'"
+      :id="dcnoteId"
+      :pdata="{}"
+    >
+    </print-page>
   </b-container>
 </template>
 
@@ -198,6 +206,7 @@ import InvoiceDetails from '../../components/form/transaction_details/InvoiceDet
 import DcNoteDetails from '../../components/form/transaction_details/DcNoteDetails.vue';
 
 import Autocomplete from '../../components/Autocomplete.vue';
+import PrintPage from '../../components/workflow/PrintPage.vue';
 
 import dcNoteConfig from '../../js/config/transaction/debitCreditNote.js';
 
@@ -214,7 +223,7 @@ export default {
     // TransportDetails,
     Comments,
     InvoiceDetails,
-
+    PrintPage,
     Autocomplete,
   },
   data() {
@@ -237,6 +246,8 @@ export default {
         },
         total: {},
       },
+      showPrintModal: false,
+      dcnoteId: 0,
       vuexNameSpace: '',
       isLoading: false,
       isInvDateValid: false,
@@ -266,7 +277,7 @@ export default {
         transport: {},
         narration: null,
         total: {
-          amount: 0
+          amount: 0,
         },
       },
       invId: null,
@@ -368,6 +379,8 @@ export default {
                     vchCode.vflag === 0 ? 'warning' : 'success'
                   );
                   self.resetForm();
+                  this.dcnoteId = resp.data.gkresult;
+                  this.showPrintModal = true;
                 }
                 break;
               case 1:

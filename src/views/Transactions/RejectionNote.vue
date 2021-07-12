@@ -161,6 +161,8 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
+    <print-page :show="showPrintModal" name="RejectionNote" title="Rejection Note" :id="rnoteId" :pdata="{}">
+    </print-page>
   </b-container>
 </template>
 
@@ -179,7 +181,7 @@ import Comments from '../../components/form/transaction/Comments.vue';
 import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
 
 import rejectionNoteConfig from '../../js/config/transaction/rejectionNote.js';
-
+import PrintPage from '../../components/workflow/PrintPage.vue';
 import Autocomplete from '../../components/Autocomplete.vue';
 
 import { reverseDate } from '../../js/utils';
@@ -196,11 +198,14 @@ export default {
     // TransportDetails,
     Comments,
     InvoiceDetails,
+    PrintPage,
 
     Autocomplete,
   },
   data() {
     return {
+      showPrintModal: false,
+      rnoteId: 0,
       vuexNameSpace: '',
       isLoading: false,
       isInvDateValid: false,
@@ -425,6 +430,8 @@ export default {
                   'success'
                 );
                 this.resetForm(true);
+                this.rnoteId = resp.data.gkresult;
+                this.showPrintModal = true;
                 break;
               case 1:
                 // Duplicate entry
