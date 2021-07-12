@@ -24,80 +24,34 @@
           </b-col>
         </b-container>
       </b-col>
-      <b-col cols="12" md="6" order="1" order-md="2">
+      <b-col cols="12" md="6" order="1" order-md="2" class="text-md-right">
         <h5>Transfer Note Details</h5>
-        <b-form-group
-          label="No"
-          label-for="tnp-input-10"
-          label-cols="5"
-          label-size="sm"
-          class="mb-0"
-        >
-          {{ tnote.no }}
-        </b-form-group>
-        <b-form-group
-          label="Date"
-          label-for="tnp-input-10"
-          label-cols="5"
-          label-size="sm"
-          class="mb-0"
-        >
-          {{ tnote.date }}
-        </b-form-group>
-        <b-form-group
-          label="No. of Packages"
-          label-for="tnp-input-10"
-          label-cols="5"
-          label-size="sm"
-          class="mb-0"
-        >
-          {{ tnote.packageCount }}
-        </b-form-group>
-        <b-form-group
-          label="Trasported By"
-          label-for="tnp-input-10"
-          label-cols="5"
-          label-size="sm"
-          class="mb-0"
-        >
-          {{ tnote.transportMode }}
-        </b-form-group>
-        <b-form-group
-          label="Grace Period"
-          label-for="tnp-input-10"
-          label-cols="5"
-          label-size="sm"
-          class="mb-0"
-        >
-          {{ tnote.gracePeriod }}
-          {{ tnote.gracePeriod > 1 ? 'Days' : 'Day' }}
-        </b-form-group>
-        <b-form-group
-          label="Expected Receipt Date"
-          label-for="tnp-input-10"
-          label-cols="5"
-          label-size="sm"
-          class="mb-0"
-        >
-          {{ tnote.dueDate }}</b-form-group
-        >
-        <b-form-group
-          label="Actual Receipt Date"
-          label-for="tnp-input-10"
-          label-cols="5"
-          label-size="sm"
-          class="mb-0"
-        >
-          <gk-date
-            id="cmd-date-1"
-            :format="dateFormat"
-            v-model="tnote.rdate"
-            :min="minDate"
-            :required="true"
-            v-if="!tnote.recieved"
-          ></gk-date>
-          <span v-else>{{ tnote.rdate }}</span>
-        </b-form-group>
+        <span>No: {{ tnote.no }}</span> <br />
+        <span>Date: {{ tnote.date }}</span
+        ><br />
+        <span>No. of Packages: {{ tnote.packageCount }}</span
+        ><br />
+        <span>Trasported By: {{ tnote.transportMode }}</span
+        ><br />
+        <span
+          >Grace Period: {{ tnote.gracePeriod
+          }}{{ tnote.gracePeriod > 1 ? 'Days' : 'Day' }}</span
+        ><br />
+        <span>Expected Receipt Date: {{ tnote.dueDate }}</span
+        ><br />
+        <span>Actual Receipt Date: </span
+        ><gk-date
+          id="cmd-date-1"
+          :format="dateFormat"
+          v-model="tnote.rdate"
+          :min="minDate"
+          :required="true"
+          v-if="!tnote.recieved"
+          :inputStyle="{ 'max-width': '150px' }"
+          class="d-inline-block"
+        ></gk-date>
+        <span v-else>{{ tnote.rdate }}</span
+        ><br />
         <br />
       </b-col>
     </b-row>
@@ -196,10 +150,10 @@ export default {
       axios.put('/transfernote?received=true', payload).then((resp) => {
         if (resp.data.gkstatus === 0) {
           this.displayToast(
-              `Success`,
-              `Transfer Note ${this.tnote.no} was successfully approved!`,
-              'success'
-            );
+            `Success`,
+            `Transfer Note ${this.tnote.no} was successfully approved!`,
+            'success'
+          );
           this.fetchAndUpdateData();
         }
       });
