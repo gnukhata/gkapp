@@ -2,7 +2,7 @@
   <section class="m-2">
     <b-input-group class="mb-3 container-sm gksearch d-print-none">
       <template #prepend>
-        <b-button variant="warning" size="sm" @click="showAccountForm = true"
+        <b-button variant="warning" size="sm" @click="onCreateAccount"
           ><b-icon icon="building"></b-icon> Add Account</b-button
         >
       </template>
@@ -30,14 +30,36 @@
       details-td-class="d-md-none"
     >
       <template #cell(index)="data">
-        {{ data.index + 1 }} <br />
+        {{ data.index + 1 }}
+      </template>
+      <template #cell(options)="data">
         <b-button
           v-if="data.item.defaultFor"
-          size="sm d-md-none"
+          size="sm"
           @click="data.toggleDetails"
-          class="px-2 py-0"
+          class="d-md-none px-2 py-0"
         >
           {{ data.item._showDetails ? '-' : '+' }}
+        </b-button>
+        <br class="d-md-none" v-if="data.item.defaultFor" />
+        <b-button
+          size="sm"
+          variant="primary"
+          class="mb-1 mb-md-0 mx-md-1 pt-0"
+          @click.prevent="
+            onEditAccount(data.item.accountCode, data.item.sysAccount)
+          "
+        >
+          <b-icon font-scale="0.8" icon="pencil"></b-icon> </b-button
+        ><br class="d-md-none" />
+        <b-button
+          v-if="!data.item.sysAccount"
+          size="sm"
+          variant="danger"
+          class="pt-0"
+          @click.prevent="confirmOnDelete(data.item)"
+        >
+          <b-icon font-scale="0.9" icon="trash"></b-icon>
         </b-button>
       </template>
       <template #row-details="row">
@@ -69,10 +91,14 @@
     >
       <account
         :hideBackButton="true"
-        mode="create"
+        :mode="accountMode"
+        :accountId="accountId"
+        :isSysAccount="isSysAccount"
         :inOverlay="true"
         :onSave="() => {}"
+        :overlayOpen="showAccountForm"
         @account-created="onAccountCreated"
+        @account-edited="onAccountEdited"
       >
         <template #close-button>
           <b-button
@@ -103,12 +129,20 @@ export default {
       showAccountForm: false,
       tableHeight: window.innerHeight - 175,
       searchText: '',
+      accountMode: 'create',
+      accountId: -1,
+      isSysAccount: false,
       tableFields: [
-        { key: 'index', label: 'No', thStyle: { width: '50px' } },
+        { key: 'index', label: 'No', thStyle: { width: '45px' } },
         { key: 'account', sortable: true },
         { key: 'group', sortable: true },
         { key: 'subGroup', sortable: true },
         { key: 'defaultFor', class: 'd-none d-sm-table-cell' },
+        {
+          key: 'options',
+          label: 'Options',
+          thClass: 'options-col',
+        },
       ],
       options: {
         accounts: [],
@@ -118,8 +152,150 @@ export default {
   },
   computed: {},
   methods: {
+    deleteAccount(accountId, accountName, custId, custName, isCustomer) {
+      if (!accountId) return;
+      return axios
+        .delete('/accounts', {
+          data: {
+            accountcode: accountId,
+          },
+        })
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            if (custId) {
+              axios
+                .delete('/customersupplier', {
+                  data: {
+                    custid: custId,
+                  },
+                })
+                .then((resp2) => {
+                  let custType = isCustomer ? 'customer' : 'supplier';
+                  if (resp2.data.gkstatus !== 0) {
+                    this.$bvToast.toast(
+                      `Delete ${custType} ${custname} Failed!`,
+                      {
+                        variant: 'danger',
+                        solid: true,
+                      }
+                    );
+                    return;
+                  }
+                  let custLog = {
+                    activity: `${custName} ${custType} deleted.`,
+                  };
+                  axios.post('/log', custLog);
+                  this.$bvToast.toast(
+                    `Delete ${custType} ${custName} Success!`,
+                    {
+                      variant: 'success',
+                      solid: true,
+                    }
+                  );
+                });
+            }
+            let log = { activity: `${accountName} account deleted.` };
+            axios.post('/log', log);
+            this.$bvToast.toast(`Delete account ${accountName} Success!`, {
+              variant: 'success',
+              solid: true,
+            });
+            return resp.data.gkstatus;
+          } else {
+            this.$bvToast.toast(`Delete Account: ${accountName} Failed!`, {
+              variant: 'danger',
+              solid: true,
+            });
+          }
+        });
+    },
+    getCust(groupCode, account) {
+      return axios.get('/groupsubgroups?groupflatlist').then((resp) => {
+        if (resp.data.gkstatus !== 0) {
+          return null;
+        }
+        let debtGroupCode = resp.data.gkresult['Sundry Debtors'],
+          credGroupCode = resp.data.gkresult['Sundry Creditors for Purchase'];
+        if (debtGroupCode === groupCode || credGroupCode === groupCode) {
+          let custType = debtGroupCode === groupCode ? 'custall' : 'supall';
+          return axios
+            .get(`/customersupplier?qty=${custType}`)
+            .then((resp2) => {
+              if (resp2.data.gkstatus === 0) {
+                let cust = resp2.data.gkresult.find(
+                  (cust) => cust.custname === account
+                );
+                if (cust) {
+                  cust.isCustomer = debtGroupCode === groupCode;
+                }
+                return cust;
+              }
+              return null;
+            });
+        } else {
+          return null;
+        }
+      });
+    },
+    confirmOnDelete(accDetails) {
+      this.getCust(accDetails.subGroupCode, accDetails.account).then((cust) => {
+        const self = this;
+        let text = `Delete Account <b>${accDetails.account}</b> ?`;
+        if (cust) {
+          text += ` This will also delete the ${
+            cust.isCustomer ? 'Customer' : 'Supplier'
+          } <b>${cust.custname}.</b> Do you want to proceed?`;
+        } else {
+          cust = {};
+        }
+        let textDom = this.$createElement('div', {
+          domProps: {
+            innerHTML: text,
+          },
+        });
+        this.$bvModal
+          .msgBoxConfirm(textDom, {
+            size: 'md',
+            buttonSize: 'sm',
+            okVariant: 'danger',
+            headerClass: 'p-0 border-bottom-0',
+            footerClass: 'border-top-0', // p-1
+            // bodyClass: 'p-2',
+            centered: true,
+          })
+          .then((val) => {
+            if (val) {
+              self.deleteAccount(
+                accDetails.accountCode,
+                accDetails.account,
+                cust.custid,
+                cust.custname,
+                cust.isCustomer
+              ).then((status) => {
+                if(status === 0) {
+                  self.getAccountsList();
+                }
+              });
+            }
+          });
+      });
+    },
+    onEditAccount(id, isSysAccount) {
+      this.accountMode = 'edit';
+      this.accountId = id;
+      this.showAccountForm = true;
+      this.isSysAccount = !!isSysAccount;
+    },
+    onCreateAccount() {
+      this.accountMode = 'create';
+      this.accountId = -1;
+      this.showAccountForm = true;
+    },
     onAccountCreated() {
       this.showAccountForm = false;
+      this.getAccountsList();
+    },
+    onAccountEdited() {
       this.getAccountsList();
     },
     /* Fetch all accounts */
@@ -160,13 +336,13 @@ export default {
     },
     onResize() {
       if (window.innerWidth > 576) {
-        if (this.tableFields.length === 4) {
-          this.tableFields.push({
+        if (this.tableFields.length === 5) {
+          this.tableFields.splice(4, 0, {
             key: 'defaultFor',
           });
         }
-      } else if (this.tableFields.length === 5) {
-        this.tableFields.pop();
+      } else if (this.tableFields.length === 6) {
+        this.tableFields.splice(4, 1);
       }
     },
   },
@@ -177,13 +353,16 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 table {
   width: 70%;
 }
-@media all and (max-width: 600px) {
+@media all and (max-width: 576px) {
   table {
     width: 90%;
+  }
+  .options-col {
+    width: 50px;
   }
 }
 </style>
