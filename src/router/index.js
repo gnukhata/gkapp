@@ -54,6 +54,16 @@ const routes = [
     component: UOM
   },
   {
+    path: '/uom/add',
+    name: 'Unit Add',
+    component: () => import(/* webpackChunkName: "uomadd" */ '../components/form/AddUOM.vue')
+  },
+  {
+    path: '/uom/:id',
+    name: 'Unit Edit',
+    component: () => import(/* webpackChunkName: "uomedit" */ '../components/form/EditUOM.vue')
+  },
+  {
     path: '/resetpassword',
     name: 'Reset Password',
     component: ResetPassword

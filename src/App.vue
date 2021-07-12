@@ -14,7 +14,7 @@
               width="30"
               height="30"
               class="rounded d-inline-block align-top"
-              alt="GNUKhata Logo"
+              alt="logo"
             />
           </router-link>
           <div
@@ -27,14 +27,9 @@
         </b-navbar-brand>
         <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown v-if="userAuthenticated" @click="getUser" right>
+          <b-nav-item-dropdown v-if="userAuthenticated" right>
             <template #button-content>
-              <b-avatar
-                @click="getUser"
-                variant="dark"
-                icon="person"
-                :title="userName"
-              >
+              <b-avatar variant="dark" icon="person" :title="userName">
               </b-avatar>
               {{ userName }}
             </template>
@@ -73,19 +68,12 @@
 <script>
 import { mapState } from 'vuex';
 import ColorBar from '@/components/ColorBar.vue';
-import axios from 'axios';
 import ChangePwd from '@/components/form/ChangePwd.vue';
 import Sidebar from './components/Sidebar.vue';
 import TitleBar from './components/TitleBar.vue';
 export default {
   name: 'App',
   components: { ColorBar, ChangePwd, Sidebar, TitleBar },
-  data() {
-    return {
-      userRole: Number,
-      orgImg: '',
-    };
-  },
   computed: {
     activeNav: (self) => self.$route.name,
     ...mapState([
@@ -105,22 +93,7 @@ export default {
         this.$refs['change-pwd-close'].hide();
       }, 1500);
     },
-    /* Get org image from server */
-    getOrgimage() {
-      axios
-        .get('/organisation?attach=image')
-        .then((r) => {
-          if (r.status == 200 && r.data.logo !== null) {
-            this.orgImg = `data:image/png;base64,${r.data.logo}`;
-          } else {
-            this.orgImg = 'img/gk.png';
-          }
-        })
-        .catch((e) => {
-          console.log(e.message);
-          this.orgImg = 'img/gk.png';
-        });
-    },
+
     /*
      * Logout the user, But preserve the gkcore url
      */
@@ -153,28 +126,9 @@ export default {
         variant: 'success',
       });
     },
-    /**
-     * Get the company's users role
-     * to decide which items to show in user menu
-     */
-    getUser() {
-      axios
-        .get(`/user?type=role`, {
-          headers: {
-            gktoken: this.authToken,
-          },
-        })
-        .then((res) => {
-          this.userRole = res.data.gkresult;
-        })
-        .catch((e) => {
-          console.log('admin fetch', e.message);
-        });
-    },
   },
   mounted() {
-    this.getUser();
-    this.getOrgimage();
+    this.getOrgImage();
     /**
      * fetch latest app changes
      */

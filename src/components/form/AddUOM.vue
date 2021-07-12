@@ -1,43 +1,63 @@
 <template>
-  <b-overlay :show="isLoading">
-    <b-form ref="editingForm" @submit.prevent="createUOM">
-      <b-form-group label="Name" tooltip>
-        <b-form-input
-          v-model="form.unitname"
-          type="text"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group label="Description" tooltip>
-        <b-form-input
-          v-model="form.description"
-          type="text"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group label="Sub Unit Of " description="optional">
-        <autocomplete
-          v-model="form.subunitof"
-          :options="uomList"
-        ></autocomplete>
-      </b-form-group>
-      <b-form-group
-        v-if="form.subunitof !== '' && form.subunitof !== null"
-        label="Conversion Rate"
-      >
-        <b-form-input
-          v-model="form.conversionrate"
-          type="number"
-          required
-          step="0.01"
-          placeholder="0.00"
-        ></b-form-input>
-      </b-form-group>
-      <b-button type="submit" variant="success" class="float-right"
-        ><b-icon icon="thermometer"></b-icon> Create New Unit</b-button
-      >
-    </b-form>
-  </b-overlay>
+  <section class="m-2">
+    <b-card
+      header="Add Unit"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      class="mx-auto gkcard"
+    >
+      <b-overlay :show="isLoading">
+        <b-form ref="editingForm" @submit.prevent="createUOM">
+          <b-form-group label="Name" label-align="right" label-cols="4" tooltip>
+            <b-form-input
+              v-model="form.unitname"
+              type="text"
+              required
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            label-align="right"
+            label-cols="4"
+            label="Description"
+            tooltip
+          >
+            <b-form-input
+              v-model="form.description"
+              type="text"
+              required
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            label-align="right"
+            label-cols="4"
+            label="Sub Unit Of "
+            description="*optional"
+          >
+            <autocomplete
+              v-model="form.subunitof"
+              :options="uomList"
+              placeholder="Select Unit"
+            ></autocomplete>
+          </b-form-group>
+          <b-form-group
+            v-if="form.subunitof !== '' && form.subunitof !== null"
+            label="Conversion Rate"
+          >
+            <b-form-input
+              v-model="form.conversionrate"
+              type="number"
+              required
+              step="0.01"
+              placeholder="0.00"
+            ></b-form-input>
+          </b-form-group>
+          <b-button type="submit" variant="success" class="float-right"
+            ><b-icon icon="thermometer"></b-icon> Create New Unit</b-button
+          >
+        </b-form>
+      </b-overlay>
+    </b-card>
+  </section>
 </template>
 
 <script>

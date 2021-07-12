@@ -1,49 +1,73 @@
 <template>
-  <b-overlay :show="isLoading">
-    <b-form @submit.prevent="confirm()">
-      <b-form-group label="Name" tooltip>
-        <b-form-input
-          v-model="form.unitname"
-          type="text"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group label="Description" tooltip>
-        <b-form-input
-          v-model="form.description"
-          type="text"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group label="Sub Unit of " description="optional">
-        <autocomplete
-          v-model="form.subunitof"
-          :options="uomList"
-        ></autocomplete>
-      </b-form-group>
-      <b-form-group label="Conversion Rate">
-        <b-form-input
-          v-model="form.conversionrate"
-          type="number"
-          no-wheel
-          placeholder="0.00"
-          step="0.01"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <b-button-group size="sm" class="float-right">
-        <b-button type="submit" class="mr-1" variant="success"
-          ><b-icon icon="thermometer"></b-icon> Update Unit</b-button
-        >
-        <b-button
-          variant="danger"
-          :disabled="sysunit == 1"
-          @click="confirm('delete')"
-          ><b-icon icon="x-circle"></b-icon> Delete Unit</b-button
-        >
-      </b-button-group>
-    </b-form>
-  </b-overlay>
+  <section class="m-2">
+    <b-overlay :show="isLoading">
+      <b-card
+        header="Edit Unit"
+        header-bg-variant="dark"
+        header-text-variant="light"
+        class="mx-auto gkcard"
+      >
+        <b-form @submit.prevent="confirm()">
+          <b-form-group label="Name" label-align="right" label-cols="4" tooltip>
+            <b-form-input
+              v-model="form.unitname"
+              type="text"
+              required
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            label-align="right"
+            label-cols="4"
+            label="Description"
+            tooltip
+          >
+            <b-form-input
+              v-model="form.description"
+              type="text"
+              required
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            label-align="right"
+            label-cols="4"
+            label="Sub Unit of "
+            description="optional"
+          >
+            <autocomplete
+              v-model="form.subunitof"
+              :options="uomList"
+              placeholder="Select Unit"
+            ></autocomplete>
+          </b-form-group>
+          <b-form-group
+            label="Conversion Rate"
+            label-align="right"
+            label-cols="4"
+          >
+            <b-form-input
+              v-model="form.conversionrate"
+              type="number"
+              no-wheel
+              placeholder="0.00"
+              step="0.01"
+              required
+            ></b-form-input>
+          </b-form-group>
+          <b-button-group size="sm" class="float-right">
+            <b-button type="submit" class="mr-1" variant="success"
+              ><b-icon icon="thermometer"></b-icon> Update Unit</b-button
+            >
+            <b-button
+              variant="danger"
+              :disabled="sysunit == 1"
+              @click="confirm('delete')"
+              ><b-icon icon="x-circle"></b-icon> Delete Unit</b-button
+            >
+          </b-button-group>
+        </b-form>
+      </b-card>
+    </b-overlay>
+  </section>
 </template>
 
 <script>
@@ -53,11 +77,9 @@ import Autocomplete from '../Autocomplete.vue';
 export default {
   components: { Autocomplete },
   name: 'EditUOM',
-  props: {
-    id: Number,
-  },
   data() {
     return {
+      id: Number,
       isLoading: false,
       uomInfo: [],
       uomList: [],
@@ -346,6 +368,7 @@ export default {
     },
   },
   mounted() {
+    this.id = this.$route.params.id;
     this.getUOMInfo();
   },
 };

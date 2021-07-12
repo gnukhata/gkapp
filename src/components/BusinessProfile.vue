@@ -4,13 +4,18 @@
     <!-- {{ details }} -->
     <!-- {{ godowns }} -->
     <!-- name --->
-    <b-card class="mb-2" header-bg-variant="warning" no-body>
+    <b-card
+      class="mb-2"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      no-body
+    >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-info>
           <div class="mr-auto">Info</div>
           <div>
             <b-icon
-              :icon="isCollapsed1 ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed1 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
@@ -59,13 +64,13 @@
         </b-form-group>
       </b-collapse>
     </b-card>
-    <b-card no-body header-bg-variant="warning">
+    <b-card no-body header-bg-variant="dark" header-text-variant="light">
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-price>
           <div class="mr-auto">Price</div>
           <div>
             <b-icon
-              :icon="isCollapsed2 ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed2 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
@@ -93,13 +98,18 @@
     <!-- <h3 class="text-muted text-center mt-3 mb-3">Taxes</h3> -->
     <!-- <b-card class="mt-2" header="Tax" header-bg-variant="warning"> -->
     <!-- {{ options.tax }} -->
-    <b-card no-body class="mt-2" header-bg-variant="warning">
+    <b-card
+      no-body
+      class="mt-2"
+      header-bg-variant="dark"
+      header-text-variant="light"
+    >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-tax>
           <div class="mr-auto">Taxes</div>
           <div>
             <b-icon
-              :icon="isCollapsed3 ? 'arrows-collapse' : 'arrows-expand'"
+              :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
@@ -170,7 +180,9 @@
               </b-input-group-append>
             </b-input-group>
           </div>
-          <b-button @click.prevent="addVatEntry" class="float-right p-0 px-1">+ VAT</b-button>
+          <b-button @click.prevent="addVatEntry" class="float-right p-0 px-1"
+            >+ VAT</b-button
+          >
         </b-form-group>
       </b-collapse>
     </b-card>
@@ -185,7 +197,7 @@
         class="ml-2"
         variant="danger"
         ><b-icon :icon="details.gsflag == 7 ? 'box' : 'headset'"></b-icon>
-        Delete {{ details.gsflag == 7 ? "Product" : "Service" }}</b-button
+        Delete {{ details.gsflag == 7 ? 'Product' : 'Service' }}</b-button
       >
     </div>
   </b-form>
@@ -198,10 +210,10 @@
  * Delete product
  * add / delete tax
  */
-import axios from "axios";
-import { mapState } from "vuex";
+import axios from 'axios';
+import { mapState } from 'vuex';
 export default {
-  name: "BusinessProfile",
+  name: 'BusinessProfile',
   props: {
     name: Object,
   },
@@ -232,7 +244,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["gkCoreUrl", "authToken"]),
+    ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {
     /**
@@ -260,9 +272,9 @@ export default {
               break;
             case 3:
               this.loading = false;
-              this.$bvToast.toast("Product does not exist", {
-                title: "Error",
-                variant: "danger",
+              this.$bvToast.toast('Product does not exist', {
+                title: 'Error',
+                variant: 'danger',
                 solid: true,
               });
               break;
@@ -278,7 +290,7 @@ export default {
       this.$bvModal
         .msgBoxConfirm(`Update ${this.details.productdesc} details ?`, {
           centered: true,
-          size: "lg",
+          size: 'lg',
         })
         .then((val) => {
           if (val) {
@@ -299,7 +311,7 @@ export default {
             delete this.details.unitname;
 
             if (this.godowns.length > 0) {
-              payload["godetails"] = this.godowns;
+              payload['godetails'] = this.godowns;
               payload.godownflag = true;
             }
             axios
@@ -308,8 +320,8 @@ export default {
                 switch (res.data.gkstatus) {
                   case 0:
                     this.$bvToast.toast(`${this.details.productdesc} updated`, {
-                      title: "Success",
-                      variant: "success",
+                      title: 'Success',
+                      variant: 'success',
                       solid: true,
                     });
                     this.loading = false;
@@ -317,17 +329,17 @@ export default {
                     break;
                   case 2:
                     this.$bvToast.toast(`Unauthorised access`, {
-                      title: "Failure",
-                      variant: "danger",
+                      title: 'Failure',
+                      variant: 'danger',
                       solid: true,
                     });
                     break;
                   default:
-                    console.log("product update status ", res.data.gkstatus);
+                    console.log('product update status ', res.data.gkstatus);
                 }
               })
               .catch((e) => {
-                console.log("update details ", e.message);
+                console.log('update details ', e.message);
               });
           }
         });
@@ -335,30 +347,35 @@ export default {
     /** Update the Tax Details (Add, edit & Delete) */
     updateTaxDetails() {
       const self = this;
-      const updateTaxItem = function (item) {
+      const updateTaxItem = function(item) {
         const tax = Object.assign({ productcode: self.name.productcode }, item);
         if (item.taxid === undefined) {
-          if(parseFloat(item.taxrate) > 0) {
+          if (parseFloat(item.taxrate) > 0) {
             // create a new tax entry, or newly added tax items
-            axios.post("/tax", tax);
+            axios.post('/tax', tax);
           }
         } else {
-          if (!self.options.taxIdMap[item.taxid] || parseFloat(item.taxrate) === 0) {
+          if (
+            !self.options.taxIdMap[item.taxid] ||
+            parseFloat(item.taxrate) === 0
+          ) {
             // delete items that were deleted as an update or equal to 0
-            axios.delete("/tax", {
+            axios.delete('/tax', {
               data: {
                 taxid: item.taxid,
               },
             });
           } else {
-            // update existing tax items 
-            axios.put("/tax", tax);
+            // update existing tax items
+            axios.put('/tax', tax);
           }
         }
       };
       for (const name in this.tax) {
-        if (name === "vat") {
-          this.tax[name].forEach(function(item){updateTaxItem(item)});
+        if (name === 'vat') {
+          this.tax[name].forEach(function(item) {
+            updateTaxItem(item);
+          });
         } else {
           updateTaxItem(this.tax[name]);
         }
@@ -367,8 +384,10 @@ export default {
     /** Add a new VAT entry to the VAT list */
     addVatEntry() {
       this.tax.vat.push({
-        "taxname": "VAT", "taxrate": "0.00", "state": null 
-      })
+        taxname: 'VAT',
+        taxrate: '0.00',
+        state: null,
+      });
     },
     /** Remove VAT entry from the VAT list, from the given position */
     removeVatEntry(index) {
@@ -381,8 +400,8 @@ export default {
       this.$bvModal
         .msgBoxConfirm(`Delete ${this.details.productdesc} ?`, {
           centered: true,
-          variant: "danger",
-          size: "lg",
+          variant: 'danger',
+          size: 'lg',
         })
         .then((val) => {
           if (val == true) {
@@ -396,33 +415,37 @@ export default {
               },
             };
             axios
-              .delete("/products", config)
+              .delete('/products', config)
               .then((res) => {
                 switch (res.data.gkstatus) {
-                  case 0: {
-                    // Add delete log to server
-                    const payload = {
-                      activity: `${this.details.productdesc} ${
-                        this.details.csflag == 7 ? "product" : "service"
-                      } deleted`,
-                    };
-                    axios.post(`${this.gkCoreUrl}/log`, payload, config);
-                    this.$bvToast.toast(`${this.details.productdesc} deleted`, {
-                      title: "Success",
-                      solid: true,
-                      variant: "success",
-                    });
-                    this.isLoading = false;
-                    document.querySelector("#prod").innerHTML = "";
-                  }
+                  case 0:
+                    {
+                      // Add delete log to server
+                      const payload = {
+                        activity: `${this.details.productdesc} ${
+                          this.details.csflag == 7 ? 'product' : 'service'
+                        } deleted`,
+                      };
+                      axios.post(`${this.gkCoreUrl}/log`, payload, config);
+                      this.$bvToast.toast(
+                        `${this.details.productdesc} deleted`,
+                        {
+                          title: 'Success',
+                          solid: true,
+                          variant: 'success',
+                        }
+                      );
+                      this.isLoading = false;
+                      document.querySelector('#prod').innerHTML = '';
+                    }
                     break;
                   case 3:
                     this.$bvToast.toast(
                       `${this.details.productdesc} Cannot be deleted`,
                       {
-                        title: "",
+                        title: '',
                         solid: true,
-                        variant: "danger",
+                        variant: 'danger',
                       }
                     );
                     break;
@@ -430,9 +453,9 @@ export default {
                     this.$bvToast.toast(
                       `Cannot delete ${this.details.productdesc}`,
                       {
-                        title: "Bad Privilige",
+                        title: 'Bad Privilige',
                         solid: true,
-                        variant: "danger",
+                        variant: 'danger',
                       }
                     );
                     break;
@@ -440,16 +463,16 @@ export default {
                     this.$bvToast.toast(
                       `Cannot delete ${this.details.productdesc}`,
                       {
-                        title: "Action Disallowed",
+                        title: 'Action Disallowed',
                         solid: true,
-                        variant: "danger",
+                        variant: 'danger',
                       }
                     );
                     break;
                 }
               })
               .catch((e) => {
-                console.log("delete err ", e);
+                console.log('delete err ', e);
               });
           }
         });
@@ -466,10 +489,10 @@ export default {
         })
         .then((res) => {
           this.godowns = res.data.gkresult;
-          console.log("godown details fetched");
+          console.log('godown details fetched');
         })
         .catch((e) => {
-          console.log("godown fetch error ", e);
+          console.log('godown fetch error ', e);
         });
     },
     /** Fetch tax details for selected product */
@@ -489,7 +512,7 @@ export default {
           this.options.tax.forEach((item) => {
             this.options.taxIdMap[item.taxid] = true;
             let taxname = item.taxname.toLowerCase();
-            if (taxname === "vat") {
+            if (taxname === 'vat') {
               this.tax.vat.push(item);
             } else {
               this.tax[taxname] = item;
@@ -518,7 +541,7 @@ export default {
                 };
               });
               this.uom = this.options.uom.filter(
-                (uom) => uom.value.name === "UNT"
+                (uom) => uom.value.name === 'UNT'
               )[0].value;
               // console.log(response.data.gkresult)
               break;
@@ -526,7 +549,7 @@ export default {
               this.$bvToast.toast(`Please try after sometime`, {
                 title: `Error: Fetching Unit of Measurement`,
                 autoHideDelay: 3000,
-                variant: "warning",
+                variant: 'warning',
                 appendToast: true,
                 solid: true,
               });
@@ -547,7 +570,7 @@ export default {
         })
         .catch((e) => {
           this.$bvToast.toast(e, {
-            variant: "danger",
+            variant: 'danger',
           });
         });
     },
@@ -556,6 +579,24 @@ export default {
     this.getDetails();
     this.getUOM();
     this.states();
+  },
+  created() {
+    if (window.screen.width > 600) {
+      this.isCollapsed1 = true;
+      this.isCollapsed2 = true;
+      this.isCollapsed3 = true;
+    }
+    window.addEventListener('resize', () => {
+      if (window.screen.width > 600) {
+        this.isCollapsed1 = true;
+        this.isCollapsed2 = true;
+        this.isCollapsed3 = true;
+      } else {
+        this.isCollapsed1 = false;
+        this.isCollapsed2 = false;
+        this.isCollapsed3 = false;
+      }
+    });
   },
 };
 </script>
