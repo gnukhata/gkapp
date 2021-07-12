@@ -958,7 +958,7 @@ export default {
                   name: 'Create_Voucher',
                   params: {
                     type: 'receipt',
-                    customer: -1,
+                    customer: '-1',
                   },
                 },
                 filterBy: {
