@@ -195,6 +195,7 @@
             min="0.01"
             @input="updateTaxAndTotal(data.item.index)"
             :readonly="disabled.rate"
+            :required="!disabled.rate"
           ></b-input>
           <span v-else>{{ form[data.item.index].rate }}</span>
         </template>
@@ -319,6 +320,7 @@ import axios from 'axios';
 import Autocomplete from '../../Autocomplete.vue';
 import BusinessItem from '../BusinessItem.vue';
 import { mapState } from 'vuex';
+import { debounceEvent } from '../../../js/utils';
 
 export default {
   name: 'BillTable',
@@ -1074,22 +1076,13 @@ export default {
 
     // add event listener for tracking screen size
     this.mobileMode = window.innerWidth < 576;
-    window.addEventListener(
-      'resize',
-      (function () {
-        let timeout;
-        return function () {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => {
-            self.mobileMode = window.innerWidth < 576;
-            if (!self.mobileMode) {
-              self.currentPage = 1;
-              self.editMode = false;
-            }
-          }, 100);
-        };
-      })()
-    );
+    debounceEvent(window, 'resize', () => {
+      self.mobileMode = window.innerWidth < 576;
+      if (!self.mobileMode) {
+        self.currentPage = 1;
+        self.editMode = false;
+      }
+    }, 100);
   },
 };
 </script>

@@ -36,6 +36,7 @@
               label-cols-lg="2"
               label-cols="3"
               label-size="sm"
+              label-class="required"
             >
               <b-form-input
                 size="sm"
@@ -53,6 +54,7 @@
               label-cols="3"
               label-size="sm"
               id="pod-input-group-1"
+              label-class="required"
             >
               <gk-date
                 id="pod-date-1"
@@ -195,16 +197,15 @@
             <b-form-group
               label="Terms"
               label-for="pod-input-80"
-              label-cols="3"
               label-size="sm"
-              label-cols-lg="4"
+              label-cols-lg="2"
+              label-cols="3"
             >
               <b-form-input
                 size="sm"
                 id="pod-input-80"
                 v-model="form.terms"
                 trim
-                required
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -212,8 +213,8 @@
             <b-form-group
               label="Credit Period"
               label-for="pod-input-90"
+              label-cols-lg="2"
               label-cols="3"
-              label-cols-lg="4"
               label-size="sm"
             >
               <b-form-input
@@ -221,7 +222,6 @@
                 id="pod-input-90"
                 v-model="form.creditPeriod"
                 trim
-                required
                 type="number"
                 no-wheel
                 min="0"
@@ -232,9 +232,10 @@
             <b-form-group
               :label="saleFlag ? 'Dispatch From' : 'Dispatch To'"
               label-for="pod-input-100"
+              label-cols-lg="2"
               label-cols="3"
-              label-cols-lg="auto"
               label-size="sm"
+              label-class="required"
             >
               <autocomplete
                 size="sm"

@@ -77,6 +77,7 @@
               label-for="ptd-input-10"
               label-cols="3"
               label-size="sm"
+              :label-class="{'required': !(editFlag || isNameDisabled)}"
             >
               <autocomplete
                 size="sm"

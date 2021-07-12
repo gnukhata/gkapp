@@ -4,31 +4,31 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <div class="mb-2">
-      <b-form-radio-group
-        v-model="form.type"
-        button-variant="outline-secondary"
-        size="sm"
-        buttons
-        class="mx-1"
-      >
-        <b-form-radio value="sale">Sale</b-form-radio>
-        <b-form-radio value="purchase">Purchase</b-form-radio>
-      </b-form-radio-group>
-      <span id="edit-invoice-list" class="d-inline-block">
-        <autocomplete
-          size="sm"
-          id="input-8-2"
-          v-model="invId"
-          :options="invList"
-          @input="updateInvoiceData(invId)"
-          required
-          placeholder="Invoice"
-        >
-        </autocomplete>
-      </span>
-    </div>
     <b-form @submit.prevent="onSubmit">
+      <div class="mb-2">
+        <b-form-radio-group
+          v-model="form.type"
+          button-variant="outline-secondary"
+          size="sm"
+          buttons
+          class="mx-1"
+        >
+          <b-form-radio value="sale">Sale</b-form-radio>
+          <b-form-radio value="purchase">Purchase</b-form-radio>
+        </b-form-radio-group>
+        <span id="edit-invoice-list" class="d-inline-block">
+          <autocomplete
+            size="sm"
+            id="input-8-2"
+            v-model="invId"
+            :options="invList"
+            @input="updateInvoiceData(invId)"
+            :required="true"
+            placeholder="Invoice"
+          >
+          </autocomplete>
+        </span>
+      </div>
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Debit Credit Note Details -->
         <dc-note-details
@@ -111,6 +111,7 @@
               :gstFlag="isGst"
               :billData="form.bill"
               :updateCounter="updateCounter.totalTable"
+              @details-updated="onComponentDataUpdate"
               :cgstFlag="isCgst"
               ref="totalTable"
             ></total-table>
@@ -264,7 +265,9 @@ export default {
         bill: [],
         transport: {},
         narration: null,
-        total: {},
+        total: {
+          amount: 0
+        },
       },
       invId: null,
       options: {
@@ -280,6 +283,7 @@ export default {
     };
   },
   computed: {
+    isFormValid: (self) => self.form.total.amount > 0,
     invList: (self) => {
       const noteType = self.isCredit ? 'crInvoices' : 'drInvoices';
       const invType = self.form.type;
@@ -327,6 +331,9 @@ export default {
         case 'bill-table':
           Object.assign(this.form.bill, payload.data);
           this.updateCounter.totalTable++;
+          break;
+        case 'total-table':
+          Object.assign(this.form.total, payload.data);
           break;
       }
     },
@@ -488,7 +495,7 @@ export default {
         drcrdate: this.form.dcNote.date,
         drcrno: this.form.dcNote.no,
         totreduct: this.form.total.amount,
-        dctypeflag: this.isCredit ? 4 : 3,
+        dctypeflag: this.isCredit ? 3 : 4,
         reductionval: {},
         drcrmode: isPrice ? 4 : 18,
         dcinvtnflag: this.form.dcNote.badQuality ? 2 : 7,
@@ -555,6 +562,7 @@ export default {
       return { dataset: drcrdata, vdataset };
     },
     resetForm() {
+      this.invId = null;
       Object.assign(this.form, {
         type: 'sale', // purchase
         dcNote: {
@@ -568,13 +576,7 @@ export default {
         },
         invoice: {
           no: null,
-          delNote: null,
-          ebn: null,
-          addr: null,
-          pin: null,
-          state: { id: null, name: null },
-          issuer: null,
-          role: null,
+          date: null,
         },
         party: {
           name: null,

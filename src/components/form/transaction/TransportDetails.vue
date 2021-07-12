@@ -32,13 +32,14 @@
           label-size="sm"
           label-cols="3"
           v-if="config.packageCount"
+          label-class="required"
         >
           <b-form-input
             size="sm"
             id="tpd-input-10"
             v-model="form.packageCount"
             type="number"
-            min="0"
+            min="1"
             no-wheel
             required
           ></b-form-input>
@@ -49,12 +50,14 @@
           label-size="sm"
           label-cols="3"
           v-if="config.mode"
+          label-class="required"
         >
           <b-form-select
             size="sm"
             id="tpd-input-20"
             v-model="form.mode"
             :options="options.transportModes"
+            required
           ></b-form-select>
         </b-form-group>
         <b-form-group
@@ -76,6 +79,7 @@
           label-cols="3"
           label-size="sm"
           id="tpd-input-group-1"
+          label-class="required"
         >
           <gk-date
             id="tpd-date-1"
@@ -94,6 +98,7 @@
           label-for="tpd-date-2"
           label-size="sm"
           v-if="config.receiptDate"
+          label-class="required"
         >
           <gk-date
           id="tpd-date-2"
