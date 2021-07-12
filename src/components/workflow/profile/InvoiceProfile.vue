@@ -301,7 +301,7 @@ export default {
             break;
           default:
             this.$bvToast.toast(
-              `Unable to Fetch Transaction Details! Please Try after sometime.`,
+              `Unable to Fetch Invoice Details! Please Try after sometime.`,
               {
                 title: `Fetch Transaction Details Error!`,
                 autoHideDelay: 3000,
@@ -315,13 +315,13 @@ export default {
     },
   },
   watch: {
-    id: function () {
-      this.fetchAndUpdateData();
+    id(newId) {
+      if (newId) this.fetchAndUpdateData();
     },
   },
   mounted() {
     // console.log("mounted")
-    this.fetchAndUpdateData();
+    if (this.id) this.fetchAndUpdateData();
   },
 };
 </script>

@@ -297,8 +297,8 @@ export default {
     },
   },
   watch: {
-    id: function () {
-      this.fetchAndUpdateData();
+    id: function (id) {
+      if (id) this.fetchAndUpdateData();
     },
   },
   mounted() {
