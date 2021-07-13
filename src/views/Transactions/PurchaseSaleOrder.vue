@@ -4,30 +4,34 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <div class="mb-2">
-      <b-form-radio-group
-        v-model="form.type"
-        button-variant="outline-secondary"
-        size="sm"
-        buttons
-        class="mx-1"
-        @input="updateConfig"
-      >
-        <b-form-radio value="sale">Sale</b-form-radio>
-        <b-form-radio value="purchase">Purchase</b-form-radio>
-      </b-form-radio-group>
-      <span class="float-right">
-        <config
-          title="Invoice Page Configuration"
-          getDefault="getDefaultInvoiceConfig"
-          setCustom="updateInvoiceConfig"
-          getCustom="getCustomInvoiceConfig"
-        >
-        </config>
-      </span>
-      <div class="clearfix"></div>
-    </div>
     <b-form @submit.prevent="confirmOnSubmit">
+      <div class="text-center pt-2">
+        <h4>Create {{ isSale ? 'Sale' : 'Purchase' }} Order</h4>
+      </div>
+      <hr />
+      <div class="mb-2">
+        <b-form-radio-group
+          v-model="form.type"
+          button-variant="outline-secondary"
+          size="sm"
+          buttons
+          class="mx-1"
+          @input="updateConfig"
+        >
+          <b-form-radio value="sale">Sale</b-form-radio>
+          <b-form-radio value="purchase">Purchase</b-form-radio>
+        </b-form-radio-group>
+        <span class="float-right">
+          <config
+            title="Invoice Page Configuration"
+            getDefault="getDefaultInvoiceConfig"
+            setCustom="updateInvoiceConfig"
+            getCustom="getCustomInvoiceConfig"
+          >
+          </config>
+        </span>
+        <div class="clearfix"></div>
+      </div>
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Buyer/Seller Details -->
         <party-details

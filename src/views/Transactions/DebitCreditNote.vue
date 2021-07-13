@@ -5,6 +5,10 @@
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
     <b-form @submit.prevent="confirmOnSubmit">
+      <div class="text-center pt-2">
+        <h4>Create {{ isCredit ? 'Credit' : 'Debit' }} Note</h4>
+      </div>
+      <hr />
       <div class="mb-2">
         <b-form-radio-group
           v-model="form.type"

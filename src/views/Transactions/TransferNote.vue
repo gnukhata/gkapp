@@ -4,19 +4,11 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <div class="mb-2">
-      <!-- <span class="float-right">
-        <config
-          title="Invoice Page Configuration"
-          getDefault="getDefaultTransferNoteConfig"
-          setCustom="updateTransferNoteConfig"
-          getCustom="getCustomTransferNoteConfig"
-        >
-        </config>
-      </span> -->
-      <div class="clearfix"></div>
-    </div>
     <b-form @submit.prevent="confirmOnSubmit">
+      <div class="text-center pt-2">
+        <h4>Create Transfer Note</h4>
+      </div>
+      <hr />
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Delivery Note Details -->
         <transfer-note-details

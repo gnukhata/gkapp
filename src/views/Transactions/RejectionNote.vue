@@ -5,6 +5,10 @@
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
     <b-form @submit.prevent="confirmOnSubmit">
+      <div class="text-center pt-2">
+        <h4>Create Rejection Note</h4>
+      </div>
+      <hr class="" />
       <div class="mb-2">
         <b-form-radio-group
           v-model="form.type"
@@ -161,7 +165,13 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
-    <print-page :show="showPrintModal" name="RejectionNote" title="Rejection Note" :id="rnoteId" :pdata="{}">
+    <print-page
+      :show="showPrintModal"
+      name="RejectionNote"
+      title="Rejection Note"
+      :id="rnoteId"
+      :pdata="{}"
+    >
     </print-page>
   </b-container>
 </template>
