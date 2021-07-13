@@ -42,7 +42,7 @@
           title="click to edit contact"
           variant="dark"
           size="sm"
-          ><b-icon icon="person"></b-icon> {{ data.item.user }}</b-link
+          >{{ data.item.user }}</b-link
         >
         <!-- <b>{{ data.item.user }} </b> -->
         <!-- <b-icon
