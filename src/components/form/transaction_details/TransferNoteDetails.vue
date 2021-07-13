@@ -175,6 +175,7 @@ export default {
           { text: 'Sample', value: 4 },
         ],
         godowns: [],
+        godownIdToName: [],
         states: [],
         lastDelChal: {
           sale: null,
@@ -228,7 +229,9 @@ export default {
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             let counter = resp.data.gkresult.length;
-            let code = this.config.no.format ? this.config.no.format.code : 'TN';
+            let code = this.config.no.format
+              ? this.config.no.format.code
+              : 'TN';
             this.form.no = this.formatNoteNo(
               this.numberFormat,
               counter + 1,
@@ -251,6 +254,8 @@ export default {
           name: 'transfer-note-details',
           options: {
             isDateValid: self.date.valid,
+            godownFrom: self.options.godownIdToName[self.form.godownFrom],
+            godownTo: self.options.godownIdToName[self.form.godownTo]
           },
         })
       );
@@ -374,12 +379,17 @@ export default {
           }
 
           if (resp2.data.gkstatus === 0) {
-            self.options.godowns = resp2.data.gkresult.map((godown) => {
-              return {
+            let idToName = {};
+            let godowns = [];
+            resp2.data.gkresult.forEach((godown) => {
+              godowns.push({
                 text: `${godown.goname} (${godown.goaddr})`,
                 value: godown.goid,
-              };
+              });
+              idToName[godown.goid] = godown.goname;
             });
+            self.options.godowns = godowns;
+            self.options.godownIdToName = idToName;
           }
 
           if (resp3.data.gkstatus === 0) {

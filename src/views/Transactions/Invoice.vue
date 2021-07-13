@@ -64,7 +64,7 @@
       </span>
       <div class="clearfix"></div>
     </div>
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="confirmOnSubmit">
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Buyer/Seller Details -->
         <party-details
@@ -500,6 +500,33 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
   },
   methods: {
+    confirmOnSubmit() {
+      this.updateCounter.inv++;
+      const self = this;
+      let text = `Create ${this.isSale ? 'Sale' : 'Purchase'} Invoice (${
+        this.form.inv.no
+      })?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
+    },
     collectComponentData() {
       Object.assign(this.form.inv, this.$refs.inv.form);
       Object.assign(this.form.party, this.$refs.party.form);

@@ -10,7 +10,7 @@
       <b-alert class="p-1" v-if="alertText" show variant="warning">{{
         alertText
       }}</b-alert>
-      <b-form class="text-left" @submit.prevent="onSubmit">
+      <b-form class="text-left" @submit.prevent="confirmOnSubmit">
         <b-form-group
           label="Group"
           label-for="acc-input-10"
@@ -45,7 +45,7 @@
             textField="subgroupname"
             valueField="groupcode"
             @input="onSubGroupSelect"
-            required
+            :required="false"
             valueUid="id"
             :readonly="
               !subGroups.length || flags.newSubGroup || disableFields.subGroup
@@ -437,6 +437,36 @@ export default {
         }
         return resp.data.gkstatus;
       });
+    },
+    confirmOnSubmit() {
+      const self = this;
+      let group = this.options.groupNameToCode[this.form.group];
+      let subGroup = this.options.groupNameToCode[this.form.subGroup];
+      let text = `Create Account <b>${this.form.name}</b> in (${group}) Group`;
+      if (subGroup) {
+        text += ` and (${subGroup}) Sub-Group`;
+      }
+      text += '?';
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
     },
     /**
      * onSubmit

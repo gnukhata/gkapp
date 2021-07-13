@@ -4,7 +4,7 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="confirmOnSubmit">
       <div class="mb-2">
         <b-form-radio-group
           v-model="form.type"
@@ -347,6 +347,36 @@ export default {
           Object.assign(this.form.total, payload.data);
           break;
       }
+    },
+    confirmOnSubmit() {
+      this.updateCounter.invoice++;
+      this.updateCounter.dcNote++;
+      const self = this;
+      let text = `Create ${this.isCredit ? 'Credit' : 'Debit'} Note (${
+        this.form.dcNote.no
+      }) for ${this.isSale ? 'Sale' : 'Purchase'} Invoice (${
+        this.form.invoice.no
+      })?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
     },
     onSubmit() {
       const self = this;

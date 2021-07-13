@@ -7,7 +7,7 @@
       <slot name="close-button"> </slot>
     </div>
     <div class="card-body pb-2">
-      <b-form class="text-left" @submit.prevent="onSubmit">
+      <b-form class="text-left" @submit.prevent="confirmOnSubmit">
         <b-row>
           <b-col cols="12" :md="inOverlay ? 12 : 6" lg="6">
             <b-form-group
@@ -197,6 +197,30 @@ export default {
     },
   },
   methods: {
+    confirmOnSubmit() {
+      const self = this;
+      let text = `Create Godown <b>${this.form.name}</b>?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
+    },
     onSubmit() {
       this.isLoading = true;
       // console.log('in submit')

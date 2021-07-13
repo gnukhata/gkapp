@@ -27,7 +27,7 @@
       </span>
       <div class="clearfix"></div>
     </div>
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="confirmOnSubmit">
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Delivery Note Details -->
         <cash-memo-details
@@ -148,7 +148,13 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
-    <print-page :show="showPrintModal" name="CashMemo" title="Cash Memo" :id="memoId" :pdata="{}">
+    <print-page
+      :show="showPrintModal"
+      name="CashMemo"
+      title="Cash Memo"
+      :id="memoId"
+      :pdata="{}"
+    >
     </print-page>
   </b-container>
 </template>
@@ -174,7 +180,7 @@ export default {
     Config,
     PaymentDetails,
     TotalTable,
-    PrintPage
+    PrintPage,
   },
   data() {
     return {
@@ -382,6 +388,33 @@ export default {
 
       // console.log({ invoice, stock });
       return { invoice, stock };
+    },
+    confirmOnSubmit() {
+      this.updateCounter.memo++;
+      const self = this;
+      let text = `Create Cash Memo (${this.form.memo.no}) for ${
+        this.isSale ? 'Sale' : 'Purchase'
+      }?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
     },
     onSubmit() {
       this.isLoading = true;

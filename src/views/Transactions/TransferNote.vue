@@ -16,7 +16,7 @@
       </span> -->
       <div class="clearfix"></div>
     </div>
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="confirmOnSubmit">
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Delivery Note Details -->
         <transfer-note-details
@@ -102,7 +102,13 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
-    <print-page :show="showPrintModal" name="TransferNote" title="Transfer Note" :id="tnoteId" :pdata="{}">
+    <print-page
+      :show="showPrintModal"
+      name="TransferNote"
+      title="Transfer Note"
+      :id="tnoteId"
+      :pdata="{}"
+    >
     </print-page>
   </b-container>
 </template>
@@ -142,6 +148,8 @@ export default {
         bill: 0,
         transport: 0,
       },
+      godownFrom: '',
+      godownTo: '',
       form: {
         transferNote: {
           godownFrom: -1,
@@ -190,6 +198,8 @@ export default {
         case 'transfer-note-details':
           Object.assign(this.form.transferNote, payload.data);
           this.isInvDateValid = payload.options.isDateValid;
+          this.godownFrom = payload.options.godownFrom;
+          this.godownTo = payload.options.godownTo;
           break;
       }
     },
@@ -202,6 +212,31 @@ export default {
       this.updateCounter.transferNote++;
       this.updateCounter.transport++;
       this.updateCounter.bill++;
+    },
+    confirmOnSubmit() {
+      this.updateCounter.transferNote++;
+      const self = this;
+      let text = `Create Transfer (${this.form.transferNote.no}) from Godown <b>${this.godownFrom}</b> to <b>${this.godownTo}</b>?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
     },
     onSubmit() {
       const self = this;

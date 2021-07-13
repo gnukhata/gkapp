@@ -17,7 +17,7 @@
       </b-form-radio-group>
       <div class="clearfix"></div>
     </div>
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="confirmOnSubmit">
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Buyer/Seller Details -->
         <party-details
@@ -485,6 +485,33 @@ export default {
       let day = date.getDate();
       day = day > 9 ? day : '0' + day;
       return `${date.getFullYear()}-${month}-${day}`;
+    },
+    confirmOnSubmit() {
+      this.updateCounter.delNote++;
+      const self = this;
+      let text = `Create Delivery Note (${this.form.delNote.no}) for ${
+        this.isSale ? 'Sale' : 'Purchase'
+      }?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
     },
     onSubmit() {
       let self = this;
