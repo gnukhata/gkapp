@@ -1,32 +1,36 @@
 <template>
-  <b-container style="min-width: 300px" fluid class="mt-2 px-md-3 px-2 align-form-label-right">
-    <div class="mb-2">
-      <b-form-radio-group
-        v-model="form.type"
-        button-variant="outline-secondary"
-        size="sm"
-        buttons
-        class="mx-1"
-        @input="resetForm(false)"
-      >
-        <b-form-radio value="sale">Sale Rejection</b-form-radio>
-        <b-form-radio value="purchase">Purchase Rejection</b-form-radio>
-      </b-form-radio-group>
-      <span id="edit-invoice-list" class="d-inline-block">
-        <autocomplete
-          size="sm"
-          id="input-8-2"
-          v-model="invIndex"
-          :options="invList"
-          required
-          @input="updateFormData"
-          placeholder="Invoice"
-        >
-        </autocomplete>
-      </span>
-      <div class="clearfix"></div>
-    </div>
+  <b-container
+    style="min-width: 300px"
+    fluid
+    class="mt-2 px-md-3 px-2 align-form-label-right"
+  >
     <b-form @submit.prevent="onSubmit">
+      <div class="mb-2">
+        <b-form-radio-group
+          v-model="form.type"
+          button-variant="outline-secondary"
+          size="sm"
+          buttons
+          class="mx-1"
+          @input="resetForm(false)"
+        >
+          <b-form-radio value="sale">Sale Rejection</b-form-radio>
+          <b-form-radio value="purchase">Purchase Rejection</b-form-radio>
+        </b-form-radio-group>
+        <span id="edit-invoice-list" class="d-inline-block">
+          <autocomplete
+            size="sm"
+            id="input-8-2"
+            v-model="invIndex"
+            :options="invList"
+            required
+            @input="updateFormData"
+            placeholder="Invoice"
+          >
+          </autocomplete>
+        </span>
+        <div class="clearfix"></div>
+      </div>
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Rejection Note Details -->
         <rejection-note-details
@@ -149,12 +153,16 @@
               class="align-middle"
               icon="x-circle"
             ></b-icon>
-            <span class="align-middle"> Reject {{(isSale)? 'Sale' : 'Purchase'}}</span>
+            <span class="align-middle">
+              Reject {{ isSale ? 'Sale' : 'Purchase' }}</span
+            >
           </span>
         </b-button>
       </div>
       <div class="clearfix"></div>
     </b-form>
+    <print-page :show="showPrintModal" name="RejectionNote" title="Rejection Note" :id="rnoteId" :pdata="{}">
+    </print-page>
   </b-container>
 </template>
 
@@ -173,7 +181,7 @@ import Comments from '../../components/form/transaction/Comments.vue';
 import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
 
 import rejectionNoteConfig from '../../js/config/transaction/rejectionNote.js';
-
+import PrintPage from '../../components/workflow/PrintPage.vue';
 import Autocomplete from '../../components/Autocomplete.vue';
 
 import { reverseDate } from '../../js/utils';
@@ -190,11 +198,14 @@ export default {
     // TransportDetails,
     Comments,
     InvoiceDetails,
+    PrintPage,
 
     Autocomplete,
   },
   data() {
     return {
+      showPrintModal: false,
+      rnoteId: 0,
       vuexNameSpace: '',
       isLoading: false,
       isInvDateValid: false,
@@ -355,7 +366,7 @@ export default {
     updateComponentData(updateNoteDetails) {
       this.updateCounter.invoice++;
       this.updateCounter.party++;
-      if(updateNoteDetails) {
+      if (updateNoteDetails) {
         this.updateCounter.rnote++;
       }
       this.updateCounter.bill++;
@@ -419,6 +430,8 @@ export default {
                   'success'
                 );
                 this.resetForm(true);
+                this.rnoteId = resp.data.gkresult;
+                this.showPrintModal = true;
                 break;
               case 1:
                 // Duplicate entry
@@ -576,12 +589,12 @@ export default {
     },
     /**
      * onRowSelected
-     * 
+     *
      * When a row is selected, that rejected quantity for that product is made equal
      * to qty available
      */
     onRowSelected(index, billArr) {
-      if(billArr[index].rowSelected) {
+      if (billArr[index].rowSelected) {
         billArr[index].rejectedQty = billArr[index].qty;
       } else {
         billArr[index].rejectedQty = 0;
@@ -590,8 +603,8 @@ export default {
     resetForm(resetNoteDetails) {
       Object.assign(this.form, {
         rnote: {
-          no: "",
-          date: ""
+          no: '',
+          date: '',
         },
         invoice: {
           no: null,

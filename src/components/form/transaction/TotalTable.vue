@@ -126,11 +126,12 @@ export default {
         text: this.totalText,
         roundFlag: this.form.roundFlag,
       };
+      this.onUpdateDetails();
     },
   },
   computed: {
     totalText: (self) => {
-      let total = self.getTotal('total');
+      let total = self.form.amount;
       let text = '';
       if (total > 0) {
         if (self.form.roundFlag) {
@@ -147,6 +148,14 @@ export default {
     },
   },
   methods: {
+    onUpdateDetails() {
+      setTimeout(() =>
+        this.$emit('details-updated', {
+          data: this.form,
+          name: 'total-table',
+        })
+      );
+    },
     /**
      * getTotal(key)
      *

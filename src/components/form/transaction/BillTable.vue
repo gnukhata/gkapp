@@ -195,6 +195,7 @@
             min="0.01"
             @input="updateTaxAndTotal(data.item.index)"
             :readonly="disabled.rate"
+            :required="!disabled.rate"
           ></b-input>
           <span v-else>{{ form[data.item.index].rate }}</span>
         </template>
@@ -319,6 +320,7 @@ import axios from 'axios';
 import Autocomplete from '../../Autocomplete.vue';
 import BusinessItem from '../BusinessItem.vue';
 import { mapState } from 'vuex';
+import { debounceEvent } from '../../../js/utils';
 
 export default {
   name: 'BillTable',
@@ -609,13 +611,9 @@ export default {
         axios.get(`/tax?pscflag=p&productcode=${id}`).catch((error) => {
           return error;
         }),
-        axios
-          .get(
-            `${stockPath}${stockParams}`
-          )
-          .catch((error) => {
-            return error;
-          }),
+        axios.get(`${stockPath}${stockParams}`).catch((error) => {
+          return error;
+        }),
       ];
       return Promise.all([...requests]).then(([resp1, resp2, resp3]) => {
         self.isLoading = false;
@@ -739,22 +737,33 @@ export default {
     onBusinessSave() {
       this.showBusinessForm = false;
       let self = this;
+
+      /**
+       * Fetching the business list, clears the options variable and repopulates it.
+       * This action makes the autocomplete component's value null. To counter this
+       * the table data is copied by value before that and pasted afterwards.
+       */
+
+      let tableData = this.form.map((item) => {
+        return { id: item.product.id, name: item.product.name };
+      });
       this.fetchBusinessList().then(() => {
         let billCount = self.form.length;
         let productCount = self.options.products.length;
-        if (self.form[billCount - 1].product.id !== null) {
+        tableData.forEach((item, i) => {
+          self.form[i].product = item;
+        });
+        if (self.form[billCount - 1].product.id) {
           self.addBillItem();
           billCount++;
         }
-        setTimeout(() => {
-          self.form[billCount - 1].product =
-            self.options.products[productCount - 1].value;
-          self.fetchProductDetails(
-            self.options.products[productCount - 1].id,
-            productCount - 1
-          );
-          self.$forceUpdate();
-        }, 100);
+        self.form[billCount - 1].product =
+          self.options.products[productCount - 1].value;
+        self.fetchProductDetails(
+          self.options.products[productCount - 1].id,
+          billCount - 1
+        );
+        self.$forceUpdate();
       });
     },
     /**
@@ -1067,22 +1076,13 @@ export default {
 
     // add event listener for tracking screen size
     this.mobileMode = window.innerWidth < 576;
-    window.addEventListener(
-      'resize',
-      (function () {
-        let timeout;
-        return function () {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => {
-            self.mobileMode = window.innerWidth < 576;
-            if (!self.mobileMode) {
-              self.currentPage = 1;
-              self.editMode = false;
-            }
-          }, 100);
-        };
-      })()
-    );
+    debounceEvent(window, 'resize', () => {
+      self.mobileMode = window.innerWidth < 576;
+      if (!self.mobileMode) {
+        self.currentPage = 1;
+        self.editMode = false;
+      }
+    }, 100);
   },
 };
 </script>

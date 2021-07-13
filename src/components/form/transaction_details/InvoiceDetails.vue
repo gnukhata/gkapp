@@ -28,120 +28,115 @@
         </b-button>
       </div>
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
+        <b-form-group
+          v-if="config.no"
+          label="Inv. No."
+          label-for="ivd-input-10"
+          label-cols-lg="2"
+          label-cols="3"
+          label-size="sm"
+        >
+          <b-form-input
+            size="sm"
+            id="ivd-input-10"
+            v-model="form.no"
+            trim
+            required
+            :readonly="disabled.no"
+            :tabindex="disabled.no ? -1 : 0"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          v-if="config.date"
+          label="Date"
+          label-cols-lg="2"
+          label-cols="3"
+          label-size="sm"
+          id="ivd-input-group-1"
+        >
+          <gk-date
+            id="ivd-date-1"
+            :format="dateFormat"
+            v-model="form.date"
+            :min="minDate"
+            :max="maxDate"
+            @validity="setDateValidity"
+            :required="true"
+            :readonly="disabled.date"
+          >
+          </gk-date>
+        </b-form-group>
+        <b-form-group
+          v-if="config.delNote"
+          label="Del. Note"
+          label-for="ivd-input-20"
+          label-cols-lg="2"
+          label-cols="3"
+          label-size="sm"
+        >
+          <autocomplete
+            size="sm"
+            id="ivd-input-20"
+            v-model="form.delNote"
+            :options="delNoteOptions"
+            @input="onUpdateDetails"
+            :required="false"
+          ></autocomplete>
+        </b-form-group>
+        <b-form-group
+          v-if="saleFlag && config.ebn"
+          label="EBN"
+          label-for="ivd-input-30"
+          label-cols-lg="2"
+          label-cols="3"
+          label-size="sm"
+        >
+          <b-form-input
+            size="sm"
+            id="ivd-input-30"
+            v-model="form.ebn"
+            trim
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          v-if="config.gstin"
+          label="GSTIN"
+          label-for="ivd-input-40"
+          label-cols-lg="2"
+          label-cols="3"
+          label-size="sm"
+        >
+          <b-form-input
+            size="sm"
+            id="ivd-input-40"
+            v-model="form.gstin"
+            trim
+            required
+            readonly
+            tabindex="-1"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          v-if="saleFlag && config.addr"
+          label-cols-lg="2"
+          label-cols="3"
+          label="Address"
+          label-for="ivd-input-50"
+          label-size="sm"
+        >
+          <b-form-textarea
+            size="sm"
+            id="ivd-input-50"
+            v-model="form.addr"
+            rows="2"
+            max-rows="2"
+            trim
+            required
+            readonly
+            tabindex="-1"
+          ></b-form-textarea>
+        </b-form-group>
         <b-row>
-          <b-col v-if="config.no" cols="12">
-            <b-form-group
-              label="Inv. No."
-              label-for="ivd-input-10"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
-            >
-              <b-form-input
-                size="sm"
-                id="ivd-input-10"
-                v-model="form.no"
-                trim
-                required
-                :readonly="disabled.no"
-                :tabindex="disabled.no ? -1 : 0"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col v-if="config.date" cols="12">
-            <b-form-group
-              label="Date"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
-              id="ivd-input-group-1"
-            >
-              <gk-date
-                id="ivd-date-1"
-                :format="dateFormat"
-                v-model="form.date"
-                :min="minDate"
-                :max="maxDate"
-                @validity="setDateValidity"
-                :required="true"
-                :readonly="disabled.date"
-              >
-              </gk-date>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col v-if="config.delNote" class="pr-lg-2" cols="12" lg="6">
-            <b-form-group
-              label="Del. Note"
-              label-for="ivd-input-20"
-              label-cols-lg="4"
-              label-cols="3"
-              label-size="sm"
-            >
-              <b-form-select
-                size="sm"
-                id="ivd-input-20"
-                v-model="form.delNote"
-              ></b-form-select>
-            </b-form-group>
-          </b-col>
-          <b-col class="pl-lg-2" v-if="saleFlag && config.ebn">
-            <b-form-group
-              label="EBN"
-              label-for="ivd-input-30"
-              label-cols-lg="4"
-              label-cols="3"
-              label-size="sm"
-            >
-              <b-form-input
-                size="sm"
-                id="ivd-input-30"
-                v-model="form.ebn"
-                trim
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12" v-if="config.gstin">
-            <b-form-group
-              label="GSTIN"
-              label-for="ivd-input-40"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
-            >
-              <b-form-input
-                size="sm"
-                id="ivd-input-40"
-                v-model="form.gstin"
-                trim
-                required
-                readonly
-                tabindex="-1"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12" v-if="saleFlag && config.addr">
-            <b-form-group
-              label-cols-lg="2"
-              label-cols="3"
-              label="Address"
-              label-for="ivd-input-50"
-              label-size="sm"
-            >
-              <b-form-textarea
-                size="sm"
-                id="ivd-input-50"
-                v-model="form.addr"
-                rows="2"
-                max-rows="2"
-                trim
-                required
-                readonly
-                tabindex="-1"
-              ></b-form-textarea>
-            </b-form-group>
-          </b-col>
           <b-col class="pr-lg-2" cols="12" lg="6" v-if="saleFlag && config.pin">
             <b-form-group
               label-cols-lg="4"
@@ -243,11 +238,12 @@
 import axios from 'axios';
 // import { mapState } from 'vuex';
 import GkDate from '../../GkDate.vue';
+import Autocomplete from '../../Autocomplete.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 
 export default {
   name: 'InvoiceDetails',
-  components: { GkDate },
+  components: { GkDate, Autocomplete },
   mixins: [trnDetailsMixin],
   props: {
     saleFlag: {
@@ -298,10 +294,18 @@ export default {
       options: {
         states: [],
         orgDetails: {},
+        delNotes: {
+          sale:[],
+          purchase: []
+        },
       },
     };
   },
   computed: {
+    delNoteOptions: (self) =>
+      self.saleFlag
+        ? self.options.delNotes.sale
+        : self.options.delNotes.purchase,
     disabled: (self) => {
       let disabled = {
         no: false,
@@ -326,19 +330,20 @@ export default {
   watch: {
     updateCounter() {
       this.resetForm();
-
       if (this.parentData.no) {
         this.form.no = this.parentData.no;
       }
-
       if (this.parentData.date) {
         this.form.date = this.parentData.date;
+      }
+      if (this.parentData.state) {
+        this.form.state = this.parentData.state;
       }
       this.onUpdateDetails();
     },
     saleFlag() {
       this.setInvoiceNo();
-    }
+    },
   },
   methods: {
     setDateValidity(validity) {
@@ -423,6 +428,34 @@ export default {
           return error;
         });
     },
+    fetchDelNotes() {
+      const self = this;
+      axios
+        .get(
+          `/invoice?unbilled_delnotes&inputdate=${this.form.date}&type=invoice`
+        )
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            self.options.delNotes = {
+              sale: [],
+              purchase: [],
+            };
+            resp.data.gkresult.forEach((delNote) => {
+              if (delNote.inoutflag === 15) {
+                self.options.delNotes.sale.push({
+                  text: `${delNote.dcno},${delNote.dcdate},${delNote.custname}`,
+                  value: delNote.dcid,
+                });
+              } else {
+                self.options.delNotes.purchase.push({
+                  text: `${delNote.dcno},${delNote.dcdate},${delNote.custname}`,
+                  value: delNote.dcid,
+                });
+              }
+            });
+          }
+        });
+    },
     setOrgDetails() {
       if (this.options.orgDetails !== null) {
         if (this.options.orgDetails.orgname) {
@@ -464,6 +497,7 @@ export default {
           return error;
         }),
         this.fetchUserData(),
+        this.fetchDelNotes(),
       ];
       const self = this;
       return Promise.all([...requests])
@@ -493,8 +527,15 @@ export default {
     },
     resetForm() {
       this.setOrgDetails();
-      this.form.date = this.getNoteDate();
-      this.setInvoiceNo(true);
+      if (this.disabled.state) {
+        this.form.state = '';
+      }
+      this.form.date = !this.disabled.date ? this.getNoteDate() : '';
+      if (!this.disabled.no) {
+        this.setInvoiceNo(true);
+      } else {
+        this.form.no = '';
+      }
       this.onUpdateDetails();
     },
   },

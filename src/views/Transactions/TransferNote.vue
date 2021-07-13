@@ -102,6 +102,8 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
+    <print-page :show="showPrintModal" name="TransferNote" title="Transfer Note" :id="tnoteId" :pdata="{}">
+    </print-page>
   </b-container>
 </template>
 
@@ -115,6 +117,7 @@ import BillTable from '../../components/form/transaction/BillTable.vue';
 import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import TransferNoteDetails from '../../components/form/transaction_details/TransferNoteDetails.vue';
 
+import PrintPage from '../../components/workflow/PrintPage.vue';
 import TransferNoteConfig from '../../js/config/transaction/transferNote.js';
 
 export default {
@@ -125,9 +128,12 @@ export default {
     BillTable,
     TransportDetails,
     TransferNoteDetails,
+    PrintPage,
   },
   data() {
     return {
+      showPrintModal: false,
+      tnoteId: 0,
       vuexNameSpace: '',
       isLoading: false,
       isInvDateValid: false,
@@ -220,6 +226,8 @@ export default {
                   'success'
                 );
                 this.resetForm();
+                this.tnoteId = resp.data.gkresult;
+                this.showPrintModal = true;
                 break;
               case 1:
                 // Duplicate entry

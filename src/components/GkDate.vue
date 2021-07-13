@@ -12,6 +12,7 @@
         :tabindex="readonly ? -1 : 0"
         :state="isInputValid && isDateValid"
         :required="required"
+        :style="inputStyle"
       ></b-form-input>
       <b-input-group-append>
         <b-form-datepicker
@@ -93,6 +94,11 @@ export default {
       required: false,
       default: false,
     },
+    inputStyle: {
+      type: Object,
+      required: false,
+      default: () => {return {}}
+    }
   },
   data() {
     return {

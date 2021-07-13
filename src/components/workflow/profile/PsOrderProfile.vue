@@ -223,7 +223,7 @@ export default {
             break;
           default:
             this.$bvToast.toast(
-              `Unable to Fetch Transaction Details! Please Try after sometime.`,
+              `Unable to Fetch Purchase Sales Order Details! Please Try after sometime.`,
               {
                 title: `Fetch Transaction Details Error!`,
                 autoHideDelay: 3000,
@@ -237,8 +237,8 @@ export default {
     },
   },
   watch: {
-    id: function () {
-      this.fetchAndUpdateData();
+    id: function (id) {
+      if (id) this.fetchAndUpdateData();
     },
   },
   mounted() {

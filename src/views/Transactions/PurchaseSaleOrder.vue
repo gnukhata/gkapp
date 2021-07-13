@@ -192,6 +192,14 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
+    <print-page
+      :show="showPrintModal"
+      name="PurchaseSalesOrder"
+      :title="isSale ? 'Sale Order' : 'Purchase Order'"
+      :id="orderId"
+      :pdata="{}"
+    >
+    </print-page>
   </b-container>
 </template>
 
@@ -210,6 +218,7 @@ import Comments from '../../components/form/transaction/Comments.vue';
 import PsOrderDetails from '../../components/form/transaction_details/PsOrderDetails.vue';
 import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue';
 
+import PrintPage from '../../components/workflow/PrintPage.vue';
 import psOrderConfig from '../../js/config/transaction/purchaseSalesOrder';
 
 export default {
@@ -225,6 +234,7 @@ export default {
     Comments,
     PsOrderDetails,
     PaymentDetails,
+    PrintPage,
   },
   data() {
     return {
@@ -241,6 +251,7 @@ export default {
         taxType: true,
         bill: {
           footer: { total: true },
+          qty: {},
         },
         payment: {
           bank: {},
@@ -254,6 +265,8 @@ export default {
         },
         total: {},
       },
+      showPrintModal: false,
+      orderId: 0,
       vuexNameSpace: '',
       isLoading: false,
       isInvDateValid: false,
@@ -384,7 +397,7 @@ export default {
 
       if (this.form.narration) orderData.psnarration = this.form.narration;
       if (this.form.psOrder.godown)
-        orderData.togodown = this.form.psOrder.gmdown;
+        orderData.togodown = this.form.psOrder.godown;
       if (this.form.transport.date)
         orderData.dateofsupply = this.form.transport.date;
 
@@ -495,6 +508,8 @@ export default {
                   'success'
                 );
                 this.resetForm();
+                this.orderId = resp.data.gkresult;
+                this.showPrintModal = true;
                 break;
               case 1:
                 // Duplicate entry
@@ -670,9 +685,7 @@ export default {
           },
           taxType: true,
           bill: {
-            footer: {
-              headingColspan: 1,
-            },
+            qty: {},
           },
           payment: {
             bank: {},

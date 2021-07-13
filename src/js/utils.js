@@ -92,4 +92,17 @@ function formatDateObj(date) {
   return `${date.getFullYear()}-${month}-${day}`;
 }
 
-export { numberToWords, numberToRupees, reverseDate, formatDateObj }
+function debounceEvent(target, event, handler, interval) {
+  target.addEventListener(
+    event,
+    (function () {
+      let timeout;
+      return function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(handler, interval);
+      };
+    })()
+  );
+}
+
+export { numberToWords, numberToRupees, reverseDate, formatDateObj, debounceEvent }

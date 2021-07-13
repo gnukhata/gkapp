@@ -677,7 +677,7 @@ export default {
       );
       let self = this;
       this.preloadData().then(() => {
-        if (self.customer !== null) {
+        if (self.customer !== '-1') {
           if (self.type === 'receipt') {
             self.form.dr[0].account = self.options.dr.find(
               (acc) => acc.accountname === 'Bank A/C'

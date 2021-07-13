@@ -121,6 +121,7 @@
         :parentData="form.bill"
         :cgstFlag="isCgst"
         ref="bill"
+        :godownId="goid"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
@@ -237,6 +238,14 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
+    <print-page
+      :show="showPrintModal"
+      name="Invoice"
+      title="Invoice"
+      :id="invoiceId"
+      :pdata="{}"
+    >
+    </print-page>
   </b-container>
 </template>
 
@@ -252,6 +261,8 @@ import TransportDetails from '../../components/form/transaction/TransportDetails
 import Comments from '../../components/form/transaction/Comments.vue';
 import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue';
 import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
+
+import PrintPage from '../../components/workflow/PrintPage.vue';
 
 import Config from '../../components/Config.vue';
 
@@ -270,6 +281,8 @@ export default {
     PaymentDetails,
     TransportDetails,
     Comments,
+
+    PrintPage,
   },
   props: {
     mode: {
@@ -287,9 +300,11 @@ export default {
   data() {
     return {
       // config: {},
+      showPrintModal: false,
       vuexNameSpace: '',
       formMode: '',
-      invoiceId: '',
+      invoiceId: 0,
+      goid: -1,
       updateCounter: {
         party: 0,
         ship: 0,
@@ -509,6 +524,9 @@ export default {
       switch (payload.name) {
         case 'invoice-details':
           {
+            if (payload.data.delNote !== this.form.inv.delNote) {
+              this.fetchDelNoteData(payload.data.delNote);
+            }
             Object.assign(this.form.inv, payload.data);
             this.form.transport.date = this.form.inv.date;
             const self = this;
@@ -530,7 +548,104 @@ export default {
           break;
       }
     },
+    fetchDelNoteData(dcid) {
+      if (!dcid) return;
+      this.isPreloading = true;
+      let self = this;
+      axios
+        .get(`/delchal?delchal=single&dcid=${dcid}`)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            const data = resp.data.gkresult,
+              dcdata = resp.data.gkresult.delchaldata;
+            // console.log(resp.data);
+            let invState =
+              dcdata.inoutflag === 15 // if sale inv state will be source else it will destination
+                ? self.options.states.find(
+                    (state) => state.text === data.sourcestate
+                  )
+                : self.options.states.find(
+                    (state) => state.text === data.destinationstate
+                  );
+            // set invoice details
+            self.form.type = dcdata.inoutflag === 15 ? 'sale' : 'purchase';
+            Object.assign(self.form.inv, {
+              state: invState ? invState.value : {},
+              issuer: dcdata.issuername,
+              role: dcdata.designation,
+            });
 
+            self.goid = dcdata.goid;
+            self.form.ship.copyFlag =
+              dcdata.consignee.consigneename === data.custSupDetails.custname &&
+              dcdata.consignee.consigneeaddress ===
+                data.custSupDetails.custaddr;
+
+            self.form.taxType = dcdata.taxflag === 7 ? 'gst' : 'vat';
+            self.form.transport = {
+              mode: dcdata.modeoftransport,
+              vno: dcdata.vehicleno,
+              date: data.dateofsupply,
+            };
+            self.form.total.roundFlag = !!dcdata.roundoffflag;
+
+            self.form.party.type =
+              data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+            self.$nextTick().then(() => {
+              self.form.party.name = data.custSupDetails.custname;
+
+              // set shipping details
+              if (!self.form.ship.copyFlag) {
+                let ship = dcdata.consignee;
+                if (ship) {
+                  Object.assign(self.form.ship, {
+                    name: ship.consigneename,
+                    addr: ship.consigneeaddress,
+                    state: {
+                      name: ship.consigneestate,
+                      id: ship.consigneestatecode,
+                    },
+                    gstin: ship.gstinconsignee,
+                    tin: ship.tinconsignee,
+                    pin: ship.consigneepincode,
+                  });
+                }
+              }
+              self.updateComponentData();
+              self.isPreloading = false;
+            });
+
+            // set bill items
+            self.form.bill = [];
+            for (const itemCode in data.delchalContents) {
+              let item = data.delchalContents[itemCode];
+              let billItem = {
+                product: item.proddesc,
+                discount: { amount: parseFloat(item.discount) },
+                qty: parseFloat(item.qty),
+                fqty: item.freeqty,
+                rate: parseFloat(item.priceperunit),
+                isService: false,
+                igst: { rate: 0 },
+                cgst: { rate: 0 },
+                sgst: { rate: 0 },
+                cess: { rate: 0 },
+                vat: { rate: 0 },
+              };
+              self.form.bill.push(billItem);
+            }
+
+            self.updateComponentData();
+          }
+        })
+        .catch((error) => {
+          this.displayToast(
+            `Fetch Delivery Note data Error!`,
+            error.message,
+            'warning'
+          );
+        });
+    },
     preloadData() {
       this.isPreloading = true;
       const requests = [
@@ -841,7 +956,8 @@ export default {
             switch (resp.data.gkstatus) {
               case 0:
                 // success
-
+                this.invoiceId = resp.data.gkresult;
+                this.showPrintModal = true;
                 this.displayToast(
                   `${actionText} Invoice Successfull!`,
                   `Invoice saved with entry no. ${
@@ -893,7 +1009,6 @@ export default {
     initPayload() {
       this.collectComponentData();
       let invoice = {
-        // dcid: null, // Has to be filled when Delivery Note is implemented. If no Deliver Note is available skip this property
         invoiceno: this.form.inv.no,
         ewaybillno: this.form.inv.ebn,
         invoicedate: this.form.inv.date,
@@ -924,6 +1039,11 @@ export default {
         discflag: 1,
         invnarration: this.form.narration,
       };
+
+      // === Delivery Note ===
+      if (this.form.inv.delNote) {
+        invoice.dcid = this.form.inv.delNote;
+      }
 
       // === Sale / Purchase related data ===
       if (this.isSale) {
@@ -1178,7 +1298,7 @@ export default {
   mounted() {
     // Using non props to store these props, as these can be edited in the future
     this.formMode = this.mode;
-    this.invoiceId = this.invid;
+    this.invoiceId = parseInt(this.invid);
     this.initForm();
   },
   beforeDestroy() {

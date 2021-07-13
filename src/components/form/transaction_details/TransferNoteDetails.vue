@@ -33,6 +33,7 @@
           label-cols-md="4"
           label-cols="3"
           label-size="sm"
+          label-class="required"
         >
           <b-form-input
             size="sm"
@@ -49,6 +50,7 @@
           label-cols="3"
           label-for="tnd-date-1"
           label-size="sm"
+          label-class="required"
         >
           <gk-date
             id="tnd-date-1"
@@ -66,6 +68,7 @@
           label-size="sm"
           label-cols-md="4"
           label-cols="3"
+          label-class="required"
         >
           <autocomplete
             size="sm"
@@ -83,6 +86,7 @@
           label-size="sm"
           label-cols-md="4"
           label-cols="3"
+          label-class="required"
         >
           <autocomplete
             size="sm"
