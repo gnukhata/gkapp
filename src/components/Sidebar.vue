@@ -86,9 +86,12 @@
           <b-nav-item to="/stock-on-hand">
             <b-icon icon="receipt"></b-icon> Stock On Hand
           </b-nav-item>
-          <b-nav-item to="/about"
-            ><b-icon icon="info-circle"></b-icon> About</b-nav-item
-          >
+          <b-nav-item to="/accounts">
+            <b-icon icon="files-alt"></b-icon> Accounts
+          </b-nav-item>
+          <b-nav-item to="/about">
+            <b-icon icon="info-circle"></b-icon> About
+          </b-nav-item>
         </b-nav>
       </template>
     </b-sidebar>
