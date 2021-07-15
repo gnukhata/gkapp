@@ -311,7 +311,11 @@ export default {
             delete this.details.unitname;
 
             if (this.godowns.length > 0) {
-              payload['godetails'] = this.godowns;
+              let godowns = {};
+              this.godowns.forEach((godown) => {
+                godowns[godown.goid] = godown.goopeningstock;
+              });
+              payload['godetails'] = godowns;
               payload.godownflag = true;
             }
             axios
