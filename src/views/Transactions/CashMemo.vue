@@ -433,20 +433,28 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
+                {
+                  // success
 
-                this.displayToast(
-                  `Create Cash Memo Successfull!`,
-                  `Cash Memo saved with entry no. ${
-                    resp.data.invoiceid ||
-                    resp.data.gkresult ||
-                    resp.data.vchData.vchno
-                  }`,
-                  'success'
-                );
-                this.showPrintModal = true;
-                this.memoId = resp.data.gkresult;
-                this.resetForm();
+                  this.displayToast(
+                    `Create Cash Memo Successfull!`,
+                    `Cash Memo saved with entry no. ${
+                      resp.data.invoiceid ||
+                      resp.data.gkresult ||
+                      resp.data.vchData.vchno
+                    }`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `cash memo created: ${self.form.memo.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  this.showPrintModal = true;
+                  this.memoId = resp.data.gkresult;
+                  this.resetForm();
+                }
                 break;
               case 1:
                 // Duplicate entry

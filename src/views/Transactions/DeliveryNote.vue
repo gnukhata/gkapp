@@ -183,7 +183,13 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
-    <print-page :show="showPrintModal" name="DeliveryNote" title="Delivery Note" :id="delNoteId" :pdata="{}">
+    <print-page
+      :show="showPrintModal"
+      name="DeliveryNote"
+      title="Delivery Note"
+      :id="delNoteId"
+      :pdata="{}"
+    >
     </print-page>
   </b-container>
 </template>
@@ -533,16 +539,26 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                console.log(resp.data);
-                this.displayToast(
-                  `${actionText} Delivery Note Successfull!`,
-                  `Delivery Note ${payload.delchaldata.dcno} was successfully ${actionText}`,
-                  'success'
-                );
-                this.delNoteId = resp.data.gkresult;
-                this.showPrintModal = true;
-                this.resetForm();
+                {
+                  // success
+                  console.log(resp.data);
+                  this.displayToast(
+                    `${actionText} Delivery Note Successfull!`,
+                    `Delivery Note ${payload.delchaldata.dcno} was successfully ${actionText}`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `delivery note ${
+                      self.formMode === 'create' ? 'created' : 'updated'
+                    }: ${self.form.delNote.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  this.delNoteId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                  this.resetForm();
+                }
                 break;
               case 1:
                 // Duplicate entry

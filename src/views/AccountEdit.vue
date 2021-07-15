@@ -353,8 +353,11 @@ export default {
             `Account: ${self.form.name} was Updated Successfully!`,
             'success'
           );
+          
+          let log = { activity: `account updated: ${self.form.name}` };
+          axios.post('/log', log);
+
           self.fetchAccountDetails();
-          self.$emit('account-edited');
         } else {
           self.displayToast(
             'Edit Account Failed',
@@ -646,7 +649,6 @@ export default {
     },
   },
   mounted() {
-    const self = this;
     this.preloadData().then(() => {
       this.fetchAccountDetails();
     });

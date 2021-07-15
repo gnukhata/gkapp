@@ -596,27 +596,46 @@ export default {
     onSubmit() {
       this.isLoading = true;
       const payload = this.initPayload();
+      const self = this;
       // console.log(payload);
       // return;
       axios
         .post('/transaction', payload)
         .then((response) => {
           // console.log(response)
-          this.isLoading = false;
+          self.isLoading = false;
           switch (response.data.gkstatus) {
             case 0:
-              this.displayToast(
-                'Create Voucher Success!',
-                'Voucher Created Successfully!',
-                'success'
-              );
-              if (this.onSave !== null) {
-                this.onSave(response.data);
+              {
+                self.displayToast(
+                  'Create Voucher Success!',
+                  'Voucher Created Successfully!',
+                  'success'
+                );
+                const accMap = self.options.acc;
+                let dr = self.form.dr.reduce(
+                  (acc, dr) => acc + `${accMap[dr.account]}, `,
+                  ''
+                );
+                let cr = self.form.cr.reduce(
+                  (acc, cr) => acc + `${accMap[cr.account]}, `,
+                  ''
+                );
+                dr = dr.substring(0, dr.length - 2);
+                cr = cr.substring(0, cr.length - 2);
+                let log = {
+                  activity: `${self.type} voucher created: dr [ ${dr} ], cr [ ${cr} ]`,
+                };
+                axios.post('/log', log);
+
+                if (self.onSave !== null) {
+                  self.onSave(response.data);
+                }
+                self.resetForm();
               }
-              this.resetForm();
               break;
             default:
-              this.displayToast(
+              self.displayToast(
                 'Create Voucher Failure!',
                 'Voucher Creation Failed!',
                 'danger'
@@ -624,8 +643,8 @@ export default {
           } // end switch
         })
         .catch((error) => {
-          this.isLoading = false;
-          this.displayToast('Create Voucher Failure!', error.message, 'danger');
+          self.isLoading = false;
+          self.displayToast('Create Voucher Failure!', error.message, 'danger');
         });
     },
     initPayload() {

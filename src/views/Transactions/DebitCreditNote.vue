@@ -412,6 +412,12 @@ export default {
                     message,
                     vchCode.vflag === 0 ? 'warning' : 'success'
                   );
+
+                  let log = {
+                    activity: `${(noteType).toLowerCase()} note created: ${self.form.dcNote.no}`,
+                  };
+                  axios.post('/log', log);
+
                   self.resetForm();
                   this.dcnoteId = resp.data.gkresult;
                   this.showPrintModal = true;

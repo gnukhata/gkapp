@@ -531,16 +531,26 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                console.log(resp.data);
-                this.displayToast(
-                  `Create ${orderType} Successfull!`,
-                  `${orderType} was successfully created`,
-                  'success'
-                );
-                this.resetForm();
-                this.orderId = resp.data.gkresult;
-                this.showPrintModal = true;
+                {
+                  // success
+                  console.log(resp.data);
+                  this.displayToast(
+                    `Create ${orderType} Successfull!`,
+                    `${orderType} was successfully created`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `${orderType.toLowerCase()} created: ${
+                      self.form.psOrder.no
+                    }`,
+                  };
+                  axios.post('/log', log);
+
+                  this.resetForm();
+                  this.orderId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                }
                 break;
               case 1:
                 // Duplicate entry

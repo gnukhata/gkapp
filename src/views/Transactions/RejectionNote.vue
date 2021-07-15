@@ -460,16 +460,24 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                console.log(resp.data);
-                this.displayToast(
-                  `Create Rejection Note Successfull!`,
-                  `Rejection Note #${self.form.rnote.no} was successfully created`,
-                  'success'
-                );
-                this.resetForm(true);
-                this.rnoteId = resp.data.gkresult;
-                this.showPrintModal = true;
+                {
+                  // success
+                  console.log(resp.data);
+                  this.displayToast(
+                    `Create Rejection Note Successfull!`,
+                    `Rejection Note #${self.form.rnote.no} was successfully created`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `rejection note created: ${self.form.rnote.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  this.resetForm(true);
+                  this.rnoteId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                }
                 break;
               case 1:
                 // Duplicate entry

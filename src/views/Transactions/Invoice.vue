@@ -496,7 +496,7 @@ export default {
         : null;
     },
     editableInvoices: (self) => {
-      return self.options.editableInvoices[self.form.type]
+      return self.options.editableInvoices[self.form.type];
     },
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
@@ -985,20 +985,30 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                this.invoiceId = resp.data.gkresult;
-                this.showPrintModal = true;
-                this.displayToast(
-                  `${actionText} Invoice Successfull!`,
-                  `Invoice saved with entry no. ${
-                    resp.data.invoiceid ||
-                    resp.data.gkresult ||
-                    resp.data.vchData.vchno
-                  }`,
-                  'success'
-                );
-                if (this.formMode === 'create') {
-                  this.resetForm();
+                {
+                  // success
+                  this.invoiceId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                  this.displayToast(
+                    `${actionText} Invoice Successfull!`,
+                    `Invoice saved with entry no. ${
+                      resp.data.invoiceid ||
+                      resp.data.gkresult ||
+                      resp.data.vchData.vchno
+                    }`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `invoice ${
+                      this.formMode === 'create' ? 'created' : 'updated'
+                    }: ${self.form.inv.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  if (this.formMode === 'create') {
+                    this.resetForm();
+                  }
                 }
                 break;
               case 1:

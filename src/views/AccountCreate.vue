@@ -294,7 +294,7 @@ export default {
                   'success'
                 );
 
-                const log = { activity: `${self.form.name} account created.` };
+                let log = { activity: `account created: ${self.form.name}` };
                 axios.post('/log', log);
 
                 self.resetForm();

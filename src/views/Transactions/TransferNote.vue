@@ -245,16 +245,24 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                console.log(resp.data);
-                this.displayToast(
-                  `Create Transfer Note Successfull!`,
-                  `Transfer Note #${self.form.transferNote.no} was successfully created`,
-                  'success'
-                );
-                this.resetForm();
-                this.tnoteId = resp.data.gkresult;
-                this.showPrintModal = true;
+                {
+                  // success
+                  console.log(resp.data);
+                  this.displayToast(
+                    `Create Transfer Note Successfull!`,
+                    `Transfer Note #${self.form.transferNote.no} was successfully created`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `transfer note created: ${self.form.transferNote.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  this.resetForm();
+                  this.tnoteId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                }
                 break;
               case 1:
                 // Duplicate entry
