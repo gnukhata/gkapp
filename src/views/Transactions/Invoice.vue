@@ -49,7 +49,7 @@
         <b-form-select
           size="sm"
           v-model="invoiceId"
-          :options="options.editableInvoices[form.type]"
+          :options="editableInvoices"
           @change="initForm()"
         ></b-form-select>
       </span>
@@ -494,6 +494,9 @@ export default {
       return !isNaN(currDate)
         ? currDate >= minDate && currDate <= maxDate
         : null;
+    },
+    editableInvoices: (self) => {
+      return self.options.editableInvoices[self.form.type]
     },
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
@@ -1206,7 +1209,7 @@ export default {
     },
     resetForm() {
       this.form = {
-        type: 'sale', // purchase
+        type: this.form.type,
         inv: {},
         party: {
           name: false,
@@ -1303,8 +1306,16 @@ export default {
         solid: true,
       });
     },
+    /** Update the URL based on form mode selected (Create/Edit) */
+    updateUrl() {
+      let url = window.location.href.split('#')[0];
+      url += `#/invoice/${this.formMode}/0`;
+      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
+      // instead of creating a new history instances for every entity selected
+    },
     initForm() {
       let self = this;
+      this.updateUrl();
       this.resetForm();
       this.preloadData().then(() => {
         self.fetchEditableInvoices();
