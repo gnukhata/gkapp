@@ -232,7 +232,7 @@ export default {
       required: true,
     },
     sysFlag: {
-      type: String,
+      type: [Number, String],
       required: true,
       validator: (value) => {
         let val = parseInt(value);
