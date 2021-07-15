@@ -238,6 +238,17 @@ const routes = [
     name: 'Accounts',
     component: () => import(/* webpackChunkName: "accounts" */ '../views/Accounts.vue'),
   },
+  {
+    path: '/account/create',
+    name: 'Create_Account',
+    component: () => import(/* webpackChunkName: "accounts" */ '../views/AccountCreate.vue'),
+  },
+  {
+    path: '/account/edit/:id/:sysFlag',
+    name: 'Edit_Account',
+    component: () => import(/* webpackChunkName: "accounts" */ '../views/AccountEdit.vue'),
+    props: true
+  },
 ]
 
 const router = new VueRouter({

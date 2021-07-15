@@ -2,11 +2,18 @@
   <section class="m-2">
     <b-input-group class="mb-3 container-sm gksearch d-print-none">
       <template #prepend>
-        <b-button variant="warning" size="sm" @click="onCreateAccount"
-          ><b-icon icon="building"></b-icon> Add Account</b-button
+        <b-button
+          variant="warning"
+          size="sm"
+          :to="{
+            name: 'Create_Account',
+          }"
         >
+          <b-icon icon="files-alt"></b-icon> Add Account
+        </b-button>
       </template>
       <b-form-input
+        size="sm"
         type="text"
         placeholder="Search Accounts"
         v-model="searchText"
@@ -46,9 +53,13 @@
           size="sm"
           variant="primary"
           class="mb-1 mb-md-0 mx-md-1 pt-0"
-          @click.prevent="
-            onEditAccount(data.item.accountCode, data.item.sysAccount)
-          "
+          :to="{
+            name: 'Edit_Account',
+            params: {
+              id: data.item.accountCode,
+              sysFlag: data.item.sysAccount,
+            },
+          }"
         >
           <b-icon font-scale="0.8" icon="pencil"></b-icon> </b-button
         ><br class="d-md-none" />
@@ -265,17 +276,19 @@ export default {
           })
           .then((val) => {
             if (val) {
-              self.deleteAccount(
-                accDetails.accountCode,
-                accDetails.account,
-                cust.custid,
-                cust.custname,
-                cust.isCustomer
-              ).then((status) => {
-                if(status === 0) {
-                  self.getAccountsList();
-                }
-              });
+              self
+                .deleteAccount(
+                  accDetails.accountCode,
+                  accDetails.account,
+                  cust.custid,
+                  cust.custname,
+                  cust.isCustomer
+                )
+                .then((status) => {
+                  if (status === 0) {
+                    self.getAccountsList();
+                  }
+                });
             }
           });
       });
@@ -354,13 +367,7 @@ export default {
 };
 </script>
 <style>
-table {
-  width: 70%;
-}
 @media all and (max-width: 576px) {
-  table {
-    width: 90%;
-  }
   .options-col {
     width: 50px;
   }
