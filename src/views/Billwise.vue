@@ -189,7 +189,6 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Voucher from '../components/form/Voucher.vue';
-import { numberToRupees } from '../js/utils';
 import Autocomplete from '../components/Autocomplete.vue';
 
 export default {
