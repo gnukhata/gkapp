@@ -16,12 +16,12 @@
     <b-alert
       dismissible
       variant="dark"
-      class="container text-dark"
+      class="container text-dark d-print-none"
       :show="true"
     >
-      Valid GST Units are displayed
+      Valid GST Units are marked
       <b-badge variant="success">green</b-badge> If not mapped, Units will be
-      dispalyed in <b-badge variant="primary">Blue</b-badge>
+      marked in <b-badge variant="primary">Blue</b-badge>
     </b-alert>
     <b-table
       :filter="searchText"
@@ -43,14 +43,19 @@
         </div>
       </template>
       <template #cell(unit_name)="data">
-        <b-button
+        <b-icon
+          icon="circle-fill"
+          class="d-print-none"
+          :variant="subUnitStatus(data.item)"
+        ></b-icon>
+        <b-link
           @click="$router.push('/uom/' + data.item.uom_id)"
           title="click to edit UOM"
           :variant="subUnitStatus(data.item)"
           size="sm"
         >
           {{ data.item.unit_name }}
-        </b-button>
+        </b-link>
       </template>
     </b-table>
   </section>
@@ -111,7 +116,7 @@ export default {
       if (item.sysunit === 1) {
         return 'success';
       } else if (item.sysunit === 0 && item.subunitof == null) {
-        return 'primary';
+        return 'warning';
       } else {
         return 'success';
       }

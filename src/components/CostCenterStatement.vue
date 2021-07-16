@@ -60,6 +60,12 @@
       </b-card>
     </b-overlay>
     <!--  Table -->
+    <report-header>
+      <div class="text-center">
+        Cost Center Statement for {{ projectId }} | From: {{ fromDate }} to
+        {{ toDate }}
+      </div>
+    </report-header>
     <b-table-simple
       v-if="report.length > 0"
       class="mt-3"
@@ -97,8 +103,9 @@ import axios from 'axios';
 import Autocomplete from './Autocomplete.vue';
 import GkDate from './GkDate.vue';
 import { mapState } from 'vuex';
+import ReportHeader from './ReportHeader.vue';
 export default {
-  components: { Autocomplete, GkDate },
+  components: { Autocomplete, GkDate, ReportHeader },
   name: 'ProductRegister',
   data() {
     return {

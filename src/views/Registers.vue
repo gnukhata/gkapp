@@ -52,19 +52,20 @@
 
     <!-- Table -->
     <div v-if="report.length > 0">
-      <div class="text-center mt-3">
-        <h3>{{ orgName }}</h3>
-        <b
-          >{{
-            $refs['register-type'].value == 0 ? 'Sale' : 'Purchase'
-          }}
-          Register</b
-        >
-        | From
-        <b>{{ fromDate }}</b>
-        to
-        <b>{{ toDate }}</b>
-      </div>
+      <report-header>
+        <div class="text-center">
+          <b
+            >{{
+              $refs['register-type'].value == 0 ? 'Sale' : 'Purchase'
+            }}
+            Register</b
+          >
+          | From
+          <b>{{ fromDate }}</b>
+          to
+          <b>{{ toDate }}</b>
+        </div>
+      </report-header>
       <b-form-input
         type="text"
         class="mx-auto gkcard mt-3 border border-dark d-print-none"
@@ -97,9 +98,10 @@
 import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import axios from 'axios';
+import ReportHeader from '../components/ReportHeader.vue';
 export default {
   name: 'Registers',
-  components: { GkDate },
+  components: { GkDate, ReportHeader },
   data() {
     return {
       loading: false,

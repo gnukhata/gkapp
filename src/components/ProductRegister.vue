@@ -57,17 +57,20 @@
 
     <!-- Stock Table -->
     <div v-if="report.length > 0 && !showGodowns" class="mb-5">
-      <h3 class="text-center">{{ orgName.split('(')[0] }}</h3>
-      <div class="text-center">
-        Product Name:
-        <b>{{
-          productList.filter((p) => p['value'] == productId)[0]['text']
-        }}</b>
-        | From
-        <b>{{ dateReverse(fromDate) }}</b>
-        to
-        <b>{{ dateReverse(toDate) }}</b>
-      </div>
+      <report-header>
+        <template>
+          <div class="text-center">
+            Product Name:
+            <b>{{
+              productList.filter((p) => p['value'] == productId)[0]['text']
+            }}</b>
+            | From
+            <b>{{ dateReverse(fromDate) }}</b>
+            to
+            <b>{{ dateReverse(toDate) }}</b>
+          </div>
+        </template>
+      </report-header>
       <b-table-simple
         class="mt-3"
         small
@@ -138,14 +141,20 @@
       caption-top
     >
       <caption>
-        Product Name:
-        <b>{{
-          productList.filter((p) => p['value'] == productId)[0]['text']
-        }}</b>
-        | From
-        <b>{{ fromDate }}</b>
-        to
-        <b>{{ toDate }}</b>
+        <report-header>
+          <template>
+            <div class="text-center">
+              Product Name:
+              <b>{{
+                productList.filter((p) => p['value'] == productId)[0]['text']
+              }}</b>
+              | From
+              <b>{{ fromDate }}</b>
+              to
+              <b>{{ toDate }}</b>
+            </div>
+          </template>
+        </report-header>
       </caption>
       <b-thead head-variant="dark">
         <b-tr>
@@ -199,10 +208,11 @@
 import axios from 'axios';
 import Autocomplete from './Autocomplete.vue';
 import GkDate from './GkDate.vue';
+import ReportHeader from './ReportHeader.vue';
 import { mapState } from 'vuex';
 export default {
   name: 'ProductRegister',
-  components: { Autocomplete, GkDate },
+  components: { Autocomplete, GkDate, ReportHeader },
   data() {
     return {
       productList: [],

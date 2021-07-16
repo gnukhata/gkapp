@@ -62,12 +62,11 @@
     </b-overlay>
     <!-- Table -->
     <section class="mt-2" v-if="report.length > 0">
-      <div class="text-center">
-        <div>
-          Organisation: <b>{{ orgName.split('(')[0] }}</b>
+      <report-header>
+        <div class="text-center">
+          <i>Stock report as on: {{ dateReverse(toDate) }}</i>
         </div>
-        <i>Stock report as on: {{ dateReverse(toDate) }}</i>
-      </div>
+      </report-header>
       <b-form-input
         v-model="search"
         placeholder="Search Products"
@@ -96,9 +95,10 @@ import axios from 'axios';
 import Autocomplete from '../components/Autocomplete.vue';
 import GkDate from '../components/GkDate.vue';
 import { mapState } from 'vuex';
+import ReportHeader from '../components/ReportHeader.vue';
 export default {
   name: 'StockOnHand',
-  components: { Autocomplete, GkDate },
+  components: { Autocomplete, GkDate, ReportHeader },
   data() {
     return {
       productList: [],
@@ -115,9 +115,6 @@ export default {
       showCard: true,
       search: '',
       fields: [
-        {
-          key: 'no',
-        },
         {
           key: 'product',
           sortable: true,
