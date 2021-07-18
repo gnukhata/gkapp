@@ -45,17 +45,10 @@
                 @input="onSubGroupSelect"
                 :required="false"
                 valueUid="id"
-                :readonly="
-                  !subGroups.length ||
-                  flags.newSubGroup
-                "
+                :readonly="!subGroups.length || flags.newSubGroup"
               ></autocomplete>
             </b-form-group>
-            <b-card
-              body-class="p-2"
-              class="mb-3"
-              bg-variant="light"
-            >
+            <b-card body-class="p-2" class="mb-3" bg-variant="light">
               <b-form-checkbox
                 v-model="flags.newSubGroup"
                 class="mb-2"
@@ -80,16 +73,10 @@
                 </b-form-group>
               </b-collapse>
             </b-card>
-            <b-form-checkbox
-              v-if="flags.gst"
-              size="sm"
-              class="mb-2"
+            <b-form-checkbox v-if="flags.gst" size="sm" class="mb-2"
               >GST Account</b-form-checkbox
             >
-            <b-form-checkbox
-              v-if="defaultGroupName"
-              size="sm"
-              class="mb-2"
+            <b-form-checkbox v-if="defaultGroupName" size="sm" class="mb-2"
               >Set default for {{ defaultGroupName }}</b-form-checkbox
             >
             <b-form-group
@@ -191,6 +178,7 @@ export default {
         newSubGroup: false, // Flag for adding a new sub group
         gst: false, // Sub-Group specific Option to add a GST account
         moreDetails: false, // Sub-Group specific Option to add customer details
+        setSubGroup: false, // used for setting a subgroup with js after subgroup list is fetched
       },
       isPreloading: false,
       isLoading: false,
@@ -216,7 +204,16 @@ export default {
       },
     };
   },
-  props: {},
+  props: {
+    group: {
+      type: [Number, String],
+      required: true,
+    },
+    subGroup: {
+      type: [Number, String],
+      required: true,
+    },
+  },
   computed: {
     defaultGroupName: (self) => {
       let group = self.options.groupNameToCode[self.form.group];
@@ -229,15 +226,22 @@ export default {
       return '';
     },
     showAddSubGroup: {
-      get: function () {
+      get: function() {
         return this.flags.newSubGroup && !!this.form.group;
       },
-      set: function (show) {
+      set: function(show) {
         this.flags.newSubGroup = show;
       },
     },
   },
-  watch: {},
+  watch: {
+    group(newGroup) {
+      this.form.group = parseInt(group);
+    },
+    subGroup(newSub) {
+      this.form.subGroup = parseInt(newSub);
+    },
+  },
   methods: {
     /**
      * onSubGroupSelect
@@ -507,6 +511,16 @@ export default {
                 subGroup.subgroupname;
             });
           }
+
+          self.$nextTick().then(() => {
+            // in edit mode, the sub group can't be updated as soon as the account data is fetched.
+            // As after setting the group, the subgroup list is refreshed and will reset it.
+            // using this check to update it after the subgroup list is refreshed.
+            if (self.flags.setSubGroup) {
+              self.form.subGroup = self.flags.setSubGroup;
+              self.flags.setSubGroup = false;
+            }
+          });
         })
         .catch((e) => {
           self.displayToast(
@@ -530,7 +544,7 @@ export default {
         }),
       ];
 
-      Promise.all([...requests])
+      return Promise.all([...requests])
         .then(([resp1]) => {
           this.isPreloading = false;
           if (resp1.data.gkstatus === 0) {
@@ -539,6 +553,7 @@ export default {
               this.options.groupNameToCode[group.groupcode] = group.groupname;
             });
           }
+          return;
         })
         .catch((e) => {
           this.isPreloading = false;
@@ -548,7 +563,13 @@ export default {
     },
   },
   mounted() {
-    this.preloadData();
+    const self = this;
+    this.preloadData().then(() => {
+      self.form.group = parseInt(self.group);
+      if (self.subGroup) {
+        self.flags.setSubGroup = parseInt(self.subGroup);
+      }
+    });
   },
 };
 </script>

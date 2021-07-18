@@ -1,140 +1,148 @@
 <template>
   <section class="m-2">
-    <b-input-group class="mb-3 container-sm gksearch d-print-none">
-      <template #prepend>
-        <b-button
-          variant="warning"
-          size="sm"
-          :to="{
-            name: 'Create_Account',
-          }"
-        >
-          <b-icon icon="files-alt"></b-icon> Add Account
-        </b-button>
-      </template>
-      <b-form-input
-        size="sm"
-        type="text"
-        placeholder="Search Accounts"
-        v-model="searchText"
-      ></b-form-input>
-    </b-input-group>
+    <h3 class="text-center">Accounts</h3>
+    <hr class="mt-1" />
 
-    <b-table
-      :filter="searchText"
-      :items="options.accounts"
-      :fields="tableFields"
-      striped
-      sort-direction="asc"
-      head-variant="dark"
-      class="mx-auto"
-      :sticky-header="`${tableHeight}px`"
-      outlined
-      small
-      fixed
-      :busy="loading"
-      tbody-tr-class="text-break"
-      details-td-class="d-md-none"
-    >
-      <template #cell(index)="data">
-        {{ data.index + 1 }}
-      </template>
-      <template #cell(options)="data">
-        <b-button
-          v-if="data.item.defaultFor"
-          size="sm"
-          @click="data.toggleDetails"
-          class="d-md-none px-2 py-0"
+    <u><small class="ml-2">Groups</small></u>
+    <b-container fluid>
+      <b-row>
+        <b-col
+          cols="12"
+          :md="gdata.collapsed ? 8 : 4"
+          v-for="(gdata, gname) in options.accData"
+          :key="gdata.id"
+          class="p-1 "
         >
-          {{ data.item._showDetails ? '-' : '+' }}
-        </b-button>
-        <br class="d-md-none" v-if="data.item.defaultFor" />
-        <b-button
-          size="sm"
-          variant="primary"
-          class="mb-1 mb-md-0 mx-md-1 pt-0"
-          :to="{
-            name: 'Edit_Account',
-            params: {
-              id: data.item.accountCode,
-              sysFlag: data.item.sysAccount,
-            },
-          }"
-        >
-          <b-icon font-scale="0.8" icon="pencil"></b-icon> </b-button
-        ><br class="d-md-none" />
-        <b-button
-          v-if="!data.item.sysAccount"
-          size="sm"
-          variant="danger"
-          class="pt-0"
-          @click.prevent="confirmOnDelete(data.item)"
-        >
-          <b-icon font-scale="0.9" icon="trash"></b-icon>
-        </b-button>
-      </template>
-      <template #row-details="row">
-        <b-container fluid>
-          <b-row class="mb-2">
-            <b-col cols="5" class="text-sm-right"
-              ><b>Default A/C For:</b></b-col
-            >
-            <b-col>{{ row.item.defaultFor }}</b-col>
-          </b-row>
-        </b-container>
-      </template>
-      <template #table-busy>
-        <div class="text-center">
-          <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong> Fetching Accounts... </strong>
-        </div>
-      </template>
-    </b-table>
-    <b-modal
-      size="lg"
-      v-model="showAccountForm"
-      centered
-      static
-      body-class="p-0"
-      id="contact-item-modal"
-      hide-footer
-      hide-header
-    >
-      <account
-        :hideBackButton="true"
-        :mode="accountMode"
-        :accountId="accountId"
-        :isSysAccount="isSysAccount"
-        :inOverlay="true"
-        :onSave="() => {}"
-        :overlayOpen="showAccountForm"
-        @account-created="onAccountCreated"
-        @account-edited="onAccountEdited"
-      >
-        <template #close-button>
-          <b-button
-            size="sm"
-            class="float-right py-0"
-            @click.prevent="
-              () => {
-                showAccountForm = false;
-              }
-            "
-            >x</b-button
-          >
-        </template>
-      </account>
-    </b-modal>
+          <b-card body-class="p-2 bg-dark-grey" class="shadow-sm">
+            <div v-b-toggle="`g-${gdata.id}`">
+              <h4 class="d-inline-block">{{ gname }}</h4>
+              <b-icon
+                class="float-right"
+                font-scale="0.7"
+                :icon="gdata.collapsed ? 'dash' : 'arrows-fullscreen'"
+              ></b-icon>
+            </div>
+            <div v-if="!gdata.collapsed">
+              <small>Sub-Groups: {{ gdata.subCount }}</small> <br />
+              <small>Accounts: {{ gdata.accCount }}</small>
+            </div>
+            <b-collapse :id="`g-${gdata.id}`" v-model="gdata.collapsed">
+              <u>
+                <small>Sub-Groups: {{ gdata.subCount }}</small>
+              </u>
+              <b-container class="mt-1" fluid>
+                <b-row>
+                  <b-col
+                    cols="12"
+                    :md="sgdata.collapsed ? 12 : 6"
+                    class="p-1"
+                    v-for="(sgdata, sgname) in gdata.subGroups"
+                    :key="sgdata.id"
+                  >
+                    <b-card body-class="p-2 bg-light-grey" class="shadow-sm">
+                      <div v-b-toggle="`sg-${sgdata.id}`">
+                        <h5 class="d-inline-block">{{ sgname }}</h5>
+                        <b-icon
+                          class="float-right"
+                          font-scale="0.7"
+                          :icon="
+                            sgdata.collapsed ? 'dash' : 'arrows-fullscreen'
+                          "
+                        ></b-icon>
+                      </div>
+                      <br />
+                      <u>
+                        <small>Accounts: {{ sgdata.accCount }}</small>
+                      </u>
+                      <b-button
+                        class="ml-2 py-0 px-1"
+                        variant="success"
+                        size="sm"
+                        :to="{
+                          name: 'Create_Account',
+                          params: {
+                            group: gdata.id,
+                            subGroup: sgdata.id,
+                          },
+                        }"
+                        >+</b-button
+                      >
+                      <b-collapse
+                        :id="`sg-${sgdata.id}`"
+                        class="mt-2"
+                        v-model="sgdata.collapsed"
+                      >
+                        <b-container
+                          fluid
+                          style="max-height: 150px; overflow: auto"
+                        >
+                          <b-row>
+                            <b-col
+                              cols="12"
+                              :md="sgdata.collapsed ? 4 : 12"
+                              class="px-1"
+                              v-for="acc in sgdata.accounts"
+                              :key="acc.id"
+                            >
+                              <b-card class="my-1" body-class="p-2">
+                                {{ acc.name }}
+                                <div class="d-inline-block float-right">
+                                  <b-button
+                                    size="sm"
+                                    variant="primary"
+                                    class="pt-0 mx-1"
+                                    :to="{
+                                      name: 'Edit_Account',
+                                      params: {
+                                        id: acc.id,
+                                        sysFlag: acc.sysFlag,
+                                      },
+                                    }"
+                                  >
+                                    <b-icon
+                                      class="font-bold"
+                                      font-scale="0.8"
+                                      icon="pencil-fill"
+                                    ></b-icon>
+                                  </b-button>
+                                  <b-button
+                                    v-if="acc.sysFlag === 0"
+                                    size="sm"
+                                    variant="danger"
+                                    class="pt-0"
+                                    @click.prevent="
+                                      confirmOnDelete(acc, sgdata.id)
+                                    "
+                                  >
+                                    <b-icon
+                                      font-scale="0.9"
+                                      icon="trash-fill"
+                                    ></b-icon>
+                                  </b-button>
+                                </div>
+                              </b-card>
+                            </b-col>
+                          </b-row>
+                        </b-container>
+                      </b-collapse>
+                    </b-card>
+                  </b-col>
+                </b-row>
+              </b-container>
+            </b-collapse>
+          </b-card>
+        </b-col>
+      </b-row>
+    </b-container>
   </section>
 </template>
 
 <script>
 import axios from 'axios';
 import { debounceEvent } from '../js/utils';
-import Account from '../components/form/Account.vue';
 export default {
   name: 'Accounts',
-  components: { Account },
+  components: {},
   data() {
     return {
       showAccountForm: false,
@@ -157,6 +165,7 @@ export default {
       ],
       options: {
         accounts: [],
+        accData: {},
       },
       loading: false,
     };
@@ -248,10 +257,10 @@ export default {
         }
       });
     },
-    confirmOnDelete(accDetails) {
-      this.getCust(accDetails.subGroupCode, accDetails.account).then((cust) => {
+    confirmOnDelete(accDetails, subGroupCode) {
+      this.getCust(subGroupCode, accDetails.name).then((cust) => {
         const self = this;
-        let text = `Delete Account <b>${accDetails.account}</b> ?`;
+        let text = `Delete Account <b>${accDetails.name}</b> ?`;
         if (cust) {
           text += ` This will also delete the ${
             cust.isCustomer ? 'Customer' : 'Supplier'
@@ -278,8 +287,8 @@ export default {
             if (val) {
               self
                 .deleteAccount(
-                  accDetails.accountCode,
-                  accDetails.account,
+                  accDetails.id,
+                  accDetails.name,
                   cust.custid,
                   cust.custname,
                   cust.isCustomer
@@ -293,44 +302,46 @@ export default {
           });
       });
     },
-    onEditAccount(id, isSysAccount) {
-      this.accountMode = 'edit';
-      this.accountId = id;
-      this.showAccountForm = true;
-      this.isSysAccount = !!isSysAccount;
-    },
-    onCreateAccount() {
-      this.accountMode = 'create';
-      this.accountId = -1;
-      this.showAccountForm = true;
-    },
-    onAccountCreated() {
-      this.showAccountForm = false;
-      this.getAccountsList();
-    },
-    onAccountEdited() {
-      this.getAccountsList();
-    },
     /* Fetch all accounts */
     getAccountsList() {
       this.loading = true;
       axios
         .get(`/accounts`)
-        .then((r) => {
-          if (r.data.gkstatus === 0) {
-            this.options.accounts = r.data.gkresult.map((acc) => {
-              return {
-                account: acc.accountname,
-                accountCode: acc.accountcode,
-                group: acc.groupname,
-                groupCode: acc.groupcode,
-                subGroup: acc.subgroupname,
-                subGroupCode: acc.subgroupcode,
-                defaultFor: acc.defaultflag,
-                sysAccount: acc.sysaccount,
-                _showDetails: !!acc.defaultflag,
-              };
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let accData = {};
+            resp.data.gkresult.forEach((acc) => {
+              if (!accData[acc.groupname]) {
+                accData[acc.groupname] = {
+                  subGroups: {},
+                  subCount: 0,
+                  accCount: 0,
+                  id: acc.groupcode,
+                  collapsed: false,
+                };
+              }
+              let group = accData[acc.groupname];
+              if (!group.subGroups[acc.subgroupname]) {
+                group.subGroups[acc.subgroupname] = {
+                  accounts: [],
+                  accCount: 0,
+                  id: acc.subgroupcode,
+                  collapsed: false,
+                };
+                group.subCount++;
+              }
+              let subGroup = group.subGroups[acc.subgroupname];
+              subGroup.accounts.push({
+                name: acc.accountname,
+                id: acc.accountcode,
+                sysFlag: acc.sysaccount,
+                defaultFlag: acc.defaultflag,
+              });
+              subGroup.accCount++;
+              group.accCount++;
             });
+
+            this.options.accData = accData;
           } else {
             this.$bvToast.toast('Failed to fetch Accounts', {
               variant: 'danger',
@@ -367,6 +378,12 @@ export default {
 };
 </script>
 <style>
+.bg-dark-grey {
+  background-color: #d6d6d6;
+}
+.bg-light-grey {
+  background-color: #ecebeb;
+}
 @media all and (max-width: 576px) {
   .options-col {
     width: 50px;

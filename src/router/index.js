@@ -239,9 +239,10 @@ const routes = [
     component: () => import(/* webpackChunkName: "accounts" */ '../views/Accounts.vue'),
   },
   {
-    path: '/account/create',
+    path: '/account/create/:group/:subGroup',
     name: 'Create_Account',
     component: () => import(/* webpackChunkName: "accounts" */ '../views/AccountCreate.vue'),
+    props: true
   },
   {
     path: '/account/edit/:id/:sysFlag',
