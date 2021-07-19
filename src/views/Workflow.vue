@@ -304,8 +304,8 @@
           class="ml-md-2 border-0"
           v-if="
             selectedEntity &&
-            !selectedEntity.gsflag &&
-            activeWorkflow.name === 'Contacts'
+              !selectedEntity.gsflag &&
+              activeWorkflow.name === 'Contacts'
           "
         >
           <template #header v-if="selectedEntity !== null">
@@ -336,8 +336,8 @@
           class="ml-md-2 border-0"
           v-if="
             selectedEntity &&
-            selectedEntity.gsflag &&
-            activeWorkflow.name === 'Business'
+              selectedEntity.gsflag &&
+              activeWorkflow.name === 'Business'
           "
         >
           <code class="m-3"> </code>
@@ -367,8 +367,8 @@
           class="ml-md-3"
           v-if="
             selectedEntity &&
-            selectedEntity.id &&
-            activeWorkflow.name.includes('Transactions')
+              selectedEntity.id &&
+              activeWorkflow.name.includes('Transactions')
           "
         >
           <template #header v-if="selectedEntity !== null">
@@ -421,7 +421,7 @@ export default {
   props: {
     wfName: {
       type: String,
-      validator: function (value) {
+      validator: function(value) {
         return (
           [
             'Contacts',
@@ -1087,7 +1087,7 @@ export default {
     };
   },
   watch: {
-    isFilterOpen: function () {
+    isFilterOpen: function() {
       let self = this;
       window.setTimeout(() => {
         if (self.isFilterOpen) {
@@ -1138,7 +1138,7 @@ export default {
      * of the current workflow page, and updates the left pane of cards.
      *
      */
-    processedData: function () {
+    processedData: function() {
       let data = this.activeTabOptions.data;
       // console.log(this.filter)
       if (this.filter.value.props.key !== undefined) {
@@ -1374,6 +1374,12 @@ export default {
             }
           }
           break;
+        case 'Transactions-Voucher': {
+          if (updatedData.type === 'delete') {
+            this.activeTabOptions.data.splice(this.selectedEntityIndex, 1);
+            this.unsetSelectedEntity();
+          }
+        }
       }
     },
     // fetch customers, suppliers, products, services list
@@ -1424,9 +1430,13 @@ export default {
         axios.get('/rejectionnote?type=all').catch((error) => {
           return error;
         }),
-        axios.get(`/transaction?searchby=date&from=${this.yearStart}&to=${this.yearEnd}`).catch((error) => {
-          return error;
-        }),
+        axios
+          .get(
+            `/transaction?searchby=date&from=${this.yearStart}&to=${this.yearEnd}`
+          )
+          .catch((error) => {
+            return error;
+          }),
       ];
 
       const self = this;
@@ -1444,7 +1454,7 @@ export default {
           resp10,
           resp11,
           resp12,
-          resp13
+          resp13,
         ]) => {
           self.isLoading = false;
 
@@ -1518,7 +1528,10 @@ export default {
                     rectifyFlag: false, // can be rectified or not
                     // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                     dateObj: Date.parse(
-                      item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      item.invoicedate
+                        .split('-')
+                        .reverse()
+                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                     ),
                   },
                   item
@@ -1565,7 +1578,10 @@ export default {
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                       date: item.dcdate,
                       dateObj: Date.parse(
-                        item.dcdate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                        item.dcdate
+                          .split('-')
+                          .reverse()
+                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                       ),
                     },
                     item
@@ -1592,7 +1608,10 @@ export default {
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                       date: item.invoicedate,
                       dateObj: Date.parse(
-                        item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                        item.invoicedate
+                          .split('-')
+                          .reverse()
+                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                       ),
                     },
                     item
@@ -1618,7 +1637,10 @@ export default {
                     // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                     date: item.invoicedate,
                     dateObj: Date.parse(
-                      item.invoicedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      item.invoicedate
+                        .split('-')
+                        .reverse()
+                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                     ),
                   },
                   item
@@ -1643,7 +1665,10 @@ export default {
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                       date: item.transfernotedate,
                       dateObj: Date.parse(
-                        item.transfernotedate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                        item.transfernotedate
+                          .split('-')
+                          .reverse()
+                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                       ),
                       id: item.transfernoteid,
                       no: item.transfernoteno,
@@ -1679,7 +1704,10 @@ export default {
                     // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                     date: item.orderdate,
                     dateObj: Date.parse(
-                      item.orderdate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                      item.orderdate
+                        .split('-')
+                        .reverse()
+                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                     ),
                   },
                   item
@@ -1708,7 +1736,10 @@ export default {
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                       date: item.drcrdate,
                       dateObj: Date.parse(
-                        item.drcrdate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                        item.drcrdate
+                          .split('-')
+                          .reverse()
+                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                       ),
                     },
                     item
@@ -1735,7 +1766,10 @@ export default {
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                       date: item.rndate,
                       dateObj: Date.parse(
-                        item.rndate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                        item.rndate
+                          .split('-')
+                          .reverse()
+                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                       ),
                     },
                     item
@@ -1760,7 +1794,9 @@ export default {
                     {
                       id: item.vouchercode,
                       no: item.vouchernumber,
-                      noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(1)} Voucher`,
+                      noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(
+                        1
+                      )} Voucher`,
                       text1: `${drAmount} (${drAccount})`,
                       text2: `${crAmount} (${crAccount})`,
                       drAmount: drAmount,
@@ -1769,7 +1805,10 @@ export default {
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                       date: item.voucherdate,
                       dateObj: Date.parse(
-                        item.voucherdate.split('-').reverse().join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                        item.voucherdate
+                          .split('-')
+                          .reverse()
+                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                       ),
                     },
                     item

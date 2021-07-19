@@ -166,6 +166,7 @@
           :type="csflag === '3' ? 'receipt' : 'payment'"
           :customer="custname"
           :isOpen="showVoucherForm"
+          mode='create'
         >
           <template #close-button>
             <b-button
@@ -200,7 +201,7 @@ export default {
   props: {
     custType: {
       type: [String, Number],
-      validator: function (value) {
+      validator: function(value) {
         return value == 3 || value == 19;
       },
       required: true,
@@ -521,4 +522,3 @@ export default {
   },
 };
 </script>
-

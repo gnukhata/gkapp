@@ -23,7 +23,24 @@
     <p>
       <b>Comments:</b>
     </p>
-    {{voucher.narration}}
+    {{ voucher.narration }}
+    <br /><br />
+    <div class="float-right">
+      <b-button
+        @click.prevent="onDelete"
+        size="sm"
+        variant="danger"
+        class="mx-1"
+        >Delete</b-button
+      >
+      <b-button
+        size="sm"
+        variant="warning"
+        :to="{ name: 'Edit_Voucher', params: { vid: id } }"
+      >
+        Edit
+      </b-button>
+    </div>
   </b-container>
 </template>
 
@@ -65,9 +82,56 @@ export default {
         date: '',
         narration: '',
       },
+      type: '',
+      no: '',
     };
   },
   methods: {
+    onDelete() {
+      const self = this;
+      const text = this.$createElement('div', {
+        domProps: {
+          innerHTML: `Delete ${this.type} Voucher <b>${this.no}</b>?"`,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(text, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            // return;
+            axios
+              .delete('/transaction', {
+                data: {
+                  vouchercode: this.id,
+                },
+              })
+              .then((resp) => {
+                if (resp.data.gkstatus === 0) {
+                  self.displayToast(
+                    `Voucher Delete success!`,
+                    `${self.type} Voucher : ${self.no}, deleted successfully.`,
+                    'success'
+                  );
+                  this.onUpdate({ type: 'delete' });
+                } else {
+                  self.displayToast(
+                    `Voucher Delete failed!`,
+                    `Unable to delete ${self.type} Voucher : ${self.no}`,
+                    'danger'
+                  );
+                }
+              });
+          }
+        });
+    },
     /**
      * formatInvoiceDetails()
      *
@@ -77,6 +141,8 @@ export default {
     formatVoucherDetails(details) {
       if (details) {
         // console.log(details);
+        this.no = details.vouchernumber;
+        this.type = details.vouchertype;
         this.voucher.narration = details.narration;
         this.voucher.date = details.voucherdate;
         this.voucher.content = [];
@@ -138,9 +204,18 @@ export default {
         } // end switch
       });
     },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
+    },
   },
   watch: {
-    id: function (id) {
+    id: function(id) {
       if (id) this.fetchAndUpdateData();
     },
   },

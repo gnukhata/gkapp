@@ -1,6 +1,6 @@
 <template>
   <div class="px-md-3 px-1 py-2">
-    <voucher :type="type" :customer="customer"> </voucher>
+    <voucher :type="type" :customer="customer" mode='create'> </voucher>
   </div>
 </template>
 

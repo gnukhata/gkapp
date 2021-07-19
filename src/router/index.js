@@ -197,6 +197,12 @@ const routes = [
     props: true
   },
   {
+    path: '/voucher/edit/:vid',
+    name: 'Edit_Voucher',
+    component: () => import(/* webpackChunkName: "voucheredit" */ '../views/VoucherEdit.vue'),
+    props: true
+  },
+  {
     path: '/billwise/:custType/:custName',
     name: 'Billwise',
     component: () => import(/* webpackChunkName: "billwise" */ '../views/Billwise.vue'),
