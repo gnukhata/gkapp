@@ -553,13 +553,13 @@ export default {
           orgregdate: null,
           orgfcrano: null,
           orgfcradate: null,
-          invflag: null,
-          invsflag: null,
-          billflag: null,
-          avflag: null,
-          maflag: null,
-          avnoflag: null,
-          ainvnoflag: null,
+          invflag: 1,
+          invsflag: 1,
+          billflag: 1,
+          avflag: 1,
+          maflag: 0,
+          avnoflag: 1,
+          ainvnoflag: 1,
           modeflag: null
         }
       };
