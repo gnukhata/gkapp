@@ -1,54 +1,19 @@
 <template>
-  <section class="d-flex justify-content-center mt-2">
-    <!-- Server Selection-->
-    <b-card
-      v-show="!showLogin"
-      header-bg-variant="dark"
-      header="Server Setup"
-      class="mt-2 shadow"
-    >
-      <template #header>
-        <h5 class="m-0 text-light">
-          <b-icon icon="cloud-plus"></b-icon> GNUKhata Server Setup
-        </h5>
-      </template>
-      <b-card-body>
-        <b-form @submit.prevent="setServerUrl" class="text-center">
-          <b-button variant="dark" @click.prevent="setDefaultServer">
-            <b-icon icon="arrow-right-circle"></b-icon>
-            Continue with Default Server
-          </b-button>
-          <div class="mt-2 mb-2"><b>OR</b></div>
-          <h5 class="text-muted text-center">Custom Server URL</h5>
-          <b-form-group label-cols="auto">
-            <b-form-input
-              :state="urlIsValid"
-              v-model="serverUrl"
-              type="url"
-              placeholder="https://example.com"
-            ></b-form-input>
-            <b-form-invalid-feedback id="input-live-feedback">
-              URL should not contain " / " in the end
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-button
-            type="submit"
-            variant="success"
-            :disabled="serverUrl === '' ? true : false"
-            ><b-icon icon="arrow-right-circle"></b-icon> Save &amp;
-            Continue</b-button
-          >
-        </b-form>
-      </b-card-body>
-    </b-card>
+  <section class="m-2">
     <!-- Login card -->
     <b-card
-      v-show="showLogin"
-      header="Login"
-      class="shadow ml-1 mr-1"
+      class="shadow mx-auto"
+      style="max-width: 35em"
       header-bg-variant="dark"
       header-text-variant="light"
     >
+      <template #header>
+        <gk-cardheader
+          :name="'Login to ' + orgNameDisplay"
+          help-title="Login"
+          help-body="Login with your username, password"
+        ></gk-cardheader>
+      </template>
       <b-card-body class="p-0 m-0">
         <b-alert show variant="dark" class="mb-2">
           <u>Demo Account Details:</u><br />
@@ -57,56 +22,6 @@
           Password: <b>admin</b>
         </b-alert>
         <b-form @submit.prevent="login">
-          <!--Select company area-->
-          <b-form-group
-            label="Organisation"
-            label-align="right"
-            label-size="sm"
-            label-cols="4"
-            label-class="required"
-          >
-            <b-overlay :show="isDisabled">
-              <b-form-select
-                v-on:change="getOrgYears"
-                v-model="orgIndex"
-                required
-                size="sm"
-              >
-                <b-form-select-option value="null" disabled
-                  >-- Select Organisation --</b-form-select-option
-                >
-                <b-form-select-option
-                  v-for="(org, index) in orgList"
-                  :key="index"
-                  :value="index"
-                  >{{ org.orgname }} ({{ org.orgtype }})
-                </b-form-select-option>
-              </b-form-select>
-            </b-overlay>
-          </b-form-group>
-          <!-- Financial Year-->
-          <b-form-group
-            label="Financial Year"
-            label-class="required"
-            label-cols="4"
-            label-align="right"
-            label-size="sm"
-          >
-            <b-overlay :show="isDisabled">
-              <b-form-select size="sm" v-model="form.orgcode" required>
-                <b-form-select-option value="null" disabled
-                  >-- Select Year --</b-form-select-option
-                >
-                <b-form-select-option
-                  v-for="(org, index) in orgYears"
-                  :key="index"
-                  :value="org.orgcode"
-                >
-                  {{ org.yearstart }} to {{ org.yearend }}
-                </b-form-select-option>
-              </b-form-select>
-            </b-overlay>
-          </b-form-group>
           <!--Username area-->
           <b-form-group
             label="Username"
@@ -172,155 +87,67 @@
             </b-form-input>
           </b-form-group>
           <!-- Login & create account buttons-->
-          <div class="float-right">
-            <b-button-group size="sm">
-              <b-button
-                :disabled="isDisabled"
-                variant="success"
-                class="mr-2"
-                type="submit"
-              >
-                <b-spinner v-if="isLoading" small></b-spinner>
-                <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
-                Login
-              </b-button>
-              <b-button
-                variant="dark"
-                class="mr-2"
-                :to="{ name: 'Create_Organisation' }"
-              >
-                <b-icon icon="person-plus"></b-icon>
-                Create Organisation
-              </b-button>
-              <b-button variant="dark" class="mr-2" @click="switchServer">
-                <b-icon icon="cloud"></b-icon>
-                Change Server
-              </b-button>
-              <!-- <b-button variant="info" @click="$router.push('/resetpassword')">
-                   <b-icon icon="life-preserver"></b-icon>
-                   Forgot Password?
-                   </b-button> -->
-            </b-button-group>
-          </div>
+          <b-button-group class="w-100">
+            <b-button
+              size="sm"
+              class="m-1 pl-0 pr-0 text-small"
+              variant="dark"
+              @click="switchServer"
+            >
+              <b-icon icon="cloud"></b-icon>
+
+              Change Server
+            </b-button>
+            <b-button
+              class="m-1 pl-0 pr-0"
+              size="sm"
+              variant="dark"
+              @click="$router.push('/select-org')"
+            >
+              <b-icon icon="building"></b-icon>
+              Change Organisation
+            </b-button>
+            <b-button class="m-1 p-0" size="sm" variant="success" type="submit">
+              <b-spinner v-if="isLoading" small></b-spinner>
+              <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
+              Login
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card-body>
     </b-card>
+    <!-- <div class="d-flex mt-2 justify-content-center">
+         <b-link class="m-2" size="sm" @click="switchServer">
+         <b-icon icon="cloud"></b-icon>
+         Change Server
+         </b-link>
+         </div> -->
   </section>
 </template>
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Captcha from '../components/Captcha.vue';
+import GkCardheader from '../components/GkCardheader.vue';
 export default {
   name: 'login',
-  components: { Captcha },
+  components: { Captcha, GkCardheader },
   data() {
     return {
-      notificationIsActive: true,
+      orgNameDisplay: null,
       captchaSolved: false,
       isLoading: false,
-      isDisabled: true,
       answer: null,
       userAnswer: null,
-      showLogin: false,
-      orgList: null,
-      orgIndex: null,
-      orgYears: [], //
-      serverUrl: '',
       form: {
         username: null,
         userpassword: null,
         orgcode: null,
-        orgName: null,
+        orgname: null,
       },
     };
   },
   methods: {
-    /** Check if gkCoreUrl is not null,
-     * If so, show URL window
-     */
-    checkUrl() {
-      if (this.gkCoreUrl == null) {
-        this.showLogin = false;
-      } else {
-        this.showLogin = true;
-      }
-    },
-    setDefaultServer() {
-      // If you want to change this value, Set environment variable VUE_APP_GKCORE_URL (only updates during build)
-      const defaultGkCoreUrl =
-        process.env.VUE_APP_GKCORE_URL !== undefined
-          ? process.env.VUE_APP_GKCORE_URL
-          : 'http://localhost:6543';
-      axios
-        .get(`${defaultGkCoreUrl}/state`)
-        .then((res) => {
-          if (res.status == 200 && res.data.gkstatus == 0) {
-            this.$store.commit('setGkCoreUrl', {
-              gkCoreUrl: defaultGkCoreUrl,
-            });
-            this.showLogin = true;
-            this.fetchOrgs();
-          } else {
-            this.$bvToast.toast('Please check your server setup', {
-              title: 'Unable to Connect To The Server :-(',
-              variant: 'danger',
-              solid: true,
-            });
-          }
-        })
-        .catch((e) => {
-          this.$bvToast.toast(
-            'Please check if gkcore is properly setup & running on port 6543',
-            {
-              title: e.message,
-              solid: true,
-              variant: 'danger',
-            }
-          );
-        });
-    },
-    /**
-     * Validate given server URL
-     */
-    setServerUrl() {
-      // Check if it's a valid gkcore url
-      axios
-        .get(`${this.serverUrl}/state`)
-        .then((res) => {
-          if (res.status == 200 && res.data.gkstatus == 0) {
-            this.$store.commit('setGkCoreUrl', {
-              gkCoreUrl: this.serverUrl,
-            });
-            this.showLogin = true;
-            this.fetchOrgs();
-          } else {
-            this.$bvToast.toast('Please check your server setup', {
-              title: 'Unable to Connect To The Server :-(',
-              variant: 'danger',
-              solid: true,
-            });
-          }
-        })
-        .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            title: 'Invalid URL',
-            variant: 'danger',
-            solid: true,
-          });
-        });
-    },
-    /**
-     * Clear localStorage, reset vuex state
-     * and show the server setup menu
-     */
-    switchServer() {
-      localStorage.clear();
-      this.$store.commit('setGkCoreUrl', {
-        gkCoreUrl: null,
-      });
-      this.checkUrl();
-    },
     /**
      * Validate & Login the user
      */
@@ -334,25 +161,23 @@ export default {
             case 0:
               this.isLoading = false;
               if (this.answer == this.userAnswer) {
-                let orgname = this.orgList[this.orgIndex].orgname;
+                let orgname = this.orgNameDisplay;
                 //let orgtype = this.orgList[this.orgIndex].orgtype;
-                let orgfy = this.orgFinancialYear();
+                //                 let orgfy = this.orgFinancialYear();
                 this.$store.dispatch('setSessionStates', {
                   auth: true,
                   orgCode: this.form.orgcode,
                   orgName: orgname,
                   authToken: response.data.token,
                   user: { username: this.form.username },
-                  orgYears: {
-                    yearStart: orgfy.startYear,
-                    yearEnd: orgfy.endYear,
-                  },
+                  // orgYears: {
+                  //   yearStart: orgfy.startYear,
+                  //   yearEnd: orgfy.endYear,
+                  // },
                 });
                 // Initiate axios defaults
                 axios.defaults.baseURL = this.gkCoreUrl;
                 axios.defaults.headers = { gktoken: response.data.token };
-                // Store org details in browser storage to set values on next login
-                localStorage.setItem('orgCodeChoice', this.form.orgcode);
                 // redirect to workflow on login
                 this.$router.push('/workflow/Transactions-Invoice/-1');
               } else {
@@ -383,74 +208,14 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
+          this.$bvToast.toast(error.message, {
+            title: 'Login Error!',
+            autoHideDelay: 3000,
+            variant: 'danger',
+            appendToast: true,
+            solid: true,
+          });
           console.log(error.message);
-        });
-    },
-    /**
-     * Get list of companies & show them in login form for user to select
-     * */
-    fetchOrgs() {
-      axios
-        .get(`${this.gkCoreUrl}/organisations`)
-        .then((response) => {
-          this.orgList = response.data.gkdata;
-          // if only one org, Set it as default
-          if (this.orgList.length == 1) {
-            this.orgIndex = 0;
-          }
-          const orgChoice = localStorage.getItem('orgChoice');
-          if (orgChoice !== null) {
-            for (let i in this.orgList) {
-              if (
-                `${this.orgList[i].orgname} (${this.orgList[i].orgtype})` ===
-                orgChoice
-              ) {
-                this.orgIndex = i;
-                break;
-              }
-            }
-            this.getOrgYears();
-          }
-          this.isDisabled = false; // hide the spinner
-        })
-        .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            variant: 'danger',
-          });
-          this.isDisabled = false; // hide the spinner
-        });
-    },
-
-    /*
-     * send org name & type & get a org's financial years as objects
-     */
-    getOrgYears() {
-      this.isDisabled = true;
-      let name = this.orgList[this.orgIndex].orgname;
-      let type = this.orgList[this.orgIndex].orgtype;
-      // Save org name for next login
-      localStorage.setItem('orgChoice', `${name} (${type})`);
-      axios
-        .get(`/orgyears/${name}/${type}`)
-        .then((r) => {
-          if (r.status == 200) {
-            this.orgYears = r.data.gkdata;
-            // Set default financial year to latest one
-            this.form.orgcode = this.orgYears[0].orgcode;
-            this.isDisabled = false;
-            if (localStorage.getItem('orgCodeChoice') !== null) {
-              this.form.orgcode = parseInt(
-                localStorage.getItem('orgCodeChoice')
-              );
-            }
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          this.$bvToast.toast(e.message, {
-            variant: 'danger',
-          });
-          this.isDisabled = false;
         });
     },
     /* return an org's financial start & end year as object
@@ -467,22 +232,25 @@ export default {
     },
   },
   created() {
-    this.checkUrl();
-    this.fetchOrgs();
+    let url = localStorage.getItem('gkCoreUrl');
+    console.log(url);
+    if (url == null || url == 'null') {
+      this.$router.push('/server-setup');
+    }
     if (this.userAuthenticated) {
       this.$router.push('/workflow/Transactions-Invoice/-1');
     }
+
+    this.form.orgcode = localStorage.getItem('orgCodeChoice');
+    if (this.form.orgcode === 'null' || this.form.orgcode == null) {
+      this.$router.push('/select-org');
+    }
+  },
+  mounted() {
+    this.orgNameDisplay = localStorage.getItem('orgChoice');
   },
   computed: {
     ...mapState(['gkCoreUrl', 'userAuthenticated']),
-    urlIsValid() {
-      return this.serverUrl
-        .split('')
-        .reverse()
-        .join('')[0] == '/'
-        ? false
-        : true;
-    },
   },
 };
 </script>
