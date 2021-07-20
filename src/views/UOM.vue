@@ -21,7 +21,7 @@
     >
       Valid GST Units are marked
       <b-badge variant="success">green</b-badge> If not mapped, Units will be
-      marked in <b-badge variant="primary">Blue</b-badge>
+      marked in <b-badge variant="warning">Yellow</b-badge>
     </b-alert>
     <b-table
       :filter="searchText"

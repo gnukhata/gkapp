@@ -2,11 +2,9 @@
 #+OPTIONS: num:nil
 #+STARTUP: fold
 
-The GNUkhata team meets every Monday at ~11:30 hrs (IST)~ to discuss about
+The GNUkhata team meets *Every Monday @ 11:30 hrs (IST)* to discuss about
 development, features, outline plans for next release. Feel free to join
-us & suggest feedback!
-
-[[https://meet.jit.si/GNUKhata2020][Jitsi Meet URL]]
+us & suggest your ideas, comments, feedback. [[https://meet.jit.si/GNUKhata2020][Jitsi Meet URL]]
 
 * Meeting history (2021-07-12)
   :PROPERTIES:
