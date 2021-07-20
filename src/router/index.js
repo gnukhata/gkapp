@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/views/Login.vue'
 import OrgProfile from '@/views/OrgProfile.vue'
 import Logs from '@/views/Logs.vue'
 import CloseBooks from '@/views/CloseBooks.vue'
@@ -16,7 +15,18 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: Login
+    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+
+  },
+  {
+    path: '/select-org',
+    name: 'Select Organisation',
+    component: () => import(/* webpackChunkName: "select-org" */ '../views/SelectOrg.vue')
+  },
+  {
+    path: '/server-setup',
+    name: 'Server Setup',
+    component: () => import(/* webpackChunkName: "server-setup" */ '../views/ServerSetup.vue')
   },
   {
     path: '/orgprofile',
