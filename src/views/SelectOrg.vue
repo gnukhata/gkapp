@@ -71,18 +71,13 @@
             </b-form-select>
           </b-overlay>
         </b-form-group>
-        <b-button-group size="sm" class="w-100">
-          <b-button
-            variant="dark"
-            class="pl-0 pr-0 m-1"
-            size="sm"
-            @click="switchServer"
-          >
+        <b-button-group size="sm" class="row float-right">
+          <b-button variant="dark" class="m-1" size="sm" @click="switchServer">
             <b-icon icon="cloud"></b-icon>
             Change Server
           </b-button>
           <b-button
-            class="m-1 -r-0 pl-0"
+            class="m-1"
             variant="dark"
             size="sm"
             :to="{ name: 'Create_Organisation' }"
@@ -90,11 +85,7 @@
             <b-icon icon="person-plus"></b-icon>
             Create Organisation
           </b-button>
-          <b-button
-            size="sm"
-            class="m-1 pr-0 pl-0"
-            variant="success"
-            type="submit"
+          <b-button size="sm" class="m-1" variant="success" type="submit"
             ><b-icon icon="arrow-right-circle"></b-icon> Continue</b-button
           >
         </b-button-group>

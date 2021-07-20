@@ -87,27 +87,21 @@
             </b-form-input>
           </b-form-group>
           <!-- Login & create account buttons-->
-          <b-button-group class="w-100">
-            <b-button
-              size="sm"
-              class="m-1 pl-0 pr-0 text-small"
-              variant="dark"
-              @click="switchServer"
-            >
+          <b-button-group size="sm" class="row float-right">
+            <b-button variant="dark" class="m-1" @click="switchServer">
               <b-icon icon="cloud"></b-icon>
 
               Change Server
             </b-button>
             <b-button
-              class="m-1 pl-0 pr-0"
-              size="sm"
+              class="m-1"
               variant="dark"
               @click="$router.push('/select-org')"
             >
               <b-icon icon="building"></b-icon>
               Change Organisation
             </b-button>
-            <b-button class="m-1 p-0" size="sm" variant="success" type="submit">
+            <b-button class="m-1" variant="success" type="submit">
               <b-spinner v-if="isLoading" small></b-spinner>
               <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
               Login
@@ -247,7 +241,7 @@ export default {
     }
   },
   mounted() {
-    this.orgNameDisplay = localStorage.getItem('orgChoice');
+    this.orgNameDisplay = localStorage.getItem('orgChoice').split('(')[0];
   },
   computed: {
     ...mapState(['gkCoreUrl', 'userAuthenticated']),
