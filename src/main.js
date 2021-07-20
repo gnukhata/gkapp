@@ -18,12 +18,12 @@ store.commit('initStore') // initialize the required vuex states from local stor
 Vue.mixin({
   data() {
     return {
-      orgImg: String,
+      orgImg: 'img/gk.png',
       userRole: Number
     }
   },
   methods: {
-    dateReverse(date){
+    dateReverse(date) {
       let d = date.split('-').reverse();
       return `${d[0]}-${d[1]}-${d[2]}`;
     },
@@ -52,14 +52,53 @@ Vue.mixin({
         .then((r) => {
           if (r.status == 200 && r.data.logo !== null) {
             this.orgImg = `data:image/png;base64,${r.data.logo}`;
-          } else {
-            this.orgImg = 'img/gk.png';
           }
         })
         .catch((e) => {
           console.log(e.message);
-          this.orgImg = 'img/gk.png';
         });
+    },
+
+    /*
+     * Logout the user, But preserve the gkcore url
+     */
+    logOut() {
+      // reset orgname
+      this.$store.commit('resetOrg');
+
+      // change auth status
+      this.$store.commit('setAuthStatus');
+
+      // delete items from localStorage
+      let deleteList = [
+        'authToken',
+        'orgCode',
+        'orgName',
+        'orgYears',
+        'userName',
+      ];
+      for (let i in deleteList) {
+        localStorage.removeItem(deleteList[i]);
+      }
+
+      // set gkCore url
+      this.$store.commit('setGkCoreUrl', { gkCoreUrl: this.gkCoreUrl });
+
+      // redirect to login page
+      this.$router.push('/');
+
+      // alert the user on logout
+      this.$bvToast.toast(`Logged out succesfully`, {
+        title: 'Logout',
+        solid: true,
+        variant: 'success',
+      });
+    },
+    switchServer() {
+      this.$store.commit('setGkCoreUrl', {
+        gkCoreUrl: null,
+      });
+      this.$router.push('/server-setup');
     },
   }
 })
