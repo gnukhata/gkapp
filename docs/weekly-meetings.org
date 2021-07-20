@@ -1,3 +1,6 @@
+#+TITLE: GNUKhata Weekly meetings
+#+OPTIONS: toc
+
 The GNUkhata team meets every Monday at ~11:30 hrs (IST)~ to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest feedback!
