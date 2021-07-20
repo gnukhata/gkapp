@@ -6,7 +6,7 @@ The GNUkhata team meets every Monday at ~11:30 hrs (IST)~ to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest feedback!
 
-[[doom-repo:][[[https://meet.jit.si/GNUKhata2020] [Jitsi Meet Link]]]]
+[[https://meet.jit.si/GNUKhata2020][Jitsi Meet URL]]
 
 * Meeting history (2021-07-12)
   :PROPERTIES:
