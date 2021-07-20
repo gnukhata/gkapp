@@ -1,11 +1,12 @@
 #+TITLE: GNUKhata Weekly meetings
-#+OPTIONS: toc
+#+OPTIONS: num:nil
+#+STARTUP: fold
 
 The GNUkhata team meets every Monday at ~11:30 hrs (IST)~ to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest feedback!
 
-Jitsi meet link [[https://meet.jit.si/GNUKhata2020]]
+[[doom-repo:][[[https://meet.jit.si/GNUKhata2020] [Jitsi Meet Link]]]]
 
 * Meeting history (2021-07-12)
   :PROPERTIES:
