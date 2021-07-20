@@ -414,34 +414,6 @@ export default {
             switch (response.data.gkstatus) 
             {
               case 0:
-<<<<<<< HEAD
-                this.$store
-                  .dispatch('setSessionStates', {
-                    orgCode: response.data.orgcode,
-                    authToken: response.data.token,
-                  })
-                  .then(() => {
-                    axios
-                      .get('/organisation')
-                      .then((response2) => {
-                        if (response2.data.gkstatus === 0) {
-                          this.$store.dispatch('setSessionStates', {
-                            auth: true,
-                            orgName: `${response2.data.gkdata.orgname} (${response2.data.gkdata.orgtype})`,
-                            user: { username: payload.userdetails.username },
-                            orgYears: {
-                              yearStart: response2.data.gkdata.yearstart,
-                              yearEnd: response2.data.gkdata.yearend,
-                            },
-                          });
-                          this.$router.push(
-                            '/workflow/Transactions-Invoice/-1'
-                          );
-                          this.$bvToast.toast(`Logged in Successfully!`, {
-                            title: 'Create Account Success!',
-                            autoHideDelay: 3000,
-                            variant: 'success',
-=======
                 {
                   let log = {
                     activity: `Organisation created: ${payload.orgdetails.orgname}`,
@@ -494,33 +466,9 @@ export default {
                             title: "Login Error!",
                             autoHideDelay: 3000,
                             variant: "danger",
->>>>>>> 53a758d4a208054c0f902b6ce73f8d467db00fc3
                             appendToast: true,
                             solid: true,
                           });
-<<<<<<< HEAD
-                        } else {
-                          this.$bvToast.toast(
-                            `Unable to Login to Account, Please try again`,
-                            {
-                              title: 'Login Error!',
-                              autoHideDelay: 3000,
-                              variant: 'danger',
-                              appendToast: true,
-                              solid: true,
-                            }
-                          );
-                        }
-                      })
-                      .catch((error) => {
-                        this.$bvToast.toast(`Error: ${error.message}`, {
-                          title: 'Login Error!',
-                          autoHideDelay: 3000,
-                          variant: 'danger',
-                          appendToast: true,
-                          solid: true,
-=======
->>>>>>> 53a758d4a208054c0f902b6ce73f8d467db00fc3
                         });
                     });
                 }
@@ -605,17 +553,6 @@ export default {
           orgregdate: null,
           orgfcrano: null,
           orgfcradate: null,
-<<<<<<< HEAD
-          invflag: null,
-          invsflag: null,
-          billflag: null,
-          avflag: null,
-          maflag: null,
-          avnoflag: null,
-          ainvnoflag: null,
-          modeflag: null,
-        },
-=======
           invflag: 1,
           invsflag: 1,
           billflag: 1,
@@ -625,7 +562,6 @@ export default {
           ainvnoflag: 1,
           modeflag: null
         }
->>>>>>> 53a758d4a208054c0f902b6ce73f8d467db00fc3
       };
     },
   },
