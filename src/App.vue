@@ -59,7 +59,7 @@
       </b-navbar>
       <color-bar></color-bar>
     </header>
-    <main role="main">
+    <main role="main" class="mb-5">
       <router-view />
     </main>
     <title-bar></title-bar>
