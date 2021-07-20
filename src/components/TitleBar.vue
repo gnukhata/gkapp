@@ -6,7 +6,7 @@
           <b-icon icon="chevron-left"></b-icon>
         </b-button>
       </div>
-      <div class="ml-1 mr-1">
+      <div class="ml-3 mr-3">
         <b-button size="sm" @click="$reload" variant="dark">
           <b-icon icon="arrow-clockwise"></b-icon>
         </b-button>

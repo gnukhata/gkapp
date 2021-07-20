@@ -6,7 +6,7 @@
 <template>
   <div class="d-flex justify-content-center mt-3 mx-3 align-form-label-right">
     <div class="card shadow" :style="{ 'min-width': '350px' }">
-      <div class="card-header bg-primary text-light">Create Organisation</div>
+      <div class="card-header bg-dark text-light">Create Organisation</div>
       <div class="card-body px-2 px-sm-4">
         <b-form @submit.prevent="onSubmit">
           <b-form-group
@@ -38,7 +38,7 @@
               v-model="orgType"
               :options="options.orgType"
               :aria-describedby="ariaDescribedby"
-              button-variant="outline-primary"
+              button-variant="outline-dark"
               name="radios-btn-outline"
               buttons
             ></b-form-radio-group>
@@ -239,7 +239,7 @@
             label-cols="3"
           >
             <template #label>
-              <captcha width="70" v-model="answer"></captcha>
+              <captcha width="90" v-model="answer"></captcha>
             </template>
             <!-- <b-col> -->
             <b-form-input
@@ -256,24 +256,24 @@
           <small>* All fields are required</small>
           <!-- <hr /> -->
           <div class="float-right">
-            <b-button
-              size="sm"
-              class="mr-2"
-              variant="danger"
-              :to="{ name: 'Login' }"
-            >
-              <b-icon
-                aria-hidden="true"
-                class="align-middle"
-                icon="arrow-left"
-              ></b-icon>
-              <span class="align-middle"> Back</span>
-            </b-button>
+            <!-- <b-button
+                   size="sm"
+                   class="mr-2"
+                   variant="danger"
+                   :to="{ name: 'Login' }"
+                   >
+                   <b-icon
+                   aria-hidden="true"
+                   class="align-middle"
+                   icon="arrow-left"
+                   ></b-icon>
+                   <span class="align-middle"> Back</span>
+                   </b-button> -->
             <b-button
               size="sm"
               type="submit"
               class="mr-2"
-              variant="primary"
+              variant="success"
               :disabled="allFieldsValid"
             >
               <b-spinner v-if="isLoading" small></b-spinner>
@@ -294,14 +294,14 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import passwordStrength from "check-password-strength";
-import Captcha from "../components/Captcha.vue";
-import SecurityQuestions from "../components/SecurityQuestions.vue";
+import axios from 'axios';
+import { mapState } from 'vuex';
+import passwordStrength from 'check-password-strength';
+import Captcha from '../components/Captcha.vue';
+import SecurityQuestions from '../components/SecurityQuestions.vue';
 
 export default {
-  name: "CreateOrganisation",
+  name: 'CreateOrganisation',
   components: { Captcha, SecurityQuestions },
   data() {
     return {
@@ -309,73 +309,73 @@ export default {
       isLoading: false,
       options: {
         orgType: [
-          { text: "Profit Making", value: 0 },
-          { text: "Not For Profit", value: 1 }
+          { text: 'Profit Making', value: 0 },
+          { text: 'Not For Profit', value: 1 },
         ],
-        pwdFieldTypes: ["lowercase", "uppercase", "symbol", "number"]
+        pwdFieldTypes: ['lowercase', 'uppercase', 'symbol', 'number'],
       },
-      orgName: "",
+      orgName: '',
       orgType: 0,
       yearStart: null,
       yearEnd: null,
-      userName: "",
-      userPassword: "",
-      confirmPassword: "",
-      securityAnswer: "",
-      securityQuestion: "",
+      userName: '',
+      userPassword: '',
+      confirmPassword: '',
+      securityAnswer: '',
+      securityQuestion: '',
       answer: null,
-      userAnswer: null
+      userAnswer: null,
     };
   },
   computed: {
-    pwdStrength: self =>
-      self.userPassword !== "" && self.userPassword !== null
+    pwdStrength: (self) =>
+      self.userPassword !== '' && self.userPassword !== null
         ? passwordStrength(self.userPassword)
-        : { value: "Empty" },
-    allFieldsValid: self => !self.isPasswordValid && !self.arePasswordsSame,
-    isPasswordValid: self =>
-      self.pwdStrength.value === "Empty"
+        : { value: 'Empty' },
+    allFieldsValid: (self) => !self.isPasswordValid && !self.arePasswordsSame,
+    isPasswordValid: (self) =>
+      self.pwdStrength.value === 'Empty'
         ? null
-        : self.pwdStrength.value === "Strong",
-    arePasswordsSame: self =>
+        : self.pwdStrength.value === 'Strong',
+    arePasswordsSame: (self) =>
       self.userPassword && self.confirmPassword
         ? self.userPassword === self.confirmPassword
         : null,
     passwordFeedback() {
-      let text = "";
+      let text = '';
       if (this.userPassword) {
         switch (this.pwdStrength.value) {
-          case "Strong":
-            text = "Password is Strong.";
+          case 'Strong':
+            text = 'Password is Strong.';
             break;
-          case "Medium":
+          case 'Medium':
             text = this.getPasswordHint(this.pwdStrength);
             break;
-          case "Weak":
+          case 'Weak':
             text = this.getPasswordHint(this.pwdStrength);
             break;
           default:
             if (this.userPassword.length < 8) {
-              text = "is-danger";
+              text = 'is-danger';
             } else {
-              text = "is-success";
+              text = 'is-success';
             }
         }
       }
       return text;
     },
-    ...mapState(["gkCoreUrl", "gkCoreTestUrl"])
+    ...mapState(['gkCoreUrl', 'gkCoreTestUrl']),
   },
   methods: {
     setYearEnd() {
       // console.log('On date change')
-      if (this.yearStart !== null && this.year !== "") {
-        const from = this.yearStart.split("-"); // yyyy/mm/dd
+      if (this.yearStart !== null && this.year !== '') {
+        const from = this.yearStart.split('-'); // yyyy/mm/dd
         const to = new Date(`${parseInt(from[0]) + 1}/${from[1]}/${from[2]}`);
         let end = null;
         to.setDate(to.getDate() - 1);
         end = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()}`;
-        if (end.includes("NaN")) {
+        if (end.includes('NaN')) {
           this.yearEnd = null;
         } else {
           this.yearEnd = end;
@@ -385,18 +385,18 @@ export default {
       }
     },
     getPasswordHint(pwdStrength) {
-      const available = pwdStrength.contains.map(item => item.message);
+      const available = pwdStrength.contains.map((item) => item.message);
       let hint = this.options.pwdFieldTypes
-        .filter(item => !available.includes(item))
+        .filter((item) => !available.includes(item))
         .reduce((prev, cur) => {
           return `${prev} ${cur},`;
-        }, "");
+        }, '');
       hint = hint.substring(0, hint.length - 1);
       if (available.length < 4) {
         hint = `Require atleast 1 ${hint}.`;
       }
       if (pwdStrength.length < 8) {
-        hint += " Must be minimum 8 characters long";
+        hint += ' Must be minimum 8 characters long';
       }
       return hint;
     },
@@ -405,59 +405,61 @@ export default {
         this.isLoading = true;
         const payload = this.initPayload();
         axios
-          .post("/organisations", payload)
-          .then(response => {
+          .post('/organisations', payload)
+          .then((response) => {
             // console.log(response)
             this.isLoading = false;
             switch (response.data.gkstatus) {
               case 0:
                 this.$store
-                  .dispatch("setSessionStates", {
+                  .dispatch('setSessionStates', {
                     orgCode: response.data.orgcode,
-                    authToken: response.data.token
+                    authToken: response.data.token,
                   })
                   .then(() => {
                     axios
-                      .get("/organisation")
-                      .then(response2 => {
+                      .get('/organisation')
+                      .then((response2) => {
                         if (response2.data.gkstatus === 0) {
-                          this.$store.dispatch("setSessionStates", {
+                          this.$store.dispatch('setSessionStates', {
                             auth: true,
                             orgName: `${response2.data.gkdata.orgname} (${response2.data.gkdata.orgtype})`,
                             user: { username: payload.userdetails.username },
                             orgYears: {
                               yearStart: response2.data.gkdata.yearstart,
-                              yearEnd: response2.data.gkdata.yearend
-                            }
+                              yearEnd: response2.data.gkdata.yearend,
+                            },
                           });
-                          this.$router.push("/workflow/Transactions-Invoice/-1");
+                          this.$router.push(
+                            '/workflow/Transactions-Invoice/-1'
+                          );
                           this.$bvToast.toast(`Logged in Successfully!`, {
-                            title: "Create Account Success!",
+                            title: 'Create Account Success!',
                             autoHideDelay: 3000,
-                            variant: "success",
+                            variant: 'success',
                             appendToast: true,
-                            solid: true
+                            solid: true,
                           });
                         } else {
                           this.$bvToast.toast(
                             `Unable to Login to Account, Please try again`,
                             {
-                              title: "Login Error!",
+                              title: 'Login Error!',
                               autoHideDelay: 3000,
-                              variant: "danger",
+                              variant: 'danger',
                               appendToast: true,
-                              solid: true
+                              solid: true,
                             }
                           );
                         }
                       })
-                      .catch(error => {
+                      .catch((error) => {
                         this.$bvToast.toast(`Error: ${error.message}`, {
-                          title: "Login Error!",
+                          title: 'Login Error!',
                           autoHideDelay: 3000,
-                          variant: "danger",
+                          variant: 'danger',
                           appendToast: true,
-                          solid: true
+                          solid: true,
                         });
                       });
                   });
@@ -466,11 +468,11 @@ export default {
                 this.$bvToast.toast(
                   `Duplicate Entry! Please Check the Organisation Name`,
                   {
-                    title: "Create Account Error!",
+                    title: 'Create Account Error!',
                     autoHideDelay: 3000,
-                    variant: "danger",
+                    variant: 'danger',
                     appendToast: true,
-                    solid: true
+                    solid: true,
                   }
                 );
                 break;
@@ -478,22 +480,22 @@ export default {
                 this.$bvToast.toast(
                   `Unable to create account, Please try again`,
                   {
-                    title: "Create Account Error!",
+                    title: 'Create Account Error!',
                     autoHideDelay: 3000,
-                    variant: "danger",
+                    variant: 'danger',
                     appendToast: true,
-                    solid: true
+                    solid: true,
                   }
                 );
             } // end switch
           })
-          .catch(error => {
+          .catch((error) => {
             this.$bvToast.toast(`Error: ${error.message}`, {
-              title: "Create Account Error!",
+              title: 'Create Account Error!',
               autoHideDelay: 3000,
-              variant: "warning",
+              variant: 'warning',
               appendToast: true,
-              solid: true
+              solid: true,
             });
           })
           .then(() => {
@@ -503,11 +505,11 @@ export default {
       } else {
         // Alert the user on captcha failure
         this.$bvToast.toast(`Captcha is incorrect. Please try again`, {
-          title: "Captcha Error!",
+          title: 'Captcha Error!',
           autoHideDelay: 3000,
-          variant: "warning",
+          variant: 'warning',
           appendToast: true,
-          solid: true
+          solid: true,
         });
         // Generate new captcha
         this.genCaptcha();
@@ -520,13 +522,13 @@ export default {
           username: this.userName,
           userpassword: this.userPassword,
           userquestion: this.securityQuestion,
-          useranswer: this.securityAnswer
+          useranswer: this.securityAnswer,
         },
         orgdetails: {
           orgname: this.orgName,
           orgtype: this.options.orgType[this.orgType].text,
-          yearstart: this.yearStart.split("-").join("/"),
-          yearend: this.yearEnd.split("-").join("/"),
+          yearstart: this.yearStart.split('-').join('/'),
+          yearend: this.yearEnd.split('-').join('/'),
           orgcity: null,
           orgaddr: null,
           orgpincode: null,
@@ -549,13 +551,13 @@ export default {
           maflag: null,
           avnoflag: null,
           ainvnoflag: null,
-          modeflag: null
-        }
+          modeflag: null,
+        },
       };
-    }
+    },
   },
   mounted() {
     this.yearStart = `${new Date().getFullYear()}-04-01`; // 1st of April, current year. YYYY-MM-DD
-  }
+  },
 };
 </script>
