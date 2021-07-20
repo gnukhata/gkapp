@@ -4,19 +4,11 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <div class="mb-2">
-      <!-- <span class="float-right">
-        <config
-          title="Invoice Page Configuration"
-          getDefault="getDefaultTransferNoteConfig"
-          setCustom="updateTransferNoteConfig"
-          getCustom="getCustomTransferNoteConfig"
-        >
-        </config>
-      </span> -->
-      <div class="clearfix"></div>
-    </div>
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="confirmOnSubmit">
+      <div class="text-center pt-2">
+        <h4>Create Transfer Note</h4>
+      </div>
+      <hr />
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Delivery Note Details -->
         <transfer-note-details
@@ -102,7 +94,13 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
-    <print-page :show="showPrintModal" name="TransferNote" title="Transfer Note" :id="tnoteId" :pdata="{}">
+    <print-page
+      :show="showPrintModal"
+      name="TransferNote"
+      title="Transfer Note"
+      :id="tnoteId"
+      :pdata="{}"
+    >
     </print-page>
   </b-container>
 </template>
@@ -142,6 +140,8 @@ export default {
         bill: 0,
         transport: 0,
       },
+      godownFrom: '',
+      godownTo: '',
       form: {
         transferNote: {
           godownFrom: -1,
@@ -190,6 +190,8 @@ export default {
         case 'transfer-note-details':
           Object.assign(this.form.transferNote, payload.data);
           this.isInvDateValid = payload.options.isDateValid;
+          this.godownFrom = payload.options.godownFrom;
+          this.godownTo = payload.options.godownTo;
           break;
       }
     },
@@ -202,6 +204,31 @@ export default {
       this.updateCounter.transferNote++;
       this.updateCounter.transport++;
       this.updateCounter.bill++;
+    },
+    confirmOnSubmit() {
+      this.updateCounter.transferNote++;
+      const self = this;
+      let text = `Create Transfer (${this.form.transferNote.no}) from Godown <b>${this.godownFrom}</b> to <b>${this.godownTo}</b>?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
     },
     onSubmit() {
       const self = this;
@@ -218,16 +245,24 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                console.log(resp.data);
-                this.displayToast(
-                  `Create Transfer Note Successfull!`,
-                  `Transfer Note #${self.form.transferNote.no} was successfully created`,
-                  'success'
-                );
-                this.resetForm();
-                this.tnoteId = resp.data.gkresult;
-                this.showPrintModal = true;
+                {
+                  // success
+                  console.log(resp.data);
+                  this.displayToast(
+                    `Create Transfer Note Successfull!`,
+                    `Transfer Note #${self.form.transferNote.no} was successfully created`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `transfer note created: ${self.form.transferNote.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  this.resetForm();
+                  this.tnoteId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                }
                 break;
               case 1:
                 // Duplicate entry

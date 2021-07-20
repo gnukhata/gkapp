@@ -49,7 +49,7 @@
         <b-form-select
           size="sm"
           v-model="invoiceId"
-          :options="options.editableInvoices[form.type]"
+          :options="editableInvoices"
           @change="initForm()"
         ></b-form-select>
       </span>
@@ -64,7 +64,7 @@
       </span>
       <div class="clearfix"></div>
     </div>
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="confirmOnSubmit">
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Buyer/Seller Details -->
         <party-details
@@ -495,11 +495,41 @@ export default {
         ? currDate >= minDate && currDate <= maxDate
         : null;
     },
+    editableInvoices: (self) => {
+      return self.options.editableInvoices[self.form.type];
+    },
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
   },
   methods: {
+    confirmOnSubmit() {
+      this.updateCounter.inv++;
+      const self = this;
+      let text = `Create ${this.isSale ? 'Sale' : 'Purchase'} Invoice (${
+        this.form.inv.no
+      })?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
+    },
     collectComponentData() {
       Object.assign(this.form.inv, this.$refs.inv.form);
       Object.assign(this.form.party, this.$refs.party.form);
@@ -955,20 +985,30 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                this.invoiceId = resp.data.gkresult;
-                this.showPrintModal = true;
-                this.displayToast(
-                  `${actionText} Invoice Successfull!`,
-                  `Invoice saved with entry no. ${
-                    resp.data.invoiceid ||
-                    resp.data.gkresult ||
-                    resp.data.vchData.vchno
-                  }`,
-                  'success'
-                );
-                if (this.formMode === 'create') {
-                  this.resetForm();
+                {
+                  // success
+                  this.invoiceId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                  this.displayToast(
+                    `${actionText} Invoice Successfull!`,
+                    `Invoice saved with entry no. ${
+                      resp.data.invoiceid ||
+                      resp.data.gkresult ||
+                      resp.data.vchData.vchno
+                    }`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `invoice ${
+                      this.formMode === 'create' ? 'created' : 'updated'
+                    }: ${self.form.inv.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  if (this.formMode === 'create') {
+                    this.resetForm();
+                  }
                 }
                 break;
               case 1:
@@ -1179,7 +1219,7 @@ export default {
     },
     resetForm() {
       this.form = {
-        type: 'sale', // purchase
+        type: this.form.type,
         inv: {},
         party: {
           name: false,
@@ -1276,8 +1316,16 @@ export default {
         solid: true,
       });
     },
+    /** Update the URL based on form mode selected (Create/Edit) */
+    updateUrl() {
+      let url = window.location.href.split('#')[0];
+      url += `#/invoice/${this.formMode}/0`;
+      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
+      // instead of creating a new history instances for every entity selected
+    },
     initForm() {
       let self = this;
+      this.updateUrl();
       this.resetForm();
       this.preloadData().then(() => {
         self.fetchEditableInvoices();

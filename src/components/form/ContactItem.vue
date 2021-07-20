@@ -5,7 +5,7 @@
       <slot name="close-button"> </slot>
     </div>
     <div class="card-body pb-2">
-      <b-form class="text-left" @submit.prevent="onSubmit">
+      <b-form class="text-left" @submit.prevent="confirmOnSubmit">
         <b-row>
           <b-col :md="columnOneWidth" :lg="inOverlay ? columnOneWidth : null">
             <b-form-group label-size="sm" label-cols="3" label="Type">
@@ -24,6 +24,7 @@
               label="Name"
               label-for="ci-input-1"
               label-cols="3"
+              label-class="required"
             >
               <b-form-input
                 size="sm"
@@ -40,6 +41,7 @@
               label="PIN"
               label-for="ci-input-3"
               label-cols="3"
+              label-class="required"
             >
               <b-form-input
                 size="sm"
@@ -57,6 +59,7 @@
               label="State"
               label-for="ci-input-2"
               label-cols="3"
+              label-class="required"
             >
               <autocomplete id="ci-input-2" v-model="state" :options="options.states" placeholder="Select a State" valueUid="code"> </autocomplete>
             </b-form-group>
@@ -65,6 +68,7 @@
               label="Address"
               label-for="ci-input-4"
               label-cols="3"
+              label-class="required"
             >
               <b-form-textarea
                 id="ci-input-4"
@@ -423,6 +427,31 @@ export default {
     },
   },
   methods: {
+    confirmOnSubmit() {
+      const self = this;
+      let party = (this.isSupplier)? 'Supplier' : 'Customer';
+      let text = `Create ${party} <b>${this.form.name}</b>?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
+    },
     onSubmit() {
       // console.log('in submit')
       this.isLoading = true;

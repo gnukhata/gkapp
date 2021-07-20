@@ -166,6 +166,7 @@
           :type="csflag === '3' ? 'receipt' : 'payment'"
           :customer="custname"
           :isOpen="showVoucherForm"
+          mode='create'
         >
           <template #close-button>
             <b-button
@@ -189,7 +190,6 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Voucher from '../components/form/Voucher.vue';
-import { numberToRupees } from '../js/utils';
 import Autocomplete from '../components/Autocomplete.vue';
 
 export default {
@@ -201,7 +201,7 @@ export default {
   props: {
     custType: {
       type: [String, Number],
-      validator: function (value) {
+      validator: function(value) {
         return value == 3 || value == 19;
       },
       required: true,
@@ -217,6 +217,7 @@ export default {
       isPreloading: false,
       showVoucherForm: false,
       options: {
+        partyIdToName: {},
         customers: [],
         suppliers: [],
         vouchers: [],
@@ -246,10 +247,9 @@ export default {
     };
   },
   computed: {
+    isCustomer: (self) => self.csflag === '3',
     currentPartyOptions: (self) =>
-      parseInt(self.csflag) === 3
-        ? self.options.customers
-        : self.options.suppliers,
+      self.csflag === '3' ? self.options.customers : self.options.suppliers,
     totalAdjusted: (self) => {
       let total = 0;
       if (self.options.invoices !== null) {
@@ -269,21 +269,7 @@ export default {
         self.totalAdjusted <= self.options.voucherPriceMap[self.vcode]
       );
     },
-    custname: (self) => {
-      let name = null;
-      if (self.custid !== null && !isNaN(parseInt(self.custid))) {
-        if (self.csflag === '3' && self.options.customers.length) {
-          name = self.options.customers.find(
-            (cust) => cust.custid === self.custid
-          ).custname;
-        } else if (self.csflag === '19' && self.options.suppliers.length) {
-          name = self.options.suppliers.find(
-            (cust) => cust.custid === self.custid
-          ).custname;
-        }
-      }
-      return name;
-    },
+    custname: (self) => self.options.partyIdToName[self.custid] || null,
     ...mapState([]),
   },
   methods: {
@@ -303,9 +289,11 @@ export default {
       );
       let text = this.$createElement('div', {
         domProps: {
-          innerHTML: `Adjust ${numberToRupees(this.totalAdjusted)} <b>(₹ ${
+          innerHTML: `Adjust <b>₹ ${
             this.totalAdjusted
-          }) </b> against <b>${invCount}</b> Invoices?`,
+          } </b> against <b>${invCount}</b> ${
+            invCount > 1 ? 'Invoices' : 'Invoice'
+          } for ${this.isCustomer ? 'Customer' : 'Supplier'} ${this.custname}?`,
         },
       });
       this.$bvModal
@@ -465,10 +453,14 @@ export default {
         self.isPreloading = false;
         let preloadErrorList = ''; // To handle the unloaded data, at once than individually
 
+        let pidToName = {};
         // === Customer List ===
         if (resp1.status === 200) {
           if (resp1.data.gkstatus === 0) {
             this.options.customers = resp1.data.gkresult;
+            resp1.data.gkresult.forEach((cust) => {
+              pidToName[cust.custid] = cust.custname;
+            });
           } else {
             preloadErrorList += ' Customer List, ';
           }
@@ -478,10 +470,15 @@ export default {
         if (resp2.status === 200) {
           if (resp2.data.gkstatus === 0) {
             this.options.suppliers = resp2.data.gkresult;
+            resp2.data.gkresult.forEach((cust) => {
+              pidToName[cust.custid] = cust.custname;
+            });
           } else {
             preloadErrorList += ' Supplier List,';
           }
         }
+
+        this.options.partyIdToName = pidToName;
 
         if (preloadErrorList !== '') {
           this.displayToast(
@@ -496,9 +493,8 @@ export default {
     updateUrl() {
       let url = window.location.href.split('#')[0];
       let custType = this.csflag;
-      let party = this.currentPartyOptions.find(party => party.custid === this.custid)
-      let custName = (party) ? party.custname : '-1';
-      
+      let custName = this.options.partyIdToName[this.custid] || -1;
+
       url += `#/billwise/${custType}/${custName}`;
       history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
       // instead of creating a new history instance every time a customer / supplier is selected
@@ -526,4 +522,3 @@ export default {
   },
 };
 </script>
-

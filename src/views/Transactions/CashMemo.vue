@@ -4,30 +4,34 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <div class="mb-2">
-      <b-form-radio-group
-        v-model="form.type"
-        v-if="config.type"
-        button-variant="outline-secondary"
-        size="sm"
-        buttons
-        class="mx-1"
-      >
-        <b-form-radio value="sale">Sale</b-form-radio>
-        <b-form-radio value="purchase">Purchase</b-form-radio>
-      </b-form-radio-group>
-      <span class="float-right">
-        <config
-          title="Invoice Page Configuration"
-          getDefault="getDefaultInvoiceConfig"
-          setCustom="updateInvoiceConfig"
-          getCustom="getCustomInvoiceConfig"
+    <b-form @submit.prevent="confirmOnSubmit">
+      <div class="text-center pt-2">
+        <h4>Create Cash Memo</h4>
+      </div>
+      <hr />
+      <div class="mb-2">
+        <b-form-radio-group
+          v-model="form.type"
+          v-if="config.type"
+          button-variant="outline-secondary"
+          size="sm"
+          buttons
+          class="mx-1"
         >
-        </config>
-      </span>
-      <div class="clearfix"></div>
-    </div>
-    <b-form @submit.prevent="onSubmit">
+          <b-form-radio value="sale">Sale</b-form-radio>
+          <b-form-radio value="purchase">Purchase</b-form-radio>
+        </b-form-radio-group>
+        <span class="float-right">
+          <config
+            title="Invoice Page Configuration"
+            getDefault="getDefaultInvoiceConfig"
+            setCustom="updateInvoiceConfig"
+            getCustom="getCustomInvoiceConfig"
+          >
+          </config>
+        </span>
+        <div class="clearfix"></div>
+      </div>
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Delivery Note Details -->
         <cash-memo-details
@@ -148,7 +152,13 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
-    <print-page :show="showPrintModal" name="CashMemo" title="Cash Memo" :id="memoId" :pdata="{}">
+    <print-page
+      :show="showPrintModal"
+      name="CashMemo"
+      title="Cash Memo"
+      :id="memoId"
+      :pdata="{}"
+    >
     </print-page>
   </b-container>
 </template>
@@ -174,7 +184,7 @@ export default {
     Config,
     PaymentDetails,
     TotalTable,
-    PrintPage
+    PrintPage,
   },
   data() {
     return {
@@ -383,6 +393,33 @@ export default {
       // console.log({ invoice, stock });
       return { invoice, stock };
     },
+    confirmOnSubmit() {
+      this.updateCounter.memo++;
+      const self = this;
+      let text = `Create Cash Memo (${this.form.memo.no}) for ${
+        this.isSale ? 'Sale' : 'Purchase'
+      }?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
+    },
     onSubmit() {
       this.isLoading = true;
       const payload = this.initPayload();
@@ -396,20 +433,28 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
+                {
+                  // success
 
-                this.displayToast(
-                  `Create Cash Memo Successfull!`,
-                  `Cash Memo saved with entry no. ${
-                    resp.data.invoiceid ||
-                    resp.data.gkresult ||
-                    resp.data.vchData.vchno
-                  }`,
-                  'success'
-                );
-                this.showPrintModal = true;
-                this.memoId = resp.data.gkresult;
-                this.resetForm();
+                  this.displayToast(
+                    `Create Cash Memo Successfull!`,
+                    `Cash Memo saved with entry no. ${
+                      resp.data.invoiceid ||
+                      resp.data.gkresult ||
+                      resp.data.vchData.vchno
+                    }`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `cash memo created: ${self.form.memo.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  this.showPrintModal = true;
+                  this.memoId = resp.data.gkresult;
+                  this.resetForm();
+                }
                 break;
               case 1:
                 // Duplicate entry

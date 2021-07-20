@@ -350,16 +350,25 @@ export default {
               .then((res) => {
                 switch (res.data.gkstatus) {
                   case 0:
-                    this.isLoading = false;
-                    this.updateAccountDetails(this.oldContactName);
-                    this.$bvToast.toast(
-                      `${this.details.custname} Profile Details Updated`,
-                      {
-                        title: 'Success',
-                        variant: 'success',
-                        solid: true,
-                      }
-                    );
+                    {
+                      this.isLoading = false;
+                      this.updateAccountDetails(this.oldContactName);
+                      this.$bvToast.toast(
+                        `${this.details.custname} Profile Details Updated`,
+                        {
+                          title: 'Success',
+                          variant: 'success',
+                          solid: true,
+                        }
+                      );
+
+                      let log = {
+                        activity: `${
+                          this.customer.csflag ? 'customer' : 'supplier'
+                        } updated: ${this.details.custname}`,
+                      };
+                      axios.post('/log', log);
+                    }
                     break;
                   case 2:
                     this.isLoading = false;

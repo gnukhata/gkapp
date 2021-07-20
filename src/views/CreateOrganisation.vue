@@ -404,13 +404,17 @@ export default {
       if (this.userAnswer == this.answer) {
         this.isLoading = true;
         const payload = this.initPayload();
+
+        // Create Organisation
         axios
           .post('/organisations', payload)
           .then((response) => {
             // console.log(response)
             this.isLoading = false;
-            switch (response.data.gkstatus) {
+            switch (response.data.gkstatus) 
+            {
               case 0:
+<<<<<<< HEAD
                 this.$store
                   .dispatch('setSessionStates', {
                     orgCode: response.data.orgcode,
@@ -437,9 +441,64 @@ export default {
                             title: 'Create Account Success!',
                             autoHideDelay: 3000,
                             variant: 'success',
+=======
+                {
+                  let log = {
+                    activity: `Organisation created: ${payload.orgdetails.orgname}`,
+                  };
+                  axios.post('/log', log);
+
+                  this.$store
+                    .dispatch("setSessionStates", {
+                      orgCode: response.data.orgcode,
+                      authToken: response.data.token
+                    })
+                    .then(() => {
+                      // After Org creation is Successfull, Fetch Org Details with AuthToken and Login
+                      axios
+                        .get("/organisation")
+                        .then(response2 => {
+                          if (response2.data.gkstatus === 0) {
+                            this.$store.dispatch("setSessionStates", {
+                              auth: true,
+                              orgName: `${response2.data.gkdata.orgname} (${response2.data.gkdata.orgtype})`,
+                              user: { username: payload.userdetails.username },
+                              orgYears: {
+                                yearStart: response2.data.gkdata.yearstart,
+                                yearEnd: response2.data.gkdata.yearend
+                              }
+                            });
+                            this.$router.push("/workflow/Transactions-Invoice/-1");
+                            this.$bvToast.toast(`Logged in Successfully!`, {
+                              title: "Create Account Success!",
+                              autoHideDelay: 3000,
+                              variant: "success",
+                              appendToast: true,
+                              solid: true
+                            });
+                          } else {
+                            this.$bvToast.toast(
+                              `Unable to Login to Account, Please try again`,
+                              {
+                                title: "Login Error!",
+                                autoHideDelay: 3000,
+                                variant: "danger",
+                                appendToast: true,
+                                solid: true
+                              }
+                            );
+                          }
+                        })
+                        .catch(error => {
+                          this.$bvToast.toast(`Error: ${error.message}`, {
+                            title: "Login Error!",
+                            autoHideDelay: 3000,
+                            variant: "danger",
+>>>>>>> 53a758d4a208054c0f902b6ce73f8d467db00fc3
                             appendToast: true,
                             solid: true,
                           });
+<<<<<<< HEAD
                         } else {
                           this.$bvToast.toast(
                             `Unable to Login to Account, Please try again`,
@@ -460,9 +519,11 @@ export default {
                           variant: 'danger',
                           appendToast: true,
                           solid: true,
+=======
+>>>>>>> 53a758d4a208054c0f902b6ce73f8d467db00fc3
                         });
-                      });
-                  });
+                    });
+                }
                 break;
               case 1:
                 this.$bvToast.toast(
@@ -544,6 +605,7 @@ export default {
           orgregdate: null,
           orgfcrano: null,
           orgfcradate: null,
+<<<<<<< HEAD
           invflag: null,
           invsflag: null,
           billflag: null,
@@ -553,6 +615,17 @@ export default {
           ainvnoflag: null,
           modeflag: null,
         },
+=======
+          invflag: 1,
+          invsflag: 1,
+          billflag: 1,
+          avflag: 1,
+          maflag: 0,
+          avnoflag: 1,
+          ainvnoflag: 1,
+          modeflag: null
+        }
+>>>>>>> 53a758d4a208054c0f902b6ce73f8d467db00fc3
       };
     },
   },

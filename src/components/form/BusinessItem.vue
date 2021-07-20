@@ -7,7 +7,7 @@
       <slot name="close-button"> </slot>
     </div>
     <div class="card-body pb-2 px-1 px-md-3">
-      <b-form class="text-left px-2" @submit.prevent="onSubmit">
+      <b-form class="text-left px-2" @submit.prevent="confirmOnSubmit">
         <b-row>
           <b-col class="mb-3 px-3">
             <b-row>
@@ -540,6 +540,31 @@ export default {
     },
     deleteGodown(index) {
       this.form.stock.godowns.splice(index, 1);
+    },
+    confirmOnSubmit() {
+      const self = this;
+      let itemType = (this.isService)? 'Service' : 'Product';
+      let text = `Create ${itemType} <b>${this.form.name}</b>?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
     },
     onSubmit() {
       // console.log('in submit')

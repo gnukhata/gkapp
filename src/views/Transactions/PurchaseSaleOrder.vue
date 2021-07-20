@@ -4,30 +4,34 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <div class="mb-2">
-      <b-form-radio-group
-        v-model="form.type"
-        button-variant="outline-secondary"
-        size="sm"
-        buttons
-        class="mx-1"
-        @input="updateConfig"
-      >
-        <b-form-radio value="sale">Sale</b-form-radio>
-        <b-form-radio value="purchase">Purchase</b-form-radio>
-      </b-form-radio-group>
-      <span class="float-right">
-        <config
-          title="Invoice Page Configuration"
-          getDefault="getDefaultInvoiceConfig"
-          setCustom="updateInvoiceConfig"
-          getCustom="getCustomInvoiceConfig"
+    <b-form @submit.prevent="confirmOnSubmit">
+      <div class="text-center pt-2">
+        <h4>Create {{ isSale ? 'Sale' : 'Purchase' }} Order</h4>
+      </div>
+      <hr />
+      <div class="mb-2">
+        <b-form-radio-group
+          v-model="form.type"
+          button-variant="outline-secondary"
+          size="sm"
+          buttons
+          class="mx-1"
+          @input="updateConfig"
         >
-        </config>
-      </span>
-      <div class="clearfix"></div>
-    </div>
-    <b-form @submit.prevent="onSubmit">
+          <b-form-radio value="sale">Sale</b-form-radio>
+          <b-form-radio value="purchase">Purchase</b-form-radio>
+        </b-form-radio-group>
+        <span class="float-right">
+          <config
+            title="Invoice Page Configuration"
+            getDefault="getDefaultInvoiceConfig"
+            setCustom="updateInvoiceConfig"
+            getCustom="getCustomInvoiceConfig"
+          >
+          </config>
+        </span>
+        <div class="clearfix"></div>
+      </div>
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Buyer/Seller Details -->
         <party-details
@@ -484,6 +488,33 @@ export default {
       // console.log({ invoice, stock });
       return orderData;
     },
+    confirmOnSubmit() {
+      this.updateCounter.psOrder++;
+      const self = this;
+      let text = `Create ${this.isSale ? 'Sale' : 'Purchase'} Order (${
+        this.form.psOrder.no
+      })?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
+    },
     onSubmit() {
       let self = this;
       this.isLoading = true;
@@ -500,16 +531,26 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                console.log(resp.data);
-                this.displayToast(
-                  `Create ${orderType} Successfull!`,
-                  `${orderType} was successfully created`,
-                  'success'
-                );
-                this.resetForm();
-                this.orderId = resp.data.gkresult;
-                this.showPrintModal = true;
+                {
+                  // success
+                  console.log(resp.data);
+                  this.displayToast(
+                    `Create ${orderType} Successfull!`,
+                    `${orderType} was successfully created`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `${orderType.toLowerCase()} created: ${
+                      self.form.psOrder.no
+                    }`,
+                  };
+                  axios.post('/log', log);
+
+                  this.resetForm();
+                  this.orderId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                }
                 break;
               case 1:
                 // Duplicate entry

@@ -4,7 +4,11 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="confirmOnSubmit">
+      <div class="text-center pt-2">
+        <h4>Create Rejection Note</h4>
+      </div>
+      <hr class="" />
       <div class="mb-2">
         <b-form-radio-group
           v-model="form.type"
@@ -161,7 +165,13 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
-    <print-page :show="showPrintModal" name="RejectionNote" title="Rejection Note" :id="rnoteId" :pdata="{}">
+    <print-page
+      :show="showPrintModal"
+      name="RejectionNote"
+      title="Rejection Note"
+      :id="rnoteId"
+      :pdata="{}"
+    >
     </print-page>
   </b-container>
 </template>
@@ -408,6 +418,34 @@ export default {
         stockdata: stock,
       };
     },
+    confirmOnSubmit() {
+      this.updateCounter.rnote++;
+      this.updateCounter.invoice++;
+      const self = this;
+      let text = `Create Rejection Note (${this.form.rnote.no}) for ${
+        this.isSale ? 'Sale' : 'Purchase'
+      } Invoice (${this.form.invoice.no})?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
+    },
     onSubmit() {
       const self = this;
       this.isLoading = true;
@@ -422,16 +460,24 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                console.log(resp.data);
-                this.displayToast(
-                  `Create Rejection Note Successfull!`,
-                  `Rejection Note #${self.form.rnote.no} was successfully created`,
-                  'success'
-                );
-                this.resetForm(true);
-                this.rnoteId = resp.data.gkresult;
-                this.showPrintModal = true;
+                {
+                  // success
+                  console.log(resp.data);
+                  this.displayToast(
+                    `Create Rejection Note Successfull!`,
+                    `Rejection Note #${self.form.rnote.no} was successfully created`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `rejection note created: ${self.form.rnote.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  this.resetForm(true);
+                  this.rnoteId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                }
                 break;
               case 1:
                 // Duplicate entry

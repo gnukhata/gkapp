@@ -1,184 +1,187 @@
 <template>
-  <div class="card" :style="{ minWidth: '300px' }">
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
-    <div class="card-header text-left py-2">
-      <b class="text-capitalize">{{ mode }} Account</b>
-      <slot name="close-button"> </slot>
-    </div>
-    <div class="card-body pb-2">
-      <b-alert class="p-1" v-if="alertText" show variant="warning">{{
-        alertText
-      }}</b-alert>
-      <b-form class="text-left" @submit.prevent="confirmOnSubmit">
-        <b-form-group
-          label="Group"
-          label-for="acc-input-10"
-          label-cols="3"
-          label-size="sm"
-          label-class="required"
-        >
-          <autocomplete
-            size="sm"
-            id="acc-input-10"
-            v-model="form.group"
-            :options="options.groups"
-            textField="groupname"
-            valueField="groupcode"
-            @input="fetchSubGroups"
-            required
-            valueUid="id"
-            :readonly="disableFields.group"
-          ></autocomplete>
-        </b-form-group>
-        <b-form-group
-          label="Sub-Group"
-          label-for="acc-input-20"
-          label-cols="3"
-          label-size="sm"
-        >
-          <autocomplete
-            size="sm"
-            id="acc-input-20"
-            v-model="form.subGroup"
-            :options="subGroups"
-            textField="subgroupname"
-            valueField="groupcode"
-            @input="onSubGroupSelect"
-            :required="false"
-            valueUid="id"
-            :readonly="
-              !subGroups.length || flags.newSubGroup || disableFields.subGroup
-            "
-          ></autocomplete>
-        </b-form-group>
-        <b-card
-          body-class="p-2"
-          class="mb-3"
-          bg-variant="light"
-          v-if="!disableFields.newSubGroup"
-        >
-          <b-form-checkbox
-            v-model="flags.newSubGroup"
-            class="mb-2"
-            switch
-            size="sm"
-            :disabled="!form.group || disableFields.newSubGroup"
-            >Add New Sub-Group</b-form-checkbox
-          >
-          <b-collapse id="acc-collapse-10" v-model="showAddSubGroup">
+  <div class="d-flex justify-content-center mt-4 mx-2 align-form-label-right">
+    <div class="d-inline-block" style="min-width: 300px">
+      <div class="card">
+        <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+        </b-overlay>
+        <div class="card-header text-left py-2">
+          <b class="text-capitalize">Edit Account</b>
+          <slot name="close-button"> </slot>
+        </div>
+        <div class="card-body pb-2">
+          <b-alert class="p-1" v-if="alertText" show variant="warning">{{
+            alertText
+          }}</b-alert>
+          <b-form class="text-left" @submit.prevent="confirmOnSubmit">
             <b-form-group
-              label="Sub-Group Name"
-              label-for="acc-input-30"
-              label-cols="4"
+              label="Group"
+              label-for="acc-input-10"
+              label-cols="3"
               label-size="sm"
+              label-class="required"
+            >
+              <autocomplete
+                size="sm"
+                id="acc-input-10"
+                v-model="form.group"
+                :options="options.groups"
+                textField="groupname"
+                valueField="groupcode"
+                @input="fetchSubGroups"
+                required
+                valueUid="id"
+                :readonly="disableFields.group"
+              ></autocomplete>
+            </b-form-group>
+            <b-form-group
+              label="Sub-Group"
+              label-for="acc-input-20"
+              label-cols="3"
+              label-size="sm"
+            >
+              <autocomplete
+                size="sm"
+                id="acc-input-20"
+                v-model="form.subGroup"
+                :options="subGroups"
+                textField="subgroupname"
+                valueField="groupcode"
+                @input="onSubGroupSelect"
+                :required="false"
+                valueUid="id"
+                :readonly="
+                  !subGroups.length ||
+                  flags.newSubGroup ||
+                  disableFields.subGroup
+                "
+              ></autocomplete>
+            </b-form-group>
+            <b-card
+              body-class="p-2"
+              class="mb-3"
+              bg-variant="light"
+              v-if="!disableFields.newSubGroup"
+            >
+              <b-form-checkbox
+                v-model="flags.newSubGroup"
+                class="mb-2"
+                switch
+                size="sm"
+                :disabled="!form.group || disableFields.newSubGroup"
+                >Add New Sub-Group</b-form-checkbox
+              >
+              <b-collapse id="acc-collapse-10" v-model="showAddSubGroup">
+                <b-form-group
+                  label="Sub-Group Name"
+                  label-for="acc-input-30"
+                  label-cols="4"
+                  label-size="sm"
+                >
+                  <b-form-input
+                    type="text"
+                    size="sm"
+                    id="acc-input-30"
+                    v-model="newSubGroup"
+                  ></b-form-input>
+                </b-form-group>
+              </b-collapse>
+            </b-card>
+            <b-form-checkbox
+              v-if="flags.gst"
+              size="sm"
+              class="mb-2"
+              :disabled="disableFields.gst"
+              >GST Account</b-form-checkbox
+            >
+            <b-form-checkbox
+              v-if="defaultGroupName && !disableFields.default"
+              size="sm"
+              class="mb-2"
+              :disabled="disableFields.default"
+              >Set default for {{ defaultGroupName }}</b-form-checkbox
+            >
+            <b-form-group
+              label="Account Name"
+              label-for="acc-input-40"
+              label-cols="3"
+              label-size="sm"
+              label-class="required"
             >
               <b-form-input
                 type="text"
                 size="sm"
-                id="acc-input-30"
-                v-model="newSubGroup"
+                required
+                v-model="form.name"
+                :readonly="disableFields.name"
               ></b-form-input>
             </b-form-group>
-          </b-collapse>
-        </b-card>
-        <b-form-checkbox
-          v-if="flags.gst"
-          size="sm"
-          class="mb-2"
-          :disabled="disableFields.gst"
-          >GST Account</b-form-checkbox
-        >
-        <b-form-checkbox
-          v-if="defaultGroupName && !disableFields.default"
-          size="sm"
-          class="mb-2"
-          :disabled="disableFields.default"
-          >Set default for {{ defaultGroupName }}</b-form-checkbox
-        >
-        <b-form-group
-          label="Account Name"
-          label-for="acc-input-40"
-          label-cols="3"
-          label-size="sm"
-          label-class="required"
-        >
-          <b-form-input
-            type="text"
-            size="sm"
-            required
-            v-model="form.name"
-            :readonly="disableFields.name"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group
-          label="Opening Balance"
-          label-for="acc-input-50"
-          label-cols="3"
-          label-size="sm"
-          label-class="required"
-        >
-          <b-form-input
-            type="number"
-            size="sm"
-            required
-            v-model="form.openingBalance"
-            step="0.01"
-            min="0.01"
-          ></b-form-input>
-        </b-form-group>
-        <hr class="my-2" />
-        <div class="float-right">
-          <b-button
-            v-if="!hideBackButton"
-            size="sm"
-            class="m-1"
-            variant="danger"
-            @click.prevent="$router.go(-1)"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle"
-              icon="arrow-left"
-            ></b-icon>
-            <span class="align-middle"> Back</span>
-          </b-button>
-          <b-button
-            size="sm"
-            class="m-1"
-            variant="warning"
-            @click.prevent="resetForm"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle"
-              icon="arrow-repeat"
-            ></b-icon>
-            <span class="align-middle"> Reset</span>
-          </b-button>
-          <b-button size="sm" type="submit" class="m-1" variant="success">
-            <b-spinner v-if="isLoading" small></b-spinner>
-            <b-icon
-              v-else
-              aria-hidden="true"
-              class="align-middle"
-              :icon="isEditMode ? 'cloud-arrow-up' : 'plus-square'"
-            ></b-icon>
-            <span class="align-middle">
-              {{ isEditMode ? 'Update' : 'Save' }}</span
+            <b-form-group
+              label="Opening Balance"
+              label-for="acc-input-50"
+              label-cols="3"
+              label-size="sm"
+              label-class="required"
             >
-          </b-button>
+              <b-form-input
+                type="number"
+                size="sm"
+                required
+                v-model="form.openingBalance"
+                step="0.01"
+                min="0.01"
+              ></b-form-input>
+            </b-form-group>
+            <hr class="my-2" />
+            <div class="float-right">
+              <b-button
+                size="sm"
+                class="m-1"
+                variant="danger"
+                @click.prevent="$router.go(-1)"
+              >
+                <b-icon
+                  aria-hidden="true"
+                  class="align-middle"
+                  icon="arrow-left"
+                ></b-icon>
+                <span class="align-middle"> Back</span>
+              </b-button>
+              <b-button
+                size="sm"
+                class="m-1"
+                variant="warning"
+                @click.prevent="resetForm"
+              >
+                <b-icon
+                  aria-hidden="true"
+                  class="align-middle"
+                  icon="arrow-repeat"
+                ></b-icon>
+                <span class="align-middle"> Reset</span>
+              </b-button>
+              <b-button size="sm" type="submit" class="m-1" variant="success">
+                <b-spinner v-if="isLoading" small></b-spinner>
+                <b-icon
+                  v-else
+                  aria-hidden="true"
+                  class="align-middle"
+                  icon="cloud-arrow-up"
+                ></b-icon>
+                <span class="align-middle"> Update</span>
+              </b-button>
+            </div>
+          </b-form>
         </div>
-      </b-form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import Autocomplete from '../Autocomplete.vue';
+import Autocomplete from '../components/Autocomplete.vue';
 export default {
-  name: 'Account',
+  name: 'AccountEdit',
   components: {
     Autocomplete,
   },
@@ -224,54 +227,29 @@ export default {
     };
   },
   props: {
-    mode: {
-      type: String,
-      validator: function (value) {
-        return ['create', 'edit'].indexOf(value) !== -1;
-      },
+    id: {
+      type: [Number, String],
       required: true,
     },
-    onSave: {
-      type: Function,
-      required: false,
-    },
-    hideBackButton: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    inOverlay: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    accountId: {
-      type: Number,
-      required: false,
-    },
-    overlayOpen: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    isSysAccount: {
-      type: Boolean,
-      required: false,
-      default: false,
+    sysFlag: {
+      type: [Number, String],
+      required: true,
+      validator: (value) => {
+        let val = parseInt(value);
+        return val === 0 || val === 1;
+      },
     },
   },
   computed: {
+    isSysAccount: (self) => parseInt(self.sysFlag) === 1,
     alertText: (self) => {
-      if (self.isEditMode) {
-        if (self.flags.default) {
-          return `This is a default account for ${self.defaultGroupName}.`;
-        } else if (self.isSysAccount) {
-          return ` Only opening balance of this system generated account can be edited.`;
-        }
-        return '';
+      if (self.flags.default) {
+        return `This is a default account for ${self.defaultGroupName}.`;
+      } else if (self.isSysAccount) {
+        return ` Only opening balance of this system generated account can be edited.`;
       }
+      return '';
     },
-    isEditMode: (self) => self.mode === 'edit',
     disableFields: (self) => {
       let fields = {
         group: false,
@@ -281,7 +259,7 @@ export default {
         name: false,
         gst: false,
       };
-      if ((self.isSysAccount || self.flags.default) && self.mode === 'edit') {
+      if (self.isSysAccount || self.flags.default) {
         fields = {
           group: true,
           subGroup: true,
@@ -320,9 +298,7 @@ export default {
     overlayOpen(isOpen) {
       if (isOpen) {
         this.resetForm();
-        if (this.mode === 'edit') {
-          this.fetchAccountDetails();
-        }
+        this.fetchAccountDetails();
       }
     },
   },
@@ -368,55 +344,6 @@ export default {
           return e;
         });
     },
-    createAccount(payload) {
-      const self = this;
-      return axios
-        .post('/accounts', payload)
-        .then((resp) => {
-          switch (resp.data.gkstatus) {
-            case 0:
-              {
-                self.displayToast(
-                  'Create Account Success',
-                  `Account: ${self.form.name} was created Successfully!`,
-                  'success'
-                );
-
-                const log = { activity: `${self.form.name} account created.` };
-                axios.post('/log', log);
-
-                self.resetForm();
-                self.$emit('account-created');
-              }
-              break;
-            case 1:
-              self.displayToast(
-                'Create Account Failed',
-                `Duplicate Entry, change account name and try again!`,
-                'warning'
-              );
-              break;
-            case 2:
-              self.displayToast(
-                'Create Account Failed',
-                `Unauthorized access, please sign in and try again!`,
-                'warning'
-              );
-              break;
-            default:
-              self.displayToast(
-                'Create Account Failed',
-                'Unable to Create Acccount, please try again later!',
-                'danger'
-              );
-          }
-          return resp.data.gkstatus;
-        })
-        .catch((e) => {
-          this.displayToast('Create Account Failed!', e.message, 'warning');
-          return e;
-        });
-    },
     editAccount(payload) {
       const self = this;
       return axios.put('/accounts', payload).then((resp) => {
@@ -426,8 +353,11 @@ export default {
             `Account: ${self.form.name} was Updated Successfully!`,
             'success'
           );
+          
+          let log = { activity: `account updated: ${self.form.name}` };
+          axios.post('/log', log);
+
           self.fetchAccountDetails();
-          self.$emit('account-edited');
         } else {
           self.displayToast(
             'Edit Account Failed',
@@ -442,7 +372,7 @@ export default {
       const self = this;
       let group = this.options.groupNameToCode[this.form.group];
       let subGroup = this.options.groupNameToCode[this.form.subGroup];
-      let text = `Create Account <b>${this.form.name}</b> in (${group}) Group`;
+      let text = `Edit Account <b>${this.form.name}</b> in (${group}) Group`;
       if (subGroup) {
         text += ` and (${subGroup}) Sub-Group`;
       }
@@ -475,14 +405,9 @@ export default {
      */
     onSubmit() {
       const self = this;
-      const payload = this.isEditMode
-        ? this.initEditPayload()
-        : this.initPayload();
+      const payload = this.initEditPayload();
       // console.log(payload);
 
-      // the method to call based on the current mode of the form (create/edit)
-      const submitMethod = this.isEditMode ? 'editAccount' : 'createAccount';
-      const mode = this.isEditMode ? 'Edit' : 'Create';
       this.isLoading = true;
       console.log(payload);
       // return;
@@ -495,7 +420,7 @@ export default {
           .then((data) => {
             if (data.gkstatus === 0) {
               payload.gkdata.groupcode = data.gkresult;
-              self[submitMethod](payload).then(() => {
+              self.editAccount(payload).then(() => {
                 self.isLoading = false;
               });
             } else {
@@ -503,55 +428,19 @@ export default {
             }
           })
           .catch((e) => {
-            self.displayToast(`${mode} Sub-Group Failed`, e.message, 'warning');
+            self.displayToast(`Edit Sub-Group Failed`, e.message, 'warning');
             self.isLoading = false;
           });
       } else {
-        this[submitMethod](payload)
+        this.editAccount(payload)
           .then(() => {
             self.isLoading = false;
           })
           .catch((e) => {
-            self.displayToast(`${mode} Account Failed`, e.message, 'warning');
+            self.displayToast(`Edit Account Failed`, e.message, 'warning');
             self.isLoading = false;
           });
       }
-    },
-    /**
-     * initPayload
-     *
-     * Description: Inits payload for account creation
-     */
-    initPayload() {
-      let payload = {
-        origin: 'createaccount',
-      };
-      let gkdata = {
-        accountname: this.form.name,
-        openingbal: parseFloat(this.form.openingBalance).toFixed(2),
-        groupcode: this.form.subGroup,
-      };
-
-      if (this.flags.newSubGroup) {
-        if (this.newSubGroup) {
-          gkdata.groupcode = 'New';
-        } else {
-          gkdata.groupcode = this.form.group;
-        }
-      } else if (!this.form.subGroup) {
-        // if subGroup is None
-        gkdata.groupcode = this.form.group;
-      }
-
-      if (this.defaultGroupName) {
-        let subGroupName = this.options.groupNameToCode[this.form.subGroup];
-        if (this.options.defaultGroups[subGroupName]) {
-          gkdata['defaultflag'] = this.options.defaultGroups[subGroupName].code;
-        }
-      }
-
-      payload['gkdata'] = gkdata;
-      return payload;
     },
     initEditPayload() {
       let groupName = this.options.groupNameToCode[this.form.group];
@@ -573,7 +462,7 @@ export default {
       let gkdata = {
         accountname: this.form.name,
         openingbal: parseFloat(this.form.openingBalance).toFixed(2),
-        accountcode: this.accountId,
+        accountcode: this.id,
         groupcode: this.form.subGroup,
       };
 
@@ -604,27 +493,8 @@ export default {
      * Description: Resets the form and also resets the subgroups list for the last chosen group
      */
     resetForm() {
-      if (this.isEditMode) {
-        Object.assign(this.form, this.options.accDetails);
-        this.flags.setSubGroup = this.form.subGroup;
-      } else {
-        if (this.form.group) {
-          delete this.options.subGroups[this.form.group];
-        }
-        this.form = {
-          name: null,
-          group: null,
-          subGroup: null,
-        };
-        this.flags = {
-          default: false,
-          newSubGroup: false,
-          gst: false,
-          moreDetails: false,
-          setSubGroup: false,
-        };
-        this.newSubGroup = '';
-      }
+      Object.assign(this.form, this.options.accDetails);
+      this.flags.setSubGroup = this.form.subGroup;
       this.flags.newSubGroup = false;
     },
     /**
@@ -649,7 +519,7 @@ export default {
       this.isPreloading = true;
       const self = this;
       axios
-        .get(`/account/${this.accountId}`)
+        .get(`/account/${this.id}`)
         .then((resp1) => {
           if (resp1.data.gkstatus === 0) {
             const acc = resp1.data.gkresult;
@@ -760,7 +630,7 @@ export default {
         }),
       ];
 
-      Promise.all([...requests])
+      return Promise.all([...requests])
         .then(([resp1]) => {
           this.isPreloading = false;
           if (resp1.data.gkstatus === 0) {
@@ -769,6 +639,7 @@ export default {
               this.options.groupNameToCode[group.groupcode] = group.groupname;
             });
           }
+          return;
         })
         .catch((e) => {
           this.isPreloading = false;
@@ -778,7 +649,9 @@ export default {
     },
   },
   mounted() {
-    this.preloadData();
+    this.preloadData().then(() => {
+      this.fetchAccountDetails();
+    });
   },
 };
 </script>

@@ -4,20 +4,24 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <div class="mb-2">
-      <b-form-radio-group
-        v-model="form.type"
-        button-variant="outline-secondary"
-        size="sm"
-        buttons
-        class="mx-1"
-      >
-        <b-form-radio value="sale">Sale</b-form-radio>
-        <b-form-radio value="purchase">Purchase</b-form-radio>
-      </b-form-radio-group>
-      <div class="clearfix"></div>
-    </div>
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="confirmOnSubmit">
+      <div class="text-center pt-2">
+        <h4>Create Delivery Note</h4>
+      </div>
+      <hr />
+      <div class="mb-2">
+        <b-form-radio-group
+          v-model="form.type"
+          button-variant="outline-secondary"
+          size="sm"
+          buttons
+          class="mx-1"
+        >
+          <b-form-radio value="sale">Sale</b-form-radio>
+          <b-form-radio value="purchase">Purchase</b-form-radio>
+        </b-form-radio-group>
+        <div class="clearfix"></div>
+      </div>
       <b-card-group class="d-block d-md-flex my-2" deck>
         <!-- Buyer/Seller Details -->
         <party-details
@@ -179,7 +183,13 @@
       </div>
       <div class="clearfix"></div>
     </b-form>
-    <print-page :show="showPrintModal" name="DeliveryNote" title="Delivery Note" :id="delNoteId" :pdata="{}">
+    <print-page
+      :show="showPrintModal"
+      name="DeliveryNote"
+      title="Delivery Note"
+      :id="delNoteId"
+      :pdata="{}"
+    >
     </print-page>
   </b-container>
 </template>
@@ -486,6 +496,33 @@ export default {
       day = day > 9 ? day : '0' + day;
       return `${date.getFullYear()}-${month}-${day}`;
     },
+    confirmOnSubmit() {
+      this.updateCounter.delNote++;
+      const self = this;
+      let text = `Create Delivery Note (${this.form.delNote.no}) for ${
+        this.isSale ? 'Sale' : 'Purchase'
+      }?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.onSubmit();
+          }
+        });
+    },
     onSubmit() {
       let self = this;
       this.isLoading = true;
@@ -502,16 +539,26 @@ export default {
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
               case 0:
-                // success
-                console.log(resp.data);
-                this.displayToast(
-                  `${actionText} Delivery Note Successfull!`,
-                  `Delivery Note ${payload.delchaldata.dcno} was successfully ${actionText}`,
-                  'success'
-                );
-                this.delNoteId = resp.data.gkresult;
-                this.showPrintModal = true;
-                this.resetForm();
+                {
+                  // success
+                  console.log(resp.data);
+                  this.displayToast(
+                    `${actionText} Delivery Note Successfull!`,
+                    `Delivery Note ${payload.delchaldata.dcno} was successfully ${actionText}`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `delivery note ${
+                      self.formMode === 'create' ? 'created' : 'updated'
+                    }: ${self.form.delNote.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  this.delNoteId = resp.data.gkresult;
+                  this.showPrintModal = true;
+                  this.resetForm();
+                }
                 break;
               case 1:
                 // Duplicate entry

@@ -207,6 +207,12 @@ const routes = [
     props: true
   },
   {
+    path: '/voucher/edit/:vid',
+    name: 'Edit_Voucher',
+    component: () => import(/* webpackChunkName: "voucheredit" */ '../views/VoucherEdit.vue'),
+    props: true
+  },
+  {
     path: '/billwise/:custType/:custName',
     name: 'Billwise',
     component: () => import(/* webpackChunkName: "billwise" */ '../views/Billwise.vue'),
@@ -247,6 +253,18 @@ const routes = [
     path: '/accounts',
     name: 'Accounts',
     component: () => import(/* webpackChunkName: "accounts" */ '../views/Accounts.vue'),
+  },
+  {
+    path: '/account/create/:group/:subGroup',
+    name: 'Create_Account',
+    component: () => import(/* webpackChunkName: "accounts" */ '../views/AccountCreate.vue'),
+    props: true
+  },
+  {
+    path: '/account/edit/:id/:sysFlag',
+    name: 'Edit_Account',
+    component: () => import(/* webpackChunkName: "accounts" */ '../views/AccountEdit.vue'),
+    props: true
   },
 ]
 

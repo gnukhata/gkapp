@@ -311,7 +311,11 @@ export default {
             delete this.details.unitname;
 
             if (this.godowns.length > 0) {
-              payload['godetails'] = this.godowns;
+              let godowns = {};
+              this.godowns.forEach((godown) => {
+                godowns[godown.goid] = godown.goopeningstock;
+              });
+              payload['godetails'] = godowns;
               payload.godownflag = true;
             }
             axios
@@ -319,13 +323,26 @@ export default {
               .then((res) => {
                 switch (res.data.gkstatus) {
                   case 0:
-                    this.$bvToast.toast(`${this.details.productdesc} updated`, {
-                      title: 'Success',
-                      variant: 'success',
-                      solid: true,
-                    });
-                    this.loading = false;
-                    this.updateTaxDetails();
+                    {
+                      this.$bvToast.toast(
+                        `${this.details.productdesc} updated`,
+                        {
+                          title: 'Success',
+                          variant: 'success',
+                          solid: true,
+                        }
+                      );
+
+                      let log = {
+                        activity: `${
+                          this.details.gsflag === 7 ? 'service' : 'product'
+                        } updated: ${this.details.productdesc}`,
+                      };
+                      axios.post('/log', log);
+
+                      this.loading = false;
+                      this.updateTaxDetails();
+                    }
                     break;
                   case 2:
                     this.$bvToast.toast(`Unauthorised access`, {
@@ -347,7 +364,7 @@ export default {
     /** Update the Tax Details (Add, edit & Delete) */
     updateTaxDetails() {
       const self = this;
-      const updateTaxItem = function(item) {
+      const updateTaxItem = function (item) {
         const tax = Object.assign({ productcode: self.name.productcode }, item);
         if (item.taxid === undefined) {
           if (parseFloat(item.taxrate) > 0) {
@@ -373,7 +390,7 @@ export default {
       };
       for (const name in this.tax) {
         if (name === 'vat') {
-          this.tax[name].forEach(function(item) {
+          this.tax[name].forEach(function (item) {
             updateTaxItem(item);
           });
         } else {
@@ -423,7 +440,7 @@ export default {
                       // Add delete log to server
                       const payload = {
                         activity: `${this.details.productdesc} ${
-                          this.details.csflag == 7 ? 'product' : 'service'
+                          this.details.gsflag == 7 ? 'product' : 'service'
                         } deleted`,
                       };
                       axios.post(`${this.gkCoreUrl}/log`, payload, config);

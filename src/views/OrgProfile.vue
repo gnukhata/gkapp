@@ -7,6 +7,7 @@
     <b-form @submit.prevent="confirm('update')">
       <!-- {{ details }} -->
       <b-overlay :show="loading" blur no-wrap></b-overlay>
+
       <b-card-group deck>
         <!-- general Card -->
         <b-card
@@ -14,6 +15,22 @@
           header-bg-variant="dark"
           header-text-variant="light"
         >
+          <b-img
+            rounded
+            center
+            height="180"
+            width="180"
+            class="mx-auto m-1 border border-dark"
+            :src="orgImg"
+          ></b-img>
+          <b-form-group lable-cols="8">
+            <b-form-file
+              v-model="img"
+              accept="image/*"
+              placeholder="Choose a file / Drag & drop it here..."
+              drop-placeholder="Drop file here..."
+            ></b-form-file>
+          </b-form-group>
           <b-form-group label="Name" label-cols="4">
             <b-form-input
               v-model="details.orgname"
@@ -21,7 +38,6 @@
               required
             ></b-form-input>
           </b-form-group>
-
           <b-form-group label="Website" label-cols="4">
             <b-form-input
               v-model="details.orgwebsite"
@@ -999,6 +1015,8 @@ export default {
     },
   },
   mounted() {
+    this.getOrgImage();
+    console.log(this.orgImg);
     this.init().then(() => {
       if (this.details.orgstate && this.states.length) {
         let state = this.states.find(

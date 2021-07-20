@@ -5,7 +5,8 @@
 <template>
   <div class="card">
     <div class="card-header py-1 px-2">
-      <b-dropdown size="sm" variant="outline-dark">
+      <!-- === Voucher Type Dropdown -->
+      <b-dropdown size="sm" variant="outline-dark" :disabled="!isCreateMode">
         <template #button-content>
           <b> {{ form.vtype.text }} Voucher </b>
         </template>
@@ -273,7 +274,7 @@
           <b-button
             size="sm"
             class="mr-2"
-            variant="danger"
+            variant="secondary"
             @click.prevent="$router.go(-1)"
             v-if="!hideBackButton"
           >
@@ -283,6 +284,20 @@
               icon="arrow-left"
             ></b-icon>
             <span class="align-middle"> Back</span>
+          </b-button>
+          <b-button
+            size="sm"
+            class="mr-2"
+            variant="danger"
+            @click.prevent="confirmOnDelete"
+            v-if="!isCreateMode"
+          >
+            <b-icon
+              aria-hidden="true"
+              class="align-middle"
+              icon="trash"
+            ></b-icon>
+            <span class="align-middle"> Delete</span>
           </b-button>
           <b-button
             size="sm"
@@ -296,9 +311,11 @@
               v-else
               aria-hidden="true"
               class="align-middle"
-              icon="plus-square"
+              :icon="isCreateMode ? 'plus-square' : 'cloud-arrow-up'"
             ></b-icon>
-            <span class="align-middle"> Save</span>
+            <span class="align-middle">
+              {{ isCreateMode ? 'Save' : 'Update' }}</span
+            >
           </b-button>
         </div>
         <div class="clearfix"></div>
@@ -320,7 +337,7 @@ export default {
   props: {
     type: {
       type: String,
-      validator: function (value) {
+      validator: function(value) {
         return (
           [
             'receipt',
@@ -338,7 +355,7 @@ export default {
     customer: {
       type: String,
       required: false,
-      default: null,
+      default: '-1',
     },
     onSave: {
       type: Function,
@@ -360,11 +377,27 @@ export default {
       required: false,
       default: false,
     },
+    mode: {
+      type: String,
+      required: true,
+      validator: (mode) => {
+        let values = ['create', 'edit'];
+        return values.indexOf(mode) >= 0;
+      },
+    },
+    vid: {
+      type: [Number, String],
+      required: false,
+      default: -1,
+      note: 'Used while in edit mode to fetch the voucher details',
+    },
   },
   data() {
     return {
       isLoading: false,
       options: {
+        vdata: {}, // voucher data to be edited
+        nameToId: {}, // account name to id map
         acc: {}, // account id to name map
         dr: [],
         cr: [],
@@ -376,24 +409,43 @@ export default {
           { text: 'Sales', value: 'sales' },
           { text: 'Contra', value: 'contra' },
           { text: 'Journal', value: 'journal' },
-          { text: 'Credit Note', value: 'journal' },
-          { text: 'Debit Note', value: 'journal' },
-          { text: 'Sales Return', value: 'journal' },
-          { text: 'Purchase Return', value: 'journal' },
+          { text: 'Credit Note', acc: 'journal', value: 'creditnote' },
+          { text: 'Debit Note', acc: 'journal', value: 'debitnote' },
+          { text: 'Sales Return', acc: 'journal', value: 'salesreturn' },
+          { text: 'Purchase Return', acc: 'journal', value: 'purchasereturn' },
         ],
       },
       isDateValid: null,
       form: {
         vtype: { text: '', value: '' },
         date: null,
-        dr: [],
-        cr: [],
+        dr: [
+          {
+            account: null,
+            balance: null,
+            isLoading: false,
+            debit: true,
+            credit: false,
+            amount: 0,
+          },
+        ],
+        cr: [
+          {
+            account: null,
+            balance: null,
+            isLoading: false,
+            debit: true,
+            credit: false,
+            amount: 0,
+          },
+        ],
         amount: 0,
         narration: '',
       },
     };
   },
   computed: {
+    isCreateMode: (self) => self.mode === 'create',
     dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     totalDr: (self) =>
       self.form.dr.reduce(
@@ -425,6 +477,9 @@ export default {
         }
       }
     },
+    vid(id) {
+      this.fetchVoucherDetails(id);
+    },
   },
   methods: {
     setDateValidity(validity) {
@@ -442,6 +497,43 @@ export default {
     },
     deleteRow(type, index) {
       this.form[type].splice(index, 1);
+    },
+    confirmOnDelete() {
+      const self = this;
+      const text = this.$createElement('div', {
+        domProps: {
+          innerHTML: `Delete ${
+            this.form.vtype.text
+          } Voucher <b>${this.form.vno}</b>?"`,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(text, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            // return;
+            axios.delete('/transaction', {
+              data: {
+                vouchercode: this.vid,
+              },
+            }).then((resp) => {
+              if(resp.data.gkstatus === 0) {
+                self.$router.push({name: 'Workflow', params: {wfName: 'Transactions-Voucher', wfId: '-1'}});
+                self.displayToast(`Voucher Delete success!`, `${self.form.vtype.text} Voucher : ${self.form.vno}, deleted successfully.`, 'success');
+              } else {
+                self.displayToast(`Voucher Delete failed!`, `Unable to delete ${self.form.vtype.text} Voucher : ${self.form.vno}`, 'danger');
+              }
+            })
+          }
+        });
     },
     confirmOnSubmit() {
       const self = this;
@@ -483,8 +575,8 @@ export default {
      * 1. The balance amount in the account chosen is fetched from server
      * 2. Makes the account selected disabled in the opposite account list
      */
-    onAccountSelect(accCode, type, index) { 
-      if(!accCode) {
+    onAccountSelect(accCode, type, index) {
+      if (!accCode) {
         this.form[type][index].balance = '';
         return;
       }
@@ -535,9 +627,10 @@ export default {
      * Description: Fetches the list of Accounts for Dr and Cr fields for the current Voucher type
      */
     preloadData() {
+      let type = this.form.vtype.acc? this.form.vtype.acc : this.form.vtype.value;
       const requests = [
         axios
-          .get(`/accountsbyrule?type=${this.form.vtype.value}&side=Dr`)
+          .get(`/accountsbyrule?type=${type}&side=Dr`)
           .catch((error) => {
             this.displayToast(
               'Fetch State Data Failed!',
@@ -547,7 +640,7 @@ export default {
             return error;
           }),
         axios
-          .get(`/accountsbyrule?type=${this.form.vtype.value}&side=Cr`)
+          .get(`/accountsbyrule?type=${type}&side=Cr`)
           .catch((error) => {
             this.displayToast(
               'Fetch State Data Failed!',
@@ -567,6 +660,7 @@ export default {
           resp1.data.gkresult.forEach((item) => {
             self.options.dr.push(Object.assign(item, { disabled: false }));
             self.options.acc[item.accountcode] = item.accountname;
+            self.options.nameToId[item.accountname] = item.accountcode;
           });
         } else {
           preloadErrorList += ' Dr Accounts,';
@@ -578,6 +672,7 @@ export default {
           resp2.data.gkresult.forEach((item) => {
             self.options.cr.push(Object.assign(item, { disabled: false }));
             self.options.acc[item.accountcode] = item.accountname;
+            self.options.nameToId[item.accountname] = item.accountcode;
           });
         } else {
           preloadErrorList += ' Cr Accounts,';
@@ -595,37 +690,75 @@ export default {
 
     onSubmit() {
       this.isLoading = true;
+      const self = this;
+
       const payload = this.initPayload();
       // console.log(payload);
       // return;
-      axios
-        .post('/transaction', payload)
-        .then((response) => {
-          // console.log(response)
-          this.isLoading = false;
-          switch (response.data.gkstatus) {
+
+      const method = this.isCreateMode ? 'post' : 'put';
+      const actionText = this.isCreateMode ? 'Create' : 'Update';
+      axios({ method: method, url: '/transaction', data: payload })
+        .then((resp) => {
+          self.isLoading = false;
+          switch (resp.data.gkstatus) {
             case 0:
-              this.displayToast(
-                'Create Voucher Success!',
-                'Voucher Created Successfully!',
-                'success'
-              );
-              if (this.onSave !== null) {
-                this.onSave(response.data);
+              {
+                if (this.isCreateMode) {
+                  self.displayToast(
+                    'Create Voucher Success!',
+                    'Voucher Created Successfully!',
+                    'success'
+                  );
+                  const accMap = self.options.acc;
+                  let dr = self.form.dr.reduce(
+                    (acc, dr) => acc + `${accMap[dr.account]}, `,
+                    ''
+                  );
+                  let cr = self.form.cr.reduce(
+                    (acc, cr) => acc + `${accMap[cr.account]}, `,
+                    ''
+                  );
+                  dr = dr.substring(0, dr.length - 2);
+                  cr = cr.substring(0, cr.length - 2);
+                  let log = {
+                    activity: `${self.form.vtype.value} voucher created: dr [ ${dr} ], cr [ ${cr} ]`,
+                  };
+                  axios.post('/log', log);
+
+                  if (self.onSave !== null) {
+                    self.onSave(resp.data);
+                  }
+                  self.resetForm();
+                } else {
+                  self.displayToast(
+                    'Update Voucher Success!',
+                    `Voucher ${self.form.vno} Updated Successfully!`,
+                    'success'
+                  );
+
+                  let log = {
+                    activity: `${self.form.vtype.value} voucher updated: ${self.form.vno} `,
+                  };
+                  axios.post('/log', log);
+                }
               }
-              this.resetForm();
               break;
             default:
-              this.displayToast(
-                'Create Voucher Failure!',
-                'Voucher Creation Failed!',
+              self.displayToast(
+                `${actionText} Voucher Failure!`,
+                `Voucher ${actionText} Failed!`,
                 'danger'
               );
           } // end switch
         })
         .catch((error) => {
-          this.isLoading = false;
-          this.displayToast('Create Voucher Failure!', error.message, 'danger');
+          self.isLoading = false;
+          self.displayToast(
+            `${actionText} Voucher Failure!`,
+            error.message,
+            'danger'
+          );
         });
     },
     initPayload() {
@@ -650,6 +783,16 @@ export default {
       if (this.form.vno) {
         payload.vouchernumber = this.form.vno; // doubt on how to obtain this vno
       }
+
+      if (!this.isCreateMode) {
+        payload.projectcode = null;
+        payload.vouchercode = this.vid;
+        const vdata = this.options.vdata;
+        if (vdata.vouchertype === 'sale' || vdata.vouchertype === 'purchase') {
+          payload.invid = vdata.invid ? vdata.invid : null;
+        }
+      }
+
       return payload;
     },
     displayToast(title, message, variant) {
@@ -676,24 +819,26 @@ export default {
         (type) => type.value === this.type
       );
       let self = this;
-      this.preloadData().then(() => {
+      return this.preloadData().then(() => {
         if (self.customer !== '-1') {
+          let dr, cr;
           if (self.type === 'receipt') {
-            self.form.dr[0].account = self.options.dr.find(
-              (acc) => acc.accountname === 'Bank A/C'
-            ).accountcode;
-            self.form.cr[0].account = self.options.cr.find(
+            dr = self.options.dr.find((acc) => acc.accountname === 'Bank A/C');
+            cr = self.options.cr.find(
               (acc) => acc.accountname === self.customer
-            ).accountcode;
+            );
+            self.form.dr[0].account = dr ? dr.accountcode : -1;
+            self.form.cr[0].account = cr ? cr.accountcode : -1;
           } else if (self.type === 'payment') {
-            self.form.dr[0].account = self.options.dr.find(
+            dr = self.options.dr.find(
               (acc) => acc.accountname === self.customer
-            ).accountcode;
-            self.form.cr[0].account = self.options.cr.find(
-              (acc) => acc.accountname === 'Bank A/C'
-            ).accountcode;
+            );
+            cr = self.options.cr.find((acc) => acc.accountname === 'Bank A/C');
+            self.form.dr[0].account = dr ? dr.accountcode : -1;
+            self.form.cr[0].account = cr ? cr.accountcode : -1;
           }
         }
+        return;
       });
     },
     resetForm() {
@@ -704,7 +849,7 @@ export default {
       this.addRow('cr');
       this.addRow('dr');
       this.updateDate();
-      this.updateAccounts();
+      return this.updateAccounts();
     },
     updateDate() {
       let today = new Date().getTime();
@@ -715,9 +860,71 @@ export default {
         this.form.date = new Date().toISOString().slice(0, 10);
       }
     },
+
+    // === Edit Mode Methods ===
+
+    fetchVoucherDetails(vid) {
+      const self = this;
+      const nameToId = this.options.nameToId;
+      axios.get(`/transaction?code=${vid}`).then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          let data = resp.data.gkresult;
+          self.form.date = self.dateReverse(data.voucherdate);
+          self.form.narration = data.narration;
+
+          self.form.vtype = self.options.vtype.find((vtype) => vtype.value === data.vouchertype)
+          self.form.vno = data.vouchernumber;
+          self.form.dr = [];
+          self.form.cr = [];
+          let drs = Object.keys(data.drs);
+          let crs = Object.keys(data.crs);
+          let dlength = drs.length;
+          let clength = crs.length;
+          let loopLength = dlength > clength ? dlength : clength;
+          while (loopLength--) {
+            if (dlength--) {
+              self.addRow('dr');
+            }
+            if (clength--) {
+              self.addRow('cr');
+            }
+          }
+          self.preloadData().then(() => {
+            self.$nextTick().then(() => {
+              drs.forEach((acc, index) => {
+                Object.assign(self.form.dr[index], {
+                  account: nameToId[acc],
+                  balance: null,
+                  isLoading: false,
+                  debit: true,
+                  credit: false,
+                  amount: data.drs[acc],
+                });
+              });
+              crs.forEach((acc, index) => {
+                Object.assign(self.form.cr[index], {
+                  account: nameToId[acc],
+                  balance: null,
+                  isLoading: false,
+                  debit: false,
+                  credit: true,
+                  amount: data.crs[acc],
+                });
+              });
+              self.$forceUpdate();
+            });
+          })
+          self.options.vdata = data;
+        }
+      });
+    },
   },
   mounted() {
-    this.resetForm();
+    if(this.isCreateMode) {
+      this.resetForm();
+    } else {
+      this.fetchVoucherDetails(this.vid);
+    }
   },
 };
 </script>
