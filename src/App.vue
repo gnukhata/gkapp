@@ -94,66 +94,30 @@ export default {
       }, 1500);
     },
 
-    /*
-     * Logout the user, But preserve the gkcore url
-     */
-    logOut() {
-      // reset orgname
-      this.$store.commit('resetOrg');
-
-      // change auth status
-      this.$store.commit('setAuthStatus');
-
-      const orgChoice = localStorage.getItem('orgChoice');
-      const orgCodeChoice = localStorage.getItem('orgCodeChoice');
-
-      // clear localStorage
-      localStorage.clear();
-
-      localStorage.setItem('orgChoice', orgChoice);
-      localStorage.setItem('orgCodeChoice', orgCodeChoice);
-
-      // set gkCore url
-      this.$store.commit('setGkCoreUrl', { gkCoreUrl: this.gkCoreUrl });
-
-      // redirect to login page
-      this.$router.push('/');
-
-      // alert the user on logout
-      this.$bvToast.toast(`Logged out succesfully`, {
-        title: 'Logout',
-        solid: true,
-        variant: 'success',
-      });
-    },
-  },
-  mounted() {
-    this.getOrgImage();
-    /**
-     * fetch latest app changes
-     */
-    if (this.$workbox) {
-      this.$workbox.addEventListener('waiting', () => {
-        // this.showUpdateUI = true;
-        // notify the user before updating the app
-        this.$bvToast.toast(`Updating app to the latest version`, {
-          title: 'New Update Available!',
-          solid: 'true',
-          variant: 'warning',
-          autoHideDelay: 3000,
+    mounted() {
+      if (this.userAuthenticated) {
+        this.getOrgImage();
+      }
+      /**
+       * fetch latest app changes
+       */
+      if (this.$workbox) {
+        this.$workbox.addEventListener('waiting', () => {
+          // this.showUpdateUI = true;
+          // notify the user before updating the app
+          this.$bvToast.toast(`Updating app to the latest version`, {
+            title: 'New Update Available!',
+            solid: 'true',
+            variant: 'warning',
+            autoHideDelay: 3000,
+          });
+          // pull the latest code
+          setTimeout(() => {
+            this.$workbox.messageSW({ type: 'SKIP_WAITING' });
+          }, 3000);
         });
-        // pull the latest code
-        setTimeout(() => {
-          this.$workbox.messageSW({ type: 'SKIP_WAITING' });
-        }, 3000);
-      });
-    }
+      }
+    },
   },
 };
 </script>
-<style scoped>
-.router-link-exact-active {
-  /* font-weight: bolder; */
-  border-bottom: 2px solid;
-}
-</style>
