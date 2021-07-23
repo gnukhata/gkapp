@@ -15,7 +15,7 @@
       ></b-form-input>
     </div>
     <div class="d-flex justify-content-center mb-2">
-      Filter by:
+      Sort by:
       <b-form-checkbox
         class="ml-2 mr-2"
         @change="applyFilter"

@@ -1,6 +1,5 @@
 <template>
   <section class="container-fluid">
-    <b-overlay :show="isLoading" no-wrap> </b-overlay>
     <div class="text-center mb-2 d-none d-print-block">
       <h3>{{ orgName }}</h3>
       <i>Audit Logs</i>
@@ -18,17 +17,30 @@
       small
       hover
       striped
+      fixed
       head-variant="dark"
       bordered
       :items="log"
+      :busy="isLoading"
       :filter="searchText"
       :fields="[
-        { key: 'logid', sortable: true },
         { key: 'activity', sortable: true },
-        { key: 'time', sortable: true },
-        { key: 'username', sortable: true },
+        { key: 'time', label: 'Date / Time', sortable: true },
+        { key: 'username', label: 'User', sortable: true },
       ]"
-    ></b-table>
+    >
+      <template #table-busy>
+        <div class="text-center">
+          <b-spinner class="align-middle" type="grow"></b-spinner>
+          <strong> Fetching Logs ... </strong>
+        </div>
+      </template>
+      <template #cell(username)="data">
+        <b-link @click="$router.push(`/users/${data.item.userid}`)">{{
+          data.item.username
+        }}</b-link>
+      </template></b-table
+    >
   </section>
 </template>
 <script>
