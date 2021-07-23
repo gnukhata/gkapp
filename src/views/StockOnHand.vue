@@ -263,7 +263,7 @@ export default {
   mounted() {
     this.getProductList();
     this.getGodownList();
-    this.toDate = this.yearEnd;
+    this.toDate = this.currentDate();
   },
 };
 </script>

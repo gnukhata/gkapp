@@ -201,7 +201,7 @@ export default {
   },
   mounted() {
     this.fromDate = this.dateReverse(this.yearStart);
-    this.toDate = this.dateReverse(this.yearEnd);
+    this.toDate = this.dateReverse(this.currentDate());
   },
 };
 </script>
