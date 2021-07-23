@@ -6,6 +6,54 @@ The GNUkhata team meets *Every Monday @ 11:30 hrs (IST)* to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest your ideas, comments, feedback. [[https://meet.jit.si/GNUKhata2020][Jitsi Meet URL]]
 
+* Meeting history (2021-07-19)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-07-19
+  :END:
+Agenda:
+
+- Review past week's progress
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+
+- Karthik:
+ [GKAPP]
+  - Ovehaul of login module. Split into several components
+  - gk-cardhearder component
+ [GKCORE]
+  - Complete godown incharge migration code
+  - Rebuild gkcore docker on devel branch
+
+- Survesh:
+  - Change the UI of Account list
+  - Convert Add and Edit accounts into separate views
+  - Voucher (Edit, Delete)
+  - Transaction form names and confirmation boxes
+  - Update url when in edit mode in Invoice form
+  - Add missing log calls in Transaction forms + few other forms
+
+Points Discussed:
+  - Is Rollover's progress written to log file, as several tables are migrated
+  it would be easy to debug, when an error occurs? Currently no, needs some research.
+  - Comments in Login page UI,
+    - The login button has to be in the right side than left.
+    - Change server link must be aligned with the change organisation button.
+    - Make the Org Name selection searchable.
+    - Remove Profit/ Not Profit text.
+  - The universal nav bar should be fixed to the bottom of the page. Currently in 
+  pages with content that takes less vertical space, the nav bar appears in the middle
+  of the screen.
+  - Comments in Accounts page,
+    - Add closing balance with cr or dr, near the account
+    - The Account Edit and Delete options must be hidden based on user roles
+  - Show Deleted Vouchers in the Voucher List in workflow page.
+
+Conclusion:
+
+- Updates will be performed based on the points discussed above.
+
 * Meeting history (2021-07-12)
   :PROPERTIES:
   :CUSTOM_ID: meeting-history-2021-07-12
