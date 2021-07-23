@@ -266,6 +266,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "accounts" */ '../views/AccountEdit.vue'),
     props: true
   },
+  {
+    path: '/product-list',
+    name: "Product List",
+    component: () => import(/* webpackChunkName: "accounts" */ '../views/ProductList.vue'),
+  },
 ]
 
 const router = new VueRouter({

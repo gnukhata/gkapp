@@ -89,6 +89,9 @@
           <b-nav-item to="/accounts">
             <b-icon icon="files-alt"></b-icon> Accounts
           </b-nav-item>
+          <b-nav-item to="/product-list">
+            <b-icon icon="files-alt"></b-icon> Products List
+          </b-nav-item>
           <b-nav-item to="/about">
             <b-icon icon="info-circle"></b-icon> About
           </b-nav-item>
