@@ -203,7 +203,7 @@ export default {
   mounted() {
     this.getProjectList();
     this.fromDate = this.yearStart;
-    this.toDate = this.yearEnd;
+    this.toDate = this.currentDate();
   },
 };
 </script>

@@ -93,31 +93,28 @@ export default {
         this.$refs['change-pwd-close'].hide();
       }, 1500);
     },
-
-    mounted() {
-      if (this.userAuthenticated) {
-        this.getOrgImage();
-      }
-      /**
-       * fetch latest app changes
-       */
-      if (this.$workbox) {
-        this.$workbox.addEventListener('waiting', () => {
-          // this.showUpdateUI = true;
-          // notify the user before updating the app
-          this.$bvToast.toast(`Updating app to the latest version`, {
-            title: 'New Update Available!',
-            solid: 'true',
-            variant: 'warning',
-            autoHideDelay: 3000,
-          });
-          // pull the latest code
-          setTimeout(() => {
-            this.$workbox.messageSW({ type: 'SKIP_WAITING' });
-          }, 3000);
+  },
+  mounted() {
+    this.getOrgImage();
+    /**
+     * fetch latest app changes
+     */
+    if (this.$workbox) {
+      this.$workbox.addEventListener('waiting', () => {
+        // this.showUpdateUI = true;
+        // notify the user before updating the app
+        this.$bvToast.toast(`Updating app to the latest version`, {
+          title: 'New Update Available!',
+          solid: 'true',
+          variant: 'warning',
+          autoHideDelay: 3000,
         });
-      }
-    },
+        // pull the latest code
+        setTimeout(() => {
+          this.$workbox.messageSW({ type: 'SKIP_WAITING' });
+        }, 3000);
+      });
+    }
   },
 };
 </script>

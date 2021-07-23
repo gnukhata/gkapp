@@ -23,6 +23,13 @@ Vue.mixin({
     }
   },
   methods: {
+    currentDate() {
+      const dt = new Date()
+      const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate()
+      const mm = dt.getMonth() < 10 ? '0' + dt.getMonth() : dt.getMonth()
+      const yy = dt.getFullYear()
+      return `${yy}-${mm}-${dd}`
+    },
     dateReverse(date) {
       let d = date.split('-').reverse();
       return `${d[0]}-${d[1]}-${d[2]}`;
@@ -74,7 +81,6 @@ Vue.mixin({
         'authToken',
         'orgCode',
         'orgName',
-        'orgYears',
         'userName',
       ];
       for (let i in deleteList) {
