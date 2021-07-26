@@ -122,6 +122,7 @@
                 :style="{
                   'max-width': '450px',
                 }"
+                id="list-filter"
               >
                 <b-card-body class="p-2">
                   <b>Filter By</b>
@@ -261,6 +262,13 @@
                     </b-col>
                     <b-col class="px-1 text-truncate">
                       <span>
+                        <b-icon
+                          v-if="item.deletedFlag"
+                          font-scale="0.75"
+                          variant="danger"
+                          icon="x-circle"
+                          class="mr-1"
+                        ></b-icon>
                         <b-icon font-scale="0.75" :icon="item.icon"></b-icon>
                       </span>
                       <small> {{ item.text1 }} </small>
@@ -391,11 +399,7 @@
             <transaction-profile
               :name="activeWorkflow.tabName"
               :id="selectedEntity.id"
-              :pdata="{
-                onCreditFlag: selectedEntity.onCreditFlag,
-                rectifyFlag: selectedEntity.rectifyFlag,
-                cancelFlag: !!selectedEntity.cancelflag,
-              }"
+              :pdata="profileData"
               :onUpdate="onSelectedEntityUpdate"
             ></transaction-profile>
           </b-card-body>
@@ -453,6 +457,7 @@ export default {
         min: 63,
         max: 0,
       },
+      listHeight: 0,
       tabChoice: 0,
       isPreloading: false,
       isLoading: true,
@@ -606,6 +611,18 @@ export default {
                     {
                       text: 'Purchase',
                       props: { key: 'csflag', value: 19 },
+                    },
+                    {
+                      text: 'Cancelled',
+                      props: { key: 'deletedFlag', value: true },
+                    },
+                    {
+                      text: 'On Credit',
+                      props: { key: 'onCreditFlag', value: true },
+                    },
+                    {
+                      text: 'Editable',
+                      props: { key: 'rectifyFlag', value: true },
                     },
                   ],
                   range: [
@@ -991,6 +1008,10 @@ export default {
                       text: 'Contra',
                       props: { key: 'vouchertype', value: 'contra' },
                     },
+                    {
+                      text: 'Cancelled',
+                      props: { key: 'deletedFlag', value: true },
+                    },
                   ],
                   range: [
                     {
@@ -1087,18 +1108,50 @@ export default {
     };
   },
   watch: {
-    isFilterOpen: function() {
+    isFilterOpen: function(isOpen) {
       let self = this;
       window.setTimeout(() => {
-        if (self.isFilterOpen) {
+        if (isOpen) {
           if (self.leftHeaderHeight.max === 0) {
             self.leftHeaderHeight.max = self.$refs.leftHeader.offsetHeight;
           }
+        } else {
+          self.leftHeaderHeight.max = 0;
         }
+        this.updateListHeight();
       }, 650);
     },
   },
   computed: {
+    // data required by the transaction profile page
+    profileData: (self) => {
+      let data = {};
+      let entity = self.selectedEntity;
+      switch (self.activeWorkflow.tabName) {
+        case 'Invoice':
+          data = {
+            onCreditFlag: entity.onCreditFlag,
+            rectifyFlag: entity.rectifyFlag,
+            cancelFlag: !!entity.cancelflag,
+            deletedFlag: entity.deletedFlag,
+          };
+          break;
+        case 'CashMemo':
+          break;
+        case 'DebitCreditNote':
+          break;
+        case 'DeliveryNote':
+          break;
+        case 'PurchaseSalesOrder':
+          break;
+        case 'RejectionNote':
+          break;
+        case 'Voucher':
+          data = self.selectedEntity;
+          break;
+      }
+      return data;
+    },
     allTabs: (self) => {
       let tabs = {};
       const transactionTabs = self.options.tabs['Transactions'].tabs;
@@ -1120,14 +1173,7 @@ export default {
     },
     // headerHeight is the height of the top nav bar
     headerHeight: () => document.getElementById('app-header').offsetHeight,
-    // listHeight is the height that the left pane data list should be, (Total screen height - (top nav bar height - leftpane top bar height))
-    listHeight: (self) =>
-      window.innerHeight -
-      (self.headerHeight +
-        70 +
-        (self.isFilterOpen
-          ? self.leftHeaderHeight.max
-          : self.leftHeaderHeight.min)), // 70 is the sum of sortable heading height + remaining vertical space in the screen
+
     rightPaneHeight: (self) =>
       window.innerHeight - (self.headerHeight + self.leftHeaderHeight.min + 41), // 41 is the remaining vertical space in the screen
     /**
@@ -1168,6 +1214,16 @@ export default {
     ...mapState(['authToken', 'gkCoreUrl', 'userName', 'yearStart', 'yearEnd']),
   },
   methods: {
+    updateListHeight() {
+      // listHeight is the height that the left pane data list should be, (Total screen height - (top nav bar height - leftpane top bar height))
+      this.listHeight =
+        window.innerHeight -
+        (this.headerHeight +
+          70 +
+          (this.isFilterOpen
+            ? this.leftHeaderHeight.max
+            : this.leftHeaderHeight.min)); // 70 is the sum of sortable heading height + remaining vertical space in the screen
+    },
     callSortData(data, props) {
       // this.sort.isActive = true;
       if (this.sort.props.key === props.key) {
@@ -1284,29 +1340,6 @@ export default {
         this.updateUrl();
       }
     },
-    getProfileData(entity) {
-      let data = {};
-      switch (this.activeWorkflow.tabName) {
-        case 'Invoice':
-          data = {
-            onCreditFlag: entity.onCreditFlag,
-            rectifyFlag: entity.rectifyFlag,
-            cancelFlag: !!entity.cancelflag,
-          };
-          break;
-        case 'CashMemo':
-          break;
-        case 'DebitCreditNote':
-          break;
-        case 'DeliveryNote':
-          break;
-        case 'PurchaseSalesOrder':
-          break;
-        case 'RejectionNote':
-          break;
-      }
-      return data;
-    },
     setSelectedEntity(entity, index, skipUpdate) {
       // remove selected class from the last selected item
       let activeListContainerDom = document.querySelector(
@@ -1374,9 +1407,35 @@ export default {
             }
           }
           break;
-        case 'Transactions-Voucher': {
+        case 'Transactions-Voucher':
+          {
+            if (updatedData.type === 'delete') {
+              this.displayToast(
+                `Voucher Delete success!`,
+                `${seld.selectedEntity.noteName} : ${this.selectedEntity.no}, deleted successfully.`,
+                'success'
+              );
+              let id = this.selectedEntity.id;
+              let index = this.activeTabOptions.data.findIndex(
+                (voucher) => voucher.id === id
+              );
+              this.activeTabOptions.data.splice(index, 1);
+              this.unsetSelectedEntity();
+            }
+          }
+          break;
+        case 'Transactions-DeliveryNote': {
           if (updatedData.type === 'delete') {
-            this.activeTabOptions.data.splice(this.selectedEntityIndex, 1);
+            this.displayToast(
+              `Delivery Note Delete success!`,
+              `Delivery Note : ${this.selectedEntity.no}, deleted successfully.`,
+              'success'
+            );
+            let id = this.selectedEntity.id;
+            let index = this.activeTabOptions.data.findIndex(
+              (voucher) => voucher.id === id
+            );
+            this.activeTabOptions.data.splice(index, 1);
             this.unsetSelectedEntity();
           }
         }
@@ -1437,98 +1496,141 @@ export default {
           .catch((error) => {
             return error;
           }),
+        axios
+          .get(
+            `/invoice?type=listdeleted&flag=0&fromdate=${this.yearStart}&todate=${this.yearEnd}`
+          )
+          .catch((error) => {
+            return error;
+          }),
+        axios.get('/report?type=deletedvoucher').catch((error) => {
+          return error;
+        }),
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(
-        ([
-          resp1,
-          resp2,
-          resp3,
-          resp4,
-          resp5,
-          resp6,
-          resp7,
-          resp8,
-          resp9,
-          resp10,
-          resp11,
-          resp12,
-          resp13,
-        ]) => {
-          self.isLoading = false;
+      return Promise.all([...requests]).then((resp) => {
+        self.isLoading = false;
 
-          let contacts = [];
-          let invoiceMap = {};
-          let custSupMap = {}; // customer/suppliername : isCustomer
+        let contacts = [];
+        let invoiceMap = {};
+        let custSupMap = {}; // customer/suppliername : isCustomer
 
-          // Customer List
-          if (resp1.status === 200) {
-            contacts = resp1.data.gkresult.map((item) => {
-              custSupMap[item.custname] = true;
-              return Object.assign({ csflag: true, icon: 'person-fill' }, item);
-            });
-          } else {
-            console.log(resp1.message);
-          }
+        // Customer List
+        if (resp[0].status === 200) {
+          contacts = resp[0].data.gkresult.map((item) => {
+            custSupMap[item.custname] = true;
+            return Object.assign({ csflag: true, icon: 'person-fill' }, item);
+          });
+        } else {
+          console.log(resp[0].message);
+        }
 
-          // Supplier List
-          if (resp2.status === 200) {
-            contacts.push(
-              ...resp2.data.gkresult.map((item) => {
-                custSupMap[item.custname] = false;
-                return Object.assign(
-                  { csflag: false, icon: 'briefcase-fill' },
-                  item
-                );
-              })
-            );
-            self.options.tabs['Contacts'].data = self.sortData(
-              contacts,
-              'asc',
-              'custid'
-            );
-          } else {
-            console.log(resp2.message);
-          }
-
-          // Products & Services List
-          if (resp3.status === 200) {
-            self.options.tabs[
-              'Business'
-            ].data = resp3.data.gkresult.map((item) =>
-              Object.assign(
-                { icon: item.gsflag === 7 ? 'box' : 'headset' },
+        // Supplier List
+        if (resp[1].status === 200) {
+          contacts.push(
+            ...resp[1].data.gkresult.map((item) => {
+              custSupMap[item.custname] = false;
+              return Object.assign(
+                { csflag: false, icon: 'briefcase-fill' },
                 item
-              )
-            );
-          } else {
-            console.log(resp3.message);
+              );
+            })
+          );
+          self.options.tabs['Contacts'].data = self.sortData(
+            contacts,
+            'asc',
+            'custid'
+          );
+        } else {
+          console.log(resp[1].message);
+        }
+
+        // Products & Services List
+        if (resp[2].status === 200) {
+          self.options.tabs[
+            'Business'
+          ].data = resp[2].data.gkresult.map((item) =>
+            Object.assign({ icon: item.gsflag === 7 ? 'box' : 'headset' }, item)
+          );
+        } else {
+          console.log(resp[2].message);
+        }
+
+        const transactionTab = self.options.tabs['Transactions'].tabs;
+
+        // Invoices
+        if (resp[3].status === 200) {
+          self.options.tabs['Transactions'].data = resp[3].data.gkresult.map(
+            (item, index) => {
+              invoiceMap[item.invid] = index;
+              return Object.assign(
+                {
+                  id: item.invid,
+                  no: item.invoiceno,
+                  noteName: `${
+                    item.csflag === 3 ? 'Sale' : 'Purchase'
+                  } Invoice`,
+                  date: item.invoicedate,
+                  text1: item.custname,
+                  text2: `₹ ${item.netamt}`,
+                  icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                  onCreditFlag: false,
+                  rectifyFlag: false, // can be rectified or not
+                  deletedFlag: false,
+                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                  dateObj: Date.parse(
+                    item.invoicedate
+                      .split('-')
+                      .reverse()
+                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                  ),
+                },
+                item
+              );
+            }
+          );
+          transactionTab['Invoice'].data =
+            self.options.tabs['Transactions'].data;
+        } else {
+          console.log(resp[3].message);
+        }
+
+        // Invoice in credit
+        if (resp[4].status === 200) {
+          let data = transactionTab['Invoice'].data;
+          if (resp[4].data.gkstatus === 0 && data.length) {
+            let index = '';
+            resp[4].data.invoices.forEach((inv) => {
+              index = invoiceMap[inv.invid];
+              if (index >= 0) {
+                data[index].onCreditFlag = true;
+                data[index].rectifyFlag =
+                  inv.balanceamount === inv.invoicetotal; // can be rectified or not
+              }
+            });
           }
+        } else {
+          console.log(resp[4].message);
+        }
 
-          const transactionTab = self.options.tabs['Transactions'].tabs;
-
-          // Invoices
-          if (resp4.status === 200) {
-            self.options.tabs['Transactions'].data = resp4.data.gkresult.map(
-              (item, index) => {
-                invoiceMap[item.invid] = index;
+        // Delivery Note
+        if (resp[5].status === 200) {
+          if (resp[5].data.gkstatus === 0) {
+            transactionTab['DeliveryNote'].data = resp[5].data.gkresult.map(
+              (item) => {
                 return Object.assign(
                   {
-                    id: item.invid,
-                    no: item.invoiceno,
-                    noteName: `${
-                      item.csflag === 3 ? 'Sale' : 'Purchase'
-                    } Invoice`,
-                    date: item.invoicedate,
+                    id: item.dcid,
+                    no: item.dcno,
+                    noteName: `Delivery Note`,
                     text1: item.custname,
-                    text2: `₹ ${item.netamt}`,
+                    text2: item.dcno,
                     icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                    onCreditFlag: false,
-                    rectifyFlag: false, // can be rectified or not
                     // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                    date: item.dcdate,
                     dateObj: Date.parse(
-                      item.invoicedate
+                      item.dcdate
                         .split('-')
                         .reverse()
                         .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
@@ -1538,102 +1640,23 @@ export default {
                 );
               }
             );
-            transactionTab['Invoice'].data =
-              self.options.tabs['Transactions'].data;
-          } else {
-            console.log(resp4.message);
           }
+        } else {
+          console.log(resp[5].message);
+        }
 
-          // Invoice in credit
-          if (resp5.status === 200) {
-            let data = transactionTab['Invoice'].data;
-            if (resp5.data.gkstatus === 0 && data.length) {
-              let index = '';
-              resp5.data.invoices.forEach((inv) => {
-                index = invoiceMap[inv.invid];
-                if (index >= 0) {
-                  data[index].onCreditFlag = true;
-                  data[index].rectifyFlag =
-                    inv.balanceamount === inv.invoicetotal; // can be rectified or not
-                }
-              });
-            }
-          } else {
-            console.log(resp5.message);
-          }
-
-          // Delivery Note
-          if (resp6.status === 200) {
-            if (resp6.data.gkstatus === 0) {
-              transactionTab['DeliveryNote'].data = resp6.data.gkresult.map(
-                (item) => {
-                  return Object.assign(
-                    {
-                      id: item.dcid,
-                      no: item.dcno,
-                      noteName: `Delivery Note`,
-                      text1: item.custname,
-                      text2: item.dcno,
-                      icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                      date: item.dcdate,
-                      dateObj: Date.parse(
-                        item.dcdate
-                          .split('-')
-                          .reverse()
-                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                      ),
-                    },
-                    item
-                  );
-                }
-              );
-            }
-          } else {
-            console.log(resp6.message);
-          }
-
-          // Cash Memo Sale
-          if (resp7.status === 200) {
-            if (resp7.data.gkstatus === 0) {
-              transactionTab['CashMemo'].data = resp7.data.gkresult.map(
-                (item) => {
-                  return Object.assign(
-                    {
-                      id: item.invid,
-                      no: item.invoiceno,
-                      noteName: `Cash Memo`,
-                      text1: item.invoiceno,
-                      icon: 'cash-stack',
-                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                      date: item.invoicedate,
-                      dateObj: Date.parse(
-                        item.invoicedate
-                          .split('-')
-                          .reverse()
-                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                      ),
-                    },
-                    item
-                  );
-                }
-              );
-            }
-          } else {
-            console.log(resp7.message);
-          }
-
-          // Cash Memo Purchase
-          if (resp8.status === 200) {
-            if (resp8.data.gkstatus === 0) {
-              let cmPurchase = resp8.data.gkresult.map((item) => {
+        // Cash Memo Sale
+        if (resp[6].status === 200) {
+          if (resp[6].data.gkstatus === 0) {
+            transactionTab['CashMemo'].data = resp[6].data.gkresult.map(
+              (item) => {
                 return Object.assign(
                   {
                     id: item.invid,
                     no: item.invoiceno,
                     noteName: `Cash Memo`,
                     text1: item.invoiceno,
-                    icon: 'basket3',
+                    icon: 'cash-stack',
                     // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                     date: item.invoicedate,
                     dateObj: Date.parse(
@@ -1645,66 +1668,127 @@ export default {
                   },
                   item
                 );
-              });
-              if (cmPurchase.length) {
-                transactionTab['CashMemo'].data.push(...cmPurchase);
               }
-            }
-          } else {
-            console.log(resp8.message);
+            );
           }
+        } else {
+          console.log(resp[6].message);
+        }
 
-          // Transfer Notes
-          if (resp9.status === 200) {
-            if (resp9.data.gkstatus === 0) {
-              transactionTab['TransferNote'].data = resp9.data.gkresult.map(
-                (item) => {
-                  return Object.assign(
-                    {
-                      icon: 'truck',
-                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                      date: item.transfernotedate,
-                      dateObj: Date.parse(
-                        item.transfernotedate
-                          .split('-')
-                          .reverse()
-                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                      ),
-                      id: item.transfernoteid,
-                      no: item.transfernoteno,
-                      noteName: 'Transfer Note',
-                      text1: item.transfernoteno,
-                    },
-                    item
-                  );
-                }
+        // Cash Memo Purchase
+        if (resp[7].status === 200) {
+          if (resp[7].data.gkstatus === 0) {
+            let cmPurchase = resp[7].data.gkresult.map((item) => {
+              return Object.assign(
+                {
+                  id: item.invid,
+                  no: item.invoiceno,
+                  noteName: `Cash Memo`,
+                  text1: item.invoiceno,
+                  icon: 'basket3',
+                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                  date: item.invoicedate,
+                  dateObj: Date.parse(
+                    item.invoicedate
+                      .split('-')
+                      .reverse()
+                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                  ),
+                },
+                item
               );
+            });
+            if (cmPurchase.length) {
+              transactionTab['CashMemo'].data.push(...cmPurchase);
             }
-          } else {
-            console.log(resp9.message);
           }
+        } else {
+          console.log(resp[7].message);
+        }
 
-          // Purchase Sales Order
-          if (resp10.status === 200) {
-            if (resp10.data.gkstatus === 0) {
-              transactionTab[
-                'PurchaseSalesOrder'
-              ].data = resp10.data.gkresult.map((item) => {
+        // Transfer Notes
+        if (resp[8].status === 200) {
+          if (resp[8].data.gkstatus === 0) {
+            transactionTab['TransferNote'].data = resp[8].data.gkresult.map(
+              (item) => {
                 return Object.assign(
                   {
-                    id: item.orderid,
-                    no: item.orderno,
-                    noteName: `${
-                      custSupMap[item.customer] ? 'Sale' : 'Purchase'
-                    } Order`,
-                    text1: item.customer,
-                    text2: item.orderno,
-                    csflag: custSupMap[item.customer] ? 3 : 19,
-                    icon: custSupMap[item.customer] ? 'cash-stack' : 'basket3',
+                    icon: 'truck',
                     // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                    date: item.orderdate,
+                    date: item.transfernotedate,
                     dateObj: Date.parse(
-                      item.orderdate
+                      item.transfernotedate
+                        .split('-')
+                        .reverse()
+                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                    ),
+                    id: item.transfernoteid,
+                    no: item.transfernoteno,
+                    noteName: 'Transfer Note',
+                    text1: item.transfernoteno,
+                  },
+                  item
+                );
+              }
+            );
+          }
+        } else {
+          console.log(resp[8].message);
+        }
+
+        // Purchase Sales Order
+        if (resp[9].status === 200) {
+          if (resp[9].data.gkstatus === 0) {
+            transactionTab[
+              'PurchaseSalesOrder'
+            ].data = resp[9].data.gkresult.map((item) => {
+              return Object.assign(
+                {
+                  id: item.orderid,
+                  no: item.orderno,
+                  noteName: `${
+                    custSupMap[item.customer] ? 'Sale' : 'Purchase'
+                  } Order`,
+                  text1: item.customer,
+                  text2: item.orderno,
+                  csflag: custSupMap[item.customer] ? 3 : 19,
+                  icon: custSupMap[item.customer] ? 'cash-stack' : 'basket3',
+                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                  date: item.orderdate,
+                  dateObj: Date.parse(
+                    item.orderdate
+                      .split('-')
+                      .reverse()
+                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                  ),
+                },
+                item
+              );
+            });
+          }
+        } else {
+          console.log(resp[9].message);
+        }
+
+        // Debit Credit Note
+        if (resp[10].status === 200) {
+          if (resp[10].data.gkstatus === 0) {
+            transactionTab['DebitCreditNote'].data = resp[10].data.gkresult.map(
+              (item) => {
+                return Object.assign(
+                  {
+                    id: item.drcrid,
+                    no: item.drcrno,
+                    noteName: `${
+                      item.dctypeflag === 3 ? 'Credit' : 'Debit'
+                    } Note`,
+                    text1: item.custname,
+                    text2: `₹ ${item.totreduct}`,
+                    icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                    date: item.drcrdate,
+                    dateObj: Date.parse(
+                      item.drcrdate
                         .split('-')
                         .reverse()
                         .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
@@ -1712,115 +1796,149 @@ export default {
                   },
                   item
                 );
-              });
-            }
-          } else {
-            console.log(resp10.message);
+              }
+            );
           }
-
-          // Debit Credit Note
-          if (resp11.status === 200) {
-            if (resp11.data.gkstatus === 0) {
-              transactionTab['DebitCreditNote'].data = resp11.data.gkresult.map(
-                (item) => {
-                  return Object.assign(
-                    {
-                      id: item.drcrid,
-                      no: item.drcrno,
-                      noteName: `${
-                        item.dctypeflag === 3 ? 'Credit' : 'Debit'
-                      } Note`,
-                      text1: item.custname,
-                      text2: `₹ ${item.totreduct}`,
-                      icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                      date: item.drcrdate,
-                      dateObj: Date.parse(
-                        item.drcrdate
-                          .split('-')
-                          .reverse()
-                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                      ),
-                    },
-                    item
-                  );
-                }
-              );
-            }
-          } else {
-            console.log(resp11.message);
-          }
-
-          // Rejection Note
-          if (resp12.status === 200) {
-            if (resp12.data.gkstatus === 0) {
-              transactionTab['RejectionNote'].data = resp12.data.gkresult.map(
-                (item) => {
-                  return Object.assign(
-                    {
-                      id: item.rnid,
-                      no: item.rnno,
-                      noteName: `Rejection Note`,
-                      text1: item.rnno,
-                      icon: item.inout === 15 ? 'cash-stack' : 'basket3',
-                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                      date: item.rndate,
-                      dateObj: Date.parse(
-                        item.rndate
-                          .split('-')
-                          .reverse()
-                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                      ),
-                    },
-                    item
-                  );
-                }
-              );
-            }
-          } else {
-            console.log(resp12.message);
-          }
-
-          // Vouchers
-          if (resp13.status === 200) {
-            if (resp13.data.gkstatus === 0) {
-              transactionTab['Voucher'].data = resp13.data.gkresult.map(
-                (item) => {
-                  let drAccount = Object.keys(item.drs)[0];
-                  let drAmount = parseFloat(item.drs[drAccount]).toFixed(2);
-                  let crAccount = Object.keys(item.crs)[0];
-                  let crAmount = parseFloat(item.crs[crAccount]).toFixed(2);
-                  return Object.assign(
-                    {
-                      id: item.vouchercode,
-                      no: item.vouchernumber,
-                      noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(
-                        1
-                      )} Voucher`,
-                      text1: `${drAmount} (${drAccount})`,
-                      text2: `${crAmount} (${crAccount})`,
-                      drAmount: drAmount,
-                      crAmount: crAmount,
-                      icon: 'cash-stack',
-                      // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                      date: item.voucherdate,
-                      dateObj: Date.parse(
-                        item.voucherdate
-                          .split('-')
-                          .reverse()
-                          .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                      ),
-                    },
-                    item
-                  );
-                }
-              );
-            }
-          } else {
-            console.log(resp13.message);
-          }
+        } else {
+          console.log(resp[10].message);
         }
-      );
+
+        // Rejection Note
+        if (resp[11].status === 200) {
+          if (resp[11].data.gkstatus === 0) {
+            transactionTab['RejectionNote'].data = resp[11].data.gkresult.map(
+              (item) => {
+                return Object.assign(
+                  {
+                    id: item.rnid,
+                    no: item.rnno,
+                    noteName: `Rejection Note`,
+                    text1: item.rnno,
+                    icon: item.inout === 15 ? 'cash-stack' : 'basket3',
+                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                    date: item.rndate,
+                    dateObj: Date.parse(
+                      item.rndate
+                        .split('-')
+                        .reverse()
+                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                    ),
+                  },
+                  item
+                );
+              }
+            );
+          }
+        } else {
+          console.log(resp[11].message);
+        }
+
+        // Vouchers
+        if (resp[12].status === 200) {
+          if (resp[12].data.gkstatus === 0) {
+            transactionTab['Voucher'].data = resp[12].data.gkresult.map(
+              (item) => {
+                let drAccount = Object.keys(item.drs)[0];
+                let drAmount = parseFloat(item.drs[drAccount]).toFixed(2);
+                let crAccount = Object.keys(item.crs)[0];
+                let crAmount = parseFloat(item.crs[crAccount]).toFixed(2);
+                return Object.assign(
+                  {
+                    id: item.vouchercode,
+                    no: item.vouchernumber,
+                    noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(
+                      1
+                    )} Voucher`,
+                    text1: `${drAmount} (${drAccount})`,
+                    text2: `${crAmount} (${crAccount})`,
+                    drAmount: drAmount,
+                    crAmount: crAmount,
+                    icon: 'cash-stack',
+                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                    date: item.voucherdate,
+                    dateObj: Date.parse(
+                      item.voucherdate
+                        .split('-')
+                        .reverse()
+                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                    ),
+                  },
+                  item
+                );
+              }
+            );
+          }
+        } else {
+          console.log(resp[12].message);
+        }
+
+        if (resp[13].data.gkstatus === 0) {
+          const deletedInv = resp[13].data.gkresult.map((item, index) => {
+            return Object.assign(
+              {
+                id: item.invid,
+                no: item.invoiceno,
+                noteName: `${item.csflag === 3 ? 'Sale' : 'Purchase'} Invoice`,
+                date: item.invoicedate,
+                text1: item.custname,
+                text2: `₹ ${item.netamt}`,
+                icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                onCreditFlag: false,
+                rectifyFlag: false, // can be rectified or not
+                deletedFlag: true,
+                // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                dateObj: Date.parse(
+                  item.invoicedate
+                    .split('-')
+                    .reverse()
+                    .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                ),
+              },
+              item
+            );
+          });
+          transactionTab['Invoice'].data.push(...deletedInv);
+        }
+
+        // Vouchers
+        if (resp[14].status === 200) {
+          if (resp[14].data.gkstatus === 0) {
+            let deletedVouchers = resp[14].data.gkresult.map((item) => {
+              let drAccount = Object.keys(item.drs)[0];
+              let drAmount = parseFloat(item.drs[drAccount]).toFixed(2);
+              let crAccount = Object.keys(item.crs)[0];
+              let crAmount = parseFloat(item.crs[crAccount]).toFixed(2);
+              return Object.assign(
+                {
+                  id: item.vouchercode,
+                  no: item.vouchernumber,
+                  noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(
+                    1
+                  )} Voucher`,
+                  text1: `${drAmount} (${drAccount})`,
+                  text2: `${crAmount} (${crAccount})`,
+                  drAmount: drAmount,
+                  crAmount: crAmount,
+                  icon: 'cash-stack',
+                  deletedFlag: true,
+                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
+                  date: item.voucherdate,
+                  dateObj: Date.parse(
+                    item.voucherdate
+                      .split('-')
+                      .reverse()
+                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
+                  ),
+                },
+                item
+              );
+            });
+            transactionTab['Voucher'].data.push(...deletedVouchers);
+          }
+        } else {
+          console.log(resp[12].message);
+        }
+      });
     },
     // fetch products & services list
     psList() {
@@ -1862,6 +1980,7 @@ export default {
     },
   },
   mounted() {
+    this.updateListHeight();
     // this.loadList('custall')
     // this.loadList('supall')
     // this.psList()

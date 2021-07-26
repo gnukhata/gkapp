@@ -1,5 +1,10 @@
 <template>
   <b-container fluid>
+    <div v-if="deletedFlag">
+      <span class="float-right h5 p-2 bg-danger text-white">Cancelled</span>
+      <div class="clearfix"></div>
+      <br>
+    </div>
     <b-row>
       <b-col cols="8">
         <p>
@@ -36,7 +41,7 @@
     <div>
       <b>Total in words: {{ invoice.total.text }}</b>
     </div>
-    <div class="float-right my-2">
+    <div class="float-right my-2" v-if="!deletedFlag">
       <b-button
         v-if="onCreditFlag"
         class="mr-2"
@@ -134,6 +139,7 @@ export default {
     };
   },
   computed: {
+    deletedFlag: (self) => !!self.pdata.deletedFlag,
     onCreditFlag: (self) => !!self.pdata.onCreditFlag,
     rectifyFlag: (self) => !!self.pdata.rectifyFlag,
     cancelFlag: (self) => !!self.pdata.cancelFlag,
@@ -141,8 +147,9 @@ export default {
   },
   methods: {
     getDetails() {
+      let type = this.deletedFlag? 'deletedsingle' : 'single';
       return axios
-        .get(`/invoice?inv=single&invid=${this.id}`)
+        .get(`/invoice?inv=${type}&invid=${this.id}`)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
             title: `${this.formMode} ${this.formType} Error!`,

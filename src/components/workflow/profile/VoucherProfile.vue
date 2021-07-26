@@ -1,5 +1,10 @@
 <template>
   <b-container fluid>
+    <div v-if="deletedFlag">
+      <span class="float-right h5 p-2 bg-danger text-white">Cancelled</span>
+      <div class="clearfix"></div>
+      <br>
+    </div>
     <div class="text-right mb-3">
       <b>{{ voucher.date }}</b>
     </div>
@@ -25,7 +30,7 @@
     </p>
     {{ voucher.narration }}
     <br /><br />
-    <div class="float-right">
+    <div class="float-right" v-if="!deletedFlag">
       <b-button
         @click.prevent="onDelete"
         size="sm"
@@ -65,6 +70,7 @@ export default {
     },
   },
   computed: {
+    deletedFlag: (self) => !!self.pdata.deletedFlag,
     totalCr: (self) =>
       self.voucher.content
         .reduce((acc, item) => acc + (parseFloat(item.cr) || 0), 0)
@@ -115,6 +121,11 @@ export default {
               })
               .then((resp) => {
                 if (resp.data.gkstatus === 0) {
+                  let log = {
+                    activity: `${self.type} voucher deleted: ${self.no}`,
+                  };
+                  axios.post('/log', log);
+                  
                   self.displayToast(
                     `Voucher Delete success!`,
                     `${self.type} Voucher : ${self.no}, deleted successfully.`,
@@ -216,11 +227,16 @@ export default {
   },
   watch: {
     id: function(id) {
-      if (id) this.fetchAndUpdateData();
+      if (id && !this.pdata.deletedFlag) this.fetchAndUpdateData();
     },
+    pdata: function(data) {
+      if(data.deletedFlag) {
+        this.formatVoucherDetails(data);
+      }
+    }
   },
   mounted() {
-    if (this.id) {
+    if (this.id && !this.deletedFlag) {
       this.fetchAndUpdateData();
     }
   },
