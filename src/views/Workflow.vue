@@ -1882,7 +1882,7 @@ export default {
         }
 
         if (resp[13].data.gkstatus === 0) {
-          const deletedInv = resp[13].data.gkresult.map((item, index) => {
+          const deletedInv = resp[13].data.gkresult.map((item) => {
             return Object.assign(
               {
                 id: item.invid,
