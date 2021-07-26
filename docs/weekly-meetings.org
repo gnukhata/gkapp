@@ -6,6 +6,67 @@ The GNUkhata team meets *Every Monday @ 11:30 hrs (IST)* to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest your ideas, comments, feedback. [[https://meet.jit.si/GNUKhata2020][Jitsi Meet URL]]
 
+* Meeting history (2021-07-26)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-07-26
+  :END:
+Agenda:
+
+- Review past week's progress
+
+Participants: GN, R2, Survesh, VK
+
+Updates:
+
+- Karthik:
+  - Align all buttons in same card in login / select org
+  - Product service list report. Sorting by product/service
+  - WIP Category wise stock on hand report.
+- Survesh:
+  - Updated URL based on the group, subgroup, account selected in accounts page
+  - Added deleted Invoices, Vouchers in workflow page and 
+added Delete DelNote option.
+  - Added Budget List
+
+Points Discussed:
+  - Comments on Budget List Page,
+    - The current table view in mobile, could be replaced with card view.
+    so that it matches the accounts page UI.
+    - Provide an option to switch between table UI and card based UI 
+    so the UI choice is left to the user.
+    - In table view, some columns are hidden and require scrolling. Indicate
+    the page is scrollable with a swiping hand icon.
+    - Check https://qbo.intuit.com/redir/testdrive, for inspiration on how budget
+    UI is handled.
+  - Comments in Workflow page,
+    - Add appropriate icons for filters in workflow page.
+    - Add indicators to show deletable Delivery Notes.
+    - Add alternating stripes to the workflow page list.
+  - Feature request in Create Invoice page,
+    - Use Case: After the current financial year is roll closed, in the next year
+    we need to be able to create an invoice for a purchase that took place in 
+    the roll closed year. This is done by specifying the Invoice Date and Id that 
+    was used by the seller in the previous year.
+    - Need 2 extra fields to store the Supplier's Invoice No. and Date to achieve this.
+    - Check https://margbooks.com to see how this is implemented
+  - Comments in Login Page,
+    - The label's that are not required are missing the red * and is causing an
+     alignment mismatch with other labels that have one. Must level out this space
+     to make all labels aligned.
+    - The Demo account details title does not require an underline.
+    - Follow the alignment pattern used in forms for demo account details card.
+    - In production deployment, remove the demo account details in login page.
+      For this maintain a variable in the server to distinguish between production
+      and demo deployments.
+    - Currently the password can be set the same as username, the password security
+      check must not allow this.
+    - Add "GnuKh@t@2021" as the placeholder for password field.
+    - Make the password checks mandatory in production deployments.
+
+Conclusion:
+
+- Updates will be performed based on the points discussed above.
+
 * Meeting history (2021-07-19)
   :PROPERTIES:
   :CUSTOM_ID: meeting-history-2021-07-19
