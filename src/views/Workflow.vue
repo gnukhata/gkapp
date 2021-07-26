@@ -1412,15 +1412,15 @@ export default {
             if (updatedData.type === 'delete') {
               this.displayToast(
                 `Voucher Delete success!`,
-                `${seld.selectedEntity.noteName} : ${this.selectedEntity.no}, deleted successfully.`,
+                `${this.selectedEntity.noteName} : ${this.selectedEntity.no}, deleted successfully.`,
                 'success'
               );
               let id = this.selectedEntity.id;
               let index = this.activeTabOptions.data.findIndex(
                 (voucher) => voucher.id === id
               );
-              this.activeTabOptions.data.splice(index, 1);
               this.unsetSelectedEntity();
+              this.activeTabOptions.data.splice(index, 1);
             }
           }
           break;
@@ -1433,13 +1433,22 @@ export default {
             );
             let id = this.selectedEntity.id;
             let index = this.activeTabOptions.data.findIndex(
-              (voucher) => voucher.id === id
+              (delNote) => delNote.id === id
             );
-            this.activeTabOptions.data.splice(index, 1);
             this.unsetSelectedEntity();
+            this.activeTabOptions.data.splice(index, 1);
           }
         }
       }
+    },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
     },
     // fetch customers, suppliers, products, services list
     loadList() {

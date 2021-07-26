@@ -82,6 +82,16 @@
         </b-table-simple>
       </b-col>
     </b-row>
+    <div class="float-right" v-if="cancelFlag">
+      <b-button
+        @click.prevent="onDelete"
+        size="sm"
+        variant="danger"
+        class="mx-1"
+      >
+        Delete
+      </b-button>
+    </div>
   </b-container>
 </template>
 
@@ -107,6 +117,9 @@ export default {
   },
   data() {
     return {
+      cancelFlag: false,
+      no: '',
+      isSale: false,
       delnote: {
         contents: [],
         date: '',
@@ -151,7 +164,61 @@ export default {
     },
   },
   methods: {
+    onDelete() {
+      const self = this;
+      const text = this.$createElement('div', {
+        domProps: {
+          innerHTML: `Delete Delivery Note <b>${this.no}</b>?"`,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(text, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            // return;
+            axios
+              .delete('/delchal?type=canceldel', {
+                data: {
+                  dcid: this.id,
+                },
+              })
+              .then((resp) => {
+                if (resp.data.gkstatus === 0) {
+                  let type = self.isSale ? 'sale' : 'purchase';
+                  let log = {
+                    activity: `delivery note for ${type} deleted: ${self.no}`,
+                  };
+                  axios.post('/log', log);
+
+                  self.displayToast(
+                    `Delivery Note Delete success!`,
+                    `Delivery Note : ${self.no}, deleted successfully.`,
+                    'success'
+                  );
+                  this.onUpdate({ type: 'delete' });
+                } else {
+                  self.displayToast(
+                    `Delivery Note Delete failed!`,
+                    `Unable to delete Delivery Note : ${self.no}`,
+                    'danger'
+                  );
+                }
+              });
+          }
+        });
+    },
     formatDetails(details) {
+      this.no = details.delchaldata.dcno;
+      this.cancelFlag = !details.delchaldata.cancelFlag;
+      this.isSale = details.delchaldata.inoutflag === 15;
       this.total = {
         amount: details.delchaldata.delchaltotal,
         isIgst: details.taxname === 'IGST',
@@ -254,9 +321,18 @@ export default {
         } // end switch
       });
     },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
+    },
   },
   watch: {
-    id: function (id) {
+    id: function(id) {
       if (id) this.fetchAndUpdateData();
     },
   },
