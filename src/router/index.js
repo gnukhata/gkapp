@@ -250,9 +250,10 @@ const routes = [
     component: () => import(/* webpackChunkName: "rejection_note" */ '../views/Transactions/RejectionNote.vue'),
   },
   {
-    path: '/accounts',
+    path: '/accounts/:group/:subGroup/:acc',
     name: 'Accounts',
     component: () => import(/* webpackChunkName: "accounts" */ '../views/Accounts.vue'),
+    props: true
   },
   {
     path: '/account/create/:group/:subGroup',

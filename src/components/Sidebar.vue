@@ -86,7 +86,7 @@
           <b-nav-item to="/stock-on-hand">
             <b-icon icon="receipt"></b-icon> Stock On Hand
           </b-nav-item>
-          <b-nav-item to="/accounts">
+          <b-nav-item to="/accounts/-1/-1/-1">
             <b-icon icon="files-alt"></b-icon> Accounts
           </b-nav-item>
           <b-nav-item to="/product-list">
