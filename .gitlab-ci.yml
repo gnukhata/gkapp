@@ -9,6 +9,7 @@ pages:
     - npm install
     - npm run build
     - mv public _pub && mv dist public
+    - gzip -k -9 $(find public -type f)
   artifacts:
     paths:
       - public
