@@ -45,7 +45,7 @@
               label-cols="4"
               label-align="right"
             >
-              <gk-date :required="true" v-model="toDate"></gk-date>
+              <gk-date :required="true" v-model="toDate" id="1"></gk-date>
             </b-form-group>
           </div>
           <!-- checkboxes -->
