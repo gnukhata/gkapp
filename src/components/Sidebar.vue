@@ -93,7 +93,10 @@
             <b-icon icon="files-alt"></b-icon> Accounts
           </b-nav-item>
           <b-nav-item to="/product-list">
-            <b-icon icon="files-alt"></b-icon> Products List
+            <b-icon icon="files-alt"></b-icon> Product List
+          </b-nav-item>
+          <b-nav-item to="/contact-list">
+            <b-icon icon="files-alt"></b-icon> Contact List
           </b-nav-item>
           <b-nav-item to="/about">
             <b-icon icon="info-circle"></b-icon> About
