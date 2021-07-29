@@ -22,7 +22,7 @@ gkapp:
     - npm run build
   artifacts:
     paths:
-      - dist/
+      - dist
 
 # deploy the website
 pages:
@@ -31,6 +31,7 @@ pages:
     - job: gkapp
       artifacts: true
   script:
+    - cp dist/dist .
     - mv dist public
     - gzip -k -9 $(find public -type f)
   artifacts:
@@ -40,7 +41,7 @@ pages:
     - master
     - devel
 
-# security tests
+# security checks
 sast:
   stage: test
 include:
