@@ -22,15 +22,7 @@ gkapp:
     - npm run build
   artifacts:
     paths:
-      - dist/
-
-# security checks
-sast:
-  stage: test
-include:
-  - template: Security/SAST.gitlab-ci.yml
-  - template: Security/Dependency-Scanning.gitlab-ci.yml
-  - template: Security/Secret-Detection.gitlab-ci.yml
+      - dist
 
 # deploy the website
 pages:
@@ -47,3 +39,11 @@ pages:
   only:
     - master
     - devel
+
+# security tests
+sast:
+  stage: test
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
