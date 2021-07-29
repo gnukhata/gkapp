@@ -31,8 +31,9 @@ pages:
     - job: gkapp
       artifacts: true
   script:
-    - mv dist .public
-    - mv .public public
+    - ls -al
+    - mv public _pub
+    - mv dist public
     - gzip -k -9 $(find public -type f)
   artifacts:
     paths:
