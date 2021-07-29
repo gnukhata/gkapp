@@ -15,13 +15,16 @@ variables:
   GKAPP_URL: https://gnukhata.gitlab.io/gkapp
 
 # Install dependencies, build the app
-prepare:
+gkapp:
   stage: build
   script:
     - npm install
     - npm run build
+  artifacts:
+    paths:
+      - dist/
 
-# security tests
+# security checks
 sast:
   stage: test
 include:
@@ -31,8 +34,11 @@ include:
 # deploy the website
 pages:
   stage: deploy
+  needs:
+    - job: gkapp
+    - artifacts: true
   script:
-    - mv public _pub && mv dist public
+    - mv dist public
     - gzip -k -9 $(find public -type f)
   artifacts:
     paths:
