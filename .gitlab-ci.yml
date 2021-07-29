@@ -5,26 +5,38 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 image: node:fermium-buster-slim
+
+stages:
+  - build
+  - test
+  - deploy
+
 variables:
   GKAPP_URL: https://gnukhata.gitlab.io/gkapp
-pages:
+
+# Install dependencies, build the app
+prepare:
   stage: build
   script:
-  - npm install
-  - npm run build
-  - mv public _pub && mv dist public
-  - gzip -k -9 $(find public -type f)
+    - npm install
+    - npm run build
+
+# security tests
+sast:
+  stage: test
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+
+# deploy the website
+pages:
+  stage: deploy
+  script:
+    - mv public _pub && mv dist public
+    - gzip -k -9 $(find public -type f)
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
-  - dev
-stages:
-- test
-- build
-sast:
-  stage: build
-include:
-- template: Security/SAST.gitlab-ci.yml
-- template: Security/Dependency-Scanning.gitlab-ci.yml
+    - master
+    - devel
