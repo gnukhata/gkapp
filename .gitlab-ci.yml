@@ -36,7 +36,7 @@ pages:
   stage: deploy
   needs:
     - job: gkapp
-    - artifacts: true
+      artifacts: true
   script:
     - mv dist public
     - gzip -k -9 $(find public -type f)
