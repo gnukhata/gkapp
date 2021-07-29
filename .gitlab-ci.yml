@@ -22,7 +22,7 @@ gkapp:
     - npm run build
   artifacts:
     paths:
-      - dist
+      - dist/
 
 # deploy the website
 pages:
