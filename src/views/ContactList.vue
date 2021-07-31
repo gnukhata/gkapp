@@ -10,31 +10,15 @@
       <b-form-input
         class="border border-secondary container-sm gksearch"
         type="text"
-        placeholder="Search Products/Services"
+        placeholder="Search Customers / Suppliers"
         v-model="searchText"
       ></b-form-input>
     </div>
     <div class="d-flex justify-content-center mb-2">
       Sort by:
-      <b-form-checkbox
-        class="ml-2 mr-2"
-        @change="applyFilter"
-        v-model="status"
-        value="all"
-      >
-        All
-      </b-form-checkbox>
-      <b-form-checkbox
-        @change="applyFilter"
-        class="mr-2"
-        v-model="status"
-        value="cus"
-      >
-        Customers
-      </b-form-checkbox>
-      <b-form-checkbox @change="applyFilter" v-model="status" value="sup">
-        Suppliers
-      </b-form-checkbox>
+      <b-form-checkbox class="ml-2 mr-2" @change="applyFilter" v-model="status" value="all">All</b-form-checkbox>
+      <b-form-checkbox @change="applyFilter" class="mr-2" v-model="status" value="cus">Customers</b-form-checkbox>
+      <b-form-checkbox @change="applyFilter" v-model="status" value="sup">Suppliers</b-form-checkbox>
     </div>
     <b-table
       class="rtable mx-auto"
@@ -52,13 +36,13 @@
       <template #table-busy>
         <div class="text-center">
           <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong> Fetching Contacts ... </strong>
+          <strong>Fetching Contacts ...</strong>
         </div>
       </template>
       <template #cell(custname)="data">
-        <b-link @click="$router.push(`/workflow/Contacts/${data.item.custid}`)"
-          >{{ data.item.custname }} {{ data.item.custid }}</b-link
-        >
+        <b-link
+          @click="$router.push(`/workflow/Contacts/${data.item.custid}`)"
+        >{{ data.item.custname }}</b-link>
       </template>
     </b-table>
   </section>
