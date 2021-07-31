@@ -24,9 +24,9 @@ Vue.mixin({
   },
   methods: {
     currentDate() {
-      const dt = new Date()
+      let dt = new Date()
       const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate()
-      const mm = dt.getMonth() < 10 ? '0' + dt.getMonth() : dt.getMonth()
+      const mm = dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt.getMonth()
       const yy = dt.getFullYear()
       return `${yy}-${mm}-${dd}`
     },

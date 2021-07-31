@@ -227,7 +227,6 @@ export default {
   },
   created() {
     let url = localStorage.getItem('gkCoreUrl');
-    console.log(url);
     if (url == null || url == 'null') {
       this.$router.push('/server-setup');
     }
