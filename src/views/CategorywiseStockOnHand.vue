@@ -131,21 +131,21 @@ export default {
       subCategoryList: [],
       loading: false,
       categoryID: '',
-      subCategoryID: '',
+      subCategoryID: null,
       allProducts: false,
       fromDate: '',
       toDate: '',
       report: [],
       godowns: [],
       showGodowns: false,
-      godownId: '',
+      godownId: null,
       godownReport: [],
       showCard: true,
       search: '',
       fields: [
         {
           key: 'productname',
-          label: 'Name',
+          label: 'product Name',
           sortable: true,
         },
         {
@@ -252,10 +252,15 @@ export default {
     stockOnHand() {
       this.report = [];
       this.loading = true;
-      this.subCategoryID =
-        this.subCategoryID == null ? 'all' : this.subCategoryID;
 
-      let url = `/report?type=categorywisestockonhand&categorycode=${this.categoryID}&subcategorycode=${this.subCategoryID}&enddate=${this.toDate}&goid=-1&speccode=all`;
+      if (this.subCategoryID == null) {
+        this.subCategoryID = 'all';
+      }
+      if (!this.showGodowns) {
+        this.godownId = 'all';
+      }
+      let url = `/report?type=categorywisestockonhand&categorycode=${this.categoryID}&subcategorycode=${this.subCategoryID}&enddate=${this.toDate}&goid=${this.godownId}&speccode=all`;
+      console.log(this.categoryID, this.subCategoryID, this.godownId, url);
       axios
         .get(url)
         .then((r) => {
