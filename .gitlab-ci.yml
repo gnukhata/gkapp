@@ -6,40 +6,40 @@
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 image: node:fermium-buster-slim
 stages:
-- build
-- test
-- deploy
+  - build
+  - test
+  - deploy
 variables:
   GKAPP_URL: https://gnukhata.gitlab.io/gkapp
 gkapp:
   stage: build
   script:
-  - npm install
-  - npm run build
+    - npm install
+    - npm run build
   artifacts:
     paths:
-    - dist
+      - dist
 pages:
   stage: deploy
   needs:
-  - job: gkapp
-    artifacts: true
+    - job: gkapp
+      artifacts: true
   script:
-  - ls -al
-  - mv public _pub
-  - mv dist public
-  - gzip -k -9 $(find public -type f)
+    - ls -al
+    - mv public _pub
+    - mv dist public
+    - gzip -k -9 $(find public -type f)
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
-  - devel
+    - master
+    - devel
 sast:
   stage: test
   variables:
-    SAST_EXCLUDED_PATHS: spec, test, tests, tmp, dist, package-lock.json
+    SAST_EXCLUDED_PATHS: spec, test, tests, tmp, dist/, package-lock.json
 include:
-- template: Security/SAST.gitlab-ci.yml
-- template: Security/Dependency-Scanning.gitlab-ci.yml
-- template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
