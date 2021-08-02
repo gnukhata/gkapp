@@ -1,10 +1,27 @@
-#+TITLE: GNUKhata Weekly meetings
-#+OPTIONS: num:nil
+#+TITLE: GNUKhata Weekly Meetings
+#+OPTIONS: num:nil toc:t tags:t
 #+STARTUP: fold
+# table of contents are displayed in files exported to other formats
 
 The GNUkhata team meets *Every Monday @ 11:30 hrs (IST)* to discuss about
 development, features, outline plans for next release. Feel free to join
-us & suggest your ideas, comments, feedback. [[https://meet.jit.si/GNUKhata2020][Jitsi Meet URL]]
+us & suggest your ideas, comments, feedback.
+
+Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
+
+* Meeting history (2021-08-02)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-08-02
+  :END:
+Agenda:
+ - review past week's progess
+
+Participants: R2, Survesh, VK
+- Karthik:
+  - Categorywise stock on hand
+  - Contact list report
+  - Updates to login page from feedback of previous meet
+  - CI setup for Static Application Secuity Testing (SAST)
 
 * Meeting history (2021-07-26)
   :PROPERTIES:
@@ -15,6 +32,17 @@ Agenda:
 - Review past week's progress
 
 Participants: GN, R2, Survesh, VK
+- Karthik:
+  - Align all buttons in same card in login / select org
+  - Product service list report. Sorting by product/service
+  - WIP Category wise stock on hand report.
+- Survesh:
+  - Updated URL based on the group, subgroup, account selected in accounts page
+  - Added deleted Invoices, Vouchers in workflow page and
+added Delete DelNote option.
+  - Added Budget List
+
+
 
 Updates:
 
