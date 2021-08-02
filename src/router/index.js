@@ -290,6 +290,17 @@ const routes = [
     name: 'Budget',
     component: () => import(/* webpackChunkName: "budget" */ '../views/Budget.vue'),
   },
+  {
+    path: '/budget/create',
+    name: 'Create_Budget',
+    component: () => import(/* webpackChunkName: "create_budget" */ '../views/BudgetCreate.vue'),
+  },
+  {
+    path: '/budget/edit/:id',
+    name: 'Edit_Budget',
+    component: () => import(/* webpackChunkName: "edit_budget" */ '../views/BudgetEdit.vue'),
+    props: true
+  },
 ]
 
 const router = new VueRouter({

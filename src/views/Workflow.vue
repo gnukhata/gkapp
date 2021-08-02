@@ -131,11 +131,27 @@
                     <b-form-radio-group
                       id="filter-form-item"
                       v-model="filter.value.props"
-                      :options="activeTabOptions.filterBy.value"
-                      value-field="props"
                       size="sm"
                       class="d-inline-block"
-                    ></b-form-radio-group>
+                    >
+                      <b-form-radio
+                        v-for="(filter, findex) in activeTabOptions.filterBy
+                          .value"
+                        :key="findex"
+                        :value="filter.props"
+                      >
+                        <b-icon
+                          v-if="filter.icon"
+                          font-scale="0.75"
+                          :variant="
+                            filter.icon.variant ? filter.icon.variant : ''
+                          "
+                          :icon="filter.icon.name"
+                          class="mr-1"
+                        ></b-icon>
+                        {{ filter.text }}
+                      </b-form-radio>
+                    </b-form-radio-group>
                     <b-button
                       @click="resetFilter"
                       title="Reset Filter"
@@ -253,6 +269,7 @@
               >
                 <div
                   class="py-0"
+                  :class="{ 'bg-light-gray': index3 % 2 === 0 }"
                   :style="{ height: '45px', 'line-height': '45px' }"
                   v-if="activeWorkflow.name.includes('Transactions')"
                 >
@@ -283,7 +300,7 @@
                     </b-col>
                   </b-row>
                 </div>
-                <div v-else>
+                <div v-else :class="{ 'bg-light-gray': index3 % 2 === 0 }">
                   <b-icon :icon="item.icon"></b-icon>
                   {{ item[tab.key] }}
                 </div>
@@ -522,10 +539,12 @@ export default {
                 {
                   text: 'Customers',
                   props: { key: 'csflag', value: true },
+                  icon: { name: 'person-fill' },
                 },
                 {
                   text: 'Suppliers',
                   props: { key: 'csflag', value: false },
+                  icon: { name: 'briefcase-fill' },
                 },
               ],
               range: [],
@@ -556,10 +575,12 @@ export default {
                 {
                   text: 'Product',
                   props: { key: 'gsflag', value: 7 },
+                  icon: { name: 'box' },
                 },
                 {
                   text: 'Service',
                   props: { key: 'gsflag', value: 19 },
+                  icon: { name: 'headset' },
                 },
               ],
               range: [],
@@ -607,22 +628,27 @@ export default {
                     {
                       text: 'Sale',
                       props: { key: 'csflag', value: 3 },
+                      icon: { name: 'cash-stack' },
                     },
                     {
                       text: 'Purchase',
                       props: { key: 'csflag', value: 19 },
+                      icon: { name: 'basket3' },
                     },
                     {
                       text: 'Cancelled',
                       props: { key: 'deletedFlag', value: true },
+                      icon: { name: 'x-circle', variant: 'danger' },
                     },
                     {
                       text: 'On Credit',
                       props: { key: 'onCreditFlag', value: true },
+                      icon: { name: 'dash', variant: 'danger' },
                     },
                     {
                       text: 'Editable',
                       props: { key: 'rectifyFlag', value: true },
+                      icon: { name: '' },
                     },
                   ],
                   range: [
@@ -674,10 +700,12 @@ export default {
                     {
                       text: 'Sale',
                       props: { key: 'csflag', value: 3 },
+                      icon: { name: 'cash-stack' },
                     },
                     {
                       text: 'Purchase',
                       props: { key: 'csflag', value: 19 },
+                      icon: { name: 'basket3' },
                     },
                   ],
                   range: [
@@ -777,10 +805,12 @@ export default {
                     {
                       text: 'Sale',
                       props: { key: 'csflag', value: 3 },
+                      icon: { name: 'cash-stack' },
                     },
                     {
                       text: 'Purchase',
                       props: { key: 'csflag', value: 19 },
+                      icon: { name: 'basket3' },
                     },
                   ],
                   range: [
@@ -833,10 +863,12 @@ export default {
                     {
                       text: 'Sale',
                       props: { key: 'csflag', value: 3 },
+                      icon: { name: 'cash-stack' },
                     },
                     {
                       text: 'Purchase',
                       props: { key: 'csflag', value: 19 },
+                      icon: { name: 'basket3' },
                     },
                   ],
                   range: [
@@ -889,10 +921,12 @@ export default {
                     {
                       text: 'Sale',
                       props: { key: 'inout', value: 15 },
+                      icon: { name: 'cash-stack' },
                     },
                     {
                       text: 'Purchase',
                       props: { key: 'inout', value: 9 },
+                      icon: { name: 'basket3' },
                     },
                   ],
                   range: [
@@ -1011,6 +1045,7 @@ export default {
                     {
                       text: 'Cancelled',
                       props: { key: 'deletedFlag', value: true },
+                      icon: { name: 'x-circle', variant: 'danger' },
                     },
                   ],
                   range: [
@@ -2033,6 +2068,10 @@ export default {
 };
 </script>
 <style scoped>
+.bg-light-gray {
+  background-color: #f1f1f1;
+}
+
 .data-list {
   padding: 0;
 }
