@@ -1,6 +1,8 @@
 <template>
   <b-container fluid>
-    <div class="text-right mb-3"><b>{{ invoice.date }}</b></div>
+    <div class="text-right mb-3">
+      <b>{{ invoice.date }}</b>
+    </div>
     <b-table-lite
       :items="invoice.invItems"
       :fields="tableFields"
@@ -45,15 +47,50 @@
               <b-td class="text-right">{{ invoice.total.cess }}</b-td>
             </b-tr>
             <b-tr>
-              <b-th
-                >Cash Memo Value:</b-th
-              >
+              <b-th>Cash Memo Value:</b-th>
               <b-td class="text-right">{{ invoice.total.amount }}</b-td>
             </b-tr>
           </b-tbody>
         </b-table-simple>
       </b-col>
     </b-row>
+    <div class="float-right my-2">
+      <b-button
+        class="mr-2"
+        size="sm"
+        variant="primary"
+        v-b-toggle.voucher-container
+      >
+        <b-icon icon="eye"></b-icon> View Voucher</b-button
+      >
+    </div>
+    <div class="clearfix"></div>
+    <b-collapse v-model="showVouchers" id="voucher-container">
+      <b>Voucher:</b>
+      <b-card v-if="vouchers.length" body-class="p-1">
+        <div v-for="voucher in vouchers" :key="voucher.id">
+          <div class="text-center m-1 mb-2">
+            <span class="float-left"> Voucher No: {{ voucher.no }} </span>
+            <span> {{ voucher.type }} </span>
+            <span class="float-right"> Date:{{ voucher.date }} </span>
+          </div>
+          <b-table-lite
+            bordered
+            small
+            head-variant="dark"
+            :items="voucher.transactions"
+            :tbody-tr-class="rowClass"
+            fixed
+          >
+          </b-table-lite>
+          <div>Narration: {{ voucher.narration }}</div>
+          <br />
+        </div>
+      </b-card>
+      <div v-else>
+        No vouchers were found for Cash Memo: {{ invoice.number }}
+      </div>
+    </b-collapse>
   </b-container>
 </template>
 
@@ -95,18 +132,20 @@ export default {
         { key: 'sgst', label: 'SGST %' },
         { key: 'cess', label: 'CESS %' },
         'total',
-      ]
+      ];
       if (self.invoice.total.isIgst) {
         fields.splice(5, 2);
       } else {
         fields.splice(4, 1);
       }
-      
+
       return fields;
     },
   },
   data() {
     return {
+      vouchers: [],
+      showVouchers: false,
       invoice: {
         date: '',
         party: {
@@ -123,10 +162,71 @@ export default {
           text: 'Zero Rupee',
         },
         number: '',
-      }
+      },
     };
   },
   methods: {
+    rowClass(item, type) {
+      if (!item || type !== 'row') return;
+      let rowClass = 'table-secondary';
+      if (item.cr === '') {
+        rowClass = 'table-success';
+      } else if (item.dr === '') {
+        rowClass = 'table-warning';
+      }
+      return rowClass;
+    },
+    getVouchers() {
+      axios
+        .get(`/transaction?searchby=invoice&invid=${this.id}`)
+        .then((resp) => {
+          // TODO: Add Project support
+          if (resp.data.gkstatus === 0) {
+            this.vouchers = resp.data.gkresult.map((voucher) => {
+              let data = {
+                id: voucher.vouchercode,
+                no: voucher.vouchernumber,
+                date: voucher.voucherdate,
+                type: voucher.vouchertype,
+                transactions: [],
+                narration: voucher.narration,
+                fields: [],
+              };
+              let total = {
+                dr: 0,
+                cr: 0,
+              };
+              for (const drAcc in voucher.drs) {
+                data.transactions.push({
+                  account: drAcc,
+                  dr: voucher.drs[drAcc],
+                  cr: '',
+                });
+                total.dr += parseFloat(voucher.drs[drAcc]);
+              }
+              for (const crAcc in voucher.crs) {
+                data.transactions.push({
+                  account: crAcc,
+                  cr: voucher.crs[crAcc],
+                  dr: '',
+                });
+                total.cr += parseFloat(voucher.crs[crAcc]);
+              }
+
+              data.transactions.push({
+                account: 'Total',
+                dr: total.dr.toFixed(2),
+                cr: total.cr.toFixed(2),
+              });
+
+              return data;
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     /**
      * formatInvoiceDetails()
      *
@@ -153,7 +253,7 @@ export default {
             taxable: details.totaltaxablevalue,
             cess: details.totalcessamt,
             tax: details.totaltaxamt,
-            isIgst: details.taxname === 'IGST'
+            isIgst: details.taxname === 'IGST',
           },
           number: details.invoiceno,
         };
@@ -232,13 +332,19 @@ export default {
     },
   },
   watch: {
-    id: function (id) {
-      if (id) this.fetchAndUpdateData();
+    id: function(id) {
+      if (id) {
+        this.showVouchers = false;
+        this.vouchers = [];
+        this.fetchAndUpdateData();
+        this.getVouchers();
+      }
     },
   },
   mounted() {
     if (this.id) {
       this.fetchAndUpdateData();
+      this.getVouchers();
     }
   },
 };

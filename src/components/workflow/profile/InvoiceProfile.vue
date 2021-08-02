@@ -3,7 +3,7 @@
     <div v-if="deletedFlag">
       <span class="float-right h5 p-2 bg-danger text-white">Cancelled</span>
       <div class="clearfix"></div>
-      <br>
+      <br />
     </div>
     <b-row>
       <b-col cols="8">
@@ -25,6 +25,7 @@
       bordered
       head-variant="dark"
       stacked="sm"
+      striped
     >
       <template #cell(price)="data"> ₹ {{ data.value }} </template>
       <template #cell(discount)="data"> ₹ {{ data.value }} </template>
@@ -42,6 +43,14 @@
       <b>Total in words: {{ invoice.total.text }}</b>
     </div>
     <div class="float-right my-2" v-if="!deletedFlag">
+      <b-button
+        class="mr-2"
+        size="sm"
+        variant="primary"
+        v-b-toggle.voucher-container
+      >
+        <b-icon icon="eye"></b-icon> View Vouchers</b-button
+      >
       <b-button
         v-if="onCreditFlag"
         class="mr-2"
@@ -76,6 +85,30 @@
       >
     </div>
     <div class="clearfix"></div>
+    <b-collapse v-model="showVouchers" id="voucher-container">
+      <b>Vouchers:</b>
+      <div v-if="vouchers.length">
+        <b-card class="mb-2" v-for="voucher in vouchers" :key="voucher.id" body-class="p-1">
+          <div class="text-center m-1 mb-2">
+            <span class="float-left"> Voucher No: {{ voucher.no }} </span>
+            <span> {{ voucher.type }} </span>
+            <span class="float-right"> Date:{{ voucher.date }} </span>
+          </div>
+          <b-table-lite
+            bordered
+            small
+            head-variant="dark"
+            :items="voucher.transactions"
+            :tbody-tr-class="rowClass"
+            fixed
+          >
+          </b-table-lite>
+          <div>Narration: {{ voucher.narration }}</div>
+          <br />
+        </b-card>
+      </div>
+      <div v-else>No vouchers were found for Invoice: {{ invoice.number }}</div>
+    </b-collapse>
   </b-container>
 </template>
 
@@ -136,6 +169,8 @@ export default {
         'cess',
         'total',
       ],
+      vouchers: [],
+      showVouchers: false,
     };
   },
   computed: {
@@ -146,8 +181,69 @@ export default {
     ...mapState(['authToken']),
   },
   methods: {
+    rowClass(item, type) {
+      if (!item || type !== 'row') return;
+      let rowClass = 'table-secondary';
+      if (item.cr === '') {
+        rowClass = 'table-success';
+      } else if (item.dr === '') {
+        rowClass = 'table-warning';
+      }
+      return rowClass;
+    },
+    getVouchers() {
+      axios
+        .get(`/transaction?searchby=invoice&invid=${this.id}`)
+        .then((resp) => {
+          // TODO: Add Project support
+          if (resp.data.gkstatus === 0) {
+            this.vouchers = resp.data.gkresult.map((voucher) => {
+              let data = {
+                id: voucher.vouchercode,
+                no: voucher.vouchernumber,
+                date: voucher.voucherdate,
+                type: voucher.vouchertype,
+                transactions: [],
+                narration: voucher.narration,
+                fields: [],
+              };
+              let total = {
+                dr: 0,
+                cr: 0,
+              };
+              for (const drAcc in voucher.drs) {
+                data.transactions.push({
+                  account: drAcc,
+                  dr: voucher.drs[drAcc],
+                  cr: '',
+                });
+                total.dr += parseFloat(voucher.drs[drAcc]);
+              }
+              for (const crAcc in voucher.crs) {
+                data.transactions.push({
+                  account: crAcc,
+                  cr: voucher.crs[crAcc],
+                  dr: '',
+                });
+                total.cr += parseFloat(voucher.crs[crAcc]);
+              }
+
+              data.transactions.push({
+                account: 'Total',
+                dr: total.dr.toFixed(2),
+                cr: total.cr.toFixed(2),
+              });
+
+              return data;
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     getDetails() {
-      let type = this.deletedFlag? 'deletedsingle' : 'single';
+      let type = this.deletedFlag ? 'deletedsingle' : 'single';
       return axios
         .get(`/invoice?inv=${type}&invid=${this.id}`)
         .catch((error) => {
@@ -323,13 +419,30 @@ export default {
   },
   watch: {
     id(newId) {
-      if (newId) this.fetchAndUpdateData();
+      if (newId) {
+        this.showVouchers = false;
+        this.vouchers = [];
+        this.fetchAndUpdateData();
+        this.getVouchers();
+      }
     },
   },
   mounted() {
     // console.log("mounted")
-    if (this.id) this.fetchAndUpdateData();
+    if (this.id) {
+      this.fetchAndUpdateData();
+      this.getVouchers();
+    }
   },
 };
 </script>
 
+<style>
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1);
+}
+.carousel-indicators > li {
+  background-color: #000;
+}
+</style>
