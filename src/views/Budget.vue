@@ -11,7 +11,12 @@
       >
         <template #header>
           Budget
-          <b-button class="float-right py-0" size="sm" variant="success">
+          <b-button
+            :to="{ name: 'Create_Budget' }"
+            class="float-right py-0"
+            size="sm"
+            variant="success"
+          >
             + Add
           </b-button>
         </template>
@@ -48,11 +53,15 @@
           >
           </autocomplete>
         </b-form-group>
+        <div class="float-right" v-if="budId">
+          <b-button size="sm" class="mx-1" variant="primary" :to="{name: 'Edit_Budget', params:{id: budId}}">Edit</b-button>
+          <b-button size="sm" variant="danger" @click.prevent="confirmOnDelete">Delete</b-button>
+        </div>
       </b-card>
     </b-overlay>
 
     <!-- Table -->
-    <div v-if="report.length">
+    <div v-if="budId && report.length">
       <report-header>
         <div class="text-center">
           <b>{{ isTypeCash ? 'Cash' : 'Profit & Sale' }} Budget</b>
@@ -62,13 +71,6 @@
           <b>{{ toDate }}</b>
         </div>
       </report-header>
-      <b-button
-        size="sm"
-        class="float-right mb-1"
-        @click="expandRows = !expandRows"
-      >
-        Expand All
-      </b-button>
       <b-table
         caption-top
         class="mt-3"
@@ -176,7 +178,8 @@ export default {
           cash: [],
           pl: [],
         },
-        budIdToDates: {},
+        budIdToData: {},
+        budIdToNames: {},
         reports: {},
       },
     };
@@ -193,12 +196,12 @@ export default {
       },
     },
     fromDate: (self) =>
-      self.budId && self.options.budIdToDates[self.budId]
-        ? self.options.budIdToDates[self.budId].from
+      self.budId && self.options.budIdToData[self.budId].date
+        ? self.options.budIdToData[self.budId].date.from
         : '',
     toDate: (self) =>
-      self.budId && self.options.budIdToDates[self.budId]
-        ? self.options.budIdToDates[self.budId].to
+      self.budId && self.options.budIdToData[self.budId].date
+        ? self.options.budIdToData[self.budId].date.to
         : '',
     budgetList: (self) =>
       self.isTypeCash ? self.options.budget.cash : self.options.budget.pl,
@@ -206,6 +209,58 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
+    confirmOnDelete() {
+      const self = this;
+      let name = this.options.budIdToData[this.budId].name;
+      let text = `Delete Budget <b>${name}</b> ?`;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            axios
+              .delete('/budget', {
+                data: {
+                  budid: self.budId,
+                },
+              })
+              .then((resp) => {
+                if (resp.data.gkstatus === 0) {
+                  let logdata = { activity: `budget deleted: ${name}` };
+                  axios.post('/log', logdata);
+                  self.$bvToast.toast(`Delete Budget "${name}" success!`, {
+                    variant: 'success',
+                    solid: true,
+                  });
+                  self.preloadData();
+                } else {
+                  self.$bvToast.toast(`Delete Budget "${name}" failed!`, {
+                    variant: 'danger',
+                    solid: true,
+                  });
+                }
+              })
+              .catch((e) => {
+                self.$bvToast.toast(e.message, {
+                  title: `Delete Budget "${name}" failed!`,
+                  variant: 'danger',
+                  solid: true,
+                });
+              });
+          }
+        });
+    },
     formatTableData(data) {
       let formatRowData = function(rowData, name, isCash) {
         let total = {
@@ -287,7 +342,10 @@ export default {
             budget: budgetProfit.toFixed(2),
             actual: actualProfit.toFixed(2),
             var: (actualProfit - budgetProfit).toFixed(2),
-            varPercent: (((actualProfit - budgetProfit) / budgetProfit) * 100).toFixed(2),
+            varPercent: (
+              ((actualProfit - budgetProfit) / budgetProfit) *
+              100
+            ).toFixed(2),
           },
           isOpen: true,
         });
@@ -350,13 +408,16 @@ export default {
       ];
       Promise.all([...requests])
         .then(([resp1, resp2]) => {
-          let idToDates = {};
+          let idToData = {};
           let preloadFail = false;
           if (resp1.data.gkstatus === 0) {
             this.options.budget.cash = resp1.data.gkresult.map((budget) => {
-              idToDates[budget.budid] = {
-                from: budget.startdate,
-                to: budget.enddate,
+              idToData[budget.budid] = {
+                date: {
+                  from: budget.startdate,
+                  to: budget.enddate,
+                },
+                name: budget.budname,
               };
               return {
                 text: `${budget.budname} (${budget.startdate} - ${budget.enddate})`,
@@ -369,9 +430,12 @@ export default {
 
           if (resp2.data.gkstatus === 0) {
             this.options.budget.pl = resp2.data.gkresult.map((budget) => {
-              idToDates[budget.budid] = {
-                from: budget.startdate,
-                to: budget.enddate,
+              idToData[budget.budid] = {
+                date: {
+                  from: budget.startdate,
+                  to: budget.enddate,
+                },
+                name: budget.budname,
               };
               return {
                 text: `${budget.budname} (${budget.startdate} - ${budget.enddate})`,
@@ -382,7 +446,7 @@ export default {
             preloadFail = true;
           }
 
-          this.options.budIdToDates = idToDates;
+          this.options.budIdToData = idToData;
 
           if (preloadFail) {
             this.$bvToast.toast('Preload Budget List Failed!', {

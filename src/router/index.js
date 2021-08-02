@@ -258,24 +258,35 @@ const routes = [
   {
     path: '/account/create/:group/:subGroup',
     name: 'Create_Account',
-    component: () => import(/* webpackChunkName: "accounts" */ '../views/AccountCreate.vue'),
+    component: () => import(/* webpackChunkName: "create_accounts" */ '../views/AccountCreate.vue'),
     props: true
   },
   {
     path: '/account/edit/:id/:sysFlag',
     name: 'Edit_Account',
-    component: () => import(/* webpackChunkName: "accounts" */ '../views/AccountEdit.vue'),
+    component: () => import(/* webpackChunkName: "edit_accounts" */ '../views/AccountEdit.vue'),
     props: true
   },
   {
     path: '/product-list',
     name: "Product List",
-    component: () => import(/* webpackChunkName: "accounts" */ '../views/ProductList.vue'),
+    component: () => import(/* webpackChunkName: "product_list" */ '../views/ProductList.vue'),
   },
   {
     path: '/budget',
     name: 'Budget',
     component: () => import(/* webpackChunkName: "budget" */ '../views/Budget.vue'),
+  },
+  {
+    path: '/budget/create',
+    name: 'Create_Budget',
+    component: () => import(/* webpackChunkName: "create_budget" */ '../views/BudgetCreate.vue'),
+  },
+  {
+    path: '/budget/edit/:id',
+    name: 'Edit_Budget',
+    component: () => import(/* webpackChunkName: "edit_budget" */ '../views/BudgetEdit.vue'),
+    props: true
   },
 ]
 
