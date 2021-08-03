@@ -1,6 +1,7 @@
 
 # Table of Contents
 
+-   [Meeting history (2021-08-02)](#meeting-history-2021-08-02)
 -   [Meeting history (2021-07-26)](#meeting-history-2021-07-26)
 -   [Meeting history (2021-07-19)](#meeting-history-2021-07-19)
 -   [Meeting history (2021-07-12)](#meeting-history-2021-07-12)
@@ -34,7 +35,85 @@
 
 The GNUkhata team meets **Every Monday @ 11:30 hrs (IST)** to discuss about
 development, features, outline plans for next release. Feel free to join
-us & suggest your ideas, comments, feedback. [Jitsi Meet URL](https://meet.jit.si/GNUKhata2020)
+us & suggest your ideas, comments, feedback.
+
+Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
+
+
+<a id="meeting-history-2021-08-02"></a>
+
+# Meeting history (2021-08-02)
+
+Agenda:
+
+-   review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+-   Karthik:
+    -   Categorywise stock on hand
+    -   Contact list report
+    -   Updates to login page from feedback of previous meet
+    -   CI setup for Static Application Secuity Testing (SAST)
+-   Survesh:
+    
+    -   Budgets: Create, Edit Delete
+    -   Added Auto generated Vouchers for Invoice and Cash Memo
+    
+    in their profile page.
+    
+    -   Added corresponding icons for filters in workflow page
+    -   Added alternating stripes to the workflow list table
+
+Points Discussed:
+
+-   Comments on the windows installer of gkwebapp desktop application,
+    -   Need for 32 bit support.
+    -   Need the minimum system requirements for installation.
+-   Comments on Budget flow,
+    
+    -   Need to check if inflow/outflow and income/expense are the commonly used
+    
+    nomenclature.
+    
+    -   The Budgets list page must reload the last visited budget, when using the
+    
+    create/ edit options.
+    
+    -   Fix the UI bug that appears after deleting a budget.
+    -   In Budget Report table, make variance and variance (%) collapsable in
+    
+    mobile view.
+-   Comments in workflow page,
+    
+    -   In Filters, Need ability to search for different types of fields available
+    
+    e.g. Invoice No., Date, UserName
+    
+    -   The ability to change the column type in the workflow list page,
+    
+    e.g. In invoices list, user could choose to view Invoice no instead of Customer/Supplier
+    name.
+-   Try to incorporate Categorywise Stock on Hand to Stock on Hand page by
+
+adding category as a filter, so that all Stock on Hand data is viewable 
+in the same page.
+
+-   In Contact List report's print output, add serial number to the rows and add
+
+current account balances of the contacts.
+
+-   Need to enquire with GN about using Snap for packaging gkwebapp for linux based
+
+distros.  
+
+-   Can take inspirations for the invoice UI from <https://getswipe.in>, a competetor
+
+of the web app vyapar.
+
+Conclusion:
+
+-   Updates will be performed based on the points discussed above.
 
 
 <a id="meeting-history-2021-07-26"></a>
@@ -46,6 +125,18 @@ Agenda:
 -   Review past week's progress
 
 Participants: GN, R2, Survesh, VK
+
+-   Karthik:
+    -   Align all buttons in same card in login / select org
+    -   Product service list report. Sorting by product/service
+    -   WIP Category wise stock on hand report.
+-   Survesh:
+    -   Updated URL based on the group, subgroup, account selected in accounts page
+    -   Added deleted Invoices, Vouchers in workflow page and
+
+added Delete DelNote option.
+
+-   Added Budget List
 
 Updates:
 
