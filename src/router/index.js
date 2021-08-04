@@ -191,13 +191,13 @@ const routes = [
     props: true
   },
   {
-    path: '/contact_details/:mode',
+    path: '/contact-details/:mode',
     name: 'Contact_Details',
     component: () => import(/* webpackChunkName: "contact_details" */ '../views/ContactDetails.vue'),
     props: true
   },
   {
-    path: '/business_details/:mode',
+    path: '/business-details/:mode',
     name: 'Business_Details',
     component: () => import(/* webpackChunkName: "business_details" */ '../views/BusinessDetails.vue'),
     props: true
@@ -209,7 +209,7 @@ const routes = [
     props: true
   },
   {
-    path: '/createvoucher/:type/:customer',
+    path: '/voucher/create/:type/:customer',
     name: 'Create_Voucher',
     component: () => import(/* webpackChunkName: "createvoucher" */ '../views/CreateVoucher.vue'),
     props: true
@@ -227,33 +227,33 @@ const routes = [
     props: true
   },
   {
-    path: '/delivery_note/:mode/:invid',
+    path: '/delivery-note/:mode/:invid',
     name: 'Delivery_Note',
     component: () => import(/* webpackChunkName: "delivery_note" */ '../views/Transactions/DeliveryNote.vue'),
     props: true
   },
   {
-    path: '/cash_memo',
+    path: '/cash-memo',
     name: 'Cash_Memo',
     component: () => import(/* webpackChunkName: "cash_memo" */ '../views/Transactions/CashMemo.vue'),
   },
   {
-    path: '/ps_order',
+    path: '/ps-order',
     name: 'Purchase_Sales_Order',
     component: () => import(/* webpackChunkName: "ps_order" */ '../views/Transactions/PurchaseSaleOrder.vue'),
   },
   {
-    path: '/dc_note',
+    path: '/dc-note',
     name: 'Debit_Credit_Note',
     component: () => import(/* webpackChunkName: "dc_note" */ '../views/Transactions/DebitCreditNote.vue'),
   },
   {
-    path: '/transfer_note',
+    path: '/transfer-note',
     name: 'Transfer_Note',
     component: () => import(/* webpackChunkName: "transfer_note" */ '../views/Transactions/TransferNote.vue'),
   },
   {
-    path: '/rejection_note',
+    path: '/rejection-note',
     name: 'Rejection_Note',
     component: () => import(/* webpackChunkName: "rejection_note" */ '../views/Transactions/RejectionNote.vue'),
   },
