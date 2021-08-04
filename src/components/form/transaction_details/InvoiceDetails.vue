@@ -262,7 +262,7 @@ export default {
     parentData: {
       type: Object,
       required: false,
-      default: function () {
+      default: function() {
         return {};
       },
     },
@@ -295,8 +295,8 @@ export default {
         states: [],
         orgDetails: {},
         delNotes: {
-          sale:[],
-          purchase: []
+          sale: [],
+          purchase: [],
         },
       },
     };
@@ -465,14 +465,15 @@ export default {
                 (state) => state.text.toLowerCase() === orgstate
               )
             : null;
+          let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             addr: this.options.orgDetails.orgaddr,
             pin: this.options.orgDetails.orgpincode,
             state: state ? state.value : {},
             options: {
-              gstin: this.options.orgDetails.gstin,
+              gstin: gstin,
             },
-            gstin: this.options.orgDetails.gstin[state.value.id],
+            gstin: gstin && state ? gstin[state.value.id] : '',
           });
         }
       }

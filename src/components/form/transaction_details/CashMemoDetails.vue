@@ -235,12 +235,13 @@ export default {
                 (state) => state.text.toLowerCase() === orgstate
               )
             : null;
+          let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             state: state ? state.value : null,
             options: {
-              gstin: this.options.orgDetails.gstin,
+              gstin: gstin || {},
             },
-            gstin: this.options.orgDetails.gstin[state.value.id],
+            gstin: gstin && state ? gstin[state.value.id] : '',
           });
         }
       }

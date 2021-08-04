@@ -729,11 +729,12 @@ export default {
             (state) => state.text === orgState
           );
           let stateCode = state ? state.value.id : null;
+          let gstin = resp6.data.gkdata.gstin;
           self.options.orgDetails = {
             name: resp6.data.gkdata.orgname,
             addr: resp6.data.gkdata.orgaddr,
             state: state.value,
-            gstin: stateCode !== null ? resp6.data.gkdata.gstin[stateCode] : '',
+            gstin: stateCode && gstin ? gstin[stateCode] : '',
             tin: '',
             pin: resp6.data.gkdata.orgpincode,
           };

@@ -230,7 +230,7 @@ export default {
   props: {
     mode: {
       type: String,
-      validator: function (value) {
+      validator: function(value) {
         return ['create', 'edit'].indexOf(value) !== -1;
       },
       required: true,
@@ -413,7 +413,7 @@ export default {
             Object.assign(this.form.delNote, payload.data);
             this.form.transport.date = this.form.delNote.date;
             const self = this;
-            setTimeout(function () {
+            setTimeout(function() {
               self.updateCounter.transport++;
             });
           }
@@ -473,11 +473,12 @@ export default {
             (state) => state.text === resp2.data.gkdata.orgstate
           );
           let stateCode = state ? state.value.id : null;
+          let gstin = resp2.data.gkdata.gstin;
           self.options.orgDetails = {
             name: resp2.data.gkdata.orgname,
             addr: resp2.data.gkdata.orgaddr,
             state: state.value,
-            gstin: stateCode !== null ? resp2.data.gkdata.gstin[stateCode] : '',
+            gstin: stateCode && gstin ? gstin[stateCode] : '',
             tin: '',
             pin: resp2.data.gkdata.orgpincode,
           };

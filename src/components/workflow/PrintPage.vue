@@ -11,7 +11,7 @@
   >
     <b-container fluid>
       <h3 class="text-center">{{ title || name }}</h3>
-      <br>
+      <br />
       <div class="text-md-right">
         <img
           v-if="orgDetails.logo"
@@ -30,7 +30,8 @@
           <small>GSTIN: {{ orgDetails.gstin }}</small>
         </p>
       </div>
-    </b-container> <br>
+    </b-container>
+    <br />
     <transaction-profile
       :name="name"
       :id="id"
@@ -83,7 +84,7 @@ export default {
     name: {
       type: String,
       required: true,
-      validator: function (value) {
+      validator: function(value) {
         return (
           [
             'Invoice',
@@ -92,7 +93,7 @@ export default {
             'DeliveryNote',
             'PurchaseSalesOrder',
             'RejectionNote',
-            'TransferNote'
+            'TransferNote',
           ].indexOf(value) !== -1
         );
       },
@@ -145,13 +146,13 @@ export default {
 
         if (resp2.data.gkstatus === 0) {
           const details = resp2.data.gkdata;
-          let stateCode = states[details.orgstate];
+          let stateCode = states[details.orgstate] || null;
           this.orgDetails = {
             name: details.orgname,
             addr1: `${details.orgaddr},`,
             addr2: `${details.orgcity} - ${details.orgpincode}. ${details.orgstate}.`,
             phone: details.orgtelno,
-            gstin: details.gstin[stateCode],
+            gstin: details.gstin && stateCode ? details.gstin[stateCode] : '',
           };
         }
         if (resp3.data.logo !== null) {
