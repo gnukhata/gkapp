@@ -240,7 +240,8 @@ export default {
     }
   },
   mounted() {
-    this.orgNameDisplay = localStorage.getItem('orgChoice').split('(')[0];
+    let orgChoice = localStorage.getItem('orgChoice');
+    this.orgNameDisplay = orgChoice ? orgChoice.split('(')[0] : '';
   },
   computed: {
     ...mapState(['gkCoreUrl', 'userAuthenticated']),
