@@ -51,14 +51,7 @@
         ></b-icon>
       </b-button>
       <br />
-      <b-button
-        @click.prevent="onPrint"
-        class="m-1"
-        size="sm"
-        variant="primary"
-      >
-        <b-icon aria-hidden="true" class="align-middle" icon="printer"></b-icon>
-      </b-button>
+      <print-helper contentId="print-page-modal___BV_modal_content_"> </print-helper>
     </div>
   </b-modal>
 </template>
@@ -66,10 +59,12 @@
 <script>
 import axios from 'axios';
 import TransactionProfile from '../workflow/profile/Transaction.vue';
+import PrintHelper from '../PrintHelper.vue';
 export default {
   name: 'PrintPage',
   components: {
     TransactionProfile,
+    PrintHelper
   },
   props: {
     show: {
@@ -165,35 +160,35 @@ export default {
     closeModal() {
       this.showModal = false;
     },
-    onPrint() {
-      let printWindow = window.open(
-        '',
-        `Print ${this.name} - GNUKhata`,
-        'scrollbars=1,resizable=1'
-      );
-      let printContent = document.getElementById(
-        'print-page-modal___BV_modal_content_'
-      ).innerHTML;
-      let styles = '';
-      document.getElementsByTagName('style').forEach((style) => {
-        styles += style.innerHTML;
-      });
-      // styles for printing table row bg
-      styles +=
-        '@media print {*{ color-adjust: exact;  -webkit-print-color-adjust: exact; print-color-adjust: exact; }}';
+    // onPrint() {
+    //   let printWindow = window.open(
+    //     '',
+    //     `Print ${this.name} - GNUKhata`,
+    //     'scrollbars=1,resizable=1'
+    //   );
+    //   let printContent = document.getElementById(
+    //     'print-page-modal___BV_modal_content_'
+    //   ).innerHTML;
+    //   let styles = '';
+    //   document.getElementsByTagName('style').forEach((style) => {
+    //     styles += style.innerHTML;
+    //   });
+    //   // styles for printing table row bg
+    //   styles +=
+    //     '@media print {*{ color-adjust: exact;  -webkit-print-color-adjust: exact; print-color-adjust: exact; }}';
 
-      printWindow.document.open();
-      printWindow.document.write(`<html><head><style>${styles}</style></head>`);
-      printWindow.document.write(`<body>${printContent}</body>`);
-      printWindow.document.write(`</html>`);
-      printWindow.document.close();
+    //   printWindow.document.open();
+    //   printWindow.document.write(`<html><head><style>${styles}</style></head>`);
+    //   printWindow.document.write(`<body>${printContent}</body>`);
+    //   printWindow.document.write(`</html>`);
+    //   printWindow.document.close();
 
-      printWindow.print();
+    //   printWindow.print();
 
-      printWindow.onafterprint = () => {
-        printWindow.close();
-      };
-    },
+    //   printWindow.onafterprint = () => {
+    //     printWindow.close();
+    //   };
+    // },
   },
   mounted() {
     this.getOrgDetails();
