@@ -9,49 +9,51 @@
     hide-footer
     hide-header
   >
-    <b-container fluid>
-      <h3 class="text-center">{{ title || name }}</h3>
-      <br />
-      <div class="text-md-right">
-        <img
-          v-if="orgDetails.logo"
-          :src="orgDetails.logo"
-          width="30"
-          height="30"
-          class="rounded d-inline-block align-top"
-          alt="Logo"
-        />
-        <h5 class="d-inline-block ml-2">{{ orgDetails.name }}</h5>
+    <div id="transaction-print-page">
+      <b-container fluid>
+        <h3 class="text-center">{{ title || name }}</h3>
         <br />
-        <p class="ml-3">
-          <small>{{ orgDetails.addr1 }}</small> <br />
-          <small>{{ orgDetails.addr2 }}</small> <br />
-          <small>Contact No: {{ orgDetails.phone }}</small> <br />
-          <small>GSTIN: {{ orgDetails.gstin }}</small>
-        </p>
-      </div>
-    </b-container>
-    <br />
-    <transaction-profile
-      :name="name"
-      :id="id"
-      :pdata="pdata"
-    ></transaction-profile>
-    <div id="button-wrapper" class="d-print-none">
-      <b-button
-        @click.prevent="closeModal"
-        class="m-1"
-        size="sm"
-        variant="danger"
-      >
-        <b-icon
-          aria-hidden="true"
-          class="align-middle"
-          icon="x-circle"
-        ></b-icon>
-      </b-button>
+        <div class="text-md-right">
+          <img
+            v-if="orgDetails.logo"
+            :src="orgDetails.logo"
+            width="30"
+            height="30"
+            class="rounded d-inline-block align-top"
+            alt="Logo"
+          />
+          <h5 class="d-inline-block ml-2">{{ orgDetails.name }}</h5>
+          <br />
+          <p class="ml-3">
+            <small>{{ orgDetails.addr1 }}</small> <br />
+            <small>{{ orgDetails.addr2 }}</small> <br />
+            <small>Contact No: {{ orgDetails.phone }}</small> <br />
+            <small>GSTIN: {{ orgDetails.gstin }}</small>
+          </p>
+        </div>
+      </b-container>
       <br />
-      <print-helper contentId="print-page-modal___BV_modal_content_"> </print-helper>
+      <transaction-profile
+        :name="name"
+        :id="id"
+        :pdata="pdata"
+      ></transaction-profile>
+      <div id="button-wrapper" class="d-print-none">
+        <b-button
+          @click.prevent="closeModal"
+          class="m-1"
+          size="sm"
+          variant="danger"
+        >
+          <b-icon
+            aria-hidden="true"
+            class="align-middle"
+            icon="x-circle"
+          ></b-icon>
+        </b-button>
+        <br />
+        <print-helper contentId="transaction-print-page"> </print-helper>
+      </div>
     </div>
   </b-modal>
 </template>
@@ -160,35 +162,6 @@ export default {
     closeModal() {
       this.showModal = false;
     },
-    // onPrint() {
-    //   let printWindow = window.open(
-    //     '',
-    //     `Print ${this.name} - GNUKhata`,
-    //     'scrollbars=1,resizable=1'
-    //   );
-    //   let printContent = document.getElementById(
-    //     'print-page-modal___BV_modal_content_'
-    //   ).innerHTML;
-    //   let styles = '';
-    //   document.getElementsByTagName('style').forEach((style) => {
-    //     styles += style.innerHTML;
-    //   });
-    //   // styles for printing table row bg
-    //   styles +=
-    //     '@media print {*{ color-adjust: exact;  -webkit-print-color-adjust: exact; print-color-adjust: exact; }}';
-
-    //   printWindow.document.open();
-    //   printWindow.document.write(`<html><head><style>${styles}</style></head>`);
-    //   printWindow.document.write(`<body>${printContent}</body>`);
-    //   printWindow.document.write(`</html>`);
-    //   printWindow.document.close();
-
-    //   printWindow.print();
-
-    //   printWindow.onafterprint = () => {
-    //     printWindow.close();
-    //   };
-    // },
   },
   mounted() {
     this.getOrgDetails();

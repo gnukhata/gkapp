@@ -12,6 +12,11 @@ export default {
       type: String,
       required: true,
     },
+    name: {
+      type: String,
+      required: false,
+      default: 'Page'
+    },
   },
   data() {
     return {
@@ -45,7 +50,7 @@ export default {
         );
         return;
       }
-      let printContent = contentDom.innerHTML;
+      let printContent = contentDom.outerHTML;
       let styles = '';
       document.getElementsByTagName('style').forEach((style) => {
         styles += style.innerHTML;
