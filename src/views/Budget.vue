@@ -76,17 +76,20 @@
           </span>
         </small>
       </u>
-      <b-form-checkbox
-        id="checkbox-1"
-        v-model="showPrintView"
-        name="checkbox-1"
-        class="d-inline-block float-right"
-        size="sm"
-        switch
-        v-if="budId"
-      >
-        Print View
-      </b-form-checkbox>
+      <div class="d-inline-block float-right">
+        <b-form-checkbox
+          id="checkbox-1"
+          v-model="showPrintView"
+          name="checkbox-1"
+          class="d-inline-block h-100"
+          size="sm"
+          switch
+          v-if="budId"
+        >
+          Print View
+        </b-form-checkbox>
+        <print-helper v-if="budId && showPrintView" name="Budget Report" contentId="budget-table-container"></print-helper>
+      </div>
     </div>
     <b-container fluid v-if="budId && !showPrintView">
       <b-row>
@@ -157,7 +160,7 @@
     </b-container>
 
     <!-- Table -->
-    <div v-if="budId && showPrintView">
+    <div id='budget-table-container' v-if="budId && showPrintView">
       <report-header>
         <div class="text-center">
           <b>{{ isTypeCash ? 'Cash' : 'Profit & Sale' }} Budget</b>
@@ -168,6 +171,7 @@
         </div>
       </report-header>
       <b-table
+        id="budget-table"
         caption-top
         class="mt-3"
         head-variant="dark"
@@ -239,9 +243,10 @@ import { mapState } from 'vuex';
 import axios from 'axios';
 import Autocomplete from '../components/Autocomplete.vue';
 import ReportHeader from '../components/ReportHeader.vue';
+import PrintHelper from '../components/PrintHelper.vue';
 export default {
   name: 'Budget',
-  components: { Autocomplete, ReportHeader },
+  components: { Autocomplete, ReportHeader, PrintHelper },
   data() {
     return {
       showPrintView: false,
