@@ -54,14 +54,110 @@
           </autocomplete>
         </b-form-group>
         <div class="float-right" v-if="budId">
-          <b-button size="sm" class="mx-1" variant="primary" :to="{name: 'Edit_Budget', params:{id: budId}}">Edit</b-button>
-          <b-button size="sm" variant="danger" @click.prevent="confirmOnDelete">Delete</b-button>
+          <b-button
+            size="sm"
+            class="mx-1"
+            variant="primary"
+            :to="{ name: 'Edit_Budget', params: { id: budId } }"
+            >Edit</b-button
+          >
+          <b-button size="sm" variant="danger" @click.prevent="confirmOnDelete"
+            >Delete</b-button
+          >
         </div>
       </b-card>
     </b-overlay>
+    <div class='px-2'>
+      <u>
+        <small>
+          Budget:
+          <span v-if="budId">
+            {{ budName }} ({{ fromDate }} to {{ toDate }})
+          </span>
+        </small>
+      </u>
+      <b-form-checkbox
+        id="checkbox-1"
+        v-model="showPrintView"
+        name="checkbox-1"
+        class="d-inline-block float-right"
+        size="sm"
+        switch
+        v-if="budId"
+      >
+        Print View
+      </b-form-checkbox>
+    </div>
+    <b-container fluid v-if="budId && !showPrintView">
+      <b-row>
+        <b-col
+          cols="12"
+          :md="budget.isCardOpen ? 12 : 4"
+          v-for="(budget, index) in report"
+          :key="index"
+          class="p-1 "
+        >
+          <b-card body-class="p-2 bg-dark-grey" class="shadow-sm">
+            <div
+              class="acc-card-header"
+              v-b-toggle="`budget-${budget.name}-${index}`"
+            >
+              <h4 class="d-inline-block">{{ budget.name }}</h4>
+              <b-icon
+                class="float-right"
+                font-scale="0.7"
+                :icon="budget.isCardOpen ? 'dash' : 'arrows-fullscreen'"
+              ></b-icon>
+            </div>
+            <div v-if="!budget.isCardOpen">
+              <small>Budgeted: {{ budget.total.budget }}</small> <br />
+              <small>Actual: {{ budget.total.actual }}</small> <br />
+              <small>Variance: {{ budget.total.var }}</small> <br />
+              <small>Variance (%): {{ budget.total.varPercent }}</small>
+            </div>
+            <b-collapse
+              :id="`budget-${budget.name}-${index}`"
+              v-model="budget.isCardOpen"
+            >
+              <u>
+                <small>Accounts: {{ budget.acc.count }}</small>
+              </u>
+              <b-container class="mt-1" fluid>
+                <b-row>
+                  <b-col
+                    cols="12"
+                    md="4"
+                    class="p-1"
+                    v-for="(acc, accIndex) in budget.acc"
+                    :key="accIndex"
+                  >
+                    <b-card body-class="p-2 bg-light-grey" class="shadow-sm">
+                      <div class="acc-card-header">
+                        <h5 class="d-inline-block">
+                          {{ budget.acc[accIndex] }}
+                        </h5>
+                      </div>
+                      <br />
+                      <small>Budgeted: {{ budget.budget[accIndex] }}</small>
+                      <br />
+                      <small>Actual: {{ budget.actual[accIndex] }}</small>
+                      <br />
+                      <small>Variance: {{ budget.var[accIndex] }}</small> <br />
+                      <small
+                        >Variance (%): {{ budget.varPercent[accIndex] }}</small
+                      >
+                    </b-card>
+                  </b-col>
+                </b-row>
+              </b-container>
+            </b-collapse>
+          </b-card>
+        </b-col>
+      </b-row>
+    </b-container>
 
     <!-- Table -->
-    <div v-if="budId && report.length">
+    <div v-if="budId && showPrintView">
       <report-header>
         <div class="text-center">
           <b>{{ isTypeCash ? 'Cash' : 'Profit & Sale' }} Budget</b>
@@ -86,20 +182,12 @@
       >
         <template #cell(name)="data">
           <div class="text-right position-relative">
-            <div class="position-relative" v-b-toggle="`bl-${data.item.name}`">
-              <b-icon
-                font-scale="0.8"
-                :style="{ left: '0px', top: '0px' }"
-                class="position-absolute"
-                :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
-              ></b-icon>
+            <div class="position-relative">
               <b> {{ data.value }} </b>
             </div>
-            <b-collapse :id="`bl-${data.item.name}`" v-model="data.item.isOpen">
-              <div v-for="(accName, index) in data.item.acc" :key="index">
-                {{ accName }}
-              </div>
-            </b-collapse>
+            <div v-for="(accName, index) in data.item.acc" :key="index">
+              {{ accName }}
+            </div>
           </div>
         </template>
         <template #cell(budget)="data">
@@ -156,6 +244,7 @@ export default {
   components: { Autocomplete, ReportHeader },
   data() {
     return {
+      showPrintView: false,
       expandAllRows: false,
       tableHeight: window.innerHeight - 275,
       tableFields: [
@@ -185,24 +274,13 @@ export default {
     };
   },
   computed: {
-    expandRows: {
-      get: function() {
-        return this.expandAllRows;
-      },
-      set: function(expandFlag) {
-        this.report.forEach((item) => {
-          item.isOpen = expandFlag;
-        });
-      },
-    },
-    fromDate: (self) =>
-      self.budId && self.options.budIdToData[self.budId].date
-        ? self.options.budIdToData[self.budId].date.from
-        : '',
-    toDate: (self) =>
-      self.budId && self.options.budIdToData[self.budId].date
-        ? self.options.budIdToData[self.budId].date.to
-        : '',
+    budData: (self) =>
+      self.budId && self.options.budIdToData[self.budId]
+        ? self.options.budIdToData[self.budId]
+        : {},
+    budName: (self) => self.budData.name || '',
+    fromDate: (self) => (self.budData.date ? self.budData.date.from : ''),
+    toDate: (self) => (self.budData.date ? self.budData.date.to : ''),
     budgetList: (self) =>
       self.isTypeCash ? self.options.budget.cash : self.options.budget.pl,
     isTypeCash: (self) => self.budgetType === '3',
@@ -278,6 +356,7 @@ export default {
           var: [],
           varPercent: [],
           isOpen: true,
+          isCardOpen: false,
         };
         let nameKey = isCash ? 'accountname' : 'name';
         let noBudget = rowData[0].budget === undefined; // openingacc data doesn't have budget or actual, so balance data is used instead
@@ -472,3 +551,23 @@ export default {
   },
 };
 </script>
+
+<style>
+.acc-card-header {
+  border-bottom: 1px solid #0000001a;
+}
+.acc-card-header:hover {
+  border-bottom: 1px solid #000;
+}
+.bg-dark-grey {
+  background-color: #d6d6d6;
+}
+.bg-light-grey {
+  background-color: #ecebeb;
+}
+@media all and (max-width: 576px) {
+  .options-col {
+    width: 50px;
+  }
+}
+</style>
