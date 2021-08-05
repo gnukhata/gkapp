@@ -447,7 +447,6 @@ export default {
           [
             'Contacts',
             'Business',
-            'Transactions',
             'Reports',
             'Transactions-Invoice',
             'Transactions-DebitCreditNote',
@@ -1400,6 +1399,7 @@ export default {
         `button:nth-child(${index + 1})`
       );
       selectedDom.classList.add('selected-data-list');
+      selectedDom.scrollIntoView();
     },
     /** Update the URL based on current entity selected */
     updateUrl() {
@@ -2050,14 +2050,14 @@ export default {
           self.setActiveWorkflow(index, this.wfName, tab.icon, true);
         }
         if (self.wfId) {
-          let wfId = parseInt(self.wfId);
-          let key = tab.uidKey;
-          let entityIndex = tab.data.findIndex((item) => item[key] === wfId);
-          if (entityIndex >= 0) {
-            self.$nextTick().then(() => {
+          self.$nextTick().then(() => {
+            let wfId = parseInt(self.wfId);
+            let key = tab.uidKey;
+            let entityIndex = tab.data.findIndex((item) => item[key] === wfId);
+            if (entityIndex >= 0) {
               self.setSelectedEntity(tab.data[entityIndex], entityIndex, true);
-            });
-          }
+            }
+          });
         }
       })
       .catch((error) => {
