@@ -5,10 +5,7 @@
       <b-navbar size="sm" type="light" variant="light">
         <sidebar v-if="userAuthenticated"></sidebar>
         <b-navbar-brand class="mt-2">
-          <router-link
-            style="border-bottom: 0px"
-            to="/workflow/Transactions-Invoice/-1"
-          >
+          <router-link style="border-bottom: 0px" to="/workflow/Transactions-Invoice/-1">
             <img
               :src="orgImg"
               width="30"
@@ -17,10 +14,7 @@
               alt="logo"
             />
           </router-link>
-          <div
-            :style="{ maxWidth: '185px' }"
-            class="ml-2 d-inline-block text-truncate"
-          >
+          <div :style="{ maxWidth: '185px' }" class="ml-2 d-inline-block text-truncate">
             <!-- Without textwrap, creates horizontal overlfow in mobile view -->
             {{ this.orgName || 'GNUKhata' }}
           </div>
@@ -29,21 +23,20 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="userAuthenticated" right>
             <template #button-content>
-              <b-avatar variant="dark" icon="person" :title="userName">
-              </b-avatar>
+              <b-avatar variant="dark" icon="person" :title="userName"></b-avatar>
               {{ userName }}
             </template>
-            <b-dropdown-item v-b-modal.change-pwd
-              ><b-icon icon="key"></b-icon> Change Password
+            <b-dropdown-item v-b-modal.change-pwd>
+              <b-icon icon="key"></b-icon>Change Password
             </b-dropdown-item>
-            <b-dropdown-item @click="logOut" href="#"
-              ><b-icon icon="box-arrow-in-left"></b-icon> Log
-              Out</b-dropdown-item
-            >
+            <b-dropdown-item @click="logOut" href="#">
+              <b-icon icon="box-arrow-in-left"></b-icon>Log
+              Out
+            </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
         <!-- <b-collapse id="nav-collapse" is-nav>
-               </b-collapse> -->
+        </b-collapse>-->
         <!-- Change password dialog -->
         <b-modal
           ref="change-pwd-close"
@@ -95,6 +88,9 @@ export default {
     },
   },
   mounted() {
+    document.querySelector('title').textContent = `GNUKhata ${
+      this.orgName !== null ? '| ' + this.orgName : ''
+    }`;
     this.getOrgImage();
     /**
      * fetch latest app changes
