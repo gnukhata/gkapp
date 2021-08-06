@@ -22,7 +22,17 @@ Vue.mixin({
       userRole: Number
     }
   },
+  computed: {
+    // https://cli.vuejs.org/guide/mode-and-env.html#modes
+    gkMode() {
+      return process.env.NODE_ENV
+    },
+  },
   methods: {
+    // https://cli.vuejs.org/guide/mode-and-env.html#modes
+    // gkMode() {
+    //   return process.env.NODE_ENV
+    // },
     currentDate() {
       let dt = new Date()
       const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate()
@@ -58,7 +68,7 @@ Vue.mixin({
         .get('/organisation?attach=image')
         .then((r) => {
           if (r.status == 200 && r.data.logo !== null) {
-            this.orgImg = `data:image/png;base64,${r.data.logo}`;
+            this.orgImg = `data:image/jpg;base64,${r.data.logo}`;
           }
         })
         .catch((e) => {

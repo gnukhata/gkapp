@@ -1,6 +1,4 @@
 #YAML syntax
-
 trailingComma: "es5"
 singleQuote: true
 arrowParens: "always"
-bracketSpacing: true

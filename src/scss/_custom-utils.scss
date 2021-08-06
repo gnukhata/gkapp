@@ -42,8 +42,6 @@ body {
   }
 }
 
-
-
 // Styles to remove Spin buttons in number input fields
 
 .hide-spin-button {
@@ -53,12 +51,11 @@ body {
     -webkit-appearance: none;
     margin: 0;
   }
-  
+
   /* Firefox */
-  &[type=number] {
+  &[type='number'] {
     -moz-appearance: textfield;
   }
-  
 }
 
 .label-on-input {
@@ -83,8 +80,8 @@ body {
 }
 
 // Right align form labels
-.align-form-label-right{
-  .form-row{
+.align-form-label-right {
+  .form-row {
     .col-form-label {
       text-align: right;
     }
@@ -92,9 +89,12 @@ body {
 }
 
 .gkcard {
-  max-width: 40em
+  max-width: 40em;
+  @media print {
+    display: none;
+  }
 }
 
 .gksearch {
-  max-width: 30em
+  max-width: 30em;
 }
