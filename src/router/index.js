@@ -301,6 +301,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "edit_budget" */ '../views/BudgetEdit.vue'),
     props: true
   },
+  {
+    path: '/profit-loss',
+    name: 'Profit & Loss',
+    component: () => import(/* webpackChunkName: "profit-loss" */ '../views/ProfitLoss.vue'),
+  },
+  {
+    path: '/cash-flow',
+    name: 'Cash Flow',
+    component: () => import(/* webpackChunkName: "cash-flow" */ '../views/CashFlow.vue'),
+  },
 ]
 
 const router = new VueRouter({
