@@ -14,6 +14,7 @@ variables:
 gkapp:
   stage: build
   script:
+    - npm install -g @vue/cli
     - npm install
     - npm run build
   artifacts:
