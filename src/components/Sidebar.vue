@@ -10,7 +10,7 @@
     >
       <b-icon icon="list"></b-icon>
     </b-button>
-    <b-sidebar width="250px" v-model="opened" id="sidebar" shadow backdrop>
+    <b-sidebar width="15em" v-model="opened" id="sidebar" shadow backdrop>
       <template #title>
         <div class="d-flex">
           <img
@@ -30,7 +30,7 @@
         <!-- <div class="ml-2 mr-2">
                <b-input size="sm" placeholder="search"></b-input>
                </div> -->
-        <b-nav class="text-small">
+        <b-nav class="text-small text-dark col">
           <!-- <b-table :items="list"></b-table> -->
           <b-nav-item
             :to="{
@@ -96,10 +96,16 @@
             <b-icon icon="file-ruled"></b-icon> Budget
           </b-nav-item>
           <b-nav-item to="/product-list">
-            <b-icon icon="files-alt"></b-icon> Product List
+            <b-icon icon="box"></b-icon> Product List
           </b-nav-item>
           <b-nav-item to="/contact-list">
-            <b-icon icon="files-alt"></b-icon> Contact List
+            <b-icon icon="people"></b-icon> Contact List
+          </b-nav-item>
+          <b-nav-item to="/profit-loss">
+            <b-icon icon="graph-up"></b-icon> Profit & Loss
+          </b-nav-item>
+          <b-nav-item to="/cash-flow">
+            <b-icon icon="wallet"></b-icon> Cash Flow
           </b-nav-item>
           <b-nav-item to="/about">
             <b-icon icon="info-circle"></b-icon> About

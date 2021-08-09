@@ -1,0 +1,185 @@
+<template>
+  <section class="m-2">
+    <b-overlay :show="isLoading">
+      <b-card
+        class="gkcard mx-auto"
+        header-bg-variant="dark"
+        header-text-variant="light"
+      >
+        <template #header>
+          <gk-cardheader
+            name="Cash Flow Statement"
+            help-body="Receipt & Payment Account or Cash Flow
+This report can be viewed for any period.
+Drill Down facility is available. You can double click or press enter key on any row to see the ledger for that account.
+All users can view this report"
+          ></gk-cardheader>
+        </template>
+        <b-form @submit.prevent="getProfitLossData">
+          <b-form-group label="From" label-align="right" content-cols="8">
+            <gk-date id="fromdate" v-model="fromDate"></gk-date>
+          </b-form-group>
+          <b-form-group label="To" label-align="right" content-cols="8">
+            <gk-date id="todate" v-model="toDate"></gk-date>
+          </b-form-group>
+          <b-button variant="success" class="float-right" type="submit">
+            <b-icon icon="cloud-arrow-down"></b-icon> Get Details
+          </b-button>
+        </b-form>
+      </b-card>
+      <report-header>
+        <div class="text-center">
+          <b>Cash Flow Account</b>
+          for the period {{ this.fromDate }} to {{ this.toDate }}
+        </div>
+      </report-header>
+      <div class="row mt-3" v-if="result1 !== null">
+        <div class="col">
+          <b-table
+            :fields="fields1"
+            :items="result1"
+            small
+            bordered
+            striped
+            responsive
+            head-variant="dark"
+          >
+            <!-- <template #cell(particulars)="data">
+                   <b-link href="$router.push('/accounts/')"> </b-link>
+                   </template> -->
+          </b-table>
+        </div>
+        <div class="col">
+          <b-table
+            :fields="fields2"
+            :items="result2"
+            small
+            bordered
+            striped
+            responsive
+            head-variant="dark"
+          >
+            <!-- <template #cell(particulars)="data">
+                   <div
+                   v-if="data.item.particulars == 'Total'"
+                   class="text-weight-bold"
+                   >
+                   {{ data.item.particulars }}
+                   </div>
+                   </template> -->
+          </b-table>
+        </div>
+      </div>
+    </b-overlay>
+  </section>
+</template>
+
+<script>
+import axios from 'axios';
+import { mapState } from 'vuex';
+import GkCardheader from '../components/GkCardheader.vue';
+import GkDate from '../components/GkDate.vue';
+import ReportHeader from '../components/ReportHeader.vue';
+export default {
+  components: { GkCardheader, GkDate, ReportHeader },
+  name: 'ProfitLoss',
+  data() {
+    return {
+      isLoading: false,
+      fromDate: null,
+      toDate: null,
+      result1: null,
+      result2: null,
+      fields1: [
+        {
+          key: 'toby',
+          label: '',
+        },
+        {
+          key: 'particulars',
+          label: 'Particulars',
+        },
+        {
+          key: 'amount',
+          label: 'Amount',
+        },
+      ],
+      fields2: [
+        {
+          key: 'toby',
+          label: '',
+        },
+        {
+          key: 'particulars',
+          label: 'Particulars',
+        },
+        {
+          key: 'amount',
+          label: 'Amount',
+        },
+      ],
+    };
+  },
+  methods: {
+    getProfitLossData() {
+      this.isLoading = true;
+      axios
+        .get(
+          `/report?type=cashflow&calculatefrom=${this.fromDate}&calculateto=${this.toDate}&financialstart=${this.yearStart}`
+        )
+        .then((r) => {
+          if (r.status == 200) {
+            switch (r.data.gkstatus) {
+              case 0:
+                this.result1 = r.data.rcgkresult;
+                this.result2 = r.data.pygkresult;
+                break;
+              case 1:
+                this.$bvToast.toast('Duplicate Entry', {
+                  variant: 'warning',
+                  solid: true,
+                });
+                break;
+              case 2:
+                this.$bvToast.toast('Unauthorised Access', {
+                  variant: 'danger',
+                  solid: true,
+                });
+                break;
+              case 3:
+                this.$bvToast.toast('Data error', {
+                  variant: 'danger',
+                  solid: true,
+                });
+                break;
+              case 4:
+                this.$bvToast.toast('No Privilege', {
+                  variant: 'danger',
+                  solid: true,
+                });
+                break;
+              case 5:
+                this.$bvToast.toast('Integrity error', {
+                  variant: 'danger',
+                  solid: true,
+                });
+                break;
+            }
+          }
+          this.isLoading = false;
+        })
+        .catch((e) => {
+          console.log(e);
+          this.isLoading = false;
+        });
+    },
+  },
+  computed: {
+    ...mapState(['yearStart', 'yearEnd']),
+  },
+  mounted() {
+    this.fromDate = this.yearStart;
+    this.toDate = this.yearEnd;
+  },
+};
+</script>

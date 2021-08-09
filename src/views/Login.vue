@@ -1,5 +1,21 @@
 <template>
   <section class="m-2">
+    <b-alert
+      v-if="gkMode === 'development'"
+      show
+      variant="dark"
+      :hidden="false"
+      class="mb-2 mx-auto"
+      style="max-width:35em"
+    >
+      <i>Demo Account Details:</i>
+      <br />Organisation:
+      <b>WALLMART</b>
+      <br />Username:
+      <b>admin</b>
+      <br />Password:
+      <b>admin</b>
+    </b-alert>
     <!-- Login card -->
     <b-card
       class="shadow mx-auto"
@@ -15,21 +31,9 @@
         ></gk-cardheader>
       </template>
       <b-card-body class="p-0 m-0">
-        <b-alert show variant="dark" class="mb-2">
-          <u>Demo Account Details:</u><br />
-          Organisation: <b>WALLMART</b><br />
-          Username: <b>admin</b><br />
-          Password: <b>admin</b>
-        </b-alert>
         <b-form @submit.prevent="login">
           <!--Username area-->
-          <b-form-group
-            label="Username"
-            label-class="required"
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-          >
+          <b-form-group label="Username" label-cols="4" label-size="sm" label-align="right">
             <b-form-input
               v-model="form.username"
               type="text"
@@ -39,13 +43,7 @@
             ></b-form-input>
           </b-form-group>
           <!-- Password area -->
-          <b-form-group
-            label="Password"
-            label-class="required"
-            label-cols="4"
-            label-align="right"
-            label-size="sm"
-          >
+          <b-form-group label="Password" label-cols="4" label-align="right" label-size="sm">
             <b-form-input
               id="input-2"
               v-model="form.userpassword"
@@ -60,22 +58,11 @@
           </b-form-group>
 
           <!--Captcha question -->
-          <b-form-group
-            label="Question"
-            label-align="right"
-            label-cols="4"
-            label-size="sm"
-          >
+          <b-form-group label="Question" label-align="right" label-cols="4" label-size="sm">
             <captcha v-model="answer"></captcha>
           </b-form-group>
           <!-- captcha answer -->
-          <b-form-group
-            label="Answer"
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-            label-class="required"
-          >
+          <b-form-group label="Answer" label-cols="4" label-size="sm" label-align="right">
             <b-form-input
               v-model="userAnswer"
               type="number"
@@ -83,28 +70,19 @@
               placeholder="Enter the Answer"
               required
               size="sm"
-            >
-            </b-form-input>
+            ></b-form-input>
           </b-form-group>
           <!-- Login & create account buttons-->
           <b-button-group size="sm" class="row float-right">
             <b-button variant="dark" class="m-1" @click="switchServer">
-              <b-icon icon="cloud"></b-icon>
-
-              Change Server
+              <b-icon icon="cloud"></b-icon>Change Server
             </b-button>
-            <b-button
-              class="m-1"
-              variant="dark"
-              @click="$router.push('/select-org')"
-            >
-              <b-icon icon="building"></b-icon>
-              Change Organisation
+            <b-button class="m-1" variant="dark" @click="$router.push('/select-org')">
+              <b-icon icon="building"></b-icon>Change Organisation
             </b-button>
             <b-button class="m-1" variant="success" type="submit">
               <b-spinner v-if="isLoading" small></b-spinner>
-              <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
-              Login
+              <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>Login
             </b-button>
           </b-button-group>
         </b-form>
@@ -115,7 +93,7 @@
          <b-icon icon="cloud"></b-icon>
          Change Server
          </b-link>
-         </div> -->
+    </div>-->
   </section>
 </template>
 <script>
@@ -225,7 +203,7 @@ export default {
       }
     },
   },
-  created() {
+  mounted() {
     let url = localStorage.getItem('gkCoreUrl');
     if (url == null || url == 'null') {
       this.$router.push('/server-setup');
