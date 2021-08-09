@@ -32,7 +32,7 @@ This report can be viewed for any period"
           {{ toDate }}
         </div>
       </report-header>
-      <div class="row mt-4" v-if="result !== null">
+      <div class="row mt-4 ml-2 mr-2" v-if="result !== null">
         <div class="col">
           <b-table-simple small bordered hover>
             <b-thead head-variant="dark">
@@ -47,14 +47,14 @@ This report can be viewed for any period"
                 <b-th>{{ result['Direct Expense']['direxpbal'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th class="pl-5 font-weight-normal">Purchase</b-th>
+                <b-th class="pl-5 font-weight-normal"><i>Purchase</i></b-th>
                 <b-th>{{
                   result['Direct Expense']['Purchase']['balance']
                 }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th class="pl-5 font-weight-normal text-danger"
-                  >Gross Profit C/F</b-th
+                  ><i>Gross Profit C/F</i></b-th
                 >
                 <b-th>{{ result['grossprofitcf'] }}</b-th>
               </b-tr>
@@ -67,8 +67,10 @@ This report can be viewed for any period"
                 <b-th>{{ result['netprofit'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th>Total</b-th>
-                <b-th>{{ result['Total'] }}</b-th>
+                <b-th><b>Total</b></b-th>
+                <b-th
+                  ><b>{{ result['Total'] }}</b></b-th
+                >
               </b-tr>
             </b-tbody>
           </b-table-simple>
@@ -103,8 +105,10 @@ This report can be viewed for any period"
                 <b-th>{{ result['Closing Stock'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th>Total</b-th>
-                <b-th>{{ result['Total'] }}</b-th>
+                <b-th><b>Total</b></b-th>
+                <b-th
+                  ><b>{{ result['Total'] }}</b></b-th
+                >
               </b-tr>
             </b-tbody>
           </b-table-simple>
@@ -193,3 +197,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+th {
+  font-weight: normal;
+}
+</style>
