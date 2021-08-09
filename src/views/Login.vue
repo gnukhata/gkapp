@@ -216,8 +216,6 @@ export default {
     if (this.form.orgcode === 'null' || this.form.orgcode == null) {
       this.$router.push('/select-org');
     }
-  },
-  mounted() {
     let orgChoice = localStorage.getItem('orgChoice');
     this.orgNameDisplay = orgChoice ? orgChoice.split('(')[0] : '';
   },
