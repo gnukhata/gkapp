@@ -92,7 +92,7 @@
           <b-nav-item to="/accounts/-1/-1/-1">
             <b-icon icon="files-alt"></b-icon> Accounts
           </b-nav-item>
-          <b-nav-item to="/budget">
+          <b-nav-item to="/budgets/cash/-1">
             <b-icon icon="file-ruled"></b-icon> Budget
           </b-nav-item>
           <b-nav-item to="/product-list">

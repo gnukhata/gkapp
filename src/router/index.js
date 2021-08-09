@@ -286,14 +286,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "contact-list" */ '../views/ContactList.vue'),
   },
   {
-    path: '/budget',
+    path: '/budgets/:type/:id',
     name: 'Budget',
     component: () => import(/* webpackChunkName: "budget" */ '../views/Budget.vue'),
+    props: true
   },
   {
-    path: '/budget/create',
+    path: '/budget/create/:type',
     name: 'Create_Budget',
     component: () => import(/* webpackChunkName: "create_budget" */ '../views/BudgetCreate.vue'),
+    props: true
   },
   {
     path: '/budget/edit/:id',

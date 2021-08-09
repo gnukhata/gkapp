@@ -12,7 +12,7 @@
         <template #header>
           Budget
           <b-button
-            :to="{ name: 'Create_Budget' }"
+            :to="{ name: 'Create_Budget', params: { type: budgetType } }"
             class="float-right py-0"
             size="sm"
             variant="success"
@@ -26,9 +26,10 @@
             class="d-flex align-items-center"
             :style="{ height: '100%' }"
             v-model="budgetType"
+            @input="onBudgetFilterUpdate"
           >
-            <b-form-radio value="3">Cash</b-form-radio>
-            <b-form-radio value="16">
+            <b-form-radio value="cash">Cash</b-form-radio>
+            <b-form-radio value="pl">
               Profit & Loss
             </b-form-radio>
           </b-form-radio-group>
@@ -44,7 +45,7 @@
             id="input-10"
             v-model="budId"
             :options="budgetList"
-            @input="getReport"
+            @input="onBudgetFilterUpdate"
             :required="true"
             :placeholder="
               budgetList.length ? 'Select a Budget' : 'No Budgets Found!'
@@ -67,31 +68,50 @@
         </div>
       </b-card>
     </b-overlay>
-    <div class='px-2'>
+    <div class="px-2" v-if="budId">
       <u>
         <small>
           Budget:
-          <span v-if="budId">
+          <span>
             {{ budName }} ({{ fromDate }} to {{ toDate }})
           </span>
         </small>
       </u>
-      <div class="d-inline-block float-right">
+      <br class="d-md-none" />
+      <div class="d-flex align-items-center float-md-right">
         <b-form-checkbox
           id="checkbox-1"
           v-model="showPrintView"
           name="checkbox-1"
-          class="d-inline-block h-100"
+          class="d-inline-block"
           size="sm"
           switch
-          v-if="budId"
         >
           Print View
         </b-form-checkbox>
-        <print-helper v-if="budId && showPrintView" name="Budget Report" contentId="budget-table-container"></print-helper>
+        <div>
+          <print-helper
+            v-if="showPrintView"
+            name="Budget Report"
+            contentId="budget-table-container"
+          ></print-helper>
+          <b-button
+            v-if="showPrintView"
+            @click="expandTable = !expandTable"
+            class="p-2"
+            variant="dark"
+            size="sm"
+          >
+            <b-icon
+              class="float-right"
+              font-scale="0.95"
+              :icon="expandTable ? 'dash' : 'arrows-fullscreen'"
+            ></b-icon>
+          </b-button>
+        </div>
       </div>
     </div>
-    <b-container fluid v-if="budId && !showPrintView">
+    <b-container fluid v-if="!showPrintView">
       <b-row>
         <b-col
           cols="12"
@@ -160,7 +180,7 @@
     </b-container>
 
     <!-- Table -->
-    <div id='budget-table-container' v-if="budId && showPrintView">
+    <div id="budget-table-container" v-if="budId && showPrintView">
       <report-header>
         <div class="text-center">
           <b>{{ isTypeCash ? 'Cash' : 'Profit & Sale' }} Budget</b>
@@ -252,19 +272,9 @@ export default {
       showPrintView: false,
       expandAllRows: false,
       tableHeight: window.innerHeight - 275,
-      tableFields: [
-        {
-          key: 'name',
-          label: 'Particulars',
-          thStyle: { 'min-width': '125px' },
-        },
-        { key: 'budget', label: 'Budgeted' },
-        { key: 'actual', label: 'Actuals' },
-        { key: 'var', label: 'Variance' },
-        { key: 'varPercent', label: 'Variance(%)' },
-      ],
       loading: false,
-      budgetType: '3',
+      budgetType: 'cash',
+      expandTable: false,
       budId: null,
       report: [],
       options: {
@@ -278,7 +288,38 @@ export default {
       },
     };
   },
+  props: {
+    id: {
+      type: [String, Number],
+      required: true,
+    },
+    type: {
+      type: [String],
+      validator: function(value) {
+        return ['cash', 'pl'].indexOf(value) !== -1;
+      },
+      required: true,
+    },
+  },
   computed: {
+    tableFields: (self) => {
+      let res = [
+        {
+          key: 'name',
+          label: 'Particulars',
+          thStyle: { 'min-width': '125px' },
+        },
+        { key: 'budget', label: 'Budgeted' },
+        { key: 'actual', label: 'Actuals' },
+      ];
+      if (self.expandTable) {
+        res.push(
+          { key: 'var', label: 'Variance' },
+          { key: 'varPercent', label: 'Variance(%)' }
+        );
+      }
+      return res;
+    },
     budData: (self) =>
       self.budId && self.options.budIdToData[self.budId]
         ? self.options.budIdToData[self.budId]
@@ -288,7 +329,7 @@ export default {
     toDate: (self) => (self.budData.date ? self.budData.date.to : ''),
     budgetList: (self) =>
       self.isTypeCash ? self.options.budget.cash : self.options.budget.pl,
-    isTypeCash: (self) => self.budgetType === '3',
+    isTypeCash: (self) => self.budgetType === 'cash',
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
@@ -437,17 +478,24 @@ export default {
       // console.log(result);
       return result;
     },
+    onBudgetFilterUpdate() {
+      if (this.budId) {
+        this.updateUrl();
+        this.getReport();
+      }
+    },
     getReport() {
       if (!this.budId) {
         return;
       }
       if (this.options.reports[this.budId]) {
         // use the existing report
-        return;
+        // return;
       }
       this.loading = true;
       let type = this.isTypeCash ? 'cashReport' : 'profitlossReport';
       let startDate = this.dateReverse(this.fromDate);
+      const self = this;
       axios
         .get(
           `/budget?type=${type}&budid=${this.budId}&financialstart=${startDate}`
@@ -456,31 +504,31 @@ export default {
           switch (r.data.gkstatus) {
             case 0:
               {
-                this.report = this.formatTableData(r.data.gkresult);
+                self.report = self.formatTableData(r.data.gkresult);
               }
               break;
             case 2:
-              this.$bvToast.toast('Unauthorised Access', {
+              self.$bvToast.toast('Unauthorised Access', {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 3:
             default:
-              this.$bvToast.toast('Data error', {
+              self.$bvToast.toast('Data error', {
                 variant: 'danger',
                 solid: true,
               });
               break;
           }
-          this.loading = false;
+          self.loading = false;
         })
         .catch((e) => {
-          this.$bvToast.toast(e.message, {
+          self.$bvToast.toast(e.message, {
             variant: 'danger',
             solid: true,
           });
-          this.loading = false;
+          self.loading = false;
         });
     },
     preloadData() {
@@ -490,7 +538,7 @@ export default {
         axios.get('/budget?bud=all&btype=3'),
         axios.get('/budget?bud=all&btype=16'),
       ];
-      Promise.all([...requests])
+      return Promise.all([...requests])
         .then(([resp1, resp2]) => {
           let idToData = {};
           let preloadFail = false;
@@ -539,6 +587,7 @@ export default {
             });
           }
           this.loading = false;
+          return true;
         })
         .catch((e) => {
           this.loading = false;
@@ -548,11 +597,30 @@ export default {
           });
         });
     },
+    updateUrl() {
+      let url = window.location.href.split('#')[0];
+      let currentId = window.location.href.split('/').pop();
+      if (currentId == this.budId) {
+        return;
+      }
+      url += `#/budgets/${this.budgetType}/${this.budId || -1}`;
+      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
+      // instead of creating a new history instances for every entity selected
+    },
   },
   mounted() {
     // this.fromDate = this.dateReverse(this.yearStart);
     // this.toDate = this.dateReverse(this.yearEnd);
-    this.preloadData();
+    const self = this;
+    this.preloadData().then(() => {
+      self.budgetType = self.type;
+      self.$nextTick().then(() => {
+        if (self.id) {
+          self.budId = parseInt(self.id);
+        }
+        self.onBudgetFilterUpdate();
+      });
+    });
   },
 };
 </script>

@@ -304,6 +304,14 @@ export default {
       },
       required: true,
     },
+    type: {
+      type: [String],
+      validator: function(value) {
+        return ['cash', 'pl'].indexOf(value) !== -1;
+      },
+      required: false,
+      default: 'cash'
+    },
     onSave: {
       type: Function,
       required: false,
@@ -392,6 +400,9 @@ export default {
     id() {
       this.fetchBudgetDetails();
     },
+    type(type) {
+      this.form.type = type;
+    }
   },
   methods: {
     onFromDateSet(isValid) {
@@ -529,7 +540,7 @@ export default {
     },
     resetForm(fetchBalance) {
       this.form = {
-        type: 'cash',
+        type: this.type,
         name: '',
         budget: {
           income: {},
