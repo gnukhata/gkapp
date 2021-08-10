@@ -1,38 +1,3 @@
-
-# Table of Contents
-
--   [Meeting history (2021-08-02)](#meeting-history-2021-08-02)
--   [Meeting history (2021-07-26)](#meeting-history-2021-07-26)
--   [Meeting history (2021-07-19)](#meeting-history-2021-07-19)
--   [Meeting history (2021-07-12)](#meeting-history-2021-07-12)
--   [Meeting history (2021-07-05)](#meeting-history-2021-07-05)
--   [Meeting history (2021-06-28)](#meeting-history-2021-06-28)
--   [Meeting history (2021-06-21)](#meeting-history-2021-06-21)
--   [Meeting history (2021-06-14)](#meeting-history-2021-06-14)
--   [Meeting history (2021-06-07)](#meeting-history-2021-06-07)
--   [Meeting history (2021-05-31)](#meeting-history-2021-05-31)
--   [Meeting history (2021-05-24)](#meeting-history-2021-05-24)
--   [Meeting history (2021-05-17)](#meeting-history-2021-05-17)
--   [Meeting history (2021-05-10)](#meeting-history-2021-05-10)
--   [Meeting history (2021-05-03)](#meeting-history-2021-05-03)
--   [Meeting history (2021-04-26)](#meeting-history-2021-04-26)
--   [Meeting history (2021-04-19)](#meeting-history-2021-04-19)
--   [Meeting history (2021-04-12)](#meeting-history-2021-04-12)
--   [Meeting history (2021-04-05)](#meeting-history-2021-04-05)
--   [Meeting history (2021-03-29)](#meeting-history-2021-03-29)
--   [Meeting history (2021-03-22)](#meeting-history-2021-03-22)
--   [Meeting history (2021-03-15)](#meeting-history-2021-03-15)
--   [Meeting history (2021-03-08)](#meeting-history-2021-03-08)
--   [Meeting history (2021-02-15)](#meeting-history-2021-02-15)
--   [Meeting history (2021-02-08)](#meeting-history-2021-02-08)
--   [Meeting history (2021-02-01)](#meeting-history-2021-02-01)
--   [Meeting history (2021-01-25)](#meeting-history-2021-01-25)
--   [Meeting history (2021-01-18)](#meeting-history-2021-01-18)
--   [Meeting history (2021-01-11)](#meeting-history-2021-01-11)
--   [Meeting history (2021-01-04)](#meeting-history-2021-01-04)
--   [Meeting history (2020-12-28)](#meeting-history-2020-12-28)
--   [Meeting history (2020-12-21)](#meeting-history-2020-12-21)
-
 The GNUkhata team meets **Every Monday @ 11:30 hrs (IST)** to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest your ideas, comments, feedback.
@@ -40,7 +5,74 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
-<a id="meeting-history-2021-08-02"></a>
+# Meeting history (2021-08-09)
+
+Agenda:
+
+-   review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+-   Karthik:
+    -   Profit & loss statement
+    -   Cash flow statement
+    -   Attempt to build gnukhata as snap
+    -   Web template has been added to gnukhata.gitlab.io repo
+-   Survesh:
+    -   [Bug Fix] Faulty contact selection using URL params
+    -   Budget List UI to Cards
+    -   Added ability to load budget data with URL params
+    -   Worked on GNUKhata windows build with pgsql binaries
+
+Points Discussed:
+
+-   Discussions on the ability of windows installer to work on low
+
+config machines,
+
+-   Need for minimum hardware requirements and benchmarks is there.
+-   Since GNUKhata is dependent on python 3, we can say that any hardware + OS
+
+combo that supports python 3 can run GNUKhata on it.
+
+-   Installers can be made for both 64 and 32 bit systems, but prioritize more
+
+on 64 bit.
+
+-   Comments on Profit and Loss page,
+    -   Use normal font weight than bold in the table.
+    -   Add hyperlinks to ledger page when clicking on the Account name in table.
+-   Comments on print pages format,
+    -   Increase the horizontal offsets (empty space) in the left and right side,
+
+so that its printer friendly.
+
+-   Need to improve the looks of the print page content. (R2 will share some examples
+
+for this)
+
+-   Dicussions on the application packaging tools for linux based OS,
+    -   Appimage and flatpak do not seem to be good choices for server based applications.
+    -   Snap seems to be a good fit here and has 32 bit support as well.
+    -   Debian packages are also widely supported and easy to work with.
+    -   We can choose either Snap or Deb, based on ease of maintaining and support across platforms.
+-   Updates to the current website (gnukhata.in),
+    -   Certain elements available in the current front page of gnukhata.in have been added after
+
+due consideration, and those elements need to be translated to match with the new UI updates.
+
+-   Comments on the Budget page updates,
+    -   The card view UI can be omitted, as the table view is good.
+    -   Make the table rows collapsable.
+-   Comments on Accounts page,
+    -   Need search and filter options to query the list of accounts.
+    -   Show the list of transactions related to the accounts when clicking on them.
+    -   Show the account balance near the account name.
+
+Conclusion:
+
+-   Updates will be performed based on the points discussed above.
+
 
 # Meeting history (2021-08-02)
 
@@ -115,8 +147,6 @@ Conclusion:
 
 -   Updates will be performed based on the points discussed above.
 
-
-<a id="meeting-history-2021-07-26"></a>
 
 # Meeting history (2021-07-26)
 
@@ -204,8 +234,6 @@ Conclusion:
 -   Updates will be performed based on the points discussed above.
 
 
-<a id="meeting-history-2021-07-19"></a>
-
 # Meeting history (2021-07-19)
 
 Agenda:
@@ -261,8 +289,6 @@ Conclusion:
 -   Updates will be performed based on the points discussed above.
 
 
-<a id="meeting-history-2021-07-12"></a>
-
 # Meeting history (2021-07-12)
 
 Agenda:
@@ -312,8 +338,6 @@ Conclusion:
 
 -   Updates will be performed based on the points discussed above.
 
-
-<a id="meeting-history-2021-07-05"></a>
 
 # Meeting history (2021-07-05)
 
@@ -394,14 +418,10 @@ Conclusion:
 -   Updates will be performed based on the points discussed above.
 
 
-<a id="meeting-history-2021-06-28"></a>
-
 # Meeting history (2021-06-28)
 
 **Meeting was postponed to 2021-07-05**
 
-
-<a id="meeting-history-2021-06-21"></a>
 
 # Meeting history (2021-06-21)
 
@@ -472,8 +492,6 @@ Conclusion:
     fixes and additions to gkcore.
 
 
-<a id="meeting-history-2021-06-14"></a>
-
 # Meeting history (2021-06-14)
 
 Agenda :
@@ -522,8 +540,6 @@ Conclusion:
 -   The List of tasks done and pending needs to be updated in Task Map
     Issue in Gitlab.
 
-
-<a id="meeting-history-2021-06-07"></a>
 
 # Meeting history (2021-06-07)
 
@@ -594,8 +610,6 @@ Conclusion:
 -   The progress of the app and the tasks pending are to be tracked in the
     gitlab issue used for API progress (#55).
 
-
-<a id="meeting-history-2021-05-31"></a>
 
 # Meeting history (2021-05-31)
 
@@ -676,8 +690,6 @@ Conclusion:
 -   Make a note of Discount features required in gkcore
 
 
-<a id="meeting-history-2021-05-24"></a>
-
 # Meeting history (2021-05-24)
 
 Agenda:
@@ -751,8 +763,6 @@ Conclusion:
 -   Perform the UI updates and features discussed in the meeting.
 
 
-<a id="meeting-history-2021-05-17"></a>
-
 # Meeting history (2021-05-17)
 
 Agenda:
@@ -800,8 +810,6 @@ Conclusion:
     if they affect the backend as a transaction.
 
 
-<a id="meeting-history-2021-05-10"></a>
-
 # Meeting history (2021-05-10)
 
 Agenda:
@@ -843,8 +851,6 @@ Conclusion:
 -   Add the provision to store the status of a UOM unit, whether if it was
     standard or if it was mapped to a standard one.
 
-
-<a id="meeting-history-2021-05-03"></a>
 
 # Meeting history (2021-05-03)
 
@@ -896,8 +902,6 @@ Conclusion:
     and needs pagination feature.
 
 
-<a id="meeting-history-2021-04-26"></a>
-
 # Meeting history (2021-04-26)
 
 Agenda:
@@ -947,8 +951,6 @@ Conclusion:
     container.
 -   Perform the UI updates discussed.
 
-
-<a id="meeting-history-2021-04-19"></a>
 
 # Meeting history (2021-04-19)
 
@@ -1015,8 +1017,6 @@ Conclusion:
 -   Implementation of the side navigation pane.
 
 
-<a id="meeting-history-2021-04-12"></a>
-
 # Meeting history (2021-04-12)
 
 Agenda:
@@ -1080,8 +1080,6 @@ Conclusion:
         interaction and use Telegram internally for discussions among team.
 
 
-<a id="meeting-history-2021-04-05"></a>
-
 # Meeting history (2021-04-05)
 
 Agenda:
@@ -1127,8 +1125,6 @@ Conclusion:
     Invoice form, Contacts Profile, etc.
 
 
-<a id="meeting-history-2021-03-29"></a>
-
 # Meeting history (2021-03-29)
 
 Agenda:
@@ -1172,8 +1168,6 @@ Conclusion:
 -   Finding out the owners of the websites and domains for GNUKhata and
     request for maintainer access.
 
-
-<a id="meeting-history-2021-03-22"></a>
 
 # Meeting history (2021-03-22)
 
@@ -1244,8 +1238,6 @@ Conclusion:
     their own naming convention for now.
 
 
-<a id="meeting-history-2021-03-15"></a>
-
 # Meeting history (2021-03-15)
 
 Agenda:
@@ -1288,8 +1280,6 @@ Conclusion:
 -   Make updates to the forms based on Points discussed
 -   Discuss more about ideas for easy keyboard navigation in the app
 
-
-<a id="meeting-history-2021-03-08"></a>
 
 # Meeting history (2021-03-08)
 
@@ -1355,8 +1345,6 @@ Conclusion:
 -   Save User preferrences locally
 
 
-<a id="meeting-history-2021-02-15"></a>
-
 # Meeting history (2021-02-15)
 
 Agenda:
@@ -1411,8 +1399,6 @@ Conclusion:
 -   Perform the UI updates based on the comments from the points discussed
 
 
-<a id="meeting-history-2021-02-08"></a>
-
 # Meeting history (2021-02-08)
 
 Agenda:
@@ -1452,8 +1438,6 @@ Conclusion:
     compatible data. And Upload it into test server for visualization.
 -   Perform the UI updates based on the comments received.
 
-
-<a id="meeting-history-2021-02-01"></a>
 
 # Meeting history (2021-02-01)
 
@@ -1509,8 +1493,6 @@ Conclusion:
     based on the comments from points discussed
 
 
-<a id="meeting-history-2021-01-25"></a>
-
 # Meeting history (2021-01-25)
 
 Agenda:
@@ -1551,8 +1533,6 @@ Conclusion:
 -   Update Sandbox with Sample Data
 
 
-<a id="meeting-history-2021-01-18"></a>
-
 # Meeting history (2021-01-18)
 
 Agenda:
@@ -1576,8 +1556,6 @@ Conclusion:
 -   Display active workflow item data in the right pane
 -   Get sample data dump for the sandbox
 
-
-<a id="meeting-history-2021-01-11"></a>
 
 # Meeting history (2021-01-11)
 
@@ -1625,8 +1603,6 @@ Conclusion:
 -   Update the Workflow page UI based on the comments from Points
     Discussed
 
-
-<a id="meeting-history-2021-01-04"></a>
 
 # Meeting history (2021-01-04)
 
@@ -1677,8 +1653,6 @@ Conclusion:
     Distinguishing with Colour codes)
 
 
-<a id="meeting-history-2020-12-28"></a>
-
 # Meeting history (2020-12-28)
 
 Agenda:
@@ -1721,8 +1695,6 @@ Conclusion:
 -   Obtain real data on financial year of a company for better
     understanding of inventory & accounting
 
-
-<a id="meeting-history-2020-12-21"></a>
 
 # Meeting history (2020-12-21)
 
