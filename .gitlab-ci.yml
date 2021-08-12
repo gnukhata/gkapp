@@ -20,15 +20,16 @@ gkapp:
     - npm install
     - npm run build-dev
     - echo $NODE_ENV
-  artifacts:
-    paths:
-      - dist
+#   artifacts:
+#     paths:
+#       - dist
+
 # gzip files & deploy to gitlab pages
 pages:
   stage: deploy
-  needs:
-    - job: gkapp
-      artifacts: true
+  # needs:
+  #   - job: gkapp
+  #     artifacts: true
   script:
     - ls -al
     - mv public _pub
