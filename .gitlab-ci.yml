@@ -11,15 +11,19 @@ stages:
   - deploy
 variables:
   GKAPP_URL: https://gnukhata.gitlab.io/gkapp
+
+# build gkapp
 gkapp:
   stage: build
   script:
     - npm install -g @vue/cli
     - npm install
-    - npm run build
+    - npm run build-dev
+    - echo $NODE_ENV
   artifacts:
     paths:
       - dist
+# gzip files & deploy to gitlab pages
 pages:
   stage: deploy
   needs:
@@ -36,10 +40,12 @@ pages:
   only:
     - master
     - devel
+
+# SAST Tests
 sast:
   stage: test
   variables:
-    SAST_EXCLUDED_PATHS: spec, test, tests, tmp, dist/, package-lock.json
+    SAST_EXCLUDED_PATHS: spec, test, tests, tmp, dist, package-lock.json
 include:
   - template: Security/SAST.gitlab-ci.yml
   - template: Security/Dependency-Scanning.gitlab-ci.yml
