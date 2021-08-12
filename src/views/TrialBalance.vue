@@ -207,15 +207,6 @@ export default {
     };
   },
   methods: {
-    // switchBalance() {
-    //   if (this.trialBalanceType === 'Net') {
-    //     this.result = this.balance.net;
-    //   } else if (this.trialBalanceType === 'Gross') {
-    //     this.result = this.balance.gross;
-    //   } else {
-    //     this.result = this.balance.extended;
-    //   }
-    // },
     getAllTrialBalances() {
       this.isLoading = true;
       Promise.all([
