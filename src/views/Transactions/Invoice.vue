@@ -287,7 +287,7 @@ export default {
   props: {
     mode: {
       type: String,
-      validator: function (value) {
+      validator: function(value) {
         return ['create', 'edit'].indexOf(value) !== -1;
       },
       required: true,
@@ -477,10 +477,10 @@ export default {
       return false;
     },
     useBillAddress: {
-      get: function () {
+      get: function() {
         return this.form.ship.copyFlag;
       },
-      set: function (flag) {
+      set: function(flag) {
         this.form.ship.copyFlag = !!flag;
         this.setShippingDetails();
       },
@@ -560,7 +560,7 @@ export default {
             Object.assign(this.form.inv, payload.data);
             this.form.transport.date = this.form.inv.date;
             const self = this;
-            setTimeout(function () {
+            setTimeout(function() {
               self.updateCounter.transport++;
             });
           }
@@ -878,7 +878,10 @@ export default {
             self.form.type = data.inoutflag === 15 ? 'sale' : 'purchase';
             self.form.inv = {
               no: data.invoiceno,
-              date: data.invoicedate.split('-').reverse().join('-'),
+              date: data.invoicedate
+                .split('-')
+                .reverse()
+                .join('-'),
               delNote: null, /////////////////////////
               ebn: data.ewaybillno || null,
               addr: data.address,
@@ -992,11 +995,9 @@ export default {
                   this.showPrintModal = true;
                   this.displayToast(
                     `${actionText} Invoice Successfull!`,
-                    `Invoice saved with entry no. ${
-                      resp.data.invoiceid ||
+                    `Invoice saved with entry no. ${resp.data.invoiceid ||
                       resp.data.gkresult ||
-                      resp.data.vchData.vchno
-                    }`,
+                      resp.data.vchData.vchno}`,
                     'success'
                   );
 
@@ -1158,7 +1159,9 @@ export default {
           av.taxpayment += taxable;
         }
 
-        freeqty[item.product.id] = parseFloat(item.fqty).toFixed(2) || 0;
+        freeqty[item.product.id] = isNaN(parseFloat(item.fqty))
+          ? 0
+          : parseFloat(item.fqty).toFixed(2);
         discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
 
         av.product[item.product.name] = parseFloat(taxable).toFixed(2);
