@@ -61,12 +61,16 @@
           stacked="sm"
           head-variant="dark"
         >
+          <template #cell(accountname)="data">{{
+            data.item.accountname
+          }}</template>
         </b-table>
         <!-- Gross Trial Balance -->
         <b-table
           v-if="trialBalanceType === 'Gross'"
           :items="balance.net"
           :fields="grossfields"
+          primary-key="accountname"
           small
           bordered
           striped
@@ -79,6 +83,7 @@
           v-if="trialBalanceType === 'Extended'"
           :items="balance.extended"
           :fields="extendedfields"
+          primary-key="accountname"
           small
           bordered
           striped
@@ -282,3 +287,8 @@ export default {
   },
 };
 </script>
+<style>
+tr[data-pk='Total'] {
+  font-weight: bold;
+}
+</style>
