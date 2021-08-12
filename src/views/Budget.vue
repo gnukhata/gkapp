@@ -72,31 +72,16 @@
       <u>
         <small>
           Budget:
-          <span>
-            {{ budName }} ({{ fromDate }} to {{ toDate }})
-          </span>
+          <span> {{ budName }} ({{ fromDate }} to {{ toDate }}) </span>
         </small>
       </u>
-      <br class="d-md-none" />
-      <div class="d-flex align-items-center float-md-right">
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="showPrintView"
-          name="checkbox-1"
-          class="d-inline-block"
-          size="sm"
-          switch
-        >
-          Print View
-        </b-form-checkbox>
+      <div class="float-right">
         <div>
           <print-helper
-            v-if="showPrintView"
             name="Budget Report"
             contentId="budget-table-container"
           ></print-helper>
           <b-button
-            v-if="showPrintView"
             @click="expandTable = !expandTable"
             class="p-2"
             variant="dark"
@@ -105,82 +90,15 @@
             <b-icon
               class="float-right"
               font-scale="0.95"
-              :icon="expandTable ? 'dash' : 'arrows-fullscreen'"
+              :icon="expandTable ? 'arrow-bar-left' : 'arrow-right'"
             ></b-icon>
           </b-button>
         </div>
       </div>
     </div>
-    <b-container fluid v-if="!showPrintView">
-      <b-row>
-        <b-col
-          cols="12"
-          :md="budget.isCardOpen ? 12 : 4"
-          v-for="(budget, index) in report"
-          :key="index"
-          class="p-1 "
-        >
-          <b-card body-class="p-2 bg-dark-grey" class="shadow-sm">
-            <div
-              class="acc-card-header"
-              v-b-toggle="`budget-${budget.name}-${index}`"
-            >
-              <h4 class="d-inline-block">{{ budget.name }}</h4>
-              <b-icon
-                class="float-right"
-                font-scale="0.7"
-                :icon="budget.isCardOpen ? 'dash' : 'arrows-fullscreen'"
-              ></b-icon>
-            </div>
-            <div v-if="!budget.isCardOpen">
-              <small>Budgeted: {{ budget.total.budget }}</small> <br />
-              <small>Actual: {{ budget.total.actual }}</small> <br />
-              <small>Variance: {{ budget.total.var }}</small> <br />
-              <small>Variance (%): {{ budget.total.varPercent }}</small>
-            </div>
-            <b-collapse
-              :id="`budget-${budget.name}-${index}`"
-              v-model="budget.isCardOpen"
-            >
-              <u>
-                <small>Accounts: {{ budget.acc.count }}</small>
-              </u>
-              <b-container class="mt-1" fluid>
-                <b-row>
-                  <b-col
-                    cols="12"
-                    md="4"
-                    class="p-1"
-                    v-for="(acc, accIndex) in budget.acc"
-                    :key="accIndex"
-                  >
-                    <b-card body-class="p-2 bg-light-grey" class="shadow-sm">
-                      <div class="acc-card-header">
-                        <h5 class="d-inline-block">
-                          {{ budget.acc[accIndex] }}
-                        </h5>
-                      </div>
-                      <br />
-                      <small>Budgeted: {{ budget.budget[accIndex] }}</small>
-                      <br />
-                      <small>Actual: {{ budget.actual[accIndex] }}</small>
-                      <br />
-                      <small>Variance: {{ budget.var[accIndex] }}</small> <br />
-                      <small
-                        >Variance (%): {{ budget.varPercent[accIndex] }}</small
-                      >
-                    </b-card>
-                  </b-col>
-                </b-row>
-              </b-container>
-            </b-collapse>
-          </b-card>
-        </b-col>
-      </b-row>
-    </b-container>
 
     <!-- Table -->
-    <div id="budget-table-container" v-if="budId && showPrintView">
+    <div id="budget-table-container" v-if="budId">
       <report-header>
         <div class="text-center">
           <b>{{ isTypeCash ? 'Cash' : 'Profit & Sale' }} Budget</b>
@@ -206,12 +124,20 @@
       >
         <template #cell(name)="data">
           <div class="text-right position-relative">
-            <div class="position-relative">
+            <div class="position-relative" v-b-toggle="`bl-${data.item.name}`">
+              <b-icon
+                font-scale="0.8"
+                :style="{ left: '0px', top: '0px' }"
+                class="position-absolute"
+                :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
+              ></b-icon>
               <b> {{ data.value }} </b>
             </div>
-            <div v-for="(accName, index) in data.item.acc" :key="index">
-              {{ accName }}
-            </div>
+            <b-collapse :id="`bl-${data.item.name}`" v-model="data.item.isOpen">
+              <div v-for="(accName, index) in data.item.acc" :key="index">
+                {{ accName }}
+              </div>
+            </b-collapse>
           </div>
         </template>
         <template #cell(budget)="data">
@@ -269,7 +195,6 @@ export default {
   components: { Autocomplete, ReportHeader, PrintHelper },
   data() {
     return {
-      showPrintView: false,
       expandAllRows: false,
       tableHeight: window.innerHeight - 275,
       loading: false,
