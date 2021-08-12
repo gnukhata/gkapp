@@ -19,19 +19,17 @@ gkapp:
     - npm install -g @vue/cli
     - npm install
     - npm run build-dev
-    - echo $NODE_ENV
-#   artifacts:
-#     paths:
-#       - dist
+  artifacts:
+    paths:
+      - dist
 
 # gzip files & deploy to gitlab pages
 pages:
   stage: deploy
-  # needs:
-  #   - job: gkapp
-  #     artifacts: true
+  needs:
+    - job: gkapp
+      artifacts: true
   script:
-    - ls -al
     - mv public _pub
     - mv dist public
     - gzip -k -9 $(find public -type f)
