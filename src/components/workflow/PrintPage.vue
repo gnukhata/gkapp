@@ -52,7 +52,7 @@
           ></b-icon>
         </b-button>
         <br />
-        <print-helper contentId="transaction-print-page"> </print-helper>
+        <print-helper contentId="transaction-print-page" :printStyles="printStyles"> </print-helper>
       </div>
     </div>
   </b-modal>
@@ -108,6 +108,11 @@ export default {
   },
   data() {
     return {
+      printStyles: `.table .thead-dark th {
+          color: #fff !important;
+          background-color: #343a40 !important;
+          border-color: #454d55 !important;
+      }`,
       showModal: false,
       orgDetails: {
         name: '',

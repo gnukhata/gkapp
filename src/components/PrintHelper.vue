@@ -17,6 +17,12 @@ export default {
       required: false,
       default: 'Page'
     },
+    printStyles: {
+      type: String,
+      required: false,
+      default: 'Page',
+      note: 'Custom styles as string if sent will be added to the HTML page, before printing'
+    }
   },
   data() {
     return {
@@ -56,8 +62,18 @@ export default {
         styles += style.innerHTML;
       });
       // styles for printing table row bg
+      styles += this.printStyles;
+      
       styles +=
-        '@media print {*{ color-adjust: exact;  -webkit-print-color-adjust: exact; print-color-adjust: exact; }}';
+        `@media print {
+          *{ 
+            color-adjust: exact !important; 
+            print-color-adjust: exact !important; 
+            -webkit-print-color-adjust: exact !important; 
+          }
+          ${this.printStyles}  
+        }`;
+
 
       printWindow.document.open();
       printWindow.document.write(`<html><head><style>${styles}</style></head>`);

@@ -80,6 +80,7 @@
           <print-helper
             name="Budget Report"
             contentId="budget-table-container"
+            :printStyles="printStyles"
           ></print-helper>
           <b-button
             @click="expandTable = !expandTable"
@@ -128,7 +129,7 @@
               <b-icon
                 font-scale="0.8"
                 :style="{ left: '0px', top: '0px' }"
-                class="position-absolute"
+                class="position-absolute d-print-none"
                 :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
               ></b-icon>
               <b> {{ data.value }} </b>
@@ -195,6 +196,11 @@ export default {
   components: { Autocomplete, ReportHeader, PrintHelper },
   data() {
     return {
+      printStyles: `.table .thead-dark th {
+              color: #fff !important;
+              background-color: #343a40 !important;
+              border-color: #454d55 !important;
+      }`,
       expandAllRows: false,
       tableHeight: window.innerHeight - 275,
       loading: false,

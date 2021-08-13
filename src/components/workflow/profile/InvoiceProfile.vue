@@ -44,7 +44,7 @@
     </div>
     <div class="float-right my-2" v-if="!deletedFlag">
       <b-button
-        class="mr-2"
+        class="mr-2 d-print-none"
         size="sm"
         variant="primary"
         v-b-toggle.voucher-container
