@@ -3,12 +3,71 @@
     <h3 class="text-center">Accounts</h3>
     <hr class="mt-1" />
 
+    <b-card body-class="py-2">
+      <div v-b-toggle="'search-bar'" :class="{ 'mb-3': showSearchBar }">
+        <h6 class="d-inline-block">Search By</h6>
+        <b-icon
+          class="float-right"
+          font-scale="0.7"
+          :icon="showSearchBar ? 'dash' : 'arrows-fullscreen'"
+        ></b-icon>
+      </div>
+      <b-collapse v-model="showSearchBar" id="search-bar">
+        <b-row>
+          <b-col class="px-1" cols="12" md="4">
+            <b-form-group
+              label-for="search-by-group"
+              label="Group"
+              label-class="label-on-input"
+            >
+              <autocomplete
+                id="search-by-group"
+                v-model="searchBy.group"
+                :options="options.groups"
+                placeholder=""
+              ></autocomplete>
+            </b-form-group>
+          </b-col>
+          <b-col class="px-1" cols="12" md="4">
+            <b-form-group
+              label-for="search-by-sub-group"
+              label="Sub Group"
+              label-class="label-on-input"
+            >
+              <autocomplete
+                id="search-by-sub-group"
+                v-model="searchBy.subGroup"
+                :options="subGroups"
+                placeholder=""
+                @input="openSearchedCard(!!searchBy.subGroup, null)"
+              ></autocomplete>
+            </b-form-group>
+          </b-col>
+          <b-col class="px-1" cols="12" md="4">
+            <b-form-group
+              label-for="search-by-account"
+              label="Account"
+              label-class="label-on-input"
+            >
+              <autocomplete
+                id="search-by-account"
+                v-model="searchBy.account"
+                :options="accounts"
+                placeholder=""
+                @input="openSearchedCard(null, !!searchBy.account)"
+              ></autocomplete>
+            </b-form-group>
+          </b-col>
+        </b-row>
+      </b-collapse>
+    </b-card>
+
     <u><small class="ml-2">Groups</small></u>
     <b-container fluid>
       <b-row>
         <b-col
           cols="12"
-          :md="gdata.open ? 8 : 4"
+          :lg="gdata.open ? 8 : 4"
           v-for="(gdata, gname) in options.accData"
           :key="gdata.id"
           class="p-1 "
@@ -87,6 +146,20 @@
                                 {{ accData.name }}
                                 <div class="d-inline-block float-right">
                                   <b-button
+                                    v-if="accData.sysFlag === 0"
+                                    size="sm"
+                                    variant="danger"
+                                    class="pt-0"
+                                    @click.prevent="
+                                      confirmOnDelete(accData, sgdata.id)
+                                    "
+                                  >
+                                    <b-icon
+                                      font-scale="0.9"
+                                      icon="trash-fill"
+                                    ></b-icon>
+                                  </b-button>
+                                  <b-button
                                     size="sm"
                                     variant="primary"
                                     class="pt-0 mx-1"
@@ -105,21 +178,9 @@
                                       icon="pencil-fill"
                                     ></b-icon>
                                   </b-button>
-                                  <b-button
-                                    v-if="accData.sysFlag === 0"
-                                    size="sm"
-                                    variant="danger"
-                                    class="pt-0"
-                                    @click.prevent="
-                                      confirmOnDelete(accData, sgdata.id)
-                                    "
-                                  >
-                                    <b-icon
-                                      font-scale="0.9"
-                                      icon="trash-fill"
-                                    ></b-icon>
-                                  </b-button>
                                 </div>
+                                <br />
+                                ₹ {{ accData.openingBal }}
                               </b-card>
                             </b-col>
                           </b-row>
@@ -139,9 +200,10 @@
 
 <script>
 import axios from 'axios';
+import Autocomplete from '../components/Autocomplete.vue';
 export default {
   name: 'Accounts',
-  components: {},
+  components: { Autocomplete },
   props: {
     acc: {
       type: [Number, String],
@@ -158,6 +220,12 @@ export default {
   },
   data() {
     return {
+      searchBy: {
+        group: null,
+        subGroup: null,
+        account: null,
+      },
+      showSearchBar: false,
       showAccountForm: false,
       tableHeight: window.innerHeight - 175,
       searchText: '',
@@ -178,13 +246,39 @@ export default {
       ],
       options: {
         accounts: [],
+        groups: [],
+        subGroups: [],
         accData: {},
         groupIdToName: {},
       },
       loading: false,
     };
   },
-  computed: {},
+  computed: {
+    accounts: (self) => {
+      let subGroup = self.searchBy.subGroup;
+      let group = self.searchBy.group;
+      let res = [];
+      if (subGroup) {
+        res = self.options.accounts.filter((sg) => sg.subGroup === subGroup);
+      } else if (group) {
+        res = self.options.accounts.filter((g) => g.group === group);
+      } else {
+        res = self.options.accounts;
+      }
+      return res;
+    },
+    subGroups: (self) => {
+      let group = self.searchBy.group;
+      let res = [];
+      if (group) {
+        res = self.options.subGroups.filter((sg) => sg.group === group);
+      } else {
+        res = self.options.subGroups;
+      }
+      return res;
+    },
+  },
   methods: {
     onCreateAccount(gid, sgid) {
       this.updateUrl(gid, sgid, -1);
@@ -340,6 +434,9 @@ export default {
             let accData = {};
             let idToName = {};
             let emptySGCounter = 0;
+            let groups = [],
+              accounts = [],
+              subGroups = [];
             resp.data.gkresult.forEach((acc) => {
               if (!accData[acc.groupname]) {
                 accData[acc.groupname] = {
@@ -350,6 +447,10 @@ export default {
                   open: false,
                 };
                 idToName[acc.groupcode] = acc.groupname;
+                groups.push({
+                  text: acc.groupname,
+                  value: acc.groupcode,
+                });
               }
               let group = accData[acc.groupname];
               if (!group.subGroups[acc.subgroupname]) {
@@ -362,19 +463,36 @@ export default {
                 };
                 group.subCount++;
                 idToName[sgId] = acc.subgroupname;
+                if (acc.subgroupname) {
+                  subGroups.push({
+                    text: acc.subgroupname,
+                    value: sgId,
+                    group: acc.groupcode,
+                  });
+                }
               }
               let subGroup = group.subGroups[acc.subgroupname];
               subGroup.accounts[acc.accountcode] = {
                 name: acc.accountname,
                 sysFlag: acc.sysaccount,
                 defaultFlag: acc.defaultflag,
+                openingBal: acc.openingbal,
               };
+              accounts.push({
+                text: acc.accountname,
+                value: acc.accountcode,
+                group: acc.groupcode,
+                subGroup: group.subGroups[acc.subgroupname].id,
+              });
               subGroup.accCount++;
               group.accCount++;
             });
 
             this.options.accData = accData;
             this.options.groupIdToName = idToName;
+            this.options.accounts = accounts;
+            this.options.groups = groups;
+            this.options.subGroups = subGroups;
           } else {
             this.$bvToast.toast('Failed to fetch Accounts', {
               variant: 'danger',
@@ -398,40 +516,73 @@ export default {
       history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
       // instead of creating a new history instances for every entity selected
     },
+    closeAllCards() {
+      const acc = this.options.accData;
+      this.options.groups.forEach((group) => {
+        if (acc[group.text]) {
+          acc[group.text].open = false;
+        }
+      });
+    },
+    openCard(groupId, subGroupId, accId) {
+      const self = this;
+      const acc = self.options.accData;
+      const idToName = self.options.groupIdToName;
+      let gname = idToName[groupId];
+      let sgname = idToName[subGroupId];
+      if (acc[gname]) {
+        acc[gname].open = true;
+        if (acc[gname].subGroups[sgname]) {
+          acc[gname].subGroups[sgname].open = true;
+        }
+      }
+      this.$forceUpdate();
+      this.$nextTick().then(() => {
+        let openDom = document.getElementById(`g-${groupId}`);
+        if (acc[gname]) {
+          if (acc[gname].subGroups[sgname]) {
+            openDom = document.getElementById(`sg-${subGroupId}`);
+            if (accId) {
+              if (acc[gname].subGroups[sgname].accounts[accId]) {
+                openDom = document.getElementById(`acc-${accId}`);
+              }
+            }
+          }
+        }
+        if (openDom) {
+          window.setTimeout(() => {
+            openDom.scrollIntoView({ block: 'center', inline: 'nearest' });
+          }, 500);
+        }
+      });
+    },
+    openSearchedCard(subGroupFlag, accountFlag) {
+      if (!(subGroupFlag || accountFlag)) {
+        return;
+      }
+      let accCode = this.searchBy.account;
+      let sgCode = this.searchBy.subGroup;
+      if (accountFlag && accCode) {
+        let account = this.accounts.filter((acc) => acc.value === accCode)[0];
+        if (account) {
+          this.closeAllCards();
+          this.openCard(account.group, account.subGroup, accCode);
+        }
+      } else if (subGroupFlag && sgCode) {
+        let subGroup = this.subGroups.filter((sg) => sg.value === sgCode)[0];
+        if (subGroup) {
+          this.closeAllCards();
+          this.openCard(subGroup.group, sgCode);
+        }
+      }
+    },
   },
   mounted() {
     const self = this;
     this.getAccountsList().then(() => {
       // open the group and subgroup from URL
       if (self.group) {
-        const idToName = self.options.groupIdToName;
-        const acc = self.options.accData;
-        let gname = idToName[self.group];
-        let sgname = idToName[self.subGroup];
-        let accId = self.acc;
-        if (acc[gname]) {
-          acc[gname].open = true;
-          if (acc[gname].subGroups[sgname]) {
-            acc[gname].subGroups[sgname].open = true;
-          }
-        }
-        self.$forceUpdate();
-        self.$nextTick().then(() => {
-          let openDom = document.getElementById(`g-${self.group}`);
-          if (acc[gname]) {
-            if (acc[gname].subGroups[sgname]) {
-              openDom = document.getElementById(`sg-${self.subGroup}`);
-              if (accId) {
-                if (acc[gname].subGroups[sgname].accounts[accId]) {
-                  openDom = document.getElementById(`acc-${accId}`);
-                }
-              }
-            }
-          }
-          window.setTimeout(() => {
-            openDom.scrollIntoView(true);
-          }, 500)
-        });
+        self.openCard(self.group, self.subGroup, self.acc);
       }
     });
   },
