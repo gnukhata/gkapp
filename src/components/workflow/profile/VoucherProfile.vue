@@ -1,9 +1,11 @@
 <template>
   <b-container fluid>
+    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+    </b-overlay>
     <div v-if="deletedFlag">
       <span class="float-right h5 p-2 bg-danger text-white">Cancelled</span>
       <div class="clearfix"></div>
-      <br>
+      <br />
     </div>
     <div class="text-right mb-3">
       <b>{{ voucher.date }}</b>
@@ -61,6 +63,8 @@ export default {
     pdata: {
       type: Object,
       required: true,
+      note:
+        'parent data. This is data sent from the parent component about this Voucher Profile',
     },
     onUpdate: {
       type: Function,
@@ -82,6 +86,7 @@ export default {
   },
   data() {
     return {
+      isPreloading: false,
       tableFields: ['account', 'dr', 'cr'],
       voucher: {
         content: [],
@@ -125,7 +130,7 @@ export default {
                     activity: `${self.type} voucher deleted: ${self.no}`,
                   };
                   axios.post('/log', log);
-                  
+
                   self.displayToast(
                     `Voucher Delete success!`,
                     `${self.type} Voucher : ${self.no}, deleted successfully.`,
@@ -185,7 +190,7 @@ export default {
       });
     },
     fetchAndUpdateData() {
-      this.getDetails().then((response) => {
+      return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
           case 0:
             // this.invoice = response.data.gkresult;
@@ -227,17 +232,35 @@ export default {
   },
   watch: {
     id: function(id) {
-      if (id && !this.pdata.deletedFlag) this.fetchAndUpdateData();
+      if (id && !this.pdata.deletedFlag) {
+        this.isPreloading = true;
+        this.fetchAndUpdateData()
+          .then(() => {
+            this.isPreloading = false;
+          })
+          .catch(() => {
+            this.isPreloading = false;
+          });
+      }
     },
     pdata: function(data) {
-      if(data.deletedFlag) {
+      if (data.deletedFlag) {
         this.formatVoucherDetails(data);
       }
-    }
+    },
   },
   mounted() {
-    if (this.id && !this.deletedFlag) {
-      this.fetchAndUpdateData();
+    if (this.id && !this.pdata.deletedFlag) {
+      this.isPreloading = true;
+      this.fetchAndUpdateData()
+        .then(() => {
+          this.isPreloading = false;
+        })
+        .catch(() => {
+          this.isPreloading = false;
+        });
+    } else if (this.pdata.deletedFlag) {
+      this.formatVoucherDetails(this.pdata);
     }
   },
 };

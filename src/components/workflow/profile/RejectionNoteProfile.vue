@@ -1,5 +1,7 @@
 <template>
   <b-container fluid>
+    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+    </b-overlay>
     <b-row>
       <b-col>
         <h5>{{ party.isCustomer ? 'Customer' : 'Supplier' }} Details</h5>
@@ -90,6 +92,7 @@ export default {
   },
   data() {
     return {
+      isPreloading: false,
       rnote: {
         date: '',
         contents: [],
@@ -184,7 +187,7 @@ export default {
         });
     },
     fetchAndUpdateData() {
-      this.getDetails().then((response) => {
+      return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
           case 0:
             // this.invoice = response.data.gkresult;
@@ -217,13 +220,29 @@ export default {
     },
   },
   watch: {
-    id: function (id) {
-      if (id) this.fetchAndUpdateData();
+    id: function(id) {
+      if (id) {
+        this.isPreloading = true;
+        this.fetchAndUpdateData()
+          .then(() => {
+            this.isPreloading = false;
+          })
+          .catch(() => {
+            this.isPreloading = false;
+          });
+      }
     },
   },
   mounted() {
     if (this.id) {
-      this.fetchAndUpdateData();
+      this.isPreloading = true;
+      this.fetchAndUpdateData()
+        .then(() => {
+          this.isPreloading = false;
+        })
+        .catch(() => {
+          this.isPreloading = false;
+        });
     }
   },
 };

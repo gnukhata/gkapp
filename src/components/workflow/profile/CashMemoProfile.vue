@@ -1,5 +1,7 @@
 <template>
   <b-container fluid>
+    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+    </b-overlay>
     <div class="text-right mb-3">
       <b>{{ invoice.date }}</b>
     </div>
@@ -144,6 +146,7 @@ export default {
   },
   data() {
     return {
+      isPreloading: false,
       vouchers: [],
       showVouchers: false,
       invoice: {
@@ -177,7 +180,7 @@ export default {
       return rowClass;
     },
     getVouchers() {
-      axios
+      return axios
         .get(`/transaction?searchby=invoice&invid=${this.id}`)
         .then((resp) => {
           // TODO: Add Project support
@@ -300,7 +303,7 @@ export default {
         });
     },
     fetchAndUpdateData() {
-      this.getDetails().then((response) => {
+      return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
           case 0:
             // this.invoice = response.data.gkresult;
@@ -336,15 +339,27 @@ export default {
       if (id) {
         this.showVouchers = false;
         this.vouchers = [];
-        this.fetchAndUpdateData();
-        this.getVouchers();
+        this.isPreloading = true;
+        Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
+          .then(() => {
+            this.isPreloading = false;
+          })
+          .catch(() => {
+            this.isPreloading = false;
+          });
       }
     },
   },
   mounted() {
     if (this.id) {
-      this.fetchAndUpdateData();
-      this.getVouchers();
+      this.isPreloading = true;
+      Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
+        .then(() => {
+          this.isPreloading = false;
+        })
+        .catch(() => {
+          this.isPreloading = false;
+        });
     }
   },
 };

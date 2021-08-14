@@ -1,5 +1,7 @@
 <template>
   <b-container fluid>
+    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+    </b-overlay>
     <b-row>
       <b-col cols="12" md="6" class="my-2">
         <h5>{{ this.flags.credit ? 'Cr' : 'Dr' }} Note Details</h5>
@@ -88,6 +90,7 @@ export default {
   },
   data() {
     return {
+      isPreloading: false,
       dcNote: {
         dcItems: [],
         date: '',
@@ -135,8 +138,17 @@ export default {
     },
   },
   watch: {
-    id: function (id) {
-      if (id) this.fetchAndUpdateData();
+    id: function(id) {
+      if (id) {
+        this.isPreloading = true;
+        this.fetchAndUpdateData()
+          .then(() => {
+            this.isPreloading = false;
+          })
+          .catch(() => {
+            this.isPreloading = false;
+          });
+      }
     },
   },
   methods: {
@@ -202,7 +214,7 @@ export default {
         });
     },
     fetchAndUpdateData() {
-      this.getDetails().then((response) => {
+      return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
           case 0:
             // this.invoice = response.data.gkresult;
@@ -234,7 +246,14 @@ export default {
   },
   mounted() {
     if (this.id) {
-      this.fetchAndUpdateData();
+      this.isPreloading = true;
+      this.fetchAndUpdateData()
+        .then(() => {
+          this.isPreloading = false;
+        })
+        .catch(() => {
+          this.isPreloading = false;
+        });
     }
   },
 };

@@ -1,5 +1,7 @@
 <template>
   <b-container fluid>
+    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+    </b-overlay>
     <b-row>
       <b-col order="2" order-md="1">
         <b-container fluid class="pl-0">
@@ -117,6 +119,7 @@ export default {
   },
   data() {
     return {
+      isPreloading: false,
       cancelFlag: false,
       no: '',
       isSale: false,
@@ -290,7 +293,7 @@ export default {
         });
     },
     fetchAndUpdateData() {
-      this.getDetails().then((response) => {
+      return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
           case 0:
             // this.invoice = response.data.gkresult;
@@ -333,12 +336,28 @@ export default {
   },
   watch: {
     id: function(id) {
-      if (id) this.fetchAndUpdateData();
+      if (id) {
+        this.isPreloading = true;
+        this.fetchAndUpdateData()
+          .then(() => {
+            this.isPreloading = false;
+          })
+          .catch(() => {
+            this.isPreloading = false;
+          });
+      }
     },
   },
   mounted() {
     if (this.id) {
-      this.fetchAndUpdateData();
+      this.isPreloading = true;
+      this.fetchAndUpdateData()
+        .then(() => {
+          this.isPreloading = false;
+        })
+        .catch(() => {
+          this.isPreloading = false;
+        });
     }
   },
 };

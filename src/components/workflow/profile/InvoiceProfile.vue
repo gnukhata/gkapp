@@ -1,5 +1,7 @@
 <template>
   <b-container fluid>
+    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
+    </b-overlay>
     <div v-if="deletedFlag">
       <span class="float-right h5 p-2 bg-danger text-white">Cancelled</span>
       <div class="clearfix"></div>
@@ -88,7 +90,12 @@
     <b-collapse v-model="showVouchers" id="voucher-container">
       <b>Vouchers:</b>
       <div v-if="vouchers.length">
-        <b-card class="mb-2" v-for="voucher in vouchers" :key="voucher.id" body-class="p-1">
+        <b-card
+          class="mb-2"
+          v-for="voucher in vouchers"
+          :key="voucher.id"
+          body-class="p-1"
+        >
           <div class="text-center m-1 mb-2">
             <span class="float-left"> Voucher No: {{ voucher.no }} </span>
             <span> {{ voucher.type }} </span>
@@ -137,6 +144,7 @@ export default {
   },
   data() {
     return {
+      isPreloading: false,
       invoice: {
         date: '',
         party: {
@@ -192,7 +200,7 @@ export default {
       return rowClass;
     },
     getVouchers() {
-      axios
+      return axios
         .get(`/transaction?searchby=invoice&invid=${this.id}`)
         .then((resp) => {
           // TODO: Add Project support
@@ -387,7 +395,7 @@ export default {
       });
     },
     fetchAndUpdateData() {
-      this.getDetails().then((response) => {
+      return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
           case 0:
             // this.invoice = response.data.gkresult;
@@ -420,18 +428,30 @@ export default {
   watch: {
     id(newId) {
       if (newId) {
+        this.isPreloading = true;
         this.showVouchers = false;
         this.vouchers = [];
-        this.fetchAndUpdateData();
-        this.getVouchers();
+        Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
+          .then(() => {
+            this.isPreloading = false;
+          })
+          .catch(() => {
+            this.isPreloading = false;
+          });
       }
     },
   },
   mounted() {
     // console.log("mounted")
     if (this.id) {
-      this.fetchAndUpdateData();
-      this.getVouchers();
+      this.isPreloading = true;
+      Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
+        .then(() => {
+          this.isPreloading = false;
+        })
+        .catch(() => {
+          this.isPreloading = false;
+        });
     }
   },
 };
