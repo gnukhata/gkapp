@@ -67,7 +67,7 @@
       <b-row>
         <b-col
           cols="12"
-          :lg="gdata.open ? 8 : 4"
+          :lg="gdata.open ? 12 : 4"
           v-for="(gdata, gname) in options.accData"
           :key="gdata.id"
           class="p-1 "
@@ -143,7 +143,9 @@
                                 class="my-1"
                                 body-class="p-2"
                               >
-                                {{ accData.name }}
+                                <span>
+                                  {{ accData.name }}
+                                </span>
                                 <div class="d-inline-block float-right">
                                   <b-button
                                     v-if="accData.sysFlag === 0"

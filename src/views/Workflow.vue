@@ -1152,7 +1152,7 @@ export default {
         } else {
           self.leftHeaderHeight.max = 0;
         }
-        this.updateListHeight();
+        // this.updateListHeight();
       }, 650);
     },
   },
@@ -1374,7 +1374,7 @@ export default {
         this.updateUrl();
       }
     },
-    setSelectedEntity(entity, index, skipUpdate) {
+    setSelectedEntity(entity, index, skipUpdate, scrollIntoView) {
       // remove selected class from the last selected item
       let activeListContainerDom = document.querySelector(
         `div[data-name="workflow-list-${this.activeWorkflow.tabName}"]`
@@ -1399,7 +1399,7 @@ export default {
         `button:nth-child(${index + 1})`
       );
       selectedDom.classList.add('selected-data-list');
-      selectedDom.scrollIntoView();
+      if (scrollIntoView) selectedDom.scrollIntoView();
     },
     /** Update the URL based on current entity selected */
     updateUrl() {
@@ -2055,7 +2055,12 @@ export default {
             let key = tab.uidKey;
             let entityIndex = tab.data.findIndex((item) => item[key] === wfId);
             if (entityIndex >= 0) {
-              self.setSelectedEntity(tab.data[entityIndex], entityIndex, true);
+              self.setSelectedEntity(
+                tab.data[entityIndex],
+                entityIndex,
+                true,
+                true
+              );
             }
           });
         }
