@@ -1,92 +1,104 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import OrgProfile from '@/views/OrgProfile.vue'
-import Logs from '@/views/Logs.vue'
-import CloseBooks from '@/views/CloseBooks.vue'
-import UserManagement from '@/views/UserManagement.vue'
-import UOM from '@/views/UOM.vue'
-import ResetPassword from '@/views/ResetPassword.vue'
-import Categories from '@/views/Categories.vue'
-import AddCategory from '@/views/AddCategory.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import OrgProfile from '@/views/OrgProfile.vue';
+import Logs from '@/views/Logs.vue';
+import CloseBooks from '@/views/CloseBooks.vue';
+import UserManagement from '@/views/UserManagement.vue';
+import UOM from '@/views/UOM.vue';
+import ResetPassword from '@/views/ResetPassword.vue';
+import Categories from '@/views/Categories.vue';
+import AddCategory from '@/views/AddCategory.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
-
+    component: () =>
+      import(/* webpackChunkName: "login" */ '../views/Login.vue'),
   },
   {
     path: '/select-org',
     name: 'Select Organisation',
-    component: () => import(/* webpackChunkName: "select-org" */ '../views/SelectOrg.vue')
+    component: () =>
+      import(/* webpackChunkName: "select-org" */ '../views/SelectOrg.vue'),
   },
   {
     path: '/server-setup',
     name: 'Server Setup',
-    component: () => import(/* webpackChunkName: "server-setup" */ '../views/ServerSetup.vue')
+    component: () =>
+      import(/* webpackChunkName: "server-setup" */ '../views/ServerSetup.vue'),
   },
   {
     path: '/orgprofile',
     name: 'Organisation Profile',
-    component: OrgProfile
+    component: OrgProfile,
   },
   {
     path: '/logs',
     name: 'Organisation Logs',
-    component: Logs
+    component: Logs,
   },
   {
     path: '/users',
     name: 'User Management',
-    component: UserManagement
+    component: UserManagement,
   },
   {
     path: '/users/add',
     name: 'User Add',
-    component: () => import(/* webpackChunkName: "useradd" */ '../components/form/AddUser.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "useradd" */ '../components/form/AddUser.vue'
+      ),
   },
   {
     path: '/users/:id',
     name: 'User Edit',
-    component: () => import(/* webpackChunkName: "useredit" */ '../components/form/EditUser.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "useredit" */ '../components/form/EditUser.vue'
+      ),
   },
   {
     path: '/closebooks',
     name: 'Close Books & Roll Over',
-    component: CloseBooks
+    component: CloseBooks,
   },
   {
     path: '/uom',
     name: 'UnitOfMeasurement',
-    component: UOM
+    component: UOM,
   },
   {
     path: '/uom/add',
     name: 'Unit Add',
-    component: () => import(/* webpackChunkName: "uomadd" */ '../components/form/AddUOM.vue')
+    component: () =>
+      import(/* webpackChunkName: "uomadd" */ '../components/form/AddUOM.vue'),
   },
   {
     path: '/uom/:id',
     name: 'Unit Edit',
-    component: () => import(/* webpackChunkName: "uomedit" */ '../components/form/EditUOM.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "uomedit" */ '../components/form/EditUOM.vue'
+      ),
   },
   {
     path: '/resetpassword',
     name: 'Reset Password',
-    component: ResetPassword
+    component: ResetPassword,
   },
   {
     path: '/categories',
     name: 'Categories',
-    component: Categories
+    component: Categories,
   },
   {
     path: '/categories/add',
     name: 'Add Category',
-    component: AddCategory
+    component: AddCategory,
   },
   {
     path: '/stock-on-hand',
@@ -94,7 +106,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "stockonhand" */ '../views/StockOnHand.vue')
+    component: () =>
+      import(/* webpackChunkName: "stockonhand" */ '../views/StockOnHand.vue'),
   },
   {
     path: '/categorywise-stock-on-hand',
@@ -102,7 +115,10 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "catstockonhand" */ '../views/CategorywiseStockOnHand.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "catstockonhand" */ '../views/CategorywiseStockOnHand.vue'
+      ),
   },
   {
     path: '/registers',
@@ -110,7 +126,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "registers" */ '../views/Registers.vue')
+    component: () =>
+      import(/* webpackChunkName: "registers" */ '../views/Registers.vue'),
   },
   {
     path: '/cost-center-statement',
@@ -118,7 +135,10 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "costcenterstatement" */ '../components/CostCenterStatement.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "costcenterstatement" */ '../components/CostCenterStatement.vue'
+      ),
   },
   {
     path: '/product-register',
@@ -126,7 +146,10 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "productregister" */ '../components/ProductRegister.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "productregister" */ '../components/ProductRegister.vue'
+      ),
   },
   {
     path: '/costcenter',
@@ -134,7 +157,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "costcenter" */ '../views/CostCenter.vue')
+    component: () =>
+      import(/* webpackChunkName: "costcenter" */ '../views/CostCenter.vue'),
   },
   {
     path: '/godowns',
@@ -142,7 +166,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "godowns" */ '../views/Godowns.vue')
+    component: () =>
+      import(/* webpackChunkName: "godowns" */ '../views/Godowns.vue'),
   },
   {
     path: '/godowns/add',
@@ -150,7 +175,10 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "addgodown" */ '../components/form/Godown.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "addgodown" */ '../components/form/Godown.vue'
+      ),
   },
   {
     path: '/godowns/:id',
@@ -158,7 +186,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "editgodown" */ '../views/GodownEdit.vue')
+    component: () =>
+      import(/* webpackChunkName: "editgodown" */ '../views/GodownEdit.vue'),
   },
   {
     path: '/about',
@@ -166,7 +195,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
   {
     path: '/dashboard',
@@ -174,7 +204,8 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Home.vue')
+    component: () =>
+      import(/* webpackChunkName: "dashboard" */ '../views/Home.vue'),
   },
   {
     path: '/createorg',
@@ -182,141 +213,199 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "createorg" */ '../views/CreateOrganisation.vue')
+    component: () =>
+      import(
+        /* webpackChunkName: "createorg" */ '../views/CreateOrganisation.vue'
+      ),
   },
   {
-    path: '/workflow/:wfName/:wfId',// wf -> workflow
+    path: '/workflow/:wfName/:wfId', // wf -> workflow
     name: 'Workflow',
-    component: () => import(/* webpackChunkName: "workflow" */ '../views/Workflow.vue'),
-    props: true
+    component: () =>
+      import(/* webpackChunkName: "workflow" */ '../views/Workflow.vue'),
+    props: true,
   },
   {
     path: '/contact-details/:mode',
     name: 'Contact_Details',
-    component: () => import(/* webpackChunkName: "contact_details" */ '../views/ContactDetails.vue'),
-    props: true
+    component: () =>
+      import(
+        /* webpackChunkName: "contact_details" */ '../views/ContactDetails.vue'
+      ),
+    props: true,
   },
   {
     path: '/business-details/:mode',
     name: 'Business_Details',
-    component: () => import(/* webpackChunkName: "business_details" */ '../views/BusinessDetails.vue'),
-    props: true
+    component: () =>
+      import(
+        /* webpackChunkName: "business_details" */ '../views/BusinessDetails.vue'
+      ),
+    props: true,
   },
   {
     path: '/invoice/:mode/:invid',
     name: 'Invoice',
-    component: () => import(/* webpackChunkName: "invoice" */ '../views/Transactions/Invoice.vue'),
-    props: true
+    component: () =>
+      import(
+        /* webpackChunkName: "invoice" */ '../views/Transactions/Invoice.vue'
+      ),
+    props: true,
   },
   {
     path: '/voucher/create/:type/:customer',
     name: 'Create_Voucher',
-    component: () => import(/* webpackChunkName: "createvoucher" */ '../views/CreateVoucher.vue'),
-    props: true
+    component: () =>
+      import(
+        /* webpackChunkName: "createvoucher" */ '../views/CreateVoucher.vue'
+      ),
+    props: true,
   },
   {
     path: '/voucher/edit/:vid',
     name: 'Edit_Voucher',
-    component: () => import(/* webpackChunkName: "voucheredit" */ '../views/VoucherEdit.vue'),
-    props: true
+    component: () =>
+      import(/* webpackChunkName: "voucheredit" */ '../views/VoucherEdit.vue'),
+    props: true,
   },
   {
     path: '/billwise/:custType/:custName',
     name: 'Billwise',
-    component: () => import(/* webpackChunkName: "billwise" */ '../views/Billwise.vue'),
-    props: true
+    component: () =>
+      import(/* webpackChunkName: "billwise" */ '../views/Billwise.vue'),
+    props: true,
   },
   {
     path: '/delivery-note/:mode/:invid',
     name: 'Delivery_Note',
-    component: () => import(/* webpackChunkName: "delivery_note" */ '../views/Transactions/DeliveryNote.vue'),
-    props: true
+    component: () =>
+      import(
+        /* webpackChunkName: "delivery_note" */ '../views/Transactions/DeliveryNote.vue'
+      ),
+    props: true,
   },
   {
     path: '/cash-memo',
     name: 'Cash_Memo',
-    component: () => import(/* webpackChunkName: "cash_memo" */ '../views/Transactions/CashMemo.vue'),
+    component: () =>
+      import(
+        /* webpackChunkName: "cash_memo" */ '../views/Transactions/CashMemo.vue'
+      ),
   },
   {
     path: '/ps-order',
     name: 'Purchase_Sales_Order',
-    component: () => import(/* webpackChunkName: "ps_order" */ '../views/Transactions/PurchaseSaleOrder.vue'),
+    component: () =>
+      import(
+        /* webpackChunkName: "ps_order" */ '../views/Transactions/PurchaseSaleOrder.vue'
+      ),
   },
   {
     path: '/dc-note',
     name: 'Debit_Credit_Note',
-    component: () => import(/* webpackChunkName: "dc_note" */ '../views/Transactions/DebitCreditNote.vue'),
+    component: () =>
+      import(
+        /* webpackChunkName: "dc_note" */ '../views/Transactions/DebitCreditNote.vue'
+      ),
   },
   {
     path: '/transfer-note',
     name: 'Transfer_Note',
-    component: () => import(/* webpackChunkName: "transfer_note" */ '../views/Transactions/TransferNote.vue'),
+    component: () =>
+      import(
+        /* webpackChunkName: "transfer_note" */ '../views/Transactions/TransferNote.vue'
+      ),
   },
   {
     path: '/rejection-note',
     name: 'Rejection_Note',
-    component: () => import(/* webpackChunkName: "rejection_note" */ '../views/Transactions/RejectionNote.vue'),
+    component: () =>
+      import(
+        /* webpackChunkName: "rejection_note" */ '../views/Transactions/RejectionNote.vue'
+      ),
   },
   {
     path: '/accounts/:group/:subGroup/:acc',
     name: 'Accounts',
-    component: () => import(/* webpackChunkName: "accounts-all" */ '../views/Accounts.vue'),
-    props: true
+    component: () =>
+      import(/* webpackChunkName: "accounts-all" */ '../views/Accounts.vue'),
+    props: true,
   },
   {
     path: '/account/create/:group/:subGroup',
     name: 'Create_Account',
-    component: () => import(/* webpackChunkName: "create-account" */ '../views/AccountCreate.vue'),
-    props: true
+    component: () =>
+      import(
+        /* webpackChunkName: "create-account" */ '../views/AccountCreate.vue'
+      ),
+    props: true,
   },
   {
     path: '/account/edit/:id/:sysFlag',
     name: 'Edit_Account',
-    component: () => import(/* webpackChunkName: "edit-account" */ '../views/AccountEdit.vue'),
-    props: true
+    component: () =>
+      import(/* webpackChunkName: "edit-account" */ '../views/AccountEdit.vue'),
+    props: true,
   },
   {
     path: '/product-list',
-    name: "Product List",
-    component: () => import(/* webpackChunkName: "product-list" */ '../views/ProductList.vue'),
+    name: 'Product List',
+    component: () =>
+      import(/* webpackChunkName: "product-list" */ '../views/ProductList.vue'),
   },
   {
     path: '/contact-list',
-    name: "Contact List",
-    component: () => import(/* webpackChunkName: "contact-list" */ '../views/ContactList.vue'),
+    name: 'Contact List',
+    component: () =>
+      import(/* webpackChunkName: "contact-list" */ '../views/ContactList.vue'),
   },
   {
     path: '/budgets/:type/:id',
     name: 'Budget',
-    component: () => import(/* webpackChunkName: "budget" */ '../views/Budget.vue'),
-    props: true
+    component: () =>
+      import(/* webpackChunkName: "budget" */ '../views/Budget.vue'),
+    props: true,
   },
   {
     path: '/budget/create/:type',
     name: 'Create_Budget',
-    component: () => import(/* webpackChunkName: "create_budget" */ '../views/BudgetCreate.vue'),
-    props: true
+    component: () =>
+      import(
+        /* webpackChunkName: "create_budget" */ '../views/BudgetCreate.vue'
+      ),
+    props: true,
   },
   {
     path: '/budget/edit/:id',
     name: 'Edit_Budget',
-    component: () => import(/* webpackChunkName: "edit_budget" */ '../views/BudgetEdit.vue'),
-    props: true
+    component: () =>
+      import(/* webpackChunkName: "edit_budget" */ '../views/BudgetEdit.vue'),
+    props: true,
   },
   {
     path: '/profit-loss',
     name: 'Profit & Loss',
-    component: () => import(/* webpackChunkName: "profit-loss" */ '../views/ProfitLoss.vue'),
+    component: () =>
+      import(/* webpackChunkName: "profit-loss" */ '../views/ProfitLoss.vue'),
   },
   {
     path: '/cash-flow',
     name: 'Cash Flow',
-    component: () => import(/* webpackChunkName: "cash-flow" */ '../views/CashFlow.vue'),
+    component: () =>
+      import(/* webpackChunkName: "cash-flow" */ '../views/CashFlow.vue'),
   },
-]
+  {
+    path: '/trial-balance',
+    name: 'Trial Balance',
+    component: () =>
+      import(
+        /* webpackChunkName: "trial-balance" */ '../views/TrialBalance.vue'
+      ),
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

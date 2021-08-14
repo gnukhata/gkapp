@@ -107,6 +107,9 @@
           <b-nav-item to="/cash-flow">
             <b-icon icon="wallet"></b-icon> Cash Flow
           </b-nav-item>
+          <b-nav-item to="/trial-balance">
+            <b-icon icon="wallet"></b-icon> Trial Balance
+          </b-nav-item>
           <b-nav-item to="/about">
             <b-icon icon="info-circle"></b-icon> About
           </b-nav-item>
