@@ -77,7 +77,7 @@ export default {
 
       printWindow.document.open();
       printWindow.document.write(`<html><head><style>${styles}</style></head>`);
-      printWindow.document.write(`<body>${printContent}</body>`);
+      printWindow.document.write(`<body class="px-5">${printContent}</body>`);
       printWindow.document.write(`</html>`);
       printWindow.document.close();
 
