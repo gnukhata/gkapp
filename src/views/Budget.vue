@@ -75,16 +75,30 @@
           <span> {{ budName }} ({{ fromDate }} to {{ toDate }}) </span>
         </small>
       </u>
-      <div class="float-right">
-        <div>
+      <div>
+        <div class="float-left">
+          <b-button
+            @click="openTableRow(-1, null, !expandAllRows)"
+            class="p-2"
+            variant="dark"
+            size="sm"
+          >
+            <b-icon
+              class="float-right"
+              font-scale="0.95"
+              :icon="expandAllRows ? 'dash' : 'arrows-fullscreen'"
+            ></b-icon>
+          </b-button>
           <print-helper
             name="Budget Report"
             contentId="budget-table-container"
             :printStyles="printStyles"
           ></print-helper>
+        </div>
+        <div class="float-right">
           <b-button
             @click="expandTable = !expandTable"
-            class="p-2"
+            class="p-2 m-1 d-sm-none"
             variant="dark"
             size="sm"
           >
@@ -95,6 +109,7 @@
             ></b-icon>
           </b-button>
         </div>
+        <div class="clearfix"></div>
       </div>
     </div>
 
@@ -125,7 +140,12 @@
       >
         <template #cell(name)="data">
           <div class="text-right position-relative">
-            <div class="position-relative" v-b-toggle="`bl-${data.item.name}`">
+            <div
+              class="position-relative"
+              @click="openTableRow(data.index, data.item.isOpen, false)"
+              v-b-toggle="`bl-${data.item.name}`"
+            >
+              <!--  -->
               <b-icon
                 font-scale="0.8"
                 :style="{ left: '0px', top: '0px' }"
@@ -187,6 +207,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import {debounceEvent} from '../js/utils.js';
 import axios from 'axios';
 import Autocomplete from '../components/Autocomplete.vue';
 import ReportHeader from '../components/ReportHeader.vue';
@@ -332,7 +353,7 @@ export default {
           actual: [],
           var: [],
           varPercent: [],
-          isOpen: true,
+          isOpen: false,
           isCardOpen: false,
         };
         let nameKey = isCash ? 'accountname' : 'name';
@@ -538,6 +559,16 @@ export default {
       history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
       // instead of creating a new history instances for every entity selected
     },
+    openTableRow(index, openFlag, openAll) {
+      // close all rows
+      this.expandAllRows = !!openAll;
+      this.report.forEach((row) => {
+        row.isOpen = this.expandAllRows;
+      });
+      if (index >= 0) {
+        this.report[index].isOpen = !!openFlag;
+      }
+    },
   },
   mounted() {
     // this.fromDate = this.dateReverse(this.yearStart);
@@ -552,6 +583,11 @@ export default {
         self.onBudgetFilterUpdate();
       });
     });
+
+    self.expandTable = window.innerWidth > 575;
+    debounceEvent(window, 'resize', () => {
+      self.expandTable = window.innerWidth > 575;
+    }, 100);
   },
 };
 </script>
