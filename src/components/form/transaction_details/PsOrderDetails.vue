@@ -484,15 +484,16 @@ export default {
     },
     resetForm() {
       const self = this;
-      this.setOrgDetails();
-      setTimeout(function () {
+      this.$forceUpdate();
+      this.$nextTick().then(() => {
+        self.setOrgDetails();
         self.form.date = self.getNoteDate();
-      });
-      this.form.terms = null;
-      this.form.creditPeriod = null;
-      this.form.godown = null;
-      this.setNoteNo(true);
-      this.onUpdateDetails();
+        self.form.terms = null;
+        self.form.creditPeriod = null;
+        self.form.godown = null;
+        self.setNoteNo(true);
+        self.onUpdateDetails();
+      })
     },
   },
   mounted() {
