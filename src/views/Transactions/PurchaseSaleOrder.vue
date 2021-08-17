@@ -489,7 +489,7 @@ export default {
       return orderData;
     },
     confirmOnSubmit() {
-      this.updateCounter.psOrder++;
+      // this.updateCounter.psOrder++;
       const self = this;
       let text = `Create ${this.isSale ? 'Sale' : 'Purchase'} Order (${
         this.form.psOrder.no

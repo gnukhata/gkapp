@@ -394,7 +394,7 @@ export default {
       return { invoice, stock };
     },
     confirmOnSubmit() {
-      this.updateCounter.memo++;
+      // this.updateCounter.memo++;
       const self = this;
       let text = `Create Cash Memo (${this.form.memo.no}) for ${
         this.isSale ? 'Sale' : 'Purchase'

@@ -504,7 +504,7 @@ export default {
   },
   methods: {
     confirmOnSubmit() {
-      this.updateCounter.inv++;
+      // this.updateCounter.inv++;
       const self = this;
       let text = `Create ${this.isSale ? 'Sale' : 'Purchase'} Invoice (${
         this.form.inv.no

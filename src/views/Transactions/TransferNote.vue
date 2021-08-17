@@ -206,7 +206,7 @@ export default {
       this.updateCounter.bill++;
     },
     confirmOnSubmit() {
-      this.updateCounter.transferNote++;
+      // this.updateCounter.transferNote++;
       const self = this;
       let text = `Create Transfer (${this.form.transferNote.no}) from Godown <b>${this.godownFrom}</b> to <b>${this.godownTo}</b>?`;
       let textDom = this.$createElement('div', {

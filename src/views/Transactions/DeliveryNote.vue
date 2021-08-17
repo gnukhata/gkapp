@@ -498,7 +498,7 @@ export default {
       return `${date.getFullYear()}-${month}-${day}`;
     },
     confirmOnSubmit() {
-      this.updateCounter.delNote++;
+      // this.updateCounter.delNote++;
       const self = this;
       let text = `Create Delivery Note (${this.form.delNote.no}) for ${
         this.isSale ? 'Sale' : 'Purchase'

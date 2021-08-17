@@ -419,8 +419,8 @@ export default {
       };
     },
     confirmOnSubmit() {
-      this.updateCounter.rnote++;
-      this.updateCounter.invoice++;
+      // this.updateCounter.rnote++;
+      // this.updateCounter.invoice++;
       const self = this;
       let text = `Create Rejection Note (${this.form.rnote.no}) for ${
         this.isSale ? 'Sale' : 'Purchase'

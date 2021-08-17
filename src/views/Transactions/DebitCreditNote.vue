@@ -353,8 +353,8 @@ export default {
       }
     },
     confirmOnSubmit() {
-      this.updateCounter.invoice++;
-      this.updateCounter.dcNote++;
+      // this.updateCounter.invoice++;
+      // this.updateCounter.dcNote++;
       const self = this;
       let text = `Create ${this.isCredit ? 'Credit' : 'Debit'} Note (${
         this.form.dcNote.no
