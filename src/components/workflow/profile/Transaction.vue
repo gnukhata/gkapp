@@ -66,3 +66,6 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+  @import "../../../scss/transaction_profile.scss";
+</style>

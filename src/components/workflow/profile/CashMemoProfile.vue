@@ -2,58 +2,82 @@
   <b-container fluid>
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
-    <div class="text-right mb-3">
-      <b>{{ invoice.date }}</b>
-    </div>
+    <b-row>
+      <b-col cols="12" md="6" class="my-2"> </b-col>
+      <b-col cols="12" md="6" class="text-md-right my-2">
+        <b>Cash Memo Details</b>
+        <br />
+        <!-- Note Details Table -->
+        <b-table-lite
+          :fields="['title', 'value']"
+          :items="memoData"
+          small
+          bordered
+          thead-class="d-none"
+          fixed
+          class="text-small"
+        ></b-table-lite>
+      </b-col>
+    </b-row>
+    <!-- Content Table -->
     <b-table-lite
       :items="invoice.invItems"
       :fields="tableFields"
       bordered
       head-variant="dark"
       stacked="sm"
+      small
+      striped
+      tbody-tr-class="content-table-row"
+      class="text-small"
     >
-      <template #cell(price)="data"> ₹ {{ data.value }} </template>
-      <template #cell(discount)="data"> ₹ {{ data.value }} </template>
-      <template #cell(cess)="data"> {{ data.value.rate }} % </template>
-      <template #cell(total)="data"> ₹ {{ data.value }} </template>
+      <template #cell(qty)="data">
+        {{ data.value }} <small> {{ data.item.uom }} </small>
+      </template>
+      <template #cell(price)="data"> {{ data.value }} </template>
+      <template #cell(discount)="data"> {{ data.value }} </template>
+      <template #cell(cess)="data">
+        {{ data.value.rate }} <small>%</small>
+      </template>
+      <template #cell(total)="data"> {{ data.value }} </template>
     </b-table-lite>
     <b-row>
       <b-col cols="12" md="6" class="my-2"> </b-col>
       <b-col cols="12" md="6" class="my-2">
-        <b-table-simple small>
-          <b-thead>
-            <b-tr>
-              <b-th>Total</b-th>
-              <b-th class="text-right">₹</b-th>
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr>
-              <b-th>Taxable</b-th>
-              <b-td class="text-right">{{ invoice.total.taxable }}</b-td>
-            </b-tr>
-            <b-tr v-if="!invoice.total.isIgst">
-              <b-th>CGST</b-th>
-              <b-td class="text-right">{{ invoice.total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="!invoice.total.isIgst">
-              <b-th>SGST</b-th>
-              <b-td class="text-right">{{ invoice.total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="invoice.total.isIgst">
-              <b-th>IGST</b-th>
-              <b-td class="text-right">{{ invoice.total.tax }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th>CESS</b-th>
-              <b-td class="text-right">{{ invoice.total.cess }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th>Cash Memo Value:</b-th>
-              <b-td class="text-right">{{ invoice.total.amount }}</b-td>
-            </b-tr>
-          </b-tbody>
-        </b-table-simple>
+        <!-- Total Table -->
+        <b-table-lite
+          :items="totalDetails"
+          :fields="[
+            { key: 'title', label: 'Total', tdClass: '' },
+            { key: 'value', label: '₹', class: 'text-right' },
+          ]"
+          small
+          fixed
+          class="text-small"
+        ></b-table-lite>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="12" md="6" class="my-2">
+        <b>Payment Details</b>
+        <div v-if="invoice.payment.mode > 2">
+          {{ invoice.payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
+        </div>
+        <div class="text-small" v-else>
+          Paid By Bank Transfer
+          <b-table-lite
+            :items="bankDetails"
+            :fields="['title', 'value']"
+            small
+            bordered
+            fixed
+            thead-class="d-none"
+          >
+          </b-table-lite>
+        </div>
+      </b-col>
+      <b-col cols="12" md="6" class="my-2">
+        <b> Narration: </b> {{ invoice.narration }}
       </b-col>
     </b-row>
     <div class="float-right my-2">
@@ -117,6 +141,47 @@ export default {
     },
   },
   computed: {
+    memoData: (self) => {
+      return [
+        { title: 'No.', value: self.invoice.number },
+        { title: 'Date', value: self.invoice.date },
+        { title: 'GSTIN', value: self.invoice.gstin },
+      ];
+    },
+    totalDetails: (self) => {
+      let total = self.invoice.total;
+      let details = [{ title: 'Taxable', value: total.taxable }];
+      if (self.invoice.isGst) {
+        if (total.isIgst) {
+          details.push({ title: 'IGST', value: total.tax });
+        } else {
+          details.push(
+            { title: 'CGST', value: total.tax },
+            { title: 'SGST', value: total.tax }
+          );
+        }
+        details.push({ title: 'CESS', value: total.cess });
+      } else {
+        details.push({ title: 'VAT', value: total.tax });
+      }
+      details.push(
+        {
+          title: `Cash Memo Value`,
+          value: total.amount,
+        },
+        { title: 'Total In Words', value: total.text }
+      );
+      return details;
+    },
+    bankDetails: (self) => {
+      let details = self.invoice.payment.bankDetails;
+      return [
+        { title: 'Acc No', value: details.accountno || '' },
+        { title: 'Bank', value: details.bankname || '' },
+        { title: 'Branch', value: details.branch || '' },
+        { title: 'IFSC', value: details.ifsc || '' },
+      ];
+    },
     tableFields: (self) => {
       let fields = [
         {
@@ -126,14 +191,14 @@ export default {
         'qty',
         {
           key: 'price',
-          label: 'Rate',
+          label: 'Rate (₹)',
         },
-        'discount',
+        { key: 'discount', label: 'Discount (₹)' },
         { key: 'igst', label: 'IGST %' },
         { key: 'cgst', label: 'CGST %' },
         { key: 'sgst', label: 'SGST %' },
         { key: 'cess', label: 'CESS %' },
-        'total',
+        { key: 'total', label: 'Total (₹)' },
       ];
       if (self.invoice.total.isIgst) {
         fields.splice(5, 2);
@@ -150,6 +215,10 @@ export default {
       vouchers: [],
       showVouchers: false,
       invoice: {
+        payment: {
+          mode: 2,
+          bankDetails: {},
+        },
         date: '',
         party: {
           csflag: '3', // 3 -> customer, 19 -> supplier
@@ -259,6 +328,13 @@ export default {
             isIgst: details.taxname === 'IGST',
           },
           number: details.invoiceno,
+          isGst: details.taxname !== 'VAT',
+          gstin: details.orgstategstin,
+          payment: {
+            mode: details.paymentmode,
+            bankDetails: details.bankdetails,
+          },
+          narration: details.narration,
         };
         if (details.invcontents) {
           let product = {};

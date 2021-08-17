@@ -6,36 +6,46 @@
       <b-col order="2" order-md="1">
         <b-container fluid class="pl-0">
           <b-col class="px-0">
-            <h5>Dispatch From</h5>
-            <b>{{ delnote.from.name }}</b> <br />
-            <span>{{ delnote.from.addr }}</span
-            ><br />
-            <span>{{ delnote.from.state }}</span
-            ><br />
-            <br />
+            <b>Dispatch From</b>
+            <p class="text-small">
+              <span> {{ delnote.from.name }}</span> <br />
+              <span> {{ delnote.from.addr }} </span> <br />
+              <span> {{ delnote.from.state }} </span> <br />
+              <span v-if="delnote.from.pin">
+                <b> Pin Code: </b> {{ delnote.from.pin }}
+              </span>
+              <br />
+            </p>
           </b-col>
           <b-col class="px-0">
-            <h5>Deliver To</h5>
-            <b>{{ delnote.to.name }}</b
-            ><br />
-            <span>{{ delnote.to.addr }}</span
-            ><br />
-            <span>{{ delnote.to.state }}</span
-            ><br /><br />
+            <b>Deliver To</b>
+            <p class="text-small">
+              <span> {{ delnote.to.name }} </span> <br />
+              <span> {{ delnote.to.addr }} </span> <br />
+              <span> {{ delnote.to.state }} </span> <br />
+              <span v-if="delnote.to.pin || delnote.to.gstin">
+                <span> <b> Pin Code: </b> {{ delnote.to.pin }} </span> <br />
+                <span> <b> GSTIN: </b> {{ delnote.to.gstin }} </span> <br />
+              </span>
+            </p>
           </b-col>
         </b-container>
       </b-col>
       <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
-        <h5>Delivery Note Details</h5>
-        Date:{{ delnote.date }} <br />
-        Supply Date: {{ delnote.supplyDate ? delnote.supplyDate : '-' }} <br />
-        Transport By : {{ delnote.transport.mode }} <br />
-        <span v-if="delnote.transport.vehicleNo">
-          Vehicle No : {{ delnote.transport.vehicleNo }} <br />
-        </span>
-        Package Count: {{ delnote.transport.packageQty }} <br /><br />
+        <b>Delivery Note Details</b>
+        <!-- Note Details Table -->
+        <b-table-lite
+          :fields="['title', 'value']"
+          :items="dnoteData"
+          small
+          bordered
+          thead-class="d-none"
+          fixed
+          class="text-small"
+        ></b-table-lite>
       </b-col>
     </b-row>
+    <!-- Content Table -->
     <b-table-lite
       :items="delnote.contents"
       :fields="tableFields"
@@ -43,45 +53,34 @@
       head-variant="dark"
       stacked="sm"
       :responsive="true"
+      small
+      striped
+      class="text-small"
+      tbody-tr-class="content-table-row"
     >
     </b-table-lite>
     <b-row>
       <b-col cols="12" md="6" class="my-2" order="2" order-md="1"> </b-col>
       <b-col cols="12" md="6" class="my-2" order="1" order-md="2">
-        <b-table-simple small>
-          <b-thead>
-            <b-tr>
-              <b-th>Total</b-th>
-              <b-th class="text-right">₹</b-th>
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr>
-              <b-th>Taxable</b-th>
-              <b-td class="text-right">{{ total.taxable }}</b-td>
-            </b-tr>
-            <b-tr v-if="!total.isIgst">
-              <b-th>CGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="!total.isIgst">
-              <b-th>SGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="total.isIgst">
-              <b-th>IGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th>CESS</b-th>
-              <b-td class="text-right">{{ total.cess }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th>Delivery Note Value</b-th>
-              <b-td class="text-right">{{ total.amount }}</b-td>
-            </b-tr>
-          </b-tbody>
-        </b-table-simple>
+        <!-- Total Table -->
+        <b-table-lite
+          :items="totalDetails"
+          :fields="[
+            { key: 'title', label: 'Total', tdClass: '' },
+            { key: 'value', label: '₹', class: 'text-right' },
+          ]"
+          fixed
+          small
+          class="text-small"
+        ></b-table-lite>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="12" md="6" class="my-2"> </b-col>
+      <b-col cols="12" md="6" class="my-2">
+        <p class="text-small">
+          <b> Narration: </b> <span> {{ delnote.narration }} </span> <br />
+        </p>
       </b-col>
     </b-row>
     <div class="float-right" v-if="cancelFlag">
@@ -94,11 +93,13 @@
         Delete
       </b-button>
     </div>
+    <br />
   </b-container>
 </template>
 
 <script>
 import axios from 'axios';
+import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'DeliveryNoteProfile',
   props: {
@@ -131,6 +132,8 @@ export default {
         supplyDate: '',
         from: {},
         to: {},
+        issuer: '',
+        designation: '',
       },
       party: {},
       total: {
@@ -139,6 +142,50 @@ export default {
     };
   },
   computed: {
+    dnoteData: (self) => {
+      let noteData = self.delnote;
+      let transport = noteData.transport;
+      let designation = self.delnote.designation
+        ? `(${self.delnote.designation})`
+        : '';
+      let data = [
+        { title: 'No.', value: noteData.no },
+        { title: 'Date', value: noteData.date },
+        { title: 'Supply Date.', value: noteData.supplyDate },
+        { title: 'Package Count', value: transport.packageQty },
+        { title: 'Mode of Transport', value: transport.mode },
+        { title: 'Vehicle No.', value: transport.vehicleNo },
+        {
+          title: 'Issued By',
+          value: `${self.delnote.issuer}  ${designation}`,
+        },
+      ];
+      if (!transport.mode) {
+        data.splice(5, 1);
+      }
+      return data;
+    },
+    totalDetails: (self) => {
+      let total = [{ title: 'Taxable', value: self.total.taxable }];
+      if (self.delnote.isGst) {
+        if (self.total.isIgst) {
+          total.push({ title: 'IGST', value: self.total.tax });
+        } else {
+          total.push(
+            { title: 'CGST', value: self.total.tax },
+            { title: 'SGST', value: self.total.tax }
+          );
+        }
+        total.push({ title: 'CESS', value: self.total.cess });
+      } else {
+        total.push({ title: 'VAT', value: self.total.tax });
+      }
+      total.push(
+        { title: 'Delivery Note Value', value: self.total.amount },
+        { title: 'Total In Words', value: self.total.text }
+      );
+      return total;
+    },
     tableFields: (self) => {
       let fields = [
         {
@@ -219,28 +266,34 @@ export default {
         });
     },
     formatDetails(details) {
-      this.no = details.delchaldata.dcno;
-      this.cancelFlag = !details.delchaldata.cancelFlag;
-      this.isSale = details.delchaldata.inoutflag === 15;
+      let noteData = details.delchaldata;
+      this.no = noteData.dcno;
+      this.cancelFlag = !noteData.cancelFlag;
+      this.isSale = noteData.inoutflag === 15;
       this.total = {
-        amount: details.delchaldata.delchaltotal,
+        amount: noteData.delchaltotal,
         isIgst: details.taxname === 'IGST',
         cess: details.totalcessamt,
         tax: details.totaltaxamt,
         discount: details.totaldiscount,
         taxable: details.totaltaxablevalue,
+        text: numberToRupees(noteData.delchaltotal),
       };
       this.delnote = {
+        isGst: details.taxname !== 'VAT',
         contents: [],
-        date: details.delchaldata.dcdate,
-        narration: details.delchaldata.dcnarration,
+        no: noteData.dcno,
+        date: noteData.dcdate,
+        narration: noteData.dcnarration,
         supplyDate: details.dateofsupply,
         transport: {
-          mode: details.delchaldata.modeoftransport,
+          mode: noteData.modeoftransport,
 
-          packageQty: details.delchaldata.noofpackages,
-          vehicleNo: details.delchaldata.vehicleno,
+          packageQty: noteData.noofpackages,
+          vehicleNo: noteData.vehicleno,
         },
+        issuer: noteData.issuername || '',
+        designation: noteData.designation || '',
       };
 
       let party = {
@@ -250,15 +303,24 @@ export default {
         pin: details.custSupDetails.pincode,
       };
 
-      let godown = {
-        name: details.delchaldata.goname,
-        addr: details.delchaldata.goaddr,
-        state: details.delchaldata.gostate,
+      let shipData = noteData.consignee || {};
+      let shipTo = {
+        name: shipData.consigneename || '',
+        addr: shipData.consigneeaddress || '',
+        state: shipData.consigneestate || '',
+        pin: shipData.consigneepincode || '',
+        gstin: shipData.gstinconsignee || '',
       };
 
-      if (details.delchaldata.inoutflag === 15) {
+      let godown = {
+        name: noteData.goname,
+        addr: noteData.goaddr,
+        state: noteData.gostate,
+      };
+
+      if (noteData.inoutflag === 15) {
         this.delnote.from = godown;
-        this.delnote.to = party;
+        this.delnote.to = shipTo.name ? shipTo : party;
       } else {
         this.delnote.from = party;
         this.delnote.to = godown;

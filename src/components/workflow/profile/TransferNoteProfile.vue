@@ -6,67 +6,68 @@
       <b-col class="pl-0" order="2" order-md="1">
         <b-container fluid>
           <b-col class="px-0">
-            <h5>Transfer From</h5>
-            <b>{{ godown.from.name }}</b
-            ><br />
-            <span>{{ godown.from.addr }}</span
-            ><br />
-            <span>{{ godown.from.state }}</span
-            ><br />
-            <br />
+            <b>Transfer From</b>
+            <p class="text-small">
+              <span> {{ godown.from.name }} </span> <br />
+              <span> {{ godown.from.addr }} </span> <br />
+              <span> {{ godown.from.state }} </span> <br />
+            </p>
+            <br class="d-none d-md-block" />
           </b-col>
           <b-col class="px-0">
-            <h5>Transfer To</h5>
-            <b>{{ godown.to.name }}</b
-            ><br />
-            <span>{{ godown.to.addr }}</span
-            ><br />
-            <span>{{ godown.to.state }}</span
-            ><br /><br />
+            <b>Transfer To</b>
+            <p class="text-small">
+              <span> {{ godown.to.name }} </span> <br />
+              <span> {{ godown.to.addr }} </span> <br />
+              <span> {{ godown.to.state }} </span> <br />
+            </p>
           </b-col>
+          <br class="d-none d-md-block" />
         </b-container>
       </b-col>
       <b-col cols="12" md="6" order="1" order-md="2" class="text-md-right">
-        <h5>Transfer Note Details</h5>
-        <span>No: {{ tnote.no }}</span> <br />
-        <span>Date: {{ tnote.date }}</span
-        ><br />
-        <span>No. of Packages: {{ tnote.packageCount }}</span
-        ><br />
-        <span>Trasported By: {{ tnote.transportMode }}</span
-        ><br />
-        <span
-          >Grace Period: {{ tnote.gracePeriod
-          }}{{ tnote.gracePeriod > 1 ? 'Days' : 'Day' }}</span
-        ><br />
-        <span>Expected Receipt Date: {{ tnote.dueDate }}</span
-        ><br />
-        <span>Actual Receipt Date: </span
-        ><gk-date
-          id="cmd-date-1"
-          :format="dateFormat"
-          v-model="tnote.rdate"
-          :min="minDate"
-          :required="true"
-          v-if="!tnote.recieved"
-          :inputStyle="{ 'max-width': '150px' }"
-          class="d-inline-block"
-        ></gk-date>
-        <span v-else>{{ tnote.rdate }}</span
-        ><br />
-        <br />
+        <b>Transfer Note Details</b>
+        <!-- Note Details Table -->
+        <b-table-lite
+          :items="noteData"
+          :fields="['title', 'value']"
+          small
+          bordered
+          thead-class="d-none"
+          fixed
+          class="text-small"
+        >
+          <template #cell(value)="data">
+            <div v-if="data.item.type === 'receipt'">
+              <gk-date
+                id="cmd-date-1"
+                :format="dateFormat"
+                v-model="tnote.rdate"
+                :min="minDate"
+                :required="true"
+                v-if="!data.item.status"
+                :inputStyle="{ 'max-width': '150px' }"
+                class="d-inline-block d-print-none"
+              ></gk-date>
+              <span v-else>{{ data.value }}</span>
+            </div>
+            <span v-else>{{ data.value }}</span>
+          </template>
+        </b-table-lite>
       </b-col>
     </b-row>
+    <!-- Content Table -->
     <b-table-lite
       :items="tnote.products"
       :fields="tableFields"
       bordered
       head-variant="dark"
+      small
     ></b-table-lite>
     <b-button
       v-if="!tnote.recieved"
       @click.prevent="onSubmit"
-      size="sm"
+      size="sm d-print-none"
       variant="success"
     >
       Approve
@@ -138,6 +139,34 @@ export default {
     };
   },
   computed: {
+    noteData: (self) => {
+      let grace = parseInt(self.tnote.gracePeriod) || 0;
+      grace += grace > 1 || grace === 0 ? ' Days' : ' Day';
+      let designation = self.tnote.designation
+        ? `(${self.tnote.designation})`
+        : '';
+      return [
+        { title: 'No.', value: self.tnote.no },
+        { title: 'Date', value: self.tnote.date },
+        { title: 'No. of Packages', value: self.tnote.packageCount },
+        { title: 'Mode of Transport', value: self.tnote.transportMode },
+        {
+          title: 'Grace Period',
+          value: grace,
+        },
+        { title: 'Expected Receipt Date', value: self.tnote.dueDate },
+        {
+          title: 'Actual Receipt Date',
+          value: self.tnote.rdate,
+          status: self.tnote.recieved,
+          type: 'receipt',
+        },
+        {
+          title: 'Issued By',
+          value: `${self.tnote.issuer}  ${designation}`,
+        },
+      ];
+    },
     dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     minDate: (self) =>
       self.dateFormat === 'dd-mm-yyyy'

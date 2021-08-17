@@ -3,75 +3,94 @@
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <b-row>
-      <b-col>
-        <h5>{{ party.isCustomer ? 'Customer' : 'Supplier' }} Details</h5>
-        <b>{{ party.name }}</b
-        ><br />
-        <span>{{ party.addr }}</span
-        ><br />
-        <span>{{ party.state }}</span
-        ><br /><br />
+      <b-col order="2" order-md="1">
+        <b-container fluid class="pl-0">
+          <b-col class="px-0">
+            <b>{{ party.isCustomer ? 'Customer' : 'Supplier' }} Details</b>
+            <p class="text-small">
+              <span> {{ party.name }} </span> <br />
+              <span> {{ party.addr }} </span> <br />
+              <span> {{ party.state }} </span> <br />
+              <span> <b> Pin Code: </b> {{ party.pin }} </span> <br />
+              <span> <b> GSTIN: </b> {{ party.gstin }} </span> <br />
+            </p>
+          </b-col>
+          <b-col class="px-0">
+            <b>Delivery Details</b>
+            <p class="text-small">
+              <span> {{ shipping.name }} </span> <br />
+              <span> {{ shipping.addr }} </span> <br />
+              <span> {{ shipping.state }} </span> <br />
+              <span> <b> Pin Code: </b> {{ shipping.pin }} </span> <br />
+              <span> <b> GSTIN: </b> {{ shipping.gstin }} </span> <br />
+            </p>
+          </b-col>
+          <br class="d-none d-md-block" />
+        </b-container>
       </b-col>
-      <b-col class="text-md-right" cols="12" md="6">
-        <h5>{{ saleFlag ? 'Sale' : 'Purchase' }} Order Details</h5>
-        Order Date:{{ psorder.date }} <br />
-        Supply Date:
-        {{ psorder.supplyDate ? psorder.supplyDate : '-' }} <br />
-        Transport By : {{ transport.mode }} <br />
-        <span v-if="transport.vehicleNo">
-          Vehicle No : {{ transport.vehicleNo }} <br />
-        </span>
-        Payment Terms: {{ psorder.terms }}<br />
-        Credit Period: {{ psorder.creditPeriod }}<br />
-        {{ saleFlag ? 'Dispatch From' : 'Deliver At' }}: {{ psorder.godown
-        }}<br />
-        <br /><br />
+      <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
+        <b>{{ saleFlag ? 'Sale' : 'Purchase' }} Order Details</b>
+        <!-- Note Details Table -->
+        <b-table-lite
+          :fields="['title', 'value']"
+          :items="psorderData"
+          small
+          bordered
+          thead-class="d-none"
+          fixed
+          class="text-small"
+        ></b-table-lite>
       </b-col>
     </b-row>
+    <!-- Content Table -->
     <b-table-lite
       :items="psorder.contents"
       :fields="tableFields"
+      tbody-tr-class="content-table-row"
       bordered
       head-variant="dark"
       stacked="sm"
+      small
+      striped
+      class="text-small"
     ></b-table-lite>
     <b-row>
       <b-col cols="12" md="6" class="my-2" order="2" order-md="1"> </b-col>
       <b-col cols="12" md="6" class="my-2" order="1" order-md="2">
-        <b-table-simple small>
-          <b-thead>
-            <b-tr>
-              <b-th>Total</b-th>
-              <b-th class="text-right">₹</b-th>
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr>
-              <b-th>Taxable</b-th>
-              <b-td class="text-right">{{ total.taxable }}</b-td>
-            </b-tr>
-            <b-tr v-if="!total.isIgst">
-              <b-th>CGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="!total.isIgst">
-              <b-th>SGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="total.isIgst">
-              <b-th>IGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th>CESS</b-th>
-              <b-td class="text-right">{{ total.cess }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th>{{ saleFlag ? 'Sale' : 'Purchase' }} Order Value</b-th>
-              <b-td class="text-right">{{ total.amount }}</b-td>
-            </b-tr>
-          </b-tbody>
-        </b-table-simple>
+        <!-- Total Table -->
+        <b-table-lite
+          :items="totalDetails"
+          :fields="[
+            { key: 'title', label: 'Total', tdClass: '' },
+            { key: 'value', label: '₹', class: 'text-right' },
+          ]"
+          small
+          fixed
+          class="text-small"
+        ></b-table-lite>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="12" md="6" class="my-2">
+        <b>Payment Details</b>
+        <div v-if="payment.mode > 2">
+          {{ payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
+        </div>
+        <div class="text-small" v-else>
+          To Be Paid By Bank Transfer
+          <b-table-lite
+            :items="bankDetails"
+            :fields="['title', 'value']"
+            small
+            bordered
+            fixed
+            thead-class="d-none"
+          >
+          </b-table-lite>
+        </div>
+      </b-col>
+      <b-col cols="12" md="6" class="my-2">
+        <b> Narration: </b> {{ psorder.narration }}
       </b-col>
     </b-row>
   </b-container>
@@ -79,6 +98,7 @@
 
 <script>
 import axios from 'axios';
+import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'PsOrderProfile',
   props: {
@@ -109,12 +129,67 @@ export default {
         contents: [],
         narration: '',
       },
+      payment: {
+        mode: 2,
+        bankDetails: {},
+      },
       total: {},
       party: {},
+      shipping: {},
       transport: {},
     };
   },
   computed: {
+    psorderData: (self) => {
+      let dispatchTitle = self.saleFlag ? 'Dispatch From' : 'Deliver At';
+      let res = [
+        { title: 'No.', value: self.psorder.no },
+        { title: 'Date', value: self.psorder.date },
+        { title: 'Supply Date', value: self.psorder.supplyDate },
+        { title: 'Credit Period', value: self.psorder.creditPeriod },
+        { title: 'Payment Terms', value: self.psorder.terms },
+        { title: dispatchTitle, value: self.psorder.godown },
+        { title: 'Mode of Transport', value: self.transport.mode },
+        { title: 'Vehicle No.', value: self.transport.vehicleNo },
+      ];
+      if (self.transport.mode !== 'Road') {
+        res.pop();
+      }
+      return res;
+    },
+    totalDetails: (self) => {
+      let total = [{ title: 'Taxable', value: self.total.taxable }];
+      if (self.psorder.isGst) {
+        if (self.total.isIgst) {
+          total.push({ title: 'IGST', value: self.total.tax });
+        } else {
+          total.push(
+            { title: 'CGST', value: self.total.tax },
+            { title: 'SGST', value: self.total.tax }
+          );
+        }
+        total.push({ title: 'CESS', value: self.total.cess });
+      } else {
+        total.push({ title: 'VAT', value: self.total.tax });
+      }
+      total.push(
+        {
+          title: `${self.saleFlag ? 'Sale' : 'Purchase'} Order Value`,
+          value: self.total.amount,
+        },
+        { title: 'Total In Words', value: self.total.text }
+      );
+      return total;
+    },
+    bankDetails: (self) => {
+      let details = self.payment.bankDetails;
+      return [
+        { title: 'Acc No', value: details.accountno || '' },
+        { title: 'Bank', value: details.bankname || '' },
+        { title: 'Branch', value: details.branch || '' },
+        { title: 'IFSC', value: details.ifsc || '' },
+      ];
+    },
     tableFields: (self) => {
       let fields = [
         {
@@ -153,27 +228,51 @@ export default {
         tax: details.totaltaxamt,
         discount: details.totaldiscount,
         taxable: details.totaltaxablevalue,
+        text: details.pototalwords || numberToRupees(details.totaltaxablevalue),
       };
+
+      this.payment = {
+        mode: details.paymentmode,
+        bankDetails: details.bankdetails,
+      };
+
+      let godown =
+        details.goname && details.goaddr
+          ? `${details.goname} (${details.goaddr})`
+          : '';
       this.psorder = {
+        isGst: details.taxname !== 'VAT',
         contents: [],
         date: details.orderdate,
+        no: details.orderno,
         narration: details.psnarration,
         supplyDate: details.dateofsupply,
         terms: details.payterms,
         creditPeriod: details.creditperiod,
-        godown: `${details.goname} (${details.goaddr})`,
+        godown: godown,
       };
       this.transport = {
         mode: details.modeoftransport,
         vehicleNo: details.vehicleno,
       };
 
+      let cust = details.custSupDetails;
       this.party = {
-        name: details.custSupDetails.custname,
-        addr: details.custSupDetails.custaddr,
-        state: details.custSupDetails.custsupstate,
-        pin: details.custSupDetails.pincode,
-        isCustomer: details.custSupDetails.csflag === 3,
+        name: cust.custname,
+        addr: cust.custaddr,
+        state: cust.custsupstate,
+        pin: cust.pincode,
+        isCustomer: cust.csflag === 3,
+        gstin: cust.custgstin,
+      };
+
+      let shipping = details.consignee;
+      this.shipping = {
+        name: shipping.consigneename,
+        addr: shipping.consigneeaddress,
+        state: shipping.consigneestate,
+        pin: shipping.consigneepincode,
+        gstin: shipping.gstinconsignee,
       };
 
       for (const name in details.schedule) {

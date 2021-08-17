@@ -4,65 +4,68 @@
     </b-overlay>
     <b-row>
       <b-col cols="12" md="6" class="my-2">
-        <h5>{{ this.flags.credit ? 'Cr' : 'Dr' }} Note Details</h5>
-        <span> <b> Date:</b> {{ dcNote.date }} </span> <br />
-        <span><b>Inv No:</b> {{ inv.no }} </span><br />
-        <span><b>Inv Date:</b> {{ inv.date }} </span> <br />
+        <b>{{ flags.sale ? 'Buyer' : 'Seller' }} Details</b>
+        <br />
+        <p class="text-small">
+          <span>{{ party.name }} </span><br />
+          <span>{{ party.addr }} </span> <br />
+          <span> <b>Pin Code:</b> {{ party.pincode }} </span> <br />
+          <span v-if="party.gstin"><b>GSTIN:</b> {{ party.gstin }} </span>
+        </p>
       </b-col>
       <b-col cols="12" md="6" class="text-md-right my-2">
-        <h5>{{ flags.sale ? 'Buyer' : 'Seller' }} Details</h5>
-        <span>{{ party.name }} </span><br />
-        <span>{{ party.addr }} </span> <br />
-        <span>{{ party.pincode }} </span> <br />
-        <span v-if="party.gstin"><b>GSTIN:</b> {{ party.gstin }} </span>
+        <b>{{ this.flags.credit ? 'Credit' : 'Debit' }} Note Details</b>
+        <br />
+        <!-- Note Details Table -->
+        <b-table-lite
+          :fields="['title', 'value']"
+          :items="dcNoteData"
+          small
+          bordered
+          thead-class="d-none"
+          fixed
+          class="text-small"
+        ></b-table-lite>
       </b-col>
     </b-row>
+    <!-- Content Table -->
     <b-table-lite
       :items="dcNote.dcItems"
       :fields="tableFields"
       bordered
       head-variant="dark"
       stacked="sm"
-    ></b-table-lite>
+      small
+      class="text-small"
+      striped
+      tbody-tr-class="content-table-row"
+    >
+      <template #cell(qty)="data">
+        {{ data.value }} <small> {{ data.item.uom }} </small>
+      </template>
+    </b-table-lite>
     <b-row>
       <b-col cols="12" md="6" class="my-2"> </b-col>
       <b-col cols="12" md="6" class="my-2">
-        <b-table-simple small>
-          <b-thead>
-            <b-tr>
-              <b-th>Total</b-th>
-              <b-th class="text-right">₹</b-th>
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr>
-              <b-th>Taxable</b-th>
-              <b-td class="text-right">{{ total.taxable }}</b-td>
-            </b-tr>
-            <b-tr v-if="!flags.igst">
-              <b-th>CGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="!flags.igst">
-              <b-th>SGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="flags.igst">
-              <b-th>IGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th>CESS</b-th>
-              <b-td class="text-right">{{ total.cess }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th
-                >{{ this.flags.credit ? 'Credit' : 'Debit' }} Note Value:</b-th
-              >
-              <b-td class="text-right">{{ total.reduct }}</b-td>
-            </b-tr>
-          </b-tbody>
-        </b-table-simple>
+        <!-- Total Table -->
+        <b-table-lite
+          :items="totalDetails"
+          :fields="[
+            { key: 'title', label: 'Total', tdClass: '' },
+            { key: 'value', label: '₹', class: 'text-right' },
+          ]"
+          small
+          fixed
+          class="text-small"
+        ></b-table-lite>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="12" md="6" class="my-2"> </b-col>
+      <b-col cols="12" md="6" class="my-2">
+        <p class="text-small">
+          <b> Narration: </b> <span> {{ dcNote.narration }} </span> <br />
+        </p>
       </b-col>
     </b-row>
   </b-container>
@@ -70,6 +73,7 @@
 
 <script>
 import axios from 'axios';
+import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'DcNoteProfile',
   props: {
@@ -107,6 +111,7 @@ export default {
       },
       total: {},
       flags: {
+        gst: true,
         igst: true, // igst or cgst+sgst
         credit: true, // debit or credit
         qty: false, // qty or price
@@ -116,6 +121,38 @@ export default {
     };
   },
   computed: {
+    dcNoteData: (self) => {
+      return [
+        { title: 'No.', value: self.dcNote.no },
+        { title: 'Date', value: self.dcNote.date },
+        { title: 'Inv No.', value: self.inv.no },
+        { title: 'Inv Date', value: self.inv.date },
+      ];
+    },
+    totalDetails: (self) => {
+      let total = [{ title: 'Taxable', value: self.total.taxable }];
+      if (self.flags.gst) {
+        if (self.flags.igst) {
+          total.push({ title: 'IGST', value: self.total.tax });
+        } else {
+          total.push(
+            { title: 'CGST', value: self.total.tax },
+            { title: 'SGST', value: self.total.tax }
+          );
+        }
+        total.push({ title: 'CESS', value: self.total.cess });
+      } else {
+        total.push({ title: 'VAT', value: self.total.tax });
+      }
+      total.push(
+        {
+          title: `${self.flags.credit ? 'Credit' : 'Debit'} Note Value`,
+          value: self.total.reduct,
+        },
+        { title: 'Total In Words', value: self.total.text }
+      );
+      return total;
+    },
     tableFields: (self) => {
       let fields = [{ key: 'name', label: 'Item' }];
       let dcType = self.flags.credit ? 'Credited' : 'Debited';
@@ -158,8 +195,11 @@ export default {
         this.dcNote = {
           date: details.drcrdate,
           dcItems: [],
+          narration: details.drcrnarration,
+          no: details.drcrno,
         };
         this.flags = {
+          gst: details.taxname !== 'VAT',
           igst: details.taxname === 'IGST',
           credit: details.dctypeflag === 3,
           qty: details.drcrmode === 18,
@@ -181,6 +221,7 @@ export default {
           tax: details.totaltaxamt,
           cess: details.totalcessamt,
           reduct: details.totreduct,
+          text: numberToRupees(details.totreduct),
         };
         if (details.drcrcontents) {
           for (const id in details.drcrcontents) {
@@ -195,6 +236,7 @@ export default {
               sgst: item.taxrate / 2,
               cess: item.cessrate,
               total: item.totalAmount,
+              uom: item.uom
             });
           }
         }

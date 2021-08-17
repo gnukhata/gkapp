@@ -8,45 +8,118 @@
       <br />
     </div>
     <b-row>
-      <b-col cols="8">
-        <p>
-          <b> {{ invoice.isSale ? 'Buyer' : 'Seller' }}</b>
-          <br />
+      <b-col cols="12" md="6" order="2" order-md="1">
+        <b> {{ invoice.isSale ? 'Buyer' : 'Seller' }} Details</b>
+        <br />
+        <p class="text-small">
           <span>{{ invoice.party.name }} </span><br />
+          <span>{{ invoice.party.addr }} </span> <br />
           <span>{{ invoice.party.state }} </span> <br />
           <span>{{ invoice.party.pincode }} </span>
+          <span> <b> GSTIN: </b> {{ invoice.party.gstin || '' }} </span>
         </p>
       </b-col>
-      <b-col cols="4" class="text-right">
-        <b>{{ invoice.date }}</b>
+      <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
+        <b>{{ invoice.isSale ? 'Sale' : 'Purchase' }} Invoice Details</b>
+        <!-- Note Details Table -->
+        <b-table-lite
+          :fields="['title', 'value']"
+          :items="invoiceData"
+          small
+          bordered
+          thead-class="d-none"
+          fixed
+          class="text-small"
+        ></b-table-lite>
       </b-col>
     </b-row>
-    <b-table
+    <!-- Content Table -->
+    <b-table-lite
       :items="invoice.invItems"
       :fields="tableFields"
       bordered
       head-variant="dark"
       stacked="sm"
       striped
+      small
+      class="text-small"
+      tbody-tr-class="content-table-row"
     >
-      <template #cell(price)="data"> ₹ {{ data.value }} </template>
-      <template #cell(discount)="data"> ₹ {{ data.value }} </template>
-      <template #cell(tax)="data"> {{ data.value.rate }} % </template>
-      <template #cell(cess)="data"> {{ data.value.rate }} % </template>
-      <template #cell(total)="data"> ₹ {{ data.value }} </template>
+      <template #cell(qty)="data">
+        {{ data.value }} <small> {{ data.item.uom }} </small>
+      </template>
+      <template #cell(price)="data"> {{ data.value }} </template>
+      <template #cell(discount)="data"> {{ data.value }} </template>
+      <template #cell(tax)="data">
+        {{ data.value.rate }} <small> % </small>
+      </template>
+      <template #cell(cgst)="data">
+        {{ data.value }} <small> % </small>
+      </template>
+      <template #cell(sgst)="data">
+        {{ data.value }} <small> % </small>
+      </template>
+      <template #cell(igst)="data">
+        {{ data.value }} <small> % </small>
+      </template>
+      <template #cell(cess)="data">
+        {{ data.value.rate }} <small> % </small>
+      </template>
+      <template #cell(vat)="data">
+        {{ data.value.rate }} <small> % </small>
+      </template>
+      <template #cell(total)="data"> {{ data.value }} </template>
       <template #custom-foot>
         <b-tr>
-          <b-th colspan="6">Total</b-th>
-          <b-th>₹ {{ invoice.total.amount }}</b-th>
+          <b-th :colspan="invoice.isGst ? (invoice.total.isIgst ? 6 : 7) : 5"
+            >Total</b-th
+          >
+          <b-th> {{ invoice.total.amount }}</b-th>
         </b-tr>
       </template>
-    </b-table>
-    <div>
-      <b>Total in words: {{ invoice.total.text }}</b>
-    </div>
-    <div class="float-right my-2" v-if="!deletedFlag">
+    </b-table-lite>
+    <b-row>
+      <b-col cols="12" md="6" class="my-2"> </b-col>
+      <b-col cols="12" md="6" class="my-2">
+        <!-- Total Table -->
+        <b-table-lite
+          :items="totalDetails"
+          :fields="[
+            { key: 'title', label: 'Total', tdClass: '' },
+            { key: 'value', label: '₹', class: 'text-right' },
+          ]"
+          small
+          fixed
+          class="text-small"
+        ></b-table-lite>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="12" md="6" class="my-2">
+        <b>Payment Details</b>
+        <div v-if="invoice.payment.mode > 2">
+          {{ invoice.payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
+        </div>
+        <div class="text-small" v-else>
+          Paid By Bank Transfer
+          <b-table-lite
+            :items="bankDetails"
+            :fields="['title', 'value']"
+            small
+            bordered
+            fixed
+            thead-class="d-none"
+          >
+          </b-table-lite>
+        </div>
+      </b-col>
+      <b-col cols="12" md="6" class="my-2">
+        <b> Narration: </b> {{ invoice.narration }}
+      </b-col>
+    </b-row>
+    <div class="float-right my-2 d-print-none" v-if="!deletedFlag">
       <b-button
-        class="mr-2 d-print-none"
+        class="mr-2"
         size="sm"
         variant="primary"
         v-b-toggle.voucher-container
@@ -87,6 +160,7 @@
       >
     </div>
     <div class="clearfix"></div>
+    <br />
     <b-collapse v-model="showVouchers" id="voucher-container">
       <b>Vouchers:</b>
       <div v-if="vouchers.length">
@@ -146,7 +220,13 @@ export default {
     return {
       isPreloading: false,
       invoice: {
+        issuer: '',
+        designation: '',
         date: '',
+        payment: {
+          mode: 2,
+          bankDetails: {},
+        },
         party: {
           csflag: '3', // 3 -> customer, 19 -> supplier
           name: ' ',
@@ -155,6 +235,7 @@ export default {
           pincodce: '',
         },
         isSale: '',
+        isGst: true,
         invItems: [],
         total: {
           amount: 0,
@@ -162,7 +243,16 @@ export default {
         },
         number: '',
       },
-      tableFields: [
+      vouchers: [],
+      showVouchers: false,
+    };
+  },
+  computed: {
+    tableFields: (self) => {
+      let designation = self.invoice.designation
+        ? `(${self.invoice.designation})`
+        : '';
+      let fields = [
         {
           key: 'name',
           label: 'Item',
@@ -170,18 +260,77 @@ export default {
         'qty',
         {
           key: 'price',
-          label: 'Rate',
+          label: 'Rate (₹)',
         },
-        'discount',
-        'tax',
-        'cess',
-        'total',
-      ],
-      vouchers: [],
-      showVouchers: false,
-    };
-  },
-  computed: {
+        { key: 'discount', label: 'Discount (₹)' },
+      ];
+
+      if (self.invoice.isGst) {
+        if (self.invoice.total.isIgst) {
+          fields.push({ key: 'igst', label: 'IGST' });
+        } else {
+          fields.push(
+            { key: 'cgst', label: 'CGST' },
+            { key: 'sgst', label: 'SGST' }
+          );
+        }
+        fields.push({ key: 'cess', label: 'CESS' });
+      } else {
+        fields.push({ key: 'vat', label: 'VAT' });
+      }
+      fields.push({ key: 'total', label: 'Total (₹)' });
+      fields.push({
+        title: 'Issued By',
+        value: `${self.invoice.issuer}  ${designation}`,
+      });
+      return fields;
+    },
+    invoiceData: (self) => {
+      let details = self.invoice;
+      let designation = details.designation ? `(${details.designation})` : '';
+      let res = [
+        { title: 'No', value: details.number },
+        { title: 'Date', value: details.date },
+        { title: 'Eway Bill No.', value: details.eway || '' },
+        { title: 'Delivery Note No.', value: details.delno || '' },
+        {
+          title: 'Issued By',
+          value: `${details.issuer}  ${designation}`,
+        },
+      ];
+      if (!details.delno) res.splice(3, 1);
+      return res;
+    },
+    bankDetails: (self) => {
+      let details = self.invoice.payment.bankDetails;
+      return [
+        { title: 'Acc No', value: details.accountno || '' },
+        { title: 'Bank', value: details.bankname || '' },
+        { title: 'Branch', value: details.branch || '' },
+        { title: 'IFSC', value: details.ifsc || '' },
+      ];
+    },
+    totalDetails: (self) => {
+      let total = [{ title: 'Taxable', value: self.invoice.total.taxable }];
+      if (self.invoice.isGst) {
+        if (self.invoice.total.isIgst) {
+          total.push({ title: 'IGST', value: self.invoice.total.tax });
+        } else {
+          total.push(
+            { title: 'CGST', value: self.invoice.total.tax },
+            { title: 'SGST', value: self.invoice.total.tax }
+          );
+        }
+        total.push({ title: 'CESS', value: self.invoice.total.cess });
+      } else {
+        total.push({ title: 'VAT', value: self.invoice.total.tax });
+      }
+      total.push(
+        { title: 'Invoice Value', value: self.invoice.total.amount },
+        { title: 'Total In Words', value: self.invoice.total.text }
+      );
+      return total;
+    },
     deletedFlag: (self) => !!self.pdata.deletedFlag,
     onCreditFlag: (self) => !!self.pdata.onCreditFlag,
     rectifyFlag: (self) => !!self.pdata.rectifyFlag,
@@ -274,26 +423,46 @@ export default {
       if (details) {
         let party = details.custSupDetails || {};
         this.invoice = {
+          issuer: details.issuername,
+          designation: details.designation,
+          number: details.invoiceno,
           date: details.invoicedate,
+          dcno: details.dcno,
+          eway:
+            details.ewaybillno !== 'undefined' && !!details.ewaybillno
+              ? details.ewaybillno
+              : '',
+          payment: {
+            mode: details.paymentmode,
+            bankDetails: details.bankdetails,
+          },
           party: {
             name: party.custname,
             state: party.custsupstate,
             addr: party.custaddr,
             pincodce: party.pincode,
             csflag: party.csflag,
+            gstin: party.custgstin,
           },
           isSale: details.inoutflag === 15,
+          isGst: details.taxname !== 'VAT',
           invItems: [],
           total: {
             amount: details.invoicetotal,
             text: details.invoicetotalword,
+            taxable: details.totaltaxablevalue,
+            cess: details.totalcessamt,
+            tax: details.totaltaxamt,
+            isIgst: details.taxname === 'IGST',
           },
-          number: details.invoiceno,
+          narration: details.narration,
         };
         if (details.invcontents) {
           let product = {};
           this.invoice.invItems = Object.keys(details.invcontents).map(
             (key) => {
+              let taxrate = parseFloat(details.invcontents[key].taxrate) || 0;
+              let cgst = (taxrate / 2).toFixed(2);
               product = {
                 id: key,
                 name: details.invcontents[key].proddesc,
@@ -309,9 +478,13 @@ export default {
                   rate: details.invcontents[key].taxrate,
                   amount: details.invcontents[key].taxamount,
                 },
+                igst: taxrate,
+                cgst: cgst,
+                sgst: cgst,
+                vat: taxrate,
                 cess: {
-                  rate: details.invcontents[key].cess,
-                  amount: details.invcontents[key].cessrate,
+                  rate: details.invcontents[key].cessrate,
+                  amount: details.invcontents[key].cess,
                 },
               };
               return product;

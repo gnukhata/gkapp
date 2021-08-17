@@ -3,68 +3,66 @@
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <b-row>
-      <b-col>
-        <h5>{{ party.isCustomer ? 'Customer' : 'Supplier' }} Details</h5>
-        <b>{{ party.name }}</b
-        ><br />
-        <span>{{ party.addr }}</span
-        ><br />
-        <span>{{ party.state }}</span
-        ><br />
-        <br />
+      <b-col order="2" order-md="1">
+        <b>{{ party.isCustomer ? 'Customer' : 'Supplier' }} Details</b>
+        <p class="text-small">
+          <span> {{ party.name }} </span><br />
+          <span> {{ party.addr }} </span><br />
+          <span> {{ party.state }} </span><br />
+        </p>
+        <br class="d-none d-md-block" />
       </b-col>
-      <b-col class="text-md-right" cols="12" md="6">
-        <h5>Rejection Note Details</h5>
-        Date: {{ rnote.date }} <br />
-        Invoice No: {{ rnote.inv.no }} <br />
-        Invoice Date: {{ rnote.inv.date }} <br />
-        <br /><br />
+      <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
+        <b>Rejection Note Details</b>
+        <!-- Note Details Table -->
+        <b-table-lite
+          :fields="['title', 'value']"
+          :items="rnoteData"
+          small
+          bordered
+          thead-class="d-none"
+          fixed
+          class="text-small"
+        ></b-table-lite>
       </b-col>
     </b-row>
+    <!-- Content Table -->
     <b-table-lite
       :items="rnote.contents"
       :fields="tableFields"
       bordered
       head-variant="dark"
       stacked="sm"
-    ></b-table-lite>
+      small
+      striped
+      tbody-tr-class="content-table-row"
+      class="text-small"
+    >
+      <template #cell(qty)="data">
+        {{data.value}} <small> {{data.item.uom}} </small>
+      </template>
+    </b-table-lite>
     <b-row>
       <b-col cols="12" md="6" class="my-2" order="2" order-md="1"> </b-col>
       <b-col cols="12" md="6" class="my-2" order="1" order-md="2">
-        <b-table-simple small>
-          <b-thead>
-            <b-tr>
-              <b-th>Total</b-th>
-              <b-th class="text-right">₹</b-th>
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr>
-              <b-th>Taxable</b-th>
-              <b-td class="text-right">{{ total.taxable }}</b-td>
-            </b-tr>
-            <b-tr v-if="!total.isIgst">
-              <b-th>CGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="!total.isIgst">
-              <b-th>SGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr v-if="total.isIgst">
-              <b-th>IGST</b-th>
-              <b-td class="text-right">{{ total.tax }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th>CESS</b-th>
-              <b-td class="text-right">{{ total.cess }}</b-td>
-            </b-tr>
-            <b-tr>
-              <b-th>Rejected Value</b-th>
-              <b-td class="text-right">{{ total.amount }}</b-td>
-            </b-tr>
-          </b-tbody>
-        </b-table-simple>
+        <!-- Total Table -->
+        <b-table-lite
+          :items="totalDetails"
+          :fields="[
+            { key: 'title', label: 'Total', tdClass: '' },
+            { key: 'value', label: '₹', class: 'text-right' },
+          ]"
+          small
+          fixed
+          class="text-small"
+        ></b-table-lite>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="12" md="6" class="my-2">
+      </b-col>
+      <b-col cols="12" md="6" class="my-2">
+        <b> Narration: </b> {{ rnote.narration }}
       </b-col>
     </b-row>
   </b-container>
@@ -98,12 +96,21 @@ export default {
         contents: [],
         narration: '',
         inv: {},
+        isGst: true,
       },
       total: {},
       party: {},
     };
   },
   computed: {
+    rnoteData: (self) => {
+      return [
+        { title: 'No.', value: self.rnote.no },
+        { title: 'Date', value: self.rnote.date },
+        { title: 'Inv No.', value: self.rnote.inv.no },
+        { title: 'Inv Date', value: self.rnote.inv.date },
+      ];
+    },
     tableFields: (self) => {
       let fields = [
         {
@@ -129,6 +136,27 @@ export default {
 
       return fields;
     },
+    totalDetails: (self) => {
+      let total = [{ title: 'Taxable', value: self.total.taxable }];
+      if (self.rnote.isGst) {
+        if (self.total.isIgst) {
+          total.push({ title: 'IGST', value: self.total.tax });
+        } else {
+          total.push(
+            { title: 'CGST', value: self.total.tax },
+            { title: 'SGST', value: self.total.tax }
+          );
+        }
+        total.push({ title: 'CESS', value: self.total.cess });
+      } else {
+        total.push({ title: 'VAT', value: self.total.tax });
+      }
+      total.push(
+        { title: 'Rejected Value', value: self.total.amount },
+        // { title: 'Total In Words', value: self.total.text }
+      );
+      return total;
+    },
   },
   methods: {
     formatDetails(details) {
@@ -149,6 +177,8 @@ export default {
           no: details.rejinvdata.invno,
           date: details.rejinvdata.invdate,
         },
+        isGst: details.taxname !== 'VAT',
+        no: details.rnno,
       };
       let party = details.rejinvdata.custSupDetails;
       this.party = {
@@ -164,6 +194,7 @@ export default {
         this.rnote.contents.push({
           name: item.proddesc,
           qty: item.qty,
+          uom: item.uom,
           rate: item.priceperunit,
           igst: item.taxrate,
           cgst: item.taxrate / 2,
