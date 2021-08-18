@@ -28,65 +28,40 @@ Points Discussed:
     -   When printing a table,
         -   Make the table borders prominent.
         -   Must check if its feasible to provide landscape printing options,
-
-when there are many columns.
-
--   When taking multi page printouts,
-    -   Page numbers are required. (e.g. 1 out of 2 pages)
-    -   If a table is printed across many pages, the table heading
-
-must be carried forward in the overflowing pages.
-
--   Also if there is a page heading, it should also carry forward
-
-across all the pages.
-
--   To implement these features, we can look at a server side solution
-
-using Libre Office Headless for print.
-
--   Or we can try to use the print library used by ERP Next.
-
+            when there are many columns.
+    -   When taking multi page printouts,
+        -   Page numbers are required. (e.g. 1 out of 2 pages)
+        -   If a table is printed across many pages, the table heading 
+            must be carried forward in the overflowing pages.
+        -   Also if there is a page heading, it should also carry forward
+            across all the pages.
+        -   To implement these features, we can look at a server side solution 
+            using Libre Office Headless for print.
+        -   Or we can try to use the print library used by ERP Next.
 -   Comments on Accounts page,
     -   Hide the cards that do not satisfy the search query.
-    -   When a sub group or account is selected, hide the group or sub group
-
-containing it and only display the item that was searched for.
-
--   When a sub group is queried, show the list of accounts in it without
-
-a scroll bar.
-
+    -   When a sub group or account is selected, hide the group or sub group 
+        containing it and only display the item that was searched for.
+    -   When a sub group is queried, show the list of accounts in it without 
+        a scroll bar.
 -   The side menu items should be grouped under collapsable headings.
     -   Possible headings are Transaction, Admin, Journal, Report and Others.
     -   Example: ![img](https://akaunting.com/public/images/pages/accounting-online-v2.png)
 -   Updates in Transaction Profile page,
     -   Add Links from the Invoice and Cash Memo profiles to their corresponding
-
-ledger pages.
-
--   In mobile view the vertical bill item table takes up a lot of vertical space,
-
-this should be reduced.
-
--   In Trial Balance page, the help text shown could be split into three parts and
-
-shown separately for the 3 types of trial balances.
-
+        ledger pages.
+    -   In mobile view the vertical bill item table takes up a lot of vertical space, 
+        this should be reduced.
+-   In Trial Balance page, the help text shown could be split into three parts and 
+    shown separately for the 3 types of trial balances.
 -   Discussions on Bank Reconciliation statement,
     -   Bank Reconciliation statement is one that helps in checking the discrepancies (if any)
-
-between the transaction accounts maintained by the company and that of the actual bank account.
-
--   Many commercial accounting softwares use a paid API like PLAID, to fetch details from the
-
-user's bank account and perform reconciliation.
-
--   The process of updating the actual bank details in the accounting software can be done
-
-manually as well.
-
--   Example: <https://app.qbo.intuit.com/app/reconcile?accountId=35> and
+        between the transaction accounts maintained by the company and that of the actual bank account.
+    -   Many commercial accounting softwares use a paid API like PLAID, to fetch details from the 
+        user's bank account and perform reconciliation.
+    -   The process of updating the actual bank details in the accounting software can be done
+        manually as well.
+    -   Example: <https://app.qbo.intuit.com/app/reconcile?accountId=35> and
 
 <https://www.youtube.com/watch?v=jezAtbPt7g4&feature=emb_title>
 
@@ -121,36 +96,27 @@ Points Discussed:
 config machines,
 
 -   Need for minimum hardware requirements and benchmarks is there.
--   Since GNUKhata is dependent on python 3, we can say that any hardware + OS
-
-combo that supports python 3 can run GNUKhata on it.
-
+-   Since GNUKhata is dependent on python 3, we can say that any hardware + OS 
+    combo that supports python 3 can run GNUKhata on it.
 -   Installers can be made for both 64 and 32 bit systems, but prioritize more
-
-on 64 bit.
+    on 64 bit.
 
 -   Comments on Profit and Loss page,
     -   Use normal font weight than bold in the table.
     -   Add hyperlinks to ledger page when clicking on the Account name in table.
 -   Comments on print pages format,
-    -   Increase the horizontal offsets (empty space) in the left and right side,
-
-so that its printer friendly.
-
--   Need to improve the looks of the print page content. (R2 will share some examples
-
-for this)
-
+    -   Increase the horizontal offsets (empty space) in the left and right side, 
+        so that its printer friendly.
+    -   Need to improve the looks of the print page content. (R2 will share some examples
+        for this)
 -   Dicussions on the application packaging tools for linux based OS,
     -   Appimage and flatpak do not seem to be good choices for server based applications.
     -   Snap seems to be a good fit here and has 32 bit support as well.
     -   Debian packages are also widely supported and easy to work with.
     -   We can choose either Snap or Deb, based on ease of maintaining and support across platforms.
 -   Updates to the current website (gnukhata.in),
-    -   Certain elements available in the current front page of gnukhata.in have been added after
-
-due consideration, and those elements need to be translated to match with the new UI updates.
-
+    -   Certain elements available in the current front page of gnukhata.in have been added after 
+        due consideration, and those elements need to be translated to match with the new UI updates.
 -   Comments on the Budget page updates,
     -   The card view UI can be omitted, as the table view is good.
     -   Make the table rows collapsable.
@@ -178,12 +144,9 @@ Participants: GN, Karthik, R2, Survesh, VK
     -   Updates to login page from feedback of previous meet
     -   CI setup for Static Application Secuity Testing (SAST)
 -   Survesh:
-    
     -   Budgets: Create, Edit Delete
     -   Added Auto generated Vouchers for Invoice and Cash Memo
-    
-    in their profile page.
-    
+        in their profile page.
     -   Added corresponding icons for filters in workflow page
     -   Added alternating stripes to the workflow list table
 
@@ -193,45 +156,28 @@ Points Discussed:
     -   Need for 32 bit support.
     -   Need the minimum system requirements for installation.
 -   Comments on Budget flow,
-    
     -   Need to check if inflow/outflow and income/expense are the commonly used
-    
-    nomenclature.
-    
-    -   The Budgets list page must reload the last visited budget, when using the
-    
-    create/ edit options.
-    
+        nomenclature.
+    -   The Budgets list page must reload the last visited budget, when using the 
+        create/ edit options.
     -   Fix the UI bug that appears after deleting a budget.
-    -   In Budget Report table, make variance and variance (%) collapsable in
-    
-    mobile view.
+    -   In Budget Report table, make variance and variance (%) collapsable in 
+        mobile view.
 -   Comments in workflow page,
-    
     -   In Filters, Need ability to search for different types of fields available
-    
-    e.g. Invoice No., Date, UserName
-    
+        e.g. Invoice No., Date, UserName
     -   The ability to change the column type in the workflow list page,
-    
-    e.g. In invoices list, user could choose to view Invoice no instead of Customer/Supplier
-    name.
--   Try to incorporate Categorywise Stock on Hand to Stock on Hand page by
-
-adding category as a filter, so that all Stock on Hand data is viewable 
-in the same page.
-
+        e.g. In invoices list, user could choose to view Invoice no instead of Customer/Supplier
+        name.
+-   Try to incorporate Categorywise Stock on Hand to Stock on Hand page by 
+    adding category as a filter, so that all Stock on Hand data is viewable 
+    in the same page.
 -   In Contact List report's print output, add serial number to the rows and add
-
-current account balances of the contacts.
-
+    current account balances of the contacts.
 -   Need to enquire with GN about using Snap for packaging gkwebapp for linux based
-
-distros.  
-
--   Can take inspirations for the invoice UI from <https://getswipe.in>, a competetor
-
-of the web app vyapar.
+    distros.
+-   Can take inspirations for the invoice UI from <https://getswipe.in>, a competetor 
+    of the web app vyapar.
 
 Conclusion:
 
@@ -253,10 +199,8 @@ Participants: GN, R2, Survesh, VK
 -   Survesh:
     -   Updated URL based on the group, subgroup, account selected in accounts page
     -   Added deleted Invoices, Vouchers in workflow page and
-
-added Delete DelNote option.
-
--   Added Budget List
+        added Delete DelNote option.
+    -   Added Budget List
 
 Updates:
 
@@ -266,43 +210,30 @@ Updates:
     -   WIP Category wise stock on hand report.
 -   Survesh:
     -   Updated URL based on the group, subgroup, account selected in accounts page
-    -   Added deleted Invoices, Vouchers in workflow page and
-
-added Delete DelNote option.
-
--   Added Budget List
+    -   Added deleted Invoices, Vouchers in workflow page and 
+        added Delete DelNote option.
+    -   Added Budget List
 
 Points Discussed:
 
 -   Comments on Budget List Page,
-    
     -   The current table view in mobile, could be replaced with card view.
-    
-    so that it matches the accounts page UI.
-    
-    -   Provide an option to switch between table UI and card based UI
-    
-    so the UI choice is left to the user.
-    
+        so that it matches the accounts page UI.
+    -   Provide an option to switch between table UI and card based UI 
+        so the UI choice is left to the user.
     -   In table view, some columns are hidden and require scrolling. Indicate
-    
-    the page is scrollable with a swiping hand icon.
-    
+        the page is scrollable with a swiping hand icon.
     -   Check <https://qbo.intuit.com/redir/testdrive>, for inspiration on how budget
-    
-    UI is handled.
+        UI is handled.
 -   Comments in Workflow page,
     -   Add appropriate icons for filters in workflow page.
     -   Add indicators to show deletable Delivery Notes.
     -   Add alternating stripes to the workflow page list.
 -   Feature request in Create Invoice page,
-    
     -   Use Case: After the current financial year is roll closed, in the next year
-    
-    we need to be able to create an invoice for a purchase that took place in 
-    the roll closed year. This is done by specifying the Invoice Date and Id that 
-    was used by the seller in the previous year.
-    
+        we need to be able to create an invoice for a purchase that took place in 
+        the roll closed year. This is done by specifying the Invoice Date and Id that 
+        was used by the seller in the previous year.
     -   Need 2 extra fields to store the Supplier's Invoice No. and Date to achieve this.
     -   Check <https://margbooks.com> to see how this is implemented
 -   Comments in Login Page,
@@ -356,19 +287,15 @@ Updates:
 Points Discussed:
 
 -   Is Rollover's progress written to log file, as several tables are migrated
-
-it would be easy to debug, when an error occurs? Currently no, needs some research.
-
+    it would be easy to debug, when an error occurs? Currently no, needs some research.
 -   Comments in Login page UI,
     -   The login button has to be in the right side than left.
     -   Change server link must be aligned with the change organisation button.
     -   Make the Org Name selection searchable.
     -   Remove Profit/ Not Profit text.
--   The universal nav bar should be fixed to the bottom of the page. Currently in
-
-pages with content that takes less vertical space, the nav bar appears in the middle
-of the screen.
-
+-   The universal nav bar should be fixed to the bottom of the page. Currently in 
+    pages with content that takes less vertical space, the nav bar appears in the middle
+    of the screen.
 -   Comments in Accounts page,
     -   Add closing balance with cr or dr, near the account
     -   The Account Edit and Delete options must be hidden based on user roles
