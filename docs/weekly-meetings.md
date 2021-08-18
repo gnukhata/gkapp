@@ -5,6 +5,96 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
+# Meeting history (2021-08-16)
+
+Agenda:
+
+-   review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+-   Karthik:
+    -   Trial balance
+    -   Updates to profit / loss, cash reports views
+    -   Hide demo company details in production mode
+-   Survesh:
+    -   UI updates in budget page (remove card view, add table row collapse)
+    -   Added search filters in Accounts page
+    -   CSS overrides to display hidden styles in print view
+
+Points Discussed:
+
+-   Comments on print pages format,
+    -   When printing a table,
+        -   Make the table borders prominent.
+        -   Must check if its feasible to provide landscape printing options,
+
+when there are many columns.
+
+-   When taking multi page printouts,
+    -   Page numbers are required. (e.g. 1 out of 2 pages)
+    -   If a table is printed across many pages, the table heading
+
+must be carried forward in the overflowing pages.
+
+-   Also if there is a page heading, it should also carry forward
+
+across all the pages.
+
+-   To implement these features, we can look at a server side solution
+
+using Libre Office Headless for print.
+
+-   Or we can try to use the print library used by ERP Next.
+
+-   Comments on Accounts page,
+    -   Hide the cards that do not satisfy the search query.
+    -   When a sub group or account is selected, hide the group or sub group
+
+containing it and only display the item that was searched for.
+
+-   When a sub group is queried, show the list of accounts in it without
+
+a scroll bar.
+
+-   The side menu items should be grouped under collapsable headings.
+    -   Possible headings are Transaction, Admin, Journal, Report and Others.
+    -   Example: ![img](https://akaunting.com/public/images/pages/accounting-online-v2.png)
+-   Updates in Transaction Profile page,
+    -   Add Links from the Invoice and Cash Memo profiles to their corresponding
+
+ledger pages.
+
+-   In mobile view the vertical bill item table takes up a lot of vertical space,
+
+this should be reduced.
+
+-   In Trial Balance page, the help text shown could be split into three parts and
+
+shown separately for the 3 types of trial balances.
+
+-   Discussions on Bank Reconciliation statement,
+    -   Bank Reconciliation statement is one that helps in checking the discrepancies (if any)
+
+between the transaction accounts maintained by the company and that of the actual bank account.
+
+-   Many commercial accounting softwares use a paid API like PLAID, to fetch details from the
+
+user's bank account and perform reconciliation.
+
+-   The process of updating the actual bank details in the accounting software can be done
+
+manually as well.
+
+-   Example: <https://app.qbo.intuit.com/app/reconcile?accountId=35> and
+
+<https://www.youtube.com/watch?v=jezAtbPt7g4&feature=emb_title>
+
+Conclusion:
+
+-   Updates will be performed based on the points discussed above.
+
+
 # Meeting history (2021-08-09)
 
 Agenda:
