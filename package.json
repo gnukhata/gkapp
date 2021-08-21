@@ -11,14 +11,13 @@
   "dependencies": {
     "bootstrap-vue": "^2.21.2",
     "check-password-strength": "^1.0.15",
-    "core-js": "^3.14.0",
+    "core-js": "^3.16.2",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.14",
-    "vue-router": "^3.5.1",
+    "vue-router": "^3.5.2",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "prettier": "^1.19.1",
     "@babel/polyfill": "^7.11.5",
     "@vue/cli-plugin-babel": "^4.5.13",
     "@vue/cli-plugin-eslint": "^4.5.13",
@@ -34,7 +33,8 @@
     "mutationobserver-shim": "^0.3.7",
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
-    "sass": "^1.34.1",
+    "prettier": "^1.19.1",
+    "sass": "^1.38.0",
     "sass-loader": "^10.2.0",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-bootstrap-vue": "~0.7.0",
@@ -45,11 +45,18 @@
     "env": {
       "node": true
     },
-    "extends": ["plugin:vue/essential", "eslint:recommended"],
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
     "parserOptions": {
       "parser": "babel-eslint"
     },
     "rules": {}
   },
-  "browserslist": ["> 1%", "last 2 versions", "not dead"]
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
