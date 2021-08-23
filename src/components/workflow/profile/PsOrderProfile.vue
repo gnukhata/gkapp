@@ -95,9 +95,6 @@
         <b> Narration: </b> {{ psorder.narration }}
       </b-col>
     </b-row>
-    <div class="float-right d-print-none">
-      <slot name="buttons"> </slot>
-    </div>
   </b-container>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <b-button @click.prevent="onPrint" class="m-1" size="sm" variant="primary">
+  <b-button @click.prevent="onPrint" class="m-1" size="sm" :variant="variant">
     <b-icon aria-hidden="true" class="align-middle" icon="printer"></b-icon>
   </b-button>
 </template>
@@ -22,6 +22,12 @@ export default {
       required: false,
       default: 'Page',
       note: 'Custom styles as string if sent will be added to the HTML page, before printing'
+    },
+    variant: {
+      type: String,
+      required: false,
+      default: 'primary',
+      note: 'Button variant'
     }
   },
   data() {

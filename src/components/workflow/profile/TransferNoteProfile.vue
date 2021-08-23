@@ -66,7 +66,6 @@
       class="text-small table-border-dark"
     ></b-table-lite>
     <div class="float-right d-print-none">
-      <slot name="buttons"> </slot>
       <b-button
         v-if="!tnote.recieved"
         @click.prevent="onSubmit"

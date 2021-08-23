@@ -49,7 +49,6 @@
     </p>
     <br /><br />
     <div class="float-right">
-      <slot name="buttons"> </slot>
       <span v-if="!deletedFlag">
         <b-button
           @click.prevent="onDelete"

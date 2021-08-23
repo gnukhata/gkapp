@@ -120,7 +120,6 @@
       </b-col>
     </b-row>
     <div class="float-right my-2 d-print-none">
-      <slot name="buttons"> </slot>
       <span v-if="!deletedFlag">
         <b-button
           class="mr-1"

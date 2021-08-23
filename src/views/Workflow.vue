@@ -110,17 +110,17 @@
             <b-button
               class="float-right px-1"
               variant="link"
-              @click="isFilterOpen = !isFilterOpen"
-            >
-              <b-icon icon="funnel"></b-icon><span class="sr-only">Filter</span>
-            </b-button>
-            <b-button
-              class="float-right px-1"
-              variant="link"
               :to="activeTabOptions.printPath"
             >
               <b-icon icon="printer"></b-icon
               ><span class="sr-only">Print View</span>
+            </b-button>
+            <b-button
+              class="float-right px-1"
+              variant="link"
+              @click="isFilterOpen = !isFilterOpen"
+            >
+              <b-icon icon="funnel"></b-icon><span class="sr-only">Filter</span>
             </b-button>
             <!-- Filter menu Collapsable card -->
             <b-collapse v-model="isFilterOpen">
@@ -397,24 +397,29 @@
         <!-- Invoices Profile -->
         <b-card
           no-body
-          class="ml-md-3"
+          class="ml-md-2"
           v-if="
             selectedEntity &&
               selectedEntity.id &&
               activeWorkflow.name.includes('Transactions')
           "
+          header-class="p-2 d-flex align-items-center justify-content-between"
         >
           <template #header v-if="selectedEntity !== null">
             <b-button
               @click.prevent="unsetSelectedEntity"
-              class="d-md-none"
+              class="d-md-none float-left"
               size="sm"
               ><b-icon icon="arrow-left"></b-icon
             ></b-button>
-            <h5 class="m-2 d-inline-block">
+            <h5 class="ml-3 mb-0">
               <b-icon :icon="selectedEntity.icon"></b-icon>
-              {{ selectedEntity.noteName }} : {{ selectedEntity.no }}
+              {{ selectedEntity.noteName }} : <br> {{ selectedEntity.no }}
             </h5>
+            <print-helper
+              contentId="transaction-profile-wrapper"
+              variant="link"
+            ></print-helper>
           </template>
           <b-card-body
             class="px-0"
@@ -429,12 +434,6 @@
                 :pdata="profileData"
                 :onUpdate="onSelectedEntityUpdate"
               >
-              <template #buttons>
-                <print-helper
-                  class="mr-1"
-                  contentId="transaction-profile-wrapper"
-                ></print-helper>
-              </template>
               </transaction-profile>
             </div>
           </b-card-body>

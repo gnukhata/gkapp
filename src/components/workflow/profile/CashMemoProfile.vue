@@ -82,9 +82,6 @@
       </b-col>
     </b-row>
     <div class="float-right my-2 d-print-none">
-      <span>
-        <slot name="buttons"> </slot>
-      </span>
       <b-button
         class=""
         size="sm"

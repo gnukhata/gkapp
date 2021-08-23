@@ -84,7 +84,6 @@
       </b-col>
     </b-row>
     <div class="float-right d-print-none">
-      <slot name="buttons"> </slot>
       <b-button
         v-if="cancelFlag"
         @click.prevent="onDelete"

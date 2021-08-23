@@ -5,9 +5,6 @@
     :id="id"
     :onUpdate="onUpdate"
   >
-    <template #buttons>
-      <slot name="buttons"> </slot>
-    </template>
   </component>
 </template>
 

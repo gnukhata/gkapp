@@ -68,9 +68,6 @@
         </p>
       </b-col>
     </b-row>
-    <div class="d-print-none float-right">
-      <slot name="buttons"> </slot>
-    </div>
   </b-container>
 </template>
 
