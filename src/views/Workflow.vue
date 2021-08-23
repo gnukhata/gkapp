@@ -114,6 +114,14 @@
             >
               <b-icon icon="funnel"></b-icon><span class="sr-only">Filter</span>
             </b-button>
+            <b-button
+              class="float-right px-1"
+              variant="link"
+              :to="activeTabOptions.printPath"
+            >
+              <b-icon icon="printer"></b-icon
+              ><span class="sr-only">Print View</span>
+            </b-button>
             <!-- Filter menu Collapsable card -->
             <b-collapse v-model="isFilterOpen">
               <b-card
@@ -413,12 +421,22 @@
             :style="{ height: rightPaneHeight + 'px', overflowY: 'auto' }"
             v-if="selectedEntity !== null"
           >
-            <transaction-profile
-              :name="activeWorkflow.tabName"
-              :id="selectedEntity.id"
-              :pdata="profileData"
-              :onUpdate="onSelectedEntityUpdate"
-            ></transaction-profile>
+            <div id="transaction-profile-wrapper">
+              <report-header class="mb-4"> </report-header>
+              <transaction-profile
+                :name="activeWorkflow.tabName"
+                :id="selectedEntity.id"
+                :pdata="profileData"
+                :onUpdate="onSelectedEntityUpdate"
+              >
+              <template #buttons>
+                <print-helper
+                  class="mr-1"
+                  contentId="transaction-profile-wrapper"
+                ></print-helper>
+              </template>
+              </transaction-profile>
+            </div>
           </b-card-body>
         </b-card>
         <!-- Body -->
@@ -434,11 +452,19 @@ import { mapState } from 'vuex';
 import ContactProfile from '@/components/ContactProfile';
 import BusinessProfile from '@/components/BusinessProfile.vue';
 import TransactionProfile from '@/components/workflow/profile/Transaction.vue';
+import ReportHeader from '@/components/ReportHeader.vue';
+import PrintHelper from '@/components/PrintHelper.vue';
 // import HeroBar from '@/components/HeroBar'
 
 export default {
   name: 'Workflow',
-  components: { ContactProfile, BusinessProfile, TransactionProfile },
+  components: {
+    ContactProfile,
+    BusinessProfile,
+    TransactionProfile,
+    ReportHeader,
+    PrintHelper,
+  },
   props: {
     wfName: {
       type: String,
@@ -529,6 +555,9 @@ export default {
               name: 'Contact_Details',
               params: { mode: 'create' },
             },
+            printPath: {
+              name: 'Contact List',
+            },
             filterBy: {
               value: [
                 {
@@ -564,6 +593,9 @@ export default {
             createNewPath: {
               name: 'Business_Details',
               params: { mode: 'create' },
+            },
+            printPath: {
+              name: 'Product List',
             },
             filterBy: {
               value: [
@@ -617,6 +649,9 @@ export default {
                     mode: 'create',
                     invid: 0,
                   },
+                },
+                printPath: {
+                  name: 'Invoice_List',
                 },
                 filterBy: {
                   value: [
@@ -690,6 +725,9 @@ export default {
                 createNewPath: {
                   name: 'Debit_Credit_Note',
                 },
+                printPath: {
+                  name: 'Dc_Note_List',
+                },
                 filterBy: {
                   value: [
                     {
@@ -748,6 +786,9 @@ export default {
                   name: 'Cash_Memo',
                   params: {},
                 },
+                printPath: {
+                  name: 'Cash_Memo_List',
+                },
                 filterBy: {
                   value: [
                     {
@@ -794,6 +835,9 @@ export default {
                     mode: 'create',
                     invid: 0,
                   },
+                },
+                printPath: {
+                  name: 'Delivery_Note_List',
                 },
                 filterBy: {
                   value: [
@@ -853,6 +897,9 @@ export default {
                   name: 'Purchase_Sales_Order',
                   params: {},
                 },
+                printPath: {
+                  name: 'Ps_Order_List',
+                },
                 filterBy: {
                   value: [
                     {
@@ -911,6 +958,9 @@ export default {
                   name: 'Rejection_Note',
                   params: {},
                 },
+                printPath: {
+                  name: 'Rejection_Note_List',
+                },
                 filterBy: {
                   value: [
                     {
@@ -965,6 +1015,9 @@ export default {
                   name: 'Transfer_Note',
                   params: {},
                 },
+                printPath: {
+                  name: 'Transfer_Note_List',
+                },
                 filterBy: {
                   value: [
                     {
@@ -1010,6 +1063,9 @@ export default {
                     type: 'receipt',
                     customer: '-1',
                   },
+                },
+                printPath: {
+                  name: 'Voucher_List',
                 },
                 filterBy: {
                   value: [
