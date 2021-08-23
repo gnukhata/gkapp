@@ -212,11 +212,12 @@ export default {
       options: {
         orgDetails: null,
         transactionTypes: [
-          { text: 'Approval', value: 0 },
-          { text: 'Consignment', value: 1 },
-          { text: 'Free Replacement', value: 2 },
-          { text: 'Purchase', value: 3 },
-          { text: 'Sample', value: 4 },
+          { text: 'Approval', value: 1 },
+          { text: 'Consignment', value: 3 },
+          { text: 'Free Replacement', value: 6 },
+          { text: 'Sale', value: 4 },
+          { text: 'Purchase', value: 16 },
+          { text: 'Sample', value: 19 },
         ],
         godowns: [],
         states: [],
