@@ -30,7 +30,7 @@
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
         <b-form-group
           v-if="config.no"
-          label="Inv. No."
+          label="Inv. #"
           label-for="ivd-input-10"
           label-cols-lg="2"
           label-cols="3"
@@ -85,7 +85,7 @@
         </b-form-group>
         <b-form-group
           v-if="saleFlag && config.ebn"
-          label="EBN"
+          label="Eway Bill #"
           label-for="ivd-input-30"
           label-cols-lg="2"
           label-cols="3"
