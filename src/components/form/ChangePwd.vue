@@ -79,6 +79,7 @@
 import { mapState } from 'vuex';
 import Captcha from '../Captcha.vue';
 import Password from '../Password.vue';
+import axios from 'axios';
 export default {
   components: { Captcha, Password },
   name: 'ChangePwd',

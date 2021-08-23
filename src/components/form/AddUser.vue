@@ -269,25 +269,27 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                this.$bvToast.toast(
-                  `${this.newUser.username} created successfully`,
-                  {
-                    title: 'Success',
-                    variant: 'success',
-                    solid: true,
-                  }
-                );
-                // Add user created log to server
-                const payload = {
-                  activity: `user ${this.newUser.username} created`,
-                };
-                axios.post(`${this.gkCoreUrl}/log`, payload, {
-                  headers: { gktoken: this.authToken },
-                });
-                // refresh users list in USerManagement.vue
-                this.$emit('refreshUsers');
-                this.isLoading = false;
-                this.$refs.createForm.reset();
+                {
+                  this.$bvToast.toast(
+                    `${this.newUser.username} created successfully`,
+                    {
+                      title: 'Success',
+                      variant: 'success',
+                      solid: true,
+                    }
+                  );
+                  // Add user created log to server
+                  const payload = {
+                    activity: `user ${this.newUser.username} created`,
+                  };
+                  axios.post(`${this.gkCoreUrl}/log`, payload, {
+                    headers: { gktoken: this.authToken },
+                  });
+                  // refresh users list in USerManagement.vue
+                  this.$emit('refreshUsers');
+                  this.isLoading = false;
+                  this.$refs.createForm.reset();
+                }
                 break;
               case 1:
                 this.$bvToast.toast(
@@ -319,6 +321,7 @@ export default {
                   solid: true,
                 });
                 this.isLoading = false;
+                break;
               case 5:
                 this.$bvToast.toast('Action Disallowed', {
                   variant: 'danger',

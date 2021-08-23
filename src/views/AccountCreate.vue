@@ -236,7 +236,7 @@ export default {
   },
   watch: {
     group(newGroup) {
-      this.form.group = parseInt(group);
+      this.form.group = parseInt(newGroup);
     },
     subGroup(newSub) {
       this.form.subGroup = parseInt(newSub);

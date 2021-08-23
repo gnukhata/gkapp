@@ -7,7 +7,10 @@
         header-text-variant="light"
       >
         <template #header>
-          <gk-cardheader name="Balance Sheet Statement" :helpBody="''"></gk-cardheader>
+          <gk-cardheader
+            name="Balance Sheet Statement"
+            :helpBody="''"
+          ></gk-cardheader>
         </template>
         <b-form @submit.prevent="getReport">
           <b-form-group label="From" label-align="right" content-cols="8">
@@ -246,17 +249,19 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                let report = r.data.gkresult;
-                let left = self.formatReport(report.leftlist);
-                let right = self.formatReport(report.rightlist);
-                self.bsheet = {
-                  left: left.data,
-                  right: right.data,
-                };
-                self.options.groupIndex = {
-                  left: left.groupIndex,
-                  right: right.groupIndex,
-                };
+                {
+                  let report = r.data.gkresult;
+                  let left = self.formatReport(report.leftlist);
+                  let right = self.formatReport(report.rightlist);
+                  self.bsheet = {
+                    left: left.data,
+                    right: right.data,
+                  };
+                  self.options.groupIndex = {
+                    left: left.groupIndex,
+                    right: right.groupIndex,
+                  };
+                }
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {

@@ -336,24 +336,25 @@ export default {
         if (r.status == 200)
           switch (r.data.gkstatus) {
             case 0:
-              this.$bvToast.toast(
-                `user ${this.form.username} updated successfully`,
-                {
-                  title: 'Success',
-                  variant: 'success',
-                  solid: true,
-                }
-              );
-              // Add delete user log to server
-              const payload = {
-                activity: `user ${this.form.username} details updated`,
-              };
-              axios.post(`${this.gkCoreUrl}/log`, payload, {
-                headers: { gktoken: this.authToken },
-              });
-              this.isLoading = false;
-              this.$emit('refreshUsers');
-
+              {
+                this.$bvToast.toast(
+                  `user ${this.form.username} updated successfully`,
+                  {
+                    title: 'Success',
+                    variant: 'success',
+                    solid: true,
+                  }
+                );
+                // Add delete user log to server
+                const payload = {
+                  activity: `user ${this.form.username} details updated`,
+                };
+                axios.post(`${this.gkCoreUrl}/log`, payload, {
+                  headers: { gktoken: this.authToken },
+                });
+                this.isLoading = false;
+                this.$emit('refreshUsers');
+              }
               break;
             case 1:
               this.$bvToast.toast(

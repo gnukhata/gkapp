@@ -87,7 +87,6 @@ export default {
         { key: 'sanctioned_amount', sortable: true },
         { key: 'manage' },
       ],
-      loading: false,
       costCenters: [],
       ccId: '',
     };

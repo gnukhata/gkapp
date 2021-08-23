@@ -274,7 +274,6 @@ export default {
                   variant: 'warning',
                   solid: true,
                 });
-                ode;
                 break;
               case 2:
                 this.$bvToast.toast('Unauthorised Access', {
