@@ -41,7 +41,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small"
+          class="text-small table-border-dark"
         ></b-table-lite>
       </b-col>
     </b-row>
@@ -55,13 +55,13 @@
       :responsive="true"
       small
       striped
-      class="text-small"
-      tbody-tr-class="content-table-row"
+      class="text-small table-border-dark"
+      tbody-tr-class="gk-vertical-row"
     >
     </b-table-lite>
     <b-row>
-      <b-col cols="12" md="6" class="my-2" order="2" order-md="1"> </b-col>
-      <b-col cols="12" md="6" class="my-2" order="1" order-md="2">
+      <b-col class="my-2" order="2" order-md="1"> </b-col>
+      <b-col cols="12" md="8" class="my-2" order="1" order-md="2">
         <!-- Total Table -->
         <b-table-lite
           :items="totalDetails"
@@ -76,19 +76,21 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols="12" md="6" class="my-2"> </b-col>
-      <b-col cols="12" md="6" class="my-2">
+      <b-col class="my-2"> </b-col>
+      <b-col cols="12" md="8" class="my-2">
         <p class="text-small">
           <b> Narration: </b> <span> {{ delnote.narration }} </span> <br />
         </p>
       </b-col>
     </b-row>
-    <div class="float-right" v-if="cancelFlag">
+    <div class="float-right d-print-none">
+      <slot name="buttons"> </slot>
       <b-button
+        v-if="cancelFlag"
         @click.prevent="onDelete"
         size="sm"
         variant="danger"
-        class="mx-1"
+        class=""
       >
         Delete
       </b-button>

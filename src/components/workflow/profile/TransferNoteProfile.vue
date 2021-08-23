@@ -35,7 +35,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small"
+          class="text-small table-border-dark"
         >
           <template #cell(value)="data">
             <div v-if="data.item.type === 'receipt'">
@@ -63,15 +63,19 @@
       bordered
       head-variant="dark"
       small
+      class="text-small table-border-dark"
     ></b-table-lite>
-    <b-button
-      v-if="!tnote.recieved"
-      @click.prevent="onSubmit"
-      size="sm d-print-none"
-      variant="success"
-    >
-      Approve
-    </b-button>
+    <div class="float-right d-print-none">
+      <slot name="buttons"> </slot>
+      <b-button
+        v-if="!tnote.recieved"
+        @click.prevent="onSubmit"
+        size="sm"
+        variant="success"
+      >
+        Approve
+      </b-button>
+    </div>
   </b-container>
 </template>
 

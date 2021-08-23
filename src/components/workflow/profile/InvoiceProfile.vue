@@ -29,7 +29,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small"
+          class="text-small table-border-dark"
         ></b-table-lite>
       </b-col>
     </b-row>
@@ -42,8 +42,8 @@
       stacked="sm"
       striped
       small
-      class="text-small"
-      tbody-tr-class="content-table-row"
+      class="text-small table-border-dark"
+      tbody-tr-class="gk-vertical-row"
     >
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
@@ -79,8 +79,8 @@
       </template>
     </b-table-lite>
     <b-row>
-      <b-col cols="12" md="6" class="my-2"> </b-col>
-      <b-col cols="12" md="6" class="my-2">
+      <b-col class="my-2"> </b-col>
+      <b-col cols="12" md="8" class="my-2">
         <!-- Total Table -->
         <b-table-lite
           :items="totalDetails"
@@ -95,69 +95,75 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols="12" md="6" class="my-2">
-        <b>Payment Details</b>
-        <div v-if="invoice.payment.mode > 2">
-          {{ invoice.payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
-        </div>
-        <div class="text-small" v-else>
-          Paid By Bank Transfer
-          <b-table-lite
-            :items="bankDetails"
-            :fields="['title', 'value']"
-            small
-            bordered
-            fixed
-            thead-class="d-none"
-          >
-          </b-table-lite>
-        </div>
+      <b-col class="my-2">
       </b-col>
-      <b-col cols="12" md="6" class="my-2">
+      <b-col cols="12" md="8" class="my-2">
+        <div>
+          <b>Payment Details</b>
+          <div v-if="invoice.payment.mode > 2" class="mb-3">
+            {{ invoice.payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
+          </div>
+          <div class="text-small" v-else>
+            Paid By Bank Transfer
+            <b-table-lite
+              :items="bankDetails"
+              :fields="['title', 'value']"
+              small
+              bordered
+              fixed
+              thead-class="d-none"
+            >
+            </b-table-lite>
+          </div>
+        </div>
         <b> Narration: </b> {{ invoice.narration }}
       </b-col>
     </b-row>
-    <div class="float-right my-2 d-print-none" v-if="!deletedFlag">
-      <b-button
-        class="mr-2"
-        size="sm"
-        variant="primary"
-        v-b-toggle.voucher-container
-      >
-        <b-icon icon="eye"></b-icon> View Vouchers</b-button
-      >
-      <b-button
-        v-if="onCreditFlag"
-        class="mr-2"
-        size="sm"
-        variant="success"
-        :to="{
-          name: 'Billwise',
-          params: {
-            custType: invoice.party.csflag,
-            custName: invoice.party.name,
-          },
-        }"
-      >
-        <b-icon icon="clipboard-check"></b-icon> Adjust</b-button
-      >
-      <b-button
-        v-if="rectifyFlag"
-        class="mr-2"
-        size="sm"
-        variant="warning"
-        :to="{ name: 'Invoice', params: { mode: 'edit', invid: id } }"
-      >
-        <b-icon icon="pencil"></b-icon> Rectify</b-button
-      >
-      <b-button
-        v-if="cancelFlag"
-        size="sm"
-        variant="danger"
-        @click="confirmOnCancel"
-      >
-        <b-icon icon="x-octagon"></b-icon> Cancel</b-button
-      >
+    <div class="float-right my-2 d-print-none">
+      <slot name="buttons"> </slot>
+      <span v-if="!deletedFlag">
+        <b-button
+          class="mr-1"
+          size="sm"
+          variant="primary"
+          v-b-toggle.voucher-container
+        >
+          <b-icon icon="eye"></b-icon> View Vouchers</b-button
+        >
+        <b-button
+          v-if="onCreditFlag"
+          class="mr-1"
+          size="sm"
+          variant="success"
+          :to="{
+            name: 'Billwise',
+            params: {
+              custType: invoice.party.csflag,
+              custName: invoice.party.name,
+            },
+          }"
+        >
+          <b-icon icon="clipboard-check"></b-icon> Adjust</b-button
+        >
+        <b-button
+          v-if="rectifyFlag"
+          class=""
+          size="sm"
+          variant="warning"
+          :to="{ name: 'Invoice', params: { mode: 'edit', invid: id } }"
+        >
+          <b-icon icon="pencil"></b-icon> Rectify</b-button
+        >
+        <b-button
+          v-if="cancelFlag"
+          size="sm"
+          variant="danger"
+          @click="confirmOnCancel"
+        >
+          <b-icon icon="x-octagon"></b-icon> Cancel</b-button
+        >
+
+      </span>
     </div>
     <div class="clearfix"></div>
     <br />

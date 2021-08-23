@@ -15,7 +15,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small"
+          class="text-small table-border-dark"
         ></b-table-lite>
       </b-col>
     </b-row>
@@ -28,8 +28,8 @@
       stacked="sm"
       small
       striped
-      tbody-tr-class="content-table-row"
-      class="text-small"
+      tbody-tr-class="gk-vertical-row"
+      class="text-small table-border-dark"
     >
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
@@ -42,8 +42,8 @@
       <template #cell(total)="data"> {{ data.value }} </template>
     </b-table-lite>
     <b-row>
-      <b-col cols="12" md="6" class="my-2"> </b-col>
-      <b-col cols="12" md="6" class="my-2">
+      <b-col class="my-2"> </b-col>
+      <b-col cols="12" md="8" class="my-2">
         <!-- Total Table -->
         <b-table-lite
           :items="totalDetails"
@@ -58,31 +58,35 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols="12" md="6" class="my-2">
-        <b>Payment Details</b>
-        <div v-if="invoice.payment.mode > 2">
-          {{ invoice.payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
+      <b-col class="my-2"> </b-col>
+      <b-col cols="12" md="8" class="my-2">
+        <div>
+          <b>Payment Details</b>
+          <div v-if="invoice.payment.mode > 2" class="mb-3">
+            {{ invoice.payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
+          </div>
+          <div class="text-small" v-else>
+            Paid By Bank Transfer
+            <b-table-lite
+              :items="bankDetails"
+              :fields="['title', 'value']"
+              small
+              bordered
+              fixed
+              thead-class="d-none"
+            >
+            </b-table-lite>
+          </div>
         </div>
-        <div class="text-small" v-else>
-          Paid By Bank Transfer
-          <b-table-lite
-            :items="bankDetails"
-            :fields="['title', 'value']"
-            small
-            bordered
-            fixed
-            thead-class="d-none"
-          >
-          </b-table-lite>
-        </div>
-      </b-col>
-      <b-col cols="12" md="6" class="my-2">
         <b> Narration: </b> {{ invoice.narration }}
       </b-col>
     </b-row>
-    <div class="float-right my-2">
+    <div class="float-right my-2 d-print-none">
+      <span>
+        <slot name="buttons"> </slot>
+      </span>
       <b-button
-        class="mr-2"
+        class=""
         size="sm"
         variant="primary"
         v-b-toggle.voucher-container

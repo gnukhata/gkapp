@@ -38,7 +38,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small"
+          class="text-small table-border-dark"
         ></b-table-lite>
       </b-col>
     </b-row>
@@ -46,17 +46,17 @@
     <b-table-lite
       :items="psorder.contents"
       :fields="tableFields"
-      tbody-tr-class="content-table-row"
+      tbody-tr-class="gk-vertical-row"
       bordered
       head-variant="dark"
       stacked="sm"
       small
       striped
-      class="text-small"
+      class="text-small table-border-dark"
     ></b-table-lite>
     <b-row>
-      <b-col cols="12" md="6" class="my-2" order="2" order-md="1"> </b-col>
-      <b-col cols="12" md="6" class="my-2" order="1" order-md="2">
+      <b-col class="my-2" order="2" order-md="1"> </b-col>
+      <b-col cols="12" md="8" class="my-2" order="1" order-md="2">
         <!-- Total Table -->
         <b-table-lite
           :items="totalDetails"
@@ -71,28 +71,33 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols="12" md="6" class="my-2">
-        <b>Payment Details</b>
-        <div v-if="payment.mode > 2">
-          {{ payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
-        </div>
-        <div class="text-small" v-else>
-          To Be Paid By Bank Transfer
-          <b-table-lite
-            :items="bankDetails"
-            :fields="['title', 'value']"
-            small
-            bordered
-            fixed
-            thead-class="d-none"
-          >
-          </b-table-lite>
-        </div>
+      <b-col class="my-2">
       </b-col>
-      <b-col cols="12" md="6" class="my-2">
+      <b-col cols="12" md="8" class="my-2">
+        <div>
+          <b>Payment Details</b>
+          <div v-if="payment.mode > 2" class="mb-3">
+            {{ payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
+          </div>
+          <div class="text-small" v-else>
+            To Be Paid By Bank Transfer
+            <b-table-lite
+              :items="bankDetails"
+              :fields="['title', 'value']"
+              small
+              bordered
+              fixed
+              thead-class="d-none"
+            >
+            </b-table-lite>
+          </div>
+        </div>
         <b> Narration: </b> {{ psorder.narration }}
       </b-col>
     </b-row>
+    <div class="float-right d-print-none">
+      <slot name="buttons"> </slot>
+    </div>
   </b-container>
 </template>
 

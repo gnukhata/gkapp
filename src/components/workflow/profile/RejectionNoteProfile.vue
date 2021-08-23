@@ -22,7 +22,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small"
+          class="text-small table-border-dark"
         ></b-table-lite>
       </b-col>
     </b-row>
@@ -35,16 +35,16 @@
       stacked="sm"
       small
       striped
-      tbody-tr-class="content-table-row"
-      class="text-small"
+      tbody-tr-class="gk-vertical-row"
+      class="text-small table-border-dark"
     >
       <template #cell(qty)="data">
         {{data.value}} <small> {{data.item.uom}} </small>
       </template>
     </b-table-lite>
     <b-row>
-      <b-col cols="12" md="6" class="my-2" order="2" order-md="1"> </b-col>
-      <b-col cols="12" md="6" class="my-2" order="1" order-md="2">
+      <b-col class="my-2" order="2" order-md="1"> </b-col>
+      <b-col cols="12" md="8" class="my-2" order="1" order-md="2">
         <!-- Total Table -->
         <b-table-lite
           :items="totalDetails"
@@ -59,12 +59,15 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols="12" md="6" class="my-2">
+      <b-col class="my-2">
       </b-col>
-      <b-col cols="12" md="6" class="my-2">
+      <b-col cols="12" md="8" class="my-2">
         <b> Narration: </b> {{ rnote.narration }}
       </b-col>
     </b-row>
+    <div class="d-print-none float-right">
+      <slot name="buttons"> </slot>
+    </div>
   </b-container>
 </template>
 

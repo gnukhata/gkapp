@@ -7,15 +7,31 @@
       <div class="clearfix"></div>
       <br />
     </div>
-    <div class="text-right mb-3">
-      <b>{{ voucher.date }}</b>
-    </div>
+    <b-row>
+      <b-col order="2" order-md="1">
+      </b-col>
+      <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
+        <b>Voucher Details</b>
+        <!-- Note Details Table -->
+        <b-table-lite
+          :fields="['title', 'value']"
+          :items="voucherData"
+          small
+          bordered
+          thead-class="d-none"
+          fixed
+          class="text-small table-border-dark"
+        ></b-table-lite>
+      </b-col>
+    </b-row>
     <b-table-lite
       :items="voucher.content"
       :fields="tableFields"
       bordered
       head-variant="dark"
       foot-clone
+      small
+      class="text-small table-border-dark"
     >
       <template #foot(account)="">
         <span>Total</span>
@@ -27,26 +43,29 @@
         <span>₹ {{ totalCr }}</span>
       </template>
     </b-table-lite>
-    <p>
-      <b>Comments:</b>
+    <p class="text-small">
+      <b>Narration:</b> <br>
+      {{ voucher.narration }}
     </p>
-    {{ voucher.narration }}
     <br /><br />
-    <div class="float-right" v-if="!deletedFlag">
-      <b-button
-        @click.prevent="onDelete"
-        size="sm"
-        variant="danger"
-        class="mx-1"
-        >Delete</b-button
-      >
-      <b-button
-        size="sm"
-        variant="warning"
-        :to="{ name: 'Edit_Voucher', params: { vid: id } }"
-      >
-        Edit
-      </b-button>
+    <div class="float-right">
+      <slot name="buttons"> </slot>
+      <span v-if="!deletedFlag">
+        <b-button
+          @click.prevent="onDelete"
+          size="sm"
+          variant="danger"
+          class=""
+          >Delete</b-button
+        >
+        <b-button
+          size="sm"
+          variant="warning"
+          :to="{ name: 'Edit_Voucher', params: { vid: id } }"
+        >
+          Edit
+        </b-button>
+      </span>
     </div>
   </b-container>
 </template>
@@ -74,6 +93,13 @@ export default {
     },
   },
   computed: {
+    voucherData: (self) => {
+      return [
+        { title: 'No.', value: self.no },
+        { title: 'Date', value: self.voucher.date },
+        { title: 'Type', value: self.type },
+      ];
+    },
     deletedFlag: (self) => !!self.pdata.deletedFlag,
     totalCr: (self) =>
       self.voucher.content

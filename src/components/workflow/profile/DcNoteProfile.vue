@@ -24,7 +24,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small"
+          class="text-small table-border-dark"
         ></b-table-lite>
       </b-col>
     </b-row>
@@ -36,17 +36,17 @@
       head-variant="dark"
       stacked="sm"
       small
-      class="text-small"
+      class="text-small table-border-dark"
       striped
-      tbody-tr-class="content-table-row"
+      tbody-tr-class="gk-vertical-row"
     >
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
     </b-table-lite>
     <b-row>
-      <b-col cols="12" md="6" class="my-2"> </b-col>
-      <b-col cols="12" md="6" class="my-2">
+      <b-col class="my-2"> </b-col>
+      <b-col cols="12" md="8" class="my-2">
         <!-- Total Table -->
         <b-table-lite
           :items="totalDetails"
@@ -61,13 +61,16 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols="12" md="6" class="my-2"> </b-col>
-      <b-col cols="12" md="6" class="my-2">
+      <b-col class="my-2"> </b-col>
+      <b-col cols="12" md="8" class="my-2">
         <p class="text-small">
           <b> Narration: </b> <span> {{ dcNote.narration }} </span> <br />
         </p>
       </b-col>
     </b-row>
+    <div class="d-print-none float-right">
+      <slot name="buttons"> </slot>
+    </div>
   </b-container>
 </template>
 
