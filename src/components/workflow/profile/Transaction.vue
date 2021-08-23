@@ -4,7 +4,11 @@
     :pdata="pdata"
     :id="id"
     :onUpdate="onUpdate"
-  ></component>
+  >
+    <template #buttons>
+      <slot name="buttons"> </slot>
+    </template>
+  </component>
 </template>
 
 <script>
@@ -66,6 +70,3 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-  @import "../../../scss/transaction_profile.scss";
-</style>
