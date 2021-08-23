@@ -474,6 +474,20 @@ const routes = [
         /* webpackChunkName: "voucher-list" */ '../views/Reports/VoucherList.vue'
       ),
   },
+  {
+    path: '/ledger',
+    name: 'View Ledger',
+    component: () =>
+      import(/* webpackChunkName: "ledger */ '../views/Ledger.vue'),
+  },
+  {
+    path: '/ledger/monthly/:id',
+    name: 'Monthly Ledger',
+    component: () =>
+      import(
+        /* webpackChunkName: "ledger-monthly */ '../views/LedgerMonthly.vue'
+      ),
+  },
 ];
 
 const router = new VueRouter({

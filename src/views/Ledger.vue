@@ -1,0 +1,192 @@
+<template>
+  <section class="m-2">
+    <b-form @submit.prevent="check">
+      <b-card
+        header-bg-variant="dark"
+        class="gkcard mx-auto"
+        header-text-variant="light"
+      >
+        <template #header>
+          <gk-cardheader
+            name="View Ledger"
+            help-body="<b>Single</b><br>
+Select name of the account to be viewed. The default option is Monthly Ledger.
+Press Space Bar to view it or press Enter or Tab key to escape it and view report for any period.
+The report could be viewed with or without narration. This report gives Date, V. No., Status, Type of Voucher, Name of the corresponding account, Narration, Amount and running balance of account. The locked records are marked by a sign of *** in the Status column. Drill Down facility is available where you can double click or press enter key on any transaction to view it and/or modify it. After any modification the ledger report immediately reflects the chnages. It can be viewed in entirety or for a Project or Cost Center. You can view only Debit transactions or Credit Transactions of a Ledger account. Dual Ledgers
+When a Ledger Account appears on the screen, press Shift + Alt + l to view another Ledger Account simultaneously. Select another Ledger account, choose period and press Enter. You can view the same account side by side but for a different period. Drill Down facility is available for both the accounts. Each Ledger Account of the dual ledgers has a separate Quick Search facility. All users can view this report. This report is unique to GNUKhata. "
+          ></gk-cardheader>
+        </template>
+        <!-- Account name -->
+        <b-form-group label="Account name" label-size="sm" label-cols="auto">
+          <autocomplete
+            required
+            placeholder="select account"
+            v-model="accountCode"
+            :options="accountsList"
+            textField="accountname"
+            valueField="accountcode"
+          ></autocomplete>
+          <!-- monthly ledger checkbox -->
+          <b-form-checkbox size="sm" class="mt-2" v-model="showMonthlyLedger">
+            Monthly Ledger</b-form-checkbox
+          >
+        </b-form-group>
+        <!-- Date fields -->
+        <fieldset :disabled="showMonthlyLedger">
+          <div class="d-flex">
+            <b-form-group label="From" label-size="sm">
+              <gk-date id="from" v-model="fromDate"></gk-date>
+            </b-form-group>
+            <b-form-group label="To" class="ml-3" label-size="sm">
+              <gk-date id="to" v-model="toDate"></gk-date>
+            </b-form-group>
+          </div>
+          <!-- Checkboxes -->
+          <b-form-checkbox-group
+            v-model="ledgerOptions"
+            :options="checkboxes"
+            size="sm"
+          ></b-form-checkbox-group>
+          <!-- Cost Center select-->
+          <b-form-group
+            class="mt-2"
+            label="Cost Center"
+            label-size="sm"
+            label-cols="auto"
+          >
+            <autocomplete
+              required
+              placeholder="select Cost Center"
+              v-model="projectCode"
+              :options="costCenterList"
+              textField="projectname"
+              valueField="projectcode"
+            ></autocomplete>
+          </b-form-group>
+        </fieldset>
+        <b-button type="submit" variant="success" size="sm" class="float-right"
+          ><b-icon icon="eye"></b-icon> View</b-button
+        >
+      </b-card>
+    </b-form>
+  </section>
+</template>
+
+<script>
+import axios from 'axios';
+import GkCardheader from '../components/GkCardheader.vue';
+import Autocomplete from '../components/Autocomplete.vue';
+import { mapState } from 'vuex';
+import GkDate from '../components/GkDate.vue';
+export default {
+  components: { GkCardheader, Autocomplete, GkDate },
+  name: 'Ledger',
+  data() {
+    return {
+      loading: false,
+      accountsList: [],
+      costCenterList: [],
+      showMonthlyLedger: true,
+      ledgerOptions: [],
+      checkboxes: [
+        { text: 'Narration', value: 'narration' },
+        { text: 'Billwise Details', value: 'billwise' },
+      ],
+      accountCode: null,
+      projectCode: null,
+      fromDate: null,
+      toDate: null,
+    };
+  },
+  computed: {
+    ...mapState(['yearStart', 'yearEnd']),
+  },
+  mounted() {
+    this.getAccounts();
+    this.getCostCenterList();
+    this.fromDate = this.yearStart;
+    this.toDate = this.yearEnd;
+  },
+  methods: {
+    check() {
+      if (this.showMonthlyLedger) {
+        this.$router.push(`/ledger/monthly/${this.accountCode}`);
+      }
+    },
+    async getCostCenterList() {
+      this.loading = true;
+      axios
+        .get(`/projects`)
+        .then((r) => {
+          if (r.status == 200) {
+            this.costCenterList = r.data.gkresult;
+            // let u = r.data.gkresult.map((data) => {
+            //   let obj = {};
+            //   obj.id = Object.values(data)[0];
+            //   obj.name = Object.values(data)[1];
+            //   obj.sanctioned_amount = Object.values(data)[2];
+            //   obj.manage = null;
+            //   return obj;
+            // })
+            // this.costCenters = u;
+          } else {
+            this.$bvToast.toast('Failed to fetch cost center items', {
+              variant: 'danger',
+              solid: true,
+            });
+          }
+          this.loading = false;
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            title: 'failed',
+            variant: 'danger',
+            solid: true,
+          });
+          this.loading = false;
+        });
+    },
+    async getAccounts() {
+      axios.get('/accounts').then((r) => {
+        if (r.status == 200) {
+          switch (r.data.gkstatus) {
+            case 0:
+              this.accountsList = r.data.gkresult;
+              break;
+            case 1:
+              this.$bvToast.toast('Duplicate Entry', {
+                variant: 'warning',
+                solid: true,
+              });
+              break;
+            case 2:
+              this.$bvToast.toast('Unauthorised Access', {
+                variant: 'danger',
+                solid: true,
+              });
+              break;
+            case 3:
+              this.$bvToast.toast('Data error', {
+                variant: 'danger',
+                solid: true,
+              });
+              break;
+            case 4:
+              this.$bvToast.toast('No Privilege', {
+                variant: 'danger',
+                solid: true,
+              });
+              break;
+            case 5:
+              this.$bvToast.toast('Integrity error', {
+                variant: 'danger',
+                solid: true,
+              });
+              break;
+          }
+        }
+      });
+    },
+  },
+};
+</script>

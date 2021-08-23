@@ -30,7 +30,8 @@ All users can view this report"
       <report-header>
         <div class="text-center">
           <b>Cash Flow Account</b>
-          for the period {{ this.fromDate }} to {{ this.toDate }}
+          for the period {{ dateReverse(this.yearStart) }} to
+          {{ dateReverse(this.yearEnd) }}
         </div>
       </report-header>
       <div class="row mt-3" v-if="result1 !== null">
@@ -38,6 +39,7 @@ All users can view this report"
           <b-table
             :fields="fields1"
             :items="result1"
+            primary-key="particulars"
             small
             bordered
             striped
@@ -53,6 +55,7 @@ All users can view this report"
           <b-table
             :fields="fields2"
             :items="result2"
+            primary-key="particulars"
             small
             bordered
             striped
@@ -183,3 +186,8 @@ export default {
   },
 };
 </script>
+<style>
+tr[data-pk='Total'] {
+  font-weight: bold;
+}
+</style>
