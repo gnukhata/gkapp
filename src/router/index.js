@@ -403,6 +403,14 @@ const routes = [
       ),
   },
   {
+    path: '/balance-sheet',
+    name: 'Balance_Sheet',
+    component: () =>
+      import(
+        /* webpackChunkName: "balance-sheet" */ '../views/BalanceSheet.vue'
+      ),
+  },
+  {
     path: '/invoice-list',
     name: 'Invoice_List',
     component: () =>
