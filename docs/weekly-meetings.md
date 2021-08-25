@@ -5,6 +5,73 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
+# Meeting history (2021-08-23)
+
+Agenda:
+
+-   Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+
+-   Karthik:
+    -   Monthly ledger
+    -   Initial work on collapsable sidebar
+    -   Help component as modal instead of Tooltip
+-   Survesh:
+    -   Added Print for Transaction profile page
+    -   Added Separate pages tp print Transaction workflow lists
+    -   Updated Workflow page UI
+
+Points Discussed:
+
+-   Comments on print pages for workflow lists,
+    -   A separate page for print is not required here, as the current workflow page
+        uses the same API's used in the print pages to fetch the same data, 
+        but only lists few of them.
+    -   We can provide UI options in the workflow page, to enable the user to view
+        the extra fields that are currently being displayed in the print pages.
+    -   The options discussed are listed below,
+        -   An option to choose the default columns required by the user in the workflow
+            page.
+        -   An option to toggle between 3 column and multi column view of the listing table.
+-   Improvements discussed on the worklfow filters,
+    -   Need the ability to add more than one type of filter, like the ability to combine a
+        filter for Cancelled Invoices, Sales Invoices and Invoices belonging to a particular 
+        customer.
+    -   Need the ability to query the table with text.
+    -   Side Note: The current gkapp also requires a global search feature, for which elastic
+        search could be used.
+-   Need for separation of Invoices into Sales and Purchases
+    -   Easy of Use.
+    -   Separation would also decrease an overhead of splitting sales and purchases when filtering 
+        out Invoices list.
+-   The current default setting for maintaining a separate ledger account for Sale and Purchase 
+    of every product is overwhelming, we can switch to a per sales ledger account as default.
+-   Doubt about the field "No. of Unlocked Transactions" in ledger page, clarify with Abhijith.
+-   Discussions on improvements in the existing form help texts,
+    -   The some of the help texts available in gkwebapp, are too long and can be overwhelming at times
+        for the user.
+    -   Need ways to make them short and still convey the information required.
+    -   We can try to split the long texts and place them across the form based on their context.
+-   Discussions on plans for packaging GNUKhata (gkcore, gkwebapp and gkapp),
+    -   If we are going the debian way, we need to create separate debian packages for 
+        gkcore and gkwebapp.
+    -   Also we need to write test cases for the above packages if they are to be picked up by Debian
+        stable release.
+    -   Also releasing gkcore and gkwebapp as pip packages is a good idea, as it would make it easier to convert
+        them into a debian package.
+    -   In the same way, gkapp can be released as a NPM package.
+    -   So first we can release them in pip and npm registries and then we can go from there to debian releases.
+    -   For the current upcoming point release we can use Docker to package gkcore and gkwebapp for
+        linux based operating sytems.
+
+Conclusion:
+
+-   Updates will be performed based on the points discussed above.
+
+
 # Meeting history (2021-08-16)
 
 Agenda:
