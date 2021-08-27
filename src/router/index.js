@@ -478,15 +478,29 @@ const routes = [
     path: '/ledger',
     name: 'View Ledger',
     component: () =>
-      import(/* webpackChunkName: "ledger */ '../views/Ledger.vue'),
+      import(/* webpackChunkName: "ledger" */ '../views/Ledger.vue'),
   },
   {
     path: '/ledger/monthly/:id',
     name: 'Monthly Ledger',
     component: () =>
       import(
-        /* webpackChunkName: "ledger-monthly */ '../views/LedgerMonthly.vue'
+        /* webpackChunkName: "ledger-monthly" */ '../views/LedgerMonthly.vue'
       ),
+  },
+  {
+    // ac=accountcode, pc=productcode, fs=financialstart, fd=fromdate, td=todate,
+    path: '/ledger/:ac&:pc&:fd&:td',
+    name: 'Ledger',
+    component: () =>
+      import(/* webpackChunkName: "ledger-full" */ '../views/LedgerFull.vue'),
+  },
+  {
+    // ac=accountcode
+    path: '/ledger/:ac',
+    name: 'Ledger',
+    component: () =>
+      import(/* webpackChunkName: "ledger-ac" */ '../views/LedgerFull.vue'),
   },
 ];
 

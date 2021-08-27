@@ -9,7 +9,7 @@
         <template #header>
           <gk-cardheader
             name="View Ledger"
-            help-body="<b>Single</b><br>
+            help-body="Single
 Select name of the account to be viewed. The default option is Monthly Ledger.
 Press Space Bar to view it or press Enter or Tab key to escape it and view report for any period.
 The report could be viewed with or without narration. This report gives Date, V. No., Status, Type of Voucher, Name of the corresponding account, Narration, Amount and running balance of account. The locked records are marked by a sign of *** in the Status column. Drill Down facility is available where you can double click or press enter key on any transaction to view it and/or modify it. After any modification the ledger report immediately reflects the chnages. It can be viewed in entirety or for a Project or Cost Center. You can view only Debit transactions or Credit Transactions of a Ledger account. Dual Ledgers
@@ -55,7 +55,7 @@ When a Ledger Account appears on the screen, press Shift + Alt + l to view anoth
             label-cols="auto"
           >
             <autocomplete
-              required
+              :required="false"
               placeholder="select Cost Center"
               v-model="projectCode"
               :options="costCenterList"
@@ -111,6 +111,10 @@ export default {
     check() {
       if (this.showMonthlyLedger) {
         this.$router.push(`/ledger/monthly/${this.accountCode}`);
+      } else {
+        this.$router.push(
+          `/ledger/${this.accountCode}&${this.projectCode}&${this.fromDate}&${this.toDate}`
+        );
       }
     },
     async getCostCenterList() {
@@ -120,15 +124,6 @@ export default {
         .then((r) => {
           if (r.status == 200) {
             this.costCenterList = r.data.gkresult;
-            // let u = r.data.gkresult.map((data) => {
-            //   let obj = {};
-            //   obj.id = Object.values(data)[0];
-            //   obj.name = Object.values(data)[1];
-            //   obj.sanctioned_amount = Object.values(data)[2];
-            //   obj.manage = null;
-            //   return obj;
-            // })
-            // this.costCenters = u;
           } else {
             this.$bvToast.toast('Failed to fetch cost center items', {
               variant: 'danger',
