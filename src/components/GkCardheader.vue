@@ -1,9 +1,20 @@
 <template>
   <div class="d-flex">
-    <div class="mr-auto text-light">{{ name }}</div>
-    <div v-b-popover.click="helpContent">
+    <div type="button" class="mr-auto text-light">{{ name }}</div>
+    <div v-b-modal.m1>
       <b-icon variant="light" icon="question-circle"></b-icon>
     </div>
+    <b-modal
+      id="m1"
+      size="lg"
+      ok-variant="dark"
+      :title="helpTitle"
+      hide-footer
+      no-stacking
+      scrollable
+    >
+      {{ helpBody }}
+    </b-modal>
   </div>
 </template>
 
@@ -18,7 +29,7 @@ export default {
     },
     helpTitle: {
       type: String,
-      default: null,
+      default: 'Help',
       note: 'title of help popover (optional)',
     },
     helpBody: {
@@ -29,17 +40,9 @@ export default {
     },
   },
   computed: {
-    helpContent() {
-      let o = {
-        html: true,
-        placement: 'auto',
-        variant: 'dark',
-        content: this.helpBody,
-      };
-      if (this.helpTitle !== null) {
-        o.title = this.helpTitle;
-      }
-      return o;
+    showMsgBoxOne() {
+      this.boxOne = '';
+      this.$bvModal.msgBoxOk('Action completed');
     },
   },
 };
