@@ -61,9 +61,14 @@
           stacked="sm"
           head-variant="dark"
         >
-          <template #cell(accountname)="data">{{
-            data.item.accountname
-          }}</template>
+          <template #cell(accountname)="data">
+            <b-link
+              class="text-dark"
+              @click="$router.push(`/ledger/${data.item.accountcode}`)"
+            >
+              {{ data.item.accountname }}
+            </b-link>
+          </template>
         </b-table>
         <!-- Gross Trial Balance -->
         <b-table
@@ -131,14 +136,17 @@ export default {
         {
           key: 'Dr balance',
           label: 'Debit',
+          class: 'text-right',
         },
         {
           key: 'Cr balance',
           label: 'Credit',
+          class: 'text-right',
         },
         {
           key: 'groupname',
           label: 'Group',
+          class: 'text-center',
         },
       ],
       grossfields: [
@@ -154,24 +162,29 @@ export default {
         {
           key: 'ttlRunDr',
           label: 'Debit',
+          class: 'text-right',
         },
         {
           key: 'ttlRunCr',
           label: 'Credit',
+          class: 'text-right',
         },
 
         {
           key: 'Dr',
           label: 'Dr Balance',
+          class: 'text-right',
         },
         {
           key: 'Cr',
           label: 'Cr Balance',
+          class: 'text-right',
         },
 
         {
           key: 'groupname',
           label: 'Group',
+          class: 'text-center',
         },
       ],
       extendedfields: [
@@ -186,22 +199,27 @@ export default {
         {
           key: 'openingbalance',
           label: 'Opening Balance',
+          class: 'text-right',
         },
         {
           key: 'totaldr',
           label: 'Total Drs',
+          class: 'text-right',
         },
         {
           key: 'totalcr',
           label: 'Total Crs',
+          class: 'text-right',
         },
         {
           key: 'curbaldr',
           label: 'Dr Balance',
+          class: 'text-right',
         },
         {
           key: 'curbalcr',
           label: 'Cr Balance',
+          class: 'text-right',
         },
       ],
     };
