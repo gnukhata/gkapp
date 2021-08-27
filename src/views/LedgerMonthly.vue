@@ -2,9 +2,9 @@
   <section class="m-2">
     <b-overlay :show="loading">
       <div class="bg-dark mb-4">
-        <h5 class="text-center card-header text-light d-print-none">
+        <h6 class="text-center card-header text-light d-print-none">
           <i>Ledger Account:</i> <b>{{ accountName }}</b>
-        </h5>
+        </h6>
       </div>
       <report-header>
         <div class="text-center">
@@ -16,9 +16,12 @@
         :items="result"
         small
         striped
+        bordered
+        stacked="sm"
         hover
         head-variant="dark"
         responsive="sm"
+        primary-key="particulars"
         :busy="loading"
         :fields="fields"
       ></b-table>
@@ -37,7 +40,7 @@ export default {
     return {
       loading: false,
       accountCode: null,
-      result: null,
+      result: Array,
       accountName: null,
       fields: [
         {
@@ -47,6 +50,7 @@ export default {
         {
           key: 'Dr',
           label: 'Debit Balance',
+          class: 'text-right',
         },
         {
           key: 'vcountDr',
@@ -55,6 +59,7 @@ export default {
         {
           key: 'Cr',
           label: 'Credit Balance',
+          class: 'text-right',
         },
         {
           key: 'vcountCr',
