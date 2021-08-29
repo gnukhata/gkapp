@@ -630,7 +630,7 @@ export default {
         }),
       ];
 
-      return Promise.all([...requests])
+      return Promise.all(requests)
         .then(([resp1]) => {
           this.isPreloading = false;
           if (resp1.data.gkstatus === 0) {

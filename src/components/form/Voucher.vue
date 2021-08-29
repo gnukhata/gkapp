@@ -652,7 +652,7 @@ export default {
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(([resp1, resp2]) => {
+      return Promise.all(requests).then(([resp1, resp2]) => {
         let preloadErrorList = ''; // To handle the unloaded data, at once than individually
         // === Dr Accounts ===
         if (resp1.data.gkstatus === 0) {

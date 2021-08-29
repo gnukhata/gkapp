@@ -453,7 +453,7 @@ export default {
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(([resp1, resp2]) => {
+      return Promise.all(requests).then(([resp1, resp2]) => {
         self.isPreloading = false;
 
         // === State List ===

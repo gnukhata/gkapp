@@ -268,7 +268,7 @@ export default {
         }),
       ];
 
-      return Promise.all([...requests])
+      return Promise.all(requests)
         .then(([resp1, resp2]) => {
           if (resp1.data.gkstatus === 0) {
             self.options.states = resp1.data.gkresult.map((item) => {

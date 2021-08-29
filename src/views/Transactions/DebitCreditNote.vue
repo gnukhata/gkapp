@@ -693,7 +693,7 @@ export default {
           value: inv.invid,
         };
       }
-      return Promise.all([...requests]).then(([resp1, resp2, resp3, resp4]) => {
+      return Promise.all(requests).then(([resp1, resp2, resp3, resp4]) => {
         if (resp1.data.gkstatus === 0) {
           self.options.crInvoices.sale = resp1.data.gkresult.map(formatInvoice);
         }

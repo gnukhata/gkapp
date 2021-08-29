@@ -530,7 +530,7 @@ export default {
           }),
       ];
       const self = this;
-      return Promise.all([...requests]).then(([resp1]) => {
+      return Promise.all(requests).then(([resp1]) => {
         if (resp1.data.gkstatus === 0) {
           let saleData = [],
             purchaseData = [],

@@ -620,7 +620,7 @@ export default {
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(([resp1]) => {
+      return Promise.all(requests).then(([resp1]) => {
         self.isPreloading = false;
         if (resp1.data.gkstatus === 0) {
           self.options.states = resp1.data.gkresult.map((item) => {
@@ -656,7 +656,7 @@ export default {
       ];
 
       let self = this;
-      return Promise.all([...requests])
+      return Promise.all(requests)
         .then(([resp1, resp2]) => {
           // debugger;
           // === Customer List ===

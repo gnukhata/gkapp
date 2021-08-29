@@ -141,7 +141,7 @@ export default {
           return error;
         }),
       ];
-      Promise.all([...requests])
+      Promise.all(requests)
         .then((resp) => {
           let vouchers = [],
             delVouchers = [];
@@ -149,6 +149,7 @@ export default {
             vouchers = resp[0].data.gkresult.map((voucher) => {
               return Object.assign(
                 {
+                  deletedFlag: false,
                   // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                   dateObj: Date.parse(
                     voucher.voucherdate
@@ -165,6 +166,7 @@ export default {
             delVouchers = resp[1].data.gkresult.map((voucher) => {
               return Object.assign(
                 {
+                  deletedFlag: true,
                   // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                   dateObj: Date.parse(
                     voucher.voucherdate

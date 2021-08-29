@@ -389,7 +389,7 @@ export default {
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(([resp1, resp2]) => {
+      return Promise.all(requests).then(([resp1, resp2]) => {
         if (resp1.data.gkstatus === 0) {
           self.options.lastDelChal.purchase = resp1.data.gkresult.dcno;
         }
@@ -425,7 +425,7 @@ export default {
         this.fetchLastDelChalNo(),
       ];
       const self = this;
-      return Promise.all([...requests])
+      return Promise.all(requests)
         .then(([resp1, resp2, resp3]) => {
           if (resp1.data.gkstatus === 0) {
             self.options.orgDetails = resp1.data.gkdata;

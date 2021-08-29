@@ -879,7 +879,7 @@ export default {
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(([resp1, resp2, resp3]) => {
+      return Promise.all(requests).then(([resp1, resp2, resp3]) => {
         self.isPreloading = false;
         let preloadErrorList = ""; // To handle the unloaded data, at once than individually
         /**

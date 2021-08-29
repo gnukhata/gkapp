@@ -236,7 +236,7 @@ export default {
           return error;
         }),
       ];
-      Promise.all([...requests])
+      Promise.all(requests)
         .then((resp) => {
           let cmemos = [],
             pmemos = [];

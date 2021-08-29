@@ -501,7 +501,7 @@ export default {
         this.fetchDelNotes(),
       ];
       const self = this;
-      return Promise.all([...requests])
+      return Promise.all(requests)
         .then(([resp1, resp2]) => {
           this.isPreloading = false;
           if (resp1.data.gkstatus === 0) {

@@ -560,9 +560,8 @@ export default {
             Object.assign(this.form.inv, payload.data);
             this.form.transport.date = this.form.inv.date;
             const self = this;
-            setTimeout(function() {
-              self.updateCounter.transport++;
-            });
+            self.updateCounter.transport++;
+
           }
           break;
         case 'party-details':
@@ -698,7 +697,7 @@ export default {
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(([resp1, resp6]) => {
+      return Promise.all(requests).then(([resp1, resp6]) => {
         self.isPreloading = false;
         let preloadErrorList = ''; // To handle the unloaded data, at once than individually
 
@@ -795,7 +794,7 @@ export default {
       ];
 
       let self = this;
-      return Promise.all([...requests])
+      return Promise.all(requests)
         .then(([resp1, resp2]) => {
           // === Customer List ===
           if (resp1.status === 200) {
@@ -1287,7 +1286,7 @@ export default {
         axios.get(`/invoice?type=rectifyinvlist&invtype=9`),
       ];
 
-      Promise.all([...requests]).then(([resp1, resp2]) => {
+      Promise.all(requests).then(([resp1, resp2]) => {
         if (resp1.data.gkstatus === 0) {
           self.options.editableInvoices['sale'] = resp1.data.invoices.map(
             (inv) => {

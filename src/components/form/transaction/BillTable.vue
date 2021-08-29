@@ -615,7 +615,7 @@ export default {
           return error;
         }),
       ];
-      return Promise.all([...requests]).then(([resp1, resp2, resp3]) => {
+      return Promise.all(requests).then(([resp1, resp2, resp3]) => {
         self.isLoading = false;
         // Product Data
         if (resp1.status === 200) {
@@ -927,7 +927,7 @@ export default {
         });
       });
 
-      return Promise.all([...requests]).then((stockResp) => {
+      return Promise.all(requests).then((stockResp) => {
         self.options.godownStock[self.godownId] = {};
         self.options.stock = {};
         let stock = self.options.stock;

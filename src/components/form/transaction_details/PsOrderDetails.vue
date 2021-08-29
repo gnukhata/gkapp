@@ -449,7 +449,7 @@ export default {
         this.fetchUserData(),
       ];
       const self = this;
-      return Promise.all([...requests])
+      return Promise.all(requests)
         .then(([resp1, resp2, resp3]) => {
           this.isPreloading = false;
           if (resp1.data.gkstatus === 0) {

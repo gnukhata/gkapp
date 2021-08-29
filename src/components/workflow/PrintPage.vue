@@ -138,7 +138,7 @@ export default {
         }),
         axios.get('/organisation?attach=image').catch((e) => e),
       ];
-      Promise.all([...requests]).then(([resp1, resp2, resp3]) => {
+      Promise.all(requests).then(([resp1, resp2, resp3]) => {
         let states = {};
         if (resp1.data.gkstatus === 0) {
           resp1.data.gkresult.forEach((state) => {

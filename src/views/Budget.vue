@@ -490,7 +490,7 @@ export default {
         axios.get('/budget?bud=all&btype=3'),
         axios.get('/budget?bud=all&btype=16'),
       ];
-      return Promise.all([...requests])
+      return Promise.all(requests)
         .then(([resp1, resp2]) => {
           let idToData = {};
           let preloadFail = false;

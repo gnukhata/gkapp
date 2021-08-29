@@ -498,7 +498,7 @@ export default {
             }
           });
         });
-        Promise.all([...createCalls]).then((results) => {
+        Promise.all(createCalls).then((results) => {
           let accs = '';
           results.forEach((res, i) => {
             if (res.data.gkstatus === 0) {
@@ -524,7 +524,7 @@ export default {
       stateCodes.forEach((code) => {
         requests.push(axios.get(`/state?abbreviation&statecode=${code}`));
       });
-      return Promise.all([...requests]).then((res) => {
+      return Promise.all(requests).then((res) => {
         return res.map((r) => r.data.abbreviation);
       });
     },
@@ -588,7 +588,7 @@ export default {
             });
           });
 
-          return Promise.all([...toDelete]).then((accCodes) => {
+          return Promise.all(toDelete).then((accCodes) => {
             let codes = accCodes.map((accCode) => accCode.data.accountcode);
             return { codes, accounts };
           });
@@ -608,7 +608,7 @@ export default {
             data: { accountcode: accCode },
           });
         });
-        return Promise.all([...deleteCalls]).then((delAccounts) => {
+        return Promise.all(deleteCalls).then((delAccounts) => {
           delAccounts.forEach((delAccount, i) => {
             switch (delAccount.data.gkstatus) {
               case 0:
@@ -680,7 +680,7 @@ export default {
         let codeRequests = toDelete.map((acc) =>
           axios.get(`/accounts?type=getAccCode&accountname=${acc}`)
         );
-        Promise.all([...codeRequests]).then((accCodes) => {
+        Promise.all(codeRequests).then((accCodes) => {
           let codes = accCodes.map((accCode) => accCode.data.accountcode);
           codes.map((accCode) => {
             // debugger;

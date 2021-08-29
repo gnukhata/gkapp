@@ -689,7 +689,7 @@ export default {
       ];
 
       const self = this;
-      return Promise.all([...requests]).then(() => {
+      return Promise.all(requests).then(() => {
         self.isPreloading = false;
       });
     },

@@ -253,7 +253,7 @@ export default {
     },
     preloadData() {
       const requests = [this.fetchUserData()];
-      return Promise.all([...requests]).then(() => {});
+      return Promise.all(requests).then(() => {});
     },
     fetchUserData() {
       let self = this;
