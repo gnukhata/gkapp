@@ -110,9 +110,17 @@
             <b-button
               class="float-right px-1"
               variant="link"
+              @click="isSettingsOpen = !isSettingsOpen"
+            >
+              <b-icon font-scale="0.9" icon="gear"></b-icon
+              ><span class="sr-only">Filter</span>
+            </b-button>
+            <b-button
+              class="float-right px-1"
+              variant="link"
               :to="activeTabOptions.printPath"
             >
-              <b-icon icon="printer"></b-icon
+              <b-icon font-scale="0.9" icon="printer"></b-icon
               ><span class="sr-only">Print View</span>
             </b-button>
             <b-button
@@ -120,8 +128,60 @@
               variant="link"
               @click="isFilterOpen = !isFilterOpen"
             >
-              <b-icon icon="funnel"></b-icon><span class="sr-only">Filter</span>
+              <b-icon font-scale="0.9" icon="funnel"></b-icon
+              ><span class="sr-only">Filter</span>
             </b-button>
+            <!-- Table Column Chooser -->
+            <b-collapse v-model="isSettingsOpen">
+              <b-card
+                no-body
+                class="float-right w-100 mt-2"
+                :style="{
+                  'max-width': '450px',
+                }"
+                id="list-settings"
+              >
+                <b-card-body class="p-2">
+                  <b>List Settings</b>
+                  <hr class="mx-0 my-1" />
+                  <div class="container">
+                    <b-row>
+                      <b-col class="px-1">
+                        <autocomplete
+                          v-model="listSettings.columns[0]"
+                          :options="activeTabOptions.columns"
+                          placeholder="Column 1"
+                        >
+                        </autocomplete>
+                      </b-col>
+                      <b-col class="px-0">
+                        <autocomplete
+                          v-model="listSettings.columns[1]"
+                          :options="activeTabOptions.columns"
+                          placeholder="Column 2"
+                        >
+                        </autocomplete>
+                      </b-col>
+                      <b-col class="px-1">
+                        <autocomplete
+                          v-model="listSettings.columns[2]"
+                          :options="activeTabOptions.columns"
+                          placeholder="Column 3"
+                        >
+                        </autocomplete>
+                      </b-col>
+                    </b-row>
+                  </div>
+                  <b-button
+                    class="float-right px-1 mt-2"
+                    size="sm"
+                    variant="success"
+                    @click.prevent="updateListSettings"
+                    >Save</b-button
+                  >
+                </b-card-body>
+              </b-card>
+            </b-collapse>
             <!-- Filter menu Collapsable card -->
             <b-collapse v-model="isFilterOpen">
               <b-card
@@ -282,7 +342,17 @@
                   v-if="activeWorkflow.name.includes('Transactions')"
                 >
                   <b-row>
-                    <b-col class="px-0">
+                    <b-col
+                      class="text-truncate px-1"
+                      v-for="(column, cindex) in activeTabOptions.sortBy"
+                      :key="cindex"
+                    >
+                      <small v-if="column.props.key === 'dateObj'">
+                        {{ item.date }}
+                      </small>
+                      <small v-else> {{ item[column.props.key] }} </small>
+                    </b-col>
+                    <!-- <b-col class="px-0">
                       <small>{{ item.date }}</small>
                     </b-col>
                     <b-col class="px-1 text-truncate">
@@ -305,8 +375,18 @@
                       :class="{ 'text-overline-danger': item.onCreditFlag }"
                     >
                       <small>{{ item.text2 }}</small>
-                    </b-col>
+                    </b-col> -->
                   </b-row>
+                  <!-- <div class="d-inline-block float-right" :style="{bottom: '0px', right: '0px', 'line-height': 'normal'}">
+                    <b-icon
+                      v-if="item.deletedFlag"
+                      font-scale="0.75"
+                      variant="danger"
+                      icon="x-circle"
+                      class="mr-1"
+                    ></b-icon>
+                    <b-icon font-scale="0.75" :icon="item.icon"></b-icon>
+                  </div> -->
                 </div>
                 <div v-else :class="{ 'bg-light-gray': index3 % 2 === 0 }">
                   <b-icon :icon="item.icon"></b-icon>
@@ -414,7 +494,8 @@
             ></b-button>
             <h5 class="ml-3 mb-0">
               <b-icon :icon="selectedEntity.icon"></b-icon>
-              {{ selectedEntity.noteName }} : <br> {{ selectedEntity.no }}
+              {{ selectedEntity.noteName }} : <br class="d-md-none" />
+              {{ selectedEntity.no }}
             </h5>
             <print-helper
               contentId="transaction-profile-wrapper"
@@ -448,12 +529,18 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+
+import ContactConf from '../js/config/workflow/contacts.js';
+import BusinessConf from '../js/config/workflow/business.js';
+import TransactionConf from '../js/config/workflow/transactions.js';
+
 import ContactProfile from '@/components/ContactProfile';
 import BusinessProfile from '@/components/BusinessProfile.vue';
 import TransactionProfile from '@/components/workflow/profile/Transaction.vue';
 import ReportHeader from '@/components/ReportHeader.vue';
 import PrintHelper from '@/components/PrintHelper.vue';
-// import HeroBar from '@/components/HeroBar'
+
+import Autocomplete from '../components/Autocomplete.vue';
 
 export default {
   name: 'Workflow',
@@ -463,6 +550,7 @@ export default {
     TransactionProfile,
     ReportHeader,
     PrintHelper,
+    Autocomplete,
   },
   props: {
     wfName: {
@@ -501,7 +589,7 @@ export default {
       listHeight: 0,
       tabChoice: 0,
       isPreloading: false,
-      isLoading: true,
+      isLoading: false,
       isSubMenuOpen: false,
       activeWorkflow: {
         index: null,
@@ -513,6 +601,10 @@ export default {
       products: [],
       services: [],
       isFilterOpen: false,
+      isSettingsOpen: false,
+      listSettings: {
+        columns: [null, null, null],
+      },
       selectedEntity: null,
       selectedEntityIndex: 0,
       filter: {
@@ -544,642 +636,9 @@ export default {
          * sortBy           ->  array of sorting options, can be found in the left pane just above the data list cards
          */
         tabs: {
-          Contacts: {
-            icon: 'person-lines-fill',
-            color: 'primary',
-            data: [],
-            key: 'custname',
-            uidKey: 'custid',
-            createNewPath: {
-              name: 'Contact_Details',
-              params: { mode: 'create' },
-            },
-            printPath: {
-              name: 'Contact List',
-            },
-            filterBy: {
-              value: [
-                {
-                  text: 'All', // text -> Display text for this filter
-                  props: {}, // the properties required to perform the filter
-                },
-                {
-                  text: 'Customers',
-                  props: { key: 'csflag', value: true },
-                  icon: { name: 'person-fill' },
-                },
-                {
-                  text: 'Suppliers',
-                  props: { key: 'csflag', value: false },
-                  icon: { name: 'briefcase-fill' },
-                },
-              ],
-              range: [],
-            },
-            sortBy: [
-              {
-                text: 'Name',
-                props: { key: 'custname', isAsc: true },
-              },
-            ],
-          },
-          Business: {
-            icon: 'box-seam',
-            color: 'warning',
-            data: [],
-            key: 'productdesc',
-            uidKey: 'productcode',
-            createNewPath: {
-              name: 'Business_Details',
-              params: { mode: 'create' },
-            },
-            printPath: {
-              name: 'Product List',
-            },
-            filterBy: {
-              value: [
-                {
-                  text: 'All',
-                  props: {},
-                },
-                {
-                  text: 'Product',
-                  props: { key: 'gsflag', value: 7 },
-                  icon: { name: 'box' },
-                },
-                {
-                  text: 'Service',
-                  props: { key: 'gsflag', value: 19 },
-                  icon: { name: 'headset' },
-                },
-              ],
-              range: [],
-            },
-            sortBy: [
-              {
-                text: 'Name',
-                props: { key: 'productdesc', isAsc: true },
-              },
-            ],
-          },
-          Transactions: {
-            icon: 'receipt',
-            color: 'success',
-            data: [],
-            key: 'custname',
-            uidKey: 'invid',
-            createNewPath: {
-              name: 'Invoice',
-              params: {
-                mode: 'create',
-                invid: 0,
-              },
-            },
-            tabs: {
-              Invoice: {
-                icon: 'receipt',
-                color: 'success',
-                data: [],
-                key: 'custname',
-                uidKey: 'invid',
-                createNewPath: {
-                  name: 'Invoice',
-                  params: {
-                    mode: 'create',
-                    invid: 0,
-                  },
-                },
-                printPath: {
-                  name: 'Invoice_List',
-                },
-                filterBy: {
-                  value: [
-                    {
-                      text: 'All',
-                      props: {},
-                    },
-                    {
-                      text: 'Sale',
-                      props: { key: 'csflag', value: 3 },
-                      icon: { name: 'cash-stack' },
-                    },
-                    {
-                      text: 'Purchase',
-                      props: { key: 'csflag', value: 19 },
-                      icon: { name: 'basket3' },
-                    },
-                    {
-                      text: 'Cancelled',
-                      props: { key: 'deletedFlag', value: true },
-                      icon: { name: 'x-circle', variant: 'danger' },
-                    },
-                    {
-                      text: 'On Credit',
-                      props: { key: 'onCreditFlag', value: true },
-                      icon: { name: 'dash', variant: 'danger' },
-                    },
-                    {
-                      text: 'Editable',
-                      props: { key: 'rectifyFlag', value: true },
-                      icon: { name: '' },
-                    },
-                  ],
-                  range: [
-                    {
-                      from: {
-                        text: 'From Date',
-                      },
-                      to: {
-                        text: 'To Date',
-                      },
-                      props: {
-                        key: 'dateObj',
-                        min: this.yearStart,
-                        max: this.yearEnd,
-                      },
-                    },
-                  ],
-                },
-                sortBy: [
-                  {
-                    text: 'Date',
-                    props: { key: 'dateObj', isAsc: true },
-                  },
-                  {
-                    text: 'Name',
-                    props: { key: 'custname', isAsc: true },
-                  },
-                  {
-                    text: 'Amount',
-                    props: { key: 'netamt', isAsc: true },
-                  },
-                ],
-              },
-              DebitCreditNote: {
-                icon: 'receipt',
-                color: 'success',
-                data: [],
-                key: 'custname',
-                uidKey: 'drcrid',
-                createNewPath: {
-                  name: 'Debit_Credit_Note',
-                },
-                printPath: {
-                  name: 'Dc_Note_List',
-                },
-                filterBy: {
-                  value: [
-                    {
-                      text: 'All',
-                      props: {},
-                    },
-                    {
-                      text: 'Sale',
-                      props: { key: 'csflag', value: 3 },
-                      icon: { name: 'cash-stack' },
-                    },
-                    {
-                      text: 'Purchase',
-                      props: { key: 'csflag', value: 19 },
-                      icon: { name: 'basket3' },
-                    },
-                  ],
-                  range: [
-                    {
-                      from: {
-                        text: 'From Date',
-                      },
-                      to: {
-                        text: 'To Date',
-                      },
-                      props: {
-                        key: 'dateObj',
-                        min: this.yearStart,
-                        max: this.yearEnd,
-                      },
-                    },
-                  ],
-                },
-                sortBy: [
-                  {
-                    text: 'Date',
-                    props: { key: 'dateObj', isAsc: true },
-                  },
-                  {
-                    text: 'Name',
-                    props: { key: 'custname', isAsc: true },
-                  },
-                  {
-                    text: 'Amount',
-                    props: { key: 'totreduct', isAsc: true },
-                  },
-                ],
-              },
-              CashMemo: {
-                icon: 'receipt',
-                color: 'success',
-                data: [],
-                key: 'custname',
-                uidKey: 'invid',
-                createNewPath: {
-                  name: 'Cash_Memo',
-                  params: {},
-                },
-                printPath: {
-                  name: 'Cash_Memo_List',
-                },
-                filterBy: {
-                  value: [
-                    {
-                      text: 'All',
-                      props: {},
-                    },
-                  ],
-                  range: [
-                    {
-                      from: {
-                        text: 'From Date',
-                      },
-                      to: {
-                        text: 'To Date',
-                      },
-                      props: {
-                        key: 'dateObj',
-                        min: this.yearStart,
-                        max: this.yearEnd,
-                      },
-                    },
-                  ],
-                },
-                sortBy: [
-                  {
-                    text: 'Date',
-                    props: { key: 'dateObj', isAsc: true },
-                  },
-                  {
-                    text: 'No.',
-                    props: { key: 'invoiceno', isAsc: true },
-                  },
-                ],
-              },
-              DeliveryNote: {
-                icon: 'receipt',
-                color: 'success',
-                data: [],
-                key: 'custname',
-                uidKey: 'dcid',
-                createNewPath: {
-                  name: 'Delivery_Note',
-                  params: {
-                    mode: 'create',
-                    invid: 0,
-                  },
-                },
-                printPath: {
-                  name: 'Delivery_Note_List',
-                },
-                filterBy: {
-                  value: [
-                    {
-                      text: 'All',
-                      props: {},
-                    },
-                    {
-                      text: 'Sale',
-                      props: { key: 'csflag', value: 3 },
-                      icon: { name: 'cash-stack' },
-                    },
-                    {
-                      text: 'Purchase',
-                      props: { key: 'csflag', value: 19 },
-                      icon: { name: 'basket3' },
-                    },
-                  ],
-                  range: [
-                    {
-                      from: {
-                        text: 'From Date',
-                      },
-                      to: {
-                        text: 'To Date',
-                      },
-                      props: {
-                        key: 'dateObj',
-                        min: this.yearStart,
-                        max: this.yearEnd,
-                      },
-                    },
-                  ],
-                },
-                sortBy: [
-                  {
-                    text: 'Date',
-                    props: { key: 'dateObj', isAsc: true },
-                  },
-                  {
-                    text: 'Name',
-                    props: { key: 'custname', isAsc: true },
-                  },
-                  {
-                    text: 'No.',
-                    props: { key: 'dcno', isAsc: true },
-                  },
-                ],
-              },
-              PurchaseSalesOrder: {
-                icon: 'receipt',
-                color: 'success',
-                data: [],
-                key: 'custname',
-                uidKey: 'orderid',
-                createNewPath: {
-                  name: 'Purchase_Sales_Order',
-                  params: {},
-                },
-                printPath: {
-                  name: 'Ps_Order_List',
-                },
-                filterBy: {
-                  value: [
-                    {
-                      text: 'All',
-                      props: {},
-                    },
-                    {
-                      text: 'Sale',
-                      props: { key: 'csflag', value: 3 },
-                      icon: { name: 'cash-stack' },
-                    },
-                    {
-                      text: 'Purchase',
-                      props: { key: 'csflag', value: 19 },
-                      icon: { name: 'basket3' },
-                    },
-                  ],
-                  range: [
-                    {
-                      from: {
-                        text: 'From Date',
-                      },
-                      to: {
-                        text: 'To Date',
-                      },
-                      props: {
-                        key: 'dateObj',
-                        min: this.yearStart,
-                        max: this.yearEnd,
-                      },
-                    },
-                  ],
-                },
-                sortBy: [
-                  {
-                    text: 'Date',
-                    props: { key: 'dateObj', isAsc: true },
-                  },
-                  {
-                    text: 'Name',
-                    props: { key: 'customer', isAsc: true },
-                  },
-                  {
-                    text: 'No.',
-                    props: { key: 'orderno', isAsc: true },
-                  },
-                ],
-              },
-              RejectionNote: {
-                icon: 'receipt',
-                color: 'success',
-                data: [],
-                key: 'custname',
-                uidKey: 'rnid',
-                createNewPath: {
-                  name: 'Rejection_Note',
-                  params: {},
-                },
-                printPath: {
-                  name: 'Rejection_Note_List',
-                },
-                filterBy: {
-                  value: [
-                    {
-                      text: 'All',
-                      props: {},
-                    },
-                    {
-                      text: 'Sale',
-                      props: { key: 'inout', value: 15 },
-                      icon: { name: 'cash-stack' },
-                    },
-                    {
-                      text: 'Purchase',
-                      props: { key: 'inout', value: 9 },
-                      icon: { name: 'basket3' },
-                    },
-                  ],
-                  range: [
-                    {
-                      from: {
-                        text: 'From Date',
-                      },
-                      to: {
-                        text: 'To Date',
-                      },
-                      props: {
-                        key: 'dateObj',
-                        min: this.yearStart,
-                        max: this.yearEnd,
-                      },
-                    },
-                  ],
-                },
-                sortBy: [
-                  {
-                    text: 'Date',
-                    props: { key: 'dateObj', isAsc: true },
-                  },
-                  {
-                    text: 'No.',
-                    props: { key: 'rnno', isAsc: true },
-                  },
-                ],
-              },
-              TransferNote: {
-                icon: 'receipt',
-                color: 'success',
-                data: [],
-                key: 'custname',
-                uidKey: 'transfernoteid',
-                createNewPath: {
-                  name: 'Transfer_Note',
-                  params: {},
-                },
-                printPath: {
-                  name: 'Transfer_Note_List',
-                },
-                filterBy: {
-                  value: [
-                    {
-                      text: 'All',
-                      props: {},
-                    },
-                  ],
-                  range: [
-                    {
-                      from: {
-                        text: 'From Date',
-                      },
-                      to: {
-                        text: 'To Date',
-                      },
-                      props: {
-                        key: 'dateObj',
-                        min: this.yearStart,
-                        max: this.yearEnd,
-                      },
-                    },
-                  ],
-                },
-                sortBy: [
-                  {
-                    text: 'Date',
-                    props: { key: 'dateObj', isAsc: true },
-                  },
-                  {
-                    text: 'No.',
-                    props: { key: 'transfernoteno', isAsc: true },
-                  },
-                ],
-              },
-              Voucher: {
-                icon: 'receipt',
-                color: 'success',
-                data: [],
-                uidKey: 'vouchercode',
-                createNewPath: {
-                  name: 'Create_Voucher',
-                  params: {
-                    type: 'receipt',
-                    customer: '-1',
-                  },
-                },
-                printPath: {
-                  name: 'Voucher_List',
-                },
-                filterBy: {
-                  value: [
-                    {
-                      text: 'All',
-                      props: {},
-                    },
-                    {
-                      text: 'Receipt',
-                      props: { key: 'vouchertype', value: 'receipt' },
-                    },
-                    {
-                      text: 'Payment',
-                      props: { key: 'vouchertype', value: 'payment' },
-                    },
-                    {
-                      text: 'Purchase',
-                      props: { key: 'vouchertype', value: 'purchase' },
-                    },
-                    {
-                      text: 'Sales',
-                      props: { key: 'vouchertype', value: 'sales' },
-                    },
-                    {
-                      text: 'Journal',
-                      props: { key: 'vouchertype', value: 'journal' },
-                    },
-                    {
-                      text: 'Contra',
-                      props: { key: 'vouchertype', value: 'contra' },
-                    },
-                    {
-                      text: 'Cancelled',
-                      props: { key: 'deletedFlag', value: true },
-                      icon: { name: 'x-circle', variant: 'danger' },
-                    },
-                  ],
-                  range: [
-                    {
-                      from: {
-                        text: 'From Date',
-                      },
-                      to: {
-                        text: 'To Date',
-                      },
-                      props: {
-                        key: 'dateObj',
-                        min: this.yearStart,
-                        max: this.yearEnd,
-                      },
-                    },
-                  ],
-                },
-                sortBy: [
-                  {
-                    text: 'Date',
-                    props: { key: 'dateObj', isAsc: true },
-                  },
-                  {
-                    text: 'Dr',
-                    props: { key: 'drAmount', isAsc: true },
-                  },
-                  {
-                    text: 'Cr',
-                    props: { key: 'crAmount', isAsc: true },
-                  },
-                ],
-              },
-            },
-            filterBy: {
-              value: [
-                {
-                  text: 'All',
-                  props: {},
-                },
-                {
-                  text: 'Sale',
-                  props: { key: 'csflag', value: 3 },
-                },
-                {
-                  text: 'Purchase',
-                  props: { key: 'csflag', value: 19 },
-                },
-              ],
-              range: [
-                {
-                  from: {
-                    text: 'From Date',
-                  },
-                  to: {
-                    text: 'To Date',
-                  },
-                  props: {
-                    key: 'dateObj',
-                    min: this.yearStart,
-                    max: this.yearEnd,
-                  },
-                },
-              ],
-            },
-            sortBy: [
-              {
-                text: 'Date',
-                props: { key: 'dateObj', isAsc: true },
-              },
-              {
-                text: 'Name',
-                props: { key: 'custname', isAsc: true },
-              },
-              {
-                text: 'Amount',
-                props: { key: 'netamt', isAsc: true },
-              },
-            ],
-          },
+          Contacts: ContactConf,
+          Business: BusinessConf,
+          Transactions: TransactionConf,
           Reports: {
             icon: 'journals',
             color: 'danger',
@@ -1191,6 +650,13 @@ export default {
               range: [],
             },
             sortBy: [],
+            loadList: () => {
+              return new Promise((resolve) => {
+                resolve();
+              }).then(() => {
+                return [];
+              });
+            },
           },
         },
       },
@@ -1303,6 +769,14 @@ export default {
     ...mapState(['authToken', 'gkCoreUrl', 'userName', 'yearStart', 'yearEnd']),
   },
   methods: {
+    updateListSettings() {
+      let sortBy = this.listSettings.columns.filter((column) => {
+        return column;
+      });
+      if (sortBy.length) {
+        this.activeTabOptions.sortBy = sortBy;
+      }
+    },
     updateListHeight() {
       // listHeight is the height that the left pane data list should be, (Total screen height - (top nav bar height - leftpane top bar height))
       this.listHeight =
@@ -1404,6 +878,9 @@ export default {
      */
     setActiveWorkflow(index, name, icon, skipUpdate) {
       let color, tabName;
+      let activeWorkflow = name.parent
+        ? this.options.tabs[name.parent].tabs[name.child]
+        : this.options.tabs[name];
       if (name.parent && name.child) {
         tabName = name.child;
         color = this.options.tabs[name.parent].tabs[name.child].color;
@@ -1425,8 +902,22 @@ export default {
       this.isFilterOpen = false;
       this.leftHeaderHeight.max = 0;
       this.resetFilter();
+      this.unsetSelectedEntity();
       if (!skipUpdate) {
         this.updateUrl();
+      }
+      if (!activeWorkflow.data.length) {
+        this.isLoading = true;
+        activeWorkflow
+          .loadList(this.yearStart, this.yearEnd)
+          .then((resp) => {
+            activeWorkflow.data = resp;
+            this.isLoading = false;
+          })
+          .catch((e) => {
+            console.log(e.message);
+            this.isLoading = false;
+          });
       }
     },
     setSelectedEntity(entity, index, skipUpdate, scrollIntoView) {
@@ -1467,11 +958,14 @@ export default {
       // instead of creating a new history instances for every entity selected
     },
     unsetSelectedEntity() {
-      let selectedDom = document
-        .querySelector(
-          `div[data-name="workflow-list-${this.activeWorkflow.tabName}"]`
-        )
-        .querySelector(`button:nth-child(${this.selectedEntityIndex + 1})`);
+      let activeTab = document.querySelector(
+        `div[data-name="workflow-list-${this.activeWorkflow.tabName}"]`
+      );
+      if (!activeTab) return;
+
+      let selectedDom = activeTab.querySelector(
+        `button:nth-child(${this.selectedEntityIndex + 1})`
+      );
       if (selectedDom) selectedDom.classList.remove('selected-data-list');
       this.selectedEntity = null;
       this.selectedEntityIndex = null;
@@ -1540,505 +1034,6 @@ export default {
         solid: true,
       });
     },
-    // fetch customers, suppliers, products, services list
-    loadList() {
-      // stores the map of invoice id to corresponding invoice array indexes
-      // used for quickly updating rectifyflag in invoice data array
-
-      const requests = [
-        axios.get('/customersupplier?qty=custall').catch((error) => {
-          return error;
-        }),
-        axios.get('/customersupplier?qty=supall').catch((error) => {
-          return error;
-        }),
-        axios.get('/products').catch((error) => {
-          return error;
-        }),
-        axios
-          .get(
-            `/invoice?type=list&flag=0&fromdate=${this.yearStart}&todate=${this.yearEnd}`
-          )
-          .catch((error) => {
-            return error;
-          }),
-        axios.get('/billwise?type=all').catch((error) => {
-          return error;
-        }),
-        axios.get('/delchal?delchal=all').catch((error) => {
-          return error;
-        }),
-        //sale
-        axios.get('/invoice?cash=all&inoutflag=15').catch((error) => {
-          return error;
-        }),
-        //purchase
-        axios.get('/invoice?cash=all&inoutflag=9').catch((error) => {
-          return error;
-        }),
-        axios.get('/transfernote?type=all').catch((error) => {
-          return error;
-        }),
-        axios.get('/purchaseorder').catch((error) => {
-          return error;
-        }),
-        axios.get('/drcrnote?drcr=all').catch((error) => {
-          return error;
-        }),
-        axios.get('/rejectionnote?type=all').catch((error) => {
-          return error;
-        }),
-        axios
-          .get(
-            `/transaction?searchby=date&from=${this.yearStart}&to=${this.yearEnd}`
-          )
-          .catch((error) => {
-            return error;
-          }),
-        axios
-          .get(
-            `/invoice?type=listdeleted&flag=0&fromdate=${this.yearStart}&todate=${this.yearEnd}`
-          )
-          .catch((error) => {
-            return error;
-          }),
-        axios.get('/report?type=deletedvoucher').catch((error) => {
-          return error;
-        }),
-      ];
-
-      const self = this;
-      return Promise.all([...requests]).then((resp) => {
-        self.isLoading = false;
-
-        let contacts = [];
-        let invoiceMap = {};
-        let custSupMap = {}; // customer/suppliername : isCustomer
-
-        // Customer List
-        if (resp[0].status === 200) {
-          contacts = resp[0].data.gkresult.map((item) => {
-            custSupMap[item.custname] = true;
-            return Object.assign({ csflag: true, icon: 'person-fill' }, item);
-          });
-        } else {
-          console.log(resp[0].message);
-        }
-
-        // Supplier List
-        if (resp[1].status === 200) {
-          contacts.push(
-            ...resp[1].data.gkresult.map((item) => {
-              custSupMap[item.custname] = false;
-              return Object.assign(
-                { csflag: false, icon: 'briefcase-fill' },
-                item
-              );
-            })
-          );
-          self.options.tabs['Contacts'].data = self.sortData(
-            contacts,
-            'asc',
-            'custid'
-          );
-        } else {
-          console.log(resp[1].message);
-        }
-
-        // Products & Services List
-        if (resp[2].status === 200) {
-          self.options.tabs[
-            'Business'
-          ].data = resp[2].data.gkresult.map((item) =>
-            Object.assign({ icon: item.gsflag === 7 ? 'box' : 'headset' }, item)
-          );
-        } else {
-          console.log(resp[2].message);
-        }
-
-        const transactionTab = self.options.tabs['Transactions'].tabs;
-
-        // Invoices
-        if (resp[3].status === 200) {
-          self.options.tabs['Transactions'].data = resp[3].data.gkresult.map(
-            (item, index) => {
-              invoiceMap[item.invid] = index;
-              return Object.assign(
-                {
-                  id: item.invid,
-                  no: item.invoiceno,
-                  noteName: `${
-                    item.csflag === 3 ? 'Sale' : 'Purchase'
-                  } Invoice`,
-                  date: item.invoicedate,
-                  text1: item.custname,
-                  text2: `₹ ${item.netamt}`,
-                  icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                  onCreditFlag: false,
-                  rectifyFlag: false, // can be rectified or not
-                  deletedFlag: false,
-                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                  dateObj: Date.parse(
-                    item.invoicedate
-                      .split('-')
-                      .reverse()
-                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                  ),
-                },
-                item
-              );
-            }
-          );
-          transactionTab['Invoice'].data =
-            self.options.tabs['Transactions'].data;
-        } else {
-          console.log(resp[3].message);
-        }
-
-        // Invoice in credit
-        if (resp[4].status === 200) {
-          let data = transactionTab['Invoice'].data;
-          if (resp[4].data.gkstatus === 0 && data.length) {
-            let index = '';
-            resp[4].data.invoices.forEach((inv) => {
-              index = invoiceMap[inv.invid];
-              if (index >= 0) {
-                data[index].onCreditFlag = true;
-                data[index].rectifyFlag =
-                  inv.balanceamount === inv.invoicetotal; // can be rectified or not
-              }
-            });
-          }
-        } else {
-          console.log(resp[4].message);
-        }
-
-        // Delivery Note
-        if (resp[5].status === 200) {
-          if (resp[5].data.gkstatus === 0) {
-            transactionTab['DeliveryNote'].data = resp[5].data.gkresult.map(
-              (item) => {
-                return Object.assign(
-                  {
-                    id: item.dcid,
-                    no: item.dcno,
-                    noteName: `Delivery Note`,
-                    text1: item.custname,
-                    text2: item.dcno,
-                    icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                    date: item.dcdate,
-                    dateObj: Date.parse(
-                      item.dcdate
-                        .split('-')
-                        .reverse()
-                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                    ),
-                  },
-                  item
-                );
-              }
-            );
-          }
-        } else {
-          console.log(resp[5].message);
-        }
-
-        // Cash Memo Sale
-        if (resp[6].status === 200) {
-          if (resp[6].data.gkstatus === 0) {
-            transactionTab['CashMemo'].data = resp[6].data.gkresult.map(
-              (item) => {
-                return Object.assign(
-                  {
-                    id: item.invid,
-                    no: item.invoiceno,
-                    noteName: `Cash Memo`,
-                    text1: item.invoiceno,
-                    icon: 'cash-stack',
-                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                    date: item.invoicedate,
-                    dateObj: Date.parse(
-                      item.invoicedate
-                        .split('-')
-                        .reverse()
-                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                    ),
-                  },
-                  item
-                );
-              }
-            );
-          }
-        } else {
-          console.log(resp[6].message);
-        }
-
-        // Cash Memo Purchase
-        if (resp[7].status === 200) {
-          if (resp[7].data.gkstatus === 0) {
-            let cmPurchase = resp[7].data.gkresult.map((item) => {
-              return Object.assign(
-                {
-                  id: item.invid,
-                  no: item.invoiceno,
-                  noteName: `Cash Memo`,
-                  text1: item.invoiceno,
-                  icon: 'basket3',
-                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                  date: item.invoicedate,
-                  dateObj: Date.parse(
-                    item.invoicedate
-                      .split('-')
-                      .reverse()
-                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                  ),
-                },
-                item
-              );
-            });
-            if (cmPurchase.length) {
-              transactionTab['CashMemo'].data.push(...cmPurchase);
-            }
-          }
-        } else {
-          console.log(resp[7].message);
-        }
-
-        // Transfer Notes
-        if (resp[8].status === 200) {
-          if (resp[8].data.gkstatus === 0) {
-            transactionTab['TransferNote'].data = resp[8].data.gkresult.map(
-              (item) => {
-                return Object.assign(
-                  {
-                    icon: 'truck',
-                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                    date: item.transfernotedate,
-                    dateObj: Date.parse(
-                      item.transfernotedate
-                        .split('-')
-                        .reverse()
-                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                    ),
-                    id: item.transfernoteid,
-                    no: item.transfernoteno,
-                    noteName: 'Transfer Note',
-                    text1: item.transfernoteno,
-                  },
-                  item
-                );
-              }
-            );
-          }
-        } else {
-          console.log(resp[8].message);
-        }
-
-        // Purchase Sales Order
-        if (resp[9].status === 200) {
-          if (resp[9].data.gkstatus === 0) {
-            transactionTab[
-              'PurchaseSalesOrder'
-            ].data = resp[9].data.gkresult.map((item) => {
-              return Object.assign(
-                {
-                  id: item.orderid,
-                  no: item.orderno,
-                  noteName: `${
-                    custSupMap[item.customer] ? 'Sale' : 'Purchase'
-                  } Order`,
-                  text1: item.customer,
-                  text2: item.orderno,
-                  csflag: custSupMap[item.customer] ? 3 : 19,
-                  icon: custSupMap[item.customer] ? 'cash-stack' : 'basket3',
-                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                  date: item.orderdate,
-                  dateObj: Date.parse(
-                    item.orderdate
-                      .split('-')
-                      .reverse()
-                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                  ),
-                },
-                item
-              );
-            });
-          }
-        } else {
-          console.log(resp[9].message);
-        }
-
-        // Debit Credit Note
-        if (resp[10].status === 200) {
-          if (resp[10].data.gkstatus === 0) {
-            transactionTab['DebitCreditNote'].data = resp[10].data.gkresult.map(
-              (item) => {
-                return Object.assign(
-                  {
-                    id: item.drcrid,
-                    no: item.drcrno,
-                    noteName: `${
-                      item.dctypeflag === 3 ? 'Credit' : 'Debit'
-                    } Note`,
-                    text1: item.custname,
-                    text2: `₹ ${item.totreduct}`,
-                    icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                    date: item.drcrdate,
-                    dateObj: Date.parse(
-                      item.drcrdate
-                        .split('-')
-                        .reverse()
-                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                    ),
-                  },
-                  item
-                );
-              }
-            );
-          }
-        } else {
-          console.log(resp[10].message);
-        }
-
-        // Rejection Note
-        if (resp[11].status === 200) {
-          if (resp[11].data.gkstatus === 0) {
-            transactionTab['RejectionNote'].data = resp[11].data.gkresult.map(
-              (item) => {
-                return Object.assign(
-                  {
-                    id: item.rnid,
-                    no: item.rnno,
-                    noteName: `Rejection Note`,
-                    text1: item.rnno,
-                    icon: item.inout === 15 ? 'cash-stack' : 'basket3',
-                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                    date: item.rndate,
-                    dateObj: Date.parse(
-                      item.rndate
-                        .split('-')
-                        .reverse()
-                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                    ),
-                  },
-                  item
-                );
-              }
-            );
-          }
-        } else {
-          console.log(resp[11].message);
-        }
-
-        // Vouchers
-        if (resp[12].status === 200) {
-          if (resp[12].data.gkstatus === 0) {
-            transactionTab['Voucher'].data = resp[12].data.gkresult.map(
-              (item) => {
-                let drAccount = Object.keys(item.drs)[0];
-                let drAmount = parseFloat(item.drs[drAccount]).toFixed(2);
-                let crAccount = Object.keys(item.crs)[0];
-                let crAmount = parseFloat(item.crs[crAccount]).toFixed(2);
-                return Object.assign(
-                  {
-                    id: item.vouchercode,
-                    no: item.vouchernumber,
-                    noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(
-                      1
-                    )} Voucher`,
-                    text1: `${drAmount} (${drAccount})`,
-                    text2: `${crAmount} (${crAccount})`,
-                    drAmount: drAmount,
-                    crAmount: crAmount,
-                    icon: 'cash-stack',
-                    // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                    date: item.voucherdate,
-                    dateObj: Date.parse(
-                      item.voucherdate
-                        .split('-')
-                        .reverse()
-                        .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                    ),
-                  },
-                  item
-                );
-              }
-            );
-          }
-        } else {
-          console.log(resp[12].message);
-        }
-
-        if (resp[13].data.gkstatus === 0) {
-          const deletedInv = resp[13].data.gkresult.map((item) => {
-            return Object.assign(
-              {
-                id: item.invid,
-                no: item.invoiceno,
-                noteName: `${item.csflag === 3 ? 'Sale' : 'Purchase'} Invoice`,
-                date: item.invoicedate,
-                text1: item.custname,
-                text2: `₹ ${item.netamt}`,
-                icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
-                onCreditFlag: false,
-                rectifyFlag: false, // can be rectified or not
-                deletedFlag: true,
-                // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                dateObj: Date.parse(
-                  item.invoicedate
-                    .split('-')
-                    .reverse()
-                    .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                ),
-              },
-              item
-            );
-          });
-          transactionTab['Invoice'].data.push(...deletedInv);
-        }
-
-        // Vouchers
-        if (resp[14].status === 200) {
-          if (resp[14].data.gkstatus === 0) {
-            let deletedVouchers = resp[14].data.gkresult.map((item) => {
-              let drAccount = Object.keys(item.drs)[0];
-              let drAmount = parseFloat(item.drs[drAccount]).toFixed(2);
-              let crAccount = Object.keys(item.crs)[0];
-              let crAmount = parseFloat(item.crs[crAccount]).toFixed(2);
-              return Object.assign(
-                {
-                  id: item.vouchercode,
-                  no: item.vouchernumber,
-                  noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(
-                    1
-                  )} Voucher`,
-                  text1: `${drAmount} (${drAccount})`,
-                  text2: `${crAmount} (${crAccount})`,
-                  drAmount: drAmount,
-                  crAmount: crAmount,
-                  icon: 'cash-stack',
-                  deletedFlag: true,
-                  // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
-                  date: item.voucherdate,
-                  dateObj: Date.parse(
-                    item.voucherdate
-                      .split('-')
-                      .reverse()
-                      .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
-                  ),
-                },
-                item
-              );
-            });
-            transactionTab['Voucher'].data.push(...deletedVouchers);
-          }
-        } else {
-          console.log(resp[12].message);
-        }
-      });
-    },
     // fetch products & services list
     psList() {
       this.isLoading = true;
@@ -2080,50 +1075,38 @@ export default {
   },
   mounted() {
     this.updateListHeight();
-    // this.loadList('custall')
-    // this.loadList('supall')
-    // this.psList()
-    this.isPreloading = true;
     let self = this;
-    this.loadList()
-      .then(() => {
-        self.isPreloading = false;
-        let tab, index;
-        if (self.wfName.includes('-')) {
-          let name = self.wfName.split('-');
-          tab = self.options.tabs[name[0]].tabs[name[1]];
-          index = Object.keys(self.options.tabs[name[0]]).indexOf(name[1]);
-          self.setActiveWorkflow(
-            index,
-            { parent: name[0], child: name[1] },
-            tab.icon,
+    let tab, index;
+    if (self.wfName.includes('-')) {
+      let name = self.wfName.split('-');
+      tab = self.options.tabs[name[0]].tabs[name[1]];
+      index = Object.keys(self.options.tabs[name[0]]).indexOf(name[1]);
+      self.setActiveWorkflow(
+        index,
+        { parent: name[0], child: name[1] },
+        tab.icon,
+        true
+      );
+    } else {
+      tab = self.options.tabs[self.wfName];
+      index = Object.keys(self.options.tabs).indexOf(self.wfName);
+      self.setActiveWorkflow(index, this.wfName, tab.icon, true);
+    }
+    if (self.wfId) {
+      self.$nextTick().then(() => {
+        let wfId = parseInt(self.wfId);
+        let key = tab.uidKey;
+        let entityIndex = tab.data.findIndex((item) => item[key] === wfId);
+        if (entityIndex >= 0) {
+          self.setSelectedEntity(
+            tab.data[entityIndex],
+            entityIndex,
+            true,
             true
           );
-        } else {
-          tab = self.options.tabs[self.wfName];
-          index = Object.keys(self.options.tabs).indexOf(self.wfName);
-          self.setActiveWorkflow(index, this.wfName, tab.icon, true);
         }
-        if (self.wfId) {
-          self.$nextTick().then(() => {
-            let wfId = parseInt(self.wfId);
-            let key = tab.uidKey;
-            let entityIndex = tab.data.findIndex((item) => item[key] === wfId);
-            if (entityIndex >= 0) {
-              self.setSelectedEntity(
-                tab.data[entityIndex],
-                entityIndex,
-                true,
-                true
-              );
-            }
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        self.isPreloading = false;
       });
+    }
   },
 };
 </script>
