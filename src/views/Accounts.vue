@@ -2,17 +2,20 @@
   <section class="m-2">
     <h3 class="text-center">Accounts</h3>
     <hr class="mt-1" />
-
-    <b-card body-class="py-2">
-      <div v-b-toggle="'search-bar'" :class="{ 'mb-3': showSearchBar }">
-        <h6 class="d-inline-block">Search By</h6>
-        <b-icon
-          class="float-right"
-          font-scale="0.7"
-          :icon="showSearchBar ? 'dash' : 'arrows-fullscreen'"
-        ></b-icon>
-      </div>
-      <b-collapse v-model="showSearchBar" id="search-bar">
+    <b-button
+      class="float-right p-1"
+      :class="{'mb-2': showSearchBar}"
+      variant="link"
+      @click="showSearchBar = !showSearchBar"
+    >
+      <b-icon icon="funnel"></b-icon>
+    </b-button>
+    <div class="clearfix"></div>
+    <b-collapse v-model="showSearchBar" id="search-bar">
+      <b-card body-class="py-2">
+        <div :class="{ 'mb-3': showSearchBar }">
+          <h6 class="d-inline-block">Filter By</h6>
+        </div>
         <b-row>
           <b-col class="px-1" cols="12" md="4">
             <b-form-group
@@ -25,6 +28,8 @@
                 v-model="searchBy.group"
                 :options="options.groups"
                 placeholder=""
+                emptyValue=""
+                @input="openSearchedCard(!!searchBy.group, null, null)"
               ></autocomplete>
             </b-form-group>
           </b-col>
@@ -39,7 +44,8 @@
                 v-model="searchBy.subGroup"
                 :options="subGroups"
                 placeholder=""
-                @input="openSearchedCard(!!searchBy.subGroup, null)"
+                @input="openSearchedCard(null, !!searchBy.subGroup, null)"
+                emptyValue=""
               ></autocomplete>
             </b-form-group>
           </b-col>
@@ -54,13 +60,14 @@
                 v-model="searchBy.account"
                 :options="accounts"
                 placeholder=""
-                @input="openSearchedCard(null, !!searchBy.account)"
+                @input="openSearchedCard(null, null, !!searchBy.account)"
+                emptyValue=""
               ></autocomplete>
             </b-form-group>
           </b-col>
         </b-row>
-      </b-collapse>
-    </b-card>
+      </b-card>
+    </b-collapse>
 
     <u><small class="ml-2">Groups</small></u>
     <b-container fluid>
@@ -70,9 +77,14 @@
           :lg="gdata.open ? 12 : 4"
           v-for="(gdata, gname) in options.accData"
           :key="gdata.id"
-          class="p-1 "
+          class="p-1"
+          :class="{ 'd-none': !gdata.show }"
         >
-          <b-card body-class="p-2 bg-dark-grey" class="shadow-sm">
+          <b-card
+            v-if="gdata.show"
+            body-class="p-2 bg-dark-grey"
+            class="shadow-sm"
+          >
             <div class="acc-card-header" v-b-toggle="`g-${gdata.id}`">
               <h4 class="d-inline-block">{{ gname }}</h4>
               <b-icon
@@ -97,8 +109,13 @@
                     class="p-1"
                     v-for="(sgdata, sgname) in gdata.subGroups"
                     :key="sgdata.id"
+                    :class="{ 'd-none': !sgdata.show }"
                   >
-                    <b-card body-class="p-2 bg-light-grey" class="shadow-sm">
+                    <b-card
+                      v-if="sgdata.show"
+                      body-class="p-2 bg-light-grey"
+                      class="shadow-sm"
+                    >
                       <div
                         class="acc-card-header"
                         v-b-toggle="`sg-${sgdata.id}`"
@@ -126,10 +143,7 @@
                         class="mt-2"
                         v-model="sgdata.open"
                       >
-                        <b-container
-                          fluid
-                          style="max-height: 150px; overflow: auto"
-                        >
+                        <b-container fluid style="">
                           <b-row>
                             <b-col
                               cols="12"
@@ -137,11 +151,13 @@
                               class="px-1"
                               v-for="(accData, accId) in sgdata.accounts"
                               :key="accId"
+                              :class="{ 'd-none': !accData.show }"
                             >
                               <b-card
                                 :id="`acc-${accId}`"
                                 class="my-1"
                                 body-class="p-2"
+                                v-if="accData.show"
                               >
                                 <span>
                                   {{ accData.name }}
@@ -447,6 +463,7 @@ export default {
                   accCount: 0,
                   id: acc.groupcode,
                   open: false,
+                  show: true,
                 };
                 idToName[acc.groupcode] = acc.groupname;
                 groups.push({
@@ -462,6 +479,7 @@ export default {
                   accCount: 0,
                   id: sgId,
                   open: false,
+                  show: true,
                 };
                 group.subCount++;
                 idToName[sgId] = acc.subgroupname;
@@ -479,12 +497,14 @@ export default {
                 sysFlag: acc.sysaccount,
                 defaultFlag: acc.defaultflag,
                 openingBal: acc.openingbal,
+                show: true,
               };
               accounts.push({
                 text: acc.accountname,
                 value: acc.accountcode,
                 group: acc.groupcode,
                 subGroup: group.subGroups[acc.subgroupname].id,
+                show: true,
               });
               subGroup.accCount++;
               group.accCount++;
@@ -518,34 +538,75 @@ export default {
       history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
       // instead of creating a new history instances for every entity selected
     },
-    closeAllCards() {
-      const acc = this.options.accData;
-      this.options.groups.forEach((group) => {
-        if (acc[group.text]) {
-          acc[group.text].open = false;
+    hideAllCards(showFlag) {
+      showFlag = !!showFlag;
+      const groups = this.options.accData;
+      for (const gname in groups) {
+        groups[gname].show = showFlag;
+        let subg = groups[gname].subGroups;
+        for (const sgName in subg) {
+          subg[sgName].show = showFlag;
+          let acc = subg[sgName].accounts;
+          for (const accName in acc) {
+            acc[accName].show = showFlag;
+          }
         }
-      });
+      }
+    },
+    closeAllCards() {
+      const groups = this.options.accData;
+      for (const gname in groups) {
+        groups[gname].open = false;
+        let subg = groups[gname].subGroups;
+        for (const sgName in subg) {
+          subg[sgName].open = false;
+          let acc = subg[sgName].accounts;
+          for (const accName in acc) {
+            acc[accName].open = false;
+          }
+        }
+      }
     },
     openCard(groupId, subGroupId, accId) {
       const self = this;
-      const acc = self.options.accData;
+      const groups = self.options.accData;
       const idToName = self.options.groupIdToName;
       let gname = idToName[groupId];
       let sgname = idToName[subGroupId];
-      if (acc[gname]) {
-        acc[gname].open = true;
-        if (acc[gname].subGroups[sgname]) {
-          acc[gname].subGroups[sgname].open = true;
+      if (groups[gname]) {
+        groups[gname].open = true;
+        groups[gname].show = true;
+        if (groups[gname].subGroups[sgname]) {
+          let subg = groups[gname].subGroups;
+          subg[sgname].open = true;
+          subg[sgname].show = true;
+          if (accId) {
+            subg[sgname].accounts[accId].show = true;
+          } else {
+            let acc = subg[sgname].accounts;
+            for (const accName in acc) {
+              acc[accName].show = true;
+            }
+          }
+        } else {
+          let subg = groups[gname].subGroups;
+          for (const sgName in subg) {
+            subg[sgName].show = true;
+            let acc = subg[sgName].accounts;
+            for (const accName in acc) {
+              acc[accName].show = true;
+            }
+          }
         }
       }
       this.$forceUpdate();
       this.$nextTick().then(() => {
         let openDom = document.getElementById(`g-${groupId}`);
-        if (acc[gname]) {
-          if (acc[gname].subGroups[sgname]) {
+        if (groups[gname]) {
+          if (groups[gname].subGroups[sgname]) {
             openDom = document.getElementById(`sg-${subGroupId}`);
             if (accId) {
-              if (acc[gname].subGroups[sgname].accounts[accId]) {
+              if (groups[gname].subGroups[sgname].accounts[accId]) {
                 openDom = document.getElementById(`acc-${accId}`);
               }
             }
@@ -558,24 +619,34 @@ export default {
         }
       });
     },
-    openSearchedCard(subGroupFlag, accountFlag) {
-      if (!(subGroupFlag || accountFlag)) {
-        return;
+    openSearchedCard(groupFlag, subGroupFlag, accountFlag) {
+      if (!(groupFlag || subGroupFlag || accountFlag)) {
+        // if all the flags are false or null return
+        // return;
       }
       let accCode = this.searchBy.account;
       let sgCode = this.searchBy.subGroup;
-      if (accountFlag && accCode) {
+      let gcode = this.searchBy.group;
+      if (accCode) {
         let account = this.accounts.filter((acc) => acc.value === accCode)[0];
         if (account) {
-          this.closeAllCards();
+          // this.closeAllCards();
+          this.hideAllCards();
           this.openCard(account.group, account.subGroup, accCode);
         }
-      } else if (subGroupFlag && sgCode) {
+      } else if (sgCode) {
         let subGroup = this.subGroups.filter((sg) => sg.value === sgCode)[0];
         if (subGroup) {
-          this.closeAllCards();
+          // this.closeAllCards();
+          this.hideAllCards();
           this.openCard(subGroup.group, sgCode);
         }
+      } else if (gcode) {
+        this.hideAllCards();
+        this.openCard(gcode);
+      } else {
+        this.closeAllCards();
+        this.hideAllCards(true);
       }
     },
   },
