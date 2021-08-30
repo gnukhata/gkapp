@@ -31,98 +31,235 @@
           {{ toDate }}
         </div>
       </report-header>
-      <div class="row mt-4 ml-2 mr-2 text-small">
+      <div
+        v-if="bsheet.left.length && bsheet.right.length"
+        class="float-right d-print-none"
+      >
+        <b-button class="px-1" variant="link" @click="printPage">
+          <b-icon class="align-middle" icon="printer"></b-icon>
+        </b-button>
+        <b-button class="px-1" variant="link" @click="toggleAllRows">
+          <b-icon
+            class="align-middle"
+            font-scale="0.9"
+            :icon="openAllFlag ? 'dash' : 'arrows-fullscreen'"
+          ></b-icon>
+        </b-button>
+      </div>
+      <br class="d-print-none" />
+      <br class="d-print-none" />
+      <div class="row pl-2 pr-2 text-small">
         <div class="col">
           <b-table-lite
+            striped
             small
             bordered
-            sticky-header=""
             :items="bsheet.left"
-            :fields="['name', 'amount']"
+            :fields="[
+              {
+                key: 'name',
+                label: 'Capital and Liabilities',
+                class: 'p-0',
+                thClass: 'p-1',
+              },
+              {
+                key: 'amount',
+                label: 'Amount',
+                class: 'p-0 pr-1',
+                thClass: 'text-right p-1',
+              },
+            ]"
             head-variant="dark"
             v-if="bsheet.left.length"
             class="text-small table-border-dark"
           >
             <template #cell(name)="data">
-              {{ data.value }}
               <div
-                class="ml-3"
-                v-for="(sg, id) in data.item.subGroups"
-                :key="id"
+                class="bs-group bs-row pl-1"
+                :style="{ 'min-height': '21px' }"
+                v-b-toggle="
+                  data.item.sgLength || data.item.accLength
+                    ? `g-${data.item.id}`
+                    : null
+                "
               >
-                {{ sg ? sg.name : '' }}
+                <b-icon
+                  v-if="data.item.sgLength || data.item.accLength"
+                  class="d-print-none"
+                  font-scale="0.7"
+                  :icon="data.item.open ? 'dash' : 'arrows-fullscreen'"
+                ></b-icon>
+                <span class="ml-1">
+                  {{ data.value }}
+                </span>
+              </div>
+              <b-collapse :id="`g-${data.item.id}`" v-model="data.item.open">
                 <div
-                  class="ml-3"
-                  v-for="(acc, accid) in sg.accounts"
+                  class="pl-5 bs-account bs-row font-italic"
+                  v-for="(acc, accid) in data.item.accounts"
                   :key="accid"
                 >
                   {{ acc.name }}
                 </div>
-              </div>
+                <div v-for="(sg, id) in data.item.subGroups" :key="id">
+                  <div
+                    class="pl-3 bs-sub-group bs-row"
+                    v-b-toggle="sg.accLength ? `sg-${sg.id}` : null"
+                  >
+                    <b-icon
+                      class="d-print-none"
+                      font-scale="0.7"
+                      :icon="
+                        sg.accLength
+                          ? sg.open
+                            ? 'dash'
+                            : 'arrows-fullscreen'
+                          : ''
+                      "
+                    ></b-icon>
+                    <span class="ml-1">
+                      {{ sg ? sg.name : '' }}
+                    </span>
+                  </div>
+                  <b-collapse v-model="sg.open" :id="`sg-${sg.id}`">
+                    <div
+                      class="pl-5 bs-account bs-row font-italic"
+                      v-for="(acc, accid) in sg.accounts"
+                      :key="accid"
+                    >
+                      {{ acc.name }}
+                    </div>
+                  </b-collapse>
+                </div>
+              </b-collapse>
             </template>
             <template #cell(amount)="data">
-              <div class="text-right">{{ data.value }}</div>
-              <div
-                class="mr-3 text-right"
-                v-for="(sg, id) in data.item.subGroups"
-                :key="id"
-              >
-                {{ sg ? sg.amount : '' }}
+              <div class="text-right bs-row">{{ data.value }}</div>
+              <b-collapse v-model="data.item.open">
                 <div
-                  class="mr-3"
-                  v-for="(acc, accid) in sg.accounts"
-                  :key="accid"
+                  class="text-right"
+                  v-for="(sg, id) in data.item.subGroups"
+                  :key="id"
                 >
-                  {{ acc.amount }}
+                  <div class="bs-row">{{ sg ? sg.amount : '' }}</div>
+                  <b-collapse v-model="sg.open">
+                    <div
+                      class="bs-row font-italic"
+                      v-for="(acc, accid) in sg.accounts"
+                      :key="accid"
+                    >
+                      {{ acc.amount }}
+                    </div>
+                  </b-collapse>
                 </div>
-              </div>
+              </b-collapse>
             </template>
           </b-table-lite>
         </div>
         <div class="col">
           <b-table-lite
+            striped
             small
             bordered
-            sticky-header=""
             :items="bsheet.right"
-            :fields="['name', 'amount']"
+            :fields="[
+              {
+                key: 'name',
+                label: 'Property and Assets',
+                class: 'p-0',
+                thClass: 'p-1',
+              },
+              {
+                key: 'amount',
+                label: 'Amount',
+                class: 'p-0 pr-1',
+                thClass: 'text-right p-1',
+              },
+            ]"
             head-variant="dark"
             v-if="bsheet.right.length"
             class="text-small table-border-dark"
           >
             <template #cell(name)="data">
-              {{ data.value }}
               <div
-                class="ml-3"
-                v-for="(sg, id) in data.item.subGroups"
-                :key="id"
+                class="bs-group bs-row pl-1"
+                :style="{ 'min-height': '21px' }"
+                v-b-toggle="
+                  data.item.sgLength || data.item.accLength
+                    ? `g-${data.item.id}`
+                    : null
+                "
               >
-                {{ sg ? sg.name : '' }}
+                <b-icon
+                  v-if="data.item.sgLength || data.item.accLength"
+                  class="d-print-none"
+                  font-scale="0.7"
+                  :icon="data.item.open ? 'dash' : 'arrows-fullscreen'"
+                ></b-icon>
+                <span class="ml-1">
+                  {{ data.value }}
+                </span>
+              </div>
+              <b-collapse :id="`g-${data.item.id}`" v-model="data.item.open">
                 <div
-                  class="ml-3"
-                  v-for="(acc, accid) in sg.accounts"
+                  class="pl-5 bs-account bs-row font-italic"
+                  v-for="(acc, accid) in data.item.accounts"
                   :key="accid"
                 >
                   {{ acc.name }}
                 </div>
-              </div>
+                <div v-for="(sg, id) in data.item.subGroups" :key="id">
+                  <div
+                    class="pl-3 bs-sub-group bs-row"
+                    v-b-toggle="sg.accLength ? `sg-${sg.id}` : null"
+                  >
+                    <b-icon
+                      class="d-print-none"
+                      font-scale="0.7"
+                      :icon="
+                        sg.accLength
+                          ? sg.open
+                            ? 'dash'
+                            : 'arrows-fullscreen'
+                          : ''
+                      "
+                    ></b-icon>
+                    <span class="ml-1">
+                      {{ sg ? sg.name : '' }}
+                    </span>
+                  </div>
+                  <b-collapse v-model="sg.open" :id="`sg-${sg.id}`">
+                    <div
+                      class="pl-5 bs-account bs-row font-italic"
+                      v-for="(acc, accid) in sg.accounts"
+                      :key="accid"
+                    >
+                      {{ acc.name }}
+                    </div>
+                  </b-collapse>
+                </div>
+              </b-collapse>
             </template>
             <template #cell(amount)="data">
-              <div class="text-right">{{ data.value }}</div>
-              <div
-                class="mr-3 text-right"
-                v-for="(sg, id) in data.item.subGroups"
-                :key="id"
-              >
-                {{ sg ? sg.amount : '' }}
+              <div class="text-right bs-row">{{ data.value }}</div>
+              <b-collapse v-model="data.item.open">
                 <div
-                  class="mr-3"
-                  v-for="(acc, accid) in sg.accounts"
-                  :key="accid"
+                  class="text-right"
+                  v-for="(sg, id) in data.item.subGroups"
+                  :key="id"
                 >
-                  {{ acc.amount }}
+                  <div class="bs-row">{{ sg ? sg.amount : '' }}</div>
+                  <b-collapse v-model="sg.open">
+                    <div
+                      class="bs-row font-italic"
+                      v-for="(acc, accid) in sg.accounts"
+                      :key="accid"
+                    >
+                      {{ acc.amount }}
+                    </div>
+                  </b-collapse>
                 </div>
-              </div>
+              </b-collapse>
             </template>
           </b-table-lite>
         </div>
@@ -145,6 +282,7 @@ export default {
       isLoading: false,
       fromDate: null,
       toDate: null,
+      openAllFlag: false,
       bsheet: {
         left: [],
         right: [],
@@ -158,6 +296,29 @@ export default {
     };
   },
   methods: {
+    printPage() {
+      window.print();
+    },
+    toggleAllRows() {
+      this.openAllFlag = !this.openAllFlag;
+      let open = this.openAllFlag;
+      if (this.bsheet.left.length) {
+        this.bsheet.left.forEach((g) => {
+          g.open = open;
+          for (const sg in g.subGroups) {
+            g.subGroups[sg].open = open;
+          }
+        });
+      }
+      if (this.bsheet.right.length) {
+        this.bsheet.right.forEach((g) => {
+          g.open = open;
+          for (const sg in g.subGroups) {
+            g.subGroups[sg].open = open;
+          }
+        });
+      }
+    },
     /**
      * formatReport
      *
@@ -178,6 +339,7 @@ export default {
               let index = groupIndex[item.accountof];
               let group = data[index];
               let id = item.groupAcccode;
+              group.accLength++;
               group.accounts[id] = {
                 name: item.groupAccname,
                 id: id,
@@ -200,6 +362,7 @@ export default {
                 };
                 break;
               }
+              subGroup.accLength++;
               subGroup.accounts[id] = {
                 name: item.groupAccname,
                 id: id,
@@ -218,6 +381,9 @@ export default {
                   id: id,
                   subGroups: {},
                   accounts: {},
+                  open: false,
+                  sgLength: 0,
+                  accLength: 0,
                 });
                 groupIndex[id] = data.length - 1;
               } else {
@@ -225,11 +391,14 @@ export default {
                 let index = groupIndex[item.subgroupof];
                 let group = data[index];
                 let id = item.groupAcccode;
+                group.sgLength++;
                 group.subGroups[id] = {
                   name: item.groupAccname,
                   id: id,
                   amount: item.amount,
                   accounts: {},
+                  open: false,
+                  accLength: 0,
                 };
               }
             }
@@ -251,6 +420,41 @@ export default {
               case 0:
                 {
                   let report = r.data.gkresult;
+                  report.leftlist.shift();
+                  report.rightlist.shift();
+                  // if (report.leftlist.length < report.rightlist.length) {
+                  //   let patchLength =
+                  //     report.rightlist.length - report.leftlist.length - 1;
+                  //   let lastVal = report.leftlist.pop();
+                  //   while (patchLength--) {
+                  //     report.leftlist.push({
+                  //       groupAccname: '',
+                  //       amount: '',
+                  //       groupAcccode: '',
+                  //       subgroupof: '',
+                  //       accountof: '',
+                  //       groupAccflag: '',
+                  //       advflag: '',
+                  //     });
+                  //   }
+                  //   report.leftlist.push(lastVal);
+                  // } else {
+                  //   let patchLength =
+                  //     report.leftlist.length - report.rightlist.length - 1;
+                  //   let lastVal = report.rightlist.pop();
+                  //   while (patchLength--) {
+                  //     report.rightlist.push({
+                  //       groupAccname: '',
+                  //       amount: '',
+                  //       groupAcccode: '',
+                  //       subgroupof: '',
+                  //       accountof: '',
+                  //       groupAccflag: '',
+                  //       advflag: '',
+                  //     });
+                  //   }
+                  //   report.rightlist.push(lastVal);
+                  // }
                   let left = self.formatReport(report.leftlist);
                   let right = self.formatReport(report.rightlist);
                   self.bsheet = {
@@ -315,5 +519,18 @@ export default {
 <style scoped>
 .text-small {
   font-size: 0.9rem;
+}
+/* .bs-row {
+  border-bottom: 1px solid black;
+}
+td > .bs-row:last-child {
+  border-bottom: unset;
+} */
+
+.bs-group {
+}
+.bs-sub-group {
+}
+.bs-account {
 }
 </style>

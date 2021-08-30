@@ -130,6 +130,10 @@ body {
     background-color: #343a40 !important;
     border-color: #454d55 !important;
   }
+  .table-border-dark td,
+  .table-border-dark th {
+    border: 1px solid #000000 !important;
+  }
   a:link {
     color: #000;
     border-bottom: none !important;
