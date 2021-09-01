@@ -27,7 +27,12 @@ When a Ledger Account appears on the screen, press Shift + Alt + l to view anoth
             valueField="accountcode"
           ></autocomplete>
           <!-- monthly ledger checkbox -->
-          <b-form-checkbox size="sm" class="mt-2" v-model="showMonthlyLedger">
+          <b-form-checkbox
+            switch
+            size="sm"
+            class="mt-2"
+            v-model="showMonthlyLedger"
+          >
             Monthly Ledger</b-form-checkbox
           >
         </b-form-group>
@@ -42,11 +47,11 @@ When a Ledger Account appears on the screen, press Shift + Alt + l to view anoth
             </b-form-group>
           </div>
           <!-- Checkboxes -->
-          <b-form-checkbox-group
-            v-model="ledgerOptions"
-            :options="checkboxes"
-            size="sm"
-          ></b-form-checkbox-group>
+          <!-- <b-form-checkbox-group
+               v-model="ledgerOptions"
+               :options="checkboxes"
+               size="sm"
+               ></b-form-checkbox-group> -->
           <!-- Cost Center select-->
           <b-form-group
             class="mt-2"
@@ -65,7 +70,7 @@ When a Ledger Account appears on the screen, press Shift + Alt + l to view anoth
           </b-form-group>
         </fieldset>
         <b-button type="submit" variant="success" size="sm" class="float-right"
-          ><b-icon icon="eye"></b-icon> View</b-button
+          ><b-icon icon="eye-fill"></b-icon> Show</b-button
         >
       </b-card>
     </b-form>
@@ -87,11 +92,11 @@ export default {
       accountsList: [],
       costCenterList: [],
       showMonthlyLedger: true,
-      ledgerOptions: [],
-      checkboxes: [
-        { text: 'Narration', value: 'narration' },
-        { text: 'Billwise Details', value: 'billwise' },
-      ],
+      //       ledgerOptions: [],
+      // checkboxes: [
+      //   { text: 'Narration', value: 'narration' },
+      //   { text: 'Billwise Details', value: 'billwise' },
+      // ],
       accountCode: null,
       projectCode: null,
       fromDate: null,
