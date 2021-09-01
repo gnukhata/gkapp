@@ -46,9 +46,13 @@ All users can view this report"
             responsive
             head-variant="dark"
           >
-            <!-- <template #cell(particulars)="data">
-                   <b-link href="$router.push('/accounts/')"> </b-link>
-                   </template> -->
+            <template #cell(particulars)="data">
+              <b-link
+                class="text-dark"
+                @click="$router.push(`/ledger/${data.item.accountcode}`)"
+                >{{ data.item.particulars }}
+              </b-link>
+            </template>
           </b-table>
         </div>
         <div class="col">
@@ -62,14 +66,14 @@ All users can view this report"
             responsive
             head-variant="dark"
           >
-            <!-- <template #cell(particulars)="data">
-                   <div
-                   v-if="data.item.particulars == 'Total'"
-                   class="text-weight-bold"
-                   >
-                   {{ data.item.particulars }}
-                   </div>
-                   </template> -->
+            <template #cell(particulars)="data">
+              <div
+                v-if="data.item.particulars == 'Total'"
+                class="text-weight-bold"
+              >
+                {{ data.item.particulars }}
+              </div>
+            </template>
           </b-table>
         </div>
       </div>

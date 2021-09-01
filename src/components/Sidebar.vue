@@ -51,14 +51,6 @@
               }"
               ><b-icon icon="wrench"></b-icon> Workflow</b-nav-item
             >
-            <b-nav-item
-              :to="{
-                name: 'Billwise',
-                params: { custType: 3, custName: '-1' },
-              }"
-            >
-              <b-icon icon="clipboard"></b-icon> Adjust Bills
-            </b-nav-item>
           </b-collapse>
 
           <!-- Admin -->
@@ -79,6 +71,24 @@
             <b-nav-item to="/logs"
               ><b-icon icon="server"></b-icon> Audit Logs</b-nav-item
             >
+            <b-nav-item to="/accounts/-1/-1/-1">
+              <b-icon icon="files-alt"></b-icon> Accounts
+            </b-nav-item>
+            <b-nav-item to="/budgets/cash/-1">
+              <b-icon icon="file-ruled"></b-icon> Budget
+            </b-nav-item>
+            <b-nav-item
+              :to="{
+                name: 'Billwise',
+                params: { custType: 3, custName: '-1' },
+              }"
+            >
+              <b-icon icon="clipboard"></b-icon> Adjust Bills
+            </b-nav-item>
+
+            <b-nav-item to="/uom">
+              <b-icon icon="thermometer"></b-icon> Unit of measurement
+            </b-nav-item>
             <b-nav-item to="/closebooks">
               <b-icon icon="journals"></b-icon> Close Books / Roll Over
             </b-nav-item>
@@ -98,9 +108,7 @@
             <b-nav-item to="/costcenter">
               <b-icon icon="cash-stack"></b-icon> Cost Center
             </b-nav-item>
-            <b-nav-item to="/uom">
-              <b-icon icon="thermometer"></b-icon> Unit of measurement
-            </b-nav-item>
+
             <b-nav-item to="/categories">
               <b-icon icon="tags"></b-icon> Categories
             </b-nav-item>
@@ -130,12 +138,7 @@
             <b-nav-item to="/categorywise-stock-on-hand">
               <b-icon icon="tag"></b-icon>Categorywise Stock On Hand
             </b-nav-item>
-            <b-nav-item to="/accounts/-1/-1/-1">
-              <b-icon icon="files-alt"></b-icon> Accounts
-            </b-nav-item>
-            <b-nav-item to="/budgets/cash/-1">
-              <b-icon icon="file-ruled"></b-icon> Budget
-            </b-nav-item>
+
             <b-nav-item to="/product-list">
               <b-icon icon="box"></b-icon> Product List
             </b-nav-item>
@@ -150,6 +153,9 @@
             </b-nav-item>
             <b-nav-item to="/trial-balance">
               <b-icon icon="wallet"></b-icon> Trial Balance
+            </b-nav-item>
+            <b-nav-item to="/ledger">
+              <b-icon icon="journals"></b-icon> Ledger
             </b-nav-item>
           </b-collapse>
           <!-- Help -->

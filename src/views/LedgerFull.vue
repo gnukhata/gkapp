@@ -19,15 +19,59 @@
           {{ ledgerHead.calculateto }}
         </div>
       </report-header>
+      <!-- Checkboxes -->
+      <div class="d-flex justify-content-center mb-3">
+        <b-form-checkbox
+          class="mr-2"
+          @change="getLedger"
+          v-model="ledgerChoice"
+          value="all"
+          unchecked-value="all"
+          switch
+        >
+          All</b-form-checkbox
+        >
+        <b-form-checkbox
+          @change="getCrDrLedger"
+          class="mr-2"
+          v-model="ledgerChoice"
+          value="cr"
+          unchecked-value="all"
+          switch
+        >
+          Credit Only</b-form-checkbox
+        >
+        <b-form-checkbox
+          @change="getCrDrLedger"
+          class="mr-2"
+          v-model="ledgerChoice"
+          unchecked-value="all"
+          value="dr"
+          switch
+        >
+          Debit Only</b-form-checkbox
+        >
+      </div>
+      <!-- searchh bar -->
+      <div class="text-center gkcard mx-auto mb-3">
+        <b-form-input
+          placeholder="Search Ledger"
+          size="sm"
+          v-model="search"
+          type="text"
+        ></b-form-input>
+      </div>
       <!-- result -->
       <b-table
         :items="result"
+        :filter="search"
         small
         striped
         bordered
         hover
         head-variant="dark"
         responsive="sm"
+        stacked="sm"
         :busy="loading"
         :fields="fields"
       >
@@ -67,14 +111,20 @@ export default {
   data() {
     return {
       loading: false,
+      search: '',
       accountCode: null,
       // projectCode null value is '', else it will result in data error
       projectCode: '',
       result: [],
       ledgerHead: '',
+      ledgerChoice: 'all',
       accountName: null,
       fromDate: null,
       toDate: null,
+      checkboxes: [
+        { text: 'Only Cr', value: 'cr' },
+        { text: 'Only Dr', value: 'dr' },
+      ],
       fields: [
         {
           key: 'voucherdate',
@@ -131,6 +181,58 @@ export default {
     this.getLedger();
   },
   methods: {
+    getCrDrLedger() {
+      if (this.ledgerChoice == 'all') {
+        this.getLedger();
+        return;
+      }
+      this.loading = true;
+      axios
+        .get(
+          `/report?type=crdrledger&accountcode=${this.accountCode}&projectcode=${this.projectCode}&calculatefrom=${this.fromDate}&calculateto=${this.toDate}&financialstart=${this.yearStart}&side=${this.ledgerChoice}`
+        )
+        .then((r) => {
+          if (r.status == 200) {
+            switch (r.data.gkstatus) {
+              case 0:
+                this.result = r.data.gkresult;
+                this.ledgerHead = r.data.ledgerheader;
+                break;
+              case 1:
+                this.$bvToast.toast('Duplicate Entry', {
+                  variant: 'warning',
+                  solid: true,
+                });
+                break;
+              case 2:
+                this.$bvToast.toast('Unauthorised Access', {
+                  variant: 'danger',
+                  solid: true,
+                });
+                break;
+              case 3:
+                this.$bvToast.toast('Data error', {
+                  variant: 'danger',
+                  solid: true,
+                });
+                break;
+              case 4:
+                this.$bvToast.toast('No Privilege', {
+                  variant: 'danger',
+                  solid: true,
+                });
+                break;
+              case 5:
+                this.$bvToast.toast('Integrity error', {
+                  variant: 'danger',
+                  solid: true,
+                });
+                break;
+            }
+          }
+          this.loading = false;
+        });
+    },
     getLedger() {
       this.loading = true;
       axios

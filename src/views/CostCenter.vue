@@ -24,6 +24,7 @@
       hover
       fixed
       outlined
+      small
       :busy="loading"
     >
       <template #table-busy>
