@@ -9,9 +9,63 @@ us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
 
+* Meeting history (2021-08-30)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-08-30
+  :END:
+Agenda:
+ - Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+- Karthik:
+  - Ledger view for from date & to date
+  - Organise sidebar menu
+  - Drill down in some reports
+- Survesh:
+  - Balance Sheet
+  - UI updates in Accounts page (Hide non filtered items)
+  - UI to choose required workflow list column
+  - Offline installer for windows (gkwebapp)
+
+Points Discussed:
+- Discussions on sidebar link placements,
+  - It would be nice to have Sales and Purchase as separate categories and having 
+    their related pages (Sales/Purchase Return, related Vouchers, etc) as links under them. 
+  - Adjust bills, Accounts, UOM could be placed as links under the Master category.
+- Discussions on the need for Report category and improving the legacy approach,
+  - Do we need separate pages under the Reports category when we have those data already
+    in other pages? We can apply filters and get the same reports there, as we shouldn't 
+    create separate UI templates for the same data in several places.
+  - Though there are several dynamic pages in which we can generate the required report by
+    applying filters, there are still some reports (Balance Sheet, Profit & Loss, etc.) that 
+    would require a separate page to display them.
+  - Also, Auditors using aged software will be accustomed to an interface with a reports category
+    that groups all the reports in the app in one place.
+  - So we can keep the legacy UI that lists all the reports in one place, and with time we can remove 
+    the extra UI templates for pages where we can generate reports by filtering the existing data, as 
+    maintaining several templates will be a hard task.
+- Need a Stock on Hand filter for the Products/Services list.
+- When opening the workflow page in desktop mode, the right pane is empty. This could be filled
+  with the data of first item in the left pane.
+- Must check if we have permission to include Microsoft Visual C++ in our windows installer.
+- Payment Details(Bank Info) must be autofilled with the organisation's data, in create Invoice form.
+- Need the ability to adjust an invoice On Credit, in its profile page itself (Without Going to 
+  Billwise Adjustment page). Also the information regarding the Billwise Adjustment happened on the invoice
+  must be listed on the Invoice Profile page.
+- UI updates in the Balance sheet form,
+  - Display the Subgroups and Accounts that are currently in collapsable view in separate columns.
+  - Add a filter to hide the rows which have zero rupees. A text stating that this filter has been applied,
+    must be visible when printed.
+- Use black coloured icons for edit buttons throughout the app.
+
+Conclusion:
+- Updates will be performed based on the points discussed above.
+
 * Meeting history (2021-08-23)
   :PROPERTIES:
-  :CUSTOM_ID: meeting-history-2021-08-16
+  :CUSTOM_ID: meeting-history-2021-08-23
   :END:
 Agenda:
  - Review past week's progess
