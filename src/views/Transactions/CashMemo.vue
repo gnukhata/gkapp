@@ -394,7 +394,7 @@ export default {
       return { invoice, stock };
     },
     confirmOnSubmit() {
-      // this.updateCounter.memo++;
+      Object.assign(this.form.memo, this.$refs.memo.form);
       const self = this;
       let text = `Create Cash Memo (${this.form.memo.no}) for ${
         this.isSale ? 'Sale' : 'Purchase'

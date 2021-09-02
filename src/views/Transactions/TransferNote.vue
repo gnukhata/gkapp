@@ -201,7 +201,7 @@ export default {
       Object.assign(this.form.transport, this.$refs.transport.form);
     },
     updateComponentData() {
-      this.updateCounter.transferNote++;
+      Object.assign(this.form.transferNote, this.$refs.transferNote.form);
       this.updateCounter.transport++;
       this.updateCounter.bill++;
     },

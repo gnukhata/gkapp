@@ -255,14 +255,14 @@ export default {
   },
   computed: {
     invIndex: {
-      set: function (newValue) {
+      set: function(newValue) {
         if (this.isSale) {
           this.saleInvIndex = newValue;
         } else {
           this.purchaseInvIndex = newValue;
         }
       },
-      get: function () {
+      get: function() {
         return this.isSale ? this.saleInvIndex : this.purchaseInvIndex;
       },
     },
@@ -419,8 +419,8 @@ export default {
       };
     },
     confirmOnSubmit() {
-      // this.updateCounter.rnote++;
-      // this.updateCounter.invoice++;
+      Object.assign(this.form.invoice, this.$refs.invoice.form);
+      Object.assign(this.form.rnote, this.$refs.rnote.form);
       const self = this;
       let text = `Create Rejection Note (${this.form.rnote.no}) for ${
         this.isSale ? 'Sale' : 'Purchase'
