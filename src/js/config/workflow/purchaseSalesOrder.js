@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default {
+const config = {
   icon: 'receipt',
   color: 'success',
   data: [],
@@ -57,24 +57,32 @@ export default {
       props: { key: 'orderno', isAsc: true },
     },
   ],
-  columns: [
-    {
-      text: 'Date',
-      value: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+  options: {
+    columns: [
+      {
+        text: 'Date',
+        value: 'dateObj',
+      },
+      {
+        text: 'Customer',
+        value: 'custname',
+      },
+      {
+        text: 'Amount',
+        value: 'ordertotal',
+      },
+      {
+        text: 'No',
+        value: 'orderno',
+      },
+    ],
+    columnMap: {
+      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+      custname: { text: 'Customer', props: { key: 'custname', isAsc: true } },
+      ordertotal: { text: 'Amount', props: { key: 'ordertotal', isAsc: true } },
+      orderno: { text: 'No', props: { key: 'orderno', isAsc: true } },
     },
-    {
-      text: 'Customer',
-      value: { text: 'Customer', props: { key: 'custname', isAsc: true } },
-    },
-    {
-      text: 'Amount',
-      value: { text: 'Amount', props: { key: 'ordertotal', isAsc: true } },
-    },
-    {
-      text: 'No',
-      value: { text: 'No', props: { key: 'orderno', isAsc: true } },
-    },
-  ],
+  },
   loadList: function() {
     return axios
       .get('/purchaseorder')
@@ -113,4 +121,42 @@ export default {
         return error;
       });
   },
+  initListColumns: initColumns,
+  setListColumns: setColumns,
 };
+
+function initColumns(orgCode) {
+  // debugger;
+  let columns =
+    JSON.parse(localStorage.getItem(`${orgCode}-workflow-psorder-columns`)) ||
+    [];
+  if (!columns.length) {
+    columns = [
+      {
+        text: 'Date',
+        props: { key: 'dateObj', isAsc: true },
+      },
+      {
+        text: 'Name',
+        props: { key: 'customer', isAsc: true },
+      },
+      {
+        text: 'No.',
+        props: { key: 'orderno', isAsc: true },
+      },
+    ];
+  }
+  config.sortBy = columns;
+}
+
+function setColumns(orgCode, columns) {
+  if (Array.isArray(columns) && columns.length <= 3) {
+    localStorage.setItem(
+      `${orgCode}-workflow-psorder-columns`,
+      JSON.stringify(columns)
+    );
+    config.sortBy = columns;
+  }
+}
+
+export default config;

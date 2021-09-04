@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default {
+const config = {
   icon: 'receipt',
   color: 'success',
   data: [],
@@ -56,24 +56,32 @@ export default {
       props: { key: 'totreduct', isAsc: true },
     },
   ],
-  columns: [
-    {
-      text: 'Date',
-      value: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+  options: {
+    columns: [
+      {
+        text: 'Date',
+        value: 'dateObj',
+      },
+      {
+        text: 'Customer',
+        value: 'custname',
+      },
+      {
+        text: 'Amount',
+        value: 'totreduct',
+      },
+      {
+        text: 'No',
+        value: 'drcrno',
+      },
+    ],
+    columnMap: {
+      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+      custname: { text: 'Customer', props: { key: 'custname', isAsc: true } },
+      totreduct: { text: 'Amount', props: { key: 'totreduct', isAsc: true } },
+      drcrno: { text: 'No', props: { key: 'drcrno', isAsc: true } },
     },
-    {
-      text: 'Customer',
-      value: { text: 'Customer', props: { key: 'custname', isAsc: true } },
-    },
-    {
-      text: 'Amount',
-      value: { text: 'Amount', props: { key: 'totreduct', isAsc: true } },
-    },
-    {
-      text: 'No',
-      value: { text: 'No', props: { key: 'drcrno', isAsc: true } },
-    },
-  ],
+  },
   loadList: function() {
     return axios
       .get('/drcrnote?drcr=all')
@@ -111,4 +119,42 @@ export default {
         return error;
       });
   },
+  initListColumns: initColumns,
+  setListColumns: setColumns,
 };
+
+function initColumns(orgCode) {
+  // debugger;
+  let columns =
+    JSON.parse(localStorage.getItem(`${orgCode}-workflow-dcnote-columns`)) ||
+    [];
+  if (!columns.length) {
+    columns = [
+      {
+        text: 'Date',
+        props: { key: 'dateObj', isAsc: true },
+      },
+      {
+        text: 'Name',
+        props: { key: 'custname', isAsc: true },
+      },
+      {
+        text: 'Amount',
+        props: { key: 'totreduct', isAsc: true },
+      },
+    ];
+  }
+  config.sortBy = columns;
+}
+
+function setColumns(orgCode, columns) {
+  if (Array.isArray(columns) && columns.length <= 3) {
+    localStorage.setItem(
+      `${orgCode}-workflow-dcnote-columns`,
+      JSON.stringify(columns)
+    );
+    config.sortBy = columns;
+  }
+}
+
+export default config;

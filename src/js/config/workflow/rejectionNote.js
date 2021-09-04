@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default {
+const config = {
   icon: 'receipt',
   color: 'success',
   data: [],
@@ -53,24 +53,32 @@ export default {
       props: { key: 'rnno', isAsc: true },
     },
   ],
-  columns: [
-    {
-      text: 'Date',
-      value: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+  options: {
+    columns: [
+      {
+        text: 'Date',
+        value: 'dateObj',
+      },
+      {
+        text: 'Amount',
+        value: 'rntotal',
+      },
+      {
+        text: 'Inv No',
+        value: 'invoiceno',
+      },
+      {
+        text: 'No',
+        value: 'rnno',
+      },
+    ],
+    columnMap: {
+      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+      rntotal: { text: 'Amount', props: { key: 'rntotal', isAsc: true } },
+      invoiceno: { text: 'Inv No', props: { key: 'invoiceno', isAsc: true } },
+      rnno: { text: 'No', props: { key: 'rnno', isAsc: true } },
     },
-    {
-      text: 'Amount',
-      value: { text: 'Amount', props: { key: 'rntotal', isAsc: true } },
-    },
-    {
-      text: 'Inv No',
-      value: { text: 'Inv No', props: { key: 'invoiceno', isAsc: true } },
-    },
-    {
-      text: 'No',
-      value: { text: 'No', props: { key: 'rnno', isAsc: true } },
-    },
-  ],
+  },
   loadList: function() {
     return axios
       .get('/rejectionnote?type=all')
@@ -105,4 +113,37 @@ export default {
         return error;
       });
   },
+  initListColumns: initColumns,
+  setListColumns: setColumns,
 };
+
+function initColumns(orgCode) {
+  // debugger;
+  let columns =
+    JSON.parse(localStorage.getItem(`${orgCode}-workflow-rnote-columns`)) || [];
+  if (!columns.length) {
+    columns = [
+      {
+        text: 'Date',
+        props: { key: 'dateObj', isAsc: true },
+      },
+      {
+        text: 'No.',
+        props: { key: 'rnno', isAsc: true },
+      },
+    ];
+  }
+  config.sortBy = columns;
+}
+
+function setColumns(orgCode, columns) {
+  if (Array.isArray(columns) && columns.length <= 3) {
+    localStorage.setItem(
+      `${orgCode}-workflow-rnote-columns`,
+      JSON.stringify(columns)
+    );
+    config.sortBy = columns;
+  }
+}
+
+export default config;

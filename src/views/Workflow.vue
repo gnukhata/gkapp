@@ -149,7 +149,7 @@
                       <b-col class="px-1">
                         <autocomplete
                           v-model="listSettings.columns[0]"
-                          :options="activeTabOptions.columns"
+                          :options="activeTabOptions.options.columns"
                           placeholder="Column 1"
                         >
                         </autocomplete>
@@ -157,7 +157,7 @@
                       <b-col class="px-0">
                         <autocomplete
                           v-model="listSettings.columns[1]"
-                          :options="activeTabOptions.columns"
+                          :options="activeTabOptions.options.columns"
                           placeholder="Column 2"
                         >
                         </autocomplete>
@@ -165,7 +165,7 @@
                       <b-col class="px-1">
                         <autocomplete
                           v-model="listSettings.columns[2]"
-                          :options="activeTabOptions.columns"
+                          :options="activeTabOptions.options.columns"
                           placeholder="Column 3"
                         >
                         </autocomplete>
@@ -766,15 +766,27 @@ export default {
       }
       return data;
     },
-    ...mapState(['authToken', 'gkCoreUrl', 'userName', 'yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgCode']),
   },
   methods: {
+    /**
+     * updateListSettings
+     *
+     * Description: Updates the left pane column config to localhost for persistence
+     */
     updateListSettings() {
-      let sortBy = this.listSettings.columns.filter((column) => {
-        return column;
-      });
+      // debugger;
+      let colMap = this.activeTabOptions.options.columnMap;
+      let sortBy = this.listSettings.columns
+        .filter((column) => {
+          return column;
+        })
+        .map((column) => {
+          return colMap[column];
+        });
       if (sortBy.length) {
-        this.activeTabOptions.sortBy = sortBy;
+        // this.activeTabOptions.sortBy = sortBy;
+        this.activeTabOptions.setListColumns(this.orgCode, sortBy);
       }
     },
     updateListHeight() {
@@ -906,17 +918,24 @@ export default {
       if (!skipUpdate) {
         this.updateUrl();
       }
+      const self = this;
       if (!activeWorkflow.data.length) {
         this.isLoading = true;
+        activeWorkflow.initListColumns(this.orgCode);
+        this.$nextTick(() => {
+          self.listSettings.columns = activeWorkflow.sortBy.map((col) => {
+            return col.props.key
+          });
+        });
         activeWorkflow
           .loadList(this.yearStart, this.yearEnd)
           .then((resp) => {
             activeWorkflow.data = resp;
-            this.isLoading = false;
+            self.isLoading = false;
           })
           .catch((e) => {
             console.log(e.message);
-            this.isLoading = false;
+            self.isLoading = false;
           });
       }
     },

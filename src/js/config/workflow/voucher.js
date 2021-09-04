@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default {
+const config = {
   icon: 'receipt',
   color: 'success',
   data: [],
@@ -78,32 +78,48 @@ export default {
       props: { key: 'crAmount', isAsc: true },
     },
   ],
-  columns: [
-    {
-      text: 'Date',
-      value: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+  options: {
+    columns: [
+      {
+        text: 'Date',
+        value: 'dateObj',
+      },
+      {
+        text: 'Dr',
+        value: 'drAmount',
+      },
+      {
+        text: 'Cr',
+        value: 'crAmount',
+      },
+      {
+        text: 'Type',
+        value: 'vouchertype',
+      },
+      {
+        text: 'No',
+        value: 'vouchernumber',
+      },
+      {
+        text: 'Narration',
+        value: 'narration',
+      },
+    ],
+    columnMap: {
+      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+      drAmount: { text: 'Dr', props: { key: 'drAmount', isAsc: true } },
+      crAmount: { text: 'Cr', props: { key: 'crAmount', isAsc: true } },
+      vouchertype: { text: 'Type', props: { key: 'vouchertype', isAsc: true } },
+      vouchernumber: {
+        text: 'No',
+        props: { key: 'vouchernumber', isAsc: true },
+      },
+      narration: {
+        text: 'Narration',
+        props: { key: 'narration', isAsc: true },
+      },
     },
-    {
-      text: 'Dr',
-      value: { text: 'Dr', props: { key: 'drAmount', isAsc: true } },
-    },
-    {
-      text: 'Cr',
-      value: { text: 'Cr', props: { key: 'crAmount', isAsc: true } },
-    },
-    {
-      text: 'Type',
-      value: { text: 'Type', props: { key: 'vouchertype', isAsc: true } },
-    },
-    {
-      text: 'No',
-      value: { text: 'No', props: { key: 'vouchernumber', isAsc: true } },
-    },
-    {
-      text: 'Narration',
-      value: { text: 'Narration', props: { key: 'narration', isAsc: true } },
-    },
-  ],
+  },
   loadList: function(yearStart, yearEnd) {
     const requests = [
       axios
@@ -187,4 +203,42 @@ export default {
       return list;
     });
   },
+  initListColumns: initColumns,
+  setListColumns: setColumns,
 };
+
+function initColumns(orgCode) {
+  // debugger;
+  let columns =
+    JSON.parse(localStorage.getItem(`${orgCode}-workflow-voucher-columns`)) ||
+    [];
+  if (!columns.length) {
+    columns = [
+      {
+        text: 'Date',
+        props: { key: 'dateObj', isAsc: true },
+      },
+      {
+        text: 'Dr',
+        props: { key: 'drAmount', isAsc: true },
+      },
+      {
+        text: 'Cr',
+        props: { key: 'crAmount', isAsc: true },
+      },
+    ];
+  }
+  config.sortBy = columns;
+}
+
+function setColumns(orgCode, columns) {
+  if (Array.isArray(columns) && columns.length <= 3) {
+    localStorage.setItem(
+      `${orgCode}-workflow-voucher-columns`,
+      JSON.stringify(columns)
+    );
+    config.sortBy = columns;
+  }
+}
+
+export default config;

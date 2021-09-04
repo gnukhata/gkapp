@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default {
+const config = {
   icon: 'receipt',
   color: 'success',
   data: [],
@@ -43,20 +43,30 @@ export default {
       props: { key: 'invoiceno', isAsc: true },
     },
   ],
-  columns: [
-    {
-      text: 'Date',
-      value: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+  options: {
+    columns: [
+      {
+        text: 'Date',
+        value: 'dateObj',
+      },
+      {
+        text: 'Amount',
+        value: 'invoicetotal',
+      },
+      {
+        text: 'No',
+        value: 'invoiceno',
+      },
+    ],
+    columnMap: {
+      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+      invoicetotal: {
+        text: 'Amount',
+        props: { key: 'invoicetotal', isAsc: true },
+      },
+      invoiceno: { text: 'No', props: { key: 'invoiceno', isAsc: true } },
     },
-    {
-      text: 'Amount',
-      value: { text: 'Amount', props: { key: 'invoicetotal', isAsc: true } },
-    },
-    {
-      text: 'No',
-      value: { text: 'No', props: { key: 'invoiceno', isAsc: true } },
-    },
-  ],
+  },
   loadList: function() {
     const requests = [
       axios.get('/invoice?cash=all&inoutflag=15').catch((error) => {
@@ -123,4 +133,38 @@ export default {
       return list;
     });
   },
+  initListColumns: initColumns,
+  setListColumns: setColumns,
 };
+
+function initColumns(orgCode) {
+  // debugger;
+  let columns =
+    JSON.parse(localStorage.getItem(`${orgCode}-workflow-cashmemo-columns`)) ||
+    [];
+  if (!columns.length) {
+    columns = [
+      {
+        text: 'Date',
+        props: { key: 'dateObj', isAsc: true },
+      },
+      {
+        text: 'No.',
+        props: { key: 'invoiceno', isAsc: true },
+      },
+    ];
+  }
+  config.sortBy = columns;
+}
+
+function setColumns(orgCode, columns) {
+  if (Array.isArray(columns) && columns.length <= 3) {
+    localStorage.setItem(
+      `${orgCode}-workflow-cashmemo-columns`,
+      JSON.stringify(columns)
+    );
+    config.sortBy = columns;
+  }
+}
+
+export default config;

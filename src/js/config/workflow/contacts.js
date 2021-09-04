@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default {
+const config = {
   icon: 'person-lines-fill',
   color: 'primary',
   data: [],
@@ -37,12 +37,17 @@ export default {
       props: { key: 'custname', isAsc: true },
     },
   ],
-  columns: [
-    {
-      text: 'Name',
-      value: { text: 'Name', props: { key: 'custname', isAsc: true } },
+  options: {
+    columns: [
+      {
+        text: 'Name',
+        value: 'custname',
+      },
+    ],
+    columnMap: {
+      custname: { text: 'Name', props: { key: 'custname', isAsc: true } },
     },
-  ],
+  },
   loadList: function() {
     const requests = [
       axios.get('/customersupplier?qty=custall').catch((error) => {
@@ -76,4 +81,34 @@ export default {
       return contacts;
     });
   },
+  initListColumns: initColumns,
+  setListColumns: setColumns,
 };
+
+function initColumns(orgCode) {
+  // debugger;
+  let columns =
+    JSON.parse(localStorage.getItem(`${orgCode}-workflow-contacts-columns`)) ||
+    [];
+  if (!columns.length) {
+    columns = [
+      {
+        text: 'Name',
+        props: { key: 'custname', isAsc: true },
+      },
+    ];
+  }
+  config.sortBy = columns;
+}
+
+function setColumns(orgCode, columns) {
+  if (Array.isArray(columns) && columns.length <= 3) {
+    localStorage.setItem(
+      `${orgCode}-workflow-contacts-columns`,
+      JSON.stringify(columns)
+    );
+    config.sortBy = columns;
+  }
+}
+
+export default config;

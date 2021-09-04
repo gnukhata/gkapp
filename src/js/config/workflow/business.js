@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default {
+const config = {
   icon: 'box-seam',
   color: 'warning',
   data: [],
@@ -37,12 +37,17 @@ export default {
       props: { key: 'productdesc', isAsc: true },
     },
   ],
-  columns: [
-    {
-      text: 'Name',
-      value: { text: 'Name', props: { key: 'productdesc', isAsc: true } },
+  options: {
+    columns: [
+      {
+        text: 'Name',
+        value: 'productdesc',
+      },
+    ],
+    columnMap: {
+      productdesc: { text: 'Name', props: { key: 'productdesc', isAsc: true } },
     },
-  ],
+  },
   loadList: function() {
     return axios
       .get('/products')
@@ -60,4 +65,34 @@ export default {
         return error;
       });
   },
+  initListColumns: initColumns,
+  setListColumns: setColumns,
 };
+
+function initColumns(orgCode) {
+  // debugger;
+  let columns =
+    JSON.parse(localStorage.getItem(`${orgCode}-workflow-business-columns`)) ||
+    [];
+  if (!columns.length) {
+    columns = [
+      {
+        text: 'Name',
+        props: { key: 'productdesc', isAsc: true },
+      },
+    ];
+  }
+  config.sortBy = columns;
+}
+
+function setColumns(orgCode, columns) {
+  if (Array.isArray(columns) && columns.length <= 3) {
+    localStorage.setItem(
+      `${orgCode}-workflow-business-columns`,
+      JSON.stringify(columns)
+    );
+    config.sortBy = columns;
+  }
+}
+
+export default config;

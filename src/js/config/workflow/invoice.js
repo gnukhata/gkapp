@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default {
+const config = {
   icon: 'receipt',
   color: 'success',
   data: [],
@@ -75,28 +75,37 @@ export default {
       props: { key: 'netamt', isAsc: true },
     },
   ],
-  columns: [
-    {
-      text: 'Date',
-      value: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+  options: {
+    columns: [
+      {
+        text: 'Date',
+        value: 'dateObj',
+      },
+      {
+        text: 'Customer',
+        value: 'custname',
+      },
+      {
+        text: 'Amount',
+        value: 'netamt',
+      },
+      {
+        text: 'No',
+        value: 'invoiceno',
+      },
+      {
+        text: 'Tax',
+        value: 'taxamt',
+      },
+    ],
+    columnMap: {
+      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+      custname: { text: 'Customer', props: { key: 'custname', isAsc: true } },
+      netamt: { text: 'Amount', props: { key: 'netamt', isAsc: true } },
+      invoiceno: { text: 'No', props: { key: 'invoiceno', isAsc: true } },
+      taxamt: { text: 'Tax', props: { key: 'taxamt', isAsc: true } },
     },
-    {
-      text: 'Customer',
-      value: { text: 'Customer', props: { key: 'custname', isAsc: true } },
-    },
-    {
-      text: 'Amount',
-      value: { text: 'Amount', props: { key: 'netamt', isAsc: true } },
-    },
-    {
-      text: 'No',
-      value: { text: 'No', props: { key: 'invoiceno', isAsc: true } },
-    },
-    {
-      text: 'Tax',
-      value: { text: 'Tax', props: { key: 'taxamt', isAsc: true } },
-    },
-  ],
+  },
   loadList: function(yearStart, yearEnd) {
     const requests = [
       axios
@@ -201,4 +210,42 @@ export default {
         console.log(e.message);
       });
   },
+  initListColumns: initColumns,
+  setListColumns: setColumns,
 };
+
+function initColumns(orgCode) {
+  // debugger;
+  let columns =
+    JSON.parse(localStorage.getItem(`${orgCode}-workflow-invoice-columns`)) ||
+    [];
+  if (!columns.length) {
+    columns = [
+      {
+        text: 'Date',
+        props: { key: 'dateObj', isAsc: true },
+      },
+      {
+        text: 'Name',
+        props: { key: 'custname', isAsc: true },
+      },
+      {
+        text: 'Amount',
+        props: { key: 'netamt', isAsc: true },
+      },
+    ];
+  }
+  config.sortBy = columns;
+}
+
+function setColumns(orgCode, columns) {
+  if (Array.isArray(columns) && columns.length <= 3) {
+    localStorage.setItem(
+      `${orgCode}-workflow-invoice-columns`,
+      JSON.stringify(columns)
+    );
+    config.sortBy = columns;
+  }
+}
+
+export default config;
