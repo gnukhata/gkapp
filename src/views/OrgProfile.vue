@@ -64,7 +64,7 @@
           </b-form-group>
           <b-form-group label="Phone" label-size="sm" label-align="right" label-cols="4">
             <b-input-group>
-              <b-form-input v-model="details.orgtelno" size="sm" type="right"></b-form-input>
+              <b-form-input v-model="details.orgtelno" size="sm" type="text"></b-form-input>
             </b-input-group>
           </b-form-group>
           <b-form-group label="Fax" label-size="sm" label-align="right" label-cols="4">
@@ -75,24 +75,21 @@
       <!-- Bank card --->
       <b-card-group deck class="mt-4">
         <b-card
-          v-if="details.bankdetails"
           header="Bank Details"
           header-bg-variant="dark"
           header-text-variant="light"
         >
-          <b-form-group label="Name" label-cols="4" label-align="left">
-            <b-input-group>
-              <b-form-input v-model="details.bankdetails.bankname" type="text"></b-form-input>
-            </b-input-group>
+          <b-form-group label="Name" label-cols="4" label-size="sm" label-align="right">
+              <b-form-input v-model="bankDetails.bankname" size="sm" type="text"></b-form-input>
           </b-form-group>
-          <b-form-group label="Account Number" label-cols="4" label-align="left">
-            <b-form-input v-model="details.bankdetails.accountno" type="text"></b-form-input>
+          <b-form-group label="Account Number" label-cols="4" label-size="sm" label-align="right">
+            <b-form-input v-model="bankDetails.accountno" size="sm" type="text"></b-form-input>
           </b-form-group>
-          <b-form-group label="Branch" label-cols="4">
-            <b-form-input v-model="details.bankdetails.branchname" type="text"></b-form-input>
+          <b-form-group label="Branch" label-cols="4" label-size="sm" label-align="right">
+            <b-form-input v-model="bankDetails.branchname" size="sm" type="text"></b-form-input>
           </b-form-group>
-          <b-form-group label="IFSC Code" label-cols="4">
-            <b-form-input v-model="details.bankdetails.ifsc" type="text"></b-form-input>
+          <b-form-group label="IFSC Code" label-cols="4" label-size="sm" label-align="right">
+            <b-form-input v-model="bankDetails.ifsc" size="sm" type="text"></b-form-input>
           </b-form-group>
         </b-card>
         <!-- Tax card-->
@@ -130,7 +127,7 @@
             <b-form-input v-model="details.orgstax" size="sm" type="text"></b-form-input>
           </b-form-group>
 
-          <b-form-group label="GSTIN" label-cols="4" label-align="right">
+          <b-form-group label="GSTIN" label-size="sm" label-cols="4" label-align="right">
             <div
               v-for="(gst, sc, index) in gstin"
               :key="index"
@@ -146,33 +143,39 @@
               >
                 <b-icon font-scale="0.95" icon="pencil"></b-icon>
               </b-button>
-              <b-button class size="sm" variant="danger">-</b-button>
+              <b-button class="text-small" size="sm" variant="danger" @click="deleteGstin(sc)">
+                <b-icon font-scale="0.95" icon="trash"></b-icon>
+              </b-button>
             </div>
             <b-button
               v-b-modal.gstin
               variant="dark"
               class="p-0 px-1 float-right float-sm-left"
               @click="onGstinAdd"
+              size="sm"
             >
-              <b-icon icon="plus"></b-icon>GSTIN
+              <b-icon class="align-middle" icon="plus"></b-icon>GSTIN
             </b-button>
           </b-form-group>
-          <b-form-group label="CESS" label-cols="4" label-align="right">
+          <b-form-group label="CESS" label-size="sm" label-cols="4" label-align="right">
             <div
               v-for="(value, cessAmount, index) in cess"
               :key="index"
               class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
             >
               <b :style="{ width: '25px' }">{{ cessAmount }}</b>
-              <b-button class size="sm" variant="danger" @click="deleteCess(cessAmount)">-</b-button>
+              <b-button class size="sm" variant="danger" @click="deleteCess(cessAmount)">
+                <b-icon font-scale="0.95" icon="trash"></b-icon>
+              </b-button>
             </div>
             <b-button
               v-b-modal.cess
               variant="dark"
               class="p-0 px-1 float-right float-sm-left"
               @click="onCessAdd"
+              size="sm"
             >
-              <b-icon icon="plus"></b-icon>CESS
+              <b-icon class="align-middle" icon="plus"></b-icon>CESS
             </b-button>
           </b-form-group>
           <!-- {{ details }} -->
@@ -181,10 +184,10 @@
       <!-- Submit & cancel buttons -->
       <div class="mt-2 mb-3 d-flex flex-row-reverse">
         <b-button type="submit" size="sm" class="ml-2" variant="success">
-          <b-icon icon="arrow-up-circle"></b-icon>Save Changes
+          <b-icon class="mr-1" icon="arrow-up-circle"></b-icon>Save Changes
         </b-button>
         <b-button variant="danger" size="sm" @click="confirm('delete')">
-          <b-icon icon="building"></b-icon>Delete Organisation
+          <b-icon class="mr-1" icon="building"></b-icon>Delete Organisation
         </b-button>
       </div>
     </b-form>
@@ -285,6 +288,12 @@ export default {
       states: [],
       gstin: {},
       cess: {},
+      bankDetails: {
+        bankname: '',
+        accountno: '',
+        branchname: '',
+        ifsc: '',
+      },
       newGstin: {
         stateCode: null,
         checksum: '',
@@ -329,7 +338,7 @@ export default {
     },
     isPanValid: (self) =>
       self.details.orgpan ? self.regex.pan.test(self.details.orgpan) : null,
-    ...mapState(['gkCoreUrl', 'authToken']),
+    ...mapState(['gkCoreUrl']),
   },
   methods: {
     /**
@@ -367,17 +376,16 @@ export default {
     async getDetails() {
       this.loading = true;
       return axios
-        .get(`${this.gkCoreUrl}/organisation`, {
-          headers: {
-            gktoken: this.authToken,
-          },
-        })
+        .get(`/organisation`)
         .then((res) => {
           switch (res.data.gkstatus) {
             case 0:
               this.details = res.data.gkdata;
               if (this.details.gstin) {
                 this.gstin = Object.assign({}, this.details.gstin);
+              }
+              if (this.details.bankdetails) {
+                Object.assign(this.bankDetails, this.details.bankdetails);
               }
               this.loading = false;
               break;
@@ -525,7 +533,7 @@ export default {
         requests.push(axios.get(`/state?abbreviation&statecode=${code}`));
       });
       return Promise.all(requests).then((res) => {
-        return res.map((r) => r.data.abbreviation);
+        return res.filter((r1) => r1.data.gkstatus === 0 ).map((r2) => r2.data.abbreviation);
       });
     },
     /** returns the account codes for CESS accounts that are no longer required.
@@ -720,18 +728,14 @@ export default {
       let state = this.states.find((state) => state.value === this.stateCode);
       state = state ? state.text : null;
 
-      this.details.orgstate = state;
+      Object.assign(this.details, {
+        orgstate: state,
+        gstin: Object.assign({}, this.gstin),
+        bankdetails: this.bankDetails,
+      });
 
-      // update GSTIN
-      this.details.gstin = Object.assign({}, this.gstin);
-
-      const config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       axios
-        .put(`${this.gkCoreUrl}/organisations`, this.details, config)
+        .put(`/organisations`, this.details)
         .then((res) => {
           switch (res.data.gkstatus) {
             case 0:
@@ -778,13 +782,8 @@ export default {
     deleteOrg() {
       this.loading = true;
 
-      const config = {
-        headers: {
-          gktoken: this.authToken,
-        },
-      };
       axios
-        .delete(`${this.gkCoreUrl}/organisations`, config)
+        .delete(`/organisations`)
         .then((r) => {
           console.trace(r);
           if (r.status == '200' && r.data.gkstatus == 0) {
@@ -842,6 +841,13 @@ export default {
         this.$forceUpdate();
       }
     },
+    /** Delete a GSTIN from the list */
+    deleteGstin(stateCode) {
+      if (this.gstin[stateCode]) {
+        delete this.gstin[stateCode];
+        this.$forceUpdate();
+      }
+    },
     /** Delete a CESS from the list */
     deleteCess(rate) {
       if (this.cess[rate]) {
@@ -852,7 +858,7 @@ export default {
     },
     async getStates() {
       return axios
-        .get(`${this.gkCoreUrl}/state`)
+        .get(`/state`)
         .then((res) => {
           this.states = res.data.gkresult.map((val) => {
             let obj = {};
