@@ -157,6 +157,9 @@
             <b-nav-item to="/ledger">
               <b-icon icon="journals"></b-icon> Ledger
             </b-nav-item>
+            <b-nav-item to="/balance-sheet">
+              <b-icon icon="journals"></b-icon> Balance Sheet
+            </b-nav-item>
           </b-collapse>
           <!-- Help -->
           <h6 v-b-toggle.help class="text-center ml-3 mt-2 mr-5">

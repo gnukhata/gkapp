@@ -35,235 +35,80 @@
         v-if="bsheet.left.length && bsheet.right.length"
         class="float-right d-print-none"
       >
+        <b-form-checkbox
+          id="checkbox-1"
+          v-model="hideZero"
+          name="checkbox-1"
+          class="d-inline-block"
+          size="sm"
+          switch
+        >
+          Hide ₹0 rows
+        </b-form-checkbox>
         <b-button class="px-1" variant="link" @click="printPage">
           <b-icon class="align-middle" icon="printer"></b-icon>
-        </b-button>
-        <b-button class="px-1" variant="link" @click="toggleAllRows">
-          <b-icon
-            class="align-middle"
-            font-scale="0.9"
-            :icon="openAllFlag ? 'dash' : 'arrows-fullscreen'"
-          ></b-icon>
         </b-button>
       </div>
       <br class="d-print-none" />
       <br class="d-print-none" />
-      <div class="row pl-2 pr-2 text-small">
-        <div class="col">
-          <b-table-lite
+      <b-row class="row text-small">
+        <b-col cols="12" md="6">
+          <b-table
             striped
             small
             bordered
             :items="bsheet.left"
-            :fields="[
-              {
-                key: 'name',
-                label: 'Capital and Liabilities',
-                class: 'p-0',
-                thClass: 'p-1',
-              },
-              {
-                key: 'amount',
-                label: 'Amount',
-                class: 'p-0 pr-1',
-                thClass: 'text-right p-1',
-              },
-            ]"
+            :fields="tableFields"
             head-variant="dark"
             v-if="bsheet.left.length"
             class="text-small table-border-dark"
+            tbody-tr-class="bs-row"
+            fixed
+            responsive=""
+            sticky-header=""
+            :filter="hideZeroFilter"
+            :filter-function="hideZeroRows"
           >
-            <template #cell(name)="data">
-              <div
-                class="bs-group bs-row pl-1"
-                :style="{ 'min-height': '21px' }"
-                v-b-toggle="
-                  data.item.sgLength || data.item.accLength
-                    ? `g-${data.item.id}`
-                    : null
-                "
-              >
-                <b-icon
-                  v-if="data.item.sgLength || data.item.accLength"
-                  class="d-print-none"
-                  font-scale="0.7"
-                  :icon="data.item.open ? 'dash' : 'arrows-fullscreen'"
-                ></b-icon>
-                <span class="ml-1">
-                  {{ data.value }}
-                </span>
-              </div>
-              <b-collapse :id="`g-${data.item.id}`" v-model="data.item.open">
-                <div
-                  class="pl-5 bs-account bs-row font-italic"
-                  v-for="(acc, accid) in data.item.accounts"
-                  :key="accid"
-                >
-                  {{ acc.name }}
-                </div>
-                <div v-for="(sg, id) in data.item.subGroups" :key="id">
-                  <div
-                    class="pl-3 bs-sub-group bs-row"
-                    v-b-toggle="sg.accLength ? `sg-${sg.id}` : null"
-                  >
-                    <b-icon
-                      class="d-print-none"
-                      font-scale="0.7"
-                      :icon="
-                        sg.accLength
-                          ? sg.open
-                            ? 'dash'
-                            : 'arrows-fullscreen'
-                          : ''
-                      "
-                    ></b-icon>
-                    <span class="ml-1">
-                      {{ sg ? sg.name : '' }}
-                    </span>
-                  </div>
-                  <b-collapse v-model="sg.open" :id="`sg-${sg.id}`">
-                    <div
-                      class="pl-5 bs-account bs-row font-italic"
-                      v-for="(acc, accid) in sg.accounts"
-                      :key="accid"
-                    >
-                      {{ acc.name }}
-                    </div>
-                  </b-collapse>
-                </div>
-              </b-collapse>
+            <template #cell(isGroup)="data">
+              {{ data.value ? data.item.groupAccname : '' }}
             </template>
-            <template #cell(amount)="data">
-              <div class="text-right bs-row">{{ data.value }}</div>
-              <b-collapse v-model="data.item.open">
-                <div
-                  class="text-right"
-                  v-for="(sg, id) in data.item.subGroups"
-                  :key="id"
-                >
-                  <div class="bs-row">{{ sg ? sg.amount : '' }}</div>
-                  <b-collapse v-model="sg.open">
-                    <div
-                      class="bs-row font-italic"
-                      v-for="(acc, accid) in sg.accounts"
-                      :key="accid"
-                    >
-                      {{ acc.amount }}
-                    </div>
-                  </b-collapse>
-                </div>
-              </b-collapse>
+            <template #cell(isSubGroup)="data">
+              {{ data.value ? data.item.groupAccname : '' }}
             </template>
-          </b-table-lite>
-        </div>
-        <div class="col">
-          <b-table-lite
+            <template #cell(isAccount)="data">
+              {{ data.value ? data.item.groupAccname : '' }}
+            </template>
+          </b-table>
+        </b-col>
+        <b-col cols="12" md="6">
+          <b-table
+            :items="bsheet.right"
+            :fields="tableFields"
             striped
             small
             bordered
-            :items="bsheet.right"
-            :fields="[
-              {
-                key: 'name',
-                label: 'Property and Assets',
-                class: 'p-0',
-                thClass: 'p-1',
-              },
-              {
-                key: 'amount',
-                label: 'Amount',
-                class: 'p-0 pr-1',
-                thClass: 'text-right p-1',
-              },
-            ]"
             head-variant="dark"
             v-if="bsheet.right.length"
             class="text-small table-border-dark"
+            tbody-tr-class="bs-row"
+            responsive=""
+            fixed
+            sticky-header=""
+            :filter="hideZeroFilter"
+            :filter-function="hideZeroRows"
           >
-            <template #cell(name)="data">
-              <div
-                class="bs-group bs-row pl-1"
-                :style="{ 'min-height': '21px' }"
-                v-b-toggle="
-                  data.item.sgLength || data.item.accLength
-                    ? `g-${data.item.id}`
-                    : null
-                "
-              >
-                <b-icon
-                  v-if="data.item.sgLength || data.item.accLength"
-                  class="d-print-none"
-                  font-scale="0.7"
-                  :icon="data.item.open ? 'dash' : 'arrows-fullscreen'"
-                ></b-icon>
-                <span class="ml-1">
-                  {{ data.value }}
-                </span>
-              </div>
-              <b-collapse :id="`g-${data.item.id}`" v-model="data.item.open">
-                <div
-                  class="pl-5 bs-account bs-row font-italic"
-                  v-for="(acc, accid) in data.item.accounts"
-                  :key="accid"
-                >
-                  {{ acc.name }}
-                </div>
-                <div v-for="(sg, id) in data.item.subGroups" :key="id">
-                  <div
-                    class="pl-3 bs-sub-group bs-row"
-                    v-b-toggle="sg.accLength ? `sg-${sg.id}` : null"
-                  >
-                    <b-icon
-                      class="d-print-none"
-                      font-scale="0.7"
-                      :icon="
-                        sg.accLength
-                          ? sg.open
-                            ? 'dash'
-                            : 'arrows-fullscreen'
-                          : ''
-                      "
-                    ></b-icon>
-                    <span class="ml-1">
-                      {{ sg ? sg.name : '' }}
-                    </span>
-                  </div>
-                  <b-collapse v-model="sg.open" :id="`sg-${sg.id}`">
-                    <div
-                      class="pl-5 bs-account bs-row font-italic"
-                      v-for="(acc, accid) in sg.accounts"
-                      :key="accid"
-                    >
-                      {{ acc.name }}
-                    </div>
-                  </b-collapse>
-                </div>
-              </b-collapse>
+            <template #cell(isGroup)="data">
+              {{ data.value ? data.item.groupAccname : '' }}
             </template>
-            <template #cell(amount)="data">
-              <div class="text-right bs-row">{{ data.value }}</div>
-              <b-collapse v-model="data.item.open">
-                <div
-                  class="text-right"
-                  v-for="(sg, id) in data.item.subGroups"
-                  :key="id"
-                >
-                  <div class="bs-row">{{ sg ? sg.amount : '' }}</div>
-                  <b-collapse v-model="sg.open">
-                    <div
-                      class="bs-row font-italic"
-                      v-for="(acc, accid) in sg.accounts"
-                      :key="accid"
-                    >
-                      {{ acc.amount }}
-                    </div>
-                  </b-collapse>
-                </div>
-              </b-collapse>
+            <template #cell(isSubGroup)="data">
+              {{ data.value ? data.item.groupAccname : '' }}
             </template>
-          </b-table-lite>
-        </div>
-      </div>
+            <template #cell(isAccount)="data">
+              {{ data.value ? data.item.groupAccname : '' }}
+            </template>
+          </b-table>
+        </b-col>
+      </b-row>
     </b-overlay>
   </section>
 </template>
@@ -282,7 +127,29 @@ export default {
       isLoading: false,
       fromDate: null,
       toDate: null,
-      openAllFlag: false,
+      hideZero: false,
+      tableFields: [
+        {
+          key: 'isGroup',
+          label: 'Group',
+          class: 'text-break ',
+        },
+        {
+          key: 'isSubGroup',
+          label: 'Sub Group',
+          class: 'text-break',
+        },
+        {
+          key: 'isAccount',
+          label: 'Account',
+          class: 'text-break',
+        },
+        {
+          key: 'amount',
+          label: 'Amount',
+          class: 'text-right',
+        },
+      ],
       bsheet: {
         left: [],
         right: [],
@@ -296,116 +163,42 @@ export default {
     };
   },
   methods: {
+    hideZeroRows(item) {
+      return !(item.amount === '0.00' || item.amount === '0');
+    },
     printPage() {
       window.print();
     },
-    toggleAllRows() {
-      this.openAllFlag = !this.openAllFlag;
-      let open = this.openAllFlag;
-      if (this.bsheet.left.length) {
-        this.bsheet.left.forEach((g) => {
-          g.open = open;
-          for (const sg in g.subGroups) {
-            g.subGroups[sg].open = open;
-          }
-        });
-      }
-      if (this.bsheet.right.length) {
-        this.bsheet.right.forEach((g) => {
-          g.open = open;
-          for (const sg in g.subGroups) {
-            g.subGroups[sg].open = open;
-          }
-        });
-      }
-    },
-    /**
-     * formatReport
-     *
-     * Must send leftlist and rightlist separately as input, and will return a formatted object.
-     */
     formatReport(report) {
-      let data = [];
-      let groupIndex = {};
-      let counter = 0;
+      let result = [];
+      let map = {};
+      report.forEach((item, index) => {
+        let isGroup = !(!!item.subgroupof || !!item.accountof),
+          isSubGroup = !!item.subgroupof && !item.accountof,
+          isAccount = !!item.accountof;
 
-      // groupAccflag -> denotes if the account is under a subgroup or directly under a group
+        // ignore empty buffer rows
+        if (item.amount === '') return;
 
-      report.forEach((item) => {
-        switch (item.groupAccflag) {
-          case 1:
-            {
-              // item is a direct account of a group
-              let index = groupIndex[item.accountof];
-              let group = data[index];
-              let id = item.groupAcccode;
-              group.accLength++;
-              group.accounts[id] = {
-                name: item.groupAccname,
-                id: id,
-                amount: item.amount,
-              };
-            }
-            break;
-          case 2:
-            {
-              // item is an account under a sub group
-              let id = item.groupAcccode;
-              let index = groupIndex[item.subgroupof];
-              let sgid = item.accountof;
-              let subGroup = data[index].subGroups[sgid];
-              if (!id) {
-                // some total are listed as accounts for display purposes
-                data[index].accounts[counter++] = {
-                  name: item.groupAccname,
-                  amount: item.amount,
-                };
-                break;
-              }
-              subGroup.accLength++;
-              subGroup.accounts[id] = {
-                name: item.groupAccname,
-                id: id,
-                amount: item.amount,
-              };
-            }
-            break;
-          default: {
-            if (!data[item.groupAcccode]) {
-              if (!item.subgroupof) {
-                // the item is a group
-                let id = item.groupAcccode || counter++;
-                data.push({
-                  name: item.groupAccname,
-                  amount: item.amount,
-                  id: id,
-                  subGroups: {},
-                  accounts: {},
-                  open: false,
-                  sgLength: 0,
-                  accLength: 0,
-                });
-                groupIndex[id] = data.length - 1;
-              } else {
-                // the item is a subgroup
-                let index = groupIndex[item.subgroupof];
-                let group = data[index];
-                let id = item.groupAcccode;
-                group.sgLength++;
-                group.subGroups[id] = {
-                  name: item.groupAccname,
-                  id: id,
-                  amount: item.amount,
-                  accounts: {},
-                  open: false,
-                  accLength: 0,
-                };
-              }
-            }
-          }
+        let parent = item.accountof || item.subgroupof;
+        let parentIndex = map[parent] || -1;
+        if (isGroup) {
+          map[item.groupAcccode] = index;
+          parentIndex = -1;
         }
+        result.push(
+          Object.assign(
+            {
+              parent: parentIndex,
+              isGroup,
+              isSubGroup,
+              isAccount,
+            },
+            report[index]
+          )
+        );
       });
-      return { data, groupIndex };
+      return result;
     },
     getReport() {
       const self = this;
@@ -422,48 +215,9 @@ export default {
                   let report = r.data.gkresult;
                   report.leftlist.shift();
                   report.rightlist.shift();
-                  // if (report.leftlist.length < report.rightlist.length) {
-                  //   let patchLength =
-                  //     report.rightlist.length - report.leftlist.length - 1;
-                  //   let lastVal = report.leftlist.pop();
-                  //   while (patchLength--) {
-                  //     report.leftlist.push({
-                  //       groupAccname: '',
-                  //       amount: '',
-                  //       groupAcccode: '',
-                  //       subgroupof: '',
-                  //       accountof: '',
-                  //       groupAccflag: '',
-                  //       advflag: '',
-                  //     });
-                  //   }
-                  //   report.leftlist.push(lastVal);
-                  // } else {
-                  //   let patchLength =
-                  //     report.leftlist.length - report.rightlist.length - 1;
-                  //   let lastVal = report.rightlist.pop();
-                  //   while (patchLength--) {
-                  //     report.rightlist.push({
-                  //       groupAccname: '',
-                  //       amount: '',
-                  //       groupAcccode: '',
-                  //       subgroupof: '',
-                  //       accountof: '',
-                  //       groupAccflag: '',
-                  //       advflag: '',
-                  //     });
-                  //   }
-                  //   report.rightlist.push(lastVal);
-                  // }
-                  let left = self.formatReport(report.leftlist);
-                  let right = self.formatReport(report.rightlist);
                   self.bsheet = {
-                    left: left.data,
-                    right: right.data,
-                  };
-                  self.options.groupIndex = {
-                    left: left.groupIndex,
-                    right: right.groupIndex,
+                    left: self.formatReport(report.leftlist),
+                    right: self.formatReport(report.rightlist),
                   };
                 }
                 break;
@@ -508,6 +262,7 @@ export default {
     },
   },
   computed: {
+    hideZeroFilter: (self) => (self.hideZero ? 'a' : null),
     ...mapState(['yearStart', 'yearEnd']),
   },
   mounted() {
@@ -520,17 +275,7 @@ export default {
 .text-small {
   font-size: 0.9rem;
 }
-/* .bs-row {
-  border-bottom: 1px solid black;
-}
-td > .bs-row:last-child {
-  border-bottom: unset;
-} */
-
-.bs-group {
-}
-.bs-sub-group {
-}
-.bs-account {
+.bs-row {
+  height: 21px;
 }
 </style>
