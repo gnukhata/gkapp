@@ -33,32 +33,35 @@ const config = {
       },
     ],
   },
-  sortBy: [
+  fields: [
     {
-      text: 'Date',
-      props: { key: 'dateObj', isAsc: true },
+      label: 'Date',
+      key: 'dateObj',
+      sortable: true,
     },
     {
-      text: 'No.',
-      props: { key: 'transfernoteno', isAsc: true },
+      label: 'No.',
+      key: 'transfernoteno',
+      sortable: true,
     },
   ],
   options: {
     columns: [
       {
-        text: 'Date',
+        label: 'Date',
         value: 'dateObj',
       },
       {
-        text: 'No',
+        label: 'No',
         value: 'transfernoteno',
       },
     ],
     columnMap: {
-      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+      dateObj: { label: 'Date', key: 'dateObj', sortable: true },
       transfernoteno: {
-        text: 'No',
-        props: { key: 'transfernoteno', isAsc: true },
+        label: 'No',
+        key: 'transfernoteno',
+        sortable: true,
       },
     },
   },
@@ -107,16 +110,18 @@ function initColumns(orgCode) {
   if (!columns.length) {
     columns = [
       {
-        text: 'Date',
-        props: { key: 'dateObj', isAsc: true },
+        label: 'Date',
+        key: 'dateObj',
+        sortable: true,
       },
       {
-        text: 'No.',
-        props: { key: 'transfernoteno', isAsc: true },
+        label: 'No.',
+        key: 'transfernoteno',
+        sortable: true,
       },
     ];
   }
-  config.sortBy = columns;
+  config.fields = columns;
 }
 
 function setColumns(orgCode, columns) {
@@ -125,7 +130,7 @@ function setColumns(orgCode, columns) {
       `${orgCode}-workflow-tnote-columns`,
       JSON.stringify(columns)
     );
-    config.sortBy = columns;
+    config.fields = columns;
   }
 }
 

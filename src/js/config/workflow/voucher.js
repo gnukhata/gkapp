@@ -64,59 +64,64 @@ const config = {
       },
     ],
   },
-  sortBy: [
+  fields: [
     {
-      text: 'Date',
-      props: { key: 'dateObj', isAsc: true },
+      label: 'Date',
+      key: 'dateObj',
+      sortable: true,
     },
     {
-      text: 'Dr',
-      props: { key: 'drAmount', isAsc: true },
+      label: 'Dr',
+      key: 'drAmount',
+      sortable: true,
     },
     {
-      text: 'Cr',
-      props: { key: 'crAmount', isAsc: true },
+      label: 'Cr',
+      key: 'crAmount',
+      sortable: true,
     },
   ],
   options: {
     columns: [
       {
-        text: 'Date',
+        label: 'Date',
         value: 'dateObj',
       },
       {
-        text: 'Dr',
+        label: 'Dr',
         value: 'drAmount',
       },
       {
-        text: 'Cr',
+        label: 'Cr',
         value: 'crAmount',
       },
       {
-        text: 'Type',
+        label: 'Type',
         value: 'vouchertype',
       },
       {
-        text: 'No',
+        label: 'No',
         value: 'vouchernumber',
       },
       {
-        text: 'Narration',
+        label: 'Narration',
         value: 'narration',
       },
     ],
     columnMap: {
-      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
-      drAmount: { text: 'Dr', props: { key: 'drAmount', isAsc: true } },
-      crAmount: { text: 'Cr', props: { key: 'crAmount', isAsc: true } },
-      vouchertype: { text: 'Type', props: { key: 'vouchertype', isAsc: true } },
+      dateObj: { label: 'Date', key: 'dateObj', sortable: true },
+      drAmount: { label: 'Dr', key: 'drAmount', sortable: true },
+      crAmount: { label: 'Cr', key: 'crAmount', sortable: true },
+      vouchertype: { label: 'Type', key: 'vouchertype', sortable: true },
       vouchernumber: {
-        text: 'No',
-        props: { key: 'vouchernumber', isAsc: true },
+        label: 'No',
+        key: 'vouchernumber',
+        sortable: true,
       },
       narration: {
-        text: 'Narration',
-        props: { key: 'narration', isAsc: true },
+        label: 'Narration',
+        key: 'narration',
+        sortable: true,
       },
     },
   },
@@ -215,20 +220,23 @@ function initColumns(orgCode) {
   if (!columns.length) {
     columns = [
       {
-        text: 'Date',
-        props: { key: 'dateObj', isAsc: true },
+        label: 'Date',
+        key: 'dateObj',
+        sortable: true,
       },
       {
-        text: 'Dr',
-        props: { key: 'drAmount', isAsc: true },
+        label: 'Dr',
+        key: 'drAmount',
+        sortable: true,
       },
       {
-        text: 'Cr',
-        props: { key: 'crAmount', isAsc: true },
+        label: 'Cr',
+        key: 'crAmount',
+        sortable: true,
       },
     ];
   }
-  config.sortBy = columns;
+  config.fields = columns;
 }
 
 function setColumns(orgCode, columns) {
@@ -237,7 +245,7 @@ function setColumns(orgCode, columns) {
       `${orgCode}-workflow-voucher-columns`,
       JSON.stringify(columns)
     );
-    config.sortBy = columns;
+    config.fields = columns;
   }
 }
 

@@ -43,44 +43,47 @@ const config = {
       },
     ],
   },
-  sortBy: [
+  fields: [
     {
-      text: 'Date',
-      props: { key: 'dateObj', isAsc: true },
+      label: 'Date',
+      key: 'dateObj',
+      sortable: true,
     },
     {
-      text: 'Name',
-      props: { key: 'customer', isAsc: true },
+      label: 'Customer',
+      key: 'custname',
+      sortable: true,
     },
     {
-      text: 'No.',
-      props: { key: 'orderno', isAsc: true },
+      label: 'No',
+      key: 'orderno',
+      sortable: true,
     },
   ],
   options: {
     columns: [
       {
-        text: 'Date',
+        label: 'Date',
         value: 'dateObj',
       },
       {
-        text: 'Customer',
+        label: 'Customer',
         value: 'custname',
       },
       {
-        text: 'Amount',
+        label: 'Amount',
         value: 'ordertotal',
       },
       {
-        text: 'No',
+        label: 'No',
         value: 'orderno',
       },
     ],
     columnMap: {
-      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
-      custname: { text: 'Customer', props: { key: 'custname', isAsc: true } },
-      ordertotal: { text: 'Amount', props: { key: 'ordertotal', isAsc: true } },
-      orderno: { text: 'No', props: { key: 'orderno', isAsc: true } },
+      dateObj: { label: 'Date', key: 'dateObj', sortable: true },
+      custname: { label: 'Customer', key: 'custname', sortable: true },
+      ordertotal: { label: 'Amount', key: 'ordertotal', sortable: true },
+      orderno: { label: 'No', key: 'orderno', sortable: true },
     },
   },
   loadList: function() {
@@ -133,20 +136,23 @@ function initColumns(orgCode) {
   if (!columns.length) {
     columns = [
       {
-        text: 'Date',
-        props: { key: 'dateObj', isAsc: true },
+        label: 'Date',
+        key: 'dateObj',
+        sortable: true,
       },
       {
-        text: 'Name',
-        props: { key: 'customer', isAsc: true },
+        label: 'Customer',
+        key: 'customer',
+        sortable: true,
       },
       {
-        text: 'No.',
-        props: { key: 'orderno', isAsc: true },
+        label: 'No.',
+        key: 'orderno',
+        sortable: true,
       },
     ];
   }
-  config.sortBy = columns;
+  config.fields = columns;
 }
 
 function setColumns(orgCode, columns) {
@@ -155,7 +161,7 @@ function setColumns(orgCode, columns) {
       `${orgCode}-workflow-psorder-columns`,
       JSON.stringify(columns)
     );
-    config.sortBy = columns;
+    config.fields = columns;
   }
 }
 

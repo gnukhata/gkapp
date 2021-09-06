@@ -33,38 +33,41 @@ const config = {
       },
     ],
   },
-  sortBy: [
+  fields: [
     {
-      text: 'Date',
-      props: { key: 'dateObj', isAsc: true },
+      label: 'Date',
+      key: 'dateObj',
+      sortable: true,
     },
     {
-      text: 'No.',
-      props: { key: 'invoiceno', isAsc: true },
+      label: 'No.',
+      key: 'invoiceno',
+      sortable: true,
     },
   ],
   options: {
     columns: [
       {
-        text: 'Date',
+        label: 'Date',
         value: 'dateObj',
       },
       {
-        text: 'Amount',
+        label: 'Amount',
         value: 'invoicetotal',
       },
       {
-        text: 'No',
+        label: 'No',
         value: 'invoiceno',
       },
     ],
     columnMap: {
-      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
+      dateObj: { label: 'Date', key: 'dateObj', sortable: true },
       invoicetotal: {
-        text: 'Amount',
-        props: { key: 'invoicetotal', isAsc: true },
+        label: 'Amount',
+        key: 'invoicetotal',
+        sortable: true,
       },
-      invoiceno: { text: 'No', props: { key: 'invoiceno', isAsc: true } },
+      invoiceno: { label: 'No', key: 'invoiceno', sortable: true },
     },
   },
   loadList: function() {
@@ -145,16 +148,18 @@ function initColumns(orgCode) {
   if (!columns.length) {
     columns = [
       {
-        text: 'Date',
-        props: { key: 'dateObj', isAsc: true },
+        label: 'Date',
+        key: 'dateObj',
+        sortable: true,
       },
       {
-        text: 'No.',
-        props: { key: 'invoiceno', isAsc: true },
+        label: 'No.',
+        key: 'invoiceno',
+        sortable: true,
       },
     ];
   }
-  config.sortBy = columns;
+  config.fields = columns;
 }
 
 function setColumns(orgCode, columns) {
@@ -163,7 +168,7 @@ function setColumns(orgCode, columns) {
       `${orgCode}-workflow-cashmemo-columns`,
       JSON.stringify(columns)
     );
-    config.sortBy = columns;
+    config.fields = columns;
   }
 }
 

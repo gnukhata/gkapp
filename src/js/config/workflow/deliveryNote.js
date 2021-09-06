@@ -46,49 +46,52 @@ const config = {
       },
     ],
   },
-  sortBy: [
+  fields: [
     {
-      text: 'Date',
-      props: { key: 'dateObj', isAsc: true },
+      label: 'Date',
+      key: 'dateObj',
+      sortable: true,
     },
     {
-      text: 'Name',
-      props: { key: 'custname', isAsc: true },
+      label: 'Name',
+      key: 'custname',
+      sortable: true,
     },
     {
-      text: 'No.',
-      props: { key: 'dcno', isAsc: true },
+      label: 'No.',
+      key: 'dcno',
+      sortable: true,
     },
   ],
   options: {
     columns: [
       {
-        text: 'Date',
+        label: 'Date',
         value: 'dateObj',
       },
       {
-        text: 'Name',
+        label: 'Name',
         value: 'custname',
       },
       {
-        text: 'No',
+        label: 'No',
         value: 'dcno',
       },
       {
-        text: 'Godown',
+        label: 'Godown',
         value: 'goname',
       },
       {
-        text: 'Delivery Type',
+        label: 'Delivery Type',
         value: 'dcflag',
       },
     ],
     columnMap: {
-      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
-      custname: { text: 'Name', props: { key: 'custname', isAsc: true } },
-      dcno: { text: 'No', props: { key: 'dcno', isAsc: true } },
-      goname: { text: 'Godown', props: { key: 'goname', isAsc: true } },
-      dcflag: { text: 'Delivery Type', props: { key: 'dcflag', isAsc: true } },
+      dateObj: { label: 'Date', key: 'dateObj', sortable: true },
+      custname: { label: 'Name', key: 'custname', sortable: true },
+      dcno: { label: 'No', key: 'dcno', sortable: true },
+      goname: { label: 'Godown', key: 'goname', sortable: true },
+      dcflag: { label: 'Delivery Type', key: 'dcflag', sortable: true },
     },
   },
   loadList: function(fromDate) {
@@ -189,20 +192,23 @@ function initColumns(orgCode) {
   if (!columns.length) {
     columns = [
       {
-        text: 'Date',
-        props: { key: 'dateObj', isAsc: true },
+        label: 'Date',
+        key: 'dateObj',
+        sortable: true,
       },
       {
-        text: 'Name',
-        props: { key: 'custname', isAsc: true },
+        label: 'Name',
+        key: 'custname',
+        sortable: true,
       },
       {
-        text: 'No.',
-        props: { key: 'dcno', isAsc: true },
+        label: 'No.',
+        key: 'dcno',
+        sortable: true,
       },
     ];
   }
-  config.sortBy = columns;
+  config.fields = columns;
 }
 
 function setColumns(orgCode, columns) {
@@ -211,7 +217,7 @@ function setColumns(orgCode, columns) {
       `${orgCode}-workflow-dnote-columns`,
       JSON.stringify(columns)
     );
-    config.sortBy = columns;
+    config.fields = columns;
   }
 }
 

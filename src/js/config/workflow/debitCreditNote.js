@@ -42,44 +42,47 @@ const config = {
       },
     ],
   },
-  sortBy: [
+  fields: [
     {
-      text: 'Date',
-      props: { key: 'dateObj', isAsc: true },
+      label: 'Date',
+      key: 'dateObj',
+      sortable: true,
     },
     {
-      text: 'Name',
-      props: { key: 'custname', isAsc: true },
+      label: 'Name',
+      key: 'custname',
+      sortable: true,
     },
     {
-      text: 'Amount',
-      props: { key: 'totreduct', isAsc: true },
+      label: 'Amount',
+      key: 'totreduct',
+      sortable: true,
     },
   ],
   options: {
     columns: [
       {
-        text: 'Date',
+        label: 'Date',
         value: 'dateObj',
       },
       {
-        text: 'Customer',
+        label: 'Customer',
         value: 'custname',
       },
       {
-        text: 'Amount',
+        label: 'Amount',
         value: 'totreduct',
       },
       {
-        text: 'No',
+        label: 'No',
         value: 'drcrno',
       },
     ],
     columnMap: {
-      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
-      custname: { text: 'Customer', props: { key: 'custname', isAsc: true } },
-      totreduct: { text: 'Amount', props: { key: 'totreduct', isAsc: true } },
-      drcrno: { text: 'No', props: { key: 'drcrno', isAsc: true } },
+      dateObj: { label: 'Date', key: 'dateObj', sortable: true },
+      custname: { label: 'Customer', key: 'custname', sortable: true },
+      totreduct: { label: 'Amount', key: 'totreduct', sortable: true },
+      drcrno: { label: 'No', key: 'drcrno', sortable: true },
     },
   },
   loadList: function() {
@@ -131,20 +134,23 @@ function initColumns(orgCode) {
   if (!columns.length) {
     columns = [
       {
-        text: 'Date',
-        props: { key: 'dateObj', isAsc: true },
+        label: 'Date',
+        key: 'dateObj',
+        sortable: true,
       },
       {
-        text: 'Name',
-        props: { key: 'custname', isAsc: true },
+        label: 'Name',
+        key: 'custname',
+        sortable: true,
       },
       {
-        text: 'Amount',
-        props: { key: 'totreduct', isAsc: true },
+        label: 'Amount',
+        key: 'totreduct',
+        sortable: true,
       },
     ];
   }
-  config.sortBy = columns;
+  config.fields = columns;
 }
 
 function setColumns(orgCode, columns) {
@@ -153,7 +159,7 @@ function setColumns(orgCode, columns) {
       `${orgCode}-workflow-dcnote-columns`,
       JSON.stringify(columns)
     );
-    config.sortBy = columns;
+    config.fields = columns;
   }
 }
 

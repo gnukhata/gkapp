@@ -43,40 +43,42 @@ const config = {
       },
     ],
   },
-  sortBy: [
+  fields: [
     {
-      text: 'Date',
-      props: { key: 'dateObj', isAsc: true },
+      label: 'Date',
+      key: 'dateObj',
+      sortable: true,
     },
     {
-      text: 'No.',
-      props: { key: 'rnno', isAsc: true },
+      label: 'No.',
+      key: 'rnno',
+      sortable: true,
     },
   ],
   options: {
     columns: [
       {
-        text: 'Date',
+        label: 'Date',
         value: 'dateObj',
       },
       {
-        text: 'Amount',
+        label: 'Amount',
         value: 'rntotal',
       },
       {
-        text: 'Inv No',
+        label: 'Inv No',
         value: 'invoiceno',
       },
       {
-        text: 'No',
+        label: 'No',
         value: 'rnno',
       },
     ],
     columnMap: {
-      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
-      rntotal: { text: 'Amount', props: { key: 'rntotal', isAsc: true } },
-      invoiceno: { text: 'Inv No', props: { key: 'invoiceno', isAsc: true } },
-      rnno: { text: 'No', props: { key: 'rnno', isAsc: true } },
+      dateObj: { label: 'Date', key: 'dateObj', sortable: true, },
+      rntotal: { label: 'Amount', key: 'rntotal', sortable: true, },
+      invoiceno: { label: 'Inv No', key: 'invoiceno', sortable: true, },
+      rnno: { label: 'No', key: 'rnno', sortable: true, },
     },
   },
   loadList: function() {
@@ -125,15 +127,17 @@ function initColumns(orgCode) {
     columns = [
       {
         text: 'Date',
-        props: { key: 'dateObj', isAsc: true },
+        key: 'dateObj',
+        sortable: true,
       },
       {
         text: 'No.',
-        props: { key: 'rnno', isAsc: true },
+        key: 'rnno',
+        sortable: true,
       },
     ];
   }
-  config.sortBy = columns;
+  config.fields = columns;
 }
 
 function setColumns(orgCode, columns) {
@@ -142,7 +146,7 @@ function setColumns(orgCode, columns) {
       `${orgCode}-workflow-rnote-columns`,
       JSON.stringify(columns)
     );
-    config.sortBy = columns;
+    config.fields = columns;
   }
 }
 

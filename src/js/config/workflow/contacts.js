@@ -31,21 +31,22 @@ const config = {
     ],
     range: [],
   },
-  sortBy: [
+  fields: [
     {
-      text: 'Name',
-      props: { key: 'custname', isAsc: true },
+      label: 'Name',
+      key: 'custname',
+      sortable: true
     },
   ],
   options: {
     columns: [
       {
-        text: 'Name',
+        label: 'Name',
         value: 'custname',
       },
     ],
     columnMap: {
-      custname: { text: 'Name', props: { key: 'custname', isAsc: true } },
+      custname: { label: 'Name', key: 'custname', sortable: true },
     },
   },
   loadList: function() {
@@ -93,12 +94,13 @@ function initColumns(orgCode) {
   if (!columns.length) {
     columns = [
       {
-        text: 'Name',
-        props: { key: 'custname', isAsc: true },
+        label: 'Name',
+        key: 'custname',
+        sortable: true
       },
     ];
   }
-  config.sortBy = columns;
+  config.fields = columns;
 }
 
 function setColumns(orgCode, columns) {
@@ -107,7 +109,7 @@ function setColumns(orgCode, columns) {
       `${orgCode}-workflow-contacts-columns`,
       JSON.stringify(columns)
     );
-    config.sortBy = columns;
+    config.fields = columns;
   }
 }
 

@@ -19,30 +19,35 @@ const config = {
     value: [
       {
         text: 'All',
-        props: {},
+        value: 0,
       },
       {
         text: 'Sale',
+        value: 1,
         props: { key: 'csflag', value: 3 },
         icon: { name: 'cash-stack' },
       },
       {
         text: 'Purchase',
+        value: 2,
         props: { key: 'csflag', value: 19 },
         icon: { name: 'basket3' },
       },
       {
         text: 'Cancelled',
+        value: 3,
         props: { key: 'deletedFlag', value: true },
         icon: { name: 'x-circle', variant: 'danger' },
       },
       {
         text: 'On Credit',
+        value: 4,
         props: { key: 'onCreditFlag', value: true },
         icon: { name: 'dash', variant: 'danger' },
       },
       {
         text: 'Editable',
+        value: 5,
         props: { key: 'rectifyFlag', value: true },
         icon: { name: '' },
       },
@@ -61,49 +66,52 @@ const config = {
       },
     ],
   },
-  sortBy: [
+  fields: [
     {
-      text: 'Date',
-      props: { key: 'dateObj', isAsc: true },
+      label: 'Date',
+      key: 'dateObj',
+      sortable: true,
     },
     {
-      text: 'Name',
-      props: { key: 'custname', isAsc: true },
+      label: 'Name',
+      key: 'custname',
+      sortable: true,
     },
     {
-      text: 'Amount',
-      props: { key: 'netamt', isAsc: true },
+      label: 'Amount',
+      key: 'netamt',
+      sortable: true,
     },
   ],
   options: {
     columns: [
       {
-        text: 'Date',
+        label: 'Date',
         value: 'dateObj',
       },
       {
-        text: 'Customer',
+        label: 'Customer',
         value: 'custname',
       },
       {
-        text: 'Amount',
+        label: 'Amount',
         value: 'netamt',
       },
       {
-        text: 'No',
+        label: 'Inv No',
         value: 'invoiceno',
       },
       {
-        text: 'Tax',
+        label: 'Tax',
         value: 'taxamt',
       },
     ],
     columnMap: {
-      dateObj: { text: 'Date', props: { key: 'dateObj', isAsc: true } },
-      custname: { text: 'Customer', props: { key: 'custname', isAsc: true } },
-      netamt: { text: 'Amount', props: { key: 'netamt', isAsc: true } },
-      invoiceno: { text: 'No', props: { key: 'invoiceno', isAsc: true } },
-      taxamt: { text: 'Tax', props: { key: 'taxamt', isAsc: true } },
+      dateObj: { label: 'Date', key: 'dateObj', sortable: true },
+      custname: { label: 'Customer', key: 'custname', sortable: true },
+      netamt: { label: 'Amount', key: 'netamt', sortable: true },
+      invoiceno: { label: 'Inv No', key: 'invoiceno', sortable: true },
+      taxamt: { label: 'Tax', key: 'taxamt', sortable: true },
     },
   },
   loadList: function(yearStart, yearEnd) {
@@ -222,20 +230,23 @@ function initColumns(orgCode) {
   if (!columns.length) {
     columns = [
       {
-        text: 'Date',
-        props: { key: 'dateObj', isAsc: true },
+        label: 'Date',
+        key: 'dateObj',
+        sortable: true
       },
       {
-        text: 'Name',
-        props: { key: 'custname', isAsc: true },
+        label: 'Name',
+        key: 'custname',
+        sortable: true
       },
       {
-        text: 'Amount',
-        props: { key: 'netamt', isAsc: true },
+        label: 'Amount',
+        key: 'netamt',
+        sortable: true
       },
     ];
   }
-  config.sortBy = columns;
+  config.fields = columns;
 }
 
 function setColumns(orgCode, columns) {
@@ -244,7 +255,7 @@ function setColumns(orgCode, columns) {
       `${orgCode}-workflow-invoice-columns`,
       JSON.stringify(columns)
     );
-    config.sortBy = columns;
+    config.fields = columns;
   }
 }
 
