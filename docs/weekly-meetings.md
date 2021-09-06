@@ -5,6 +5,57 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
+# Meeting history (2021-09-06)
+
+Agenda:
+
+-   Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+
+-   Karthik:
+
+-   Survesh:
+    -   (Workflow) Left Pane Table column settings persistence and
+        code refactorof that table to be print friendly
+    -   Update in Balance Sheet table structure and Added filter to
+        hide rows with 0 as amount
+
+Points Discussed:
+
+-   Discussions on exploring for a FOSS alternative to Microsoft Visual C++ (MSVC) 
+    as a dependency for postgresql in windows due to its proprietary license
+-   Discussions on adding the user configs used throughout the app to gkcore as blobs or
+    JSONB fields
+-   Update the table structure of Balance sheets based on this image: 
+    ![img](https://4.bp.blogspot.com/-dcn43N1RACM/USYcD6hzr7I/AAAAAAAAJN4/TxUE7aG6IiY/s1600/Balance-Sheet-Template.jpg)
+    -   Keep all the Text in one column and split the amount column into three, one for each category 
+        (Group, Sub Group, Account)
+    -   Use minor indents to left in the text column to distinguish between the three category of accounts
+-   Discussions on Side Bar item placements,
+    -   Under Master category, the workflow items like (Business, Contact, Invoice, etc.) could be listed
+    -   Under Help category, links to FAQ, Source code, tutorial videos, etc. could be added
+-   Discussions on the new website for GNUKhata,
+    -   Start work on carrying forward the data from the current website to the new one in gitlab.io
+    -   We have acces to gnukhata.org domain as well, so we can even test the new website there
+    -   Later on we can make gnukhata.org the base website for GNUKhata and gnukhata.in as its Indian 
+        counter part
+    -   In the new website, keep the registration for getting download links an optional process than
+        mandatory.
+    -   Also we can showcase forked projects of GNUKhata like onlinekhata in the new website
+    -   A revamp of the existing website was actually done but is not live currently, we could even
+        use that as inspiration for the new website. (Must ask Ashutosh about this)
+-   Discussion on adding support for .ods and .pdf support for downloadable reports than just .xlsx
+-   Discussion on the need for GST filing support in GNUKhata, as its an essential feature of the accounting
+    software these days. Must explore the GST API's privided by the government.
+
+Conclusion:
+
+-   Updates will be performed based on the points discussed above.
+
+
 # Meeting history (2021-08-30)
 
 Agenda:
