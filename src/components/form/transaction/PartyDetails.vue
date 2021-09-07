@@ -18,7 +18,7 @@
         <b v-if="saleFlag"> Buyer Details</b>
         <b v-else> Seller Details</b>
         <b-button
-          variant="primary"
+          variant="secondary"
           size="sm"
           class="float-right p-1 d-md-none"
           @click="
@@ -28,7 +28,7 @@
           "
         >
           <b-icon
-            :icon="isCollapsed ? 'arrows-collapse' : 'arrows-expand'"
+            :icon="isCollapsed ? 'dash' : 'arrows-fullscreen'"
             class="float-right"
           ></b-icon>
         </b-button>
