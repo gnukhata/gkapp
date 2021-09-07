@@ -1,5 +1,9 @@
 <template>
-  <div class="card " :style="{ minWidth: '300px' }">
+  <div
+    class="card mx-sm-auto gkcard"
+    :class="{ 'mt-4': !inOverlay, 'mx-2': !inOverlay }"
+    :style="{ minWidth: '300px' }"
+  >
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <div class="card-header text-left py-2">
@@ -26,19 +30,6 @@
                 required
               ></b-form-input>
             </b-form-group>
-            <!-- <b-form-group
-              label-size="sm"
-              label="State"
-              label-for="go-input-2"
-              label-cols="3"
-              label-class="required"
-            >
-              <b-form-select
-                id="go-input-2"
-                v-model="form.state"
-                :options="options.states"
-                required
-              ></b-form-select> -->
             <b-form-group
               label-size="sm"
               label="State"
@@ -174,13 +165,6 @@ export default {
   },
   computed: {},
   props: {
-    mode: {
-      type: String,
-      validator: function(value) {
-        return ['create', 'edit'].indexOf(value) !== -1;
-      },
-      required: true,
-    },
     onSave: {
       type: Function,
       required: false,
