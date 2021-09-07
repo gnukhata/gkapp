@@ -179,7 +179,7 @@
                                   </b-button>
                                   <b-button
                                     size="sm"
-                                    variant="primary"
+                                    variant="dark"
                                     class="pt-0 mx-1"
                                     @click.prevent="
                                       onEditAccount(
