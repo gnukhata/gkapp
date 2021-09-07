@@ -220,30 +220,6 @@
                         {{ filter.text }}
                       </b-form-checkbox>
                     </b-form-checkbox-group>
-                    <!-- <b-form-radio-group
-                      id="filter-form-item"
-                      v-model="filter.value.props"
-                      size="sm"
-                      class="d-inline-block"
-                    >
-                      <b-form-radio
-                        v-for="(filter, findex) in activeTabOptions.filterBy
-                          .value"
-                        :key="findex"
-                        :value="filter.props"
-                      >
-                        <b-icon
-                          v-if="filter.icon"
-                          font-scale="0.75"
-                          :variant="
-                            filter.icon.variant ? filter.icon.variant : ''
-                          "
-                          :icon="filter.icon.name"
-                          class="mr-1"
-                        ></b-icon>
-                        {{ filter.text }}
-                      </b-form-radio>
-                    </b-form-radio-group> -->
                     <b-button
                       @click="resetFilter"
                       title="Reset Filter"
@@ -315,6 +291,8 @@
             </b-collapse>
           </b-card-header>
           <!-- Worflow Data List -->
+
+          <!-- Workflow Data List Start -->
           <div
             v-for="(tab, tabName) in allTabs"
             :key="tabName"
@@ -339,48 +317,12 @@
               :id="`list-${tabName}`"
               :filter="activeTabOptions.data.length ? 'a' : null"
               :filter-function="filterTable"
+              sort-by="dateObj"
+              :sort-desc="true"
             >
               <template #cell(dateObj)="data"> {{ data.item.date }} </template>
             </b-table>
 
-            <!-- Workflow Data List Start -->
-            <!-- <b-list-group
-              :style="{ height: listHeight + 'px', overflowY: 'auto' }"
-              :data-name="`workflow-list-${tabName}`"
-            >
-              <b-list-group-item
-                button
-                class="data-list"
-                v-for="(item, index3) in processedData"
-                :key="index3"
-                @click.prevent="setSelectedEntity(item, index3)"
-              >
-                <div
-                  class="py-0"
-                  :class="{ 'bg-light-gray': index3 % 2 === 0 }"
-                  :style="{ height: '45px', 'line-height': '45px' }"
-                  v-if="activeWorkflow.name.includes('Transactions')"
-                >
-                  <b-row>
-                    <b-col
-                      class="text-truncate px-1"
-                      v-for="(column, cindex) in activeTabOptions.sortBy"
-                      :key="cindex"
-                    >
-                      <small v-if="column.props.key === 'dateObj'">
-                        {{ item.date }}
-                      </small>
-                      <small v-else> {{ item[column.props.key] }} </small>
-                    </b-col>
-                  </b-row>
-                </div>
-                <div v-else :class="{ 'bg-light-gray': index3 % 2 === 0 }">
-                  <b-icon :icon="item.icon"></b-icon>
-                  {{ item[tab.key] }}
-                </div>
-              </b-list-group-item>
-            </b-list-group> -->
-            <!-- Workflow Data List End -->
             <!-- Add New Workflow Data Item -->
             <b-button
               :to="tab.createNewPath"
@@ -391,6 +333,7 @@
               <b-icon icon="plus-circle"></b-icon>
             </b-button>
           </div>
+          <!-- Workflow Data List End -->
         </b-card>
       </b-col>
       <!-- Right Pane: Selected Workflow item's Data  -->
@@ -717,41 +660,7 @@ export default {
 
     rightPaneHeight: (self) =>
       window.innerHeight - (self.headerHeight + self.leftHeaderHeight.min + 41), // 41 is the remaining vertical space in the screen
-    /**
-     * processedData()
-     *
-     * Description: When the filter and sort object values are altered,
-     * this method runs the filter and sort methods on the data list
-     * of the current workflow page, and updates the left pane of cards.
-     *
-     */
-    // processedData: function() {
-    //   let data = this.activeTabOptions.data;
-    //   // console.log(this.filter)
-    //   if (this.filter.value.props.key !== undefined) {
-    //     data = this.filterByValue(
-    //       data,
-    //       this.filter.value.props.key,
-    //       this.filter.value.props.value
-    //     );
-    //   }
 
-    //   if (this.filter.range.props.key !== undefined) {
-    //     // console.log("date filter")
-    //     // console.log(this.filter.range.from);
-    //     // console.log(this.filter.range.to);
-    //     data = this.filterByRange(
-    //       data,
-    //       this.filter.range.props.key,
-    //       Date.parse(this.filter.range.from), // converting date "yyyy-mm-dd" into a format that can be compared with logical operators
-    //       Date.parse(this.filter.range.to)
-    //     );
-    //   }
-    //   if (this.sort.props.key !== undefined) {
-    //     data = this.sortData(data, this.sort.isAscending, this.sort.props.key);
-    //   }
-    //   return data;
-    // },
     ...mapState(['yearStart', 'yearEnd', 'orgCode']),
   },
   methods: {
@@ -941,10 +850,7 @@ export default {
           .then((resp) => {
             activeWorkflow.data = resp;
             self.isLoading = false;
-            self.$forceUpdate();
-            self.$nextTick().then(() => {
-              self.$refs[`list-${self.activeWorkflow.tabName}`][0].selectRow(0);
-            });
+            this.selectFirstListItem();
             return true;
           })
           .catch((e) => {
@@ -952,6 +858,12 @@ export default {
             self.isLoading = false;
           });
       } else {
+        this.selectFirstListItem();
+      }
+    },
+    selectFirstListItem() {
+      if (window.innerWidth > 752) {
+        const self = this;
         this.$forceUpdate();
         this.$nextTick().then(() => {
           if (self.$refs[`list-${self.activeWorkflow.tabName}`]) {
@@ -1121,9 +1033,11 @@ export default {
         if (entityIndex >= 0) {
           self.selectedEntityIndex = entityIndex;
           self.$refs[`list-${self.activeWorkflow.tabName}`][0].clearSelected();
-          self.$refs[`list-${self.activeWorkflow.tabName}`][0].selectRow(
-            entityIndex
-          );
+          if (window.innerWidth > 752) {
+            self.$refs[`list-${self.activeWorkflow.tabName}`][0].selectRow(
+              entityIndex
+            );
+          }
         }
       });
     },
