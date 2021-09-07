@@ -624,27 +624,26 @@ export default {
           Contacts: ContactConf,
           Business: BusinessConf,
           Transactions: TransactionConf,
-          Reports: {
-            icon: 'journals',
-            color: 'danger',
-            data: [],
-            key: '',
-            uidKey: '',
-            filterBy: {
-              value: [],
-              range: [],
-            },
-            fields: [],
-            initListColumns: () => {},
-            loadList: () => {
-              return new Promise((resolve) => {
-                resolve();
-              }).then(() => {
-                return [];
-              });
-            },
-          },
-        },
+        }, // Reports: {
+        //   icon: 'journals',
+        //   color: 'danger',
+        //   data: [],
+        //   key: '',
+        //   uidKey: '',
+        //   filterBy: {
+        //     value: [],
+        //     range: [],
+        //   },
+        //   fields: [],
+        //   initListColumns: () => {},
+        //   loadList: async () => {
+        //     return new Promise((resolve) => {
+        //       resolve();
+        //     }).then(() => {
+        //       return [];
+        //     });
+        //   },
+        // },
       },
     };
   },
