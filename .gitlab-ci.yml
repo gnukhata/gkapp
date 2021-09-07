@@ -11,7 +11,7 @@ stages:
   - deploy
 variables:
   GKAPP_URL: https://gnukhata.gitlab.io/gkapp
-  VUE_APP_GKAPP_NOTICE: true
+  VUE_APP_GKAPP_NOTICE: 'true'
 
 # build gkapp
 gkapp:

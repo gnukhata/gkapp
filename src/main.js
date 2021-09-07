@@ -30,8 +30,8 @@ Vue.mixin({
 
     gkConfig() {
       return {
-        mode: process.env.NODE_ENV,
-        notice: process.env.VUE_APP_GKAPP_NOTICE,
+        mode: process.env.NODE_ENV || 'production',
+        notice: process.env.VUE_APP_GKAPP_NOTICE || true,
       };
     },
   },
