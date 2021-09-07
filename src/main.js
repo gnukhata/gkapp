@@ -1,31 +1,38 @@
-import '@babel/polyfill'
-import 'mutationobserver-shim'
-import Vue from 'vue'
-import './plugins/axios'
-import './plugins/bootstrap-vue'
-import App from './App.vue'
-import router from './router'
-import wb from './registerServiceWorker'
-import store from './store'
-import '@/scss/main.scss'
-import axios from 'axios'
+import '@babel/polyfill';
+import 'mutationobserver-shim';
+import Vue from 'vue';
+import './plugins/axios';
+import './plugins/bootstrap-vue';
+import App from './App.vue';
+import router from './router';
+import wb from './registerServiceWorker';
+import store from './store';
+import '@/scss/main.scss';
+import axios from 'axios';
+import hotkeys from 'hotkeys-js';
 
-Vue.config.productionTip = false
-Vue.prototype.$workbox = wb
+Vue.config.productionTip = false;
+Vue.prototype.$workbox = wb;
+Vue.prototype.$hotkeys = hotkeys;
 
-store.commit('initStore') // initialize the required vuex states from local storage
+store.commit('initStore'); // initialize the required vuex states from local storage
 
 Vue.mixin({
   data() {
     return {
       orgImg: 'img/gk.png',
-      userRole: Number
-    }
+      sidebarToggle: false,
+      userRole: Number,
+    };
   },
   computed: {
     // https://cli.vuejs.org/guide/mode-and-env.html#modes
-    gkMode() {
-      return process.env.NODE_ENV
+
+    gkConfig() {
+      return {
+        mode: process.env.NODE_ENV,
+        notice: process.env.VUE_APP_GKAPP_NOTICE,
+      };
     },
   },
   methods: {
@@ -34,11 +41,12 @@ Vue.mixin({
     //   return process.env.NODE_ENV
     // },
     currentDate() {
-      let dt = new Date()
-      const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate()
-      const mm = dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt.getMonth()
-      const yy = dt.getFullYear()
-      return `${yy}-${mm}-${dd}`
+      let dt = new Date();
+      const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate();
+      const mm =
+        dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt.getMonth();
+      const yy = dt.getFullYear();
+      return `${yy}-${mm}-${dd}`;
     },
     dateReverse(date) {
       let d = date.split('-').reverse();
@@ -87,12 +95,7 @@ Vue.mixin({
       this.$store.commit('setAuthStatus');
 
       // delete items from localStorage
-      let deleteList = [
-        'authToken',
-        'orgCode',
-        'orgName',
-        'userName',
-      ];
+      let deleteList = ['authToken', 'orgCode', 'orgName', 'userName'];
       for (let i in deleteList) {
         localStorage.removeItem(deleteList[i]);
       }
@@ -116,12 +119,12 @@ Vue.mixin({
       });
       this.$router.push('/server-setup');
     },
-  }
-})
+  },
+});
 
 Vue.prototype.$reload = () => location.reload();
 new Vue({
   router,
   store,
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount('#app');
