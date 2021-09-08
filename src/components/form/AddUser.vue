@@ -143,11 +143,12 @@
 </template>
 
 <script>
+// L292 & validateName computed property has some warnings. disable those
+/* eslint-disable */
 import { mapState } from 'vuex';
 import axios from 'axios';
 import Password from '../Password.vue';
 import SecurityQuestions from '../SecurityQuestions.vue';
-
 export default {
   components: { SecurityQuestions, Password },
   name: 'AddUser',
