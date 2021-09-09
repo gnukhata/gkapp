@@ -592,6 +592,12 @@ export default {
     };
   },
   watch: {
+    wfName: function(wfname) {
+      // Run when visiting a workflow page using URL, when already in a workflow page
+      if(this.activeWorkflow.name !== wfname) {
+        this.autoSetActiveWorkflow();
+      }
+    },
     isFilterOpen: function(isOpen) {
       let self = this;
       window.setTimeout(() => {
@@ -861,6 +867,39 @@ export default {
         this.selectFirstListItem();
       }
     },
+    /** Sets the active workflow based on the URL props */
+    autoSetActiveWorkflow() {
+      let self = this;
+      let tab, index;
+      let setActiveWorkflow;
+      if (this.wfName.includes('-')) {
+        let name = this.wfName.split('-');
+        tab = this.options.tabs[name[0]].tabs[name[1]];
+        index = Object.keys(this.options.tabs[name[0]]).indexOf(name[1]);
+        setActiveWorkflow = this.setActiveWorkflow(
+          index,
+          { parent: name[0], child: name[1] },
+          tab.icon,
+          true
+        );
+      } else {
+        tab = this.options.tabs[this.wfName];
+        index = Object.keys(this.options.tabs).indexOf(this.wfName);
+        setActiveWorkflow = this.setActiveWorkflow(
+          index,
+          this.wfName,
+          tab.icon,
+          true
+        );
+      }
+      if (setActiveWorkflow) {
+        setActiveWorkflow.then(() => {
+          self.initSelectedEntity(tab);
+        });
+      } else {
+        this.initSelectedEntity(tab);
+      }
+    },
     selectFirstListItem() {
       if (window.innerWidth > 752) {
         const self = this;
@@ -1044,36 +1083,7 @@ export default {
   },
   mounted() {
     this.updateListHeight();
-    let self = this;
-    let tab, index;
-    let setActiveWorkflow;
-    if (self.wfName.includes('-')) {
-      let name = self.wfName.split('-');
-      tab = self.options.tabs[name[0]].tabs[name[1]];
-      index = Object.keys(self.options.tabs[name[0]]).indexOf(name[1]);
-      setActiveWorkflow = self.setActiveWorkflow(
-        index,
-        { parent: name[0], child: name[1] },
-        tab.icon,
-        true
-      );
-    } else {
-      tab = self.options.tabs[self.wfName];
-      index = Object.keys(self.options.tabs).indexOf(self.wfName);
-      setActiveWorkflow = self.setActiveWorkflow(
-        index,
-        this.wfName,
-        tab.icon,
-        true
-      );
-    }
-    if (setActiveWorkflow) {
-      setActiveWorkflow.then(() => {
-        self.initSelectedEntity(tab);
-      });
-    } else {
-      self.initSelectedEntity(tab);
-    }
+    this.autoSetActiveWorkflow();
   },
 };
 </script>
