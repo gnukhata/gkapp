@@ -32,7 +32,7 @@
                </div> -->
         <b-nav class="text-small text-dark col">
           <!-- master -->
-          <h6 v-b-toggle.master class="text-center ml-3 mr-3 mt-3">
+          <h6 v-b-toggle.master class="text-center mr-5 ml-3 mt-3">
             <b-icon
               :icon="collapsed.master ? 'caret-down-fill' : 'caret-right-fill'"
               class="text-right"
@@ -49,8 +49,16 @@
                   wfId: -1,
                 },
               }"
-              ><b-icon icon="wrench"></b-icon> Workflow</b-nav-item
-            >
+              ><b-icon icon="wrench"></b-icon> Invoice
+            </b-nav-item>
+
+            <b-nav-item to="/workflow/Contacts/-1">
+              <b-icon icon="person-lines-fill"></b-icon> Contacts
+            </b-nav-item>
+
+            <b-nav-item to="/workflow/Business/-1">
+              <b-icon icon="box"></b-icon> Business
+            </b-nav-item>
           </b-collapse>
 
           <!-- Admin -->
@@ -171,6 +179,16 @@
           <b-collapse v-model="collapsed.help" id="help">
             <b-nav-item to="/about" class="mr-3">
               <b-icon icon="info-circle"></b-icon> About
+            </b-nav-item>
+            <b-nav-item class="mr-3" target="_blank" href="https://gnukhata.in">
+              <b-icon icon="globe"></b-icon> Website
+            </b-nav-item>
+            <b-nav-item
+              class="mr-3"
+              target="_blank"
+              href="https://gitlab.com/gnukhata"
+            >
+              <b-icon icon="code"></b-icon> Source Code
             </b-nav-item>
           </b-collapse>
         </b-nav>
