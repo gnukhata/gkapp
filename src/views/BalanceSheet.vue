@@ -29,17 +29,19 @@
         <div class="text-center">
           <b>Balance Sheet</b> for the period {{ fromDate }} to
           {{ toDate }}
+          <br>
+          <small v-if="hideZeroFilter"> "Hide Zero Value Rows" Filter has been applied </small>
         </div>
       </report-header>
       <div
         v-if="bsheet.left.length && bsheet.right.length"
-        class="float-right d-print-none"
+        class="d-print-none d-flex align-items-center justify-content-end my-2"
       >
         <b-form-checkbox
           id="checkbox-1"
           v-model="hideZero"
           name="checkbox-1"
-          class="d-inline-block"
+          class="d-inline-block mx-2"
           size="sm"
           switch
         >
@@ -49,8 +51,6 @@
           <b-icon class="align-middle" icon="printer"></b-icon>
         </b-button>
       </div>
-      <br class="d-print-none" />
-      <br class="d-print-none" />
       <b-row class="row text-small">
         <b-col cols="12" md="6">
           <b-table
@@ -63,20 +63,79 @@
             v-if="bsheet.left.length"
             class="text-small table-border-dark"
             tbody-tr-class="bs-row"
-            fixed
             responsive=""
             sticky-header=""
-            :filter="hideZeroFilter"
-            :filter-function="hideZeroRows"
+            filter="a"
+            :filter-function="filterLeftTable"
           >
+            <template #head(groupAccname)="">
+              Capital and Liabilities
+            </template>
+            <template #cell(groupAccname)="data">
+              <div
+                :class="{
+                  'ml-1': data.item.isSubGroup,
+                  'ml-4': data.item.isAccount,
+                  'font-weight-bold': data.item.isGroup,
+                  'font-italic': data.item.isAccount,
+                }"
+              >
+                <b-button
+                  @click="data.item.isOpen = !data.item.isOpen"
+                  class="p-0 text-dark"
+                  :class="{
+                    'font-weight-bold': data.item.isGroup,
+                  }"
+                  v-if="data.item.hasChildren"
+                  variant="link"
+                >
+                  <b-icon
+                    class="d-print-none"
+                    font-scale="0.7"
+                    :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
+                    v-if="!data.item.isAccount && data.item.hasChildren"
+                  ></b-icon>
+                  {{ data.value }}
+                </b-button>
+                <span
+                  :class="{
+                    'font-weight-bold': data.item.isGroup,
+                  }"
+                  v-else
+                >
+                  {{ data.value }}
+                </span>
+              </div>
+            </template>
             <template #cell(isGroup)="data">
-              {{ data.value ? data.item.groupAccname : '' }}
+              <span
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                  'font-italic': data.item.isAccount,
+                }"
+              >
+                {{ data.value ? data.item.amount : '' }}
+              </span>
             </template>
             <template #cell(isSubGroup)="data">
-              {{ data.value ? data.item.groupAccname : '' }}
+              <span
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                  'font-italic': data.item.isAccount,
+                }"
+              >
+                {{ data.value ? data.item.amount : '' }}
+              </span>
             </template>
             <template #cell(isAccount)="data">
-              {{ data.value ? data.item.groupAccname : '' }}
+              <span
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                  'font-italic': data.item.isAccount,
+                }"
+              >
+                {{ data.value ? data.item.amount : '' }}
+              </span>
             </template>
           </b-table>
         </b-col>
@@ -92,19 +151,78 @@
             class="text-small table-border-dark"
             tbody-tr-class="bs-row"
             responsive=""
-            fixed
             sticky-header=""
-            :filter="hideZeroFilter"
-            :filter-function="hideZeroRows"
+            filter="a"
+            :filter-function="filterRightTable"
           >
+            <template #head(groupAccname)="">
+              Property and Assets
+            </template>
+            <template #cell(groupAccname)="data">
+              <div
+                :class="{
+                  'ml-1': data.item.isSubGroup,
+                  'ml-4': data.item.isAccount,
+                  'font-weight-bold': data.item.isGroup,
+                  'font-italic': data.item.isAccount,
+                }"
+              >
+                <b-button
+                  @click="data.item.isOpen = !data.item.isOpen"
+                  class="p-0 text-dark"
+                  :class="{
+                    'font-weight-bold': data.item.isGroup,
+                  }"
+                  v-if="data.item.hasChildren"
+                  variant="link"
+                >
+                  <b-icon
+                    class="d-print-none"
+                    font-scale="0.7"
+                    :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
+                    v-if="!data.item.isAccount && data.item.hasChildren"
+                  ></b-icon>
+                  {{ data.value }}
+                </b-button>
+                <span
+                  :class="{
+                    'font-weight-bold': data.item.isGroup,
+                  }"
+                  v-else
+                >
+                  {{ data.value }}
+                </span>
+              </div>
+            </template>
             <template #cell(isGroup)="data">
-              {{ data.value ? data.item.groupAccname : '' }}
+              <span
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                  'font-italic': data.item.isAccount,
+                }"
+              >
+                {{ data.value ? data.item.amount : '' }}
+              </span>
             </template>
             <template #cell(isSubGroup)="data">
-              {{ data.value ? data.item.groupAccname : '' }}
+              <span
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                  'font-italic': data.item.isAccount,
+                }"
+              >
+                {{ data.value ? data.item.amount : '' }}
+              </span>
             </template>
             <template #cell(isAccount)="data">
-              {{ data.value ? data.item.groupAccname : '' }}
+              <span
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                  'font-italic': data.item.isAccount,
+                }"
+              >
+                {{ data.value ? data.item.amount : '' }}
+              </span>
             </template>
           </b-table>
         </b-col>
@@ -130,24 +248,28 @@ export default {
       hideZero: false,
       tableFields: [
         {
-          key: 'isGroup',
-          label: 'Group',
-          class: 'text-break ',
-        },
-        {
-          key: 'isSubGroup',
-          label: 'Sub Group',
+          key: 'groupAccname',
+          label: 'Accounts',
           class: 'text-break',
+          thStyle: { width: '46%' },
         },
         {
           key: 'isAccount',
-          label: 'Account',
-          class: 'text-break',
+          label: '',
+          class: 'text-break text-right',
+          thStyle: { width: '18%' },
         },
         {
-          key: 'amount',
-          label: 'Amount',
-          class: 'text-right',
+          key: 'isSubGroup',
+          label: '',
+          class: 'text-break text-right',
+          thStyle: { width: '18%' },
+        },
+        {
+          key: 'isGroup',
+          label: '',
+          class: 'text-break text-right',
+          thStyle: { width: '18%' },
         },
       ],
       bsheet: {
@@ -162,9 +284,36 @@ export default {
       },
     };
   },
+  computed: {
+    hideZeroFilter: (self) => (self.hideZero ? 'a' : null),
+    ...mapState(['yearStart', 'yearEnd']),
+  },
   methods: {
-    hideZeroRows(item) {
-      return !(item.amount === '0.00' || item.amount === '0');
+    filterTable(list, item) {
+      let show = true;
+      if (this.hideZeroFilter) {
+        show = !(item.amount === '0.00' || item.amount === '0');
+      }
+      if (item.parent >= 0) {
+        let parent = list[item.parent];
+        if (parent.parent >= 0) {
+          let grandparent = list[parent.parent];
+          if (!grandparent.isOpen) {
+            show = show && grandparent.isOpen;
+          } else {
+            show = show && parent.isOpen;
+          }
+        } else {
+          show = show && parent.isOpen;
+        }
+      }
+      return show;
+    },
+    filterLeftTable(item) {
+      return this.filterTable(this.bsheet.left, item);
+    },
+    filterRightTable(item) {
+      return this.filterTable(this.bsheet.right, item);
     },
     printPage() {
       window.print();
@@ -181,18 +330,23 @@ export default {
         if (item.amount === '') return;
 
         let parent = item.accountof || item.subgroupof;
-        let parentIndex = map[parent] || -1;
-        if (isGroup) {
+        let parentIndex = map[parent] >= 0 ? map[parent] : -1;
+        if (!isAccount) {
           map[item.groupAcccode] = index;
-          parentIndex = -1;
+          if (isGroup) parentIndex = -1;
+        }
+        if (parentIndex >= 0) {
+          result[parentIndex].hasChildren = true;
         }
         result.push(
           Object.assign(
             {
+              isOpen: !isSubGroup,
               parent: parentIndex,
               isGroup,
               isSubGroup,
               isAccount,
+              hasChildren: false,
             },
             report[index]
           )
@@ -261,10 +415,6 @@ export default {
         });
     },
   },
-  computed: {
-    hideZeroFilter: (self) => (self.hideZero ? 'a' : null),
-    ...mapState(['yearStart', 'yearEnd']),
-  },
   mounted() {
     this.fromDate = this.yearStart;
     this.toDate = this.yearEnd;
@@ -277,5 +427,12 @@ export default {
 }
 .bs-row {
   height: 21px;
+}
+.bs-col-name {
+  width: 190px;
+}
+.bs-col-amount {
+  width: 50px;
+  color: blue;
 }
 </style>
