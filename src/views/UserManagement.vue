@@ -65,13 +65,10 @@
 
 <script>
 import axios from 'axios';
-import AddUser from '@/components/form/AddUser.vue';
-import EditUser from '@/components/form/EditUser.vue';
 import { mapState } from 'vuex';
 
 export default {
   name: 'UserManagement',
-  components: { AddUser, EditUser },
   data() {
     return {
       fields: [

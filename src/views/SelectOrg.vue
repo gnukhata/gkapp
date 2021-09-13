@@ -1,11 +1,20 @@
 <template>
   <section class="m-2">
-    <b-alert v-if="gkMode === 'development'" show variant="dark" class="mb-2 gkcard mx-auto">
+    <b-alert
+      v-if="gkConfig.notice"
+      show
+      variant="dark"
+      class="mb-2 gkcard mx-auto"
+    >
       Demo Organisation:
       <b>WALLMART</b>
       <br />
     </b-alert>
-    <b-card header-bg-variant="dark" header-text-variant="light" class="gkcard mx-auto shadow">
+    <b-card
+      header-bg-variant="dark"
+      header-text-variant="light"
+      class="gkcard mx-auto shadow"
+    >
       <template #header>
         <gk-cardheader
           name="Organisation"
@@ -14,45 +23,71 @@
       </template>
       <b-form @submit.prevent="save">
         <!--Select company area-->
-        <b-form-group label="Organisation" label-align="right" label-size="sm" label-cols="4">
+        <b-form-group
+          label="Organisation"
+          label-align="right"
+          label-size="sm"
+          label-cols="4"
+        >
           <b-overlay :show="isDisabled">
-            <b-form-select v-model="orgIndex" v-on:change="getOrgYears" required size="sm">
+            <b-form-select
+              v-model="orgIndex"
+              v-on:change="getOrgYears"
+              required
+              size="sm"
+            >
               <template #first>
-                <b-form-select-option :value="null" disabled>-- Select Organisation --</b-form-select-option>
+                <b-form-select-option :value="null" disabled
+                  >-- Select Organisation --</b-form-select-option
+                >
               </template>
               <b-form-select-option
                 v-for="(org, index) in orgList"
                 :key="index"
                 :value="index"
-              >{{ org.orgname }} ({{ org.orgtype }})</b-form-select-option>
+                >{{ org.orgname }} ({{ org.orgtype }})</b-form-select-option
+              >
             </b-form-select>
           </b-overlay>
         </b-form-group>
 
         <!-- Financial Year-->
-        <b-form-group label="Financial Year" label-cols="4" label-align="right" label-size="sm">
+        <b-form-group
+          label="Financial Year"
+          label-cols="4"
+          label-align="right"
+          label-size="sm"
+        >
           <b-overlay :show="isDisabled">
             <b-form-select v-model="orgCode" size="sm" required>
               <template #first>
-                <b-form-select-option :value="null" disabled>-- Select Year --</b-form-select-option>
+                <b-form-select-option :value="null" disabled
+                  >-- Select Year --</b-form-select-option
+                >
               </template>
               <b-form-select-option
                 v-for="(org, index) in orgYears"
                 :key="index"
                 :value="org.orgcode"
-              >{{ org.yearstart }} to {{ org.yearend }}</b-form-select-option>
+                >{{ org.yearstart }} to {{ org.yearend }}</b-form-select-option
+              >
             </b-form-select>
           </b-overlay>
         </b-form-group>
         <b-button-group size="sm" class="row float-right">
           <b-button variant="dark" class="m-1" size="sm" @click="switchServer">
-            <b-icon icon="cloud"></b-icon>Change Server
+            <b-icon icon="cloud"></b-icon> Change Server
           </b-button>
-          <b-button class="m-1" variant="dark" size="sm" :to="{ name: 'Create_Organisation' }">
-            <b-icon icon="person-plus"></b-icon>Create Organisation
+          <b-button
+            class="m-1"
+            variant="dark"
+            size="sm"
+            :to="{ name: 'Create_Organisation' }"
+          >
+            <b-icon icon="person-plus"></b-icon> Create Organisation
           </b-button>
           <b-button size="sm" class="m-1" variant="success" type="submit">
-            <b-icon icon="arrow-right-circle"></b-icon>Continue
+            <b-icon icon="arrow-right-circle"></b-icon> Continue
           </b-button>
         </b-button-group>
       </b-form>
@@ -95,6 +130,8 @@ export default {
       let type = this.orgList[this.orgIndex].orgtype;
       // Save org name for next login
       localStorage.setItem('orgChoice', `${name} (${type})`);
+      // useful in consolidated final accounts
+      localStorage.setItem('orgArray', JSON.stringify([name, type]));
       this.orgFinancialYear();
       localStorage.setItem('orgCodeChoice', this.orgCode);
       this.$router.push('/');

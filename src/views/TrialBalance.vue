@@ -47,12 +47,20 @@
           name="radio-options"
           class="mx-auto text-center d-print-none mb-3"
         ></b-form-radio-group>
+        <!-- search bar -->
+        <b-form-input
+          v-model.lazy="search"
+          type="text"
+          class="mx-auto gkcard mb-2"
+          placeholder="Search trial balance"
+        ></b-form-input>
         <!-- Tables -->
         <!-- Net trial balance -->
         <b-table
           v-if="trialBalanceType === 'Net'"
           :items="balance.gross"
           :fields="netfields"
+          :filter="search"
           small
           primary-key="accountname"
           bordered
@@ -75,6 +83,7 @@
           v-if="trialBalanceType === 'Gross'"
           :items="balance.net"
           :fields="grossfields"
+          :filter="search"
           primary-key="accountname"
           small
           bordered
@@ -88,6 +97,7 @@
           v-if="trialBalanceType === 'Extended'"
           :items="balance.extended"
           :fields="extendedfields"
+          filter="search"
           primary-key="accountname"
           small
           bordered
@@ -113,6 +123,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      search: '',
       fromDate: null,
       toDate: null,
       trialBalanceType: 'Net',

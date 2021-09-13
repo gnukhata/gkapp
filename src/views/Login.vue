@@ -1,7 +1,7 @@
 <template>
   <section class="m-2">
     <b-alert
-      v-if="gkMode === 'development'"
+      v-if="gkConfig.notice"
       show
       variant="dark"
       :hidden="false"
@@ -33,7 +33,12 @@
       <b-card-body class="p-0 m-0">
         <b-form @submit.prevent="login">
           <!--Username area-->
-          <b-form-group label="Username" label-cols="4" label-size="sm" label-align="right">
+          <b-form-group
+            label="Username"
+            label-cols="4"
+            label-size="sm"
+            label-align="right"
+          >
             <b-form-input
               v-model="form.username"
               type="text"
@@ -43,7 +48,12 @@
             ></b-form-input>
           </b-form-group>
           <!-- Password area -->
-          <b-form-group label="Password" label-cols="4" label-align="right" label-size="sm">
+          <b-form-group
+            label="Password"
+            label-cols="4"
+            label-align="right"
+            label-size="sm"
+          >
             <b-form-input
               id="input-2"
               v-model="form.userpassword"
@@ -58,11 +68,21 @@
           </b-form-group>
 
           <!--Captcha question -->
-          <b-form-group label="Question" label-align="right" label-cols="4" label-size="sm">
+          <b-form-group
+            label="Question"
+            label-align="right"
+            label-cols="4"
+            label-size="sm"
+          >
             <captcha v-model="answer"></captcha>
           </b-form-group>
           <!-- captcha answer -->
-          <b-form-group label="Answer" label-cols="4" label-size="sm" label-align="right">
+          <b-form-group
+            label="Answer"
+            label-cols="4"
+            label-size="sm"
+            label-align="right"
+          >
             <b-form-input
               v-model="userAnswer"
               type="number"
@@ -77,7 +97,11 @@
             <b-button variant="dark" class="m-1" @click="switchServer">
               <b-icon icon="cloud"></b-icon>Change Server
             </b-button>
-            <b-button class="m-1" variant="dark" @click="$router.push('/select-org')">
+            <b-button
+              class="m-1"
+              variant="dark"
+              @click="$router.push('/select-org')"
+            >
               <b-icon icon="building"></b-icon>Change Organisation
             </b-button>
             <b-button class="m-1" variant="success" type="submit">

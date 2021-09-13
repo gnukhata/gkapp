@@ -71,7 +71,6 @@
         hover
         head-variant="dark"
         responsive="sm"
-        stacked="sm"
         :busy="loading"
         :fields="fields"
       >

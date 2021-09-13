@@ -11,6 +11,7 @@ stages:
   - deploy
 variables:
   GKAPP_URL: https://gnukhata.gitlab.io/gkapp
+  VUE_APP_GKAPP_NOTICE: 'true'
 
 # build gkapp
 gkapp:
@@ -18,7 +19,7 @@ gkapp:
   script:
     - npm install -g @vue/cli
     - npm install
-    - npm run build-dev
+    - npm run build
   artifacts:
     paths:
       - dist

@@ -69,9 +69,8 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-
-import ReportHeader from '../../components/ReportHeader.vue';
 import GkDate from '../../components/GkDate.vue';
+
 export default {
   name: 'RejectionNoteList',
   components: { ReportHeader, GkDate },
