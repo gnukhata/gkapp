@@ -146,13 +146,6 @@
             <b-nav-item to="/categorywise-stock-on-hand">
               <b-icon icon="tag"></b-icon>Categorywise Stock On Hand
             </b-nav-item>
-
-            <b-nav-item to="/product-list">
-              <b-icon icon="box"></b-icon> Product List
-            </b-nav-item>
-            <b-nav-item to="/contact-list">
-              <b-icon icon="people"></b-icon> Contact List
-            </b-nav-item>
             <b-nav-item to="/profit-loss">
               <b-icon icon="graph-up"></b-icon> Profit & Loss
             </b-nav-item>
