@@ -13,15 +13,18 @@
       ></b-form-input> </b-input-group
     ><b-table
       :filter="searchText"
-      :fields="['categoryname', 'parentcategory']"
+      :fields="[
+        { key: 'categoryname', label: 'Category' },
+        { key: 'parentcategory', label: 'Parent Category' },
+        { key: 'options', label: '', class: 'text-center' },
+      ]"
       :items="allCategories"
       striped
       sort-direction="asc"
       head-variant="dark"
-      class="mx-auto"
+      class="mx-auto table-border-dark"
       hover
-      fixed
-      outlined
+      bordered
       small
       :busy="loading"
     >
@@ -31,16 +34,34 @@
           <strong> Fetching Categories ... </strong>
         </div>
       </template>
-      <!-- <template #cell()="data">
-           <b-button
-           @click="showEditUOM(data.item.uom_id)"
-           title="click to edit UOM"
-           variant="dark"
-           size="sm"
-           >
-           {{ data.item.unit_name }}
-           </b-button>
-           </template> -->
+      <template #cell(options)="data">
+        <b-button-group class="mx-auto">
+          <b-button title="Add" variant="dark" class="px-1" size="sm" :to="{name: 'Edit_Category', params: {id: data.item.categorycode}}">
+            <b-icon
+              font-scale="0.85"
+              class="align-middle"
+              icon="pencil"
+            ></b-icon
+          ></b-button>
+          <!-- delete spec -->
+          <b-button
+            v-if="data.item.categorystatus === 'Inactive'"
+            title="delete"
+            variant="danger"
+            size="sm"
+            class="px-1"
+          >
+            <b-icon
+              class="align-middle"
+              font-scale="0.92"
+              icon="trash"
+              @click="
+                deleteCategory(data.item.categoryname, data.item.categorycode)
+              "
+            ></b-icon>
+          </b-button>
+        </b-button-group>
+      </template>
     </b-table>
   </section>
 </template>
@@ -58,16 +79,55 @@ export default {
     };
   },
   computed: {
-    ...mapState(['gkCoreUrl', 'authToken']),
+    ...mapState([]),
   },
   methods: {
+    deleteCategory(name, id) {
+      this.$bvModal
+        .msgBoxConfirm(`Delete Category "${name}" ?`, {
+          centered: true,
+          size: 'lg',
+        })
+        .then((confirmFlag) => {
+          if (confirmFlag) {
+            let delPayload = { data: { categorycode: parseInt(id) } };
+            axios.delete('/categories', delPayload).then((resp) => {
+              if (resp.data.gkstatus === 0) {
+                this.$bvToast.toast(
+                  `Category "${name}" was successfully deleted!`,
+                  {
+                    variant: 'success',
+                    solid: true,
+                  }
+                );
+                let logPayload = { activity: `Category Deleted: ${name}` };
+                axios.post('/log', logPayload);
+                this.getAllCategories();
+              } else {
+                if (resp.data.gkstatus === 5) {
+                  this.$bvToast.toast(
+                    `Failed to delete category ${name}. Integrity Issue.`,
+                    {
+                      variant: 'danger',
+                      solid: true,
+                    }
+                  );
+                } else {
+                  this.$bvToast.toast(`Failed to delete category ${name}`, {
+                    variant: 'danger',
+                    solid: true,
+                  });
+                }
+              }
+            });
+          }
+        });
+    },
     /* Fetch all categories from api and assign it to allCategories */
     getAllCategories() {
       this.loading = true;
       axios
-        .get(`${this.gkCoreUrl}/categories`, {
-          headers: { gktoken: this.authToken },
-        })
+        .get(`/categories`)
         .then((r) => {
           if (r.status == 200) {
             this.allCategories = r.data.gkresult;

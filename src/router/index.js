@@ -7,7 +7,7 @@ import UserManagement from '@/views/UserManagement.vue';
 import UOM from '@/views/UOM.vue';
 import ResetPassword from '@/views/ResetPassword.vue';
 import Categories from '@/views/Categories.vue';
-import AddCategory from '@/views/AddCategory.vue';
+import AddCategory from '@/views/CategoryCreate.vue';
 
 Vue.use(VueRouter);
 
@@ -99,6 +99,13 @@ const routes = [
     path: '/categories/add',
     name: 'Add Category',
     component: AddCategory,
+  },
+  {
+    path: '/categories/edit/:id',
+    name: 'Edit_Category',
+    component: () =>
+      import(/* webpackChunkName: "edit_category" */ '../views/CategoryEdit.vue'),
+      props: true
   },
   {
     path: '/stock-on-hand',
