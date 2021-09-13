@@ -5,6 +5,55 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
+# Meeting history (2021-09-13)
+
+Agenda:
+
+-   Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+
+-   Karthik:
+    -   search in trial balance
+    -   apply updates for side menu from past week
+    -   Hugo website template code cleanup.
+-   Survesh:
+    -   Category (Create, Edit, Delete)
+    -   Update table structure in Balance Sheet
+    -   Minor UI fixes
+
+Points Discussed:
+
+-   Feature request in Create Category page, for having a autocomplete feature on the input field for entering 
+    the category name, as it will help avoid used category names.
+-   Moving the nav bar options present in the workflow list table to the side bar under Master category.
+-   Possible steps that can be taken to reduce the column count in Product Register page,
+    -   Combine the Document id, Document Type, Document particular into one column, where by only the 
+        Document Particulars is displayed and the Document type is denoted via pre determined icons.
+    -   Here Document Particulars will be hyperlinked, as the ID column was hyperlinked before.
+    -   Make the columns be user configurable, where in the users can choose which columns they want displayed.
+    -   Add a Document type filter to the whole list, where in only results pertaining to that Document type will be
+        displayed and Document type columns could be omitted.
+-   Website improvements,
+    -   Update the text "Mission Statement" to "About Us".
+    -   Download the required open fonts and self host them for use in the website.
+    -   Screenshots of the webapp could be added as a slideshow in the website.
+    -   Since GNUKhata has been around for about 8 years now, the website must be able to showcase its maturity.
+    -   There exists a revamped version of the GNUKhata website, we can use the content used there, as it was planned and 
+        approved. Ashutosh might have a copy of it, VK will update us on its status.
+-   Feature request in Accounts page for displaying data in table view, where their opening balances could be edited
+    quickly.
+-   Need for Jokes to adjourn the meeting.
+
+Conclusion:
+
+-   Updates will be performed based on the points discussed above.
+-   VK to update about the status of the revamped website.
+-   Meetings should be adjourned with a joke.
+
+
 # Meeting history (2021-09-06)
 
 Agenda:
@@ -16,6 +65,9 @@ Participants: GN, Karthik, R2, Survesh, VK
 Updates:
 
 -   Karthik:
+    -   Ledger: Sort by Cr & Dr, Add Search bar
+    -   Exploring Consolidated final accounts
+    -   Experimenting with keyboard shortcuts using hotkeys.js
 
 -   Survesh:
     -   (Workflow) Left Pane Table column settings persistence and
