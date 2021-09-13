@@ -75,7 +75,7 @@
               <div
                 :class="{
                   'ml-1': data.item.isSubGroup,
-                  'ml-4': data.item.isAccount,
+                  'ml-5': data.item.isAccount,
                   'font-weight-bold': data.item.isGroup,
                   'font-italic': data.item.isAccount,
                 }"
@@ -162,7 +162,7 @@
               <div
                 :class="{
                   'ml-1': data.item.isSubGroup,
-                  'ml-4': data.item.isAccount,
+                  'ml-5': data.item.isAccount,
                   'font-weight-bold': data.item.isGroup,
                   'font-italic': data.item.isAccount,
                 }"
