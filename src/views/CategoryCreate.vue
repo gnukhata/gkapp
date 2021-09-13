@@ -377,12 +377,12 @@ export default {
           this.loading = false;
         })
         .catch((e) => {
+          this.loading = false;
           this.$bvToast.toast(e.message, {
             variant: 'danger',
             solid: true,
           });
         });
-      this.loading = false;
     },
     getStates() {
       const self = this;
