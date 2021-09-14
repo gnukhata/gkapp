@@ -77,6 +77,7 @@
           Debit / Credit Note</b-form-radio
         >
       </div>
+      {{ report }}
       <!-- search bar -->
       <div class="gkcard mx-auto mb-4">
         <b-form-input
@@ -114,15 +115,25 @@
         <template #cell(particulars)="data">
           <div v-if="data.item.trntype === 'invoice'">
             <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
-            <b-link :href="'/Workflow/Transactions-Invoice/' + data.item.invid">
+            <b-link
+              @click="
+                $router.push(
+                  '/Workflow/Transactions-Invoice/' + data.item.invid
+                )
+              "
+            >
               {{ data.item.invno }}</b-link
             >
           </div>
-          <div v-else-if="data.item.trntype === 'Rejection Note'">
+          <div v-else-if="data.item.trntype == 'Rejection Note'">
             <b-icon variant="danger" icon="journal-x"></b-icon>
             {{ data.item.particulars }} :
             <b-link
-              :href="'/Workflow/Transactions-RejectionNote/' + data.item.rnid"
+              @click="
+                $router.push(
+                  '/Workflow/Transactions-RejectionNote/' + data.item.rnid
+                )
+              "
             >
               {{ data.item.rnno }}</b-link
             >
@@ -131,8 +142,10 @@
             {{ data.item.particulars }} :
             <b-icon variant="warning" icon="file-diff"></b-icon>
             <b-link
-              :href="
-                '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
+              @click="
+                $router.push(
+                  '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
+                )
               "
             >
               {{ data.item.drcrno }}</b-link
