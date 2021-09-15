@@ -29,8 +29,10 @@
         <div class="text-center">
           <b>Balance Sheet</b> for the period {{ fromDate }} to
           {{ toDate }}
-          <br>
-          <small v-if="hideZeroFilter"> "Hide Zero Value Rows" Filter has been applied </small>
+          <br />
+          <small v-if="hideZeroFilter">
+            "Hide Zero Value Rows" Filter has been applied
+          </small>
         </div>
       </report-header>
       <div
@@ -95,6 +97,15 @@
                     :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
                     v-if="!data.item.isAccount && data.item.hasChildren"
                   ></b-icon>
+                  {{ data.value }}
+                </b-button>
+                <b-button
+                  size="sm"
+                  variant="link"
+                  class="p-0"
+                  :to="{ path: `/ledger/${data.item.groupAcccode}` }"
+                  v-else-if="data.item.isAccount"
+                >
                   {{ data.value }}
                 </b-button>
                 <span
@@ -182,6 +193,15 @@
                     :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
                     v-if="!data.item.isAccount && data.item.hasChildren"
                   ></b-icon>
+                  {{ data.value }}
+                </b-button>
+                <b-button
+                  size="sm"
+                  variant="link"
+                  class="p-0"
+                  :to="{ path: `/ledger/${data.item.groupAcccode}` }"
+                  v-else-if="data.item.isAccount"
+                >
                   {{ data.value }}
                 </b-button>
                 <span

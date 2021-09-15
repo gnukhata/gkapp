@@ -4,7 +4,7 @@
     <hr class="mt-1" />
     <b-button
       class="float-right p-1"
-      :class="{'mb-2': showSearchBar}"
+      :class="{ 'mb-2': showSearchBar }"
       variant="link"
       @click="showSearchBar = !showSearchBar"
     >
@@ -159,9 +159,15 @@
                                 body-class="p-2"
                                 v-if="accData.show"
                               >
-                                <span>
+                                <b-button
+                                class="p-0"
+                                  variant="link"
+                                  @click.prevent="
+                                    onGoToLedger(gdata.id, sgdata.id, accId)
+                                  "
+                                >
                                   {{ accData.name }}
-                                </span>
+                                </b-button>
                                 <div class="d-inline-block float-right">
                                   <b-button
                                     v-if="accData.sysFlag === 0"
@@ -298,6 +304,12 @@ export default {
     },
   },
   methods: {
+    onGoToLedger(gid, sgid, accId) {
+      this.updateUrl(gid, sgid, accId);
+      this.$router.push({
+        path: `/ledger/${accId}`,
+      });
+    },
     onCreateAccount(gid, sgid) {
       this.updateUrl(gid, sgid, -1);
       this.$router.push({
