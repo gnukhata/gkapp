@@ -1,7 +1,7 @@
 <template>
   <div
-    class="card mx-sm-auto gkcard"
-    :class="{ 'mt-4': !inOverlay, 'mx-2': !inOverlay }"
+    class="card mx-sm-auto"
+    :class="{ 'mt-4': !inOverlay, 'mx-2': !inOverlay, gkcard: !inOverlay }"
     :style="{ minWidth: '300px' }"
   >
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
