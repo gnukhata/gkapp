@@ -55,29 +55,26 @@
       </b-card>
     </b-overlay>
     <!-- report -->
-    <div v-if="report.length > 0" class="mt-5">
+    <div v-if="report.length > 0" class="mt-2">
       <!-- filters -->
-      <div class="d-flex justify-content-center">
-        <b-form-radio size="sm" v-model="invoiceFilter" value="all"
-          >All</b-form-radio
+      <b-form-checkbox-group
+        @change="applyFilters"
+        class="text-center mb-2"
+        v-model="invoiceFilter"
+        name="flavour-2"
+      >
+        <b-form-checkbox value="invoice"
+          ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
         >
-        <b-form-radio size="sm" class="mr-1 ml-1"
-          ><b-icon icon="receipt" class="ml-1 mr-1"></b-icon>
-          Invoice</b-form-radio
+        <b-form-checkbox value="Rejection Note"
+          ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
+          Note</b-form-checkbox
         >
-      </div>
-      <!-- filters -->
-      <div class="d-flex justify-content-center">
-        <b-form-radio size="sm" class="ml-1"
-          ><b-icon icon="journal-x" class="mr-1" variant="danger"></b-icon>
-          Rejection Note</b-form-radio
+        <b-form-checkbox value="Debit / Credit Note"
+          ><b-icon icon="file-diff" variant="warning"></b-icon> Debit/Credit
+          Note</b-form-checkbox
         >
-        <b-form-radio size="sm" class="ml-1"
-          ><b-icon icon="file-diff" class="mr-1" variant="warning"></b-icon>
-          Debit / Credit Note</b-form-radio
-        >
-      </div>
-      {{ report }}
+      </b-form-checkbox-group>
       <!-- search bar -->
       <div class="gkcard mx-auto mb-4">
         <b-form-input
@@ -89,7 +86,7 @@
       <report-header>
         <template>
           <div class="text-center">
-            Product Name:
+            Product Register:
             <b>{{
               productList.filter((p) => p['value'] == productId)[0]['text']
             }}</b>
@@ -204,11 +201,12 @@ export default {
       fromDate: '',
       toDate: '',
       report: [],
+      report2: [],
       godowns: [],
       showGodowns: false,
       godownId: '',
       godownReport: [],
-      invoiceFilter: 'all',
+      invoiceFilter: [],
       fields: [
         {
           key: 'date',
@@ -245,6 +243,23 @@ export default {
         this.getStockReport();
       }
     },
+    applyFilters() {
+      if (this.invoiceFilter.length !== 0) {
+        let items = [];
+        console.log(this.invoiceFilter);
+        for (let i in this.invoiceFilter) {
+          this.report = this.report2.filter((data) => {
+            if (data.trntype === this.invoiceFilter[i]) {
+              items.push(data);
+              return;
+            }
+          });
+        }
+        this.report = items;
+      } else {
+        this.report = this.report2;
+      }
+    },
     getStockReport() {
       this.loading = true;
       axios
@@ -257,6 +272,7 @@ export default {
             switch (data.gkstatus) {
               case 0:
                 this.report = data.gkresult;
+                this.report2 = data.gkresult;
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {
