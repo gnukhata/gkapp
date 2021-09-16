@@ -1071,11 +1071,9 @@ export default {
         if (entityIndex >= 0) {
           self.selectedEntityIndex = entityIndex;
           self.$refs[`list-${self.activeWorkflow.tabName}`][0].clearSelected();
-          if (window.innerWidth > 752) {
-            self.$refs[`list-${self.activeWorkflow.tabName}`][0].selectRow(
-              entityIndex
-            );
-          }
+          self.$refs[`list-${self.activeWorkflow.tabName}`][0].selectRow(
+            entityIndex
+          );
         }
       });
     },
