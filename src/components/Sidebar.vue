@@ -40,22 +40,53 @@
             Master
           </h6>
           <b-collapse v-model="collapsed.master" id="master">
-            <b-nav-item
-              class="mr-3"
-              :to="{
-                name: 'Workflow',
-                params: {
-                  wfName: 'Transactions-Invoice',
-                  wfId: -1,
-                },
-              }"
-              ><b-icon icon="wrench"></b-icon> Invoice
-            </b-nav-item>
-
+            <!-- Transactions -->
+            <h6 v-b-toggle.invoice class="ml-4">
+              <b-icon
+                :icon="
+                  collapsed.invoice ? 'caret-down-fill' : 'caret-right-fill'
+                "
+              ></b-icon>
+              Transactions
+            </h6>
+            <b-collapse v-model="collapsed.invoice" id="invoice">
+              <div class="ml-3">
+                <b-nav-item
+                  :to="{
+                    name: 'Workflow',
+                    params: {
+                      wfName: 'Transactions-Invoice',
+                      wfId: -1,
+                    },
+                  }"
+                  ><b-icon icon="receipt"></b-icon> Invoice
+                </b-nav-item>
+                <b-nav-item to="/workflow/Transactions-DebitCreditNote/-1">
+                  <b-icon icon="receipt"></b-icon> Debit/Credit Note
+                </b-nav-item>
+                <b-nav-item to="/workflow/Transactions-CashMemo/-1">
+                  <b-icon icon="receipt"></b-icon> Cash Memo
+                </b-nav-item>
+                <b-nav-item to="/workflow/Transactions-DeliveryNote/-1">
+                  <b-icon icon="receipt"></b-icon> Delivery Note
+                </b-nav-item>
+                <b-nav-item to="/workflow/Transactions-PurchaseSalesOrder/-1">
+                  <b-icon icon="receipt"></b-icon> Purchase/Sales Order
+                </b-nav-item>
+                <b-nav-item to="/workflow/Transactions-RejectionNote/-1">
+                  <b-icon icon="receipt"></b-icon> Rejection Note
+                </b-nav-item>
+                <b-nav-item to="/workflow/Transactions-TransferNote/-1">
+                  <b-icon icon="receipt"></b-icon> Transfer Note
+                </b-nav-item>
+                <b-nav-item to="/workflow/Transactions-Voucher/-1">
+                  <b-icon icon="receipt"></b-icon> Voucher
+                </b-nav-item>
+              </div>
+            </b-collapse>
             <b-nav-item to="/workflow/Contacts/-1">
               <b-icon icon="person-lines-fill"></b-icon> Contacts
             </b-nav-item>
-
             <b-nav-item to="/workflow/Business/-1">
               <b-icon icon="box"></b-icon> Business
             </b-nav-item>
