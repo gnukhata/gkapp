@@ -15,20 +15,21 @@ export default {
     name: {
       type: String,
       required: false,
-      default: 'Page'
+      default: 'Page',
     },
     printStyles: {
       type: String,
       required: false,
       default: 'Page',
-      note: 'Custom styles as string if sent will be added to the HTML page, before printing'
+      note:
+        'Custom styles as string if sent will be added to the HTML page, before printing',
     },
     variant: {
       type: String,
       required: false,
       default: 'primary',
-      note: 'Button variant'
-    }
+      note: 'Button variant',
+    },
   },
   data() {
     return {
@@ -63,15 +64,20 @@ export default {
         return;
       }
       let printContent = contentDom.outerHTML;
+
+      let links = '';
+      document.getElementsByTagName('link').forEach((link) => {
+        links += link.outerHTML;
+      });
+
       let styles = '';
       document.getElementsByTagName('style').forEach((style) => {
         styles += style.innerHTML;
       });
       // styles for printing table row bg
       styles += this.printStyles;
-      
-      styles +=
-        `@media print {
+
+      styles += `@media print {
           *{ 
             color-adjust: exact !important; 
             print-color-adjust: exact !important; 
@@ -80,17 +86,19 @@ export default {
           ${this.printStyles}  
         }`;
 
-
       printWindow.document.open();
-      printWindow.document.write(`<html><head><style>${styles}</style></head>`);
+      printWindow.document.write(
+        `<html><head>${links}<style>${styles}</style></head>`
+      );
       printWindow.document.write(`<body class="px-5">${printContent}</body>`);
       printWindow.document.write(`</html>`);
       printWindow.document.close();
-
-      printWindow.print();
       printWindow.onafterprint = () => {
         self.$emit('after-print');
         printWindow.close();
+      };
+      printWindow.onload = function(e) {
+        printWindow.print();
       };
     },
   },
