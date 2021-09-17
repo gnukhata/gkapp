@@ -116,7 +116,7 @@
               ><span class="sr-only">Filter</span>
             </b-button>
             <print-helper
-              class="float-right px-0"
+              class="float-right px-0 d-none d-lg-inline-block"
               :style="{ 'font-size': '0.8rem' }"
               :contentId="`list-${activeWorkflow.tabName}`"
               variant="link"
@@ -423,12 +423,13 @@
             ></b-button>
             <h5 class="ml-3 mb-0">
               <b-icon :icon="selectedEntity.icon"></b-icon>
-              {{ selectedEntity.noteName }} : <br class="d-md-none" />
+              {{ selectedEntity.noteName }} : <br class="d-none d-lg-inline-block" />
               {{ selectedEntity.no }}
             </h5>
             <print-helper
               contentId="transaction-profile-wrapper"
               variant="link"
+              class="d-none d-lg-inline-block"
             ></print-helper>
           </template>
           <b-card-body

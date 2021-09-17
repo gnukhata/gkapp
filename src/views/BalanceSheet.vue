@@ -49,7 +49,11 @@
         >
           Hide ₹0 rows
         </b-form-checkbox>
-        <b-button class="px-1" variant="link" @click="printPage">
+        <b-button
+          class="px-1 d-none d-lg-inline-block"
+          variant="link"
+          @click="printPage"
+        >
           <b-icon class="align-middle" icon="printer"></b-icon>
         </b-button>
       </div>

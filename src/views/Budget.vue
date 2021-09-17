@@ -93,6 +93,7 @@
             name="Budget Report"
             contentId="budget-table-container"
             :printStyles="printStyles"
+            class="d-none d-lg-inline-block"
           ></print-helper>
         </div>
         <div class="float-right">
@@ -207,7 +208,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import {debounceEvent} from '../js/utils.js';
+import { debounceEvent } from '../js/utils.js';
 import axios from 'axios';
 import Autocomplete from '../components/Autocomplete.vue';
 import ReportHeader from '../components/ReportHeader.vue';
@@ -585,9 +586,14 @@ export default {
     });
 
     self.expandTable = window.innerWidth > 575;
-    debounceEvent(window, 'resize', () => {
-      self.expandTable = window.innerWidth > 575;
-    }, 100);
+    debounceEvent(
+      window,
+      'resize',
+      () => {
+        self.expandTable = window.innerWidth > 575;
+      },
+      100
+    );
   },
 };
 </script>
