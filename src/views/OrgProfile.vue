@@ -15,14 +15,14 @@
           header-bg-variant="dark"
           header-text-variant="light"
         >
-          <!-- <b-img
-                 rounded
-                 center
-                 height="180"
-                 width="180"
-                 class="mx-auto m-1 border border-dark"
-                 :src="orgImg"
-          ></b-img>-->
+          <b-img
+            rounded
+            center
+            height="150"
+            width="150"
+            class="mx-auto m-2 border border-dark"
+            :src="orgImg"
+          ></b-img>
           <b-form-group
             label="Image"
             label-size="sm"
@@ -923,6 +923,7 @@ export default {
                   solid: true,
                 }
               );
+              this.getOrgImage();
               break;
             case 2:
               this.loading = false;
