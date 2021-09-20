@@ -54,7 +54,7 @@ export default {
       type: String,
       required: false,
       default: 'dd-mm-yyyy',
-      validator: function (value) {
+      validator: function(value) {
         return ['yyyy-mm-dd', 'dd-mm-yyyy'].indexOf(value) !== -1;
       },
       note: `The format, input will be provided in. 
@@ -97,8 +97,10 @@ export default {
     inputStyle: {
       type: Object,
       required: false,
-      default: () => {return {}}
-    }
+      default: () => {
+        return {};
+      },
+    },
   },
   data() {
     return {
@@ -136,7 +138,7 @@ export default {
   },
   watch: {
     input(newInput) {
-      // console.log(newInput)
+      // console.log('In input');
       if (this.validateFormat(newInput, this.format)) {
         const newDate = this.toInternalFormat(newInput);
         if (this.date !== newDate) {
@@ -155,18 +157,32 @@ export default {
       }
     },
     date(newDate) {
-      if (this.validateFormat(newDate, 'yyyy-mm-dd')) {
-        const newInput = this.toExternalFormat(newDate);
-        if (this.input !== newInput) {
-          this.input = newInput;
-          this.onDateUpdate(newDate); // emit internal format for v-model
-          this.setDateValidity(this.validateDate(newDate)); // must use internal format for validation
+      // console.log('In Date');
+      let loop = true;
+      while (loop) {
+        if (this.validateFormat(newDate, 'yyyy-mm-dd')) {
+          // console.log('date valid');
+          const newInput = this.toExternalFormat(newDate);
+          if (this.input !== newInput) {
+            this.input = newInput;
+            this.onDateUpdate(newDate); // emit internal format for v-model
+            this.setDateValidity(this.validateDate(newDate)); // must use internal format for validation
+          } else {
+            // console.log('input exists');
+          }
+          loop = false;
+        } else if (!newDate) {
+          // console.log('date not valid but empty');
+          // "input" is not updated here, as the user may want
+          // to update the faulty date via input field
+          this.$emit('input', '');
+          this.setDateValidity(null);
+          loop = false;
+        } else {
+          // console.log('Date not valid and not empty');
+          // console.log(newDate);
+          newDate = this.toInternalFormat(newDate);
         }
-      } else if (!newDate) {
-        // "input" is not updated here, as the user may want
-        // to update the faulty date via input field
-        this.$emit('input', '');
-        this.setDateValidity(null);
       }
     },
     // "date" and "input" are user's way of updating the component
@@ -244,7 +260,10 @@ export default {
       let date = '';
       switch (this.format) {
         case 'dd-mm-yyyy': {
-          date = input.split('-').reverse().join('-');
+          date = input
+            .split('-')
+            .reverse()
+            .join('-');
           break;
         }
         case 'yyyy-mm-dd':
@@ -259,13 +278,17 @@ export default {
      * toExternalFormat
      *
      * Given a date, converts it from internal format (yyyy-mm-dd)
-     * to external format (based on props)
+     * to external format (based on props).
+     * Usually used for displaying.
      */
     toExternalFormat(date) {
       let input = '';
       switch (this.format) {
         case 'dd-mm-yyyy': {
-          input = date.split('-').reverse().join('-');
+          input = date
+            .split('-')
+            .reverse()
+            .join('-');
           break;
         }
         case 'yyyy-mm-dd':
@@ -356,6 +379,15 @@ export default {
       }
       return result;
     },
+  },
+  mounted() {
+    if (this.value) {
+      if (!this.date) {
+        this.date = this.formatOutput
+          ? this.toInternalFormat(this.value)
+          : this.value;
+      }
+    }
   },
 };
 </script>
