@@ -52,7 +52,7 @@
           ></b-icon>
         </b-button>
         <br />
-        <print-helper contentId="transaction-print-page" :printStyles="printStyles"> </print-helper>
+        <print-helper class="d-none d-lg-inline-block" contentId="transaction-print-page" :printStyles="printStyles"> </print-helper>
       </div>
     </div>
   </b-modal>
