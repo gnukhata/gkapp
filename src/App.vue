@@ -13,7 +13,7 @@
               :src="orgImg"
               width="30"
               height="30"
-              class="rounded d-inline-block align-top"
+              class="d-inline-block align-top"
               alt="logo"
             />
           </router-link>
@@ -25,7 +25,6 @@
             {{ this.orgName || 'GNUKhata' }}
           </div>
         </b-navbar-brand>
-        <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="userAuthenticated" right>
             <template #button-content>
@@ -44,8 +43,6 @@
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
-        <!-- <b-collapse id="nav-collapse" is-nav>
-        </b-collapse>-->
         <!-- Change password dialog -->
         <b-modal
           ref="change-pwd-close"
