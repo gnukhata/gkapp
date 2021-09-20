@@ -61,6 +61,7 @@
           :items="balance.gross"
           :fields="netfields"
           :filter="search"
+          class="table-border-dark"
           small
           primary-key="accountname"
           bordered
@@ -81,6 +82,7 @@
         <!-- Gross Trial Balance -->
         <b-table
           v-if="trialBalanceType === 'Gross'"
+          class="table-border-dark"
           :items="balance.net"
           :fields="grossfields"
           :filter="search"
@@ -95,6 +97,7 @@
         <!-- Extended Trial Balance -->
         <b-table
           v-if="trialBalanceType === 'Extended'"
+          class="table-border-dark"
           :items="balance.extended"
           :fields="extendedfields"
           filter="search"

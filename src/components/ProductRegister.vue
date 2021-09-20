@@ -49,18 +49,44 @@
             ></autocomplete>
           </b-form-group>
           <b-button type="submit" variant="success" class="float-right"
-            ><b-icon icon="cloud-download"></b-icon> Get Details</b-button
+            ><b-icon icon="eye-fill"></b-icon> View</b-button
           >
         </b-form>
       </b-card>
     </b-overlay>
-
-    <!-- Stock Table -->
-    <div v-if="report.length > 0 && !showGodowns" class="mb-5">
+    <!-- report -->
+    <div v-if="report.length > 0" class="mt-2">
+      <!-- filters -->
+      <b-form-checkbox-group
+        @change="applyFilters"
+        class="text-center mb-2"
+        v-model="invoiceFilter"
+        name="flavour-2"
+      >
+        <b-form-checkbox value="invoice"
+          ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
+        >
+        <b-form-checkbox value="Rejection Note"
+          ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
+          Note</b-form-checkbox
+        >
+        <b-form-checkbox value="Debit / Credit Note"
+          ><b-icon icon="file-diff" variant="warning"></b-icon> Debit/Credit
+          Note</b-form-checkbox
+        >
+      </b-form-checkbox-group>
+      <!-- search bar -->
+      <div class="gkcard mx-auto mb-4">
+        <b-form-input
+          v-model="search"
+          class="border-dark"
+          placeholder="search invoices"
+        ></b-form-input>
+      </div>
       <report-header>
         <template>
           <div class="text-center">
-            Product Name:
+            Product Register:
             <b>{{
               productList.filter((p) => p['value'] == productId)[0]['text']
             }}</b>
@@ -71,139 +97,92 @@
           </div>
         </template>
       </report-header>
-      <b-table-simple
-        class="mt-3"
+      <!-- result table -->
+      <b-table
         small
-        responsive="sm"
-        bordered
+        class="table-border-dark"
         striped
-        hover
-        caption-top
+        head-variant="dark"
+        :items="report"
+        responsive="sm"
+        :fields="fields"
+        :filter="search"
       >
-        <b-thead head-variant="dark">
-          <b-tr>
-            <b-th>Date</b-th>
-            <b-th>Particulars</b-th>
-            <b-th>Document Type</b-th>
-            <b-th>Document Id</b-th>
-            <b-th>RN No.</b-th>
-            <b-th>Inward</b-th>
-            <b-th>Outward</b-th>
-            <b-th>Balance</b-th>
-          </b-tr>
-        </b-thead>
-        <b-tbody>
-          <b-tr v-for="(row, index) in report" :key="index">
-            <b-th class="font-weight-normal">{{ row.date }}</b-th>
-            <b-th
-              :class="
-                row.particulars == 'Total'
-                  ? 'font-weight-bold'
-                  : 'font-weight-normal'
+        <!-- Transaction type -->
+        <template #cell(particulars)="data">
+          <div v-if="data.item.trntype === 'invoice'">
+            <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
+            <b-link
+              @click="
+                $router.push(
+                  '/Workflow/Transactions-Invoice/' + data.item.invid
+                )
               "
-              :variant="row.particulars == 'Total' ? 'warning' : ''"
-              >{{ row.particulars }}</b-th
             >
-            <b-th class="font-weight-normal">{{ row.trntype }}</b-th>
-            <router-link :to="'/workflow/Transactions-Invoice/' + row.invid">
-              <b-th class="font-weight-normal">{{ row.invno }}</b-th>
-            </router-link>
-            <b-th class="font-weight-normal">{{ row.rnno }}</b-th>
-            <b-th v-if="row.particulars == 'Total'">{{
-              row.totalinwardqty
-            }}</b-th>
-            <b-th v-else-if="row.particulars == 'opening stock'">{{
-              row.inward
-            }}</b-th>
-            <b-th class="font-weight-normal" v-else> {{ row.inwardqty }} </b-th>
-
-            <b-th v-if="row.particulars == 'Total'">{{
-              row.totaloutwardqty
-            }}</b-th>
-            <b-th class="font-weight-normal" v-else>
-              {{ row.outwardqty }}
-            </b-th>
-            <b-th class="font-weight-normal">{{ row.balance }}</b-th>
-          </b-tr>
-        </b-tbody>
-      </b-table-simple>
+              {{ data.item.invno }}</b-link
+            >
+          </div>
+          <div v-else-if="data.item.trntype == 'Rejection Note'">
+            <b-icon variant="danger" icon="journal-x"></b-icon>
+            {{ data.item.particulars }} :
+            <b-link
+              @click="
+                $router.push(
+                  '/Workflow/Transactions-RejectionNote/' + data.item.rnid
+                )
+              "
+            >
+              {{ data.item.rnno }}</b-link
+            >
+          </div>
+          <div v-else-if="data.item.trntype === 'debit/credit note'">
+            {{ data.item.particulars }} :
+            <b-icon variant="warning" icon="file-diff"></b-icon>
+            <b-link
+              @click="
+                $router.push(
+                  '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
+                )
+              "
+            >
+              {{ data.item.drcrno }}</b-link
+            >
+          </div>
+          <div v-else class="font-weight-bold">
+            {{ data.item.particulars }}
+          </div>
+        </template>
+        <template #cell(inward)="data">
+          <div class="text-right">
+            <span v-if="data.item.particulars === 'opening stock'">{{
+              data.item.inward
+            }}</span>
+            <span v-if="data.item.particulars === 'Total'">{{
+              data.item.totalinwardqty
+            }}</span>
+            <span v-else>{{ data.item.inwardqty }}</span>
+          </div>
+        </template>
+        <!-- Outward -->
+        <template #cell(outward)="data">
+          <div class="text-right">
+            <span v-if="data.item.particulars === 'opening stock'">{{
+              data.item.outward
+            }}</span>
+            <span v-if="data.item.particulars === 'Total'">{{
+              data.item.totaloutwardqty
+            }}</span>
+            <span v-else>{{ data.item.outwardqty }}</span>
+          </div>
+        </template>
+        <!-- balance -->
+        <template #cell(balance)="data"
+          ><div class="text-right">{{ data.item.balance }}</div>
+        </template>
+      </b-table>
     </div>
-    <!-- Godown Wise Stock Table -->
-    <b-table-simple
-      v-model="godownReport"
-      v-if="godownReport.length > 0 && showGodowns"
-      class="mt-3"
-      small
-      responsive="sm"
-      bordered
-      striped
-      hover
-      caption-top
-    >
-      <caption>
-        <report-header>
-          <template>
-            <div class="text-center">
-              Product Name:
-              <b>{{
-                productList.filter((p) => p['value'] == productId)[0]['text']
-              }}</b>
-              | From
-              <b>{{ fromDate }}</b>
-              to
-              <b>{{ toDate }}</b>
-            </div>
-          </template>
-        </report-header>
-      </caption>
-      <b-thead head-variant="dark">
-        <b-tr>
-          <b-th>Date</b-th>
-          <b-th>Particulars</b-th>
-          <b-th>Document Type</b-th>
-          <b-th>Document Id</b-th>
-          <b-th>RN No.</b-th>
-          <b-th>Inward</b-th>
-          <b-th>Outward</b-th>
-          <b-th>Balance</b-th>
-        </b-tr>
-      </b-thead>
-      <b-tbody>
-        <b-tr v-for="(row, index) in godownReport" :key="index">
-          <b-th class="font-weight-normal">{{ row.date }}</b-th>
-          <b-th
-            :class="
-              row.particulars == 'Total'
-                ? 'font-weight-bold'
-                : 'font-weight-normal'
-            "
-            :variant="row.particulars == 'Total' ? 'warning' : ''"
-            >{{ row.particulars }}</b-th
-          >
-          <b-th class="font-weight-normal">{{ row.trntype }}</b-th>
-          <router-link :to="'/workflow/Transactions-Invoice/' + row.invid">
-            <b-th class="font-weight-normal">{{ row.invno }}</b-th>
-          </router-link>
-          <b-th class="font-weight-normal">{{ row.rnno }}</b-th>
-          <b-th v-if="row.particulars == 'Total'">{{
-            row.totalinwardqty
-          }}</b-th>
-          <b-th v-else-if="row.particulars == 'opening stock'">{{
-            row.inward
-          }}</b-th>
-          <b-th class="font-weight-normal" v-else> {{ row.inwardqty }} </b-th>
-
-          <b-th v-if="row.particulars == 'Total'">{{
-            row.totaloutwardqty
-          }}</b-th>
-          <b-th class="font-weight-normal" v-else> {{ row.outwardqty }} </b-th>
-          <b-th class="font-weight-normal">{{ row.balance }}</b-th>
-        </b-tr>
-      </b-tbody>
-    </b-table-simple>
   </section>
 </template>
-
 <script>
 import axios from 'axios';
 import Autocomplete from './Autocomplete.vue';
@@ -216,15 +195,44 @@ export default {
   data() {
     return {
       productList: [],
+      search: '',
       loading: false,
       productId: null,
       fromDate: '',
       toDate: '',
       report: [],
+      report2: [],
       godowns: [],
       showGodowns: false,
       godownId: '',
       godownReport: [],
+      invoiceFilter: [],
+      fields: [
+        {
+          key: 'date',
+          label: 'Date',
+          sortable: true,
+        },
+        {
+          key: 'particulars',
+          label: 'Particulars',
+        },
+        {
+          key: 'inward',
+          label: 'Inward',
+          class: 'text-right',
+        },
+        {
+          key: 'outward',
+          label: 'Outward',
+          class: 'text-center',
+        },
+        {
+          key: 'balance',
+          label: 'Balance',
+          class: 'text-center',
+        },
+      ],
     };
   },
   methods: {
@@ -233,6 +241,23 @@ export default {
         this.getGodownStock();
       } else {
         this.getStockReport();
+      }
+    },
+    applyFilters() {
+      if (this.invoiceFilter.length !== 0) {
+        let items = [];
+        console.log(this.invoiceFilter);
+        for (let i in this.invoiceFilter) {
+          this.report = this.report2.filter((data) => {
+            if (data.trntype === this.invoiceFilter[i]) {
+              items.push(data);
+              return;
+            }
+          });
+        }
+        this.report = items;
+      } else {
+        this.report = this.report2;
       }
     },
     getStockReport() {
@@ -247,6 +272,7 @@ export default {
             switch (data.gkstatus) {
               case 0:
                 this.report = data.gkresult;
+                this.report2 = data.gkresult;
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {
@@ -297,8 +323,8 @@ export default {
         )
         .then((r) => {
           if (r.status == 200) {
-            this.godownReport = r.data.gkresult;
-            this.showCard = false;
+            this.report = r.data.gkresult;
+            //             this.showCard = false;
           }
           this.loading = false;
         });
