@@ -100,6 +100,9 @@
             <b-nav-item to="/closebooks">
               <b-icon icon="journals"></b-icon> Close Books / Roll Over
             </b-nav-item>
+            <b-nav-item to="/bank-recon">
+              <b-icon icon="journals"></b-icon> Bank Reconciliation
+            </b-nav-item>
           </b-collapse>
 
           <!-- Inventory -->

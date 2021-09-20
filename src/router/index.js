@@ -445,6 +445,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "ledger-ac" */ '../views/LedgerFull.vue'),
   },
+  {
+    // ac=accountcode
+    path: '/bank-recon',
+    name: 'Bank_Reconc',
+    component: () =>
+      import(/* webpackChunkName: "ledger-ac" */ '../views/BankRecon.vue'),
+  },
 ];
 
 const router = new VueRouter({
