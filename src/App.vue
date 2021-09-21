@@ -61,6 +61,7 @@
     <main role="main" class="mb-5">
       <router-view />
     </main>
+    <go-to></go-to>
     <title-bar></title-bar>
   </div>
 </template>
@@ -70,9 +71,10 @@ import ColorBar from '@/components/ColorBar.vue';
 import ChangePwd from '@/components/form/ChangePwd.vue';
 import Sidebar from './components/Sidebar.vue';
 import TitleBar from './components/TitleBar.vue';
+import GoTo from './components/GoTo.vue';
 export default {
   name: 'App',
-  components: { ColorBar, ChangePwd, Sidebar, TitleBar },
+  components: { ColorBar, ChangePwd, Sidebar, TitleBar, GoTo },
   computed: {
     activeNav: (self) => self.$route.name,
     ...mapState([
