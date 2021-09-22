@@ -5,6 +5,53 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
+# Meeting history (2021-09-20)
+
+Agenda:
+
+-   Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+
+-   Karthik:
+    -   Search & filter in product register
+    -   Sidebar updates from past week's feedback
+    -   Hugo template cleanup, add blog & download pages
+-   Survesh:
+    -   Bank Reconciliation
+    -   Links to ledger from Accounts, Balance sheet pages
+    -   Bug fixes: (CSS transfer issue when printing, Date Auto population issue)
+    -   Hide print buttons in mobile view
+
+Points Discussed:
+
+-   Comments on Bank Reconcilliation page,
+    -   Radio Buttons could be replaced with checkboxes so that the user could 
+        choose to view more than one table of data at a time.
+    -   See if its possible to add links to ledger page from Bank Reconciliation.
+-   Comments on removing print buttons in mobile view,
+    -   Print buttons were removed in mobile screens as print options provided by the browser 
+        do not work in mobile phones.
+    -   As a replacement, pdf and spreadsheet generators are required, so that the data can be 
+        downloaded and printed later on.
+-   The app's versioning color strip in the app, must be updated on every commit.
+-   Comments on Product register page,
+    -   The search & Filter used here could be generalised and used across the app.
+    -   Use of icons and color codes must be preferred for distinguishing the various filters, 
+        as just color coding may not be helpfull for users with color blindness.
+-   The priority order of the remaining tasks,
+    1.  GST support
+    2.  Import/Export Data
+    3.  Printable pdf
+    4.  Printable Spreadsheets, CSV
+
+Conclusion:
+
+-   Updates will be performed based on the points discussed above.
+
+
 # Meeting history (2021-09-13)
 
 Agenda:
