@@ -20,7 +20,7 @@
       striped
       sort-direction="asc"
       head-variant="dark"
-      class="mx-auto rtable"
+      class="mx-auto rtable table-border-dark"
       hover
       fixed
       outlined
@@ -35,17 +35,21 @@
       </template>
       <template #cell(manage)="data">
         <!-- edit cost center button -->
-        <b-button
+        <b-icon
+          icon="pencil-square"
+          role="button"
           @click="showEditCostCenter(data.item.id)"
           size="sm"
           class="mr-1"
-          variant="light"
-          ><b-icon icon="pencil-square" variant="dark"></b-icon
-        ></b-button>
+          variant="dark"
+        ></b-icon>
         <!-- delete cost center button -->
-        <b-button @click="confirm(data.item)" size="sm" variant="light"
-          ><b-icon icon="trash-fill" variant="danger"></b-icon
-        ></b-button>
+        <b-icon
+          role="button"
+          icon="trash"
+          variant="danger"
+          @click="confirm(data.item)"
+        ></b-icon>
       </template>
     </b-table>
     <b-modal
@@ -85,8 +89,8 @@ export default {
       searchText: '',
       fields: [
         { key: 'name', sortable: true },
-        { key: 'sanctioned_amount', sortable: true },
-        { key: 'manage' },
+        { key: 'sanctioned_amount', class: 'text-right', sortable: true },
+        { key: 'manage', class: 'text-right' },
       ],
       costCenters: [],
       ccId: '',
