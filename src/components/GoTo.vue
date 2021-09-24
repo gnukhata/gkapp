@@ -1,26 +1,26 @@
 <template>
   <b-modal
-    title="Search Menu"
     hide-footer
     header-bg-variant="dark"
     header-text-variant="light"
     v-model="toggleModal"
     ref="goto-modal"
   >
+    <template #modal-header>
+      <div><b-icon icon="search"></b-icon> Search GNUKhata</div>
+    </template>
     <b-form ref="gotoform" class="mb-5" @submit.prevent="navigate">
-      <div class="d-flex justify-content-center">
-        <div class="mr-1">
-          <autocomplete
-            v-model="selectedUrl"
-            placeholder="Search Menu"
-            :options="finalRoutes"
-            textField="name"
-            valueField="path"
-          ></autocomplete>
-        </div>
-        <div>
-          <b-button size="sm" variant="dark" type="submit"> Go!</b-button>
-        </div>
+      <autocomplete
+        ref="gksearch"
+        v-model="selectedUrl"
+        placeholder="Select / Search Menu"
+        :options="finalRoutes"
+        textField="name"
+        valueField="path"
+        @input="navigate"
+      ></autocomplete>
+      <div class="mt-3 text-center">
+        <span class="text-muted">Press <kbd>ESC</kbd> to exit </span>
       </div>
     </b-form>
   </b-modal>
@@ -45,6 +45,7 @@ export default {
       this.selectedUrl = '';
       this.toggleModal = false;
     },
+    // remove dynamic routes
     filterRoutes() {
       const re = new RegExp(':');
       this.finalRoutes = routes.options.routes.filter((route) => {
@@ -56,7 +57,7 @@ export default {
   },
   created() {
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'OS') {
+      if (event.key === 'Home') {
         this.toggleModal = !this.toggleModal;
       }
     });
