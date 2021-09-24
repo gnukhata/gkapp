@@ -23,11 +23,11 @@
       :busy="isLoading"
       style="margin: auto"
       head-variant="dark"
+      class="table-border-dark"
       hover
       outlined
       striped
       small
-      class="table"
     >
       <template #table-busy>
         <div class="text-center">
@@ -38,25 +38,27 @@
       <!-- data.item.edit is userid -->
       <template #cell(user)="data">
         <b-link
-          @click="$router.push(`/users/${data.item.edit}`)"
+          @click="$router.push(`/users/${data.item.userid}`)"
           title="click to edit contact"
           variant="dark"
           size="sm"
           >{{ data.item.user }}</b-link
         >
-        <!-- <b>{{ data.item.user }} </b> -->
-        <!-- <b-icon
-                 icon="pencil"
-                 class="mr-1"
-                 @click="showEditUser(data.item.edit)"
-                 ></b-icon> -->
       </template>
-      <template #cell(edit)="data">
+      <template #cell(action)="data">
         <b-icon
           icon="pencil-square"
           class="mr-1"
-          scale="2x"
-          @click="showEditUser(data.item.edit)"
+          @click="$router.push('/users/' + data.item.userid)"
+          role="button"
+        ></b-icon>
+        <b-icon
+          v-if="data.item.roleid !== -1"
+          icon="trash"
+          variant="danger"
+          class="ml-1"
+          role="button"
+          @click="confirm(data.item)"
         ></b-icon>
       </template>
     </b-table>
@@ -78,6 +80,10 @@ export default {
         },
         {
           key: 'role',
+          sortable: true,
+        },
+        {
+          key: 'action',
         },
       ],
       userList: [],
@@ -90,6 +96,24 @@ export default {
     ...mapState(['authToken', 'gkCoreUrl']),
   },
   methods: {
+    confirm(obj) {
+      this.$bvModal
+        .msgBoxConfirm(`Delete user ${obj.user} ?`, {
+          centered: true,
+          size: 'md',
+          okVariant: 'danger',
+          okTitle: 'Delete',
+          headerBgVariant: 'danger',
+          headerTextVariant: 'light',
+        })
+        // delete user is confirmed
+        .then((r) => {
+          if (r) {
+            this.deleteUser(obj.user, obj.userid);
+            return;
+          }
+        });
+    },
     getUsers() {
       this.isLoading = true;
       axios
@@ -97,11 +121,12 @@ export default {
         .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
             let usr = r.data.gkresult.map((data) => {
-              let obj = {};
-              obj.user = Object.values(data)[1];
-              obj.role = Object.values(data)[3];
-              obj.edit = Object.values(data)[0]; // user id
-              return obj;
+              return {
+                user: data.username,
+                role: data.userrolename,
+                roleid: data.userrole,
+                userid: data.userid,
+              };
             });
             this.userList = usr;
             this.isLoading = false;
@@ -111,9 +136,45 @@ export default {
           console.log(e);
         });
     },
-    showEditUser(id) {
-      this.selectedUserId = id;
-      this.$bvModal.show('edit-user');
+    deleteUser(name, id) {
+      this.isLoading = true;
+      axios
+        .delete('/users', {
+          headers: {
+            gktoken: this.authToken,
+          },
+          data: {
+            userid: id,
+          },
+        })
+        .then((r) => {
+          if (r.status == 200 && r.data.gkstatus == 0) {
+            this.$bvToast.toast(`${name} removed successfully`, {
+              title: 'Delete Success',
+              variant: 'success',
+              solid: true,
+            });
+
+            // Add delete user log to server
+            const payload = {
+              activity: `user ${this.name} deleted`,
+            };
+            axios.post(`${this.gkCoreUrl}/log`, payload, {
+              headers: { gktoken: this.authToken },
+            });
+            // refresh user list
+            this.getUsers();
+            this.isLoading = false;
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            title: e.message,
+            variant: 'danger',
+            solid: true,
+          });
+          this.isLoading = false;
+        });
     },
   },
   mounted() {
