@@ -97,7 +97,7 @@ export default {
         self.$emit('after-print');
         printWindow.close();
       };
-      printWindow.onload = function(e) {
+      printWindow.onload = function() {
         printWindow.print();
       };
     },
