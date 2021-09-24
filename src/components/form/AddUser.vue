@@ -206,6 +206,9 @@ export default {
       // remove spaces in username
       this.newUser.username = this.newUser.username.split(' ').join('');
       // username should be atleast three characters
+      if (this.newUser.username === '') {
+        return null;
+      }
       if (this.newUser.username.length <= 2) {
         return false;
       } else {
@@ -219,7 +222,6 @@ export default {
      */
     getGodowns() {
       this.isLoading = true;
-      console.log('fetching godowns');
       axios
         .get(`${this.gkCoreUrl}/godown`, {
           headers: { gktoken: this.authToken },
