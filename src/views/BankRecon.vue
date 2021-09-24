@@ -149,11 +149,11 @@ export default {
       tableType: 0,
       tableTypeOptions: [
         {
-          text: 'Uncleared Vocuhers',
+          text: 'Uncleared Vouchers',
           value: 0,
         },
         {
-          text: 'Cleared Vocuhers',
+          text: 'Cleared Vouchers',
           value: 1,
         },
         {
