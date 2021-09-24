@@ -13,7 +13,7 @@
               :src="orgImg"
               width="30"
               height="30"
-              class="rounded d-inline-block align-top"
+              class="d-inline-block align-top"
               alt="logo"
             />
           </router-link>
@@ -25,7 +25,6 @@
             {{ this.orgName || 'GNUKhata' }}
           </div>
         </b-navbar-brand>
-        <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="userAuthenticated" right>
             <template #button-content>
@@ -44,8 +43,6 @@
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
-        <!-- <b-collapse id="nav-collapse" is-nav>
-        </b-collapse>-->
         <!-- Change password dialog -->
         <b-modal
           ref="change-pwd-close"
@@ -64,6 +61,7 @@
     <main role="main" class="mb-5">
       <router-view />
     </main>
+    <go-to></go-to>
     <title-bar></title-bar>
   </div>
 </template>
@@ -73,9 +71,10 @@ import ColorBar from '@/components/ColorBar.vue';
 import ChangePwd from '@/components/form/ChangePwd.vue';
 import Sidebar from './components/Sidebar.vue';
 import TitleBar from './components/TitleBar.vue';
+import GoTo from './components/GoTo.vue';
 export default {
   name: 'App',
-  components: { ColorBar, ChangePwd, Sidebar, TitleBar },
+  components: { ColorBar, ChangePwd, Sidebar, TitleBar, GoTo },
   computed: {
     activeNav: (self) => self.$route.name,
     ...mapState([

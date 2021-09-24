@@ -10,15 +10,19 @@
 
       <b-card-group deck>
         <!-- general Card -->
-        <b-card header="General" header-bg-variant="dark" header-text-variant="light">
-          <!-- <b-img
-                 rounded
-                 center
-                 height="180"
-                 width="180"
-                 class="mx-auto m-1 border border-dark"
-                 :src="orgImg"
-          ></b-img>-->
+        <b-card
+          header="General"
+          header-bg-variant="dark"
+          header-text-variant="light"
+        >
+          <b-img
+            rounded
+            center
+            height="150"
+            width="150"
+            class="mx-auto m-2 border border-dark"
+            :src="orgImg"
+          ></b-img>
           <b-form-group
             label="Image"
             label-size="sm"
@@ -27,7 +31,7 @@
             content-cols="8"
           >
             <b-form-file
-              @change="prepareImg"
+              @input="prepareImg"
               v-model="details.logo"
               size="sm"
               accept="image/*"
@@ -35,40 +39,134 @@
               drop-placeholder="Drop file here..."
             ></b-form-file>
           </b-form-group>
-          <b-form-group label="Name" label-size="sm" label-align="right" label-cols="4">
-            <b-form-input v-model="details.orgname" size="sm" type="text" required></b-form-input>
+          <b-form-group
+            label="Name"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
+            <b-form-input
+              v-model="details.orgname"
+              size="sm"
+              type="text"
+              required
+            ></b-form-input>
           </b-form-group>
-          <b-form-group label="Website" label-size="sm" label-align="right" label-cols="4">
-            <b-form-input v-model="details.orgwebsite" size="sm" type="text"></b-form-input>
+          <b-form-group
+            label="Website"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
+            <b-form-input
+              v-model="details.orgwebsite"
+              size="sm"
+              type="text"
+            ></b-form-input>
           </b-form-group>
-          <b-form-group label="Email" label-size="sm" label-align="right" label-cols="4">
-            <b-form-input v-model="details.orgemail" size="sm" type="email"></b-form-input>
+          <b-form-group
+            label="Email"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
+            <b-form-input
+              v-model="details.orgemail"
+              size="sm"
+              type="email"
+            ></b-form-input>
           </b-form-group>
         </b-card>
         <!-- Contact Card -->
-        <b-card header="Contact Details" header-bg-variant="dark" header-text-variant="light">
+        <b-card
+          header="Contact Details"
+          header-bg-variant="dark"
+          header-text-variant="light"
+        >
           <b-form-group label="Address" label-cols="4" label-align="right">
-            <b-form-input v-model="details.orgaddr" size="sm" type="text" required></b-form-input>
+            <b-form-input
+              v-model="details.orgaddr"
+              size="sm"
+              type="text"
+              required
+            ></b-form-input>
           </b-form-group>
-          <b-form-group label="City" label-size="sm" label-align="right" label-cols="4">
-            <b-form-input v-model="details.orgcity" size="sm" type="text" required></b-form-input>
+          <b-form-group
+            label="City"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
+            <b-form-input
+              v-model="details.orgcity"
+              size="sm"
+              type="text"
+              required
+            ></b-form-input>
           </b-form-group>
-          <b-form-group label="State" label-size="sm" label-align="right" label-cols="4">
-            <b-form-select v-model="stateCode" size="sm" :options="states" required></b-form-select>
+          <b-form-group
+            label="State"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
+            <b-form-select
+              v-model="stateCode"
+              size="sm"
+              :options="states"
+              required
+            ></b-form-select>
           </b-form-group>
-          <b-form-group label="Country" label-size="sm" label-align="right" label-cols="4">
-            <b-form-input v-model="details.orgcountry" size="sm" type="text" required></b-form-input>
+          <b-form-group
+            label="Country"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
+            <b-form-input
+              v-model="details.orgcountry"
+              size="sm"
+              type="text"
+              required
+            ></b-form-input>
           </b-form-group>
-          <b-form-group label="Pincode" label-size="sm" label-align="right" label-cols="4">
-            <b-form-input v-model="details.orgpincode" size="sm" type="text"></b-form-input>
+          <b-form-group
+            label="Pincode"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
+            <b-form-input
+              v-model="details.orgpincode"
+              size="sm"
+              type="text"
+            ></b-form-input>
           </b-form-group>
-          <b-form-group label="Phone" label-size="sm" label-align="right" label-cols="4">
+          <b-form-group
+            label="Phone"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
             <b-input-group>
-              <b-form-input v-model="details.orgtelno" size="sm" type="text"></b-form-input>
+              <b-form-input
+                v-model="details.orgtelno"
+                size="sm"
+                type="text"
+              ></b-form-input>
             </b-input-group>
           </b-form-group>
-          <b-form-group label="Fax" label-size="sm" label-align="right" label-cols="4">
-            <b-form-input v-model="details.orgfax" size="sm" type="text"></b-form-input>
+          <b-form-group
+            label="Fax"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
+            <b-form-input
+              v-model="details.orgfax"
+              size="sm"
+              type="text"
+            ></b-form-input>
           </b-form-group>
         </b-card>
       </b-card-group>
@@ -79,17 +177,53 @@
           header-bg-variant="dark"
           header-text-variant="light"
         >
-          <b-form-group label="Name" label-cols="4" label-size="sm" label-align="right">
-              <b-form-input v-model="bankDetails.bankname" size="sm" type="text"></b-form-input>
+          <b-form-group
+            label="Name"
+            label-cols="4"
+            label-size="sm"
+            label-align="right"
+          >
+            <b-form-input
+              v-model="bankDetails.bankname"
+              size="sm"
+              type="text"
+            ></b-form-input>
           </b-form-group>
-          <b-form-group label="Account Number" label-cols="4" label-size="sm" label-align="right">
-            <b-form-input v-model="bankDetails.accountno" size="sm" type="text"></b-form-input>
+          <b-form-group
+            label="Account Number"
+            label-cols="4"
+            label-size="sm"
+            label-align="right"
+          >
+            <b-form-input
+              v-model="bankDetails.accountno"
+              size="sm"
+              type="text"
+            ></b-form-input>
           </b-form-group>
-          <b-form-group label="Branch" label-cols="4" label-size="sm" label-align="right">
-            <b-form-input v-model="bankDetails.branchname" size="sm" type="text"></b-form-input>
+          <b-form-group
+            label="Branch"
+            label-cols="4"
+            label-size="sm"
+            label-align="right"
+          >
+            <b-form-input
+              v-model="bankDetails.branchname"
+              size="sm"
+              type="text"
+            ></b-form-input>
           </b-form-group>
-          <b-form-group label="IFSC Code" label-cols="4" label-size="sm" label-align="right">
-            <b-form-input v-model="bankDetails.ifsc" size="sm" type="text"></b-form-input>
+          <b-form-group
+            label="IFSC Code"
+            label-cols="4"
+            label-size="sm"
+            label-align="right"
+          >
+            <b-form-input
+              v-model="bankDetails.ifsc"
+              size="sm"
+              type="text"
+            ></b-form-input>
           </b-form-group>
         </b-card>
         <!-- Tax card-->
@@ -124,10 +258,19 @@
             label-align="right"
             label-cols="4"
           >
-            <b-form-input v-model="details.orgstax" size="sm" type="text"></b-form-input>
+            <b-form-input
+              v-model="details.orgstax"
+              size="sm"
+              type="text"
+            ></b-form-input>
           </b-form-group>
 
-          <b-form-group label="GSTIN" label-size="sm" label-cols="4" label-align="right">
+          <b-form-group
+            label="GSTIN"
+            label-size="sm"
+            label-cols="4"
+            label-align="right"
+          >
             <div
               v-for="(gst, sc, index) in gstin"
               :key="index"
@@ -143,7 +286,12 @@
               >
                 <b-icon font-scale="0.95" icon="pencil"></b-icon>
               </b-button>
-              <b-button class="text-small" size="sm" variant="danger" @click="deleteGstin(sc)">
+              <b-button
+                class="text-small"
+                size="sm"
+                variant="danger"
+                @click="deleteGstin(sc)"
+              >
                 <b-icon font-scale="0.95" icon="trash"></b-icon>
               </b-button>
             </div>
@@ -157,14 +305,24 @@
               <b-icon class="align-middle" icon="plus"></b-icon>GSTIN
             </b-button>
           </b-form-group>
-          <b-form-group label="CESS" label-size="sm" label-cols="4" label-align="right">
+          <b-form-group
+            label="CESS"
+            label-size="sm"
+            label-cols="4"
+            label-align="right"
+          >
             <div
               v-for="(value, cessAmount, index) in cess"
               :key="index"
               class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
             >
               <b :style="{ width: '25px' }">{{ cessAmount }}</b>
-              <b-button class size="sm" variant="danger" @click="deleteCess(cessAmount)">
+              <b-button
+                class
+                size="sm"
+                variant="danger"
+                @click="deleteCess(cessAmount)"
+              >
                 <b-icon font-scale="0.95" icon="trash"></b-icon>
               </b-button>
             </div>
@@ -207,7 +365,11 @@
     >
       <b-form>
         <b-form-group label="State" label-cols="auto">
-          <b-form-select required v-model="gstinModal.stateCode" :options="states"></b-form-select>
+          <b-form-select
+            required
+            v-model="gstinModal.stateCode"
+            :options="states"
+          ></b-form-select>
         </b-form-group>
         <b-form-group label="GSTIN" label-cols="auto">
           <div class="d-flex">
@@ -217,7 +379,12 @@
               disabled
               style="max-width: 3em"
             ></b-form-input>
-            <b-form-input v-model="details.orgpan" type="text" class="ml-1 mr-1" disabled></b-form-input>
+            <b-form-input
+              v-model="details.orgpan"
+              type="text"
+              class="ml-1 mr-1"
+              disabled
+            ></b-form-input>
             <b-form-input
               type="text"
               title="Format: [Number] [Alphabet] [Number / Alphabet]"
@@ -234,7 +401,8 @@
           variant="success"
           @click="ok()"
           :disabled="!isGstinValid"
-        >{{ gstinModal.mode === 'create' ? 'Add' : 'Update' }}</b-button>
+          >{{ gstinModal.mode === 'create' ? 'Add' : 'Update' }}</b-button
+        >
       </template>
     </b-modal>
     <!-- Add CESS -->
@@ -269,7 +437,8 @@
           variant="success"
           @click="ok()"
           :disabled="!(cessModal.rate > 0)"
-        >{{ cessModal.mode === 'create' ? 'Add' : 'Update' }}</b-button>
+          >{{ cessModal.mode === 'create' ? 'Add' : 'Update' }}</b-button
+        >
       </template>
     </b-modal>
   </section>
@@ -326,7 +495,7 @@ export default {
     };
   },
   computed: {
-    isGstinValid: function () {
+    isGstinValid: function() {
       if (
         this.gstinModal.stateCode !== null &&
         this.regex.pan.test(this.details.orgpan) &&
@@ -470,7 +639,7 @@ export default {
     /**Create / Update the CESS accounts, based on the CESS rates and the states in GSTIN list */
     async updateCessAccounts() {
       let cess = Object.keys(this.cess);
-      let saveAccount = function (payload) {
+      let saveAccount = function(payload) {
         return axios.post('/accounts', payload);
       };
 
@@ -533,7 +702,9 @@ export default {
         requests.push(axios.get(`/state?abbreviation&statecode=${code}`));
       });
       return Promise.all(requests).then((res) => {
-        return res.filter((r1) => r1.data.gkstatus === 0 ).map((r2) => r2.data.abbreviation);
+        return res
+          .filter((r1) => r1.data.gkstatus === 0)
+          .map((r2) => r2.data.abbreviation);
       });
     },
     /** returns the account codes for CESS accounts that are no longer required.
@@ -699,9 +870,6 @@ export default {
         });
       });
     },
-    /**
-     * Update organisation details
-     */
     getBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -717,9 +885,13 @@ export default {
     },
     prepareImg() {
       this.getBase64(this.details.logo).then((r) => {
-        this.details.logo = r;
+        console.log(r);
+        this.details.logo = r.split(',')[1];
       });
     },
+    /**
+     * Update organisation details
+     */
     updateOrg() {
       this.loading = true;
       delete this.details.statelist;
@@ -751,6 +923,7 @@ export default {
                   solid: true,
                 }
               );
+              this.getOrgImage();
               break;
             case 2:
               this.loading = false;
