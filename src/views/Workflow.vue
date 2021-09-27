@@ -423,7 +423,8 @@
             ></b-button>
             <h5 class="ml-3 mb-0">
               <b-icon :icon="selectedEntity.icon"></b-icon>
-              {{ selectedEntity.noteName }} : <br class="d-none d-lg-inline-block" />
+              {{ selectedEntity.noteName }} :
+              <br class="d-none d-lg-inline-block" />
               {{ selectedEntity.no }}
             </h5>
             <print-helper
@@ -594,7 +595,7 @@ export default {
   watch: {
     wfName: function(wfname) {
       // Run when visiting a workflow page using URL, when already in a workflow page
-      if(this.activeWorkflow.name !== wfname) {
+      if (this.activeWorkflow.name !== wfname) {
         this.autoSetActiveWorkflow();
       }
     },
@@ -687,7 +688,21 @@ export default {
         });
       if (sortBy.length) {
         // this.activeTabOptions.sortBy = sortBy;
-        this.activeTabOptions.setListColumns(this.orgCode, sortBy);
+        this.activeTabOptions
+          .setListColumns(sortBy)
+          .then((resp) => {
+            if (resp.gkstatus === 0) {
+              this.$bvToast.toast('Update column config success!', {
+                variant: 'success',
+                solid: true,
+              });
+            } else {
+              this.$bvToast.toast('Update column config failure!', {
+                variant: 'danger',
+                solid: true,
+              });
+            }
+          });
       }
     },
     updateListHeight() {

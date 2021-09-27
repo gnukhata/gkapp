@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { PAGES, CONFIGS } from '../../enum.js';
 const config = {
   icon: 'receipt',
   color: 'success',
@@ -185,39 +186,54 @@ const config = {
   setListColumns: setColumns,
 };
 
-function initColumns(orgCode) {
+function initColumns() {
   // debugger;
-  let columns =
-    JSON.parse(localStorage.getItem(`${orgCode}-workflow-dnote-columns`)) || [];
-  if (!columns.length) {
-    columns = [
-      {
-        label: 'Date',
-        key: 'dateObj',
-        sortable: true,
-      },
-      {
-        label: 'Name',
-        key: 'custname',
-        sortable: true,
-      },
-      {
-        label: 'No.',
-        key: 'dcno',
-        sortable: true,
-      },
-    ];
-  }
-  config.fields = columns;
+  let columns = [];
+  axios.get('/config?conftype=user').then((resp) => {
+    if (resp.data.gkstatus === 0) {
+      let userConf = resp.data.gkresult[PAGES['workflow-delivery-note']];
+
+      if (userConf) {
+        columns = userConf[CONFIGS['workflow-left-pane-columns']];
+      }
+    }
+    if (!columns.length) {
+      columns = [
+        {
+          label: 'Date',
+          key: 'dateObj',
+          sortable: true,
+        },
+        {
+          label: 'Name',
+          key: 'custname',
+          sortable: true,
+        },
+        {
+          label: 'No.',
+          key: 'dcno',
+          sortable: true,
+        },
+      ];
+    }
+    config.fields = columns;
+  });
 }
 
-function setColumns(orgCode, columns) {
+function setColumns(columns) {
   if (Array.isArray(columns) && columns.length <= 3) {
-    localStorage.setItem(
-      `${orgCode}-workflow-dnote-columns`,
-      JSON.stringify(columns)
-    );
-    config.fields = columns;
+    const payload = {
+      config: columns,
+      path: [PAGES['workflow-delivery-note'], CONFIGS['workflow-left-pane-columns']],
+    };
+    return axios
+      .put('/config?conftype=user&update=path', payload)
+      .then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          config.fields = columns;
+        }
+        return resp.data;
+      });
   }
 }
 
