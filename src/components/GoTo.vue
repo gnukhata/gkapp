@@ -7,7 +7,7 @@
     ref="goto-modal"
   >
     <template #modal-header>
-      <div><b-icon icon="search"></b-icon> Search GNUKhata</div>
+      <div><b-icon icon="search"></b-icon> Search Menu</div>
     </template>
     <b-form ref="gotoform" class="mb-5" @submit.prevent="navigate">
       <autocomplete
