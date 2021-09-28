@@ -1,0 +1,14 @@
+#+TITLE: Todo
+
+# Toggle checkboxes with C-c C-x C-b
+- [ ] User management library
+  - [ ] Hashing passwords
+  - [ ] CRUD on user ops
+  - [ ] auth
+  - [ ] Roles
+
+- [ ] GST Compliance
+- [ ] Import / export data
+- [ ] Print pdf in mobile view
+- [ ] Downloadable spreadsheets
+- [ ] Website
