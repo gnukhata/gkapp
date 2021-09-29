@@ -29,12 +29,13 @@
             label-align="right"
             lable-cols="4"
             content-cols="8"
+            description="Image size should be less than 1 MB"
           >
             <b-form-file
               @input="prepareImg"
               v-model="details.logo"
               size="sm"
-              accept="image/*"
+              accept="image/jpeg, image/png"
               placeholder="Choose a file / Drag & drop it here"
               drop-placeholder="Drop file here..."
             ></b-form-file>
@@ -870,6 +871,9 @@ export default {
         });
       });
     },
+    /*
+     * Image Handling methods
+     */
     getBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -877,18 +881,47 @@ export default {
         reader.onload = () => resolve(reader.result);
         reader.onerror = (error) => reject(error);
       });
-      // const reader = new FileReader();
-      // reader.readAsDataURL(this.details.logo);
-      // reader.onload = () => {
-      //   console.log(reader.result);
-      // };
     },
     prepareImg() {
-      this.getBase64(this.details.logo).then((r) => {
-        console.log(r);
-        this.details.logo = r.split(',')[1];
-      });
+      console.log('Initial img quality', this.details.logo);
+      const imageSize = (this.details.logo.size / 1000000).toFixed(2);
+      // if img size is less than 1 MB just convert it to base64 string. Else compress it
+      if (imageSize <= 1) {
+        this.getBase64(this.details.logo).then((r) => {
+          this.details.logo = r.split(',')[1];
+        });
+      } else {
+        this.$bvModal.msgBoxOk('Please use a image with size less than 1MB', {
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          headerClass: 'p-2 border-bottom-0',
+          footerClass: 'p-2 border-top-0',
+          centered: true,
+        });
+      } // this.getBase64(this.details.logo)
+      //   .then((r) => {
+      //     console.log(r);
+      //   })
+      //   .catch((e) => {
+      //     console.log(e);
+      //   });
+      //
     },
+    // compressImage(file) {
+    //   let output;
+    //   new Compressor(file, {
+    //     quality: 0.6,
+    //     success(result) {
+    //       output = result;
+    //       console.log('img compressed');
+    //     },
+    //     error(err) {
+    //       console.log(err);
+    //     },
+    //   });
+    //   return output;
+    // },
     /**
      * Update organisation details
      */

@@ -9,11 +9,9 @@ import wb from './registerServiceWorker';
 import store from './store';
 import '@/scss/main.scss';
 import axios from 'axios';
-import hotkeys from 'hotkeys-js';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
-Vue.prototype.$hotkeys = hotkeys;
 
 store.commit('initStore'); // initialize the required vuex states from local storage
 
