@@ -29,7 +29,7 @@
             label-align="right"
             lable-cols="4"
             content-cols="8"
-            description="Image size should be less than 1 MB"
+            description="Image size should be less than 1 MB. jpeg & png images are only supported"
           >
             <b-form-file
               @input="prepareImg"
