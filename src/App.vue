@@ -61,7 +61,7 @@
     <main role="main" class="mb-5">
       <router-view />
     </main>
-    <go-to></go-to>
+    <go-to v-if="userAuthenticated"></go-to>
     <title-bar></title-bar>
   </div>
 </template>
