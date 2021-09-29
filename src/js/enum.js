@@ -8,12 +8,12 @@ const PAGES = {
   'workflow-rejection-note': 70,
   'workflow-transfer-note': 80,
   'workflow-voucher': 90,
-  'workflow-business': 20,
-  'workflow-contacts': 20,
+  'workflow-business': 100,
+  'workflow-contacts': 110,
 };
 
 const CONFIGS = {
-  'workflow-left-pane-columns': 100,
+  'workflow-left-pane-columns': 11,
 };
 
 Object.freeze(PAGES);
