@@ -234,7 +234,7 @@ function initColumns() {
         columns = userConf[CONFIGS['workflow-left-pane-columns']];
       }
     }
-    if (!columns.length) {
+    if (!columns || !columns.length) {
       columns = [
         {
           label: 'Date',
