@@ -8,6 +8,70 @@ development, features, outline plans for next release. Feel free to join
 us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
+* Meeting history (2021-09-28)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-09-28
+  :END:
+Agenda:
+ - Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+- Karthik:
+  - Menu search modal
+  - Org image upload fix
+  - Added download page for website
+- Survesh:
+  - Store client side config in DB 
+    - Added Config fields in user and organisation tables
+    - API to Read and Edit config
+    - Store workflow page, left pane's config using config API
+
+Points Discussed:
+- Comments on storing client side config in DB,
+  - Need version control of the DB, so that any change is tracked.
+  - Need proper validation of the JSON based config before it is stored in the DB.
+    The structure of the json and the value types that can be stored needs to 
+    be validated.
+  - Maintain a wiki that describes the structure of the config and its possible values.
+  - Need a UI feature to reset the configs and go back to square one when needed.
+- Discussions on the need for a good user management library and tasks 
+  to be done there after,
+  - Currently we do not hash or salt our passwords and security question's answers.
+  - Using a proper user management library will take care of tasks like password encryption,
+    authentication, password recovery, CRUD opertations etc.
+  - Things to look out for after using a user management library,
+    - Write access to the "users" table must only be with the library and not with any 
+      public API's.
+    - Existing User's who were created without the library must not be locked out of their 
+      system, once this library is integrated. Proper testing has to be performed.
+    - During password recovery, if the user doesn't have access to emails and admin is 
+      providing them with a password, the application must force updation of password 
+      after logging in.
+- Discussions on the Global search feature,
+  - Try to convert the global search feature into an advanced search feature.
+  - For example, it would be nice if we could search for particular product from a 
+    products listing page.
+  - Check libre office for inspiration.
+  - Since the current search is used for navigation, it could named as Quick Access.
+- Comments on image upload feature in organisation profile,
+  - It would be nice add validations and restrictions based on the image type and size.
+  - For example, restricting files uploaded to be of type jpeg/png and max size 1MB.
+  - It would be nice to use a third party library that performs the above tasks.
+  - An image processor that converts any uploaded image, to a standard format and size would
+    also be a good addition in the backend.
+- Points discussed on the procedure for deleting users,
+  - It would be nice to add a password validation before deleting users to increase security.
+  - Also the ability to deactivate or suspend a user from logging in would be a nice addition 
+    to deleting a user, where all the users created can be persisted.
+  - Try to use decorators in python like @admin so that only users with certain privileges 
+    can access the certain API's.
+  - Maintain a wiki that describes the various roles a user can have and the actions that they
+    can perform in the app.
+
+Conclusion:
+- Updates will be performed based on the points discussed above.
 
 * Meeting history (2021-09-20)
   :PROPERTIES:
