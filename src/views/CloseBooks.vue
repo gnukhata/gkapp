@@ -1,5 +1,5 @@
 <template>
-  <section class="m-1">
+  <section class="m-2">
     <!-- {{ details }} -->
     <!-- Close Books -->
     <b-card
@@ -33,7 +33,7 @@
         label="Current Financial Year:"
       >
         <div class="row">
-          <div class="col-6">
+          <div class="col-sm-4">
             <b-form-group
               content-cols="auto"
               id="input-group-3"
@@ -41,47 +41,23 @@
               label-for="date-1"
             >
               <b-input-group class="mb-3">
-                <b-form-input
+                <gk-date
+                  :readonly="true"
+                  id="cb-from"
                   v-model="details.yearstart"
-                  type="text"
-                  disabled
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="date-1"
-                    disabled
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
+                ></gk-date>
               </b-input-group>
             </b-form-group>
           </div>
-          <div class="col">
+          <div class="col-sm-4">
             <b-form-group
               content-cols="auto"
               id="input-group-4"
               label="To"
               label-for="date-2"
             >
-              <b-input-group class="mb-3">
-                <b-form-input
-                  v-model="details.yearend"
-                  type="text"
-                  disabled
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="date-2"
-                    disabled
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
+              <b-input-group>
+                <gk-date id="cb-to" v-model="details.yearend"></gk-date>
               </b-input-group>
             </b-form-group>
           </div>
@@ -92,6 +68,7 @@
         class="float-right"
         @click="confirm('close')"
         variant="dark"
+        size="sm"
       >
         <b-icon icon="journal"></b-icon> Close Books
       </b-button>
@@ -102,10 +79,9 @@
 
     <!-- Roll Over -->
     <b-card
-      header-bg-variant="info"
+      header-bg-variant="dark"
       header-text-variant="light"
-      style="max-width: 40em; margin: auto"
-      class="mt-4"
+      class="mt-4 gkcard mx-auto"
     >
       <b-overlay :show="isLoading" no-wrap></b-overlay>
 
@@ -126,66 +102,6 @@
           </div>
         </div>
       </template>
-      <b-form-group
-        id="input-group-2"
-        label-class="font-weight-bold"
-        label="Current Financial Year:"
-      >
-        <div class="row">
-          <div class="col-6">
-            <b-form-group
-              content-cols="auto"
-              id="input-group-3"
-              label="From"
-              label-for="date-1"
-            >
-              <b-input-group class="mb-3">
-                <b-form-input
-                  v-model="details.yearstart"
-                  type="text"
-                  disabled
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="date-1"
-                    disabled
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
-              </b-input-group>
-            </b-form-group>
-          </div>
-          <div class="col">
-            <b-form-group
-              content-cols="auto"
-              id="input-group-4"
-              label="To"
-              label-for="date-2"
-            >
-              <b-input-group class="mb-3">
-                <b-form-input
-                  v-model="details.yearend"
-                  type="text"
-                  disabled
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="date-2"
-                    disabled
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
-              </b-input-group>
-            </b-form-group>
-          </div>
-        </div>
-      </b-form-group>
       <!-- Set New Financial Year -->
       <b-form @submit.prevent="confirm">
         <b-form-group
@@ -194,7 +110,7 @@
           label="New Financial Year:"
         >
           <div class="row">
-            <div class="col-6">
+            <div class="col-sm-4">
               <b-form-group
                 content-cols="auto"
                 id="input-group-3"
@@ -202,28 +118,11 @@
                 label-for="date-1"
               >
                 <b-input-group>
-                  <b-form-input
-                    id="setyearEnd"
-                    v-model="newYearStart"
-                    type="text"
-                    required
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-form-datepicker
-                      button-only
-                      right
-                      locale="en-GB"
-                      aria-controls="start-date"
-                      v-model="newYearStart"
-                      @context="setYearEnd"
-                      required
-                    >
-                    </b-form-datepicker>
-                  </b-input-group-append>
+                  <gk-date id="ro-from" v-model="newYearStart"></gk-date>
                 </b-input-group>
               </b-form-group>
             </div>
-            <div class="col">
+            <div class="col-sm-4">
               <b-form-group
                 content-cols="auto"
                 id="input-group-4"
@@ -231,22 +130,7 @@
                 label-for="date-2"
               >
                 <b-input-group class="mb-3">
-                  <b-form-input
-                    v-model="newYearEnd"
-                    required
-                    type="text"
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-form-datepicker
-                      v-model="newYearEnd"
-                      button-only
-                      right
-                      locale="en-GB"
-                      aria-controls="date-2"
-                      required
-                    >
-                    </b-form-datepicker>
-                  </b-input-group-append>
+                  <gk-date id="ro-from" v-model="newYearEnd"></gk-date>
                 </b-input-group>
               </b-form-group>
             </div>
@@ -256,18 +140,18 @@
           :disabled="details.booksclosedflag == 0"
           type="submit"
           class="float-right"
-          variant="info"
+          variant="dark"
+          size="sm"
         >
           <b-icon icon="calendar-check"></b-icon> Roll Over
         </b-button>
       </b-form>
-      <b-alert v-if="details.roflag == 1" show variant="info"
+      <b-alert v-if="details.roflag == 1" show variant="success"
         >Roll Over is done for this financial year</b-alert
       >
     </b-card>
   </section>
 </template>
-
 <script>
 /**
  * This module implements close books & roll over functionality. Only admin can perform this
@@ -277,7 +161,10 @@
  *  - Hook the functions to action buttons in confirm() method
  */
 import axios from 'axios';
+import GkDate from '../components/GkDate.vue';
+import GkFormDate from '../components/GkFormDate.vue';
 export default {
+  components: { GkDate, GkFormDate },
   name: 'CloseBooks',
   data() {
     return {
