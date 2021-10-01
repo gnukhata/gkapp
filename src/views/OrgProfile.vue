@@ -496,6 +496,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(['gkCoreUrl', 'orgImg']),
     isGstinValid: function() {
       if (
         this.gstinModal.stateCode !== null &&
@@ -508,7 +509,6 @@ export default {
     },
     isPanValid: (self) =>
       self.details.orgpan ? self.regex.pan.test(self.details.orgpan) : null,
-    ...mapState(['gkCoreUrl']),
   },
   methods: {
     /**
@@ -883,12 +883,15 @@ export default {
       });
     },
     prepareImg() {
-      console.log('Initial img quality', this.details.logo);
       const imageSize = (this.details.logo.size / 1000000).toFixed(2);
       // if img size is less than 1 MB just convert it to base64 string. Else compress it
       if (imageSize <= 1) {
         this.getBase64(this.details.logo).then((r) => {
           this.details.logo = r.split(',')[1];
+          this.$store.commit(
+            'updateOrgImg',
+            'data:image/jpg;base64,' + this.details.logo
+          );
         });
       } else {
         this.$bvModal.msgBoxOk('Please use a image with size less than 1MB', {
@@ -899,7 +902,9 @@ export default {
           footerClass: 'p-2 border-top-0',
           centered: true,
         });
-      } // this.getBase64(this.details.logo)
+        delete this.details.logo;
+      }
+      // this.getBase64(this.details.logo)
       //   .then((r) => {
       //     console.log(r);
       //   })
@@ -1165,7 +1170,6 @@ export default {
     },
   },
   mounted() {
-    this.getOrgImage();
     this.init().then(() => {
       if (this.details.orgstate && this.states.length) {
         let state = this.states.find(

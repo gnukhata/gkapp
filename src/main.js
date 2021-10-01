@@ -18,14 +18,12 @@ store.commit('initStore'); // initialize the required vuex states from local sto
 Vue.mixin({
   data() {
     return {
-      orgImg: 'img/gk.png',
       sidebarToggle: false,
       userRole: Number,
     };
   },
   computed: {
     // https://cli.vuejs.org/guide/mode-and-env.html#modes
-
     gkConfig() {
       return {
         mode: process.env.NODE_ENV || 'production',
@@ -74,7 +72,8 @@ Vue.mixin({
         .get('/organisation?attach=image')
         .then((r) => {
           if (r.status == 200 && r.data.logo !== null) {
-            this.orgImg = `data:image/jpg;base64,${r.data.logo}`;
+            const payload = `data:image/jpg;base64,${r.data.logo}`;
+            this.$store.commit('updateOrgImg', payload);
           }
         })
         .catch((e) => {

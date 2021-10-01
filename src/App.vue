@@ -83,6 +83,7 @@ export default {
       'gkCoreUrl',
       'authToken',
       'userAuthenticated',
+      'orgImg',
     ]),
   },
   methods: {
