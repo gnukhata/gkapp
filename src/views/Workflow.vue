@@ -315,7 +315,7 @@
               @row-selected="setSelectedEntity"
               :ref="`list-${tabName}`"
               :id="`list-${tabName}`"
-              :filter="activeTabOptions.data.length ? 'a' : null"
+              :filter="activeTabOptions.data.length && activeWorkflow.tabName === tabName ? 'a' : null"
               :filter-function="filterTable"
               sort-by="dateObj"
               :sort-desc="true"
@@ -688,21 +688,19 @@ export default {
         });
       if (sortBy.length) {
         // this.activeTabOptions.sortBy = sortBy;
-        this.activeTabOptions
-          .setListColumns(sortBy)
-          .then((resp) => {
-            if (resp.gkstatus === 0) {
-              this.$bvToast.toast('Update column config success!', {
-                variant: 'success',
-                solid: true,
-              });
-            } else {
-              this.$bvToast.toast('Update column config failure!', {
-                variant: 'danger',
-                solid: true,
-              });
-            }
-          });
+        this.activeTabOptions.setListColumns(sortBy).then((resp) => {
+          if (resp.gkstatus === 0) {
+            this.$bvToast.toast('Update column config success!', {
+              variant: 'success',
+              solid: true,
+            });
+          } else {
+            this.$bvToast.toast('Update column config failure!', {
+              variant: 'danger',
+              solid: true,
+            });
+          }
+        });
       }
     },
     updateListHeight() {
@@ -871,7 +869,10 @@ export default {
           .then((resp) => {
             activeWorkflow.data = resp;
             self.isLoading = false;
-            this.selectFirstListItem();
+            // select first item only if wfId = -1, i.e. nothing is selected
+            if (parseInt(self.wfId) > -1) {
+              this.selectFirstListItem();
+            }
             return true;
           })
           .catch((e) => {
@@ -879,7 +880,10 @@ export default {
             self.isLoading = false;
           });
       } else {
-        this.selectFirstListItem();
+        // select first item only if wfId = -1, i.e. nothing is selected
+        if (parseInt(self.wfId) > -1) {
+          this.selectFirstListItem();
+        }
       }
     },
     /** Sets the active workflow based on the URL props */
@@ -1077,19 +1081,20 @@ export default {
     },
     initSelectedEntity(tab) {
       const self = this;
+      self.$forceUpdate();
       self.$nextTick().then(() => {
+        let table = self.$refs[`list-${self.activeWorkflow.tabName}`][0];
         let wfId = parseInt(self.wfId);
         let key = tab.uidKey;
+        // table.sortedItems will have the filtered and sorted items
         let entityIndex =
           parseInt(self.wfId) >= 0
-            ? tab.data.findIndex((item) => item[key] === wfId)
+            ? table.sortedItems.findIndex((item) => item[key] === wfId)
             : 0;
         if (entityIndex >= 0) {
           self.selectedEntityIndex = entityIndex;
-          self.$refs[`list-${self.activeWorkflow.tabName}`][0].clearSelected();
-          self.$refs[`list-${self.activeWorkflow.tabName}`][0].selectRow(
-            entityIndex
-          );
+          table.clearSelected();
+          table.selectRow(entityIndex);
         }
       });
     },
