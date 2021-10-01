@@ -438,7 +438,7 @@ export default {
       }
     },
     getReport() {
-      if (!this.budId) {
+      if (parseInt(this.budId) < 0) {
         return;
       }
       if (this.options.reports[this.budId]) {
