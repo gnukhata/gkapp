@@ -37,15 +37,15 @@ Vue.mixin({
     //   return process.env.NODE_ENV
     // },
     currentDate() {
-      let dt = new Date();
+      const dt = new Date();
       const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate();
-      const mm =
-        dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt.getMonth();
+      const actualMonth = dt.getMonth() + 1;
+      const mm = actualMonth < 10 ? `0${actualMonth}` : actualMonth;
       const yy = dt.getFullYear();
       return `${yy}-${mm}-${dd}`;
     },
     dateReverse(date) {
-      let d = date.split('-').reverse();
+      const d = date.split('-').reverse();
       return `${d[0]}-${d[1]}-${d[2]}`;
     },
     /**
