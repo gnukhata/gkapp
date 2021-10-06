@@ -164,9 +164,8 @@
  */
 import axios from 'axios';
 import GkDate from '../components/GkDate.vue';
-import GkFormDate from '../components/GkFormDate.vue';
 export default {
-  components: { GkDate, GkFormDate },
+  components: { GkDate },
   name: 'CloseBooks',
   data() {
     return {
