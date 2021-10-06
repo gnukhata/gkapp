@@ -53,11 +53,8 @@
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios';
-import Godown from '../components/form/Godown.vue';
-import GodownEdit from './GodownEdit.vue';
 export default {
   name: 'Godowns',
-  components: { Godown, GodownEdit },
   data() {
     return {
       searchText: '',
@@ -88,12 +85,12 @@ export default {
           if (r.status == 200) {
             let u = r.data.gkresult.map((data) => {
               let obj = {};
-              obj.goid = Object.values(data)[2];
-              obj.godown_name = Object.values(data)[3];
-              obj.state = Object.values(data)[6];
-              obj.address = Object.values(data)[4];
-              obj.contact_person = Object.values(data)[7];
-              obj.contact_number = Object.values(data)[5];
+              obj.goid = data.goid;
+              obj.godown_name = data.goname;
+              obj.state = data.state;
+              obj.address = data.goaddr;
+              obj.contact_person = data.contactname;
+              obj.contact_number = data.gocontact;
               return obj;
             });
             this.allGodowns = u;

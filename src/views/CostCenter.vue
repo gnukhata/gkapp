@@ -118,9 +118,9 @@ export default {
           if (r.status == 200) {
             let u = r.data.gkresult.map((data) => {
               let obj = {};
-              obj.id = Object.values(data)[0];
-              obj.name = Object.values(data)[1];
-              obj.sanctioned_amount = Object.values(data)[2];
+              obj.id = data.projectcode;
+              obj.name = data.projectname;
+              obj.sanctioned_amount = data.sanctionedamount;
               obj.manage = null;
               return obj;
             });
