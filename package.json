@@ -11,7 +11,7 @@
   "dependencies": {
     "bootstrap-vue": "^2.21.2",
     "check-password-strength": "^1.0.15",
-    "core-js": "^3.17.2",
+    "core-js": "^3.18.2",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.14",
     "vue-router": "^3.5.2",
@@ -34,7 +34,7 @@
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
     "prettier": "^1.19.1",
-    "sass": "^1.39.0",
+    "sass": "^1.42.1",
     "sass-loader": "^10.2.0",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-bootstrap-vue": "~0.7.0",
