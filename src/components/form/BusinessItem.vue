@@ -2,7 +2,7 @@
   <div class="card" :style="{ minWidth: '300px' }">
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
-    <div class="card-header text-left py-2">
+    <div class="card-header bg-dark text-left text-light py-2">
       <b>Business Item Details</b>
       <slot name="close-button"> </slot>
     </div>
@@ -13,7 +13,7 @@
             <b-row>
               <b-col cols="5" class="mb-3">
                 <b-form-radio-group
-                  button-variant="outline-primary"
+                  button-variant="outline-dark"
                   v-model="type"
                   buttons
                   size="sm"
@@ -43,7 +43,7 @@
               </b-col>
             </b-row>
             <b-card
-              border-variant="primary"
+              border-variant="dark"
               class="mb-3"
               v-if="!isService"
               no-body
@@ -79,7 +79,8 @@
                       id="bi-input-3"
                       placeholder=""
                       v-model="form.stock.value"
-                      type="number" no-wheel
+                      type="number"
+                      no-wheel
                       step="0.01"
                     ></b-form-input>
                   </b-input-group>
@@ -125,7 +126,8 @@
                         <b-form-input
                           size="sm"
                           v-model="godown.value"
-                          type="number" no-wheel
+                          type="number"
+                          no-wheel
                           step="0.01"
                           placeholder="Stock qty"
                         ></b-form-input>
@@ -151,7 +153,7 @@
                 </b-card>
               </b-card-body>
             </b-card>
-            <b-card border-variant="primary" no-body>
+            <b-card border-variant="dark" no-body>
               <b-card-body class="p-2">
                 <b>Price</b>
                 <b-form-group
@@ -165,7 +167,8 @@
                       id="bi-input-4"
                       placeholder=""
                       v-model="form.mrp"
-                      type="number" no-wheel
+                      type="number"
+                      no-wheel
                       step="0.01"
                     ></b-form-input>
                   </b-input-group>
@@ -182,7 +185,8 @@
                       id="bi-input-5"
                       placeholder=""
                       v-model="form.salePrice"
-                      type="number" no-wheel
+                      type="number"
+                      no-wheel
                       step="0.01"
                     ></b-form-input>
                   </b-input-group>
@@ -201,7 +205,8 @@
                           id="bi-input-6"
                           placeholder=""
                           v-model="form.discountAmount"
-                          type="number" no-wheel
+                          type="number"
+                          no-wheel
                           step="0.01"
                         ></b-form-input>
                       </b-input-group>
@@ -213,7 +218,8 @@
                           id="bi-input-11"
                           placeholder=""
                           v-model="form.discountPercent"
-                          type="number" no-wheel
+                          type="number"
+                          no-wheel
                           step="0.01"
                         ></b-form-input>
                       </b-input-group>
@@ -224,7 +230,7 @@
             </b-card>
           </b-col>
           <b-col cols="12" :md="inOverlay ? 12 : 6" lg="6" class="mb-3">
-            <b-card no-body border-variant="primary">
+            <b-card no-body border-variant="dark">
               <b-card-body class="p-2">
                 <b>Tax</b>
                 <b-row>
@@ -272,7 +278,8 @@
                           id="bi-input-8"
                           placeholder=""
                           v-model="form.tax.cess"
-                          type="number" no-wheel
+                          type="number"
+                          no-wheel
                           step="0.01"
                         ></b-form-input>
                       </b-input-group>
@@ -289,7 +296,8 @@
                           id="bi-input-9"
                           placeholder=""
                           v-model="form.tax.cvat"
-                          type="number" no-wheel
+                          type="number"
+                          no-wheel
                           step="0.01"
                         ></b-form-input>
                       </b-input-group>
@@ -319,7 +327,8 @@
                           <b-form-input
                             size="sm"
                             v-model="vat.rate"
-                            type="number" no-wheel
+                            type="number"
+                            no-wheel
                             step="0.01"
                             placeholder="VAT %"
                           ></b-form-input>
@@ -426,18 +435,18 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import Godown from "./Godown";
-import Autocomplete from "../Autocomplete";
+import axios from 'axios';
+import { mapState } from 'vuex';
+import Godown from './Godown';
+import Autocomplete from '../Autocomplete';
 export default {
-  name: "BusinessItem",
+  name: 'BusinessItem',
   components: { Godown, Autocomplete },
   props: {
     mode: {
       type: String,
-      validator: function (value) {
-        return ["create", "edit"].indexOf(value) !== -1;
+      validator: function(value) {
+        return ['create', 'edit'].indexOf(value) !== -1;
       },
       required: true,
     },
@@ -459,12 +468,12 @@ export default {
   data() {
     return {
       showGodownForm: false,
-      type: "product", // product, service
-      blankURL: "http://localhost:1111",
+      type: 'product', // product, service
+      blankURL: 'http://localhost:1111',
       isLoading: false,
       isPreloading: false,
       showOptional: false,
-      uomCode: "UOM",
+      uomCode: 'UOM',
       options: {
         godowns: [],
         states: [],
@@ -473,8 +482,8 @@ export default {
         uomIds: [],
         gstRates: [0, 5, 12, 18, 28],
       },
-      uomTyped: "",
-      uomSelected: "",
+      uomTyped: '',
+      uomSelected: '',
       form: {
         name: null,
         uom: null,
@@ -482,7 +491,7 @@ export default {
           godownFlag: false,
           godowns: [
             {
-              id: "",
+              id: '',
               value: null,
             },
           ], // opening stock based on godown
@@ -496,7 +505,7 @@ export default {
           cess: null,
           gst: null,
           cvat: null,
-          vat: [{ state: "", rate: null }],
+          vat: [{ state: '', rate: null }],
         },
         hsn: null,
       },
@@ -506,14 +515,14 @@ export default {
   computed: {
     isHsnRequired: (self) => self.form.tax.gst > 0 || self.form.tax.cess > 0,
     // uomCode: (self) => (self.uomSelected !== null) ? self.uomSelected.split(' ')[0] : null,
-    isService: (self) => self.type === "service",
-    formType: (self) => (self.type === "product" ? "Product" : "Service"),
-    formMode: (self) => (self.mode === "create" ? "Create" : "Edit"),
+    isService: (self) => self.type === 'service',
+    formType: (self) => (self.type === 'product' ? 'Product' : 'Service'),
+    formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
     titleIcon: (self) =>
-      self.type === "product" ? "cart-variant" : "face-agent",
+      self.type === 'product' ? 'cart-variant' : 'face-agent',
     vatLength: (self) => self.form.tax.vat.length,
     godownLength: (self) => self.form.stock.godowns.length,
-    ...mapState(["gkCoreUrl", "gkCoreTestUrl", "authToken"]),
+    ...mapState(['gkCoreUrl', 'gkCoreTestUrl', 'authToken']),
   },
   watch: {
     uom(newValue) {
@@ -525,7 +534,7 @@ export default {
   },
   methods: {
     addVat() {
-      this.form.tax.vat.push({ state: "", rate: null });
+      this.form.tax.vat.push({ state: '', rate: null });
       setTimeout(() => {
         document
           .getElementById(`vat-inp-${this.vatLength - 1}`)
@@ -536,14 +545,14 @@ export default {
       this.form.tax.vat.splice(index, 1);
     },
     addGodown() {
-      this.form.stock.godowns.push({ id: "", value: "" });
+      this.form.stock.godowns.push({ id: '', value: '' });
     },
     deleteGodown(index) {
       this.form.stock.godowns.splice(index, 1);
     },
     confirmOnSubmit() {
       const self = this;
-      let itemType = (this.isService)? 'Service' : 'Product';
+      let itemType = this.isService ? 'Service' : 'Product';
       let text = `Create ${itemType} <b>${this.form.name}</b>?`;
       let textDom = this.$createElement('div', {
         domProps: {
@@ -572,7 +581,7 @@ export default {
       const payload = this.initPayload();
       console.log(payload);
       axios
-        .post("/products", payload.product)
+        .post('/products', payload.product)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
@@ -589,46 +598,46 @@ export default {
                     taxrate: item.taxrate,
                     productcode: productCode,
                   };
-                  return axios.post("/tax", taxPayload);
+                  return axios.post('/tax', taxPayload);
                 });
                 Promise.all(taxRequests).then(() => {
                   // console.log(responses)
                 });
 
                 // === Server Log ===
-                let logdata = { activity: "" };
-                let name = "";
+                let logdata = { activity: '' };
+                let name = '';
                 if (payload.product.godownflag === true) {
                   let godownIds = Object.keys(payload.product.godetails);
                   // comma separated godown names
                   this.options.godowns.forEach((gdn) => {
-                    if (godownIds.includes(gdn.value + "")) {
-                      name += " " + gdn.text + ",";
+                    if (godownIds.includes(gdn.value + '')) {
+                      name += ' ' + gdn.text + ',';
                     }
                   });
 
                   logdata.activity =
                     payload.product.productdetails.productdesc +
-                    " product created in " +
+                    ' product created in ' +
                     name +
-                    " godowns";
+                    ' godowns';
                 } else {
                   logdata.activity =
                     payload.product.productdetails.productdesc +
-                    " product created";
+                    ' product created';
                 }
-                axios.post("/log", logdata);
+                axios.post('/log', logdata);
 
                 let message = `${this.formType} created successfully`;
 
                 if (name) {
-                  message += " in " + name + " Godowns.";
+                  message += ' in ' + name + ' Godowns.';
                 }
 
                 this.$bvToast.toast(message, {
                   title: `${this.formMode} ${this.formType} Success!`,
                   autoHideDelay: 3000,
-                  variant: "success",
+                  variant: 'success',
                   appendToast: true,
                   solid: true,
                 });
@@ -643,7 +652,7 @@ export default {
                 {
                   title: `${this.formMode} ${this.formType} Error!`,
                   autoHideDelay: 3000,
-                  variant: "warning",
+                  variant: 'warning',
                   appendToast: true,
                   solid: true,
                 }
@@ -653,7 +662,7 @@ export default {
               this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
                 title: `${this.formMode} ${this.formType} Error!`,
                 autoHideDelay: 3000,
-                variant: "warning",
+                variant: 'warning',
                 appendToast: true,
                 solid: true,
               });
@@ -664,7 +673,7 @@ export default {
                 {
                   title: `${this.formMode} ${this.formType} Error!`,
                   autoHideDelay: 3000,
-                  variant: "danger",
+                  variant: 'danger',
                   appendToast: true,
                   solid: true,
                 }
@@ -678,7 +687,7 @@ export default {
           this.$bvToast.toast(`Error: ${error.message}`, {
             title: `${this.formMode} ${this.formType} Error!`,
             autoHideDelay: 3000,
-            variant: "warning",
+            variant: 'warning',
             appendToast: true,
             solid: true,
           });
@@ -730,7 +739,7 @@ export default {
         }
       }
 
-      if (this.uomSelected !== "") {
+      if (this.uomSelected !== '') {
         const uomIndex = this.options.uom.indexOf(this.uomSelected);
         product.productdetails.uomid = this.options.uomIds[uomIndex];
       }
@@ -740,8 +749,8 @@ export default {
       // GST
       if (this.form.tax.gst > 0) {
         tax.push({
-          taxname: "IGST",
-          state: "",
+          taxname: 'IGST',
+          state: '',
           taxrate: parseFloat(this.form.tax.gst) || 0,
         });
       }
@@ -749,8 +758,8 @@ export default {
       // CESS
       if (this.form.tax.cess > 0) {
         tax.push({
-          taxname: "CESS",
-          state: "",
+          taxname: 'CESS',
+          state: '',
           taxrate: parseFloat(this.form.tax.cess) || 0,
         });
       }
@@ -758,8 +767,8 @@ export default {
       // CVAT
       if (this.form.tax.cvat > 0) {
         tax.push({
-          taxname: "CVAT",
-          state: "",
+          taxname: 'CVAT',
+          state: '',
           taxrate: parseFloat(this.form.tax.cvat) || 0,
         });
       }
@@ -770,7 +779,7 @@ export default {
           ...this.form.tax.vat.reduce((acc, vat) => {
             if (vat.state && vat.rate >= 0) {
               acc.push({
-                taxname: "VAT",
+                taxname: 'VAT',
                 state: vat.state,
                 taxrate: parseFloat(vat.rate) || 0,
               });
@@ -821,7 +830,7 @@ export default {
           cess: null,
           gst: null,
           cvat: null,
-          vat: [{ state: "", rate: null }],
+          vat: [{ state: '', rate: null }],
         },
         hsn: null,
       };
@@ -830,7 +839,7 @@ export default {
     fetchGodownList() {
       let self = this;
       return axios
-        .get("/godown")
+        .get('/godown')
         .then((resp) => {
           if (resp.status === 200) {
             if (resp.data.gkstatus === 0) {
@@ -844,34 +853,34 @@ export default {
               });
             } else {
               this.displayToast(
-                "Fetch Product Data Failed!",
-                "Please try again later, if problem persists, contact admin",
-                "danger"
+                'Fetch Product Data Failed!',
+                'Please try again later, if problem persists, contact admin',
+                'danger'
               );
             }
           }
         })
         .catch((error) => {
-          this.displayToast("Fetch Godowns Failed!", error.message, "danger");
+          this.displayToast('Fetch Godowns Failed!', error.message, 'danger');
           return error;
         });
     },
     preloadData() {
       this.isPreloading = true;
       const requests = [
-        axios.get("/unitofmeasurement?qty=all").catch((error) => {
+        axios.get('/unitofmeasurement?qty=all').catch((error) => {
           this.displayToast(
-            "Fetch Unit of Measurement Failed!",
+            'Fetch Unit of Measurement Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
         }),
-        axios.get("/state").catch((error) => {
+        axios.get('/state').catch((error) => {
           this.displayToast(
-            "Fetch State Data Failed!",
+            'Fetch State Data Failed!',
             error.message,
-            "danger"
+            'danger'
           );
           return error;
         }),
@@ -881,7 +890,7 @@ export default {
       const self = this;
       return Promise.all(requests).then(([resp1, resp2, resp3]) => {
         self.isPreloading = false;
-        let preloadErrorList = ""; // To handle the unloaded data, at once than individually
+        let preloadErrorList = ''; // To handle the unloaded data, at once than individually
         /**
          * The data obtained are updated, to be comptaible with the
          * component they are used with (<b-form-select>)
@@ -898,11 +907,11 @@ export default {
               };
             });
             self.uom = self.options.uom.filter(
-              (uom) => uom.value.name === "UNT"
+              (uom) => uom.value.name === 'UNT'
             )[0].value;
             // console.log(resp1.data.gkresult)
           } else {
-            preloadErrorList += " Unit of Measurement List, ";
+            preloadErrorList += ' Unit of Measurement List, ';
           }
         }
 
@@ -916,20 +925,20 @@ export default {
               };
             });
           } else {
-            preloadErrorList += " States,";
+            preloadErrorList += ' States,';
           }
         }
 
         // === Godown List ===
         if (resp3 !== undefined) {
-          preloadErrorList += " Godowns,";
+          preloadErrorList += ' Godowns,';
         }
 
-        if (preloadErrorList !== "") {
+        if (preloadErrorList !== '') {
           this.displayToast(
-            "Error: Unable to Preload Data",
+            'Error: Unable to Preload Data',
             `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
-            "danger"
+            'danger'
           );
         }
       });
@@ -949,4 +958,3 @@ export default {
   },
 };
 </script>
-
