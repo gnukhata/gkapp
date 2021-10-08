@@ -29,6 +29,7 @@ export default new Vuex.Store({
     gkTestUrl: 'http://localhost:6543',
     gkCoreUrl: null,
     orgImg: 'img/gk.png',
+    searchMenu: false,
 
     invoiceParty: {
       id: null,
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     },
     updateOrgImg(state, payload) {
       state.orgImg = payload;
+    },
+    toggleSearchMenu(state, payload) {
+      state.searchMenu = payload;
     },
     // Init the required vuex store states from session storage
     initStore(state) {
