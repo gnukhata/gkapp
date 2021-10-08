@@ -31,6 +31,14 @@
                <b-input size="sm" placeholder="search"></b-input>
                </div> -->
         <b-nav class="text-small text-dark col">
+          <div
+            role="button"
+            @click="$store.commit('toggleSearchMenu', !searchMenu)"
+            class="text-center mr-5 ml-3 mt-3"
+          >
+            <b-icon icon="search"></b-icon>
+            Search Menu
+          </div>
           <!-- master -->
           <h6 v-b-toggle.master class="text-center mr-5 ml-3 mt-3">
             <b-icon
@@ -224,15 +232,17 @@
   </section>
 </template>
 <script>
+import { mapState } from 'vuex';
 export default {
   name: 'Sidebar',
   data() {
     return {
       opened: false,
       collapsed: {},
-    }; // master: false,
-    // admin: false,
-    // reports: false,
+    };
+  },
+  computed: {
+    ...mapState(['searchMenu']),
   },
 };
 </script>
