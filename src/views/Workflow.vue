@@ -315,7 +315,12 @@
               @row-selected="setSelectedEntity"
               :ref="`list-${tabName}`"
               :id="`list-${tabName}`"
-              :filter="activeTabOptions.data.length && activeWorkflow.tabName === tabName ? 'a' : null"
+              :filter="
+                activeTabOptions.data.length &&
+                activeWorkflow.tabName === tabName
+                  ? 'a'
+                  : null
+              "
               :filter-function="filterTable"
               sort-by="dateObj"
               :sort-desc="true"
@@ -911,12 +916,14 @@ export default {
           true
         );
       }
-      if (setActiveWorkflow) {
-        setActiveWorkflow.then(() => {
-          self.initSelectedEntity(tab);
-        });
-      } else {
-        this.initSelectedEntity(tab);
+      if (window.innerWidth > 752) {
+        if (setActiveWorkflow) {
+          setActiveWorkflow.then(() => {
+            self.initSelectedEntity(tab);
+          });
+        } else {
+          this.initSelectedEntity(tab);
+        }
       }
     },
     selectFirstListItem() {
