@@ -3,8 +3,17 @@
     <b-button size="sm" @click="openModal()">
       <b-icon icon="gear"></b-icon>
     </b-button>
-    <b-modal v-model="showModal" header-class="p-2" body-class="px-0 py-2" hide-footer centered size="xl" id="config-modal" :title="title || 'Page Configuration'">
-      <b-container fluid :style="{minWidth: '300px'}">
+    <b-modal
+      v-model="showModal"
+      header-class="p-2"
+      body-class="px-0 py-2"
+      hide-footer
+      centered
+      size="xl"
+      id="config-modal"
+      :title="title || 'Page Configuration'"
+    >
+      <b-container fluid :style="{ minWidth: '300px' }">
         <b-row>
           <b-col cols="12" md="6" class="mb-1 pr-md-2">
             <b>Custom Config</b>
@@ -13,29 +22,63 @@
               placeholder="Enter something..."
               max-rows="12"
               class="px-2"
-              :class="{'border-danger': isFormatError, 'border-success': isFormatSuccess}"
+              :class="{
+                'border-danger': isFormatError,
+                'border-success': isFormatSuccess,
+              }"
               :style="{ height: '300px', maxHeight: '300px' }"
             ></b-form-textarea>
-            <div :style="{fontSize: '0.8rem'}" v-if="isFormatError"> <b-icon icon="x-circle-fill" variant="danger"></b-icon>
-            JSON format error! Fix your JSON structure and try again.
+            <div :style="{ fontSize: '0.8rem' }" v-if="isFormatError">
+              <b-icon icon="x-circle-fill" variant="danger"></b-icon>
+              JSON format error! Fix your JSON structure and try again.
             </div>
-            <div :style="{fontSize: '0.8rem'}" v-if="isFormatSuccess"> <b-icon icon="check-circle-fill" variant="success"></b-icon>
-            Configuration formatted successfully!
+            <div :style="{ fontSize: '0.8rem' }" v-if="isFormatSuccess">
+              <b-icon icon="check-circle-fill" variant="success"></b-icon>
+              Configuration formatted successfully!
             </div>
           </b-col>
-          <b-col cols="12" md="6" class="mb-1 pl-md-2" :class="{'mb-4': !(Object.keys(formattedConfig).length), 'mb-md-1': true}">
+          <b-col
+            cols="12"
+            md="6"
+            class="mb-1 pl-md-2"
+            :class="{
+              'mb-4': !Object.keys(formattedConfig).length,
+              'mb-md-1': true,
+            }"
+          >
             <b>Formatted Config</b>
-            <div class="border border-dark h-100 rounded overflow-auto p-1 position-relative" :style="{ height: '300px', maxHeight: '300px' }">
+            <div
+              class="border border-dark h-100 rounded overflow-auto p-1 position-relative"
+              :style="{ height: '300px', maxHeight: '300px' }"
+            >
               <b-overlay :show="isFormatting" variant="secondary" no-wrap blur>
               </b-overlay>
-              <pre>{{formattedConfig}}</pre>
+              <pre>{{ formattedConfig }}</pre>
             </div>
           </b-col>
         </b-row>
-        <hr class="my-2">
-        <b-button class="mx-1" @click="editDefault()" size="sm" variant="primary">Edit Default</b-button>
-        <b-button size="sm" variant="warning" class="mx-1" @click="formatConfig()">Format</b-button>
-        <b-button class="float-right" size="sm" variant="success" @click="saveConfig()">Save</b-button>
+        <hr class="my-2" />
+        <b-button
+          class="mx-1"
+          @click="editDefault()"
+          size="sm"
+          variant="primary"
+          >Edit Default</b-button
+        >
+        <b-button
+          size="sm"
+          variant="warning"
+          class="mx-1"
+          @click="formatConfig()"
+          >Format</b-button
+        >
+        <b-button
+          class="float-right"
+          size="sm"
+          variant="success"
+          @click="saveConfig()"
+          >Save</b-button
+        >
       </b-container>
     </b-modal>
   </div>
@@ -43,12 +86,12 @@
 
 <script>
 export default {
-  name: "Config",
+  name: 'Config',
   components: {},
   props: {
     title: {
       type: String,
-      required: false
+      required: false,
     },
     getDefault: {
       type: String,
@@ -70,7 +113,7 @@ export default {
       customConfig: JSON.stringify({}),
       isFormatError: false,
       isFormatSuccess: false,
-      isFormatting: false
+      isFormatting: false,
     };
   },
   computed: {
@@ -99,8 +142,8 @@ export default {
       let conf = {};
       Object.keys(defConf).forEach((key) => {
         if (
-          typeof defConf[key] === "object" &&
-          typeof inpConf[key] === "object"
+          typeof defConf[key] === 'object' &&
+          typeof inpConf[key] === 'object'
         ) {
           conf[key] = this.validateConfig(inpConf[key], defConf[key]);
         } else if (inpConf[key] === undefined) {
@@ -129,7 +172,7 @@ export default {
       let conf = {};
       if (inpConf === true) {
         Object.keys(defConf).forEach((key) => {
-          if (typeof defConf[key] === "object") {
+          if (typeof defConf[key] === 'object') {
             conf[key] = this.autoFillConfig(true, defConf[key]);
           } else {
             conf[key] = inpConf;
@@ -138,7 +181,7 @@ export default {
       } else {
         Object.keys(inpConf).forEach((key) => {
           conf[key] = inpConf[key];
-          if (typeof defConf[key] === "object") {
+          if (typeof defConf[key] === 'object') {
             if (inpConf[key] === true) {
               conf[key] = this.autoFillConfig(true, defConf[key]);
             }
@@ -149,58 +192,62 @@ export default {
     },
 
     formatConfig() {
-      let custom = {}
-      this.isFormatting = true
+      let custom = {};
+      this.isFormatting = true;
       try {
-        custom = JSON.parse(this.customConfig)
-        this.isFormatError = false
-        this.isFormatSuccess = true
+        custom = JSON.parse(this.customConfig);
+        this.isFormatError = false;
+        this.isFormatSuccess = true;
 
-        let conf = this.validateConfig(custom, this.defaultConfig)
-        conf = this.autoFillConfig(conf, this.defaultConfig)
-        this.formattedConfig = JSON.stringify(Object.assign(conf, {}), undefined, 2)
-      }
-      catch(error) {
-        this.isFormatError = true
-        this.isFormatSuccess = false
-        console.log("JSON format is not correct")
-        custom = {}
-        this.formattedConfig = JSON.stringify({}, undefined, 2)
+        let conf = this.validateConfig(custom, this.defaultConfig);
+        conf = this.autoFillConfig(conf, this.defaultConfig);
+        this.formattedConfig = JSON.stringify(
+          Object.assign(conf, {}),
+          undefined,
+          2
+        );
+      } catch (error) {
+        this.isFormatError = true;
+        this.isFormatSuccess = false;
+        console.log('JSON format is not correct');
+        custom = {};
+        this.formattedConfig = JSON.stringify({}, undefined, 2);
       }
 
-      let self = this
+      let self = this;
       window.setTimeout(function() {
-        self.isFormatting = false
-      }, 500)
+        self.isFormatting = false;
+      }, 500);
     },
     editDefault() {
-      this.customConfig = JSON.stringify(this.defaultConfig, undefined, 2)
+      this.customConfig = JSON.stringify(this.defaultConfig, undefined, 2);
     },
-    saveConfig () {
-      this.formatConfig()
-      if(this.isFormatSuccess) {
-        this.$store.dispatch(this.setCustom, JSON.parse(this.formattedConfig))
-        this.showModal = false
+    saveConfig() {
+      this.formatConfig();
+      if (this.isFormatSuccess) {
+        this.$store.dispatch(this.setCustom, JSON.parse(this.formattedConfig));
+        this.showModal = false;
         this.$bvToast.toast(`${this.title} was successfully saved`, {
-          title: "Configuration Update Success!!",
+          title: 'Configuration Update Success!!',
           autoHideDelay: 3000,
-          variant: "success",
+          variant: 'success',
           appendToast: true,
           solid: true,
         });
       } else {
-        this.$bvToast.toast(`The Configuration JSON entered could not be parsed, please provide a valid JSON`, {
-          title: "Configuration Update Failure!!",
-          autoHideDelay: 5000,
-          variant: "warning",
-          appendToast: true,
-          solid: true,
-        });
+        this.$bvToast.toast(
+          `The Configuration JSON entered could not be parsed, please provide a valid JSON`,
+          {
+            title: 'Configuration Update Failure!!',
+            autoHideDelay: 5000,
+            variant: 'warning',
+            appendToast: true,
+            solid: true,
+          }
+        );
       }
-    }
+    },
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
-
