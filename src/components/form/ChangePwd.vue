@@ -7,7 +7,12 @@
       label-align="right"
       label="Current Password"
     >
-      <b-form-input type="password" v-model.lazy="currentPwd" required>
+      <b-form-input
+        size="sm"
+        type="password"
+        v-model.lazy="currentPwd"
+        required
+      >
       </b-form-input>
     </b-form-group>
     <b-form-group
@@ -16,7 +21,7 @@
       label-size="sm"
       label="New Password"
     >
-      <password v-model="form.userpassword"></password>
+      <password size="sm" v-model="form.userpassword"></password>
     </b-form-group>
     <b-form-group
       label-cols="4"
@@ -29,6 +34,7 @@
         :state="matchingPwds"
         v-model="confirmPwd"
         required
+        size="sm"
       >
       </b-form-input>
       <b-form-invalid-feedback id="input-live-feedback">
@@ -58,6 +64,7 @@
         no-wheel
         placeholder="Enter the Answer"
         required
+        size="sm"
       >
       </b-form-input>
     </b-form-group>
@@ -102,7 +109,7 @@ export default {
       if (this.confirmPwd === '') {
         return null;
       }
-      if (this.form.userpassword === this.confirmPwd) {
+      if (this.form.userpassword === this.hashedPassword(this.confirmPwd)) {
         return true;
       } else {
         return false;

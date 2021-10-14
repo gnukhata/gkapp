@@ -54,14 +54,20 @@
             label-align="right"
             label-size="sm"
           >
-            <b-form-input
-              id="input-2"
+            <password
               v-model="form.userpassword"
-              placeholder="Enter password"
-              type="password"
+              :password-hint="false"
+              placeholder="Password"
               size="sm"
-              required
-            ></b-form-input>
+            ></password>
+            <!-- <b-form-input
+                   id="input-2"
+                   v-model="form.userpassword"
+                   placeholder="Enter password"
+                   type="password"
+                   size="sm"
+                   required
+                   ></b-form-input>-->
             <router-link class="float-right" to="/resetpassword">
               <small>Forgot Password?</small>
             </router-link>
@@ -76,6 +82,7 @@
           >
             <captcha v-model="answer"></captcha>
           </b-form-group>
+
           <!-- captcha answer -->
           <b-form-group
             label="Answer"
@@ -126,9 +133,10 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 import Captcha from '../components/Captcha.vue';
 import GkCardheader from '../components/GkCardheader.vue';
+import Password from '../components/Password.vue';
 export default {
   name: 'login',
-  components: { Captcha, GkCardheader },
+  components: { Captcha, GkCardheader, Password },
   data() {
     return {
       orgNameDisplay: null,
@@ -150,6 +158,7 @@ export default {
      */
     login() {
       this.isLoading = true;
+      console.log(this.form.userpassword);
       axios
         .post(`${this.gkCoreUrl}/login`, this.form)
         .then((response) => {

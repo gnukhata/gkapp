@@ -422,9 +422,10 @@ export default {
             axios.post(`${this.gkCoreUrl}/log`, payload, {
               headers: { gktoken: this.authToken },
             });
-            // refresh user list
-            this.$emit('refreshUsers');
             this.isLoading = false;
+            setTimeout(() => {
+              this.$router.push('/users');
+            }, 3000);
           }
         })
         .catch((e) => {

@@ -196,7 +196,7 @@ export default {
         return null;
       }
 
-      if (this.newUser.userpassword === this.cnfPassword) {
+      if (this.newUser.userpassword === this.hashedPassword(this.cnfPassword)) {
         return true;
       } else {
         return false;
@@ -259,7 +259,6 @@ export default {
             list.push(this.allGodowns[i].goid);
           }
         }
-        console.log(list);
         this.newUser.golist = list;
       }
       axios
