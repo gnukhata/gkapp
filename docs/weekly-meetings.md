@@ -5,6 +5,70 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
+# Meeting history (2021-10-12)
+
+Agenda:
+
+-   Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+
+-   Karthik:
+    -   Updates to sidebar from last week suggestions. Search menu added to sidebar for mobile users
+    -   Auto complete component has clear selection styling changes
+    -   API handling code refactoring in some components
+    -   Misc style fixes
+-   Survesh:
+    -   (html2pdf) Split tables into multiple pages and Add headers, footers
+    -   (config validation) Fix issues with json schema validation and 
+        Add validation for workflow list table config
+
+Points Discussed:
+
+-   Comments on the search option in the side bar,
+    -   Make the search button appear on the right to distinguish it from 
+        the other navigation links.
+    -   Keep the search bar button active when opening the side bar for
+        quicker access.
+-   In the case of a schema validation failure, the response message must be in 
+    such a way that it doesn't blame the user for their mistake and help them
+    solve the issue in hand. Avoid string language like 'Invalid' or 'Illegal'.
+-   Discussion of dounbts,
+    -   Can we store the random salts when salting passwords and hashing them?
+        -   Yes its ok, even with transparent salts, since a cracker doesn't know the password, 
+            it would take them a longer time to crack the password.
+    -   Shall we just add password hashing for now or should we go for the total 
+        overhaul of the user management system?
+        -   For now just the password hashing is fine. Since we plan to make major changes
+            to gkcore in the future, lets go with the new user management system then.
+        -   Pros and cons of Password hashing in the client side and server side,
+            -   When there is no SSL, Man in the middle attack can be avoided with client side hashing.
+            -   When there is more than one client side code, all of them have to implement
+                the hashing individually. This can be avoided in server side hashing.
+        -   Also the password hashing added must be able to detect the change and hash the plain 
+            password and store it in DB.
+        -   MD5 hashing algorithm has 16 Hex characters, so detecting the difference between plain
+            password and hashed password would be easy.
+        -   Since this is a critical task, create a gitlab issue and document the procedure for this task,
+            before starting.
+    -   Shall we pusblish the gkcore and gkwebapp point release?
+        -   Yes, but prepare the release notes before that. Also document how the users with old code
+            will be affected by the new code in the release notes.
+    -   Is SQL dump a good format for import and export feature of GNUKhata?
+        -   Yes SQL dump is a good feature, but also make sure that CSV format is also supported.
+
+Conclusion:
+
+-   Updates will be performed based on the points discussed above.
+
+
+# Meeting history (2021-10-03)
+
+TBA
+
+
 # Meeting history (2021-09-28)
 
 Agenda:
