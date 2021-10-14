@@ -1,3 +1,5 @@
+import { CONFIGS, PAGES } from '../../enum';
+import axios from 'axios';
 // default config for invoice page
 export default {
   state: {
@@ -65,7 +67,6 @@ export default {
           cess: true,
           vat: true,
           total: true,
-          headingColspan: 1,
         },
       },
       payment: {
@@ -76,17 +77,17 @@ export default {
           branch: true,
           ifsc: true,
         },
-        class: {}
+        class: {},
       },
       transport: {
         mode: true,
         vno: true,
         date: true,
         reverseCharge: true,
-        class: {}
+        class: {},
       },
       comments: {
-        class: {}
+        class: {},
       },
       total: {
         taxable: true,
@@ -99,41 +100,51 @@ export default {
         valueText: true,
       },
     },
-    custom: {}
+    custom: {},
   },
   getters: {
     getDefaultInvoiceConfig: (state) => {
-      return state.default
+      return state.default;
     },
     getCustomInvoiceConfig: (state) => {
-      return state.custom
-    }
+      return state.custom;
+    },
   },
   mutations: {
-    // note that this mutation, directly stores whatever data is being sent, so 
+    // note that this mutation, directly stores whatever data is being sent, so
     // config must be validated before commit
     setInvoiceConfig(state, payload) {
-      state.custom = payload
-    }
+      state.custom = payload;
+    },
   },
   actions: {
     initInvoiceConfig({ state, commit }) {
-      let conf 
-      try { // if the invoiceConfig isn't a valid JSON, catch the error and  use null to get the default config
-        conf = JSON.parse(localStorage.getItem("invoiceConfig"))
-      } catch(error) {
-        conf = null
-      }
-      if (conf !== null) {
-        commit("setInvoiceConfig", conf)
-      } else {
-        commit("setInvoiceConfig", state.default)
-      }
+      axios.get('/config?conftype=org').then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          let pageConf = resp.data.gkresult[PAGES['create-invoice']];
+          if (pageConf) {
+            commit('setInvoiceConfig', pageConf[CONFIGS['page-layout']]);
+          } else {
+            commit('setInvoiceConfig', state.default);
+          }
+        }
+      });
     },
     updateInvoiceConfig({ commit }, payload) {
-      commit("setInvoiceConfig", payload)
-      localStorage.setItem("invoiceConfig", JSON.stringify(payload))
-    }
+      commit('setInvoiceConfig', payload);
+      const confPayload = {
+        config: payload,
+        path: [
+          PAGES['create-invoice'],
+          CONFIGS['page-layout'],
+        ],
+      };
+      return axios
+        .put('/config?conftype=org&update=path&confcategory=transaction', confPayload)
+        .then((resp) => {
+          return resp.data;
+        });
+    },
   },
-  namespaced: true
-}
+  namespaced: true,
+};

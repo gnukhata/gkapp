@@ -20,7 +20,7 @@ Vue.mixin({
     return {
       orgImg: 'img/gk.png',
       sidebarToggle: false,
-      userRole: Number,
+      user_role: Number, // admin:-1 manager:0 or operater:1 internal auditor:2 Godown In Charge:3
     };
   },
   computed: {
@@ -54,15 +54,11 @@ Vue.mixin({
      * Get the company's users role
      * to decide which items to show in user menu
      */
-    getUserRole() {
+    get_user_role() {
       axios
-        .get(`/user?type=role`, {
-          headers: {
-            gktoken: this.authToken,
-          },
-        })
+        .get(`/user?type=role`)
         .then((res) => {
-          this.userRole = res.data.gkresult;
+          this.user_role = res.data.gkresult;
         })
         .catch((e) => {
           console.log('admin fetch', e.message);

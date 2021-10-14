@@ -225,15 +225,28 @@ export default {
     saveConfig() {
       this.formatConfig();
       if (this.isFormatSuccess) {
-        this.$store.dispatch(this.setCustom, JSON.parse(this.formattedConfig));
-        this.showModal = false;
-        this.$bvToast.toast(`${this.title} was successfully saved`, {
-          title: 'Configuration Update Success!!',
-          autoHideDelay: 3000,
-          variant: 'success',
-          appendToast: true,
-          solid: true,
-        });
+        this.$store
+          .dispatch(this.setCustom, JSON.parse(this.formattedConfig))
+          .then((resp) => {
+            if (resp.gkstatus === 0) {
+              this.showModal = false;
+              this.$bvToast.toast(`${this.title} was successfully updated`, {
+                title: 'Configuration Update Success!!',
+                autoHideDelay: 3000,
+                variant: 'success',
+                appendToast: true,
+                solid: true,
+              });
+            } else {
+              this.$bvToast.toast(`${this.title} update failed`, {
+                title: 'Configuration Update Failure!!',
+                autoHideDelay: 3000,
+                variant: 'danger',
+                appendToast: true,
+                solid: true,
+              });
+            }
+          });
       } else {
         this.$bvToast.toast(
           `The Configuration JSON entered could not be parsed, please provide a valid JSON`,

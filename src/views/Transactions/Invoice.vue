@@ -55,10 +55,11 @@
       </span>
       <span class="float-right">
         <config
-          title="Invoice Page Configuration"
-          getDefault="getDefaultInvoiceConfig"
-          setCustom="updateInvoiceConfig"
-          getCustom="getCustomInvoiceConfig"
+          v-if="user_role === -1"
+          get_user_role="Invoice Page Configuration"
+          :getDefault="`${this.vuexNameSpace}/getDefaultInvoiceConfig`"
+          :setCustom="`${this.vuexNameSpace}/updateInvoiceConfig`"
+          :getCustom="`${this.vuexNameSpace}/getCustomInvoiceConfig`"
         >
         </config>
       </span>
@@ -378,14 +379,7 @@ export default {
     config: (self) => {
       let newConf =
         self.$store.getters[`${self.vuexNameSpace}/getCustomInvoiceConfig`];
-      if (newConf) {
-        newConf.bill.footer.headingColspan =
-          !!newConf.bill.index +
-            !!newConf.bill.product +
-            !!newConf.bill.hsn +
-            !!newConf.bill.qty +
-            !!newConf.bill.rate || 1;
-
+      if (newConf && Object.keys(newConf).length) {
         if (newConf.inv.class) {
           newConf.inv.class = {
             'mr-md-1': !!newConf.ship,
@@ -437,9 +431,8 @@ export default {
           },
           taxType: true,
           bill: {
-            footer: {
-              headingColspan: 1,
-            },
+            qty: { checkStock: true },
+            footer: {},
           },
           payment: {
             bank: {},
@@ -561,7 +554,6 @@ export default {
             this.form.transport.date = this.form.inv.date;
             const self = this;
             self.updateCounter.transport++;
-
           }
           break;
         case 'party-details':
@@ -1351,6 +1343,9 @@ export default {
     this.formMode = this.mode;
     this.invoiceId = parseInt(this.invid);
     this.initForm();
+    if(isNaN(this.user_role)) {
+      this.get_user_role();
+    }
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
