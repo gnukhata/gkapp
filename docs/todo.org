@@ -1,6 +1,7 @@
 #+TITLE: Todo
 
 # Toggle checkboxes with C-c C-x C-b
+* List
 - [ ] User management library
   - [ ] Hashing passwords
   - [ ] CRUD on user ops
@@ -12,3 +13,16 @@
 - [ ] Print pdf in mobile view
 - [ ] Downloadable spreadsheets
 - [ ] Website
+
+* DONE Discuss State of the project
+** Authentication
+patch the auth module, or plan for next rewrite?
+** Salting techniques
+how salting works? can we store random salts in db?
+** Import / export format
+sql dump is good or not?
+** minor release for gnukhata
+A point release of gkcore & gkwebapp v7.1
+
+* TODO Read the book
+Scrum: Author Jeff Sutherland
