@@ -9,6 +9,7 @@ import wb from './registerServiceWorker';
 import store from './store';
 import '@/scss/main.scss';
 import axios from 'axios';
+import sha512 from 'crypto-js/sha512';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
@@ -19,7 +20,7 @@ Vue.mixin({
   data() {
     return {
       sidebarToggle: false,
-      user_role: Number, // admin:-1 manager:0 or operater:1 internal auditor:2 Godown In Charge:3
+      userRole: Number,
     };
   },
   computed: {
@@ -36,6 +37,10 @@ Vue.mixin({
     // gkMode() {
     //   return process.env.NODE_ENV
     // },
+    hashedPassword(text) {
+      let hash = sha512(text).toString();
+      return hash;
+    },
     currentDate() {
       const dt = new Date();
       const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate();
@@ -52,11 +57,15 @@ Vue.mixin({
      * Get the company's users role
      * to decide which items to show in user menu
      */
-    get_user_role() {
+    getUserRole() {
       axios
-        .get(`/user?type=role`)
+        .get(`/user?type=role`, {
+          headers: {
+            gktoken: this.authToken,
+          },
+        })
         .then((res) => {
-          this.user_role = res.data.gkresult;
+          this.userRole = res.data.gkresult;
         })
         .catch((e) => {
           console.log('admin fetch', e.message);
