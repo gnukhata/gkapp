@@ -56,7 +56,7 @@
       <span class="float-right">
         <config
           v-if="user_role === -1"
-          get_user_role="Invoice Page Configuration"
+          title="Invoice Page Configuration"
           :getDefault="`${this.vuexNameSpace}/getDefaultInvoiceConfig`"
           :setCustom="`${this.vuexNameSpace}/updateInvoiceConfig`"
           :getCustom="`${this.vuexNameSpace}/getCustomInvoiceConfig`"
