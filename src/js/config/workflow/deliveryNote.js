@@ -227,7 +227,7 @@ function setColumns(columns) {
       path: [PAGES['workflow-delivery-note'], CONFIGS['workflow-left-pane-columns']],
     };
     return axios
-      .put('/config?conftype=user&update=path', payload)
+      .put('/config?conftype=user&update=path&confcategory=workflow', payload)
       .then((resp) => {
         if (resp.data.gkstatus === 0) {
           config.fields = columns;
