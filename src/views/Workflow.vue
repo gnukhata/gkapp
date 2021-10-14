@@ -112,12 +112,12 @@
               variant="link"
               @click="isSettingsOpen = !isSettingsOpen"
             >
-              <b-icon font-scale="0.9" icon="gear"></b-icon
+              <b-icon class="align-middle" font-scale="0.9" icon="gear"></b-icon
               ><span class="sr-only">Filter</span>
             </b-button>
             <print-helper
-              class="float-right px-0 d-none d-lg-inline-block"
-              :style="{ 'font-size': '0.8rem' }"
+              class="float-right px-0"
+              :style="{ 'font-size': '0.75rem' }"
               :contentId="`list-${activeWorkflow.tabName}`"
               variant="link"
             ></print-helper>
@@ -126,7 +126,7 @@
               variant="link"
               @click="isFilterOpen = !isFilterOpen"
             >
-              <b-icon font-scale="0.9" icon="funnel"></b-icon
+              <b-icon class="align-middle" font-scale="0.9" icon="funnel"></b-icon
               ><span class="sr-only">Filter</span>
             </b-button>
             <!-- Table Column Chooser -->
@@ -435,7 +435,6 @@
             <print-helper
               contentId="transaction-profile-wrapper"
               variant="link"
-              class="d-none d-lg-inline-block"
             ></print-helper>
           </template>
           <b-card-body
