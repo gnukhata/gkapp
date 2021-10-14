@@ -83,6 +83,7 @@ export default {
       'gkCoreUrl',
       'authToken',
       'userAuthenticated',
+      'orgImg',
     ]),
   },
   methods: {
@@ -99,7 +100,6 @@ export default {
     document.querySelector('title').textContent = `GNUKhata ${
       this.orgName !== null ? '| ' + this.orgName : ''
     }`;
-    this.getOrgImage();
     /**
      * fetch latest app changes
      */
@@ -119,6 +119,9 @@ export default {
         }, 3000);
       });
     }
+  },
+  created() {
+    this.getOrgImage();
   },
 };
 </script>

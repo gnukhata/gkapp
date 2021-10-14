@@ -44,13 +44,13 @@
       </b-list-group-item>
       <b-list-group-item
         button
-        class="gk-autocomplete-item text-truncate"
+        class="gk-autocomplete-item text-truncate bg-danger text-light text-center font-weight-bold"
         :class="{
           'gk-autocomplete-item-hover': filteredOptions.length === hovered,
         }"
         @mousedown="clearSelection()"
       >
-        Clear Selection
+        <b-icon icon="x-circle-fill"></b-icon> Clear Selection
       </b-list-group-item>
     </div>
   </div>
@@ -302,7 +302,7 @@ export default {
       }
     },
     /** Keyboard press event handlers for arrow keys, enter and escape key */
-    keyMonitor: function (event) {
+    keyMonitor: function(event) {
       switch (event.which) {
         case 38: // ArrowUp
           {

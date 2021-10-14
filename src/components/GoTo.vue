@@ -3,7 +3,7 @@
     hide-footer
     header-bg-variant="dark"
     header-text-variant="light"
-    v-model="toggleModal"
+    v-model="searchMenu"
     ref="goto-modal"
   >
     <template #modal-header>
@@ -29,21 +29,27 @@
 <script>
 import Autocomplete from './Autocomplete.vue';
 import routes from '../router/index';
+import { mapState } from 'vuex';
+
 export default {
   name: 'GoTo',
   components: { Autocomplete },
   data() {
     return {
-      toggleModal: false,
       selectedUrl: '',
       finalRoutes: [],
     };
   },
+  computed: {
+    ...mapState(['searchMenu']),
+  },
   methods: {
     navigate() {
-      this.$router.push(this.selectedUrl);
-      this.selectedUrl = '';
-      this.toggleModal = false;
+      if (this.selectedUrl !== null) {
+        this.$router.push(this.selectedUrl);
+        this.selectedUrl = null;
+        this.$store.commit('toggleSearchMenu', false);
+      }
     },
     // remove dynamic routes
     filterRoutes() {
@@ -58,7 +64,7 @@ export default {
   created() {
     window.addEventListener('keydown', (event) => {
       if (event.key === 'Home') {
-        this.toggleModal = !this.toggleModal;
+        this.$store.commit('toggleSearchMenu', !this.searchMenu);
       }
     });
   },

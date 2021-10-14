@@ -18,14 +18,12 @@ store.commit('initStore'); // initialize the required vuex states from local sto
 Vue.mixin({
   data() {
     return {
-      orgImg: 'img/gk.png',
       sidebarToggle: false,
       user_role: Number, // admin:-1 manager:0 or operater:1 internal auditor:2 Godown In Charge:3
     };
   },
   computed: {
     // https://cli.vuejs.org/guide/mode-and-env.html#modes
-
     gkConfig() {
       return {
         mode: process.env.NODE_ENV || 'production',
@@ -39,15 +37,15 @@ Vue.mixin({
     //   return process.env.NODE_ENV
     // },
     currentDate() {
-      let dt = new Date();
+      const dt = new Date();
       const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate();
-      const mm =
-        dt.getMonth() + 1 < 10 ? '0' + (dt.getMonth() + 1) : dt.getMonth();
+      const actualMonth = dt.getMonth() + 1;
+      const mm = actualMonth < 10 ? `0${actualMonth}` : actualMonth;
       const yy = dt.getFullYear();
       return `${yy}-${mm}-${dd}`;
     },
     dateReverse(date) {
-      let d = date.split('-').reverse();
+      const d = date.split('-').reverse();
       return `${d[0]}-${d[1]}-${d[2]}`;
     },
     /**
@@ -70,7 +68,8 @@ Vue.mixin({
         .get('/organisation?attach=image')
         .then((r) => {
           if (r.status == 200 && r.data.logo !== null) {
-            this.orgImg = `data:image/jpg;base64,${r.data.logo}`;
+            const payload = `data:image/jpg;base64,${r.data.logo}`;
+            this.$store.commit('updateOrgImg', payload);
           }
         })
         .catch((e) => {

@@ -96,11 +96,11 @@ export default {
           if (r.status == 200 && r.data.gkstatus == 0) {
             let usr = r.data.gkresult.map((data) => {
               let obj = {};
-              obj.unit_name = Object.values(data)[1];
-              obj.description = Object.values(data)[2];
-              obj.uom_id = Object.values(data)[0];
-              obj.subunitof = Object.values(data)[3];
-              obj.sysunit = Object.values(data)[4];
+              obj.unit_name = data.unitname;
+              obj.description = data.description;
+              obj.uom_id = data.uomid;
+              obj.subunitof = data.subunitof;
+              obj.sysunit = data.sysunit;
               return obj;
             });
             this.uomList = usr;

@@ -345,21 +345,6 @@ export default {
           }
         });
     },
-    // getPasswordHint(pwdStrength) {
-    //   const available = pwdStrength.contains.map((item) => item.message);
-    //   let hint = this.options.pwdFieldTypes
-    //     .filter((item) => !available.includes(item))
-    //     .reduce((prev, cur) => {
-    //       return `${prev} ${cur},`;
-    //     }, "");
-    //   if (available.length < 4) {
-    //     hint = `Require atleast 1 ${hint}.`;
-    //   }
-    //   if (pwdStrength.length < 8) {
-    //     hint += " Must be minimum 8 characters long";
-    //   }
-    //   return hint;
-    // },
   },
 };
 </script>

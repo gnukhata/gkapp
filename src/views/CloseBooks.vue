@@ -1,273 +1,159 @@
 <template>
-  <section class="m-1">
+  <section class="m-2">
     <!-- {{ details }} -->
-    <!-- Close Books -->
-    <b-card
-      v-if="details.booksclosedflag == 0"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      class="mt-4"
-      style="max-width: 40em; margin: auto"
-    >
-      <b-overlay :show="isLoading" no-wrap></b-overlay>
-      <template #header>
-        <div class="d-flex">
-          <div class="mr-auto">Close Books</div>
-          <div>
-            <b-icon
-              icon="question-circle"
-              v-b-popover.click.blur="{
-                variant: 'dark',
-                title: 'Close Books',
-                html: 'true',
-                content:
-                  'On activating this option, balances in all expense and income accounts will be transferred to Profit & Loss or Income & Expenditure Account and these accounts will be closed. No transactions can be recorded in these accounts but Ledger accounts can be viewed, printed. To <b>ROLL OVER</b> the company to new financial year, You have to close books first',
-              }"
-            ></b-icon>
-          </div>
-        </div>
-      </template>
-      <b-form-group
-        id="input-group-2"
-        label-class="font-weight-bold"
-        label="Current Financial Year:"
+    <b-card-group>
+      <!-- Close Books -->
+      <b-card
+        v-if="details.booksclosedflag == 0"
+        header-bg-variant="dark"
+        header-text-variant="light"
+        class="mt-4"
+        style="max-width: 40em; margin: auto"
       >
-        <div class="row">
-          <div class="col-6">
-            <b-form-group
-              content-cols="auto"
-              id="input-group-3"
-              label="From"
-              label-for="date-1"
-            >
-              <b-input-group class="mb-3">
-                <b-form-input
-                  v-model="details.yearstart"
-                  type="text"
-                  disabled
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="date-1"
-                    disabled
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
-              </b-input-group>
-            </b-form-group>
+        <b-overlay :show="isLoading" no-wrap></b-overlay>
+        <template #header>
+          <div class="d-flex">
+            <div class="mr-auto">Close Books</div>
+            <div>
+              <b-icon
+                icon="question-circle"
+                v-b-popover.click.blur="{
+                  variant: 'dark',
+                  title: 'Close Books',
+                  html: 'true',
+                  content:
+                    'On activating this option, balances in all expense and income accounts will be transferred to Profit & Loss or Income & Expenditure Account and these accounts will be closed. No transactions can be recorded in these accounts but Ledger accounts can be viewed, printed. To <b>ROLL OVER</b> the company to new financial year, You have to close books first',
+                }"
+              ></b-icon>
+            </div>
           </div>
-          <div class="col">
-            <b-form-group
-              content-cols="auto"
-              id="input-group-4"
-              label="To"
-              label-for="date-2"
-            >
-              <b-input-group class="mb-3">
-                <b-form-input
-                  v-model="details.yearend"
-                  type="text"
-                  disabled
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="date-2"
-                    disabled
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
-              </b-input-group>
-            </b-form-group>
-          </div>
-        </div>
-      </b-form-group>
-      <b-button
-        :disabled="details.booksclosedflag == 1"
-        class="float-right"
-        @click="confirm('close')"
-        variant="dark"
-      >
-        <b-icon icon="journal"></b-icon> Close Books
-      </b-button>
-      <b-alert v-show="details.booksclosedflag == 1" show variant="dark"
-        >Close Books is done</b-alert
-      >
-    </b-card>
-
-    <!-- Roll Over -->
-    <b-card
-      header-bg-variant="info"
-      header-text-variant="light"
-      style="max-width: 40em; margin: auto"
-      class="mt-4"
-    >
-      <b-overlay :show="isLoading" no-wrap></b-overlay>
-
-      <template #header>
-        <div class="d-flex">
-          <div class="mr-auto">Roll Over</div>
-          <div>
-            <b-icon
-              icon="question-circle"
-              v-b-popover.click.blur="{
-                variant: 'info',
-                title: 'Roll Over',
-                content:
-                  '<ul><li>A new organization with the same name and type is created forthe next accounting year,</li><li>Every existing asset and liability account is automatically opened under its respective Group and Sub-Group and correct opening balance is brought down, in case of expense and income accounts these are also opened under their respective Groups and Sub-Groups, of course, without opening balances, </li><li>The Closing Stock of the earlier year gets transferred to thenext year as Opening Stock. This module can only be activated after CLOSE BOOKS is done.</li></ul>',
-                html: true,
-              }"
-            ></b-icon>
-          </div>
-        </div>
-      </template>
-      <b-form-group
-        id="input-group-2"
-        label-class="font-weight-bold"
-        label="Current Financial Year:"
-      >
-        <div class="row">
-          <div class="col-6">
-            <b-form-group
-              content-cols="auto"
-              id="input-group-3"
-              label="From"
-              label-for="date-1"
-            >
-              <b-input-group class="mb-3">
-                <b-form-input
-                  v-model="details.yearstart"
-                  type="text"
-                  disabled
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="date-1"
-                    disabled
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
-              </b-input-group>
-            </b-form-group>
-          </div>
-          <div class="col">
-            <b-form-group
-              content-cols="auto"
-              id="input-group-4"
-              label="To"
-              label-for="date-2"
-            >
-              <b-input-group class="mb-3">
-                <b-form-input
-                  v-model="details.yearend"
-                  type="text"
-                  disabled
-                ></b-form-input>
-                <b-input-group-append>
-                  <b-form-datepicker
-                    button-only
-                    right
-                    locale="en-GB"
-                    aria-controls="date-2"
-                    disabled
-                  >
-                  </b-form-datepicker>
-                </b-input-group-append>
-              </b-input-group>
-            </b-form-group>
-          </div>
-        </div>
-      </b-form-group>
-      <!-- Set New Financial Year -->
-      <b-form @submit.prevent="confirm">
+        </template>
         <b-form-group
           id="input-group-2"
           label-class="font-weight-bold"
-          label="New Financial Year:"
+          label="Current Financial Year:"
         >
           <div class="row">
-            <div class="col-6">
+            <div class="col-sm-4">
               <b-form-group
                 content-cols="auto"
                 id="input-group-3"
                 label="From"
                 label-for="date-1"
               >
-                <b-input-group>
-                  <b-form-input
-                    id="setyearEnd"
-                    v-model="newYearStart"
-                    type="text"
-                    required
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-form-datepicker
-                      button-only
-                      right
-                      locale="en-GB"
-                      aria-controls="start-date"
-                      v-model="newYearStart"
-                      @context="setYearEnd"
-                      required
-                    >
-                    </b-form-datepicker>
-                  </b-input-group-append>
+                <b-input-group class="mb-3">
+                  <gk-date
+                    :readonly="true"
+                    id="cb-from"
+                    v-model="details.yearstart"
+                  ></gk-date>
                 </b-input-group>
               </b-form-group>
             </div>
-            <div class="col">
+            <div class="col-sm-4">
               <b-form-group
                 content-cols="auto"
                 id="input-group-4"
                 label="To"
                 label-for="date-2"
               >
-                <b-input-group class="mb-3">
-                  <b-form-input
-                    v-model="newYearEnd"
-                    required
-                    type="text"
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-form-datepicker
-                      v-model="newYearEnd"
-                      button-only
-                      right
-                      locale="en-GB"
-                      aria-controls="date-2"
-                      required
-                    >
-                    </b-form-datepicker>
-                  </b-input-group-append>
+                <b-input-group>
+                  <gk-date id="cb-to" v-model="details.yearend"></gk-date>
                 </b-input-group>
               </b-form-group>
             </div>
           </div>
         </b-form-group>
         <b-button
-          :disabled="details.booksclosedflag == 0"
-          type="submit"
+          :disabled="details.booksclosedflag == 1"
           class="float-right"
-          variant="info"
+          @click="confirm('close')"
+          variant="dark"
+          size="sm"
         >
-          <b-icon icon="calendar-check"></b-icon> Roll Over
+          <b-icon icon="journal"></b-icon> Close Books
         </b-button>
-      </b-form>
-      <b-alert v-if="details.roflag == 1" show variant="info"
-        >Roll Over is done for this financial year</b-alert
+        <b-alert v-show="details.booksclosedflag == 1" show variant="dark"
+          >Close Books is done</b-alert
+        >
+      </b-card>
+
+      <!-- Roll Over -->
+      <b-card
+        header-bg-variant="dark"
+        header-text-variant="light"
+        class="mt-4 gkcard mx-auto"
       >
-    </b-card>
+        <b-overlay :show="isLoading" no-wrap></b-overlay>
+
+        <template #header>
+          <div class="d-flex">
+            <div class="mr-auto">Roll Over</div>
+            <div>
+              <b-icon
+                icon="question-circle"
+                v-b-popover.click.blur="{
+                  variant: 'info',
+                  title: 'Roll Over',
+                  content:
+                    '<ul><li>A new organization with the same name and type is created forthe next accounting year,</li><li>Every existing asset and liability account is automatically opened under its respective Group and Sub-Group and correct opening balance is brought down, in case of expense and income accounts these are also opened under their respective Groups and Sub-Groups, of course, without opening balances, </li><li>The Closing Stock of the earlier year gets transferred to thenext year as Opening Stock. This module can only be activated after CLOSE BOOKS is done.</li></ul>',
+                  html: true,
+                }"
+              ></b-icon>
+            </div>
+          </div>
+        </template>
+        <!-- Set New Financial Year -->
+        <b-form @submit.prevent="confirm">
+          <b-form-group
+            id="input-group-2"
+            label-class="font-weight-bold"
+            label="New Financial Year:"
+          >
+            <div class="row">
+              <div class="col-sm-4">
+                <b-form-group
+                  content-cols="auto"
+                  id="input-group-3"
+                  label="From"
+                  label-for="date-1"
+                >
+                  <b-input-group>
+                    <gk-date id="ro-from" v-model="newYearStart"></gk-date>
+                  </b-input-group>
+                </b-form-group>
+              </div>
+              <div class="col-sm-4">
+                <b-form-group
+                  content-cols="auto"
+                  id="input-group-4"
+                  label="To"
+                  label-for="date-2"
+                >
+                  <b-input-group class="mb-3">
+                    <gk-date id="ro-from" v-model="newYearEnd"></gk-date>
+                  </b-input-group>
+                </b-form-group>
+              </div>
+            </div>
+          </b-form-group>
+          <b-button
+            :disabled="details.booksclosedflag == 0"
+            type="submit"
+            class="float-right"
+            variant="dark"
+            size="sm"
+          >
+            <b-icon icon="calendar-check"></b-icon> Roll Over
+          </b-button>
+        </b-form>
+        <b-alert v-if="details.roflag == 1" show variant="success"
+          >Roll Over is done for this financial year</b-alert
+        >
+      </b-card>
+    </b-card-group>
   </section>
 </template>
-
 <script>
 /**
  * This module implements close books & roll over functionality. Only admin can perform this
@@ -277,7 +163,9 @@
  *  - Hook the functions to action buttons in confirm() method
  */
 import axios from 'axios';
+import GkDate from '../components/GkDate.vue';
 export default {
+  components: { GkDate },
   name: 'CloseBooks',
   data() {
     return {

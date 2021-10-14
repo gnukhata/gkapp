@@ -6,11 +6,15 @@
   >
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
-    <div class="card-header text-left py-2">
-      <b>Create Godown</b>
-      <slot name="close-button"> </slot>
-    </div>
-    <div class="card-body pb-2">
+    <!-- <div class="card-header text-left py-2">
+         <b>Create Godown</b>
+         <slot name="close-button"> </slot>
+         </div> -->
+    <b-card
+      header="Create Godown"
+      header-bg-variant="dark"
+      header-text-variant="light"
+    >
       <b-form class="text-left" @submit.prevent="confirmOnSubmit">
         <b-row>
           <b-col cols="12" :md="inOverlay ? 12 : 6" lg="6">
@@ -135,7 +139,7 @@
           </b-button>
         </div>
       </b-form>
-    </div>
+    </b-card>
   </div>
 </template>
 

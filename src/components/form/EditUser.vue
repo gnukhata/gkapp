@@ -199,8 +199,6 @@ export default {
   computed: {
     ...mapState(['authToken', 'gkCoreUrl']),
     validateName() {
-      // remove spaces in username
-      this.form.username = this.form.username.split(' ').join('');
       // username should be atleast three characters
       if (this.form.username.length < 3) {
         return false;
