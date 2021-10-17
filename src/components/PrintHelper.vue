@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import { jsPDF } from 'jspdf';
 import html2PDF from '../js/html2pdf.js';
 import { mapState } from 'vuex';
 export default {
@@ -61,12 +60,12 @@ export default {
   watch: {},
   methods: {
     splitTable() {
-      const pdf = new jsPDF({
-        format: 'a4',
-      });
+      // const pdf = new jsPDF({
+      //   format: 'a4',
+      // });
       // const pdfWidth = pdf.internal.pageSize.getWidth();
       // const pdfContentWidth = pdfWidth - (25 + 25);
-      const pdfHeight = pdf.internal.pageSize.getHeight();
+      // const pdfHeight = pdf.internal.pageSize.getHeight();
       let pageHeight = window.innerWidth > window.innerHeight ? 1600 : 1500;
       // console.log(`Page height: ${pageHeight}`);
       let contentDom = document.getElementById(this.contentId);
