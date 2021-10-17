@@ -20,7 +20,7 @@ Vue.mixin({
   data() {
     return {
       sidebarToggle: false,
-      userRole: Number,
+      user_role: Number,
     };
   },
   computed: {
@@ -57,15 +57,11 @@ Vue.mixin({
      * Get the company's users role
      * to decide which items to show in user menu
      */
-    getUserRole() {
+    get_user_role() {
       axios
-        .get(`/user?type=role`, {
-          headers: {
-            gktoken: this.authToken,
-          },
-        })
+        .get(`/user?type=role`)
         .then((res) => {
-          this.userRole = res.data.gkresult;
+          this.user_role = res.data.gkresult;
         })
         .catch((e) => {
           console.log('admin fetch', e.message);
