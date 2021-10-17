@@ -160,7 +160,7 @@ export default {
       if (this.password2 == '') {
         return null;
       }
-      if (this.form.userpassword === this.password2) {
+      if (this.form.userpassword === this.hashedPassword(this.password2)) {
         return true;
       } else {
         return false;
