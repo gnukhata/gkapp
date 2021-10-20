@@ -348,7 +348,6 @@ export default {
         states: [],
       },
       regex: {
-        checkSum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
         pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
       },
       form: {
@@ -384,10 +383,6 @@ export default {
     formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
     validatePin: (self) =>
       self.form.pin ? self.form.pin > 100000 && self.form.pin < 999999 : null,
-    validateCheckSum: (self) =>
-      self.form.gstin.checkSum
-        ? self.regex.checkSum.test(self.form.gstin.checkSum)
-        : null,
     validatePan: (self) =>
       self.form.pan ? self.regex.pan.test(self.form.pan) : null,
     ...mapState(['gkCoreUrl', 'gkCoreTestUrl', 'authToken']),
@@ -402,12 +397,12 @@ export default {
   },
   methods: {
     onGstinUpdate({ validity, stateCode, pan, checksum }) {
-      if (validity) {
-        this.form.gstin = {
+      if (validity.format) {
+        Object.assign(this.form.gstin, {
           stateCode: stateCode,
           pan: pan,
           checkSum: checksum,
-        };
+        });
         if (!this.form.pan) {
           this.form.pan = pan;
         }
@@ -533,7 +528,6 @@ export default {
         });
     },
     initPayload() {
-      const pan = this.form.pan;
       const bankDetails = Object.values(this.form.bank).filter(
         (detail) => detail !== null
       );
@@ -589,6 +583,7 @@ export default {
         fax: null,
         pan: null,
         gstin: {
+          gstin: null,
           stateCode: null,
           pan: null,
           checkSum: null,
