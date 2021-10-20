@@ -107,28 +107,38 @@
               </b-dropdown-item>
             </b-dropdown>
             <!-- Drop down 2: Filter -->
-            <b-button
-              class="float-right px-1"
-              variant="link"
-              @click="isSettingsOpen = !isSettingsOpen"
-            >
-              <b-icon class="align-middle" font-scale="0.9" icon="gear"></b-icon
-              ><span class="sr-only">Filter</span>
-            </b-button>
-            <print-helper
-              class="float-right px-0"
-              :style="{ 'font-size': '0.75rem' }"
-              :contentId="`list-${activeWorkflow.tabName}`"
-              variant="link"
-            ></print-helper>
-            <b-button
-              class="float-right px-1"
-              variant="link"
-              @click="isFilterOpen = !isFilterOpen"
-            >
-              <b-icon class="align-middle" font-scale="0.9" icon="funnel"></b-icon
-              ><span class="sr-only">Filter</span>
-            </b-button>
+            <b-button-group class="float-right">
+              <b-button
+                class="px-1"
+                variant="link"
+                @click="isFilterOpen = !isFilterOpen"
+              >
+                <b-icon
+                  class="align-middle"
+                  :font-scale="0.90"
+                  icon="funnel"
+                ></b-icon
+                ><span class="sr-only">Filter</span>
+              </b-button>
+              <print-helper
+                class="px-md-1 px-2"
+                :contentId="`list-${activeWorkflow.tabName}`"
+                :fontScale="0.90"
+                variant="link"
+              ></print-helper>
+              <b-button
+                class="px-1"
+                variant="link"
+                @click="isSettingsOpen = !isSettingsOpen"
+              >
+                <b-icon
+                  class="align-middle"
+                  :font-scale="0.90"
+                  icon="gear"
+                ></b-icon
+                ><span class="sr-only">Column Settings</span>
+              </b-button>
+            </b-button-group>
             <!-- Table Column Chooser -->
             <b-collapse v-model="isSettingsOpen">
               <b-card
@@ -1109,6 +1119,18 @@ export default {
     this.updateListHeight();
     this.autoSetActiveWorkflow();
   },
+  destroyed() {
+    this.options.tabs['Contacts'].data = [];
+    this.options.tabs['Business'].data = [];
+    this.options.tabs['Transactions'].tabs['Invoice'].data = [];
+    this.options.tabs['Transactions'].tabs['DebitCreditNote'].data = [];
+    this.options.tabs['Transactions'].tabs['CashMemo'].data = [];
+    this.options.tabs['Transactions'].tabs['DeliveryNote'].data = [];
+    this.options.tabs['Transactions'].tabs['PurchaseSalesOrder'].data = [];
+    this.options.tabs['Transactions'].tabs['RejectionNote'].data = [];
+    this.options.tabs['Transactions'].tabs['TransferNote'].data = [];
+    this.options.tabs['Transactions'].tabs['Voucher'].data = [];
+  }
 };
 </script>
 <style scoped>

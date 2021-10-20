@@ -1,6 +1,12 @@
 <template>
-  <b-button @click.prevent="onPrint" class="m-1" size="sm" :variant="variant">
-    <b-icon aria-hidden="true" class="align-middle" icon="printer"></b-icon>
+  <b-button @click.prevent="onPrint" size="sm" :variant="variant">
+    <b-icon
+      aria-hidden="true"
+      class="align-middle"
+      icon="printer"
+      :font-scale="fontScale"
+    ></b-icon>
+    <span class="sr-only">Print</span>
   </b-button>
 </template>
 
@@ -45,6 +51,12 @@ export default {
       default: 'GNUKhata-PrintOut',
       note: 'Pdf file name',
     },
+    fontScale: {
+      type: Number,
+      required: false,
+      default: 1,
+      note: 'Font scale of the print icon',
+    },
   },
   data() {
     return {
@@ -73,7 +85,6 @@ export default {
       let pages = [];
       let thead = contentDom.querySelector('thead');
       let tbody = contentDom.querySelector('tbody');
-      let tAttributes = contentDom.attributes;
       let rows = Array.from(tbody.children);
 
       let tableCount = Math.ceil(
@@ -85,10 +96,8 @@ export default {
       // );
       let rowIterator = 0;
       for (let i = 0; i < tableCount; i++) {
-        let table = document.createElement('table');
-        tAttributes.forEach((attr) => {
-          table.setAttribute(attr.name, attr.value);
-        });
+        let table = contentDom.cloneNode();
+        table.id += `-${i}`;
         table.appendChild(thead.cloneNode(true));
         let tbody2 = document.createElement('tbody');
         let j = 1;
@@ -156,14 +165,20 @@ export default {
       }
 
       let links = '';
-      document.getElementsByTagName('link').forEach((link) => {
-        links += link.outerHTML;
-      });
+      let linkDoms = Array.from(document.getElementsByTagName('link'));
+      if (linkDoms.length) {
+        linkDoms.forEach((link) => {
+          links += link.outerHTML;
+        });
+      }
 
       let styles = '';
-      document.getElementsByTagName('style').forEach((style) => {
-        styles += style.innerHTML;
-      });
+      let styleDoms = Array.from(document.getElementsByTagName('style'));
+      if (styleDoms.length) {
+        styleDoms.forEach((style) => {
+          styles += style.innerHTML;
+        });
+      }
       // styles for printing table row bg
       styles += this.printStyles;
 
