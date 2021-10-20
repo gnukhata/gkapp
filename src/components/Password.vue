@@ -47,7 +47,6 @@ export default {
     placeholder: {
       value: String,
       required: false,
-      default: 'Placeholder',
     },
   },
   data() {
