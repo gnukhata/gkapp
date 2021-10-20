@@ -140,6 +140,14 @@
 
       <b-collapse class="m-3" v-model="isCollapsed3" id="financial">
         <b-form-group
+          label="GSTIN"
+          label-for="nested-state"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <gk-gstin @validity="onGstinUpdate" v-model="gstin.gstin"> </gk-gstin>
+        </b-form-group>
+        <b-form-group
           label="PAN"
           label-for="nested-pan"
           label-cols-sm="3"
@@ -169,36 +177,6 @@
             :value="details.custtan"
             id="nested-tan"
           ></b-form-input>
-        </b-form-group>
-
-        <b-form-group
-          label="GSTIN"
-          label-for="nested-state"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
-          <div class="d-flex">
-            <b-form-input
-              type="text"
-              disabled
-              style="max-width: 3em"
-              v-model="gstin.stateCode"
-            ></b-form-input>
-            <b-form-input
-              type="text"
-              class="ml-1 mr-1"
-              disabled
-              v-model="gstin.pan"
-            ></b-form-input>
-            <b-form-input
-              type="text"
-              v-model="gstin.checksum"
-              title="Format: [Number] [Alphabet] [Number / Alphabet]"
-              pattern="[0-9]{1}[A-Z]{1}[A-Z0-9]{1}"
-              :state="isChecksumValid"
-              :required="!!gstin.checksum"
-            ></b-form-input>
-          </div>
         </b-form-group>
       </b-collapse>
     </b-card>
@@ -237,9 +215,11 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import GkGstin from '../components/GkGstin';
 
 export default {
   name: 'ContactProfile',
+  components: { GkGstin },
   props: { customer: Object },
   data() {
     return {
@@ -255,6 +235,7 @@ export default {
         stateMap: {},
       },
       gstin: {
+        gstin: '',
         stateCode: '',
         pan: '',
         checksum: '',
@@ -275,6 +256,21 @@ export default {
     ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {
+    onGstinUpdate({ validity, stateCode, pan, checksum }) {
+      if (validity.format) {
+        Object.assign(this.gstin, {
+          stateCode: stateCode,
+          pan: pan,
+          checkSum: checksum,
+        });
+        if (!this.details.custpan) {
+          this.details.custpan = pan;
+        }
+        if (!this.details.state) {
+          this.details.state = this.options.states[stateCode];
+        }
+      }
+    },
     getDetails() {
       const config = {
         headers: {
@@ -293,11 +289,9 @@ export default {
               this.oldContactName = this.details.custname;
               this.isLoading = false;
               this.states().then(() => {
-                if (this.details.gstin) {
-                  this.splitGstin(Object.values(this.details.gstin)[0]);
-                } else {
-                  this.splitGstin();
-                }
+                this.gstin.gstin = this.details.gstin
+                  ? Object.values(this.details.gstin)[0]
+                  : '';
               });
               break;
             case 2:
