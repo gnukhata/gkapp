@@ -56,6 +56,11 @@
         >
           <b-icon class="align-middle" icon="printer"></b-icon>
         </b-button>
+        <gk-file-downloader
+          :url="downloadUrl"
+          :fileName="downloadFileName"
+          fileExtn=".xlsx"
+        ></gk-file-downloader>
       </div>
       <b-row class="row text-small">
         <b-col cols="12" md="6">
@@ -261,8 +266,9 @@ import { mapState } from 'vuex';
 import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
+import GkFileDownloader from '../components/GkFileDownloader.vue';
 export default {
-  components: { GkCardheader, GkDate, ReportHeader },
+  components: { GkCardheader, GkDate, ReportHeader, GkFileDownloader },
   name: 'BalanceSheet',
   data() {
     return {
@@ -309,8 +315,20 @@ export default {
     };
   },
   computed: {
+    downloadUrl: (self) => {
+      let orgChoice = (localStorage.getItem('orgChoice') || '').split(' (');
+      let orgType = '';
+      if (orgChoice.length) {
+        orgType = orgChoice[orgChoice.length - 1].split(')')[0];
+      } else {
+        orgType = 'Organisation';
+      }
+      return `/spreadsheet?type=conv_bal_sheet&calculateto=${self.toDate}&calculatefrom=${self.fromDate}&fystart=${self.yearStart}&orgname=${self.orgName}&fyend=${self.yearEnd}&orgtype=${orgType}&baltype=1`;
+    },
+    downloadFileName: (self) =>
+      `Balance_Sheet_${self.fromDate}_to_${self.toDate}`,
     hideZeroFilter: (self) => (self.hideZero ? 'a' : null),
-    ...mapState(['yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
     filterTable(list, item) {
