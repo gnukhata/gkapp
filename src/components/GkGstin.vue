@@ -10,7 +10,7 @@
       autocomplete="off"
       :readonly="readonly"
       :tabindex="readonly ? -1 : 0"
-      :state="validity"
+      :state="isGstinValid"
     ></b-form-input>
     <b-form-invalid-feedback id="gstin-feedback">
       {{ invalidText }}
@@ -42,23 +42,45 @@ export default {
       note:
         'If readonly is true, then only update of data through code is possible',
     },
-    invalidText: {
+    invalidFormatText: {
       type: String,
       required: false,
-      default: 'GSTIN format incorrect!',
+      default:
+        'GSTIN format incorrect! Valid Format: State code + PAN + Checksum',
+      note: 'used for exposing v-model',
+    },
+    invalidChecksumText: {
+      type: String,
+      required: false,
+      default: 'GSTIN checksum incorrect! Please Check the last 3 digits.',
       note: 'used for exposing v-model',
     },
   },
   data() {
     return {
       input: null,
-      validity: null,
+      validity: {
+        checksum: false,
+        format: false,
+      },
     };
   },
-  computed: {},
+  computed: {
+    isGstinValid: (self) =>
+      self.value ? self.validity.checksum && self.validity.format : null,
+    invalidText: (self) => {
+      let text = '';
+      if (!self.validity.format) {
+        text = self.invalidFormatText;
+      } else if (!self.validity.checksum) {
+        text = self.invalidChecksumText;
+      }
+      return text;
+    },
+  },
   watch: {
     input(gstin, oldInput) {
-      if (this.oldInput !== gstin && gstin) {
+      if (oldInput !== gstin) {
         this.validateGstin(gstin);
         this.$emit('input', this.input);
       }
@@ -66,6 +88,7 @@ export default {
     value(gstin, oldValue) {
       if (oldValue !== gstin && gstin) {
         this.validateGstin(gstin);
+        this.input = gstin;
       }
     },
   },
@@ -97,12 +120,18 @@ export default {
      * Code taken from https://excelkida.com/script-library/fn-isvalidgstn
      */
     isValidGstin(gstn) {
+      let valid = {
+        format: true,
+        checksum: false,
+      };
       if (
         !/^(0[1-9]|[1-2][0-9]|3[0-7])[A-Z]{3}([ABCFGHLJPT])[A-Z][0-9]{4}[A-Z][1-9][Z][0-9A-Z]$/g.test(
           gstn
         )
-      )
-        return false;
+      ) {
+        valid.format = false;
+        return valid;
+      }
 
       //Calculate 15th digit checksum from 14 digits and compare it
       let gstnCodepointChars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -119,7 +148,8 @@ export default {
       }
       checkCodePoint = (mod - (sum % mod)) % mod;
       let checksumCharacter = gstnCodepointChars.charAt(checkCodePoint);
-      return gstn.substring(14, 15) == checksumCharacter;
+      valid.checksum = gstn.substring(14, 15) == checksumCharacter;
+      return valid;
     },
   },
   mounted() {},
