@@ -60,6 +60,7 @@
           :getDefault="`${this.vuexNameSpace}/getDefaultInvoiceConfig`"
           :setCustom="`${this.vuexNameSpace}/updateInvoiceConfig`"
           :getCustom="`${this.vuexNameSpace}/getCustomInvoiceConfig`"
+          confirmMessage="Invoice page config will be applied organisation wide. Do you want to proceed?"
         >
         </config>
       </span>
