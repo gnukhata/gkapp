@@ -47,7 +47,8 @@
                 size="sm"
                 id="ci-input-3"
                 v-model="form.pin"
-                type="number" no-wheel
+                type="number"
+                no-wheel
                 :state="validatePin"
                 debounce="500"
                 required
@@ -61,7 +62,14 @@
               label-cols="3"
               label-class="required"
             >
-              <autocomplete id="ci-input-2" v-model="state" :options="options.states" placeholder="Select a State" valueUid="code"> </autocomplete>
+              <autocomplete
+                id="ci-input-2"
+                v-model="state"
+                :options="options.states"
+                placeholder="Select a State"
+                valueUid="code"
+              >
+              </autocomplete>
             </b-form-group>
             <b-form-group
               label-size="sm"
@@ -103,7 +111,10 @@
                     label-cols="3"
                     inline
                   >
-                    <gk-gstin @validity="onGstinUpdate" v-model="form.gstin.gstin"></gk-gstin>
+                    <gk-gstin
+                      @validity="onGstinUpdate"
+                      v-model="form.gstin.gstin"
+                    ></gk-gstin>
                   </b-form-group>
                   <b-form-group
                     label-size="sm"
@@ -128,7 +139,8 @@
                     <b-form-input
                       size="sm"
                       id="ci-input-6"
-                      type="number" no-wheel
+                      type="number"
+                      no-wheel
                       v-model="form.contact"
                       trim
                     ></b-form-input>
@@ -286,28 +298,28 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import Autocomplete from "../Autocomplete";
+import axios from 'axios';
+import { mapState } from 'vuex';
+import Autocomplete from '../Autocomplete';
 import GkGstin from '../GkGstin';
 export default {
-  name: "ContactItem",
+  name: 'ContactItem',
   components: { Autocomplete, GkGstin },
   props: {
     mode: {
       type: String,
-      validator: function (value) {
-        return ["create", "edit"].indexOf(value) !== -1;
+      validator: function(value) {
+        return ['create', 'edit'].indexOf(value) !== -1;
       },
       required: true,
     },
     type: {
       type: String,
-      validator: function (value) {
-        return ["customer", "supplier"].indexOf(value) !== -1;
+      validator: function(value) {
+        return ['customer', 'supplier'].indexOf(value) !== -1;
       },
       required: false,
-      default: "customer",
+      default: 'customer',
     },
     onSave: {
       type: Function,
@@ -327,7 +339,7 @@ export default {
   data() {
     return {
       temp: true,
-      blankURL: "http://localhost:1111",
+      blankURL: 'http://localhost:1111',
       isLoading: false,
       isPreloading: false,
       showOptional: false,
@@ -336,8 +348,8 @@ export default {
         states: [],
       },
       regex: {
-        checkSum: new RegExp("[0-9]{1}[A-Z]{1}[0-9A-Z]{1}"),
-        pan: new RegExp("[A-Z]{5}[0-9]{4}[A-Z]{1}"),
+        checkSum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
+        pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
       },
       form: {
         name: null,
@@ -361,15 +373,15 @@ export default {
           ifsc: null,
         },
       },
-      state: {}
+      state: {},
     };
   },
   computed: {
     columnOneWidth: (self) => (self.showOptional ? 4 : 12),
     columnTwoWidth: (self) => (self.showOptional ? 6 : 12),
-    isSupplier: (self) => self.type === "supplier",
-    formType: (self) => (self.type === "customer" ? "Customer" : "Supplier"),
-    formMode: (self) => (self.mode === "create" ? "Create" : "Edit"),
+    isSupplier: (self) => self.type === 'supplier',
+    formType: (self) => (self.type === 'customer' ? 'Customer' : 'Supplier'),
+    formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
     validatePin: (self) =>
       self.form.pin ? self.form.pin > 100000 && self.form.pin < 999999 : null,
     validateCheckSum: (self) =>
@@ -378,30 +390,32 @@ export default {
         : null,
     validatePan: (self) =>
       self.form.pan ? self.regex.pan.test(self.form.pan) : null,
-    ...mapState(["gkCoreUrl", "gkCoreTestUrl", "authToken"]),
+    ...mapState(['gkCoreUrl', 'gkCoreTestUrl', 'authToken']),
   },
   watch: {
     state(newValue) {
-      if(newValue) {
+      if (newValue) {
         this.form.state = newValue.name;
         this.form.gstin.stateCode = newValue.code;
       }
     },
   },
   methods: {
-    onGstinUpdate({validity, stateCode, pan, checksum}) {
-      if(validity) {
+    onGstinUpdate({ validity, stateCode, pan, checksum }) {
+      if (validity) {
         this.form.gstin = {
           stateCode: stateCode,
           pan: pan,
           checkSum: checksum,
         };
-        if(!this.form.pan) {
+        if (!this.form.pan) {
           this.form.pan = pan;
         }
-        if(!this.state) {
-          let state = this.options.states.find((state) => state.value.code === stateCode);
-          if(state) {
+        if (!this.state) {
+          let state = this.options.states.find(
+            (state) => state.value.code === stateCode
+          );
+          if (state) {
             this.state = state.value;
           }
         }
@@ -409,7 +423,7 @@ export default {
     },
     confirmOnSubmit() {
       const self = this;
-      let party = (this.isSupplier)? 'Supplier' : 'Customer';
+      let party = this.isSupplier ? 'Supplier' : 'Customer';
       let text = `Create ${party} <b>${this.form.name}</b>?`;
       let textDom = this.$createElement('div', {
         domProps: {
@@ -437,7 +451,7 @@ export default {
       this.isLoading = true;
       const payload = this.initPayload();
       axios
-        .post("/customersupplier", payload)
+        .post('/customersupplier', payload)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
@@ -448,21 +462,21 @@ export default {
             case 0:
               {
                 this.$bvToast.toast(`${this.formType} created successfully`, {
-                  title: "Create Customer Success!",
+                  title: 'Create Customer Success!',
                   autoHideDelay: 3000,
-                  variant: "success",
+                  variant: 'success',
                   appendToast: true,
                   solid: true,
                 });
 
                 // === Server Log ===
-                let logdata = { activity: "" };
+                let logdata = { activity: '' };
                 if (payload.csflag === 3) {
-                  logdata.activity = payload.custname + " customer created";
+                  logdata.activity = payload.custname + ' customer created';
                 } else {
-                  logdata.activity = payload.custname + " supplier created";
+                  logdata.activity = payload.custname + ' supplier created';
                 }
-                axios.post("/log", logdata);
+                axios.post('/log', logdata);
 
                 // only reset form on success, otherwise leave it as is so that user may edit their input and try again
                 this.resetForm();
@@ -472,9 +486,9 @@ export default {
               this.$bvToast.toast(
                 `${this.formType} entry already exists! (Please check Name, FAX or PAN)`,
                 {
-                  title: "Create Customer Error!",
+                  title: 'Create Customer Error!',
                   autoHideDelay: 3000,
-                  variant: "warning",
+                  variant: 'warning',
                   appendToast: true,
                   solid: true,
                 }
@@ -482,9 +496,9 @@ export default {
               break;
             case 2:
               this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-                title: "Create Customer Error!",
+                title: 'Create Customer Error!',
                 autoHideDelay: 3000,
-                variant: "warning",
+                variant: 'warning',
                 appendToast: true,
                 solid: true,
               });
@@ -493,9 +507,9 @@ export default {
               this.$bvToast.toast(
                 `Unable to create ${this.formType}, Please try again`,
                 {
-                  title: "Create Customer Error!",
+                  title: 'Create Customer Error!',
                   autoHideDelay: 3000,
-                  variant: "warning",
+                  variant: 'warning',
                   appendToast: true,
                   solid: true,
                 }
@@ -507,9 +521,9 @@ export default {
         })
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: "Create Customer Error!",
+            title: 'Create Customer Error!',
             autoHideDelay: 3000,
-            variant: "warning",
+            variant: 'warning',
             appendToast: true,
             solid: true,
           });
@@ -534,7 +548,7 @@ export default {
         custaddr: this.form.address,
         state: this.form.state,
         pincode: this.form.pin,
-        csflag: this.type === "customer" ? 3 : 19,
+        csflag: this.type === 'customer' ? 3 : 19,
         custtan: null, // have to check
         custphone: null,
         custemail: null,
@@ -547,7 +561,7 @@ export default {
         payload.custemail = this.form.email;
         payload.custfax = this.form.fax;
         payload.custpan = this.form.pan;
-        payload.csflag = this.type === "customer" ? 3 : 19;
+        payload.csflag = this.type === 'customer' ? 3 : 19;
         if (gstin !== null) {
           payload.gstin = gstin;
         }
@@ -567,7 +581,7 @@ export default {
     resetForm() {
       this.form = {
         name: null,
-        state: "",
+        state: '',
         pin: null,
         address: null,
         email: null,
@@ -590,14 +604,14 @@ export default {
     preloadData() {
       this.isPreloading = true;
       axios
-        .get("/state")
+        .get('/state')
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             this.options.states = resp.data.gkresult.map((item) => {
               const name = Object.values(item)[0];
-              let code = Object.keys(item)[0] + "";
+              let code = Object.keys(item)[0] + '';
               if (code.length < 2) {
-                code = "0" + code;
+                code = '0' + code;
               }
 
               return {
@@ -610,14 +624,14 @@ export default {
             });
           } else {
             this.displayToast(
-              "Preload Data Failed!",
-              "Error fetching State List, please try again after sometime.",
-              "warning"
+              'Preload Data Failed!',
+              'Error fetching State List, please try again after sometime.',
+              'warning'
             );
           }
         })
         .catch((error) => {
-          this.displayToast("Preload Data Failed!", error.message, "warning");
+          this.displayToast('Preload Data Failed!', error.message, 'warning');
           return error;
         });
     },
