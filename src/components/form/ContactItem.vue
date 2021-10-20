@@ -97,6 +97,15 @@
                 </b-form-checkbox>
                 <b-collapse v-model="showOptional">
                   <b-form-group
+                    v-if="showOptional"
+                    label-size="sm"
+                    label="GSTIN"
+                    label-cols="3"
+                    inline
+                  >
+                    <gk-gstin @validity="onGstinUpdate" v-model="form.gstin.gstin"></gk-gstin>
+                  </b-form-group>
+                  <b-form-group
                     label-size="sm"
                     label="Email"
                     label-for="ci-input-5"
@@ -159,57 +168,8 @@
                   </b-form-group>
                 </b-collapse>
               </b-col>
-              <b-col>
-                <b-form-group
-                  v-if="showOptional"
-                  label-size="sm"
-                  label="GSTIN"
-                  label-cols="3"
-                  inline
-                >
-                  <b-row style="max-width: 300px">
-                    <b-col class="pr-1" cols="4" sm="3">
-                      <b-form-input
-                        size="sm"
-                        class="px-1"
-                        readonly
-                        placeholder="00"
-                        id="ci-input-9"
-                        aria-label="State Code"
-                        v-model="form.gstin.stateCode"
-                        trim
-                      ></b-form-input>
-                    </b-col>
-                    <b-col class="px-1 pb-2" cols="6" sm="6">
-                      <b-form-input
-                        size="sm"
-                        class="px-1"
-                        readonly
-                        placeholder="PAN"
-                        id="ci-input-10"
-                        aria-label="PAN"
-                        v-model="form.pan"
-                        trim
-                      ></b-form-input>
-                    </b-col>
-                    <b-col class="px-1" cols="6" sm="3">
-                      <b-form-input
-                        size="sm"
-                        class="px-1"
-                        id="ci-input-11"
-                        aria-label="Check Sum"
-                        v-model="form.gstin.checkSum"
-                        trim
-                        title="Format: [Number] [Alphabet] [Number / Alphabet]"
-                        pattern="[0-9]{1}[A-Z]{1}[A-Z0-9]{1}"
-                        debounce="500"
-                      >
-                      </b-form-input>
-                    </b-col>
-                  </b-row>
-                </b-form-group>
+              <b-col v-if="showOptional">
                 <b-form-checkbox
-                  v-if="showOptional"
                   size="sm"
                   v-model="showBankDetails"
                   class="mb-3"
@@ -329,9 +289,10 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import Autocomplete from "../Autocomplete";
+import GkGstin from '../GkGstin';
 export default {
   name: "ContactItem",
-  components: { Autocomplete },
+  components: { Autocomplete, GkGstin },
   props: {
     mode: {
       type: String,
@@ -388,6 +349,7 @@ export default {
         fax: null,
         pan: null,
         gstin: {
+          gstin: '',
           stateCode: null,
           pan: null,
           checkSum: null,
@@ -427,6 +389,24 @@ export default {
     },
   },
   methods: {
+    onGstinUpdate({validity, stateCode, pan, checksum}) {
+      if(validity) {
+        this.form.gstin = {
+          stateCode: stateCode,
+          pan: pan,
+          checkSum: checksum,
+        };
+        if(!this.form.pan) {
+          this.form.pan = pan;
+        }
+        if(!this.state) {
+          let state = this.options.states.find((state) => state.value.code === stateCode);
+          if(state) {
+            this.state = state.value;
+          }
+        }
+      }
+    },
     confirmOnSubmit() {
       const self = this;
       let party = (this.isSupplier)? 'Supplier' : 'Customer';
@@ -540,15 +520,14 @@ export default {
     },
     initPayload() {
       const pan = this.form.pan;
-      const checkSum = this.form.gstin.checkSum;
-      const stateCode = this.form.gstin.stateCode;
       const bankDetails = Object.values(this.form.bank).filter(
         (detail) => detail !== null
       );
       let gstin = null;
-      if (stateCode !== null && pan !== null && checkSum !== null) {
+      if (this.form.gstin.gstin) {
         gstin = {};
-        gstin[stateCode + ""] = `${stateCode}${pan}${checkSum}`;
+        let stateCode = this.form.gstin.gstin.substr(0, 2);
+        gstin[stateCode] = this.form.gstin.gstin;
       }
       const payload = {
         custname: this.form.name,
