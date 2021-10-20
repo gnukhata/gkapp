@@ -30,11 +30,11 @@
             ></b-form-textarea>
             <div :style="{ fontSize: '0.8rem' }" v-if="isFormatError">
               <b-icon icon="x-circle-fill" variant="danger"></b-icon>
-              JSON format error! Fix your JSON structure and try again.
+              JSON validation error! Fix your JSON structure and try again.
             </div>
             <div :style="{ fontSize: '0.8rem' }" v-if="isFormatSuccess">
               <b-icon icon="check-circle-fill" variant="success"></b-icon>
-              Configuration formatted successfully!
+              Configuration validated successfully!
             </div>
           </b-col>
           <b-col
@@ -46,7 +46,7 @@
               'mb-md-1': true,
             }"
           >
-            <b>Formatted Config</b>
+            <b>Validated Config</b>
             <div
               class="border border-dark h-100 rounded overflow-auto p-1 position-relative"
               :style="{ height: '300px', maxHeight: '300px' }"
@@ -70,13 +70,13 @@
           variant="warning"
           class="mx-1"
           @click="formatConfig()"
-          >Format</b-button
+          >Validate</b-button
         >
         <b-button
           class="float-right"
           size="sm"
           variant="success"
-          @click="saveConfig()"
+          @click="confirmOnSave()"
           >Save</b-button
         >
       </b-container>
@@ -105,6 +105,11 @@ export default {
       type: String,
       required: true,
     },
+    confirmMessage: {
+      type: String,
+      required: false,
+      default: 'Do you want to save the config?'
+    },
   },
   data() {
     return {
@@ -121,6 +126,30 @@ export default {
     getCustomConfig: (self) => self.$store.getters[self.getCustom],
   },
   methods: {
+    confirmOnSave() {
+      const self = this;
+      let text = this.confirmMessage;
+      let textDom = this.$createElement('div', {
+        domProps: {
+          innerHTML: text,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(textDom, {
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          // bodyClass: 'p-2',
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            self.saveConfig();
+          }
+        });
+    },
     openModal() {
       this.showModal = true;
       this.formattedConfig = {};
