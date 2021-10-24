@@ -132,6 +132,12 @@ export default {
       required: false,
       default: '',
     },
+    blockInactive: {
+      type: Boolean,
+      required: false,
+      default: true,
+      note: 'Flag to block/unblock selection of inactive items',
+    },
   },
   data() {
     return {
@@ -297,7 +303,7 @@ export default {
       this.setHovered(index);
     },
     onMouseDown(option) {
-      if (option.active || !this.checkActive) {
+      if (option.active || !this.checkActive || !this.blockInactive) {
         this.selectOption(option);
       }
     },
@@ -327,7 +333,10 @@ export default {
               // if options have active data, only select options that are active = true
               // else select the option that is being hovered
               if (this.checkActive) {
-                if (!this.filteredOptions[this.hovered].active) {
+                if (
+                  !this.filteredOptions[this.hovered].active &&
+                  !this.blockInactive
+                ) {
                   break;
                 }
               }

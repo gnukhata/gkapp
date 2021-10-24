@@ -96,6 +96,7 @@
             emptyValue=""
             :readonly="disabled.product"
             :inactiveText="config.qty.checkStock ? 'Out of Stock' : ''"
+            :blockInactive="blockEmptyStock"
           ></autocomplete>
           <span v-else>{{ data.value.name }}</span>
         </template>
@@ -367,6 +368,12 @@ export default {
       default: -1,
       note: 'Used in Transfer note to fetch godownwise stock on hand',
     },
+    blockEmptyStock: {
+      type: Boolean,
+      required: false,
+      default: true,
+      note: 'Flag to block the selection of items with no stock'
+    },
     parentData: {
       type: Array,
       required: false,
@@ -583,7 +590,7 @@ export default {
   },
   methods: {
     onQtyUpdate(index, pid) {
-      if (parseFloat(this.form[index].qty) <= this.options.stock[pid]) {
+      if (parseFloat(this.form[index].qty) <= this.options.stock[pid] || !this.blockEmptyStock) {
         this.updateTaxAndTotal(index);
       }
       this.$forceUpdate();

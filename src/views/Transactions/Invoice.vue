@@ -124,6 +124,7 @@
         :cgstFlag="isCgst"
         ref="bill"
         :godownId="goid"
+        :blockEmptyStock="isSale"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
