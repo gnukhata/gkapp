@@ -320,8 +320,12 @@ export default {
       },
       form: {
         type: 'sale', // purchase
-        inv: {},
-        party: {},
+        inv: {
+          state: {id: null}
+        },
+        party: {
+          state: {id: null}
+        },
         ship: {},
         taxType: 'gst', // vat
         bill: [],
@@ -465,7 +469,7 @@ export default {
     isGst: (self) => self.form.taxType === 'gst',
     isCgst: (self) => {
       if (self.form.inv.state && self.form.party.state) {
-        if (self.form.inv.state.name === self.form.party.state.name) {
+        if (parseInt(self.form.inv.state.id) === parseInt(self.form.party.state.id)) {
           return true;
         }
       }
@@ -1217,9 +1221,12 @@ export default {
     resetForm() {
       this.form = {
         type: this.form.type,
-        inv: {},
+        inv: {
+          state: {id: null}
+        },
         party: {
           name: false,
+          state: {id: null}
         },
         ship: {},
         taxType: 'gst', // vat
