@@ -7,7 +7,7 @@
       class="mb-2 gkcard mx-auto"
     >
       Demo Organisation:
-      <b>WALLMART</b>
+      <b>WALLMART (Profit Making)</b>
       <br />
     </b-alert>
     <b-card
@@ -30,24 +30,14 @@
           label-cols="4"
         >
           <b-overlay :show="isDisabled">
-            <b-form-select
+            <autocomplete
+              @input="getOrgYears"
+              :options="orgList"
+              textField="orgname"
+              valueField="org"
               v-model="orgIndex"
-              v-on:change="getOrgYears"
-              required
-              size="sm"
-            >
-              <template #first>
-                <b-form-select-option :value="null" disabled
-                  >-- Select Organisation --</b-form-select-option
-                >
-              </template>
-              <b-form-select-option
-                v-for="(org, index) in orgList"
-                :key="index"
-                :value="index"
-                >{{ org.orgname }} ({{ org.orgtype }})</b-form-select-option
-              >
-            </b-form-select>
+              placeholder="Search Org Name"
+            ></autocomplete>
           </b-overlay>
         </b-form-group>
 
@@ -99,14 +89,15 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import GkCardheader from '../components/GkCardheader.vue';
+import Autocomplete from '../components/Autocomplete.vue';
 export default {
-  components: { GkCardheader },
+  components: { GkCardheader, Autocomplete },
   name: 'SelectOrg',
   data() {
     return {
       orgYears: [],
       orgList: [],
-      orgIndex: Number,
+      orgIndex: '',
       orgCode: Number,
       isDisabled: true,
     };
@@ -126,8 +117,8 @@ export default {
   },
   methods: {
     save() {
-      let name = this.orgList[this.orgIndex].orgname;
-      let type = this.orgList[this.orgIndex].orgtype;
+      let name = this.orgIndex.orgname;
+      let type = this.orgIndex.orgtype;
       // Save org name for next login
       localStorage.setItem('orgChoice', `${name} (${type})`);
       // useful in consolidated final accounts
@@ -143,10 +134,17 @@ export default {
       axios
         .get(`${this.gkCoreUrl}/organisations`)
         .then((response) => {
-          this.orgList = response.data.gkdata;
-          this.orgIndex = 0;
+          this.orgList = response.data.gkdata.map((data) => {
+            return {
+              orgname: `${data.orgname} (${data.orgtype})`,
+              org: {
+                orgname: data.orgname,
+                orgtype: data.orgtype,
+              },
+            };
+          });
+          this.orgIndex = this.orgList[0].org;
           this.getOrgYears();
-
           this.isDisabled = false; // hide the spinner
         })
         .catch((e) => {
@@ -162,9 +160,12 @@ export default {
      * send org name & type & get a org's financial years as objects
      */
     getOrgYears() {
+      if (this.orgIndex === null) {
+        return;
+      }
       this.isDisabled = true;
-      let name = this.orgList[this.orgIndex].orgname;
-      let type = this.orgList[this.orgIndex].orgtype;
+      let name = this.orgIndex.orgname;
+      let type = this.orgIndex.orgtype;
       // Save org name for next login
       axios
         .get(`${this.gkCoreUrl}/orgyears/${name}/${type}`)

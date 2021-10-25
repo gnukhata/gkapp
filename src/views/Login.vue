@@ -60,14 +60,6 @@
               placeholder="Password"
               size="sm"
             ></password>
-            <!-- <b-form-input
-                   id="input-2"
-                   v-model="form.userpassword"
-                   placeholder="Enter password"
-                   type="password"
-                   size="sm"
-                   required
-                   ></b-form-input>-->
             <router-link class="float-right" to="/resetpassword">
               <small>Forgot Password?</small>
             </router-link>
