@@ -45,14 +45,13 @@ export default {
     invalidFormatText: {
       type: String,
       required: false,
-      default:
-        'GSTIN format incorrect! Valid Format: State code + PAN + Checksum',
+      default: 'GSTIN format incorrect!',
       note: 'used for exposing v-model',
     },
     invalidChecksumText: {
       type: String,
       required: false,
-      default: 'GSTIN checksum incorrect! Please Check the last 3 digits.',
+      default: 'GSTIN checksum incorrect!',
       note: 'used for exposing v-model',
     },
   },
@@ -99,16 +98,24 @@ export default {
     validateGstin(gstin) {
       // console.log(1);
       this.validity = this.isValidGstin(gstin);
-      let payload = this.validity
-        ? {
+      let payload = {
+        validity: this.validity,
+      };
+      if (this.validity) {
+        if (this.validity.isUin) {
+          payload = {
+            validity: this.validity,
+            stateCode: gstin.substr(0, 2),
+          };
+        } else {
+          payload = {
             validity: this.validity,
             stateCode: gstin.substr(0, 2),
             pan: gstin.substr(2, 10),
             checksum: gstin.substr(12, 3),
-          }
-        : {
-            validity: this.validity,
           };
+        }
+      }
       this.$emit('validity', payload);
     },
     /**
@@ -123,13 +130,29 @@ export default {
       let valid = {
         format: true,
         checksum: false,
+        isUin: false,
       };
-      if (
-        !/^(0[1-9]|[1-2][0-9]|3[0-7])[A-Z]{3}([ABCFGHLJPT])[A-Z][0-9]{4}[A-Z][1-9][Z][0-9A-Z]$/g.test(
+
+      // check if normal GSTIN (2 digit State Code + 10 digit PAN + 3 digit Checksum)
+      // 22AABCU9603R1ZX
+      valid.format = /^(0[1-9]|[1-2][0-9]|3[0-7])[A-Z]{3}([ABCFGHLJPT])[A-Z][0-9]{4}[A-Z][1-9][Z][0-9A-Z]$/g.test(
+        gstn
+      );
+
+      // check if UIN/OIDAR (refer: https://www.teachoo.com/6925/1984/GSTIN-Number-Format/category/GST-Registration/)
+      // (2 digit StateCode + 2 digit year + 3 digit country code + 5 digit Alphabets + 3 digit checksum )
+      // state code - 99 or 98 (needs review)
+      // 0717USA12345NFD
+      if (!valid.format) {
+        valid.format = /^[0-9]{4}[A-Z]{3}[0-9]{5}[0-9A-Z]{3}/g.test(
           gstn
-        )
-      ) {
-        valid.format = false;
+        );
+        if (valid.format) {
+          valid.isUin = true;
+        }
+      }
+
+      if (!valid.format) {
         return valid;
       }
 
