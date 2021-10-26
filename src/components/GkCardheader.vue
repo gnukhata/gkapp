@@ -39,11 +39,5 @@ export default {
       note: 'body of help popover (required)',
     },
   },
-  computed: {
-    showMsgBoxOne() {
-      this.boxOne = '';
-      this.$bvModal.msgBoxOk('Action completed');
-    },
-  },
 };
 </script>
