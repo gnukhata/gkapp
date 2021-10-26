@@ -27,15 +27,22 @@
       </b-card>
     </b-overlay>
     <!-- Table -->
-    <section class="mt-2">
-      <!-- <report-header>
-             <div class="text-center">
-             <i>Stock report as on: {{ dateReverse(toDate) }}</i>
-             </div>
-             </report-header> -->
+    <section class="mt-2" v-if="report.data !== null">
+      <div class="d-flex justify-content-center">
+        <p class="mt-1 mr-2 text-muted">
+          Type:
+        </p>
+        <b-form-select
+          size="sm"
+          class="mb-3 col-2 text-center"
+          :options="report.list"
+          v-model="report.selected"
+        >
+        </b-form-select>
+      </div>
       <b-form-input
         v-model="search"
-        placeholder="Search Products"
+        placeholder="Search Report"
         class="gkcard mx-auto d-print-none"
       ></b-form-input>
       <b-table
@@ -47,7 +54,7 @@
         striped
         stacked="sm"
         :filter="search"
-        :items="report.b2b"
+        :items="report.data[report.selected]"
       >
       </b-table>
     </section>
@@ -65,7 +72,19 @@ export default {
       fromDate: null,
       toDate: null,
       loading: false,
-      report: {},
+      search: '',
+      report: {
+        data: null,
+        selected: '',
+        list: [
+          { value: 'b2b', text: 'B2B' },
+          { value: 'b2cl', text: 'B2CL' },
+          { value: 'b2cs', text: 'B2CS' },
+          { value: 'cdnr', text: 'CDNR' },
+          { value: 'cdnur', text: 'CDNUR' },
+          { value: 'hsn1', text: 'HSN' },
+        ],
+      },
     };
   },
   methods: {
@@ -77,7 +96,7 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkresult) {
               case 0:
-                this.report = r.data.gkdata;
+                this.report.data = r.data.gkdata;
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {
@@ -125,6 +144,8 @@ export default {
     },
   },
   mounted() {
+    // default report
+    this.report.selected = 'b2b';
     const d = new Date();
     let cm = d.getMonth();
     const nm = d.getMonth() + 1;
