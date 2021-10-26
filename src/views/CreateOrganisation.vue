@@ -5,7 +5,7 @@
 -->
 <template>
   <div class="d-flex justify-content-center mt-3 mx-3 align-form-label-right">
-    <div class="card shadow" :style="{ 'min-width': '350px' }">
+    <div v-if="showMenu" class="card shadow" :style="{ 'min-width': '350px' }">
       <div class="card-header bg-dark text-light">Create Organisation</div>
       <div class="card-body px-2 px-sm-4">
         <b-form @submit.prevent="onSubmit">
@@ -61,28 +61,33 @@
                   label-class="label-on-input"
                 >
                   <b-input-group class="mb-3">
-                    <b-form-input
-                      size="md"
+                    <!-- <b-form-input
+                           size="md"
+                           @input="setYearEnd"
+                           id="date-1"
+                           v-model="yearStart"
+                           type="text"
+                           placeholder="YYYY-MM-DD"
+                           autocomplete="off"
+                           required
+                           ></b-form-input> -->
+                    <gk-date
                       @input="setYearEnd"
-                      id="date-1"
                       v-model="yearStart"
-                      type="text"
-                      placeholder="YYYY-MM-DD"
-                      autocomplete="off"
-                      required
-                    ></b-form-input>
-                    <b-input-group-append>
-                      <b-form-datepicker
-                        size="md"
-                        v-model="yearStart"
-                        button-only
-                        right
-                        locale="en-GB"
-                        @context="setYearEnd"
-                        aria-controls="date-1"
-                      >
-                      </b-form-datepicker>
-                    </b-input-group-append>
+                      id="yst"
+                    ></gk-date>
+                    <!-- <b-input-group-append>
+                         <b-form-datepicker
+                         size="md"
+                         v-model="yearStart"
+                         button-only
+                         right
+                         locale="en-GB"
+                         @context="setYearEnd"
+                         aria-controls="date-1"
+                         >
+                         </b-form-datepicker>
+                         </b-input-group-append> -->
                   </b-input-group>
                 </b-form-group>
               </div>
@@ -95,26 +100,27 @@
                   label-class="label-on-input"
                 >
                   <b-input-group class="mb-3">
-                    <b-form-input
-                      size="md"
-                      id="date-2"
-                      v-model="yearEnd"
-                      type="text"
-                      placeholder="YYYY-MM-DD"
-                      autocomplete="off"
-                      required
-                    ></b-form-input>
-                    <b-input-group-append>
-                      <b-form-datepicker
-                        size="md"
-                        v-model="yearEnd"
-                        button-only
-                        right
-                        locale="en-GB"
-                        aria-controls="date-2"
-                      >
-                      </b-form-datepicker>
-                    </b-input-group-append>
+                    <!-- <b-form-input
+                           size="md"
+                           id="date-2"
+                           v-model="yearEnd"
+                           type="text"
+                           placeholder="YYYY-MM-DD"
+                           autocomplete="off"
+                           required
+                           ></b-form-input> -->
+                    <gk-date v-model="yearEnd" id="ynd"></gk-date>
+                    <!-- <b-input-group-append>
+                         <b-form-datepicker
+                         size="md"
+                         v-model="yearEnd"
+                         button-only
+                         right
+                         locale="en-GB"
+                         aria-controls="date-2"
+                         >
+                         </b-form-datepicker>
+                         </b-input-group-append> -->
                   </b-input-group>
                 </b-form-group>
               </div>
@@ -143,23 +149,10 @@
             label="Password"
             label-for="password-1"
             label-cols="3"
-            :state="isPasswordValid"
-            :invalid-feedback="passwordFeedback"
-            :valid-feedback="passwordFeedback"
           >
             <b-row>
               <b-col sm="6" class="mb-1 mb-sm-0 pr-sm-1">
-                <b-form-input
-                  size="md"
-                  id="password-1"
-                  type="password"
-                  placeholder=""
-                  v-model.lazy="userPassword"
-                  label-cols="1"
-                  :state="isPasswordValid"
-                  required
-                >
-                </b-form-input>
+                <password v-model.lazy="userPassword"></password>
               </b-col>
               <b-col sm="6" class="mt-2 mt-sm-0 pl-sm-1">
                 <b-form-group
@@ -290,6 +283,10 @@
         </b-form>
       </div>
     </div>
+    <b-alert class="mt-5" :show="!showMenu" variant="danger"
+      ><b-icon icon="exclamation-triangle"></b-icon> Registrations are disabled
+      on this server
+    </b-alert>
   </div>
 </template>
 
@@ -299,10 +296,12 @@ import { mapState } from 'vuex';
 import passwordStrength from 'check-password-strength';
 import Captcha from '../components/Captcha.vue';
 import SecurityQuestions from '../components/SecurityQuestions.vue';
+import Password from '../components/Password.vue';
+import GkDate from '../components/GkDate.vue';
 
 export default {
   name: 'CreateOrganisation',
-  components: { Captcha, SecurityQuestions },
+  components: { Captcha, SecurityQuestions, Password, GkDate },
   data() {
     return {
       // gkCoreUrl: 'https://satheerthan.site:6543', // 'http://localhost:6543',
@@ -325,9 +324,11 @@ export default {
       securityQuestion: '',
       answer: null,
       userAnswer: null,
+      showMenu: true,
     };
   },
   computed: {
+    ...mapState(['gkCoreUrl', 'gkCoreTestUrl']),
     pwdStrength: (self) =>
       self.userPassword !== '' && self.userPassword !== null
         ? passwordStrength(self.userPassword)
@@ -337,39 +338,26 @@ export default {
       self.pwdStrength.value === 'Empty'
         ? null
         : self.pwdStrength.value === 'Strong',
-    arePasswordsSame: (self) =>
-      self.userPassword && self.confirmPassword
-        ? self.userPassword === self.confirmPassword
-        : null,
-    passwordFeedback() {
-      let text = '';
-      if (this.userPassword) {
-        switch (this.pwdStrength.value) {
-          case 'Strong':
-            text = 'Password is Strong.';
-            break;
-          case 'Medium':
-            text = this.getPasswordHint(this.pwdStrength);
-            break;
-          case 'Weak':
-            text = this.getPasswordHint(this.pwdStrength);
-            break;
-          default:
-            if (this.userPassword.length < 8) {
-              text = 'is-danger';
-            } else {
-              text = 'is-success';
-            }
-        }
+    arePasswordsSame() {
+      if (this.confirmPassword !== '') {
+        return this.userPassword === this.hashedPassword(this.confirmPassword)
+          ? true
+          : false;
       }
-      return text;
+      return null;
     },
-    ...mapState(['gkCoreUrl', 'gkCoreTestUrl']),
   },
   methods: {
+    checkRegistrationStatus() {
+      axios.get('/organisations?registration-status').then((r) => {
+        if (r.status === 200 && r.data.gkstatus == 5) {
+          this.showMenu = false;
+        }
+      });
+    },
     setYearEnd() {
       // console.log('On date change')
-      if (this.yearStart !== null && this.year !== '') {
+      if (this.yearStart !== null) {
         const from = this.yearStart.split('-'); // yyyy/mm/dd
         const to = new Date(`${parseInt(from[0]) + 1}/${from[1]}/${from[2]}`);
         let end = null;
@@ -384,22 +372,22 @@ export default {
         this.yearEnd = null;
       }
     },
-    getPasswordHint(pwdStrength) {
-      const available = pwdStrength.contains.map((item) => item.message);
-      let hint = this.options.pwdFieldTypes
-        .filter((item) => !available.includes(item))
-        .reduce((prev, cur) => {
-          return `${prev} ${cur},`;
-        }, '');
-      hint = hint.substring(0, hint.length - 1);
-      if (available.length < 4) {
-        hint = `Require atleast 1 ${hint}.`;
-      }
-      if (pwdStrength.length < 8) {
-        hint += ' Must be minimum 8 characters long';
-      }
-      return hint;
-    },
+    // getPasswordHint(pwdStrength) {
+    //   const available = pwdStrength.contains.map((item) => item.message);
+    //   let hint = this.options.pwdFieldTypes
+    //     .filter((item) => !available.includes(item))
+    //     .reduce((prev, cur) => {
+    //       return `${prev} ${cur},`;
+    //     }, '');
+    //   hint = hint.substring(0, hint.length - 1);
+    //   if (available.length < 4) {
+    //     hint = `Require atleast 1 ${hint}.`;
+    //   }
+    //   if (pwdStrength.length < 8) {
+    //     hint += ' Must be minimum 8 characters long';
+    //   }
+    //   return hint;
+    // },
     onSubmit() {
       if (this.userAnswer == this.answer) {
         this.isLoading = true;
@@ -411,8 +399,7 @@ export default {
           .then((response) => {
             // console.log(response)
             this.isLoading = false;
-            switch (response.data.gkstatus) 
-            {
+            switch (response.data.gkstatus) {
               case 0:
                 {
                   let log = {
@@ -421,51 +408,53 @@ export default {
                   axios.post('/log', log);
 
                   this.$store
-                    .dispatch("setSessionStates", {
+                    .dispatch('setSessionStates', {
                       orgCode: response.data.orgcode,
-                      authToken: response.data.token
+                      authToken: response.data.token,
                     })
                     .then(() => {
                       // After Org creation is Successfull, Fetch Org Details with AuthToken and Login
                       axios
-                        .get("/organisation")
-                        .then(response2 => {
+                        .get('/organisation')
+                        .then((response2) => {
                           if (response2.data.gkstatus === 0) {
-                            this.$store.dispatch("setSessionStates", {
+                            this.$store.dispatch('setSessionStates', {
                               auth: true,
                               orgName: `${response2.data.gkdata.orgname} (${response2.data.gkdata.orgtype})`,
                               user: { username: payload.userdetails.username },
                               orgYears: {
                                 yearStart: response2.data.gkdata.yearstart,
-                                yearEnd: response2.data.gkdata.yearend
-                              }
+                                yearEnd: response2.data.gkdata.yearend,
+                              },
                             });
-                            this.$router.push("/workflow/Transactions-Invoice/-1");
+                            this.$router.push(
+                              '/workflow/Transactions-Invoice/-1'
+                            );
                             this.$bvToast.toast(`Logged in Successfully!`, {
-                              title: "Create Account Success!",
+                              title: 'Create Account Success!',
                               autoHideDelay: 3000,
-                              variant: "success",
+                              variant: 'success',
                               appendToast: true,
-                              solid: true
+                              solid: true,
                             });
                           } else {
                             this.$bvToast.toast(
                               `Unable to Login to Account, Please try again`,
                               {
-                                title: "Login Error!",
+                                title: 'Login Error!',
                                 autoHideDelay: 3000,
-                                variant: "danger",
+                                variant: 'danger',
                                 appendToast: true,
-                                solid: true
+                                solid: true,
                               }
                             );
                           }
                         })
-                        .catch(error => {
+                        .catch((error) => {
                           this.$bvToast.toast(`Error: ${error.message}`, {
-                            title: "Login Error!",
+                            title: 'Login Error!',
                             autoHideDelay: 3000,
-                            variant: "danger",
+                            variant: 'danger',
                             appendToast: true,
                             solid: true,
                           });
@@ -525,7 +514,6 @@ export default {
       }
     },
     initPayload() {
-      console.log(this.orgType);
       return {
         userdetails: {
           username: this.userName,
@@ -560,12 +548,13 @@ export default {
           maflag: 0,
           avnoflag: 1,
           ainvnoflag: 1,
-          modeflag: null
-        }
+          modeflag: null,
+        },
       };
     },
   },
   mounted() {
+    this.checkRegistrationStatus();
     this.yearStart = `${new Date().getFullYear()}-04-01`; // 1st of April, current year. YYYY-MM-DD
   },
 };
