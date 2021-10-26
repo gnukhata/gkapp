@@ -40,6 +40,7 @@ const routes = [
     name: 'Organisation Logs',
     component: Logs,
   },
+  // User Management
   {
     path: '/users',
     name: 'User Management',
@@ -104,8 +105,10 @@ const routes = [
     path: '/categories/edit/:id',
     name: 'Edit_Category',
     component: () =>
-      import(/* webpackChunkName: "edit_category" */ '../views/CategoryEdit.vue'),
-      props: true
+      import(
+        /* webpackChunkName: "edit_category" */ '../views/CategoryEdit.vue'
+      ),
+    props: true,
   },
   {
     path: '/stock-on-hand',
@@ -389,6 +392,7 @@ const routes = [
       import(/* webpackChunkName: "edit_budget" */ '../views/BudgetEdit.vue'),
     props: true,
   },
+  // Reports
   {
     path: '/profit-loss',
     name: 'Profit & Loss',
@@ -434,14 +438,14 @@ const routes = [
   {
     // ac=accountcode, pc=productcode, fs=financialstart, fd=fromdate, td=todate,
     path: '/ledger/:ac&:pc&:fd&:td',
-    name: 'Ledger',
+    name: 'Ledger Full',
     component: () =>
       import(/* webpackChunkName: "ledger-full" */ '../views/LedgerFull.vue'),
   },
   {
     // ac=accountcode
     path: '/ledger/:ac',
-    name: 'Ledger',
+    name: 'Ledger Single',
     component: () =>
       import(/* webpackChunkName: "ledger-ac" */ '../views/LedgerFull.vue'),
   },
@@ -450,7 +454,15 @@ const routes = [
     path: '/bank-recon',
     name: 'Bank_Reconc',
     component: () =>
-      import(/* webpackChunkName: "ledger-ac" */ '../views/BankRecon.vue'),
+      import(/* webpackChunkName: "bank-recon" */ '../views/BankRecon.vue'),
+  },
+
+  // GST
+  {
+    path: '/gst/r1',
+    name: 'GST R1 Report',
+    component: () =>
+      import(/* webpackChunkName: "gst-r1" */ '../views/gst/R1.vue'),
   },
 ];
 
