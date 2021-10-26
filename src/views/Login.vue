@@ -150,7 +150,6 @@ export default {
      */
     login() {
       this.isLoading = true;
-      console.log(this.form.userpassword);
       axios
         .post(`${this.gkCoreUrl}/login`, this.form)
         .then((response) => {
