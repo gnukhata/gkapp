@@ -70,8 +70,12 @@
           ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
           Note</b-form-checkbox
         >
-        <b-form-checkbox value="Debit / Credit Note"
-          ><b-icon icon="file-diff" variant="warning"></b-icon> Debit/Credit
+        <b-form-checkbox value="Debit Note"
+          ><b-icon icon="file-earmark-minus" variant="warning"></b-icon> Debit
+          Note</b-form-checkbox
+        >
+        <b-form-checkbox value="Credit Note"
+          ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
           Note</b-form-checkbox
         >
       </b-form-checkbox-group>
@@ -135,9 +139,22 @@
               {{ data.item.rnno }}</b-link
             >
           </div>
-          <div v-else-if="data.item.trntype === 'debit/credit note'">
+          <div v-else-if="data.item.trntype === 'Debit Note'">
+            <b-icon variant="warning" icon="file-earmark-minus"></b-icon>
             {{ data.item.particulars }} :
-            <b-icon variant="warning" icon="file-diff"></b-icon>
+            <b-link
+              @click="
+                $router.push(
+                  '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
+                )
+              "
+            >
+              {{ data.item.drcrno }}</b-link
+            >
+          </div>
+          <div v-else-if="data.item.trntype === 'Credit Note'">
+            <b-icon variant="info" icon="file-earmark-plus"></b-icon>
+            {{ data.item.particulars }} :
             <b-link
               @click="
                 $router.push(
@@ -251,7 +268,6 @@ export default {
           this.report = this.report2.filter((data) => {
             if (data.trntype === this.invoiceFilter[i]) {
               items.push(data);
-              return;
             }
           });
         }
