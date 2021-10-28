@@ -9,6 +9,116 @@ us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
 
+* Meeting history (2021-10-25)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-10-25
+  :END:
+
+Agenda:
+ - Review past week's progess
+
+Participants: Karthik, R2, Survesh, VK
+
+Updates:
+- Karthik:
+ 
+- Survesh:
+  - Component for downloading files
+  - Spreadsheet API [gkcore]
+  - Bug Fixes 
+    - Unable to purchase out of stock items
+    - Issue with IGST/CGST/SGST
+    - Validation for foreign GSTINs
+
+
+Points Discussed:
+- Feedback on organisation selection module,
+  - When using the newly added search bar, the names of other organisations must not be shown.
+  - A different way to approach this would be to make the user enter the name of the organisation 
+    and checking if its a valid organisation name.
+- Feedback for the option to toggle the ability to create new organisations,
+  - The message that is displayed when the create org feature is turned off needs to have information
+    on how to resolve the issue as well.
+  - For example "Your attempt to create a new organisation has been logged and admin will contact you" or
+    "Contact admin at admin@admin.com regarding this issue".
+  - Need a separate panel for the admin who takes care of the GNUKhata instance. Here notifications related to 
+    the issues raised by users of that instance will be accessible by the admin.
+- In foreign GSTIN validation 99, 98 are used as state codes. See how ERP next handles this and implement 
+  likewise.
+- Feedback in transaction forms,
+  - Make the sale of out of stock items configurable, as there are times where the company 
+    might need to create invoices for out of stock items and take care of the inventory later.
+  - Need for the ability to generate pin codes automatically from state and address.
+  - Pincode and address need not be kept as mandatory fields.
+  - Need for the addition of Supplier Invoice Number and Supplier Invoice Date in the Invoice forms.
+
+Conclusion:
+- Updates will be performed based on the points discussed above.
+
+* Meeting history (2021-10-18)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-10-18
+  :END:
+
+Agenda:
+ - Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh
+
+Updates:
+- Karthik:
+
+- Survesh:
+  - Rework GSTIN field UI
+  - Downloadable Spreadsheet
+  - Complete the validation of JSON structure [gkcore]
+
+Points Discussed:
+- Discussions on GSTIN and GST,
+  - Place the GSTIN field before the PAN and the state fields, so they are auto filled 
+    once a valid GSTIN has been entered.
+  - Can we use the API for getting the GSTIN related data?
+    - Yes, there are these service providers called GSP's (GST Suvidha Provider) 
+      who provide GST related services for a fee. 
+    - List of GSP's, (https://www.gstn.org.in/empanelled-gsps).
+    - We can provide an option in GNUKhata with which users interested in filing GST returns 
+      directly from GNUKhata can create an account to the GSP they want or the ones that we
+      support and use them from GNUKhata.
+    - Using a GSP will provide us the ability to check if a GSTIN is active or not, provide
+      API's to perform GST filings online, etc.
+  - Priority tasks related to GST,
+    - Generate GST returns and make them downloadable in JSON or Excel formats. The users can 
+      download the reports manually and file them in the GST website manually
+    - Generate and file GST returns automatically from GNUKhata using GSP/ASPs.
+  - R2 will create a new company in the demo site for gkapp and we will test and iterate on
+    GST compliance related tasks there. The following features are required before this,
+    - CGST/SGST/IGST field support in Invoices
+    - Place of supply
+    - GST categories
+- Comments on config UI in transaction pages,
+  - If any of the elements in the create transaction page is hidden by using a config, it must be conveyed to the 
+    user.
+  - Need better validation messages when there is an issue with the JSON structure of the config. (For example in what line
+    number the error occured would be helpful)
+  - The current JSON config must be converted to an easy to use form as entering JSON would not user friendly.
+- When Balance Sheet is downloaded as Excel file and printed, the Assets and Liabilities columns must appear horizontally 
+  than one below the other.
+- Should we double hash the passwords for more security?
+  - Must check online if this practice is good and also find good a library that does this if it is.
+- Discussions about new website,
+  - Shall we migrate the new website to production?
+    - The content of the website has to be approved by VK before moving to production. So iterate on this with VK.
+  - The "About" section of the website should include details about GNUKhata.
+  - The new website has provisions for blog posts. We can start writing blog posts there.
+    Possible blog post ideas,
+    - Current status of GNUKhata, what we are doing, information about gkapp, updates to gkcore, expected release
+      dates, etc.
+    - Best practices for GST compliance.
+    - User Manual for gkapp.
+
+Conclusion:
+- Updates will be performed based on the points discussed above.
+
 * Meeting history (2021-10-12)
   :PROPERTIES:
   :CUSTOM_ID: meeting-history-2021-10-12
