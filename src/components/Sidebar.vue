@@ -204,6 +204,20 @@
               <b-icon icon="journals"></b-icon> Balance Sheet
             </b-nav-item>
           </b-collapse>
+          <!-- GST -->
+          <h6 v-b-toggle.gst class="ml-3 mr-5 mt-2">
+            <b-icon
+              :icon="collapsed.gst ? 'caret-down-fill' : 'caret-right-fill'"
+              class="text-right"
+            ></b-icon>
+            GST
+          </h6>
+          <b-collapse v-model="collapsed.gst" id="gst">
+            <b-nav-item to="/gst/r1">
+              <b-icon icon="file-earmark"></b-icon> R1 Report
+            </b-nav-item>
+          </b-collapse>
+
           <!-- Help -->
           <h6 v-b-toggle.help class="text-center ml-3 mt-2 mr-5">
             <b-icon

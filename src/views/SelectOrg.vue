@@ -143,8 +143,10 @@ export default {
               },
             };
           });
-          this.orgIndex = this.orgList[0].org;
-          this.getOrgYears();
+          if (this.orgList.length > 0) {
+            this.orgIndex = this.orgList[0].org;
+          }
+          // this.getOrgYears();
           this.isDisabled = false; // hide the spinner
         })
         .catch((e) => {
@@ -161,6 +163,7 @@ export default {
      */
     getOrgYears() {
       if (this.orgIndex === null) {
+        this.orgCode = -1;
         return;
       }
       this.isDisabled = true;
@@ -173,7 +176,6 @@ export default {
           if (r.status == 200) {
             this.orgYears = r.data.gkdata;
             this.orgCode = r.data.gkdata[0].orgcode;
-            // Set default financial year to latest one
           }
           this.isDisabled = false;
         })
