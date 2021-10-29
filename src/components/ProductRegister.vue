@@ -57,28 +57,30 @@
     <!-- report -->
     <div v-if="report.length > 0" class="mt-2">
       <!-- filters -->
-      <b-form-checkbox-group
-        @change="applyFilters"
-        class="text-center mb-2"
-        v-model="invoiceFilter"
-        name="flavour-2"
-      >
-        <b-form-checkbox value="invoice"
-          ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
+      <div>
+        <b-form-checkbox-group
+          @change="applyFilters"
+          @input="applyFilters"
+          class="text-center mb-2"
+          v-model="invoiceFilter"
         >
-        <b-form-checkbox value="Rejection Note"
-          ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
-          Note</b-form-checkbox
-        >
-        <b-form-checkbox value="Debit Note"
-          ><b-icon icon="file-earmark-minus" variant="warning"></b-icon> Debit
-          Note</b-form-checkbox
-        >
-        <b-form-checkbox value="Credit Note"
-          ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
-          Note</b-form-checkbox
-        >
-      </b-form-checkbox-group>
+          <b-form-checkbox value="invoice"
+            ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
+          >
+          <b-form-checkbox value="Rejection Note"
+            ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
+            Note</b-form-checkbox
+          >
+          <b-form-checkbox value="Debit Note"
+            ><b-icon icon="file-earmark-minus" variant="warning"></b-icon> Debit
+            Note</b-form-checkbox
+          >
+          <b-form-checkbox value="Credit Note"
+            ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
+            Note</b-form-checkbox
+          >
+        </b-form-checkbox-group>
+      </div>
       <!-- search bar -->
       <div class="gkcard mx-auto mb-4">
         <b-form-input
@@ -102,101 +104,103 @@
         </template>
       </report-header>
       <!-- result table -->
-      <b-table
-        small
-        class="table-border-dark"
-        striped
-        head-variant="dark"
-        :items="report"
-        responsive="sm"
-        :fields="fields"
-        :filter="search"
-      >
-        <!-- Transaction type -->
-        <template #cell(particulars)="data">
-          <div v-if="data.item.trntype === 'invoice'">
-            <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
-            <b-link
-              @click="
-                $router.push(
-                  '/Workflow/Transactions-Invoice/' + data.item.invid
-                )
-              "
-            >
-              {{ data.item.invno }}</b-link
-            >
-          </div>
-          <div v-else-if="data.item.trntype == 'Rejection Note'">
-            <b-icon variant="danger" icon="journal-x"></b-icon>
-            {{ data.item.particulars }} :
-            <b-link
-              @click="
-                $router.push(
-                  '/Workflow/Transactions-RejectionNote/' + data.item.rnid
-                )
-              "
-            >
-              {{ data.item.rnno }}</b-link
-            >
-          </div>
-          <div v-else-if="data.item.trntype === 'Debit Note'">
-            <b-icon variant="warning" icon="file-earmark-minus"></b-icon>
-            {{ data.item.particulars }} :
-            <b-link
-              @click="
-                $router.push(
-                  '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
-                )
-              "
-            >
-              {{ data.item.drcrno }}</b-link
-            >
-          </div>
-          <div v-else-if="data.item.trntype === 'Credit Note'">
-            <b-icon variant="info" icon="file-earmark-plus"></b-icon>
-            {{ data.item.particulars }} :
-            <b-link
-              @click="
-                $router.push(
-                  '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
-                )
-              "
-            >
-              {{ data.item.drcrno }}</b-link
-            >
-          </div>
-          <div v-else class="font-weight-bold">
-            {{ data.item.particulars }}
-          </div>
-        </template>
-        <template #cell(inward)="data">
-          <div class="text-right">
-            <span v-if="data.item.particulars === 'opening stock'">{{
-              data.item.inward
-            }}</span>
-            <span v-if="data.item.particulars === 'Total'">{{
-              data.item.totalinwardqty
-            }}</span>
-            <span v-else>{{ data.item.inwardqty }}</span>
-          </div>
-        </template>
-        <!-- Outward -->
-        <template #cell(outward)="data">
-          <div class="text-right">
-            <span v-if="data.item.particulars === 'opening stock'">{{
-              data.item.outward
-            }}</span>
-            <span v-if="data.item.particulars === 'Total'">{{
-              data.item.totaloutwardqty
-            }}</span>
-            <span v-else>{{ data.item.outwardqty }}</span>
-          </div>
-        </template>
-        <!-- balance -->
-        <template #cell(balance)="data"
-          ><div class="text-right">{{ data.item.balance }}</div>
-        </template>
-      </b-table>
+      <keep-alive>
+        <b-table
+          small
+          class="table-border-dark"
+          striped
+          head-variant="dark"
+          :items="report"
+          responsive="sm"
+          :fields="fields"
+          :filter="search"
+        >
+          <!-- Transaction type -->
+          <template #cell(particulars)="data">
+            <div v-if="data.item.trntype === 'invoice'">
+              <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
+              <b-link
+                @click="
+                  $router.push(
+                    '/Workflow/Transactions-Invoice/' + data.item.invid
+                  )
+                "
+              >
+                {{ data.item.invno }}</b-link
+              >
+            </div>
+            <div v-else-if="data.item.trntype === 'Rejection Note'">
+              <b-icon variant="danger" icon="journal-x"></b-icon>
+              {{ data.item.particulars }} :
+              <b-link
+                @click="
+                  $router.push(
+                    '/Workflow/Transactions-RejectionNote/' + data.item.rnid
+                  )
+                "
+              >
+                {{ data.item.rnno }}</b-link
+              >
+            </div>
+            <div v-else-if="data.item.trntype === 'Debit Note'">
+              <b-icon variant="warning" icon="file-earmark-minus"></b-icon>
+              {{ data.item.particulars }} :
+              <b-link
+                @click="
+                  $router.push(
+                    '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
+                  )
+                "
+              >
+                {{ data.item.drcrno }}</b-link
+              >
+            </div>
+            <div v-else-if="data.item.trntype === 'Credit Note'">
+              <b-icon variant="info" icon="file-earmark-plus"></b-icon>
+              {{ data.item.particulars }} :
+              <b-link
+                @click="
+                  $router.push(
+                    '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
+                  )
+                "
+              >
+                {{ data.item.drcrno }}</b-link
+              >
+            </div>
+            <div v-else class="font-weight-bold">
+              {{ data.item.particulars }}
+            </div>
+          </template>
+          <template #cell(inward)="data">
+            <div class="text-right">
+              <span v-if="data.item.particulars === 'opening stock'">{{
+                data.item.inward
+              }}</span>
+              <span v-if="data.item.particulars === 'Total'">{{
+                data.item.totalinwardqty
+              }}</span>
+              <span v-else>{{ data.item.inwardqty }}</span>
+            </div>
+          </template>
+          <!-- Outward -->
+          <template #cell(outward)="data">
+            <div class="text-right">
+              <span v-if="data.item.particulars === 'opening stock'">{{
+                data.item.outward
+              }}</span>
+              <span v-if="data.item.particulars === 'Total'">{{
+                data.item.totaloutwardqty
+              }}</span>
+              <span v-else>{{ data.item.outwardqty }}</span>
+            </div>
+          </template>
+          <!-- balance -->
+          <template #cell(balance)="data"
+            ><div class="text-right">{{ data.item.balance }}</div>
+          </template>
+        </b-table>
+      </keep-alive>
     </div>
   </section>
 </template>
@@ -261,17 +265,20 @@ export default {
       }
     },
     applyFilters() {
-      if (this.invoiceFilter.length !== 0) {
+      if (this.invoiceFilter.length > 0) {
         let items = [];
-        console.log(this.invoiceFilter);
         for (let i in this.invoiceFilter) {
-          this.report = this.report2.filter((data) => {
-            if (data.trntype === this.invoiceFilter[i]) {
+          this.report2.filter((data) => {
+            if (data.trntype == this.invoiceFilter[i]) {
               items.push(data);
             }
           });
         }
-        this.report = items;
+        if (items.length > 0) {
+          this.report = items;
+        } else {
+          this.report = this.report2;
+        }
       } else {
         this.report = this.report2;
       }
