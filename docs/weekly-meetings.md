@@ -5,6 +5,41 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
+# Meeting history (2021-11-01)
+
+Agenda:
+
+-   Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh
+
+Updates:
+
+-   Karthik:
+    -   Initial work on gst r1
+    -   Fix filters in product register
+-   Survesh:
+    -   GSTIN validation using public API
+
+Points Discussed:
+
+-   Feedback on online GSTIN validation,
+    -   Move the GSTIN field to the beginning of the form and add a radio button
+        to choose between filling the form manually vs fetching the data from API.
+    -   Add fields to store GSTIN active status (useful while creating B2B transactions) and Trade type in the DB.
+-   In product register, add a text stating "No results found", when there are no results.
+-   In GST-R1 resport page, display the GSTIN number at the top.
+-   Discussion on releasing gkwebapp point release,
+    -   Before a new point release, extensive functional testing of the whole app is required
+        and not just the features added.
+    -   The new build released should have more than just one feature added to it. For example in addition to fixing the 
+        Roll Over Bug, it could also contain an update to the GST-R1 report that adds latest GST compliance.
+
+Conclusion:
+
+-   Updates will be performed based on the points discussed above.
+
+
 # Meeting history (2021-10-25)
 
 Agenda:
@@ -16,7 +51,8 @@ Participants: Karthik, R2, Survesh, VK
 Updates:
 
 -   Karthik:
-
+    -   Disable org registration
+    -   Search org name in select org
 -   Survesh:
     -   Component for downloading files
     -   Spreadsheet API [gkcore]
