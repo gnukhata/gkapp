@@ -467,7 +467,7 @@ export default {
           this.invoice.invItems = Object.keys(details.invcontents).map(
             (key) => {
               let taxrate = parseFloat(details.invcontents[key].taxrate) || 0;
-              let cgst = (taxrate / 2).toFixed(2);
+              let cgst = (taxrate).toFixed(2);
               product = {
                 id: key,
                 name: details.invcontents[key].proddesc,
