@@ -1,24 +1,160 @@
 <template>
-  <b-input-group>
-    <b-form-input
+  <div>
+    <b-input-group>
+      <b-form-input
+        size="sm"
+        ref="gstin"
+        class="gk-gstin"
+        v-model.trim="input"
+        v-bind="$attrs"
+        type="text"
+        autocomplete="off"
+        :readonly="readonly"
+        :tabindex="readonly ? -1 : 0"
+        :state="isGstinValid"
+      ></b-form-input>
+      <b-form-invalid-feedback id="gstin-feedback">
+        {{ invalidText }}
+      </b-form-invalid-feedback>
+    </b-input-group>
+    <b-button
+      v-if="validity.checksum && validity.format"
       size="sm"
-      ref="gstin"
-      class="gk-gstin"
-      v-model.trim="input"
-      v-bind="$attrs"
-      type="text"
-      autocomplete="off"
-      :readonly="readonly"
-      :tabindex="readonly ? -1 : 0"
-      :state="isGstinValid"
-    ></b-form-input>
-    <b-form-invalid-feedback id="gstin-feedback">
-      {{ invalidText }}
-    </b-form-invalid-feedback>
-  </b-input-group>
+      variant="success"
+      class="px-1 py-0 mt-1"
+      @click.prevent="getGstinCaptcha"
+    >
+      Validate Online
+    </b-button>
+
+    <b-modal
+      v-model="gstinCaptcha.show"
+      header-class="p-2"
+      body-class="px-0 py-2"
+      hide-footer
+      centered
+      size="l"
+      id="gstin-validation-modal"
+      title="GSTIN Validation"
+    >
+      <b-container
+        v-if="!gstinData.validity"
+        fluid
+        :style="{ minWidth: '300px' }"
+      >
+        <b-form>
+          <b-form-input
+            class="mb-2"
+            size="sm"
+            v-model.trim="input"
+            placeholder="Enter a valid GSTIN"
+          ></b-form-input>
+          <b-form-group
+            class="align-items-baseline"
+            label-for="gkg-captcha-input"
+            label-cols="auto"
+          >
+            <template #label>
+              <img
+                style="width: 182px; height: 50px;"
+                :src="gstinCaptcha.image"
+              />
+              <b-button
+                @click.prevent="getGstinCaptcha"
+                class="p-0 mx-2"
+                variant="link"
+              >
+                <b-icon icon="arrow-repeat"></b-icon>
+              </b-button>
+            </template>
+            <b-form-input
+              v-model.trim="gstinCaptcha.text"
+              id="gkg-captcha-input"
+              :state="gstinCaptcha.validity"
+            >
+            </b-form-input>
+            <b-form-invalid-feedback>
+              Captcha not correct, please try again!
+            </b-form-invalid-feedback>
+          </b-form-group>
+        </b-form>
+        <hr class="my-2" />
+        <b-button
+          size="sm"
+          variant="warning"
+          class="mx-1"
+          @click.prevent="validateGstinOnline"
+        >
+          Validate
+        </b-button>
+      </b-container>
+      <b-container
+        v-if="gstinData.validity"
+        fluid
+        :style="{ minWidth: '300px' }"
+      >
+        <h5>{{ input }} is valid!</h5>
+        <b-form class="align-form-label-right">
+          <b-form-group
+            label="Trade Name"
+            label-size="sm"
+            label-for="gkg-input-110"
+            label-cols="3"
+          >
+            <b-form-input
+              size="sm"
+              id="gkg-input-110"
+              v-model="gstinData.tradeName"
+              trim
+              readonly
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            label="Status"
+            label-size="sm"
+            label-for="gkg-input-120"
+            label-cols="3"
+          >
+            <b-form-input
+              size="sm"
+              id="gkg-input-120"
+              v-model="gstinData.status"
+              trim
+              readonly
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group
+            label="Address"
+            label-size="sm"
+            label-for="gkg-input-130"
+            label-cols="3"
+          >
+            <b-form-textarea
+              size="sm"
+              id="gkg-input-130"
+              v-model="gstinData.addr"
+              rows="3"
+              trim
+              readonly
+            ></b-form-textarea>
+          </b-form-group>
+          <hr class="my-2" />
+          <b-button
+            size="sm"
+            variant="warning"
+            class="mx-1"
+            @click.prevent="useGstinData"
+          >
+            Use GSTIN data
+          </b-button>
+        </b-form>
+      </b-container>
+    </b-modal>
+  </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'GkGstin',
   model: {
@@ -62,6 +198,21 @@ export default {
         checksum: false,
         format: false,
       },
+      gstinCaptcha: {
+        image: '',
+        cookie: '',
+        show: false,
+        text: '',
+        validity: null,
+      },
+      gstinData: {
+        tradeName: '',
+        addr: '',
+        status: '',
+        state: '',
+        pincode: '',
+        validity: null,
+      },
     };
   },
   computed: {
@@ -92,6 +243,88 @@ export default {
     },
   },
   methods: {
+    useGstinData() {
+      this.$emit('gstin_data', {
+        name: this.gstinData.tradeName,
+        addr: this.gstinData.addr,
+        pincode: this.gstinData.pincode
+      });
+      this.gstinCaptcha.show = false;
+      this.gstinData.validity = null;
+      this.gstinCaptcha.validity = null;
+      this.gstinCaptcha.text = '';
+    },
+    validateGstinOnline() {
+      const payload = {
+        payload: {
+          gstin: this.input,
+          captcha: this.gstinCaptcha.text,
+        },
+        cookie: this.gstinCaptcha.cookie,
+      };
+      axios.post('/gstreturns?type=gstin_captcha', payload).then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          let data = resp.data.gkresult;
+          let addrSplit = data.pradr.adr.split(', ');
+          this.gstinData = {
+            tradeName: data.tradeNam ? data.tradeNam : '',
+            status: data.sts ? data.sts : '',
+            addr: data.pradr.adr ? data.pradr.adr : '',
+            pincode: addrSplit? addrSplit[addrSplit.length -1] : '',
+            validity: true,
+          };
+          this.gstinCaptcha.validity = true;
+        } else {
+          this.gstinData.validity = false;
+          let error = resp.data.gkerror;
+          if (error) {
+            if (error.errorCode && error.errorCode === 'SWEB_9000') {
+              this.gstinCaptcha.validity = false;
+              this.gstinCaptcha.text = '';
+              this.getGstinCaptcha();
+            }
+          }
+        }
+      });
+    },
+    getGstinCaptcha() {
+      axios.get('/gstreturns?type=gstin_captcha').then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          let data = resp.data.gkresult;
+          let captchaB64 = data.captcha;
+          // const uInt8Array = new Uint8Array(captchaB64.length);
+
+          // // Insert all character code into uInt8Array
+          // for (let i = 0; i < captchaB64.length; ++i) {
+          //   uInt8Array[i] = captchaB64.charCodeAt(i);
+          // }
+
+          // Return BLOB image after conversion
+          // let blob = new Blob([uInt8Array], { type: "image/png" });
+          // this.gstinCaptcha.image = window.URL.createObjectURL(blob);
+          this.gstinCaptcha.cookie = data.cookie;
+          this.gstinCaptcha.image = `data:image/png;base64,${captchaB64}`;
+          this.gstinCaptcha.show = true;
+        } else {
+          this.gstinCaptcha.show = false;
+        }
+      });
+      // axios
+      //   .get('https://services.gst.gov.in/services/captcha', {withCredentials: true})
+      //   .then((resp) => {
+      //     console.log(resp.headers['set-cookie']);
+      //   })
+      //   .catch((e) => {});
+      // var xhttp = new XMLHttpRequest();
+      // xhttp.onreadystatechange = function() {
+      //   if (this.readyState == 4 && this.status == 200) {
+      //     // Typical action to be performed when the document is ready:
+      //     console.log(xhttp.getResponseHeader('set-cookie'));
+      //   }
+      // };
+      // xhttp.open('GET', 'https://services.gst.gov.in/services/captcha', true);
+      // xhttp.send();
+    },
     /**
      * Validates the gstin and emits a payload with validity status and checksum, pan and state code
      *  */
@@ -144,9 +377,7 @@ export default {
       // state code - 99 or 98 (needs review)
       // 0717USA12345NFD
       if (!valid.format) {
-        valid.format = /^[0-9]{4}[A-Z]{3}[0-9]{5}[0-9A-Z]{3}/g.test(
-          gstn
-        );
+        valid.format = /^[0-9]{4}[A-Z]{3}[0-9]{5}[0-9A-Z]{3}/g.test(gstn);
         if (valid.format) {
           valid.isUin = true;
         }

@@ -113,6 +113,7 @@
                   >
                     <gk-gstin
                       @validity="onGstinUpdate"
+                      @gstin_data="onGstinDataFetched"
                       v-model="form.gstin.gstin"
                     ></gk-gstin>
                   </b-form-group>
@@ -396,6 +397,11 @@ export default {
     },
   },
   methods: {
+    onGstinDataFetched({ addr, name, pincode }) {
+      this.form.address = addr;
+      this.form.name = name;
+      this.form.pin = pincode;
+    },
     onGstinUpdate({ validity, stateCode, pan, checksum }) {
       if (validity.format) {
         Object.assign(this.form.gstin, {
