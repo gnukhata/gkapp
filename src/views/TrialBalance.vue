@@ -43,10 +43,37 @@
       <div class="mt-3" v-if="result !== null">
         <b-form-radio-group
           v-model="trialBalanceType"
-          :options="options"
           name="radio-options"
           class="mx-auto text-center d-print-none mb-3"
-        ></b-form-radio-group>
+        >
+          <b-form-radio value="Net"
+            >Net
+
+            <gk-tooltip
+              icon="info-circle"
+              helpTitle="Net Trial Balance"
+              help-body="The Net Trial Balance will provide the closing balances (or current balance as on selected end date)"
+            ></gk-tooltip>
+          </b-form-radio>
+          <b-form-radio value="Gross"
+            >Gross
+
+            <gk-tooltip
+              icon="info-circle"
+              helpTitle="Gross Trial Balance"
+              help-body="The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances"
+            ></gk-tooltip>
+          </b-form-radio>
+          <b-form-radio value="Extended"
+            >Extended
+
+            <gk-tooltip
+              icon="info-circle"
+              helpTitle="Extended Trial Balance"
+              help-body="the Extended version shows all gross & net trial balances with Opening Balances"
+            ></gk-tooltip>
+          </b-form-radio>
+        </b-form-radio-group>
         <!-- search bar -->
         <b-form-input
           v-model.lazy="search"
@@ -81,7 +108,7 @@
         </b-table>
         <!-- Gross Trial Balance -->
         <b-table
-          v-if="trialBalanceType === 'Gross'"
+          v-else-if="trialBalanceType === 'Gross'"
           class="table-border-dark"
           :items="balance.net"
           :fields="grossfields"
@@ -93,14 +120,22 @@
           stacked="sm"
           head-variant="dark"
         >
+          <template #cell(accountname)="data">
+            <b-link
+              class="text-dark"
+              @click="$router.push(`/ledger/${data.item.accountcode}`)"
+            >
+              {{ data.item.accountname }}
+            </b-link>
+          </template>
         </b-table>
         <!-- Extended Trial Balance -->
         <b-table
-          v-if="trialBalanceType === 'Extended'"
+          v-else
           class="table-border-dark"
           :items="balance.extended"
           :fields="extendedfields"
-          filter="search"
+          :filter="search"
           primary-key="accountname"
           small
           bordered
@@ -108,6 +143,14 @@
           stacked="sm"
           head-variant="dark"
         >
+          <template #cell(accountname)="data">
+            <b-link
+              class="text-dark"
+              @click="$router.push(`/ledger/${data.item.accountcode}`)"
+            >
+              {{ data.item.accountname }}
+            </b-link>
+          </template>
         </b-table>
       </div>
     </b-overlay>
@@ -120,8 +163,9 @@ import { mapState } from 'vuex';
 import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
+import GkTooltip from '../components/GkTooltip.vue';
 export default {
-  components: { GkCardheader, GkDate, ReportHeader },
+  components: { GkCardheader, GkDate, ReportHeader, GkTooltip },
   name: 'ProfitLoss',
   data() {
     return {
@@ -132,11 +176,11 @@ export default {
       trialBalanceType: 'Net',
       balance: Object,
       result: null,
-      options: [
-        { text: 'Net Trial Balance', value: 'Net' },
-        { text: 'Gross Trial Balance', value: 'Gross' },
-        { text: 'Extended Trial Balance', value: 'Extended' },
-      ],
+      // options: [
+      //   { text: 'Net Trial Balance', value: 'Net' },
+      //   { text: 'Gross Trial Balance', value: 'Gross' },
+      //   { text: 'Extended Trial Balance', value: 'Extended' },
+      // ],
       netfields: [
         {
           key: 'srno',
