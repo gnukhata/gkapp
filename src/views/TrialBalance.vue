@@ -99,11 +99,12 @@
         >
           <template #cell(accountname)="data">
             <b-link
-              class="text-dark"
+              v-if="data.item.accountname !== 'Total'"
               @click="$router.push(`/ledger/${data.item.accountcode}`)"
             >
               {{ data.item.accountname }}
             </b-link>
+            <div v-else>{{ data.item.accountname }}</div>
           </template>
         </b-table>
         <!-- Gross Trial Balance -->
@@ -122,11 +123,12 @@
         >
           <template #cell(accountname)="data">
             <b-link
-              class="text-dark"
+              v-if="data.item.accountname !== 'Total'"
               @click="$router.push(`/ledger/${data.item.accountcode}`)"
             >
               {{ data.item.accountname }}
             </b-link>
+            <div v-else>{{ data.item.accountname }}</div>
           </template>
         </b-table>
         <!-- Extended Trial Balance -->
@@ -145,11 +147,12 @@
         >
           <template #cell(accountname)="data">
             <b-link
-              class="text-dark"
+              v-if="data.item.accountname !== 'Total'"
               @click="$router.push(`/ledger/${data.item.accountcode}`)"
             >
               {{ data.item.accountname }}
             </b-link>
+            <div v-else>{{ data.item.accountname }}</div>
           </template>
         </b-table>
       </div>
