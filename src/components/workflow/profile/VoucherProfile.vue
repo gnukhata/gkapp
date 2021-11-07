@@ -37,10 +37,10 @@
         <span>Total</span>
       </template>
       <template #foot(dr)="">
-        <span>₹ {{ totalDr }}</span>
+        <div class="gk-currency">₹ {{ totalDr }}</div>
       </template>
       <template #foot(cr)="">
-        <span>₹ {{ totalCr }}</span>
+        <div class="gk-currency">₹ {{ totalCr }}</div>
       </template>
     </b-table-lite>
     <p class="text-small">
@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       isPreloading: false,
-      tableFields: ['account', 'dr', 'cr'],
+      tableFields: ['account', {key: 'dr', label: 'Dr', tdClass: 'gk-currency'}, {key: 'cr', label: 'Cr', tdClass: 'gk-currency'}],
       voucher: {
         content: [],
         date: '',

@@ -111,8 +111,8 @@ const config = {
     ],
     columnMap: {
       dateObj: { label: 'Date', key: 'dateObj', sortable: true },
-      drAmount: { label: 'Dr', key: 'drAmount', sortable: true },
-      crAmount: { label: 'Cr', key: 'crAmount', sortable: true },
+      drAmount: { label: 'Dr', key: 'drAmount', sortable: true, tdClass: 'gk-currency' },
+      crAmount: { label: 'Cr', key: 'crAmount', sortable: true, tdClass: 'gk-currency' },
       vouchertype: { label: 'Type', key: 'vouchertype', sortable: true },
       vouchernumber: {
         label: 'No',
@@ -235,11 +235,13 @@ function initColumns() {
           label: 'Dr',
           key: 'drAmount',
           sortable: true,
+          tdClass: 'gk-currency'
         },
         {
           label: 'Cr',
           key: 'crAmount',
           sortable: true,
+          tdClass: 'gk-currency'
         },
       ];
     }

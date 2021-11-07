@@ -158,19 +158,19 @@ export default {
       let dcType = self.flags.credit ? 'Credited' : 'Debited';
       if (self.flags.qty) {
         fields.push({ key: 'qty', label: `${dcType} Qty` });
-        fields.push({ key: 'rate', label: 'Item Rate' });
+        fields.push({ key: 'rate', label: 'Item Rate', tdClass: 'gk-currency-sm' });
       } else {
-        fields.push({ key: 'dcValue', label: `${dcType} Value` });
+        fields.push({ key: 'dcValue', label: `${dcType} Value (₹)`, tdClass: 'gk-currency-sm' });
       }
 
       if (self.flags.igst) {
-        fields.push({ key: 'igst', label: 'IGST %' });
+        fields.push({ key: 'igst', label: 'IGST (%)' });
       } else {
-        fields.push({ key: 'cgst', label: 'CGST %' });
-        fields.push({ key: 'sgst', label: 'SGST %' });
+        fields.push({ key: 'cgst', label: 'CGST (%)' });
+        fields.push({ key: 'sgst', label: 'SGST (%)' });
       }
-      fields.push({ key: 'cess', label: 'CESS %' });
-      fields.push({ key: 'total', label: 'Total ₹' });
+      fields.push({ key: 'cess', label: 'CESS (%)' });
+      fields.push({ key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' });
       return fields;
     },
   },

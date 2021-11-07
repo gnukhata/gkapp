@@ -193,13 +193,14 @@ export default {
         {
           key: 'price',
           label: 'Rate (₹)',
+          tdClass: 'gk-currency-sm'
         },
-        { key: 'discount', label: 'Discount (₹)' },
-        { key: 'igst', label: 'IGST %' },
-        { key: 'cgst', label: 'CGST %' },
-        { key: 'sgst', label: 'SGST %' },
-        { key: 'cess', label: 'CESS %' },
-        { key: 'total', label: 'Total (₹)' },
+        { key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm' },
+        { key: 'igst', label: 'IGST (%)' },
+        { key: 'cgst', label: 'CGST (%)' },
+        { key: 'sgst', label: 'SGST (%)' },
+        { key: 'cess', label: 'CESS (%)' },
+        { key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' },
       ];
       if (self.invoice.total.isIgst) {
         fields.splice(5, 2);

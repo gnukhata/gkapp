@@ -82,6 +82,7 @@ const config = {
       label: 'Amount',
       key: 'netamt',
       sortable: true,
+      tdClass: 'text-right'
     },
   ],
   options: {
@@ -110,7 +111,7 @@ const config = {
     columnMap: {
       dateObj: { label: 'Date', key: 'dateObj', sortable: true },
       custname: { label: 'Customer', key: 'custname', sortable: true },
-      netamt: { label: 'Amount', key: 'netamt', sortable: true },
+      netamt: { label: 'Amount', key: 'netamt', sortable: true, tdClass: 'gk-currency' },
       invoiceno: { label: 'Inv No', key: 'invoiceno', sortable: true },
       taxamt: { label: 'Tax', key: 'taxamt', sortable: true },
     },
@@ -250,6 +251,7 @@ function initColumns() {
           label: 'Amount',
           key: 'netamt',
           sortable: true,
+          tdClass: 'gk-currency'
         },
       ];
     }

@@ -77,7 +77,7 @@ const config = {
     ],
     columnMap: {
       dateObj: { label: 'Date', key: 'dateObj', sortable: true, },
-      rntotal: { label: 'Amount', key: 'rntotal', sortable: true, },
+      rntotal: { label: 'Amount', key: 'rntotal', sortable: true, tdClass: 'gk-currency' },
       invoiceno: { label: 'Inv No', key: 'invoiceno', sortable: true, },
       rnno: { label: 'No', key: 'rnno', sortable: true, },
     },

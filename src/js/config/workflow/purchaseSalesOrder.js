@@ -83,7 +83,7 @@ const config = {
     columnMap: {
       dateObj: { label: 'Date', key: 'dateObj', sortable: true },
       customer: { label: 'Customer', key: 'customer', sortable: true },
-      ordertotal: { label: 'Amount', key: 'ordertotal', sortable: true },
+      ordertotal: { label: 'Amount', key: 'ordertotal', sortable: true, tdClass: 'gk-currency' },
       orderno: { label: 'No', key: 'orderno', sortable: true },
     },
   },

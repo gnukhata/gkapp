@@ -120,13 +120,14 @@ export default {
         { key: 'qty', label: 'Rejected Qty' },
         {
           key: 'rate',
-          label: 'Rate',
+          label: 'Rate (₹)',
+          tdClass: 'gk-currency-sm'
         },
-        { key: 'igst', label: 'IGST %' },
-        { key: 'cgst', label: 'CGST %' },
-        { key: 'sgst', label: 'SGST %' },
-        { key: 'cess', label: 'CESS %' },
-        'total',
+        { key: 'igst', label: 'IGST (%)' },
+        { key: 'cgst', label: 'CGST (%)' },
+        { key: 'sgst', label: 'SGST (%)' },
+        { key: 'cess', label: 'CESS (%)' },
+        {key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm'},
       ];
       if (self.total.isIgst) {
         fields.splice(4, 2);

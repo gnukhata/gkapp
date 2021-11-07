@@ -266,8 +266,9 @@ export default {
         {
           key: 'price',
           label: 'Rate (₹)',
+          tdClass: 'gk-currency-sm'
         },
-        { key: 'discount', label: 'Discount (₹)' },
+        { key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm' },
       ];
 
       if (self.invoice.isGst) {
@@ -283,7 +284,7 @@ export default {
       } else {
         fields.push({ key: 'vat', label: 'VAT' });
       }
-      fields.push({ key: 'total', label: 'Total (₹)' });
+      fields.push({ key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' });
       fields.push({
         title: 'Issued By',
         value: `${self.invoice.issuer}  ${designation}`,

@@ -67,6 +67,7 @@ const config = {
         label: 'Amount',
         key: 'invoicetotal',
         sortable: true,
+        tdClass: 'gk-currency'
       },
       invoiceno: { label: 'No', key: 'invoiceno', sortable: true },
     },

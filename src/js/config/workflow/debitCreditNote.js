@@ -82,7 +82,7 @@ const config = {
     columnMap: {
       dateObj: { label: 'Date', key: 'dateObj', sortable: true },
       custname: { label: 'Customer', key: 'custname', sortable: true },
-      totreduct: { label: 'Amount', key: 'totreduct', sortable: true },
+      totreduct: { label: 'Amount', key: 'totreduct', sortable: true, tdClass: 'gk-currency' },
       drcrno: { label: 'No', key: 'drcrno', sortable: true },
     },
   },
@@ -154,6 +154,7 @@ function initColumns() {
           label: 'Amount',
           key: 'totreduct',
           sortable: true,
+          tdClass: 'gk-currency'
         },
       ];
     }
