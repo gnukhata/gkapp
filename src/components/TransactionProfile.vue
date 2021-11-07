@@ -3,7 +3,7 @@
     <b-row>
       <b-col cols="8">
         <p>
-          <b> {{ invoice.isSale ? "Buyer" : "Seller" }}</b>
+          <b> {{ invoice.isSale ? 'Buyer' : 'Seller' }}</b>
           <br />
           <span>{{ invoice.party.name }} </span><br />
           <span>{{ invoice.party.state }} </span> <br />
@@ -37,14 +37,37 @@
       <b>Total in words: {{ invoice.total.text }}</b>
     </div>
     <div class="float-right my-2">
-      <b-button v-if="onCreditFlag" class="mr-2" size="sm" variant="success" :to="{name: 'Billwise', params: {custType: invoice.party.csflag, custName: invoice.party.name}}"
-        > <b-icon icon="clipboard-check"></b-icon> Adjust</b-button
+      <b-button
+        v-if="onCreditFlag"
+        class="mr-2"
+        size="sm"
+        variant="success"
+        :to="{
+          name: 'Billwise',
+          params: {
+            custType: invoice.party.csflag,
+            custName: invoice.party.name,
+          },
+        }"
       >
-      <b-button v-if="rectifyFlag" class="mr-2" size="sm" variant="warning" :to="{name: 'Invoice', params: {mode: 'edit', invid: invid}}"
-        > <b-icon icon="pencil"></b-icon> Rectify</b-button
+        <b-icon icon="clipboard-check"></b-icon> Adjust</b-button
       >
-      <b-button v-if="cancelFlag" size="sm" variant="danger" @click="confirmOnCancel"
-        > <b-icon icon="x-octagon"></b-icon> Cancel</b-button
+      <b-button
+        v-if="rectifyFlag"
+        class="mr-2"
+        size="sm"
+        variant="warning"
+        :to="{ name: 'Invoice', params: { mode: 'edit', invid: invid } }"
+      >
+        <b-icon icon="pencil"></b-icon> Rectify</b-button
+      >
+      <b-button
+        v-if="cancelFlag"
+        size="sm"
+        variant="danger"
+        @click="confirmOnCancel"
+      >
+        <b-icon icon="x-octagon"></b-icon> Cancel</b-button
       >
     </div>
     <div class="clearfix"></div>
@@ -52,11 +75,11 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
+import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
-  name: "TransactionProfile",
+  name: 'TransactionProfile',
   components: {},
   props: {
     invid: {
@@ -66,17 +89,17 @@ export default {
     onCreditFlag: {
       type: Boolean,
       required: true,
-      note: "true if invoice is in credit",
+      note: 'true if invoice is in credit',
     },
     rectifyFlag: {
       type: Boolean,
       required: true,
-      note: "true if invoice can be edited",
+      note: 'true if invoice can be edited',
     },
     cancelFlag: {
       type: Boolean,
       required: true,
-      note: "true if cancellation of invoice is possible",
+      note: 'true if cancellation of invoice is possible',
     },
     onUpdate: {
       type: Function,
@@ -88,41 +111,41 @@ export default {
   data() {
     return {
       invoice: {
-        date: "",
+        date: '',
         party: {
-          csflag: "3", // 3 -> customer, 19 -> supplier
-          name: " ",
-          state: "",
-          addr: "",
-          pincodce: "",
+          csflag: '3', // 3 -> customer, 19 -> supplier
+          name: ' ',
+          state: '',
+          addr: '',
+          pincodce: '',
         },
-        isSale: "",
+        isSale: '',
         invItems: [],
         total: {
           amount: 0,
-          text: "Zero Rupee",
+          text: 'Zero Rupee',
         },
-        number: ""
+        number: '',
       },
       tableFields: [
         {
-          key: "name",
-          label: "Item",
+          key: 'name',
+          label: 'Item',
         },
-        "qty",
+        'qty',
         {
-          key: "price",
-          label: "Rate",
+          key: 'price',
+          label: 'Rate',
         },
-        "discount",
-        "tax",
-        "cess",
-        "total",
+        'discount',
+        'tax',
+        'cess',
+        'total',
       ],
     };
   },
   computed: {
-    ...mapState(["authToken"]),
+    ...mapState(['authToken']),
   },
   methods: {
     getDetails() {
@@ -132,7 +155,7 @@ export default {
           this.$bvToast.toast(`Error: ${error.message}`, {
             title: `${this.formMode} ${this.formType} Error!`,
             autoHideDelay: 3000,
-            variant: "warning",
+            variant: 'warning',
             appendToast: true,
             solid: true,
           });
@@ -154,7 +177,7 @@ export default {
             state: party.custsupstate,
             addr: party.custaddr,
             pincodce: party.pincode,
-            csflag: party.csflag
+            csflag: party.csflag,
           },
           isSale: details.inoutflag === 15,
           invItems: [],
@@ -202,56 +225,57 @@ export default {
         },
       };
       axios
-        .delete("/invoice?type=cancel", payload)
+        .delete('/invoice?type=cancel', payload)
         .then((response) => {
           switch (response.data.gkstatus) {
             case 0:
               this.displayToast(
-                "Cancel Invoice Success!",
+                'Cancel Invoice Success!',
                 `Successfully cancelled Invoice ${this.invoice.number}`,
-                "success"
+                'success'
               );
               this.getDetails().then((response) => {
-                if(typeof this.onUpdate === "function") {
+                if (typeof this.onUpdate === 'function') {
                   this.onUpdate(response.data);
                 }
-              })
+              });
               break;
             case 3:
               this.displayToast(
-                "Cancel Invoice Failure!",
+                'Cancel Invoice Failure!',
                 `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
-                "danger"
+                'danger'
               );
               break;
             default:
               this.displayToast(
-                "Cancel Invoice Failure!",
+                'Cancel Invoice Failure!',
                 `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
-                "danger"
+                'danger'
               );
           }
         })
         .catch((error) => {
-          this.displayToast("Cancel Invoice Failure!", error.message, "danger");
+          this.displayToast('Cancel Invoice Failure!', error.message, 'danger');
         });
     },
-     confirmOnCancel() {
-       let invType = this.invoice.isSale ? "Sale to" : "Purchase from"
-      let text = this.$createElement('div', {domProps: {innerHTML: `About to cancel Invoice: <b>${this.invoice.number}</b>, of ${this.invoice.total.text} <b>(₹ ${this.invoice.total.amount})</b> for ${invType}  ${this.invoice.party.name}. Are you sure?`}})
+    confirmOnCancel() {
+      let invType = this.invoice.isSale ? 'Sale to' : 'Purchase from';
+      let text = this.$createElement('div', {
+        domProps: {
+          innerHTML: `About to cancel Invoice: <b>${this.invoice.number}</b>, of ${this.invoice.total.text} <b>(₹ ${this.invoice.total.amount})</b> for ${invType}  ${this.invoice.party.name}. Are you sure?`,
+        },
+      });
       this.$bvModal
-        .msgBoxConfirm(
-          text,
-          {
+        .msgBoxConfirm(text, {
           size: 'md',
           buttonSize: 'sm',
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',
           footerClass: 'border-top-0', // p-1
           // bodyClass: 'p-2',
-          centered: true
-          }
-        )
+          centered: true,
+        })
         .then((val) => {
           if (val) {
             this.cancelInvoice();
@@ -278,7 +302,7 @@ export default {
             this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
               title: `${this.formMode} ${this.formType} Error!`,
               autoHideDelay: 3000,
-              variant: "warning",
+              variant: 'warning',
               appendToast: true,
               solid: true,
             });
@@ -289,7 +313,7 @@ export default {
               {
                 title: `Fetch Transaction Details Error!`,
                 autoHideDelay: 3000,
-                variant: "warning",
+                variant: 'warning',
                 appendToast: true,
                 solid: true,
               }
@@ -299,14 +323,17 @@ export default {
     },
   },
   watch: {
-    invid: function () {
-      this.fetchAndUpdateData();
+    invid: function(id) {
+      if (id && parseInt(id) > -1) {
+        this.fetchAndUpdateData();
+      }
     },
   },
   mounted() {
     // console.log("mounted")
-    this.fetchAndUpdateData();
+    if (this.invid && parseInt(this.invid) > -1) {
+      this.fetchAndUpdateData();
+    }
   },
 };
 </script>
-

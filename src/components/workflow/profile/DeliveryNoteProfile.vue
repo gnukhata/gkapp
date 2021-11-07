@@ -399,8 +399,9 @@ export default {
   },
   watch: {
     id: function(id) {
-      if (id) {
+      if (id && parseInt(id) > -1) {
         this.isPreloading = true;
+        console.log(`Fetch id = ${id}`)
         this.fetchAndUpdateData()
           .then(() => {
             this.isPreloading = false;
@@ -412,7 +413,7 @@ export default {
     },
   },
   mounted() {
-    if (this.id) {
+    if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;
       this.fetchAndUpdateData()
         .then(() => {

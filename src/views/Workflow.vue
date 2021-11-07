@@ -115,7 +115,7 @@
               >
                 <b-icon
                   class="align-middle"
-                  :font-scale="0.90"
+                  :font-scale="0.9"
                   icon="funnel"
                 ></b-icon
                 ><span class="sr-only">Filter</span>
@@ -123,7 +123,7 @@
               <print-helper
                 class="px-md-1 px-2"
                 :contentId="`list-${activeWorkflow.tabName}`"
-                :fontScale="0.90"
+                :fontScale="0.9"
                 variant="link"
               ></print-helper>
               <b-button
@@ -133,7 +133,7 @@
               >
                 <b-icon
                   class="align-middle"
-                  :font-scale="0.90"
+                  :font-scale="0.9"
                   icon="gear"
                 ></b-icon
                 ><span class="sr-only">Column Settings</span>
@@ -540,6 +540,7 @@ export default {
         index: null,
         icon: '',
         name: '',
+        id: -1,
       },
       customerList: [],
       supplierList: [],
@@ -840,6 +841,7 @@ export default {
      * Also initializes the filters and sorts, after that.
      */
     setActiveWorkflow(index, name, icon, skipUpdate) {
+      // console.log('In manual set active workflow, ' + skipUpdate);
       let color, tabName;
       let activeWorkflow = name.parent
         ? this.options.tabs[name.parent].tabs[name.child]
@@ -855,20 +857,22 @@ export default {
         color = this.options.tabs[name].color;
         tabName = name;
       }
+      // console.log(this.activeWorkflow.id);
+      this.isFilterOpen = false;
+      this.leftHeaderHeight.max = 0;
+      this.unsetSelectedEntity();
       this.activeWorkflow = {
         index,
         name,
         icon,
         color: color,
         tabName,
+        id: skipUpdate? this.activeWorkflow.id : -1,
       };
-      this.isFilterOpen = false;
-      this.leftHeaderHeight.max = 0;
       this.resetFilter();
-      this.unsetSelectedEntity();
-      if (!skipUpdate) {
-        this.updateUrl();
-      }
+      // if (!skipUpdate) {
+      //   this.updateUrl();
+      // }
       const self = this;
       if (!activeWorkflow.data.length) {
         this.isLoading = true;
@@ -883,9 +887,12 @@ export default {
           .then((resp) => {
             activeWorkflow.data = resp;
             self.isLoading = false;
+            // debugger;
             // select first item only if wfId = -1, i.e. nothing is selected
-            if (parseInt(self.wfId) > -1) {
-              this.selectFirstListItem();
+            // console.log(self.activeWorkflow.id);
+            if (parseInt(self.activeWorkflow.id) == -1) {
+              self.selectFirstListItem();
+              self.updateUrl();
             }
             return true;
           })
@@ -895,16 +902,20 @@ export default {
           });
       } else {
         // select first item only if wfId = -1, i.e. nothing is selected
-        if (parseInt(self.wfId) > -1) {
-          this.selectFirstListItem();
+        // console.log(self.activeWorkflow.id);
+        if (parseInt(self.activeWorkflow.id) == -1) {
+          self.selectFirstListItem();
+          self.updateUrl();
         }
       }
     },
     /** Sets the active workflow based on the URL props */
     autoSetActiveWorkflow() {
+      // console.log('In auto select active workflow');
       let self = this;
       let tab, index;
       let setActiveWorkflow;
+      this.activeWorkflow.id = this.wfId || -1;
       if (this.wfName.includes('-')) {
         let name = this.wfName.split('-');
         tab = this.options.tabs[name[0]].tabs[name[1]];
@@ -925,7 +936,7 @@ export default {
           true
         );
       }
-      if (window.innerWidth > 752) {
+      if (window.innerWidth > 752 || parseInt(this.wfId) !== -1) {
         if (setActiveWorkflow) {
           setActiveWorkflow.then(() => {
             self.initSelectedEntity(tab);
@@ -936,11 +947,13 @@ export default {
       }
     },
     selectFirstListItem() {
+      // console.log('In select first item method');
       if (window.innerWidth > 752) {
         const self = this;
         this.$forceUpdate();
         this.$nextTick().then(() => {
           if (self.$refs[`list-${self.activeWorkflow.tabName}`]) {
+            // console.log('Selecting the first row as active');
             self.$refs[`list-${self.activeWorkflow.tabName}`][0].selectRow(0);
           }
         });
@@ -957,9 +970,11 @@ export default {
         this.$refs['col-left'].classList.remove('d-block');
       if (this.$refs['col-right'])
         this.$refs['col-right'].classList.add('d-block');
-      if (!this.isPageFresh) {
-        this.updateUrl();
-      } else {
+      let key = this.activeTabOptions.uidKey;
+      let wfId = this.selectedEntity ? this.selectedEntity[key] || -1 : -1;
+      this.activeWorkflow.id = wfId;
+      this.updateUrl();
+      if(this.isPageFresh) {
         this.isPageFresh = false;
         let table = document.querySelector(
           `#list-${this.activeWorkflow.tabName}`
@@ -977,11 +992,14 @@ export default {
       let key = this.activeTabOptions.uidKey;
       let wfId = this.selectedEntity ? this.selectedEntity[key] || -1 : -1;
       url += `#/workflow/${wfName}/${wfId}`;
-      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
-      // instead of creating a new history instances for every entity selected
+      if (url != window.location.href) {
+        history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
+        // instead of creating a new history instances for every entity selected
+      }
     },
     unsetSelectedEntity() {
       const self = this;
+      this.selectedEntity = null;
       if (this.$refs['col-left']) {
         this.$refs['col-left'].classList.add('d-block');
       }
@@ -1130,7 +1148,7 @@ export default {
     this.options.tabs['Transactions'].tabs['RejectionNote'].data = [];
     this.options.tabs['Transactions'].tabs['TransferNote'].data = [];
     this.options.tabs['Transactions'].tabs['Voucher'].data = [];
-  }
+  },
 };
 </script>
 <style scoped>

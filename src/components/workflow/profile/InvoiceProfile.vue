@@ -605,7 +605,7 @@ export default {
   },
   watch: {
     id(newId) {
-      if (newId) {
+      if (newId && parseInt(newId) > -1) {
         this.isPreloading = true;
         this.showVouchers = false;
         this.vouchers = [];
@@ -621,7 +621,7 @@ export default {
   },
   mounted() {
     // console.log("mounted")
-    if (this.id) {
+    if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;
       Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
         .then(() => {
