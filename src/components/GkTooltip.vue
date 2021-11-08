@@ -5,6 +5,7 @@
     role="link"
     :variant="variant"
     :icon="icon"
+    :scale="scale"
   ></b-icon>
 </template>
 
@@ -14,20 +15,24 @@ export default {
   props: {
     helpTitle: {
       type: String,
-      default: 'Help',
       note: 'title of help popover (optional)',
     },
     helpBody: {
       type: String,
       default: 'Fill text here',
       required: true,
-      note: 'body of help popover (required)',
+      note: 'body of help popover (required). Supports html',
     },
     icon: {
       type: String,
       default: 'question-circle',
       required: false,
       note: 'Icon for tooltip',
+    },
+    scale: {
+      type: [String, Boolean],
+      default: 1,
+      note: 'Icon size',
     },
     variant: {
       type: String,
