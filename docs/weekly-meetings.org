@@ -9,6 +9,39 @@ us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
 
+* Meeting history (2021-11-08)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-11-08
+  :END:
+
+Agenda:
+ - Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh
+
+Updates:
+- Karthik:
+  - Individual GST R1 reports
+  - New component GkTooltip to show help
+  - Fix trial balance data not loading
+- Survesh:
+  - [Bug Fixes] Halved CGST and SGST in transaction profile page & "Not found alert" in workflow page
+  - Added CSS to right align currency
+  - Create Contact UI update (GSTIN based autofill & make fields except name not required)
+
+Points Discussed:
+- If the GSTIN data that is fetched from the gov's API is required for future use, storing it as a JSON
+  is a good option.
+- Feedback on R1 reports,
+  - The reports need to be tested and validated.
+  - Need support for generating reports for more than a month.
+- In Create Invoice pages, need ability to auto fill bank details. Use Org's bank details for a sale invoice and the Seller's
+  bank details for a purchase invoice.
+- In Contact Profile page, add the corresponding bank details.
+
+Conclusion:
+- Updates will be performed based on the points discussed above.
+
 * Meeting history (2021-11-01)
   :PROPERTIES:
   :CUSTOM_ID: meeting-history-2021-11-01
