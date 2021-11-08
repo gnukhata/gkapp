@@ -30,7 +30,7 @@ export default {
       note: 'Icon for tooltip',
     },
     scale: {
-      type: [String, Boolean],
+      type: [String, Number],
       default: 1,
       note: 'Icon size',
     },
