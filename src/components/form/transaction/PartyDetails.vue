@@ -77,7 +77,7 @@
               label-for="ptd-input-10"
               label-cols="3"
               label-size="sm"
-              :label-class="{'required': !(editFlag || isNameDisabled)}"
+              :label-class="{ required: !(editFlag || isNameDisabled) }"
             >
               <autocomplete
                 size="sm"
@@ -181,7 +181,8 @@
                 :readonly="!editFlag"
                 tabindex="-1"
               ></b-form-input>
-              <div v-else class="d-flex">
+              <gk-gstin v-else v-model="form.gstin"> </gk-gstin>
+              <!-- <div v-else class="d-flex">
                 <b-form-input
                   v-model="form.state.id"
                   type="text"
@@ -202,7 +203,7 @@
                   style="max-width: 3em"
                   class="px-1 text-center"
                 ></b-form-input>
-              </div>
+              </div> -->
             </b-form-group>
           </b-col>
           <b-col v-else-if="config.tin" cols="12">
@@ -292,17 +293,19 @@
 <script>
 import axios from 'axios';
 import Autocomplete from '../../Autocomplete.vue';
+import GkGstin from '../../GkGstin.vue';
 import ContactItem from '../ContactItem.vue';
 export default {
   name: 'PartyDetails',
   components: {
     Autocomplete,
     ContactItem,
+    GkGstin,
   },
   props: {
     mode: {
       type: String,
-      validator: function (value) {
+      validator: function(value) {
         return ['sale', 'purchase'].indexOf(value) !== -1;
       },
       required: true,
@@ -327,7 +330,7 @@ export default {
     invoiceParty: {
       type: Object,
       required: false,
-      default: function () {
+      default: function() {
         return {};
       },
     },
@@ -339,7 +342,7 @@ export default {
     parentData: {
       type: Object,
       required: false,
-      default: function () {
+      default: function() {
         return {
           loading: false,
           options: {
@@ -774,4 +777,3 @@ export default {
   },
 };
 </script>
-
