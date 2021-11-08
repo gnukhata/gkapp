@@ -7,7 +7,7 @@
     <div class="card-body pb-2">
       <b-form class="text-left" @submit.prevent="confirmOnSubmit">
         <b-row>
-          <b-col :md="columnOneWidth" :lg="inOverlay ? columnOneWidth : null">
+          <b-col cols="12">
             <b-form-group label-size="sm" label-cols="3" label="Type">
               <b-form-radio-group
                 button-variant="outline-primary"
@@ -19,6 +19,23 @@
                 <b-form-radio value="supplier">Supplier</b-form-radio>
               </b-form-radio-group>
             </b-form-group>
+            <b-form-group
+              label-size="sm"
+              label="GSTIN"
+              label-cols="3"
+              inline
+            >
+              <gk-gstin
+                @validity="onGstinUpdate"
+                @gstin_data="onGstinDataFetched"
+                v-model="form.gstin.gstin"
+                :showValidation=2
+                valButtonText="Validate & Autofill"
+              ></gk-gstin>
+            </b-form-group>
+            <div class="text-center text-small text-secondary mb-2">
+              (or)
+            </div>
             <b-form-group
               label-size="sm"
               label="Name"
@@ -37,11 +54,41 @@
             </b-form-group>
             <b-form-group
               label-size="sm"
+              label="Address"
+              label-for="ci-input-4"
+              label-cols="3"
+            >
+              <b-form-textarea
+                id="ci-input-4"
+                v-model="form.address"
+                size="sm"
+                rows="2"
+                max-rows="3"
+              >
+              </b-form-textarea>
+            </b-form-group>
+            <b-form-group
+              label-size="sm"
+              label="State"
+              label-for="ci-input-2"
+              label-cols="3"
+            >
+              <autocomplete
+                id="ci-input-2"
+                v-model="state"
+                :options="options.states"
+                placeholder="Select a State"
+                valueUid="code"
+                :required="false"
+              >
+              </autocomplete>
+            </b-form-group>
+            <b-form-group
+              label-size="sm"
               invalid-feedback="Pincode must be 6 digits long"
-              label="PIN"
+              label="Pin Code"
               label-for="ci-input-3"
               label-cols="3"
-              label-class="required"
             >
               <b-form-input
                 size="sm"
@@ -51,206 +98,154 @@
                 no-wheel
                 :state="validatePin"
                 debounce="500"
-                required
               >
               </b-form-input>
             </b-form-group>
             <b-form-group
               label-size="sm"
-              label="State"
-              label-for="ci-input-2"
+              label="PAN"
+              label-for="ci-input-8"
+              :state="validatePan"
+              invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
               label-cols="3"
-              label-class="required"
             >
-              <autocomplete
-                id="ci-input-2"
-                v-model="state"
-                :options="options.states"
-                placeholder="Select a State"
-                valueUid="code"
-              >
-              </autocomplete>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="Address"
-              label-for="ci-input-4"
-              label-cols="3"
-              label-class="required"
-            >
-              <b-form-textarea
-                id="ci-input-4"
-                v-model="form.address"
+              <b-form-input
                 size="sm"
-                rows="2"
-                max-rows="3"
-                required
+                id="ci-input-8"
+                :state="validatePan"
+                v-model="form.pan"
+                trim
+                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                title="Format: A B C D E 1 2 3 4 A"
+                debounce="500"
               >
-              </b-form-textarea>
+              </b-form-input>
             </b-form-group>
           </b-col>
-          <b-col>
-            <b-row>
-              <b-col
-                :md="columnTwoWidth"
-                :lg="inOverlay ? columnTwoWidth : null"
+          <b-col
+            cols="12"
+          >
+            <b-form-checkbox
+              size="sm"
+              v-model="showOptional"
+              class="mb-3"
+              switch
+            >
+              Contact Details
+            </b-form-checkbox>
+            <b-collapse v-model="showOptional">
+              <b-form-group
+                label-size="sm"
+                label="Email"
+                label-for="ci-input-5"
+                label-cols="3"
               >
-                <b-form-checkbox
+                <b-form-input
                   size="sm"
-                  v-model="showOptional"
-                  class="mb-3"
-                  switch
-                >
-                  Optional Details
-                </b-form-checkbox>
-                <b-collapse v-model="showOptional">
-                  <b-form-group
-                    v-if="showOptional"
-                    label-size="sm"
-                    label="GSTIN"
-                    label-cols="3"
-                    inline
-                  >
-                    <gk-gstin
-                      @validity="onGstinUpdate"
-                      @gstin_data="onGstinDataFetched"
-                      v-model="form.gstin.gstin"
-                    ></gk-gstin>
-                  </b-form-group>
-                  <b-form-group
-                    label-size="sm"
-                    label="Email"
-                    label-for="ci-input-5"
-                    label-cols="3"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="ci-input-5"
-                      v-model="form.email"
-                      type="email"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                  <b-form-group
-                    label-size="sm"
-                    label="Phone"
-                    label-for="ci-input-6"
-                    label-cols="3"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="ci-input-6"
-                      type="number"
-                      no-wheel
-                      v-model="form.contact"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                  <b-form-group
-                    label-size="sm"
-                    label="Fax"
-                    label-for="ci-input-7"
-                    label-cols="3"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="ci-input-7"
-                      v-model="form.fax"
-                      trim
-                    ></b-form-input>
-                  </b-form-group>
-                  <b-form-group
-                    label-size="sm"
-                    label="PAN"
-                    label-for="ci-input-8"
-                    :state="validatePan"
-                    invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
-                    label-cols="3"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="ci-input-8"
-                      :state="validatePan"
-                      v-model="form.pan"
-                      trim
-                      pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                      title="Format: A B C D E 1 2 3 4 A"
-                      debounce="500"
-                    >
-                    </b-form-input>
-                  </b-form-group>
-                </b-collapse>
-              </b-col>
-              <b-col v-if="showOptional">
-                <b-form-checkbox
+                  id="ci-input-5"
+                  v-model="form.email"
+                  type="email"
+                  trim
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group
+                label-size="sm"
+                label="Phone"
+                label-for="ci-input-6"
+                label-cols="3"
+              >
+                <b-form-input
                   size="sm"
-                  v-model="showBankDetails"
-                  class="mb-3"
-                  switch
-                >
-                  Bank Details
-                </b-form-checkbox>
-                <b-collapse v-model="showBankDetails">
-                  <b-form-group
-                    label-size="sm"
-                    label="Acc. No."
-                    label-for="ci-input-14"
-                    label-cols="3"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="ci-input-14"
-                      v-model="form.bank.accNo"
-                      trim
-                      :required="showBankDetails"
-                    ></b-form-input>
-                  </b-form-group>
-                  <b-form-group
-                    label-size="sm"
-                    label="Name"
-                    label-for="ci-input-12"
-                    label-cols="3"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="ci-input-12"
-                      placeholder="Bank Name"
-                      v-model="form.bank.name"
-                      trim
-                      :required="showBankDetails"
-                    ></b-form-input>
-                  </b-form-group>
-                  <b-form-group
-                    label-size="sm"
-                    label="IFSC"
-                    label-for="ci-input-15"
-                    label-cols="3"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="ci-input-15"
-                      v-model="form.bank.ifsc"
-                      trim
-                      :required="showBankDetails"
-                    ></b-form-input>
-                  </b-form-group>
-                  <b-form-group
-                    label-size="sm"
-                    label="Branch"
-                    label-for="ci-input-13"
-                    label-cols="3"
-                  >
-                    <b-form-input
-                      size="sm"
-                      id="ci-input-13"
-                      v-model="form.bank.branch"
-                      trim
-                      :required="showBankDetails"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-collapse>
-              </b-col>
-            </b-row>
+                  id="ci-input-6"
+                  type="number"
+                  no-wheel
+                  v-model="form.contact"
+                  trim
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group
+                label-size="sm"
+                label="Fax"
+                label-for="ci-input-7"
+                label-cols="3"
+              >
+                <b-form-input
+                  size="sm"
+                  id="ci-input-7"
+                  v-model="form.fax"
+                  trim
+                ></b-form-input>
+              </b-form-group>
+            </b-collapse>
+          </b-col>
+          <b-col>
+            <b-form-checkbox
+              size="sm"
+              v-model="showBankDetails"
+              class="mb-3"
+              switch
+            >
+              Bank Details
+            </b-form-checkbox>
+            <b-collapse v-model="showBankDetails">
+              <b-form-group
+                label-size="sm"
+                label="Acc. No."
+                label-for="ci-input-14"
+                label-cols="3"
+              >
+                <b-form-input
+                  size="sm"
+                  id="ci-input-14"
+                  v-model="form.bank.accNo"
+                  trim
+                  :required="showBankDetails"
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group
+                label-size="sm"
+                label="Name"
+                label-for="ci-input-12"
+                label-cols="3"
+              >
+                <b-form-input
+                  size="sm"
+                  id="ci-input-12"
+                  placeholder="Bank Name"
+                  v-model="form.bank.name"
+                  trim
+                  :required="showBankDetails"
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group
+                label-size="sm"
+                label="IFSC"
+                label-for="ci-input-15"
+                label-cols="3"
+              >
+                <b-form-input
+                  size="sm"
+                  id="ci-input-15"
+                  v-model="form.bank.ifsc"
+                  trim
+                  :required="showBankDetails"
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group
+                label-size="sm"
+                label="Branch"
+                label-for="ci-input-13"
+                label-cols="3"
+              >
+                <b-form-input
+                  size="sm"
+                  id="ci-input-13"
+                  v-model="form.bank.branch"
+                  trim
+                  :required="showBankDetails"
+                ></b-form-input>
+              </b-form-group>
+            </b-collapse>
           </b-col>
         </b-row>
         <hr class="my-2" />
@@ -377,8 +372,8 @@ export default {
     };
   },
   computed: {
-    columnOneWidth: (self) => (self.showOptional ? 4 : 12),
-    columnTwoWidth: (self) => (self.showOptional ? 6 : 12),
+    columnOneWidth: (self) => (self.showOptional ? self.showBankDetails ? 4 : 6 : 12),
+    columnTwoWidth: (self) => (self.showOptional ? 4 : 12),
     isSupplier: (self) => self.type === 'supplier',
     formType: (self) => (self.type === 'customer' ? 'Customer' : 'Supplier'),
     formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),

@@ -18,13 +18,14 @@
       </b-form-invalid-feedback>
     </b-input-group>
     <b-button
-      v-if="validity.checksum && validity.format"
+      v-if="showValidityButton"
       size="sm"
       variant="success"
       class="px-1 py-0 mt-1"
       @click.prevent="getGstinCaptcha"
+      :disabled="!(validity.checksum && validity.format)"
     >
-      Validate Online
+      {{valButtonText}}
     </b-button>
 
     <b-modal
@@ -190,6 +191,18 @@ export default {
       default: 'GSTIN checksum incorrect!',
       note: 'used for exposing v-model',
     },
+    showValidation: {
+      type: Number,
+      required: false,
+      default: 1,
+      note: 'Visibility of online validation button. (0 - dont show, 1 - show only when valid gstin entered, 2 - show always)'
+    },
+    valButtonText: {
+      type: String,
+      required: false,
+      default: 'Validate',
+      note: 'Text to be displayd on the validate online button'
+    }
   },
   data() {
     return {
@@ -216,6 +229,17 @@ export default {
     };
   },
   computed: {
+    // show validity button
+    showValidityButton: (self) => {
+      let show = false;
+      if(self.showValidation === 1) {
+        // show only when valid gstin is entered  
+        show = self.validity.checksum && self.validity.format;
+      } else if (self.showValidation === 2) {
+        show = true;
+      }
+      return show;
+    },
     isGstinValid: (self) =>
       self.value ? self.validity.checksum && self.validity.format : null,
     invalidText: (self) => {
@@ -292,16 +316,6 @@ export default {
         if (resp.data.gkstatus === 0) {
           let data = resp.data.gkresult;
           let captchaB64 = data.captcha;
-          // const uInt8Array = new Uint8Array(captchaB64.length);
-
-          // // Insert all character code into uInt8Array
-          // for (let i = 0; i < captchaB64.length; ++i) {
-          //   uInt8Array[i] = captchaB64.charCodeAt(i);
-          // }
-
-          // Return BLOB image after conversion
-          // let blob = new Blob([uInt8Array], { type: "image/png" });
-          // this.gstinCaptcha.image = window.URL.createObjectURL(blob);
           this.gstinCaptcha.cookie = data.cookie;
           this.gstinCaptcha.image = `data:image/png;base64,${captchaB64}`;
           this.gstinCaptcha.show = true;
@@ -309,21 +323,6 @@ export default {
           this.gstinCaptcha.show = false;
         }
       });
-      // axios
-      //   .get('https://services.gst.gov.in/services/captcha', {withCredentials: true})
-      //   .then((resp) => {
-      //     console.log(resp.headers['set-cookie']);
-      //   })
-      //   .catch((e) => {});
-      // var xhttp = new XMLHttpRequest();
-      // xhttp.onreadystatechange = function() {
-      //   if (this.readyState == 4 && this.status == 200) {
-      //     // Typical action to be performed when the document is ready:
-      //     console.log(xhttp.getResponseHeader('set-cookie'));
-      //   }
-      // };
-      // xhttp.open('GET', 'https://services.gst.gov.in/services/captcha', true);
-      // xhttp.send();
     },
     /**
      * Validates the gstin and emits a payload with validity status and checksum, pan and state code
@@ -406,6 +405,10 @@ export default {
       return valid;
     },
   },
-  mounted() {},
+  mounted() {
+    if(this.value && !this.input) {
+      this.input = this.value;
+    }
+  },
 };
 </script>
