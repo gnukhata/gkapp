@@ -464,6 +464,22 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "gst-r1" */ '../views/gst/R1.vue'),
   },
+  {
+    path: '/gst/r1/summary/from=:fd&to=:td',
+    name: 'GST R1 Summary',
+    component: () =>
+      import(
+        /* webpackChunkName: "gst-r1-summary" */ '../views/gst/R1Summary.vue'
+      ),
+  },
+  {
+    path: '/gst/r1/:type/:fd&:td',
+    name: 'GST R1 Detailed',
+    component: () =>
+      import(
+        /* webpackChunkName: "gst-r1-detailed" */ '../views/gst/R1Detailed.vue'
+      ),
+  },
 ];
 
 const router = new VueRouter({
