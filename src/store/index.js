@@ -16,19 +16,20 @@ export default new Vuex.Store({
     userName: null,
     userEmail: null,
     userAvatar: null,
-
-    /* Session auth states */
     userAuthenticated: null,
+    authToken: null,
+
+    /* Org */
     orgCode: null,
     orgName: null,
-    authToken: null,
+    orgAddress: null,
+    orgImg: 'img/gk.png',
 
     yearStart: null,
     yearEnd: null,
 
     gkTestUrl: 'http://localhost:6543',
     gkCoreUrl: null,
-    orgImg: 'img/gk.png',
     searchMenu: false,
 
     invoiceParty: {
@@ -44,13 +45,15 @@ export default new Vuex.Store({
     },
     resetOrg(state) {
       state.orgName = null;
-      console.log('orgname cleared');
     },
     updateOrgImg(state, payload) {
       state.orgImg = payload;
     },
     toggleSearchMenu(state, payload) {
       state.searchMenu = payload;
+    },
+    setOrgAddress(state, payload) {
+      state.orgAddress = payload;
     },
     // Init the required vuex store states from session storage
     initStore(state) {

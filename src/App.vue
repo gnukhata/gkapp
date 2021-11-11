@@ -97,6 +97,7 @@ export default {
     },
   },
   mounted() {
+    this.get_org_address();
     document.querySelector('title').textContent = `GNUKhata ${
       this.orgName !== null ? '| ' + this.orgName : ''
     }`;
