@@ -220,7 +220,15 @@ import GkGstin from '../components/GkGstin';
 export default {
   name: 'ContactProfile',
   components: { GkGstin },
-  props: { customer: Object },
+  props: {
+    customer: Object,
+    onUpdate: {
+      type: Function,
+      required: false,
+      note: `Run after every update of Invoice, as a callback.
+      Used to update the data used in workflow.`,
+    },
+  },
   data() {
     return {
       details: Array,
@@ -261,7 +269,8 @@ export default {
         Object.assign(this.gstin, {
           stateCode: stateCode,
           pan: pan,
-          checkSum: checksum,
+          checksum: checksum,
+          validity: validity,
         });
         if (!this.details.custpan) {
           this.details.custpan = pan;
@@ -329,15 +338,9 @@ export default {
           if (val) {
             delete this.details.statelist;
             this.isLoading = true;
-            if (
-              this.gstin.stateCode.length === 2 &&
-              this.gstin.pan.length === 10 &&
-              this.gstin.checksum.length === 3
-            ) {
+            if (this.gstin.validity) {
               this.details.gstin = {};
-              this.details.gstin[
-                this.gstin.stateCode
-              ] = `${this.gstin.stateCode}${this.gstin.pan}${this.gstin.checksum}`;
+              this.details.gstin[this.gstin.stateCode] = this.gstin.gstin;
             }
             axios
               .put(`/customersupplier`, this.details)
@@ -428,6 +431,7 @@ export default {
                         solid: true,
                       }
                     );
+                    this.onUpdate({ type: 'delete' });
                     break;
                   case 2:
                     this.isLoading = false;

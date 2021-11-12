@@ -382,6 +382,7 @@
             <contact-profile
               :customer="selectedEntity"
               :key="selectedEntity.custid"
+              :onUpdate="onSelectedEntityUpdate"
             ></contact-profile>
           </b-card-body>
         </b-card>
@@ -867,7 +868,7 @@ export default {
         icon,
         color: color,
         tabName,
-        id: skipUpdate? this.activeWorkflow.id : -1,
+        id: skipUpdate ? this.activeWorkflow.id : -1,
       };
       this.resetFilter();
       // if (!skipUpdate) {
@@ -974,7 +975,7 @@ export default {
       let wfId = this.selectedEntity ? this.selectedEntity[key] || -1 : -1;
       this.activeWorkflow.id = wfId;
       this.updateUrl();
-      if(this.isPageFresh) {
+      if (this.isPageFresh) {
         this.isPageFresh = false;
         let table = document.querySelector(
           `#list-${this.activeWorkflow.tabName}`
@@ -1049,16 +1050,33 @@ export default {
             }
           }
           break;
-        case 'Transactions-DeliveryNote': {
+        case 'Transactions-DeliveryNote':
+          {
+            if (updatedData.type === 'delete') {
+              this.displayToast(
+                `Delivery Note Delete success!`,
+                `Delivery Note : ${this.selectedEntity.no}, deleted successfully.`,
+                'success'
+              );
+              let id = this.selectedEntity.id;
+              let index = this.activeTabOptions.data.findIndex(
+                (delNote) => delNote.id === id
+              );
+              this.unsetSelectedEntity();
+              this.activeTabOptions.data.splice(index, 1);
+            }
+          }
+          break;
+        case 'Contacts': {
           if (updatedData.type === 'delete') {
             this.displayToast(
-              `Delivery Note Delete success!`,
-              `Delivery Note : ${this.selectedEntity.no}, deleted successfully.`,
+              `Contact Delete success!`,
+              `Contact : ${this.selectedEntity.no}, deleted successfully.`,
               'success'
             );
             let id = this.selectedEntity.id;
             let index = this.activeTabOptions.data.findIndex(
-              (delNote) => delNote.id === id
+              (item) => item.id === id
             );
             this.unsetSelectedEntity();
             this.activeTabOptions.data.splice(index, 1);
