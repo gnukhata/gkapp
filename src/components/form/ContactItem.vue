@@ -557,7 +557,7 @@ export default {
         payload.csflag = this.type === 'customer' ? 3 : 19;
       }
 
-      if (this.isSupplier && this.showBankDetails && bankDetails.length === 4) {
+      if (this.showBankDetails && bankDetails.length === 4) {
         payload.bankdetails = {
           accountno: this.form.bank.accNo,
           bankname: this.form.bank.name,
