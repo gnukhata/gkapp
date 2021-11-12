@@ -19,17 +19,12 @@
                 <b-form-radio value="supplier">Supplier</b-form-radio>
               </b-form-radio-group>
             </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="GSTIN"
-              label-cols="3"
-              inline
-            >
+            <b-form-group label-size="sm" label="GSTIN" label-cols="3" inline>
               <gk-gstin
                 @validity="onGstinUpdate"
                 @gstin_data="onGstinDataFetched"
                 v-model="form.gstin.gstin"
-                :showValidation=2
+                :showValidation="2"
                 valButtonText="Validate & Autofill"
               ></gk-gstin>
             </b-form-group>
@@ -122,9 +117,7 @@
               </b-form-input>
             </b-form-group>
           </b-col>
-          <b-col
-            cols="12"
-          >
+          <b-col cols="12">
             <b-form-checkbox
               size="sm"
               v-model="showOptional"
@@ -372,7 +365,8 @@ export default {
     };
   },
   computed: {
-    columnOneWidth: (self) => (self.showOptional ? self.showBankDetails ? 4 : 6 : 12),
+    columnOneWidth: (self) =>
+      self.showOptional ? (self.showBankDetails ? 4 : 6) : 12,
     columnTwoWidth: (self) => (self.showOptional ? 4 : 12),
     isSupplier: (self) => self.type === 'supplier',
     formType: (self) => (self.type === 'customer' ? 'Customer' : 'Supplier'),
@@ -551,15 +545,16 @@ export default {
         custpan: null,
       };
 
+      if (gstin !== null) {
+        payload.gstin = gstin;
+      }
+
       if (this.showOptional) {
         payload.custphone = this.form.contact;
         payload.custemail = this.form.email;
         payload.custfax = this.form.fax;
         payload.custpan = this.form.pan;
         payload.csflag = this.type === 'customer' ? 3 : 19;
-        if (gstin !== null) {
-          payload.gstin = gstin;
-        }
       }
 
       if (this.isSupplier && this.showBankDetails && bankDetails.length === 4) {
