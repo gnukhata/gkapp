@@ -119,7 +119,7 @@
         </b-form-group>
       </b-collapse>
     </b-card>
-    <!-- Contact Bank details -->
+    <!-- Contact Financial details -->
     <b-card
       header-bg-variant="dark"
       header-text-variant="light"
@@ -180,6 +180,70 @@
         </b-form-group>
       </b-collapse>
     </b-card>
+    <!-- Contact Bank details -->
+    <b-card
+      header-bg-variant="dark"
+      header-text-variant="light"
+      class="mt-3"
+      no-body
+    >
+      <template #header>
+        <div v-b-toggle.financial class="d-flex">
+          <div class="mr-auto">Bank Details</div>
+          <div>
+            <b-icon
+              variant="light"
+              :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
+            ></b-icon>
+          </div>
+        </div>
+      </template>
+
+      <b-collapse class="m-3" v-model="isCollapsed3" id="financial">
+        <b-form-group
+          label="Acc. No."
+          label-for="cp-bank-ano"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input id="cp-bank-ano" v-model="bankDetails.accountno">
+          </b-form-input>
+        </b-form-group>
+        <b-form-group
+          label="Bank Name"
+          label-for="cp-bank-name"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            id="cp-bank-name"
+            v-model="bankDetails.bankname"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          label="IFSC"
+          label-for="cp-bank-ifsc"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            id="cp-bank-ifsc"
+            v-model="bankDetails.branchname"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          label="Branch"
+          label-for="cp-bank-branch"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            id="cp-bank-branch"
+            v-model="bankDetails.ifsc"
+          ></b-form-input>
+        </b-form-group>
+      </b-collapse>
+    </b-card>
     <!-- Action Buttons -->
     <div class="pt-2 pb-3 d-flex flex-row-reverse">
       <b-button
@@ -232,6 +296,7 @@ export default {
   data() {
     return {
       details: Array,
+      bankDetails: {},
       oldContactName: '',
       isLoading: true,
       isCollapsed1: false,
@@ -294,14 +359,26 @@ export default {
         .then((res) => {
           switch (res.data.gkstatus) {
             case 0:
-              this.details = res.data.gkresult;
-              this.oldContactName = this.details.custname;
-              this.isLoading = false;
-              this.states().then(() => {
-                this.gstin.gstin = this.details.gstin
-                  ? Object.values(this.details.gstin)[0]
-                  : '';
-              });
+              {
+                this.details = res.data.gkresult;
+
+                // update bank details
+                let bdetails = this.details.bankdetails || {};
+                this.bankDetails = {
+                  accountno: bdetails.accountno || '',
+                  bankname: bdetails.bankname || '',
+                  branchname: bdetails.branchname || '',
+                  ifsc: bdetails.ifsc || '',
+                };
+
+                this.oldContactName = this.details.custname;
+                this.isLoading = false;
+                this.states().then(() => {
+                  this.gstin.gstin = this.details.gstin
+                    ? Object.values(this.details.gstin)[0]
+                    : '';
+                });
+              }
               break;
             case 2:
               this.$bvToast.toast('Unauthorised Access', {
@@ -342,6 +419,7 @@ export default {
               this.details.gstin = {};
               this.details.gstin[this.gstin.stateCode] = this.gstin.gstin;
             }
+            this.details.bankdetails = this.bankDetails;
             axios
               .put(`/customersupplier`, this.details)
               .then((res) => {
