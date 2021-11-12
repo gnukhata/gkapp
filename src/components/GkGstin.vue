@@ -25,7 +25,7 @@
       @click.prevent="getGstinCaptcha"
       :disabled="!(validity.checksum && validity.format)"
     >
-      {{valButtonText}}
+      {{ valButtonText }}
     </b-button>
 
     <b-modal
@@ -195,14 +195,15 @@ export default {
       type: Number,
       required: false,
       default: 1,
-      note: 'Visibility of online validation button. (0 - dont show, 1 - show only when valid gstin entered, 2 - show always)'
+      note:
+        'Visibility of online validation button. (0 - dont show, 1 - show only when valid gstin entered, 2 - show always)',
     },
     valButtonText: {
       type: String,
       required: false,
       default: 'Validate',
-      note: 'Text to be displayd on the validate online button'
-    }
+      note: 'Text to be displayd on the validate online button',
+    },
   },
   data() {
     return {
@@ -232,8 +233,8 @@ export default {
     // show validity button
     showValidityButton: (self) => {
       let show = false;
-      if(self.showValidation === 1) {
-        // show only when valid gstin is entered  
+      if (self.showValidation === 1) {
+        // show only when valid gstin is entered
         show = self.validity.checksum && self.validity.format;
       } else if (self.showValidation === 2) {
         show = true;
@@ -263,6 +264,8 @@ export default {
       if (oldValue !== gstin && gstin) {
         this.validateGstin(gstin);
         this.input = gstin;
+      } else if (gstin === null) {
+        this.input = '';
       }
     },
   },
@@ -271,7 +274,7 @@ export default {
       this.$emit('gstin_data', {
         name: this.gstinData.tradeName,
         addr: this.gstinData.addr,
-        pincode: this.gstinData.pincode
+        pincode: this.gstinData.pincode,
       });
       this.gstinCaptcha.show = false;
       this.gstinData.validity = null;
@@ -294,7 +297,7 @@ export default {
             tradeName: data.tradeNam ? data.tradeNam : '',
             status: data.sts ? data.sts : '',
             addr: data.pradr.adr ? data.pradr.adr : '',
-            pincode: addrSplit? addrSplit[addrSplit.length -1] : '',
+            pincode: addrSplit ? addrSplit[addrSplit.length - 1] : '',
             validity: true,
           };
           this.gstinCaptcha.validity = true;
@@ -406,7 +409,7 @@ export default {
     },
   },
   mounted() {
-    if(this.value && !this.input) {
+    if (this.value && !this.input) {
       this.input = this.value;
     }
   },
