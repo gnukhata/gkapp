@@ -1,7 +1,11 @@
 <template>
   <section :class="show ? '' : 'd-none d-print-block'">
-    <div class="text-center">
+    <div class="text-center bg-light mb-2">
       <h3>{{ orgName }}</h3>
+      <span class="mr-1 font-weight-bold">GSTIN: </span>
+      <span class="text-monospace">{{
+        Object.values(orgAddress.gstin)[0]
+      }}</span>
     </div>
     <slot> </slot>
     <div class="text-center">
@@ -23,7 +27,7 @@ export default {
   },
   name: 'ReportHeader',
   computed: {
-    ...mapState(['orgName', 'userName']),
+    ...mapState(['orgName', 'userName', 'orgAddress']),
   },
 };
 </script>
