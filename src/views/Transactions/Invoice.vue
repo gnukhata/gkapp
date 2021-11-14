@@ -150,6 +150,7 @@
           :updateCounter="updateCounter.payment"
           :config="config.payment"
           :saleFlag="isSale"
+          :parentData="form.payment"
           :optionsData="{
             payModes: options.payModes,
           }"
@@ -321,10 +322,10 @@ export default {
       form: {
         type: 'sale', // purchase
         inv: {
-          state: {id: null}
+          state: { id: null },
         },
         party: {
-          state: {id: null}
+          state: { id: null },
         },
         ship: {},
         taxType: 'gst', // vat
@@ -361,6 +362,7 @@ export default {
           'Other',
         ],
         orgDetails: {},
+        partyDetails: {},
         bill: [],
         editableInvoices: {
           purchase: [],
@@ -469,7 +471,10 @@ export default {
     isGst: (self) => self.form.taxType === 'gst',
     isCgst: (self) => {
       if (self.form.inv.state && self.form.party.state) {
-        if (parseInt(self.form.inv.state.id) === parseInt(self.form.party.state.id)) {
+        if (
+          parseInt(self.form.inv.state.id) ===
+          parseInt(self.form.party.state.id)
+        ) {
           return true;
         }
       }
@@ -563,8 +568,12 @@ export default {
           }
           break;
         case 'party-details':
-          Object.assign(this.form.party, payload.data);
-          this.updateCounter.ship++;
+          {
+            this.options.partyDetails = payload;
+            this.setBankDetails();
+            Object.assign(this.form.party, payload.data);
+            this.updateCounter.ship++;
+          }
           break;
         case 'bill-table':
           Object.assign(this.form.bill, payload.data);
@@ -673,6 +682,20 @@ export default {
           );
         });
     },
+    setBankDetails() {
+      let bd = this.isSale
+        ? this.options.orgDetails.bankDetails
+        : this.form.party.name
+        ? this.options.partyDetails.bankDetails
+        : {};
+      Object.assign(this.form.payment.bank, {
+        no: bd.accountno || '',
+        name: bd.bankname || '',
+        branch: bd.branchname || '',
+        ifsc: bd.ifsc || '',
+      });
+      this.updateCounter.payment++;
+    },
     preloadData() {
       this.isPreloading = true;
       const requests = [
@@ -734,6 +757,7 @@ export default {
             gstin: stateCode && gstin ? gstin[stateCode] : '',
             tin: '',
             pin: resp6.data.gkdata.orgpincode,
+            bankDetails: resp6.data.gkdata.bankdetails,
           };
           setTimeout(() => {
             self.setOrgDetails();
@@ -1222,11 +1246,11 @@ export default {
       this.form = {
         type: this.form.type,
         inv: {
-          state: {id: null}
+          state: { id: null },
         },
         party: {
           name: false,
-          state: {id: null}
+          state: { id: null },
         },
         ship: {},
         taxType: 'gst', // vat
@@ -1332,6 +1356,15 @@ export default {
       this.updateUrl();
       this.resetForm();
       this.preloadData().then(() => {
+        let bd = self.options.orgDetails.bankDetails;
+        Object.assign(self.form.payment.bank, {
+          no: bd.accountno || '',
+          name: bd.bankname || '',
+          branch: bd.branchname || '',
+          ifsc: bd.ifsc || '',
+        });
+        self.updateCounter.payment++;
+
         self.fetchEditableInvoices();
         self.$nextTick().then(() => {
           if (self.formMode === 'edit') {
@@ -1339,6 +1372,11 @@ export default {
           }
         });
       });
+    },
+  },
+  watch: {
+    isSale() {
+      this.setBankDetails();
     },
   },
   beforeMount() {
@@ -1352,7 +1390,7 @@ export default {
     this.formMode = this.mode;
     this.invoiceId = parseInt(this.invid);
     this.initForm();
-    if(isNaN(this.user_role)) {
+    if (isNaN(this.user_role)) {
       this.get_user_role();
     }
   },

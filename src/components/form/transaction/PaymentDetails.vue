@@ -68,12 +68,12 @@
             label-cols="3"
             label-size="sm"
             label-cols-lg="autauto"
-            v-model="form.bank.name"
           >
             <b-form-input
               size="sm"
               id="pmd-input-30"
               v-if="config.bank.name"
+              v-model="form.bank.name"
               trim
               required
             ></b-form-input>
@@ -137,7 +137,7 @@ export default {
     parentData: {
       type: Object,
       required: false,
-      default: function () {
+      default: function() {
         return {
           mode: 3,
           bank: {
@@ -152,7 +152,7 @@ export default {
     optionsData: {
       type: Object,
       required: false,
-      default: function () {
+      default: function() {
         return {};
       },
     },

@@ -387,6 +387,7 @@ export default {
         suppliers: [],
         csData: {},
       },
+      bankDetails: {},
       editFlag: false,
       loading: false,
       editMode: {
@@ -401,16 +402,24 @@ export default {
     };
   },
   computed: {
+    isCustomer: (self) => self.form.type === 'customer',
     isNameDisabled: (self) => {
       if (typeof self.config['name'] === 'object') {
         return !!self.config['name'].disabled;
       }
       return false;
     },
+    isPartySelected: (self) => (self.form.name ? !!self.form.name.name : false),
   },
   watch: {
+    isPartySelected() {
+      this.onUpdateDetails();
+    },
     saleFlag(isSale) {
       this.form.type = isSale ? 'customer' : 'supplier';
+    },
+    isCustomer() {
+      this.onUpdateDetails();
     },
     updateCounter() {
       const partyName = this.parentData.name;
@@ -435,6 +444,7 @@ export default {
         this.$emit('details-updated', {
           data: this.form,
           name: 'party-details',
+          bankDetails: this.bankDetails,
         })
       );
     },
@@ -544,13 +554,23 @@ export default {
           states,
           gstin: data.gstin,
         },
-        state: states[0].value,
+        state: typeof states[0] === 'object' ? states[0].value : '',
         pan: data.custpan,
         checksum: '',
         pin: data.pincode,
         gstin: '',
         tin: data.custtan || null,
       });
+
+      this.bankDetails = data.bankdetails
+        ? data.bankdetails
+        : {
+            accountno: '',
+            bankname: '',
+            branchname: '',
+            ifsc: '',
+          };
+
       setTimeout(() => {
         this.setPartyGst(); // set gstin based on state
       });
@@ -597,6 +617,12 @@ export default {
         state: '',
         contactNumber: null,
         contactPerson: null,
+      };
+      this.bankDetails = {
+        accountno: '',
+        bankname: '',
+        branchname: '',
+        ifsc: '',
       };
     },
     displayToast(title, message, variant) {
