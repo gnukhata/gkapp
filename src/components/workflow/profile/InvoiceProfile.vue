@@ -95,8 +95,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col class="my-2">
-      </b-col>
+      <b-col class="my-2"> </b-col>
       <b-col cols="12" md="8" class="my-2">
         <div>
           <b>Payment Details</b>
@@ -161,7 +160,6 @@
         >
           <b-icon icon="x-octagon"></b-icon> Cancel</b-button
         >
-
       </span>
     </div>
     <div class="clearfix"></div>
@@ -251,7 +249,7 @@ export default {
       },
       vouchers: [],
       showVouchers: false,
-      states: {}
+      states: {},
     };
   },
   computed: {
@@ -268,7 +266,7 @@ export default {
         {
           key: 'price',
           label: 'Rate (₹)',
-          tdClass: 'gk-currency-sm'
+          tdClass: 'gk-currency-sm',
         },
         { key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm' },
       ];
@@ -286,7 +284,11 @@ export default {
       } else {
         fields.push({ key: 'vat', label: 'VAT' });
       }
-      fields.push({ key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' });
+      fields.push({
+        key: 'total',
+        label: 'Total (₹)',
+        tdClass: 'gk-currency-sm',
+      });
       fields.push({
         title: 'Issued By',
         value: `${self.invoice.issuer}  ${designation}`,
@@ -431,8 +433,11 @@ export default {
     formatInvoiceDetails(details) {
       if (details) {
         let party = details.custSupDetails || {};
-        let gstinList = typeof party.custgstinlist === 'object' ? Object.values(party.custgstinlist) : [];
-        let gstin = gstinList.length ? gstinList[0] : ''
+        let gstinList =
+          party.custgstinlist && typeof party.custgstinlist === 'object'
+            ? Object.values(party.custgstinlist)
+            : [];
+        let gstin = gstinList.length ? gstinList[0] : '';
         this.invoice = {
           issuer: details.issuername,
           designation: details.designation,
@@ -474,7 +479,7 @@ export default {
           this.invoice.invItems = Object.keys(details.invcontents).map(
             (key) => {
               let taxrate = parseFloat(details.invcontents[key].taxrate) || 0;
-              let cgst = (taxrate).toFixed(2);
+              let cgst = taxrate.toFixed(2);
               product = {
                 id: key,
                 name: details.invcontents[key].proddesc,
@@ -619,8 +624,8 @@ export default {
             this.states[code] = name;
           });
         }
-      })
-    }
+      });
+    },
   },
   watch: {
     id(newId) {
@@ -642,7 +647,11 @@ export default {
     // console.log("mounted")
     if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;
-      Promise.all([this.fetchState(), this.fetchAndUpdateData(), this.getVouchers()])
+      Promise.all([
+        this.fetchState(),
+        this.fetchAndUpdateData(),
+        this.getVouchers(),
+      ])
         .then(() => {
           this.isPreloading = false;
         })
