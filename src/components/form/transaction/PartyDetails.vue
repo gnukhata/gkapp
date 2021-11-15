@@ -181,29 +181,12 @@
                 :readonly="!editFlag"
                 tabindex="-1"
               ></b-form-input>
-              <gk-gstin v-else v-model="form.gstin"> </gk-gstin>
-              <!-- <div v-else class="d-flex">
-                <b-form-input
-                  v-model="form.state.id"
-                  type="text"
-                  disabled
-                  style="max-width: 2.5em"
-                  class="px-1 text-center"
-                ></b-form-input>
-                <b-form-input
-                  v-model="form.pan"
-                  type="text"
-                  class="ml-1 mr-1 px-1 text-center"
-                  disabled
-                ></b-form-input>
-                <b-form-input
-                  type="text"
-                  title="Format: [Number] [Alphabet] [Number / Alphabet]"
-                  v-model="form.checksum"
-                  style="max-width: 3em"
-                  class="px-1 text-center"
-                ></b-form-input>
-              </div> -->
+              <gk-gstin
+                v-else
+                v-model="form.gstin"
+                @gstin_data="onGstinDataFetched"
+              >
+              </gk-gstin>
             </b-form-group>
           </b-col>
           <b-col v-else-if="config.tin" cols="12">
@@ -386,6 +369,7 @@ export default {
         customers: [],
         suppliers: [],
         csData: {},
+        states: [],
       },
       bankDetails: {},
       editFlag: false,
@@ -439,6 +423,19 @@ export default {
     },
   },
   methods: {
+    onGstinDataFetched({ addr, pincode, pan, statecode }) {
+      //      this.form.name = name;
+      this.form.addr = addr;
+      //       this.form.state= {};
+      this.form.pin = pincode;
+      this.form.pan = pan;
+      if (statecode) {
+        let stateData = this.options.states.find(
+          (state) => state.value.id === statecode
+        );
+        this.form.state = typeof stateData === 'object' ? stateData.value : {};
+      }
+    },
     onUpdateDetails() {
       setTimeout(() =>
         this.$emit('details-updated', {
@@ -765,6 +762,7 @@ export default {
         state: this.form.state,
         gstin: this.form.gstin,
         pin: this.form.pin,
+        pan: this.form.pan,
       };
     },
     onPartyEdit(edited) {
@@ -779,13 +777,14 @@ export default {
           state: this.form.state.name,
           custpan: this.form.pan,
         };
-        if (this.form.pan.length === 10 && this.form.checksum.length === 3) {
+        if (this.form.gstin) {
           payload.gstin = {};
-          payload.gstin[
-            this.form.state.id
-          ] = `${this.form.state.id}${this.form.pan}${this.form.checksum}`;
+          payload.gstin[this.form.state.id] = this.form.gstin;
         }
-        axios.put('customersupplier', payload).then(() => {
+        axios.put('customersupplier', payload).then((resp) => {
+          if (resp.data.gkstaus === 0) {
+            delete this.options.csData[this.form.name.id];
+          }
           this.form.loading = false;
           this.onPartyNameSelect(this.form.name);
         });
@@ -794,6 +793,7 @@ export default {
         this.form.state = this.editMode.state;
         this.form.gstin = this.editMode.gstin;
         this.form.pin = this.editMode.pin;
+        this.form.pan = this.editMode.pan;
       }
       this.editFlag = false;
     },

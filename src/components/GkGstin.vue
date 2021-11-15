@@ -226,6 +226,8 @@ export default {
         state: '',
         pincode: '',
         validity: null,
+        pan: '',
+        sateCode: '',
       },
     };
   },
@@ -271,10 +273,13 @@ export default {
   },
   methods: {
     useGstinData() {
+      console.log(this.gstinData.pan);
       this.$emit('gstin_data', {
         name: this.gstinData.tradeName,
         addr: this.gstinData.addr,
         pincode: this.gstinData.pincode,
+        pan: this.gstinData.pan,
+        statecode: this.gstinData.stateCode,
       });
       this.gstinCaptcha.show = false;
       this.gstinData.validity = null;
@@ -299,6 +304,8 @@ export default {
             addr: data.pradr.adr ? data.pradr.adr : '',
             pincode: addrSplit ? addrSplit[addrSplit.length - 1] : '',
             validity: true,
+            stateCode: this.input.substr(0, 2),
+            pan: this.input.substr(2, 10),
           };
           this.gstinCaptcha.validity = true;
         } else {
@@ -349,6 +356,8 @@ export default {
             pan: gstin.substr(2, 10),
             checksum: gstin.substr(12, 3),
           };
+          this.gstinData.pan = payload.pan;
+          this.gstinData.stateCode = payload.stateCode;
         }
       }
       this.$emit('validity', payload);
