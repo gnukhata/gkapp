@@ -362,7 +362,7 @@ export default {
         const to = new Date(`${parseInt(from[0]) + 1}/${from[1]}/${from[2]}`);
         let end = null;
         to.setDate(to.getDate() - 1);
-        end = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()}`;
+        end = to.toISOString().substr(0, 10);
         if (end.includes('NaN')) {
           this.yearEnd = null;
         } else {
