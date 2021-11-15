@@ -37,6 +37,9 @@ Points Discussed:
 - Currently the same GSTIN can be used for many customers. But this shouldn't be the case and must be fixed.
 - I18N support in gkapp is highly essential and a small sprint to add the basic infrastructure to support i18n strings is required.
   - The existing po files in gkwebapp can't be used much as the text used in gkapp is not exactly the same as those in gkwebapp.
+- Discussions on GST R1 reports,
+  - Need validations of the GST R1 data, so that they are ready for submition.
+  - Need for an API to generate GST R1 results in json format.
 - Discussions on the website,
   - Currently the gnukhata.in server is maintained and provided by Abhijith. In the future when the new website is ready, we could ask Abhijith to shut the existing server and migrate to gitlab for hosting.
   - The current server also provides email services that are used for contacting the team. We could switch to the email based ticket system provided by gitlab, once the existing server is shutdown.
