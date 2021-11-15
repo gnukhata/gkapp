@@ -1,5 +1,5 @@
 #+TITLE: GNUKhata Weekly Meetings
-#+OPTIONS: num:nil toc:nil tags:t
+#+OPTIONS: num:nil toc:nil tags:t ':nil
 #+STARTUP: fold
 # table of contents are displayed in files exported to other formats
 
@@ -8,6 +8,47 @@ development, features, outline plans for next release. Feel free to join
 us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
+
+* Meeting history (2021-11-15)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-11-15
+  :END:
+
+Agenda:
+ - Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+- Karthik:
+  - Rewrite R1 component to support history
+  - Added R1 summary
+  - Notify if selected filter is empty in product register
+  - Gstin in report header
+- Survesh:
+  - [Bug-fix] GSTIN update issue in Contact Profile page
+  - Place of Supply
+  - Autofill bank details in Invoice form
+
+Points Discussed:
+- Discussion on the need for validating IFSC code field,
+  - A basic validation based on regex is required at the minimum.
+  - Razorpay publishes a IFSC dump periodically under the MIT license, which is also available as a docker image. We can create a server based solution using this.
+- Currently the same GSTIN can be used for many customers. But this shouldn't be the case and must be fixed.
+- I18N support in gkapp is highly essential and a small sprint to add the basic infrastructure to support i18n strings is required.
+  - The existing po files in gkwebapp can't be used much as the text used in gkapp is not exactly the same as those in gkwebapp.
+- Discussions on the website,
+  - Currently the gnukhata.in server is maintained and provided by Abhijith. In the future when the new website is ready, we could ask Abhijith to shut the existing server and migrate to gitlab for hosting.
+  - The current server also provides email services that are used for contacting the team. We could switch to the email based ticket system provided by gitlab, once the existing server is shutdown.
+- Q&A,
+  - Can we close the issue that was raised in gkwebapp but was fixed in gkapp?
+    It would be better if the issue was fixed in gkwebapp as well, before closing the issue.
+  - What process to take with maintaining ledgers for transactions?
+    Create two settings, POS and Party Based. The current ledger process is ok for the POS setting.
+    For Party based setting, create the invoice on credit first (between ledgers sale & party) and then add the transaction for credit payment (between ledgers party & cash/bank).
+
+Conclusion:
+- Updates will be performed based on the points discussed above.
 
 * Meeting history (2021-11-08)
   :PROPERTIES:
@@ -69,7 +110,7 @@ Points Discussed:
 - Discussion on releasing gkwebapp point release,
   - Before a new point release, extensive functional testing of the whole app is required
     and not just the features added.
-  - The new build released should have more than just one feature added to it. For example in addition to fixing the 
+  - The new build released should have more than just one feature added to it. For example in addition to fixing the
     Roll Over Bug, it could also contain an update to the GST-R1 report that adds latest GST compliance.
 
 Conclusion:
@@ -92,7 +133,7 @@ Updates:
 - Survesh:
   - Component for downloading files
   - Spreadsheet API [gkcore]
-  - Bug Fixes 
+  - Bug Fixes
     - Unable to purchase out of stock items
     - Issue with IGST/CGST/SGST
     - Validation for foreign GSTINs
@@ -100,19 +141,19 @@ Updates:
 Points Discussed:
 - Feedback on organisation selection module,
   - When using the newly added search bar, the names of other organisations must not be shown.
-  - A different way to approach this would be to make the user enter the name of the organisation 
+  - A different way to approach this would be to make the user enter the name of the organisation
     and checking if its a valid organisation name.
 - Feedback for the option to toggle the ability to create new organisations,
   - The message that is displayed when the create org feature is turned off needs to have information
     on how to resolve the issue as well.
   - For example "Your attempt to create a new organisation has been logged and admin will contact you" or
     "Contact admin at admin@admin.com regarding this issue".
-  - Need a separate panel for the admin who takes care of the GNUKhata instance. Here notifications related to 
+  - Need a separate panel for the admin who takes care of the GNUKhata instance. Here notifications related to
     the issues raised by users of that instance will be accessible by the admin.
-- In foreign GSTIN validation 99, 98 are used as state codes. See how ERP next handles this and implement 
+- In foreign GSTIN validation 99, 98 are used as state codes. See how ERP next handles this and implement
   likewise.
 - Feedback in transaction forms,
-  - Make the sale of out of stock items configurable, as there are times where the company 
+  - Make the sale of out of stock items configurable, as there are times where the company
     might need to create invoices for out of stock items and take care of the inventory later.
   - Need for the ability to generate pin codes automatically from state and address.
   - Pincode and address need not be kept as mandatory fields.
@@ -141,19 +182,19 @@ Updates:
 
 Points Discussed:
 - Discussions on GSTIN and GST,
-  - Place the GSTIN field before the PAN and the state fields, so they are auto filled 
+  - Place the GSTIN field before the PAN and the state fields, so they are auto filled
     once a valid GSTIN has been entered.
   - Can we use the API for getting the GSTIN related data?
-    - Yes, there are these service providers called GSP's (GST Suvidha Provider) 
-      who provide GST related services for a fee. 
+    - Yes, there are these service providers called GSP's (GST Suvidha Provider)
+      who provide GST related services for a fee.
     - List of GSP's, (https://www.gstn.org.in/empanelled-gsps).
-    - We can provide an option in GNUKhata with which users interested in filing GST returns 
+    - We can provide an option in GNUKhata with which users interested in filing GST returns
       directly from GNUKhata can create an account to the GSP they want or the ones that we
       support and use them from GNUKhata.
     - Using a GSP will provide us the ability to check if a GSTIN is active or not, provide
       API's to perform GST filings online, etc.
   - Priority tasks related to GST,
-    - Generate GST returns and make them downloadable in JSON or Excel formats. The users can 
+    - Generate GST returns and make them downloadable in JSON or Excel formats. The users can
       download the reports manually and file them in the GST website manually
     - Generate and file GST returns automatically from GNUKhata using GSP/ASPs.
   - R2 will create a new company in the demo site for gkapp and we will test and iterate on
@@ -162,12 +203,12 @@ Points Discussed:
     - Place of supply
     - GST categories
 - Comments on config UI in transaction pages,
-  - If any of the elements in the create transaction page is hidden by using a config, it must be conveyed to the 
+  - If any of the elements in the create transaction page is hidden by using a config, it must be conveyed to the
     user.
   - Need better validation messages when there is an issue with the JSON structure of the config. (For example in what line
     number the error occured would be helpful)
   - The current JSON config must be converted to an easy to use form as entering JSON would not user friendly.
-- When Balance Sheet is downloaded as Excel file and printed, the Assets and Liabilities columns must appear horizontally 
+- When Balance Sheet is downloaded as Excel file and printed, the Assets and Liabilities columns must appear horizontally
   than one below the other.
 - Should we double hash the passwords for more security?
   - Must check online if this practice is good and also find good a library that does this if it is.
@@ -200,26 +241,26 @@ Updates:
   - Updates to sidebar from last week suggestions. Search menu added to sidebar for mobile users
   - Auto complete component has clear selection styling changes
   - API handling code refactoring in some components
-  - Misc style fixes 
+  - Misc style fixes
 - Survesh:
   - (html2pdf) Split tables into multiple pages and Add headers, footers
-  - (config validation) Fix issues with json schema validation and 
+  - (config validation) Fix issues with json schema validation and
     Add validation for workflow list table config
 
 Points Discussed:
 - Comments on the search option in the side bar,
-  - Make the search button appear on the right to distinguish it from 
+  - Make the search button appear on the right to distinguish it from
     the other navigation links.
   - Keep the search bar button active when opening the side bar for
     quicker access.
-- In the case of a schema validation failure, the response message must be in 
+- In the case of a schema validation failure, the response message must be in
   such a way that it doesn't blame the user for their mistake and help them
   solve the issue in hand. Avoid string language like 'Invalid' or 'Illegal'.
 - Discussion of dounbts,
   - Can we store the random salts when salting passwords and hashing them?
-    - Yes its ok, even with transparent salts, since a cracker doesn't know the password, 
+    - Yes its ok, even with transparent salts, since a cracker doesn't know the password,
       it would take them a longer time to crack the password.
-  - Shall we just add password hashing for now or should we go for the total 
+  - Shall we just add password hashing for now or should we go for the total
     overhaul of the user management system?
     - For now just the password hashing is fine. Since we plan to make major changes
       to gkcore in the future, lets go with the new user management system then.
@@ -227,7 +268,7 @@ Points Discussed:
       - When there is no SSL, Man in the middle attack can be avoided with client side hashing.
       - When there is more than one client side code, all of them have to implement
 	the hashing individually. This can be avoided in server side hashing.
-    - Also the password hashing added must be able to detect the change and hash the plain 
+    - Also the password hashing added must be able to detect the change and hash the plain
       password and store it in DB.
     - MD5 hashing algorithm has 16 Hex characters, so detecting the difference between plain
       password and hashed password would be easy.
@@ -264,7 +305,7 @@ Updates:
   - Org image upload fix
   - Added download page for website
 - Survesh:
-  - Store client side config in DB 
+  - Store client side config in DB
     - Added Config fields in user and organisation tables
     - API to Read and Edit config
     - Store workflow page, left pane's config using config API
@@ -273,26 +314,26 @@ Points Discussed:
 - Comments on storing client side config in DB,
   - Need version control of the DB, so that any change is tracked.
   - Need proper validation of the JSON based config before it is stored in the DB.
-    The structure of the json and the value types that can be stored needs to 
+    The structure of the json and the value types that can be stored needs to
     be validated.
   - Maintain a wiki that describes the structure of the config and its possible values.
   - Need a UI feature to reset the configs and go back to square one when needed.
-- Discussions on the need for a good user management library and tasks 
+- Discussions on the need for a good user management library and tasks
   to be done there after,
   - Currently we do not hash or salt our passwords and security question's answers.
   - Using a proper user management library will take care of tasks like password encryption,
     authentication, password recovery, CRUD opertations etc.
   - Things to look out for after using a user management library,
-    - Write access to the "users" table must only be with the library and not with any 
+    - Write access to the "users" table must only be with the library and not with any
       public API's.
-    - Existing User's who were created without the library must not be locked out of their 
+    - Existing User's who were created without the library must not be locked out of their
       system, once this library is integrated. Proper testing has to be performed.
-    - During password recovery, if the user doesn't have access to emails and admin is 
-      providing them with a password, the application must force updation of password 
+    - During password recovery, if the user doesn't have access to emails and admin is
+      providing them with a password, the application must force updation of password
       after logging in.
 - Discussions on the Global search feature,
   - Try to convert the global search feature into an advanced search feature.
-  - For example, it would be nice if we could search for particular product from a 
+  - For example, it would be nice if we could search for particular product from a
     products listing page.
   - Check libre office for inspiration.
   - Since the current search is used for navigation, it could named as Quick Access.
@@ -304,9 +345,9 @@ Points Discussed:
     also be a good addition in the backend.
 - Points discussed on the procedure for deleting users,
   - It would be nice to add a password validation before deleting users to increase security.
-  - Also the ability to deactivate or suspend a user from logging in would be a nice addition 
+  - Also the ability to deactivate or suspend a user from logging in would be a nice addition
     to deleting a user, where all the users created can be persisted.
-  - Try to use decorators in python like @admin so that only users with certain privileges 
+  - Try to use decorators in python like @admin so that only users with certain privileges
     can access the certain API's.
   - Maintain a wiki that describes the various roles a user can have and the actions that they
     can perform in the app.
@@ -336,18 +377,18 @@ Updates:
 
 Points Discussed:
 - Comments on Bank Reconcilliation page,
-  - Radio Buttons could be replaced with checkboxes so that the user could 
+  - Radio Buttons could be replaced with checkboxes so that the user could
     choose to view more than one table of data at a time.
   - See if its possible to add links to ledger page from Bank Reconciliation.
 - Comments on removing print buttons in mobile view,
-  - Print buttons were removed in mobile screens as print options provided by the browser 
+  - Print buttons were removed in mobile screens as print options provided by the browser
     do not work in mobile phones.
-  - As a replacement, pdf and spreadsheet generators are required, so that the data can be 
+  - As a replacement, pdf and spreadsheet generators are required, so that the data can be
    downloaded and printed later on.
 - The app's versioning color strip in the app, must be updated on every commit.
 - Comments on Product register page,
   - The search & Filter used here could be generalised and used across the app.
-  - Use of icons and color codes must be preferred for distinguishing the various filters, 
+  - Use of icons and color codes must be preferred for distinguishing the various filters,
     as just color coding may not be helpfull for users with color blindness.
 - The priority order of the remaining tasks,
   1. GST support
@@ -378,11 +419,11 @@ Updates:
   - Minor UI fixes
 
 Points Discussed:
-- Feature request in Create Category page, for having a autocomplete feature on the input field for entering 
+- Feature request in Create Category page, for having a autocomplete feature on the input field for entering
   the category name, as it will help avoid used category names.
 - Moving the nav bar options present in the workflow list table to the side bar under Master category.
 - Possible steps that can be taken to reduce the column count in Product Register page,
-  - Combine the Document id, Document Type, Document particular into one column, where by only the 
+  - Combine the Document id, Document Type, Document particular into one column, where by only the
     Document Particulars is displayed and the Document type is denoted via pre determined icons.
   - Here Document Particulars will be hyperlinked, as the ID column was hyperlinked before.
   - Make the columns be user configurable, where in the users can choose which columns they want displayed.
@@ -393,7 +434,7 @@ Points Discussed:
   - Download the required open fonts and self host them for use in the website.
   - Screenshots of the webapp could be added as a slideshow in the website.
   - Since GNUKhata has been around for about 8 years now, the website must be able to showcase its maturity.
-  - There exists a revamped version of the GNUKhata website, we can use the content used there, as it was planned and 
+  - There exists a revamped version of the GNUKhata website, we can use the content used there, as it was planned and
     approved. Ashutosh might have a copy of it, VK will update us on its status.
 - Feature request in Accounts page for displaying data in table view, where their opening balances could be edited
   quickly.
@@ -426,13 +467,13 @@ Updates:
     hide rows with 0 as amount
 
 Points Discussed:
-- Discussions on exploring for a FOSS alternative to Microsoft Visual C++ (MSVC) 
+- Discussions on exploring for a FOSS alternative to Microsoft Visual C++ (MSVC)
   as a dependency for postgresql in windows due to its proprietary license
 - Discussions on adding the user configs used throughout the app to gkcore as blobs or
   JSONB fields
-- Update the table structure of Balance sheets based on this image: 
+- Update the table structure of Balance sheets based on this image:
   https://4.bp.blogspot.com/-dcn43N1RACM/USYcD6hzr7I/AAAAAAAAJN4/TxUE7aG6IiY/s1600/Balance-Sheet-Template.jpg
-  - Keep all the Text in one column and split the amount column into three, one for each category 
+  - Keep all the Text in one column and split the amount column into three, one for each category
     (Group, Sub Group, Account)
   - Use minor indents to left in the text column to distinguish between the three category of accounts
 - Discussions on Side Bar item placements,
@@ -441,7 +482,7 @@ Points Discussed:
 - Discussions on the new website for GNUKhata,
   - Start work on carrying forward the data from the current website to the new one in gitlab.io
   - We have acces to gnukhata.org domain as well, so we can even test the new website there
-  - Later on we can make gnukhata.org the base website for GNUKhata and gnukhata.in as its Indian 
+  - Later on we can make gnukhata.org the base website for GNUKhata and gnukhata.in as its Indian
     counter part
   - In the new website, keep the registration for getting download links an optional process than
     mandatory.
@@ -477,27 +518,27 @@ Updates:
 
 Points Discussed:
 - Discussions on sidebar link placements,
-  - It would be nice to have Sales and Purchase as separate categories and having 
-    their related pages (Sales/Purchase Return, related Vouchers, etc) as links under them. 
+  - It would be nice to have Sales and Purchase as separate categories and having
+    their related pages (Sales/Purchase Return, related Vouchers, etc) as links under them.
   - Adjust bills, Accounts, UOM could be placed as links under the Master category.
 - Discussions on the need for Report category and improving the legacy approach,
   - Do we need separate pages under the Reports category when we have those data already
-    in other pages? We can apply filters and get the same reports there, as we shouldn't 
+    in other pages? We can apply filters and get the same reports there, as we shouldn't
     create separate UI templates for the same data in several places.
   - Though there are several dynamic pages in which we can generate the required report by
-    applying filters, there are still some reports (Balance Sheet, Profit & Loss, etc.) that 
+    applying filters, there are still some reports (Balance Sheet, Profit & Loss, etc.) that
     would require a separate page to display them.
   - Also, Auditors using aged software will be accustomed to an interface with a reports category
     that groups all the reports in the app in one place.
-  - So we can keep the legacy UI that lists all the reports in one place, and with time we can remove 
-    the extra UI templates for pages where we can generate reports by filtering the existing data, as 
+  - So we can keep the legacy UI that lists all the reports in one place, and with time we can remove
+    the extra UI templates for pages where we can generate reports by filtering the existing data, as
     maintaining several templates will be a hard task.
 - Need a Stock on Hand filter for the Products/Services list.
 - When opening the workflow page in desktop mode, the right pane is empty. This could be filled
   with the data of first item in the left pane.
 - Must check if we have permission to include Microsoft Visual C++ in our windows installer.
 - Payment Details(Bank Info) must be autofilled with the organisation's data, in create Invoice form.
-- Need the ability to adjust an invoice On Credit, in its profile page itself (Without Going to 
+- Need the ability to adjust an invoice On Credit, in its profile page itself (Without Going to
   Billwise Adjustment page). Also the information regarding the Billwise Adjustment happened on the invoice
   must be listed on the Invoice Profile page.
 - UI updates in the Balance sheet form,
@@ -531,7 +572,7 @@ Updates:
 Points Discussed:
 - Comments on print pages for workflow lists,
   - A separate page for print is not required here, as the current workflow page
-    uses the same API's used in the print pages to fetch the same data, 
+    uses the same API's used in the print pages to fetch the same data,
     but only lists few of them.
   - We can provide UI options in the workflow page, to enable the user to view
     the extra fields that are currently being displayed in the print pages.
@@ -541,16 +582,16 @@ Points Discussed:
     - An option to toggle between 3 column and multi column view of the listing table.
 - Improvements discussed on the worklfow filters,
   - Need the ability to add more than one type of filter, like the ability to combine a
-    filter for Cancelled Invoices, Sales Invoices and Invoices belonging to a particular 
+    filter for Cancelled Invoices, Sales Invoices and Invoices belonging to a particular
     customer.
   - Need the ability to query the table with text.
   - Side Note: The current gkapp also requires a global search feature, for which elastic
     search could be used.
 - Need for separation of Invoices into Sales and Purchases
   - Easy of Use.
-  - Separation would also decrease an overhead of splitting sales and purchases when filtering 
+  - Separation would also decrease an overhead of splitting sales and purchases when filtering
     out Invoices list.
-- The current default setting for maintaining a separate ledger account for Sale and Purchase 
+- The current default setting for maintaining a separate ledger account for Sale and Purchase
   of every product is overwhelming, we can switch to a per sales ledger account as default.
 - Doubt about the field "No. of Unlocked Transactions" in ledger page, clarify with Abhijith.
 - Discussions on improvements in the existing form help texts,
@@ -559,7 +600,7 @@ Points Discussed:
   - Need ways to make them short and still convey the information required.
   - We can try to split the long texts and place them across the form based on their context.
 - Discussions on plans for packaging GNUKhata (gkcore, gkwebapp and gkapp),
-  - If we are going the debian way, we need to create separate debian packages for 
+  - If we are going the debian way, we need to create separate debian packages for
     gkcore and gkwebapp.
   - Also we need to write test cases for the above packages if they are to be picked up by Debian
     stable release.
@@ -586,7 +627,7 @@ Updates:
 - Karthik:
   - Trial balance
   - Updates to profit / loss, cash reports views
-  - Hide demo company details in production mode  
+  - Hide demo company details in production mode
 - Survesh:
   - UI updates in budget page (remove card view, add table row collapse)
   - Added search filters in Accounts page
@@ -600,18 +641,18 @@ Points Discussed:
       when there are many columns.
   - When taking multi page printouts,
     - Page numbers are required. (e.g. 1 out of 2 pages)
-    - If a table is printed across many pages, the table heading 
+    - If a table is printed across many pages, the table heading
       must be carried forward in the overflowing pages.
     - Also if there is a page heading, it should also carry forward
       across all the pages.
-    - To implement these features, we can look at a server side solution 
+    - To implement these features, we can look at a server side solution
       using Libre Office Headless for print.
     - Or we can try to use the print library used by ERP Next.
 - Comments on Accounts page,
-  - Hide the cards that do not satisfy the search query. 
-  - When a sub group or account is selected, hide the group or sub group 
+  - Hide the cards that do not satisfy the search query.
+  - When a sub group or account is selected, hide the group or sub group
     containing it and only display the item that was searched for.
-  - When a sub group is queried, show the list of accounts in it without 
+  - When a sub group is queried, show the list of accounts in it without
     a scroll bar.
 - The side menu items should be grouped under collapsable headings.
   - Possible headings are Transaction, Admin, Journal, Report and Others.
@@ -619,18 +660,18 @@ Points Discussed:
 - Updates in Transaction Profile page,
   - Add Links from the Invoice and Cash Memo profiles to their corresponding
     ledger pages.
-  - In mobile view the vertical bill item table takes up a lot of vertical space, 
+  - In mobile view the vertical bill item table takes up a lot of vertical space,
     this should be reduced.
-- In Trial Balance page, the help text shown could be split into three parts and 
+- In Trial Balance page, the help text shown could be split into three parts and
   shown separately for the 3 types of trial balances.
 - Discussions on Bank Reconciliation statement,
   - Bank Reconciliation statement is one that helps in checking the discrepancies (if any)
     between the transaction accounts maintained by the company and that of the actual bank account.
-  - Many commercial accounting softwares use a paid API like PLAID, to fetch details from the 
+  - Many commercial accounting softwares use a paid API like PLAID, to fetch details from the
     user's bank account and perform reconciliation.
   - The process of updating the actual bank details in the accounting software can be done
     manually as well.
-  - Example: https://app.qbo.intuit.com/app/reconcile?accountId=35 and 
+  - Example: https://app.qbo.intuit.com/app/reconcile?accountId=35 and
     https://www.youtube.com/watch?v=jezAtbPt7g4&feature=emb_title
 
 Conclusion:
@@ -661,7 +702,7 @@ Points Discussed:
 - Discussions on the ability of windows installer to work on low
   config machines,
   - Need for minimum hardware requirements and benchmarks is there.
-  - Since GNUKhata is dependent on python 3, we can say that any hardware + OS 
+  - Since GNUKhata is dependent on python 3, we can say that any hardware + OS
     combo that supports python 3 can run GNUKhata on it.
   - Installers can be made for both 64 and 32 bit systems, but prioritize more
     on 64 bit.
@@ -669,7 +710,7 @@ Points Discussed:
   - Use normal font weight than bold in the table.
   - Add hyperlinks to ledger page when clicking on the Account name in table.
 - Comments on print pages format,
-  - Increase the horizontal offsets (empty space) in the left and right side, 
+  - Increase the horizontal offsets (empty space) in the left and right side,
     so that its printer friendly.
   - Need to improve the looks of the print page content. (R2 will share some examples
     for this)
@@ -679,7 +720,7 @@ Points Discussed:
   - Debian packages are also widely supported and easy to work with.
   - We can choose either Snap or Deb, based on ease of maintaining and support across platforms.
 - Updates to the current website (gnukhata.in),
-  - Certain elements available in the current front page of gnukhata.in have been added after 
+  - Certain elements available in the current front page of gnukhata.in have been added after
     due consideration, and those elements need to be translated to match with the new UI updates.
 - Comments on the Budget page updates,
   - The card view UI can be omitted, as the table view is good.
@@ -721,10 +762,10 @@ Points Discussed:
   - Comments on Budget flow,
     - Need to check if inflow/outflow and income/expense are the commonly used
       nomenclature.
-    - The Budgets list page must reload the last visited budget, when using the 
+    - The Budgets list page must reload the last visited budget, when using the
       create/ edit options.
     - Fix the UI bug that appears after deleting a budget.
-    - In Budget Report table, make variance and variance (%) collapsable in 
+    - In Budget Report table, make variance and variance (%) collapsable in
       mobile view.
   - Comments in workflow page,
     - In Filters, Need ability to search for different types of fields available
@@ -732,14 +773,14 @@ Points Discussed:
     - The ability to change the column type in the workflow list page,
       e.g. In invoices list, user could choose to view Invoice no instead of Customer/Supplier
       name.
-  - Try to incorporate Categorywise Stock on Hand to Stock on Hand page by 
-    adding category as a filter, so that all Stock on Hand data is viewable 
+  - Try to incorporate Categorywise Stock on Hand to Stock on Hand page by
+    adding category as a filter, so that all Stock on Hand data is viewable
     in the same page.
   - In Contact List report's print output, add serial number to the rows and add
     current account balances of the contacts.
   - Need to enquire with GN about using Snap for packaging gkwebapp for linux based
-    distros.  
-  - Can take inspirations for the invoice UI from https://getswipe.in, a competetor 
+    distros.
+  - Can take inspirations for the invoice UI from https://getswipe.in, a competetor
     of the web app vyapar.
 
 Conclusion:
@@ -761,7 +802,7 @@ Updates:
   - WIP Category wise stock on hand report.
 - Survesh:
   - Updated URL based on the group, subgroup, account selected in accounts page
-  - Added deleted Invoices, Vouchers in workflow page and 
+  - Added deleted Invoices, Vouchers in workflow page and
     added Delete DelNote option.
   - Added Budget List
 
@@ -769,7 +810,7 @@ Points Discussed:
   - Comments on Budget List Page,
     - The current table view in mobile, could be replaced with card view.
       so that it matches the accounts page UI.
-    - Provide an option to switch between table UI and card based UI 
+    - Provide an option to switch between table UI and card based UI
       so the UI choice is left to the user.
     - In table view, some columns are hidden and require scrolling. Indicate
       the page is scrollable with a swiping hand icon.
@@ -781,8 +822,8 @@ Points Discussed:
     - Add alternating stripes to the workflow page list.
   - Feature request in Create Invoice page,
     - Use Case: After the current financial year is roll closed, in the next year
-      we need to be able to create an invoice for a purchase that took place in 
-      the roll closed year. This is done by specifying the Invoice Date and Id that 
+      we need to be able to create an invoice for a purchase that took place in
+      the roll closed year. This is done by specifying the Invoice Date and Id that
       was used by the seller in the previous year.
     - Need 2 extra fields to store the Supplier's Invoice No. and Date to achieve this.
     - Check https://margbooks.com to see how this is implemented
@@ -836,7 +877,7 @@ Points Discussed:
     - Change server link must be aligned with the change organisation button.
     - Make the Org Name selection searchable.
     - Remove Profit/ Not Profit text.
-  - The universal nav bar should be fixed to the bottom of the page. Currently in 
+  - The universal nav bar should be fixed to the bottom of the page. Currently in
     pages with content that takes less vertical space, the nav bar appears in the middle
     of the screen.
   - Comments in Accounts page,
@@ -1229,8 +1270,8 @@ Points Discussed:
   - The "Create New Product" Button must not be visible in the Bill
     Table.
 - Comments on Bill Table component:
-  - Update: IGST, CESS, VAT fields are hidden in mobile view. 
-    Comments: Columns must not be hidden completely, Use a collapsable table 
+  - Update: IGST, CESS, VAT fields are hidden in mobile view.
+    Comments: Columns must not be hidden completely, Use a collapsable table
     here so that the full table data is always there.
   - Use a vertical table layout to tackle the above mentioned issue. Add
     traversable buttons here to navigate between the multiple rows.
