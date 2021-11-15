@@ -323,6 +323,7 @@ export default {
         type: 'sale', // purchase
         inv: {
           state: { id: null },
+          taxState: { id: null },
         },
         party: {
           state: { id: null },
@@ -470,8 +471,15 @@ export default {
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
     isCgst: (self) => {
-      if (self.form.inv.state && self.form.party.state) {
-        if (
+      if (self.form.inv.state && (self.form.inv.taxState || self.form.party.state)) {
+        if(self.form.inv.taxState) {
+          if (
+            parseInt(self.form.inv.state.id) ===
+            parseInt(self.form.inv.taxState.id)
+          ) {
+            return true;
+          }
+        } else if (
           parseInt(self.form.inv.state.id) ===
           parseInt(self.form.party.state.id)
         ) {
@@ -1001,7 +1009,7 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-      console.log(payload);
+      // console.log(payload);
       const method = this.formMode === 'create' ? 'post' : 'put';
       const actionText = this.formMode === 'create' ? 'Create' : 'Edit';
       axios({ method: method, url: '/invoice', data: payload })
@@ -1118,6 +1126,12 @@ export default {
         invoice.taxstate = this.form.inv.state.name || null;
         invoice.inoutflag = 9; // purchase
         delete invoice.ewaybillno;
+      }
+
+      if(typeof this.form.inv.taxState === 'object') {
+        if(this.form.inv.taxState.name) {
+          invoice.taxstate = this.form.inv.taxState.name;
+        }
       }
 
       // === GST/ VAT related data ===
@@ -1247,6 +1261,7 @@ export default {
         type: this.form.type,
         inv: {
           state: { id: null },
+          taxState: { id: null },
         },
         party: {
           name: false,

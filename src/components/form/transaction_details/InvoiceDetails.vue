@@ -67,6 +67,22 @@
           </gk-date>
         </b-form-group>
         <b-form-group
+          label="Place of Supply"
+          label-for="ivd-input-11"
+          label-cols-lg="2"
+          label-cols="3"
+          label-size="sm"
+        >
+          <autocomplete
+            size="sm"
+            id="ivd-input-11"
+            v-model="form.taxState"
+            :options="options.states"
+            :required="true"
+            @input="onUpdateDetails"
+          ></autocomplete>
+        </b-form-group>
+        <b-form-group
           v-if="config.delNote"
           label="Del. Note"
           label-for="ivd-input-20"
@@ -174,8 +190,8 @@
                 v-model="form.state"
                 :options="options.states"
                 required
-                :disabled="disabled.state"
-                :tabindex="disabled.state ? -1 : 0"
+                :disabled="true"
+                tabindex="-1"
               ></b-form-select>
             </b-form-group>
           </b-col>
@@ -290,6 +306,7 @@ export default {
         state: {},
         issuer: null,
         role: null,
+        taxState: {}
       },
       options: {
         states: [],

@@ -225,6 +225,7 @@ export default {
     return {
       isPreloading: false,
       invoice: {
+        taxState: '',
         issuer: '',
         designation: '',
         date: '',
@@ -250,6 +251,7 @@ export default {
       },
       vouchers: [],
       showVouchers: false,
+      states: {}
     };
   },
   computed: {
@@ -299,6 +301,7 @@ export default {
         { title: 'Date', value: details.date },
         { title: 'Eway Bill No.', value: details.eway || '' },
         { title: 'Delivery Note No.', value: details.delno || '' },
+        { title: 'Place of Supply', value: details.taxState || '' },
         {
           title: 'Issued By',
           value: `${details.issuer}  ${designation}`,
@@ -428,12 +431,15 @@ export default {
     formatInvoiceDetails(details) {
       if (details) {
         let party = details.custSupDetails || {};
+        let gstinList = typeof party.custgstinlist === 'object' ? Object.values(party.custgstinlist) : [];
+        let gstin = gstinList.length ? gstinList[0] : ''
         this.invoice = {
           issuer: details.issuername,
           designation: details.designation,
           number: details.invoiceno,
           date: details.invoicedate,
           dcno: details.dcno,
+          taxState: this.states[details.taxstatecode],
           eway:
             details.ewaybillno !== 'undefined' && !!details.ewaybillno
               ? details.ewaybillno
@@ -448,7 +454,7 @@ export default {
             addr: party.custaddr,
             pincodce: party.pincode,
             csflag: party.csflag,
-            gstin: party.custgstin,
+            gstin: gstin,
           },
           isSale: details.inoutflag === 15,
           isGst: details.taxname !== 'VAT',
@@ -603,6 +609,18 @@ export default {
         } // end switch
       });
     },
+    fetchState() {
+      return axios.get('/state').then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          this.states = {};
+          resp.data.gkresult.forEach((state) => {
+            let code = Object.keys(state)[0];
+            let name = Object.values(state)[0];
+            this.states[code] = name;
+          });
+        }
+      })
+    }
   },
   watch: {
     id(newId) {
@@ -624,7 +642,7 @@ export default {
     // console.log("mounted")
     if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;
-      Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
+      Promise.all([this.fetchState(), this.fetchAndUpdateData(), this.getVouchers()])
         .then(() => {
           this.isPreloading = false;
         })
