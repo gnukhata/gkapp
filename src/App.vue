@@ -121,6 +121,7 @@ export default {
     }
   },
   created() {
+    this.get_org_address();
     this.getOrgImage();
   },
 };

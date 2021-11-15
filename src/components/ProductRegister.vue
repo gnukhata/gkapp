@@ -276,8 +276,14 @@ export default {
         }
         if (items.length > 0) {
           this.report = items;
+          // if selected filter has no matching entries show notification
         } else {
           this.report = this.report2;
+          this.$bvToast.toast(`No data present for selected filter`, {
+            variant: 'warning',
+            title: 'Alert',
+            solid: true,
+          });
         }
       } else {
         this.report = this.report2;

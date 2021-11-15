@@ -37,6 +37,13 @@ Vue.mixin({
     // gkMode() {
     //   return process.env.NODE_ENV
     // },
+    get_org_address() {
+      axios.get('/organisation?osg=true').then((r) => {
+        if (r.status === 200 && r.data.gkstatus == 0) {
+          this.$store.commit('setOrgAddress', r.data.gkdata);
+        }
+      });
+    },
     hashedPassword(text) {
       let hash = sha512(text).toString();
       return hash;
