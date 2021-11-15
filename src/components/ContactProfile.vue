@@ -193,13 +193,13 @@
           <div>
             <b-icon
               variant="light"
-              :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
+              :icon="isCollapsed4 ? 'dash' : 'arrows-fullscreen'"
             ></b-icon>
           </div>
         </div>
       </template>
 
-      <b-collapse class="m-3" v-model="isCollapsed3" id="financial">
+      <b-collapse class="m-3" v-model="isCollapsed4" id="financial">
         <b-form-group
           label="Acc. No."
           label-for="cp-bank-ano"
@@ -302,6 +302,7 @@ export default {
       isCollapsed1: false,
       isCollapsed2: false,
       isCollapsed3: false,
+      isCollapsed4: false,
       options: {
         states: [],
         selectedState: {},
@@ -688,16 +689,19 @@ export default {
       this.isCollapsed1 = true;
       this.isCollapsed2 = true;
       this.isCollapsed3 = true;
+      this.isCollapsed4 = true;
     }
     window.addEventListener('resize', () => {
       if (window.screen.width > 600) {
         this.isCollapsed1 = true;
         this.isCollapsed2 = true;
         this.isCollapsed3 = true;
+        this.isCollapsed4 = true;
       } else {
         this.isCollapsed1 = false;
         this.isCollapsed2 = false;
         this.isCollapsed3 = false;
+        this.isCollapsed4 = false;
       }
     });
   },
