@@ -98,15 +98,12 @@
               label-for="acc-input-50"
               label-cols="3"
               label-size="sm"
-              label-class="required"
             >
               <b-form-input
                 type="number"
                 size="sm"
-                required
                 v-model="form.openingBalance"
                 step="0.01"
-                min="0.01"
               ></b-form-input>
             </b-form-group>
             <hr class="my-2" />
