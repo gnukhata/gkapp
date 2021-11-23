@@ -128,11 +128,11 @@
 
         <b-form-group label="GST" label-cols="4">
           <b-input-group append="%">
-            <b-form-select v-model="tax.igst.taxrate">
-              <b-form-select-option value="0.00">0.00</b-form-select-option>
+            <b-form-select :options="gstRates" v-model="tax.igst.taxrate">
+              <!-- <b-form-select-option value="0.00">0.00</b-form-select-option>
               <b-form-select-option value="5.00">5.00</b-form-select-option>
               <b-form-select-option value="18.00">18.00</b-form-select-option>
-              <b-form-select-option value="28.00">28.00</b-form-select-option>
+              <b-form-select-option value="28.00">28.00</b-form-select-option> -->
             </b-form-select>
           </b-input-group>
         </b-form-group>
@@ -235,7 +235,6 @@ export default {
       options: {
         uom: [],
         states: [],
-        gstRates: [0, 5, 12, 18, 28],
         cess: 0,
         cvat: 0,
         tax: [],
@@ -244,6 +243,7 @@ export default {
     };
   },
   computed: {
+    gstRates:(self) => self.$store.getters['global/getGstRates'],
     ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {

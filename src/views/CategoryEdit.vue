@@ -164,7 +164,7 @@
               v-else
               v-model="form.taxes[data.index].rate"
               size="sm"
-              :options="[0, 5, 12, 18, 28]"
+              :options="gstRates"
               :disabled="data.item.disabled"
             >
             </b-form-select>
@@ -260,6 +260,7 @@ export default {
     },
   },
   computed: {
+    gstRates:(self) => self.$store.getters['global/getGstRates'],
     ...mapState([]),
   },
   methods: {

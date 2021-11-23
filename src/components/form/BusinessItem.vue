@@ -262,7 +262,7 @@
                           size="sm"
                           id="bi-input-7"
                           v-model="form.tax.gst"
-                          :options="options.gstRates"
+                          :options="gstRates"
                         ></b-form-select>
                       </b-input-group>
                     </b-form-group>
@@ -480,7 +480,6 @@ export default {
         stateCodes: [],
         uom: [],
         uomIds: [],
-        gstRates: [0, 5, 12, 18, 28],
       },
       uomTyped: '',
       uomSelected: '',
@@ -513,6 +512,7 @@ export default {
     };
   },
   computed: {
+    gstRates:(self) => self.$store.getters['global/getGstRates'],
     isHsnRequired: (self) => self.form.tax.gst > 0 || self.form.tax.cess > 0,
     // uomCode: (self) => (self.uomSelected !== null) ? self.uomSelected.split(' ')[0] : null,
     isService: (self) => self.type === 'service',

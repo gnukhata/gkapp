@@ -461,6 +461,8 @@ export default {
     },
     defaultConfig: (self) =>
       self.$store.getters[`${self.vuexNameSpace}/getDefaultInvoiceConfig`],
+    defaultPaymentMode: (self) =>
+      self.$store.getters['global/getDefaultPaymentMode'],
     billLength: (self) => self.form.bill.length,
     height: () =>
       window.innerHeight -
@@ -471,8 +473,11 @@ export default {
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
     isCgst: (self) => {
-      if (self.form.inv.state && (self.form.inv.taxState || self.form.party.state)) {
-        if(self.form.inv.taxState) {
+      if (
+        self.form.inv.state &&
+        (self.form.inv.taxState || self.form.party.state)
+      ) {
+        if (self.form.inv.taxState) {
           if (
             parseInt(self.form.inv.state.id) ===
             parseInt(self.form.inv.taxState.id)
@@ -1128,8 +1133,8 @@ export default {
         delete invoice.ewaybillno;
       }
 
-      if(typeof this.form.inv.taxState === 'object') {
-        if(this.form.inv.taxState.name) {
+      if (typeof this.form.inv.taxState === 'object') {
+        if (this.form.inv.taxState.name) {
           invoice.taxstate = this.form.inv.taxState.name;
         }
       }
@@ -1257,6 +1262,24 @@ export default {
       return { invoice, stock };
     },
     resetForm() {
+      let paymentMode;
+      switch (this.defaultPaymentMode) {
+        case 'credit':
+          {
+            paymentMode = 15;
+          }
+          break;
+        case 'bank':
+          {
+            paymentMode = 2;
+          }
+          break;
+        case 'cash':
+        default:
+          {
+            paymentMode = 3;
+          }
+      }
       this.form = {
         type: this.form.type,
         inv: {
@@ -1275,7 +1298,7 @@ export default {
           },
         ],
         payment: {
-          mode: 3,
+          mode: paymentMode,
           bank: {
             no: null,
             name: null,

@@ -110,6 +110,7 @@
         <payment-details
           ref="payment"
           :updateCounter="updateCounter.payment"
+          :parentData="form.payment"
           :config="config.payment"
           :saleFlag="isSale"
           :optionsData="{
@@ -294,6 +295,7 @@ export default {
         transport: {},
         narration: null,
         total: {},
+        payment: {}
       },
       options: {
         states: [],
@@ -302,6 +304,8 @@ export default {
     };
   },
   computed: {
+    defaultPaymentMode: (self) =>
+      self.$store.getters['global/getDefaultPaymentMode'],
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isSale: (self) => self.form.type === 'sale',
@@ -588,6 +592,25 @@ export default {
         });
     },
     resetForm() {
+      let paymentMode;
+      switch (this.defaultPaymentMode) {
+        case 'credit':
+          {
+            paymentMode = 15;
+          }
+          break;
+        case 'bank':
+          {
+            paymentMode = 2;
+          }
+          break;
+        case 'cash':
+        default:
+          {
+            paymentMode = 3;
+          }
+      }
+
       this.form = {
         type: 'sale', // purchase
         total: {},
@@ -647,7 +670,7 @@ export default {
           },
         ],
         payment: {
-          mode: 3,
+          mode: paymentMode,
           bank: {
             no: null,
             name: null,

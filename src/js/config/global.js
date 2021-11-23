@@ -5,7 +5,7 @@ export default {
       transaction: {
         no: {
           prefix: false,
-          separator: "/",
+          separator: '/',
           suffix: {
             pattern: [
               {
@@ -13,14 +13,23 @@ export default {
               },
               {
                 type: 'date',
-                format: 'yy'
-              }
+                format: 'yy',
+              },
             ],
             separator: '-',
           },
-        }
-      }
-    }
+        },
+      },
+    },
+    default: {
+      transaction: {
+        paymentMode: 'bank', // bank, cash, credit
+        taxMode: 'GST', // GST, VAT
+      },
+    },
+    constant: {
+      gstRates: [0, 0.25, 1.5, 3, 5, 12, 18, 28],
+    },
   },
   getters: {
     getDateFormat: (state) => {
@@ -29,12 +38,17 @@ export default {
     getTrnNoFormat: (state) => {
       return state.format.transaction.no;
     },
+    getDefaultPaymentMode(state) {
+      return state.default.transaction.paymentMode;
+    },
+    getDefaultTaxMode(state) {
+      return state.default.transaction.taxMode;
+    },
+    getGstRates(state) {
+      return state.constant.gstRates;
+    }
   },
-  mutations: {
-
-  },
-  actions: {
-
-  },
-  namespaced: true
-}
+  mutations: {},
+  actions: {},
+  namespaced: true,
+};

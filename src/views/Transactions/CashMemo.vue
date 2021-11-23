@@ -48,6 +48,7 @@
           :updateCounter="updateCounter.payment"
           :config="config.payment"
           :saleFlag="isSale"
+          :parentData="form.payment"
           :optionsData="{
             payModes: [
               { text: '-- Payment Mode --', value: null },
@@ -259,6 +260,8 @@ export default {
         };
       }
     },
+    defaultPaymentMode: (self) =>
+      self.$store.getters['global/getDefaultPaymentMode'],
     ...mapState(['yearStart', 'yearEnd', 'orgCode']),
   },
   methods: {
@@ -487,6 +490,19 @@ export default {
         });
     },
     resetForm() {
+      let paymentMode;
+      switch (this.defaultPaymentMode) {
+        case 'bank':
+          {
+            paymentMode = 2;
+          }
+          break;
+        case 'cash':
+        default:
+          {
+            paymentMode = 3;
+          }
+      }
       this.form = {
         type: 'sale',
         memo: {
@@ -526,7 +542,7 @@ export default {
           text: '',
         },
         payment: {
-          mode: 3,
+          mode: paymentMode,
           bank: {
             no: null,
             name: null,
