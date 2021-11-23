@@ -9,6 +9,52 @@ us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
 
+* Meeting history (2021-11-22)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-11-22
+  :END:
+
+Agenda:
+ - Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+- Karthik:
+  - Create IFSC validation api
+  - Docker compose file IFSC server in gkcore
+  - Enable drill down in GST-R1
+- Survesh:
+  - [Bug-Fix] Issue with transactions involving items with qty > 1, and GST
+  - Global config for setting the default mode of payment
+  - Added GST rates (0.25, 1.5 and 3)
+  - Removed the required constraint on opening balances while creating an account
+
+Points Discussed:
+- Discussion on about the newly added IFSC server,
+  - Suggestion on using a bridge network for communication between the various servers inside the GNUKhata's docker container (Needs more discussion).
+  - Need to properly credit the Razorpay team for their IFSC docker container.
+  - Since GNUKhata is in AGPL license and we package third party softwares that are of different licenses with it, we have to mention that GNUKhata packages third party software that are of different licenses.
+- In GST-R1 report and for reports in general, it would be nice if all the fields are drill downable in nature in someway.
+- Discussion on the updates required to the existing GST rates,
+  - GST for the same product, has been seen to vary with time, with the quantity sold or purchased and with the rate at which it is sold or purchased.
+  - Currently we only have provision for a constant GST rate for a product or service. This makes it very hard to cope with the complex GST system in place.
+  - Thus we need provision for storing time, qty and rate based rules for applying GST and CESS on products and services.
+- In Create Accounts page, there is a need to record if the opening balance is either Credited or Debited.
+- Discussion on simplifying the terminologies credit and debit,
+  - We could use some symbols like (+,-) to easily show that amount is being taken from us and given to us.
+  - Gkwebapp has widgets to list the people to whom we have to pay money and those who owe us money. We could implement a similar one in gkapp as well.
+- Discussion on the current DB structure,
+  - Currently when we roll close an organisation, a new organisation is created for the up coming financial year and the Contacts, Inventory data are migrated (copied) to the new organisation.
+  - This need not be done and we can handle it differently, where we freeze the transactions pertaining to a time period upon roll close. Thus we maintain only one organisation, with one set of contacts, inventory, etc and transactions are tracked based on financial year.
+- Discussion on using I18N plugin for Vue 2 vs that of Vue 3,
+  - The I18N plugin of Vue 3 has some breaking changes when moving from that of Vue 2.
+  - Given that, we can only migrate to Vue 3 when VueBootstrap migrates to Vue 3. Which will take a while.
+  - Also since it doesn't take long to migrate, we can go with the I18N plugin for Vue 2 now and migrate to Vue3 when the time comes.
+
+Conclusion:
+- Updates will be performed based on the points discussed above.
+
 * Meeting history (2021-11-15)
   :PROPERTIES:
   :CUSTOM_ID: meeting-history-2021-11-15
