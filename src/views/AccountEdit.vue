@@ -120,15 +120,12 @@
               label-for="acc-input-50"
               label-cols="3"
               label-size="sm"
-              label-class="required"
             >
               <b-form-input
                 type="number"
                 size="sm"
-                required
                 v-model="form.openingBalance"
                 step="0.01"
-                min="0.01"
               ></b-form-input>
             </b-form-group>
             <hr class="my-2" />
@@ -459,9 +456,10 @@ export default {
         gkdata: {},
       };
 
+      let openingBal = !isNaN(this.form.openingBalance) ? this.form.openingBalance : 0;
       let gkdata = {
         accountname: this.form.name,
-        openingbal: parseFloat(this.form.openingBalance).toFixed(2),
+        openingbal: parseFloat(openingBal).toFixed(2),
         accountcode: this.id,
         groupcode: this.form.subGroup,
       };

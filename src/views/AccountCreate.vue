@@ -413,9 +413,10 @@ export default {
       let payload = {
         origin: 'createaccount',
       };
+      let openingBal = !isNaN(this.form.openingBalance) ? this.form.openingBalance : 0;
       let gkdata = {
         accountname: this.form.name,
-        openingbal: parseFloat(this.form.openingBalance).toFixed(2),
+        openingbal: parseFloat(openingBal).toFixed(2),
         groupcode: this.form.subGroup,
       };
 
