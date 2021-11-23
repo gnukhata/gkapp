@@ -1071,12 +1071,12 @@ export default {
           if (updatedData.type === 'delete') {
             this.displayToast(
               `Contact Delete success!`,
-              `Contact : ${this.selectedEntity.no}, deleted successfully.`,
+              `Contact : ${this.selectedEntity.custname}, deleted successfully.`,
               'success'
             );
-            let id = this.selectedEntity.id;
+            let id = this.selectedEntity.custid;
             let index = this.activeTabOptions.data.findIndex(
-              (item) => item.id === id
+              (item) => item.custid === id
             );
             this.unsetSelectedEntity();
             this.activeTabOptions.data.splice(index, 1);
