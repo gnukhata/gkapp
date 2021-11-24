@@ -28,7 +28,7 @@ export default {
       },
     },
     constant: {
-      gstRates: [0, 0.25, 1.5, 3, 5, 12, 18, 28],
+      gstRates: [0, 0.1, 0.25, 1, 1.5, 3, 5, 7.5, 12, 18, 28],
     },
   },
   getters: {
@@ -46,7 +46,7 @@ export default {
     },
     getGstRates(state) {
       return state.constant.gstRates;
-    }
+    },
   },
   mutations: {},
   actions: {},
