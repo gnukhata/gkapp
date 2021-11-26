@@ -1,5 +1,6 @@
 <template>
   <section class="m-1">
+    <gk-ifsc></gk-ifsc>
     <b-overlay :show="loading">
       <b-card
         header="GST R1 Report"
@@ -35,8 +36,9 @@
 
 <script>
 import GkDate from '../../components/GkDate.vue';
+import GkIfsc from '../../components/GkIfsc.vue';
 export default {
-  components: { GkDate },
+  components: { GkDate, GkIfsc },
   name: 'R1',
   data() {
     return {

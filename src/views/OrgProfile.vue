@@ -179,6 +179,24 @@
           header-text-variant="light"
         >
           <b-form-group
+            label="IFSC Code"
+            label-cols="4"
+            label-size="sm"
+            label-align="right"
+          >
+            <!-- <b-form-input
+                   v-model="bankDetails.ifsc"
+                   size="sm"
+                   type="text"
+                   ></b-form-input> -->
+            <gk-ifsc
+              v-model="bankDetails.ifsc"
+              size="sm"
+              @fill="autoFillIfsc"
+            ></gk-ifsc>
+          </b-form-group>
+          <!-- bank name -->
+          <b-form-group
             label="Name"
             label-cols="4"
             label-size="sm"
@@ -190,18 +208,7 @@
               type="text"
             ></b-form-input>
           </b-form-group>
-          <b-form-group
-            label="Account Number"
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-          >
-            <b-form-input
-              v-model="bankDetails.accountno"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
+          <!-- Branch -->
           <b-form-group
             label="Branch"
             label-cols="4"
@@ -214,14 +221,15 @@
               type="text"
             ></b-form-input>
           </b-form-group>
+          <!-- account number -->
           <b-form-group
-            label="IFSC Code"
+            label="Account Number"
             label-cols="4"
             label-size="sm"
             label-align="right"
           >
             <b-form-input
-              v-model="bankDetails.ifsc"
+              v-model="bankDetails.accountno"
               size="sm"
               type="text"
             ></b-form-input>
@@ -448,8 +456,10 @@
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios';
+import GkIfsc from '../components/GkIfsc.vue';
 
 export default {
+  components: { GkIfsc },
   name: 'OrgProfile',
   data() {
     return {
@@ -511,6 +521,10 @@ export default {
       self.details.orgpan ? self.regex.pan.test(self.details.orgpan) : null,
   },
   methods: {
+    autoFillIfsc(i) {
+      this.bankDetails.bankname = i.BANK;
+      this.bankDetails.branchname = i.BRANCH;
+    },
     /**
      * Confirmation for actions
      */
