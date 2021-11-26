@@ -160,7 +160,7 @@
                                 v-if="accData.show"
                               >
                                 <b-button
-                                class="p-0"
+                                  class="p-0"
                                   variant="link"
                                   @click.prevent="
                                     onGoToLedger(gdata.id, sgdata.id, accId)
@@ -508,9 +508,21 @@ export default {
                 name: acc.accountname,
                 sysFlag: acc.sysaccount,
                 defaultFlag: acc.defaultflag,
-                openingBal: acc.openingbal,
+                openingBal: !isNaN(acc.openingbal)
+                  ? parseFloat(acc.openingbal).toFixed(2)
+                  : "0.00",
                 show: true,
               };
+
+              if (acc.openingbal > 0) {
+                subGroup.accounts[acc.accountcode].openingBal += ' Dr';
+              } else if (acc.openingbal < 0) {
+                subGroup.accounts[acc.accountcode].openingBal = Math.abs(
+                  acc.openingbal
+                ).toFixed(2);
+                subGroup.accounts[acc.accountcode].openingBal += ' Cr';
+              }
+
               accounts.push({
                 text: acc.accountname,
                 value: acc.accountcode,
@@ -592,7 +604,7 @@ export default {
           let subg = groups[gname].subGroups;
           subg[sgname].open = true;
           subg[sgname].show = true;
-          if (accId) {
+          if (accId && subg[sgname].accounts[accId]) {
             subg[sgname].accounts[accId].show = true;
           } else {
             let acc = subg[sgname].accounts;
@@ -667,7 +679,7 @@ export default {
     this.getAccountsList().then(() => {
       // open the group and subgroup from URL
       if (self.group) {
-        self.openCard(self.group, self.subGroup, self.acc);
+        self.openCard(parseInt(self.group), parseInt(self.subGroup), parseInt(self.acc));
       }
     });
   },

@@ -51,8 +51,8 @@
                 valueUid="id"
                 :readonly="
                   !subGroups.length ||
-                  flags.newSubGroup ||
-                  disableFields.subGroup
+                    flags.newSubGroup ||
+                    disableFields.subGroup
                 "
               ></autocomplete>
             </b-form-group>
@@ -121,12 +121,22 @@
               label-cols="3"
               label-size="sm"
             >
-              <b-form-input
-                type="number"
-                size="sm"
-                v-model="form.openingBalance"
-                step="0.01"
-              ></b-form-input>
+              <b-input-group>
+                <b-form-input
+                  type="number"
+                  size="sm"
+                  v-model="form.openingBalance"
+                  step="0.01"
+                  @input="onOBalanceUpdate"
+                  debounce="600"
+                ></b-form-input>
+                <template #append>
+                  <b-form-select v-model="form.crdr" size="sm">
+                    <b-form-select-option :value="1">Dr</b-form-select-option>
+                    <b-form-select-option :value="-1">Cr</b-form-select-option>
+                  </b-form-select>
+                </template>
+              </b-input-group>
             </b-form-group>
             <hr class="my-2" />
             <div class="float-right">
@@ -188,7 +198,8 @@ export default {
         name: '',
         group: null,
         subGroup: null,
-        openingBalance: null,
+        openingBalance: '0.00',
+        crdr: 1,
         defaultFlag: false,
       },
       newSubGroup: '',
@@ -283,10 +294,10 @@ export default {
       return '';
     },
     showAddSubGroup: {
-      get: function () {
+      get: function() {
         return this.flags.newSubGroup && !!this.form.group;
       },
-      set: function (show) {
+      set: function(show) {
         this.flags.newSubGroup = show;
       },
     },
@@ -350,7 +361,7 @@ export default {
             `Account: ${self.form.name} was Updated Successfully!`,
             'success'
           );
-          
+
           let log = { activity: `account updated: ${self.form.name}` };
           axios.post('/log', log);
 
@@ -456,7 +467,9 @@ export default {
         gkdata: {},
       };
 
-      let openingBal = !isNaN(this.form.openingBalance) ? this.form.openingBalance : 0;
+      let openingBal = !isNaN(this.form.openingBalance)
+        ? Math.abs(this.form.openingBalance) * this.form.crdr
+        : 0;
       let gkdata = {
         accountname: this.form.name,
         openingbal: parseFloat(openingBal).toFixed(2),
@@ -522,7 +535,13 @@ export default {
           if (resp1.data.gkstatus === 0) {
             const acc = resp1.data.gkresult;
             self.form.name = acc.accountname;
-            self.form.openingBalance = acc.openingbal;
+            if (acc.openingbal < 0) {
+              self.form.openingBalance = Math.abs(acc.openingbal);
+              self.form.crdr = -1;
+            } else {
+              self.form.openingBalance = acc.openingbal;
+              self.form.crdr = 1;
+            }
             self.flags.default = !!acc.defaultflag;
             axios
               .get(`/groupsubgroup/${acc.groupcode}`)
@@ -644,6 +663,15 @@ export default {
           this.displayToast('Preload Data Failed!', e.message, 'warning');
           return e;
         });
+    },
+    onOBalanceUpdate(balance) {
+      balance = parseFloat(balance);
+      if (balance < 0) {
+        this.form.openingBalance = Math.abs(balance);
+        if (this.form.crdr) {
+          this.form.crdr = -1;
+        }
+      }
     },
   },
   mounted() {

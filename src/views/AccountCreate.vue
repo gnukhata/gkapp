@@ -99,12 +99,22 @@
               label-cols="3"
               label-size="sm"
             >
-              <b-form-input
-                type="number"
-                size="sm"
-                v-model="form.openingBalance"
-                step="0.01"
-              ></b-form-input>
+              <b-input-group>
+                <b-form-input
+                  type="number"
+                  size="sm"
+                  v-model="form.openingBalance"
+                  step="0.01"
+                  @input="onOBalanceUpdate"
+                  debounce="600"
+                ></b-form-input>
+                <template #append>
+                  <b-form-select v-model="form.crdr" size="sm">
+                    <b-form-select-option :value="1">Dr</b-form-select-option>
+                    <b-form-select-option :value="-1">Cr</b-form-select-option>
+                  </b-form-select>
+                </template>
+              </b-input-group>
             </b-form-group>
             <hr class="my-2" />
             <div class="float-right">
@@ -166,7 +176,8 @@ export default {
         name: '',
         group: null,
         subGroup: null,
-        openingBalance: null,
+        openingBalance: '0.00',
+        crdr: 1,
         defaultFlag: false,
       },
       newSubGroup: '',
@@ -413,7 +424,9 @@ export default {
       let payload = {
         origin: 'createaccount',
       };
-      let openingBal = !isNaN(this.form.openingBalance) ? this.form.openingBalance : 0;
+      let openingBal = !isNaN(this.form.openingBalance)
+        ? Math.abs(this.form.openingBalance) * this.form.crdr
+        : 0;
       let gkdata = {
         accountname: this.form.name,
         openingbal: parseFloat(openingBal).toFixed(2),
@@ -453,6 +466,8 @@ export default {
         name: null,
         group: null,
         subGroup: null,
+        crdr: 1,
+        openingBalance: '0.00',
       };
       this.flags = {
         default: false,
@@ -558,6 +573,16 @@ export default {
           this.displayToast('Preload Data Failed!', e.message, 'warning');
           return e;
         });
+    },
+
+    onOBalanceUpdate(balance) {
+      balance = parseFloat(balance);
+      if (balance < 0) {
+        this.form.openingBalance = Math.abs(balance);
+        if (this.form.crdr) {
+          this.form.crdr = -1;
+        }
+      }
     },
   },
   mounted() {
