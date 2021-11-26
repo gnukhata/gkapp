@@ -1,5 +1,9 @@
 <template>
-  <b-form id="prod" @submit.prevent="updateProfile">
+  <b-form
+    class="align-form-label-right"
+    id="prod"
+    @submit.prevent="updateProfile"
+  >
     <b-overlay :show="loading" blur no-wrap></b-overlay>
     <!-- {{ details }} -->
     <!-- {{ godowns }} -->
@@ -21,8 +25,9 @@
         </div>
       </template>
       <b-collapse v-model="isCollapsed1" class="p-3" id="collapse-info">
-        <b-form-group label="Name" label-cols="4">
+        <b-form-group label-size="sm" label="Name" label-cols="4">
           <b-form-input
+            size="sm"
             v-model="details.productdesc"
             type="text"
             required
@@ -33,11 +38,14 @@
           v-if="details.gsflag == 7"
           label="Opening Stock"
           label-cols="4"
+          label-size="sm"
         >
           <b-form-input
+            size="sm"
             v-model="details.openingstock"
             type="number"
             no-wheel
+            step="0.01"
           ></b-form-input>
         </b-form-group>
         <!-- UOM -->
@@ -45,9 +53,14 @@
           v-if="details.gsflag == 7"
           label="Unit of Measure"
           label-cols="4"
+          label-size="sm"
         >
-          <b-input-group :prepend="details.unitname">
-            <b-form-select v-model="details.unitname" :options="options.uom">
+          <b-input-group size="sm" :prepend="details.unitname">
+            <b-form-select
+              size="sm"
+              v-model="details.unitname"
+              :options="options.uom"
+            >
             </b-form-select>
           </b-input-group>
         </b-form-group>
@@ -56,11 +69,12 @@
           v-if="details.gsflag == 7"
           label="HSN Code"
           label-cols="4"
+          label-size="sm"
         >
-          <b-form-input v-model="details.gscode"></b-form-input>
+          <b-form-input size="sm" v-model="details.gscode"></b-form-input>
         </b-form-group>
         <b-form-group v-else label="SAC Code" label-cols="4">
-          <b-form-input v-model="details.gscode"></b-form-input>
+          <b-form-input size="sm" v-model="details.gscode"></b-form-input>
         </b-form-group>
       </b-collapse>
     </b-card>
@@ -77,20 +91,36 @@
       </template>
       <b-collapse v-model="isCollapsed2" class="p-3" id="collapse-price">
         <!-- MRP -->
-        <b-form-group label="MRP" label-cols="4">
-          <b-form-input v-model="details.prodmrp"></b-form-input>
+        <b-form-group label-size="sm" label="MRP" label-cols="4">
+          <b-form-input size="sm" v-model="details.prodmrp"></b-form-input>
         </b-form-group>
         <!-- Selling Price -->
-        <b-form-group id="input-group-2" label="Selling Price" label-cols="4">
-          <b-form-input v-model="details.prodsp"></b-form-input>
+        <b-form-group
+          label-size="sm"
+          id="input-group-2"
+          label="Selling Price"
+          label-cols="4"
+        >
+          <b-form-input size="sm" v-model="details.prodsp"></b-form-input>
         </b-form-group>
         <!-- discount -->
-        <b-form-group label-cols="4" label="Discount" label-for="input-3">
-          <b-input-group prepend="₹">
-            <b-form-input v-model="details.discountamount"></b-form-input>
+        <b-form-group
+          label-size="sm"
+          label-cols="4"
+          label="Discount"
+          label-for="input-3"
+        >
+          <b-input-group size="sm" prepend="₹">
+            <b-form-input
+              size="sm"
+              v-model="details.discountamount"
+            ></b-form-input>
           </b-input-group>
-          <b-input-group class="mt-1" prepend="%">
-            <b-form-input v-model="details.discountpercent"></b-form-input>
+          <b-input-group label-size="sm" size="sm" class="mt-1" prepend="%">
+            <b-form-input
+              size="sm"
+              v-model="details.discountpercent"
+            ></b-form-input>
           </b-input-group>
         </b-form-group>
       </b-collapse>
@@ -115,31 +145,31 @@
         </div>
       </template>
       <b-collapse v-model="isCollapsed3" class="p-3" id="collapse-tax">
-        <b-form-group label="HSN" label-cols="4">
-          <b-input-group>
-            <b-form-input
-              type="number"
-              no-wheel
-              required
-              v-model="details.gscode"
-            ></b-form-input>
-          </b-input-group>
+        <b-form-group label-size="sm" label="HSN" label-cols="4">
+          <b-form-input
+            size="sm"
+            type="number"
+            no-wheel
+            required
+            v-model="details.gscode"
+          ></b-form-input>
         </b-form-group>
 
-        <b-form-group label="GST" label-cols="4">
-          <b-input-group append="%">
-            <b-form-select :options="gstRates" v-model="tax.igst.taxrate">
-              <!-- <b-form-select-option value="0.00">0.00</b-form-select-option>
-              <b-form-select-option value="5.00">5.00</b-form-select-option>
-              <b-form-select-option value="18.00">18.00</b-form-select-option>
-              <b-form-select-option value="28.00">28.00</b-form-select-option> -->
+        <b-form-group label-size="sm" label="GST" label-cols="4">
+          <b-input-group size="sm" append="%">
+            <b-form-select
+              size="sm"
+              :options="gstRates"
+              v-model="tax.igst.taxrate"
+            >
             </b-form-select>
           </b-input-group>
         </b-form-group>
 
-        <b-form-group label="CESS" label-cols="4">
-          <b-input-group append="%">
+        <b-form-group label-size="sm" label="CESS" label-cols="4">
+          <b-input-group size="sm" append="%">
             <b-form-input
+              size="sm"
               type="number"
               step="0.01"
               no-wheel
@@ -148,9 +178,10 @@
           </b-input-group>
         </b-form-group>
 
-        <b-form-group label="CVAT" label-cols="4">
-          <b-input-group append="%">
+        <b-form-group label-size="sm" label="CVAT" label-cols="4">
+          <b-input-group size="sm" append="%">
             <b-form-input
+              size="sm"
               type="number"
               step="0.01"
               no-wheel
@@ -159,10 +190,11 @@
           </b-input-group>
         </b-form-group>
 
-        <b-form-group label="VAT" label-cols="4">
+        <b-form-group label-size="sm" label="VAT" label-cols="4">
           <div v-for="(item, index) in tax.vat" :key="index">
             <b-input-group v-if="item.taxname === 'VAT'" class="mb-2">
               <b-form-input
+                size="sm"
                 type="number"
                 step="0.01"
                 no-wheel
@@ -171,20 +203,98 @@
               ></b-form-input>
               <b-input-group-append>
                 <b-form-select
+                  size="sm"
                   :options="options.states"
                   v-model="item.state"
                   :style="{ 'border-radius': 0, 'max-width': '200px' }"
                   :required="!!item.taxrate"
                 ></b-form-select>
-                <b-button @click.prevent="removeVatEntry(index)">-</b-button>
+                <b-button size="sm" @click.prevent="removeVatEntry(index)"
+                  >-</b-button
+                >
               </b-input-group-append>
             </b-input-group>
           </div>
-          <b-button @click.prevent="addVatEntry" class="float-right p-0 px-1"
+          <b-button
+            size="sm"
+            @click.prevent="addVatEntry"
+            class="float-right p-0 px-1"
             >+ VAT</b-button
           >
         </b-form-group>
       </b-collapse>
+    </b-card>
+
+    <b-card
+      no-body
+      class="mt-2"
+      header-bg-variant="dark"
+      header-text-variant="light"
+    >
+      <template #header>
+        <div class="d-flex" v-b-toggle.collapse-godown>
+          <div class="mr-auto">Godownwise Opening Stock</div>
+          <div>
+            <b-icon
+              :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
+            ></b-icon>
+          </div>
+        </div>
+      </template>
+      <div class="p-2">
+        <b-collapse v-model="isCollapsed4" class="p-3" id="collapse-godown">
+          <div
+            v-for="(godown, index) in godowns"
+            :key="index"
+            class="mb-2 d-flex"
+            :id="'vat-inp-' + index"
+          >
+            <b-form-select
+              size="sm"
+              style="max-width: 350px"
+              v-model="godown.id"
+              :options="options.godowns"
+            >
+              <template #first>
+                <b-form-select-option value="" disabled
+                  >-- Choose a Godown --</b-form-select-option
+                >
+              </template>
+            </b-form-select>
+            <b-form-input
+              class="mx-2"
+              size="sm"
+              v-model="godown.value"
+              type="number"
+              no-wheel
+              step="0.01"
+              placeholder="Stock qty"
+            ></b-form-input>
+            <b-button
+              variant="outline-secondary"
+              size="sm"
+              @click.prevent="addGodown"
+              class="mr-1"
+            >
+              +
+            </b-button>
+            <b-button
+              variant="outline-secondary"
+              size="sm"
+              @click.prevent="deleteGodown(index)"
+            >
+              -
+            </b-button>
+          </div>
+          <b-button
+            class="float-right mx-2 py-0 px-1"
+            size="sm"
+            @click.prevent="showGodownForm = true"
+          >
+            + Godown
+          </b-button>
+        </b-collapse>
+      </div>
     </b-card>
     <!-- Submit & delete buttons -->
     <div class="mt-4 pb-4 d-flex flex-row-reverse">
@@ -200,6 +310,37 @@
         Delete {{ details.gsflag == 7 ? 'Product' : 'Service' }}</b-button
       >
     </div>
+
+    <b-modal
+      size="lg"
+      v-model="showGodownForm"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-footer
+      hide-header
+    >
+      <godown
+        :hideBackButton="true"
+        mode="create"
+        :inOverlay="true"
+        :onSave="onGodownSave"
+      >
+        <template #close-button>
+          <b-button
+            size="sm"
+            class="float-right py-0"
+            @click.prevent="
+              () => {
+                showGodownForm = false;
+              }
+            "
+            >x</b-button
+          >
+        </template>
+      </godown>
+    </b-modal>
   </b-form>
 </template>
 
@@ -212,18 +353,23 @@
  */
 import axios from 'axios';
 import { mapState } from 'vuex';
+import Godown from '../components/form/Godown.vue';
 export default {
   name: 'BusinessProfile',
+  components: { Godown },
   props: {
     name: Object,
   },
   data() {
     return {
       details: [],
+      oldGodowns: [],
       godowns: [],
       isCollapsed1: false,
       isCollapsed2: false,
       isCollapsed3: false,
+      isCollapsed4: false,
+      showGodownForm: false,
       uom: [],
       tax: {
         igst: {},
@@ -233,6 +379,7 @@ export default {
       },
       loading: true,
       options: {
+        godowns: [],
         uom: [],
         states: [],
         cess: 0,
@@ -243,7 +390,7 @@ export default {
     };
   },
   computed: {
-    gstRates:(self) => self.$store.getters['global/getGstRates'],
+    gstRates: (self) => self.$store.getters['global/getGstRates'],
     ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {
@@ -264,11 +411,11 @@ export default {
           switch (res.data.gkstatus) {
             case 0:
               this.details = res.data.gkresult;
-              this.getTaxDetails();
-              this.getGodowns();
-              setTimeout(() => {
-                this.loading = false;
-              }, 500);
+              Promise.all([this.getTaxDetails(), this.getGodowns()]).then(
+                () => {
+                  this.loading = false;
+                }
+              );
               break;
             case 3:
               this.loading = false;
@@ -313,7 +460,9 @@ export default {
             if (this.godowns.length > 0) {
               let godowns = {};
               this.godowns.forEach((godown) => {
-                godowns[godown.goid] = godown.goopeningstock;
+                if(godown.id && parseFloat(godown.value)){
+                  godowns[godown.id] = godown.value;
+                }
               });
               payload['godetails'] = godowns;
               payload.godownflag = true;
@@ -364,7 +513,7 @@ export default {
     /** Update the Tax Details (Add, edit & Delete) */
     updateTaxDetails() {
       const self = this;
-      const updateTaxItem = function (item) {
+      const updateTaxItem = function(item) {
         const tax = Object.assign({ productcode: self.name.productcode }, item);
         if (item.taxid === undefined) {
           if (parseFloat(item.taxrate) > 0) {
@@ -390,7 +539,7 @@ export default {
       };
       for (const name in this.tax) {
         if (name === 'vat') {
-          this.tax[name].forEach(function (item) {
+          this.tax[name].forEach(function(item) {
             updateTaxItem(item);
           });
         } else {
@@ -498,14 +647,23 @@ export default {
      * Fetch godown details for selected product
      */
     getGodowns() {
-      axios
+      return axios
         .get(`/products?by=godown&productcode=${this.details.productcode}`, {
           headers: {
             gktoken: this.authToken,
           },
         })
         .then((res) => {
-          this.godowns = res.data.gkresult;
+          this.godowns = res.data.gkresult.map((godown) => {
+            return {
+              id: godown.goid,
+              value: godown.goopeningstock,
+            };
+          });
+          this.oldGodowns = this.godowns.slice();
+          if (!this.godowns.length) {
+            this.addGodown();
+          }
           console.log('godown details fetched');
         })
         .catch((e) => {
@@ -514,7 +672,7 @@ export default {
     },
     /** Fetch tax details for selected product */
     getTaxDetails() {
-      axios
+      return axios
         .get(
           `${this.gkCoreUrl}/tax?pscflag=p&productcode=${this.name.productcode}`,
           {
@@ -546,7 +704,7 @@ export default {
           gktoken: this.authToken,
         },
       };
-      axios
+      return axios
         .get(`${this.gkCoreUrl}/unitofmeasurement?qty=all`, config)
         .then((response) => {
           switch (response.data.gkstatus) {
@@ -578,7 +736,7 @@ export default {
      * Get state list
      * */
     states() {
-      axios
+      return axios
         .get(`${this.gkCoreUrl}/state`)
         .then((res) => {
           this.options.states = res.data.gkresult.map(
@@ -591,27 +749,85 @@ export default {
           });
         });
     },
+
+    onGodownSave() {
+      this.showGodownForm = false;
+      this.fetchGodownList().then(() => {
+        let stockGdnCount = this.godowns.length;
+        let godownCount = this.options.godowns.length;
+        if (this.godowns[stockGdnCount - 1].id !== null) {
+          this.addGodown();
+          stockGdnCount++;
+        }
+        this.godowns[stockGdnCount - 1].id = this.options.godowns[
+          godownCount - 1
+        ].value;
+
+        this.form.showGodownForm = false;
+      });
+    },
+    addGodown() {
+      this.godowns.push({ id: '', value: '' });
+    },
+    deleteGodown(index) {
+      this.godowns.splice(index, 1);
+    },
+    fetchGodownList() {
+      let self = this;
+      return axios
+        .get('/godown')
+        .then((resp) => {
+          if (resp.status === 200) {
+            if (resp.data.gkstatus === 0) {
+              // console.log(resp.data.gkresult);
+              resp.data.gkresult.sort((a, b) => a.goid - b.goid); // sorting the godown list based on goid, to order it in creation order
+              self.options.godowns = resp.data.gkresult.map((item) => {
+                return {
+                  text: `${item.goname} (${item.goaddr})`,
+                  value: parseInt(item.goid),
+                };
+              });
+            } else {
+              this.displayToast(
+                'Fetch Product Data Failed!',
+                'Please try again later, if problem persists, contact admin',
+                'danger'
+              );
+            }
+          }
+        })
+        .catch((error) => {
+          this.displayToast('Fetch Godowns Failed!', error.message, 'danger');
+          return error;
+        });
+    },
   },
   mounted() {
-    this.getDetails();
-    this.getUOM();
-    this.states();
+    Promise.all([this.getUOM(), this.states(), this.fetchGodownList()]).then(
+      () => {
+        this.$forceUpdate();
+        this.getDetails();
+      }
+    );
   },
   created() {
     if (window.screen.width > 600) {
       this.isCollapsed1 = true;
       this.isCollapsed2 = true;
       this.isCollapsed3 = true;
+      this.isCollapsed4 = true;
     }
     window.addEventListener('resize', () => {
       if (window.screen.width > 600) {
         this.isCollapsed1 = true;
         this.isCollapsed2 = true;
         this.isCollapsed3 = true;
+        this.isCollapsed4 = true;
       } else {
         this.isCollapsed1 = false;
         this.isCollapsed2 = false;
         this.isCollapsed3 = false;
+        this.isCollapsed4 = false;
       }
     });
   },
