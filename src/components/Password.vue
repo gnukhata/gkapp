@@ -90,10 +90,14 @@ export default {
   },
   computed: {
     pwdStrength: (self) =>
-      self.userPassword !== '' && self.userPassword !== null
+      self.userPassword !== '' &&
+      self.userPassword !== null &&
+      self.passwordHint
         ? passwordStrength(self.userPassword)
         : { value: 'Empty' },
-    allFieldsValid: (self) => !self.isPasswordValid && !self.arePasswordsSame,
+
+    allFieldsValid: (self) =>
+      !self.isPasswordValid && !self.arePasswordsSame && self.passwordHint,
     isPasswordValid: (self) =>
       self.pwdStrength.value === 'Empty'
         ? null
