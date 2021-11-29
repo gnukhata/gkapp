@@ -171,6 +171,7 @@
               </b-form-group>
             </b-collapse>
           </b-col>
+          <!-- Bank details -->
           <b-col>
             <b-form-checkbox
               size="sm"
@@ -181,20 +182,21 @@
               Bank Details
             </b-form-checkbox>
             <b-collapse v-model="showBankDetails">
+              <!-- IFSC -->
               <b-form-group
                 label-size="sm"
-                label="Acc. No."
-                label-for="ci-input-14"
+                label="IFSC"
+                label-for="ci-input-15"
                 label-cols="3"
               >
-                <b-form-input
-                  size="sm"
-                  id="ci-input-14"
-                  v-model="form.bank.accNo"
-                  trim
+                <gk-ifsc
                   :required="showBankDetails"
-                ></b-form-input>
+                  size="sm"
+                  v-model="form.bank.ifsc"
+                  @fill="ifscFill"
+                ></gk-ifsc>
               </b-form-group>
+              <!-- bank name -->
               <b-form-group
                 label-size="sm"
                 label="Name"
@@ -210,20 +212,7 @@
                   :required="showBankDetails"
                 ></b-form-input>
               </b-form-group>
-              <b-form-group
-                label-size="sm"
-                label="IFSC"
-                label-for="ci-input-15"
-                label-cols="3"
-              >
-                <b-form-input
-                  size="sm"
-                  id="ci-input-15"
-                  v-model="form.bank.ifsc"
-                  trim
-                  :required="showBankDetails"
-                ></b-form-input>
-              </b-form-group>
+              <!-- branch -->
               <b-form-group
                 label-size="sm"
                 label="Branch"
@@ -234,6 +223,21 @@
                   size="sm"
                   id="ci-input-13"
                   v-model="form.bank.branch"
+                  trim
+                  :required="showBankDetails"
+                ></b-form-input>
+              </b-form-group>
+              <!-- account name -->
+              <b-form-group
+                label-size="sm"
+                label="Acc. No."
+                label-for="ci-input-14"
+                label-cols="3"
+              >
+                <b-form-input
+                  size="sm"
+                  id="ci-input-14"
+                  v-model="form.bank.accNo"
                   trim
                   :required="showBankDetails"
                 ></b-form-input>
@@ -291,9 +295,10 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 import Autocomplete from '../Autocomplete';
 import GkGstin from '../GkGstin';
+import GkIfsc from '../GkIfsc.vue';
 export default {
   name: 'ContactItem',
-  components: { Autocomplete, GkGstin },
+  components: { Autocomplete, GkGstin, GkIfsc },
   props: {
     mode: {
       type: String,
@@ -386,6 +391,10 @@ export default {
     },
   },
   methods: {
+    ifscFill(data) {
+      this.form.bank.name = data.BANK;
+      this.form.bank.branch = data.BRANCH;
+    },
     onGstinDataFetched({ addr, name, pincode }) {
       this.form.address = addr;
       this.form.name = name;

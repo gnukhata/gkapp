@@ -201,6 +201,18 @@
 
       <b-collapse class="m-3" v-model="isCollapsed4" id="financial">
         <b-form-group
+          label="IFSC"
+          label-for="cp-bank-ifsc"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <!-- <b-form-input
+                 id="cp-bank-ifsc"
+                 v-model="bankDetails.ifsc"
+                 ></b-form-input> -->
+          <gk-ifsc v-model="bankDetails.ifsc" @fill="autofillIfsc"></gk-ifsc>
+        </b-form-group>
+        <b-form-group
           label="Acc. No."
           label-for="cp-bank-ano"
           label-cols-sm="3"
@@ -220,17 +232,7 @@
             v-model="bankDetails.bankname"
           ></b-form-input>
         </b-form-group>
-        <b-form-group
-          label="IFSC"
-          label-for="cp-bank-ifsc"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
-          <b-form-input
-            id="cp-bank-ifsc"
-            v-model="bankDetails.branchname"
-          ></b-form-input>
-        </b-form-group>
+
         <b-form-group
           label="Branch"
           label-for="cp-bank-branch"
@@ -239,7 +241,7 @@
         >
           <b-form-input
             id="cp-bank-branch"
-            v-model="bankDetails.ifsc"
+            v-model="bankDetails.branchname"
           ></b-form-input>
         </b-form-group>
       </b-collapse>
@@ -280,10 +282,11 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import GkGstin from '../components/GkGstin';
+import GkIfsc from './GkIfsc.vue';
 
 export default {
   name: 'ContactProfile',
-  components: { GkGstin },
+  components: { GkGstin, GkIfsc },
   props: {
     customer: Object,
     onUpdate: {
@@ -330,6 +333,10 @@ export default {
     ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {
+    autofillIfsc(data) {
+      this.bankDetails.bankname = data.BANK;
+      this.bankDetails.branchname = data.BRANCH;
+    },
     onGstinUpdate({ validity, stateCode, pan, checksum }) {
       if (validity.format) {
         Object.assign(this.gstin, {
