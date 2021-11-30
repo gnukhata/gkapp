@@ -248,6 +248,7 @@
       title="Invoice"
       :id="invoiceId"
       :pdata="{}"
+      @hidden="showPrintModal = false"
     >
     </print-page>
   </b-container>
@@ -1315,7 +1316,6 @@ export default {
         narration: null,
         total: {},
       };
-
       this.setOrgDetails();
       this.updateComponentData();
     },

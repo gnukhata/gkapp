@@ -128,6 +128,11 @@ export default {
     show() {
       this.showModal = this.show;
     },
+    showModal(show) {
+      if(!show) {
+        this.$emit("hidden");
+      }
+    }
   },
   methods: {
     getOrgDetails() {
