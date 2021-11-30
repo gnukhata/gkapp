@@ -76,7 +76,11 @@
             <b-form-checkbox v-if="flags.gst" size="sm" class="mb-2"
               >GST Account</b-form-checkbox
             >
-            <b-form-checkbox v-if="defaultGroupName" size="sm" class="mb-2"
+            <b-form-checkbox
+              v-model="form.defaultFlag"
+              v-if="defaultGroupName"
+              size="sm"
+              class="mb-2"
               >Set default for {{ defaultGroupName }}</b-form-checkbox
             >
             <b-form-group
@@ -444,7 +448,7 @@ export default {
         gkdata.groupcode = this.form.group;
       }
 
-      if (this.defaultGroupName) {
+      if (this.defaultGroupName && this.form.defaultFlag) {
         let subGroupName = this.options.groupNameToCode[this.form.subGroup];
         if (this.options.defaultGroups[subGroupName]) {
           gkdata['defaultflag'] = this.options.defaultGroups[subGroupName].code;

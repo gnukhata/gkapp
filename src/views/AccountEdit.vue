@@ -98,6 +98,7 @@
               size="sm"
               class="mb-2"
               :disabled="disableFields.default"
+              v-model="form.defaultFlag"
               >Set default for {{ defaultGroupName }}</b-form-checkbox
             >
             <b-form-group
@@ -478,7 +479,7 @@ export default {
       };
 
       // set default flag
-      if (this.defaultGroupName) {
+      if (this.defaultGroupName && this.form.defaultFlag) {
         let subGroupName = this.options.groupNameToCode[this.form.subGroup];
         if (this.options.defaultGroups[subGroupName]) {
           gkdata.defaultflag = this.options.defaultGroups[subGroupName].code;
