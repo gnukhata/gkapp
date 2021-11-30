@@ -544,9 +544,11 @@ export default {
         !this.parentData[0].product.name
       );
       if (!updateBillTable) {
-        this.form = [];
-        this.addBillItem();
-        this.updateTaxAndTotal(0);
+        this.fetchBusinessList().then(() => {
+          this.form = [];
+          this.addBillItem();
+          this.updateTaxAndTotal(0);
+        })
         return;
       }
 
