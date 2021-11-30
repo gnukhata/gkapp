@@ -60,7 +60,7 @@ function numberToWords(number) {
 
 function numberToRupees(number) {
   let text = numberToWords(number) + " Rupees";
-  let paise = (number * 100) % 100;
+  let paise = Math.round((number * 100) % 100);
   if (paise > 0) {
     text += " " + numberToWords(paise) + " Paise";
   }

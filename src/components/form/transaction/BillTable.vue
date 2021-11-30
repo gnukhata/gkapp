@@ -858,7 +858,7 @@ export default {
           const discount = this.config.dcValue ? 0 : item.discount.amount;
 
           item.taxable = parseFloat(
-            (item.rate * qty - discount * qty).toFixed(2)
+            (item.rate * qty - discount).toFixed(2)
           );
 
           if (this.config.dcValue) {
