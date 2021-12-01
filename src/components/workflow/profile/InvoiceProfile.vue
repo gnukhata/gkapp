@@ -99,11 +99,8 @@
       <b-col cols="12" md="8" class="my-2">
         <div>
           <b>Payment Details</b>
-          <div v-if="invoice.payment.mode > 2" class="mb-3">
-            {{ invoice.payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
-          </div>
-          <div class="text-small" v-else>
-            Paid By Bank Transfer
+          <div v-if="bankMode" class="mb-3">
+            {{ paymentMode }}
             <b-table-lite
               :items="bankDetails"
               :fields="['title', 'value']"
@@ -113,6 +110,9 @@
               thead-class="d-none"
             >
             </b-table-lite>
+          </div>
+          <div class="text-small" v-else>
+            {{ paymentMode }}
           </div>
         </div>
         <b> Narration: </b> {{ invoice.narration }}
@@ -341,6 +341,26 @@ export default {
         { title: 'Total In Words', value: self.invoice.total.text }
       );
       return total;
+    },
+    paymentMode: (self) => {
+      let mode = '';
+      switch (parseInt(self.invoice.payment.mode)) {
+        case 2:
+        case 4:
+          mode = 'Paid By Bank Transfer';
+          break;
+        case 3:
+        case 5:
+          mode = 'Paid By Cash';
+          break;
+        case 15:
+          mode = 'On Credit';
+      }
+      return mode;
+    },
+    bankMode: (self) => {
+      let mode = parseInt(self.invoice.payment.mode);
+      return mode === 2 || mode === 4;
     },
     deletedFlag: (self) => !!self.pdata.deletedFlag,
     onCreditFlag: (self) => !!self.pdata.onCreditFlag,

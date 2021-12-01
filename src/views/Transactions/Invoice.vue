@@ -182,6 +182,11 @@
         <b>{{ yearEnd }}</b>
       </b-tooltip>
       <hr />
+      <b-form-checkbox v-model="posFlag" class="float-right" name="check-button" switch>
+        Point of Sale
+      </b-form-checkbox>
+      <div class="clearfix"></div>
+      <hr />
       <div class="float-right">
         <b-button
           class="m-1"
@@ -305,6 +310,7 @@ export default {
   data() {
     return {
       // config: {},
+      posFlag: false,
       showPrintModal: false,
       vuexNameSpace: '',
       formMode: '',
@@ -1085,6 +1091,16 @@ export default {
     },
     initPayload() {
       this.collectComponentData();
+      let paymentMode = this.form.payment.mode;
+
+      if(!this.posFlag) {
+        if(paymentMode === 2) {
+          paymentMode = 4;
+        } else if (paymentMode === 3) {
+          paymentMode = 5;
+        }
+      }
+
       let invoice = {
         invoiceno: this.form.inv.no,
         ewaybillno: this.form.inv.ebn,
@@ -1108,7 +1124,7 @@ export default {
 
         pricedetails: [],
 
-        paymentmode: this.form.payment.mode,
+        paymentmode: paymentMode,
 
         transportationmode: this.form.transport.mode,
         reversecharge: this.form.transport.reverseCharge ? 1 : 0,
@@ -1276,10 +1292,9 @@ export default {
           }
           break;
         case 'cash':
-        default:
-          {
-            paymentMode = 3;
-          }
+        default: {
+          paymentMode = 3;
+        }
       }
       this.form = {
         type: this.form.type,
