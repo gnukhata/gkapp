@@ -182,9 +182,9 @@
         <b>{{ yearEnd }}</b>
       </b-tooltip>
       <hr />
-      <b-form-checkbox v-model="posFlag" class="float-right" name="check-button" switch>
+      <!-- <b-form-checkbox v-model="posFlag" class="float-right" name="check-button" switch>
         Point of Sale
-      </b-form-checkbox>
+      </b-form-checkbox> -->
       <div class="clearfix"></div>
       <hr />
       <div class="float-right">
@@ -310,7 +310,7 @@ export default {
   data() {
     return {
       // config: {},
-      posFlag: false,
+      posFlag: true,
       showPrintModal: false,
       vuexNameSpace: '',
       formMode: '',
