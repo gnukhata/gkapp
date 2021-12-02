@@ -211,6 +211,7 @@ export default {
       validity: {
         checksum: false,
         format: false,
+        isUin: false,
       },
       gstinCaptcha: {
         image: '',
@@ -360,7 +361,31 @@ export default {
           this.gstinData.stateCode = payload.stateCode;
         }
       }
+
+      if (!this.validity.format || !this.validity.checksum) {
+        this.resetCaptcha();
+      }
+
       this.$emit('validity', payload);
+    },
+    resetCaptcha() {
+      this.gstinCaptcha = {
+        image: '',
+        cookie: '',
+        show: false,
+        text: '',
+        validity: null,
+      };
+      this.gstinData = {
+        tradeName: '',
+        addr: '',
+        status: '',
+        state: '',
+        pincode: '',
+        validity: null,
+        pan: '',
+        sateCode: '',
+      };
     },
     /**
      * Structurally validates specified GST Number
