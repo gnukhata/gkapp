@@ -4,10 +4,12 @@
       <!-- Input area -->
       <b-input-group>
         <b-form-input
+          :required="required"
           placeholder="eg: KARB0000001"
           :size="size"
           v-model="ifscCode"
           @blur="validateIfsc"
+          trim
         ></b-form-input>
         <!-- Validate button -->
         <b-input-group-append>
@@ -17,7 +19,7 @@
             size="sm"
             variant="dark"
           >
-            <b-icon icon="check-all"></b-icon>
+            <b-icon icon="card-checklist"></b-icon>
           </b-button>
         </b-input-group-append>
       </b-input-group>
@@ -143,6 +145,12 @@ export default {
     size: {
       type: String,
       default: 'md',
+      description:
+        'Default value is "md". Possible values are "sm", "md", "xl"',
+    },
+    required: {
+      type: [String, Boolean],
+      default: false,
     },
   },
   data() {

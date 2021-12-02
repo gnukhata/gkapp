@@ -102,13 +102,14 @@
             label-cols-lg="autauto"
             v-if="config.bank.ifsc"
           >
-            <b-form-input
-              size="sm"
-              id="pmd-input-50"
-              v-model="form.bank.ifsc"
-              trim
-              required
-            ></b-form-input>
+            <!-- <b-form-input
+                   size="sm"
+                   id="pmd-input-50"
+                   v-model="form.bank.ifsc"
+                   trim
+                   required
+                   ></b-form-input> -->
+            <gk-ifsc v-model="form.bank.ifsc"></gk-ifsc>
           </b-form-group>
         </div>
         <b v-if="form.mode === 15">ON CREDIT</b>
@@ -118,7 +119,9 @@
 </template>
 
 <script>
+import GkIfsc from '../../GkIfsc.vue';
 export default {
+  components: { GkIfsc },
   name: 'PaymentDetails',
   props: {
     saleFlag: {
