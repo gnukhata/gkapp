@@ -5,6 +5,46 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
+# Meeting history (2021-12-01)
+
+Agenda:
+
+-   Review past week's progess
+
+Participants: Karthik, R2, Survesh, VK
+
+Updates:
+
+-   Karthik:
+    -   Ifsc component
+    -   Password components bug fixes
+-   Survesh:
+    -   Cr/Dr for opening balance in Accounts page
+    -   Editable godownwise stock opening in Business Profile page
+    -   POS and Party mode of voucher creation for invoices
+
+Points Discussed:
+
+-   Comments on Editable godownwise stock opening,
+    -   The header of the right pane, needs to be stationary to provide more context to the page, when scrolled down.
+    -   [Feature Request] Default godown. A godown has to be marked the default, to which all purchases and sales will be made to. The default godown will be automatically created if none is provided during startup.
+    -   Need for the ability to choose a godown when creating an invoice, instead of linking a delivery note.
+    -   There is huge confusion with respect to the opening stock field and the godownwise opening stock fields. This confusion was caused because godownwise stock and the opening stock field are used for the same purpose in an either or fashion, but were assumed to be different counters.
+        This issue can be fixed by making the opening stock field, un-editable when godownwise stock is set and point the user to edit the godownwise stock or provide a form on opening stock edit to select the godown to which the edit has to be made.
+-   [Bug] Currently the app tracks inventory based on only quantity. This is refelcted in reports such as profit/loss page, where the closing stock is either 0 or the stock's qty. This shouldn't be the case.
+-   Need for the ability to recalculate all the forms, inventory with the use of code, so that bugs that cause integrity errors in the forms, can be recalculated, without manually redoing the work.
+-   The POS/Party voucher settings for invoices should be placed along with the global settings than the invoice page, as they are not edited often. And need a proper name to describe this feature (Refer R2 for this).
+-   Discussions on the IFSC validation feature,
+    -   The IFSC after validation, could autofill the data by default and not be based on user's preferrence.
+    -   Need support for multiple bank accounts.
+    -   [Improvement] The Bank accounts created must be linked with the account ledgers. Currently they are not linked.
+
+Conclusion:
+
+-   Future meetings will be conducted on Wednesdays at 11:30 AM, instead of Mondays.
+-   Updates will be performed based on the points discussed above.
+
+
 # Meeting history (2021-11-22)
 
 Agenda:
