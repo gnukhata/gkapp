@@ -9,7 +9,7 @@
     <!-- {{ godowns }} -->
     <!-- name --->
     <b-card
-      class="mb-2"
+      class="mt-2"
       header-bg-variant="dark"
       header-text-variant="light"
       no-body
@@ -78,7 +78,12 @@
         </b-form-group>
       </b-collapse>
     </b-card>
-    <b-card no-body header-bg-variant="dark" header-text-variant="light">
+    <b-card
+      class="mt-2"
+      no-body
+      header-bg-variant="dark"
+      header-text-variant="light"
+    >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-price>
           <div class="mr-auto">Price</div>
@@ -460,7 +465,7 @@ export default {
             if (this.godowns.length > 0) {
               let godowns = {};
               this.godowns.forEach((godown) => {
-                if(godown.id && parseFloat(godown.value)){
+                if (godown.id && parseFloat(godown.value)) {
                   godowns[godown.id] = godown.value;
                 }
               });

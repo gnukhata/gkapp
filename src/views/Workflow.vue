@@ -376,7 +376,7 @@
           </template>
           <b-card-body
             class="p-0"
-            style="height: 400px"
+            :style="{ height: rightPaneHeight + 'px', overflowY: 'auto' }"
             v-if="selectedEntity !== null"
           >
             <contact-profile
@@ -398,7 +398,6 @@
               activeWorkflow.name === 'Business'
           "
         >
-          <code class="m-3"> </code>
           <template #header v-if="selectedEntity !== null">
             <b-button @click.prevent="unsetSelectedEntity" class="d-md-none"
               ><b-icon icon="arrow-left"></b-icon
@@ -410,7 +409,7 @@
           </template>
           <b-card-body
             class="p-0"
-            style="height: 400px"
+            :style="{ height: rightPaneHeight + 'px', overflowY: 'auto' }"
             v-if="selectedEntity !== null"
           >
             <business-profile
@@ -682,7 +681,7 @@ export default {
     headerHeight: () => document.getElementById('app-header').offsetHeight,
 
     rightPaneHeight: (self) =>
-      window.innerHeight - (self.headerHeight + self.leftHeaderHeight.min + 41), // 41 is the remaining vertical space in the screen
+      window.innerHeight - (self.headerHeight + self.leftHeaderHeight.min + 55), // 55 is the remaining vertical space in the screen
 
     ...mapState(['yearStart', 'yearEnd', 'orgCode']),
   },

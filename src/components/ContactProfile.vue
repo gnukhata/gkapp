@@ -65,7 +65,7 @@
     <b-card
       header-text-variant="light"
       header-bg-variant="dark"
-      class="mt-3"
+      class="mt-2"
       no-body
     >
       <template #header>
@@ -123,7 +123,7 @@
     <b-card
       header-bg-variant="dark"
       header-text-variant="light"
-      class="mt-3"
+      class="mt-2"
       no-body
     >
       <template #header>
@@ -184,7 +184,7 @@
     <b-card
       header-bg-variant="dark"
       header-text-variant="light"
-      class="mt-3"
+      class="mt-2"
       no-body
     >
       <template #header>
