@@ -27,7 +27,7 @@
           bordered
           :items="summary.b2b"
           :fields="b2bfields"
-          responsive="sm"
+          responsive
         >
           <!-- <template #table-busy>
                      <div class="text-center my-2">
@@ -68,7 +68,7 @@
           head-variant="dark"
           small
           bordered
-          :items="list.b2cs"
+          :items="summary.b2cs"
           responsive="sm"
         >
           <template #table-caption><h3 class="ml-4">B2CS:</h3></template>
@@ -112,7 +112,7 @@
         ></b-button>
       </div>
       <!-- HSN -->
-      <div v-if="list.hsn1">
+      <div v-if="list.hsn1.length > 0">
         <b-table
           caption-top
           class="mt-3"
@@ -141,12 +141,13 @@ export default {
   name: 'R1Detailed',
   data() {
     return {
-      list: [],
+      list: Object,
       search: null,
       params: null,
       loading: false,
       summary: {
         b2b: [],
+        b2cs: [],
         cdnr: [],
         hsn: [],
       },
@@ -223,6 +224,45 @@ export default {
         this.summary['b2b'].push(o);
       }
       this.cdnrSummary();
+      this.b2csSummary();
+    },
+    b2csSummary() {
+      let b2cs = this.list.b2cs;
+      // if only one entry is present
+      if (b2cs.length == 1) {
+        const o = {
+          invoice_count: 1,
+          taxable_value: b2cs[0]['taxable_value'],
+          rate: b2cs[0]['rate'],
+          cess: b2cs[0]['cess'],
+        };
+        this.summary['b2cs'].push(o);
+        // for more than one entry
+      } // else if (b2b.length > 1) {
+      // let o = {
+      //   invoice_count: b2b.length,
+      // };
+      // // add invoice values
+      // let [invVal, taxVal, cessVal] = [0, 0, 0];
+      // for (let i in b2b) {
+      //   invVal += parseFloat(b2b[i].invoice_value);
+      // }
+      // o['invoice_value'] = invVal;
+      //
+      // // add taxable values
+      // for (let i in b2b) {
+      //   taxVal += parseFloat(b2b[i].taxable_value);
+      // }
+      // o['taxable_value'] = taxVal;
+      //
+      // // add cess values
+      // for (let i in b2b) {
+      //   cessVal += parseFloat(b2b[i].cess);
+      // }
+      // o['cess'] = cessVal;
+      //
+      // this.summary['b2b'].push(o);
+      //       }
     },
     cdnrSummary() {
       let cdnr = this.list.cdnr;
@@ -324,7 +364,6 @@ export default {
         )
         .then((r) => {
           if (r.status == 200) {
-            console.log(r.data);
             switch (r.data.gkresult) {
               case 0:
                 this.list = r.data.gkdata;

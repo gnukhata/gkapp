@@ -35,6 +35,20 @@
           {{ data.item.invoice_value }}
         </div>
       </template>
+      <template #cell(invoice_number)="data">
+        <router-link
+          :to="'/workflow/Transactions-DebitCreditNote/' + data.item.invid"
+        >
+          {{ data.item.invoice_number }}
+        </router-link>
+      </template>
+      <template #cell(voucher_number)="data">
+        <router-link
+          :to="'/workflow/Transactions-DebitCreditNote/' + data.item.voucher_id"
+        >
+          {{ data.item.voucher_number }}
+        </router-link>
+      </template>
       <template #cell(taxable_value)="data">
         <div class="text-right">
           {{ data.item.taxable_value }}
