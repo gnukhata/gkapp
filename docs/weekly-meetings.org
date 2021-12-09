@@ -9,6 +9,41 @@ us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
 
+* Meeting history (2021-12-08)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-12-08
+  :END:
+
+Agenda:
+ - Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+- Karthik:
+  - Gk-state api & component
+  - GSTR 3B initial work
+  - Refactoring in R1 code
+- Survesh:
+  - Static contacts profile header
+  - Basic I18N
+  - Fix for opening stock conflict in business profile
+
+Points Discussed:
+- Discussions about i18n,
+  - Explore tools that can generate and maintain the transaltion files (.json,.po) based on the translation strings in the code.
+  - Don't display the option to choose the language in all places. Keep it in the login page and once logged in, keep in the 
+    global settings page. Here a link to i18n contributions can be added.
+  - Do not split phrases into individual words for translations as the sequence of words in a phrase may change based on 
+    the language's grammar.
+- Comments on the opening stock conflict fix,
+  - The current fix for the opening stock conflict could be improved upon by using the default godown, instead of using two either 
+    or options for opening stock. And this way the opening stock will always be tracked using a godown.
+- The GST summary can be added as an extra feature in the GST returns page. Convert the existing GST summary page into GST returns page.
+
+Conclusion:
+- Updates will be performed based on the points discussed above.
+
 * Meeting history (2021-12-01)
   :PROPERTIES:
   :CUSTOM_ID: meeting-history-2021-12-01
