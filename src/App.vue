@@ -22,7 +22,7 @@
             class="ml-2 d-inline-block text-truncate"
           >
             <!-- Without textwrap, creates horizontal overlfow in mobile view -->
-            {{ this.orgName || 'GNUKhata' }}
+            {{ this.orgName || $t('gnukhata') }}
           </div>
         </b-navbar-brand>
         <b-navbar-nav class="ml-auto">
@@ -43,6 +43,8 @@
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
+        <b-form-select size="sm" :style="{maxWidth: '85px'}" plain v-model="$i18n.locale" :options="locales">
+        </b-form-select>
         <!-- Change password dialog -->
         <b-modal
           ref="change-pwd-close"
@@ -84,6 +86,7 @@ export default {
       'authToken',
       'userAuthenticated',
       'orgImg',
+      'locales'
     ]),
   },
   methods: {

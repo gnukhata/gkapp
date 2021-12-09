@@ -5,8 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "build-dev": "vue-cli-service build --mode development",
-    "lint": "vue-cli-service lint"
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\""
   },
   "dependencies": {
     "bootstrap-vue": "^2.21.2",
@@ -17,11 +18,13 @@
     "jspdf": "^2.4.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.14",
+    "vue-i18n": "^8.26.3",
     "vue-router": "^3.5.3",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.11.5",
+    "@intlify/vue-i18n-loader": "^1.1.0",
     "@vue/cli-plugin-babel": "^4.5.15",
     "@vue/cli-plugin-eslint": "^4.5.15",
     "@vue/cli-plugin-pwa": "^4.5.15",
@@ -41,6 +44,7 @@
     "sass-loader": "^10.2.0",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-bootstrap-vue": "~0.7.0",
+    "vue-cli-plugin-i18n": "~2.3.1",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {

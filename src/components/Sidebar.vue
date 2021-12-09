@@ -21,7 +21,7 @@
             alt="GNUKhata Logo"
           />
           <div style="font-size: 20px" class="font-weight-normal mt-1 ml-2">
-            GNUKhata
+            {{ $t('gnukhata') }}
           </div>
         </div>
       </template>

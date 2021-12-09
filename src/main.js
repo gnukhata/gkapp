@@ -10,6 +10,7 @@ import store from './store';
 import '@/scss/main.scss';
 import axios from 'axios';
 import sha512 from 'crypto-js/sha512';
+import i18n from './i18n'
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
@@ -131,5 +132,6 @@ Vue.prototype.$reload = () => location.reload();
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  i18n,
+  render: (h) => h(App)
 }).$mount('#app');

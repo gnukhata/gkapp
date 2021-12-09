@@ -37,6 +37,19 @@ export default new Vuex.Store({
       name: null,
       type: null,
     },
+
+    locale: 'en',
+
+    // constants
+    gstRates: [0, 0.1, 0.25, 1, 1.5, 3, 5, 7.5, 12, 18, 28],
+    locales: [
+      { text: 'En - En', value: 'en' },
+      { text: 'हि - Hi', value: 'hi' },
+      { text: 'മ - Ml', value: 'ml' },
+      { text: 'म - Mr', value: 'mr' },
+      { text: 'த - Ta', value: 'ta' },
+      { text: 'తె - Te', value: 'te' },
+    ],
   },
   mutations: {
     /* A fit-them-all commit */
@@ -64,6 +77,7 @@ export default new Vuex.Store({
       const userName = localStorage.getItem('userName');
       const orgYears = JSON.parse(localStorage.getItem('orgYears'));
       const gkCoreUrl = localStorage.getItem('gkCoreUrl');
+      const locale = localStorage.getItem('locale');
 
       if (authStatus === 'true') {
         state.userAuthenticated = true;
@@ -162,6 +176,15 @@ export default new Vuex.Store({
 
     incrementAriaIterator(state) {
       state.ariaIterator++;
+    },
+
+    setLocale(state, payload) {
+      let locale = state.locales.find((locale) => locale.value === payload);
+
+      if (locale) {
+        state.locale = payload;
+        localStorage.setItem('locale', state.locale);
+      }
     },
   },
   actions: {
