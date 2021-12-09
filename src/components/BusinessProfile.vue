@@ -40,13 +40,30 @@
           label-cols="4"
           label-size="sm"
         >
-          <b-form-input
+          <b-input-group size="sm">
+            <b-form-input
+              v-model="details.openingstock"
+              type="number"
+              no-wheel
+              step="0.01"
+              :readonly="isGodownUsed || useGodownwise"
+            ></b-form-input>
+            <template v-if="isGodownUsed" #append>
+              <b-button @click="scrollToGodownCard" variant="dark">
+                <b-icon font-scale="0.9" icon="pencil"></b-icon>
+              </b-button>
+            </template>
+          </b-input-group>
+          <b-form-checkbox
+            v-if="!isGodownUsed"
+            v-model="useGodownwise"
+            class="float-right"
+            name="check-button"
+            switch
             size="sm"
-            v-model="details.openingstock"
-            type="number"
-            no-wheel
-            step="0.01"
-          ></b-form-input>
+          >
+            Use Godownwise Opening Stock
+          </b-form-checkbox>
         </b-form-group>
         <!-- UOM -->
         <b-form-group
@@ -235,6 +252,8 @@
       class="mt-2"
       header-bg-variant="dark"
       header-text-variant="light"
+      id="godown-card"
+      v-if="isProduct && (useGodownwise || isGodownUsed)"
     >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-godown>
@@ -278,25 +297,24 @@
             <b-button
               variant="outline-secondary"
               size="sm"
-              @click.prevent="addGodown"
-              class="mr-1"
-            >
-              +
-            </b-button>
-            <b-button
-              variant="outline-secondary"
-              size="sm"
               @click.prevent="deleteGodown(index)"
             >
               -
             </b-button>
           </div>
           <b-button
+            size="sm"
+            @click.prevent="addGodown"
+            class="float-right py-0 px-1"
+          >
+            Add Row
+          </b-button>
+          <b-button
             class="float-right mx-2 py-0 px-1"
             size="sm"
             @click.prevent="showGodownForm = true"
           >
-            + Godown
+            Create Godown
           </b-button>
         </b-collapse>
       </div>
@@ -375,6 +393,7 @@ export default {
       isCollapsed3: false,
       isCollapsed4: false,
       showGodownForm: false,
+      useGodownwise: false,
       uom: [],
       tax: {
         igst: {},
@@ -395,10 +414,17 @@ export default {
     };
   },
   computed: {
+    isProduct: (self) => self.details.gsflag === 7,
+    isGodownUsed: (self) => !!self.oldGodowns.length,
     gstRates: (self) => self.$store.getters['global/getGstRates'],
     ...mapState(['gkCoreUrl', 'authToken']),
   },
   methods: {
+    scrollToGodownCard() {
+      document
+        .getElementById('godown-card')
+        .scrollIntoView({ behavior: 'smooth' });
+    },
     /**
      * Fetch Product /Service details & assign it to details variable
      */
@@ -489,13 +515,15 @@ export default {
 
                       let log = {
                         activity: `${
-                          this.details.gsflag === 7 ? 'service' : 'product'
+                          this.details.gsflag === 7 ? 'product' : 'service'
                         } updated: ${this.details.productdesc}`,
                       };
                       axios.post('/log', log);
 
                       this.loading = false;
-                      this.updateTaxDetails();
+                      this.updateTaxDetails().then(() => {
+                        this.getDetails();
+                      });
                     }
                     break;
                   case 2:
@@ -520,10 +548,11 @@ export default {
       const self = this;
       const updateTaxItem = function(item) {
         const tax = Object.assign({ productcode: self.name.productcode }, item);
+        let request;
         if (item.taxid === undefined) {
           if (parseFloat(item.taxrate) > 0) {
             // create a new tax entry, or newly added tax items
-            axios.post('/tax', tax);
+            request = axios.post('/tax', tax);
           }
         } else {
           if (
@@ -531,26 +560,29 @@ export default {
             parseFloat(item.taxrate) === 0
           ) {
             // delete items that were deleted as an update or equal to 0
-            axios.delete('/tax', {
+            request = axios.delete('/tax', {
               data: {
                 taxid: item.taxid,
               },
             });
           } else {
             // update existing tax items
-            axios.put('/tax', tax);
+            request = axios.put('/tax', tax);
           }
         }
+        return request;
       };
+      let updates = [];
       for (const name in this.tax) {
         if (name === 'vat') {
           this.tax[name].forEach(function(item) {
-            updateTaxItem(item);
+            updates.push(updateTaxItem(item));
           });
         } else {
-          updateTaxItem(this.tax[name]);
+          updates.push(updateTaxItem(this.tax[name]));
         }
       }
+      return Promise.all(updates).then(() => true);
     },
     /** Add a new VAT entry to the VAT list */
     addVatEntry() {
