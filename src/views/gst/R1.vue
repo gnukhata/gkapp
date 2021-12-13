@@ -2,7 +2,7 @@
   <section class="m-1">
     <b-overlay :show="loading">
       <b-card
-        header="GST R1 Report"
+        header="GSTR-1 Report"
         header-bg-variant="dark"
         header-text-variant="light"
         class="mx-auto gkcard d-print-none"
