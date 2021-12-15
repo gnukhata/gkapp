@@ -1,4 +1,5 @@
 const PAGES = {
+  global: 0,
   workflow: 10,
   'workflow-invoice': 20,
   'workflow-dc-note': 30,
@@ -21,6 +22,7 @@ const PAGES = {
 };
 
 const CONFIGS = {
+  global: 0,
   'workflow-left-pane-columns': 11,
   'page-layout': 121
 };

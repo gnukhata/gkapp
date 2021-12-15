@@ -40,6 +40,12 @@ const routes = [
     name: 'Organisation Logs',
     component: Logs,
   },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () =>
+      import(/* webpackChunkName: "workflow" */ '../views/Settings.vue'),
+  },
   // User Management
   {
     path: '/users',

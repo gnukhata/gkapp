@@ -161,6 +161,11 @@ export default {
                 let orgname = this.orgNameDisplay;
                 //let orgtype = this.orgList[this.orgIndex].orgtype;
                 //                 let orgfy = this.orgFinancialYear();
+                // Initiate axios defaults
+                axios.defaults.baseURL = this.gkCoreUrl;
+                axios.defaults.headers = { gktoken: response.data.token };
+
+                // Initiate vuex store
                 this.$store.dispatch('setSessionStates', {
                   auth: true,
                   orgCode: this.form.orgcode,
@@ -172,9 +177,8 @@ export default {
                   //   yearEnd: orgfy.endYear,
                   // },
                 });
-                // Initiate axios defaults
-                axios.defaults.baseURL = this.gkCoreUrl;
-                axios.defaults.headers = { gktoken: response.data.token };
+                this.$store.dispatch('global/initGlobalConfig');
+
                 // redirect to workflow on login
                 this.$router.push('/workflow/Transactions-Invoice/-1');
               } else {

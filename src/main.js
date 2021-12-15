@@ -10,12 +10,13 @@ import store from './store';
 import '@/scss/main.scss';
 import axios from 'axios';
 import sha512 from 'crypto-js/sha512';
-import i18n from './i18n'
+import i18n from './i18n';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
 
 store.commit('initStore'); // initialize the required vuex states from local storage
+store.dispatch('global/initGlobalState');
 
 Vue.mixin({
   data() {
@@ -133,5 +134,5 @@ new Vue({
   router,
   store,
   i18n,
-  render: (h) => h(App)
+  render: (h) => h(App),
 }).$mount('#app');

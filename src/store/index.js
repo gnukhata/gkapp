@@ -77,7 +77,6 @@ export default new Vuex.Store({
       const userName = localStorage.getItem('userName');
       const orgYears = JSON.parse(localStorage.getItem('orgYears'));
       const gkCoreUrl = localStorage.getItem('gkCoreUrl');
-      const locale = localStorage.getItem('locale');
 
       if (authStatus === 'true') {
         state.userAuthenticated = true;
@@ -214,5 +213,6 @@ export default new Vuex.Store({
   },
   getters: {
     isUserAuthenticated: (state) => state.userAuthenticated,
+    getOrgCode: (state) => state.orgCode,
   },
 });
