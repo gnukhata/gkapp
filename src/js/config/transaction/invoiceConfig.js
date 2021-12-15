@@ -119,14 +119,17 @@ export default {
   },
   actions: {
     initInvoiceConfig({ state, commit }) {
-      axios.get('/config?conftype=org').then((resp) => {
+      let url = `/config?conftype=org&pageid=${PAGES['create-invoice']}&confid=${CONFIGS['page-layout']}`
+      axios.get(url).then((resp) => {
         if (resp.data.gkstatus === 0) {
-          let pageConf = resp.data.gkresult[PAGES['create-invoice']];
-          if (pageConf) {
-            commit('setInvoiceConfig', pageConf[CONFIGS['page-layout']]);
+          let invoiceConf = resp.data.gkresult;
+          if (invoiceConf) {
+            commit('setInvoiceConfig', invoiceConf);
           } else {
             commit('setInvoiceConfig', state.default);
           }
+        } else {
+          commit('setInvoiceConfig', state.default);
         }
       });
     },
