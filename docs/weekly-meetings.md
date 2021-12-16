@@ -5,7 +5,7 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
-# Meeting history (2021-12-08)
+# Meeting history (2021-12-15)
 
 Agenda:
 
