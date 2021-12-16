@@ -21,6 +21,45 @@ Participants: GN, Karthik, R2, Survesh, VK
 
 Updates:
 - Karthik:
+  - Bug fixes and drill down options for GST-R1
+  - GST-R3B API inital work
+- Survesh:
+  - Global settings/config UI
+  - Explore i18n tools for auto json generation
+
+Points Discussed:
+- Feedbacks for the Global settings page,
+  - Under language selection, use the full language name for the options, instead of just the first alphabet and locale code.
+  - Use the term Language/App Language instead of locale for language selection.
+  - The various possible tax modes will be NILL, GST, VAT, GST + VAT.
+  - If there is just one godown, then it will be the default godown and when there are more than one, we can make the field
+    editable. To maintain compatibility with existing data, say after this feature is rolled on and no default godown is
+    chosen during a transaction that might use a godown, a godown called 'Primary Godown' will be automatically created
+    and will be used as default godown.
+- Use of the vue-gettext i18n library, will be more helpful for us in the longer run, as gettext is part of GNU and
+  will help us with passing GNU's standard requirements when we try to publish GNUKhata as a GNU package.
+- Discussions about GST-R1 report,
+  - Clicking on a product name in the report, should take to the invoices involving that product instead of that product's
+    profile page.
+  - Services must have a UOM of OTH. Currently its empty.
+  - Custom UOM must be mapped to a GST approved UOM and both names must be displayed in the GST report.
+  - R2 has shared some data and forms related to GST-R1, GST3B based on which updates will be done.
+
+Conclusion:
+- Updates will be performed based on the points discussed above.
+
+* Meeting history (2021-12-08)
+  :PROPERTIES:
+  :CUSTOM_ID: meeting-history-2021-12-08
+  :END:
+
+Agenda:
+ - Review past week's progess
+
+Participants: GN, Karthik, R2, Survesh, VK
+
+Updates:
+- Karthik:
   - Gk-state api & component
   - GSTR 3B initial work
   - Refactoring in R1 code
