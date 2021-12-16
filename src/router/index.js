@@ -486,6 +486,20 @@ const routes = [
         /* webpackChunkName: "gst-r1-detailed" */ '../views/gst/R1Detailed.vue'
       ),
   },
+  {
+    path: '/gst/3b',
+    name: 'GST 3B Report',
+    component: () =>
+      import(/* webpackChunkName: "gst-3b" */ '../views/gst/3B/Main.vue'),
+  },
+  {
+    path: '/gst/3b/from=:fd&to=:td&state=:state',
+    name: 'GST 3B Full',
+    component: () =>
+      import(
+        /* webpackChunkName: "gst-3b-full" */ '../views/gst/3B/Report.vue'
+      ),
+  },
 ];
 
 const router = new VueRouter({

@@ -142,6 +142,9 @@ export default {
     event: 'change',
   },
   props: {
+    /**
+     * Jsdoc comment
+     */
     size: {
       type: String,
       default: 'md',

@@ -1,18 +1,32 @@
 #+TITLE: Todo
 
 # Toggle checkboxes with C-c C-x C-b
-* List
-- [ ] User management library
-  - [ ] Hashing passwords
-  - [ ] CRUD on user ops
-  - [ ] auth
-  - [ ] Roles
+# * List
+# - [ ] User management library
+#   - [ ] Hashing passwords
+#   - [ ] CRUD on user ops
+#   - [ ] auth
+#   - [ ] Roles
 
-- [ ] GST Compliance
-- [ ] Import / export data
-- [ ] Print pdf in mobile view
-- [ ] Downloadable spreadsheets
-- [ ] Website
+# - [ ] GST Compliance
+# - [ ] Import / export data
+# - [ ] Print pdf in mobile view
+# - [ ] Downloadable spreadsheets
+# - [ ] Website
+
+* TODO Milestones for GKAPP
+- [ ] Small business GST Compliance <2022-01-31 Mon>
+- [ ] Printable reports <2022-02-28 Mon>
+- [ ] Data exchange
+  1. [ ] Import
+  2. [ ] Export
+- [ ] i18n <2021-12-31 Fri>
+- [ ] Fuctionality tests <2022-03-31 Thu>
+- [ ] Beta release <2022-04-30 Sat>
+- [ ] User manual
+- [ ] Bug Squashing sprint
+  collecting user feedback & fix bugs
+- [ ] PWA release <2022-08-31 Wed>
 
 * DONE Discuss State of the project
 ** Authentication
@@ -24,5 +38,5 @@ sql dump is good or not?
 ** minor release for gnukhata
 A point release of gkcore & gkwebapp v7.1
 
-* TODO Read the book
+* HOLD Read the book
 Scrum: Author Jeff Sutherland

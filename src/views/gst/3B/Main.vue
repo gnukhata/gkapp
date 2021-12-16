@@ -2,7 +2,7 @@
   <section class="m-1">
     <b-overlay :show="loading">
       <b-card
-        header="GSTR-1 Report"
+        header="GSTR 3B Report"
         header-bg-variant="dark"
         header-text-variant="light"
         class="mx-auto gkcard d-print-none"
@@ -20,6 +20,9 @@
               </b-form-group>
             </div>
           </div>
+          <b-form-group label="State" label-cols="auto">
+            <gk-state v-model="state" :required="true"></gk-state>
+          </b-form-group>
           <b-button
             type="submit"
             size="sm"
@@ -34,47 +37,39 @@
 </template>
 
 <script>
-import GkDate from '../../components/GkDate.vue';
+import { mapState } from 'vuex';
+import GkDate from '../../../components/GkDate.vue';
+import GkState from '../../../components/GkState.vue';
 export default {
-  components: { GkDate },
-  name: 'R1',
+  components: { GkDate, GkState },
+  name: 'Main',
   data() {
     return {
       fromDate: null,
       toDate: null,
       loading: false,
+      state: '',
       search: '',
       report: {
         data: null,
         selected: '',
         summary: null,
-        // list: [
-        //   { value: 'b2b', text: 'B2B' },
-        //   { value: 'b2cl', text: 'B2CL' },
-        //   { value: 'b2cs', text: 'B2CS' },
-        //   { value: 'cdnr', text: 'CDNR' },
-        //   { value: 'cdnur', text: 'CDNUR' },
-        //   { value: 'hsn1', text: 'HSN' },
-        // ],
       },
     };
+  },
+  computed: {
+    ...mapState(['yearStart', 'yearEnd']),
   },
   methods: {
     showSummary() {
       this.$router.push(
-        `/gst/r1/summary/from=${this.fromDate}&to=${this.toDate}`
+        `/gst/3b/from=${this.fromDate}&to=${this.toDate}&state=${this.state}`
       );
     },
   },
   mounted() {
-    const d = new Date();
-    let cm = d.getMonth();
-    let lastday = new Date(d.getFullYear(), cm, 0).getDate();
-    if (cm < 10) {
-      cm = '0' + cm;
-    }
-    this.fromDate = `01-${cm}-${d.getFullYear()}`;
-    this.toDate = `${lastday}-${cm}-${d.getFullYear()}`;
+    this.fromDate = this.yearStart;
+    this.toDate = this.yearEnd;
   },
 };
 </script>
