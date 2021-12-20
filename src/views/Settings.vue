@@ -94,6 +94,18 @@
                 :style="{ 'max-width': '200px' }"
               ></b-form-select>
             </b-form-group>
+            <b-form-group
+              label="Use Customer / Supplier ledgers to track transactions"
+              label-for="gs-t2-select-30"
+              label-cols-lg="2"
+              label-cols="3"
+              label-size="sm"
+            >
+            <b-form-checkbox switch v-model="conf.transaction.default.partyVoucherFlag">
+              
+            </b-form-checkbox>
+              
+            </b-form-group>
             <b-button type="submit" size="sm" variant="success">
               save
             </b-button>

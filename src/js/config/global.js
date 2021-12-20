@@ -1,6 +1,5 @@
 import { CONFIGS, PAGES } from '../enum.js';
 import axios from 'axios';
-import Vue from 'vue';
 
 export default {
   state: {
@@ -36,6 +35,7 @@ export default {
           payment: 'bank', // bank, cash, credit
           tax: 'GST', // GST, VAT
           godown: '',
+          partyVoucherFlag: true, // use customer/supplier ledgers for tracking transaction
         },
       },
     },
@@ -76,6 +76,9 @@ export default {
     getGstRates(state) {
       return state.constant.gstRates;
     },
+    getPartyVoucherFlag(state) {
+      return state.customConf.transaction.default.partyVoucherFlag;
+    },
   },
   mutations: {
     // note that this mutation, directly stores whatever data is being sent, so
@@ -84,8 +87,8 @@ export default {
       let conf = payload.conf;
       state.customConf.general = conf.general;
       state.customConf.transaction = conf.transaction;
-      if(payload.lang && state.customConf.general) {
-        if(state.customConf.general.default) {
+      if (payload.lang && state.customConf.general) {
+        if (state.customConf.general.default) {
           payload.lang.current = state.customConf.general.default.locale;
         }
       }
@@ -115,10 +118,14 @@ export default {
     initGlobalConfig({ state, commit, rootGetters }, payload) {
       let url = `/config?conftype=org&pageid=${PAGES['global']}&confid=${CONFIGS['global']}`;
       return axios.get(url).then((resp) => {
+        let orgCode = rootGetters.getOrgCode;
         if (resp.data.gkstatus === 0) {
-          let orgCode = rootGetters.getOrgCode;
           let conf = resp.data.gkresult ? resp.data.gkresult : state.defConf;
-          commit('setGlobalConfig', { conf, orgCode, lang: payload? payload.lang : null });
+          commit('setGlobalConfig', {
+            conf,
+            orgCode,
+            lang: payload ? payload.lang : null,
+          });
         } else {
           commit('setGlobalConfig', { conf: state.defConf, orgCode });
         }

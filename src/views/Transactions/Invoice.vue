@@ -182,11 +182,6 @@
         <b>{{ yearEnd }}</b>
       </b-tooltip>
       <hr />
-      <!-- <b-form-checkbox v-model="posFlag" class="float-right" name="check-button" switch>
-        Point of Sale
-      </b-form-checkbox> -->
-      <div class="clearfix"></div>
-      <hr />
       <div class="float-right">
         <b-button
           class="m-1"
@@ -1092,9 +1087,9 @@ export default {
     initPayload() {
       this.collectComponentData();
       let paymentMode = this.form.payment.mode;
-
-      if(!this.posFlag) {
-        if(paymentMode === 2) {
+      let partyVoucherFlag = this.$store.getters['global/getPartyVoucherFlag'];
+      if (partyVoucherFlag) {
+        if (paymentMode === 2) {
           paymentMode = 4;
         } else if (paymentMode === 3) {
           paymentMode = 5;
