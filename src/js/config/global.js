@@ -46,14 +46,6 @@ export default {
     options: {
       general: {
         dateFormat: ['dd-mm-yyyy', 'yyyy-mm-dd', 'mm-dd-yyyy'],
-        locale: [
-          { text: 'English', value: 'en' },
-          { text: 'हिन्दी', value: 'hi' },
-          { text: 'മലയാളം', value: 'ml' },
-          { text: 'मराठी', value: 'mr' },
-          { text: 'தமிழ்', value: 'ta' },
-          { text: 'తెలుగు', value: 'te' },
-        ],
       },
       transaction: {
         paymentMode: ['bank', 'cash', 'credit'],
@@ -89,8 +81,14 @@ export default {
     // note that this mutation, directly stores whatever data is being sent, so
     // config must be validated before commit
     setGlobalConfig(state, payload) {
-      state.customConf.general = payload.general;
-      state.customConf.transaction = payload.transaction;
+      let conf = payload.conf;
+      state.customConf.general = conf.general;
+      state.customConf.transaction = conf.transaction;
+      if(payload.lang && state.customConf.general) {
+        if(state.customConf.general.default) {
+          payload.lang.current = state.customConf.general.default.locale;
+        }
+      }
       if (payload.orgCode) {
         localStorage.setItem(
           `${payload.orgCode}-globalConf`,
@@ -104,33 +102,30 @@ export default {
     },
   },
   actions: {
-    initGlobalState: ({ commit, rootGetters }) => {
+    initGlobalState: ({ commit, rootGetters }, payload) => {
       if (rootGetters.getOrgCode) {
-        let conf = localStorage.getItem(
-          `${rootGetters.getOrgCode}-globalConf`
-        );
+        let conf = localStorage.getItem(`${rootGetters.getOrgCode}-globalConf`);
         if (conf) {
           conf = JSON.parse(conf);
-          commit('setGlobalConfig', conf);
+          commit('setGlobalConfig', { conf, lang: payload.lang });
         }
       }
     },
     // must be invoked after successful login
-    initGlobalConfig({ state, commit, rootGetters }) {
+    initGlobalConfig({ state, commit, rootGetters }, payload) {
       let url = `/config?conftype=org&pageid=${PAGES['global']}&confid=${CONFIGS['global']}`;
-      axios.get(url).then((resp) => {
+      return axios.get(url).then((resp) => {
         if (resp.data.gkstatus === 0) {
           let orgCode = rootGetters.getOrgCode;
           let conf = resp.data.gkresult ? resp.data.gkresult : state.defConf;
-          conf.orgCode = orgCode;
-          commit('setGlobalConfig', conf);
+          commit('setGlobalConfig', { conf, orgCode, lang: payload? payload.lang : null });
         } else {
-          commit('setGlobalConfig', state.defConf);
+          commit('setGlobalConfig', { conf: state.defConf, orgCode });
         }
       });
     },
     initGlobalConfigOptions({ commit }) {
-      axios.get('/godown').then((resp) => {
+      return axios.get('/godown').then((resp) => {
         if (resp.data.gkstatus === 0) {
           let godowns = resp.data.gkresult.map((godown) => {
             return {
@@ -142,9 +137,9 @@ export default {
         }
       });
     },
-    updateGlobalConfig({ commit, rootGetters }, payload) {
+    updateGlobalConfig({ commit, rootGetters }, conf) {
       const confPayload = {
-        config: payload,
+        config: conf,
         path: [PAGES['global'], CONFIGS['global']],
       };
       return axios
@@ -154,8 +149,10 @@ export default {
         )
         .then((resp) => {
           if (resp.data.gkresult === 0) {
-            payload.orgCode = rootGetters.getOrgCode;
-            commit('setGlobalConfig', payload);
+            commit('setGlobalConfig', {
+              conf,
+              orgCode: rootGetters.getOrgCode,
+            });
           }
           return resp.data;
         });

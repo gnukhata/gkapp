@@ -31,9 +31,14 @@
                 size="sm"
                 id="gs-t1-select-20"
                 v-model="conf.general.default.locale"
-                :options="options.general.locale"
                 :style="{ 'max-width': '200px' }"
               >
+                <b-form-select-option
+                  v-for="(language, key) in $language.available"
+                  :key="key"
+                  :value="key"
+                  >{{ language }}</b-form-select-option
+                >
               </b-form-select>
             </b-form-group>
             <b-button type="submit" size="sm" variant="success">
@@ -149,8 +154,9 @@ export default {
               'Global Config Saved Successfully.',
               'success'
             );
-            this.$store.dispatch('global/initGlobalConfig');
-            this.$i18n.locale = this.conf.general.default.locale || 'en';
+            this.$store.dispatch('global/initGlobalConfig', {
+              lang: this.$language,
+            });
           } else {
             this.displayToast(
               `Success!`,
@@ -163,12 +169,15 @@ export default {
   },
   mounted() {
     const self = this;
-    this.conf = {
-      general: this.globalConf.general,
-      transaction: this.globalConf.transaction,
-    };
-    this.$store.dispatch('global/initGlobalConfig');
-    this.$store.dispatch('global/initGlobalConfigOptions');
+    Promise.all([
+      this.$store.dispatch('global/initGlobalConfig'),
+      this.$store.dispatch('global/initGlobalConfigOptions'),
+    ]).then(() => {
+      self.conf = {
+        general: self.globalConf.general,
+        transaction: self.globalConf.transaction,
+      };
+    });
 
     debounceEvent(
       window,

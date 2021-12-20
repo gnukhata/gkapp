@@ -10,13 +10,24 @@ import store from './store';
 import '@/scss/main.scss';
 import axios from 'axios';
 import sha512 from 'crypto-js/sha512';
-import i18n from './i18n';
+import GetTextPlugin from 'vue-gettext';
+import translations from './locales/translations.json';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
 
-store.commit('initStore'); // initialize the required vuex states from local storage
-store.dispatch('global/initGlobalState');
+Vue.use(GetTextPlugin, {
+  availableLanguages: {
+    en: 'English',
+    hi: 'हिन्दी',
+    ml: 'മലയാളം',
+    mr: 'मराठी',
+    ta: 'தமிழ்',
+    te: 'తెలుగు',
+  },
+  defaultLanguage: 'en',
+  translations: translations,
+});
 
 Vue.mixin({
   data() {
@@ -133,6 +144,5 @@ Vue.prototype.$reload = () => location.reload();
 new Vue({
   router,
   store,
-  i18n,
   render: (h) => h(App),
 }).$mount('#app');

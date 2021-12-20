@@ -22,7 +22,10 @@
             class="ml-2 d-inline-block text-truncate"
           >
             <!-- Without textwrap, creates horizontal overlfow in mobile view -->
-            {{ this.orgName || $t('gnukhata') }}
+            <span v-if="this.orgName">
+              {{ this.orgName }}
+            </span>
+            <translate v-else> GNUKhata </translate>
           </div>
         </b-navbar-brand>
         <b-navbar-nav class="ml-auto">
@@ -36,15 +39,13 @@
               {{ userName }}
             </template>
             <b-dropdown-item v-b-modal.change-pwd>
-              <b-icon icon="key"></b-icon>Change Password
+              <b-icon icon="key"></b-icon> Change Password
             </b-dropdown-item>
             <b-dropdown-item @click="logOut" href="#">
-              <b-icon icon="box-arrow-in-left"></b-icon>Log Out
+              <b-icon icon="box-arrow-in-left"></b-icon> Log Out
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
-        <b-form-select size="sm" :style="{maxWidth: '85px'}" plain v-model="$i18n.locale" :options="locales">
-        </b-form-select>
         <!-- Change password dialog -->
         <b-modal
           ref="change-pwd-close"
@@ -86,7 +87,6 @@ export default {
       'authToken',
       'userAuthenticated',
       'orgImg',
-      'locales'
     ]),
   },
   methods: {
@@ -98,6 +98,10 @@ export default {
         this.$refs['change-pwd-close'].hide();
       }, 1500);
     },
+  },
+  beforeMount() {
+    this.$store.commit('initStore'); // initialize the required vuex states from local storage
+    this.$store.dispatch('global/initGlobalState', { lang: this.$language });
   },
   mounted() {
     document.querySelector('title').textContent = `GNUKhata ${
