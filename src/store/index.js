@@ -67,41 +67,44 @@ export default new Vuex.Store({
     },
     setOrgAddress(state, payload) {
       state.orgAddress = payload;
+      if (state.orgAddress.orgname) state.orgName = state.orgAddress.orgname;
     },
     // Init the required vuex store states from session storage
     initStore(state) {
       const authStatus = localStorage.getItem('userAuthenticated');
-      const orgCode = localStorage.getItem('orgCode');
-      const orgName = localStorage.getItem('orgName');
-      const authToken = localStorage.getItem('authToken');
-      const userName = localStorage.getItem('userName');
-      const orgYears = JSON.parse(localStorage.getItem('orgYears'));
       const gkCoreUrl = localStorage.getItem('gkCoreUrl');
+      const authToken = localStorage.getItem('authToken');
 
       if (authStatus === 'true') {
         state.userAuthenticated = true;
+
+        const orgCode = localStorage.getItem('orgCode');
+        const orgName = localStorage.getItem('orgName');
+        const userName = localStorage.getItem('userName');
+        const orgYears = JSON.parse(localStorage.getItem('orgYears'));
+
+        if (orgCode) {
+          state.orgCode = parseInt(orgCode);
+        }
+
+        if (orgName) {
+          state.orgName = orgName;
+        }
+
+        if (authToken) {
+          state.authToken = authToken;
+        }
+
+        if (userName) {
+          state.userName = userName;
+        }
+
+        if (orgYears) {
+          state.yearStart = orgYears.yearStart;
+          state.yearEnd = orgYears.yearEnd;
+        }
       }
 
-      if (orgCode) {
-        state.orgCode = parseInt(orgCode);
-      }
-
-      if (orgName) {
-        state.orgName = orgName;
-      }
-
-      if (authToken) {
-        state.authToken = authToken;
-      }
-
-      if (userName) {
-        state.userName = userName;
-      }
-
-      if (orgYears) {
-        state.yearStart = orgYears.yearStart;
-        state.yearEnd = orgYears.yearEnd;
-      }
       if (gkCoreUrl) {
         state.gkCoreUrl = gkCoreUrl;
 
@@ -187,6 +190,30 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    initLocalStates({ state, commit, dispatch }) {
+      commit('initStore');
+      dispatch('initOrgAddress');
+      dispatch('initOrgImg');
+    },
+    initOrgAddress({ state, commit }) {
+      if (state.userAuthenticated) {
+        return axios.get('/organisation?osg=true').then((r) => {
+          if (r.status === 200 && r.data.gkstatus == 0) {
+            commit('setOrgAddress', r.data.gkdata);
+          }
+        });
+      }
+    },
+    initOrgImg({ state, commit }) {
+      if (state.userAuthenticated) {
+        return axios.get('/organisation?attach=image').then((r) => {
+          if (r.data.logo !== null) {
+            const payload = `data:image/jpg;base64,${r.data.logo}`;
+            commit('updateOrgImg', payload);
+          }
+        });
+      }
+    },
     setSessionStates({ commit }, payload) {
       if (payload.auth !== undefined) {
         commit('setAuthStatus', payload.auth);

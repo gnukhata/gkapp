@@ -100,8 +100,8 @@ export default {
     },
   },
   beforeMount() {
-    this.$store.commit('initStore'); // initialize the required vuex states from local storage
-    this.$store.dispatch('global/initGlobalState', { lang: this.$language });
+    this.$store.dispatch('initLocalStates'); // initialize the required vuex states from local storage
+    this.$store.dispatch('global/initGlobalState', { lang: this.$language }); // init global config of an org
   },
   mounted() {
     document.querySelector('title').textContent = `GNUKhata ${
@@ -128,8 +128,8 @@ export default {
     }
   },
   created() {
-    this.get_org_address();
-    this.getOrgImage();
+    // this.get_org_address();
+    // this.getOrgImage();
   },
 };
 </script>

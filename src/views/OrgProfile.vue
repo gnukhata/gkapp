@@ -975,7 +975,9 @@ export default {
                   solid: true,
                 }
               );
-              this.getOrgImage();
+              // this.getOrgImage();
+              this.$store.dispatch('initOrgAddress');
+              this.$store.dispatch('initOrgImg');
               break;
             case 2:
               this.loading = false;

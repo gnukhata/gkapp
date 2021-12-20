@@ -177,7 +177,12 @@ export default {
                   //   yearEnd: orgfy.endYear,
                   // },
                 });
-                this.$store.dispatch('global/initGlobalConfig');
+
+                this.$store.dispatch('initLocalStates'); // initialises vuex, org image and org address
+                this.$store.dispatch('global/initGlobalConfig'); // initialises global config
+                
+                // this.get_org_address();
+                // this.getOrgImage();
 
                 // redirect to workflow on login
                 this.$router.push('/workflow/Transactions-Invoice/-1');
