@@ -192,8 +192,7 @@ export default new Vuex.Store({
   actions: {
     initLocalStates({ state, commit, dispatch }) {
       commit('initStore');
-      dispatch('initOrgAddress');
-      dispatch('initOrgImg');
+      return Promise.all([dispatch('initOrgAddress'), dispatch('initOrgImg')]);
     },
     initOrgAddress({ state, commit }) {
       if (state.userAuthenticated) {
@@ -241,5 +240,6 @@ export default new Vuex.Store({
   getters: {
     isUserAuthenticated: (state) => state.userAuthenticated,
     getOrgCode: (state) => state.orgCode,
+    getOrgAddress: (state) => state.orgAddress,
   },
 });

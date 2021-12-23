@@ -100,8 +100,11 @@ export default {
     },
   },
   beforeMount() {
-    this.$store.dispatch('initLocalStates'); // initialize the required vuex states from local storage
-    this.$store.dispatch('global/initGlobalState', { lang: this.$language }); // init global config of an org
+    // initialize the required vuex states from local storage
+    this.$store.dispatch('initLocalStates').then(() => {
+      // init global config of an org
+      this.$store.dispatch('global/initGlobalState', { lang: this.$language });
+    });
   },
   mounted() {
     document.querySelector('title').textContent = `GNUKhata ${

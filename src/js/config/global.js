@@ -79,6 +79,9 @@ export default {
     getPartyVoucherFlag(state) {
       return state.customConf.transaction.default.partyVoucherFlag;
     },
+    getDefaultGodown(state) {
+      return state.customConf.transaction.default.godown;
+    },
   },
   mutations: {
     // note that this mutation, directly stores whatever data is being sent, so
@@ -105,12 +108,45 @@ export default {
     },
   },
   actions: {
-    initGlobalState: ({ commit, rootGetters }, payload) => {
+    initGlobalState: ({ dispatch, commit, rootGetters }, payload) => {
       if (rootGetters.getOrgCode) {
         let conf = localStorage.getItem(`${rootGetters.getOrgCode}-globalConf`);
         if (conf) {
           conf = JSON.parse(conf);
           commit('setGlobalConfig', { conf, lang: payload.lang });
+          dispatch('initGlobalConfigOptions').then(() => {
+            dispatch('initDefaultGodown');
+          });
+        }
+      }
+    },
+    initDefaultGodown: ({ state, dispatch, rootGetters }) => {
+      let goList = state.options.transaction.godowns || [];
+      let goName = 'Primary Godown';
+      let pGodown = goList.find((go) => go.text === goName);
+
+      if (!state.customConf.transaction.default.godown) {
+        if (!pGodown) {
+          let orgAddress = rootGetters.getOrgAddress;
+          let state = orgAddress.orgstate || '';
+          let payload = {
+            goname: goName,
+            goaddr: `${goName}'s address`,
+            state: state,
+            gocontact: '',
+            contactname: '',
+          };
+          axios.post('/godown', payload).then((resp) => {
+            if (resp.data.gkstatus === 0 && resp.data.gkresult) {
+              let conf = state.customConf;
+              conf.transaction.default.godown = resp.data.gkresult;
+              dispatch('updateGlobalConfig', conf);
+            }
+          });
+        } else {
+          let conf = state.customConf;
+          conf.transaction.default.godown = pGodown.value;
+          dispatch('updateGlobalConfig', conf);
         }
       }
     },
