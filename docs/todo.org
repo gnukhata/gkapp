@@ -17,6 +17,15 @@
 * TODO Milestones for GKAPP
 - [ ] Small business GST Compliance <2022-01-31 Mon>
 - [ ] Printable reports <2022-02-28 Mon>
+| NAMES                      | API | UI |
+|----------------------------+-----+----|
+| Conventional Balance Sheet | X   | X  |
+| Invoices List              | X   |    |
+| Product List               | X   |    |
+| Stock Report               | X   |    |
+| Trial Balance              | X   |    |
+| Product Service List       | X   |    |
+
 - [ ] Data exchange
   1. [ ] Import
   2. [ ] Export
