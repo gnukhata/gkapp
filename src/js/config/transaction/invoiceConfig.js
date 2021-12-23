@@ -8,7 +8,16 @@ export default {
       inv: {
         no: true,
         date: true,
-        delNote: true,
+        delNote: {
+          no: {
+            format: {
+              code: {
+                in: 'DIN',
+                out: 'DOUT'
+              }
+            }
+          },
+        },
         ebn: true,
         addr: true,
         pin: true,
@@ -80,6 +89,7 @@ export default {
         class: {},
       },
       transport: {
+        packageCount: true,
         mode: true,
         vno: true,
         date: true,

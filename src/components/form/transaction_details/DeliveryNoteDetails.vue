@@ -96,7 +96,7 @@
           ></autocomplete>
         </b-form-group>
         <b-form-group
-          :label="saleFlag ? 'Dispatch From' : 'Received At'"
+          :label="saleFlag ? 'From Godown' : 'To Godown'"
           label-for="dnd-input-40"
           label-size="sm"
           label-cols-md="4"
@@ -473,6 +473,7 @@ export default {
     const self = this;
     this.preloadData().then(() => {
       self.resetForm();
+      self.form.godown = self.$store.getters['global/getDefaultGodown'];
     });
   },
 };

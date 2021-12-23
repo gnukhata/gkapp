@@ -82,7 +82,7 @@
             @input="onUpdateDetails"
           ></autocomplete>
         </b-form-group>
-        <b-form-group
+        <!-- <b-form-group
           v-if="config.delNote"
           label="Del. Note"
           label-for="ivd-input-20"
@@ -97,6 +97,23 @@
             :options="delNoteOptions"
             @input="onUpdateDetails"
             :required="false"
+          ></autocomplete>
+        </b-form-group> -->
+        <b-form-group
+          :label="saleFlag ? 'From Godown' : 'To Godown'"
+          label-for="ivd-input-21"
+          label-size="sm"
+          label-cols-lg="2"
+          label-cols="3"
+        >
+          <autocomplete
+            size="sm"
+            id="ivd-input-21"
+            valueUid="id"
+            v-model="form.godown"
+            :options="options.godowns"
+            @input="onUpdateDetails"
+            required
           ></autocomplete>
         </b-form-group>
         <b-form-group
@@ -299,6 +316,8 @@ export default {
         no: null,
         date: new Date().toISOString().slice(0, 10),
         delNote: null,
+        dnNo: '',
+        godown: null,
         ebn: null,
         addr: null,
         pin: null,
@@ -306,9 +325,12 @@ export default {
         state: {},
         issuer: null,
         role: null,
-        taxState: {}
+        taxState: {},
       },
+      dnNo: null, // delivery note number
       options: {
+        delNoteNo: {},
+        godowns: [],
         states: [],
         orgDetails: {},
         delNotes: {
@@ -360,6 +382,7 @@ export default {
     },
     saleFlag() {
       this.setInvoiceNo();
+      this.updateDelNoteNo();
     },
   },
   methods: {
@@ -445,6 +468,64 @@ export default {
           return error;
         });
     },
+    updateDelNoteNo(fetchNew) {
+      if (!fetchNew) {
+        this.form.dnNo = this.saleFlag
+          ? this.options.delNoteNo['sale']
+          : this.options.delNoteNo['purchase'];
+        if (this.form.dnNo) {
+          return;
+        }
+      } else {
+        this.options.delNoteNo = {
+          sale: '',
+          purchase: '',
+        };
+      }
+
+      let codes = { in: 'DIN', out: 'DOUT' };
+      if (typeof this.config.delNote === 'object' && this.config.delNote.no) {
+        if (this.config.delNote.no.format) {
+          codes = this.config.delNote.no.format.code;
+        }
+      }
+      const self = this;
+      return this.getLastDelNoteNo().then((no) => {
+        // debugger;
+        let code = self.saleFlag ? codes.out : codes.in;
+        this.form.dnNo = isNaN(no) || no === -1
+          ? no
+          : self.formatNoteNo(self.numberFormat, ++no, code, self.form.date);
+        self.options.delNoteNo[self.saleFlag ? 'sale' : 'purchase'] = this.form.dnNo;
+      });
+    },
+    getLastDelNoteNo() {
+      let trnCode = this.saleFlag ? 15 : 9;
+      let url = `/delchal?delchal=last&status=${trnCode}`;
+      return axios
+        .get(url)
+        .then((resp) => {
+          let no = resp.data.gkresult.dcno;
+          if (isNaN(parseInt(no))) {
+            if (no.indexOf('/D') >= 0) {
+              no = parseInt(no.split('/D')[0]);
+            } else {
+              no = 0;
+            }
+          } else {
+            no = parseInt(no);
+          }
+          return no;
+        })
+        .catch((error) => {
+          // this.displayToast(
+          //   'Fetch Delivery Challan No. Failed!',
+          //   error.message,
+          //   'danger'
+          // );
+          return -1;
+        });
+    },
     fetchDelNotes() {
       const self = this;
       axios
@@ -514,12 +595,16 @@ export default {
           );
           return error;
         }),
+        axios.get(`/godown`).catch((error) => {
+          this.displayToast('Fetch Godowns Failed!', error.message, 'danger');
+          return error;
+        }),
         this.fetchUserData(),
         this.fetchDelNotes(),
       ];
       const self = this;
       return Promise.all(requests)
-        .then(([resp1, resp2]) => {
+        .then(([resp1, resp2, resp3]) => {
           this.isPreloading = false;
           if (resp1.data.gkstatus === 0) {
             self.options.states = resp1.data.gkresult.map((item) => {
@@ -536,6 +621,14 @@ export default {
               setTimeout(() => {
                 self.setOrgDetails();
               }, 1);
+            }
+            if (resp3.data.gkstatus === 0) {
+              self.options.godowns = resp3.data.gkresult.map((godown) => {
+                return {
+                  text: `${godown.goname} (${godown.goaddr})`,
+                  value: godown.goid,
+                };
+              });
             }
           }
         })
@@ -555,12 +648,14 @@ export default {
         this.form.no = '';
       }
       this.onUpdateDetails();
+      this.updateDelNoteNo(true);
     },
   },
   mounted() {
     const self = this;
     this.preloadData().then(() => {
       self.resetForm();
+      self.form.godown = self.$store.getters['global/getDefaultGodown'];
     });
   },
 };

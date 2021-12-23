@@ -302,14 +302,14 @@ export default {
         { title: 'No', value: details.number },
         { title: 'Date', value: details.date },
         { title: 'Eway Bill No.', value: details.eway || '' },
-        { title: 'Delivery Note No.', value: details.delno || '' },
+        { title: 'Delivery Note No.', value: details.dcno || '' },
         { title: 'Place of Supply', value: details.taxState || '' },
         {
           title: 'Issued By',
           value: `${details.issuer}  ${designation}`,
         },
       ];
-      if (!details.delno) res.splice(3, 1);
+      if (!details.dcno) res.splice(3, 1);
       return res;
     },
     bankDetails: (self) => {

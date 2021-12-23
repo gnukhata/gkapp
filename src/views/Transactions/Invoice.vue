@@ -311,6 +311,7 @@ export default {
       formMode: '',
       invoiceId: 0,
       goid: -1,
+      dcId: '',
       updateCounter: {
         party: 0,
         ship: 0,
@@ -573,8 +574,11 @@ export default {
       switch (payload.name) {
         case 'invoice-details':
           {
+            // debugger;
             if (payload.data.delNote !== this.form.inv.delNote) {
               this.fetchDelNoteData(payload.data.delNote);
+            } else {
+              this.goid = payload.data.godown || -1;
             }
             Object.assign(this.form.inv, payload.data);
             this.form.transport.date = this.form.inv.date;
@@ -1012,8 +1016,13 @@ export default {
         });
     },
     onSubmit() {
-      let self = this;
       this.isLoading = true;
+      this.createDelNote().then(() => {
+        this.createInvoice();
+      });
+    },
+    createInvoice() {
+      const self = this;
 
       const payload = this.initPayload();
       // console.log(payload);
@@ -1128,9 +1137,10 @@ export default {
         invnarration: this.form.narration,
       };
 
+      // debugger;
       // === Delivery Note ===
-      if (this.form.inv.delNote) {
-        invoice.dcid = this.form.inv.delNote;
+      if (this.dcId) {
+        invoice.dcid = this.dcId;
       }
 
       // === Sale / Purchase related data ===
@@ -1273,6 +1283,181 @@ export default {
       // console.log({ invoice, stock });
       return { invoice, stock };
     },
+    createDelNote() {
+      const payload = this.initDelNotePayload();
+      return axios
+        .post('/delchal', payload)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            this.dcId = resp.data.gkresult || null;
+            return resp.data.gkresult;
+          } else if(resp.data.gkstatus === 1) {
+            let no = payload.delchaldata.dcno;
+            // let 
+            // this.form.inv.delNoteNo = parseInt(no.split('/')[0])++;
+            // this.createDelNote();
+          }
+        })
+        .catch((error) => {
+          return -1;
+        });
+    },
+    initDelNotePayload() {
+      this.collectComponentData();
+
+      let delchal = {
+        custid: parseInt(this.form.party.name.id) || '',
+        dcno: this.form.inv.dnNo,
+        dcdate: this.form.inv.date,
+        dcflag: this.isSale ? 4 : 16,
+        taxstate: this.form.party.state.name,
+        orgstategstin: this.form.inv.gstin || '',
+        discflag: 1,
+        dcnarration: this.form.narration,
+        roundoffflag: this.form.total.roundFlag ? 1 : 0,
+        consignee: {},
+
+        issuername: this.form.inv.issuer,
+        designation: this.form.inv.role,
+
+        vehicleno: this.form.transport.vehicleno || '',
+        modeoftransport: this.form.transport.mode,
+        noofpackages: this.form.transport.packageCount,
+      };
+
+      // === Sale / Purchase related data ===
+      if (this.isSale) {
+        delchal.sourcestate = this.form.inv.state.name || null;
+        delchal.taxstate = this.form.party.state.name || null;
+        delchal.inoutflag = 15; // sale
+      } else {
+        delchal.sourcestate = this.form.party.state.name || null;
+        delchal.taxstate = this.form.inv.state.name || null;
+        delchal.inoutflag = 9; // purchase
+        delete delchal.ewaybillno;
+      }
+
+      // === GST/ VAT related data ===
+      if (this.isGst) {
+        delchal.taxflag = 7;
+      } else {
+        delchal.taxflag = 22;
+      }
+
+      // === Total Invoice price data ===
+      delchal.delchaltotal = this.form.total.amount;
+      delchal.totalinword = this.form.total.text;
+
+      // === Consignee data ===
+      if (this.form.ship.name) {
+        delchal.consignee = {
+          consigneename: this.form.ship.name || '',
+          tinconsignee: this.form.ship.tin || '',
+          gstinconsignee: this.form.ship.gstin || '',
+          consigneeaddress: this.form.ship.addr || '',
+          consigneestate: this.form.ship.state.name || null,
+          consigneestatecode: this.form.ship.state.id || null,
+          consigneepincode: this.form.ship.pin || '',
+        };
+      }
+
+      // === Bill data ===
+      let contents = {};
+      let stock = {
+        // items: {},
+        inout: delchal.inoutflag,
+        goid: this.form.inv.godown,
+      };
+      let pricedetails = [];
+      let tax = {};
+      let cess = {};
+      // let av = {
+      //   product: {},
+      //   prodData: {},
+      //   taxpayment: 0,
+      //   totaltaxable: 0,
+      // };
+      let freeqty = {};
+      let discount = {};
+      this.form.bill.forEach((item) => {
+        // let taxable = item.total * item.qty - item.discount.amount;
+
+        if (contents[item.product.id] === undefined) {
+          contents[item.product.id] = {};
+        }
+
+        contents[item.product.id][item.rate] = parseFloat(item.qty).toFixed(2);
+        // stock.items[item.product.id] = parseFloat(item.qty).toFixed(2);
+
+        if (this.isGst) {
+          tax[item.product.id] = parseFloat(item.igst.rate).toFixed(2);
+          cess[item.product.id] = parseFloat(item.cess.rate).toFixed(2);
+          // // av.avtax = { GSTName: 'IGST', CESSName: 'CESS' };
+        } else {
+          tax[item.product.id] = parseFloat(item.vat.rate).toFixed(2);
+          // av.taxpayment += taxable;
+        }
+
+        freeqty[item.product.id] = parseFloat(item.fqty).toFixed(2);
+        discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
+
+        // av.product[item.product.name] = parseFloat(taxable).toFixed(2);
+        // av.prodData[item.product.id] = parseFloat(taxable).toFixed(2);
+        // av.totaltaxable += taxable;
+
+        pricedetails.push({
+          custid: this.form.party.name.id || '',
+          productcode: item.product.id,
+          inoutflag: delchal.inoutflag,
+          lastprice: item.rate,
+        });
+      });
+
+      // // av.taxpayment = parseFloat(av.taxpayment).toFixed(2);
+      // // av.totaltaxable = parseFloat(av.totaltaxable).toFixed(2);
+
+      Object.assign(delchal, {
+        contents,
+        // pricedetails,
+        tax,
+        cess,
+        // av,
+        freeqty,
+        discount,
+      });
+
+      // // === payment details, mode = 2 ===
+      // if (this.form.payment.mode === 2) {
+      //   delchal.bankdetails = {
+      //     accountno: this.form.payment.bank.no,
+      //     bankname: this.form.payment.bank.name,
+      //     ifsc: this.form.payment.bank.ifsc,
+      //     branch: this.form.payment.bank.branch,
+      //   };
+      // }
+
+      if (this.form.transport.mode === 'Road') {
+        delchal.vehicleno = this.form.transport.vno;
+      }
+
+      if (this.form.transport.date) {
+        delchal.dateofsupply = this.form.transport.date;
+      }
+
+      // if (this.formMode === 'edit') {
+      //   const av = Object.assign({}, invoice.av);
+      //   invoice.invid = parseInt(this.invoiceId);
+
+      //   delete invoice.av;
+      //   delete invoice.pincode;
+      //   delete invoice.discflag;
+
+      //   return { invoice, stock, av };
+      // }
+
+      // console.log({ invoice, stock });
+      return { delchaldata: delchal, stockdata: stock };
+    },
     resetForm() {
       let paymentMode;
       switch (this.defaultPaymentMode) {
@@ -1318,6 +1503,7 @@ export default {
           },
         },
         transport: {
+          packageCount: 0,
           mode: 'Road',
           vno: null,
           date: null,
@@ -1404,7 +1590,7 @@ export default {
       this.updateUrl();
       this.resetForm();
       this.preloadData().then(() => {
-        let bd = self.options.orgDetails.bankDetails;
+        let bd = self.options.orgDetails.bankDetails || {};
         Object.assign(self.form.payment.bank, {
           no: bd.accountno || '',
           name: bd.bankname || '',
