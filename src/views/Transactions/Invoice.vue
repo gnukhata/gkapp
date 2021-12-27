@@ -1292,13 +1292,13 @@ export default {
             this.dcId = resp.data.gkresult || null;
             return resp.data.gkresult;
           } else if(resp.data.gkstatus === 1) {
-            let no = payload.delchaldata.dcno;
+            // let no = payload.delchaldata.dcno;
             // let 
             // this.form.inv.delNoteNo = parseInt(no.split('/')[0])++;
             // this.createDelNote();
           }
         })
-        .catch((error) => {
+        .catch(() => {
           return -1;
         });
     },

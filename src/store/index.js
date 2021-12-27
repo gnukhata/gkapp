@@ -190,7 +190,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    initLocalStates({ state, commit, dispatch }) {
+    initLocalStates({ commit, dispatch }) {
       commit('initStore');
       return Promise.all([dispatch('initOrgAddress'), dispatch('initOrgImg')]);
     },
