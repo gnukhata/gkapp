@@ -41,7 +41,7 @@
       <div id="button-wrapper" class="d-print-none">
         <b-button
           @click.prevent="closeModal"
-          class="m-1"
+          class="m-1 float-right"
           size="sm"
           variant="danger"
         >
@@ -52,7 +52,47 @@
           ></b-icon>
         </b-button>
         <br />
-        <print-helper class="d-none d-lg-inline-block" contentId="transaction-print-page" :printStyles="printStyles"> </print-helper>
+        <div class="clearfix"></div>
+        <b-button
+          class="m-1 float-right"
+          v-b-toggle.p-collapse
+          size="sm"
+          variant="primary"
+        >
+          <b-icon
+            aria-hidden="true"
+            class="align-middle"
+            icon="printer"
+          ></b-icon>
+          <span class="sr-only">Print</span>
+        </b-button>
+        <div class="clearfix"></div>
+        <b-collapse id="p-collapse">
+          <print-helper
+            class="d-block"
+            contentId="transaction-print-page"
+            variant="link"
+            textMode="Original"
+            pageTitle="Tax Invoice - Original for Recipient"
+            :printStyles="printStyles"
+          ></print-helper>
+          <print-helper
+            class="d-block"
+            contentId="transaction-print-page"
+            variant="link"
+            textMode="Duplicate"
+            pageTitle="Tax Invoice - Duplicate for Transporter"
+            :printStyles="printStyles"
+          ></print-helper>
+          <print-helper
+            class="d-block"
+            contentId="transaction-print-page"
+            variant="link"
+            textMode="Triplicate"
+            pageTitle="Tax Invoice - Triplicate for Supplier"
+            :printStyles="printStyles"
+          ></print-helper>
+        </b-collapse>
       </div>
     </div>
   </b-modal>
@@ -66,7 +106,7 @@ export default {
   name: 'PrintPage',
   components: {
     TransactionProfile,
-    PrintHelper
+    PrintHelper,
   },
   props: {
     show: {
@@ -129,10 +169,10 @@ export default {
       this.showModal = this.show;
     },
     showModal(show) {
-      if(!show) {
-        this.$emit("hidden");
+      if (!show) {
+        this.$emit('hidden');
       }
-    }
+    },
   },
   methods: {
     getOrgDetails() {

@@ -442,10 +442,42 @@
               <br class="d-none d-lg-inline-block" />
               {{ selectedEntity.no }}
             </h5>
-            <print-helper
-              contentId="transaction-profile-wrapper"
-              variant="link"
-            ></print-helper>
+            <div>
+              <b-button
+                class="float-right"
+                v-b-toggle.p-collapse
+                size="sm"
+                variant="link"
+              >
+                <b-icon
+                  aria-hidden="true"
+                  class="align-middle"
+                  icon="printer"
+                ></b-icon>
+                <span class="sr-only">Print</span>
+              </b-button>
+              <div class="clearfix"></div>
+              <b-collapse id="p-collapse">
+                <print-helper
+                  contentId="transaction-profile-wrapper"
+                  variant="link"
+                  textMode="Original"
+                  pageTitle="Tax Invoice - Original for Recipient"
+                ></print-helper>
+                <print-helper
+                  contentId="transaction-profile-wrapper"
+                  variant="link"
+                  textMode="Duplicate"
+                  pageTitle="Tax Invoice - Duplicate for Transporter"
+                ></print-helper>
+                <print-helper
+                  contentId="transaction-profile-wrapper"
+                  variant="link"
+                  textMode="Triplicate"
+                  pageTitle="Tax Invoice - Triplicate for Supplier"
+                ></print-helper>
+              </b-collapse>
+            </div>
           </template>
           <b-card-body
             class="px-0"

@@ -5,8 +5,9 @@
       class="align-middle"
       icon="printer"
       :font-scale="fontScale"
+      :class="{'d-none': textMode}"
     ></b-icon>
-    <span class="sr-only">Print</span>
+    <span :class="{ 'sr-only': !textMode }">{{ textMode || 'Print' }}</span>
   </b-button>
 </template>
 
@@ -56,6 +57,13 @@ export default {
       required: false,
       default: 1,
       note: 'Font scale of the print icon',
+    },
+    textMode: {
+      type: [Boolean, String],
+      required: false,
+      default: false,
+      note:
+        'A mode, where the button uses text instead of icon. The text to be displayed is sent via the prop, when text mode needs to be enabled',
     },
   },
   data() {
@@ -190,6 +198,9 @@ export default {
               -webkit-print-color-adjust: exact !important;
             }
             ${this.printStyles}
+        }
+        .d-print-none{
+          display: none;
         }
       `;
 
