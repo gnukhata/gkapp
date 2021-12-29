@@ -121,6 +121,16 @@
     <div class="float-right my-2 d-print-none">
       <span v-if="!deletedFlag">
         <b-button
+          v-if="invoice.attachmentCount"
+          class="mr-1"
+          size="sm"
+          variant="primary"
+          v-b-toggle.attachment-container
+          @click="fetchAttachments"
+        >
+          <b-icon icon="eye"></b-icon> View Attachments</b-button
+        >
+        <b-button
           class="mr-1"
           size="sm"
           variant="primary"
@@ -164,7 +174,30 @@
     </div>
     <div class="clearfix"></div>
     <br />
+    <b-collapse v-model="showAttachments" id="attachment-container">
+      <div class="position-relative">
+        <b-overlay :show="isAttachmentLoading" variant="secondary" no-wrap blur> </b-overlay>
+        <b>Attachments:</b>
+        <div class="clearfix"></div>
+        <div
+          class="m-1 d-inline-block text-center float-left position-relative"
+          style="width: 200px; height: 200px; border: 1px solid; line-height: 196px;"
+          v-for="(image, index) in attachments"
+          :key="index"
+        >
+          <img
+            style="height: 196px; box-sizing: border-box"
+            @load="onAttachementPreviewLoad"
+            :src="image"
+            :alt="'Preview_' + index"
+          />
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </b-collapse>
+    <br />
     <b-collapse v-model="showVouchers" id="voucher-container">
+      <div class="clearfix"></div>
       <b>Vouchers:</b>
       <div v-if="vouchers.length">
         <b-card
@@ -223,6 +256,7 @@ export default {
     return {
       isPreloading: false,
       invoice: {
+        attachmentCount: 0,
         taxState: '',
         issuer: '',
         designation: '',
@@ -247,8 +281,18 @@ export default {
         },
         number: '',
       },
+      dnote: {
+        id: '',
+        no: '',
+        goname: '',
+        goid: '',
+        packageQty: 0,
+      },
       vouchers: [],
+      attachments: [],
+      showAttachments: false,
       showVouchers: false,
+      isAttachmentLoading: false,
       states: {},
     };
   },
@@ -303,13 +347,16 @@ export default {
         { title: 'Date', value: details.date },
         { title: 'Eway Bill No.', value: details.eway || '' },
         { title: 'Delivery Note No.', value: details.dcno || '' },
+        { title: 'Godown', value: self.dnote.goname || '' },
         { title: 'Place of Supply', value: details.taxState || '' },
         {
           title: 'Issued By',
           value: `${details.issuer}  ${designation}`,
         },
       ];
-      if (!details.dcno) res.splice(3, 1);
+      if (!details.dcno) {
+        res.splice(3, 2);
+      }
       return res;
     },
     bankDetails: (self) => {
@@ -369,6 +416,30 @@ export default {
     ...mapState(['authToken']),
   },
   methods: {
+    onAttachementPreviewLoad(e) {
+      // console.log(e)
+      if (e.target) {
+        let height = e.target.height;
+        let width = e.target.width;
+        if (width > height) {
+          e.target.style.height = 'auto';
+          e.target.style.width = '196px';
+        } else {
+          e.target.style.width = 'auto';
+          e.target.style.height = '196px';
+        }
+      }
+    },
+    fetchAttachments() {
+      if(this.attachments.length) {
+        return;
+      }
+      this.isAttachmentLoading = true;
+      axios.get(`/invoice?attach=image&invid=${this.id}`).then((resp) => {
+        this.attachments = resp.data.gkresult;
+        this.isAttachmentLoading = false;
+      });
+    },
     rowClass(item, type) {
       if (!item || type !== 'row') return;
       let rowClass = 'table-secondary';
@@ -444,6 +515,17 @@ export default {
           });
         });
     },
+    getDelNoteDetails(id) {
+      return axios.get(`/delchal?delchal=single&dcid=${id}`).catch((error) => {
+        this.$bvToast.toast(`Error: ${error.message}`, {
+          title: `Fetch Delivery Note Error!`,
+          autoHideDelay: 3000,
+          variant: 'warning',
+          appendToast: true,
+          solid: true,
+        });
+      });
+    },
     /**
      * formatInvoiceDetails()
      *
@@ -493,6 +575,7 @@ export default {
             isIgst: details.taxname === 'IGST',
           },
           narration: details.narration,
+          attachmentCount: details.attachmentcount,
         };
         if (details.invcontents) {
           let product = {};
@@ -609,7 +692,20 @@ export default {
         switch (response.data.gkstatus) {
           case 0:
             // this.invoice = response.data.gkresult;
-            this.formatInvoiceDetails(response.data.gkresult);
+            let invData = response.data.gkresult;
+            this.formatInvoiceDetails(invData);
+            if (invData.dcid) {
+              this.getDelNoteDetails(invData.dcid).then((dnResponse) => {
+                let dndata = dnResponse.data.gkresult.delchaldata;
+                this.dnote = {
+                  id: dndata.dcid,
+                  no: dndata.dcno,
+                  goname: dndata.goname,
+                  goid: dndata.goid,
+                  packageQty: dndata.noofpackages,
+                };
+              });
+            }
             break;
           case 2:
             this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
@@ -653,6 +749,8 @@ export default {
         this.isPreloading = true;
         this.showVouchers = false;
         this.vouchers = [];
+        this.showAttachments = false;
+        this.attachments = [];
         Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
           .then(() => {
             this.isPreloading = false;

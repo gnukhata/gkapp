@@ -181,6 +181,47 @@
         Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
         <b>{{ yearEnd }}</b>
       </b-tooltip>
+      <b-card class="mt-2 mb-2 mb-md-0" border-variant="secondary" no-body>
+        <div class="p-2 p-md-3">
+          <b>Attachments</b>
+          <b-form-file
+            class="mt-3 float-right d-inline-block"
+            @input="onAttachmentSelect"
+            v-model="attachments"
+            size="sm"
+            accept="image/jpeg"
+            placeholder="Choose a file / Drag & drop it here"
+            drop-placeholder="Drop file here..."
+            plain
+            multiple
+          ></b-form-file>
+          <div class="clearfix"></div>
+          <div class="mt-2">
+            <div
+              class="m-1 d-inline-block text-center float-left position-relative"
+              style="width: 200px; height: 200px; border: 1px solid; line-height: 196px;"
+              v-for="(image, index) in form.attachments"
+              :key="index"
+            >
+              <b-button
+                @click="onAttachmentDelete(index)"
+                variant="link"
+                class="position-absolute"
+                style="right: 0px"
+                size="sm"
+              >
+                <b-icon icon="trash"></b-icon>
+              </b-button>
+              <img
+                style="height: 196px; box-sizing: border-box"
+                @load="onAttachementPreviewLoad"
+                :src="image"
+                :alt="'Preview_' + index"
+              />
+            </div>
+          </div>
+        </div>
+      </b-card>
       <hr />
       <div class="float-right">
         <b-button
@@ -257,6 +298,8 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+
+import { getBase64 } from '../../js/utils.js';
 
 import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
 import ShipDetails from '../../components/form/transaction/ShipDetails.vue';
@@ -339,7 +382,9 @@ export default {
         total: {},
         narration: null,
         totalRoundFlag: false,
+        attachments: [],
       },
+      attachments: [],
       isLoading: false,
       isPreloading: false,
       showContactForm: false,
@@ -523,6 +568,38 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
   },
   methods: {
+    onAttachmentDelete(index) {
+      this.form.attachments.splice(index, 1);
+    },
+    onAttachementPreviewLoad(e) {
+      // console.log(e)
+      if (e.target) {
+        let height = e.target.height;
+        let width = e.target.width;
+        if (width > height) {
+          e.target.style.height = 'auto';
+          e.target.style.width = '196px';
+        } else {
+          e.target.style.width = 'auto';
+          e.target.style.height = '196px';
+        }
+      }
+    },
+    onAttachmentSelect() {
+      let attachments = this.attachments;
+      let images = [];
+      let b64Requests = [];
+      if (attachments.length) {
+        b64Requests = attachments.map((att) => getBase64(att));
+        Promise.all(b64Requests).then((b64Images) => {
+          images = b64Images.map((image) => {
+            let imageData = image.split(',')[1];
+            return `data:image/jpg;base64,${imageData}`;
+          });
+          this.form.attachments.push(...images);
+        });
+      }
+    },
     confirmOnSubmit() {
       Object.assign(this.form.inv, this.$refs.inv.form);
       const self = this;
@@ -1133,7 +1210,7 @@ export default {
         transportationmode: this.form.transport.mode,
         reversecharge: this.form.transport.reverseCharge ? 1 : 0,
 
-        discflag: 1,
+        discflag: 1, // discount flag, 1 - amount, 16 - percent
         invnarration: this.form.narration,
       };
 
@@ -1269,6 +1346,11 @@ export default {
         invoice.dateofsupply = this.form.transport.date;
       }
 
+      if (this.form.attachments.length) {
+        invoice.attachment = this.form.attachments;
+        invoice.attachmentcount = this.form.attachments.length;
+      }
+
       if (this.formMode === 'edit') {
         const av = Object.assign({}, invoice.av);
         invoice.invid = parseInt(this.invoiceId);
@@ -1291,9 +1373,9 @@ export default {
           if (resp.data.gkstatus === 0) {
             this.dcId = resp.data.gkresult || null;
             return resp.data.gkresult;
-          } else if(resp.data.gkstatus === 1) {
+          } else if (resp.data.gkstatus === 1) {
             // let no = payload.delchaldata.dcno;
-            // let 
+            // let
             // this.form.inv.delNoteNo = parseInt(no.split('/')[0])++;
             // this.createDelNote();
           }
@@ -1511,6 +1593,7 @@ export default {
         },
         narration: null,
         total: {},
+        attachments: [],
       };
       this.setOrgDetails();
       this.updateComponentData();

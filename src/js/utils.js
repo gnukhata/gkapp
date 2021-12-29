@@ -105,4 +105,16 @@ function debounceEvent(target, event, handler, interval) {
   );
 }
 
-export { numberToWords, numberToRupees, reverseDate, formatDateObj, debounceEvent }
+/*
+ * Image Handling methods
+ */
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
+
+export { numberToWords, numberToRupees, reverseDate, formatDateObj, debounceEvent, getBase64 }
