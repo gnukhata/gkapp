@@ -108,17 +108,18 @@ export default {
     },
   },
   actions: {
-    initGlobalState: ({ dispatch, commit, rootGetters }, payload) => {
+    initGlobalState: ({ state, dispatch, commit, rootGetters }, payload) => {
       if (rootGetters.getOrgCode) {
         let conf = localStorage.getItem(`${rootGetters.getOrgCode}-globalConf`);
-        if (conf) {
-          conf = JSON.parse(conf);
-          commit('setGlobalConfig', { conf, lang: payload.lang });
-          dispatch('initGlobalConfigOptions').then(() => {
-            dispatch('initDefaultGodown');
-          });
-        }
+        conf = conf ? JSON.parse(conf) : state.defConf;
+        commit('setGlobalConfig', { conf, lang: payload.lang });
+        return dispatch('initGlobalConfigOptions').then(() => {
+          return dispatch('initDefaultGodown');
+        });
       }
+      return new Promise((resolve) => {
+        resolve();
+      });
     },
     initDefaultGodown: ({ state, dispatch, rootGetters }) => {
       let goList = state.options.transaction.godowns || [];
@@ -128,27 +129,30 @@ export default {
       if (!state.customConf.transaction.default.godown) {
         if (!pGodown) {
           let orgAddress = rootGetters.getOrgAddress;
-          let state = orgAddress.orgstate || '';
+          let orgState = orgAddress.orgstate || '';
           let payload = {
             goname: goName,
             goaddr: `${goName}'s address`,
-            state: state,
+            state: orgState,
             gocontact: '',
             contactname: '',
           };
-          axios.post('/godown', payload).then((resp) => {
+          return axios.post('/godown', payload).then((resp) => {
             if (resp.data.gkstatus === 0 && resp.data.gkresult) {
               let conf = state.customConf;
               conf.transaction.default.godown = resp.data.gkresult;
-              dispatch('updateGlobalConfig', conf);
+              return dispatch('updateGlobalConfig', conf);
             }
           });
         } else {
           let conf = state.customConf;
           conf.transaction.default.godown = pGodown.value;
-          dispatch('updateGlobalConfig', conf);
+          return dispatch('updateGlobalConfig', conf);
         }
       }
+      return new Promise((resolve) => {
+        resolve();
+      });
     },
     // must be invoked after successful login
     initGlobalConfig({ state, commit, rootGetters }, payload) {

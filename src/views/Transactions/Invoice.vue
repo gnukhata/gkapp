@@ -849,7 +849,7 @@ export default {
           self.options.orgDetails = {
             name: resp6.data.gkdata.orgname,
             addr: resp6.data.gkdata.orgaddr,
-            state: state.value,
+            state: state? state.value : null,
             gstin: stateCode && gstin ? gstin[stateCode] : '',
             tin: '',
             pin: resp6.data.gkdata.orgpincode,

@@ -178,14 +178,19 @@ export default {
                   // },
                 });
 
-                this.$store.dispatch('initLocalStates'); // initialises vuex, org image and org address
-                this.$store.dispatch('global/initGlobalConfig'); // initialises global config
-                
+                Promise.all([
+                  this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
+                  this.$store.dispatch('global/initGlobalConfig'), // initialises global config
+                ]).then(() => {
+                  this.$store.dispatch('global/initGlobalState', { lang: this.$language }).then(() => {
+                    // debugger;
+                    // redirect to workflow on login
+                    this.$router.push('/workflow/Transactions-Invoice/-1');
+                  });
+                });
+
                 // this.get_org_address();
                 // this.getOrgImage();
-
-                // redirect to workflow on login
-                this.$router.push('/workflow/Transactions-Invoice/-1');
               } else {
                 // Alert the user on captcha failure
                 this.$bvToast.toast(`Incorrect Answer`, {

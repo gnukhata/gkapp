@@ -427,15 +427,32 @@ export default {
                                 yearEnd: response2.data.gkdata.yearend,
                               },
                             });
-                            this.$router.push(
-                              '/workflow/Transactions-Invoice/-1'
-                            );
-                            this.$bvToast.toast(`Logged in Successfully!`, {
-                              title: 'Create Account Success!',
-                              autoHideDelay: 3000,
-                              variant: 'success',
-                              appendToast: true,
-                              solid: true,
+                            Promise.all([
+                              this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
+                              this.$store.dispatch('global/initGlobalConfig'), // initialises global config
+                            ]).then(() => {
+                              this.$store
+                                .dispatch('global/initGlobalState', { lang: this.$language })
+                                .then(() => {
+                                  // redirect to workflow on login
+                                  // this.$router.push(
+                                  //   '/workflow/Transactions-Invoice/-1'
+                                  // );
+                                  this.$router
+                                    .push('/workflow/Transactions-Invoice/-1')
+                                    .then(() => {
+                                      this.$bvToast.toast(
+                                        `Logged in Successfully!`,
+                                        {
+                                          title: 'Create Account Success!',
+                                          autoHideDelay: 3000,
+                                          variant: 'success',
+                                          appendToast: true,
+                                          solid: true,
+                                        }
+                                      );
+                                    });
+                                });
                             });
                           } else {
                             this.$bvToast.toast(
