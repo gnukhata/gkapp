@@ -1,8 +1,48 @@
-The GNUkhata team meets **Every Monday @ 11:30 hrs (IST)** to discuss about
+The GNUkhata team meets **Every Wednesday @ 11:30 hrs (IST)** to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
+
+
+# <span class="timestamp-wrapper"><span class="timestamp">&lt;2021-12-29 Wed&gt;</span></span>
+
+Agenda: Review past meeting progress
+
+Karthik
+New gkcore spreadsheet API's:
+
+1.  Profit loss
+2.  Ledger
+3.  ledger monthly
+
+API Refactor
+
+1.  refactor balance sheet
+2.  refactor invoice list
+
+Survesh
+
+1.  Auto Delivery Note creation with invoices
+2.  Auto create default godown
+3.  Invoice page stock is fetched based on godown chosen
+4.  Invoice Triplicate
+5.  Invoice Attachment
+
+R2
+
+-   spreadheets should auto resize during api generation
+-   image checks have to be performed before upload.
+-   pdf  file name should be context aware
+
+GN
+
+-   we could use headless libreoffice or another library than spending time on configuring
+-   xlsx format is microsoft's format & widely supported & interopable
+
+VK
+
+-   We should opt for open format.
 
 
 # Meeting history (2021-12-15)

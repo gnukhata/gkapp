@@ -3,7 +3,7 @@
 #+STARTUP: fold
 # table of contents are displayed in files exported to other formats
 
-The GNUkhata team meets *Every Monday @ 11:30 hrs (IST)* to discuss about
+The GNUkhata team meets *Every Wednesday @ 11:30 hrs (IST)* to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest your ideas, comments, feedback.
 
