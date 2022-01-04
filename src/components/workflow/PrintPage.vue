@@ -75,6 +75,7 @@
             textMode="Original"
             pageTitle="Tax Invoice - Original for Recipient"
             :printStyles="printStyles"
+            fileName="Tax_Invoice_For_Recipient"
           ></print-helper>
           <print-helper
             class="d-block"
@@ -83,6 +84,7 @@
             textMode="Duplicate"
             pageTitle="Tax Invoice - Duplicate for Transporter"
             :printStyles="printStyles"
+            fileName="Tax_Invoice_For_Transporter"
           ></print-helper>
           <print-helper
             class="d-block"
@@ -91,6 +93,7 @@
             textMode="Triplicate"
             pageTitle="Tax Invoice - Triplicate for Supplier"
             :printStyles="printStyles"
+            fileName="Tax_Invoice_For_Supplier"
           ></print-helper>
         </b-collapse>
       </div>

@@ -94,6 +94,7 @@
             contentId="budget-table-container"
             :printStyles="printStyles"
             class="d-none d-lg-inline-block"
+            fileName="Budget_Report"
           ></print-helper>
         </div>
         <div class="float-right">

@@ -223,12 +223,17 @@ export default {
     },
 
     downloadPdf(element, pwindow) {
+      let dateString = new Date().toISOString().split('.')[0]; 
+      let date = dateString.split('T')[0].split('-').reverse().join('_');
+      let time = dateString.split('T')[1];
+      let timeStamp = `${date}_${time}`;
+      let fileName = `${this.orgName}_${this.fileName}_${timeStamp}.pdf`
       html2PDF(element, {
         jsPDF: {
           format: 'a4',
         },
         imageType: 'image/jpeg',
-        output: `${this.fileName}.pdf`,
+        output: `${fileName}.pdf`,
         margin: {
           top: 25,
           right: 25,
@@ -236,7 +241,7 @@ export default {
           left: 25,
         },
         success: (pdf) => {
-          pdf.save(this.fileName);
+          pdf.save(fileName);
           this.$emit('after-print');
           pwindow.close();
         },

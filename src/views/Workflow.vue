@@ -125,6 +125,7 @@
                 :contentId="`list-${activeWorkflow.tabName}`"
                 :fontScale="0.9"
                 variant="link"
+                :fileName="fileName.list"
               ></print-helper>
               <b-button
                 class="px-1"
@@ -463,18 +464,21 @@
                   variant="link"
                   textMode="Original"
                   pageTitle="Tax Invoice - Original for Recipient"
+                  fileName="Tax_Invoice_For_Recipient"
                 ></print-helper>
                 <print-helper
                   contentId="transaction-profile-wrapper"
                   variant="link"
                   textMode="Duplicate"
                   pageTitle="Tax Invoice - Duplicate for Transporter"
+                  fileName="Tax_Invoice_For_Transporter"
                 ></print-helper>
                 <print-helper
                   contentId="transaction-profile-wrapper"
                   variant="link"
                   textMode="Triplicate"
                   pageTitle="Tax Invoice - Triplicate for Supplier"
+                  fileName="Tax_Invoice_For_Supplier"
                 ></print-helper>
               </b-collapse>
             </div>
@@ -661,6 +665,12 @@ export default {
     },
   },
   computed: {
+    fileName: (self) => {
+      return {
+        list: `${self.activeWorkflow.name}-List`,
+        profile: `${self.activeWorkflow.name}-Profile`,
+      }
+    },
     // data required by the transaction profile page
     profileData: (self) => {
       let data = {};
@@ -715,7 +725,7 @@ export default {
     rightPaneHeight: (self) =>
       window.innerHeight - (self.headerHeight + self.leftHeaderHeight.min + 55), // 55 is the remaining vertical space in the screen
 
-    ...mapState(['yearStart', 'yearEnd', 'orgCode']),
+    ...mapState(['yearStart', 'yearEnd', 'orgCode', 'orgName']),
   },
   methods: {
     /**
