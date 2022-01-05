@@ -1,8 +1,49 @@
-The GNUkhata team meets **Every Wednesday @ 11:30 hrs (IST)** to discuss about
+The GNUkhata team meets **Every Wednesday @ 11:30 AM (IST)** to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
+
+
+# <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-01-05 Wed&gt;</span></span>
+
+Agenda: Review past meeting progress
+
+
+## Karthik
+
+Migrated Spreadsheet API's:
+
+1.  cash flow
+2.  all godowns
+3.  accounts
+
+
+## Survesh
+
+-   Context specific names for downloadable spread sheets
+-   Add translation wrappers [Transaction pages]
+
+
+## GN
+
+-   Idea of SQL dump for an org in a financial year
+
+
+## VK
+
+-   Implement the import/export in existing gkwebapp & improve upon item
+
+
+## Intro
+
+Yashaswi & Biki Talukdar introduced themselves & showed their interest
+in contributing to gkcore/gkapp
+
+
+## Conclusion
+
+-   Aim to complete the translation setup for gkapp by next meeting
 
 
 # <span class="timestamp-wrapper"><span class="timestamp">&lt;2021-12-29 Wed&gt;</span></span>
