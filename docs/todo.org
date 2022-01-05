@@ -17,20 +17,31 @@
 
 * TODO Milestones for GKAPP
 - [-] Printable reports <2022-02-28 Mon>
-| NAMES                      | API | UI |
-|----------------------------+-----+----|
-| Conventional Balance Sheet | x   | x  |
-| Invoices List              | x   |    |
-| Product List               | x   |    |
-| Stock Report               | x   |    |
-| Trial Balance              | x   |    |
-| Product Service List       | x   |    |
-| Profit Loss                | x   |    |
-| Ledger                     | x   |    |
-| Ledger monthly             | x   |    |
-| Invoice List               | x   |    |
-| Cash Flow                  | x   |    |
-| Accounts                   | x   |    |
+| NAMES                              | API | UI |
+|------------------------------------+-----+----|
+| Conventional Balance Sheet         | x   | x  |
+| Invoices List                      | x   |    |
+| Product List                       | x   |    |
+| Stock Report                       | x   |    |
+| Trial Balance                      | x   |    |
+| Product Service List               | x   |    |
+| Profit Loss                        | x   |    |
+| Ledger                             | x   |    |
+| Ledger monthly                     | x   |    |
+| Invoice List                       | x   |    |
+| Cash Flow                          | x   |    |
+| accounts                           | x   |    |
+| List of Godowns                    | x   |    |
+| List of categories                 |     |    |
+| List of Users                      |     |    |
+| Budget report (Cash & Profit/Loss) |     |    |
+| Cost Center statement              |     |    |
+| Unbilled Delivery Notes            |     |    |
+| Cancelled Delivery Notes           |     |    |
+| List of Transfer Notes             |     |    |
+| List of Unpaid Invoices            |     |    |
+| gst_r1                             |     |    |
+| gst report                         |     |    |
 
 - [ ] Small business GST Compliance <2022-01-31 Mon>
 - [ ] Data exchange
