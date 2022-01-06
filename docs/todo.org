@@ -1,4 +1,5 @@
 #+TITLE: Todo
+#+STARTUP: fold
 
 # Toggle checkboxes with C-c C-x C-b
 # * List
@@ -15,17 +16,34 @@
 # - [ ] Website
 
 * TODO Milestones for GKAPP
-- [ ] Small business GST Compliance <2022-01-31 Mon>
-- [ ] Printable reports <2022-02-28 Mon>
-| NAMES                      | API | UI |
-|----------------------------+-----+----|
-| Conventional Balance Sheet | X   | X  |
-| Invoices List              | X   |    |
-| Product List               | X   |    |
-| Stock Report               | X   |    |
-| Trial Balance              | X   |    |
-| Product Service List       | X   |    |
+- [-] Printable reports <2022-02-28 Mon>
+| NAMES                              | API | UI |
+|------------------------------------+-----+----|
+| Conventional Balance Sheet         | x   | x  |
+| Invoices List                      | x   |    |
+| Product List                       | x   |    |
+| Stock Report                       | x   |    |
+| Trial Balance                      | x   |    |
+| Product Service List               | x   |    |
+| Profit Loss                        | x   |    |
+| Ledger                             | x   |    |
+| Ledger monthly                     | x   |    |
+| Invoice List                       | x   |    |
+| Cash Flow                          | x   |    |
+| accounts                           | x   |    |
+| List of Godowns                    | x   |    |
+| List of categories                 |     |    |
+| List of Users                      |     |    |
+| Budget report (Cash & Profit/Loss) |     |    |
+| Cost Center statement              |     |    |
+| Unbilled Delivery Notes            |     |    |
+| Cancelled Delivery Notes           |     |    |
+| List of Transfer Notes             |     |    |
+| List of Unpaid Invoices            |     |    |
+| gst_r1                             |     |    |
+| gst report                         |     |    |
 
+- [ ] Small business GST Compliance <2022-01-31 Mon>
 - [ ] Data exchange
   1. [ ] Import
   2. [ ] Export
