@@ -8,7 +8,7 @@
   >
     <div class="p-2 p-md-3">
       <div>
-        <b>Invoice Comments</b>
+        <b v-translate> Invoice Comments </b>
         <b-button
           variant="secondary"
           size="sm"

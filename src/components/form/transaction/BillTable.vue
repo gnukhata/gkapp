@@ -10,8 +10,9 @@
           class="py-0 mx-1"
           variant="secondary"
           size="sm"
-          >Back</b-button
         >
+          <translate> Back </translate>
+        </b-button>
         <span class="float-right">
           <b-button
             v-if="config.addBtn"
@@ -19,16 +20,18 @@
             class="py-0 mx-1"
             variant="success"
             size="sm"
-            >Add Item</b-button
           >
+            <translate> Add Item </translate>
+          </b-button>
           <b-button
             v-if="showAddProduct"
             @click.prevent="showBusinessForm = true"
             class="py-0 mx-1"
             variant="success"
             size="sm"
-            >Create Item</b-button
           >
+            <translate> Create Item </translate>
+          </b-button>
         </span>
       </b-card>
       <b-table
@@ -102,6 +105,9 @@
         </template>
 
         <!-- Qty -->
+        <template #head(qty)="">
+          <span v-translate>Qty</span>
+        </template>
         <template #cell(qty)="data">
           <b-input
             v-if="!disabled.qty"
@@ -123,13 +129,16 @@
             class="text-danger"
             v-if="
               config.qty.checkStock &&
-              form[data.item.index].qty > options.stock[data.item.pid]
+                form[data.item.index].qty > options.stock[data.item.pid]
             "
             >Stock On Hand = {{ options.stock[data.item.pid] }}</small
           >
         </template>
 
         <!-- Package Count (Purchase Sales Order) -->
+        <template #head(packageCount)="">
+          <span v-translate>No. of Packages</span>
+        </template>
         <template #cell(packageCount)="data">
           <b-input
             v-if="!disabled.packageCount"
@@ -147,6 +156,9 @@
         </template>
 
         <!-- Rejected Qty (Rejection Note) -->
+        <template #head(rejectedQty)="">
+          <span v-translate>Rejected Qty</span>
+        </template>
         <template #cell(rejectedQty)="data">
           <b-input
             v-if="!disabled.rejectedQty"
@@ -165,7 +177,8 @@
 
         <!-- Debit Credit Value (Debit Credit Note) -->
         <template #head(dcValue)="">
-          {{ creditFlag ? 'Credited Value' : 'Debited Value' }}
+          <span v-if="creditFlag" v-translate> Credited Value </span>
+          <span v-else v-translate> Debited Value </span>
         </template>
         <template #cell(dcValue)="data">
           <b-input
@@ -184,6 +197,9 @@
         </template>
 
         <!-- Rate -->
+        <template #head(rate)="">
+          <span v-translate>Rate</span> <small>₹</small>
+        </template>
         <template #cell(rate)="data">
           <b-input
             v-if="!disabled.rate"
@@ -227,6 +243,9 @@
         </template>
 
         <!-- Discount -->
+        <template #head(discount)="">
+          <span v-translate>Discount</span> <small>₹</small>
+        </template>
         <template #cell(discount)="data">
           <b-input
             v-if="!disabled.discount"
@@ -250,6 +269,9 @@
         </template>
 
         <!-- Total -->
+        <template #head(total)="">
+          <span v-translate>Total </span> <small>₹</small>
+        </template>
         <template #cell(total)="data">
           {{ data.value }}
         </template>
@@ -347,7 +369,7 @@ export default {
       type: Function,
       required: false,
       note: 'Used for applying row select callbacks',
-      default: function () {},
+      default: function() {},
     },
     cgstFlag: {
       type: Boolean,
@@ -372,12 +394,12 @@ export default {
       type: Boolean,
       required: false,
       default: true,
-      note: 'Flag to block the selection of items with no stock'
+      note: 'Flag to block the selection of items with no stock',
     },
     parentData: {
       type: Array,
       required: false,
-      default: function () {
+      default: function() {
         return [
           {
             product: { name: '', id: '' },
@@ -548,7 +570,7 @@ export default {
           this.form = [];
           this.addBillItem();
           this.updateTaxAndTotal(0);
-        })
+        });
         return;
       }
 
@@ -592,7 +614,10 @@ export default {
   },
   methods: {
     onQtyUpdate(index, pid) {
-      if (parseFloat(this.form[index].qty) <= this.options.stock[pid] || !this.blockEmptyStock) {
+      if (
+        parseFloat(this.form[index].qty) <= this.options.stock[pid] ||
+        !this.blockEmptyStock
+      ) {
         this.updateTaxAndTotal(index);
       }
       this.$forceUpdate();
@@ -857,9 +882,7 @@ export default {
           //   }
           const discount = this.config.dcValue ? 0 : item.discount.amount;
 
-          item.taxable = parseFloat(
-            (item.rate * qty - discount).toFixed(2)
-          );
+          item.taxable = parseFloat((item.rate * qty - discount).toFixed(2));
 
           if (this.config.dcValue) {
             item.taxable = parseFloat(item.dcValue);
@@ -1085,13 +1108,18 @@ export default {
 
     // add event listener for tracking screen size
     this.mobileMode = window.innerWidth < 576;
-    debounceEvent(window, 'resize', () => {
-      self.mobileMode = window.innerWidth < 576;
-      if (!self.mobileMode) {
-        self.currentPage = 1;
-        self.editMode = false;
-      }
-    }, 100);
+    debounceEvent(
+      window,
+      'resize',
+      () => {
+        self.mobileMode = window.innerWidth < 576;
+        if (!self.mobileMode) {
+          self.currentPage = 1;
+          self.editMode = false;
+        }
+      },
+      100
+    );
   },
 };
 </script>

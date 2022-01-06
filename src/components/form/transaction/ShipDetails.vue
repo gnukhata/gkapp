@@ -10,7 +10,7 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b>Shipping Details</b>
+        <b v-translate>Shipping Details</b>
         <b-button
           variant="secondary"
           size="sm"
@@ -41,7 +41,8 @@
           switch
           v-if="config.copyFlag"
         >
-          {{(saleFlag)? 'Use Billing Address' : 'Use Organisation Address'}}
+          <span v-if="saleFlag" v-translate> Use Billing Address </span>
+          <span v-else v-translate> Use Organisation Address </span>
         </b-form-checkbox>
         <b-row>
           <b-col cols="12" v-if="config.name">
@@ -51,6 +52,7 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label> <translate> Name </translate> </template>
               <b-form-input
                 size="sm"
                 id="spd-input-10"
@@ -67,6 +69,7 @@
               label-for="spd-input-20"
               label-size="sm"
             >
+              <template #label> <translate> Address </translate> </template>
               <b-form-textarea
                 size="sm"
                 id="spd-input-20"
@@ -103,6 +106,7 @@
               label-size="sm"
               label-cols="3"
             >
+              <template #label> <translate> State </translate> </template>
               <autocomplete
                 size="sm"
                 id="spd-input-40"
@@ -198,11 +202,11 @@ export default {
     },
     organisationDetails: {
       type: Object,
-      required: true
+      required: true,
     },
     config: {
       type: Object,
-      required: true
+      required: true,
     },
     updateCounter: {
       type: Number,
@@ -219,7 +223,7 @@ export default {
     },
     saleFlag() {
       this.setShippingDetails();
-    }
+    },
   },
   methods: {
     preloadData() {
@@ -253,8 +257,8 @@ export default {
     },
     setShippingDetails() {
       if (this.copyFlag) {
-        if(this.saleFlag) {
-          if(this.billingDetails.name) {
+        if (this.saleFlag) {
+          if (this.billingDetails.name) {
             Object.assign(this.form, this.billingDetails);
             this.form.name = this.billingDetails.name.name;
             delete this.form.type;
@@ -277,7 +281,6 @@ export default {
         tin: null,
         pin: null,
       };
-
     },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {

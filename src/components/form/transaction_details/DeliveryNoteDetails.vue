@@ -8,7 +8,7 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b>Delivery Note Details</b>
+        <b v-translate>Delivery Note Details</b>
         <b-button
           variant="secondary"
           size="sm"
@@ -34,6 +34,7 @@
           label-size="sm"
           label-class="required"
         >
+          <template #label> <translate> Del. Note No. </translate> </template>
           <b-form-input
             size="sm"
             id="dnd-input-10"
@@ -50,6 +51,7 @@
           id="dnd-input-group-1"
           label-class="required"
         >
+          <template #label> <translate> Date </translate> </template>
           <gk-date
             id="dnd-date-1"
             :format="dateFormat"
@@ -69,6 +71,9 @@
           label-size="sm"
           label-class="required"
         >
+          <template #label>
+            <translate> Transaction Type </translate>
+          </template>
           <b-form-select
             id="dnd-input-20"
             v-model="form.type"
@@ -85,6 +90,10 @@
           label-cols="3"
           label-class="required"
         >
+          <template #label>
+            <span v-if="saleFlag" v-translate> Origin State </span>
+            <span v-else v-translate> Destination State </span>
+          </template>
           <autocomplete
             size="sm"
             id="dnd-input-30"
@@ -103,6 +112,10 @@
           label-cols="3"
           label-class="required"
         >
+          <template #label>
+            <span v-if="saleFlag" v-translate> From Godown </span>
+            <span v-else v-translate> To Godown </span>
+          </template>
           <autocomplete
             size="sm"
             id="dnd-input-40"
@@ -136,6 +149,7 @@
           label-size="sm"
           label-cols-md="4"
         >
+          <template #label> <translate> Issuer </translate> </template>
           <b-form-input
             size="sm"
             id="dnd-input-60"
@@ -153,6 +167,7 @@
           label-cols-md="4"
           label-size="sm"
         >
+          <template #label> <translate> Role </translate> </template>
           <b-form-input
             size="sm"
             id="dnd-input-70"

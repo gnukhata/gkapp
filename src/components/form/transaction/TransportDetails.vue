@@ -8,7 +8,7 @@
   >
     <div class="p-2 p-md-3">
       <div>
-        <b>Transport Details</b>
+        <b v-translate>Transport Details</b>
         <b-button
           variant="secondary"
           size="sm"
@@ -34,6 +34,7 @@
           v-if="config.packageCount"
           label-class="required"
         >
+          <template #label> <translate> No. of packages </translate> </template>
           <b-form-input
             size="sm"
             id="tpd-input-10"
@@ -52,6 +53,7 @@
           v-if="config.mode"
           label-class="required"
         >
+          <template #label> <translate> Transport By </translate> </template>
           <b-form-select
             size="sm"
             id="tpd-input-20"
@@ -67,6 +69,7 @@
           label-size="sm"
           v-if="form.mode === 'Road' && config.vno"
         >
+          <template #label> <translate> Vehicle No. </translate> </template>
           <b-form-input
             size="sm"
             id="tpd-input-30"
@@ -81,6 +84,7 @@
           id="tpd-input-group-1"
           label-class="required"
         >
+          <template #label> <translate> Date of Supply </translate> </template>
           <gk-date
             id="tpd-date-1"
             :format="date.format"
@@ -100,11 +104,12 @@
           v-if="config.receiptDate"
           label-class="required"
         >
+          <template #label> <translate> Receipt Date </translate> </template>
           <gk-date
-          id="tpd-date-2"
+            id="tpd-date-2"
             :format="date.format"
             v-model="form.receiptDate"
-            :min="(form.date)? dateReverse(form.date) : ''"
+            :min="form.date ? dateReverse(form.date) : ''"
             @validity="setDateValidity"
             :required="true"
           ></gk-date>
@@ -116,6 +121,7 @@
           label-cols="3"
           v-if="config.gracePeriod"
         >
+          <template #label> <translate> Grace Period </translate> </template>
           <b-input-group append="days" size="sm">
             <b-form-input
               size="sm"
@@ -134,6 +140,7 @@
           name="check-button"
           switch
           v-if="config.reverseCharge"
+          v-translate
         >
           Reverse Charge
         </b-form-checkbox>
@@ -168,7 +175,7 @@ export default {
     parentData: {
       type: Object,
       required: false,
-      default: function () {
+      default: function() {
         return {
           mode: 'Road',
           vno: null,
@@ -194,7 +201,7 @@ export default {
         reverseCharge: false,
         packageCount: 0,
         receiptDate: null,
-        gracePeriod: 0
+        gracePeriod: 0,
       },
       options: {
         transportModes: [

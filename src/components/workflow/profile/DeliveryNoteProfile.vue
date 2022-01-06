@@ -6,25 +6,28 @@
       <b-col order="2" order-md="1">
         <b-container fluid class="pl-0">
           <b-col class="px-0">
-            <b>Dispatch From</b>
+            <b v-translate> Dispatch From </b>
             <p class="text-small">
               <span> {{ delnote.from.name }}</span> <br />
               <span> {{ delnote.from.addr }} </span> <br />
               <span> {{ delnote.from.state }} </span> <br />
               <span v-if="delnote.from.pin">
-                <b> Pin Code: </b> {{ delnote.from.pin }}
+                <b v-translate> Pin Code: </b> {{ delnote.from.pin }}
               </span>
               <br />
             </p>
           </b-col>
           <b-col class="px-0">
-            <b>Deliver To</b>
+            <b v-translate> Deliver To </b>
             <p class="text-small">
               <span> {{ delnote.to.name }} </span> <br />
               <span> {{ delnote.to.addr }} </span> <br />
               <span> {{ delnote.to.state }} </span> <br />
               <span v-if="delnote.to.pin || delnote.to.gstin">
-                <span> <b> Pin Code: </b> {{ delnote.to.pin }} </span> <br />
+                <span>
+                  <b v-translate> Pin Code: </b> {{ delnote.to.pin }}
+                </span>
+                <br />
                 <span> <b> GSTIN: </b> {{ delnote.to.gstin }} </span> <br />
               </span>
             </p>
@@ -32,7 +35,7 @@
         </b-container>
       </b-col>
       <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
-        <b>Delivery Note Details</b>
+        <b v-translate> Delivery Note Details </b>
         <!-- Note Details Table -->
         <b-table-lite
           :fields="['title', 'value']"
@@ -79,7 +82,8 @@
       <b-col class="my-2"> </b-col>
       <b-col cols="12" md="8" class="my-2">
         <p class="text-small">
-          <b> Narration: </b> <span> {{ delnote.narration }} </span> <br />
+          <b v-translate> Narration: </b>
+          <span> {{ delnote.narration }} </span> <br />
         </p>
       </b-col>
     </b-row>
@@ -91,7 +95,7 @@
         variant="danger"
         class=""
       >
-        Delete
+        <translate> Delete </translate>
       </b-button>
     </div>
     <br />
@@ -197,14 +201,14 @@ export default {
         {
           key: 'rate',
           label: 'Rate (₹)',
-          tdClass: 'gk-currency-sm'
+          tdClass: 'gk-currency-sm',
         },
-        {key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm'},
+        { key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm' },
         { key: 'igst', label: 'IGST (%)' },
         { key: 'cgst', label: 'CGST (%)' },
         { key: 'sgst', label: 'SGST (%)' },
         { key: 'cess', label: 'CESS (%)' },
-        { key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm'},
+        { key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' },
       ];
       if (self.total.isIgst) {
         fields.splice(5, 2);
@@ -402,7 +406,7 @@ export default {
     id: function(id) {
       if (id && parseInt(id) > -1) {
         this.isPreloading = true;
-        console.log(`Fetch id = ${id}`)
+        console.log(`Fetch id = ${id}`);
         this.fetchAndUpdateData()
           .then(() => {
             this.isPreloading = false;

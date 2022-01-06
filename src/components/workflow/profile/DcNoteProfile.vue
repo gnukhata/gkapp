@@ -4,17 +4,20 @@
     </b-overlay>
     <b-row>
       <b-col cols="12" md="6" class="my-2">
-        <b>{{ flags.sale ? 'Buyer' : 'Seller' }} Details</b>
+        <b key="dcp-1" v-if="flags.sale" v-translate> Buyer Details </b>
+        <b key="dcp-2" v-else v-translate> Seller Details </b>
         <br />
         <p class="text-small">
           <span>{{ party.name }} </span><br />
           <span>{{ party.addr }} </span> <br />
-          <span> <b>Pin Code:</b> {{ party.pincode }} </span> <br />
-          <span v-if="party.gstin"><b>GSTIN:</b> {{ party.gstin }} </span>
+          <span> <b v-translate> Pin Code: </b> {{ party.pincode }} </span>
+          <br />
+          <span v-if="party.gstin"><b> GSTIN: </b> {{ party.gstin }} </span>
         </p>
       </b-col>
       <b-col cols="12" md="6" class="text-md-right my-2">
-        <b>{{ this.flags.credit ? 'Credit' : 'Debit' }} Note Details</b>
+        <b v-if="this.flags.credit" v-translate>Credit Note Details</b>
+        <b v-else v-translate>Debit Note Details</b>
         <br />
         <!-- Note Details Table -->
         <b-table-lite
@@ -64,7 +67,8 @@
       <b-col class="my-2"> </b-col>
       <b-col cols="12" md="8" class="my-2">
         <p class="text-small">
-          <b> Narration: </b> <span> {{ dcNote.narration }} </span> <br />
+          <b v-translate> Narration: </b> <span> {{ dcNote.narration }} </span>
+          <br />
         </p>
       </b-col>
     </b-row>
@@ -158,9 +162,17 @@ export default {
       let dcType = self.flags.credit ? 'Credited' : 'Debited';
       if (self.flags.qty) {
         fields.push({ key: 'qty', label: `${dcType} Qty` });
-        fields.push({ key: 'rate', label: 'Item Rate', tdClass: 'gk-currency-sm' });
+        fields.push({
+          key: 'rate',
+          label: 'Item Rate',
+          tdClass: 'gk-currency-sm',
+        });
       } else {
-        fields.push({ key: 'dcValue', label: `${dcType} Value (₹)`, tdClass: 'gk-currency-sm' });
+        fields.push({
+          key: 'dcValue',
+          label: `${dcType} Value (₹)`,
+          tdClass: 'gk-currency-sm',
+        });
       }
 
       if (self.flags.igst) {
@@ -170,7 +182,11 @@ export default {
         fields.push({ key: 'sgst', label: 'SGST (%)' });
       }
       fields.push({ key: 'cess', label: 'CESS (%)' });
-      fields.push({ key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' });
+      fields.push({
+        key: 'total',
+        label: 'Total (₹)',
+        tdClass: 'gk-currency-sm',
+      });
       return fields;
     },
   },
@@ -236,7 +252,7 @@ export default {
               sgst: item.taxrate / 2,
               cess: item.cessrate,
               total: item.totalAmount,
-              uom: item.uom
+              uom: item.uom,
             });
           }
         }

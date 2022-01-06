@@ -1,15 +1,719 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: easygettext\n"
 "Project-Id-Version: \n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: easygettext\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/App.vue:15
+#: src/components/form/transaction/TotalTable.vue:49
+msgid "(in words)"
+msgstr ""
+
+#: src/components/form/transaction/TotalTable.vue:44
+msgid "(Rounded Off)"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:151
+msgid "* All fields are required"
+msgstr ""
+
+#: src/components/form/transaction/PaymentDetails.vue:25
+#: src/components/form/transaction/PaymentDetails.vue:1
+msgid "Acc. No."
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:11
+msgid "Add Item"
+msgstr ""
+
+#: src/components/form/transaction/PartyDetails.vue:46
+#: src/components/form/transaction/PartyDetails.vue:1
+#: src/components/form/transaction/ShipDetails.vue:29
+#: src/components/form/transaction/ShipDetails.vue:1
+#: src/components/form/transaction_details/InvoiceDetails.vue:61
+#: src/components/form/transaction_details/InvoiceDetails.vue:1
+#: src/components/form/transaction_details/PsOrderDetails.vue:39
+#: src/components/form/transaction_details/PsOrderDetails.vue:1
+msgid "Address"
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:130
+msgid "Adjust"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:55
+msgid "Adjust Price / Discount"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:58
+msgid "Adjust Qty / Return Goods"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:92 src/views/CreateOrganisation.vue:1
+msgid "Admin User"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:137 src/views/CreateOrganisation.vue:1
+msgid "Answer"
+msgstr ""
+
+#: src/components/workflow/profile/TransferNoteProfile.vue:45
+msgid "Approve"
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:146
+msgid "Attachments:"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:7
+msgid "Back"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:64
+msgid "Bad Quality Goods"
+msgstr ""
+
+#: src/components/form/transaction/PaymentDetails.vue:23
+msgid "Bank Details"
+msgstr ""
+
+#: src/components/form/transaction/PaymentDetails.vue:29
+#: src/components/form/transaction/PaymentDetails.vue:1
+msgid "Bank Name"
+msgstr ""
+
+#: src/components/form/transaction/PaymentDetails.vue:33
+#: src/components/form/transaction/PaymentDetails.vue:1
+msgid "Branch"
+msgstr ""
+
+#: src/components/form/transaction/PartyDetails.vue:6
+#: src/components/workflow/profile/DcNoteProfile.vue:6
+#: src/components/workflow/profile/InvoiceProfile.vue:13
+msgid "Buyer Details"
+msgstr ""
+
+#: src/components/form/transaction/PartyDetails.vue:80
+#: src/components/workflow/profile/InvoiceProfile.vue:136
+msgid "Cancel"
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:5
+#: src/components/workflow/profile/VoucherProfile.vue:5
+msgid "Cancelled"
+msgstr ""
+
+#: src/components/form/transaction_details/CashMemoDetails.vue:6
+#: src/components/workflow/profile/CashMemoProfile.vue:7
+msgid "Cash Memo Details"
+msgstr ""
+
+#: src/components/form/transaction/PaymentDetails.vue:20
+msgid "CASH PAID"
+msgstr ""
+
+#: src/components/form/transaction/PaymentDetails.vue:19
+msgid "CASH RECEIVED"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:108 src/views/CreateOrganisation.vue:1
+msgid "Confirmation"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:31
+#: src/components/form/transaction_details/DcNoteDetails.vue:83
+#: src/components/form/transaction_details/DcNoteDetails.vue:1
+#: src/components/form/transaction_details/DcNoteDetails.vue:2
+msgid "Cr Note Date"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:24
+#: src/components/form/transaction_details/DcNoteDetails.vue:76
+#: src/components/form/transaction_details/DcNoteDetails.vue:1
+#: src/components/form/transaction_details/DcNoteDetails.vue:2
+msgid "Cr Note No."
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:170
+msgid "Create &amp; Login"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:14
+msgid "Create Item"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:4
+msgid "Create Organisation"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:19
+msgid "Credit Note"
+msgstr ""
+
+#: src/components/workflow/profile/DcNoteProfile.vue:18
+msgid "Credit Note Details"
+msgstr ""
+
+#: src/components/form/transaction_details/PsOrderDetails.vue:79
+#: src/components/form/transaction_details/PsOrderDetails.vue:1
+msgid "Credit Period"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:83
+#: src/components/form/transaction/BillTable.vue:1
+msgid "Credited Value"
+msgstr ""
+
+#: src/components/form/transaction/PartyDetails.vue:21
+msgid "Customer"
+msgstr ""
+
+#: src/components/workflow/profile/PsOrderProfile.vue:8
+#: src/components/workflow/profile/RejectionNoteProfile.vue:6
+msgid "Customer Details"
+msgstr ""
+
+#: src/components/form/transaction_details/CashMemoDetails.vue:21
+#: src/components/form/transaction_details/CashMemoDetails.vue:1
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:21
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
+#: src/components/form/transaction_details/InvoiceDetails.vue:21
+#: src/components/form/transaction_details/InvoiceDetails.vue:1
+#: src/components/form/transaction_details/PsOrderDetails.vue:25
+#: src/components/form/transaction_details/PsOrderDetails.vue:1
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:24
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:1
+#: src/components/form/transaction_details/TransferNoteDetails.vue:24
+#: src/components/form/transaction_details/TransferNoteDetails.vue:1
+msgid "Date"
+msgstr ""
+
+#: src/components/form/transaction/TransportDetails.vue:27
+#: src/components/form/transaction/TransportDetails.vue:1
+msgid "Date of Supply"
+msgstr ""
+
+#. %{voucherDate} is a variable, translation is not required for it. Enter it, as it is while translation.
+#: src/components/workflow/profile/CashMemoProfile.vue:83
+#: src/components/workflow/profile/InvoiceProfile.vue:168
+msgid "Date: %{voucherDate}"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:18
+msgid "Debit Note"
+msgstr ""
+
+#: src/components/workflow/profile/DcNoteProfile.vue:19
+msgid "Debit Note Details"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:84
+#: src/components/form/transaction/BillTable.vue:2
+msgid "Debited Value"
+msgstr ""
+
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:17
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
+msgid "Del. Note No."
+msgstr ""
+
+#: src/components/workflow/profile/DeliveryNoteProfile.vue:66
+#: src/components/workflow/profile/VoucherProfile.vue:36
+msgid "Delete"
+msgstr ""
+
+#: src/components/workflow/profile/DeliveryNoteProfile.vue:20
+msgid "Deliver To"
+msgstr ""
+
+#: src/components/workflow/profile/PsOrderProfile.vue:19
+msgid "Delivery Details"
+msgstr ""
+
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:6
+#: src/components/workflow/profile/DeliveryNoteProfile.vue:37
+msgid "Delivery Note Details"
+msgstr ""
+
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:35
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:2
+msgid "Destination State"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:127
+#: src/components/form/transaction/BillTable.vue:1
+#: src/components/form/transaction/TotalTable.vue:34
+#: src/components/workflow/profile/CashMemoProfile.vue:25
+#: src/components/workflow/profile/InvoiceProfile.vue:49
+msgid "Discount"
+msgstr ""
+
+#: src/components/form/transaction_details/PsOrderDetails.vue:87
+#: src/components/form/transaction_details/PsOrderDetails.vue:1
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:30
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:1
+#: src/components/form/transaction_details/TransferNoteDetails.vue:30
+#: src/components/form/transaction_details/TransferNoteDetails.vue:1
+#: src/components/workflow/profile/DeliveryNoteProfile.vue:8
+msgid "Dispatch From"
+msgstr ""
+
+#: src/components/form/transaction_details/PsOrderDetails.vue:88
+#: src/components/form/transaction_details/PsOrderDetails.vue:2
+#: src/components/form/transaction_details/TransferNoteDetails.vue:36
+#: src/components/form/transaction_details/TransferNoteDetails.vue:1
+msgid "Dispatch To"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:32
+#: src/components/form/transaction_details/DcNoteDetails.vue:82
+#: src/components/form/transaction_details/DcNoteDetails.vue:2
+#: src/components/form/transaction_details/DcNoteDetails.vue:1
+msgid "Dr Note Date"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:25
+#: src/components/form/transaction_details/DcNoteDetails.vue:75
+#: src/components/form/transaction_details/DcNoteDetails.vue:2
+#: src/components/form/transaction_details/DcNoteDetails.vue:1
+msgid "Dr Note No."
+msgstr ""
+
+#: src/components/workflow/profile/VoucherProfile.vue:39
+msgid "Edit"
+msgstr ""
+
+#: src/components/form/transaction_details/InvoiceDetails.vue:54
+#: src/components/form/transaction_details/InvoiceDetails.vue:1
+msgid "Eway Bill #"
+msgstr ""
+
+#: src/views/Workflow.vue:99
+msgid "Filter By"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:23 src/views/CreateOrganisation.vue:1
+msgid "Financial Year"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:29 src/views/CreateOrganisation.vue:1
+msgid "From"
+msgstr ""
+
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:41
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
+#: src/components/form/transaction_details/InvoiceDetails.vue:48
+#: src/components/form/transaction_details/InvoiceDetails.vue:1
+msgid "From Godown"
+msgstr ""
+
+#: src/App.vue:15 src/components/Sidebar.vue:10 src/components/Sidebar.vue:4
 msgid "GNUKhata"
 msgstr "GNUKhata"
+
+#: src/components/form/transaction/TransportDetails.vue:36
+#: src/components/form/transaction/TransportDetails.vue:1
+msgid "Grace Period"
+msgstr ""
+
+#: src/components/form/transaction_details/InvoiceDetails.vue:17
+#: src/components/form/transaction_details/InvoiceDetails.vue:1
+msgid "Inv. #"
+msgstr ""
+
+#: src/components/form/transaction/Comments.vue:4
+msgid "Invoice Comments"
+msgstr ""
+
+#: src/components/form/transaction_details/InvoiceDetails.vue:6
+msgid "Invoice Details"
+msgstr ""
+
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:50
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
+#: src/components/form/transaction_details/InvoiceDetails.vue:80
+#: src/components/form/transaction_details/InvoiceDetails.vue:1
+#: src/components/form/transaction_details/PsOrderDetails.vue:58
+#: src/components/form/transaction_details/PsOrderDetails.vue:1
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:44
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:1
+#: src/components/form/transaction_details/TransferNoteDetails.vue:42
+#: src/components/form/transaction_details/TransferNoteDetails.vue:1
+msgid "Issuer"
+msgstr ""
+
+#: src/views/Workflow.vue:71
+msgid "List Settings"
+msgstr ""
+
+#: src/components/form/transaction/PaymentDetails.vue:15
+#: src/components/form/transaction/PaymentDetails.vue:1
+msgid "Mode of Payment"
+msgstr ""
+
+#: src/components/form/transaction/PartyDetails.vue:35
+#: src/components/form/transaction/PartyDetails.vue:1
+#: src/components/form/transaction/ShipDetails.vue:23
+#: src/components/form/transaction/ShipDetails.vue:1
+#: src/views/CreateOrganisation.vue:10 src/views/CreateOrganisation.vue:1
+msgid "Name"
+msgstr ""
+
+#: src/components/workflow/profile/CashMemoProfile.vue:62
+#: src/components/workflow/profile/DcNoteProfile.vue:45
+#: src/components/workflow/profile/DeliveryNoteProfile.vue:59
+#: src/components/workflow/profile/InvoiceProfile.vue:111
+#: src/components/workflow/profile/PsOrderProfile.vue:66
+#: src/components/workflow/profile/RejectionNoteProfile.vue:40
+#: src/components/workflow/profile/VoucherProfile.vue:29
+msgid "Narration:"
+msgstr ""
+
+#. %{narration} is a variable, translation is not required for it. Enter it, as it is while translation.
+#: src/components/workflow/profile/CashMemoProfile.vue:91
+#: src/components/workflow/profile/InvoiceProfile.vue:176
+msgid "Narration: %{narration}"
+msgstr ""
+
+#. %{memoNo} is a variable, translation is not required for it. Enter it, as it is while translation.
+#: src/components/workflow/profile/CashMemoProfile.vue:99
+msgid "No vouchers were found for Cash Memo: %{memoNo}"
+msgstr ""
+
+#. %{invNo} is a variable, translation is not required for it. Enter it, as it is while translation.
+#: src/components/workflow/profile/InvoiceProfile.vue:184
+msgid "No vouchers were found for Invoice: %{invNo}"
+msgstr ""
+
+#: src/components/form/transaction_details/CashMemoDetails.vue:17
+#: src/components/form/transaction_details/CashMemoDetails.vue:1
+#: src/components/form/transaction_details/PsOrderDetails.vue:19
+#: src/components/form/transaction_details/PsOrderDetails.vue:1
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:18
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:1
+msgid "No."
+msgstr ""
+
+#: src/components/form/transaction/TransportDetails.vue:15
+#: src/components/form/transaction/TransportDetails.vue:1
+msgid "No. of packages"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:65
+#: src/components/form/transaction/BillTable.vue:1
+msgid "No. of Packages"
+msgstr ""
+
+#: src/components/workflow/profile/CashMemoProfile.vue:54
+#: src/components/workflow/profile/PsOrderProfile.vue:58
+msgid "On Credit"
+msgstr ""
+
+#: src/components/form/transaction/PaymentDetails.vue:47
+msgid "ON CREDIT"
+msgstr ""
+
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:34
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
+msgid "Origin State"
+msgstr ""
+
+#: src/components/workflow/profile/CashMemoProfile.vue:57
+msgid "Paid By Bank Transfer"
+msgstr ""
+
+#: src/components/workflow/profile/CashMemoProfile.vue:53
+#: src/components/workflow/profile/PsOrderProfile.vue:57
+msgid "Paid By Cash"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:99 src/views/CreateOrganisation.vue:1
+msgid "Password"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:118 src/views/CreateOrganisation.vue:1
+msgid "Password Recovery"
+msgstr ""
+
+#: src/components/form/transaction/PaymentDetails.vue:4
+#: src/components/workflow/profile/CashMemoProfile.vue:51
+#: src/components/workflow/profile/InvoiceProfile.vue:101
+#: src/components/workflow/profile/PsOrderProfile.vue:55
+msgid "Payment Details"
+msgstr ""
+
+#: src/components/workflow/profile/DcNoteProfile.vue:12
+#: src/components/workflow/profile/DeliveryNoteProfile.vue:14
+#: src/components/workflow/profile/DeliveryNoteProfile.vue:27
+#: src/components/workflow/profile/PsOrderProfile.vue:14
+#: src/components/workflow/profile/PsOrderProfile.vue:24
+msgid "Pin Code:"
+msgstr ""
+
+#: src/components/form/transaction_details/InvoiceDetails.vue:26
+#: src/components/form/transaction_details/InvoiceDetails.vue:1
+msgid "Place of Supply"
+msgstr ""
+
+#: src/components/workflow/profile/CashMemoProfile.vue:21
+#: src/components/workflow/profile/InvoiceProfile.vue:45
+msgid "Price"
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:30
+msgid "Purchase Invoice Details"
+msgstr ""
+
+#: src/components/workflow/profile/PsOrderProfile.vue:33
+msgid "Purchase Order Details"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:53
+#: src/components/form/transaction_details/DcNoteDetails.vue:1
+msgid "Purpose"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:50
+#: src/components/form/transaction/BillTable.vue:1
+#: src/components/workflow/profile/CashMemoProfile.vue:15
+#: src/components/workflow/profile/InvoiceProfile.vue:39
+msgid "Qty"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:122 src/views/CreateOrganisation.vue:1
+msgid "Question"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:93
+#: src/components/form/transaction/BillTable.vue:1
+msgid "Rate"
+msgstr ""
+
+#: src/components/form/transaction/TransportDetails.vue:32
+#: src/components/form/transaction/TransportDetails.vue:1
+msgid "Receipt Date"
+msgstr ""
+
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:31
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:2
+msgid "Received At"
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:133
+msgid "Rectify"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:69
+msgid "Reference (If received)"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:177
+msgid ""
+"Registrations are disabled\n"
+"      on this server"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:74
+#: src/components/form/transaction/BillTable.vue:1
+msgid "Rejected Qty"
+msgstr ""
+
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:6
+#: src/components/workflow/profile/RejectionNoteProfile.vue:16
+msgid "Rejection Note Details"
+msgstr ""
+
+#: src/components/form/transaction/TransportDetails.vue:41
+msgid "Reverse Charge"
+msgstr ""
+
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:54
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
+#: src/components/form/transaction_details/InvoiceDetails.vue:86
+#: src/components/form/transaction_details/InvoiceDetails.vue:1
+#: src/components/form/transaction_details/PsOrderDetails.vue:64
+#: src/components/form/transaction_details/PsOrderDetails.vue:1
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:50
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:1
+#: src/components/form/transaction_details/TransferNoteDetails.vue:48
+#: src/components/form/transaction_details/TransferNoteDetails.vue:1
+msgid "Role"
+msgstr ""
+
+#: src/components/form/transaction/TotalTable.vue:55
+msgid "Round Off Total Value"
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:27
+msgid "Sale Invoice Details"
+msgstr ""
+
+#: src/components/workflow/profile/PsOrderProfile.vue:32
+msgid "Sale Order Details"
+msgstr ""
+
+#: src/views/Workflow.vue:89
+msgid "Save"
+msgstr ""
+
+#: src/components/form/transaction/PartyDetails.vue:83
+msgid "Save Changes"
+msgstr ""
+
+#: src/components/form/transaction/PartyDetails.vue:7
+#: src/components/workflow/profile/DcNoteProfile.vue:7
+#: src/components/workflow/profile/InvoiceProfile.vue:16
+msgid "Seller Details"
+msgstr ""
+
+#: src/components/form/transaction/ShipDetails.vue:6
+msgid "Shipping Details"
+msgstr ""
+
+#: src/components/form/transaction/PartyDetails.vue:62
+#: src/components/form/transaction/PartyDetails.vue:1
+#: src/components/form/transaction/ShipDetails.vue:40
+#: src/components/form/transaction/ShipDetails.vue:1
+#: src/components/form/transaction_details/CashMemoDetails.vue:26
+#: src/components/form/transaction_details/CashMemoDetails.vue:1
+#: src/components/form/transaction_details/InvoiceDetails.vue:72
+#: src/components/form/transaction_details/InvoiceDetails.vue:1
+#: src/components/form/transaction_details/PsOrderDetails.vue:50
+#: src/components/form/transaction_details/PsOrderDetails.vue:1
+msgid "State"
+msgstr ""
+
+#: src/components/form/transaction/PartyDetails.vue:24
+msgid "Supplier"
+msgstr ""
+
+#: src/components/workflow/profile/PsOrderProfile.vue:9
+#: src/components/workflow/profile/RejectionNoteProfile.vue:7
+msgid "Supplier Details"
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:53
+msgid "Tax"
+msgstr ""
+
+#: src/components/form/transaction/TotalTable.vue:10
+msgid "Taxable Amount"
+msgstr ""
+
+#: src/components/form/transaction_details/PsOrderDetails.vue:72
+#: src/components/form/transaction_details/PsOrderDetails.vue:1
+msgid "Terms"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:61 src/views/CreateOrganisation.vue:1
+msgid "To"
+msgstr ""
+
+#: src/components/workflow/profile/PsOrderProfile.vue:61
+msgid "To Be Paid By Bank Transfer"
+msgstr ""
+
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:42
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:2
+#: src/components/form/transaction_details/InvoiceDetails.vue:49
+#: src/components/form/transaction_details/InvoiceDetails.vue:2
+msgid "To Godown"
+msgstr ""
+
+#: src/components/form/transaction/BillTable.vue:142
+#: src/components/form/transaction/BillTable.vue:1
+#: src/components/form/transaction/TotalTable.vue:4
+#: src/components/workflow/profile/CashMemoProfile.vue:32
+#: src/components/workflow/profile/InvoiceProfile.vue:74
+#: src/components/workflow/profile/InvoiceProfile.vue:80
+#: src/components/workflow/profile/InvoiceProfile.vue:2
+#: src/components/workflow/profile/VoucherProfile.vue:19
+#: src/components/workflow/profile/VoucherProfile.vue:1
+msgid "Total"
+msgstr ""
+
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:27
+#: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:37
+#: src/components/form/transaction_details/RejectionNoteDetails.vue:1
+msgid "Transaction Type"
+msgstr ""
+
+#: src/components/workflow/profile/TransferNoteProfile.vue:8
+msgid "Transfer From"
+msgstr ""
+
+#: src/components/form/transaction_details/TransferNoteDetails.vue:6
+#: src/components/workflow/profile/TransferNoteProfile.vue:28
+msgid "Transfer Note Details"
+msgstr ""
+
+#: src/components/form/transaction_details/TransferNoteDetails.vue:18
+#: src/components/form/transaction_details/TransferNoteDetails.vue:1
+msgid "Transfer Note No."
+msgstr ""
+
+#: src/components/workflow/profile/TransferNoteProfile.vue:17
+msgid "Transfer To"
+msgstr ""
+
+#: src/components/form/transaction/TransportDetails.vue:19
+#: src/components/form/transaction/TransportDetails.vue:1
+msgid "Transport By"
+msgstr ""
+
+#: src/components/form/transaction/TransportDetails.vue:4
+msgid "Transport Details"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:17 src/views/CreateOrganisation.vue:1
+msgid "Type"
+msgstr ""
+
+#: src/components/form/transaction/ShipDetails.vue:17
+msgid "Use Billing Address"
+msgstr ""
+
+#: src/components/form/transaction/ShipDetails.vue:18
+msgid "Use Organisation Address"
+msgstr ""
+
+#: src/components/form/transaction/TransportDetails.vue:23
+#: src/components/form/transaction/TransportDetails.vue:1
+msgid "Vehicle No."
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:117
+msgid "View Attachments"
+msgstr ""
+
+#: src/components/workflow/profile/CashMemoProfile.vue:67
+msgid "View Voucher"
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:120
+msgid "View Vouchers"
+msgstr ""
+
+#: src/components/workflow/profile/VoucherProfile.vue:12
+msgid "Voucher Details"
+msgstr ""
+
+#. %{voucherNo} is a variable, translation is not required for it. Enter it, as it is while translation.
+#: src/components/workflow/profile/CashMemoProfile.vue:77
+#: src/components/workflow/profile/InvoiceProfile.vue:162
+msgid "Voucher No: %{voucherNo}"
+msgstr ""
+
+#: src/components/workflow/profile/CashMemoProfile.vue:72
+msgid "Voucher:"
+msgstr ""
+
+#: src/components/workflow/profile/InvoiceProfile.vue:157
+msgid "Vouchers:"
+msgstr ""

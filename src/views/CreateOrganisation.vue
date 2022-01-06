@@ -6,7 +6,9 @@
 <template>
   <div class="d-flex justify-content-center mt-3 mx-3 align-form-label-right">
     <div v-if="showMenu" class="card shadow" :style="{ 'min-width': '350px' }">
-      <div class="card-header bg-dark text-light">Create Organisation</div>
+      <div class="card-header bg-dark text-light">
+        <translate> Create Organisation </translate>
+      </div>
       <div class="card-body px-2 px-sm-4">
         <b-form @submit.prevent="onSubmit">
           <b-form-group
@@ -16,6 +18,9 @@
             label-for="input-1"
             label-cols="3"
           >
+            <template #label>
+              <translate> Name </translate>
+            </template>
             <b-form-input
               size="md"
               id="input-1"
@@ -26,12 +31,10 @@
             >
             </b-form-input>
           </b-form-group>
-          <b-form-group
-            label-size="md"
-            label="Type"
-            v-slot="{ ariaDescribedby }"
-            label-cols="3"
-          >
+          <b-form-group label-size="md" label="Type" label-cols="3">
+            <template #label>
+              <translate> Type </translate>
+            </template>
             <b-form-radio-group
               size="md"
               id="btn-radios-1"
@@ -51,6 +54,9 @@
             class="mb-0 mt-4"
             label-cols="3"
           >
+            <template #label>
+              <translate> Financial Year </translate>
+            </template>
             <div class="row">
               <div class="col-sm-6 pr-sm-1">
                 <b-form-group
@@ -60,6 +66,9 @@
                   label-for="date-1"
                   label-class="label-on-input"
                 >
+                  <template #label>
+                    <translate> From </translate>
+                  </template>
                   <b-input-group class="mb-3">
                     <!-- <b-form-input
                            size="md"
@@ -99,6 +108,9 @@
                   label-for="date-2"
                   label-class="label-on-input"
                 >
+                  <template #label>
+                    <translate> To </translate>
+                  </template>
                   <b-input-group class="mb-3">
                     <!-- <b-form-input
                            size="md"
@@ -133,6 +145,9 @@
             label-for="input-2"
             label-cols="3"
           >
+            <template #label>
+              <translate> Admin User </translate>
+            </template>
             <b-form-input
               size="md"
               id="input-2"
@@ -150,6 +165,9 @@
             label-for="password-1"
             label-cols="3"
           >
+            <template #label>
+              <translate> Password </translate>
+            </template>
             <b-row>
               <b-col sm="6" class="mb-1 mb-sm-0 pr-sm-1">
                 <password v-model.lazy="userPassword"></password>
@@ -160,6 +178,9 @@
                   label-class="label-on-input"
                   class="position-relative mb-2"
                 >
+                  <template #label>
+                    <translate> Confirmation </translate>
+                  </template>
                   <b-form-input
                     size="md"
                     id="password-2"
@@ -183,6 +204,9 @@
             class="mb-0"
             label-cols="3"
           >
+            <template #label>
+              <translate> Password Recovery </translate>
+            </template>
             <b-form-group
               label-size="md"
               id="input-group-8"
@@ -191,6 +215,9 @@
               label-class="label-on-input"
               class="position-relative"
             >
+              <template #label>
+                <translate> Question </translate>
+              </template>
               <!-- <b-form-input
                      size="md"
                      id="input-3"
@@ -212,6 +239,9 @@
               label-class="label-on-input"
               class="position-relative"
             >
+              <template #label>
+                <translate> Answer </translate>
+              </template>
               <b-form-input
                 size="md"
                 id="input-4"
@@ -246,7 +276,7 @@
             >
             </b-form-input>
           </b-form-group>
-          <small>* All fields are required</small>
+          <small> <translate> * All fields are required </translate> </small>
           <!-- <hr /> -->
           <div class="float-right">
             <!-- <b-button
@@ -276,7 +306,7 @@
                 class="align-middle"
                 icon="plus-square"
               ></b-icon>
-              <span class="align-middle"> Create &amp; Login</span>
+              <span class="align-middle"> <translate> Create &amp; Login </translate> </span>
             </b-button>
           </div>
           <div class="clearfix"></div>
@@ -284,8 +314,8 @@
       </div>
     </div>
     <b-alert class="mt-5" :show="!showMenu" variant="danger"
-      ><b-icon icon="exclamation-triangle"></b-icon> Registrations are disabled
-      on this server
+      ><b-icon icon="exclamation-triangle"></b-icon> <translate> Registrations are disabled
+      on this server </translate>
     </b-alert>
   </div>
 </template>
@@ -432,7 +462,9 @@ export default {
                               this.$store.dispatch('global/initGlobalConfig'), // initialises global config
                             ]).then(() => {
                               this.$store
-                                .dispatch('global/initGlobalState', { lang: this.$language })
+                                .dispatch('global/initGlobalState', {
+                                  lang: this.$language,
+                                })
                                 .then(() => {
                                   // redirect to workflow on login
                                   // this.$router.push(

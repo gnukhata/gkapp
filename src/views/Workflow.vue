@@ -151,7 +151,7 @@
                 id="list-settings"
               >
                 <b-card-body class="p-2">
-                  <b>List Settings</b>
+                  <b v-translate> List Settings </b>
                   <hr class="mx-0 my-1" />
                   <div class="container">
                     <b-row>
@@ -189,7 +189,7 @@
                     size="sm"
                     variant="success"
                     @click.prevent="updateListSettings"
-                    >Save</b-button
+                    > <translate> Save </translate> </b-button
                   >
                 </b-card-body>
               </b-card>
@@ -205,7 +205,7 @@
                 id="list-filter"
               >
                 <b-card-body class="p-2">
-                  <b>Filter By</b>
+                  <b v-translate> Filter By </b>
                   <hr class="mx-0 my-1" />
                   <div class="my-2 ml-1">
                     <b-form-checkbox-group

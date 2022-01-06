@@ -8,7 +8,7 @@
   >
     <div class="p-2 p-md-3">
       <div>
-        <b>Payment Details</b>
+        <b v-translate> Payment Details </b>
         <b-button
           variant="secondary"
           size="sm"
@@ -33,6 +33,7 @@
           label-cols="auto"
           v-if="config.mode"
         >
+          <template #label> <translate> Mode of Payment </translate> </template>
           <b-form-select
             size="sm"
             id="pmd-input-10"
@@ -41,11 +42,12 @@
             required
           ></b-form-select>
         </b-form-group>
-        <b v-if="form.mode === 3">{{
-          saleFlag === true ? 'CASH RECEIVED' : 'CASH PAID'
-        }}</b>
+        <div v-if="form.mode === 3">
+          <b v-if="saleFlag === true" v-translate> CASH RECEIVED </b>
+          <b v-else v-translate> CASH PAID </b>
+        </div>
         <div v-if="form.mode === 2">
-          <b>Bank Details</b>
+          <b v-translate> Bank Details </b>
           <b-form-group
             label="Acc. No."
             label-for="pmd-input-20"
@@ -54,6 +56,7 @@
             label-cols-lg="autauto"
             v-if="config.bank.no"
           >
+            <template #label> <translate> Acc. No. </translate> </template>
             <b-form-input
               size="sm"
               id="pmd-input-20"
@@ -69,6 +72,7 @@
             label-size="sm"
             label-cols-lg="autauto"
           >
+            <template #label> <translate> Bank Name </translate> </template>
             <b-form-input
               size="sm"
               id="pmd-input-30"
@@ -86,6 +90,7 @@
             label-cols-lg="autauto"
             v-if="config.bank.branch"
           >
+            <template #label> <translate> Branch </translate> </template>
             <b-form-input
               size="sm"
               id="pmd-input-40"
@@ -112,7 +117,7 @@
             <gk-ifsc v-model="form.bank.ifsc"></gk-ifsc>
           </b-form-group>
         </div>
-        <b v-if="form.mode === 15">ON CREDIT</b>
+        <b v-if="form.mode === 15" v-translate>ON CREDIT</b>
       </div>
     </div>
   </b-card>

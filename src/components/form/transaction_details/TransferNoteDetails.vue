@@ -9,7 +9,7 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b>Transfer Note Details</b>
+        <b v-translate>Transfer Note Details</b>
         <b-button
           variant="secondary"
           size="sm"
@@ -35,6 +35,9 @@
           label-size="sm"
           label-class="required"
         >
+          <template #label>
+            <translate> Transfer Note No. </translate>
+          </template>
           <b-form-input
             size="sm"
             id="tnd-input-10"
@@ -52,6 +55,9 @@
           label-size="sm"
           label-class="required"
         >
+          <template #label>
+            <translate> Date </translate>
+          </template>
           <gk-date
             id="tnd-date-1"
             :format="dateFormat"
@@ -70,6 +76,9 @@
           label-cols="3"
           label-class="required"
         >
+          <template #label>
+            <translate> Dispatch From </translate>
+          </template>
           <autocomplete
             size="sm"
             id="tnd-input-20"
@@ -88,6 +97,9 @@
           label-cols="3"
           label-class="required"
         >
+          <template #label>
+            <translate> Dispatch To </translate>
+          </template>
           <autocomplete
             size="sm"
             id="tnd-input-30"
@@ -105,6 +117,9 @@
           label-size="sm"
           label-cols-md="4"
         >
+          <template #label>
+            <translate> Issuer </translate>
+          </template>
           <b-form-input
             size="sm"
             id="tnd-input-40"
@@ -122,6 +137,9 @@
           label-cols-md="4"
           label-size="sm"
         >
+          <template #label>
+            <translate> Role </translate>
+          </template>
           <b-form-input
             size="sm"
             id="tnd-input-50"

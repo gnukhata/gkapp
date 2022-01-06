@@ -6,7 +6,7 @@
       <b-col class="pl-0" order="2" order-md="1">
         <b-container fluid>
           <b-col class="px-0">
-            <b>Transfer From</b>
+            <b v-translate> Transfer From </b>
             <p class="text-small">
               <span> {{ godown.from.name }} </span> <br />
               <span> {{ godown.from.addr }} </span> <br />
@@ -15,7 +15,7 @@
             <br class="d-none d-md-block" />
           </b-col>
           <b-col class="px-0">
-            <b>Transfer To</b>
+            <b v-translate> Transfer To </b>
             <p class="text-small">
               <span> {{ godown.to.name }} </span> <br />
               <span> {{ godown.to.addr }} </span> <br />
@@ -26,7 +26,7 @@
         </b-container>
       </b-col>
       <b-col cols="12" md="6" order="1" order-md="2" class="text-md-right">
-        <b>Transfer Note Details</b>
+        <b v-translate> Transfer Note Details </b>
         <!-- Note Details Table -->
         <b-table-lite
           :items="noteData"
@@ -72,7 +72,7 @@
         size="sm"
         variant="success"
       >
-        Approve
+        <translate> Approve </translate>
       </b-button>
     </div>
   </b-container>

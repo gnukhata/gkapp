@@ -6,22 +6,23 @@
       <b-col order="2" order-md="1">
         <b-container fluid class="pl-0">
           <b-col class="px-0">
-            <b>{{ party.isCustomer ? 'Customer' : 'Supplier' }} Details</b>
+            <b v-if="party.isCustomer" v-translate> Customer Details </b>
+            <b v-else v-translate> Supplier Details </b>
             <p class="text-small">
               <span> {{ party.name }} </span> <br />
               <span> {{ party.addr }} </span> <br />
               <span> {{ party.state }} </span> <br />
-              <span> <b> Pin Code: </b> {{ party.pin }} </span> <br />
+              <span> <b v-translate> Pin Code: </b> {{ party.pin }} </span> <br />
               <span> <b> GSTIN: </b> {{ party.gstin }} </span> <br />
             </p>
           </b-col>
           <b-col class="px-0">
-            <b>Delivery Details</b>
+            <b v-translate> Delivery Details </b>
             <p class="text-small">
               <span> {{ shipping.name }} </span> <br />
               <span> {{ shipping.addr }} </span> <br />
               <span> {{ shipping.state }} </span> <br />
-              <span> <b> Pin Code: </b> {{ shipping.pin }} </span> <br />
+              <span> <b v-translate> Pin Code: </b> {{ shipping.pin }} </span> <br />
               <span> <b> GSTIN: </b> {{ shipping.gstin }} </span> <br />
             </p>
           </b-col>
@@ -29,7 +30,8 @@
         </b-container>
       </b-col>
       <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
-        <b>{{ saleFlag ? 'Sale' : 'Purchase' }} Order Details</b>
+        <b v-translate v-if="saleFlag"> Sale Order Details </b>
+        <b v-translate v-else> Purchase Order Details </b>
         <!-- Note Details Table -->
         <b-table-lite
           :fields="['title', 'value']"
@@ -75,12 +77,13 @@
       </b-col>
       <b-col cols="12" md="8" class="my-2">
         <div>
-          <b>Payment Details</b>
+          <b v-translate> Payment Details </b>
           <div v-if="payment.mode > 2" class="mb-3">
-            {{ payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
+            <span v-translate v-if="payment.mode === 3"> Paid By Cash </span>
+            <span v-translate v-else> On Credit </span>
           </div>
           <div class="text-small" v-else>
-            To Be Paid By Bank Transfer
+            <translate> To Be Paid By Bank Transfer </translate>
             <b-table-lite
               :items="bankDetails"
               :fields="['title', 'value']"
@@ -92,7 +95,7 @@
             </b-table-lite>
           </div>
         </div>
-        <b> Narration: </b> {{ psorder.narration }}
+        <b v-translate> Narration: </b> {{ psorder.narration }}
       </b-col>
     </b-row>
   </b-container>

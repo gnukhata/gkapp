@@ -10,7 +10,7 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b>Invoice Details</b>
+        <b v-translate>Invoice Details</b>
         <b-button
           variant="secondary"
           size="sm"
@@ -36,6 +36,7 @@
           label-cols="3"
           label-size="sm"
         >
+          <template #label> <translate> Inv. # </translate> </template>
           <b-form-input
             size="sm"
             id="ivd-input-10"
@@ -54,6 +55,7 @@
           label-size="sm"
           id="ivd-input-group-1"
         >
+          <template #label> <translate> Date </translate> </template>
           <gk-date
             id="ivd-date-1"
             :format="dateFormat"
@@ -73,6 +75,7 @@
           label-cols="3"
           label-size="sm"
         >
+          <template #label> <translate> Place of Supply </translate> </template>
           <autocomplete
             size="sm"
             id="ivd-input-11"
@@ -106,6 +109,10 @@
           label-cols-lg="2"
           label-cols="3"
         >
+          <template #label> 
+            <span v-translate v-if="saleFlag"> From Godown </span>
+            <span v-translate v-else> To Godown </span>
+          </template>
           <autocomplete
             size="sm"
             id="ivd-input-21"
@@ -124,6 +131,7 @@
           label-cols="3"
           label-size="sm"
         >
+          <template #label> <translate> Eway Bill # </translate> </template>
           <b-form-input
             size="sm"
             id="ivd-input-30"
@@ -157,6 +165,7 @@
           label-for="ivd-input-50"
           label-size="sm"
         >
+          <template #label> <translate> Address </translate> </template>
           <b-form-textarea
             size="sm"
             id="ivd-input-50"
@@ -201,6 +210,7 @@
               label-cols-lg="4"
               label-cols="3"
             >
+              <template #label> <translate> State </translate> </template>
               <b-form-select
                 size="sm"
                 id="ivd-input-70"
@@ -227,6 +237,7 @@
               label-size="sm"
               label-cols-lg="4"
             >
+              <template #label> <translate> Issuer </translate> </template>
               <b-form-input
                 size="sm"
                 id="ivd-input-80"
@@ -251,6 +262,7 @@
               label-cols-lg="4"
               label-size="sm"
             >
+              <template #label> <translate> Role </translate> </template>
               <b-form-input
                 size="sm"
                 id="ivd-input-90"
@@ -493,10 +505,13 @@ export default {
       return this.getLastDelNoteNo().then((no) => {
         // debugger;
         let code = self.saleFlag ? codes.out : codes.in;
-        this.form.dnNo = isNaN(no) || no === -1
-          ? no
-          : self.formatNoteNo(self.numberFormat, ++no, code, self.form.date);
-        self.options.delNoteNo[self.saleFlag ? 'sale' : 'purchase'] = this.form.dnNo;
+        this.form.dnNo =
+          isNaN(no) || no === -1
+            ? no
+            : self.formatNoteNo(self.numberFormat, ++no, code, self.form.date);
+        self.options.delNoteNo[
+          self.saleFlag ? 'sale' : 'purchase'
+        ] = this.form.dnNo;
       });
     },
     getLastDelNoteNo() {

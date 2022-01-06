@@ -2,7 +2,7 @@
   <b-table-simple responsive>
     <b-thead>
       <b-tr>
-        <b-th>Total</b-th>
+        <b-th v-translate>Total</b-th>
         <b-th :style="{ minWidth: '70px' }" class="text-right text-truncate"
           >₹</b-th
         >
@@ -10,7 +10,7 @@
     </b-thead>
     <b-tbody>
       <b-tr v-if="config.taxable">
-        <b-td>Taxable Amount</b-td>
+        <b-td v-translate>Taxable Amount</b-td>
         <b-td class="text-right">{{ form.taxable || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="gstFlag && cgstFlag && config.igst">
@@ -34,7 +34,7 @@
         <b-td class="text-right">{{ form.vat || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="config.discount">
-        <b-td>Discount</b-td>
+        <b-td v-translate>Discount</b-td>
         <b-td class="text-right">{{ form.discount || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="config.value">
@@ -44,11 +44,15 @@
         <b-td class="text-right">{{ form.amount || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="form.roundFlag && config.roundOff">
-        <b-td>{{ transactionName }} (Rounded Off)</b-td>
+        <b-td
+          >{{ transactionName }} <span v-translate> (Rounded Off) </span>
+        </b-td>
         <b-td class="text-right">{{ form.rounded || '-' }}</b-td>
       </b-tr>
       <b-tr v-if="config.valueText">
-        <b-td>{{ transactionName }} (in words)</b-td>
+        <b-td
+          >{{ transactionName }} <span v-translate> (in words) </span>
+        </b-td>
         <b-td class="text-right"> {{ totalText }}</b-td>
       </b-tr>
       <b-tr>
@@ -60,6 +64,7 @@
             v-model="form.roundFlag"
             v-if="config.roundOff"
             class="ml-2 float-left"
+            v-translate
             >Round Off Total Value</b-form-checkbox
           ></b-td
         >

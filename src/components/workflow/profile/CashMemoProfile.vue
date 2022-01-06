@@ -5,7 +5,7 @@
     <b-row>
       <b-col cols="12" md="6" class="my-2"> </b-col>
       <b-col cols="12" md="6" class="text-md-right my-2">
-        <b>Cash Memo Details</b>
+        <b v-translate>Cash Memo Details</b>
         <br />
         <!-- Note Details Table -->
         <b-table-lite
@@ -31,13 +31,25 @@
       tbody-tr-class="gk-vertical-row"
       class="text-small table-border-dark"
     >
+      <template #head(qty)="" v-translate>
+        Qty
+      </template>
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
+      <template #head(price)="" v-translate>
+        Price
+      </template>
       <template #cell(price)="data"> {{ data.value }} </template>
+      <template #head(discount)="" v-translate>
+        Discount
+      </template>
       <template #cell(discount)="data"> {{ data.value }} </template>
       <template #cell(cess)="data">
         {{ data.value.rate }} <small>%</small>
+      </template>
+      <template #head(total)="" v-translate>
+        Total
       </template>
       <template #cell(total)="data"> {{ data.value }} </template>
     </b-table-lite>
@@ -61,12 +73,13 @@
       <b-col class="my-2"> </b-col>
       <b-col cols="12" md="8" class="my-2">
         <div>
-          <b>Payment Details</b>
+          <b v-translate>Payment Details</b>
           <div v-if="invoice.payment.mode > 2" class="mb-3">
-            {{ invoice.payment.mode === 3 ? 'Paid By Cash' : 'On Credit' }}
+            <span v-if="invoice.payment.mode === 3" v-translate> Paid By Cash </span>
+            <span v-else v-translate> On Credit </span>
           </div>
           <div class="text-small" v-else>
-            Paid By Bank Transfer
+            <translate> Paid By Bank Transfer </translate>
             <b-table-lite
               :items="bankDetails"
               :fields="['title', 'value']"
@@ -78,7 +91,7 @@
             </b-table-lite>
           </div>
         </div>
-        <b> Narration: </b> {{ invoice.narration }}
+        <b v-translate> Narration: </b> {{ invoice.narration }}
       </b-col>
     </b-row>
     <div class="float-right my-2 d-print-none">
@@ -88,18 +101,32 @@
         variant="primary"
         v-b-toggle.voucher-container
       >
-        <b-icon icon="eye"></b-icon> View Voucher</b-button
-      >
+        <b-icon icon="eye"></b-icon> <translate> View Voucher </translate>
+      </b-button>
     </div>
     <div class="clearfix"></div>
     <b-collapse v-model="showVouchers" id="voucher-container">
-      <b>Voucher:</b>
+      <b v-translate>Voucher:</b>
       <b-card v-if="vouchers.length" body-class="p-1">
         <div v-for="voucher in vouchers" :key="voucher.id">
           <div class="text-center m-1 mb-2">
-            <span class="float-left"> Voucher No: {{ voucher.no }} </span>
+            <span class="float-left">
+              <translate
+                translate-comment="%{voucherNo} is a variable, translation is not required for it. Enter it, as it is while translation."
+                :translate-params="{ voucherNo: voucher.no }"
+              >
+                Voucher No: %{voucherNo}
+              </translate>
+            </span>
             <span> {{ voucher.type }} </span>
-            <span class="float-right"> Date:{{ voucher.date }} </span>
+            <span class="float-right">
+              <translate
+                translate-comment="%{voucherDate} is a variable, translation is not required for it. Enter it, as it is while translation."
+                :translate-params="{ voucherDate: voucher.date }"
+              >
+                Date: %{voucherDate}
+              </translate>
+            </span>
           </div>
           <b-table-lite
             bordered
@@ -110,12 +137,24 @@
             fixed
           >
           </b-table-lite>
-          <div>Narration: {{ voucher.narration }}</div>
+          <div>
+            <translate
+              translate-comment="%{narration} is a variable, translation is not required for it. Enter it, as it is while translation."
+              :translate-params="{ narration: voucher.narration }"
+            >
+              Narration: %{narration}
+            </translate>
+          </div>
           <br />
         </div>
       </b-card>
       <div v-else>
-        No vouchers were found for Cash Memo: {{ invoice.number }}
+        <translate
+          translate-comment="%{memoNo} is a variable, translation is not required for it. Enter it, as it is while translation."
+          :translate-params="{ memoNo: invoice.number }"
+        >
+          No vouchers were found for Cash Memo: %{memoNo}
+        </translate>
       </div>
     </b-collapse>
   </b-container>
@@ -193,7 +232,7 @@ export default {
         {
           key: 'price',
           label: 'Rate (₹)',
-          tdClass: 'gk-currency-sm'
+          tdClass: 'gk-currency-sm',
         },
         { key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm' },
         { key: 'igst', label: 'IGST (%)' },

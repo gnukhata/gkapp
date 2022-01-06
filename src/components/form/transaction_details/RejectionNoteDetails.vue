@@ -9,7 +9,7 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b>Rejection Note Details</b>
+        <b v-translate>Rejection Note Details</b>
         <b-button
           variant="secondary"
           size="sm"
@@ -34,6 +34,9 @@
           label-cols="3"
           label-size="sm"
         >
+          <template #label>
+            <translate> No. </translate>
+          </template>
           <b-form-input
             size="sm"
             id="rnd-input-10"
@@ -49,6 +52,9 @@
           label-size="sm"
           id="rnd-input-group-1"
         >
+          <template #label>
+            <translate> Date </translate>
+          </template>
           <gk-date
             id="rnd-date-1"
             :format="dateFormat"
@@ -66,6 +72,10 @@
           label-cols-md="4"
           label-cols="3"
         >
+          <template #label>
+            <span v-translate v-if="saleFlag">Dispatch From</span>
+            <span v-translate v-else>Received At</span>
+          </template>
           <autocomplete
             size="sm"
             id="rnd-input-20"
@@ -84,6 +94,9 @@
           label-cols="3"
           label-size="sm"
         >
+          <template #label>
+            <translate> Transaction Type </translate>
+          </template>
           <b-form-select
             id="rnd-input-30"
             v-model="form.type"
@@ -100,6 +113,9 @@
           label-size="sm"
           label-cols-md="4"
         >
+          <template #label>
+            <translate> Issuer </translate>
+          </template>
           <b-form-input
             size="sm"
             id="rnd-input-40"
@@ -117,6 +133,9 @@
           label-cols-md="4"
           label-size="sm"
         >
+          <template #label>
+            <translate> Role </translate>
+          </template>
           <b-form-input
             size="sm"
             id="rnd-input-50"

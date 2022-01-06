@@ -36,8 +36,8 @@
             v-model="form.type"
             @input="onNoteTypeUpdate"
           >
-            <b-form-radio value="debit">Debit Note</b-form-radio>
-            <b-form-radio value="credit">Credit Note</b-form-radio>
+            <b-form-radio v-translate value="debit">Debit Note</b-form-radio>
+            <b-form-radio v-translate value="credit">Credit Note</b-form-radio>
           </b-form-radio-group>
         </b-form-group>
         <b-form-group
@@ -47,6 +47,10 @@
           label-cols="4"
           label-size="sm"
         >
+          <template #label>
+            <span v-if="isCredit" v-translate> Cr Note No. </span>
+            <span v-else v-translate> Dr Note No. </span>
+          </template>
           <b-form-input
             size="sm"
             id="dcd-input-10"
@@ -63,6 +67,10 @@
           label-for="dcd-date-1"
           label-size="sm"
         >
+          <template #label>
+            <span v-if="isCredit" v-translate> Cr Note Date </span>
+            <span v-else v-translate> Dr Note Date </span>
+          </template>
           <gk-date
             v-model="form.date"
             :format="dateFormat"
@@ -96,6 +104,7 @@
           label-cols-lg="3"
           label-cols="4"
         >
+          <template #label> <translate> Purpose </translate> </template>
           <b-form-select
             size="sm"
             id="dcd-input-20"
@@ -104,23 +113,23 @@
             tabindex="-1"
             @input="onUpdateDetails"
           >
-            <b-form-select-option value="price"
-              >Adjust Price / Discount</b-form-select-option
-            >
-            <b-form-select-option value="qty"
-              >Adjust Qty / Return Goods</b-form-select-option
-            >
+            <b-form-select-option v-translate value="price">
+              Adjust Price / Discount
+            </b-form-select-option>
+            <b-form-select-option v-translate value="qty">
+              Adjust Qty / Return Goods
+            </b-form-select-option>
           </b-form-select>
         </b-form-group>
         <b-form-group v-if="!isCredit && isReturn && saleFlag">
-          <b-form-checkbox v-model="form.badQuality" size="sm"
-            >Bad Quality Goods</b-form-checkbox
-          >
+          <b-form-checkbox v-translate v-model="form.badQuality" size="sm">
+            Bad Quality Goods
+          </b-form-checkbox>
         </b-form-group>
         <b-form-group>
-          <b-form-checkbox v-model="form.referenceFlag" size="sm"
-            >Reference (If received)</b-form-checkbox
-          >
+          <b-form-checkbox v-translate v-model="form.referenceFlag" size="sm">
+            Reference (If received)
+          </b-form-checkbox>
         </b-form-group>
         <b-form-group
           v-if="form.referenceFlag"
@@ -130,6 +139,10 @@
           label-cols="4"
           label-size="sm"
         >
+          <template #label>
+            <span v-if="isCredit" v-translate> Dr Note No. </span>
+            <span v-else v-translate> Cr Note No. </span>
+          </template>
           <b-form-input
             size="sm"
             id="dcd-input-50"
@@ -147,6 +160,10 @@
           label-for="dcd-date-2"
           label-size="sm"
         >
+          <template #label>
+            <span v-if="isCredit" v-translate> Dr Note Date </span>
+            <span v-else v-translate> Cr Note Date </span>
+          </template>
           <gk-date
             v-model="form.ref.date"
             :format="dateFormat"
@@ -255,7 +272,7 @@ export default {
     },
     invDate() {
       this.form.ref.date = this.invDate;
-    }
+    },
   },
   methods: {
     onNoteTypeUpdate() {

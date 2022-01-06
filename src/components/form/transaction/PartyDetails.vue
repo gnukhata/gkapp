@@ -15,8 +15,8 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b v-if="saleFlag"> Buyer Details</b>
-        <b v-else> Seller Details</b>
+        <b key="pd-1" v-if="saleFlag" v-translate> Buyer Details</b>
+        <b key="pd-2" v-else v-translate> Seller Details</b>
         <b-button
           variant="secondary"
           size="sm"
@@ -47,8 +47,12 @@
                 v-model="form.type"
                 @input="resetPartyDetails()"
               >
-                <b-form-radio value="customer">Customer</b-form-radio>
-                <b-form-radio value="supplier">Supplier</b-form-radio>
+                <b-form-radio value="customer" v-translate>
+                  Customer
+                </b-form-radio>
+                <b-form-radio value="supplier" v-translate>
+                  Supplier
+                </b-form-radio>
               </b-form-radio-group>
               <b-button
                 @click.prevent="showContactForm = true"
@@ -79,6 +83,7 @@
               label-size="sm"
               :label-class="{ required: !(editFlag || isNameDisabled) }"
             >
+              <template #label> <translate> Name </translate> </template>
               <autocomplete
                 size="sm"
                 id="ptd-input-10"
@@ -103,6 +108,7 @@
               label-for="ptd-input-20"
               label-size="sm"
             >
+              <template #label> <translate> Address </translate> </template>
               <b-form-textarea
                 size="sm"
                 id="ptd-input-20"
@@ -154,6 +160,7 @@
               label-size="sm"
               label-cols="3"
             >
+              <template #label> <translate> State </translate> </template>
               <b-form-select
                 size="sm"
                 id="ptd-input-50"
@@ -218,7 +225,7 @@
                 class="align-middle"
                 icon="x-circle"
               ></b-icon
-              ><span class="align-middle"> Cancel</span></b-button
+              ><span v-translate class="align-middle"> Cancel</span></b-button
             >
             <b-button
               @click.prevent="onPartyEdit(true)"
@@ -230,7 +237,7 @@
                 class="align-middle"
                 icon="cloud-arrow-up"
               ></b-icon>
-              <span class="align-middle"> Save Changes</span>
+              <span v-translate class="align-middle"> Save Changes</span>
             </b-button>
           </b-col>
         </b-row>

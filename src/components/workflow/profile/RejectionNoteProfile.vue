@@ -4,7 +4,8 @@
     </b-overlay>
     <b-row>
       <b-col order="2" order-md="1">
-        <b>{{ party.isCustomer ? 'Customer' : 'Supplier' }} Details</b>
+        <b v-translate v-if="party.isCustomer"> Customer Details </b>
+        <b v-translate v-else> Supplier Details </b>
         <p class="text-small">
           <span> {{ party.name }} </span><br />
           <span> {{ party.addr }} </span><br />
@@ -13,7 +14,7 @@
         <br class="d-none d-md-block" />
       </b-col>
       <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
-        <b>Rejection Note Details</b>
+        <b v-translate> Rejection Note Details </b>
         <!-- Note Details Table -->
         <b-table-lite
           :fields="['title', 'value']"
@@ -39,7 +40,7 @@
       class="text-small table-border-dark"
     >
       <template #cell(qty)="data">
-        {{data.value}} <small> {{data.item.uom}} </small>
+        {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
     </b-table-lite>
     <b-row>
@@ -59,10 +60,9 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col class="my-2">
-      </b-col>
+      <b-col class="my-2"> </b-col>
       <b-col cols="12" md="8" class="my-2">
-        <b> Narration: </b> {{ rnote.narration }}
+        <b v-translate> Narration: </b> {{ rnote.narration }}
       </b-col>
     </b-row>
   </b-container>
@@ -121,13 +121,13 @@ export default {
         {
           key: 'rate',
           label: 'Rate (₹)',
-          tdClass: 'gk-currency-sm'
+          tdClass: 'gk-currency-sm',
         },
         { key: 'igst', label: 'IGST (%)' },
         { key: 'cgst', label: 'CGST (%)' },
         { key: 'sgst', label: 'SGST (%)' },
         { key: 'cess', label: 'CESS (%)' },
-        {key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm'},
+        { key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' },
       ];
       if (self.total.isIgst) {
         fields.splice(4, 2);
@@ -153,7 +153,7 @@ export default {
         total.push({ title: 'VAT', value: self.total.tax });
       }
       total.push(
-        { title: 'Rejected Value', value: self.total.amount },
+        { title: 'Rejected Value', value: self.total.amount }
         // { title: 'Total In Words', value: self.total.text }
       );
       return total;

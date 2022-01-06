@@ -38,6 +38,7 @@
               label-size="sm"
               label-class="required"
             >
+              <template #label> <translate> No. </translate> </template>
               <b-form-input
                 size="sm"
                 id="pod-input-10"
@@ -56,6 +57,7 @@
               id="pod-input-group-1"
               label-class="required"
             >
+              <template #label> <translate> Date </translate> </template>
               <gk-date
                 id="pod-date-1"
                 :format="dateFormat"
@@ -96,6 +98,7 @@
               label-for="pod-input-30"
               label-size="sm"
             >
+              <template #label> <translate> Address </translate> </template>
               <b-form-textarea
                 size="sm"
                 id="pod-input-30"
@@ -140,6 +143,7 @@
               :label-cols-lg="saleFlag ? 4 : 2"
               :label-cols="3"
             >
+              <template #label> <translate> State </translate> </template>
               <b-form-select
                 size="sm"
                 id="pod-input-50"
@@ -161,6 +165,7 @@
               label-size="sm"
               label-cols-lg="4"
             >
+              <template #label> <translate> Issuer </translate> </template>
               <b-form-input
                 size="sm"
                 id="pod-input-60"
@@ -180,6 +185,7 @@
               label-cols-lg="4"
               label-size="sm"
             >
+              <template #label> <translate> Role </translate> </template>
               <b-form-input
                 size="sm"
                 id="pod-input-70"
@@ -201,6 +207,7 @@
               label-cols-lg="2"
               label-cols="3"
             >
+              <template #label> <translate> Terms </translate> </template>
               <b-form-input
                 size="sm"
                 id="pod-input-80"
@@ -217,6 +224,9 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label>
+                <translate> Credit Period </translate>
+              </template>
               <b-form-input
                 size="sm"
                 id="pod-input-90"
@@ -237,6 +247,10 @@
               label-size="sm"
               label-class="required"
             >
+              <template #label>
+                <span v-if="saleFlag" v-translate> Dispatch From </span>
+                <span v-translate> Dispatch To </span>
+              </template>
               <autocomplete
                 size="sm"
                 id="pod-input-100"
@@ -418,7 +432,7 @@ export default {
             options: {
               gstin: gstin || {},
             },
-            gstin: gstin && state? gstin[state.value.id] : '',
+            gstin: gstin && state ? gstin[state.value.id] : '',
           });
         }
       }
@@ -493,7 +507,7 @@ export default {
         self.form.godown = null;
         self.setNoteNo(true);
         self.onUpdateDetails();
-      })
+      });
     },
   },
   mounted() {

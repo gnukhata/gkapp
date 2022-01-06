@@ -3,13 +3,18 @@
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <div v-if="deletedFlag">
-      <span class="float-right h5 p-2 bg-danger text-white">Cancelled</span>
+      <span class="float-right h5 p-2 bg-danger text-white" v-translate>
+        Cancelled
+      </span>
       <div class="clearfix"></div>
       <br />
     </div>
     <b-row>
       <b-col cols="12" md="6" order="2" order-md="1">
-        <b> {{ invoice.isSale ? 'Buyer' : 'Seller' }} Details</b>
+        <b key="1" v-if="invoice.isSale" v-translate>
+          Buyer Details
+        </b>
+        <b key="2" v-else v-translate> Seller Details </b>
         <br />
         <p class="text-small">
           <span>{{ invoice.party.name }} </span><br />
@@ -20,7 +25,12 @@
         </p>
       </b-col>
       <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
-        <b>{{ invoice.isSale ? 'Sale' : 'Purchase' }} Invoice Details</b>
+        <b key="3" v-if="invoice.isSale" v-translate>
+          Sale Invoice Details
+        </b>
+        <b key="4" v-else v-translate>
+          Purchase Invoice Details
+        </b>
         <!-- Note Details Table -->
         <b-table-lite
           :fields="['title', 'value']"
@@ -45,11 +55,23 @@
       class="text-small table-border-dark"
       tbody-tr-class="gk-vertical-row"
     >
+      <template #head(qty)="" v-translate>
+        Qty
+      </template>
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
+      <template #head(price)="" v-translate>
+        Price
+      </template>
       <template #cell(price)="data"> {{ data.value }} </template>
+      <template #head(discount)="" v-translate>
+        Discount
+      </template>
       <template #cell(discount)="data"> {{ data.value }} </template>
+      <template #head(tax)="" v-translate>
+        Tax
+      </template>
       <template #cell(tax)="data">
         {{ data.value.rate }} <small> % </small>
       </template>
@@ -68,12 +90,18 @@
       <template #cell(vat)="data">
         {{ data.value.rate }} <small> % </small>
       </template>
+      <template #head(total)="" v-translate>
+        Total
+      </template>
       <template #cell(total)="data"> {{ data.value }} </template>
       <template #custom-foot>
         <b-tr>
-          <b-th :colspan="invoice.isGst ? (invoice.total.isIgst ? 6 : 7) : 5"
-            >Total</b-th
+          <b-th
+            v-translate
+            :colspan="invoice.isGst ? (invoice.total.isIgst ? 6 : 7) : 5"
           >
+            Total
+          </b-th>
           <b-th> {{ invoice.total.amount }}</b-th>
         </b-tr>
       </template>
@@ -98,7 +126,7 @@
       <b-col class="my-2"> </b-col>
       <b-col cols="12" md="8" class="my-2">
         <div>
-          <b>Payment Details</b>
+          <b v-translate> Payment Details </b>
           <div v-if="bankMode" class="mb-3">
             {{ paymentMode }}
             <b-table-lite
@@ -115,7 +143,7 @@
             {{ paymentMode }}
           </div>
         </div>
-        <b> Narration: </b> {{ invoice.narration }}
+        <b v-translate> Narration: </b> {{ invoice.narration }}
       </b-col>
     </b-row>
     <div class="float-right my-2 d-print-none">
@@ -128,16 +156,16 @@
           v-b-toggle.attachment-container
           @click="fetchAttachments"
         >
-          <b-icon icon="eye"></b-icon> View Attachments</b-button
-        >
+          <b-icon icon="eye"></b-icon> <translate> View Attachments </translate>
+        </b-button>
         <b-button
           class="mr-1"
           size="sm"
           variant="primary"
           v-b-toggle.voucher-container
         >
-          <b-icon icon="eye"></b-icon> View Vouchers</b-button
-        >
+          <b-icon icon="eye"></b-icon> <translate> View Vouchers </translate>
+        </b-button>
         <b-button
           v-if="onCreditFlag"
           class="mr-1"
@@ -151,8 +179,9 @@
             },
           }"
         >
-          <b-icon icon="clipboard-check"></b-icon> Adjust</b-button
-        >
+          <b-icon icon="clipboard-check"></b-icon>
+          <translate> Adjust </translate>
+        </b-button>
         <b-button
           v-if="rectifyFlag"
           class=""
@@ -160,24 +189,25 @@
           variant="warning"
           :to="{ name: 'Invoice', params: { mode: 'edit', invid: id } }"
         >
-          <b-icon icon="pencil"></b-icon> Rectify</b-button
-        >
+          <b-icon icon="pencil"></b-icon> <translate> Rectify </translate>
+        </b-button>
         <b-button
           v-if="cancelFlag"
           size="sm"
           variant="danger"
           @click="confirmOnCancel"
         >
-          <b-icon icon="x-octagon"></b-icon> Cancel</b-button
-        >
+          <b-icon icon="x-octagon"></b-icon> <translate> Cancel </translate>
+        </b-button>
       </span>
     </div>
     <div class="clearfix"></div>
     <br />
     <b-collapse v-model="showAttachments" id="attachment-container">
       <div class="position-relative">
-        <b-overlay :show="isAttachmentLoading" variant="secondary" no-wrap blur> </b-overlay>
-        <b>Attachments:</b>
+        <b-overlay :show="isAttachmentLoading" variant="secondary" no-wrap blur>
+        </b-overlay>
+        <b v-translate> Attachments: </b>
         <div class="clearfix"></div>
         <div
           class="m-1 d-inline-block text-center float-left position-relative"
@@ -198,7 +228,7 @@
     <br />
     <b-collapse v-model="showVouchers" id="voucher-container">
       <div class="clearfix"></div>
-      <b>Vouchers:</b>
+      <b v-translate> Vouchers: </b>
       <div v-if="vouchers.length">
         <b-card
           class="mb-2"
@@ -207,9 +237,23 @@
           body-class="p-1"
         >
           <div class="text-center m-1 mb-2">
-            <span class="float-left"> Voucher No: {{ voucher.no }} </span>
+            <span class="float-left">
+              <translate
+                translate-comment="%{voucherNo} is a variable, translation is not required for it. Enter it, as it is while translation."
+                :translate-params="{ voucherNo: voucher.no }"
+              >
+                Voucher No: %{voucherNo}
+              </translate>
+            </span>
             <span> {{ voucher.type }} </span>
-            <span class="float-right"> Date:{{ voucher.date }} </span>
+            <span class="float-right">
+              <translate
+                translate-comment="%{voucherDate} is a variable, translation is not required for it. Enter it, as it is while translation."
+                :translate-params="{ voucherDate: voucher.date }"
+              >
+                Date: %{voucherDate}
+              </translate>
+            </span>
           </div>
           <b-table-lite
             bordered
@@ -220,11 +264,25 @@
             fixed
           >
           </b-table-lite>
-          <div>Narration: {{ voucher.narration }}</div>
+          <div>
+            <translate
+              translate-comment="%{narration} is a variable, translation is not required for it. Enter it, as it is while translation."
+              :translate-params="{ narration: voucher.narration }"
+            >
+              Narration: %{narration}
+            </translate>
+          </div>
           <br />
         </b-card>
       </div>
-      <div v-else>No vouchers were found for Invoice: {{ invoice.number }}</div>
+      <div v-else>
+        <translate
+          translate-comment="%{invNo} is a variable, translation is not required for it. Enter it, as it is while translation."
+          :translate-params="{ invNo: invoice.number }"
+        >
+          No vouchers were found for Invoice: %{invNo}
+        </translate>
+      </div>
     </b-collapse>
   </b-container>
 </template>
@@ -431,7 +489,7 @@ export default {
       }
     },
     fetchAttachments() {
-      if(this.attachments.length) {
+      if (this.attachments.length) {
         return;
       }
       this.isAttachmentLoading = true;

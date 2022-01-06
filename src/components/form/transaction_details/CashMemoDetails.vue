@@ -10,7 +10,7 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b>Cash Memo Details</b>
+        <b v-translate>Cash Memo Details</b>
         <b-button
           variant="secondary"
           size="sm"
@@ -35,6 +35,7 @@
           label-cols="3"
           label-size="sm"
         >
+          <template #label> <translate> No. </translate> </template>
           <b-form-input
             size="sm"
             id="cmd-input-10"
@@ -50,6 +51,7 @@
           label-size="sm"
           id="cmd-input-group-1"
         >
+          <template #label> <translate> Date </translate> </template>
           <gk-date
             id="cmd-date-1"
             :format="dateFormat"
@@ -68,6 +70,7 @@
           label-cols-md="2"
           label-cols="3"
         >
+          <template #label> <translate> State </translate> </template>
           <autocomplete
             size="sm"
             id="cmd-input-20"
