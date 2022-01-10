@@ -109,7 +109,7 @@
           label-cols-lg="2"
           label-cols="3"
         >
-          <template #label> 
+          <template #label>
             <span v-translate v-if="saleFlag"> From Godown </span>
             <span v-translate v-else> To Godown </span>
           </template>
@@ -533,6 +533,7 @@ export default {
           return no;
         })
         .catch((error) => {
+          console.log(error);
           // this.displayToast(
           //   'Fetch Delivery Challan No. Failed!',
           //   error.message,
