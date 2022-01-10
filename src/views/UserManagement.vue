@@ -4,15 +4,17 @@
       <template #prepend>
         <!-- <b-input-group-text>Username</b-input-group-text> -->
         <b-button
+          v-translate
           @click="$router.push('/users/add')"
           variant="outline-primary"
           v-b-modal.create-user
-          ><b-icon icon="person-plus"></b-icon> Add User</b-button
+          ><b-icon icon="person-plus"></b-icon
+          ><v-translate> Add User</v-translate></b-button
         >
       </template>
       <b-form-input
         type="text"
-        placeholder="Search Users"
+        :placeholder="$gettext('Search Users')"
         v-model="searchText"
       ></b-form-input>
     </b-input-group>
@@ -32,7 +34,7 @@
       <template #table-busy>
         <div class="text-center">
           <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong> Fetching All Users ... </strong>
+          <strong><v-translate> Fetching All Users ...</v-translate></strong>
         </div>
       </template>
       <!-- data.item.edit is userid -->
@@ -75,15 +77,15 @@ export default {
     return {
       fields: [
         {
-          key: 'user',
+          key: this.$gettext('user'),
           sortable: true,
         },
         {
-          key: 'role',
+          key: this.$gettext('role'),
           sortable: true,
         },
         {
-          key: 'action',
+          key: this.$gettext('action'),
         },
       ],
       userList: [],

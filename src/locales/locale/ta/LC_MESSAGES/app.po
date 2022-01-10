@@ -21,13 +21,25 @@ msgstr ""
 msgid "* All fields are required"
 msgstr ""
 
+#: src/views/UserManagement.vue:5 src/views/UserManagement.vue:2
+msgid "<b-icon icon=\"person-plus\"/><v-translate> Add User</v-translate>"
+msgstr ""
+
 #: src/components/form/transaction/PaymentDetails.vue:25
 #: src/components/form/transaction/PaymentDetails.vue:1
 msgid "Acc. No."
 msgstr ""
 
+#: src/views/UserManagement.vue:18
+msgid "action"
+msgstr ""
+
 #: src/components/form/transaction/BillTable.vue:11
 msgid "Add Item"
+msgstr ""
+
+#: src/views/UserManagement.vue:5 src/views/UserManagement.vue:2
+msgid "Add User"
 msgstr ""
 
 #: src/components/form/transaction/PartyDetails.vue:46
@@ -292,6 +304,10 @@ msgstr ""
 msgid "Eway Bill #"
 msgstr ""
 
+#: src/views/UserManagement.vue:13 src/views/UserManagement.vue:3
+msgid "Fetching All Users ..."
+msgstr ""
+
 #: src/views/Workflow.vue:99
 msgid "Filter By"
 msgstr ""
@@ -531,6 +547,10 @@ msgstr ""
 msgid "Reverse Charge"
 msgstr ""
 
+#: src/views/UserManagement.vue:14
+msgid "role"
+msgstr ""
+
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:54
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
 #: src/components/form/transaction_details/InvoiceDetails.vue:86
@@ -562,6 +582,10 @@ msgstr ""
 
 #: src/components/form/transaction/PartyDetails.vue:83
 msgid "Save Changes"
+msgstr ""
+
+#: src/views/UserManagement.vue:51
+msgid "Search Users"
 msgstr ""
 
 #: src/components/form/transaction/PartyDetails.vue:7
@@ -680,6 +704,10 @@ msgstr ""
 
 #: src/components/form/transaction/ShipDetails.vue:18
 msgid "Use Organisation Address"
+msgstr ""
+
+#: src/views/UserManagement.vue:10
+msgid "user"
 msgstr ""
 
 #: src/components/form/transaction/TransportDetails.vue:23
