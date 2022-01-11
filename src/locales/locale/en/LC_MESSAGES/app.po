@@ -10,6 +10,10 @@ msgstr ""
 "Generated-By: easygettext\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: src/components/form/EditUser.vue:19 src/components/form/EditUser.vue:2
+msgid "-- Select User --"
+msgstr ""
+
 #: src/components/form/transaction/TotalTable.vue:49
 msgid "(in words)"
 msgstr ""
@@ -39,10 +43,12 @@ msgstr ""
 msgid "Add Item"
 msgstr ""
 
-#: src/views/UserManagement.vue:5 src/views/UserManagement.vue:2
+#: src/components/form/AddUser.vue:41 src/views/UserManagement.vue:5
+#: src/views/UserManagement.vue:2
 msgid "Add User"
 msgstr ""
 
+#: src/components/form/AddUser.vue:26 src/components/form/EditUser.vue:35
 #: src/components/form/transaction/PartyDetails.vue:46
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:29
@@ -70,6 +76,7 @@ msgstr ""
 msgid "Admin User"
 msgstr ""
 
+#: src/components/form/AddUser.vue:287 src/components/form/EditUser.vue:279
 #: src/views/CreateOrganisation.vue:137 src/views/CreateOrganisation.vue:1
 msgid "Answer"
 msgstr ""
@@ -133,6 +140,10 @@ msgstr ""
 msgid "CASH RECEIVED"
 msgstr ""
 
+#: src/components/form/AddUser.vue:242
+msgid "Confirm Password"
+msgstr ""
+
 #: src/views/CreateOrganisation.vue:108 src/views/CreateOrganisation.vue:1
 msgid "Confirmation"
 msgstr ""
@@ -161,6 +172,10 @@ msgstr ""
 
 #: src/views/CreateOrganisation.vue:4
 msgid "Create Organisation"
+msgstr ""
+
+#: src/components/form/AddUser.vue:59
+msgid "Create User"
 msgstr ""
 
 #: src/components/form/transaction_details/DcNoteDetails.vue:19
@@ -237,6 +252,10 @@ msgstr ""
 #: src/components/workflow/profile/DeliveryNoteProfile.vue:66
 #: src/components/workflow/profile/VoucherProfile.vue:36
 msgid "Delete"
+msgstr ""
+
+#: src/components/form/EditUser.vue:72
+msgid "Delete User"
 msgstr ""
 
 #: src/components/workflow/profile/DeliveryNoteProfile.vue:20
@@ -372,6 +391,8 @@ msgstr ""
 msgid "Mode of Payment"
 msgstr ""
 
+#: src/components/form/AddUser.vue:24 src/components/form/AddUser.vue:58
+#: src/components/form/EditUser.vue:33 src/components/form/EditUser.vue:64
 #: src/components/form/transaction/PartyDetails.vue:35
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:23
@@ -394,6 +415,10 @@ msgstr ""
 #: src/components/workflow/profile/CashMemoProfile.vue:91
 #: src/components/workflow/profile/InvoiceProfile.vue:176
 msgid "Narration: %{narration}"
+msgstr ""
+
+#: src/components/form/EditUser.vue:246
+msgid "New Password"
 msgstr ""
 
 #. %{memoNo} is a variable, translation is not required for it. Enter it, as it is while translation.
@@ -448,12 +473,17 @@ msgstr ""
 msgid "Paid By Cash"
 msgstr ""
 
-#: src/views/CreateOrganisation.vue:99 src/views/CreateOrganisation.vue:1
+#: src/components/form/AddUser.vue:227 src/views/CreateOrganisation.vue:99
+#: src/views/CreateOrganisation.vue:1
 msgid "Password"
 msgstr ""
 
 #: src/views/CreateOrganisation.vue:118 src/views/CreateOrganisation.vue:1
 msgid "Password Recovery"
+msgstr ""
+
+#: src/components/form/AddUser.vue:48
+msgid "Passwords do not match"
 msgstr ""
 
 #: src/components/form/transaction/PaymentDetails.vue:4
@@ -501,6 +531,7 @@ msgstr ""
 msgid "Qty"
 msgstr ""
 
+#: src/components/form/AddUser.vue:272 src/components/form/EditUser.vue:263
 #: src/views/CreateOrganisation.vue:122 src/views/CreateOrganisation.vue:1
 msgid "Question"
 msgstr ""
@@ -552,6 +583,7 @@ msgstr ""
 msgid "role"
 msgstr ""
 
+#: src/components/form/AddUser.vue:88 src/components/form/EditUser.vue:95
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:54
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
 #: src/components/form/transaction_details/InvoiceDetails.vue:86
@@ -589,6 +621,14 @@ msgstr ""
 msgid "Search Users"
 msgstr ""
 
+#: src/components/form/AddUser.vue:23 src/components/form/EditUser.vue:32
+msgid "Select"
+msgstr ""
+
+#: src/components/form/AddUser.vue:19 src/components/form/EditUser.vue:27
+msgid "Select Godowns"
+msgstr ""
+
 #: src/components/form/transaction/PartyDetails.vue:7
 #: src/components/workflow/profile/DcNoteProfile.vue:7
 #: src/components/workflow/profile/InvoiceProfile.vue:16
@@ -599,6 +639,7 @@ msgstr ""
 msgid "Shipping Details"
 msgstr ""
 
+#: src/components/form/AddUser.vue:25 src/components/form/EditUser.vue:34
 #: src/components/form/transaction/PartyDetails.vue:62
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:40
@@ -699,6 +740,10 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
+#: src/components/form/EditUser.vue:69
+msgid "Update user"
+msgstr ""
+
 #: src/components/form/transaction/ShipDetails.vue:17
 msgid "Use Billing Address"
 msgstr ""
@@ -709,6 +754,14 @@ msgstr ""
 
 #: src/views/UserManagement.vue:10
 msgid "user"
+msgstr ""
+
+#: src/components/form/EditUser.vue:10
+msgid "Username must be minimum 3 characters"
+msgstr ""
+
+#: src/components/form/AddUser.vue:9
+msgid "Username must be minimum of 3 characters"
 msgstr ""
 
 #: src/components/form/transaction/TransportDetails.vue:23

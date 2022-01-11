@@ -30,14 +30,20 @@ msgstr ""
 msgid "Acc. No."
 msgstr ""
 
+#: src/views/UserManagement.vue:18
+msgid "action"
+msgstr ""
+
 #: src/components/form/transaction/BillTable.vue:11
 msgid "Add Item"
 msgstr ""
 
-#: src/views/UserManagement.vue:5 src/views/UserManagement.vue:2
+#: src/components/form/AddUser.vue:41 src/views/UserManagement.vue:5
+#: src/views/UserManagement.vue:2
 msgid "Add User"
 msgstr ""
 
+#: src/components/form/AddUser.vue:26
 #: src/components/form/transaction/PartyDetails.vue:46
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:29
@@ -65,7 +71,8 @@ msgstr ""
 msgid "Admin User"
 msgstr ""
 
-#: src/views/CreateOrganisation.vue:137 src/views/CreateOrganisation.vue:1
+#: src/components/form/AddUser.vue:287 src/views/CreateOrganisation.vue:137
+#: src/views/CreateOrganisation.vue:1
 msgid "Answer"
 msgstr ""
 
@@ -128,6 +135,10 @@ msgstr ""
 msgid "CASH RECEIVED"
 msgstr ""
 
+#: src/components/form/AddUser.vue:242
+msgid "Confirm Password"
+msgstr ""
+
 #: src/views/CreateOrganisation.vue:108 src/views/CreateOrganisation.vue:1
 msgid "Confirmation"
 msgstr ""
@@ -156,6 +167,10 @@ msgstr ""
 
 #: src/views/CreateOrganisation.vue:4
 msgid "Create Organisation"
+msgstr ""
+
+#: src/components/form/AddUser.vue:59
+msgid "Create User"
 msgstr ""
 
 #: src/components/form/transaction_details/DcNoteDetails.vue:19
@@ -367,6 +382,7 @@ msgstr ""
 msgid "Mode of Payment"
 msgstr ""
 
+#: src/components/form/AddUser.vue:24 src/components/form/AddUser.vue:58
 #: src/components/form/transaction/PartyDetails.vue:35
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:23
@@ -443,12 +459,17 @@ msgstr ""
 msgid "Paid By Cash"
 msgstr ""
 
-#: src/views/CreateOrganisation.vue:99 src/views/CreateOrganisation.vue:1
+#: src/components/form/AddUser.vue:227 src/views/CreateOrganisation.vue:99
+#: src/views/CreateOrganisation.vue:1
 msgid "Password"
 msgstr ""
 
 #: src/views/CreateOrganisation.vue:118 src/views/CreateOrganisation.vue:1
 msgid "Password Recovery"
+msgstr ""
+
+#: src/components/form/AddUser.vue:48
+msgid "Passwords do not match"
 msgstr ""
 
 #: src/components/form/transaction/PaymentDetails.vue:4
@@ -496,7 +517,8 @@ msgstr ""
 msgid "Qty"
 msgstr ""
 
-#: src/views/CreateOrganisation.vue:122 src/views/CreateOrganisation.vue:1
+#: src/components/form/AddUser.vue:272 src/views/CreateOrganisation.vue:122
+#: src/views/CreateOrganisation.vue:1
 msgid "Question"
 msgstr ""
 
@@ -543,6 +565,11 @@ msgstr ""
 msgid "Reverse Charge"
 msgstr ""
 
+#: src/views/UserManagement.vue:14
+msgid "role"
+msgstr ""
+
+#: src/components/form/AddUser.vue:88
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:54
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
 #: src/components/form/transaction_details/InvoiceDetails.vue:86
@@ -580,6 +607,14 @@ msgstr ""
 msgid "Search Users"
 msgstr ""
 
+#: src/components/form/AddUser.vue:23
+msgid "Select"
+msgstr ""
+
+#: src/components/form/AddUser.vue:19
+msgid "Select Godowns"
+msgstr ""
+
 #: src/components/form/transaction/PartyDetails.vue:7
 #: src/components/workflow/profile/DcNoteProfile.vue:7
 #: src/components/workflow/profile/InvoiceProfile.vue:16
@@ -590,6 +625,7 @@ msgstr ""
 msgid "Shipping Details"
 msgstr ""
 
+#: src/components/form/AddUser.vue:25
 #: src/components/form/transaction/PartyDetails.vue:62
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:40
@@ -696,6 +732,14 @@ msgstr ""
 
 #: src/components/form/transaction/ShipDetails.vue:18
 msgid "Use Organisation Address"
+msgstr ""
+
+#: src/views/UserManagement.vue:10
+msgid "user"
+msgstr ""
+
+#: src/components/form/AddUser.vue:9
+msgid "Username must be minimum of 3 characters"
 msgstr ""
 
 #: src/components/form/transaction/TransportDetails.vue:23

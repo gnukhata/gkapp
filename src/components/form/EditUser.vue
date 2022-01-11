@@ -14,7 +14,7 @@
           label-size="sm"
           label-align="right"
           label-cols="3"
-          label="Name"
+          :label="$gettext('Name')"
         >
           <b-form-input
             :state="validateName"
@@ -24,7 +24,7 @@
             trim
           ></b-form-input>
           <b-form-invalid-feedback id="userid-feedback">
-            Username must be minimum 3 characters
+            <translate>Username must be minimum 3 characters</translate>
           </b-form-invalid-feedback>
         </b-form-group>
         <!-- user role -->
@@ -33,7 +33,7 @@
           label-size="sm"
           label-align="right"
           label-cols="3"
-          label="Role"
+          :label="$gettext('Role')"
         >
           <b-form-select
             size="sm"
@@ -42,7 +42,7 @@
           >
             <template #first>
               <b-form-select-option value="null" disabled>
-                -- Select User --
+                <translate> -- Select User --</translate>
               </b-form-select-option>
             </template>
             <b-form-select-option
@@ -61,15 +61,15 @@
           caption-top
           responsive
         >
-          <caption>
+          <caption v-translate>
             Select Godowns
           </caption>
           <b-thead head-variant="dark">
             <b-tr>
-              <b-th>Select</b-th>
-              <b-th>Name</b-th>
-              <b-th>State</b-th>
-              <b-th>Address</b-th>
+              <b-th v-translate>Select</b-th>
+              <b-th v-translate>Name</b-th>
+              <b-th v-translate>State</b-th>
+              <b-th v-translate>Address</b-th>
             </b-tr>
           </b-thead>
           <b-tbody>
@@ -94,7 +94,7 @@
           label-align="right"
           label-size="sm"
           label-cols="3"
-          label="New Password"
+          :label="$gettext('New Password')"
         >
           <!-- <b-form-input
                v-model="form.userpassword"
@@ -107,7 +107,7 @@
           label-align="right"
           label-size="sm"
           label-cols="3"
-          label="Question"
+          :label="$gettext('Question')"
         >
           <security-questions
             size="sm"
@@ -119,7 +119,7 @@
           label-align="right"
           label-size="sm"
           label-cols="3"
-          label="Answer"
+          :label="$gettext('Answer')"
         >
           <b-form-input
             v-model="form.useranswer"
@@ -131,7 +131,7 @@
         <b-button-group size="sm" class="float-right">
           <b-button type="submit" class="mr-1" variant="warning">
             <b-icon icon="cloud-arrow-up"></b-icon>
-            Update user</b-button
+            <translate>Update user</translate></b-button
           >
           <b-button
             variant="danger"
@@ -139,7 +139,7 @@
             @click="confirm('delete')"
           >
             <b-icon icon="x-circle"></b-icon>
-            Delete User</b-button
+            <translate>Delete User</translate></b-button
           >
         </b-button-group>
       </b-form>
