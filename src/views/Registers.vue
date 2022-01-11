@@ -49,7 +49,6 @@
         </b-form>
       </b-card>
     </b-overlay>
-
     <!-- Table -->
     <div v-if="report.length > 0">
       <report-header>
@@ -85,6 +84,16 @@
         v-if="report.length > 0"
         :items="report"
       >
+        <template #cell(invoice_no)="d">
+          <b-link
+            @click="
+              $router.push(
+                '/workflow/Transactions-Invoice/' + d.item.invoice_id
+              )
+            "
+            >{{ d.item.invoice_no }}
+          </b-link>
+        </template>
       </b-table>
     </div>
   </section>
@@ -110,28 +119,34 @@ export default {
       toDate: '',
       search: '',
       report: [],
+      tmp_report: [],
     };
   },
   methods: {
     formatTable(data) {
-      console.log(data);
       const newdata = data.gkresult.map((d) => {
-        return {
-          sr_no: Object.values(d)[0],
-          invoice_id: Object.values(d)[1],
-          invoice_no: Object.values(d)[2],
-          date: Object.values(d)[3],
-          name: Object.values(d)[4],
-          GSTIN: Object.values(d)[10],
-          TIN: Object.values(d)[5],
-          gross_amount: Object.values(d)[6],
-          tax_free: Object.values(d)[7],
-          tax: Object.values(d)[8],
-          tax_amount: Object.values(d)[9],
+        let obj = {
+          sr_no: d.srno,
+          invoice_id: d.invid,
+          invoice_no: d.invoiceno,
+          date: d.invoicedate,
+          name: d.customername,
+          GSTIN: d.custgstin,
+          TIN: d.customertin,
+          gross_amount: d.grossamount,
+          tax_free: d.taxfree,
+          tax: d.tax,
+          tax_amount: d.taxamount,
         };
+        // let netTax = obj.tax
+        //   for (const i in data.taxcolumns) {
+        //       obj["taxable_amount"] =
+        //   }
+        return obj;
       });
       data.totalrow.name = 'Total';
       newdata.push(data.totalrow);
+      this.tmp_report = newdata;
       return newdata;
     },
     getRegisters() {
