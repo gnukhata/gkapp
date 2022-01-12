@@ -20,3 +20,6 @@ yarn-error.log*
 *.sw?
 .log
 .projectile
+
+# gettext backup files
+*.po~
