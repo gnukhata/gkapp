@@ -15,6 +15,7 @@
 # - [ ] Downloadable spreadsheets
 # - [ ] Website
 
+* WAIT Check how the P&L report computes <2022-01-18>
 * TODO Milestones for GKAPP
 - [-] Printable reports <2022-02-28 Mon>
 | NAMES                              | API | UI |
@@ -49,7 +50,7 @@
 - [ ] Data exchange
   1. [ ] Import
   2. [ ] Export
-- [ ] i18n <2021-12-31 Fri>
+- [ ] i18n <2022-01-18 Tue>
  | Pages                      | CRUD | Display |
  |----------------------------+------+---------|
  | Invoice                    | x    | x       |
@@ -73,21 +74,21 @@
  | Settings                   | x    | -       |
  | Voucher                    | x    | x       |
  | UOM                        |      |         |
- | User                       |      |         |
+ | User                       | x    | x       |
  | Password                   |      |         |
- | About                      |      |         |
+ | About                      | -    | x       |
  | Cash Flow                  |      |         |
  | Close Books                |      |         |
  | Categorywise Stock on Hand |      |         |
  | Cost Center                |      |         |
  | Ledger                     |      |         |
- | Login                      |      |         |
+ | Login                      | x    |         |
  | Logs                       |      |         |
  | Org Profile                |      |         |
  | Profit Loss                |      |         |
  | Registers                  |      |         |
- | Select Org                 |      |         |
- | Server Setup               |      |         |
+ | Select Org                 | x    |         |
+ | Server Setup               | x    |         |
  | Trial Balance              |      |         |
  | GST R1                     |      |         |
  | GST 3B                     |      |         |
