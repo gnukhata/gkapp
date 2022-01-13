@@ -537,6 +537,7 @@ export default {
           return no;
         })
         .catch((error) => {
+          console.log(error);
           // this.displayToast(
           //   'Fetch Delivery Challan No. Failed!',
           //   error.message,

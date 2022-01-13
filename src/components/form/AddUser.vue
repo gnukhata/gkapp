@@ -2,7 +2,7 @@
   <section class="m-2">
     <!-- Create user -->
     <b-card
-      header="Add User"
+      :header="$gettext('Add User')"
       header-bg-variant="dark"
       header-text-variant="light"
       class="gkcard mx-auto"
@@ -10,7 +10,7 @@
       <b-form ref="createForm" @submit.prevent="addUser">
         <b-overlay :show="isLoading" blur no-wrap></b-overlay>
         <b-form-group
-          label="Name"
+          :label="$gettext('Name')"
           label-align="right"
           label-cols="4"
           label-size="sm"
@@ -24,11 +24,11 @@
             size="sm"
           ></b-form-input>
           <b-form-invalid-feedback id="input-live-feedback">
-            Username must be minimum 3 characters
+            <v-translate>Username must be minimum of 3 characters</v-translate>
           </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
-          label="Role"
+          :label="$gettext('Role')"
           label-size="sm"
           label-align="right"
           label-cols="4"
@@ -53,14 +53,14 @@
           responsive
         >
           <caption>
-            Select Godowns
+            <v-translate>Select Godowns</v-translate>
           </caption>
           <b-thead head-variant="dark">
             <b-tr>
-              <b-th>Select</b-th>
-              <b-th>Name</b-th>
-              <b-th>State</b-th>
-              <b-th>Address</b-th>
+              <b-th v-translate>Select</b-th>
+              <b-th v-translate>Name</b-th>
+              <b-th v-translate>State</b-th>
+              <b-th v-translate>Address</b-th>
             </b-tr>
           </b-thead>
           <b-tbody>
@@ -82,7 +82,7 @@
           </b-tbody>
         </b-table-simple>
         <b-form-group
-          label="Password"
+          :label="$gettext('Password')"
           label-align="right"
           label-cols="4"
           label-size="sm"
@@ -90,7 +90,7 @@
           <password size="sm" v-model="newUser.userpassword"></password>
         </b-form-group>
         <b-form-group
-          label="Confirm Password"
+          :label="$gettext('Confirm Password')"
           label-align="right"
           label-cols="4"
           label-size="sm"
@@ -98,14 +98,16 @@
           <b-form-input :state="pwdMatch" v-model="cnfPassword" size="sm">
           </b-form-input>
           <b-form-invalid-feedback
-            >Passwords do not match</b-form-invalid-feedback
+            ><translate
+              >Passwords do not match</translate
+            ></b-form-invalid-feedback
           >
         </b-form-group>
         <b-form-group
           label-size="sm"
           label-cols="4"
           label-align="right"
-          label="Question"
+          :label="$gettext('Question')"
         >
           <security-questions
             size="sm"
@@ -116,7 +118,7 @@
           label-cols="4"
           label-size="sm"
           label-align="right"
-          label="Answer"
+          :label="$gettext('Answer')"
         >
           <b-form-input
             v-model="newUser.useranswer"
@@ -134,7 +136,7 @@
             variant="success"
           >
             <b-icon type="submit" icon="person-plus"></b-icon>
-            Create User</b-button
+            <translate>Create User</translate></b-button
           >
         </slot>
       </b-form>

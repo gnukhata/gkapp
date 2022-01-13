@@ -32,16 +32,18 @@
 | Cash Flow                          | x   |    |
 | accounts                           | x   |    |
 | List of Godowns                    | x   |    |
-| List of categories                 |     |    |
-| List of Users                      |     |    |
-| Budget report (Cash & Profit/Loss) |     |    |
-| Cost Center statement              |     |    |
+| Budget report (Cash & Profit/Loss) | x   |    |
+| List of Users                      | x   |    |
+| List of Transfer Notes             | x   |    |
+|                                    |     |    |
+| List of Unpaid Invoices            |     |    |
 | Unbilled Delivery Notes            |     |    |
 | Cancelled Delivery Notes           |     |    |
-| List of Transfer Notes             |     |    |
-| List of Unpaid Invoices            |     |    |
+|                                    |     |    |
 | gst_r1                             |     |    |
 | gst report                         |     |    |
+| Cost Center statement              |     |    |
+| List of categories                 |     |    |
 
 - [ ] Small business GST Compliance <2022-01-31 Mon>
 - [ ] Data exchange
