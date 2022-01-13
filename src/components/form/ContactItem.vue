@@ -1,7 +1,7 @@
 <template>
   <div class="card mx-0">
     <div class="card-header text-left py-2">
-      <b>Contact Person Details</b>
+      <b v-gettext>Contact Person Details</b>
       <slot name="close-button"> </slot>
     </div>
     <div class="card-body pb-2">
@@ -9,14 +9,19 @@
         <b-row>
           <b-col cols="12">
             <b-form-group label-size="sm" label-cols="3" label="Type">
+              <template #label> <translate> Type </translate> </template>
               <b-form-radio-group
                 button-variant="outline-primary"
                 v-model="type"
                 buttons
                 size="sm"
               >
-                <b-form-radio value="customer">Customer</b-form-radio>
-                <b-form-radio value="supplier">Supplier</b-form-radio>
+                <b-form-radio value="customer">
+                  <translate> Customer </translate>
+                </b-form-radio>
+                <b-form-radio value="supplier">
+                  <translate> Supplier </translate>
+                </b-form-radio>
               </b-form-radio-group>
             </b-form-group>
             <b-form-group label-size="sm" label="GSTIN" label-cols="3" inline>
@@ -38,6 +43,7 @@
               label-cols="3"
               label-class="required"
             >
+              <template #label> <translate> Name </translate> </template>
               <b-form-input
                 size="sm"
                 id="ci-input-1"
@@ -53,6 +59,7 @@
               label-for="ci-input-4"
               label-cols="3"
             >
+              <template #label> <translate> Address </translate> </template>
               <b-form-textarea
                 id="ci-input-4"
                 v-model="form.address"
@@ -68,6 +75,7 @@
               label-for="ci-input-2"
               label-cols="3"
             >
+              <template #label> <translate> State </translate> </template>
               <autocomplete
                 id="ci-input-2"
                 v-model="state"
@@ -85,6 +93,7 @@
               label-for="ci-input-3"
               label-cols="3"
             >
+              <template #label> <translate> Pin Code </translate> </template>
               <b-form-input
                 size="sm"
                 id="ci-input-3"
@@ -124,7 +133,7 @@
               class="mb-3"
               switch
             >
-              Contact Details
+              <translate> Contact Details </translate>
             </b-form-checkbox>
             <b-collapse v-model="showOptional">
               <b-form-group
@@ -133,6 +142,7 @@
                 label-for="ci-input-5"
                 label-cols="3"
               >
+                <template #label> <translate> Email </translate> </template>
                 <b-form-input
                   size="sm"
                   id="ci-input-5"
@@ -147,6 +157,7 @@
                 label-for="ci-input-6"
                 label-cols="3"
               >
+                <template #label> <translate> Phone </translate> </template>
                 <b-form-input
                   size="sm"
                   id="ci-input-6"
@@ -162,6 +173,7 @@
                 label-for="ci-input-7"
                 label-cols="3"
               >
+                <template #label> <translate> Fax </translate> </template>
                 <b-form-input
                   size="sm"
                   id="ci-input-7"
@@ -179,7 +191,7 @@
               class="mb-3"
               switch
             >
-              Bank Details
+              <translate> Bank Details </translate>
             </b-form-checkbox>
             <b-collapse v-model="showBankDetails">
               <!-- IFSC -->
@@ -203,6 +215,7 @@
                 label-for="ci-input-12"
                 label-cols="3"
               >
+                <template #label> <translate> Name </translate> </template>
                 <b-form-input
                   size="sm"
                   id="ci-input-12"
@@ -219,6 +232,7 @@
                 label-for="ci-input-13"
                 label-cols="3"
               >
+                <template #label> <translate> Branch </translate> </template>
                 <b-form-input
                   size="sm"
                   id="ci-input-13"
@@ -234,6 +248,7 @@
                 label-for="ci-input-14"
                 label-cols="3"
               >
+                <template #label> <translate> Acc. No. </translate> </template>
                 <b-form-input
                   size="sm"
                   id="ci-input-14"
@@ -259,7 +274,7 @@
               class="align-middle"
               icon="arrow-left"
             ></b-icon>
-            <span class="align-middle"> Back</span>
+            <span class="align-middle" v-translate> Back</span>
           </b-button>
           <b-button
             size="sm"
@@ -272,7 +287,7 @@
               class="align-middle"
               icon="arrow-repeat"
             ></b-icon>
-            <span class="align-middle"> Reset</span>
+            <span class="align-middle" v-translate> Reset</span>
           </b-button>
           <b-button type="submit" size="sm" class="m-1" variant="success">
             <b-spinner v-if="isLoading" small></b-spinner>
@@ -282,7 +297,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-            <span class="align-middle"> Save</span>
+            <span class="align-middle" v-translate> Save</span>
           </b-button>
         </div>
       </b-form>
@@ -460,13 +475,21 @@ export default {
           switch (response.data.gkstatus) {
             case 0:
               {
-                this.$bvToast.toast(`${this.formType} created successfully`, {
-                  title: 'Create Customer Success!',
-                  autoHideDelay: 3000,
-                  variant: 'success',
-                  appendToast: true,
-                  solid: true,
-                });
+                this.$bvToast.toast(
+                  this.$gettextInterpolate(
+                    this.$gettext(`%{formType} created successfully`),
+                    {
+                      formType: this.formType,
+                    }
+                  ),
+                  {
+                    title: this.$gettext('Create Customer Success!'),
+                    autoHideDelay: 3000,
+                    variant: 'success',
+                    appendToast: true,
+                    solid: true,
+                  }
+                );
 
                 // === Server Log ===
                 let logdata = { activity: '' };
@@ -483,9 +506,16 @@ export default {
               break;
             case 1:
               this.$bvToast.toast(
-                `${this.formType} entry already exists! (Please check Name, FAX or PAN)`,
+                this.$gettextInterpolate(
+                  this.$gettext(
+                    `%{formType} entry already exists! (Please check Name, FAX or PAN)`
+                  ),
+                  {
+                    formType: this.formType,
+                  }
+                ),
                 {
-                  title: 'Create Customer Error!',
+                  title: this.$gettext('Create Customer Error!'),
                   autoHideDelay: 3000,
                   variant: 'warning',
                   appendToast: true,
@@ -494,19 +524,22 @@ export default {
               );
               break;
             case 2:
-              this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-                title: 'Create Customer Error!',
-                autoHideDelay: 3000,
-                variant: 'warning',
-                appendToast: true,
-                solid: true,
-              });
+              this.$bvToast.toast(
+                this.$gettext(`Unauthorized access, Please contact admin`),
+                {
+                  title: this.$gettext('Create Customer Error!'),
+                  autoHideDelay: 3000,
+                  variant: 'warning',
+                  appendToast: true,
+                  solid: true,
+                }
+              );
               break;
             default:
               this.$bvToast.toast(
                 `Unable to create ${this.formType}, Please try again`,
                 {
-                  title: 'Create Customer Error!',
+                  title: this.$gettext('Create Customer Error!'),
                   autoHideDelay: 3000,
                   variant: 'warning',
                   appendToast: true,
@@ -520,7 +553,7 @@ export default {
         })
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: 'Create Customer Error!',
+            title: this.$gettext('Create Customer Error!'),
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
@@ -624,14 +657,20 @@ export default {
             });
           } else {
             this.displayToast(
-              'Preload Data Failed!',
-              'Error fetching State List, please try again after sometime.',
+              this.$gettext('Preload Data Failed!'),
+              this.$gettext(
+                'Error fetching State List, please try again after sometime.'
+              ),
               'warning'
             );
           }
         })
         .catch((error) => {
-          this.displayToast('Preload Data Failed!', error.message, 'warning');
+          this.displayToast(
+            this.$gettext('Preload Data Failed!'),
+            error.message,
+            'warning'
+          );
           return error;
         });
     },

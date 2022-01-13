@@ -47,11 +47,11 @@
                 v-model="form.type"
                 @input="resetPartyDetails()"
               >
-                <b-form-radio value="customer" v-translate>
-                  Customer
+                <b-form-radio value="customer">
+                  <translate> Customer </translate>
                 </b-form-radio>
-                <b-form-radio value="supplier" v-translate>
-                  Supplier
+                <b-form-radio value="supplier">
+                  <translate> Supplier </translate>
                 </b-form-radio>
               </b-form-radio-group>
               <b-button
@@ -507,8 +507,8 @@ export default {
               case 2:
                 self.resetPartyDetails(); // if there no data, then reset the fields
                 this.displayToast(
-                  'Fetch Customer/Supplier Data Error!',
-                  'Unauthorized Access, Please contact Admin',
+                  this.$gettext('Fetch Customer/Supplier Data Error!'),
+                  this.$gettext('Unauthorized Access, Please contact Admin'),
                   'warning'
                 );
                 break;
@@ -516,8 +516,8 @@ export default {
               default:
                 self.resetPartyDetails(); // if there no data, then reset the fields
                 this.displayToast(
-                  'Fetch Customer/Supplier Data Error!',
-                  'Unable to Fetch Customer/Supplier Data, Please try again',
+                  this.$gettext('Fetch Customer/Supplier Data Error!'),
+                  this.$gettext('Unable to Fetch Customer/Supplier Data, Please try again'),
                   'danger'
                 );
             }
@@ -526,7 +526,7 @@ export default {
           })
           .catch((error) => {
             this.displayToast(
-              'Fetch Customer/Supplier Data Error!',
+              this.$gettext('Fetch Customer/Supplier Data Error!'),
               error.message,
               'warning'
             );
@@ -643,7 +643,7 @@ export default {
       const requests = [
         axios.get('/state').catch((error) => {
           this.displayToast(
-            'Fetch State Data Failed!',
+            this.$gettext('Fetch State Data Failed!'),
             error.message,
             'danger'
           );
@@ -672,7 +672,7 @@ export default {
       const requests = [
         axios.get('/customersupplier?qty=custall').catch((error) => {
           this.displayToast(
-            'Fetch Customer Data Failed!',
+            this.$gettext('Fetch Customer Data Failed!'),
             error.message,
             'danger'
           );
@@ -680,7 +680,7 @@ export default {
         }),
         axios.get('/customersupplier?qty=supall').catch((error) => {
           this.displayToast(
-            'Fetch Supplier Data Failed!',
+            this.$gettext('Fetch Supplier Data Failed!'),
             error.message,
             'danger'
           );
@@ -743,7 +743,7 @@ export default {
         })
         .catch((error) => {
           this.displayToast(
-            'Fetch Customer/Supplier Data Failed!',
+            this.$gettext('Fetch Customer/Supplier Data Failed!'),
             error.message,
             'danger'
           );

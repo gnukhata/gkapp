@@ -10,7 +10,10 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b>{{ saleFlag ? 'Sale Order' : 'Purchase Order' }} Details</b>
+        <b>
+          <span v-if="saleFlag" v-translate> Sale Order Details </span>
+          <span v-else v-translate> Purchase Order Details </span>
+        </b>
         <b-button
           variant="secondary"
           size="sm"
@@ -411,7 +414,11 @@ export default {
           }
         })
         .catch((error) => {
-          this.displayToast('Fetch User Data Failed!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Fetch User Data Failed!'),
+            error.message,
+            'danger'
+          );
           return error;
         });
     },
@@ -442,7 +449,7 @@ export default {
       const requests = [
         axios.get('/state').catch((error) => {
           this.displayToast(
-            'Fetch State Data Failed!',
+            this.$gettext('Fetch State Data Failed!'),
             error.message,
             'danger'
           );
@@ -450,14 +457,18 @@ export default {
         }),
         axios.get(`/organisation`).catch((error) => {
           this.displayToast(
-            'Fetch Organisation Profile Data Failed!',
+            this.$gettext('Fetch Organisation Profile Data Failed!'),
             error.message,
             'danger'
           );
           return error;
         }),
         axios.get(`/godown`).catch((error) => {
-          this.displayToast('Fetch Godowns Failed!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Fetch Godowns Failed!'),
+            error.message,
+            'danger'
+          );
           return error;
         }),
         this.fetchUserData(),

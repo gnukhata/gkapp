@@ -18,6 +18,7 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group label="Parent Category" label-cols="3">
+          <template #label> <translate> Parent Category </translate> </template>
           <b-form-select
             @input="getParentData(form.parent)"
             v-model="form.parent"
@@ -44,7 +45,7 @@
             size="sm"
             switch
           >
-            Add Specification
+            <translate> Add Specification </translate>
           </b-form-checkbox>
           <b-form-checkbox
             id="checkbox-1"
@@ -54,7 +55,7 @@
             size="sm"
             switch
           >
-            Add Tax
+            <translate> Add Tax </translate>
           </b-form-checkbox>
         </div>
         <!-- Spec table -->
@@ -206,9 +207,9 @@
             </b-button-group>
           </template>
         </b-table>
-        <b-button type="submit" class="float-right" size="sm" variant="success"
-          >Save</b-button
-        >
+        <b-button type="submit" class="float-right" size="sm" variant="success">
+          <translate> Save </translate>
+        </b-button>
       </b-form>
     </b-card>
   </section>
@@ -253,7 +254,7 @@ export default {
     };
   },
   computed: {
-    gstRates:(self) => self.$store.getters['global/getGstRates'],
+    gstRates: (self) => self.$store.getters['global/getGstRates'],
     ...mapState([]),
   },
   methods: {
@@ -370,7 +371,7 @@ export default {
               ...resp.data.gkresult,
             ];
           } else {
-            this.$bvToast.toast('Failed to fetch categories', {
+            this.$bvToast.toast(this.$gettext('Failed to fetch categories'), {
               variant: 'danger',
               solid: true,
             });

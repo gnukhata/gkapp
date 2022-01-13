@@ -248,7 +248,7 @@ export default {
         .catch((error) => {
           this.isPreloading = false;
           this.displayToast(
-            'Fetch State Data Failed!',
+            this.$gettext('Fetch State Data Failed!'),
             error.message,
             'danger'
           );

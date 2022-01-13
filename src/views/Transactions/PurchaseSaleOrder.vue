@@ -6,7 +6,8 @@
   >
     <b-form @submit.prevent="confirmOnSubmit">
       <div class="text-center pt-2">
-        <h4>Create {{ isSale ? 'Sale' : 'Purchase' }} Order</h4>
+        <h4 v-if="isSale" v-translate>Create Sale Order</h4>
+        <h4 v-else v-translate>Create Purchase Order</h4>
       </div>
       <hr />
       <div class="mb-2">
@@ -18,8 +19,12 @@
           class="mx-1"
           @input="updateConfig"
         >
-          <b-form-radio value="sale">Sale</b-form-radio>
-          <b-form-radio value="purchase">Purchase</b-form-radio>
+          <b-form-radio value="sale">
+            <translate> Sale </translate>
+          </b-form-radio>
+          <b-form-radio value="purchase">
+            <translate> Purchase </translate>
+          </b-form-radio>
         </b-form-radio-group>
         <span class="float-right">
           <config
@@ -144,8 +149,12 @@
         placement="top"
         triggers="manual"
       >
-        Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-        <b>{{ yearEnd }}</b>
+        <translate
+          translate-comment="%{start} and %{end} are a variables, translation is not required for them. Enter them, as they are while translation."
+          :translate-params="{ start: yearStart, end: yearEnd }"
+        >
+          Date must be within the Financial Year, from %{start} to %{end}
+        </translate>
       </b-tooltip>
       <hr />
       <div class="float-right">
@@ -160,7 +169,7 @@
             class="align-middle"
             icon="arrow-left"
           ></b-icon>
-          <span class="align-middle"> Back</span>
+          <span class="align-middle" v-translate> Back </span>
         </b-button>
         <b-button
           class="m-1"
@@ -173,7 +182,7 @@
             class="align-middle"
             icon="arrow-repeat"
           ></b-icon>
-          <span class="align-middle"> Reset</span>
+          <span class="align-middle" v-translate> Reset </span>
         </b-button>
         <b-button
           id="inv-submit"
@@ -191,7 +200,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-            <span class="align-middle"> Create</span>
+            <span class="align-middle" v-translate> Create </span>
           </span>
         </b-button>
       </div>
@@ -295,7 +304,7 @@ export default {
         transport: {},
         narration: null,
         total: {},
-        payment: {}
+        payment: {},
       },
       options: {
         states: [],
@@ -331,7 +340,7 @@ export default {
             this.isInvDateValid = payload.options.isDateValid;
             this.form.transport.date = this.form.psOrder.date;
             const self = this;
-            setTimeout(function () {
+            setTimeout(function() {
               self.updateCounter.transport++;
             });
           }
@@ -560,7 +569,7 @@ export default {
                 // Duplicate entry
                 this.displayToast(
                   `Create ${orderType} Failed!`,
-                  'Duplicate Entry, Check Id',
+                  this.$gettext('Duplicate Entry, Check Id'),
                   'warning'
                 );
                 break;
@@ -568,7 +577,7 @@ export default {
                 // Unauthorized access
                 this.displayToast(
                   `Create ${orderType} Failed!`,
-                  'Unauthorized Access, Contact Admin',
+                  this.$gettext('Unauthorized Access, Contact Admin'),
                   'warning'
                 );
                 break;
@@ -576,7 +585,7 @@ export default {
                 // Connection failed, Check inputs and try again
                 this.displayToast(
                   `Create ${orderType} Failed!`,
-                  'Please check your input and try again later',
+                  this.$gettext('Please check your input and try again later'),
                   'danger'
                 );
             }
@@ -605,10 +614,9 @@ export default {
           }
           break;
         case 'cash':
-        default:
-          {
-            paymentMode = 3;
-          }
+        default: {
+          paymentMode = 3;
+        }
       }
 
       this.form = {
@@ -696,7 +704,7 @@ export default {
       ];
       if (newConf) {
         newConf.total.value = {
-          text: this.isSale ? 'Sale Order Value' : 'Purchase Order Value',
+          text: this.isSale ? this.$gettext('Sale Order Value') : this.$gettext('Purchase Order Value'),
         };
         if (newConf.psOrder.class) {
           newConf.psOrder.class = {

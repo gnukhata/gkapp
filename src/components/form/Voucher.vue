@@ -53,7 +53,8 @@
                       width: '150px',
                       minWidth: '100px',
                     }"
-                    >Account
+                  >
+                    <translate> Account </translate>
                   </b-th>
                   <b-th
                     :style="{
@@ -61,8 +62,9 @@
                       width: '150px',
                       minWidth: '70px',
                     }"
-                    >Balance</b-th
                   >
+                    <translate> Balance </translate>
+                  </b-th>
                   <b-th
                     :style="{
                       maxWidth: '200px',
@@ -237,7 +239,7 @@
               </b-tbody>
               <b-tfoot>
                 <b-tr variant="secondary" class="text-right">
-                  <b-th colspan="3"> Total </b-th>
+                  <b-th colspan="3"> <translate> Total </translate> </b-th>
                   <b-th>
                     <span>₹ {{ totalDr }}</span>
                   </b-th>
@@ -283,7 +285,7 @@
               class="align-middle"
               icon="arrow-left"
             ></b-icon>
-            <span class="align-middle"> Back</span>
+            <span class="align-middle" v-translate> Back</span>
           </b-button>
           <b-button
             size="sm"
@@ -297,7 +299,7 @@
               class="align-middle"
               icon="trash"
             ></b-icon>
-            <span class="align-middle"> Delete</span>
+            <span class="align-middle" v-translate> Delete</span>
           </b-button>
           <b-button
             size="sm"
@@ -313,9 +315,10 @@
               class="align-middle"
               :icon="isCreateMode ? 'plus-square' : 'cloud-arrow-up'"
             ></b-icon>
-            <span class="align-middle">
-              {{ isCreateMode ? 'Save' : 'Update' }}</span
-            >
+            <span class="align-middle" v-if="isCreateMode" v-translate>
+              Save
+            </span>
+            <span v-else class="align-middle" v-translate> Update </span>
           </b-button>
         </div>
         <div class="clearfix"></div>
@@ -502,9 +505,7 @@ export default {
       const self = this;
       const text = this.$createElement('div', {
         domProps: {
-          innerHTML: `Delete ${
-            this.form.vtype.text
-          } Voucher <b>${this.form.vno}</b>?"`,
+          innerHTML: `Delete ${this.form.vtype.text} Voucher <b>${this.form.vno}</b>?"`,
         },
       });
       this.$bvModal
@@ -520,18 +521,31 @@ export default {
         .then((val) => {
           if (val) {
             // return;
-            axios.delete('/transaction', {
-              data: {
-                vouchercode: this.vid,
-              },
-            }).then((resp) => {
-              if(resp.data.gkstatus === 0) {
-                self.$router.push({name: 'Workflow', params: {wfName: 'Transactions-Voucher', wfId: '-1'}});
-                self.displayToast(`Voucher Delete success!`, `${self.form.vtype.text} Voucher : ${self.form.vno}, deleted successfully.`, 'success');
-              } else {
-                self.displayToast(`Voucher Delete failed!`, `Unable to delete ${self.form.vtype.text} Voucher : ${self.form.vno}`, 'danger');
-              }
-            })
+            axios
+              .delete('/transaction', {
+                data: {
+                  vouchercode: this.vid,
+                },
+              })
+              .then((resp) => {
+                if (resp.data.gkstatus === 0) {
+                  self.$router.push({
+                    name: 'Workflow',
+                    params: { wfName: 'Transactions-Voucher', wfId: '-1' },
+                  });
+                  self.displayToast(
+                    this.$gettext(`Voucher Delete success!`),
+                    `${self.form.vtype.text} Voucher : ${self.form.vno}, deleted successfully.`,
+                    'success'
+                  );
+                } else {
+                  self.displayToast(
+                    this.$gettext(`Voucher Delete failed!`),
+                    `Unable to delete ${self.form.vtype.text} Voucher : ${self.form.vno}`,
+                    'danger'
+                  );
+                }
+              });
           }
         });
     },
@@ -612,7 +626,7 @@ export default {
           })
           .catch((error) => {
             this.displayToast(
-              'Fetch State Data Failed!',
+              this.$gettext('Fetch State Data Failed!'),
               error.message,
               'danger'
             );
@@ -627,28 +641,26 @@ export default {
      * Description: Fetches the list of Accounts for Dr and Cr fields for the current Voucher type
      */
     preloadData() {
-      let type = this.form.vtype.acc? this.form.vtype.acc : this.form.vtype.value;
+      let type = this.form.vtype.acc
+        ? this.form.vtype.acc
+        : this.form.vtype.value;
       const requests = [
-        axios
-          .get(`/accountsbyrule?type=${type}&side=Dr`)
-          .catch((error) => {
-            this.displayToast(
-              'Fetch State Data Failed!',
-              error.message,
-              'danger'
-            );
-            return error;
-          }),
-        axios
-          .get(`/accountsbyrule?type=${type}&side=Cr`)
-          .catch((error) => {
-            this.displayToast(
-              'Fetch State Data Failed!',
-              error.message,
-              'danger'
-            );
-            return error;
-          }),
+        axios.get(`/accountsbyrule?type=${type}&side=Dr`).catch((error) => {
+          this.displayToast(
+            this.$gettext('Fetch State Data Failed!'),
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
+        axios.get(`/accountsbyrule?type=${type}&side=Cr`).catch((error) => {
+          this.displayToast(
+            this.$gettext('Fetch State Data Failed!'),
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
       ];
 
       const self = this;
@@ -680,7 +692,7 @@ export default {
 
         if (preloadErrorList !== '') {
           this.displayToast(
-            'Error: Unable to Preload Data',
+            this.$gettext('Error: Unable to Preload Data'),
             `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
             'danger'
           );
@@ -697,7 +709,12 @@ export default {
       // return;
 
       const method = this.isCreateMode ? 'post' : 'put';
-      const actionText = this.isCreateMode ? 'Create' : 'Update';
+      const failTitle = this.isCreateMode
+          ? this.$gettext('Create Voucher Failure!')
+          : this.$gettext('Update Voucher Failure!'),
+        failMessage = this.isCreateMode
+          ? this.$gettext('Voucher Creation Failed!')
+          : this.$gettext('Voucher Updation Failed!');
       axios({ method: method, url: '/transaction', data: payload })
         .then((resp) => {
           self.isLoading = false;
@@ -706,8 +723,8 @@ export default {
               {
                 if (this.isCreateMode) {
                   self.displayToast(
-                    'Create Voucher Success!',
-                    'Voucher Created Successfully!',
+                    this.$gettext('Create Voucher Success!'),
+                    this.$gettext('Voucher Created Successfully!'),
                     'success'
                   );
                   const accMap = self.options.acc;
@@ -732,8 +749,15 @@ export default {
                   self.resetForm();
                 } else {
                   self.displayToast(
-                    'Update Voucher Success!',
-                    `Voucher ${self.form.vno} Updated Successfully!`,
+                    this.$gettext('Update Voucher Success!'),
+                    this.$gettextInterpolate(
+                      this.$gettext(
+                        `Voucher %{voucherNo} Updated Successfully!`
+                      ),
+                      {
+                        voucherNo: self.form.vno,
+                      }
+                    ),
                     'success'
                   );
 
@@ -745,20 +769,12 @@ export default {
               }
               break;
             default:
-              self.displayToast(
-                `${actionText} Voucher Failure!`,
-                `Voucher ${actionText} Failed!`,
-                'danger'
-              );
+              self.displayToast(failTitle, failMessage, 'danger');
           } // end switch
         })
         .catch((error) => {
           self.isLoading = false;
-          self.displayToast(
-            `${actionText} Voucher Failure!`,
-            error.message,
-            'danger'
-          );
+          self.displayToast(failTitle, error.message, 'danger');
         });
     },
     initPayload() {
@@ -872,7 +888,9 @@ export default {
           self.form.date = self.dateReverse(data.voucherdate);
           self.form.narration = data.narration;
 
-          self.form.vtype = self.options.vtype.find((vtype) => vtype.value === data.vouchertype)
+          self.form.vtype = self.options.vtype.find(
+            (vtype) => vtype.value === data.vouchertype
+          );
           self.form.vno = data.vouchernumber;
           self.form.dr = [];
           self.form.cr = [];
@@ -913,14 +931,14 @@ export default {
               });
               self.$forceUpdate();
             });
-          })
+          });
           self.options.vdata = data;
         }
       });
     },
   },
   mounted() {
-    if(this.isCreateMode) {
+    if (this.isCreateMode) {
       this.resetForm();
     } else {
       this.fetchVoucherDetails(this.vid);

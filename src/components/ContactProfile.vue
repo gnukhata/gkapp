@@ -9,7 +9,7 @@
     >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-info>
-          <div class="mr-auto">Info</div>
+          <div class="mr-auto" v-translate>Info</div>
           <div>
             <b-icon
               :icon="isCollapsed1 ? 'dash' : 'arrows-fullscreen'"
@@ -24,6 +24,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> Name </translate> </template>
           <b-form-input
             id="nested-name"
             v-model="details.custname"
@@ -36,6 +37,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> Phone </translate> </template>
           <b-form-input
             v-model="details.custphone"
             id="nested-city"
@@ -48,6 +50,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> Email </translate> </template>
           <b-form-input v-model="details.custemail"></b-form-input>
         </b-form-group>
 
@@ -57,6 +60,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> Fax </translate> </template>
           <b-form-input v-model="details.custfax"></b-form-input>
         </b-form-group>
       </b-collapse>
@@ -70,7 +74,7 @@
     >
       <template #header>
         <div v-b-toggle.address class="d-flex">
-          <div class="mr-auto">Address</div>
+          <div class="mr-auto" v-translate>Address</div>
           <div>
             <b-icon
               :icon="isCollapsed2 ? 'dash' : 'arrows-fullscreen'"
@@ -85,6 +89,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> Street </translate> </template>
           <b-form-input
             id="nested-street"
             v-model="details.custaddr"
@@ -97,6 +102,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> State </translate> </template>
           <b-form-select
             :options="options.states"
             v-model="details.state"
@@ -110,6 +116,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> Pincode </translate> </template>
           <b-form-input
             type="number"
             no-wheel
@@ -128,7 +135,7 @@
     >
       <template #header>
         <div v-b-toggle.financial class="d-flex">
-          <div class="mr-auto">Financial Details</div>
+          <div class="mr-auto" v-translate>Financial Details</div>
           <div>
             <b-icon
               variant="light"
@@ -189,7 +196,7 @@
     >
       <template #header>
         <div v-b-toggle.financial class="d-flex">
-          <div class="mr-auto">Bank Details</div>
+          <div class="mr-auto" v-translate>Bank Details</div>
           <div>
             <b-icon
               variant="light"
@@ -218,6 +225,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> Acc. No. </translate> </template>
           <b-form-input id="cp-bank-ano" v-model="bankDetails.accountno">
           </b-form-input>
         </b-form-group>
@@ -227,6 +235,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> Bank Name </translate> </template>
           <b-form-input
             id="cp-bank-name"
             v-model="bankDetails.bankname"
@@ -239,6 +248,7 @@
           label-cols-sm="3"
           label-align-sm="right"
         >
+          <template #label> <translate> Branch </translate> </template>
           <b-form-input
             id="cp-bank-branch"
             v-model="bankDetails.branchname"
@@ -253,14 +263,17 @@
         size="sm"
         class="ml-2"
         variant="danger"
-        ><b-icon icon="person-dash"></b-icon> Delete Contact</b-button
-      >
+        ><b-icon icon="person-dash"></b-icon>
+        <translate> Delete Contact </translate>
+      </b-button>
       <b-button type="submit" size="sm" class="ml-2" variant="success"
-        ><b-icon icon="cloud-arrow-up"></b-icon> Save Changes</b-button
-      >
+        ><b-icon icon="cloud-arrow-up"></b-icon>
+        <translate> Save Changes </translate>
+      </b-button>
       <b-button to="/invoice/create/0" size="sm" class="ml-2" variant="dark"
-        ><b-icon icon="receipt"></b-icon> Add Transaction</b-button
-      >
+        ><b-icon icon="receipt"></b-icon>
+        <translate> Add Transaction </translate>
+      </b-button>
       <b-button
         :to="{
           name: 'Create_Voucher',
@@ -272,8 +285,9 @@
         size="sm"
         class="ml-2"
         variant="warning"
-        ><b-icon icon="file-earmark-plus"></b-icon> Create Voucher</b-button
-      >
+        ><b-icon icon="file-earmark-plus"></b-icon>
+        <translate> Create Voucher </translate>
+      </b-button>
     </div>
   </b-form>
 </template>
@@ -389,7 +403,7 @@ export default {
               }
               break;
             case 2:
-              this.$bvToast.toast('Unauthorised Access', {
+              this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                 variant: 'danger',
                 title: 'Alert',
                 solid: true,
@@ -397,7 +411,7 @@ export default {
               this.isLoading = false;
               break;
             case 3:
-              this.$bvToast.toast('Contact not found', {
+              this.$bvToast.toast(this.$gettext('Contact not found'), {
                 variant: 'danger',
                 title: 'Alert',
                 solid: true,
@@ -455,7 +469,7 @@ export default {
                     break;
                   case 2:
                     this.isLoading = false;
-                    this.$bvToast.toast('Unauthorised Access', {
+                    this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                       variant: 'danger',
                       solid: true,
                     });
@@ -463,7 +477,9 @@ export default {
                   case 4:
                     this.isLoading = false;
                     this.$bvToast.toast(
-                      'You have no permissions to delete details',
+                      this.$gettext(
+                        'You have no permissions to delete details'
+                      ),
                       {
                         variant: 'danger',
                         solid: true,
@@ -521,8 +537,8 @@ export default {
                     break;
                   case 2:
                     this.isLoading = false;
-                    this.$bvToast.toast('Unauthorised Access', {
-                      title: 'Action Denied',
+                    this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
+                      title: this.$gettext('Action Denied'),
                       variant: 'danger',
                       solid: true,
                     });
@@ -530,9 +546,11 @@ export default {
                   case 4:
                     this.isLoading = false;
                     this.$bvToast.toast(
-                      'You have no permissions to modify details',
+                      this.$gettext(
+                        'You have no permissions to modify details'
+                      ),
                       {
-                        title: 'Access Denied',
+                        title: this.$gettext('Access Denied'),
                         variant: 'danger',
                         solid: true,
                       }
@@ -540,11 +558,14 @@ export default {
                     break;
                   case 5:
                     this.isLoading = false;
-                    this.$bvToast.toast('Causes Integrity Issues', {
-                      title: 'Cannot Delete Contact',
-                      variant: 'danger',
-                      solid: true,
-                    });
+                    this.$bvToast.toast(
+                      this.$gettext('Causes Integrity Issues'),
+                      {
+                        title: this.$gettext('Cannot Delete Contact'),
+                        variant: 'danger',
+                        solid: true,
+                      }
+                    );
                     break;
                 }
               })

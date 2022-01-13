@@ -10,6 +10,7 @@
         <b-form class="text-small">
           <!-- Select Register -->
           <b-form-group label="Account Name" label-cols="auto">
+            <template #label> <translate> Account Name </translate> </template>
             <b-form-select
               ref="bankAcc"
               v-model="accId"
@@ -39,7 +40,7 @@
             variant="success"
             class="float-right"
             @click.prevent="getVouchers"
-            ><b-icon icon="cloud-download"></b-icon> Get Details</b-button
+            ><b-icon icon="cloud-download"></b-icon> <translate> Get Details </translate> </b-button
           >
         </b-form>
       </b-card>

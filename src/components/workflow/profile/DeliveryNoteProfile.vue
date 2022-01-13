@@ -154,14 +154,14 @@ export default {
         ? `(${self.delnote.designation})`
         : '';
       let data = [
-        { title: 'No.', value: noteData.no },
-        { title: 'Date', value: noteData.date },
-        { title: 'Supply Date.', value: noteData.supplyDate },
-        { title: 'Package Count', value: transport.packageQty },
-        { title: 'Mode of Transport', value: transport.mode },
-        { title: 'Vehicle No.', value: transport.vehicleNo },
+        { title: self.$gettext('No.'), value: noteData.no },
+        { title: self.$gettext('Date'), value: noteData.date },
+        { title: self.$gettext('Supply Date.'), value: noteData.supplyDate },
+        { title: self.$gettext('Package Count'), value: transport.packageQty },
+        { title: self.$gettext('Mode of Transport'), value: transport.mode },
+        { title: self.$gettext('Vehicle No.'), value: transport.vehicleNo },
         {
-          title: 'Issued By',
+          title: self.$gettext('Issued By'),
           value: `${self.delnote.issuer}  ${designation}`,
         },
       ];
@@ -171,7 +171,9 @@ export default {
       return data;
     },
     totalDetails: (self) => {
-      let total = [{ title: 'Taxable', value: self.total.taxable }];
+      let total = [
+        { title: self.$gettext('Taxable'), value: self.total.taxable },
+      ];
       if (self.delnote.isGst) {
         if (self.total.isIgst) {
           total.push({ title: 'IGST', value: self.total.tax });
@@ -186,8 +188,11 @@ export default {
         total.push({ title: 'VAT', value: self.total.tax });
       }
       total.push(
-        { title: 'Delivery Note Value', value: self.total.amount },
-        { title: 'Total In Words', value: self.total.text }
+        {
+          title: self.$gettext('Delivery Note Value'),
+          value: self.total.amount,
+        },
+        { title: self.$gettext('Total In Words'), value: self.total.text }
       );
       return total;
     },
@@ -195,20 +200,28 @@ export default {
       let fields = [
         {
           key: 'name',
-          label: 'Item',
+          label: self.$gettext('Item'),
         },
         'qty',
         {
           key: 'rate',
-          label: 'Rate (₹)',
+          label: self.$gettext('Rate (₹)'),
           tdClass: 'gk-currency-sm',
         },
-        { key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm' },
+        {
+          key: 'discount',
+          label: self.$gettext('Discount (₹)'),
+          tdClass: 'gk-currency-sm',
+        },
         { key: 'igst', label: 'IGST (%)' },
         { key: 'cgst', label: 'CGST (%)' },
         { key: 'sgst', label: 'SGST (%)' },
         { key: 'cess', label: 'CESS (%)' },
-        { key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' },
+        {
+          key: 'total',
+          label: self.$gettext('Total (₹)'),
+          tdClass: 'gk-currency-sm',
+        },
       ];
       if (self.total.isIgst) {
         fields.splice(5, 2);
@@ -255,15 +268,29 @@ export default {
                   axios.post('/log', log);
 
                   self.displayToast(
-                    `Delivery Note Delete success!`,
-                    `Delivery Note : ${self.no}, deleted successfully.`,
+                    this.$gettext(`Delivery Note Delete success!`),
+                    this.$gettextInterpolate(
+                      this.$gettext(
+                        `Delivery Note : %{delNoteNo}, deleted successfully.`
+                      ),
+                      {
+                        delNoteNo: self.no,
+                      }
+                    ),
                     'success'
                   );
                   this.onUpdate({ type: 'delete' });
                 } else {
                   self.displayToast(
-                    `Delivery Note Delete failed!`,
-                    `Unable to delete Delivery Note : ${self.no}`,
+                    this.$gettext(`Delivery Note Delete failed!`),
+                    this.$gettextInterpolate(
+                      this.$gettext(
+                        `Unable to delete Delivery Note : %{delNoteNo}`
+                      ),
+                      {
+                        delNoteNo: self.no,
+                      }
+                    ),
                     'danger'
                   );
                 }
@@ -352,7 +379,7 @@ export default {
         .get(`/delchal?delchal=single&dcid=${this.id}`)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `Fetch Delivery Note Error!`,
+            title: this.$gettext(`Fetch Delivery Note Error!`),
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
@@ -370,19 +397,24 @@ export default {
             this.formatDetails(response.data.gkresult);
             break;
           case 2:
-            this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `Fetch Delivery Note Error!`,
-              autoHideDelay: 3000,
-              variant: 'warning',
-              appendToast: true,
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext(`Unauthorized access, Please contact admin`),
+              {
+                title: this.$gettext(`Fetch Delivery Note Error!`),
+                autoHideDelay: 3000,
+                variant: 'warning',
+                appendToast: true,
+                solid: true,
+              }
+            );
             break;
           default:
             this.$bvToast.toast(
-              `Unable to Fetch Delivery Note Details! Please Try after sometime.`,
+              this.$gettext(
+                `Unable to Fetch Delivery Note Details! Please Try after sometime.`
+              ),
               {
-                title: `Fetch Transaction Details Error!`,
+                title: this.$gettext(`Fetch Transaction Details Error!`),
                 autoHideDelay: 3000,
                 variant: 'warning',
                 appendToast: true,

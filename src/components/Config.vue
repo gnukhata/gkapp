@@ -16,7 +16,7 @@
       <b-container fluid :style="{ minWidth: '300px' }">
         <b-row>
           <b-col cols="12" md="6" class="mb-1 pr-md-2">
-            <b>Custom Config</b>
+            <b v-translate>Custom Config</b>
             <b-form-textarea
               v-model="customConfig"
               placeholder="Enter something..."
@@ -30,11 +30,13 @@
             ></b-form-textarea>
             <div :style="{ fontSize: '0.8rem' }" v-if="isFormatError">
               <b-icon icon="x-circle-fill" variant="danger"></b-icon>
-              JSON validation error! Fix your JSON structure and try again.
+              <translate>
+                JSON validation error! Fix your JSON structure and try again.
+              </translate>
             </div>
             <div :style="{ fontSize: '0.8rem' }" v-if="isFormatSuccess">
               <b-icon icon="check-circle-fill" variant="success"></b-icon>
-              Configuration validated successfully!
+              <translate> Configuration validated successfully! </translate>
             </div>
           </b-col>
           <b-col
@@ -46,7 +48,7 @@
               'mb-md-1': true,
             }"
           >
-            <b>Validated Config</b>
+            <b v-translate>Validated Config</b>
             <div
               class="border border-dark h-100 rounded overflow-auto p-1 position-relative"
               :style="{ height: '300px', maxHeight: '300px' }"
@@ -63,22 +65,25 @@
           @click="editDefault()"
           size="sm"
           variant="primary"
-          >Edit Default</b-button
         >
+          <translate> Edit Default </translate>
+        </b-button>
         <b-button
           size="sm"
           variant="warning"
           class="mx-1"
           @click="formatConfig()"
-          >Validate</b-button
         >
+          <translate> Validate </translate>
+        </b-button>
         <b-button
           class="float-right"
           size="sm"
           variant="success"
           @click="confirmOnSave()"
-          >Save</b-button
         >
+          <translate> Save </translate>
+        </b-button>
       </b-container>
     </b-modal>
   </div>
@@ -108,7 +113,7 @@ export default {
     confirmMessage: {
       type: String,
       required: false,
-      default: 'Do you want to save the config?'
+      default: 'Do you want to save the config?',
     },
   },
   data() {
@@ -260,7 +265,7 @@ export default {
             if (resp.gkstatus === 0) {
               this.showModal = false;
               this.$bvToast.toast(`${this.title} was successfully updated`, {
-                title: 'Configuration Update Success!!',
+                title: this.$gettext('Configuration Update Success!!'),
                 autoHideDelay: 3000,
                 variant: 'success',
                 appendToast: true,
@@ -268,7 +273,7 @@ export default {
               });
             } else {
               this.$bvToast.toast(`${this.title} update failed`, {
-                title: 'Configuration Update Failure!!',
+                title: this.$gettext('Configuration Update Failure!!'),
                 autoHideDelay: 3000,
                 variant: 'danger',
                 appendToast: true,
@@ -278,9 +283,11 @@ export default {
           });
       } else {
         this.$bvToast.toast(
-          `The Configuration JSON entered could not be parsed, please provide a valid JSON`,
+          this.$gettext(
+            `The Configuration JSON entered could not be parsed, please provide a valid JSON`
+          ),
           {
-            title: 'Configuration Update Failure!!',
+            title: this.$gettext('Configuration Update Failure!!'),
             autoHideDelay: 5000,
             variant: 'warning',
             appendToast: true,

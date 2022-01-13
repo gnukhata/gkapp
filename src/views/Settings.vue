@@ -12,6 +12,7 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label> <translate> Date Format </translate> </template>
               <b-form-select
                 size="sm"
                 id="gs-t1-select-10"
@@ -27,6 +28,9 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label>
+                <translate> App Language </translate>
+              </template>
               <b-form-select
                 size="sm"
                 id="gs-t1-select-20"
@@ -42,7 +46,7 @@
               </b-form-select>
             </b-form-group>
             <b-button type="submit" size="sm" variant="success">
-              save
+              <translate> save </translate>
             </b-button>
           </b-form>
         </b-tab>
@@ -56,6 +60,9 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label>
+                <translate> Payment Mode </translate>
+              </template>
               <b-form-select
                 size="sm"
                 id="gs-t2-select-10"
@@ -71,6 +78,7 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label> <translate> Tax Mode </translate> </template>
               <b-form-select
                 size="sm"
                 id="gs-t2-select-20"
@@ -86,6 +94,9 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label>
+                <translate> Default Godown </translate>
+              </template>
               <b-form-select
                 size="sm"
                 id="gs-t2-select-30"
@@ -101,13 +112,19 @@
               label-cols="3"
               label-size="sm"
             >
-            <b-form-checkbox switch v-model="conf.transaction.default.partyVoucherFlag">
-              
-            </b-form-checkbox>
-              
+              <template #label>
+                <translate>
+                  Use Customer / Supplier ledgers to track transactions
+                </translate>
+              </template>
+              <b-form-checkbox
+                switch
+                v-model="conf.transaction.default.partyVoucherFlag"
+              >
+              </b-form-checkbox>
             </b-form-group>
             <b-button type="submit" size="sm" variant="success">
-              save
+              <translate> save </translate>
             </b-button>
           </b-form>
         </b-tab>
@@ -162,8 +179,8 @@ export default {
         .then((resp) => {
           if (resp.gkstatus === 0) {
             this.displayToast(
-              `Success!`,
-              'Global Config Saved Successfully.',
+              this.$gettext(`Success!`),
+              this.$gettext('Global Config Saved Successfully.'),
               'success'
             );
             this.$store.dispatch('global/initGlobalConfig', {
@@ -171,8 +188,8 @@ export default {
             });
           } else {
             this.displayToast(
-              `Success!`,
-              'Global Config Saved Successfully.',
+              this.$gettext(`Success!`),
+              this.$gettext('Global Config Saved Successfully.'),
               'failure'
             );
           }

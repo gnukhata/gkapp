@@ -6,7 +6,7 @@
           @click="$router.push('/godowns/add')"
           variant="warning"
           size="sm"
-          ><b-icon icon="building"></b-icon> Add Godown</b-button
+          ><b-icon icon="building"></b-icon> <translate> Add Godown </translate> </b-button
         >
       </template>
       <b-form-input

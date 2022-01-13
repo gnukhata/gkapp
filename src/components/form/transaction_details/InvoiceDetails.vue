@@ -109,7 +109,7 @@
           label-cols-lg="2"
           label-cols="3"
         >
-          <template #label> 
+          <template #label>
             <span v-translate v-if="saleFlag"> From Godown </span>
             <span v-translate v-else> To Godown </span>
           </template>
@@ -476,7 +476,11 @@ export default {
           }
         })
         .catch((error) => {
-          this.displayToast('Fetch User Data Failed!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Fetch User Data Failed!'),
+            error.message,
+            'danger'
+          );
           return error;
         });
     },
@@ -596,7 +600,7 @@ export default {
       const requests = [
         axios.get('/state').catch((error) => {
           this.displayToast(
-            'Fetch State Data Failed!',
+            this.$gettext('Fetch State Data Failed!'),
             error.message,
             'danger'
           );
@@ -604,14 +608,18 @@ export default {
         }),
         axios.get(`/organisation`).catch((error) => {
           this.displayToast(
-            'Fetch Organisation Profile Data Failed!',
+            this.$gettext('Fetch Organisation Profile Data Failed!'),
             error.message,
             'danger'
           );
           return error;
         }),
         axios.get(`/godown`).catch((error) => {
-          this.displayToast('Fetch Godowns Failed!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Fetch Godowns Failed!'),
+            error.message,
+            'danger'
+          );
           return error;
         }),
         this.fetchUserData(),

@@ -255,7 +255,7 @@ export default {
       const requests = [
         axios.get('/state').catch((error) => {
           this.displayToast(
-            'Fetch State Data Failed!',
+            this.$gettext('Fetch State Data Failed!'),
             error.message,
             'danger'
           );
@@ -263,7 +263,7 @@ export default {
         }),
         axios.get(`/organisation`).catch((error) => {
           this.displayToast(
-            'Fetch Organisation Profile Data Failed!',
+            this.$gettext('Fetch Organisation Profile Data Failed!'),
             error.message,
             'danger'
           );

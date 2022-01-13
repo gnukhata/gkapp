@@ -31,25 +31,13 @@
       tbody-tr-class="gk-vertical-row"
       class="text-small table-border-dark"
     >
-      <template #head(qty)="" v-translate>
-        Qty
-      </template>
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
-      <template #head(price)="" v-translate>
-        Price
-      </template>
       <template #cell(price)="data"> {{ data.value }} </template>
-      <template #head(discount)="" v-translate>
-        Discount
-      </template>
       <template #cell(discount)="data"> {{ data.value }} </template>
       <template #cell(cess)="data">
         {{ data.value.rate }} <small>%</small>
-      </template>
-      <template #head(total)="" v-translate>
-        Total
       </template>
       <template #cell(total)="data"> {{ data.value }} </template>
     </b-table-lite>
@@ -75,7 +63,9 @@
         <div>
           <b v-translate>Payment Details</b>
           <div v-if="invoice.payment.mode > 2" class="mb-3">
-            <span v-if="invoice.payment.mode === 3" v-translate> Paid By Cash </span>
+            <span v-if="invoice.payment.mode === 3" v-translate>
+              Paid By Cash
+            </span>
             <span v-else v-translate> On Credit </span>
           </div>
           <div class="text-small" v-else>
@@ -183,14 +173,14 @@ export default {
   computed: {
     memoData: (self) => {
       return [
-        { title: 'No.', value: self.invoice.number },
-        { title: 'Date', value: self.invoice.date },
-        { title: 'GSTIN', value: self.invoice.gstin },
+        { title: self.$gettext('No.'), value: self.invoice.number },
+        { title: self.$gettext('Date'), value: self.invoice.date },
+        { title: self.$gettext('GSTIN'), value: self.invoice.gstin },
       ];
     },
     totalDetails: (self) => {
       let total = self.invoice.total;
-      let details = [{ title: 'Taxable', value: total.taxable }];
+      let details = [{ title: self.$gettext('Taxable'), value: total.taxable }];
       if (self.invoice.isGst) {
         if (total.isIgst) {
           details.push({ title: 'IGST', value: total.tax });
@@ -206,40 +196,48 @@ export default {
       }
       details.push(
         {
-          title: `Cash Memo Value`,
+          title: self.$gettext(`Cash Memo Value`),
           value: total.amount,
         },
-        { title: 'Total In Words', value: total.text }
+        { title: self.$gettext('Total In Words'), value: total.text }
       );
       return details;
     },
     bankDetails: (self) => {
       let details = self.invoice.payment.bankDetails;
       return [
-        { title: 'Acc No', value: details.accountno || '' },
-        { title: 'Bank', value: details.bankname || '' },
-        { title: 'Branch', value: details.branch || '' },
-        { title: 'IFSC', value: details.ifsc || '' },
+        { title: self.$gettext('Acc No'), value: details.accountno || '' },
+        { title: self.$gettext('Bank'), value: details.bankname || '' },
+        { title: self.$gettext('Branch'), value: details.branch || '' },
+        { title: self.$gettext('IFSC'), value: details.ifsc || '' },
       ];
     },
     tableFields: (self) => {
       let fields = [
         {
           key: 'name',
-          label: 'Item',
+          label: self.$gettext('Item'),
         },
-        'qty',
+        { key: 'qty', label: self.$gettext('Qty') },
         {
           key: 'price',
-          label: 'Rate (₹)',
+          label: self.$gettext('Rate (₹)'),
           tdClass: 'gk-currency-sm',
         },
-        { key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm' },
+        {
+          key: 'discount',
+          label: self.$gettext('Discount (₹)'),
+          tdClass: 'gk-currency-sm',
+        },
         { key: 'igst', label: 'IGST (%)' },
         { key: 'cgst', label: 'CGST (%)' },
         { key: 'sgst', label: 'SGST (%)' },
         { key: 'cess', label: 'CESS (%)' },
-        { key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' },
+        {
+          key: 'total',
+          label: self.$gettext('Total (₹)'),
+          tdClass: 'gk-currency-sm',
+        },
       ];
       if (self.invoice.total.isIgst) {
         fields.splice(5, 2);
@@ -411,7 +409,7 @@ export default {
         .get(`/invoice?inv=single&invid=${this.id}`)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `Fetch Cash Memo Error!`,
+            title: this.$gettext(`Fetch Cash Memo Error!`),
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
@@ -428,19 +426,24 @@ export default {
             // this.output = response.data.gkresult;
             break;
           case 2:
-            this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `Fetch Cash Memo Error!`,
-              autoHideDelay: 3000,
-              variant: 'warning',
-              appendToast: true,
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext(`Unauthorized access, Please contact admin`),
+              {
+                title: this.$gettext(`Fetch Cash Memo Error!`),
+                autoHideDelay: 3000,
+                variant: 'warning',
+                appendToast: true,
+                solid: true,
+              }
+            );
             break;
           default:
             this.$bvToast.toast(
-              `Unable to Fetch Cash Memo Details! Please Try after sometime.`,
+              this.$gettext(
+                `Unable to Fetch Cash Memo Details! Please Try after sometime.`
+              ),
               {
-                title: `Fetch Transaction Details Error!`,
+                title: this.$gettext(`Fetch Transaction Details Error!`),
                 autoHideDelay: 3000,
                 variant: 'warning',
                 appendToast: true,

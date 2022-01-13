@@ -75,7 +75,7 @@
             >
             </b-form-input>
             <b-form-invalid-feedback>
-              Captcha not correct, please try again!
+              <translate> Captcha not correct, please try again! </translate>
             </b-form-invalid-feedback>
           </b-form-group>
         </b-form>
@@ -86,7 +86,7 @@
           class="mx-1"
           @click.prevent="validateGstinOnline"
         >
-          Validate
+          <translate> Validate </translate>
         </b-button>
       </b-container>
       <b-container
@@ -146,7 +146,7 @@
             class="mx-1"
             @click.prevent="useGstinData"
           >
-            Use GSTIN data
+            <translate> Use GSTIN data </translate>
           </b-button>
         </b-form>
       </b-container>

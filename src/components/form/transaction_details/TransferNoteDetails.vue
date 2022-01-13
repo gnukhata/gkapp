@@ -324,7 +324,11 @@ export default {
           }
         })
         .catch((error) => {
-          this.displayToast('Fetch User Data Failed!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Fetch User Data Failed!'),
+            error.message,
+            'danger'
+          );
           return error;
         });
     },
@@ -333,7 +337,7 @@ export default {
         // last purchase delivery chalan
         axios.get('/delchal?delchal=last&status=9').catch((error) => {
           this.displayToast(
-            'Fetch Delivery Challan No. Failed!',
+            this.$gettext('Fetch Delivery Challan No. Failed!'),
             error.message,
             'danger'
           );
@@ -342,7 +346,7 @@ export default {
         // last sale delivery chalan
         axios.get('/delchal?delchal=last&status=15').catch((error) => {
           this.displayToast(
-            'Fetch Delivery Challan No. Failed!',
+            this.$gettext('Fetch Delivery Challan No. Failed!'),
             error.message,
             'danger'
           );
@@ -365,19 +369,23 @@ export default {
       const requests = [
         axios.get(`/organisation`).catch((error) => {
           this.displayToast(
-            'Fetch Organisation Profile Data Failed!',
+            this.$gettext('Fetch Organisation Profile Data Failed!'),
             error.message,
             'danger'
           );
           return error;
         }),
         axios.get(`/godown`).catch((error) => {
-          this.displayToast('Fetch Godowns Failed!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Fetch Godowns Failed!'),
+            error.message,
+            'danger'
+          );
           return error;
         }),
         axios.get('/state').catch((error) => {
           this.displayToast(
-            'Fetch State Data Failed!',
+            this.$gettext('Fetch State Data Failed!'),
             error.message,
             'danger'
           );
@@ -438,6 +446,15 @@ export default {
     },
   },
   mounted() {
+    // translating strings from options
+    this.options.transactionTypes = [
+      { text: this.$gettext('Approval'), value: 0 },
+      { text: this.$gettext('Consignment'), value: 1 },
+      { text: this.$gettext('Free Replacement'), value: 2 },
+      { text: this.$gettext('Purchase'), value: 3 },
+      { text: this.$gettext('Sample'), value: 4 },
+    ];
+
     const self = this;
     this.preloadData().then(() => {
       self.resetForm();

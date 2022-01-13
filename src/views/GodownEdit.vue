@@ -14,6 +14,7 @@
           label-align="right"
           label-cols="4"
         >
+          <template #label> <translate> Name </translate> </template>
           <b-form-input size="sm" required v-model="form.goname">
           </b-form-input>
         </b-form-group>
@@ -23,6 +24,7 @@
           label-align="right"
           label-cols="4"
         >
+          <template #label> <translate> State </translate> </template>
           <b-form-input size="sm" v-model="form.state"> </b-form-input>
         </b-form-group>
         <b-form-group
@@ -31,6 +33,7 @@
           label-align="right"
           label-cols="4"
         >
+          <template #label> <translate> Address </translate> </template>
           <b-form-input size="sm" v-model="form.goaddr"> </b-form-input>
         </b-form-group>
         <b-form-group
@@ -39,6 +42,7 @@
           label-align="right"
           label-cols="4"
         >
+          <template #label> <translate> Contact Person </translate> </template>
           <b-form-input size="sm" v-model="form.contactname"> </b-form-input>
         </b-form-group>
         <b-form-group
@@ -47,6 +51,7 @@
           label-align="right"
           label-cols="4"
         >
+          <template #label> <translate> Contact Number </translate> </template>
           <b-form-input size="sm" v-model="form.gocontact"> </b-form-input>
         </b-form-group>
         <b-form-group
@@ -55,16 +60,18 @@
           label-align="right"
           label-cols="4"
         >
+          <template #label> <translate> Designation </translate> </template>
           <b-form-input size="sm" v-model="form.designation"> </b-form-input>
         </b-form-group>
         <div class="float-right">
           <b-button-group size="sm">
             <b-button variant="success" type="submit" class="mr-1"
-              ><b-icon icon="cloud-arrow-up"></b-icon> Update</b-button
-            >
+              ><b-icon icon="cloud-arrow-up"></b-icon>
+              <translate> Update </translate>
+            </b-button>
             <b-button variant="danger" @click="confirm"
-              ><b-icon icon="x-circle"></b-icon> Delete</b-button
-            >
+              ><b-icon icon="x-circle"></b-icon> <translate> Delete </translate>
+            </b-button>
           </b-button-group>
         </div>
       </b-form>
@@ -129,11 +136,14 @@ export default {
         .then((r) => {
           switch (r.data.gkstatus) {
             case 0:
-              this.$bvToast.toast('Godown Info Updated Successfully', {
-                title: 'Success',
-                variant: 'success',
-                solid: true,
-              });
+              this.$bvToast.toast(
+                this.$gettext('Godown Info Updated Successfully'),
+                {
+                  title: 'Success',
+                  variant: 'success',
+                  solid: true,
+                }
+              );
               axios.post(
                 `${this.gkCoreUrl}/log`,
                 {
@@ -149,31 +159,31 @@ export default {
               this.loading = false;
               break;
             case 1:
-              this.$bvToast.toast('Duplicate Entry', {
+              this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                 variant: 'warning',
                 solid: true,
               });
               break;
             case 2:
-              this.$bvToast.toast('Unauthorised Access', {
+              this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 3:
-              this.$bvToast.toast('Data error', {
+              this.$bvToast.toast(this.$gettext('Data error'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 4:
-              this.$bvToast.toast('No Privilege', {
+              this.$bvToast.toast(this.$gettext('No Privilege'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 5:
-              this.$bvToast.toast('Integrity error', {
+              this.$bvToast.toast(this.$gettext('Integrity error'), {
                 variant: 'danger',
                 solid: true,
               });
@@ -224,7 +234,7 @@ export default {
                 this.loading = false;
               });
           } else {
-            this.$bvToast.toast('Failed to delete', {
+            this.$bvToast.toast(this.$gettext('Failed to delete'), {
               title: 'Success',
               variant: 'success',
               solid: true,

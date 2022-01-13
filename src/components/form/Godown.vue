@@ -15,6 +15,7 @@
       header-bg-variant="dark"
       header-text-variant="light"
     >
+      <template #header> <translate> Create Godown </translate> </template>
       <b-form class="text-left" @submit.prevent="confirmOnSubmit">
         <b-row>
           <b-col cols="12" :md="inOverlay ? 12 : 6" lg="6">
@@ -25,6 +26,7 @@
               label-cols="3"
               label-class="required"
             >
+              <template #label> <translate> Name </translate> </template>
               <b-form-input
                 size="sm"
                 id="go-input-1"
@@ -41,6 +43,7 @@
               label-cols="3"
               label-class="required"
             >
+              <template #label> <translate> State </translate> </template>
               <autocomplete
                 id="go-input-2"
                 v-model="form.state"
@@ -55,6 +58,7 @@
               label-cols="3"
               label-class="required"
             >
+              <template #label> <translate> Address </translate> </template>
               <b-form-textarea
                 id="go-input-3"
                 v-model="form.address"
@@ -73,6 +77,9 @@
               label-for="go-input-4"
               label-cols="3"
             >
+              <template #label>
+                <translate> Contact Person </translate>
+              </template>
               <b-form-input
                 size="sm"
                 id="go-input-4"
@@ -88,6 +95,9 @@
               label-cols="3"
               invalid-feedback="Require 10 digit number"
             >
+              <template #label>
+                <translate> Contact Number </translate>
+              </template>
               <b-form-input
                 size="sm"
                 id="go-input-5"
@@ -112,7 +122,7 @@
               class="align-middle"
               icon="arrow-left"
             ></b-icon>
-            <span class="align-middle"> Back</span>
+            <span class="align-middle" v-translate> Back</span>
           </b-button>
           <b-button
             size="sm"
@@ -125,7 +135,7 @@
               class="align-middle"
               icon="arrow-repeat"
             ></b-icon>
-            <span class="align-middle"> Reset</span>
+            <span class="align-middle" v-tranlsate> Reset</span>
           </b-button>
           <b-button size="sm" type="submit" class="m-1" variant="success">
             <b-spinner v-if="isLoading" small></b-spinner>
@@ -135,7 +145,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-            <span class="align-middle"> Save</span>
+            <span class="align-middle" v-translate> Save</span>
           </b-button>
         </div>
       </b-form>
@@ -222,13 +232,16 @@ export default {
           switch (response.data.gkstatus) {
             case 0:
               {
-                this.$bvToast.toast(`Godown created successfully`, {
-                  title: `Success!`,
-                  autoHideDelay: 3000,
-                  variant: 'success',
-                  appendToast: true,
-                  solid: true,
-                });
+                this.$bvToast.toast(
+                  this.$gettext(`Godown created successfully`),
+                  {
+                    title: `Success!`,
+                    autoHideDelay: 3000,
+                    variant: 'success',
+                    appendToast: true,
+                    solid: true,
+                  }
+                );
                 this.$emit('godownCreated');
                 // === Server Log ===
                 let logdata = { activity: '' };
@@ -241,9 +254,11 @@ export default {
               break;
             case 1:
               this.$bvToast.toast(
-                `Godown entry already exists! (Please check Name)`,
+                this.$gettext(
+                  `Godown entry already exists! (Please check Name)`
+                ),
                 {
-                  title: `Create Godown Error!`,
+                  title: this.$gettext(`Create Godown Error!`),
                   autoHideDelay: 3000,
                   variant: 'warning',
                   appendToast: true,
@@ -252,22 +267,28 @@ export default {
               );
               break;
             case 2:
-              this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-                title: `Create Godown Error!`,
-                autoHideDelay: 3000,
-                variant: 'warning',
-                appendToast: true,
-                solid: true,
-              });
+              this.$bvToast.toast(
+                this.$gettext(`Unauthorized access, Please contact admin`),
+                {
+                  title: this.$gettext(`Create Godown Error!`),
+                  autoHideDelay: 3000,
+                  variant: 'warning',
+                  appendToast: true,
+                  solid: true,
+                }
+              );
               break;
             default:
-              this.$bvToast.toast(`Unable to create Godown, Please try again`, {
-                title: `Create Godown Error!`,
-                autoHideDelay: 3000,
-                variant: 'danger',
-                appendToast: true,
-                solid: true,
-              });
+              this.$bvToast.toast(
+                this.$gettext(`Unable to create Godown, Please try again`),
+                {
+                  title: this.$gettext(`Create Godown Error!`),
+                  autoHideDelay: 3000,
+                  variant: 'danger',
+                  appendToast: true,
+                  solid: true,
+                }
+              );
           } // end switch
           if (this.onSave) {
             this.onSave(response.data);
@@ -275,7 +296,7 @@ export default {
         })
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `Create Godown Error!`,
+            title: this.$gettext(`Create Godown Error!`),
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
@@ -334,14 +355,20 @@ export default {
             });
           } else {
             this.displayToast(
-              'Preload Data Failed!',
-              'Error fetching State List, please try again after sometime.',
+              this.$gettext('Preload Data Failed!'),
+              this.$gettext(
+                'Error fetching State List, please try again after sometime.'
+              ),
               'warning'
             );
           }
         })
         .catch((error) => {
-          this.displayToast('Preload Data Failed!', error.message, 'warning');
+          this.displayToast(
+            this.$gettext('Preload Data Failed!'),
+            error.message,
+            'warning'
+          );
           return error;
         });
     },

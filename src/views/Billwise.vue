@@ -3,7 +3,7 @@
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <div class="card-header text-left py-2">
-      <b>Billwise Acccounting</b>
+      <b v-translate>Billwise Acccounting</b>
     </div>
     <div class="card-body pb-2 px-0 px-md-1">
       <b-form class="text-left px-2" @submit.prevent="confirmOnSubmit">
@@ -17,8 +17,12 @@
               @input="custid = ''"
               class="d-inline-block float-left mb-2"
             >
-              <b-form-radio value="3">Customer</b-form-radio>
-              <b-form-radio value="19">Supplier</b-form-radio>
+              <b-form-radio value="3">
+                <translate> Customer </translate>
+              </b-form-radio>
+              <b-form-radio value="19">
+                <translate> Supplier </translate>
+              </b-form-radio>
             </b-form-radio-group>
             <b-form-group class="d-inline-block mb-2 ml-2">
               <autocomplete
@@ -39,6 +43,7 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label> <translate> Vouchers </translate> </template>
               <autocomplete
                 size="sm"
                 v-model="vcode"
@@ -82,23 +87,35 @@
                 </template>
                 <template #custom-foot>
                   <b-tr class="text-right">
-                    <b-th colspan="3">Total Adjusted</b-th>
+                    <b-th colspan="3">
+                      <translate> Total Adjusted </translate>
+                    </b-th>
                     <b-th>₹ {{ totalAdjusted }}</b-th>
                   </b-tr>
                 </template>
               </b-table>
               <span class="text-danger" v-if="!isTotalValid && vcode">
-                <span v-if="totalAdjusted > 0"
-                  >* Total amount (₹ {{ totalAdjusted }}) must not exceed the
-                  voucher amount (₹ {{ options.voucherPriceMap[vcode] }})</span
-                >
-                <span v-else
-                  >* Total amount (₹{{ totalAdjusted }}) must greater than
-                  0</span
-                >
+                <span v-if="totalAdjusted > 0">
+                  <translate
+                    :translate-params="{
+                      totalAdjusted: totalAdjusted,
+                      voucherAmount: options.voucherPriceMap[vcode],
+                    }"
+                  >
+                    * Total amount (₹ %{totalAdjusted}) must not exceed the
+                    voucher amount (₹ %{voucherAmount})
+                  </translate>
+                </span>
+                <span v-else>
+                  <translate
+                    :translate-params="{ totalAdjusted: totalAdjusted }"
+                  >
+                    * Total amount (₹ %{totalAdjusted}) must greater than 0
+                  </translate>
+                </span>
               </span>
             </div>
-            <b v-else>No Outstanding Invoices To Be Adjusted! </b>
+            <b v-else v-translate>No Outstanding Invoices To Be Adjusted! </b>
           </b-col>
         </b-row>
         <hr class="my-2 mx-0" />
@@ -114,7 +131,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-            Add Voucher
+            <translate> Add Voucher </translate>
           </b-button>
           <div class="float-right">
             <b-button
@@ -128,7 +145,7 @@
                 class="align-middle"
                 icon="arrow-left"
               ></b-icon>
-              <span class="align-middle"> Back</span>
+              <span class="align-middle" v-translate> Back</span>
             </b-button>
             <b-button
               size="sm"
@@ -144,7 +161,7 @@
                 class="align-middle"
                 icon="check-square"
               ></b-icon>
-              <span class="align-middle"> Adjust</span>
+              <span class="align-middle" v-translate> Adjust</span>
             </b-button>
           </div>
         </div>
@@ -166,7 +183,7 @@
           :type="csflag === '3' ? 'receipt' : 'payment'"
           :customer="custname"
           :isOpen="showVoucherForm"
-          mode='create'
+          mode="create"
         >
           <template #close-button>
             <b-button
@@ -326,8 +343,8 @@ export default {
           switch (response.data.gkstatus) {
             case 0:
               this.displayToast(
-                'Bill Adjustment Success!',
-                'Selected Bills were successfully adjusted',
+                this.$gettext('Bill Adjustment Success!'),
+                this.$gettext('Selected Bills were successfully adjusted'),
                 'success'
               );
 
@@ -336,21 +353,27 @@ export default {
               break;
             case 2:
               this.displayToast(
-                'Bill Adjustment Error!',
-                'Unauthorized access, Please contact admin',
+                this.$gettext('Bill Adjustment Error!'),
+                this.$gettext('Unauthorized access, Please contact admin'),
                 'warning'
               );
               break;
             default:
               this.displayToast(
-                'Bill Adjustment Error!',
-                'Unable to adjust the chosen bills, Please try again later. Contact admin if problem persists.',
+                this.$gettext('Bill Adjustment Error!'),
+                this.$gettext(
+                  'Unable to adjust the chosen bills, Please try again later. Contact admin if problem persists.'
+                ),
                 'danger'
               );
           } // end switch
         })
         .catch((error) => {
-          this.displayToast('Bill Adjustment Error!', error.message, 'warning');
+          this.displayToast(
+            this.$gettext('Bill Adjustment Error!'),
+            error.message,
+            'warning'
+          );
           this.isLoading = false;
         });
     },
@@ -409,15 +432,15 @@ export default {
               );
             } else {
               this.displayToast(
-                'Fetch Unadjusted Invoices and Vouchers Failed!',
-                'Please Try again later',
+                this.$gettext('Fetch Unadjusted Invoices and Vouchers Failed!'),
+                this.$gettext('Please Try again later'),
                 'warning'
               );
             }
           })
           .catch((error) => {
             this.displayToast(
-              'Fetch Unadjusted Invoices and Vouchers Failed!',
+              this.$gettext('Fetch Unadjusted Invoices and Vouchers Failed!'),
               error.message,
               'danger'
             );
@@ -432,7 +455,7 @@ export default {
       const requests = [
         axios.get('/customersupplier?qty=custall').catch((error) => {
           this.displayToast(
-            'Fetch Customer List Failed!',
+            this.$gettext('Fetch Customer List Failed!'),
             error.message,
             'danger'
           );
@@ -440,7 +463,7 @@ export default {
         }),
         axios.get('/customersupplier?qty=supall').catch((error) => {
           this.displayToast(
-            'Fetch Supplier List Failed!',
+            this.$gettext('Fetch Supplier List Failed!'),
             error.message,
             'danger'
           );
@@ -482,8 +505,13 @@ export default {
 
         if (preloadErrorList !== '') {
           this.displayToast(
-            'Error: Unable to Preload Data',
-            `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
+            this.$gettext('Error: Unable to Preload Data'),
+            this.$gettextInterpolate(
+              this.$gettext(
+                `Issues with fetching %{preloadErrorList} Please try again or Contact Admin`
+              ),
+              { preloadErrorList: preloadErrorList }
+            ),
             'danger'
           );
         }
@@ -510,6 +538,26 @@ export default {
     },
   },
   mounted() {
+    // translating option strings
+    this.options.invFields = [
+      {
+        key: 'invoiceno',
+        label: this.$gettext('No'),
+      },
+      {
+        key: 'invoiceamount',
+        label: this.$gettext('Amount'),
+      },
+      {
+        key: 'balanceamount',
+        label: this.$gettext('Pending'),
+      },
+      {
+        key: 'adjusted',
+        label: this.$gettext('Adjusted'),
+      },
+    ];
+
     this.csflag = this.custType;
     this.preloadData().then(() => {
       if (this.custName !== '-1') {

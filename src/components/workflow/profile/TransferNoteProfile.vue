@@ -149,23 +149,32 @@ export default {
         ? `(${self.tnote.designation})`
         : '';
       return [
-        { title: 'No.', value: self.tnote.no },
-        { title: 'Date', value: self.tnote.date },
-        { title: 'No. of Packages', value: self.tnote.packageCount },
-        { title: 'Mode of Transport', value: self.tnote.transportMode },
+        { title: self.$gettext('No.'), value: self.tnote.no },
+        { title: self.$gettext('Date'), value: self.tnote.date },
         {
-          title: 'Grace Period',
+          title: self.$gettext('No. of Packages'),
+          value: self.tnote.packageCount,
+        },
+        {
+          title: self.$gettext('Mode of Transport'),
+          value: self.tnote.transportMode,
+        },
+        {
+          title: self.$gettext('Grace Period'),
           value: grace,
         },
-        { title: 'Expected Receipt Date', value: self.tnote.dueDate },
         {
-          title: 'Actual Receipt Date',
+          title: self.$gettext('Expected Receipt Date'),
+          value: self.tnote.dueDate,
+        },
+        {
+          title: self.$gettext('Actual Receipt Date'),
           value: self.tnote.rdate,
           status: self.tnote.recieved,
           type: 'receipt',
         },
         {
-          title: 'Issued By',
+          title: self.$gettext('Issued By'),
           value: `${self.tnote.issuer}  ${designation}`,
         },
       ];
@@ -185,8 +194,15 @@ export default {
       axios.put('/transfernote?received=true', payload).then((resp) => {
         if (resp.data.gkstatus === 0) {
           this.displayToast(
-            `Success`,
-            `Transfer Note ${this.tnote.no} was successfully approved!`,
+            this.$gettext(`Success`),
+            this.$$gettextInterpolate(
+              this.$gettext(
+                `Transfer Note %{transferNoteNo} was successfully approved!`
+              ),
+              {
+                transferNoteNo: this.tnote.no,
+              }
+            ),
             'success'
           );
           this.fetchAndUpdateData();
@@ -247,7 +263,7 @@ export default {
         .get(`/transfernote?tn=single&transfernoteid=${this.id}`)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `Fetch Transfer Note Error!`,
+            title: this.$gettext(`Fetch Transfer Note Error!`),
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
@@ -266,15 +282,15 @@ export default {
             break;
           case 2:
             this.displayToast(
-              `Fetch Transfer Note Error!`,
-              `Unauthorized access, Please contact admin`,
+              this.$gettext(`Fetch Transfer Note Error!`),
+              this.$gettext(`Unauthorized access, Please contact admin`),
               'warning'
             );
             break;
           default:
             this.displayToast(
-              `Fetch Transfer Note Error!`,
-              `Unable to Fetch Transaction Details! Please Try after sometime.`,
+              this.$gettext(`Fetch Transfer Note Error!`),
+              this.$gettext(`Unable to Fetch Transaction Details! Please Try after sometime.`),
               'warning'
             );
         } // end switch

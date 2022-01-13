@@ -10,17 +10,18 @@
         body-class="p-2"
       >
         <template #header>
-          Budget
+          <translate> Budget </translate>
           <b-button
             :to="{ name: 'Create_Budget', params: { type: budgetType } }"
             class="float-right py-0"
             size="sm"
             variant="success"
           >
-            + Add
+            <translate> + Add </translate>
           </b-button>
         </template>
         <b-form-group label-size="sm" label="Budget Type" label-cols="3">
+          <template #label> <translate> Budget Type </translate> </template>
           <b-form-radio-group
             size="sm"
             class="d-flex align-items-center"
@@ -28,9 +29,11 @@
             v-model="budgetType"
             @input="onBudgetFilterUpdate"
           >
-            <b-form-radio value="cash">Cash</b-form-radio>
+            <b-form-radio value="cash">
+              <translate> Cash </translate>
+            </b-form-radio>
             <b-form-radio value="pl">
-              Profit & Loss
+              <translate> Profit & Loss </translate>
             </b-form-radio>
           </b-form-radio-group>
         </b-form-group>
@@ -40,6 +43,7 @@
           label-cols="3"
           label-size="sm"
         >
+          <template #label> <translate> Budget List </translate> </template>
           <autocomplete
             size="sm"
             id="input-10"
@@ -60,18 +64,19 @@
             class="mx-1"
             variant="primary"
             :to="{ name: 'Edit_Budget', params: { id: budId } }"
-            >Edit</b-button
           >
-          <b-button size="sm" variant="danger" @click.prevent="confirmOnDelete"
-            >Delete</b-button
-          >
+            <translate> Edit </translate>
+          </b-button>
+          <b-button size="sm" variant="danger" @click.prevent="confirmOnDelete">
+            <translate> Delete </translate>
+          </b-button>
         </div>
       </b-card>
     </b-overlay>
     <div class="px-2" v-if="budId">
       <u>
         <small>
-          Budget:
+          <translate> Budget: </translate>
           <span> {{ budName }} ({{ fromDate }} to {{ toDate }}) </span>
         </small>
       </u>
@@ -260,16 +265,16 @@ export default {
       let res = [
         {
           key: 'name',
-          label: 'Particulars',
+          label: this.$gettext('Particulars'),
           thStyle: { 'min-width': '125px' },
         },
-        { key: 'budget', label: 'Budgeted' },
-        { key: 'actual', label: 'Actuals' },
+        { key: 'budget', label: this.$gettext('Budgeted') },
+        { key: 'actual', label: this.$gettext('Actuals') },
       ];
       if (self.expandTable) {
         res.push(
-          { key: 'var', label: 'Variance' },
-          { key: 'varPercent', label: 'Variance(%)' }
+          { key: 'var', label: this.$gettext('Variance') },
+          { key: 'varPercent', label: this.$gettext('Variance(%)') }
         );
       }
       return res;
@@ -317,21 +322,40 @@ export default {
                 if (resp.data.gkstatus === 0) {
                   let logdata = { activity: `budget deleted: ${name}` };
                   axios.post('/log', logdata);
-                  self.$bvToast.toast(`Delete Budget "${name}" success!`, {
-                    variant: 'success',
-                    solid: true,
-                  });
+                  self.$bvToast.toast(
+                    this.$$gettextInterpolate(
+                      this.$gettext(`Delete Budget "%{budgetName}" success!`),
+                      { budgetName: name }
+                    ),
+                    {
+                      variant: 'success',
+                      solid: true,
+                    }
+                  );
                   self.preloadData();
                 } else {
-                  self.$bvToast.toast(`Delete Budget "${name}" failed!`, {
-                    variant: 'danger',
-                    solid: true,
-                  });
+                  self.$bvToast.toast(
+                    this.$gettextInterpolate(
+                      this.$gettext(`Delete Budget "%{budgetName}" failed!`),
+                      {
+                        budgetName: name,
+                      }
+                    ),
+                    {
+                      variant: 'danger',
+                      solid: true,
+                    }
+                  );
                 }
               })
               .catch((e) => {
                 self.$bvToast.toast(e.message, {
-                  title: `Delete Budget "${name}" failed!`,
+                  title: this.$gettextInterpolate(
+                    this.$gettext(`Delete Budget "%{budgetName}" failed!`),
+                    {
+                      budgetName: name,
+                    }
+                  ),
                   variant: 'danger',
                   solid: true,
                 });
@@ -462,14 +486,14 @@ export default {
               }
               break;
             case 2:
-              self.$bvToast.toast('Unauthorised Access', {
+              self.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 3:
             default:
-              self.$bvToast.toast('Data error', {
+              self.$bvToast.toast(this.$gettext('Data error'), {
                 variant: 'danger',
                 solid: true,
               });
@@ -535,7 +559,7 @@ export default {
           this.options.budIdToData = idToData;
 
           if (preloadFail) {
-            this.$bvToast.toast('Preload Budget List Failed!', {
+            this.$bvToast.toast(this.$gettext('Preload Budget List Failed!'), {
               variant: 'danger',
               solid: true,
             });

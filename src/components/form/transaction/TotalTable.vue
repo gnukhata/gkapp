@@ -64,10 +64,10 @@
             v-model="form.roundFlag"
             v-if="config.roundOff"
             class="ml-2 float-left"
-            v-translate
-            >Round Off Total Value</b-form-checkbox
-          ></b-td
-        >
+          >
+            <translate> Round Off Total Value </translate>
+          </b-form-checkbox>
+        </b-td>
         <b-td></b-td>
       </b-tr>
     </b-tbody>
@@ -149,7 +149,7 @@ export default {
     transactionName: (self) => {
       return typeof self.config.value === 'object'
         ? self.config.value.text
-        : 'Grand Total';
+        : this.$gettext('Grand Total');
     },
   },
   methods: {

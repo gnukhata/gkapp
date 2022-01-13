@@ -10,7 +10,10 @@
     </b-overlay>
     <div class="p-2 p-md-3">
       <div>
-        <b>{{ formType }} Details</b>
+        <b>
+          <span v-if="self.form.type === 'credit'"> Credit Note Details </span>
+          <span v-else> Debit Note Details </span>
+        </b>
         <b-button
           variant="secondary"
           size="sm"
@@ -36,8 +39,12 @@
             v-model="form.type"
             @input="onNoteTypeUpdate"
           >
-            <b-form-radio v-translate value="debit">Debit Note</b-form-radio>
-            <b-form-radio v-translate value="credit">Credit Note</b-form-radio>
+            <b-form-radio value="debit">
+              <translate> Debit Note </translate>
+            </b-form-radio>
+            <b-form-radio value="credit">
+              <translate> Credit Note </translate>
+            </b-form-radio>
           </b-form-radio-group>
         </b-form-group>
         <b-form-group
@@ -113,22 +120,22 @@
             tabindex="-1"
             @input="onUpdateDetails"
           >
-            <b-form-select-option v-translate value="price">
-              Adjust Price / Discount
+            <b-form-select-option value="price">
+              <translate> Adjust Price / Discount </translate>
             </b-form-select-option>
-            <b-form-select-option v-translate value="qty">
-              Adjust Qty / Return Goods
+            <b-form-select-option value="qty">
+              <translate> Adjust Qty / Return Goods </translate>
             </b-form-select-option>
           </b-form-select>
         </b-form-group>
         <b-form-group v-if="!isCredit && isReturn && saleFlag">
-          <b-form-checkbox v-translate v-model="form.badQuality" size="sm">
-            Bad Quality Goods
+          <b-form-checkbox v-model="form.badQuality" size="sm">
+            <translate> Bad Quality Goods </translate>
           </b-form-checkbox>
         </b-form-group>
         <b-form-group>
-          <b-form-checkbox v-translate v-model="form.referenceFlag" size="sm">
-            Reference (If received)
+          <b-form-checkbox v-model="form.referenceFlag" size="sm">
+            <translate> Reference (If received) </translate>
           </b-form-checkbox>
         </b-form-group>
         <b-form-group
@@ -244,8 +251,6 @@ export default {
   computed: {
     isReturn: (self) => self.form.purpose === 'qty',
     isCredit: (self) => self.form.type === 'credit',
-    formType: (self) =>
-      self.form.type === 'credit' ? 'Credit Note' : 'Debit Note',
     minimumDate: (self) => {
       let date = self.reverseDate(self.yearStart);
       let ref = self.form.ref.date ? new Date(self.form.ref.date).getTime : '';

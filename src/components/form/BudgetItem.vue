@@ -3,7 +3,10 @@
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <div class="card-header text-left py-2">
-      <b> {{ isEditMode ? 'Edit' : 'Create' }} Budget Details</b>
+      <b>
+        <span v-if="isEditMode" v-translate> Edit Budget Details</span>
+        <span v-else v-translate> Create Budget Details </span>
+      </b>
       <slot name="close-button"> </slot>
     </div>
     <div class="card-body pb-2 px-1 px-md-3">
@@ -27,8 +30,12 @@
                       buttons
                       class="mx-1"
                     >
-                      <b-form-radio value="cash">Cash</b-form-radio>
-                      <b-form-radio value="pl">Profit & Loss</b-form-radio>
+                      <b-form-radio value="cash">
+                        <translate> Cash </translate>
+                      </b-form-radio>
+                      <b-form-radio value="pl">
+                        <translate> Profit & Loss </translate>
+                      </b-form-radio>
                     </b-form-radio-group>
                   </b-form-group>
                   <b-form-group
@@ -98,29 +105,29 @@
                   >
                     <b-thead head-variant="dark">
                       <b-tr>
-                        <b-th> Summary </b-th>
-                        <b-th> (₹) </b-th>
+                        <b-th> <translate> Summary </translate> </b-th>
+                        <b-th> <translate> (₹) </translate> </b-th>
                       </b-tr>
                     </b-thead>
                     <b-tbody>
                       <b-tr>
-                        <td>Opening Balance</td>
+                        <td v-translate>Opening Balance</td>
                         <td>{{ form.budget.openingBalance }}</td>
                       </b-tr>
                       <b-tr>
-                        <td>Inflow</td>
+                        <td v-translate>Inflow</td>
                         <td>{{ totalIn }}</td>
                       </b-tr>
                       <b-tr>
-                        <td>Cash Available</td>
+                        <td v-translate>Cash Available</td>
                         <td>{{ form.budget.openingBalance + totalIn }}</td>
                       </b-tr>
                       <b-tr>
-                        <td>Outflow</td>
+                        <td v-translate>Outflow</td>
                         <td>{{ totalOut }}</td>
                       </b-tr>
                       <b-tr>
-                        <td>Closing Balance</td>
+                        <td v-translate>Closing Balance</td>
                         <td>
                           {{
                             form.budget.openingBalance + (totalIn - totalOut)
@@ -140,21 +147,21 @@
                   >
                     <b-thead head-variant="dark">
                       <b-tr>
-                        <b-th> Summary </b-th>
-                        <b-th> (₹) </b-th>
+                        <b-th> <translate> Summary </translate> </b-th>
+                        <b-th> <translate> (₹) </translate> </b-th>
                       </b-tr>
                     </b-thead>
                     <b-tbody>
                       <b-tr>
-                        <td>Total Income</td>
+                        <td v-translate>Total Income</td>
                         <td>{{ totalIn }}</td>
                       </b-tr>
                       <b-tr>
-                        <td>Total Expense</td>
+                        <td v-translate>Total Expense</td>
                         <td>{{ totalOut }}</td>
                       </b-tr>
                       <b-tr>
-                        <td>Net Profit</td>
+                        <td v-translate>Net Profit</td>
                         <td>{{ totalIn - totalOut }}</td>
                       </b-tr>
                     </b-tbody>
@@ -166,14 +173,19 @@
           <b-col cols="12" :md="inOverlay ? 12 : 6" lg="6" class="mb-3">
             <b-card no-body border-variant="dark">
               <b-card-body class="p-2">
-                <h5>Budget Amount</h5>
+                <h5 v-translate>Budget Amount</h5>
                 <b-alert
                   class="px-1 py-0 mb-2"
                   variant="danger"
                   :show="totalIn === 0"
                 >
                   <small>
-                    Please enter atleast 1 budget amount for {{ inType }}!
+                    <translate
+                      translate-comment="%{inType} is a variable, translation is not required for it. Enter it, as it is while translation."
+                      :translate-params="{ inType: inType }"
+                    >
+                      Please enter atleast 1 budget amount for %{inType}!
+                    </translate>
                   </small>
                 </b-alert>
                 <b-table-lite
@@ -186,7 +198,14 @@
                   thead-class="text-capitalize"
                   head-variant="dark"
                 >
-                  <template #head(acc)> {{ inType }} Accounts </template>
+                  <template #head(acc)>
+                    <translate
+                      translate-comment="%{inType} is a variable, translation is not required for it. Enter it, as it is while translation."
+                      :translate-params="{ inType: inType }"
+                    >
+                      %{inType} Accounts
+                    </translate>
+                  </template>
                   <template #cell(bud)="data">
                     <b-input
                       size="sm"
@@ -202,7 +221,12 @@
                   :show="totalOut === 0"
                 >
                   <small>
-                    Please enter atleast 1 budget amount for {{ outType }}!
+                    <translate
+                      translate-comment="%{outType} is a variable, translation is not required for it. Enter it, as it is while translation."
+                      :translate-params="{ outType: outType }"
+                    >
+                      Please enter atleast 1 budget amount for %{outType}!
+                    </translate>
                   </small>
                 </b-alert>
                 <b-table-lite
@@ -215,7 +239,14 @@
                   thead-class="text-capitalize"
                   head-variant="dark"
                 >
-                  <template #head(acc)> {{ outType }} Accounts </template>
+                  <template #head(acc)>
+                    <translate
+                      translate-comment="%{outType} is a variable, translation is not required for it. Enter it, as it is while translation."
+                      :translate-params="{ outType: outType }"
+                    >
+                      %{outType} Accounts
+                    </translate>
+                  </template>
                   <template #cell(bud)="data">
                     <b-input
                       size="sm"
@@ -244,7 +275,7 @@
                 class="align-middle"
                 icon="arrow-left"
               ></b-icon>
-              <span class="align-middle"> Back</span>
+              <span class="align-middle" v-translate> Back</span>
             </b-button>
             <b-button
               size="sm"
@@ -257,7 +288,7 @@
                 class="align-middle"
                 icon="arrow-repeat"
               ></b-icon>
-              <span class="align-middle"> Reset</span>
+              <span class="align-middle" v-translate> Reset</span>
             </b-button>
             <b-button
               :disabled="!isFormValid"
@@ -273,9 +304,10 @@
                 class="align-middle"
                 :icon="isEditMode ? 'cloud-arrow-up' : 'plus-square'"
               ></b-icon>
-              <span class="align-middle">
-                {{ isEditMode ? 'Update' : 'Save' }}</span
-              >
+              <span class="align-middle" v-translate v-if="isEditMode">
+                Update
+              </span>
+              <span class="align-middle" v-translate v-else> Save </span>
             </b-button>
           </div>
         </div>
@@ -310,7 +342,7 @@ export default {
         return ['cash', 'pl'].indexOf(value) !== -1;
       },
       required: false,
-      default: 'cash'
+      default: 'cash',
     },
     onSave: {
       type: Function,
@@ -402,7 +434,7 @@ export default {
     },
     type(type) {
       this.form.type = type;
-    }
+    },
   },
   methods: {
     onFromDateSet(isValid) {
@@ -422,7 +454,7 @@ export default {
       const self = this;
       let from = this.dateReverse(this.form.from),
         to = this.dateReverse(this.form.to);
-      let action = this.isEditMode? 'Update' : 'Create';
+      let action = this.isEditMode ? 'Update' : 'Create';
       let text = `${action} Budget <b>${this.form.name}</b> for the time period, (${from} to ${to})?`;
       let textDom = this.$createElement('div', {
         domProps: {
@@ -470,7 +502,7 @@ export default {
                 };
                 axios.post('/log', logdata);
                 self.displayToast(
-                  `Success!`,
+                  this.$gettext(`Success!`),
                   `${formMode} Budget "${payload.budname} Successful"`,
                   'success'
                 );
@@ -482,22 +514,33 @@ export default {
               break;
             case 1:
               self.displayToast(
-                `${formMode} Budget Error!`,
-                `Budget entry already exists!`,
+                this.$gettextInterpolate(
+                  this.$gettext(`%{formMode} Budget Error!`),
+                  { formMode: formMode }
+                ),
+                this.$gettext(`Budget entry already exists!`),
                 'warning'
               );
               break;
             case 2:
               self.displayToast(
-                `${formMode} Budget Error!`,
-                `Unauthorized access, please contact admin.`,
+                this.$gettextInterpolate(
+                  this.$gettext(`%{formMode} Budget Error!`),
+                  { formMode: formMode }
+                ),
+                this.$gettext(`Unauthorized access, please contact admin.`),
                 'warning'
               );
               break;
             default:
               self.displayToast(
-                `Error!`,
-                `Unable to ${formMode} Budget, please try again.`,
+                this.$gettext(`Error!`),
+                this.$gettextInterpolate(
+                  this.$gettext(
+                    `Unable to %{formMode} Budget, please try again.`
+                  ),
+                  { formMode: formMode }
+                ),
                 'danger'
               );
           } // end switch
@@ -508,7 +551,10 @@ export default {
         .catch((error) => {
           self.isLoading = false;
           self.displayToast(
-            `${formMode} Budget Error!`,
+            this.$gettextInterpolate(
+              this.$gettext(`%{formMode} Budget Error!`),
+              { formMode: formMode }
+            ),
             `Error: ${error.message}`,
             'warning'
           );
@@ -614,7 +660,7 @@ export default {
         })
         .catch((error) => {
           this.displayToast(
-            'Fetch Unit of Measurement Failed!',
+            this.$gettext('Fetch Unit of Measurement Failed!'),
             error.message,
             'danger'
           );
@@ -632,7 +678,11 @@ export default {
           if (resp.data.gkstatus === 0) {
             let details = resp.data.gkresult;
             console.log(details);
-            this.displayToast(`Success!`, 'Fetched Budget Details!', 'success');
+            this.displayToast(
+              this.$gettext(`Success!`),
+              this.$gettext('Fetched Budget Details!'),
+              'success'
+            );
 
             Object.assign(this.form, {
               type: details.btype === 3 ? 'cash' : 'pl',
@@ -669,14 +719,18 @@ export default {
             }
           } else {
             this.displayToast(
-              `Error!`,
-              'Could not Fetch Budget Details!',
+              this.$gettext(`Error!`),
+              this.$gettext('Could not Fetch Budget Details!'),
               'danger'
             );
           }
         })
         .catch((e) => {
-          this.displayToast(`Fetch Budget Details Error!`, e.message, 'danger');
+          this.displayToast(
+            this.$gettext(`Fetch Budget Details Error!`),
+            e.message,
+            'danger'
+          );
         });
     },
     preloadData() {

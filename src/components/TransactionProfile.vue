@@ -50,8 +50,8 @@
           },
         }"
       >
-        <b-icon icon="clipboard-check"></b-icon> Adjust</b-button
-      >
+        <b-icon icon="clipboard-check"></b-icon> <translate> Adjust </translate>
+      </b-button>
       <b-button
         v-if="rectifyFlag"
         class="mr-2"
@@ -59,16 +59,16 @@
         variant="warning"
         :to="{ name: 'Invoice', params: { mode: 'edit', invid: invid } }"
       >
-        <b-icon icon="pencil"></b-icon> Rectify</b-button
-      >
+        <b-icon icon="pencil"></b-icon> <translate> Rectify </translate>
+      </b-button>
       <b-button
         v-if="cancelFlag"
         size="sm"
         variant="danger"
         @click="confirmOnCancel"
       >
-        <b-icon icon="x-octagon"></b-icon> Cancel</b-button
-      >
+        <b-icon icon="x-octagon"></b-icon> <translate> Cancel </translate>
+      </b-button>
     </div>
     <div class="clearfix"></div>
   </b-container>
@@ -230,8 +230,13 @@ export default {
           switch (response.data.gkstatus) {
             case 0:
               this.displayToast(
-                'Cancel Invoice Success!',
-                `Successfully cancelled Invoice ${this.invoice.number}`,
+                this.$gettext('Cancel Invoice Success!'),
+                this.$$gettextInterpolate(
+                  this.$gettext(`Successfully cancelled Invoice %{invNumber}`),
+                  {
+                    invNumber: this.invoice.number,
+                  }
+                ),
                 'success'
               );
               this.getDetails().then((response) => {
@@ -242,21 +247,39 @@ export default {
               break;
             case 3:
               this.displayToast(
-                'Cancel Invoice Failure!',
-                `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
+                this.$gettext('Cancel Invoice Failure!'),
+                this.$$gettextInterpolate(
+                  this.$gettext(
+                    `Could not cancel Invoice %{invNumber}. Try again later or Contact admin`
+                  ),
+                  {
+                    invNumber: this.invoice.number,
+                  }
+                ),
                 'danger'
               );
               break;
             default:
               this.displayToast(
-                'Cancel Invoice Failure!',
-                `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
+                this.$gettext('Cancel Invoice Failure!'),
+                this.$$gettextInterpolate(
+                  this.$gettext(
+                    `Could not cancel Invoice %{invNumber}. Try again later or Contact admin`
+                  ),
+                  {
+                    invNumber: this.invoice.number,
+                  }
+                ),
                 'danger'
               );
           }
         })
         .catch((error) => {
-          this.displayToast('Cancel Invoice Failure!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Cancel Invoice Failure!'),
+            error.message,
+            'danger'
+          );
         });
     },
     confirmOnCancel() {
@@ -299,19 +322,24 @@ export default {
             this.formatInvoiceDetails(response.data.gkresult);
             break;
           case 2:
-            this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `${this.formMode} ${this.formType} Error!`,
-              autoHideDelay: 3000,
-              variant: 'warning',
-              appendToast: true,
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext(`Unauthorized access, Please contact admin`),
+              {
+                title: `${this.formMode} ${this.formType} Error!`,
+                autoHideDelay: 3000,
+                variant: 'warning',
+                appendToast: true,
+                solid: true,
+              }
+            );
             break;
           default:
             this.$bvToast.toast(
-              `Unable to Fetch Transaction Details! Please Try after sometime.`,
+              this.$gettext(
+                `Unable to Fetch Transaction Details! Please Try after sometime.`
+              ),
               {
-                title: `Fetch Transaction Details Error!`,
+                title: this.$gettext(`Fetch Transaction Details Error!`),
                 autoHideDelay: 3000,
                 variant: 'warning',
                 appendToast: true,

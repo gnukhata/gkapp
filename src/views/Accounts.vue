@@ -1,6 +1,6 @@
 <template>
   <section class="m-2">
-    <h3 class="text-center">Accounts</h3>
+    <h3 class="text-center" v-translate>Accounts</h3>
     <hr class="mt-1" />
     <b-button
       class="float-right p-1"
@@ -14,7 +14,7 @@
     <b-collapse v-model="showSearchBar" id="search-bar">
       <b-card body-class="py-2">
         <div :class="{ 'mb-3': showSearchBar }">
-          <h6 class="d-inline-block">Filter By</h6>
+          <h6 class="d-inline-block" v-translate>Filter By</h6>
         </div>
         <b-row>
           <b-col class="px-1" cols="12" md="4">
@@ -23,6 +23,7 @@
               label="Group"
               label-class="label-on-input"
             >
+              <template #label> <translate> Group </translate> </template>
               <autocomplete
                 id="search-by-group"
                 v-model="searchBy.group"
@@ -39,6 +40,7 @@
               label="Sub Group"
               label-class="label-on-input"
             >
+              <template #label> <translate> Sub Group </translate> </template>
               <autocomplete
                 id="search-by-sub-group"
                 v-model="searchBy.subGroup"
@@ -55,6 +57,7 @@
               label="Account"
               label-class="label-on-input"
             >
+              <template #label> <translate> Account </translate> </template>
               <autocomplete
                 id="search-by-account"
                 v-model="searchBy.account"
@@ -69,7 +72,7 @@
       </b-card>
     </b-collapse>
 
-    <u><small class="ml-2">Groups</small></u>
+    <u><small class="ml-2" v-translate>Groups</small></u>
     <b-container fluid>
       <b-row>
         <b-col
@@ -510,7 +513,7 @@ export default {
                 defaultFlag: acc.defaultflag,
                 openingBal: !isNaN(acc.openingbal)
                   ? parseFloat(acc.openingbal).toFixed(2)
-                  : "0.00",
+                  : '0.00',
                 show: true,
               };
 
@@ -540,7 +543,7 @@ export default {
             this.options.groups = groups;
             this.options.subGroups = subGroups;
           } else {
-            this.$bvToast.toast('Failed to fetch Accounts', {
+            this.$bvToast.toast(this.$gettext('Failed to fetch Accounts'), {
               variant: 'danger',
               solid: true,
             });
@@ -679,7 +682,11 @@ export default {
     this.getAccountsList().then(() => {
       // open the group and subgroup from URL
       if (self.group) {
-        self.openCard(parseInt(self.group), parseInt(self.subGroup), parseInt(self.acc));
+        self.openCard(
+          parseInt(self.group),
+          parseInt(self.subGroup),
+          parseInt(self.acc)
+        );
       }
     });
   },

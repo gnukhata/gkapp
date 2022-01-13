@@ -5,7 +5,7 @@
       class="align-middle"
       icon="printer"
       :font-scale="fontScale"
-      :class="{'d-none': textMode}"
+      :class="{ 'd-none': textMode }"
     ></b-icon>
     <span :class="{ 'sr-only': !textMode }">{{ textMode || 'Print' }}</span>
   </b-button>
@@ -126,7 +126,9 @@ export default {
       let contentDom = document.getElementById(this.contentId);
       if (!contentDom) {
         this.$bvToast.toast(
-          'Unable to print the page. Please contact Admin if problem persists.',
+          this.$gettext(
+            'Unable to print the page. Please contact Admin if problem persists.'
+          ),
           {
             autoHideDelay: 3000,
             variant: 'warning',
@@ -223,11 +225,15 @@ export default {
     },
 
     downloadPdf(element, pwindow) {
-      let dateString = new Date().toISOString().split('.')[0]; 
-      let date = dateString.split('T')[0].split('-').reverse().join('_');
+      let dateString = new Date().toISOString().split('.')[0];
+      let date = dateString
+        .split('T')[0]
+        .split('-')
+        .reverse()
+        .join('_');
       let time = dateString.split('T')[1];
       let timeStamp = `${date}_${time}`;
-      let fileName = `${this.orgName}_${this.fileName}_${timeStamp}.pdf`
+      let fileName = `${this.orgName}_${this.fileName}_${timeStamp}.pdf`;
       html2PDF(element, {
         jsPDF: {
           format: 'a4',

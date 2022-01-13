@@ -105,29 +105,33 @@ export default {
   computed: {
     rnoteData: (self) => {
       return [
-        { title: 'No.', value: self.rnote.no },
-        { title: 'Date', value: self.rnote.date },
-        { title: 'Inv No.', value: self.rnote.inv.no },
-        { title: 'Inv Date', value: self.rnote.inv.date },
+        { title: self.$gettext('No.'), value: self.rnote.no },
+        { title: self.$gettext('Date'), value: self.rnote.date },
+        { title: self.$gettext('Inv No.'), value: self.rnote.inv.no },
+        { title: self.$gettext('Inv Date'), value: self.rnote.inv.date },
       ];
     },
     tableFields: (self) => {
       let fields = [
         {
           key: 'name',
-          label: 'Item',
+          label: self.$gettext('Item'),
         },
-        { key: 'qty', label: 'Rejected Qty' },
+        { key: 'qty', label: self.$gettext('Rejected Qty') },
         {
           key: 'rate',
-          label: 'Rate (₹)',
+          label: self.$gettext('Rate (₹)'),
           tdClass: 'gk-currency-sm',
         },
         { key: 'igst', label: 'IGST (%)' },
         { key: 'cgst', label: 'CGST (%)' },
         { key: 'sgst', label: 'SGST (%)' },
         { key: 'cess', label: 'CESS (%)' },
-        { key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm' },
+        {
+          key: 'total',
+          label: self.$gettext('Total (₹)'),
+          tdClass: 'gk-currency-sm',
+        },
       ];
       if (self.total.isIgst) {
         fields.splice(4, 2);
@@ -138,7 +142,9 @@ export default {
       return fields;
     },
     totalDetails: (self) => {
-      let total = [{ title: 'Taxable', value: self.total.taxable }];
+      let total = [
+        { title: self.$gettext('Taxable'), value: self.total.taxable },
+      ];
       if (self.rnote.isGst) {
         if (self.total.isIgst) {
           total.push({ title: 'IGST', value: self.total.tax });
@@ -153,7 +159,7 @@ export default {
         total.push({ title: 'VAT', value: self.total.tax });
       }
       total.push(
-        { title: 'Rejected Value', value: self.total.amount }
+        { title: self.$gettext('Rejected Value'), value: self.total.amount }
         // { title: 'Total In Words', value: self.total.text }
       );
       return total;
@@ -210,7 +216,7 @@ export default {
         .get(`/rejectionnote?type=single&rnid=${this.id}`)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `Fetch Rejection Note Error!`,
+            title: this.$gettext(`Fetch Rejection Note Error!`),
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
@@ -228,19 +234,24 @@ export default {
             this.formatDetails(response.data.gkresult);
             break;
           case 2:
-            this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `Fetch Rejection Note Error!`,
-              autoHideDelay: 3000,
-              variant: 'warning',
-              appendToast: true,
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext(`Unauthorized access, Please contact admin`),
+              {
+                title: this.$gettext(`Fetch Rejection Note Error!`),
+                autoHideDelay: 3000,
+                variant: 'warning',
+                appendToast: true,
+                solid: true,
+              }
+            );
             break;
           default:
             this.$bvToast.toast(
-              `Unable to Fetch Rejection Note Details! Please Try after sometime.`,
+              this.$gettext(
+                `Unable to Fetch Rejection Note Details! Please Try after sometime.`
+              ),
               {
-                title: `Fetch Transaction Details Error!`,
+                title: this.$gettext(`Fetch Transaction Details Error!`),
                 autoHideDelay: 3000,
                 variant: 'warning',
                 appendToast: true,

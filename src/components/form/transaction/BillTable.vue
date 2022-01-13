@@ -131,8 +131,13 @@
               config.qty.checkStock &&
                 form[data.item.index].qty > options.stock[data.item.pid]
             "
-            >Stock On Hand = {{ options.stock[data.item.pid] }}</small
           >
+            <translate
+              :translate-params="{ stockOnHand: options.stock[data.item.pid] }"
+            >
+              Stock On Hand = %{stockOnHand}
+            </translate>
+          </small>
         </template>
 
         <!-- Package Count (Purchase Sales Order) -->
@@ -480,25 +485,38 @@ export default {
         }
       }
       let data = [
-        { key: 'editBtn', label: 'Edit' },
-        { key: 'index', label: 'No' },
+        { key: 'editBtn', label: this.$gettext('Edit') },
+        { key: 'index', label: this.$gettext('No') },
         { key: 'rowSelected', label: '\u2611' },
-        { key: 'product', label: 'Item' },
-        { key: 'qty', label: 'Qty', tdClass: 'bt-cell-qty' },
-        { key: 'packageCount', label: 'No. of Packages' },
-        { key: 'rejectedQty', label: 'Rejected Qty' },
-        { key: 'dcValue', label: 'Value' },
-        { key: 'rate', label: 'Rate ₹', tdClass: 'text-right' },
-        { key: 'discount', label: 'Discount ₹', tdClass: 'text-right' },
+        { key: 'product', label: this.$gettext('Item') },
+        { key: 'qty', label: this.$gettext('Qty'), tdClass: 'bt-cell-qty' },
+        { key: 'packageCount', label: this.$gettext('No. of Packages') },
+        { key: 'rejectedQty', label: this.$gettext('Rejected Qty') },
+        { key: 'dcValue', label: this.$gettext('Value') },
+        { key: 'rate', label: this.$gettext('Rate ₹'), tdClass: 'text-right' },
+        {
+          key: 'discount',
+          label: this.$gettext('Discount ₹'),
+          tdClass: 'text-right',
+        },
         { key: 'vat', label: 'VAT %' },
         { key: 'cgst', label: 'CGST %' },
         { key: 'sgst', label: 'SGST %' },
         { key: 'igst', label: 'IGST %' },
         { key: 'cess', label: 'CESS %' },
-        { key: 'total', label: 'Total ₹', tdClass: 'text-right' },
+        {
+          key: 'total',
+          label: this.$gettext('Total ₹'),
+          tdClass: 'text-right',
+        },
         { key: 'addBtn', label: '+/-' },
       ];
-      replace('dcValue', self.creditFlag ? 'Credited Value' : 'Debited Value');
+      replace(
+        'dcValue',
+        self.creditFlag
+          ? this.$gettext('Credited Value')
+          : this.$gettext('Debited Value')
+      );
       if (self.gstFlag) {
         remove('vat');
         if (self.cgstFlag) {
@@ -1024,8 +1042,8 @@ export default {
               }
             } else {
               this.displayToast(
-                'Fetch Product Data Failed!',
-                'Please try again later, if problem persists, contact admin',
+                this.$gettext('Fetch Product Data Failed!'),
+                this.$gettext('Please try again later, if problem persists, contact admin'),
                 'danger'
               );
             }
@@ -1034,7 +1052,7 @@ export default {
         .catch((error) => {
           self.isPreloading = false;
           this.displayToast(
-            'Fetch Product Data Failed!',
+            this.$gettext('Fetch Product Data Failed!'),
             error.message,
             'danger'
           );

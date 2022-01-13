@@ -3,8 +3,8 @@
     <b-input-group class="mb-3 container-sm gksearch">
       <template #prepend>
         <b-button variant="outline-primary" to="/categories/add"
-          ><b-icon icon="tag"></b-icon> Add Category</b-button
-        >
+          ><b-icon icon="tag"></b-icon> <translate> Add Category </translate>
+        </b-button>
       </template>
       <b-form-input
         type="text"
@@ -31,12 +31,21 @@
       <template #table-busy>
         <div class="text-center">
           <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong> Fetching Categories ... </strong>
+          <strong v-translate> Fetching Categories ... </strong>
         </div>
       </template>
       <template #cell(options)="data">
         <b-button-group class="mx-auto">
-          <b-button title="Add" variant="dark" class="px-1" size="sm" :to="{name: 'Edit_Category', params: {id: data.item.categorycode}}">
+          <b-button
+            title="Add"
+            variant="dark"
+            class="px-1"
+            size="sm"
+            :to="{
+              name: 'Edit_Category',
+              params: { id: data.item.categorycode },
+            }"
+          >
             <b-icon
               font-scale="0.85"
               class="align-middle"
@@ -132,7 +141,7 @@ export default {
           if (r.status == 200) {
             this.allCategories = r.data.gkresult;
           } else {
-            this.$bvToast.toast('Failed to fetch categories', {
+            this.$bvToast.toast(this.$gettext('Failed to fetch categories'), {
               variant: 'danger',
               solid: true,
             });

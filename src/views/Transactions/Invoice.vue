@@ -21,10 +21,12 @@
           class="border-0 p-2 text-dark"
           :style="{ 'font-size': '1.5em' }"
         >
-          <b-form-select-option value="create"
-            >Create Invoice</b-form-select-option
-          >
-          <b-form-select-option value="edit">Edit Invoice</b-form-select-option>
+          <b-form-select-option value="create" v-translate>
+            Create Invoice
+          </b-form-select-option>
+          <b-form-select-option value="edit" v-translate>
+            Edit Invoice
+          </b-form-select-option>
         </b-form-select>
       </span>
     </div>
@@ -38,8 +40,8 @@
         buttons
         class="mx-1"
       >
-        <b-form-radio value="sale">Sale</b-form-radio>
-        <b-form-radio value="purchase">Purchase</b-form-radio>
+        <b-form-radio value="sale" v-translate> Sale </b-form-radio>
+        <b-form-radio value="purchase" v-translate> Purchase </b-form-radio>
       </b-form-radio-group>
       <span
         id="edit-invoice-list"
@@ -178,12 +180,16 @@
         placement="top"
         triggers="manual"
       >
-        Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-        <b>{{ yearEnd }}</b>
+        <translate
+          translate-comment="%{start} and %{end} are a variables, translation is not required for them. Enter them, as they are while translation."
+          :translate-params="{ start: yearStart, end: yearEnd }"
+        >
+          Date must be within the Financial Year, from %{start} to %{end}
+        </translate>
       </b-tooltip>
       <b-card class="mt-2 mb-2 mb-md-0" border-variant="secondary" no-body>
         <div class="p-2 p-md-3">
-          <b>Attachments</b>
+          <b v-translate> Attachments </b>
           <b-form-file
             class="mt-3 float-right d-inline-block"
             @input="onAttachmentSelect"
@@ -235,7 +241,7 @@
             class="align-middle"
             icon="arrow-left"
           ></b-icon>
-          <span class="align-middle"> Back</span>
+          <span class="align-middle" v-translate> Back </span>
         </b-button>
         <b-button
           class="m-1"
@@ -248,7 +254,7 @@
             class="align-middle"
             icon="arrow-repeat"
           ></b-icon>
-          <span class="align-middle"> Reset</span>
+          <span class="align-middle" v-translate> Reset </span>
         </b-button>
         <b-button
           id="inv-submit"
@@ -266,7 +272,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-            <span class="align-middle"> Create</span>
+            <span class="align-middle" v-translate> Create </span>
           </span>
 
           <span v-else>
@@ -277,7 +283,7 @@
               class="align-middle"
               icon="cloud-arrow-up"
             ></b-icon>
-            <span class="align-middle"> Save Changes</span>
+            <span class="align-middle" v-translate> Save Changes</span>
           </span>
         </b-button>
       </div>
@@ -797,7 +803,7 @@ export default {
       const requests = [
         axios.get('/state').catch((error) => {
           this.displayToast(
-            'Fetch State Data Failed!',
+            this.$gettext('Fetch State Data Failed!'),
             error.message,
             'danger'
           );
@@ -805,7 +811,7 @@ export default {
         }),
         axios.get(`/organisation`).catch((error) => {
           this.displayToast(
-            'Fetch Organisation Profile Data Failed!',
+            this.$gettext('Fetch Organisation Profile Data Failed!'),
             error.message,
             'danger'
           );
@@ -849,7 +855,7 @@ export default {
           self.options.orgDetails = {
             name: resp6.data.gkdata.orgname,
             addr: resp6.data.gkdata.orgaddr,
-            state: state? state.value : null,
+            state: state ? state.value : null,
             gstin: stateCode && gstin ? gstin[stateCode] : '',
             tin: '',
             pin: resp6.data.gkdata.orgpincode,
@@ -862,7 +868,7 @@ export default {
 
         if (preloadErrorList !== '') {
           this.displayToast(
-            'Error: Unable to Preload Data',
+            this.$gettext('Error: Unable to Preload Data'),
             `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
             'danger'
           );
@@ -895,7 +901,7 @@ export default {
       const requests = [
         axios.get('/customersupplier?qty=custall').catch((error) => {
           this.displayToast(
-            'Fetch Customer Data Failed!',
+            this.$gettext('Fetch Customer Data Failed!'),
             error.message,
             'danger'
           );
@@ -903,7 +909,7 @@ export default {
         }),
         axios.get('/customersupplier?qty=supall').catch((error) => {
           this.displayToast(
-            'Fetch Supplier Data Failed!',
+            this.$gettext('Fetch Supplier Data Failed!'),
             error.message,
             'danger'
           );
@@ -965,7 +971,7 @@ export default {
         })
         .catch((error) => {
           this.displayToast(
-            'Fetch Customer/Supplier Data Failed!',
+            this.$gettext('Fetch Customer/Supplier Data Failed!'),
             error.message,
             'danger'
           );
@@ -1086,7 +1092,7 @@ export default {
         })
         .catch((error) => {
           this.displayToast(
-            'Fetch Invoice ${this.invid} data Error!',
+            `Fetch Invoice ${this.invid} data Error!`,
             error.message,
             'warning'
           );
@@ -1116,7 +1122,10 @@ export default {
                   this.invoiceId = resp.data.gkresult;
                   this.showPrintModal = true;
                   this.displayToast(
-                    `${actionText} Invoice Successfull!`,
+                    this.$gettextInterpolate(
+                      this.$gettext(`%{actionText} Invoice Successfull!`),
+                      { actionText: actionText }
+                    ),
                     `Invoice saved with entry no. ${resp.data.invoiceid ||
                       resp.data.gkresult ||
                       resp.data.vchData.vchno}`,
@@ -1138,24 +1147,33 @@ export default {
               case 1:
                 // Duplicate entry
                 this.displayToast(
-                  `${actionText} Invoice Failed!`,
-                  'Duplicate Entry, Check Invoice Id',
+                  this.$gettextInterpolate(
+                    this.$gettext(`%{actionText} Invoice Failed!`),
+                    { actionText: actionText }
+                  ),
+                  this.$gettext('Duplicate Entry, Check Invoice Id'),
                   'warning'
                 );
                 break;
               case 2:
                 // Unauthorized access
                 this.displayToast(
-                  `${actionText} Invoice Failed!`,
-                  'Unauthorized Access, Contact Admin',
+                  this.$gettextInterpolate(
+                    this.$gettext(`%{actionText} Invoice Failed!`),
+                    { actionText: actionText }
+                  ),
+                  this.$gettext('Unauthorized Access, Contact Admin'),
                   'warning'
                 );
                 break;
               case 3:
                 // Connection failed, Check inputs and try again
                 this.displayToast(
-                  `${actionText} Invoice Failed!`,
-                  'Please check your input and try again later',
+                  this.$gettextInterpolate(
+                    this.$gettext(`%{actionText} Invoice Failed!`),
+                    { actionText: actionText }
+                  ),
+                  this.$gettext('Please check your input and try again later'),
                   'danger'
                 );
             }
@@ -1164,7 +1182,12 @@ export default {
         .catch((error) => {
           self.isLoading = false;
           self.displayToast(
-            `${actionText} Invoice Error!`,
+            this.$gettextInterpolate(
+              this.$gettext(`%{actionText} Invoice Error!`),
+              {
+                actionText: actionText,
+              }
+            ),
             error.message,
             'warning'
           );

@@ -6,7 +6,7 @@
   >
     <b-form @submit.prevent="confirmOnSubmit">
       <div class="text-center pt-2">
-        <h4>Create Transfer Note</h4>
+        <h4 v-translate>Create Transfer Note</h4>
       </div>
       <hr />
       <b-card-group class="d-block d-md-flex my-2" deck>
@@ -41,8 +41,12 @@
         placement="top"
         triggers="manual"
       >
-        Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-        <b>{{ yearEnd }}</b>
+        <translate
+          translate-comment="%{start} and %{end} are a variables, translation is not required for them. Enter them, as they are while translation."
+          :translate-params="{ start: yearStart, end: yearEnd }"
+        >
+          Date must be within the Financial Year, from %{start} to %{end}
+        </translate>
       </b-tooltip>
       <hr />
       <div class="float-right">
@@ -57,7 +61,7 @@
             class="align-middle"
             icon="arrow-left"
           ></b-icon>
-          <span class="align-middle"> Back</span>
+          <span class="align-middle" v-translate> Back </span>
         </b-button>
         <b-button
           class="m-1"
@@ -70,7 +74,7 @@
             class="align-middle"
             icon="arrow-repeat"
           ></b-icon>
-          <span class="align-middle"> Reset</span>
+          <span class="align-middle" v-translate> Reset </span>
         </b-button>
         <b-button
           id="inv-submit"
@@ -88,7 +92,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-            <span class="align-middle"> Create</span>
+            <span class="align-middle" v-translate> Create </span>
           </span>
         </b-button>
       </div>
@@ -249,7 +253,7 @@ export default {
                   // success
                   console.log(resp.data);
                   this.displayToast(
-                    `Create Transfer Note Successfull!`,
+                    this.$gettext(`Create Transfer Note Successfull!`),
                     `Transfer Note #${self.form.transferNote.no} was successfully created`,
                     'success'
                   );
@@ -267,24 +271,24 @@ export default {
               case 1:
                 // Duplicate entry
                 this.displayToast(
-                  `Create Transfer Note Failed!`,
-                  'Duplicate Entry, Check No.',
+                  this.$gettext(`Create Transfer Note Failed!`),
+                  this.$gettext('Duplicate Entry, Check No.'),
                   'warning'
                 );
                 break;
               case 2:
                 // Unauthorized access
                 this.displayToast(
-                  `Create Transfer Note Failed!`,
-                  'Unauthorized Access, Contact Admin',
+                  this.$gettext(`Create Transfer Note Failed!`),
+                  this.$gettext('Unauthorized Access, Contact Admin'),
                   'warning'
                 );
                 break;
               case 3:
                 // Connection failed, Check inputs and try again
                 this.displayToast(
-                  `Create Transfer Note Failed!`,
-                  'Please check your input and try again later',
+                  this.$gettext(`Create Transfer Note Failed!`),
+                  this.$gettext('Please check your input and try again later'),
                   'danger'
                 );
             }
@@ -293,7 +297,7 @@ export default {
         .catch((error) => {
           self.isLoading = false;
           self.displayToast(
-            `Create Transfer Note Error!`,
+            this.$gettext(`Create Transfer Note Error!`),
             error.message,
             'warning'
           );

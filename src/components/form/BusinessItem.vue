@@ -3,7 +3,7 @@
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <div class="card-header bg-dark text-left text-light py-2">
-      <b>Business Item Details</b>
+      <b v-translate>Business Item Details</b>
       <slot name="close-button"> </slot>
     </div>
     <div class="card-body pb-2 px-1 px-md-3">
@@ -19,8 +19,12 @@
                   size="sm"
                   name="filter-form-sort"
                 >
-                  <b-form-radio value="product">Product</b-form-radio>
-                  <b-form-radio value="service">Service</b-form-radio>
+                  <b-form-radio value="product">
+                    <translate> Product </translate>
+                  </b-form-radio>
+                  <b-form-radio value="service">
+                    <translate> Service </translate>
+                  </b-form-radio>
                 </b-form-radio-group>
               </b-col>
               <b-col cols="12" sm="7">
@@ -31,6 +35,7 @@
                   label-cols="auto"
                   label-class="required"
                 >
+                  <template #label> <translate> Name </translate> </template>
                   <b-form-input
                     size="sm"
                     id="bi-input-1"
@@ -57,6 +62,7 @@
                   label-cols="3"
                   label-class="required"
                 >
+                  <template #label> <translate> Stock </translate> </template>
                   <autocomplete
                     size="sm"
                     id="bi-input-2"
@@ -73,6 +79,9 @@
                   label-cols="3"
                   v-if="!form.stock.godownFlag"
                 >
+                  <template #label>
+                    <translate> Opening Stock </translate>
+                  </template>
                   <b-input-group :append="form.uomCode" size="sm">
                     <b-form-input
                       size="sm"
@@ -94,7 +103,7 @@
                         class="d-inline-block"
                         switch
                       >
-                        Godownwise Opening Stock
+                        <translate> Godownwise Opening Stock </translate>
                       </b-form-checkbox>
                       <b-button
                         class="mx-2 py-0 px-1"
@@ -102,7 +111,7 @@
                         variant="success"
                         @click.prevent="showGodownForm = true"
                       >
-                        + Godown
+                        <translate> + Godown </translate>
                       </b-button>
                     </div>
                     <div v-if="form.stock.godownFlag">
@@ -155,13 +164,14 @@
             </b-card>
             <b-card border-variant="dark" no-body>
               <b-card-body class="p-2">
-                <b>Price</b>
+                <b b-translate>Price</b>
                 <b-form-group
                   label-size="sm"
                   label="MRP"
                   label-for="bi-input-4"
                   label-cols="3"
                 >
+                  <template #label> <translate> MRP </translate> </template>
                   <b-input-group size="sm" append="₹">
                     <b-form-input
                       id="bi-input-4"
@@ -179,6 +189,9 @@
                   label-for="bi-input-5"
                   label-cols="3"
                 >
+                  <template #label>
+                    <translate> Sale Price </translate>
+                  </template>
                   <b-input-group append="₹" size="sm">
                     <b-form-input
                       size="sm"
@@ -197,6 +210,9 @@
                   label-for="bi-input-6"
                   label-cols="3"
                 >
+                  <template #label>
+                    <translate> Discount </translate>
+                  </template>
                   <b-row>
                     <b-col class="pr-1">
                       <b-input-group append="₹" size="sm">
@@ -372,7 +388,7 @@
                 class="align-middle"
                 icon="arrow-left"
               ></b-icon>
-              <span class="align-middle"> Back</span>
+              <span class="align-middle" v-translate> Back</span>
             </b-button>
             <b-button
               size="sm"
@@ -385,7 +401,7 @@
                 class="align-middle"
                 icon="arrow-repeat"
               ></b-icon>
-              <span class="align-middle"> Reset</span>
+              <span class="align-middle" v-translate> Reset</span>
             </b-button>
             <b-button size="sm" type="submit" class="m-1" variant="success">
               <b-spinner v-if="isLoading" small></b-spinner>
@@ -395,7 +411,7 @@
                 class="align-middle"
                 icon="plus-square"
               ></b-icon>
-              <span class="align-middle"> Save</span>
+              <span class="align-middle" v-translate> Save</span>
             </b-button>
           </div>
         </div>
@@ -512,7 +528,7 @@ export default {
     };
   },
   computed: {
-    gstRates:(self) => self.$store.getters['global/getGstRates'],
+    gstRates: (self) => self.$store.getters['global/getGstRates'],
     isHsnRequired: (self) => self.form.tax.gst > 0 || self.form.tax.cess > 0,
     // uomCode: (self) => (self.uomSelected !== null) ? self.uomSelected.split(' ')[0] : null,
     isService: (self) => self.type === 'service',
@@ -648,7 +664,12 @@ export default {
               break;
             case 1:
               this.$bvToast.toast(
-                `${this.formType} entry already exists! (Please check Name, FAX or PAN)`,
+                this.$gettextInterpolate(
+                  this.$gettext(
+                    `%{formType} entry already exists! (Please check Name, FAX or PAN)`
+                  ),
+                  { formType: this.formType }
+                ),
                 {
                   title: `${this.formMode} ${this.formType} Error!`,
                   autoHideDelay: 3000,
@@ -659,17 +680,25 @@ export default {
               );
               break;
             case 2:
-              this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-                title: `${this.formMode} ${this.formType} Error!`,
-                autoHideDelay: 3000,
-                variant: 'warning',
-                appendToast: true,
-                solid: true,
-              });
+              this.$bvToast.toast(
+                this.$gettext(`Unauthorized access, Please contact admin`),
+                {
+                  title: `${this.formMode} ${this.formType} Error!`,
+                  autoHideDelay: 3000,
+                  variant: 'warning',
+                  appendToast: true,
+                  solid: true,
+                }
+              );
               break;
             default:
               this.$bvToast.toast(
-                `Unable to create ${this.formType}, Please try again`,
+                this.$gettextInterpolate(
+                  this.$gettext(
+                    `Unable to create %{formType}, Please try again`
+                  ),
+                  { formType: this.formType }
+                ),
                 {
                   title: `${this.formMode} ${this.formType} Error!`,
                   autoHideDelay: 3000,
@@ -853,15 +882,21 @@ export default {
               });
             } else {
               this.displayToast(
-                'Fetch Product Data Failed!',
-                'Please try again later, if problem persists, contact admin',
+                this.$gettext('Fetch Product Data Failed!'),
+                this.$gettext(
+                  'Please try again later, if problem persists, contact admin'
+                ),
                 'danger'
               );
             }
           }
         })
         .catch((error) => {
-          this.displayToast('Fetch Godowns Failed!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Fetch Godowns Failed!'),
+            error.message,
+            'danger'
+          );
           return error;
         });
     },
@@ -870,7 +905,7 @@ export default {
       const requests = [
         axios.get('/unitofmeasurement?qty=all').catch((error) => {
           this.displayToast(
-            'Fetch Unit of Measurement Failed!',
+            this.$gettext('Fetch Unit of Measurement Failed!'),
             error.message,
             'danger'
           );
@@ -878,7 +913,7 @@ export default {
         }),
         axios.get('/state').catch((error) => {
           this.displayToast(
-            'Fetch State Data Failed!',
+            this.$gettext('Fetch State Data Failed!'),
             error.message,
             'danger'
           );
@@ -936,8 +971,15 @@ export default {
 
         if (preloadErrorList !== '') {
           this.displayToast(
-            'Error: Unable to Preload Data',
-            `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
+            this.$gettext('Error: Unable to Preload Data'),
+            this.$gettextInterpolate(
+              this.$gettext(
+                `Issues with fetching %{preloadErrorList} Please try again or Contact Admin`
+              ),
+              {
+                preloadErrorList: preloadErrorList,
+              }
+            ),
             'danger'
           );
         }

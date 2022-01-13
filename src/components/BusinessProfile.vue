@@ -16,7 +16,7 @@
     >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-info>
-          <div class="mr-auto">Info</div>
+          <div class="mr-auto" v-translate>Info</div>
           <div>
             <b-icon
               :icon="isCollapsed1 ? 'dash' : 'arrows-fullscreen'"
@@ -40,6 +40,7 @@
           label-cols="4"
           label-size="sm"
         >
+          <template #label> <translate> Opening Stock </translate> </template>
           <b-input-group size="sm">
             <b-form-input
               v-model="details.openingstock"
@@ -62,7 +63,7 @@
             switch
             size="sm"
           >
-            Use Godownwise Opening Stock
+            <translate> Use Godownwise Opening Stock </translate>
           </b-form-checkbox>
         </b-form-group>
         <!-- UOM -->
@@ -72,6 +73,7 @@
           label-cols="4"
           label-size="sm"
         >
+          <template #label> <translate> Unit of Measure </translate> </template>
           <b-input-group size="sm" :prepend="details.unitname">
             <b-form-select
               size="sm"
@@ -103,7 +105,7 @@
     >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-price>
-          <div class="mr-auto">Price</div>
+          <div class="mr-auto" v-translate>Price</div>
           <div>
             <b-icon
               :icon="isCollapsed2 ? 'dash' : 'arrows-fullscreen'"
@@ -132,6 +134,7 @@
           label="Discount"
           label-for="input-3"
         >
+          <template #label> <translate> Discount </translate> </template>
           <b-input-group size="sm" prepend="₹">
             <b-form-input
               size="sm"
@@ -158,7 +161,7 @@
     >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-tax>
-          <div class="mr-auto">Taxes</div>
+          <div class="mr-auto" v-translate>Taxes</div>
           <div>
             <b-icon
               :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
@@ -257,7 +260,7 @@
     >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-godown>
-          <div class="mr-auto">Godownwise Opening Stock</div>
+          <div class="mr-auto" v-translate>Godownwise Opening Stock</div>
           <div>
             <b-icon
               :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
@@ -280,9 +283,9 @@
               :options="options.godowns"
             >
               <template #first>
-                <b-form-select-option value="" disabled
-                  >-- Choose a Godown --</b-form-select-option
-                >
+                <b-form-select-option value="" disabled>
+                  <translate> -- Choose a Godown -- </translate>
+                </b-form-select-option>
               </template>
             </b-form-select>
             <b-form-input
@@ -307,14 +310,14 @@
             @click.prevent="addGodown"
             class="float-right py-0 px-1"
           >
-            Add Row
+            <translate> Add Row </translate>
           </b-button>
           <b-button
             class="float-right mx-2 py-0 px-1"
             size="sm"
             @click.prevent="showGodownForm = true"
           >
-            Create Godown
+            <translate> Create Godown </translate>
           </b-button>
         </b-collapse>
       </div>
@@ -322,16 +325,18 @@
     <!-- Submit & delete buttons -->
     <div class="mt-4 pb-4 d-flex flex-row-reverse">
       <b-button type="submit" size="sm" class="ml-2" variant="success"
-        ><b-icon icon="cloud-arrow-up"></b-icon> Save Changes</b-button
-      >
+        ><b-icon icon="cloud-arrow-up"></b-icon>
+        <translate> Save Changes </translate>
+      </b-button>
       <b-button
         @click.prevent="delProfile"
         size="sm"
         class="ml-2"
         variant="danger"
         ><b-icon :icon="details.gsflag == 7 ? 'box' : 'headset'"></b-icon>
-        Delete {{ details.gsflag == 7 ? 'Product' : 'Service' }}</b-button
-      >
+        <span v-if="details.gsflag == 7" v-translate> Delete Product </span>
+        <span v-else v-translate> Delete Service </span>
+      </b-button>
     </div>
 
     <b-modal
@@ -450,7 +455,7 @@ export default {
               break;
             case 3:
               this.loading = false;
-              this.$bvToast.toast('Product does not exist', {
+              this.$bvToast.toast(this.$gettext('Product does not exist'), {
                 title: 'Error',
                 variant: 'danger',
                 solid: true,
@@ -507,7 +512,7 @@ export default {
                       this.$bvToast.toast(
                         `${this.details.productdesc} updated`,
                         {
-                          title: 'Success',
+                          title: this.$gettext('Success'),
                           variant: 'success',
                           solid: true,
                         }
@@ -527,8 +532,8 @@ export default {
                     }
                     break;
                   case 2:
-                    this.$bvToast.toast(`Unauthorised access`, {
-                      title: 'Failure',
+                    this.$bvToast.toast(this.$gettext(`Unauthorised access`), {
+                      title: this.$gettext('Failure'),
                       variant: 'danger',
                       solid: true,
                     });
@@ -656,7 +661,7 @@ export default {
                     this.$bvToast.toast(
                       `Cannot delete ${this.details.productdesc}`,
                       {
-                        title: 'Bad Privilige',
+                        title: this.$gettext('Bad Privilige'),
                         solid: true,
                         variant: 'danger',
                       }
@@ -666,7 +671,7 @@ export default {
                     this.$bvToast.toast(
                       `Cannot delete ${this.details.productdesc}`,
                       {
-                        title: 'Action Disallowed',
+                        title: this.$gettext('Action Disallowed'),
                         solid: true,
                         variant: 'danger',
                       }
@@ -758,8 +763,8 @@ export default {
               // console.log(response.data.gkresult)
               break;
             default:
-              this.$bvToast.toast(`Please try after sometime`, {
-                title: `Error: Fetching Unit of Measurement`,
+              this.$bvToast.toast(this.$gettext(`Please try after sometime`), {
+                title: this.$gettext(`Error: Fetching Unit of Measurement`),
                 autoHideDelay: 3000,
                 variant: 'warning',
                 appendToast: true,
@@ -826,15 +831,21 @@ export default {
               });
             } else {
               this.displayToast(
-                'Fetch Product Data Failed!',
-                'Please try again later, if problem persists, contact admin',
+                this.$gettext('Fetch Product Data Failed!'),
+                this.$gettext(
+                  'Please try again later, if problem persists, contact admin'
+                ),
                 'danger'
               );
             }
           }
         })
         .catch((error) => {
-          this.displayToast('Fetch Godowns Failed!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Fetch Godowns Failed!'),
+            error.message,
+            'danger'
+          );
           return error;
         });
     },

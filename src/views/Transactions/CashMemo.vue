@@ -6,7 +6,7 @@
   >
     <b-form @submit.prevent="confirmOnSubmit">
       <div class="text-center pt-2">
-        <h4>Create Cash Memo</h4>
+        <h4 v-translate>Create Cash Memo</h4>
       </div>
       <hr />
       <div class="mb-2">
@@ -18,8 +18,8 @@
           buttons
           class="mx-1"
         >
-          <b-form-radio value="sale">Sale</b-form-radio>
-          <b-form-radio value="purchase">Purchase</b-form-radio>
+          <b-form-radio value="sale" v-translate> Sale </b-form-radio>
+          <b-form-radio value="purchase" v-translate> Purchase </b-form-radio>
         </b-form-radio-group>
         <span class="float-right">
           <config
@@ -100,8 +100,12 @@
         placement="top"
         triggers="manual"
       >
-        Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-        <b>{{ yearEnd }}</b>
+        <translate
+          translate-comment="%{start} and %{end} are a variables, translation is not required for them. Enter them, as they are while translation."
+          :translate-params="{ start: yearStart, end: yearEnd }"
+        >
+          Date must be within the Financial Year, from %{start} to %{end}
+        </translate>
       </b-tooltip>
       <hr />
       <div class="float-right">
@@ -116,7 +120,7 @@
             class="align-middle"
             icon="arrow-left"
           ></b-icon>
-          <span class="align-middle"> Back</span>
+          <span class="align-middle" v-translate> Back </span>
         </b-button>
         <b-button
           class="m-1"
@@ -129,7 +133,7 @@
             class="align-middle"
             icon="arrow-repeat"
           ></b-icon>
-          <span class="align-middle"> Reset</span>
+          <span class="align-middle" v-translate> Reset </span>
         </b-button>
         <b-button
           id="inv-submit"
@@ -147,7 +151,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-            <span class="align-middle"> Create</span>
+            <span class="align-middle" v-translate> Create </span>
           </span>
         </b-button>
       </div>
@@ -440,12 +444,10 @@ export default {
                   // success
 
                   this.displayToast(
-                    `Create Cash Memo Successfull!`,
-                    `Cash Memo saved with entry no. ${
-                      resp.data.invoiceid ||
+                    this.$gettext(`Create Cash Memo Successfull!`),
+                    `Cash Memo saved with entry no. ${resp.data.invoiceid ||
                       resp.data.gkresult ||
-                      resp.data.vchData.vchno
-                    }`,
+                      resp.data.vchData.vchno}`,
                     'success'
                   );
 
@@ -462,24 +464,24 @@ export default {
               case 1:
                 // Duplicate entry
                 this.displayToast(
-                  `Create Cash Memo Failed!`,
-                  'Duplicate Entry, Check Cash Memo Id',
+                  this.$gettext(`Create Cash Memo Failed!`),
+                  this.$gettext('Duplicate Entry, Check Cash Memo Id'),
                   'warning'
                 );
                 break;
               case 2:
                 // Unauthorized access
                 this.displayToast(
-                  `Create Cash Memo Failed!`,
-                  'Unauthorized Access, Contact Admin',
+                  this.$gettext(`Create Cash Memo Failed!`),
+                  this.$gettext('Unauthorized Access, Contact Admin'),
                   'warning'
                 );
                 break;
               case 3:
                 // Connection failed, Check inputs and try again
                 this.displayToast(
-                  `Create Cash Memo Failed!`,
-                  'Please check your input and try again later',
+                  this.$gettext(`Create Cash Memo Failed!`),
+                  this.$gettext('Please check your input and try again later'),
                   'danger'
                 );
             }
@@ -498,10 +500,9 @@ export default {
           }
           break;
         case 'cash':
-        default:
-          {
-            paymentMode = 3;
-          }
+        default: {
+          paymentMode = 3;
+        }
       }
       this.form = {
         type: 'sale',

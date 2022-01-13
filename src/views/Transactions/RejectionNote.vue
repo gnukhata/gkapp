@@ -6,7 +6,7 @@
   >
     <b-form @submit.prevent="confirmOnSubmit">
       <div class="text-center pt-2">
-        <h4>Create Rejection Note</h4>
+        <h4 v-translate>Create Rejection Note</h4>
       </div>
       <hr class="" />
       <div class="mb-2">
@@ -18,8 +18,12 @@
           class="mx-1"
           @input="resetForm(false)"
         >
-          <b-form-radio value="sale">Sale Rejection</b-form-radio>
-          <b-form-radio value="purchase">Purchase Rejection</b-form-radio>
+          <b-form-radio value="sale">
+            <translate> Sale Rejection </translate>
+          </b-form-radio>
+          <b-form-radio value="purchase">
+            <translate> Purchase Rejection </translate>
+          </b-form-radio>
         </b-form-radio-group>
         <span id="edit-invoice-list" class="d-inline-block">
           <autocomplete
@@ -110,8 +114,12 @@
         placement="top"
         triggers="manual"
       >
-        Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-        <b>{{ yearEnd }}</b>
+        <translate
+          translate-comment="%{start} and %{end} are a variables, translation is not required for them. Enter them, as they are while translation."
+          :translate-params="{ start: yearStart, end: yearEnd }"
+        >
+          Date must be within the Financial Year, from %{start} to %{end}
+        </translate>
       </b-tooltip>
       <hr />
       <div class="float-right">
@@ -126,7 +134,7 @@
             class="align-middle"
             icon="arrow-left"
           ></b-icon>
-          <span class="align-middle"> Back</span>
+          <span class="align-middle" v-translate> Back </span>
         </b-button>
         <b-button
           class="m-1"
@@ -139,7 +147,7 @@
             class="align-middle"
             icon="arrow-repeat"
           ></b-icon>
-          <span class="align-middle"> Reset</span>
+          <span class="align-middle" v-translate> Reset </span>
         </b-button>
         <b-button
           id="inv-submit"
@@ -157,9 +165,8 @@
               class="align-middle"
               icon="x-circle"
             ></b-icon>
-            <span class="align-middle">
-              Reject {{ isSale ? 'Sale' : 'Purchase' }}</span
-            >
+            <span v-if="isSale" class="align-middle" v-translate> Reject Sale</span>
+            <span v-else class="align-middle" v-translate> Reject Purchase</span>
           </span>
         </b-button>
       </div>
@@ -464,7 +471,7 @@ export default {
                   // success
                   console.log(resp.data);
                   this.displayToast(
-                    `Create Rejection Note Successfull!`,
+                    this.$gettext(`Create Rejection Note Successfull!`),
                     `Rejection Note #${self.form.rnote.no} was successfully created`,
                     'success'
                   );
@@ -482,24 +489,24 @@ export default {
               case 1:
                 // Duplicate entry
                 this.displayToast(
-                  `Create Rejection Note Failed!`,
-                  'Duplicate Entry, Check No.',
+                  this.$gettext(`Create Rejection Note Failed!`),
+                  this.$gettext('Duplicate Entry, Check No.'),
                   'warning'
                 );
                 break;
               case 2:
                 // Unauthorized access
                 this.displayToast(
-                  `Create Rejection Note Failed!`,
-                  'Unauthorized Access, Contact Admin',
+                  this.$gettext(`Create Rejection Note Failed!`),
+                  this.$gettext('Unauthorized Access, Contact Admin'),
                   'warning'
                 );
                 break;
               case 3:
                 // Connection failed, Check inputs and try again
                 this.displayToast(
-                  `Create Rejection Note Failed!`,
-                  'Please check your input and try again later',
+                  this.$gettext(`Create Rejection Note Failed!`),
+                  this.$gettext('Please check your input and try again later'),
                   'danger'
                 );
             }
@@ -508,7 +515,7 @@ export default {
         .catch((error) => {
           self.isLoading = false;
           self.displayToast(
-            `Create Rejection Note Error!`,
+            this.$gettext(`Create Rejection Note Error!`),
             error.message,
             'warning'
           );
@@ -522,7 +529,7 @@ export default {
           })
           .catch((error) => {
             this.displayToast(
-              'Fetch Non Rejected Invoice List Failed!',
+              this.$gettext('Fetch Non Rejected Invoice List Failed!'),
               error.message,
               'danger'
             );

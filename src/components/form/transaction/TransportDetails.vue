@@ -140,9 +140,8 @@
           name="check-button"
           switch
           v-if="config.reverseCharge"
-          v-translate
         >
-          Reverse Charge
+          <translate> Reverse Charge </translate>
         </b-form-checkbox>
       </div>
     </div>
@@ -243,6 +242,17 @@ export default {
         })
       );
     },
+  },
+  mounted() {
+    // translating strings from options
+    this.options.transportModes = [
+      { text: this.$gettext('-- Transport Mode --'), value: null },
+      { text: this.$gettext('Road'), value: 'Road' },
+      { text: this.$gettext('Rail'), value: 'Rail' },
+      { text: this.$gettext('Air'), value: 'Air' },
+      { text: this.$gettext('Ship'), value: 'Ship' },
+      { text: this.$gettext('Other'), value: 'Other' },
+    ];
   },
 };
 </script>

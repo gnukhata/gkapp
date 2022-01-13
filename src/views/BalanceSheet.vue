@@ -20,8 +20,9 @@
             <gk-date id="todate" v-model="toDate"></gk-date>
           </b-form-group>
           <b-button variant="success" class="float-right" type="submit"
-            ><b-icon icon="cloud-arrow-up"></b-icon> Get Details</b-button
-          >
+            ><b-icon icon="cloud-arrow-up"></b-icon>
+            <translate> Get Details </translate>
+          </b-button>
         </b-form>
       </b-card>
       <!--     {{ result }} -->
@@ -30,7 +31,7 @@
           <b>Balance Sheet</b> for the period {{ fromDate }} to
           {{ toDate }}
           <br />
-          <small v-if="hideZeroFilter">
+          <small v-if="hideZeroFilter" v-translate>
             "Hide Zero Value Rows" Filter has been applied
           </small>
         </div>
@@ -47,7 +48,7 @@
           size="sm"
           switch
         >
-          Hide ₹0 rows
+          <translate> Hide ₹0 rows </translate>
         </b-form-checkbox>
         <b-button
           class="px-1 d-none d-lg-inline-block"
@@ -80,7 +81,7 @@
             :filter-function="filterLeftTable"
           >
             <template #head(groupAccname)="">
-              Capital and Liabilities
+              <translate> Capital and Liabilities </translate>
             </template>
             <template #cell(groupAccname)="data">
               <div
@@ -176,7 +177,7 @@
             :filter-function="filterRightTable"
           >
             <template #head(groupAccname)="">
-              Property and Assets
+              <translate> Property and Assets </translate>
             </template>
             <template #cell(groupAccname)="data">
               <div
@@ -418,31 +419,31 @@ export default {
                 }
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });

@@ -306,7 +306,9 @@
                 class="align-middle"
                 icon="plus-square"
               ></b-icon>
-              <span class="align-middle"> <translate> Create &amp; Login </translate> </span>
+              <span class="align-middle">
+                <translate> Create &amp; Login </translate>
+              </span>
             </b-button>
           </div>
           <div class="clearfix"></div>
@@ -314,8 +316,8 @@
       </div>
     </div>
     <b-alert class="mt-5" :show="!showMenu" variant="danger"
-      ><b-icon icon="exclamation-triangle"></b-icon> <translate> Registrations are disabled
-      on this server </translate>
+      ><b-icon icon="exclamation-triangle"></b-icon>
+      <translate> Registrations are disabled on this server </translate>
     </b-alert>
   </div>
 </template>
@@ -474,9 +476,13 @@ export default {
                                     .push('/workflow/Transactions-Invoice/-1')
                                     .then(() => {
                                       this.$bvToast.toast(
-                                        `Logged in Successfully!`,
+                                        this.$gettext(
+                                          `Logged in Successfully!`
+                                        ),
                                         {
-                                          title: 'Create Account Success!',
+                                          title: this.$gettext(
+                                            'Create Account Success!'
+                                          ),
                                           autoHideDelay: 3000,
                                           variant: 'success',
                                           appendToast: true,
@@ -488,9 +494,11 @@ export default {
                             });
                           } else {
                             this.$bvToast.toast(
-                              `Unable to Login to Account, Please try again`,
+                              this.$gettext(
+                                `Unable to Login to Account, Please try again`
+                              ),
                               {
-                                title: 'Login Error!',
+                                title: this.$gettext('Login Error!'),
                                 autoHideDelay: 3000,
                                 variant: 'danger',
                                 appendToast: true,
@@ -501,7 +509,7 @@ export default {
                         })
                         .catch((error) => {
                           this.$bvToast.toast(`Error: ${error.message}`, {
-                            title: 'Login Error!',
+                            title: this.$gettext('Login Error!'),
                             autoHideDelay: 3000,
                             variant: 'danger',
                             appendToast: true,
@@ -513,9 +521,11 @@ export default {
                 break;
               case 1:
                 this.$bvToast.toast(
-                  `Duplicate Entry! Please Check the Organisation Name`,
+                  this.$gettext(
+                    `Duplicate Entry! Please Check the Organisation Name`
+                  ),
                   {
-                    title: 'Create Account Error!',
+                    title: this.$gettext('Create Account Error!'),
                     autoHideDelay: 3000,
                     variant: 'danger',
                     appendToast: true,
@@ -525,9 +535,9 @@ export default {
                 break;
               default:
                 this.$bvToast.toast(
-                  `Unable to create account, Please try again`,
+                  this.$gettext(`Unable to create account, Please try again`),
                   {
-                    title: 'Create Account Error!',
+                    title: this.$gettext('Create Account Error!'),
                     autoHideDelay: 3000,
                     variant: 'danger',
                     appendToast: true,
@@ -538,7 +548,7 @@ export default {
           })
           .catch((error) => {
             this.$bvToast.toast(`Error: ${error.message}`, {
-              title: 'Create Account Error!',
+              title: this.$gettext('Create Account Error!'),
               autoHideDelay: 3000,
               variant: 'warning',
               appendToast: true,
@@ -551,13 +561,16 @@ export default {
         // console.log(this.initPayload())
       } else {
         // Alert the user on captcha failure
-        this.$bvToast.toast(`Captcha is incorrect. Please try again`, {
-          title: 'Captcha Error!',
-          autoHideDelay: 3000,
-          variant: 'warning',
-          appendToast: true,
-          solid: true,
-        });
+        this.$bvToast.toast(
+          this.$gettext(`Captcha is incorrect. Please try again`),
+          {
+            title: this.$gettext('Captcha Error!'),
+            autoHideDelay: 3000,
+            variant: 'warning',
+            appendToast: true,
+            solid: true,
+          }
+        );
         // Generate new captcha
         this.genCaptcha();
       }

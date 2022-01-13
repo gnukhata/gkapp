@@ -55,23 +55,11 @@
       class="text-small table-border-dark"
       tbody-tr-class="gk-vertical-row"
     >
-      <template #head(qty)="" v-translate>
-        Qty
-      </template>
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
-      <template #head(price)="" v-translate>
-        Price
-      </template>
       <template #cell(price)="data"> {{ data.value }} </template>
-      <template #head(discount)="" v-translate>
-        Discount
-      </template>
       <template #cell(discount)="data"> {{ data.value }} </template>
-      <template #head(tax)="" v-translate>
-        Tax
-      </template>
       <template #cell(tax)="data">
         {{ data.value.rate }} <small> % </small>
       </template>
@@ -89,9 +77,6 @@
       </template>
       <template #cell(vat)="data">
         {{ data.value.rate }} <small> % </small>
-      </template>
-      <template #head(total)="" v-translate>
-        Total
       </template>
       <template #cell(total)="data"> {{ data.value }} </template>
       <template #custom-foot>
@@ -362,15 +347,19 @@ export default {
       let fields = [
         {
           key: 'name',
-          label: 'Item',
+          label: self.$gettext('Item'),
         },
         'qty',
         {
           key: 'price',
-          label: 'Rate (₹)',
+          label: self.$gettext('Rate (₹)'),
           tdClass: 'gk-currency-sm',
         },
-        { key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm' },
+        {
+          key: 'discount',
+          label: self.$gettext('Discount (₹)'),
+          tdClass: 'gk-currency-sm',
+        },
       ];
 
       if (self.invoice.isGst) {
@@ -388,27 +377,33 @@ export default {
       }
       fields.push({
         key: 'total',
-        label: 'Total (₹)',
+        label: self.$gettext('Total (₹)'),
         tdClass: 'gk-currency-sm',
       });
-      fields.push({
-        title: 'Issued By',
-        value: `${self.invoice.issuer}  ${designation}`,
-      });
+      // fields.push({
+      //   title: 'Issued By',
+      //   value: `${self.invoice.issuer}  ${designation}`,
+      // });
       return fields;
     },
     invoiceData: (self) => {
       let details = self.invoice;
       let designation = details.designation ? `(${details.designation})` : '';
       let res = [
-        { title: 'No', value: details.number },
-        { title: 'Date', value: details.date },
-        { title: 'Eway Bill No.', value: details.eway || '' },
-        { title: 'Delivery Note No.', value: details.dcno || '' },
-        { title: 'Godown', value: self.dnote.goname || '' },
-        { title: 'Place of Supply', value: details.taxState || '' },
+        { title: self.$gettext('No'), value: details.number },
+        { title: self.$gettext('Date'), value: details.date },
+        { title: self.$gettext('Eway Bill No.'), value: details.eway || '' },
         {
-          title: 'Issued By',
+          title: self.$gettext('Delivery Note No.'),
+          value: details.dcno || '',
+        },
+        { title: self.$gettext('Godown'), value: self.dnote.goname || '' },
+        {
+          title: self.$gettext('Place of Supply'),
+          value: details.taxState || '',
+        },
+        {
+          title: self.$gettext('Issued By'),
           value: `${details.issuer}  ${designation}`,
         },
       ];
@@ -421,9 +416,9 @@ export default {
       let details = self.invoice.payment.bankDetails;
       return [
         { title: 'Acc No', value: details.accountno || '' },
-        { title: 'Bank', value: details.bankname || '' },
-        { title: 'Branch', value: details.branch || '' },
-        { title: 'IFSC', value: details.ifsc || '' },
+        { title: self.$gettext('Bank'), value: details.bankname || '' },
+        { title: self.$gettext('Branch'), value: details.branch || '' },
+        { title: self.$gettext('IFSC'), value: details.ifsc || '' },
       ];
     },
     totalDetails: (self) => {
@@ -442,8 +437,8 @@ export default {
         total.push({ title: 'VAT', value: self.invoice.total.tax });
       }
       total.push(
-        { title: 'Invoice Value', value: self.invoice.total.amount },
-        { title: 'Total In Words', value: self.invoice.total.text }
+        { title: self.$gettext('Invoice Value'), value: self.invoice.total.amount },
+        { title: self.$gettext('Total In Words'), value: self.invoice.total.text }
       );
       return total;
     },
@@ -576,7 +571,7 @@ export default {
     getDelNoteDetails(id) {
       return axios.get(`/delchal?delchal=single&dcid=${id}`).catch((error) => {
         this.$bvToast.toast(`Error: ${error.message}`, {
-          title: `Fetch Delivery Note Error!`,
+          title: this.$gettext(`Fetch Delivery Note Error!`),
           autoHideDelay: 3000,
           variant: 'warning',
           appendToast: true,

@@ -48,6 +48,48 @@
   1. [ ] Import
   2. [ ] Export
 - [ ] i18n <2021-12-31 Fri>
+ | Pages                      | CRUD | Display |
+ |----------------------------+------+---------|
+ | Invoice                    | x    | x       |
+ | Cash memo                  | x    | x       |
+ | Debit Credit Notes         | x    | x       |
+ | Delivery Note              | x    | x       |
+ | Purchase Sales Order       | x    | x       |
+ | Rejection Note             | x    | x       |
+ | Transfer Note              | x    | x       |
+ | Account                    | x    | x       |
+ | Balance Sheet              | -    | x       |
+ | Bank Reconciliation        | -    | x       |
+ | Billwise                   | x    | -       |
+ | Budget                     | x    | x       |
+ | Business                   | x    | x       |
+ | Categories                 | x    | x       |
+ | Create Org                 | x    | -       |
+ | Config                     | x    | -       |
+ | Contact                    | x    | x       |
+ | Godown                     | x    | x       |
+ | Settings                   | x    | -       |
+ | Voucher                    | x    | x       |
+ | UOM                        |      |         |
+ | User                       |      |         |
+ | Password                   |      |         |
+ | About                      |      |         |
+ | Cash Flow                  |      |         |
+ | Close Books                |      |         |
+ | Categorywise Stock on Hand |      |         |
+ | Cost Center                |      |         |
+ | Ledger                     |      |         |
+ | Login                      |      |         |
+ | Logs                       |      |         |
+ | Org Profile                |      |         |
+ | Profit Loss                |      |         |
+ | Registers                  |      |         |
+ | Select Org                 |      |         |
+ | Server Setup               |      |         |
+ | Trial Balance              |      |         |
+ | GST R1                     |      |         |
+ | GST 3B                     |      |         |
+
 - [ ] Fuctionality tests <2022-03-31 Thu>
 - [ ] Beta release <2022-04-30 Sat>
 - [ ] User manual

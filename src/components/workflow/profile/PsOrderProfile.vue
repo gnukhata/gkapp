@@ -12,7 +12,8 @@
               <span> {{ party.name }} </span> <br />
               <span> {{ party.addr }} </span> <br />
               <span> {{ party.state }} </span> <br />
-              <span> <b v-translate> Pin Code: </b> {{ party.pin }} </span> <br />
+              <span> <b v-translate> Pin Code: </b> {{ party.pin }} </span>
+              <br />
               <span> <b> GSTIN: </b> {{ party.gstin }} </span> <br />
             </p>
           </b-col>
@@ -22,7 +23,8 @@
               <span> {{ shipping.name }} </span> <br />
               <span> {{ shipping.addr }} </span> <br />
               <span> {{ shipping.state }} </span> <br />
-              <span> <b v-translate> Pin Code: </b> {{ shipping.pin }} </span> <br />
+              <span> <b v-translate> Pin Code: </b> {{ shipping.pin }} </span>
+              <br />
               <span> <b> GSTIN: </b> {{ shipping.gstin }} </span> <br />
             </p>
           </b-col>
@@ -73,8 +75,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col class="my-2">
-      </b-col>
+      <b-col class="my-2"> </b-col>
       <b-col cols="12" md="8" class="my-2">
         <div>
           <b v-translate> Payment Details </b>
@@ -146,16 +147,27 @@ export default {
   },
   computed: {
     psorderData: (self) => {
-      let dispatchTitle = self.saleFlag ? 'Dispatch From' : 'Deliver At';
+      let dispatchTitle = self.saleFlag
+        ? self.$gettext('Dispatch From')
+        : self.$gettext('Deliver At');
       let res = [
-        { title: 'No.', value: self.psorder.no },
-        { title: 'Date', value: self.psorder.date },
-        { title: 'Supply Date', value: self.psorder.supplyDate },
-        { title: 'Credit Period', value: self.psorder.creditPeriod },
-        { title: 'Payment Terms', value: self.psorder.terms },
+        { title: self.$gettext('No.'), value: self.psorder.no },
+        { title: self.$gettext('Date'), value: self.psorder.date },
+        { title: self.$gettext('Supply Date'), value: self.psorder.supplyDate },
+        {
+          title: self.$gettext('Credit Period'),
+          value: self.psorder.creditPeriod,
+        },
+        { title: self.$gettext('Payment Terms'), value: self.psorder.terms },
         { title: dispatchTitle, value: self.psorder.godown },
-        { title: 'Mode of Transport', value: self.transport.mode },
-        { title: 'Vehicle No.', value: self.transport.vehicleNo },
+        {
+          title: self.$gettext('Mode of Transport'),
+          value: self.transport.mode,
+        },
+        {
+          title: self.$gettext('Vehicle No.'),
+          value: self.transport.vehicleNo,
+        },
       ];
       if (self.transport.mode !== 'Road') {
         res.pop();
@@ -163,7 +175,9 @@ export default {
       return res;
     },
     totalDetails: (self) => {
-      let total = [{ title: 'Taxable', value: self.total.taxable }];
+      let total = [
+        { title: self.$gettext('Taxable'), value: self.total.taxable },
+      ];
       if (self.psorder.isGst) {
         if (self.total.isIgst) {
           total.push({ title: 'IGST', value: self.total.tax });
@@ -179,40 +193,50 @@ export default {
       }
       total.push(
         {
-          title: `${self.saleFlag ? 'Sale' : 'Purchase'} Order Value`,
+          title: self.saleFlag
+            ? self.$gettext('Sale Order Value')
+            : self.$gettext('Purchase Order Value'),
           value: self.total.amount,
         },
-        { title: 'Total In Words', value: self.total.text }
+        { title: self.$gettext('Total In Words'), value: self.total.text }
       );
       return total;
     },
     bankDetails: (self) => {
       let details = self.payment.bankDetails;
       return [
-        { title: 'Acc No', value: details.accountno || '' },
-        { title: 'Bank', value: details.bankname || '' },
-        { title: 'Branch', value: details.branch || '' },
-        { title: 'IFSC', value: details.ifsc || '' },
+        { title: self.$gettext('Acc No'), value: details.accountno || '' },
+        { title: self.$gettext('Bank'), value: details.bankname || '' },
+        { title: self.$gettext('Branch'), value: details.branch || '' },
+        { title: self.$gettext('IFSC'), value: details.ifsc || '' },
       ];
     },
     tableFields: (self) => {
       let fields = [
         {
           key: 'name',
-          label: 'Item',
+          label: self.$gettext('Item'),
         },
         'qty',
         {
           key: 'rate',
-          label: 'Rate (₹)',
-          tdClass: 'gk-currency-sm'
+          label: self.$gettext('Rate (₹)'),
+          tdClass: 'gk-currency-sm',
         },
-        {key: 'discount', label: 'Discount (₹)', tdClass: 'gk-currency-sm'},
+        {
+          key: 'discount',
+          label: self.$gettext('Discount (₹)'),
+          tdClass: 'gk-currency-sm',
+        },
         { key: 'igst', label: 'IGST (%)' },
         { key: 'cgst', label: 'CGST (%)' },
         { key: 'sgst', label: 'SGST (%)' },
         { key: 'cess', label: 'CESS (%)' },
-        {key: 'total', label: 'Total (₹)', tdClass: 'gk-currency-sm'},
+        {
+          key: 'total',
+          label: self.$gettext('Total (₹)'),
+          tdClass: 'gk-currency-sm',
+        },
       ];
       if (self.total.isIgst) {
         fields.splice(5, 2);
@@ -319,21 +343,29 @@ export default {
             this.formatDetails(response.data.gkresult);
             break;
           case 2:
-            this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `Fetch ${
-                this.saleFlag ? 'Sale' : 'Purchase'
-              } order Error!`,
-              autoHideDelay: 3000,
-              variant: 'warning',
-              appendToast: true,
-              solid: true,
-            });
+            {
+              let title = this.saleFlag
+                ? this.$gettext('Fetch sale order error')
+                : this.$gettext('Fetch purchase order error');
+              this.$bvToast.toast(
+                this.$gettext(`Unauthorized access, Please contact admin`),
+                {
+                  title: title,
+                  autoHideDelay: 3000,
+                  variant: 'warning',
+                  appendToast: true,
+                  solid: true,
+                }
+              );
+            }
             break;
           default:
             this.$bvToast.toast(
-              `Unable to Fetch Purchase Sales Order Details! Please Try after sometime.`,
+              this.$gettext(
+                `Unable to Fetch Purchase Sales Order Details! Please Try after sometime.`
+              ),
               {
-                title: `Fetch Transaction Details Error!`,
+                title: this.$gettext(`Fetch Transaction Details Error!`),
                 autoHideDelay: 3000,
                 variant: 'warning',
                 appendToast: true,
@@ -347,7 +379,7 @@ export default {
   watch: {
     id: function(id) {
       if (id && parseInt(id) > -1) {
-        console.log(`Fetch id = ${id}`)
+        console.log(`Fetch id = ${id}`);
         this.isPreloading = true;
         this.fetchAndUpdateData()
           .then(() => {

@@ -6,7 +6,7 @@
   >
     <b-form @submit.prevent="confirmOnSubmit">
       <div class="text-center pt-2">
-        <h4>Create Delivery Note</h4>
+        <h4 v-translate>Create Delivery Note</h4>
       </div>
       <hr />
       <div class="mb-2">
@@ -17,8 +17,12 @@
           buttons
           class="mx-1"
         >
-          <b-form-radio value="sale">Sale</b-form-radio>
-          <b-form-radio value="purchase">Purchase</b-form-radio>
+          <b-form-radio value="sale">
+            <translate> Sale </translate>
+          </b-form-radio>
+          <b-form-radio value="purchase">
+            <translate> Purchase </translate>
+          </b-form-radio>
         </b-form-radio-group>
         <div class="clearfix"></div>
       </div>
@@ -119,8 +123,12 @@
         placement="top"
         triggers="manual"
       >
-        Date must be within the Financial Year, from <b>{{ yearStart }}</b> to
-        <b>{{ yearEnd }}</b>
+        <translate
+          translate-comment="%{start} and %{end} are a variables, translation is not required for them. Enter them, as they are while translation."
+          :translate-params="{ start: yearStart, end: yearEnd }"
+        >
+          Date must be within the Financial Year, from %{start} to %{end}
+        </translate>
       </b-tooltip>
       <hr />
       <div class="float-right">
@@ -135,7 +143,7 @@
             class="align-middle"
             icon="arrow-left"
           ></b-icon>
-          <span class="align-middle"> Back</span>
+          <span class="align-middle" v-translate> Back </span>
         </b-button>
         <b-button
           class="m-1"
@@ -148,7 +156,7 @@
             class="align-middle"
             icon="arrow-repeat"
           ></b-icon>
-          <span class="align-middle"> Reset</span>
+          <span class="align-middle" v-translate> Reset </span>
         </b-button>
         <b-button
           id="inv-submit"
@@ -166,7 +174,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-            <span class="align-middle"> Create</span>
+            <span class="align-middle" v-translate> Create </span>
           </span>
 
           <span v-else>
@@ -177,7 +185,7 @@
               class="align-middle"
               icon="cloud-arrow-up"
             ></b-icon>
-            <span class="align-middle"> Save Changes</span>
+            <span class="align-middle" v-translate> Save Changes </span>
           </span>
         </b-button>
       </div>
@@ -436,7 +444,7 @@ export default {
       const requests = [
         axios.get('/state').catch((error) => {
           this.displayToast(
-            'Fetch State Data Failed!',
+            this.$gettext('Fetch State Data Failed!'),
             error.message,
             'danger'
           );
@@ -444,7 +452,7 @@ export default {
         }),
         axios.get(`/organisation`).catch((error) => {
           this.displayToast(
-            'Fetch Organisation Profile Data Failed!',
+            this.$gettext('Fetch Organisation Profile Data Failed!'),
             error.message,
             'danger'
           );
@@ -500,9 +508,18 @@ export default {
     confirmOnSubmit() {
       Object.assign(this.form.delNote, this.$refs.delNote.form);
       const self = this;
-      let text = `Create Delivery Note (${this.form.delNote.no}) for ${
-        this.isSale ? 'Sale' : 'Purchase'
-      }?`;
+      let text = '';
+      if (this.isSale) {
+        text = this.$gettextInterpolate(
+          this.$gettext(`Create Delivery Note (%{delNoteNo}) for Sale?`),
+          { delNoteNo: this.form.delNote.no }
+        );
+      } else {
+        text = this.$gettextInterpolate(
+          this.$gettext(`Create Delivery Note (%{delNoteNo}) for Purchase?`),
+          { delNoteNo: this.form.delNote.no }
+        );
+      }
       let textDom = this.$createElement('div', {
         domProps: {
           innerHTML: text,
@@ -533,6 +550,16 @@ export default {
       // return;
       // const method = this.formMode === 'create' ? 'post' : 'put';
       const actionText = this.formMode === 'create' ? 'Create' : 'Edit';
+      let successTitle, successMessage, failTitle;
+      if (this.formMode === 'create') {
+        successTitle = this.$gettext('Create Delivery Note Successful!');
+        successMessage = this.$gettext('Delivery Note %{delNoteNo} was successfully created.');
+        failTitle = this.$gettext('Create Delivery Note Failed!');
+      } else {
+        successTitle = this.$gettext('Edit Delivery Note Successful!');
+        successMessage = this.$gettext('Delivery Note %{delNoteNo} was successfully edited.');
+        failTitle = this.$gettext('Edit Delivery Note Failed!');
+      }
       axios
         .post('/delchal', payload)
         .then((resp) => {
@@ -543,11 +570,7 @@ export default {
                 {
                   // success
                   console.log(resp.data);
-                  this.displayToast(
-                    `${actionText} Delivery Note Successfull!`,
-                    `Delivery Note ${payload.delchaldata.dcno} was successfully ${actionText}`,
-                    'success'
-                  );
+                  this.displayToast(successTitle, successMessage, 'success');
 
                   let log = {
                     activity: `delivery note ${
@@ -564,24 +587,24 @@ export default {
               case 1:
                 // Duplicate entry
                 this.displayToast(
-                  `${actionText} Delivery Note Failed!`,
-                  'Duplicate Entry, Check Delivery Note Id',
+                  failTitle,
+                  this.$gettext('Duplicate Entry, Check Delivery Note Id'),
                   'warning'
                 );
                 break;
               case 2:
                 // Unauthorized access
                 this.displayToast(
-                  `${actionText} Delivery Note Failed!`,
-                  'Unauthorized Access, Contact Admin',
+                  failTitle,
+                  this.$gettext('Unauthorized Access, Contact Admin'),
                   'warning'
                 );
                 break;
               case 3:
                 // Connection failed, Check inputs and try again
                 this.displayToast(
-                  `${actionText} Delivery Note Failed!`,
-                  'Please check your input and try again later',
+                  failTitle,
+                  this.$gettext('Please check your input and try again later'),
                   'danger'
                 );
             }
@@ -589,11 +612,7 @@ export default {
         })
         .catch((error) => {
           self.isLoading = false;
-          self.displayToast(
-            `${actionText} Invoice Error!`,
-            error.message,
-            'warning'
-          );
+          self.displayToast(failTitle, error.message, 'warning');
         });
     },
     initPayload() {

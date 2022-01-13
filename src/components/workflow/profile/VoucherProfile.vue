@@ -3,7 +3,9 @@
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
     <div v-if="deletedFlag">
-      <span class="float-right h5 p-2 bg-danger text-white" v-translate>Cancelled</span>
+      <span class="float-right h5 p-2 bg-danger text-white" v-translate
+        >Cancelled</span
+      >
       <div class="clearfix"></div>
       <br />
     </div>
@@ -89,9 +91,9 @@ export default {
   computed: {
     voucherData: (self) => {
       return [
-        { title: 'No.', value: self.no },
-        { title: 'Date', value: self.voucher.date },
-        { title: 'Type', value: self.type },
+        { title: self.$gettext('No.'), value: self.no },
+        { title: self.$gettext('Date'), value: self.voucher.date },
+        { title: self.$gettext('Type'), value: self.type },
       ];
     },
     deletedFlag: (self) => !!self.pdata.deletedFlag,
@@ -156,15 +158,31 @@ export default {
                   axios.post('/log', log);
 
                   self.displayToast(
-                    `Voucher Delete success!`,
-                    `${self.type} Voucher : ${self.no}, deleted successfully.`,
+                    this.$gettext(`Voucher Delete success!`),
+                    this.$gettextInterpolate(
+                      this.$gettext(
+                        `%{voucherType} Voucher : %{voucherNo}, deleted successfully.`
+                      ),
+                      {
+                        voucherType: self.type,
+                        voucherNo: self.no,
+                      }
+                    ),
                     'success'
                   );
                   this.onUpdate({ type: 'delete' });
                 } else {
                   self.displayToast(
-                    `Voucher Delete failed!`,
-                    `Unable to delete ${self.type} Voucher : ${self.no}`,
+                    this.$gettext(`Voucher Delete failed!`),
+                    this.$gettextInterpolate(
+                      this.$gettext(
+                        `Unable to delete %{voucherType} Voucher : %{voucherNo}`
+                      ),
+                      {
+                        voucherType: self.type,
+                        voucherNo: self.no,
+                      }
+                    ),
                     'danger'
                   );
                 }
@@ -205,7 +223,7 @@ export default {
     getDetails() {
       return axios.get(`/transaction?code=${this.id}`).catch((error) => {
         this.$bvToast.toast(`Error: ${error.message}`, {
-          title: `Fetch Voucher Error!`,
+          title: this.$gettext(`Fetch Voucher Error!`),
           autoHideDelay: 3000,
           variant: 'warning',
           appendToast: true,
@@ -222,19 +240,24 @@ export default {
             // this.output = response.data.gkresult;
             break;
           case 2:
-            this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `Fetch Voucher Error!`,
-              autoHideDelay: 3000,
-              variant: 'warning',
-              appendToast: true,
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext(`Unauthorized access, Please contact admin`),
+              {
+                title: this.$gettext(`Fetch Voucher Error!`),
+                autoHideDelay: 3000,
+                variant: 'warning',
+                appendToast: true,
+                solid: true,
+              }
+            );
             break;
           default:
             this.$bvToast.toast(
-              `Unable to Fetch Voucher Details! Please Try after sometime.`,
+              this.$gettext(
+                `Unable to Fetch Voucher Details! Please Try after sometime.`
+              ),
               {
-                title: `Fetch Transaction Details Error!`,
+                title: this.$gettext(`Fetch Transaction Details Error!`),
                 autoHideDelay: 3000,
                 variant: 'warning',
                 appendToast: true,

@@ -5,7 +5,7 @@
         <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
         </b-overlay>
         <div class="card-header text-left py-2">
-          <b class="text-capitalize">Create Account</b>
+          <b class="text-capitalize" v-translate> Create Account </b>
           <slot name="close-button"> </slot>
         </div>
         <div class="card-body pb-2">
@@ -17,6 +17,7 @@
               label-size="sm"
               label-class="required"
             >
+              <template #label> <translate> Group </translate> </template>
               <autocomplete
                 size="sm"
                 id="acc-input-10"
@@ -35,6 +36,7 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label> <translate> Sub-Group </translate> </template>
               <autocomplete
                 size="sm"
                 id="acc-input-20"
@@ -55,8 +57,9 @@
                 switch
                 size="sm"
                 :disabled="!form.group"
-                >Add New Sub-Group</b-form-checkbox
               >
+                <translate> Add New Sub-Group </translate>
+              </b-form-checkbox>
               <b-collapse id="acc-collapse-10" v-model="showAddSubGroup">
                 <b-form-group
                   label="Sub-Group Name"
@@ -64,6 +67,9 @@
                   label-cols="4"
                   label-size="sm"
                 >
+                  <template #label>
+                    <translate> Sub-Group Name </translate>
+                  </template>
                   <b-form-input
                     type="text"
                     size="sm"
@@ -73,9 +79,9 @@
                 </b-form-group>
               </b-collapse>
             </b-card>
-            <b-form-checkbox v-if="flags.gst" size="sm" class="mb-2"
-              >GST Account</b-form-checkbox
-            >
+            <b-form-checkbox v-if="flags.gst" size="sm" class="mb-2">
+              <translate> GST Account </translate>
+            </b-form-checkbox>
             <b-form-checkbox
               v-model="form.defaultFlag"
               v-if="defaultGroupName"
@@ -90,6 +96,9 @@
               label-size="sm"
               label-class="required"
             >
+              <template #label>
+                <translate> Account Name </translate>
+              </template>
               <b-form-input
                 type="text"
                 size="sm"
@@ -103,6 +112,9 @@
               label-cols="3"
               label-size="sm"
             >
+              <template #label>
+                <translate> Opening Balance </translate>
+              </template>
               <b-input-group>
                 <b-form-input
                   type="number"
@@ -133,7 +145,7 @@
                   class="align-middle"
                   icon="arrow-left"
                 ></b-icon>
-                <span class="align-middle"> Back</span>
+                <span class="align-middle" v-translate> Back</span>
               </b-button>
               <b-button
                 size="sm"
@@ -146,7 +158,7 @@
                   class="align-middle"
                   icon="arrow-repeat"
                 ></b-icon>
-                <span class="align-middle"> Reset</span>
+                <span class="align-middle" v-translate> Reset</span>
               </b-button>
               <b-button size="sm" type="submit" class="m-1" variant="success">
                 <b-spinner v-if="isLoading" small></b-spinner>
@@ -156,7 +168,7 @@
                   class="align-middle"
                   icon="plus-square"
                 ></b-icon>
-                <span class="align-middle"> Save</span>
+                <span class="align-middle" v-translate> Save</span>
               </b-button>
             </div>
           </b-form>
@@ -278,13 +290,13 @@ export default {
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             self.displayToast(
-              'Create Sub-Group Success',
+              this.$gettext('Create Sub-Group Success'),
               `Sub-Group: ${self.newSubGroup} was created Successfully!`,
               'success'
             );
           } else {
             self.displayToast(
-              'Create Sub-Group Failed',
+              this.$gettext('Create Sub-Group Failed'),
               `Could not Create Account: ${self.newSubGroup}!`,
               'warning'
             );
@@ -292,7 +304,11 @@ export default {
           return resp.data;
         })
         .catch((e) => {
-          this.displayToast('Create Account Failed!', e.message, 'warning');
+          this.displayToast(
+            this.$gettext('Create Account Failed!'),
+            e.message,
+            'warning'
+          );
           return e;
         });
     },
@@ -305,7 +321,7 @@ export default {
             case 0:
               {
                 self.displayToast(
-                  'Create Account Success',
+                  this.$gettext('Create Account Success'),
                   `Account: ${self.form.name} was created Successfully!`,
                   'success'
                 );
@@ -319,29 +335,39 @@ export default {
               break;
             case 1:
               self.displayToast(
-                'Create Account Failed',
-                `Duplicate Entry, change account name and try again!`,
+                this.$gettext('Create Account Failed'),
+                this.$gettext(
+                  `Duplicate Entry, change account name and try again!`
+                ),
                 'warning'
               );
               break;
             case 2:
               self.displayToast(
-                'Create Account Failed',
-                `Unauthorized access, please sign in and try again!`,
+                this.$gettext('Create Account Failed'),
+                this.$gettext(
+                  `Unauthorized access, please sign in and try again!`
+                ),
                 'warning'
               );
               break;
             default:
               self.displayToast(
-                'Create Account Failed',
-                'Unable to Create Acccount, please try again later!',
+                this.$gettext('Create Account Failed'),
+                this.$gettext(
+                  'Unable to Create Acccount, please try again later!'
+                ),
                 'danger'
               );
           }
           return resp.data.gkstatus;
         })
         .catch((e) => {
-          this.displayToast('Create Account Failed!', e.message, 'warning');
+          this.displayToast(
+            this.$gettext('Create Account Failed!'),
+            e.message,
+            'warning'
+          );
           return e;
         });
     },
@@ -405,7 +431,11 @@ export default {
             }
           })
           .catch((e) => {
-            self.displayToast(`Create Sub-Group Failed`, e.message, 'warning');
+            self.displayToast(
+              this.$gettext(`Create Sub-Group Failed`),
+              e.message,
+              'warning'
+            );
             self.isLoading = false;
           });
       } else {
@@ -414,7 +444,11 @@ export default {
             self.isLoading = false;
           })
           .catch((e) => {
-            self.displayToast(`Create Account Failed`, e.message, 'warning');
+            self.displayToast(
+              this.$gettext(`Create Account Failed`),
+              e.message,
+              'warning'
+            );
             self.isLoading = false;
           });
       }
@@ -541,7 +575,7 @@ export default {
         })
         .catch((e) => {
           self.displayToast(
-            'Fetch SubGroups Data Failed!',
+            this.$gettext('Fetch SubGroups Data Failed!'),
             e.message,
             'warning'
           );
@@ -557,7 +591,11 @@ export default {
 
       const requests = [
         axios.get('/groupsubgroups').catch((e) => {
-          this.displayToast('Fetch Groups Data Failed!', e.message, 'warning');
+          this.displayToast(
+            this.$gettext('Fetch Groups Data Failed!'),
+            e.message,
+            'warning'
+          );
         }),
       ];
 
@@ -574,7 +612,11 @@ export default {
         })
         .catch((e) => {
           this.isPreloading = false;
-          this.displayToast('Preload Data Failed!', e.message, 'warning');
+          this.displayToast(
+            this.$gettext('Preload Data Failed!'),
+            e.message,
+            'warning'
+          );
           return e;
         });
     },

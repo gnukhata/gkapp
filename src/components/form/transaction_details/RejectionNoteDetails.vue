@@ -292,7 +292,11 @@ export default {
           }
         })
         .catch((error) => {
-          this.displayToast('Fetch User Data Failed!', error.message, 'danger');
+          this.displayToast(
+            this.$gettext('Fetch User Data Failed!'),
+            error.message,
+            'danger'
+          );
           return error;
         });
     },

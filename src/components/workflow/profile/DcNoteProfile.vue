@@ -127,14 +127,16 @@ export default {
   computed: {
     dcNoteData: (self) => {
       return [
-        { title: 'No.', value: self.dcNote.no },
-        { title: 'Date', value: self.dcNote.date },
-        { title: 'Inv No.', value: self.inv.no },
-        { title: 'Inv Date', value: self.inv.date },
+        { title: self.$gettext('No.'), value: self.dcNote.no },
+        { title: self.$gettext('Date'), value: self.dcNote.date },
+        { title: self.$gettext('Inv No.'), value: self.inv.no },
+        { title: self.$gettext('Inv Date'), value: self.inv.date },
       ];
     },
     totalDetails: (self) => {
-      let total = [{ title: 'Taxable', value: self.total.taxable }];
+      let total = [
+        { title: self.$gettext('Taxable'), value: self.total.taxable },
+      ];
       if (self.flags.gst) {
         if (self.flags.igst) {
           total.push({ title: 'IGST', value: self.total.tax });
@@ -150,18 +152,24 @@ export default {
       }
       total.push(
         {
-          title: `${self.flags.credit ? 'Credit' : 'Debit'} Note Value`,
+          title: self.flags.credit
+            ? self.$gettext('Credit Note Value')
+            : self.$gettext('Debit Note Value'),
           value: self.total.reduct,
         },
-        { title: 'Total In Words', value: self.total.text }
+        { title: self.$gettext('Total In Words'), value: self.total.text }
       );
       return total;
     },
     tableFields: (self) => {
-      let fields = [{ key: 'name', label: 'Item' }];
-      let dcType = self.flags.credit ? 'Credited' : 'Debited';
+      let fields = [{ key: 'name', label: self.$gettext('Item') }];
       if (self.flags.qty) {
-        fields.push({ key: 'qty', label: `${dcType} Qty` });
+        fields.push({
+          key: 'qty',
+          label: self.flags.credited
+            ? self.$gettext('Qty Credited')
+            : self.$gettext('Qty Debited'),
+        });
         fields.push({
           key: 'rate',
           label: 'Item Rate',
@@ -170,7 +178,9 @@ export default {
       } else {
         fields.push({
           key: 'dcValue',
-          label: `${dcType} Value (₹)`,
+          label: self.flags.credited
+            ? self.$gettext('Credited Value (₹)')
+            : self.$gettext('Debited Value (₹)'),
           tdClass: 'gk-currency-sm',
         });
       }
@@ -184,7 +194,7 @@ export default {
       fields.push({ key: 'cess', label: 'CESS (%)' });
       fields.push({
         key: 'total',
-        label: 'Total (₹)',
+        label: self.$gettext('Total (₹)'),
         tdClass: 'gk-currency-sm',
       });
       return fields;
@@ -263,7 +273,7 @@ export default {
         .get(`/drcrnote?drcr=single&drcrid=${this.id}`)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `Fetch Debit Credit Note Error!`,
+            title: this.$gettext(`Fetch Debit Credit Note Error!`),
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
@@ -279,19 +289,24 @@ export default {
             this.formatDetails(response.data.gkresult);
             break;
           case 2:
-            this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `Fetch Debit Credit Note Error!`,
-              autoHideDelay: 3000,
-              variant: 'warning',
-              appendToast: true,
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext(`Unauthorized access, Please contact admin`),
+              {
+                title: this.$gettext(`Fetch Debit Credit Note Error!`),
+                autoHideDelay: 3000,
+                variant: 'warning',
+                appendToast: true,
+                solid: true,
+              }
+            );
             break;
           default:
             this.$bvToast.toast(
-              `Unable to Fetch Debit Credit Note Details! Please Try after sometime.`,
+              this.$gettext(
+                `Unable to Fetch Debit Credit Note Details! Please Try after sometime.`
+              ),
               {
-                title: `Fetch Transaction Details Error!`,
+                title: this.$gettext(`Fetch Transaction Details Error!`),
                 autoHideDelay: 3000,
                 variant: 'warning',
                 appendToast: true,

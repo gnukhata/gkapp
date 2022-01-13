@@ -6,7 +6,8 @@
   >
     <b-form @submit.prevent="confirmOnSubmit">
       <div class="text-center pt-2">
-        <h4>Create {{ isCredit ? 'Credit' : 'Debit' }} Note</h4>
+        <h4 v-if="isCredit" v-translate>Create Credit Note</h4>
+        <h4 v-else v-translate>Create Debit Note</h4>
       </div>
       <hr />
       <div class="mb-2">
@@ -17,8 +18,12 @@
           buttons
           class="mx-1"
         >
-          <b-form-radio value="sale">Sale</b-form-radio>
-          <b-form-radio value="purchase">Purchase</b-form-radio>
+          <b-form-radio value="sale">
+            <translate> Sale </translate>
+          </b-form-radio>
+          <b-form-radio value="purchase">
+            <translate> Purchase </translate>
+          </b-form-radio>
         </b-form-radio-group>
         <span id="edit-invoice-list" class="d-inline-block">
           <autocomplete
@@ -128,9 +133,15 @@
         placement="top"
         triggers="manual"
       >
-        Date must be within the Financial Year, from
-        <b>{{ form.invoice.date }}</b> to
-        <b>{{ yearEnd }}</b>
+        <translate
+          translate-comment="%{start} and %{end} are a variables, translation is not required for them. Enter them, as they are while translation."
+          :translate-params="{
+            start: form.invoice.date || yearStart,
+            end: yearEnd,
+          }"
+        >
+          Date must be within the Financial Year, from %{start} to %{end}
+        </translate>
       </b-tooltip>
       <hr />
       <div class="float-right">
@@ -145,7 +156,7 @@
             class="align-middle"
             icon="arrow-left"
           ></b-icon>
-          <span class="align-middle"> Back</span>
+          <span class="align-middle" v-translate> Back </span>
         </b-button>
         <b-button
           class="m-1"
@@ -158,7 +169,7 @@
             class="align-middle"
             icon="arrow-repeat"
           ></b-icon>
-          <span class="align-middle"> Reset</span>
+          <span class="align-middle" v-translate> Reset </span>
         </b-button>
         <b-button
           id="inv-submit"
@@ -176,7 +187,7 @@
               class="align-middle"
               icon="plus-square"
             ></b-icon>
-            <span class="align-middle"> Create</span>
+            <span class="align-middle" v-translate> Create </span>
           </span>
         </b-button>
       </div>
@@ -402,7 +413,7 @@ export default {
                   if (vchCode) {
                     if (vchCode.vflag === 0) {
                       message =
-                        'Accounting entry could not be made due to mismatch of accounts. Please make the entry yourself.';
+                        this.$gettext('Accounting entry could not be made due to mismatch of accounts. Please make the entry yourself.');
                     } else {
                       message = `Accounting entry made with voucher no ${vchCode['vchCode']}`;
                     }
@@ -414,7 +425,9 @@ export default {
                   );
 
                   let log = {
-                    activity: `${(noteType).toLowerCase()} note created: ${self.form.dcNote.no}`,
+                    activity: `${noteType.toLowerCase()} note created: ${
+                      self.form.dcNote.no
+                    }`,
                   };
                   axios.post('/log', log);
 
@@ -427,7 +440,7 @@ export default {
                 // Duplicate entry
                 self.displayToast(
                   `Create ${noteType} Note Failed!`,
-                  'Duplicate Entry, Check Invoice Id',
+                  this.$gettext('Duplicate Entry, Check Invoice Id'),
                   'warning'
                 );
                 break;
@@ -435,7 +448,7 @@ export default {
                 // Unauthorized access
                 self.displayToast(
                   `Create ${noteType} Note Failed!`,
-                  'Unauthorized Access, Contact Admin',
+                  this.$gettext('Unauthorized Access, Contact Admin'),
                   'warning'
                 );
                 break;
@@ -443,7 +456,7 @@ export default {
                 // Connection failed, Check inputs and try again
                 self.displayToast(
                   `Create ${noteType} Note Failed!`,
-                  'Please check your input and try again later',
+                  this.$gettext('Please check your input and try again later'),
                   'danger'
                 );
             }
@@ -650,7 +663,7 @@ export default {
         // credit note invoice list
         axios.get('/drcrnote?inv=all&type=sale&drcrflag=3').catch((error) => {
           this.displayToast(
-            'Fetch Non Rejected Invoice List Failed!',
+            this.$gettext('Fetch Non Rejected Invoice List Failed!'),
             error.message,
             'danger'
           );
@@ -660,7 +673,7 @@ export default {
           .get('/drcrnote?inv=all&type=purchase&drcrflag=3')
           .catch((error) => {
             this.displayToast(
-              'Fetch Non Rejected Invoice List Failed!',
+              this.$gettext('Fetch Non Rejected Invoice List Failed!'),
               error.message,
               'danger'
             );
@@ -669,7 +682,7 @@ export default {
         // debit note invoice list
         axios.get('/drcrnote?inv=all&type=sale&drcrflag=4').catch((error) => {
           this.displayToast(
-            'Fetch Non Rejected Invoice List Failed!',
+            this.$gettext('Fetch Non Rejected Invoice List Failed!'),
             error.message,
             'danger'
           );
@@ -679,7 +692,7 @@ export default {
           .get('/drcrnote?inv=all&type=purchase&drcrflag=4')
           .catch((error) => {
             this.displayToast(
-              'Fetch Non Rejected Invoice List Failed!',
+              this.$gettext('Fetch Non Rejected Invoice List Failed!'),
               error.message,
               'danger'
             );
