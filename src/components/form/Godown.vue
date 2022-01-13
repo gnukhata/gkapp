@@ -135,7 +135,7 @@
               class="align-middle"
               icon="arrow-repeat"
             ></b-icon>
-            <span class="align-middle" v-tranlsate> Reset</span>
+            <span class="align-middle" v-translate> Reset</span>
           </b-button>
           <b-button size="sm" type="submit" class="m-1" variant="success">
             <b-spinner v-if="isLoading" small></b-spinner>

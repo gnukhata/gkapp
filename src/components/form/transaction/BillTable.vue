@@ -485,18 +485,18 @@ export default {
         }
       }
       let data = [
-        { key: 'editBtn', label: this.$gettext('Edit') },
-        { key: 'index', label: this.$gettext('No') },
+        { key: 'editBtn', label: self.$gettext('Edit') },
+        { key: 'index', label: self.$gettext('No') },
         { key: 'rowSelected', label: '\u2611' },
-        { key: 'product', label: this.$gettext('Item') },
-        { key: 'qty', label: this.$gettext('Qty'), tdClass: 'bt-cell-qty' },
-        { key: 'packageCount', label: this.$gettext('No. of Packages') },
-        { key: 'rejectedQty', label: this.$gettext('Rejected Qty') },
-        { key: 'dcValue', label: this.$gettext('Value') },
-        { key: 'rate', label: this.$gettext('Rate ₹'), tdClass: 'text-right' },
+        { key: 'product', label: self.$gettext('Item') },
+        { key: 'qty', label: self.$gettext('Qty'), tdClass: 'bt-cell-qty' },
+        { key: 'packageCount', label: self.$gettext('No. of Packages') },
+        { key: 'rejectedQty', label: self.$gettext('Rejected Qty') },
+        { key: 'dcValue', label: self.$gettext('Value') },
+        { key: 'rate', label: self.$gettext('Rate ₹'), tdClass: 'text-right' },
         {
           key: 'discount',
-          label: this.$gettext('Discount ₹'),
+          label: self.$gettext('Discount ₹'),
           tdClass: 'text-right',
         },
         { key: 'vat', label: 'VAT %' },
@@ -506,7 +506,7 @@ export default {
         { key: 'cess', label: 'CESS %' },
         {
           key: 'total',
-          label: this.$gettext('Total ₹'),
+          label: self.$gettext('Total ₹'),
           tdClass: 'text-right',
         },
         { key: 'addBtn', label: '+/-' },
@@ -514,8 +514,8 @@ export default {
       replace(
         'dcValue',
         self.creditFlag
-          ? this.$gettext('Credited Value')
-          : this.$gettext('Debited Value')
+          ? self.$gettext('Credited Value')
+          : self.$gettext('Debited Value')
       );
       if (self.gstFlag) {
         remove('vat');

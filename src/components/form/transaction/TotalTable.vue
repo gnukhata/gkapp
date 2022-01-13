@@ -149,7 +149,7 @@ export default {
     transactionName: (self) => {
       return typeof self.config.value === 'object'
         ? self.config.value.text
-        : this.$gettext('Grand Total');
+        : self.$gettext('Grand Total');
     },
   },
   methods: {

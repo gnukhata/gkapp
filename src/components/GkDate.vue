@@ -381,7 +381,6 @@ export default {
     },
   },
   mounted() {
-    debugger;
     if (this.value) {
       if (!this.date) {
         this.date = this.formatOutput

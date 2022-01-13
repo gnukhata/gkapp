@@ -265,16 +265,16 @@ export default {
       let res = [
         {
           key: 'name',
-          label: this.$gettext('Particulars'),
+          label: self.$gettext('Particulars'),
           thStyle: { 'min-width': '125px' },
         },
-        { key: 'budget', label: this.$gettext('Budgeted') },
-        { key: 'actual', label: this.$gettext('Actuals') },
+        { key: 'budget', label: self.$gettext('Budgeted') },
+        { key: 'actual', label: self.$gettext('Actuals') },
       ];
       if (self.expandTable) {
         res.push(
-          { key: 'var', label: this.$gettext('Variance') },
-          { key: 'varPercent', label: this.$gettext('Variance(%)') }
+          { key: 'var', label: self.$gettext('Variance') },
+          { key: 'varPercent', label: self.$gettext('Variance(%)') }
         );
       }
       return res;

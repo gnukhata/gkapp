@@ -1,7 +1,7 @@
 <template>
   <div class="card mx-0">
     <div class="card-header text-left py-2">
-      <b v-gettext>Contact Person Details</b>
+      <b v-translate>Contact Person Details</b>
       <slot name="close-button"> </slot>
     </div>
     <div class="card-body pb-2">

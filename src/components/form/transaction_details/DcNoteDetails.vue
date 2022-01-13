@@ -11,7 +11,7 @@
     <div class="p-2 p-md-3">
       <div>
         <b>
-          <span v-if="self.form.type === 'credit'"> Credit Note Details </span>
+          <span v-if="form.type === 'credit'"> Credit Note Details </span>
           <span v-else> Debit Note Details </span>
         </b>
         <b-button

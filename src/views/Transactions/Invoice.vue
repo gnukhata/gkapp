@@ -40,8 +40,8 @@
         buttons
         class="mx-1"
       >
-        <b-form-radio value="sale" v-translate> Sale </b-form-radio>
-        <b-form-radio value="purchase" v-translate> Purchase </b-form-radio>
+        <b-form-radio value="sale"> Sale </b-form-radio>
+        <b-form-radio value="purchase"> Purchase </b-form-radio>
       </b-form-radio-group>
       <span
         id="edit-invoice-list"
