@@ -158,8 +158,8 @@ export default {
     },
     date(newDate) {
       // console.log('In Date');
-      let loop = true;
-      while (loop) {
+      let loop = 1000;
+      while (loop--) {
         if (this.validateFormat(newDate, 'yyyy-mm-dd')) {
           // console.log('date valid');
           const newInput = this.toExternalFormat(newDate);
@@ -381,6 +381,7 @@ export default {
     },
   },
   mounted() {
+    debugger;
     if (this.value) {
       if (!this.date) {
         this.date = this.formatOutput
