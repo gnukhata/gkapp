@@ -27,6 +27,8 @@ Vue.use(GetTextPlugin, {
   },
   defaultLanguage: 'en',
   translations: translations,
+  autoAddKeyAttributes: true,
+  silent: true
 });
 
 Vue.mixin({
