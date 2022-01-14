@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "build-dev": "vue-cli-service build --mode development",
-    "i18n-extract": "make makemessages",
+    "i18n-extract": "make makemessages && rm src/locales/locale/*/*/app.po~",
     "i18n-compile": "make translations"
   },
   "dependencies": {
@@ -52,18 +52,11 @@
     "env": {
       "node": true
     },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
+    "extends": ["plugin:vue/essential", "eslint:recommended"],
     "parserOptions": {
       "parser": "babel-eslint"
     },
     "rules": {}
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  "browserslist": ["> 1%", "last 2 versions", "not dead"]
 }

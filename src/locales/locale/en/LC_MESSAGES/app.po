@@ -32,6 +32,10 @@ msgid "(₹)"
 msgid "-- Select User --"
 msgstr ""
 
+#: src/views/SelectOrg.vue:24 src/views/SelectOrg.vue:1
+msgid "-- Select Year --"
+msgstr ""
+
 #: src/components/form/transaction/TotalTable.vue:49
 msgid "(in words)"
 msgstr ""
@@ -267,6 +271,7 @@ msgstr ""
 
 #: src/components/form/AddUser.vue:287 src/components/form/EditUser.vue:279
 #: src/views/CreateOrganisation.vue:137 src/views/CreateOrganisation.vue:1
+#: src/views/Login.vue:152
 msgid "Answer"
 msgstr ""
 
@@ -467,6 +472,7 @@ msgstr ""
 msgid "CASH RECEIVED"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/components/ContactProfile.vue:267
 msgid "Causes Integrity Issues"
 msgstr ""
@@ -489,6 +495,16 @@ msgstr ""
 
 #: src/components/Config.vue:22
 msgid "Configuration validated successfully!"
+=======
+#: src/views/Login.vue:47
+msgid "Change Organisation"
+msgstr ""
+
+#: src/views/Login.vue:43 src/views/SelectOrg.vue:32
+msgid "Change Server"
+msgstr ""
+
+>>>>>>> f5a304f (feat(i18n):)
 #: src/components/form/AddUser.vue:242
 msgid "Confirm Password"
 msgstr ""
@@ -497,6 +513,7 @@ msgstr ""
 msgid "Confirmation"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:314
 #: src/components/form/transaction_details/TransferNoteDetails.vue:295
 msgid "Consignment"
@@ -535,6 +552,18 @@ msgstr ""
 
 #: src/components/form/transaction_details/DcNoteDetails.vue:38
 #: src/components/form/transaction_details/DcNoteDetails.vue:90
+=======
+#: src/views/SelectOrg.vue:40
+msgid "Continue"
+msgstr ""
+
+#: src/views/ServerSetup.vue:11
+msgid "Continue with Default Server"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:31
+#: src/components/form/transaction_details/DcNoteDetails.vue:83
+>>>>>>> f5a304f (feat(i18n):)
 #: src/components/form/transaction_details/DcNoteDetails.vue:1
 #: src/components/form/transaction_details/DcNoteDetails.vue:2
 msgid "Cr Note Date"
@@ -664,7 +693,7 @@ msgstr ""
 msgid "Create Item"
 msgstr ""
 
-#: src/views/CreateOrganisation.vue:4
+#: src/views/CreateOrganisation.vue:4 src/views/SelectOrg.vue:36
 msgid "Create Organisation"
 msgstr ""
 
@@ -1041,6 +1070,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/components/form/Account.vue:6 src/views/AccountEdit.vue:7
 msgid "Edit Account"
 msgstr ""
@@ -1094,6 +1124,18 @@ msgstr ""
 #: src/components/form/BudgetItem.vue:218
 #: src/components/form/BudgetItem.vue:403
 msgid "Error!"
+=======
+#: src/views/ServerSetup.vue:15
+msgid "Enter Custom Server URL"
+msgstr ""
+
+#: src/views/Login.vue:163
+msgid "Enter the Answer"
+msgstr ""
+
+#: src/views/Login.vue:95
+msgid "Enter Username"
+>>>>>>> f5a304f (feat(i18n):)
 msgstr ""
 
 #: src/components/form/transaction_details/InvoiceDetails.vue:54
@@ -1321,12 +1363,26 @@ msgid "Financial Details"
 msgstr ""
 
 #: src/views/CreateOrganisation.vue:23 src/views/CreateOrganisation.vue:1
+#: src/views/SelectOrg.vue:87
 msgid "Financial Year"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:315
 #: src/components/form/transaction_details/TransferNoteDetails.vue:296
 msgid "Free Replacement"
+=======
+#: src/views/Login.vue:26
+msgid "Forgot Password?"
+msgstr ""
+
+#: src/views/About.vue:13
+msgid ""
+"Founded and Developed by Digital Freedom Foundation under the leadership\n"
+"        of Mr. Krishnakant Mane, Currently supported by Accion Labs Pvt. Ltd "
+"as\n"
+"        a social contribution to the Open Source Community."
+>>>>>>> f5a304f (feat(i18n):)
 msgstr ""
 
 #: src/views/CreateOrganisation.vue:29 src/views/CreateOrganisation.vue:1
@@ -1352,6 +1408,7 @@ msgstr ""
 msgid "GNUKhata"
 msgstr "GNUKhata"
 
+<<<<<<< HEAD
 #: src/components/workflow/profile/InvoiceProfile.vue:125
 msgid "Godown"
 msgstr ""
@@ -1371,6 +1428,16 @@ msgstr ""
 #: src/components/BusinessProfile.vue:135 src/components/BusinessProfile.vue:2
 #: src/components/form/BusinessItem.vue:49
 msgid "Godownwise Opening Stock"
+=======
+#: src/views/About.vue:8
+msgid ""
+"GNUKhata is A Community Driven Free &amp; Open Source Accounting\n"
+"          Software"
+msgstr ""
+
+#: src/views/ServerSetup.vue:35
+msgid "GNUKhata Server Setup"
+>>>>>>> f5a304f (feat(i18n):)
 msgstr ""
 
 #: src/components/form/transaction/TransportDetails.vue:36
@@ -1495,12 +1562,17 @@ msgstr ""
 msgid "List Settings"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/views/CreateOrganisation.vue:154
 msgid "Logged in Successfully!"
 msgstr ""
 
 #: src/views/CreateOrganisation.vue:176 src/views/CreateOrganisation.vue:187
 msgid "Login Error!"
+=======
+#: src/views/Login.vue:52
+msgid "Login"
+>>>>>>> f5a304f (feat(i18n):)
 msgstr ""
 
 #: src/components/form/transaction/PaymentDetails.vue:15
@@ -1620,6 +1692,7 @@ msgstr ""
 msgid "ON CREDIT"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/components/form/Account.vue:95
 msgid "Only opening balance of this system generated account can be edited."
 msgstr ""
@@ -1635,6 +1708,10 @@ msgstr ""
 #: src/components/form/BusinessItem.vue:39
 #: src/components/form/BusinessItem.vue:1
 msgid "Opening Stock"
+=======
+#: src/views/SelectOrg.vue:62
+msgid "Organisation"
+>>>>>>> f5a304f (feat(i18n):)
 msgstr ""
 
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:34
@@ -1674,7 +1751,8 @@ msgstr ""
 
 #: src/views/CreateOrganisation.vue:99 src/views/CreateOrganisation.vue:1
 #: src/components/form/AddUser.vue:227 src/views/CreateOrganisation.vue:99
-#: src/views/CreateOrganisation.vue:1
+#: src/views/CreateOrganisation.vue:1 src/views/Login.vue:103
+#: src/views/Login.vue:113
 msgid "Password"
 msgstr ""
 
@@ -1850,6 +1928,7 @@ msgstr ""
 
 #: src/components/form/AddUser.vue:272 src/components/form/EditUser.vue:263
 #: src/views/CreateOrganisation.vue:122 src/views/CreateOrganisation.vue:1
+#: src/views/Login.vue:137
 msgid "Question"
 msgstr ""
 
@@ -2013,7 +2092,14 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/components/BusinessProfile.vue:168 src/components/ContactProfile.vue:126
+=======
+#: src/views/ServerSetup.vue:23
+msgid "Save & Continue"
+msgstr ""
+
+>>>>>>> f5a304f (feat(i18n):)
 #: src/components/form/transaction/PartyDetails.vue:83
 #: src/views/Transactions/DeliveryNote.vue:77
 #: src/views/Transactions/Invoice.vue:108
@@ -2056,9 +2142,16 @@ msgstr ""
 msgid "Shipping Details"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/components/ContactProfile.vue:51 src/components/ContactProfile.vue:1
 #: src/components/form/ContactItem.vue:37 src/components/form/ContactItem.vue:1
 #: src/components/form/Godown.vue:18 src/components/form/Godown.vue:1
+=======
+#: src/views/About.vue:25
+msgid "Source Code"
+msgstr ""
+
+>>>>>>> f5a304f (feat(i18n):)
 #: src/components/form/AddUser.vue:25 src/components/form/EditUser.vue:34
 #: src/components/form/transaction/PartyDetails.vue:62
 #: src/components/form/transaction/PartyDetails.vue:1
@@ -2426,6 +2519,10 @@ msgid "Update Voucher Success!"
 msgid "Update user"
 msgstr ""
 
+#: src/views/ServerSetup.vue:20
+msgid "URL should not contain \" / \" in the end"
+msgstr ""
+
 #: src/components/form/transaction/ShipDetails.vue:17
 msgid "Use Billing Address"
 msgstr ""
@@ -2466,6 +2563,10 @@ msgstr ""
 msgid "Variance(%)"
 #: src/views/UserManagement.vue:10
 msgid "user"
+msgstr ""
+
+#: src/views/Login.vue:84
+msgid "Username"
 msgstr ""
 
 #: src/components/form/EditUser.vue:10
@@ -2543,10 +2644,15 @@ msgstr ""
 msgid "Vouchers:"
 msgstr ""
 
+<<<<<<< HEAD
 #: src/components/ContactProfile.vue:185
 msgid "You have no permissions to delete details"
 msgstr ""
 
 #: src/components/ContactProfile.vue:254
 msgid "You have no permissions to modify details"
+=======
+#: src/views/About.vue:21
+msgid "Website"
+>>>>>>> f5a304f (feat(i18n):)
 msgstr ""

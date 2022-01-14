@@ -21,7 +21,7 @@
             </div>
           </div>
           <b-form-group label="State" label-cols="auto">
-            <gk-state v-model="state" :required="true"></gk-state>
+            <gk-state v-model="state"></gk-state>
           </b-form-group>
           <b-button
             type="submit"

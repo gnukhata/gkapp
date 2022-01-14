@@ -24,7 +24,7 @@
       <b-form @submit.prevent="save">
         <!--Select company area-->
         <b-form-group
-          label="Organisation"
+          :label="$gettext('Organisation')"
           label-align="right"
           label-size="sm"
           label-cols="4"
@@ -43,7 +43,7 @@
 
         <!-- Financial Year-->
         <b-form-group
-          label="Financial Year"
+          :label="$gettext('Financial Year')"
           label-cols="4"
           label-align="right"
           label-size="sm"
@@ -52,7 +52,9 @@
             <b-form-select v-model="orgCode" size="sm" required>
               <template #first>
                 <b-form-select-option :value="null" disabled
-                  >-- Select Year --</b-form-select-option
+                  ><translate
+                    >-- Select Year --</translate
+                  ></b-form-select-option
                 >
               </template>
               <b-form-select-option
@@ -66,7 +68,7 @@
         </b-form-group>
         <b-button-group size="sm" class="row float-right">
           <b-button variant="dark" class="m-1" size="sm" @click="switchServer">
-            <b-icon icon="cloud"></b-icon> Change Server
+            <b-icon icon="cloud"></b-icon> <translate>Change Server</translate>
           </b-button>
           <b-button
             class="m-1"
@@ -74,10 +76,12 @@
             size="sm"
             :to="{ name: 'Create_Organisation' }"
           >
-            <b-icon icon="person-plus"></b-icon> Create Organisation
+            <b-icon icon="person-plus"></b-icon>
+            <translate>Create Organisation</translate>
           </b-button>
           <b-button size="sm" class="m-1" variant="success" type="submit">
-            <b-icon icon="arrow-right-circle"></b-icon> Continue
+            <b-icon icon="arrow-right-circle"></b-icon>
+            <translate>Continue</translate>
           </b-button>
         </b-button-group>
       </b-form>

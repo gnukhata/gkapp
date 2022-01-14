@@ -9,6 +9,41 @@ us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
 
+* <2022-01-13 Thu>
+** Karthik
+*** Gkcore Spreadsheet API's
+- Transfer Note
+- Users list
+*** i18n
+- Login
+- Select Org
+- Server Setup
+- User Management
+- About page
+** Survesh
+feat(i18n): Adds i18n wrappers
+
+    - Transaction pages (Invoice, Cash Memo, Debit Credit Note,
+     Delivery Note, Rejection Note, Transfer Note, Vouchers)
+    - Workflow (Transaction Profiles, Business Profile, Contact Profile)
+    - Billwise
+    - Bank Reconciliation
+    - Balance Sheet
+    - Accounts
+    - Budget
+    - Create Org
+    - Config
+    - Godown
+    - Settings
+    - Categories
+** GN
+- Unit / Component tests for gkcore
+** VK
+ - queries regarding website framework
+ - app should be able to work offline
+** R2
+- Inspect P&L statement
+- HSN codes validation & api
 * <2022-01-05 Wed>
 Agenda: Review past meeting progress
 ** Karthik
