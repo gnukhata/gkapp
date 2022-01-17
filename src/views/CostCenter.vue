@@ -3,12 +3,13 @@
     <b-input-group class="mb-3 w-75 mx-auto">
       <template #prepend>
         <b-button v-b-modal.add-cc variant="warning"
-          ><b-icon icon="cash"></b-icon> Add Cost Center</b-button
+          ><b-icon icon="cash"></b-icon
+          ><translate> Add Cost Center</translate></b-button
         >
       </template>
       <b-form-input
         type="text"
-        placeholder="Search Cost Center List"
+        :placeholder="$gettext('Search Cost Centers')"
         v-model="searchText"
       ></b-form-input>
     </b-input-group>
@@ -30,7 +31,7 @@
       <template #table-busy>
         <div class="text-center">
           <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong> Fetching List... </strong>
+          <strong> <translate>Fetching List...</translate> </strong>
         </div>
       </template>
       <template #cell(manage)="data">
@@ -54,7 +55,7 @@
     </b-table>
     <b-modal
       id="add-cc"
-      title="Add Cost Center"
+      :title="$gettext('Add Cost Center')"
       header-bg-variant="dark"
       header-text-variant="light"
       hide-footer
@@ -63,7 +64,7 @@
     </b-modal>
     <b-modal
       id="edit-cc"
-      title="Edit Cost Center"
+      :title="$gettext('Edit Cost Center')"
       header-bg-variant="dark"
       header-text-variant="light"
       hide-footer
@@ -126,10 +127,13 @@ export default {
             });
             this.costCenters = u;
           } else {
-            this.$bvToast.toast('Failed to fetch cost center items', {
-              variant: 'danger',
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext('Failed to fetch cost center items'),
+              {
+                variant: 'danger',
+                solid: true,
+              }
+            );
           }
           this.loading = false;
         })
@@ -164,31 +168,31 @@ export default {
                 this.getCostCenterList();
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });

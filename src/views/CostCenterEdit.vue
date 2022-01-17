@@ -2,10 +2,10 @@
   <section class="m-2">
     <b-overlay :show="loading" fixed spinner-type="grow" blur>
       <b-form @submit.prevent="updateCostCenter">
-        <b-form-group label="Name">
+        <b-form-group :label="$gettext('Name')">
           <b-form-input v-model="form.projectname" required></b-form-input>
         </b-form-group>
-        <b-form-group label="Budgeted Amount">
+        <b-form-group :label="$gettext('Budgeted Amount')">
           <b-form-input
             v-model="form.sanctionedamount"
             required
@@ -16,7 +16,8 @@
           ></b-form-input>
         </b-form-group>
         <b-button type="submit" variant="success"
-          ><b-icon icon="cloud-arrow-up"></b-icon> Update</b-button
+          ><b-icon icon="cloud-arrow-up"></b-icon
+          ><translate> Update</translate></b-button
         >
       </b-form>
     </b-overlay>
@@ -82,31 +83,31 @@ export default {
                 this.$emit('modified');
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });

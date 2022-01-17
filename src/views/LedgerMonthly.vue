@@ -3,7 +3,7 @@
     <b-overlay :show="loading">
       <div class="bg-dark mb-4">
         <h6 class="text-center card-header text-light d-print-none">
-          <i>Ledger Account:</i> <b>{{ accountName }}</b>
+          <i v-translate>Ledger Account:</i> <b>{{ accountName }}</b>
         </h6>
       </div>
       <report-header>
@@ -45,29 +45,29 @@ export default {
       fields: [
         {
           key: 'month',
-          label: 'Month',
+          label: this.$gettext('Month'),
         },
         {
           key: 'Dr',
-          label: 'Debit Balance',
+          label: this.$gettext('Debit Balance'),
           class: 'text-right',
         },
         {
           key: 'vcountDr',
-          label: 'No. Of Debit Records',
+          label: this.$gettext('No. Of Debit Records'),
         },
         {
           key: 'Cr',
-          label: 'Credit Balance',
+          label: this.$gettext('Credit Balance'),
           class: 'text-right',
         },
         {
           key: 'vcountCr',
-          label: 'No. Of Credit Records',
+          label: this.$gettext('No. Of Credit Records'),
         },
         {
           key: 'vcountLock',
-          label: 'No. of Unlocked Transactions',
+          label: this.$gettext('No. of Unlocked Transactions'),
         },
       ],
     };
@@ -92,31 +92,31 @@ export default {
                 this.accountName = r.data.accountname;
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });

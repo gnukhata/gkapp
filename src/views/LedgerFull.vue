@@ -4,8 +4,9 @@
       <div class="bg-dark mb-4">
         <!-- header -->
         <h6 class="text-center card-header text-light d-print-none">
-          <i>Ledger Account:</i> <b>{{ ledgerHead.accountname }}</b> |
-          <i>Period: </i>
+          <i v-translate>Ledger Account:</i>
+          <b>{{ ledgerHead.accountname }}</b> |
+          <i v-translate>Period: </i>
           <b> {{ ledgerHead.calculatefrom }} </b> to
           <b>{{ ledgerHead.calculateto }} </b>
         </h6>
@@ -29,7 +30,7 @@
           unchecked-value="all"
           switch
         >
-          All</b-form-checkbox
+          <translate>All</translate></b-form-checkbox
         >
         <b-form-checkbox
           @change="getCrDrLedger"
@@ -39,7 +40,7 @@
           unchecked-value="all"
           switch
         >
-          Credit Only</b-form-checkbox
+          <translate>Credit Only</translate></b-form-checkbox
         >
         <b-form-checkbox
           @change="getCrDrLedger"
@@ -49,13 +50,13 @@
           value="dr"
           switch
         >
-          Debit Only</b-form-checkbox
+          <translate>Debit Only</translate></b-form-checkbox
         >
       </div>
-      <!-- searchh bar -->
+      <!-- search bar -->
       <div class="text-center gkcard mx-auto mb-3">
         <b-form-input
-          placeholder="Search Ledger"
+          :placeholder="$gettext('Search Ledger')"
           size="sm"
           v-model="search"
           type="text"
@@ -127,39 +128,39 @@ export default {
       fields: [
         {
           key: 'voucherdate',
-          label: 'Date',
+          label: this.$gettext('Date'),
           sortable: true,
         },
         {
           key: 'vouchernumber',
-          label: 'Voucher No.',
+          label: this.$gettext('Voucher No.'),
         },
 
         {
           key: 'status',
-          label: 'Status',
+          label: this.$gettext('Status'),
         },
         {
           key: 'vouchertype',
-          label: 'Type',
+          label: this.$gettext('Type'),
         },
         {
           key: 'particulars',
-          label: 'Particulars',
+          label: this.$gettext('Particulars'),
         },
         {
           key: 'Dr',
-          label: 'Debit',
+          label: this.$gettext('Debit'),
           class: 'text-right',
         },
         {
           key: 'Cr',
-          label: 'Credit',
+          label: this.$gettext('Credit'),
           class: 'text-right',
         },
         {
           key: 'balance',
-          label: 'Balance',
+          label: this.$gettext('Balance'),
           class: 'text-right',
         },
       ],
@@ -198,31 +199,31 @@ export default {
                 this.ledgerHead = r.data.ledgerheader;
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });
@@ -246,31 +247,31 @@ export default {
                 this.ledgerHead = r.data.ledgerheader;
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });

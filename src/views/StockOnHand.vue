@@ -2,18 +2,18 @@
   <section class="m-1">
     <b-overlay :show="loading">
       <b-card
-        header="Stock On Hand"
+        :header="$gettext('Stock On Hand')"
         header-bg-variant="dark"
         header-text-variant="light"
         class="mx-auto gkcard d-print-none"
       >
         <b-form @submit.prevent="stockOnHand">
           <!-- product select -->
-          <b-form-group label="Product" label-cols="auto">
+          <b-form-group :label="$gettext('Product')" label-cols="auto">
             <autocomplete
               v-model="productId"
               :options="productList"
-              placeholder="Select Product"
+              :placeholder="$gettext('Select Product')"
               :required="!allProducts"
             ></autocomplete>
             <div class="text-left">
@@ -24,13 +24,17 @@
                 switch
                 :disabled="showGodowns"
                 :unchecked-value="false"
-                >All Products</b-form-checkbox
+                ><translate>All Products</translate></b-form-checkbox
               >
             </div>
           </b-form-group>
 
           <div class="col">
-            <b-form-group label="As on" label-cols="auto" label-align="right">
+            <b-form-group
+              :label="$gettext('As on')"
+              label-cols="auto"
+              label-align="right"
+            >
               <gk-date :required="true" v-model="toDate" id="to"></gk-date>
             </b-form-group>
           </div>
@@ -43,19 +47,26 @@
               switch
               :unchecked-value="false"
               :disabled="allProducts"
-              >Godown Wise Stock On Hand Report</b-form-checkbox
+              ><translate
+                >Godown Wise Stock On Hand Report</translate
+              ></b-form-checkbox
             >
           </b-form-group>
           <!-- Godown select -->
-          <b-form-group v-if="showGodowns" label="Godown" label-cols="auto">
+          <b-form-group
+            v-if="showGodowns"
+            :label="$gettext('Godown')"
+            label-cols="auto"
+          >
             <autocomplete
-              placeholder="Search / Select a godown"
+              :placeholder="$gettext('Search / Select a godown')"
               v-model="godownId"
               :options="godowns"
             ></autocomplete>
           </b-form-group>
           <b-button type="submit" variant="success" class="float-right"
-            ><b-icon icon="cloud-download"></b-icon> Get Details</b-button
+            ><b-icon icon="cloud-download"></b-icon
+            ><translate> Get Details</translate></b-button
           >
         </b-form>
       </b-card>
@@ -69,7 +80,7 @@
       </report-header>
       <b-form-input
         v-model="search"
-        placeholder="Search Products"
+        :placeholder="$gettext('Search Products')"
         class="gkcard mx-auto d-print-none"
       ></b-form-input>
       <b-table
@@ -117,18 +128,22 @@ export default {
       fields: [
         {
           key: 'product',
+          label: this.$gettext('Product'),
           sortable: true,
         },
         {
           key: 'total_inward_qty',
+          label: this.$gettext('Total Inward Qty'),
           sortable: true,
         },
         {
           key: 'total_outward_qty',
+          label: this.$gettext('Total Outward Qty'),
           sortable: true,
         },
         {
           key: 'balance',
+          label: this.$gettext('Balance'),
           sortable: true,
         },
       ],
@@ -210,31 +225,31 @@ export default {
                 });
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });
@@ -242,7 +257,8 @@ export default {
             }
           } else {
             this.$bvToast.toast(
-              'Failed to get product stock report with status ' + r.status,
+              this.$gettext('Failed to get product stock report with status ') +
+                r.status,
               {
                 variant: 'danger',
                 solid: true,

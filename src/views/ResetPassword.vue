@@ -1,7 +1,7 @@
 <template>
   <section class="m-2">
     <b-card
-      header="Reset Password"
+      :header="$gettext('Reset Password')"
       header-bg-variant="dark"
       header-text-variant="light"
       class="mx-auto"
@@ -12,7 +12,7 @@
           label-cols="4"
           label-align="right"
           label-size="sm"
-          label="Select Organisation"
+          :label="$gettext('Select Organisation')"
         >
           <b-overlay :show="loadingOrgs">
             <b-form-select
@@ -22,7 +22,9 @@
               required
             >
               <b-form-select-option disabled value="null"
-                >-- Select an Organisation --</b-form-select-option
+                ><translate
+                  >-- Select an Organisation --</translate
+                ></b-form-select-option
               >
             </b-form-select>
           </b-overlay>
@@ -32,7 +34,7 @@
           label-cols="4"
           label-align="right"
           label-size="sm"
-          label="Username"
+          :label="$gettext('Username')"
           tooltip
         >
           <b-overlay :show="userNameIsLoading">
@@ -50,7 +52,7 @@
           label-cols="4"
           label-align="right"
           label-size="sm"
-          label="Security Question"
+          :label="$gettext('Security Question')"
           tooltip
         >
           <b-overlay :show="isLoading">
@@ -69,7 +71,7 @@
                 </b-icon>
                 <br />
                 <small>
-                  Getting Security Question
+                  <translate>Getting Security Question</translate>
                 </small>
               </div>
             </template>
@@ -80,7 +82,7 @@
           label-cols="4"
           label-size="sm"
           label-align="right"
-          label="Answer"
+          :label="$gettext('Answer')"
         >
           <b-form-input v-model="form.useranswer" required></b-form-input>
         </b-form-group>
@@ -89,7 +91,7 @@
           label-cols="4"
           label-size="sm"
           label-align="right"
-          label="New Password"
+          :label="$gettext('New Password')"
         >
           <!-- <b-form-input v-model="form.userpassword" required></b-form-input> -->
           <password v-model="form.userpassword"></password>
@@ -99,7 +101,7 @@
           label-cols="4"
           label-align="right"
           label-size="sm"
-          label="Confirm Password"
+          :label="$gettext('Confirm Password')"
         >
           <b-form-input
             :state="matchingPwd"
@@ -107,10 +109,10 @@
             v-model="password2"
           ></b-form-input>
           <b-form-valid-feedback>
-            Passwords Match
+            <translate>Passwords Match</translate>
           </b-form-valid-feedback>
           <b-form-invalid-feedback>
-            passwords does not match
+            <translate>passwords does not match</translate>
           </b-form-invalid-feedback>
         </b-form-group>
         <!-- submit  button -->
@@ -120,8 +122,8 @@
           variant="success"
           class="float-right"
           ><b-icon v-if="!submitting" icon="key-fill"></b-icon
-          ><b-spinner v-if="submitting" small></b-spinner> Reset
-          Password</b-button
+          ><b-spinner v-if="submitting" small></b-spinner>
+          <translate>Reset Password</translate></b-button
         >
       </b-form>
     </b-card>
@@ -269,9 +271,11 @@ export default {
               case 0:
                 this.$bvModal
                   .msgBoxOk(
-                    'Password Change Successful, Memorize it well this time 😉',
+                    this.$gettext(
+                      'Password Change Successful, Memorize it well this time 😉'
+                    ),
                     {
-                      title: 'Success',
+                      title: this.$gettext('Success'),
                       headerTextVariant: 'light',
                       headerBgVariant: 'success',
                       okVariant: 'success',
@@ -284,17 +288,23 @@ export default {
                   });
                 break;
               default:
-                this.$bvToast.toast('Invalid answer, Please try again', {
-                  variant: 'danger',
-                  solid: true,
-                });
+                this.$bvToast.toast(
+                  this.$gettext('Invalid answer, Please try again'),
+                  {
+                    variant: 'danger',
+                    solid: true,
+                  }
+                );
                 this.submitting = false;
             }
           } else {
-            this.$bvToast.toast('Failed with Status code ' + r.status, {
-              variant: 'danger',
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext('Failed with Status code ') + r.status,
+              {
+                variant: 'danger',
+                solid: true,
+              }
+            );
             this.submitting = false;
           }
         })

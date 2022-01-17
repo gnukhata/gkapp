@@ -8,7 +8,12 @@
         class="mx-auto gkcard"
       >
         <b-form @submit.prevent="confirm()">
-          <b-form-group label="Name" label-align="right" label-cols="4" tooltip>
+          <b-form-group
+            :label="$gettext('Name')"
+            label-align="right"
+            label-cols="4"
+            tooltip
+          >
             <b-form-input
               v-model="form.unitname"
               type="text"
@@ -18,7 +23,7 @@
           <b-form-group
             label-align="right"
             label-cols="4"
-            label="Description"
+            :label="$gettext('Description')"
             tooltip
           >
             <b-form-input
@@ -30,17 +35,17 @@
           <b-form-group
             label-align="right"
             label-cols="4"
-            label="Sub Unit of "
+            :label="$gettext('Sub Unit of')"
             description="optional"
           >
             <autocomplete
               v-model="form.subunitof"
               :options="uomList"
-              placeholder="Select Unit"
+              :placeholder="$gettext('Select Unit')"
             ></autocomplete>
           </b-form-group>
           <b-form-group
-            label="Conversion Rate"
+            :label="$gettext('Conversion Rate')"
             label-align="right"
             label-cols="4"
           >
@@ -55,13 +60,15 @@
           </b-form-group>
           <b-button-group size="sm" class="float-right">
             <b-button type="submit" class="mr-1" variant="success"
-              ><b-icon icon="thermometer"></b-icon> Update Unit</b-button
+              ><b-icon icon="thermometer"></b-icon>
+              <translate>Update Unit</translate></b-button
             >
             <b-button
               variant="danger"
               :disabled="sysunit == 1"
               @click="confirm('delete')"
-              ><b-icon icon="x-circle"></b-icon> Delete Unit</b-button
+              ><b-icon icon="x-circle"></b-icon>
+              <translate>Delete Unit</translate></b-button
             >
           </b-button-group>
         </b-form>

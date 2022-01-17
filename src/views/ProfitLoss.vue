@@ -8,24 +8,34 @@
       >
         <template #header>
           <gk-cardheader
-            name="Profit & Loss Statement"
-            help-body="Income & Expenditure Account / Profit & Loss Account
-This report can be viewed for any period"
+            :name="$gettext('Profit & Loss Statement')"
+            :help-body="
+              $gettext(`Income & Expenditure Account / Profit & Loss Account
+This report can be viewed for any period`)
+            "
           ></gk-cardheader>
         </template>
         <b-form @submit.prevent="getProfitLossData">
-          <b-form-group label="From" label-align="right" content-cols="8">
+          <b-form-group
+            :label="$gettext('From')"
+            label-align="right"
+            content-cols="8"
+          >
             <gk-date id="fromdate" v-model="fromDate"></gk-date>
           </b-form-group>
-          <b-form-group label="To" label-align="right" content-cols="8">
+          <b-form-group
+            :label="$gettext('To')"
+            label-align="right"
+            content-cols="8"
+          >
             <gk-date id="todate" v-model="toDate"></gk-date>
           </b-form-group>
           <b-button variant="success" class="float-right" type="submit"
-            ><b-icon icon="cloud-arrow-up"></b-icon> Get Details</b-button
+            ><b-icon icon="cloud-arrow-up"></b-icon
+            ><translate> Get Details</translate></b-button
           >
         </b-form>
       </b-card>
-      <!--     {{ result }} -->
       <report-header>
         <div class="text-center">
           <b>Profit & Loss Account</b> for the period {{ fromDate }} to
@@ -37,37 +47,39 @@ This report can be viewed for any period"
           <b-table-simple small bordered hover>
             <b-thead head-variant="dark">
               <b-tr>
-                <b-th>Particulars</b-th>
-                <b-th>Amount</b-th>
+                <b-th v-translate>Particulars</b-th>
+                <b-th v-translate>Amount</b-th>
               </b-tr>
             </b-thead>
             <b-tbody>
               <b-tr>
-                <b-th>DIRECT EXPENSE</b-th>
+                <b-th v-translate>DIRECT EXPENSE</b-th>
                 <b-th>{{ result['Direct Expense']['direxpbal'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th class="pl-5 font-weight-normal"><i>Purchase</i></b-th>
+                <b-th class="pl-5 font-weight-normal"
+                  ><i v-translate>Purchase</i></b-th
+                >
                 <b-th>{{
                   result['Direct Expense']['Purchase']['balance']
                 }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th class="pl-5 font-weight-normal text-danger"
-                  ><i>Gross Profit C/F</i></b-th
+                  ><i v-translate>Gross Profit C/F</i></b-th
                 >
                 <b-th>{{ result['grossprofitcf'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th>INDIRECT EXPENSE</b-th>
+                <b-th v-translate>INDIRECT EXPENSE</b-th>
                 <b-th>{{ result['Indirect Expense']['indirexpbal'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th>Net Profit</b-th>
+                <b-th v-translate>Net Profit</b-th>
                 <b-th>{{ result['netprofit'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th><b>Total</b></b-th>
+                <b-th><b v-translate>Total</b></b-th>
                 <b-th
                   ><b>{{ result['Total'] }}</b></b-th
                 >
@@ -79,33 +91,35 @@ This report can be viewed for any period"
           <b-table-simple small bordered hover>
             <b-thead head-variant="dark">
               <b-tr>
-                <b-th>Particulars</b-th>
-                <b-th>Amount</b-th>
+                <b-th v-translate>Particulars</b-th>
+                <b-th v-translate>Amount</b-th>
               </b-tr>
             </b-thead>
             <b-tbody>
               <b-tr>
-                <b-th>DIRECT INCOME</b-th>
+                <b-th v-translate>DIRECT INCOME</b-th>
                 <b-th>{{ result['Direct Income']['dirincmbal'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th class="pl-4 font-weight-normal">SALES</b-th>
+                <b-th class="pl-4 font-weight-normal" v-translate>SALES</b-th>
                 <b-th>{{ result['Direct Income']['Sales']['balance'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th class="pl-5 font-weight-normal">Sales A/C</b-th>
+                <b-th class="pl-5 font-weight-normal" v-translate
+                  >Sales A/C</b-th
+                >
                 <b-th>{{ result['Direct Income']['Sales']['Sale A/C'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th>INDIRECT INCOME</b-th>
+                <b-th v-translate>INDIRECT INCOME</b-th>
                 <b-th>{{ result['Indirect Expense']['indirexpbal'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th>Closing Stock</b-th>
+                <b-th v-translate>Closing Stock</b-th>
                 <b-th>{{ result['Closing Stock'] }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th><b>Total</b></b-th>
+                <b-th><b v-translate>Total</b></b-th>
                 <b-th
                   ><b>{{ result['Total'] }}</b></b-th
                 >
@@ -149,31 +163,31 @@ export default {
                 this.result = r.data.gkresult;
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });

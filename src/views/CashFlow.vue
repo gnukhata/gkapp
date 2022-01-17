@@ -8,11 +8,13 @@
       >
         <template #header>
           <gk-cardheader
-            name="Cash Flow Statement"
-            help-body="Receipt & Payment Account or Cash Flow
+            :name="$gettext('Cash Flow Statement')"
+            :help-body="
+              $gettext(`Receipt & Payment Account or Cash Flow
 This report can be viewed for any period.
 Drill Down facility is available. You can double click or press enter key on any row to see the ledger for that account.
-All users can view this report"
+All users can view this report`)
+            "
           ></gk-cardheader>
         </template>
         <b-form @submit.prevent="getProfitLossData">
@@ -23,7 +25,8 @@ All users can view this report"
             <gk-date id="todate" v-model="toDate"></gk-date>
           </b-form-group>
           <b-button variant="success" class="float-right" type="submit">
-            <b-icon icon="cloud-arrow-down"></b-icon> Get Details
+            <b-icon icon="cloud-arrow-down"></b-icon
+            ><translate> Get Details</translate>
           </b-button>
         </b-form>
       </b-card>
@@ -104,11 +107,11 @@ export default {
         },
         {
           key: 'particulars',
-          label: 'Particulars',
+          label: this.$gettext('Particulars'),
         },
         {
           key: 'amount',
-          label: 'Amount',
+          label: this.$gettext('Amount'),
         },
       ],
       fields2: [
@@ -118,11 +121,11 @@ export default {
         },
         {
           key: 'particulars',
-          label: 'Particulars',
+          label: this.$gettext('Particulars'),
         },
         {
           key: 'amount',
-          label: 'Amount',
+          label: this.$gettext('Amount'),
         },
       ],
     };
@@ -142,31 +145,31 @@ export default {
                 this.result2 = r.data.pygkresult;
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });

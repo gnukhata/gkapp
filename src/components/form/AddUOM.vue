@@ -8,7 +8,12 @@
     >
       <b-overlay :show="isLoading">
         <b-form ref="editingForm" @submit.prevent="createUOM">
-          <b-form-group label="Name" label-align="right" label-cols="4" tooltip>
+          <b-form-group
+            :label="$gettext('Name')"
+            label-align="right"
+            label-cols="4"
+            tooltip
+          >
             <b-form-input
               v-model="form.unitname"
               type="text"
@@ -18,7 +23,7 @@
           <b-form-group
             label-align="right"
             label-cols="4"
-            label="Description"
+            :label="$gettext('Description')"
             tooltip
           >
             <b-form-input
@@ -30,18 +35,18 @@
           <b-form-group
             label-align="right"
             label-cols="4"
-            label="Sub Unit Of "
+            :label="$gettext('Sub Unit Of')"
             description="*optional"
           >
             <autocomplete
               v-model="form.subunitof"
               :options="uomList"
-              placeholder="Select Unit"
+              :placeholder="$gettext('Select Unit')"
             ></autocomplete>
           </b-form-group>
           <b-form-group
             v-if="form.subunitof !== '' && form.subunitof !== null"
-            label="Conversion Rate"
+            :label="$gettext('Conversion Rate')"
           >
             <b-form-input
               v-model="form.conversionrate"
@@ -52,7 +57,8 @@
             ></b-form-input>
           </b-form-group>
           <b-button type="submit" variant="success" class="float-right"
-            ><b-icon icon="thermometer"></b-icon> Create New Unit</b-button
+            ><b-icon icon="thermometer"></b-icon>
+            <translate>Create New Unit</translate></b-button
           >
         </b-form>
       </b-overlay>

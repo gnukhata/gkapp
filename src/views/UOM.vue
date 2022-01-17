@@ -4,12 +4,13 @@
       <template #prepend>
         <!-- <b-input-group-text>Username</b-input-group-text> -->
         <b-button variant="outline-primary" @click="$router.push('/uom/add')"
-          ><b-icon icon="thermometer"></b-icon> Add Unit</b-button
+          ><b-icon icon="thermometer"></b-icon>
+          <translate>Add Unit</translate></b-button
         >
       </template>
       <b-form-input
         type="text"
-        placeholder="Search Units"
+        :placeholder="$gettext('Search Units')"
         v-model="searchText"
       ></b-form-input>
     </b-input-group>
@@ -39,7 +40,7 @@
       <template #table-busy>
         <div class="text-center">
           <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong> Fetching All Units ... </strong>
+          <strong> <translate>Fetching All Units ...</translate> </strong>
         </div>
       </template>
       <template #cell(unit_name)="data">
