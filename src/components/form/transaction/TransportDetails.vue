@@ -32,7 +32,6 @@
           label-size="sm"
           label-cols="3"
           v-if="config.packageCount"
-          label-class="required"
         >
           <template #label> <translate> No. of packages </translate> </template>
           <b-form-input
@@ -40,9 +39,8 @@
             id="tpd-input-10"
             v-model="form.packageCount"
             type="number"
-            min="1"
+            min="0"
             no-wheel
-            required
           ></b-form-input>
         </b-form-group>
         <b-form-group
