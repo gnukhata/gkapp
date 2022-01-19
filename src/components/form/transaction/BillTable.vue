@@ -627,7 +627,8 @@ export default {
       }, 500);
     },
     godownId() {
-      this.fetchStockOnHandData();
+      // this.fetchStockOnHandData();
+      this.fetchAllStockOnHand();
     },
   },
   methods: {
@@ -939,15 +940,14 @@ export default {
       }
       this.onUpdateDetails();
     },
-    /**
-     * fetchStockOnHand()
-     *
-     * Description: Fetches the stock on hand for all the products in the org.
-     *
-     * Note: This is a work around till an API is written
-     * for it in gkcore
-     */
-    fetchStockOnHandData() {
+
+      /**
+       * fetchAllStockOnHand()
+       *
+       * Description: Fetches the stock on hand for all the products in the org.
+       * Fetches godown based stock on hand if it exists, else fetches normal stock on hand
+       */
+    fetchAllStockOnHand() {
       const prodList = this.options.productData;
       const self = this;
 
@@ -967,37 +967,38 @@ export default {
         }
       }
 
-      const requests = prodList.map((item) => {
-        params = `&productcode=${item.productcode}&enddate=${this.endDate}`;
-        if (self.godownId !== -1) {
-          params += `&goid=${self.godownId}&type=pg`;
-        }
-        return axios.get(`${url}${params}`).catch((error) => {
+      params = `&enddate=${this.endDate}`;
+      if (self.godownId !== -1) {
+        params += `&goid=${self.godownId}&type=apg`;
+      } else {
+        params += '&productcode=all';
+      }
+
+      return axios
+        .get(`${url}${params}`)
+        .then((resp) => {
+          self.options.godownStock[self.godownId] = {};
+          self.options.stock = {};
+          let stock = self.options.stock;
+          let godownStock = self.options.godownStock[self.godownId];
+          let prodOptions = self.options.products;
+          let id;
+          if (resp.data.gkstatus === 0) {
+            resp.data.gkresult.forEach((soh, index) => {
+
+              id = soh.productcode;
+              stock[id] = parseFloat(soh.balance);
+              // option is marked active if stock is greater than 1 or its a service (gsflag=19)
+              let prodOption = prodOptions.find((prod) => prod.value.id === id);
+              if (prodOption) prodOption.active = stock[id] > 0;
+              godownStock[id] = stock[id];
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error)
           return error;
         });
-      });
-
-      return Promise.all(requests).then((stockResp) => {
-        self.options.godownStock[self.godownId] = {};
-        self.options.stock = {};
-        let stock = self.options.stock;
-        let godownStock = self.options.godownStock[self.godownId];
-        let prodOptions = self.options.products;
-        let id;
-        stockResp.forEach((r, index) => {
-          id = prodList[index].productcode;
-          if (r.data.gkstatus === 0) {
-            stock[id] = parseFloat(r.data.gkresult[0].balance);
-            // option is marked active if stock is greater than 1 or its a service (gsflag=19)
-            prodOptions[index].active = stock[id] > 0;
-          }
-          if (prodList[index].gsflag === 19) {
-            prodOptions[index].active = true;
-            stock[id] = 1;
-          }
-          godownStock[id] = stock[id];
-        });
-      });
     },
     setStockStatus() {
       const self = this;
@@ -1038,12 +1039,15 @@ export default {
                 });
               });
               if (self.config.qty.checkStock) {
-                self.fetchStockOnHandData();
+                // self.fetchStockOnHandData();
+                self.fetchAllStockOnHand();
               }
             } else {
               this.displayToast(
                 this.$gettext('Fetch Product Data Failed!'),
-                this.$gettext('Please try again later, if problem persists, contact admin'),
+                this.$gettext(
+                  'Please try again later, if problem persists, contact admin'
+                ),
                 'danger'
               );
             }
