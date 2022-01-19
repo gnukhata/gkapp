@@ -425,7 +425,7 @@ export default {
         if (!this.form.pan) {
           this.form.pan = pan;
         }
-        if (!this.state) {
+        if (!this.state || stateCode) {
           let state = this.options.states.find(
             (state) => state.value.code === stateCode
           );
@@ -469,9 +469,7 @@ export default {
         .then((response) => {
           // console.log(response)
           this.isLoading = false;
-          if (this.onSave) {
-            this.onSave(response.data);
-          }
+
           switch (response.data.gkstatus) {
             case 0:
               {
