@@ -1120,7 +1120,7 @@ export default {
                 {
                   // success
                   this.invoiceId = resp.data.gkresult;
-                  this.showPrintModal = true;
+                  this.showPrintModal = this.isSale; // show print screen if sale and not if purchase
                   this.displayToast(
                     this.$gettextInterpolate(
                       this.$gettext(`%{actionText} Invoice Successfull!`),
