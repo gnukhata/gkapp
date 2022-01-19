@@ -9,6 +9,23 @@ us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
 
+* <2022-01-19 Wed>
+
+** karthik
+- Worked on i18n translations
+** Survesh
+- fix: faulty reset to interstate igst irrespective of place  of supply
+- fix: no gstin being shown when state code < 9
+- fix: bad UOM while creating business items after reset
+- ui: print screen will not be shown after create purchase
+** GN
+- use seperate table called tax2 for tax applicability & migrate existing tax data for backward compatibility
+** VK
+- Look out for backward compatibility while implementing tax applicability
+** R2
+- HSN codes are mandatory for turnover > 1c for given fy
+- gstin is not displayed in view registers
+- print screen visibility to be configurable
 * <2022-01-13 Thu>
 ** Karthik
 *** Gkcore Spreadsheet API's
