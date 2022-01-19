@@ -62,7 +62,9 @@
                   label-cols="3"
                   label-class="required"
                 >
-                  <template #label> <translate> Stock </translate> </template>
+                  <template #label>
+                    <translate> Unit of Measure </translate>
+                  </template>
                   <autocomplete
                     size="sm"
                     id="bi-input-2"
@@ -498,7 +500,6 @@ export default {
         uomIds: [],
       },
       uomTyped: '',
-      uomSelected: '',
       form: {
         name: null,
         uom: null,
@@ -530,7 +531,6 @@ export default {
   computed: {
     gstRates: (self) => self.$store.getters['global/getGstRates'],
     isHsnRequired: (self) => self.form.tax.gst > 0 || self.form.tax.cess > 0,
-    // uomCode: (self) => (self.uomSelected !== null) ? self.uomSelected.split(' ')[0] : null,
     isService: (self) => self.type === 'service',
     formType: (self) => (self.type === 'product' ? 'Product' : 'Service'),
     formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
@@ -768,11 +768,6 @@ export default {
         }
       }
 
-      if (this.uomSelected !== '') {
-        const uomIndex = this.options.uom.indexOf(this.uomSelected);
-        product.productdetails.uomid = this.options.uomIds[uomIndex];
-      }
-
       const tax = [];
 
       // GST
@@ -842,10 +837,8 @@ export default {
       });
     },
     resetForm() {
-      let uom = this.uom;
-      this.form = {
+      Object.assign(this.form, {
         name: null,
-        uom: null,
         stock: {
           godownFlag: false,
           godowns: [{ id: null, value: null }],
@@ -862,8 +855,7 @@ export default {
           vat: [{ state: '', rate: null }],
         },
         hsn: null,
-      };
-      this.uom = uom;
+      });
     },
     fetchGodownList() {
       let self = this;
