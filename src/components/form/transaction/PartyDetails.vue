@@ -478,7 +478,11 @@ export default {
        * form.party.options = {'stateid': 'gstin', 'stateid2': 'gstin2}
        */
       if (this.form.options.gstin && this.form.state) {
-        this.form.gstin = this.form.options.gstin[this.form.state.id] || null;
+        let stateCode =
+          this.form.state.id < 9
+            ? `0${this.form.state.id}`
+            : this.form.state.id;
+        this.form.gstin = this.form.options.gstin[stateCode] || null;
         if (this.form.gstin) {
           this.form.checksum = this.form.gstin.substr(12, 3);
         }
@@ -517,7 +521,9 @@ export default {
                 self.resetPartyDetails(); // if there no data, then reset the fields
                 this.displayToast(
                   this.$gettext('Fetch Customer/Supplier Data Error!'),
-                  this.$gettext('Unable to Fetch Customer/Supplier Data, Please try again'),
+                  this.$gettext(
+                    'Unable to Fetch Customer/Supplier Data, Please try again'
+                  ),
                   'danger'
                 );
             }
@@ -751,13 +757,14 @@ export default {
         });
     },
     onContactSave() {
+      const self = this;
       this.showContactForm = false;
       this.fetchContactList().then(() => {
-        if (this.options.customers.length) {
-          this.form.name =
-            this.form.type === 'customer'
-              ? this.options.customers[this.options.customers.length - 1].value
-              : this.options.suppliers[this.options.suppliers.length - 1].value;
+        if (self.options.customers.length) {
+          self.form.name =
+            self.form.type === 'customer'
+              ? self.options.customers[self.options.customers.length - 1].value
+              : self.options.suppliers[self.options.suppliers.length - 1].value;
         }
       });
     },
