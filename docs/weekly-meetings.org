@@ -9,6 +9,25 @@ us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
 
+* <2022-01-26 Wed>
+
+** karthik
+- cancelled invoices
+- categories list
+- budget cash report
+- budget pnl
+** Survesh
+Create a tax2 table for tax applicability, and migrate tax tabledata here for backward compatibility
+** GN
+- Remove to dates from gst applicability
+- collapsable gst applicability ui below the gst input area
+** VK
+- Better validation for gst applicability
+- Initiate contact with icfoss about textbite source code
+- Investigate effcorp-gst python lib, textbyte gst code
+** R2
+- Editable total fields in invoices with option to select inclusive or exclusive of tax
+
 * <2022-01-19 Wed>
 
 ** karthik
