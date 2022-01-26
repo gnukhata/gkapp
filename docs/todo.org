@@ -46,10 +46,10 @@
 | Cost Center statement              |     |    |
 | List of categories                 |     |    |
 
-- [ ] Small business GST Compliance <2022-01-31 Mon>
-- [ ] Data exchange
+- [ ] Data exchange <2022-02-28 Mon>
   1. [ ] Import
   2. [ ] Export
+- [ ] Small business GST Compliance <2022-03-31 Thu>
 - [ ] i18n <2022-01-18 Tue>
  | Pages                      | CRUD | Display |
  |----------------------------+------+---------|
