@@ -323,7 +323,7 @@ export default {
                   let logdata = { activity: `budget deleted: ${name}` };
                   axios.post('/log', logdata);
                   self.$bvToast.toast(
-                    this.$$gettextInterpolate(
+                    this.$gettextInterpolate(
                       this.$gettext(`Delete Budget "%{budgetName}" success!`),
                       { budgetName: name }
                     ),

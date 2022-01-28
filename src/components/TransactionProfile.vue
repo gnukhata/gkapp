@@ -231,7 +231,7 @@ export default {
             case 0:
               this.displayToast(
                 this.$gettext('Cancel Invoice Success!'),
-                this.$$gettextInterpolate(
+                this.$gettextInterpolate(
                   this.$gettext(`Successfully cancelled Invoice %{invNumber}`),
                   {
                     invNumber: this.invoice.number,
@@ -248,7 +248,7 @@ export default {
             case 3:
               this.displayToast(
                 this.$gettext('Cancel Invoice Failure!'),
-                this.$$gettextInterpolate(
+                this.$gettextInterpolate(
                   this.$gettext(
                     `Could not cancel Invoice %{invNumber}. Try again later or Contact admin`
                   ),
@@ -262,7 +262,7 @@ export default {
             default:
               this.displayToast(
                 this.$gettext('Cancel Invoice Failure!'),
-                this.$$gettextInterpolate(
+                this.$gettextInterpolate(
                   this.$gettext(
                     `Could not cancel Invoice %{invNumber}. Try again later or Contact admin`
                   ),

@@ -195,7 +195,7 @@ export default {
         if (resp.data.gkstatus === 0) {
           this.displayToast(
             this.$gettext(`Success`),
-            this.$$gettextInterpolate(
+            this.$gettextInterpolate(
               this.$gettext(
                 `Transfer Note %{transferNoteNo} was successfully approved!`
               ),
