@@ -941,14 +941,13 @@ export default {
       this.onUpdateDetails();
     },
 
-      /**
-       * fetchAllStockOnHand()
-       *
-       * Description: Fetches the stock on hand for all the products in the org.
-       * Fetches godown based stock on hand if it exists, else fetches normal stock on hand
-       */
-    fetchAllStockOnHand() {
-      const prodList = this.options.productData;
+    /**
+     * fetchAllStockOnHand()
+     *
+     * Description: Fetches the stock on hand for all the products in the org.
+     * Fetches godown based stock on hand if it exists, else fetches normal stock on hand
+     */
+    fetchAllStockOnHand(forceFetch) {
       const self = this;
 
       // if godown id is -1, uses stockonhand, else uses godownwise stock on hand
@@ -960,7 +959,7 @@ export default {
       if (self.godownId !== -1) {
         if (self.godownId === null) {
           return;
-        } else if (this.options.godownStock[this.godownId]) {
+        } else if (this.options.godownStock[this.godownId] && !forceFetch) {
           this.options.stock = this.options.godownStock[this.godownId];
           this.setStockStatus();
           return;
@@ -985,18 +984,19 @@ export default {
           let id;
           if (resp.data.gkstatus === 0) {
             resp.data.gkresult.forEach((soh, index) => {
-
               id = soh.productcode;
               stock[id] = parseFloat(soh.balance);
               // option is marked active if stock is greater than 1 or its a service (gsflag=19)
-              let prodOption = prodOptions.find((prod) => prod.value.id === id);
-              if (prodOption) prodOption.active = stock[id] > 0;
+              // if(productMap[id]) {
+              //   productMap[id].active = stock[id] > 0;
+              // }
               godownStock[id] = stock[id];
             });
+            self.setStockStatus();
           }
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
           return error;
         });
     },
@@ -1040,7 +1040,7 @@ export default {
               });
               if (self.config.qty.checkStock) {
                 // self.fetchStockOnHandData();
-                self.fetchAllStockOnHand();
+                self.fetchAllStockOnHand(true);
               }
             } else {
               this.displayToast(
