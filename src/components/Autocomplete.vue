@@ -2,6 +2,7 @@
   <div ref="autocomplete" class="gk-autocomplete" v-if="options">
     <!-- Autocomplete Input -->
     <b-form-input
+      :size="size"
       class="gk-autocomplete-input"
       v-model="searchFilter"
       ref="inputField"
@@ -138,6 +139,12 @@ export default {
       default: true,
       note: 'Flag to block/unblock selection of inactive items',
     },
+    size: {
+      type: String,
+      required: false,
+      default: 'sm',
+      note: 'Bootstrap vue size prop for b-input component'
+    }
   },
   data() {
     return {
@@ -490,7 +497,7 @@ export default {
     // border-radius: 0.25rem;
     // color: #333;
     display: block;
-    font-size: 0.8em;
+    // font-size: 0.8em;
     padding: 6px;
     // min-width: 250px;
     // max-width: 250px;
