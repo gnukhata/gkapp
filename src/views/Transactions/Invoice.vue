@@ -187,7 +187,7 @@
           Date must be within the Financial Year, from %{start} to %{end}
         </translate>
       </b-tooltip>
-      <b-card class="mt-2 mb-2 mb-md-0" border-variant="secondary" no-body>
+      <!-- <b-card class="mt-2 mb-2 mb-md-0" border-variant="secondary" no-body>
         <div class="p-2 p-md-3">
           <b v-translate> Attachments </b>
           <b-form-file
@@ -227,7 +227,14 @@
             </div>
           </div>
         </div>
-      </b-card>
+      </b-card> -->
+      <image-upload-helper
+        class="mt-2"
+        ref="attachments"
+        :updateCounter="updateCounter.attachments"
+        :parentData="form.attachments"
+      >
+      </image-upload-helper>
       <hr />
       <div class="float-right">
         <b-button
@@ -315,6 +322,7 @@ import TransportDetails from '../../components/form/transaction/TransportDetails
 import Comments from '../../components/form/transaction/Comments.vue';
 import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue';
 import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
+import ImageUploadHelper from '../../components/ImageUploadHelper.vue';
 
 import PrintPage from '../../components/workflow/PrintPage.vue';
 
@@ -335,6 +343,7 @@ export default {
     PaymentDetails,
     TransportDetails,
     Comments,
+    ImageUploadHelper,
 
     PrintPage,
   },
@@ -370,6 +379,7 @@ export default {
         transport: 0,
         comments: 0,
         inv: 0,
+        attachments: 0,
       },
       form: {
         type: 'sale', // purchase
@@ -390,7 +400,7 @@ export default {
         totalRoundFlag: false,
         attachments: [],
       },
-      attachments: [],
+      // attachments: [],
       isLoading: false,
       isPreloading: false,
       showContactForm: false,
@@ -574,38 +584,38 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
   },
   methods: {
-    onAttachmentDelete(index) {
-      this.form.attachments.splice(index, 1);
-    },
-    onAttachementPreviewLoad(e) {
-      // console.log(e)
-      if (e.target) {
-        let height = e.target.height;
-        let width = e.target.width;
-        if (width > height) {
-          e.target.style.height = 'auto';
-          e.target.style.width = '196px';
-        } else {
-          e.target.style.width = 'auto';
-          e.target.style.height = '196px';
-        }
-      }
-    },
-    onAttachmentSelect() {
-      let attachments = this.attachments;
-      let images = [];
-      let b64Requests = [];
-      if (attachments.length) {
-        b64Requests = attachments.map((att) => getBase64(att));
-        Promise.all(b64Requests).then((b64Images) => {
-          images = b64Images.map((image) => {
-            let imageData = image.split(',')[1];
-            return `data:image/jpg;base64,${imageData}`;
-          });
-          this.form.attachments.push(...images);
-        });
-      }
-    },
+    // onAttachmentDelete(index) {
+    //   this.form.attachments.splice(index, 1);
+    // },
+    // onAttachementPreviewLoad(e) {
+    //   // console.log(e)
+    //   if (e.target) {
+    //     let height = e.target.height;
+    //     let width = e.target.width;
+    //     if (width > height) {
+    //       e.target.style.height = 'auto';
+    //       e.target.style.width = '196px';
+    //     } else {
+    //       e.target.style.width = 'auto';
+    //       e.target.style.height = '196px';
+    //     }
+    //   }
+    // },
+    // onAttachmentSelect() {
+    //   let attachments = this.attachments;
+    //   let images = [];
+    //   let b64Requests = [];
+    //   if (attachments.length) {
+    //     b64Requests = attachments.map((att) => getBase64(att));
+    //     Promise.all(b64Requests).then((b64Images) => {
+    //       images = b64Images.map((image) => {
+    //         let imageData = image.split(',')[1];
+    //         return `data:image/jpg;base64,${imageData}`;
+    //       });
+    //       this.form.attachments.push(...images);
+    //     });
+    //   }
+    // },
     confirmOnSubmit() {
       Object.assign(this.form.inv, this.$refs.inv.form);
       const self = this;
@@ -641,6 +651,7 @@ export default {
       Object.assign(this.form.payment, this.$refs.payment.form);
       Object.assign(this.form.total, this.$refs.totalTable.form);
       Object.assign(this.form.transport, this.$refs.transport.form);
+      this.form.attachments = this.$refs.attachments.form.attachments;
       this.form.narration = this.$refs.narration.form.narration;
     },
     updateComponentData() {
@@ -652,6 +663,7 @@ export default {
       this.updateCounter.payment++;
       this.updateCounter.transport++;
       this.updateCounter.comments++;
+      this.updateCounter.attachments++;
     },
     onComponentDataUpdate(payload) {
       switch (payload.name) {
@@ -686,6 +698,7 @@ export default {
           break;
       }
     },
+    fetchDelNoteGodown(dcid) {},
     fetchDelNoteData(dcid) {
       if (!dcid) return;
       this.isPreloading = true;
@@ -989,6 +1002,11 @@ export default {
           if (resp.data.gkstatus === 0) {
             let data = resp.data.gkresult;
             // console.log(resp.data);
+
+            let taxState = self.options.states.find(
+              (state) => state.value.id == data.taxstatecode
+            );
+
             let invState =
               data.inoutflag === 15 // if sale inv state will be source else it will destination
                 ? self.options.states.find(
@@ -1012,6 +1030,7 @@ export default {
               state: invState ? invState.value : {},
               issuer: data.issuername,
               role: data.designation,
+              taxState: taxState ? taxState.value : {},
             };
 
             self.form.ship.copyFlag =
@@ -1119,11 +1138,11 @@ export default {
               case 0:
                 {
                   // success
-                  this.invoiceId = resp.data.gkresult;
-                  this.showPrintModal = this.isSale; // show print screen if sale and not if purchase
-                  this.displayToast(
-                    this.$gettextInterpolate(
-                      this.$gettext(`%{actionText} Invoice Successfull!`),
+                  self.invoiceId = resp.data.gkresult;
+                  self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                  self.displayToast(
+                    self.$gettextInterpolate(
+                      self.$gettext(`%{actionText} Invoice Successfull!`),
                       { actionText: actionText }
                     ),
                     `Invoice saved with entry no. ${resp.data.invoiceid ||
@@ -1134,48 +1153,52 @@ export default {
 
                   let log = {
                     activity: `invoice ${
-                      this.formMode === 'create' ? 'created' : 'updated'
+                      self.formMode === 'create' ? 'created' : 'updated'
                     }: ${self.form.inv.no}`,
                   };
                   axios.post('/log', log);
 
-                  if (this.formMode === 'create') {
-                    this.resetForm();
+                  if (self.formMode === 'create') {
+                    self.resetForm();
                   }
                 }
                 break;
               case 1:
                 // Duplicate entry
-                this.displayToast(
-                  this.$gettextInterpolate(
-                    this.$gettext(`%{actionText} Invoice Failed!`),
+                self.displayToast(
+                  self.$gettextInterpolate(
+                    self.$gettext(`%{actionText} Invoice Failed!`),
                     { actionText: actionText }
                   ),
-                  this.$gettext('Duplicate Entry, Check Invoice Id'),
+                  self.$gettext('Duplicate Entry, Check Invoice Id'),
                   'warning'
                 );
                 break;
               case 2:
                 // Unauthorized access
-                this.displayToast(
-                  this.$gettextInterpolate(
-                    this.$gettext(`%{actionText} Invoice Failed!`),
+                self.displayToast(
+                  self.$gettextInterpolate(
+                    self.$gettext(`%{actionText} Invoice Failed!`),
                     { actionText: actionText }
                   ),
-                  this.$gettext('Unauthorized Access, Contact Admin'),
+                  self.$gettext('Unauthorized Access, Contact Admin'),
                   'warning'
                 );
                 break;
               case 3:
                 // Connection failed, Check inputs and try again
-                this.displayToast(
-                  this.$gettextInterpolate(
-                    this.$gettext(`%{actionText} Invoice Failed!`),
+                self.displayToast(
+                  self.$gettextInterpolate(
+                    self.$gettext(`%{actionText} Invoice Failed!`),
                     { actionText: actionText }
                   ),
-                  this.$gettext('Please check your input and try again later'),
+                  self.$gettext('Please check your input and try again later'),
                   'danger'
                 );
+            }
+
+            if (resp.data.gkstatus !== 0) {
+              self.deleteDelNote(self.dcId);
             }
           }
         })
@@ -1390,8 +1413,8 @@ export default {
     },
     createDelNote() {
       const payload = this.initDelNotePayload();
-      return axios
-        .post('/delchal', payload)
+      const method = this.formMode === 'create' ? 'post' : 'put';
+      return axios({ method: method, url: '/delchal', data: payload })
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             this.dcId = resp.data.gkresult || null;
@@ -1405,6 +1428,13 @@ export default {
         })
         .catch(() => {
           return -1;
+        });
+    },
+    deleteDelNote(dcid) {
+      return axios
+        .delete('/delchal?type=canceldel', { data: { dcid: dcid } })
+        .then((resp) => {
+          return resp.data.gkstatus;
         });
     },
     initDelNotePayload() {
@@ -1709,6 +1739,7 @@ export default {
         self.$nextTick().then(() => {
           if (self.formMode === 'edit') {
             self.fetchInvoiceData();
+            self.fetchDelNoteData();
           }
         });
       });
