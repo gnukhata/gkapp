@@ -32,8 +32,8 @@
           v-if="config.no"
           label="Inv. #"
           label-for="ivd-input-10"
-          label-cols-lg="2"
           label-cols="3"
+          label-cols-md="4"
           label-size="sm"
         >
           <template #label> <translate> Inv. # </translate> </template>
@@ -50,8 +50,8 @@
         <b-form-group
           v-if="config.date"
           label="Date"
-          label-cols-lg="2"
           label-cols="3"
+          label-cols-md="4"
           label-size="sm"
           id="ivd-input-group-1"
         >
@@ -71,8 +71,8 @@
         <b-form-group
           label="Place of Supply"
           label-for="ivd-input-11"
-          label-cols-lg="2"
           label-cols="3"
+          label-cols-md="4"
           label-size="sm"
         >
           <template #label> <translate> Place of Supply </translate> </template>
@@ -90,8 +90,8 @@
           v-if="config.delNote"
           label="Del. Note"
           label-for="ivd-input-20"
-          label-cols-lg="2"
           label-cols="3"
+          label-cols-md="4"
           label-size="sm"
         >
           <autocomplete
@@ -107,8 +107,8 @@
           :label="saleFlag ? 'From Godown' : 'To Godown'"
           label-for="ivd-input-21"
           label-size="sm"
-          label-cols-lg="2"
           label-cols="3"
+          label-cols-md="4"
         >
           <template #label>
             <span v-translate v-if="saleFlag"> From Godown </span>
@@ -128,8 +128,8 @@
           v-if="saleFlag && config.ebn"
           label="Eway Bill #"
           label-for="ivd-input-30"
-          label-cols-lg="2"
           label-cols="3"
+          label-cols-md="4"
           label-size="sm"
         >
           <template #label> <translate> Eway Bill # </translate> </template>
@@ -144,8 +144,8 @@
           v-if="config.gstin"
           label="GSTIN"
           label-for="ivd-input-40"
-          label-cols-lg="2"
           label-cols="3"
+          label-cols-md="4"
           label-size="sm"
         >
           <b-form-input
@@ -160,8 +160,8 @@
         </b-form-group>
         <b-form-group
           v-if="saleFlag && config.addr"
-          label-cols-lg="2"
           label-cols="3"
+          label-cols-md="4"
           label="Address"
           label-for="ivd-input-50"
           label-size="sm"
@@ -180,9 +180,9 @@
           ></b-form-textarea>
         </b-form-group>
         <b-row>
-          <b-col class="pr-lg-2" cols="12" lg="6" v-if="saleFlag && config.pin">
+          <b-col class="pr-lg-2" cols="12" v-if="saleFlag && config.pin">
             <b-form-group
-              label-cols-lg="4"
+              label-cols-md="4"
               label-cols="3"
               label="PIN"
               label-for="ivd-input-60"
@@ -198,17 +198,12 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col
-            v-if="config.state"
-            cols="12"
-            lg="6"
-            :class="{ 'pl-lg-2': config.pin }"
-          >
+          <b-col v-if="config.state">
             <b-form-group
               label="State"
               label-for="ivd-input-70"
               label-size="sm"
-              label-cols-lg="4"
+              label-cols-md="4"
               label-cols="3"
             >
               <template #label> <translate> State </translate> </template>
@@ -225,18 +220,13 @@
           </b-col>
         </b-row>
         <b-row v-if="saleFlag">
-          <b-col
-            v-if="config.issuer"
-            :class="{ 'pr-lg-2': config.role }"
-            cols="12"
-            lg="6"
-          >
+          <b-col v-if="config.issuer">
             <b-form-group
               label="Issuer"
               label-for="ivd-input-80"
+              label-cols-md="4"
               label-cols="3"
               label-size="sm"
-              label-cols-lg="4"
             >
               <template #label> <translate> Issuer </translate> </template>
               <b-form-input
@@ -250,17 +240,12 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col
-            v-if="config.role"
-            :class="{ 'pl-lg-2': config.issuer }"
-            cols="12"
-            lg="6"
-          >
+          <b-col v-if="config.role" cols="12">
             <b-form-group
               label="Role"
               label-for="ivd-input-90"
+              label-cols-md="4"
               label-cols="3"
-              label-cols-lg="4"
               label-size="sm"
             >
               <template #label> <translate> Role </translate> </template>

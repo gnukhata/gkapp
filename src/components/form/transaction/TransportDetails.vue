@@ -30,7 +30,7 @@
           label="No. of packages"
           label-for="tpd-input-10"
           label-size="sm"
-          label-cols="3"
+          label-cols="4"
           v-if="config.packageCount"
         >
           <template #label> <translate> No. of packages </translate> </template>
@@ -47,7 +47,7 @@
           label="Transport By"
           label-for="tpd-input-20"
           label-size="sm"
-          label-cols="3"
+          label-cols="4"
           v-if="config.mode"
           label-class="required"
         >
@@ -63,7 +63,7 @@
         <b-form-group
           label="Vehicle No."
           label-for="tpd-input-30"
-          label-cols="3"
+          label-cols="4"
           label-size="sm"
           v-if="form.mode === 'Road' && config.vno"
         >
@@ -77,7 +77,7 @@
         </b-form-group>
         <b-form-group
           label="Date of Supply"
-          label-cols="3"
+          label-cols="4"
           label-size="sm"
           id="tpd-input-group-1"
           label-class="required"
@@ -96,7 +96,7 @@
         <b-form-group
           id="tpd-input-group-2"
           label="Receipt Date"
-          label-cols="3"
+          label-cols="4"
           label-for="tpd-date-2"
           label-size="sm"
           v-if="config.receiptDate"
@@ -116,7 +116,7 @@
           label="Grace Period"
           label-for="tpd-input-40"
           label-size="sm"
-          label-cols="3"
+          label-cols="4"
           v-if="config.gracePeriod"
         >
           <template #label> <translate> Grace Period </translate> </template>

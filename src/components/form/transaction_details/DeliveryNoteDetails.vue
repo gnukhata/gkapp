@@ -29,8 +29,7 @@
         <b-form-group
           label="Del. Note No."
           label-for="dnd-input-10"
-          label-cols-md="4"
-          label-cols="3"
+          label-cols="4"
           label-size="sm"
           label-class="required"
         >
@@ -45,8 +44,7 @@
         </b-form-group>
         <b-form-group
           label="Date"
-          label-cols-md="4"
-          label-cols="3"
+          label-cols="4"
           label-size="sm"
           id="dnd-input-group-1"
           label-class="required"
@@ -66,8 +64,7 @@
         <b-form-group
           label="Transaction Type"
           label-for="dnd-input-20"
-          label-cols-md="4"
-          label-cols="3"
+          label-cols="4"
           label-size="sm"
           label-class="required"
         >
@@ -86,8 +83,7 @@
           :label="saleFlag ? 'Origin State' : 'Destination State'"
           label-for="dnd-input-30"
           label-size="sm"
-          label-cols-md="4"
-          label-cols="3"
+          label-cols="4"
           label-class="required"
         >
           <template #label>
@@ -108,8 +104,7 @@
           :label="saleFlag ? 'From Godown' : 'To Godown'"
           label-for="dnd-input-40"
           label-size="sm"
-          label-cols-md="4"
-          label-cols="3"
+          label-cols="4"
           label-class="required"
         >
           <template #label>
@@ -129,8 +124,7 @@
         <b-form-group
           label="GSTIN"
           label-for="dnd-input-50"
-          label-cols-md="4"
-          label-cols="3"
+          label-cols="4"
           label-size="sm"
         >
           <b-form-input
@@ -145,9 +139,8 @@
         <b-form-group
           label="Issuer"
           label-for="dnd-input-60"
-          label-cols="3"
           label-size="sm"
-          label-cols-md="4"
+          label-cols="4"
         >
           <template #label> <translate> Issuer </translate> </template>
           <b-form-input
@@ -163,8 +156,7 @@
         <b-form-group
           label="Role"
           label-for="dnd-input-70"
-          label-cols="3"
-          label-cols-md="4"
+          label-cols="4"
           label-size="sm"
         >
           <template #label> <translate> Role </translate> </template>

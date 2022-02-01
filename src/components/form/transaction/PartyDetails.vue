@@ -80,6 +80,8 @@
               label="Name"
               label-for="ptd-input-10"
               label-cols="3"
+              label-cols-md="4"
+              label-cols-lg="3"
               label-size="sm"
               :label-class="{ required: !(editFlag || isNameDisabled) }"
             >
@@ -104,6 +106,8 @@
           <b-col cols="12" v-if="config.addr">
             <b-form-group
               label-cols="3"
+              label-cols-md="4"
+              label-cols-lg="3"
               label="Address"
               label-for="ptd-input-20"
               label-size="sm"
@@ -123,6 +127,8 @@
           <b-col cols="12" v-if="config.pin">
             <b-form-group
               label-cols="3"
+              label-cols-md="4"
+              label-cols-lg="3"
               label="PIN"
               label-for="ptd-input-30"
               label-size="sm"
@@ -143,6 +149,8 @@
               label-for="ptd-input-40"
               label-size="sm"
               label-cols="3"
+              label-cols-md="4"
+              label-cols-lg="3"
             >
               <b-form-input
                 size="sm"
@@ -159,6 +167,8 @@
               label-for="ptd-input-50"
               label-size="sm"
               label-cols="3"
+              label-cols-md="4"
+              label-cols-lg="3"
             >
               <template #label> <translate> State </translate> </template>
               <b-form-select
@@ -175,6 +185,8 @@
           <b-col v-if="gstFlag && config.gstin" cols="12">
             <b-form-group
               label-cols="3"
+              label-cols-md="4"
+              label-cols-lg="3"
               label="GSTIN"
               label-for="ptd-input-60"
               label-size="sm"
@@ -199,6 +211,8 @@
           <b-col v-else-if="config.tin" cols="12">
             <b-form-group
               label-cols="3"
+              label-cols-md="4"
+              label-cols-lg="3"
               label="TIN"
               label-for="ptd-input-70"
               label-size="sm"

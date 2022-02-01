@@ -36,8 +36,8 @@
             <b-form-group
               label="No."
               label-for="pod-input-10"
-              label-cols-lg="2"
               label-cols="3"
+              label-cols-md="4"
               label-size="sm"
               label-class="required"
             >
@@ -54,8 +54,8 @@
           <b-col v-if="config.date" cols="12">
             <b-form-group
               label="Date"
-              label-cols-lg="2"
               label-cols="3"
+              label-cols-md="4"
               label-size="sm"
               id="pod-input-group-1"
               label-class="required"
@@ -79,8 +79,8 @@
             <b-form-group
               label="GSTIN"
               label-for="pod-input-20"
-              label-cols-lg="2"
               label-cols="3"
+              label-cols-md="4"
               label-size="sm"
             >
               <b-form-input
@@ -95,8 +95,8 @@
           </b-col>
           <b-col cols="12" v-if="saleFlag && config.addr">
             <b-form-group
-              label-cols-lg="2"
               label-cols="3"
+              label-cols-md="4"
               label="Address"
               label-for="pod-input-30"
               label-size="sm"
@@ -115,10 +115,10 @@
               ></b-form-textarea>
             </b-form-group>
           </b-col>
-          <b-col class="pr-lg-2" cols="12" lg="6" v-if="saleFlag && config.pin">
+          <b-col class="pr-lg-2" cols="12" v-if="saleFlag && config.pin">
             <b-form-group
-              label-cols-lg="4"
               label-cols="3"
+              label-cols-md="4"
               label="PIN"
               label-for="pod-input-40"
               label-size="sm"
@@ -135,16 +135,13 @@
           </b-col>
           <b-col
             v-if="config.state"
-            cols="12"
-            :lg="saleFlag ? 6 : 12"
-            :class="{ 'pl-lg-2': saleFlag }"
           >
             <b-form-group
               label="State"
               label-for="pod-input-50"
               label-size="sm"
-              :label-cols-lg="saleFlag ? 4 : 2"
               :label-cols="3"
+              :label-cols-md="4"
             >
               <template #label> <translate> State </translate> </template>
               <b-form-select
@@ -160,13 +157,13 @@
           </b-col>
         </b-row>
         <b-row v-if="saleFlag">
-          <b-col v-if="config.issuer" class="pr-lg-2" cols="12" lg="6">
+          <b-col v-if="config.issuer" cols="12">
             <b-form-group
               label="Issuer"
               label-for="pod-input-60"
               label-cols="3"
+              label-cols-md="4"
               label-size="sm"
-              label-cols-lg="4"
             >
               <template #label> <translate> Issuer </translate> </template>
               <b-form-input
@@ -180,12 +177,12 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col v-if="config.role" class="pl-lg-2" cols="12" lg="6">
+          <b-col v-if="config.role" cols="12">
             <b-form-group
               label="Role"
               label-for="pod-input-70"
               label-cols="3"
-              label-cols-lg="4"
+              label-cols-md="4"
               label-size="sm"
             >
               <template #label> <translate> Role </translate> </template>
@@ -207,8 +204,8 @@
               label="Terms"
               label-for="pod-input-80"
               label-size="sm"
-              label-cols-lg="2"
               label-cols="3"
+              label-cols-md="4"
             >
               <template #label> <translate> Terms </translate> </template>
               <b-form-input
@@ -223,8 +220,8 @@
             <b-form-group
               label="Credit Period"
               label-for="pod-input-90"
-              label-cols-lg="2"
               label-cols="3"
+              label-cols-md="4"
               label-size="sm"
             >
               <template #label>
@@ -245,14 +242,14 @@
             <b-form-group
               :label="saleFlag ? 'Dispatch From' : 'Dispatch To'"
               label-for="pod-input-100"
-              label-cols-lg="2"
               label-cols="3"
+              label-cols-md="4"
               label-size="sm"
               label-class="required"
             >
               <template #label>
                 <span v-if="saleFlag" v-translate> Dispatch From </span>
-                <span v-translate> Dispatch To </span>
+                <span v-else v-translate> Dispatch To </span>
               </template>
               <autocomplete
                 size="sm"
