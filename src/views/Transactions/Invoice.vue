@@ -1533,7 +1533,9 @@ export default {
           // av.taxpayment += taxable;
         }
 
-        freeqty[item.product.id] = parseFloat(item.fqty).toFixed(2);
+        freeqty[item.product.id] = isNaN(parseFloat(item.fqty))
+          ? 0
+          : parseFloat(item.fqty).toFixed(2);
         discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
 
         // av.product[item.product.name] = parseFloat(taxable).toFixed(2);
