@@ -684,9 +684,13 @@ export default {
         case 'party-details':
           {
             this.options.partyDetails = payload;
+            
             this.setBankDetails();
             Object.assign(this.form.party, payload.data);
+            this.form.inv.taxState = payload.data.state;
+
             this.updateCounter.ship++;
+            this.updateCounter.inv++;
           }
           break;
         case 'bill-table':

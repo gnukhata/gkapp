@@ -82,6 +82,7 @@
             v-model="form.taxState"
             :options="options.states"
             :required="true"
+            valueUid="id"
             @input="onUpdateDetails"
           ></autocomplete>
         </b-form-group>
@@ -380,6 +381,7 @@ export default {
   },
   watch: {
     updateCounter() {
+      const self = this;
       this.resetForm();
       if (this.parentData.no) {
         this.form.no = this.parentData.no;
@@ -388,8 +390,17 @@ export default {
         this.form.date = this.parentData.date;
       }
       if (this.parentData.state) {
-        if (this.parentData.state.id) this.form.state = this.parentData.state;
+        if (this.parentData.state.id) {
+          this.form.state = this.parentData.state;
+        }
       }
+
+      if (this.parentData.taxState) {
+        if (this.parentData.taxState.id) {
+          this.form.taxState = this.parentData.taxState;
+        }
+      }
+
       this.onUpdateDetails();
     },
     saleFlag() {
@@ -592,9 +603,11 @@ export default {
               gstin: gstin,
             },
             gstin: gstin && state ? gstin[state.value.id] : '',
+            taxState: {},
           });
         }
       }
+      this.$forceUpdate();
     },
     preloadData() {
       this.isPreloading = true;
