@@ -388,7 +388,7 @@ export default {
         this.form.date = this.parentData.date;
       }
       if (this.parentData.state) {
-        this.form.state = this.parentData.state;
+        if (this.parentData.state.id) this.form.state = this.parentData.state;
       }
       this.onUpdateDetails();
     },
