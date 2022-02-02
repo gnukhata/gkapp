@@ -1055,10 +1055,10 @@ export default {
           self.options.stock = {};
           let stock = self.options.stock;
           let godownStock = self.options.godownStock[self.godownId];
-          let prodOptions = self.options.products;
+          // let prodOptions = self.options.products;
           let id;
           if (resp.data.gkstatus === 0) {
-            resp.data.gkresult.forEach((soh, index) => {
+            resp.data.gkresult.forEach((soh) => {
               id = soh.productcode;
               stock[id] = parseFloat(soh.balance);
               // option is marked active if stock is greater than 1 or its a service (gsflag=19)

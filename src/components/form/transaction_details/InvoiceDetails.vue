@@ -366,7 +366,6 @@ export default {
   },
   watch: {
     updateCounter() {
-      const self = this;
       this.resetForm();
       if (this.parentData.no) {
         this.form.no = this.parentData.no;

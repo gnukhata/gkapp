@@ -313,7 +313,7 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import { getBase64 } from '../../js/utils.js';
+// import { getBase64 } from '../../js/utils.js';
 
 import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
 import ShipDetails from '../../components/form/transaction/ShipDetails.vue';
@@ -703,7 +703,7 @@ export default {
           break;
       }
     },
-    fetchDelNoteGodown(dcid) {},
+    // fetchDelNoteGodown(dcid) {},
     fetchDelNoteData(dcid) {
       if (!dcid) return;
       this.isPreloading = true;

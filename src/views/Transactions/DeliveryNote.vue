@@ -549,7 +549,7 @@ export default {
       console.log(payload);
       // return;
       // const method = this.formMode === 'create' ? 'post' : 'put';
-      const actionText = this.formMode === 'create' ? 'Create' : 'Edit';
+      // const actionText = this.formMode === 'create' ? 'Create' : 'Edit';
       let successTitle, successMessage, failTitle;
       if (this.formMode === 'create') {
         successTitle = this.$gettext('Create Delivery Note Successful!');
