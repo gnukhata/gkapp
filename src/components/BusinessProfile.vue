@@ -214,7 +214,37 @@
             ></b-form-input>
           </b-input-group>
         </b-form-group>
-
+        <b-form-group label-size="sm" label="GST" label-cols="4">
+          <div v-for="(item, index) in tax.gst" :key="index">
+            <b-input-group v-if="item.taxname === 'IGST'" class="mb-2">
+              <b-form-select
+                size="sm"
+                id="bi-input-7"
+                v-model="item.taxrate"
+                :options="gstRates"
+              ></b-form-select>
+              <b-input-group-append>
+                <gk-date
+                  v-model="item.taxfromdate"
+                  :id="`gst-from-${index}`"
+                  :inputStyle="{ 'max-width': '120px' }"
+                ></gk-date>
+                <b-button
+                  variant="outline-dark"
+                  size="sm"
+                  @click.prevent="removeGstEntry(index)"
+                  >-</b-button
+                >
+              </b-input-group-append>
+            </b-input-group>
+          </div>
+          <b-button
+            size="sm"
+            @click.prevent="addGstEntry"
+            class="float-right p-0 px-1"
+            >+ GST</b-button
+          >
+        </b-form-group>
         <b-form-group label-size="sm" label="VAT" label-cols="4">
           <div v-for="(item, index) in tax.vat" :key="index">
             <b-input-group v-if="item.taxname === 'VAT'" class="mb-2">
@@ -382,9 +412,11 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Godown from '../components/form/Godown.vue';
+import GkDate from '../components/GkDate.vue';
+
 export default {
   name: 'BusinessProfile',
-  components: { Godown },
+  components: { Godown, GkDate },
   props: {
     name: Object,
   },
@@ -405,6 +437,7 @@ export default {
         cess: {},
         cvat: {},
         vat: [],
+        gst: [],
       },
       loading: true,
       options: {
@@ -422,7 +455,7 @@ export default {
     isProduct: (self) => self.details.gsflag === 7,
     isGodownUsed: (self) => !!self.oldGodowns.length,
     gstRates: (self) => self.$store.getters['global/getGstRates'],
-    ...mapState(['gkCoreUrl', 'authToken']),
+    ...mapState(['gkCoreUrl', 'authToken', 'yearStart', 'yearEnd']),
   },
   methods: {
     scrollToGodownCard() {
@@ -447,6 +480,8 @@ export default {
           switch (res.data.gkstatus) {
             case 0:
               this.details = res.data.gkresult;
+              this.tax.gst = [];
+              this.tax.vat = [];
               Promise.all([this.getTaxDetails(), this.getGodowns()]).then(
                 () => {
                   this.loading = false;
@@ -496,8 +531,8 @@ export default {
             if (this.godowns.length > 0) {
               let godowns = {};
               this.godowns.forEach((godown) => {
-                if (godown.id && parseFloat(godown.value)) {
-                  godowns[godown.id] = godown.value;
+                if (godown.id) {
+                  godowns[godown.id] = parseFloat(godown.value) || 0;
                 }
               });
               payload['godetails'] = godowns;
@@ -557,7 +592,7 @@ export default {
         if (item.taxid === undefined) {
           if (parseFloat(item.taxrate) > 0) {
             // create a new tax entry, or newly added tax items
-            request = axios.post('/tax', tax);
+            request = axios.post('/tax2', tax);
           }
         } else {
           if (
@@ -565,21 +600,21 @@ export default {
             parseFloat(item.taxrate) === 0
           ) {
             // delete items that were deleted as an update or equal to 0
-            request = axios.delete('/tax', {
+            request = axios.delete('/tax2', {
               data: {
                 taxid: item.taxid,
               },
             });
           } else {
             // update existing tax items
-            request = axios.put('/tax', tax);
+            request = axios.put('/tax2', tax);
           }
         }
         return request;
       };
       let updates = [];
       for (const name in this.tax) {
-        if (name === 'vat') {
+        if (name === 'vat' || name === 'gst') {
           this.tax[name].forEach(function(item) {
             updates.push(updateTaxItem(item));
           });
@@ -600,6 +635,40 @@ export default {
     /** Remove VAT entry from the VAT list, from the given position */
     removeVatEntry(index) {
       this.tax.vat.splice(index, 1);
+    },
+
+    /** Add a new GST entry to the GST list */
+    addGstEntry() {
+      // let gsts = this.tax.gst;
+      // let from = this.yearStart,
+      //   to = this.yearEnd;
+
+      // if (gsts.length) {
+      //   from = gsts[gsts.length - 1].to;
+      //   to = this.yearEnd;
+      // }
+
+      this.tax.gst.push({
+        taxname: 'IGST',
+        taxrate: 0,
+        from: null,
+        // min: this.dateReverse(from),
+        // max: this.dateReverse(to),
+      });
+    },
+    /** Remove GST entry from the GST list, from the given position */
+    removeGstEntry(index) {
+      this.tax.gst.splice(index, 1);
+    },
+    updateGst() {
+      // let gsts = this.tax.gst;
+      // if (gsts.length > 1) {
+      //   for (let i = 1, l = gsts.length; i < l; i++) {
+      //     let min = gsts[i-1].taxtodate, max = this.yearEnd;
+      //     gsts[i].min = this.dateReverse(min);
+      //     gsts[i].max = this.dateReverse(max);
+      //   }
+      // }
     },
     /**
      * Delete selected product
@@ -716,7 +785,7 @@ export default {
     getTaxDetails() {
       return axios
         .get(
-          `${this.gkCoreUrl}/tax?pscflag=p&productcode=${this.name.productcode}`,
+          `${this.gkCoreUrl}/tax2?pscflag=p&productcode=${this.name.productcode}`,
           {
             headers: {
               gktoken: this.authToken,
@@ -731,6 +800,9 @@ export default {
             let taxname = item.taxname.toLowerCase();
             if (taxname === 'vat') {
               this.tax.vat.push(item);
+            } else if (taxname === 'igst') {
+              item.taxrate = parseFloat(item.taxrate)
+              this.tax.gst.push(item);
             } else {
               this.tax[taxname] = item;
             }

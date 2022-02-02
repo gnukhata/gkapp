@@ -252,7 +252,7 @@
               <b-card-body class="p-2">
                 <b>Tax</b>
                 <b-row>
-                  <b-col cols="12" xl="5">
+                  <b-col cols="12">
                     <b-form-group
                       label-size="sm"
                       :label="isService ? 'SAC' : 'HSN'"
@@ -274,6 +274,7 @@
                       label="GST"
                       label-for="bi-input-7"
                       label-cols="3"
+                      class="mb-0"
                     >
                       <b-input-group append="%" size="sm">
                         <b-form-select
@@ -281,9 +282,23 @@
                           id="bi-input-7"
                           v-model="form.tax.gst"
                           :options="gstRates"
+                          :disabled="form.tax.gstFlag"
                         ></b-form-select>
                       </b-input-group>
                     </b-form-group>
+                    <b-form-checkbox
+                      size="sm"
+                      v-model="form.tax.gstFlag"
+                      class="d-inline-block float-right mb-2"
+                      switch
+                    >
+                      <small>
+                        <translate>
+                          Add GST rates based on date of applicability
+                        </translate>
+                      </small>
+                    </b-form-checkbox>
+                    <div class="clearfix"></div>
                     <b-form-group
                       label-size="sm"
                       label="CESS"
@@ -320,16 +335,24 @@
                         ></b-form-input>
                       </b-input-group>
                     </b-form-group>
-                  </b-col>
-                  <b-col>
-                    <b-card no-body>
-                      <b-card-body class="p-2" style="min-height: 100px">
-                        <b>VAT</b>
+                    <b-card no-body class="mb-2">
+                      <b-card-body class="p-2" style="min-height: 50px">
+                        <div class="mb-2">
+                          <b>VAT</b>
+                          <b-button
+                            size="sm"
+                            @click.prevent="addVat"
+                            class="px-1 py-0 float-right"
+                          >
+                            + VAT
+                          </b-button>
+                        </div>
                         <b-input-group
                           v-for="(vat, index) in form.tax.vat"
                           :key="index"
                           class="mb-2"
                           :id="'vat-inp-' + index"
+                          size="sm"
                         >
                           <b-input-group-prepend>
                             <autocomplete
@@ -353,15 +376,7 @@
                           <b-input-group-append>
                             <b-button
                               size="sm"
-                              @click.prevent="addVat"
-                              v-if="index === vatLength - 1"
-                            >
-                              +
-                            </b-button>
-                            <b-button
-                              size="sm"
                               @click.prevent="deleteVat(index)"
-                              v-else
                             >
                               -
                             </b-button>
@@ -369,6 +384,66 @@
                         </b-input-group>
                       </b-card-body>
                     </b-card>
+                    <b-collapse v-model="form.tax.gstFlag">
+                      <b-card no-body>
+                        <b-card-body class="p-2" style="min-height: 50px">
+                          <div class="mb-2">
+                            <b>GST</b>
+                            <b-button
+                              size="sm"
+                              @click.prevent="addGst"
+                              class="px-1 py-0 float-right"
+                            >
+                              + GST
+                            </b-button>
+                          </div>
+                          <b-table-lite
+                            bordered
+                            head-variant="dark"
+                            stacked="sm"
+                            striped
+                            small
+                            class="text-small table-border-dark"
+                            tbody-tr-class="gk-vertical-row"
+                            :items="form.tax.gsts"
+                            :fields="[
+                              { key: 'rate', label: 'Rate %' },
+                              { key: 'from', label: 'Applicable From' },
+                              { key: 'edit', label: '' },
+                            ]"
+                          >
+                            <template #cell(rate)="data">
+                              <b-form-select
+                                size="sm"
+                                id="bi-input-7"
+                                v-model="form.tax.gsts[data.index].rate"
+                                :options="gstRates"
+                              ></b-form-select>
+                            </template>
+                            <template #cell(from)="data">
+                              <gk-date
+                                v-model="form.tax.gsts[data.index].from"
+                                :id="`gst-from-${data.index}`"
+                                :inputStyle="{ 'max-width': '120px' }"
+                                :min="form.tax.gsts[data.index].min"
+                                @validity="
+                                  updateGstDateValidity($event, data.index)
+                                "
+                              ></gk-date>
+                            </template>
+                            <template #cell(edit)="data">
+                              <b-button
+                                variant="secondary"
+                                size="sm"
+                                @click.prevent="deleteGst(data.index)"
+                              >
+                                -
+                              </b-button>
+                            </template>
+                          </b-table-lite>
+                        </b-card-body>
+                      </b-card>
+                    </b-collapse>
                   </b-col>
                 </b-row>
               </b-card-body>
@@ -405,7 +480,13 @@
               ></b-icon>
               <span class="align-middle" v-translate> Reset</span>
             </b-button>
-            <b-button size="sm" type="submit" class="m-1" variant="success">
+            <b-button
+              size="sm"
+              type="submit"
+              class="m-1"
+              variant="success"
+              :disabled="gstDateValidity === false"
+            >
               <b-spinner v-if="isLoading" small></b-spinner>
               <b-icon
                 v-else
@@ -457,9 +538,11 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 import Godown from './Godown';
 import Autocomplete from '../Autocomplete';
+import GkDate from '../GkDate.vue';
+
 export default {
   name: 'BusinessItem',
-  components: { Godown, Autocomplete },
+  components: { Godown, Autocomplete, GkDate },
   props: {
     mode: {
       type: String,
@@ -492,6 +575,10 @@ export default {
       isPreloading: false,
       showOptional: false,
       uomCode: 'UOM',
+      gsts: [
+        { rate: 'hello', from: 1, edit: '' },
+        { rate: 0, from: 1, edit: '' },
+      ],
       options: {
         godowns: [],
         states: [],
@@ -520,8 +607,10 @@ export default {
         tax: {
           cess: null,
           gst: null,
+          gsts: [{ rate: 0, from: '' }],
           cvat: null,
-          vat: [{ state: '', rate: null }],
+          vat: [],
+          gstFlag: false,
         },
         hsn: null,
       },
@@ -529,6 +618,8 @@ export default {
     };
   },
   computed: {
+    gstDateValidity: (self) =>
+      self.form.tax.gsts.reduce((acc, gst) => acc && gst.dateValidity, true),
     gstRates: (self) => self.$store.getters['global/getGstRates'],
     isHsnRequired: (self) => self.form.tax.gst > 0 || self.form.tax.cess > 0,
     isService: (self) => self.type === 'service',
@@ -538,7 +629,7 @@ export default {
       self.type === 'product' ? 'cart-variant' : 'face-agent',
     vatLength: (self) => self.form.tax.vat.length,
     godownLength: (self) => self.form.stock.godowns.length,
-    ...mapState(['gkCoreUrl', 'gkCoreTestUrl', 'authToken']),
+    ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
     uom(newValue) {
@@ -549,6 +640,9 @@ export default {
     },
   },
   methods: {
+    updateGstDateValidity(validity, index) {
+      this.form.tax.gsts[index].dateValidity = validity;
+    },
     addVat() {
       this.form.tax.vat.push({ state: '', rate: null });
       setTimeout(() => {
@@ -559,6 +653,36 @@ export default {
     },
     deleteVat(index) {
       this.form.tax.vat.splice(index, 1);
+    },
+    updateGst() {
+      // let gsts = this.form.tax.gsts;
+      // if (gsts.length > 1) {
+      //   for (let i = 1, l = gsts.length; i < l; i++) {
+      //     let min = gsts[i-1].to, max = this.yearEnd;
+      //     gsts[i].min = this.dateReverse(min);
+      //     gsts[i].max = this.dateReverse(max);
+      //   }
+      // }
+    },
+    addGst() {
+      let gsts = this.form.tax.gsts;
+      let min = '';
+      //   to = this.yearEnd;
+      if (gsts.length && gsts[gsts.length - 1].from) {
+        let lastDate = new Date(gsts[gsts.length - 1].from);
+        let minDate = new Date(lastDate.getTime() + 24 * 60 * 60 * 1000);
+        min = this.dateReverse(minDate.toISOString().substr(0, 10));
+      }
+      this.form.tax.gsts.push({
+        rate: 0,
+        from: null,
+        min: min,
+        dateValidity: true,
+        // max: this.dateReverse(to),
+      });
+    },
+    deleteGst(index) {
+      this.form.tax.gsts.splice(index, 1);
     },
     addGodown() {
       this.form.stock.godowns.push({ id: '', value: '' });
@@ -613,8 +737,9 @@ export default {
                     taxname: item.taxname,
                     taxrate: item.taxrate,
                     productcode: productCode,
+                    taxfromdate: item.taxfromdate,
                   };
-                  return axios.post('/tax', taxPayload);
+                  return axios.post('/tax2', taxPayload);
                 });
                 Promise.all(taxRequests).then(() => {
                   // console.log(responses)
@@ -771,13 +896,13 @@ export default {
       const tax = [];
 
       // GST
-      if (this.form.tax.gst > 0) {
-        tax.push({
-          taxname: 'IGST',
-          state: '',
-          taxrate: parseFloat(this.form.tax.gst) || 0,
-        });
-      }
+      // if (this.form.tax.gst > 0) {
+      //   tax.push({
+      //     taxname: 'IGST',
+      //     state: '',
+      //     taxrate: parseFloat(this.form.tax.gst) || 0,
+      //   });
+      // }
 
       // CESS
       if (this.form.tax.cess > 0) {
@@ -798,7 +923,7 @@ export default {
       }
 
       // VAT []
-      if (this.form.tax.vat[0].rate > 0) {
+      if (this.form.tax.vat.length && this.form.tax.vat[0].rate > 0) {
         tax.push(
           ...this.form.tax.vat.reduce((acc, vat) => {
             if (vat.state && vat.rate >= 0) {
@@ -811,6 +936,27 @@ export default {
             return acc;
           }, [])
         );
+      }
+
+      // GST []
+      if (this.form.tax.gsts.length && this.form.tax.gsts[0].rate > 0) {
+        this.form.tax.gsts.forEach((gst) => {
+          if (gst.rate > 0 && gst.from && gst.dateValidity) {
+            tax.push({
+              taxname: 'IGST',
+              taxrate: parseFloat(gst.rate) || 0,
+              taxfromdate: gst.from,
+              state: '',
+            });
+          }
+        });
+      } else if (this.form.tax.gst > 0) {
+        tax.push({
+          taxname: 'IGST',
+          state: '',
+          taxrate: parseFloat(this.form.tax.gst) || 0,
+          taxfromdate: this.yearStart,
+        });
       }
 
       // console.log(tax);
@@ -852,7 +998,9 @@ export default {
           cess: null,
           gst: null,
           cvat: null,
-          vat: [{ state: '', rate: null }],
+          vat: [],
+          gsts: [{ rate: 0, from: '' }],
+          gstFlag: false,
         },
         hsn: null,
       });
