@@ -5,6 +5,96 @@ us & suggest your ideas, comments, feedback.
 Jitsi Meet Link: <https://meet.jit.si/GNUKhata2020>
 
 
+# <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-01-19 Wed&gt;</span></span>
+
+
+## karthik
+
+-   Worked on i18n translations
+
+
+## Survesh
+
+-   fix: faulty reset to interstate igst irrespective of place  of supply
+-   fix: no gstin being shown when state code < 9
+-   fix: bad UOM while creating business items after reset
+-   ui: print screen will not be shown after create purchase
+
+
+## GN
+
+-   use seperate table called tax2 for tax applicability & migrate existing tax data for backward compatibility
+
+
+## VK
+
+-   Look out for backward compatibility while implementing tax applicability
+
+
+## R2
+
+-   HSN codes are mandatory for turnover > 1c for given fy
+-   gstin is not displayed in view registers
+-   print screen visibility to be configurable
+
+
+# <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-01-13 Thu&gt;</span></span>
+
+
+## Karthik
+
+
+### Gkcore Spreadsheet API's
+
+-   Transfer Note
+-   Users list
+
+
+### i18n
+
+-   Login
+-   Select Org
+-   Server Setup
+-   User Management
+-   About page
+
+
+## Survesh
+
+feat(i18n): Adds i18n wrappers
+
+-   Transaction pages (Invoice, Cash Memo, Debit Credit Note,
+    Delivery Note, Rejection Note, Transfer Note, Vouchers)
+-   Workflow (Transaction Profiles, Business Profile, Contact Profile)
+-   Billwise
+-   Bank Reconciliation
+-   Balance Sheet
+-   Accounts
+-   Budget
+-   Create Org
+-   Config
+-   Godown
+-   Settings
+-   Categories
+
+
+## GN
+
+-   Unit / Component tests for gkcore
+
+
+## VK
+
+-   queries regarding website framework
+-   app should be able to work offline
+
+
+## R2
+
+-   Inspect P&L statement
+-   HSN codes validation & api
+
+
 # <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-01-05 Wed&gt;</span></span>
 
 Agenda: Review past meeting progress

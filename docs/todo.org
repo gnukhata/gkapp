@@ -46,10 +46,10 @@
 | Cost Center statement              |     |    |
 | List of categories                 |     |    |
 
-- [ ] Small business GST Compliance <2022-01-31 Mon>
-- [ ] Data exchange
+- [ ] Data exchange <2022-02-28 Mon>
   1. [ ] Import
   2. [ ] Export
+- [ ] Small business GST Compliance <2022-03-31 Thu>
 - [ ] i18n <2022-01-18 Tue>
  | Pages                      | CRUD | Display |
  |----------------------------+------+---------|
@@ -73,23 +73,27 @@
  | Godown                     | x    | x       |
  | Settings                   | x    | -       |
  | Voucher                    | x    | x       |
- | UOM                        |      |         |
+ | Login                      | x    | x       |
  | User                       | x    | x       |
- | Password                   |      |         |
  | About                      | -    | x       |
- | Cash Flow                  |      |         |
- | Close Books                |      |         |
- | Categorywise Stock on Hand |      |         |
- | Cost Center                |      |         |
- | Ledger                     |      |         |
- | Login                      | x    |         |
- | Logs                       |      |         |
- | Org Profile                |      |         |
- | Profit Loss                |      |         |
- | Registers                  |      |         |
- | Select Org                 | x    |         |
- | Server Setup               | x    |         |
- | Trial Balance              |      |         |
+ | Select Org                 | x    | x       |
+ | Server Setup               | x    | x       |
+ | UOM                        | x    | x       |
+ | Org Profile                | x    | x       |
+ | Password                   | x    | x       |
+ | Cash Flow                  | x    | x       |
+ | Close Books                | x    | x       |
+ | Stock On Hand              | x    | x       |
+ | Categorywise Stock on Hand | x    | x       |
+ | Cost Center                | x    | x       |
+ | Ledger                     | x    | x       |
+ | Logs                       | x    | x       |
+ | Profit Loss                | x    | x       |
+ | Registers                  | x    | x       |
+ | Trial Balance              | x    | x       |
+ | Sidebar                    | x    | x       |
+ | IFSC                       | x    | x       |
+ | change password            | x    | x       |
  | GST R1                     |      |         |
  | GST 3B                     |      |         |
 

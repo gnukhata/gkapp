@@ -55,7 +55,7 @@
                   collapsed.invoice ? 'caret-down-fill' : 'caret-right-fill'
                 "
               ></b-icon>
-              Transactions
+              <translate>Transactions</translate>
             </h6>
             <b-collapse v-model="collapsed.invoice" id="invoice">
               <div class="ml-3">
@@ -67,36 +67,45 @@
                       wfId: -1,
                     },
                   }"
-                  ><b-icon icon="receipt"></b-icon> Invoice
+                  ><b-icon icon="receipt"></b-icon
+                  ><translate> Invoice</translate>
                 </b-nav-item>
                 <b-nav-item to="/workflow/Transactions-DebitCreditNote/-1">
-                  <b-icon icon="receipt"></b-icon> Debit/Credit Note
+                  <b-icon icon="receipt"></b-icon
+                  ><translate> Debit/Credit Note</translate>
                 </b-nav-item>
                 <b-nav-item to="/workflow/Transactions-CashMemo/-1">
-                  <b-icon icon="receipt"></b-icon> Cash Memo
+                  <b-icon icon="receipt"></b-icon
+                  ><translate> Cash Memo</translate>
                 </b-nav-item>
                 <b-nav-item to="/workflow/Transactions-DeliveryNote/-1">
-                  <b-icon icon="receipt"></b-icon> Delivery Note
+                  <b-icon icon="receipt"></b-icon
+                  ><translate> Delivery Note</translate>
                 </b-nav-item>
                 <b-nav-item to="/workflow/Transactions-PurchaseSalesOrder/-1">
-                  <b-icon icon="receipt"></b-icon> Purchase/Sales Order
+                  <b-icon icon="receipt"></b-icon
+                  ><translate> Purchase/Sales Order</translate>
                 </b-nav-item>
                 <b-nav-item to="/workflow/Transactions-RejectionNote/-1">
-                  <b-icon icon="receipt"></b-icon> Rejection Note
+                  <b-icon icon="receipt"></b-icon
+                  ><translate> Rejection Note</translate>
                 </b-nav-item>
                 <b-nav-item to="/workflow/Transactions-TransferNote/-1">
-                  <b-icon icon="receipt"></b-icon> Transfer Note
+                  <b-icon icon="receipt"></b-icon
+                  ><translate> Transfer Note</translate>
                 </b-nav-item>
                 <b-nav-item to="/workflow/Transactions-Voucher/-1">
-                  <b-icon icon="receipt"></b-icon> Voucher
+                  <b-icon icon="receipt"></b-icon
+                  ><translate> Voucher</translate>
                 </b-nav-item>
               </div>
             </b-collapse>
             <b-nav-item to="/workflow/Contacts/-1">
-              <b-icon icon="person-lines-fill"></b-icon> Contacts
+              <b-icon icon="person-lines-fill"></b-icon
+              ><translate> Contacts</translate>
             </b-nav-item>
             <b-nav-item to="/workflow/Business/-1">
-              <b-icon icon="box"></b-icon> Business
+              <b-icon icon="box"></b-icon><translate> Business</translate>
             </b-nav-item>
           </b-collapse>
 
@@ -105,24 +114,27 @@
             <b-icon
               :icon="collapsed.admin ? 'caret-down-fill' : 'caret-right-fill'"
             ></b-icon>
-            Administration
+            <translate>Administration</translate>
           </h6>
           <b-collapse v-model="collapsed.admin" id="admin">
             <b-nav-item to="/orgprofile">
-              <b-icon icon="building"></b-icon> Organisation Profile
+              <b-icon icon="building"></b-icon
+              ><translate> Organisation Profile</translate>
             </b-nav-item>
 
             <b-nav-item to="/users">
-              <b-icon icon="people"></b-icon> Manage Users
+              <b-icon icon="people"></b-icon
+              ><translate> Manage Users</translate>
             </b-nav-item>
             <b-nav-item to="/logs"
-              ><b-icon icon="server"></b-icon> Audit Logs</b-nav-item
+              ><b-icon icon="server"></b-icon
+              ><translate> Audit Logs</translate></b-nav-item
             >
             <b-nav-item to="/accounts/-1/-1/-1">
-              <b-icon icon="files-alt"></b-icon> Accounts
+              <b-icon icon="files-alt"></b-icon><translate> Accounts</translate>
             </b-nav-item>
             <b-nav-item to="/budgets/cash/-1">
-              <b-icon icon="file-ruled"></b-icon> Budget
+              <b-icon icon="file-ruled"></b-icon><translate> Budget</translate>
             </b-nav-item>
             <b-nav-item
               :to="{
@@ -130,17 +142,21 @@
                 params: { custType: 3, custName: '-1' },
               }"
             >
-              <b-icon icon="clipboard"></b-icon> Adjust Bills
+              <b-icon icon="clipboard"></b-icon
+              ><translate> Adjust Bills</translate>
             </b-nav-item>
 
             <b-nav-item to="/uom">
-              <b-icon icon="thermometer"></b-icon> Unit of measurement
+              <b-icon icon="thermometer"></b-icon
+              ><translate> Unit of measurement</translate>
             </b-nav-item>
             <b-nav-item to="/closebooks">
-              <b-icon icon="journals"></b-icon> Close Books / Roll Over
+              <b-icon icon="journals"></b-icon
+              ><translate> Close Books / Roll Over</translate>
             </b-nav-item>
             <b-nav-item to="/bank-recon">
-              <b-icon icon="journals"></b-icon> Bank Reconciliation
+              <b-icon icon="journals"></b-icon
+              ><translate> Bank Reconciliation</translate>
             </b-nav-item>
           </b-collapse>
 
@@ -149,18 +165,20 @@
             <b-icon
               :icon="collapsed.inv ? 'caret-down-fill' : 'caret-right-fill'"
             ></b-icon>
-            Inventory
+            <translate>Inventory</translate>
           </h6>
           <b-collapse v-model="collapsed.inv" id="inv">
             <b-nav-item to="/godowns"
-              ><b-icon icon="building"></b-icon> Godowns</b-nav-item
+              ><b-icon icon="building"></b-icon
+              ><translate> Godowns</translate></b-nav-item
             >
             <b-nav-item to="/costcenter">
-              <b-icon icon="cash-stack"></b-icon> Cost Center
+              <b-icon icon="cash-stack"></b-icon
+              ><translate> Cost Center</translate>
             </b-nav-item>
 
             <b-nav-item to="/categories">
-              <b-icon icon="tags"></b-icon> Categories
+              <b-icon icon="tags"></b-icon><translate> Categories</translate>
             </b-nav-item>
           </b-collapse>
 
@@ -170,38 +188,46 @@
               :icon="collapsed.reports ? 'caret-down-fill' : 'caret-right-fill'"
               class="text-right"
             ></b-icon>
-            Reports
+            <translate>Reports</translate>
           </h6>
           <b-collapse v-model="collapsed.reports" id="reports">
             <b-nav-item to="/product-register">
-              <b-icon icon="box-seam"></b-icon> Product Register
+              <b-icon icon="box-seam"></b-icon
+              ><translate> Product Register</translate>
             </b-nav-item>
             <b-nav-item to="/cost-center-statement">
-              <b-icon icon="cash"></b-icon> Cost Center Statement
+              <b-icon icon="cash"></b-icon
+              ><translate> Cost Center Statement</translate>
             </b-nav-item>
             <b-nav-item to="/registers">
-              <b-icon icon="receipt"></b-icon> View Registers
+              <b-icon icon="receipt"></b-icon
+              ><translate> View Registers</translate>
             </b-nav-item>
             <b-nav-item to="/stock-on-hand">
-              <b-icon icon="receipt"></b-icon> Stock On Hand
+              <b-icon icon="receipt"></b-icon
+              ><translate> Stock On Hand</translate>
             </b-nav-item>
             <b-nav-item to="/categorywise-stock-on-hand">
-              <b-icon icon="tag"></b-icon>Categorywise Stock On Hand
+              <b-icon icon="tag"></b-icon
+              ><translate>Categorywise Stock On Hand</translate>
             </b-nav-item>
             <b-nav-item to="/profit-loss">
-              <b-icon icon="graph-up"></b-icon> Profit & Loss
+              <b-icon icon="graph-up"></b-icon
+              ><translate> Profit & Loss</translate>
             </b-nav-item>
             <b-nav-item to="/cash-flow">
-              <b-icon icon="wallet"></b-icon> Cash Flow
+              <b-icon icon="wallet"></b-icon><translate> Cash Flow</translate>
             </b-nav-item>
             <b-nav-item to="/trial-balance">
-              <b-icon icon="wallet"></b-icon> Trial Balance
+              <b-icon icon="wallet"></b-icon
+              ><translate> Trial Balance</translate>
             </b-nav-item>
             <b-nav-item to="/ledger">
-              <b-icon icon="journals"></b-icon> Ledger
+              <b-icon icon="journals"></b-icon><translate> Ledger</translate>
             </b-nav-item>
             <b-nav-item to="/balance-sheet">
-              <b-icon icon="journals"></b-icon> Balance Sheet
+              <b-icon icon="journals"></b-icon
+              ><translate> Balance Sheet</translate>
             </b-nav-item>
           </b-collapse>
           <!-- GST -->
@@ -214,7 +240,8 @@
           </h6>
           <b-collapse v-model="collapsed.gst" id="gst">
             <b-nav-item to="/gst/r1">
-              <b-icon icon="file-earmark"></b-icon> R1 Report
+              <b-icon icon="file-earmark"></b-icon
+              ><translate> R1 Report</translate>
             </b-nav-item>
           </b-collapse>
 
@@ -223,21 +250,21 @@
             <b-icon
               :icon="collapsed.help ? 'caret-down-fill' : 'caret-right-fill'"
             ></b-icon>
-            Help
+            <translate>Help</translate>
           </h6>
           <b-collapse v-model="collapsed.help" id="help">
             <b-nav-item to="/about" class="mr-3">
-              <b-icon icon="info-circle"></b-icon> About
+              <b-icon icon="info-circle"></b-icon><translate> About</translate>
             </b-nav-item>
             <b-nav-item class="mr-3" target="_blank" href="https://gnukhata.in">
-              <b-icon icon="globe"></b-icon> Website
+              <b-icon icon="globe"></b-icon><translate> Website</translate>
             </b-nav-item>
             <b-nav-item
               class="mr-3"
               target="_blank"
               href="https://gitlab.com/gnukhata"
             >
-              <b-icon icon="code"></b-icon> Source Code
+              <b-icon icon="code"></b-icon><translate> Source Code</translate>
             </b-nav-item>
           </b-collapse>
         </b-nav>

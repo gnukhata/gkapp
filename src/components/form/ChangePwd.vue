@@ -5,7 +5,7 @@
       label-cols="4"
       label-size="sm"
       label-align="right"
-      label="Current Password"
+      :label="$gettext('Current Password')"
     >
       <b-form-input
         size="sm"
@@ -19,7 +19,7 @@
       label-cols="4"
       label-align="right"
       label-size="sm"
-      label="New Password"
+      :label="$gettext('New Password')"
     >
       <password size="sm" v-model="form.userpassword"></password>
     </b-form-group>
@@ -27,7 +27,7 @@
       label-cols="4"
       label-align="right"
       label-size="sm"
-      label="Confirm Password"
+      :label="$gettext('Confirm Password')"
     >
       <b-form-input
         type="password"
@@ -38,12 +38,12 @@
       >
       </b-form-input>
       <b-form-invalid-feedback id="input-live-feedback">
-        Passwords do not match
+        <translate>Passwords do not match</translate>
       </b-form-invalid-feedback>
     </b-form-group>
     <!--Captcha area-->
     <b-form-group
-      label="Question"
+      :label="$gettext('Question')"
       label-size="sm"
       label-align="right"
       label-cols="4"
@@ -52,7 +52,7 @@
     </b-form-group>
     <!-- captcha answer -->
     <b-form-group
-      label="Answer"
+      :label="$gettext('Answer')"
       label-size="sm"
       label-align="right"
       description="* Required"
@@ -74,7 +74,8 @@
       :disabled="!matchingPwds"
       variant="success"
       class="float-right"
-      ><b-icon icon="key"></b-icon> Change Password</b-button
+      ><b-icon icon="key"></b-icon
+      ><translate> Change Password</translate></b-button
     >
   </b-form>
 </template>

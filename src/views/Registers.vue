@@ -2,7 +2,7 @@
   <section class="m-1">
     <b-overlay :show="loading" blur>
       <b-card
-        header="View Registers"
+        :header="$gettext('View Registers')"
         header-bg-variant="dark"
         header-text-variant="light"
         class="mx-auto gkcard d-print-none"
@@ -13,17 +13,23 @@
             <b-form-select ref="register-type" v-model="registerType" required>
               <template #first>
                 <b-form-select-option disabled value=""
-                  >-- Select Type Of Register --</b-form-select-option
+                  ><translate
+                    >-- Select Type Of Register --</translate
+                  ></b-form-select-option
                 >
               </template>
-              <b-form-select-option value="1">Purchase</b-form-select-option>
-              <b-form-select-option value="0">Sale</b-form-select-option>
+              <b-form-select-option value="1"
+                ><translate>Purchase</translate></b-form-select-option
+              >
+              <b-form-select-option value="0"
+                ><translate>Sale</translate></b-form-select-option
+              >
             </b-form-select>
           </b-form-group>
           <!-- Date -->
           <div class="row">
             <div class="col">
-              <b-form-group label="From">
+              <b-form-group :label="$gettext('From')">
                 <gk-date
                   :formatOutput="true"
                   id="1"
@@ -33,7 +39,7 @@
               </b-form-group>
             </div>
             <div class="col">
-              <b-form-group label="To">
+              <b-form-group :label="$gettext('To')">
                 <gk-date
                   :formatOutput="true"
                   id="2"
@@ -44,7 +50,8 @@
             </div>
           </div>
           <b-button variant="success" type="submit" class="float-right"
-            ><b-icon icon="cloud-download"></b-icon> Get Details</b-button
+            ><b-icon icon="cloud-download"></b-icon>
+            <translate> Get Details</translate></b-button
           >
         </b-form>
       </b-card>
@@ -59,16 +66,16 @@
             }}
             Register</b
           >
-          | From
+          | <translate>From</translate>
           <b>{{ fromDate }}</b>
-          to
+          <translate>to</translate>
           <b>{{ toDate }}</b>
         </div>
       </report-header>
       <b-form-input
         type="text"
         class="mx-auto gkcard mt-3 border border-dark d-print-none"
-        placeholder="search Register"
+        :placeholder="$gettext('search Register')"
         v-model="search"
       ></b-form-input>
       <b-table

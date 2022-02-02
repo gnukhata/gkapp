@@ -2,7 +2,7 @@
   <section class="m-2">
     <b-overlay :show="loading">
       <b-card
-        header="Category wise Stock On Hand"
+        :header="$gettext('Category wise Stock On Hand')"
         header-bg-variant="dark"
         header-text-variant="light"
         class="mx-auto gkcard d-print-none"
@@ -10,7 +10,7 @@
         <b-form @submit.prevent="stockOnHand">
           <!-- category select -->
           <b-form-group
-            label="Category"
+            :label="$gettext('Category')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -25,7 +25,7 @@
           </b-form-group>
           <!-- subcategory select -->
           <b-form-group
-            label="Sub Category"
+            :label="$gettext('Sub Category')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -33,14 +33,14 @@
             <autocomplete
               v-model="subCategoryID"
               :options="subCategoryList"
-              placeholder="Search / Select sub category"
+              :placeholder="$gettext('Search / Select sub category')"
               :required="false"
             ></autocomplete>
           </b-form-group>
           <!-- date -->
           <div class="col">
             <b-form-group
-              label="As on"
+              :label="$gettext('As on')"
               label-size="sm"
               label-cols="4"
               label-align="right"
@@ -58,19 +58,21 @@
               switch
               :unchecked-value="false"
               :disabled="allProducts"
-              >Godown Wise Stock On Hand Report</b-form-checkbox
+              ><translate
+                >Godown Wise Stock On Hand Report</translate
+              ></b-form-checkbox
             >
           </div>
           <!-- Godown select -->
           <b-form-group
             v-if="showGodowns"
-            label="Godown"
+            :label="$gettext('Godown')"
             label-align="right"
             label-size="sm"
             label-cols="4"
           >
             <autocomplete
-              placeholder="Search / Select a godown"
+              :placeholder="$gettext('Search / Select a godown')"
               v-model="godownId"
               :options="godowns"
             ></autocomplete>
@@ -80,7 +82,8 @@
             type="submit"
             variant="success"
             class="float-right"
-            ><b-icon icon="cloud-download"></b-icon> Get Details</b-button
+            ><b-icon icon="cloud-download"></b-icon>
+            <translate> Get Details</translate></b-button
           >
         </b-form>
       </b-card>
@@ -90,12 +93,13 @@
     <section class="mt-5 rtable mx-auto" v-if="report.length > 0">
       <report-header>
         <div class="text-center">
-          Categorywise Stock On Hand report as on: {{ dateReverse(toDate) }}
+          <translate>Categorywise Stock On Hand report as on: </translate>
+          {{ dateReverse(toDate) }}
         </div>
       </report-header>
       <b-form-input
         v-model="search"
-        placeholder="Search Products"
+        :placeholder="$gettext('Search Products')"
         class="gkcard mx-auto d-print-none"
       ></b-form-input>
       <b-table
@@ -145,12 +149,12 @@ export default {
       fields: [
         {
           key: 'productname',
-          label: 'product Name',
+          label: this.$gettext('Product Name'),
           sortable: true,
         },
         {
           key: 'balance',
-          label: 'Balance',
+          label: this.$gettext('Balance'),
           sortable: true,
         },
       ],
@@ -216,7 +220,7 @@ export default {
                 });
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
@@ -260,7 +264,6 @@ export default {
         this.godownId = 'all';
       }
       let url = `/report?type=categorywisestockonhand&categorycode=${this.categoryID}&subcategorycode=${this.subCategoryID}&enddate=${this.toDate}&goid=${this.godownId}&speccode=all`;
-      console.log(this.categoryID, this.subCategoryID, this.godownId, url);
       axios
         .get(url)
         .then((r) => {
@@ -270,31 +273,31 @@ export default {
                 this.report = r.data.gkresult;
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });
@@ -302,7 +305,8 @@ export default {
             }
           } else {
             this.$bvToast.toast(
-              'Failed to get product stock report with status ' + r.status,
+              this.$gettext('Failed to get product stock report with status ') +
+                r.status,
               {
                 variant: 'danger',
                 solid: true,
@@ -313,7 +317,6 @@ export default {
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
-            title: 'Stock On Hand failed',
             variant: 'danger',
             solid: true,
           });

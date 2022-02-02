@@ -25,7 +25,11 @@
     >
       <template #header>
         <gk-cardheader
-          :name="'Login to ' + orgNameDisplay"
+          :name="
+            $gettextInterpolate($gettext('Login To %{orgNameDisplay}'), {
+              orgNameDisplay: orgNameDisplay,
+            })
+          "
           help-title="Login"
           help-body="Login with your username, password"
         ></gk-cardheader>
@@ -34,7 +38,7 @@
         <b-form @submit.prevent="login">
           <!--Username area-->
           <b-form-group
-            label="Username"
+            :label="$gettext('Username')"
             label-cols="4"
             label-size="sm"
             label-align="right"
@@ -43,13 +47,13 @@
               v-model="form.username"
               type="text"
               size="sm"
-              placeholder="Enter Username"
+              :placeholder="$gettext('Enter Username')"
               required
             ></b-form-input>
           </b-form-group>
           <!-- Password area -->
           <b-form-group
-            label="Password"
+            :label="$gettext('Password')"
             label-cols="4"
             label-align="right"
             label-size="sm"
@@ -57,17 +61,17 @@
             <password
               v-model="form.userpassword"
               :password-hint="false"
-              placeholder="Password"
+              :placeholder="$gettext('Password')"
               size="sm"
             ></password>
             <router-link class="float-right" to="/resetpassword">
-              <small>Forgot Password?</small>
+              <small><translate>Forgot Password?</translate></small>
             </router-link>
           </b-form-group>
 
           <!--Captcha question -->
           <b-form-group
-            label="Question"
+            :label="$gettext('Question')"
             label-align="right"
             label-cols="4"
             label-size="sm"
@@ -77,7 +81,7 @@
 
           <!-- captcha answer -->
           <b-form-group
-            label="Answer"
+            :label="$gettext('Answer')"
             label-cols="4"
             label-size="sm"
             label-align="right"
@@ -86,7 +90,7 @@
               v-model="userAnswer"
               type="number"
               no-wheel
-              placeholder="Enter the Answer"
+              :placeholder="$gettext('Enter the Answer')"
               required
               size="sm"
             ></b-form-input>
@@ -94,30 +98,26 @@
           <!-- Login & create account buttons-->
           <b-button-group size="sm" class="row float-right">
             <b-button variant="dark" class="m-1" @click="switchServer">
-              <b-icon icon="cloud"></b-icon> Change Server
+              <b-icon icon="cloud"></b-icon>
+              <translate> Change Server</translate>
             </b-button>
             <b-button
               class="m-1"
               variant="dark"
               @click="$router.push('/select-org')"
             >
-              <b-icon icon="building"></b-icon> Change Organisation
+              <b-icon icon="building"></b-icon>
+              <translate> Change Organisation</translate>
             </b-button>
             <b-button class="m-1" variant="success" type="submit">
               <b-spinner v-if="isLoading" small></b-spinner>
               <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
-              Login
+              <translate> Login</translate>
             </b-button>
           </b-button-group>
         </b-form>
       </b-card-body>
     </b-card>
-    <!-- <div class="d-flex mt-2 justify-content-center">
-         <b-link class="m-2" size="sm" @click="switchServer">
-         <b-icon icon="cloud"></b-icon>
-         Change Server
-         </b-link>
-    </div>-->
   </section>
 </template>
 <script>
@@ -182,11 +182,15 @@ export default {
                   this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
                   this.$store.dispatch('global/initGlobalConfig'), // initialises global config
                 ]).then(() => {
-                  this.$store.dispatch('global/initGlobalState', { lang: this.$language }).then(() => {
-                    // debugger;
-                    // redirect to workflow on login
-                    this.$router.push('/workflow/Transactions-Invoice/-1');
-                  });
+                  this.$store
+                    .dispatch('global/initGlobalState', {
+                      lang: this.$language,
+                    })
+                    .then(() => {
+                      // debugger;
+                      // redirect to workflow on login
+                      this.$router.push('/workflow/Transactions-Invoice/-1');
+                    });
                 });
 
                 // this.get_org_address();

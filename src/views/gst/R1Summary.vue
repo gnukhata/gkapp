@@ -414,7 +414,8 @@ export default {
         });
     },
   },
-  created() {
+  mounted() {
+    debugger;
     this.params = this.$route.params;
     this.getGstR1List();
   },

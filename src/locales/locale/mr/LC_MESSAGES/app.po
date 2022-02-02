@@ -1,13 +1,13 @@
 msgid ""
 msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: easygettext\n"
 "Project-Id-Version: \n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: mr\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: easygettext\n"
 
 #: src/components/BusinessProfile.vue:147 src/components/BusinessProfile.vue:2
 msgid "-- Choose a Godown --"
@@ -15,6 +15,22 @@ msgstr ""
 
 #: src/components/form/transaction/PaymentDetails.vue:76
 msgid "-- Payment Mode --"
+msgstr ""
+
+#: src/views/ResetPassword.vue:7
+msgid "-- Select an Organisation --"
+msgstr ""
+
+#: src/views/Registers.vue:9 src/views/Registers.vue:1
+msgid "-- Select Type Of Register --"
+msgstr ""
+
+#: src/components/form/EditUser.vue:19 src/components/form/EditUser.vue:2
+msgid "-- Select User --"
+msgstr ""
+
+#: src/views/SelectOrg.vue:24 src/views/SelectOrg.vue:1
+msgid "-- Select Year --"
 msgstr ""
 
 #: src/components/form/transaction/TransportDetails.vue:98
@@ -27,8 +43,6 @@ msgstr ""
 
 #: src/components/form/BudgetItem.vue:49 src/components/form/BudgetItem.vue:83
 msgid "(₹)"
-#: src/components/form/EditUser.vue:19 src/components/form/EditUser.vue:2
-msgid "-- Select User --"
 msgstr ""
 
 #: src/components/form/transaction/TotalTable.vue:49
@@ -104,6 +118,14 @@ msgstr ""
 msgid "+ Godown"
 msgstr ""
 
+#: src/views/UserManagement.vue:5 src/views/UserManagement.vue:2
+msgid "<b-icon icon=\"person-plus\"/><v-translate> Add User</v-translate>"
+msgstr ""
+
+#: src/components/Sidebar.vue:187 src/components/Sidebar.vue:172
+msgid "About"
+msgstr ""
+
 #: src/components/workflow/profile/CashMemoProfile.vue:56
 #: src/components/workflow/profile/PsOrderProfile.vue:103
 msgid "Acc No"
@@ -111,10 +133,6 @@ msgstr ""
 
 #: src/components/ContactProfile.vue:105 src/components/ContactProfile.vue:1
 #: src/components/form/ContactItem.vue:92 src/components/form/ContactItem.vue:1
-#: src/views/UserManagement.vue:5 src/views/UserManagement.vue:2
-msgid "<b-icon icon=\"person-plus\"/><v-translate> Add User</v-translate>"
-msgstr ""
-
 #: src/components/form/transaction/PaymentDetails.vue:25
 #: src/components/form/transaction/PaymentDetails.vue:1
 msgid "Acc. No."
@@ -129,11 +147,21 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
+#: src/views/Ledger.vue:45
+msgid "Account name"
+msgstr ""
+
 #: src/components/form/Account.vue:48 src/components/form/Account.vue:1
 #: src/views/AccountCreate.vue:39 src/views/AccountCreate.vue:1
 #: src/views/AccountEdit.vue:46 src/views/AccountEdit.vue:1
 #: src/views/BankRecon.vue:7 src/views/BankRecon.vue:1
+#: src/views/TrialBalance.vue:31 src/views/TrialBalance.vue:57
+#: src/views/TrialBalance.vue:95
 msgid "Account Name"
+msgstr ""
+
+#: src/views/OrgProfile.vue:331
+msgid "Account Number"
 msgstr ""
 
 #: src/components/form/Account.vue:222
@@ -149,20 +177,23 @@ msgid "Account: %{accountName} was Updated Successfully!"
 msgstr ""
 
 #: src/views/Transactions/DebitCreditNote.vue:209
-msgid ""
-"Accounting entry could not be made due to mismatch of accounts. Please make "
-"the entry yourself."
+msgid "Accounting entry could not be made due to mismatch of accounts. Please make the entry yourself."
 msgstr ""
 
+#: src/components/Sidebar.vue:93 src/components/Sidebar.vue:78
 #: src/views/Accounts.vue:2
 msgid "Accounts"
+msgstr ""
+
+#: src/views/UserManagement.vue:18
+msgid "action"
 msgstr ""
 
 #: src/components/ContactProfile.vue:246
 msgid "Action Denied"
 msgstr ""
 
-#: src/components/BusinessProfile.vue:299
+#: src/components/BusinessProfile.vue:299 src/views/CloseBooks.vue:164
 msgid "Action Disallowed"
 msgstr ""
 
@@ -174,14 +205,26 @@ msgstr ""
 msgid "Actuals"
 msgstr ""
 
+#: src/views/CostCenterCreate.vue:10 src/views/OrgProfile.vue:595
+#: src/views/OrgProfile.vue:689
+msgid "Add"
+msgstr ""
+
 #: src/views/Categories.vue:4 src/views/Categories.vue:1
 msgid "Add Category"
 msgstr ""
 
+#: src/views/OrgProfile.vue:691
+msgid "Add CESS"
+msgstr ""
+
+#: src/views/CostCenter.vue:4 src/views/CostCenter.vue:1
+#: src/views/CostCenter.vue:106
+msgid "Add Cost Center"
+msgstr ""
+
 #: src/views/Godowns.vue:4 src/views/Godowns.vue:1
 msgid "Add Godown"
-#: src/views/UserManagement.vue:18
-msgid "action"
 msgstr ""
 
 #: src/components/form/transaction/BillTable.vue:11
@@ -209,19 +252,24 @@ msgstr ""
 msgid "Add Transaction"
 msgstr ""
 
-#: src/views/Billwise.vue:74
-msgid "Add Voucher"
+#: src/views/UOM.vue:6 src/views/UOM.vue:3
+msgid "Add Unit"
 msgstr ""
 
-#: src/components/ContactProfile.vue:38 src/components/ContactProfile.vue:2
-#: src/components/form/ContactItem.vue:32 src/components/form/ContactItem.vue:1
-#: src/components/form/Godown.vue:22 src/components/form/Godown.vue:1
 #: src/components/form/AddUser.vue:41 src/views/UserManagement.vue:5
 #: src/views/UserManagement.vue:2
 msgid "Add User"
 msgstr ""
 
-#: src/components/form/AddUser.vue:26 src/components/form/EditUser.vue:35
+#: src/views/Billwise.vue:74
+msgid "Add Voucher"
+msgstr ""
+
+#: src/components/ContactProfile.vue:38 src/components/ContactProfile.vue:2
+#: src/components/GkIfsc.vue:153 src/components/form/AddUser.vue:26
+#: src/components/form/ContactItem.vue:32 src/components/form/ContactItem.vue:1
+#: src/components/form/EditUser.vue:35 src/components/form/Godown.vue:22
+#: src/components/form/Godown.vue:1
 #: src/components/form/transaction/PartyDetails.vue:46
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:29
@@ -240,6 +288,10 @@ msgstr ""
 msgid "Adjust"
 msgstr ""
 
+#: src/components/Sidebar.vue:102 src/components/Sidebar.vue:87
+msgid "Adjust Bills"
+msgstr ""
+
 #: src/components/form/transaction_details/DcNoteDetails.vue:63
 msgid "Adjust Price / Discount"
 msgstr ""
@@ -256,16 +308,32 @@ msgstr ""
 msgid "Admin User"
 msgstr ""
 
+#: src/components/Sidebar.vue:81 src/components/Sidebar.vue:66
+msgid "Administration"
+msgstr ""
+
 #: src/components/form/transaction/TransportDetails.vue:101
 msgid "Air"
 msgstr ""
 
-#: src/views/Billwise.vue:343
+#: src/views/LedgerFull.vue:25
+msgid "All"
+msgstr ""
+
+#: src/views/StockOnHand.vue:9
+msgid "All Products"
+msgstr ""
+
+#: src/views/Billwise.vue:343 src/views/CashFlow.vue:27
+#: src/views/CashFlow.vue:41 src/views/ProfitLoss.vue:32
+#: src/views/ProfitLoss.vue:70
 msgid "Amount"
 msgstr ""
 
-#: src/components/form/AddUser.vue:287 src/components/form/EditUser.vue:279
-#: src/views/CreateOrganisation.vue:137 src/views/CreateOrganisation.vue:1
+#: src/components/form/AddUser.vue:287 src/components/form/ChangePwd.vue:106
+#: src/components/form/EditUser.vue:279 src/views/CreateOrganisation.vue:137
+#: src/views/CreateOrganisation.vue:1 src/views/Login.vue:156
+#: src/views/ResetPassword.vue:152
 msgid "Answer"
 msgstr ""
 
@@ -282,12 +350,25 @@ msgstr ""
 msgid "Approve"
 msgstr ""
 
+#: src/views/CategorywiseStockOnHand.vue:84 src/views/StockOnHand.vue:83
+msgid "As on"
+msgstr ""
+
 #: src/views/Transactions/Invoice.vue:75
 msgid "Attachments"
 msgstr ""
 
 #: src/components/workflow/profile/InvoiceProfile.vue:131
 msgid "Attachments:"
+msgstr ""
+
+#: src/components/Sidebar.vue:91 src/components/Sidebar.vue:76
+#: src/views/Logs.vue:4
+msgid "Audit Logs"
+msgstr ""
+
+#: src/components/GkIfsc.vue:18 src/components/GkIfsc.vue:2
+msgid "Auto fill"
 msgstr ""
 
 #: src/components/form/Account.vue:59 src/components/form/BudgetItem.vue:152
@@ -314,10 +395,16 @@ msgstr ""
 msgid "Bad Quality Goods"
 msgstr ""
 
-#: src/components/form/Voucher.vue:45
+#: src/components/form/Voucher.vue:45 src/views/CategorywiseStockOnHand.vue:34
+#: src/views/LedgerFull.vue:59 src/views/StockOnHand.vue:42
 msgid "Balance"
 msgstr ""
 
+#: src/components/Sidebar.vue:166 src/components/Sidebar.vue:151
+msgid "Balance Sheet"
+msgstr ""
+
+#: src/components/GkIfsc.vue:93
 #: src/components/form/transaction/PaymentDetails.vue:78
 #: src/components/workflow/profile/CashMemoProfile.vue:57
 #: src/components/workflow/profile/InvoiceProfile.vue:144
@@ -328,6 +415,7 @@ msgstr ""
 #: src/components/ContactProfile.vue:89 src/components/ContactProfile.vue:2
 #: src/components/form/ContactItem.vue:73
 #: src/components/form/transaction/PaymentDetails.vue:23
+#: src/views/OrgProfile.vue:273
 msgid "Bank Details"
 msgstr ""
 
@@ -335,6 +423,10 @@ msgstr ""
 #: src/components/form/transaction/PaymentDetails.vue:29
 #: src/components/form/transaction/PaymentDetails.vue:1
 msgid "Bank Name"
+msgstr ""
+
+#: src/components/Sidebar.vue:112 src/components/Sidebar.vue:97
+msgid "Bank Reconciliation"
 msgstr ""
 
 #: src/views/Billwise.vue:150 src/views/Billwise.vue:157
@@ -351,15 +443,18 @@ msgid "Billwise Acccounting"
 msgstr ""
 
 #: src/components/ContactProfile.vue:115 src/components/ContactProfile.vue:1
-#: src/components/form/ContactItem.vue:87 src/components/form/ContactItem.vue:1
+#: src/components/GkIfsc.vue:108 src/components/form/ContactItem.vue:87
+#: src/components/form/ContactItem.vue:1
 #: src/components/form/transaction/PaymentDetails.vue:33
 #: src/components/form/transaction/PaymentDetails.vue:1
 #: src/components/workflow/profile/CashMemoProfile.vue:58
 #: src/components/workflow/profile/InvoiceProfile.vue:145
 #: src/components/workflow/profile/PsOrderProfile.vue:105
+#: src/views/OrgProfile.vue:314
 msgid "Branch"
 msgstr ""
 
+#: src/components/Sidebar.vue:96 src/components/Sidebar.vue:81
 #: src/views/Budget.vue:5 src/views/Budget.vue:1
 msgid "Budget"
 msgstr ""
@@ -388,6 +483,14 @@ msgstr ""
 msgid "Budgeted"
 msgstr ""
 
+#: src/views/CostCenterCreate.vue:40 src/views/CostCenterEdit.vue:40
+msgid "Budgeted Amount"
+msgstr ""
+
+#: src/components/Sidebar.vue:74 src/components/Sidebar.vue:59
+msgid "Business"
+msgstr ""
+
 #: src/components/form/BusinessItem.vue:5
 msgid "Business Item Details"
 msgstr ""
@@ -401,6 +504,8 @@ msgstr ""
 #: src/components/TransactionProfile.vue:46
 #: src/components/form/transaction/PartyDetails.vue:80
 #: src/components/workflow/profile/InvoiceProfile.vue:121
+#: src/views/OrgProfile.vue:142 src/views/OrgProfile.vue:157
+#: src/views/OrgProfile.vue:1
 msgid "Cancel"
 msgstr ""
 
@@ -449,6 +554,18 @@ msgstr ""
 msgid "Cash Available"
 msgstr ""
 
+#: src/components/Sidebar.vue:157 src/components/Sidebar.vue:142
+msgid "Cash Flow"
+msgstr ""
+
+#: src/views/CashFlow.vue:42
+msgid "Cash Flow Statement"
+msgstr ""
+
+#: src/components/Sidebar.vue:51 src/components/Sidebar.vue:36
+msgid "Cash Memo"
+msgstr ""
+
 #: src/components/form/transaction_details/CashMemoDetails.vue:6
 #: src/components/workflow/profile/CashMemoProfile.vue:7
 msgid "Cash Memo Details"
@@ -466,16 +583,78 @@ msgstr ""
 msgid "CASH RECEIVED"
 msgstr ""
 
+#: src/components/Sidebar.vue:128 src/components/Sidebar.vue:113
+msgid "Categories"
+msgstr ""
+
+#: src/views/CategorywiseStockOnHand.vue:46
+msgid "Category"
+msgstr ""
+
+#: src/views/CategorywiseStockOnHand.vue:34
+msgid "Category wise Stock On Hand"
+msgstr ""
+
+#: src/components/Sidebar.vue:151 src/components/Sidebar.vue:136
+msgid "Categorywise Stock On Hand"
+msgstr ""
+
+#: src/views/CategorywiseStockOnHand.vue:37
+msgid "Categorywise Stock On Hand report as on:"
+msgstr ""
+
 #: src/components/ContactProfile.vue:267
 msgid "Causes Integrity Issues"
+msgstr ""
+
+#: src/components/GkIfsc.vue:123
+msgid "Center"
+msgstr ""
+
+#: src/views/OrgProfile.vue:107 src/views/OrgProfile.vue:480
+#: src/views/OrgProfile.vue:726
+msgid "CESS"
+msgstr ""
+
+#: src/views/Login.vue:51
+msgid "Change Organisation"
+msgstr ""
+
+#: src/components/form/ChangePwd.vue:25
+msgid "Change Password"
+msgstr ""
+
+#: src/views/Login.vue:47 src/views/SelectOrg.vue:32
+msgid "Change Server"
 msgstr ""
 
 #: src/views/CategoryEdit.vue:246
 msgid "Choose a Category"
 msgstr ""
 
+#: src/components/GkIfsc.vue:138 src/views/OrgProfile.vue:157
+msgid "City"
+msgstr ""
+
+#: src/views/CloseBooks.vue:9 src/views/CloseBooks.vue:40
+#: src/views/CloseBooks.vue:2
+msgid "Close Books"
+msgstr ""
+
+#: src/components/Sidebar.vue:109 src/components/Sidebar.vue:94
+msgid "Close Books / Roll Over"
+msgstr ""
+
+#: src/views/CloseBooks.vue:42
+msgid "Close Books is done"
+msgstr ""
+
 #: src/components/form/BudgetItem.vue:70
 msgid "Closing Balance"
+msgstr ""
+
+#: src/views/ProfitLoss.vue:91
+msgid "Closing Stock"
 msgstr ""
 
 #: src/components/Config.vue:184 src/components/Config.vue:198
@@ -488,7 +667,10 @@ msgstr ""
 
 #: src/components/Config.vue:22
 msgid "Configuration validated successfully!"
-#: src/components/form/AddUser.vue:242
+msgstr ""
+
+#: src/components/form/AddUser.vue:242 src/components/form/ChangePwd.vue:64
+#: src/views/ResetPassword.vue:184
 msgid "Confirm Password"
 msgstr ""
 
@@ -501,7 +683,11 @@ msgstr ""
 msgid "Consignment"
 msgstr ""
 
-#: src/components/form/ContactItem.vue:53
+#: src/components/GkIfsc.vue:183
+msgid "Contact"
+msgstr ""
+
+#: src/components/form/ContactItem.vue:53 src/views/OrgProfile.vue:135
 msgid "Contact Details"
 msgstr ""
 
@@ -519,6 +705,35 @@ msgstr ""
 msgid "Contact Person"
 msgstr ""
 
+#: src/components/form/ContactItem.vue:3
+msgid "Contact Person Details"
+msgstr ""
+
+#: src/components/Sidebar.vue:71 src/components/Sidebar.vue:56
+msgid "Contacts"
+msgstr ""
+
+#: src/views/SelectOrg.vue:40
+msgid "Continue"
+msgstr ""
+
+#: src/views/ServerSetup.vue:11
+msgid "Continue with Default Server"
+msgstr ""
+
+#: src/components/form/AddUOM.vue:83 src/components/form/EditUOM.vue:82
+msgid "Conversion Rate"
+msgstr ""
+
+#: src/components/Sidebar.vue:124 src/components/Sidebar.vue:109
+#: src/views/Ledger.vue:112
+msgid "Cost Center"
+msgstr ""
+
+#: src/components/Sidebar.vue:142 src/components/Sidebar.vue:127
+msgid "Cost Center Statement"
+msgstr ""
+
 #: src/components/TransactionProfile.vue:175
 #: src/components/TransactionProfile.vue:189
 msgid "Could not cancel Invoice %{invNumber}. Try again later or Contact admin"
@@ -530,6 +745,14 @@ msgstr ""
 
 #: src/components/form/BudgetItem.vue:404
 msgid "Could not Fetch Budget Details!"
+msgstr ""
+
+#: src/views/OrgProfile.vue:191
+msgid "Country"
+msgstr ""
+
+#: src/views/TrialBalance.vue:78 src/views/TrialBalance.vue:119
+msgid "Cr Balance"
 msgstr ""
 
 #: src/components/form/transaction_details/DcNoteDetails.vue:38
@@ -663,7 +886,11 @@ msgstr ""
 msgid "Create Item"
 msgstr ""
 
-#: src/views/CreateOrganisation.vue:4
+#: src/components/form/AddUOM.vue:18
+msgid "Create New Unit"
+msgstr ""
+
+#: src/views/CreateOrganisation.vue:4 src/views/SelectOrg.vue:36
 msgid "Create Organisation"
 msgstr ""
 
@@ -720,6 +947,10 @@ msgstr ""
 msgid "Create Transfer Note Successfull!"
 msgstr ""
 
+#: src/components/form/AddUser.vue:59
+msgid "Create User"
+msgstr ""
+
 #: src/components/ContactProfile.vue:138
 msgid "Create Voucher"
 msgstr ""
@@ -732,12 +963,16 @@ msgstr ""
 msgid "Create Voucher Success!"
 msgstr ""
 
-#: src/components/form/transaction_details/DcNoteDetails.vue:25
-#: src/components/form/AddUser.vue:59
-msgid "Create User"
+#: src/views/LedgerFull.vue:54 src/views/TrialBalance.vue:41
+#: src/views/TrialBalance.vue:67
+msgid "Credit"
 msgstr ""
 
-#: src/components/form/transaction_details/DcNoteDetails.vue:19
+#: src/views/LedgerMonthly.vue:29
+msgid "Credit Balance"
+msgstr ""
+
+#: src/components/form/transaction_details/DcNoteDetails.vue:25
 msgid "Credit Note"
 msgstr ""
 
@@ -747,6 +982,10 @@ msgstr ""
 
 #: src/components/workflow/profile/DcNoteProfile.vue:78
 msgid "Credit Note Value"
+msgstr ""
+
+#: src/views/LedgerFull.vue:27
+msgid "Credit Only"
 msgstr ""
 
 #: src/components/form/transaction_details/PsOrderDetails.vue:82
@@ -765,6 +1004,14 @@ msgstr ""
 msgid "Credited Value (₹)"
 msgstr ""
 
+#: src/views/CloseBooks.vue:87
+msgid "Current Financial Year:"
+msgstr ""
+
+#: src/components/form/ChangePwd.vue:31
+msgid "Current Password"
+msgstr ""
+
 #: src/components/Config.vue:9
 msgid "Custom Config"
 msgstr ""
@@ -781,8 +1028,18 @@ msgid "Customer Details"
 msgstr ""
 
 #: src/views/BalanceSheet.vue:170 src/views/Budget.vue:281
-#: src/views/GodownEdit.vue:92
+#: src/views/CashFlow.vue:73 src/views/CategorywiseStockOnHand.vue:165
+#: src/views/CostCenter.vue:103 src/views/CostCenterCreate.vue:50
+#: src/views/CostCenterEdit.vue:71 src/views/GodownEdit.vue:92
+#: src/views/Ledger.vue:92 src/views/LedgerFull.vue:110
+#: src/views/LedgerFull.vue:158 src/views/LedgerMonthly.vue:75
+#: src/views/ProfitLoss.vue:43 src/views/StockOnHand.vue:136
+#: src/views/TrialBalance.vue:161
 msgid "Data error"
+msgstr ""
+
+#: src/views/CloseBooks.vue:131 src/views/CloseBooks.vue:145
+msgid "Data Error"
 msgstr ""
 
 #: src/components/form/transaction_details/CashMemoDetails.vue:21
@@ -805,7 +1062,12 @@ msgstr ""
 #: src/components/workflow/profile/RejectionNoteProfile.vue:38
 #: src/components/workflow/profile/TransferNoteProfile.vue:72
 #: src/components/workflow/profile/VoucherProfile.vue:26
+#: src/views/LedgerFull.vue:27
 msgid "Date"
+msgstr ""
+
+#: src/views/Logs.vue:12
+msgid "Date / Time"
 msgstr ""
 
 #: src/views/Settings.vue:8 src/views/Settings.vue:1
@@ -834,6 +1096,15 @@ msgstr ""
 msgid "Date: %{voucherDate}"
 msgstr ""
 
+#: src/views/LedgerFull.vue:49 src/views/TrialBalance.vue:36
+#: src/views/TrialBalance.vue:62
+msgid "Debit"
+msgstr ""
+
+#: src/views/LedgerMonthly.vue:20
+msgid "Debit Balance"
+msgstr ""
+
 #: src/components/form/transaction_details/DcNoteDetails.vue:22
 msgid "Debit Note"
 msgstr ""
@@ -844,6 +1115,14 @@ msgstr ""
 
 #: src/components/workflow/profile/DcNoteProfile.vue:79
 msgid "Debit Note Value"
+msgstr ""
+
+#: src/views/LedgerFull.vue:29
+msgid "Debit Only"
+msgstr ""
+
+#: src/components/Sidebar.vue:48 src/components/Sidebar.vue:33
+msgid "Debit/Credit Note"
 msgstr ""
 
 #: src/components/form/transaction/BillTable.vue:88
@@ -884,6 +1163,10 @@ msgstr ""
 msgid "Delete Contact"
 msgstr ""
 
+#: src/views/OrgProfile.vue:119
+msgid "Delete Organisation"
+msgstr ""
+
 #: src/components/BusinessProfile.vue:171
 msgid "Delete Product"
 msgstr ""
@@ -892,10 +1175,16 @@ msgstr ""
 msgid "Delete Service"
 msgstr ""
 
-#: src/components/workflow/profile/PsOrderProfile.vue:47
-msgid "Deliver At"
+#: src/components/form/EditUOM.vue:21
+msgid "Delete Unit"
+msgstr ""
+
 #: src/components/form/EditUser.vue:72
 msgid "Delete User"
+msgstr ""
+
+#: src/components/workflow/profile/PsOrderProfile.vue:47
+msgid "Deliver At"
 msgstr ""
 
 #: src/components/workflow/profile/DeliveryNoteProfile.vue:20
@@ -904,6 +1193,10 @@ msgstr ""
 
 #: src/components/workflow/profile/PsOrderProfile.vue:20
 msgid "Delivery Details"
+msgstr ""
+
+#: src/components/Sidebar.vue:54 src/components/Sidebar.vue:39
+msgid "Delivery Note"
 msgstr ""
 
 #: src/components/workflow/profile/DeliveryNoteProfile.vue:168
@@ -939,6 +1232,10 @@ msgstr ""
 msgid "Delivery Note Value"
 msgstr ""
 
+#: src/components/form/AddUOM.vue:51 src/components/form/EditUOM.vue:52
+msgid "Description"
+msgstr ""
+
 #: src/views/GodownEdit.vue:27 src/views/GodownEdit.vue:1
 msgid "Designation"
 msgstr ""
@@ -946,6 +1243,14 @@ msgstr ""
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:35
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:2
 msgid "Destination State"
+msgstr ""
+
+#: src/views/ProfitLoss.vue:37
+msgid "DIRECT EXPENSE"
+msgstr ""
+
+#: src/views/ProfitLoss.vue:75
+msgid "DIRECT INCOME"
 msgstr ""
 
 #: src/components/BusinessProfile.vue:71 src/components/BusinessProfile.vue:1
@@ -986,6 +1291,10 @@ msgstr ""
 msgid "Dispatch To"
 msgstr ""
 
+#: src/views/TrialBalance.vue:73 src/views/TrialBalance.vue:114
+msgid "Dr Balance"
+msgstr ""
+
 #: src/components/form/transaction_details/DcNoteDetails.vue:39
 #: src/components/form/transaction_details/DcNoteDetails.vue:89
 #: src/components/form/transaction_details/DcNoteDetails.vue:2
@@ -1000,7 +1309,14 @@ msgstr ""
 msgid "Dr Note No."
 msgstr ""
 
-#: src/views/BalanceSheet.vue:158 src/views/GodownEdit.vue:80
+#: src/components/GkIfsc.vue:55 src/views/BalanceSheet.vue:158
+#: src/views/CashFlow.vue:61 src/views/CategorywiseStockOnHand.vue:100
+#: src/views/CategorywiseStockOnHand.vue:153 src/views/CostCenter.vue:91
+#: src/views/CostCenterCreate.vue:38 src/views/CostCenterEdit.vue:59
+#: src/views/GodownEdit.vue:80 src/views/Ledger.vue:80
+#: src/views/LedgerFull.vue:98 src/views/LedgerFull.vue:146
+#: src/views/LedgerMonthly.vue:63 src/views/ProfitLoss.vue:31
+#: src/views/StockOnHand.vue:124 src/views/TrialBalance.vue:149
 msgid "Duplicate Entry"
 msgstr ""
 
@@ -1034,6 +1350,10 @@ msgstr ""
 msgid "Duplicate Entry! Please Check the Organisation Name"
 msgstr ""
 
+#: src/views/CloseBooks.vue:130
+msgid "Duplicate Financial Year"
+msgstr ""
+
 #: src/components/form/transaction/BillTable.vue:142
 #: src/components/workflow/profile/VoucherProfile.vue:39
 #: src/views/Budget.vue:30
@@ -1056,6 +1376,10 @@ msgstr ""
 msgid "Edit Budget Details"
 msgstr ""
 
+#: src/views/CostCenter.vue:118
+msgid "Edit Cost Center"
+msgstr ""
+
 #: src/components/Config.vue:39
 msgid "Edit Default"
 msgstr ""
@@ -1074,7 +1398,24 @@ msgstr ""
 
 #: src/components/ContactProfile.vue:24 src/components/ContactProfile.vue:1
 #: src/components/form/ContactItem.vue:57 src/components/form/ContactItem.vue:1
+#: src/views/OrgProfile.vue:115
 msgid "Email"
+msgstr ""
+
+#: src/views/ServerSetup.vue:15
+msgid "Enter Custom Server URL"
+msgstr ""
+
+#: src/views/Login.vue:167
+msgid "Enter the Answer"
+msgstr ""
+
+#: src/views/Login.vue:99
+msgid "Enter Username"
+msgstr ""
+
+#: src/views/Logs.vue:33 src/views/Logs.vue:42
+msgid "Error"
 msgstr ""
 
 #: src/components/form/ContactItem.vue:353 src/components/form/Godown.vue:203
@@ -1108,6 +1449,18 @@ msgstr ""
 msgid "Expected Receipt Date"
 msgstr ""
 
+#: src/views/TrialBalance.vue:48
+msgid "Extended"
+msgstr ""
+
+#: src/views/TrialBalance.vue:175
+msgid "Extended Trial Balance"
+msgstr ""
+
+#: src/views/Ledger.vue:65
+msgid "failed"
+msgstr ""
+
 #: src/views/GodownEdit.vue:155
 msgid "Failed to delete"
 msgstr ""
@@ -1121,12 +1474,25 @@ msgstr ""
 msgid "Failed to fetch categories"
 msgstr ""
 
+#: src/views/CostCenter.vue:51 src/views/Ledger.vue:54
+msgid "Failed to fetch cost center items"
+msgstr ""
+
+#: src/views/CategorywiseStockOnHand.vue:185 src/views/StockOnHand.vue:156
+msgid "Failed to get product stock report with status "
+msgstr ""
+
+#: src/views/ResetPassword.vue:169
+msgid "Failed with Status code "
+msgstr ""
+
 #: src/components/BusinessProfile.vue:161
 msgid "Failure"
 msgstr ""
 
 #: src/components/ContactProfile.vue:29 src/components/ContactProfile.vue:1
 #: src/components/form/ContactItem.vue:65 src/components/form/ContactItem.vue:1
+#: src/views/OrgProfile.vue:245
 msgid "Fax"
 msgstr ""
 
@@ -1185,7 +1551,7 @@ msgstr ""
 #: src/components/BusinessProfile.vue:470
 #: src/components/form/BusinessItem.vue:443
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:248
-#: src/components/form/transaction_details/InvoiceDetails.vue:337
+#: src/components/form/transaction_details/InvoiceDetails.vue:338
 #: src/components/form/transaction_details/PsOrderDetails.vue:195
 #: src/components/form/transaction_details/TransferNoteDetails.vue:223
 msgid "Fetch Godowns Failed!"
@@ -1205,7 +1571,7 @@ msgstr ""
 
 #: src/components/form/transaction_details/CashMemoDetails.vue:162
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:240
-#: src/components/form/transaction_details/InvoiceDetails.vue:329
+#: src/components/form/transaction_details/InvoiceDetails.vue:330
 #: src/components/form/transaction_details/PsOrderDetails.vue:187
 #: src/components/form/transaction_details/TransferNoteDetails.vue:215
 #: src/views/Transactions/DeliveryNote.vue:250
@@ -1239,7 +1605,7 @@ msgstr ""
 #: src/components/form/transaction/ShipDetails.vue:91
 #: src/components/form/transaction_details/CashMemoDetails.vue:154
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:256
-#: src/components/form/transaction_details/InvoiceDetails.vue:321
+#: src/components/form/transaction_details/InvoiceDetails.vue:322
 #: src/components/form/transaction_details/PsOrderDetails.vue:179
 #: src/components/form/transaction_details/TransferNoteDetails.vue:231
 #: src/views/Transactions/DeliveryNote.vue:242
@@ -1302,16 +1668,27 @@ msgstr ""
 msgid "Fetched Budget Details!"
 msgstr ""
 
-#: src/views/Categories.vue:15 src/views/Categories.vue:3
-msgid "Fetching Categories ..."
+#: src/views/UOM.vue:19 src/views/UOM.vue:3
+msgid "Fetching All Units ..."
 msgstr ""
 
-#: src/views/Accounts.vue:11 src/views/Workflow.vue:99
 #: src/views/UserManagement.vue:13 src/views/UserManagement.vue:3
 msgid "Fetching All Users ..."
 msgstr ""
 
-#: src/views/Workflow.vue:99
+#: src/views/Categories.vue:15 src/views/Categories.vue:3
+msgid "Fetching Categories ..."
+msgstr ""
+
+#: src/views/CostCenter.vue:13 src/views/CostCenter.vue:3
+msgid "Fetching List..."
+msgstr ""
+
+#: src/views/Logs.vue:13 src/views/Logs.vue:3
+msgid "Fetching Logs ..."
+msgstr ""
+
+#: src/views/Accounts.vue:11 src/views/Workflow.vue:99
 msgid "Filter By"
 msgstr ""
 
@@ -1320,7 +1697,19 @@ msgid "Financial Details"
 msgstr ""
 
 #: src/views/CreateOrganisation.vue:23 src/views/CreateOrganisation.vue:1
+#: src/views/SelectOrg.vue:87
 msgid "Financial Year"
+msgstr ""
+
+#: src/views/Login.vue:30
+msgid "Forgot Password?"
+msgstr ""
+
+#: src/views/About.vue:13
+msgid ""
+"Founded and Developed by Digital Freedom Foundation under the leadership\n"
+"        of Mr. Krishnakant Mane, Currently supported by Accion Labs Pvt. Ltd as\n"
+"        a social contribution to the Open Source Community."
 msgstr ""
 
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:315
@@ -1328,7 +1717,10 @@ msgstr ""
 msgid "Free Replacement"
 msgstr ""
 
+#: src/views/CloseBooks.vue:95 src/views/CloseBooks.vue:235
 #: src/views/CreateOrganisation.vue:29 src/views/CreateOrganisation.vue:1
+#: src/views/Ledger.vue:83 src/views/ProfitLoss.vue:83
+#: src/views/Registers.vue:41 src/views/Registers.vue:111
 msgid "From"
 msgstr ""
 
@@ -1340,7 +1732,14 @@ msgid "From Godown"
 msgstr ""
 
 #: src/views/BalanceSheet.vue:15 src/views/BankRecon.vue:24
+#: src/views/CashFlow.vue:20 src/views/CategorywiseStockOnHand.vue:28
+#: src/views/ProfitLoss.vue:17 src/views/Registers.vue:29
+#: src/views/StockOnHand.vue:26 src/views/TrialBalance.vue:17
 msgid "Get Details"
+msgstr ""
+
+#: src/views/ResetPassword.vue:27 src/views/ResetPassword.vue:6
+msgid "Getting Security Question"
 msgstr ""
 
 #: src/views/Settings.vue:47 src/views/Settings.vue:56
@@ -1349,9 +1748,20 @@ msgstr ""
 
 #: src/App.vue:15 src/components/Sidebar.vue:10 src/components/Sidebar.vue:4
 msgid "GNUKhata"
-msgstr "गणूखता"
+msgstr ""
+
+#: src/views/About.vue:8
+msgid ""
+"GNUKhata is A Community Driven Free &amp; Open Source Accounting\n"
+"          Software"
+msgstr ""
+
+#: src/views/ServerSetup.vue:35
+msgid "GNUKhata Server Setup"
+msgstr ""
 
 #: src/components/workflow/profile/InvoiceProfile.vue:125
+#: src/views/CategorywiseStockOnHand.vue:127 src/views/StockOnHand.vue:127
 msgid "Godown"
 msgstr ""
 
@@ -1365,6 +1775,14 @@ msgstr ""
 
 #: src/views/GodownEdit.vue:58
 msgid "Godown Info Updated Successfully"
+msgstr ""
+
+#: src/views/CategorywiseStockOnHand.vue:21 src/views/StockOnHand.vue:20
+msgid "Godown Wise Stock On Hand Report"
+msgstr ""
+
+#: src/components/Sidebar.vue:122 src/components/Sidebar.vue:107
+msgid "Godowns"
 msgstr ""
 
 #: src/components/BusinessProfile.vue:135 src/components/BusinessProfile.vue:2
@@ -1382,10 +1800,23 @@ msgstr ""
 msgid "Grand Total"
 msgstr ""
 
+#: src/views/TrialBalance.vue:40
+msgid "Gross"
+msgstr ""
+
+#: src/views/ProfitLoss.vue:47
+msgid "Gross Profit C/F"
+msgstr ""
+
+#: src/views/TrialBalance.vue:155
+msgid "Gross Trial Balance"
+msgstr ""
+
 #: src/components/form/Account.vue:17 src/components/form/Account.vue:1
 #: src/views/AccountCreate.vue:13 src/views/AccountCreate.vue:1
 #: src/views/AccountEdit.vue:16 src/views/AccountEdit.vue:1
 #: src/views/Accounts.vue:16 src/views/Accounts.vue:1
+#: src/views/TrialBalance.vue:46 src/views/TrialBalance.vue:84
 msgid "Group"
 msgstr ""
 
@@ -1399,7 +1830,13 @@ msgid "GST Account"
 msgstr ""
 
 #: src/components/workflow/profile/CashMemoProfile.vue:25
+#: src/views/OrgProfile.vue:96 src/views/OrgProfile.vue:400
+#: src/views/OrgProfile.vue:648
 msgid "GSTIN"
+msgstr ""
+
+#: src/components/Sidebar.vue:183 src/components/Sidebar.vue:168
+msgid "Help"
 msgstr ""
 
 #: src/views/BalanceSheet.vue:32
@@ -1412,6 +1849,32 @@ msgstr ""
 msgid "IFSC"
 msgstr ""
 
+#: src/views/OrgProfile.vue:279
+msgid "IFSC Code"
+msgstr ""
+
+#: src/components/GkIfsc.vue:65
+msgid "IFSC Details"
+msgstr ""
+
+#: src/views/OrgProfile.vue:61
+msgid "Image"
+msgstr ""
+
+#: src/views/ProfitLoss.vue:72
+msgid ""
+"Income & Expenditure Account / Profit & Loss Account\n"
+"This report can be viewed for any period"
+msgstr ""
+
+#: src/views/ProfitLoss.vue:51
+msgid "INDIRECT EXPENSE"
+msgstr ""
+
+#: src/views/ProfitLoss.vue:87
+msgid "INDIRECT INCOME"
+msgstr ""
+
 #: src/components/form/BudgetItem.vue:58
 msgid "Inflow"
 msgstr ""
@@ -1421,7 +1884,14 @@ msgstr ""
 msgid "Info"
 msgstr ""
 
-#: src/views/BalanceSheet.vue:182 src/views/GodownEdit.vue:104
+#: src/components/GkIfsc.vue:79 src/views/BalanceSheet.vue:182
+#: src/views/CashFlow.vue:85 src/views/CategorywiseStockOnHand.vue:177
+#: src/views/CostCenter.vue:115 src/views/CostCenterCreate.vue:62
+#: src/views/CostCenterEdit.vue:83 src/views/GodownEdit.vue:104
+#: src/views/Ledger.vue:104 src/views/LedgerFull.vue:122
+#: src/views/LedgerFull.vue:170 src/views/LedgerMonthly.vue:87
+#: src/views/ProfitLoss.vue:55 src/views/StockOnHand.vue:148
+#: src/views/TrialBalance.vue:173
 msgid "Integrity error"
 msgstr ""
 
@@ -1438,6 +1908,26 @@ msgstr ""
 #: src/components/form/transaction_details/InvoiceDetails.vue:17
 #: src/components/form/transaction_details/InvoiceDetails.vue:1
 msgid "Inv. #"
+msgstr ""
+
+#: src/views/ResetPassword.vue:159
+msgid "Invalid answer, Please try again"
+msgstr ""
+
+#: src/views/CloseBooks.vue:144
+msgid "Invalid Data"
+msgstr ""
+
+#: src/components/GkIfsc.vue:67
+msgid "Invalid IFSC Code"
+msgstr ""
+
+#: src/components/Sidebar.vue:119 src/components/Sidebar.vue:104
+msgid "Inventory"
+msgstr ""
+
+#: src/components/Sidebar.vue:45 src/components/Sidebar.vue:30
+msgid "Invoice"
 msgstr ""
 
 #: src/components/form/transaction/Comments.vue:4
@@ -1472,8 +1962,7 @@ msgid "Issuer"
 msgstr ""
 
 #: src/components/form/BusinessItem.vue:523 src/views/Billwise.vue:304
-msgid ""
-"Issues with fetching %{preloadErrorList} Please try again or Contact Admin"
+msgid "Issues with fetching %{preloadErrorList} Please try again or Contact Admin"
 msgstr ""
 
 #: src/components/form/transaction/BillTable.vue:145
@@ -1490,6 +1979,14 @@ msgstr ""
 msgid "JSON validation error! Fix your JSON structure and try again."
 msgstr ""
 
+#: src/components/Sidebar.vue:163 src/components/Sidebar.vue:148
+msgid "Ledger"
+msgstr ""
+
+#: src/views/LedgerFull.vue:6 src/views/LedgerMonthly.vue:5
+msgid "Ledger Account:"
+msgstr ""
+
 #: src/views/Workflow.vue:71
 msgid "List Settings"
 msgstr ""
@@ -1498,8 +1995,24 @@ msgstr ""
 msgid "Logged in Successfully!"
 msgstr ""
 
+#: src/views/Login.vue:56
+msgid "Login"
+msgstr ""
+
 #: src/views/CreateOrganisation.vue:176 src/views/CreateOrganisation.vue:187
 msgid "Login Error!"
+msgstr ""
+
+#: src/views/Login.vue:71
+msgid "Login To %{orgNameDisplay}"
+msgstr ""
+
+#: src/components/Sidebar.vue:89 src/components/Sidebar.vue:74
+msgid "Manage Users"
+msgstr ""
+
+#: src/components/GkIfsc.vue:198
+msgid "MICR"
 msgstr ""
 
 #: src/components/form/transaction/PaymentDetails.vue:15
@@ -1513,25 +2026,36 @@ msgstr ""
 msgid "Mode of Transport"
 msgstr ""
 
+#: src/views/LedgerMonthly.vue:16
+msgid "Month"
+msgstr ""
+
+#: src/views/Ledger.vue:18
+msgid "Monthly Ledger"
+msgstr ""
+
 #: src/components/form/BusinessItem.vue:79
 #: src/components/form/BusinessItem.vue:1
 msgid "MRP"
 msgstr ""
 
 #: src/components/ContactProfile.vue:14 src/components/ContactProfile.vue:1
-#: src/components/form/BusinessItem.vue:25
+#: src/components/form/AddUOM.vue:33 src/components/form/AddUser.vue:24
+#: src/components/form/AddUser.vue:58 src/components/form/BusinessItem.vue:25
 #: src/components/form/BusinessItem.vue:1
 #: src/components/form/ContactItem.vue:28
 #: src/components/form/ContactItem.vue:82 src/components/form/ContactItem.vue:1
-#: src/components/form/Godown.vue:14 src/components/form/Godown.vue:1
-#: src/components/form/AddUser.vue:24 src/components/form/AddUser.vue:58
-#: src/components/form/EditUser.vue:33 src/components/form/EditUser.vue:64
+#: src/components/form/EditUOM.vue:34 src/components/form/EditUser.vue:33
+#: src/components/form/EditUser.vue:64 src/components/form/Godown.vue:14
+#: src/components/form/Godown.vue:1
 #: src/components/form/transaction/PartyDetails.vue:35
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:23
 #: src/components/form/transaction/ShipDetails.vue:1
+#: src/views/CostCenterCreate.vue:28 src/views/CostCenterEdit.vue:28
 #: src/views/CreateOrganisation.vue:10 src/views/CreateOrganisation.vue:1
 #: src/views/GodownEdit.vue:6 src/views/GodownEdit.vue:1
+#: src/views/OrgProfile.vue:82 src/views/OrgProfile.vue:297
 msgid "Name"
 msgstr ""
 
@@ -1551,8 +2075,25 @@ msgstr ""
 msgid "Narration: %{narration}"
 msgstr ""
 
-#: src/components/form/BudgetItem.vue:96
+#: src/views/TrialBalance.vue:32
+msgid "Net"
+msgstr ""
+
+#: src/components/form/BudgetItem.vue:96 src/views/ProfitLoss.vue:55
 msgid "Net Profit"
+msgstr ""
+
+#: src/views/TrialBalance.vue:135
+msgid "Net Trial Balance"
+msgstr ""
+
+#: src/views/CloseBooks.vue:227
+msgid "New Financial Year:"
+msgstr ""
+
+#: src/components/form/ChangePwd.vue:49 src/components/form/EditUser.vue:246
+#: src/views/ResetPassword.vue:168
+msgid "New Password"
 msgstr ""
 
 #: src/components/form/transaction/BillTable.vue:143
@@ -1565,10 +2106,15 @@ msgstr ""
 msgid "No Outstanding Invoices To Be Adjusted!"
 msgstr ""
 
-#: src/views/BalanceSheet.vue:176 src/views/GodownEdit.vue:98
+#: src/components/GkIfsc.vue:73 src/views/BalanceSheet.vue:176
+#: src/views/CashFlow.vue:79 src/views/CategorywiseStockOnHand.vue:171
+#: src/views/CostCenter.vue:109 src/views/CostCenterCreate.vue:56
+#: src/views/CostCenterEdit.vue:77 src/views/GodownEdit.vue:98
+#: src/views/Ledger.vue:98 src/views/LedgerFull.vue:116
+#: src/views/LedgerFull.vue:164 src/views/LedgerMonthly.vue:81
+#: src/views/ProfitLoss.vue:49 src/views/StockOnHand.vue:142
+#: src/views/TrialBalance.vue:167
 msgid "No Privilege"
-#: src/components/form/EditUser.vue:246
-msgid "New Password"
 msgstr ""
 
 #. %{memoNo} is a variable, translation is not required for it. Enter it, as it is while translation.
@@ -1597,6 +2143,14 @@ msgstr ""
 msgid "No."
 msgstr ""
 
+#: src/views/LedgerMonthly.vue:34
+msgid "No. Of Credit Records"
+msgstr ""
+
+#: src/views/LedgerMonthly.vue:25
+msgid "No. Of Debit Records"
+msgstr ""
+
 #: src/components/form/transaction/TransportDetails.vue:15
 #: src/components/form/transaction/TransportDetails.vue:1
 msgid "No. of packages"
@@ -1607,6 +2161,10 @@ msgstr ""
 #: src/components/form/transaction/BillTable.vue:147
 #: src/components/workflow/profile/TransferNoteProfile.vue:74
 msgid "No. of Packages"
+msgstr ""
+
+#: src/views/LedgerMonthly.vue:38
+msgid "No. of Unlocked Transactions"
 msgstr ""
 
 #: src/components/form/transaction/PaymentDetails.vue:79
@@ -1626,7 +2184,7 @@ msgstr ""
 #: src/components/form/Account.vue:52 src/components/form/Account.vue:1
 #: src/components/form/BudgetItem.vue:54 src/views/AccountCreate.vue:45
 #: src/views/AccountCreate.vue:1 src/views/AccountEdit.vue:52
-#: src/views/AccountEdit.vue:1
+#: src/views/AccountEdit.vue:1 src/views/TrialBalance.vue:99
 msgid "Opening Balance"
 msgstr ""
 
@@ -1634,6 +2192,14 @@ msgstr ""
 #: src/components/form/BusinessItem.vue:39
 #: src/components/form/BusinessItem.vue:1
 msgid "Opening Stock"
+msgstr ""
+
+#: src/views/SelectOrg.vue:62
+msgid "Organisation"
+msgstr ""
+
+#: src/components/Sidebar.vue:85 src/components/Sidebar.vue:70
+msgid "Organisation Profile"
 msgstr ""
 
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:34
@@ -1662,27 +2228,45 @@ msgstr ""
 msgid "Paid By Cash"
 msgstr ""
 
+#: src/views/OrgProfile.vue:358
+msgid "PAN"
+msgstr ""
+
 #: src/views/CategoryCreate.vue:8 src/views/CategoryCreate.vue:1
 #: src/views/CategoryEdit.vue:8 src/views/CategoryEdit.vue:1
 msgid "Parent Category"
 msgstr ""
 
-#: src/views/Budget.vue:53
+#: src/views/Budget.vue:53 src/views/CashFlow.vue:23 src/views/CashFlow.vue:37
+#: src/views/LedgerFull.vue:45 src/views/ProfitLoss.vue:31
+#: src/views/ProfitLoss.vue:69
 msgid "Particulars"
 msgstr ""
 
-#: src/views/CreateOrganisation.vue:99 src/views/CreateOrganisation.vue:1
 #: src/components/form/AddUser.vue:227 src/views/CreateOrganisation.vue:99
-#: src/views/CreateOrganisation.vue:1
+#: src/views/CreateOrganisation.vue:1 src/views/Login.vue:107
+#: src/views/Login.vue:117
 msgid "Password"
+msgstr ""
+
+#: src/views/ResetPassword.vue:141
+msgid "Password Change Successful, Memorize it well this time 😉"
 msgstr ""
 
 #: src/views/CreateOrganisation.vue:118 src/views/CreateOrganisation.vue:1
 msgid "Password Recovery"
 msgstr ""
 
-#: src/components/form/AddUser.vue:48
+#: src/components/form/AddUser.vue:48 src/components/form/ChangePwd.vue:13
 msgid "Passwords do not match"
+msgstr ""
+
+#: src/views/ResetPassword.vue:49
+msgid "passwords does not match"
+msgstr ""
+
+#: src/views/ResetPassword.vue:46
+msgid "Passwords Match"
 msgstr ""
 
 #: src/components/form/transaction/PaymentDetails.vue:4
@@ -1704,8 +2288,13 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
+#: src/views/LedgerFull.vue:8
+msgid "Period:"
+msgstr ""
+
 #: src/components/ContactProfile.vue:19 src/components/ContactProfile.vue:1
 #: src/components/form/ContactItem.vue:61 src/components/form/ContactItem.vue:1
+#: src/views/OrgProfile.vue:224
 msgid "Phone"
 msgstr ""
 
@@ -1722,6 +2311,7 @@ msgid "Pin Code:"
 msgstr ""
 
 #: src/components/ContactProfile.vue:56 src/components/ContactProfile.vue:1
+#: src/views/OrgProfile.vue:208
 msgid "Pincode"
 msgstr ""
 
@@ -1749,6 +2339,10 @@ msgstr ""
 #. %{outType} is a variable, translation is not required for it. Enter it, as it is while translation.
 #: src/components/form/BudgetItem.vue:128
 msgid "Please enter atleast 1 budget amount for %{outType}!"
+msgstr ""
+
+#: src/views/CloseBooks.vue:137
+msgid "Please login to access"
 msgstr ""
 
 #: src/components/form/Account.vue:547
@@ -1783,7 +2377,12 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
-#: src/components/form/BusinessItem.vue:16
+#: src/views/CloseBooks.vue:154
+msgid "Privilige Error"
+msgstr ""
+
+#: src/components/form/BusinessItem.vue:16 src/views/StockOnHand.vue:27
+#: src/views/StockOnHand.vue:46
 msgid "Product"
 msgstr ""
 
@@ -1791,20 +2390,37 @@ msgstr ""
 msgid "Product does not exist"
 msgstr ""
 
+#: src/views/CategorywiseStockOnHand.vue:29
+msgid "Product Name"
+msgstr ""
+
+#: src/components/Sidebar.vue:139 src/components/Sidebar.vue:124
+msgid "Product Register"
+msgstr ""
+
+#: src/components/Sidebar.vue:154 src/components/Sidebar.vue:139
 #: src/components/form/BudgetItem.vue:24 src/views/Budget.vue:17
 msgid "Profit & Loss"
+msgstr ""
+
+#: src/views/ProfitLoss.vue:70
+msgid "Profit & Loss Statement"
 msgstr ""
 
 #: src/views/BalanceSheet.vue:97 src/views/BalanceSheet.vue:1
 msgid "Property and Assets"
 msgstr ""
 
+#: src/components/GkIfsc.vue:85
+msgid "Proxy Server Error"
+msgstr ""
+
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:317
 #: src/components/form/transaction_details/TransferNoteDetails.vue:297
+#: src/views/ProfitLoss.vue:41 src/views/Registers.vue:11
 #: src/views/Transactions/CashMemo.vue:10
 #: src/views/Transactions/DebitCreditNote.vue:14
 #: src/views/Transactions/DeliveryNote.vue:13
-#: src/views/Transactions/Invoice.vue:18
 #: src/views/Transactions/PurchaseSaleOrder.vue:14
 msgid "Purchase"
 msgstr ""
@@ -1827,6 +2443,10 @@ msgstr ""
 msgid "Purchase Rejection"
 msgstr ""
 
+#: src/components/Sidebar.vue:57 src/components/Sidebar.vue:42
+msgid "Purchase/Sales Order"
+msgstr ""
+
 #: src/components/form/transaction_details/DcNoteDetails.vue:60
 #: src/components/form/transaction_details/DcNoteDetails.vue:1
 msgid "Purpose"
@@ -1847,9 +2467,14 @@ msgstr ""
 msgid "Qty Debited"
 msgstr ""
 
-#: src/components/form/AddUser.vue:272 src/components/form/EditUser.vue:263
-#: src/views/CreateOrganisation.vue:122 src/views/CreateOrganisation.vue:1
+#: src/components/form/AddUser.vue:272 src/components/form/ChangePwd.vue:91
+#: src/components/form/EditUser.vue:263 src/views/CreateOrganisation.vue:122
+#: src/views/CreateOrganisation.vue:1 src/views/Login.vue:141
 msgid "Question"
+msgstr ""
+
+#: src/components/Sidebar.vue:176 src/components/Sidebar.vue:161
+msgid "R1 Report"
 msgstr ""
 
 #: src/components/form/transaction/TransportDetails.vue:100
@@ -1871,6 +2496,14 @@ msgstr ""
 
 #: src/components/form/transaction/BillTable.vue:150
 msgid "Rate ₹"
+msgstr ""
+
+#: src/views/CashFlow.vue:44
+msgid ""
+"Receipt & Payment Account or Cash Flow\n"
+"This report can be viewed for any period.\n"
+"Drill Down facility is available. You can double click or press enter key on any row to see the ledger for that account.\n"
+"All users can view this report"
 msgstr ""
 
 #: src/components/form/transaction/TransportDetails.vue:32
@@ -1915,15 +2548,24 @@ msgstr ""
 msgid "Rejected Value"
 msgstr ""
 
+#: src/components/Sidebar.vue:60 src/components/Sidebar.vue:45
+msgid "Rejection Note"
+msgstr ""
+
 #: src/components/form/transaction_details/RejectionNoteDetails.vue:6
 #: src/components/workflow/profile/RejectionNoteProfile.vue:16
 msgid "Rejection Note Details"
 msgstr ""
 
+#: src/components/Sidebar.vue:135 src/components/Sidebar.vue:120
+msgid "Reports"
+msgstr ""
+
 #: src/components/form/Account.vue:63 src/components/form/BudgetItem.vue:156
 #: src/components/form/BusinessItem.vue:172
-#: src/components/form/ContactItem.vue:106 src/views/AccountCreate.vue:65
-#: src/views/AccountEdit.vue:75 src/views/Transactions/CashMemo.vue:61
+#: src/components/form/ContactItem.vue:106 src/components/form/Godown.vue:50
+#: src/views/AccountCreate.vue:65 src/views/AccountEdit.vue:75
+#: src/views/Transactions/CashMemo.vue:61
 #: src/views/Transactions/DebitCreditNote.vue:70
 #: src/views/Transactions/DeliveryNote.vue:65
 #: src/views/Transactions/Invoice.vue:96
@@ -1931,6 +2573,10 @@ msgstr ""
 #: src/views/Transactions/RejectionNote.vue:61
 #: src/views/Transactions/TransferNote.vue:27
 msgid "Reset"
+msgstr ""
+
+#: src/views/ResetPassword.vue:54 src/views/ResetPassword.vue:30
+msgid "Reset Password"
 msgstr ""
 
 #: src/components/form/transaction/TransportDetails.vue:42
@@ -1959,15 +2605,27 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
+#: src/views/CloseBooks.vue:51 src/views/CloseBooks.vue:84
+#: src/views/CloseBooks.vue:2
+msgid "Roll Over"
+msgstr ""
+
+#: src/views/CloseBooks.vue:122
+msgid "Roll Over Complete"
+msgstr ""
+
+#: src/views/CloseBooks.vue:87
+msgid "Roll Over is done for this financial year"
+msgstr ""
+
 #: src/components/form/transaction/TotalTable.vue:56
 msgid "Round Off Total Value"
 msgstr ""
 
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:316
-#: src/views/Transactions/CashMemo.vue:9
+#: src/views/Registers.vue:12 src/views/Transactions/CashMemo.vue:9
 #: src/views/Transactions/DebitCreditNote.vue:11
 #: src/views/Transactions/DeliveryNote.vue:10
-#: src/views/Transactions/Invoice.vue:17
 #: src/views/Transactions/PurchaseSaleOrder.vue:11
 msgid "Sale"
 msgstr ""
@@ -1995,6 +2653,14 @@ msgstr ""
 msgid "Sale Rejection"
 msgstr ""
 
+#: src/views/ProfitLoss.vue:79
+msgid "SALES"
+msgstr ""
+
+#: src/views/ProfitLoss.vue:83
+msgid "Sales A/C"
+msgstr ""
+
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:318
 #: src/components/form/transaction_details/TransferNoteDetails.vue:298
 msgid "Sample"
@@ -2012,25 +2678,83 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
+#: src/views/ServerSetup.vue:23
+msgid "Save & Continue"
+msgstr ""
+
 #: src/components/BusinessProfile.vue:168 src/components/ContactProfile.vue:126
 #: src/components/form/transaction/PartyDetails.vue:83
-#: src/views/Transactions/DeliveryNote.vue:77
+#: src/views/OrgProfile.vue:116 src/views/Transactions/DeliveryNote.vue:77
 #: src/views/Transactions/Invoice.vue:108
 msgid "Save Changes"
 msgstr ""
 
-#: src/views/Billwise.vue:141
-msgid "Selected Bills were successfully adjusted"
+#: src/views/CategorywiseStockOnHand.vue:134 src/views/StockOnHand.vue:132
+msgid "Search / Select a godown"
+msgstr ""
+
+#: src/views/CategorywiseStockOnHand.vue:75
+msgid "Search / Select sub category"
+msgstr ""
+
+#: src/views/CostCenter.vue:47
+msgid "Search Cost Centers"
+msgstr ""
+
+#: src/views/LedgerFull.vue:128
+msgid "Search Ledger"
+msgstr ""
+
+#: src/views/CategorywiseStockOnHand.vue:189 src/views/StockOnHand.vue:180
+msgid "Search Products"
+msgstr ""
+
+#: src/views/Registers.vue:196
+msgid "search Register"
+msgstr ""
+
+#: src/views/TrialBalance.vue:195
+msgid "Search trial balance"
+msgstr ""
+
+#: src/views/UOM.vue:47
+msgid "Search Units"
+msgstr ""
+
 #: src/views/UserManagement.vue:51
 msgid "Search Users"
+msgstr ""
+
+#: src/views/ResetPassword.vue:111
+msgid "Security Question"
 msgstr ""
 
 #: src/components/form/AddUser.vue:23 src/components/form/EditUser.vue:32
 msgid "Select"
 msgstr ""
 
+#: src/views/Ledger.vue:119
+msgid "select Cost Center"
+msgstr ""
+
 #: src/components/form/AddUser.vue:19 src/components/form/EditUser.vue:27
 msgid "Select Godowns"
+msgstr ""
+
+#: src/views/ResetPassword.vue:45
+msgid "Select Organisation"
+msgstr ""
+
+#: src/views/StockOnHand.vue:54
+msgid "Select Product"
+msgstr ""
+
+#: src/components/form/AddUOM.vue:75 src/components/form/EditUOM.vue:76
+msgid "Select Unit"
+msgstr ""
+
+#: src/views/Billwise.vue:141
+msgid "Selected Bills were successfully adjusted"
 msgstr ""
 
 #: src/components/form/transaction/PartyDetails.vue:7
@@ -2041,6 +2765,10 @@ msgstr ""
 
 #: src/components/form/BusinessItem.vue:19
 msgid "Service"
+msgstr ""
+
+#: src/views/OrgProfile.vue:384
+msgid "ServiceTax Number"
 msgstr ""
 
 #: src/components/form/Account.vue:43
@@ -2055,10 +2783,33 @@ msgstr ""
 msgid "Shipping Details"
 msgstr ""
 
+#: src/views/Ledger.vue:34
+msgid "Show"
+msgstr ""
+
+#: src/views/Ledger.vue:35
+msgid ""
+"Single\n"
+"Select name of the account to be viewed. The default option is Monthly Ledger.\n"
+"Press Space Bar to view it or press Enter or Tab key to escape it and view report for any period.\n"
+"The report could be viewed with or without narration. This report gives Date, V. No., Status, Type of Voucher, Name of the corresponding account, Narration, Amount and running balance of account. The locked records are marked by a sign of *** in the Status column. Drill Down facility is available where you can double click or press enter key on any transaction to view it and/or modify it. After any modification the ledger report immediately reflects the chnages. It can be viewed in entirety or for a Project or Cost Center. You can view only Debit transactions or Credit Transactions of a Ledger account. Dual Ledgers\n"
+"When a Ledger Account appears on the screen, press Shift + Alt + l to view another Ledger Account simultaneously. Select another Ledger account, choose period and press Enter. You can view the same account side by side but for a different period. Drill Down facility is available for both the accounts. Each Ledger Account of the dual ledgers has a separate Quick Search facility. All users can view this report. This report is unique to GNUKhata."
+msgstr ""
+
+#: src/components/Sidebar.vue:193 src/components/Sidebar.vue:178
+#: src/views/About.vue:25
+msgid "Source Code"
+msgstr ""
+
+#: src/views/TrialBalance.vue:27 src/views/TrialBalance.vue:91
+msgid "Sr. No."
+msgstr ""
+
 #: src/components/ContactProfile.vue:51 src/components/ContactProfile.vue:1
+#: src/components/GkIfsc.vue:168 src/components/form/AddUser.vue:25
 #: src/components/form/ContactItem.vue:37 src/components/form/ContactItem.vue:1
-#: src/components/form/Godown.vue:18 src/components/form/Godown.vue:1
-#: src/components/form/AddUser.vue:25 src/components/form/EditUser.vue:34
+#: src/components/form/EditUser.vue:34 src/components/form/Godown.vue:18
+#: src/components/form/Godown.vue:1
 #: src/components/form/transaction/PartyDetails.vue:62
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:40
@@ -2070,12 +2821,22 @@ msgstr ""
 #: src/components/form/transaction_details/PsOrderDetails.vue:53
 #: src/components/form/transaction_details/PsOrderDetails.vue:1
 #: src/views/GodownEdit.vue:11 src/views/GodownEdit.vue:1
+#: src/views/OrgProfile.vue:174 src/views/OrgProfile.vue:634
 msgid "State"
+msgstr ""
+
+#: src/views/LedgerFull.vue:37
+msgid "Status"
 msgstr ""
 
 #: src/components/form/BusinessItem.vue:34
 #: src/components/form/BusinessItem.vue:1
 msgid "Stock"
+msgstr ""
+
+#: src/components/Sidebar.vue:148 src/components/Sidebar.vue:133
+#: src/views/StockOnHand.vue:34
+msgid "Stock On Hand"
 msgstr ""
 
 #: src/components/form/transaction/BillTable.vue:61
@@ -2087,9 +2848,21 @@ msgstr ""
 msgid "Street"
 msgstr ""
 
+#: src/views/CategorywiseStockOnHand.vue:65
+msgid "Sub Category"
+msgstr ""
+
 #: src/components/form/Account.vue:21 src/components/form/Account.vue:1
 #: src/views/Accounts.vue:22 src/views/Accounts.vue:1
 msgid "Sub Group"
+msgstr ""
+
+#: src/components/form/EditUOM.vue:68
+msgid "Sub Unit of"
+msgstr ""
+
+#: src/components/form/AddUOM.vue:67
+msgid "Sub Unit Of"
 msgstr ""
 
 #: src/views/AccountCreate.vue:17 src/views/AccountCreate.vue:1
@@ -2109,6 +2882,7 @@ msgstr ""
 
 #: src/components/BusinessProfile.vue:140
 #: src/components/workflow/profile/TransferNoteProfile.vue:116
+#: src/views/CloseBooks.vue:123 src/views/ResetPassword.vue:145
 msgid "Success"
 msgstr ""
 
@@ -2145,6 +2919,10 @@ msgstr ""
 msgid "Supply Date."
 msgstr ""
 
+#: src/views/OrgProfile.vue:351
+msgid "Tax Details"
+msgstr ""
+
 #: src/views/Settings.vue:34 src/views/Settings.vue:1
 msgid "Tax Mode"
 msgstr ""
@@ -2171,16 +2949,33 @@ msgid "Terms"
 msgstr ""
 
 #: src/components/Config.vue:194
-msgid ""
-"The Configuration JSON entered could not be parsed, please provide a valid "
-"JSON"
+msgid "The Configuration JSON entered could not be parsed, please provide a valid JSON"
+msgstr ""
+
+#: src/views/TrialBalance.vue:177
+msgid "The extended version shows all gross & net trial balances with Opening Balances"
+msgstr ""
+
+#: src/views/TrialBalance.vue:157
+msgid "The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances"
+msgstr ""
+
+#: src/views/TrialBalance.vue:137
+msgid "The Net Trial Balance will provide the closing balances (or current balance as on selected end date)"
 msgstr ""
 
 #: src/components/form/Account.vue:91
 msgid "This is a default account for %{groupName}."
 msgstr ""
 
+#: src/views/Registers.vue:43
+msgid "to"
+msgstr ""
+
+#: src/views/CloseBooks.vue:118 src/views/CloseBooks.vue:257
 #: src/views/CreateOrganisation.vue:61 src/views/CreateOrganisation.vue:1
+#: src/views/Ledger.vue:96 src/views/ProfitLoss.vue:97
+#: src/views/Registers.vue:127
 msgid "To"
 msgstr ""
 
@@ -2203,6 +2998,7 @@ msgstr ""
 #: src/components/workflow/profile/InvoiceProfile.vue:2
 #: src/components/workflow/profile/VoucherProfile.vue:19
 #: src/components/workflow/profile/VoucherProfile.vue:1
+#: src/views/ProfitLoss.vue:59 src/views/ProfitLoss.vue:95
 msgid "Total"
 msgstr ""
 
@@ -2223,6 +3019,14 @@ msgstr ""
 msgid "Total Adjusted"
 msgstr ""
 
+#: src/views/TrialBalance.vue:109
+msgid "Total Crs"
+msgstr ""
+
+#: src/views/TrialBalance.vue:104
+msgid "Total Drs"
+msgstr ""
+
 #: src/components/form/BudgetItem.vue:92
 msgid "Total Expense"
 msgstr ""
@@ -2239,6 +3043,14 @@ msgstr ""
 msgid "Total Income"
 msgstr ""
 
+#: src/views/StockOnHand.vue:32
+msgid "Total Inward Qty"
+msgstr ""
+
+#: src/views/StockOnHand.vue:37
+msgid "Total Outward Qty"
+msgstr ""
+
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:27
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
 #: src/components/form/transaction_details/RejectionNoteDetails.vue:37
@@ -2246,8 +3058,16 @@ msgstr ""
 msgid "Transaction Type"
 msgstr ""
 
+#: src/components/Sidebar.vue:35 src/components/Sidebar.vue:20
+msgid "Transactions"
+msgstr ""
+
 #: src/components/workflow/profile/TransferNoteProfile.vue:8
 msgid "Transfer From"
+msgstr ""
+
+#: src/components/Sidebar.vue:63 src/components/Sidebar.vue:48
+msgid "Transfer Note"
 msgstr ""
 
 #: src/components/workflow/profile/TransferNoteProfile.vue:118
@@ -2277,9 +3097,25 @@ msgstr ""
 msgid "Transport Details"
 msgstr ""
 
+#: src/components/Sidebar.vue:160 src/components/Sidebar.vue:145
+msgid "Trial Balance"
+msgstr ""
+
+#: src/views/TrialBalance.vue:191
+msgid ""
+"Trial Balance can be seen in three formats.\n"
+"                  The Net Trial Balance will provide the closing balances or current balance as on selected end date. The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances, while the Extended version shows all this with Opening Balances.\n"
+"                  Apart from the regular account names and balances, these reports include Group name of each account.\n"
+"                  The period for this report must begin with the first date of the Financial Year and can end on any date. If an account has an adverse balance it is shown in red colour.\n"
+"                  The difference in Trial Balance, if any, is shown in the last row.\n"
+"                  Drill Down facility is available for all types of Trial Balances. You can click or press enter key on any row to see the ledger for that account.\n"
+"                  All users can view all types of Trial Balances."
+msgstr ""
+
 #: src/components/form/ContactItem.vue:11 src/components/form/ContactItem.vue:1
 #: src/components/workflow/profile/VoucherProfile.vue:27
 #: src/views/CreateOrganisation.vue:17 src/views/CreateOrganisation.vue:1
+#: src/views/LedgerFull.vue:41
 msgid "Type"
 msgstr ""
 
@@ -2288,9 +3124,7 @@ msgid "Unable to %{formMode} Budget, please try again."
 msgstr ""
 
 #: src/views/Billwise.vue:158
-msgid ""
-"Unable to adjust the chosen bills, Please try again later. Contact admin if "
-"problem persists."
+msgid "Unable to adjust the chosen bills, Please try again later. Contact admin if problem persists."
 msgstr ""
 
 #: src/components/form/BusinessItem.vue:244
@@ -2334,8 +3168,7 @@ msgid "Unable to Fetch Delivery Note Details! Please Try after sometime."
 msgstr ""
 
 #: src/components/workflow/profile/PsOrderProfile.vue:259
-msgid ""
-"Unable to Fetch Purchase Sales Order Details! Please Try after sometime."
+msgid "Unable to Fetch Purchase Sales Order Details! Please Try after sometime."
 msgstr ""
 
 #: src/components/workflow/profile/RejectionNoteProfile.vue:179
@@ -2364,8 +3197,16 @@ msgid "Unauthorised access"
 msgstr ""
 
 #: src/components/ContactProfile.vue:111 src/components/ContactProfile.vue:177
-#: src/components/ContactProfile.vue:245 src/views/BalanceSheet.vue:164
-#: src/views/Budget.vue:274 src/views/GodownEdit.vue:86
+#: src/components/ContactProfile.vue:245 src/components/GkIfsc.vue:61
+#: src/views/BalanceSheet.vue:164 src/views/Budget.vue:274
+#: src/views/CashFlow.vue:67 src/views/CategorywiseStockOnHand.vue:159
+#: src/views/CloseBooks.vue:138 src/views/CostCenter.vue:97
+#: src/views/CostCenterCreate.vue:44 src/views/CostCenterEdit.vue:65
+#: src/views/GodownEdit.vue:86 src/views/Ledger.vue:86
+#: src/views/LedgerFull.vue:104 src/views/LedgerFull.vue:152
+#: src/views/LedgerMonthly.vue:69 src/views/Logs.vue:32
+#: src/views/ProfitLoss.vue:37 src/views/StockOnHand.vue:130
+#: src/views/TrialBalance.vue:155
 msgid "Unauthorised Access"
 msgstr ""
 
@@ -2409,10 +3250,22 @@ msgstr ""
 msgid "Unit of Measure"
 msgstr ""
 
+#: src/components/Sidebar.vue:106 src/components/Sidebar.vue:91
+msgid "Unit of measurement"
+msgstr ""
+
 #: src/components/form/BudgetItem.vue:161 src/components/form/Voucher.vue:157
 #: src/views/AccountEdit.vue:82 src/views/CategoryEdit.vue:84
-#: src/views/GodownEdit.vue:33
+#: src/views/CostCenterEdit.vue:10 src/views/GodownEdit.vue:33
 msgid "Update"
+msgstr ""
+
+#: src/components/form/EditUOM.vue:19
+msgid "Update Unit"
+msgstr ""
+
+#: src/components/form/EditUser.vue:69
+msgid "Update user"
 msgstr ""
 
 #: src/components/form/Voucher.vue:384
@@ -2421,8 +3274,10 @@ msgstr ""
 
 #: src/components/form/Voucher.vue:422
 msgid "Update Voucher Success!"
-#: src/components/form/EditUser.vue:69
-msgid "Update user"
+msgstr ""
+
+#: src/views/ServerSetup.vue:20
+msgid "URL should not contain \" / \" in the end"
 msgstr ""
 
 #: src/components/form/transaction/ShipDetails.vue:17
@@ -2445,6 +3300,30 @@ msgstr ""
 msgid "Use Organisation Address"
 msgstr ""
 
+#: src/views/UserManagement.vue:10
+msgid "user"
+msgstr ""
+
+#: src/views/Logs.vue:13
+msgid "User"
+msgstr ""
+
+#: src/views/Login.vue:88 src/views/ResetPassword.vue:86
+msgid "Username"
+msgstr ""
+
+#: src/components/form/EditUser.vue:10
+msgid "Username must be minimum 3 characters"
+msgstr ""
+
+#: src/components/form/AddUser.vue:9
+msgid "Username must be minimum of 3 characters"
+msgstr ""
+
+#: src/components/GkIfsc.vue:40
+msgid "validate"
+msgstr ""
+
 #: src/components/Config.vue:42 src/components/GkGstin.vue:32
 msgid "Validate"
 msgstr ""
@@ -2463,16 +3342,6 @@ msgstr ""
 
 #: src/views/Budget.vue:62
 msgid "Variance(%)"
-#: src/views/UserManagement.vue:10
-msgid "user"
-msgstr ""
-
-#: src/components/form/EditUser.vue:10
-msgid "Username must be minimum 3 characters"
-msgstr ""
-
-#: src/components/form/AddUser.vue:9
-msgid "Username must be minimum of 3 characters"
 msgstr ""
 
 #: src/components/form/transaction/TransportDetails.vue:23
@@ -2486,12 +3355,29 @@ msgstr ""
 msgid "View Attachments"
 msgstr ""
 
+#: src/views/Ledger.vue:33
+msgid "View Ledger"
+msgstr ""
+
+#: src/components/Sidebar.vue:145 src/components/Sidebar.vue:130
+#: src/views/Registers.vue:40
+msgid "View Registers"
+msgstr ""
+
+#: src/views/TrialBalance.vue:50
+msgid "View Trial Balance"
+msgstr ""
+
 #: src/components/workflow/profile/CashMemoProfile.vue:57
 msgid "View Voucher"
 msgstr ""
 
 #: src/components/workflow/profile/InvoiceProfile.vue:105
 msgid "View Vouchers"
+msgstr ""
+
+#: src/components/Sidebar.vue:66 src/components/Sidebar.vue:51
+msgid "Voucher"
 msgstr ""
 
 #: src/components/form/Voucher.vue:424
@@ -2526,6 +3412,10 @@ msgstr ""
 msgid "Voucher No: %{voucherNo}"
 msgstr ""
 
+#: src/views/LedgerFull.vue:32
+msgid "Voucher No."
+msgstr ""
+
 #: src/components/form/Voucher.vue:387
 msgid "Voucher Updation Failed!"
 msgstr ""
@@ -2540,6 +3430,23 @@ msgstr ""
 
 #: src/components/workflow/profile/InvoiceProfile.vue:142
 msgid "Vouchers:"
+msgstr ""
+
+#: src/components/Sidebar.vue:190 src/components/Sidebar.vue:175
+#: src/views/About.vue:21 src/views/OrgProfile.vue:99
+msgid "Website"
+msgstr ""
+
+#: src/views/CloseBooks.vue:162
+msgid "You are not allowed to perform this action"
+msgstr ""
+
+#: src/views/CloseBooks.vue:152
+msgid "You have no access for perform this task"
+msgstr ""
+
+#: src/views/Logs.vue:40
+msgid "You have no permission to access"
 msgstr ""
 
 #: src/components/ContactProfile.vue:185

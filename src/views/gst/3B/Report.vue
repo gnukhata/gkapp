@@ -4,11 +4,10 @@
     <div class="text-center">
       <h4>{{ orgName }}</h4>
       <h5 class="text-muted text-center text-uppercase">
-        GSTR 3B Report {{ params.type }} <br />
+        GSTR-3B Report {{ params.type }} <br />
         ({{ dateReverse(params.fd) }} to {{ dateReverse(params.td) }})
       </h5>
     </div>
-    {{ list }}
     <div class="gkcard mx-auto">
       <!-- <b-form-input type="text" v-model="search" placeholder="Search">
              </b-form-input> -->
@@ -20,7 +19,7 @@
       small
       bordered
       striped
-      :items="list[this.params.type]"
+      :items="list"
       responsive="sm"
       :filter="search"
       :busy="loading"
@@ -40,6 +39,13 @@
         <div class="text-right">
           {{ data.item.taxable_value }}
         </div>
+      </template>
+      <template #cell(invoice_no)="data">
+        <router-link
+          :to="'/workflow/Transactions-Invoice/' + data.item.invoice_id"
+        >
+          {{ data.item.invoice_no }}
+        </router-link>
       </template>
     </b-table>
   </section>
@@ -62,12 +68,12 @@ export default {
     ...mapState(['orgName']),
   },
   methods: {
+    // formatTable(data) {
+    //     for(data.igst)
     getGstSummary() {
       this.loading = true;
       axios
-        .get(
-          `/report?type=GSTCalc&startdate=${this.params.fd}&enddate=${this.params.td}&statename=${this.params.state}`
-        )
+        .get(`/gstreturns?type=3b&from=${this.params.fd}&to=${this.params.td}`)
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {

@@ -8,16 +8,22 @@
       >
         <template #header>
           <gk-cardheader
-            name="View Ledger"
-            help-body="Single
+            :name="$gettext('View Ledger')"
+            :help-body="
+              $gettext(`Single
 Select name of the account to be viewed. The default option is Monthly Ledger.
 Press Space Bar to view it or press Enter or Tab key to escape it and view report for any period.
 The report could be viewed with or without narration. This report gives Date, V. No., Status, Type of Voucher, Name of the corresponding account, Narration, Amount and running balance of account. The locked records are marked by a sign of *** in the Status column. Drill Down facility is available where you can double click or press enter key on any transaction to view it and/or modify it. After any modification the ledger report immediately reflects the chnages. It can be viewed in entirety or for a Project or Cost Center. You can view only Debit transactions or Credit Transactions of a Ledger account. Dual Ledgers
-When a Ledger Account appears on the screen, press Shift + Alt + l to view another Ledger Account simultaneously. Select another Ledger account, choose period and press Enter. You can view the same account side by side but for a different period. Drill Down facility is available for both the accounts. Each Ledger Account of the dual ledgers has a separate Quick Search facility. All users can view this report. This report is unique to GNUKhata. "
+When a Ledger Account appears on the screen, press Shift + Alt + l to view another Ledger Account simultaneously. Select another Ledger account, choose period and press Enter. You can view the same account side by side but for a different period. Drill Down facility is available for both the accounts. Each Ledger Account of the dual ledgers has a separate Quick Search facility. All users can view this report. This report is unique to GNUKhata.`)
+            "
           ></gk-cardheader>
         </template>
         <!-- Account name -->
-        <b-form-group label="Account name" label-size="sm" label-cols="auto">
+        <b-form-group
+          :label="$gettext('Account name')"
+          label-size="sm"
+          label-cols="auto"
+        >
           <autocomplete
             required
             placeholder="select account"
@@ -33,35 +39,28 @@ When a Ledger Account appears on the screen, press Shift + Alt + l to view anoth
             class="mt-2"
             v-model="showMonthlyLedger"
           >
-            Monthly Ledger</b-form-checkbox
+            <translate>Monthly Ledger</translate></b-form-checkbox
           >
         </b-form-group>
         <!-- Date fields -->
         <fieldset :disabled="showMonthlyLedger">
           <div class="d-flex">
-            <b-form-group label="From" label-size="sm">
+            <b-form-group :label="$gettext('From')" label-size="sm">
               <gk-date id="from" v-model="fromDate"></gk-date>
             </b-form-group>
-            <b-form-group label="To" class="ml-3" label-size="sm">
+            <b-form-group :label="$gettext('To')" class="ml-3" label-size="sm">
               <gk-date id="to" v-model="toDate"></gk-date>
             </b-form-group>
           </div>
-          <!-- Checkboxes -->
-          <!-- <b-form-checkbox-group
-               v-model="ledgerOptions"
-               :options="checkboxes"
-               size="sm"
-               ></b-form-checkbox-group> -->
-          <!-- Cost Center select-->
           <b-form-group
             class="mt-2"
-            label="Cost Center"
+            :label="$gettext('Cost Center')"
             label-size="sm"
             label-cols="auto"
           >
             <autocomplete
               :required="false"
-              placeholder="select Cost Center"
+              :placeholder="$gettext('select Cost Center')"
               v-model="projectCode"
               :options="costCenterList"
               textField="projectname"
@@ -70,7 +69,8 @@ When a Ledger Account appears on the screen, press Shift + Alt + l to view anoth
           </b-form-group>
         </fieldset>
         <b-button type="submit" variant="success" size="sm" class="float-right"
-          ><b-icon icon="eye-fill"></b-icon> Show</b-button
+          ><b-icon icon="eye-fill"></b-icon
+          ><translate> Show</translate></b-button
         >
       </b-card>
     </b-form>
@@ -130,16 +130,19 @@ export default {
           if (r.status == 200) {
             this.costCenterList = r.data.gkresult;
           } else {
-            this.$bvToast.toast('Failed to fetch cost center items', {
-              variant: 'danger',
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext('Failed to fetch cost center items'),
+              {
+                variant: 'danger',
+                solid: true,
+              }
+            );
           }
           this.loading = false;
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
-            title: 'failed',
+            title: this.$gettext('failed'),
             variant: 'danger',
             solid: true,
           });
@@ -154,31 +157,31 @@ export default {
               this.accountsList = r.data.gkresult;
               break;
             case 1:
-              this.$bvToast.toast('Duplicate Entry', {
+              this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                 variant: 'warning',
                 solid: true,
               });
               break;
             case 2:
-              this.$bvToast.toast('Unauthorised Access', {
+              this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 3:
-              this.$bvToast.toast('Data error', {
+              this.$bvToast.toast(this.$gettext('Data error'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 4:
-              this.$bvToast.toast('No Privilege', {
+              this.$bvToast.toast(this.$gettext('No Privilege'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 5:
-              this.$bvToast.toast('Integrity error', {
+              this.$bvToast.toast(this.$gettext('Integrity error'), {
                 variant: 'danger',
                 solid: true,
               });

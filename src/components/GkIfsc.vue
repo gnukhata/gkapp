@@ -14,7 +14,7 @@
         <!-- Validate button -->
         <b-input-group-append>
           <b-button
-            title="validate"
+            :title="$gettext('validate')"
             @click="validateIfsc"
             size="sm"
             variant="dark"
@@ -28,7 +28,7 @@
     <b-modal
       id="ifsc-info"
       size="md"
-      title="IFSC Details"
+      :title="$gettext('IFSC Details')"
       scrollable
       header-bg-variant="dark"
       header-text-variant="light"
@@ -37,14 +37,14 @@
     >
       <template #modal-footer>
         <b-button variant="dark" size="sm" @click="autoFill">
-          Auto fill</b-button
+          <translate> Auto fill</translate></b-button
         >
       </template>
       <b-form-group
         label-align="right"
         label-size="sm"
         label-cols="3"
-        label="Bank"
+        :label="$gettext('Bank')"
       >
         <b-form-input v-model="ifscData.BANK" size="sm"> </b-form-input>
       </b-form-group>
@@ -52,7 +52,7 @@
         label-align="right"
         label-size="sm"
         label-cols="3"
-        label="Branch"
+        :label="$gettext('Branch')"
       >
         <b-form-input size="sm" v-model="ifscData.BRANCH"> </b-form-input>
       </b-form-group>
@@ -61,7 +61,7 @@
         label-align="right"
         label-size="sm"
         label-cols="3"
-        label="Center"
+        :label="$gettext('Center')"
       >
         <b-form-input size="sm" v-model="ifscData.CENTRE"> </b-form-input>
       </b-form-group>
@@ -69,7 +69,7 @@
         label-align="right"
         label-size="sm"
         label-cols="3"
-        label="City"
+        :label="$gettext('City')"
       >
         <b-form-input size="sm" v-model="ifscData.CITY"> </b-form-input>
       </b-form-group>
@@ -77,7 +77,7 @@
         label-align="right"
         label-size="sm"
         label-cols="3"
-        label="Address"
+        :label="$gettext('Address')"
       >
         <b-form-input size="sm" v-model="ifscData.ADDRESS"> </b-form-input>
       </b-form-group>
@@ -85,7 +85,7 @@
         label-align="right"
         label-size="sm"
         label-cols="3"
-        label="State"
+        :label="$gettext('State')"
       >
         <b-form-input size="sm" v-model="ifscData.STATE"> </b-form-input>
       </b-form-group>
@@ -93,7 +93,7 @@
         label-align="right"
         label-size="sm"
         label-cols="3"
-        label="Contact"
+        :label="$gettext('Contact')"
       >
         <b-form-input size="sm" v-model="ifscData.CONTACT"> </b-form-input>
       </b-form-group>
@@ -101,7 +101,7 @@
         label-align="right"
         label-size="sm"
         label-cols="3"
-        label="MICR"
+        :label="$gettext('MICR')"
       >
         <b-form-input size="sm" v-model="ifscData.MICR"> </b-form-input>
       </b-form-group>
@@ -188,37 +188,37 @@ export default {
               this.$bvModal.show('ifsc-info');
               break;
             case 1:
-              this.$bvToast.toast('Duplicate Entry', {
+              this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                 variant: 'warning',
                 solid: true,
               });
               break;
             case 2:
-              this.$bvToast.toast('Unauthorised Access', {
+              this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 3:
-              this.$bvToast.toast('Invalid IFSC Code', {
+              this.$bvToast.toast(this.$gettext('Invalid IFSC Code'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 4:
-              this.$bvToast.toast('No Privilege', {
+              this.$bvToast.toast(this.$gettext('No Privilege'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 5:
-              this.$bvToast.toast('Integrity error', {
+              this.$bvToast.toast(this.$gettext('Integrity error'), {
                 variant: 'danger',
                 solid: true,
               });
               break;
             case 6:
-              this.$bvToast.toast('Proxy Server Error', {
+              this.$bvToast.toast(this.$gettext('Proxy Server Error'), {
                 variant: 'danger',
                 solid: true,
               });

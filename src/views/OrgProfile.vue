@@ -24,7 +24,7 @@
             :src="orgImg"
           ></b-img>
           <b-form-group
-            label="Image"
+            :label="$gettext('Image')"
             label-size="sm"
             label-align="right"
             lable-cols="4"
@@ -41,7 +41,7 @@
             ></b-form-file>
           </b-form-group>
           <b-form-group
-            label="Name"
+            :label="$gettext('Name')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -54,7 +54,7 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group
-            label="Website"
+            :label="$gettext('Website')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -66,7 +66,7 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group
-            label="Email"
+            :label="$gettext('Email')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -80,7 +80,7 @@
         </b-card>
         <!-- Contact Card -->
         <b-card
-          header="Contact Details"
+          :header="$gettext('Contact Details')"
           header-bg-variant="dark"
           header-text-variant="light"
         >
@@ -93,7 +93,7 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group
-            label="City"
+            :label="$gettext('City')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -106,7 +106,7 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group
-            label="State"
+            :label="$gettext('State')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -119,7 +119,7 @@
             ></b-form-select>
           </b-form-group>
           <b-form-group
-            label="Country"
+            :label="$gettext('Country')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -132,7 +132,7 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group
-            label="Pincode"
+            :label="$gettext('Pincode')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -144,7 +144,7 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group
-            label="Phone"
+            :label="$gettext('Phone')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -158,7 +158,7 @@
             </b-input-group>
           </b-form-group>
           <b-form-group
-            label="Fax"
+            :label="$gettext('Fax')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -174,12 +174,12 @@
       <!-- Bank card --->
       <b-card-group deck class="mt-4">
         <b-card
-          header="Bank Details"
+          :header="$gettext('Bank Details')"
           header-bg-variant="dark"
           header-text-variant="light"
         >
           <b-form-group
-            label="IFSC Code"
+            :label="$gettext('IFSC Code')"
             label-cols="4"
             label-size="sm"
             label-align="right"
@@ -197,7 +197,7 @@
           </b-form-group>
           <!-- bank name -->
           <b-form-group
-            label="Name"
+            :label="$gettext('Name')"
             label-cols="4"
             label-size="sm"
             label-align="right"
@@ -210,7 +210,7 @@
           </b-form-group>
           <!-- Branch -->
           <b-form-group
-            label="Branch"
+            :label="$gettext('Branch')"
             label-cols="4"
             label-size="sm"
             label-align="right"
@@ -223,7 +223,7 @@
           </b-form-group>
           <!-- account number -->
           <b-form-group
-            label="Account Number"
+            :label="$gettext('Account Number')"
             label-cols="4"
             label-size="sm"
             label-align="right"
@@ -237,13 +237,13 @@
         </b-card>
         <!-- Tax card-->
         <b-card
-          header="Tax Details"
+          :header="$gettext('Tax Details')"
           class="gkcard"
           header-bg-variant="dark"
           header-text-variant="light"
         >
           <b-form-group
-            label="PAN"
+            :label="$gettext('PAN')"
             label-align="right"
             label-cols="4"
             label-size="sm"
@@ -262,7 +262,7 @@
             </b-input-group>
           </b-form-group>
           <b-form-group
-            label="ServiceTax Number"
+            :label="$gettext('ServiceTax Number')"
             label-size="sm"
             label-align="right"
             label-cols="4"
@@ -275,7 +275,7 @@
           </b-form-group>
 
           <b-form-group
-            label="GSTIN"
+            :label="$gettext('GSTIN')"
             label-size="sm"
             label-cols="4"
             label-align="right"
@@ -311,11 +311,12 @@
               @click="onGstinAdd"
               size="sm"
             >
-              <b-icon class="align-middle" icon="plus"></b-icon>GSTIN
+              <b-icon class="align-middle" icon="plus"></b-icon
+              ><translate>GSTIN</translate>
             </b-button>
           </b-form-group>
           <b-form-group
-            label="CESS"
+            :label="$gettext('CESS')"
             label-size="sm"
             label-cols="4"
             label-align="right"
@@ -342,7 +343,8 @@
               @click="onCessAdd"
               size="sm"
             >
-              <b-icon class="align-middle" icon="plus"></b-icon>CESS
+              <b-icon class="align-middle" icon="plus"></b-icon
+              ><translate>CESS</translate>
             </b-button>
           </b-form-group>
           <!-- {{ details }} -->
@@ -351,10 +353,12 @@
       <!-- Submit & cancel buttons -->
       <div class="mt-2 mb-3 d-flex flex-row-reverse">
         <b-button type="submit" size="sm" class="ml-2" variant="success">
-          <b-icon class="mr-1" icon="arrow-up-circle"></b-icon>Save Changes
+          <b-icon class="mr-1" icon="arrow-up-circle"></b-icon
+          ><translate>Save Changes</translate>
         </b-button>
         <b-button variant="danger" size="sm" @click="confirm('delete')">
-          <b-icon class="mr-1" icon="building"></b-icon>Delete Organisation
+          <b-icon class="mr-1" icon="building"></b-icon
+          ><translate>Delete Organisation</translate>
         </b-button>
       </div>
     </b-form>
@@ -365,7 +369,7 @@
     <b-modal
       id="gstin"
       centered
-      ok-title="Add"
+      :ok-title="$gettext('Add')"
       header-bg-variant="dark"
       header-text-variant="light"
       ok-variant="success"
@@ -373,14 +377,14 @@
       @ok="onGstinModalOk"
     >
       <b-form>
-        <b-form-group label="State" label-cols="auto">
+        <b-form-group :label="$gettext('State')" label-cols="auto">
           <b-form-select
             required
             v-model="gstinModal.stateCode"
             :options="states"
           ></b-form-select>
         </b-form-group>
-        <b-form-group label="GSTIN" label-cols="auto">
+        <b-form-group :label="$gettext('GSTIN')" label-cols="auto">
           <div class="d-flex">
             <b-form-input
               v-model="gstinModal.stateCode"
@@ -404,7 +408,9 @@
       </b-form>
 
       <template #modal-footer="{ ok, cancel }">
-        <b-button size="sm" variant="danger" @click="cancel()">Cancel</b-button>
+        <b-button size="sm" variant="danger" @click="cancel()"
+          ><translate>Cancel</translate></b-button
+        >
         <b-button
           size="sm"
           variant="success"
@@ -420,13 +426,17 @@
       centered
       header-bg-variant="dark"
       header-text-variant="light"
-      ok-title="Add"
+      :ok-title="$gettext('Add')"
       ok-variant="success"
-      title="Add CESS"
+      :title="$gettext('Add CESS')"
       @ok="onCessModalOk"
     >
       <b-form>
-        <b-form-group label="CESS" label-cols="4" label-align="right">
+        <b-form-group
+          :label="$gettext('CESS')"
+          label-cols="4"
+          label-align="right"
+        >
           <b-input-group append="%">
             <b-form-input
               v-model="cessModal.rate"
@@ -440,7 +450,9 @@
       </b-form>
 
       <template #modal-footer="{ ok, cancel }">
-        <b-button size="sm" variant="danger" @click="cancel()">Cancel</b-button>
+        <b-button size="sm" variant="danger" @click="cancel()"
+          ><translate>Cancel</translate></b-button
+        >
         <b-button
           size="sm"
           variant="success"

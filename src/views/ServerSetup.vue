@@ -8,7 +8,7 @@
     >
       <template #header>
         <gk-cardheader
-          name="GNUKhata Server Setup"
+          :name="$gettext('GNUKhata Server Setup')"
           help-body="This menu helps you to select gkcore server to use with this webapp. The default server is <code>localhost:6543</code><br>You can also set your custom gkcore server address."
         ></gk-cardheader>
       </template>
@@ -16,10 +16,12 @@
         <b-form @submit.prevent="setCustomServerUrl" class="text-center">
           <b-button size="sm" variant="dark" @click.prevent="setDefaultServer">
             <b-icon icon="arrow-right-circle"></b-icon>
-            Continue with Default Server
+            <translate>Continue with Default Server</translate>
           </b-button>
           <div class="mt-2 mb-2"><b>OR</b></div>
-          <h5 class="text-muted text-center">Enter Custom Server URL</h5>
+          <h5 class="text-muted text-center">
+            <translate>Enter Custom Server URL</translate>
+          </h5>
           <b-form-group label-cols="auto">
             <b-form-input
               size="sm"
@@ -29,7 +31,7 @@
               placeholder="https://example.com"
             ></b-form-input>
             <b-form-invalid-feedback id="input-live-feedback">
-              URL should not contain " / " in the end
+              <translate>URL should not contain " / " in the end</translate>
             </b-form-invalid-feedback>
           </b-form-group>
           <b-button
@@ -37,8 +39,8 @@
             size="sm"
             variant="success"
             :disabled="serverUrl === '' ? true : false"
-            ><b-icon icon="arrow-right-circle"></b-icon> Save &amp;
-            Continue</b-button
+            ><b-icon icon="arrow-right-circle"></b-icon
+            ><translate> Save & Continue</translate></b-button
           >
         </b-form>
       </b-card-body>

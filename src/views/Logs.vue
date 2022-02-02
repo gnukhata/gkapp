@@ -2,7 +2,7 @@
   <section class="container-fluid">
     <div class="text-center mb-2 d-none d-print-block">
       <h3>{{ orgName }}</h3>
-      <i>Audit Logs</i>
+      <i><translate>Audit Logs</translate></i>
     </div>
     <div class="d-flex justify-content-center mt-3 mb-3 d-print-none">
       <b-form-input
@@ -23,24 +23,20 @@
       :items="log"
       :busy="isLoading"
       :filter="searchText"
-      :fields="[
-        { key: 'activity', sortable: true },
-        { key: 'time', label: 'Date / Time', sortable: true },
-        { key: 'username', label: 'User', sortable: true },
-      ]"
+      :fields="fields"
     >
       <template #table-busy>
         <div class="text-center">
           <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong> Fetching Logs ... </strong>
+          <strong> <translate>Fetching Logs ...</translate> </strong>
         </div>
       </template>
       <template #cell(username)="data">
         <b-link @click="$router.push(`/users/${data.item.userid}`)">{{
           data.item.username
         }}</b-link>
-      </template></b-table
-    >
+      </template>
+    </b-table>
   </section>
 </template>
 <script>
@@ -53,6 +49,11 @@ export default {
       log: [],
       isLoading: true,
       searchText: '',
+      fields: [
+        { key: 'activity', sortable: true },
+        { key: 'time', label: this.$gettext('Date / Time'), sortable: true },
+        { key: 'username', label: this.$gettext('User'), sortable: true },
+      ],
     };
   },
   computed: {
@@ -70,18 +71,21 @@ export default {
                 this.isLoading = false;
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
-                  title: 'Error',
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
+                  title: this.$gettext('Error'),
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('You have no permission to access', {
-                  title: 'Error',
-                  variant: 'danger',
-                  solid: true,
-                });
+                this.$bvToast.toast(
+                  this.$gettext('You have no permission to access'),
+                  {
+                    title: this.$gettext('Error'),
+                    variant: 'danger',
+                    solid: true,
+                  }
+                );
                 break;
               default:
                 console.log(r.data.gkstatus);

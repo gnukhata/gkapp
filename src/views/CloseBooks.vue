@@ -13,7 +13,7 @@
         <b-overlay :show="isLoading" no-wrap></b-overlay>
         <template #header>
           <div class="d-flex">
-            <div class="mr-auto">Close Books</div>
+            <div class="mr-auto"><translate>Close Books</translate></div>
             <div>
               <b-icon
                 icon="question-circle"
@@ -31,14 +31,14 @@
         <b-form-group
           id="input-group-2"
           label-class="font-weight-bold"
-          label="Current Financial Year:"
+          :label="$gettext('Current Financial Year:')"
         >
           <div class="row">
             <div class="col-sm-4">
               <b-form-group
                 content-cols="auto"
                 id="input-group-3"
-                label="From"
+                :label="$gettext('From')"
                 label-for="date-1"
               >
                 <b-input-group class="mb-3">
@@ -54,7 +54,7 @@
               <b-form-group
                 content-cols="auto"
                 id="input-group-4"
-                label="To"
+                :label="$gettext('To')"
                 label-for="date-2"
               >
                 <b-input-group>
@@ -71,10 +71,10 @@
           variant="dark"
           size="sm"
         >
-          <b-icon icon="journal"></b-icon> Close Books
+          <b-icon icon="journal"></b-icon><translate> Close Books</translate>
         </b-button>
         <b-alert v-show="details.booksclosedflag == 1" show variant="dark"
-          >Close Books is done</b-alert
+          ><translate>Close Books is done</translate></b-alert
         >
       </b-card>
 
@@ -88,7 +88,7 @@
 
         <template #header>
           <div class="d-flex">
-            <div class="mr-auto">Roll Over</div>
+            <div class="mr-auto"><translate>Roll Over</translate></div>
             <div>
               <b-icon
                 icon="question-circle"
@@ -108,14 +108,14 @@
           <b-form-group
             id="input-group-2"
             label-class="font-weight-bold"
-            label="New Financial Year:"
+            :label="$gettext('New Financial Year:')"
           >
             <div class="row">
               <div class="col-sm-4">
                 <b-form-group
                   content-cols="auto"
                   id="input-group-3"
-                  label="From"
+                  :label="$gettext('From')"
                   label-for="date-1"
                 >
                   <b-input-group>
@@ -127,7 +127,7 @@
                 <b-form-group
                   content-cols="auto"
                   id="input-group-4"
-                  label="To"
+                  :label="$gettext('To')"
                   label-for="date-2"
                 >
                   <b-input-group class="mb-3">
@@ -144,11 +144,14 @@
             variant="dark"
             size="sm"
           >
-            <b-icon icon="calendar-check"></b-icon> Roll Over
+            <b-icon icon="calendar-check"></b-icon
+            ><translate> Roll Over</translate>
           </b-button>
         </b-form>
         <b-alert v-if="details.roflag == 1" show variant="success"
-          >Roll Over is done for this financial year</b-alert
+          ><translate
+            >Roll Over is done for this financial year</translate
+          ></b-alert
         >
       </b-card>
     </b-card-group>
@@ -158,9 +161,6 @@
 /**
  * This module implements close books & roll over functionality. Only admin can perform this
  * action.
- *
- * TODO:
- *  - Hook the functions to action buttons in confirm() method
  */
 import axios from 'axios';
 import GkDate from '../components/GkDate.vue';
@@ -279,39 +279,39 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                this.$bvToast.toast('Roll Over Complete', {
-                  title: 'Success',
+                this.$bvToast.toast(this.$gettext('Roll Over Complete'), {
+                  title: this.$gettext('Success'),
                   variant: 'success',
                   solid: true,
                 });
                 this.getDetails();
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Financial Year', {
-                  title: 'Data Error',
+                this.$bvToast.toast(this.$gettext('Duplicate Financial Year'), {
+                  title: this.$gettext('Data Error'),
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Please login to access', {
-                  title: 'Unauthorised Access',
+                this.$bvToast.toast(this.$gettext('Please login to access'), {
+                  title: this.$gettext('Unauthorised Access'),
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Invalid Data', {
-                  title: 'Data Error',
+                this.$bvToast.toast(this.$gettext('Invalid Data'), {
+                  title: this.$gettext('Data Error'),
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
                 this.$bvToast.toast(
-                  'You have no access for perform this task',
+                  this.$gettext('You have no access for perform this task'),
                   {
-                    title: 'Privilige Error',
+                    title: this.$gettext('Privilige Error'),
                     variant: 'danger',
                     solid: true,
                   }
@@ -319,9 +319,9 @@ export default {
                 break;
               case 5:
                 this.$bvToast.toast(
-                  'You are not allowed to perform this action',
+                  this.$gettext('You are not allowed to perform this action'),
                   {
-                    title: 'Action Disallowed',
+                    title: this.$gettext('Action Disallowed'),
                     variant: 'danger',
                     solid: true,
                   }

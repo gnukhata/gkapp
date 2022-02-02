@@ -10,14 +10,8 @@
         >
           <template #header>
             <gk-cardheader
-              name="View Trial Balance"
-              help-body="Trial Balance can be seen in three formats.
-                  The Net Trial Balance will provide the closing balances (or current balance as on selected end date). The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances, while the Extended version shows all this with Opening Balances.
-                  Apart from the regular account names and balances, these reports include Group name of each account.
-                  The period for this report must begin with the first date of the Financial Year and can end on any date. If an account has an adverse balance it is shown in red colour.
-                  The difference in Trial Balance, if any, is shown in the last row.
-                  Drill Down facility is available for all types of Trial Balances. You can click or press enter key on any row to see the ledger for that account.
-                  All users can view all types of Trial Balances. "
+              :name="$gettext('View Trial Balance')"
+              :help-body="showHelpBody"
             ></gk-cardheader>
           </template>
           <b-form-group label="From" label-align="right" content-cols="8">
@@ -27,7 +21,8 @@
             <gk-date id="todate" v-model="toDate"></gk-date>
           </b-form-group>
           <b-button variant="success" class="float-right" type="submit">
-            <b-icon icon="cloud-arrow-down"></b-icon> Get Details
+            <b-icon icon="cloud-arrow-down"></b-icon>
+            <translate> Get Details</translate>
           </b-button>
         </b-card>
       </b-form>
@@ -47,30 +42,42 @@
           class="mx-auto text-center d-print-none mb-3"
         >
           <b-form-radio value="Net"
-            >Net
+            ><translate>Net</translate>
 
             <gk-tooltip
               icon="info-circle"
-              helpTitle="Net Trial Balance"
-              help-body="The Net Trial Balance will provide the closing balances (or current balance as on selected end date)"
+              :helpTitle="$gettext('Net Trial Balance')"
+              :help-body="
+                $gettext(
+                  'The Net Trial Balance will provide the closing balances (or current balance as on selected end date)'
+                )
+              "
             ></gk-tooltip>
           </b-form-radio>
           <b-form-radio value="Gross"
-            >Gross
+            ><translate>Gross</translate>
 
             <gk-tooltip
               icon="info-circle"
-              helpTitle="Gross Trial Balance"
-              help-body="The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances"
+              :helpTitle="$gettext('Gross Trial Balance')"
+              :help-body="
+                $gettext(
+                  'The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances'
+                )
+              "
             ></gk-tooltip>
           </b-form-radio>
           <b-form-radio value="Extended"
-            >Extended
+            ><translate>Extended</translate>
 
             <gk-tooltip
               icon="info-circle"
-              helpTitle="Extended Trial Balance"
-              help-body="the Extended version shows all gross & net trial balances with Opening Balances"
+              :helpTitle="$gettext('Extended Trial Balance')"
+              :help-body="
+                $gettext(
+                  'The extended version shows all gross & net trial balances with Opening Balances'
+                )
+              "
             ></gk-tooltip>
           </b-form-radio>
         </b-form-radio-group>
@@ -79,7 +86,7 @@
           v-model.lazy="search"
           type="text"
           class="mx-auto gkcard mb-2"
-          placeholder="Search trial balance"
+          :placeholder="$gettext('Search trial balance')"
         ></b-form-input>
         <!-- Tables -->
         <!-- Net trial balance -->
@@ -187,26 +194,26 @@ export default {
       netfields: [
         {
           key: 'srno',
-          label: 'Sr. No.',
+          label: this.$gettext('Sr. No.'),
         },
         {
           key: 'accountname',
-          label: 'Account Name',
+          label: this.$gettext('Account Name'),
         },
 
         {
           key: 'Dr balance',
-          label: 'Debit',
+          label: this.$gettext('Debit'),
           class: 'text-right',
         },
         {
           key: 'Cr balance',
-          label: 'Credit',
+          label: this.$gettext('Credit'),
           class: 'text-right',
         },
         {
           key: 'groupname',
-          label: 'Group',
+          label: this.$gettext('Group'),
           class: 'text-center',
         },
       ],
@@ -217,69 +224,69 @@ export default {
         },
         {
           key: 'accountname',
-          label: 'Account Name',
+          label: this.$gettext('Account Name'),
         },
 
         {
           key: 'ttlRunDr',
-          label: 'Debit',
+          label: this.$gettext('Debit'),
           class: 'text-right',
         },
         {
           key: 'ttlRunCr',
-          label: 'Credit',
+          label: this.$gettext('Credit'),
           class: 'text-right',
         },
 
         {
           key: 'Dr',
-          label: 'Dr Balance',
+          label: this.$gettext('Dr Balance'),
           class: 'text-right',
         },
         {
           key: 'Cr',
-          label: 'Cr Balance',
+          label: this.$gettext('Cr Balance'),
           class: 'text-right',
         },
 
         {
           key: 'groupname',
-          label: 'Group',
+          label: this.$gettext('Group'),
           class: 'text-center',
         },
       ],
       extendedfields: [
         {
           key: 'srno',
-          label: 'Sr. No.',
+          label: this.$gettext('Sr. No.'),
         },
         {
           key: 'accountname',
-          label: 'Account Name',
+          label: this.$gettext('Account Name'),
         },
         {
           key: 'openingbalance',
-          label: 'Opening Balance',
+          label: this.$gettext('Opening Balance'),
           class: 'text-right',
         },
         {
           key: 'totaldr',
-          label: 'Total Drs',
+          label: this.$gettext('Total Drs'),
           class: 'text-right',
         },
         {
           key: 'totalcr',
-          label: 'Total Crs',
+          label: this.$gettext('Total Crs'),
           class: 'text-right',
         },
         {
           key: 'curbaldr',
-          label: 'Dr Balance',
+          label: this.$gettext('Dr Balance'),
           class: 'text-right',
         },
         {
           key: 'curbalcr',
-          label: 'Cr Balance',
+          label: this.$gettext('Cr Balance'),
           class: 'text-right',
         },
       ],
@@ -309,31 +316,31 @@ export default {
                 this.result = this.balance.net;
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
+                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
                   variant: 'warning',
                   solid: true,
                 });
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
+                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
+                this.$bvToast.toast(this.$gettext('Data error'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
+                this.$bvToast.toast(this.$gettext('No Privilege'), {
                   variant: 'danger',
                   solid: true,
                 });
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
+                this.$bvToast.toast(this.$gettext('Integrity error'), {
                   variant: 'danger',
                   solid: true,
                 });
@@ -350,6 +357,15 @@ export default {
   },
   computed: {
     ...mapState(['yearStart', 'yearEnd']),
+    showHelpBody() {
+      return this.$gettext(`Trial Balance can be seen in three formats.
+                  The Net Trial Balance will provide the closing balances or current balance as on selected end date. The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances, while the Extended version shows all this with Opening Balances.
+                  Apart from the regular account names and balances, these reports include Group name of each account.
+                  The period for this report must begin with the first date of the Financial Year and can end on any date. If an account has an adverse balance it is shown in red colour.
+                  The difference in Trial Balance, if any, is shown in the last row.
+                  Drill Down facility is available for all types of Trial Balances. You can click or press enter key on any row to see the ledger for that account.
+                  All users can view all types of Trial Balances.`);
+    },
   },
   mounted() {
     this.fromDate = this.yearStart;

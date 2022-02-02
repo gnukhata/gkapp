@@ -11,29 +11,27 @@
     </div>
     <div class="text-center mt-2">
       <h4 class="font-italic text-dark">
-        GNUKhata is A Community Driven Free &amp; Open Source Accounting
-        Software
+        <translate>
+          GNUKhata is A Community Driven Free &amp; Open Source Accounting
+          Software
+        </translate>
       </h4>
-      <p class="text-muted text-monospace text-left">
+      <p class="text-muted text-monospace text-left" v-translate>
         Founded and Developed by Digital Freedom Foundation under the leadership
-        of Mr. Krishnakant Mane. Currently supported by
-        <a
-          class="has-text-weight-bold"
-          href="https://accionlabs.com"
-          target="_blank"
-          >Accion Labs Pvt. Ltd</a
-        >
-        as a social contribution to the Open Source Community.
+        of Mr. Krishnakant Mane, Currently supported by Accion Labs Pvt. Ltd as
+        a social contribution to the Open Source Community.
       </p>
       <div class="mt-4 has-text-centered">
         <a class="mx-1" href="https://gnukhata.in" target="_blank">
           <b-button variant="dark">
-            <b-icon icon="globe"></b-icon> Website</b-button
+            <b-icon icon="globe"></b-icon
+            ><translate> Website</translate></b-button
           >
         </a>
         <a href="https://gitlab.com/gnukhata" target="_blank">
           <b-button variant="dark">
-            <b-icon icon="code-square"></b-icon> Source Code</b-button
+            <b-icon icon="code-square"></b-icon
+            ><translate> Source Code</translate></b-button
           >
         </a>
         <div class="mt-3 d-flex-row">

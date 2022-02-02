@@ -73,8 +73,11 @@ export default {
     if (cm < 10) {
       cm = '0' + cm;
     }
+
     this.fromDate = `01-${cm}-${d.getFullYear()}`;
+    console.log(this.fromDate);
     this.toDate = `${lastday}-${cm}-${d.getFullYear()}`;
+    console.log(this.toDate);
   },
 };
 </script>
