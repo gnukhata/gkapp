@@ -127,6 +127,7 @@
         ref="bill"
         :godownId="goid"
         :blockEmptyStock="isSale"
+        :invDate="form.inv.date"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding

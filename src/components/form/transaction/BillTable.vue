@@ -401,6 +401,13 @@ export default {
       default: true,
       note: 'Flag to block the selection of items with no stock',
     },
+    invDate: {
+      type: String,
+      required: false,
+      default: '',
+      note:
+        'Invoice date in yyyy-mm-dd format to determine the appropriate gst',
+    },
     parentData: {
       type: Array,
       required: false,
@@ -630,6 +637,12 @@ export default {
       // this.fetchStockOnHandData();
       this.fetchAllStockOnHand();
     },
+    invDate() {
+      let length = this.form.length;
+      while (length--) {
+        this.updateTaxAndTotal(length);
+      }
+    },
   },
   methods: {
     onQtyUpdate(index, pid) {
@@ -655,13 +668,13 @@ export default {
           : '/report?godownwisestockonhand';
       let stockParams = `&productcode=${id}&enddate=${this.endDate}`;
       if (this.godownId !== -1) {
-        stockParams += `goid=${this.godownId}&type=pg`;
+        stockParams += `&goid=${this.godownId}&type=pg`;
       }
       const requests = [
         axios.get(`/products?qty=single&productcode=${id}`).catch((error) => {
           return error;
         }),
-        axios.get(`/tax?pscflag=p&productcode=${id}`).catch((error) => {
+        axios.get(`/tax2?pscflag=p&productcode=${id}`).catch((error) => {
           return error;
         }),
         axios.get(`${stockPath}${stockParams}`).catch((error) => {
@@ -698,6 +711,7 @@ export default {
           if (resp2.data.gkstatus === 0) {
             let data = resp2.data.gkresult,
               tax = {
+                taxes: {},
                 igst: { rate: 0, amount: 0 },
                 cgst: { rate: 0, amount: 0 },
                 sgst: { rate: 0, amount: 0 },
@@ -718,6 +732,23 @@ export default {
                 : 0;
 
             if (igst.length) {
+              igst.forEach((igst2) => {
+                tax['taxes'][igst2.taxfromdate] = {
+                  igst: {
+                    rate: igst2.taxrate,
+                    amount: 0,
+                  },
+                  cgst: {
+                    rate: igst2.taxrate / 2,
+                    amount: 0,
+                  },
+                  sgst: {
+                    rate: igst2.taxrate / 2,
+                    amount: 0,
+                  },
+                };
+              });
+              // old tax rates without applicability date, legacy code
               tax['igst'] = {
                 rate: igst[0].taxrate,
                 amount: 0,
@@ -732,6 +763,19 @@ export default {
               };
             }
             if (cgst.length) {
+              cgst.forEach((cgst2) => {
+                tax['taxes'][cgst2.taxfromdate] = {
+                  cgst: {
+                    rate: cgst2.taxrate,
+                    amount: 0,
+                  },
+                  sgst: {
+                    rate: cgst2.taxrate,
+                    amount: 0,
+                  },
+                };
+              });
+              // old tax rates without applicability date, legacy code
               tax['cgst'] = {
                 rate: cgst[0].taxrate,
                 amount: 0,
@@ -888,6 +932,37 @@ export default {
     updateTaxAndTotal(index) {
       let item = this.form[index];
       if (item) {
+        // find the appropriate tax based on the date of the invoice
+        let taxDates = Object.keys(item.taxes);
+        if (taxDates.length && this.invDate) {
+          // Sort the tax dates in descending order
+          taxDates.sort(
+            (a, b) => new Date(b).getTime() - new Date(a).getTime()
+          );
+          let invDate = new Date(this.invDate).getTime();
+          let taxDate = taxDates.find((date) => {
+            let tDate = new Date(date).getTime();
+            return tDate <= invDate;
+          });
+          if (taxDate) {
+            let taxes = item.taxes[taxDate];
+            if (taxes.igst) {
+              item.igst = taxes.igst;
+            }
+
+            if (taxes.cgst) {
+              item.cgst = taxes.cgst;
+            }
+
+            if (taxes.sgst) {
+              item.sgst = taxes.sgst;
+            }
+          } else {
+            item.cgst = { rate: 0, amount: 0 };
+            item.sgst = { rate: 0, amount: 0 };
+            item.igst = { rate: 0, amount: 0 };
+          }
+        }
         if (item.rate > 0) {
           let qty = item.qty;
           if (this.config.rejectedQty) {
