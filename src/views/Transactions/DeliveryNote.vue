@@ -80,6 +80,7 @@
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
         :cgstFlag="isCgst"
+        :godownId="form.delNote.godown"
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -205,7 +206,6 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-
 // import Config from '../../components/Config.vue';
 
 import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
@@ -553,11 +553,15 @@ export default {
       let successTitle, successMessage, failTitle;
       if (this.formMode === 'create') {
         successTitle = this.$gettext('Create Delivery Note Successful!');
-        successMessage = this.$gettext('Delivery Note %{delNoteNo} was successfully created.');
+        successMessage = this.$gettext(
+          'Delivery Note %{delNoteNo} was successfully created.'
+        );
         failTitle = this.$gettext('Create Delivery Note Failed!');
       } else {
         successTitle = this.$gettext('Edit Delivery Note Successful!');
-        successMessage = this.$gettext('Delivery Note %{delNoteNo} was successfully edited.');
+        successMessage = this.$gettext(
+          'Delivery Note %{delNoteNo} was successfully edited.'
+        );
         failTitle = this.$gettext('Edit Delivery Note Failed!');
       }
       axios
@@ -711,7 +715,9 @@ export default {
           // av.taxpayment += taxable;
         }
 
-        freeqty[item.product.id] = parseFloat(item.fqty).toFixed(2);
+        freeqty[item.product.id] = isNaN(parseFloat(item.fqty))
+          ? 0
+          : parseFloat(item.fqty).toFixed(2);
         discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
 
         // av.product[item.product.name] = parseFloat(taxable).toFixed(2);
