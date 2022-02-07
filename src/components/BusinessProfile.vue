@@ -28,7 +28,7 @@
         <b-form-group label-size="sm" label="Name" label-cols="4">
           <b-form-input
             size="sm"
-            v-model="details.productdesc"
+            v-model.trim="details.productdesc"
             type="text"
             required
           ></b-form-input>
@@ -565,6 +565,13 @@ export default {
                         } updated: ${this.details.productdesc}`,
                       };
                       axios.post('/log', log);
+                      
+                      this.onUpdate({
+                        type: 'update',
+                        data: {
+                          productdesc: this.details.productdesc,
+                        },
+                      });
 
                       this.loading = false;
                       this.updateTaxDetails().then(() => {

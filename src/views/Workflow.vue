@@ -189,8 +189,9 @@
                     size="sm"
                     variant="success"
                     @click.prevent="updateListSettings"
-                    > <translate> Save </translate> </b-button
                   >
+                    <translate> Save </translate>
+                  </b-button>
                 </b-card-body>
               </b-card>
             </b-collapse>
@@ -670,7 +671,7 @@ export default {
       return {
         list: `${self.activeWorkflow.name}-List`,
         profile: `${self.activeWorkflow.name}-Profile`,
-      }
+      };
     },
     // data required by the transaction profile page
     profileData: (self) => {
@@ -1110,22 +1111,26 @@ export default {
           }
           break;
         case 'Contacts': {
-          if (updatedData.type === 'delete') {
+          if (updatedData.type === 'update') {
+            Object.assign(this.selectedEntity, updatedData.data);
+          } else if (updatedData.type === 'delete') {
+            let id = this.selectedEntity.custid;
+            let index = this.activeTabOptions.data.findIndex(
+              (item) => item.custid === id
+            );
             this.displayToast(
               `Contact Delete success!`,
               `Contact : ${this.selectedEntity.custname}, deleted successfully.`,
               'success'
-            );
-            let id = this.selectedEntity.custid;
-            let index = this.activeTabOptions.data.findIndex(
-              (item) => item.custid === id
             );
             this.unsetSelectedEntity();
             this.activeTabOptions.data.splice(index, 1);
           }
         }
         case 'Business': {
-          if (updatedData.type === 'delete') {
+          if (updatedData.type === 'update') {
+            Object.assign(this.selectedEntity, updatedData.data);
+          } else if (updatedData.type === 'delete') {
             this.displayToast(
               `Contact Delete success!`,
               `Contact : ${this.selectedEntity.productdesc}, deleted successfully.`,

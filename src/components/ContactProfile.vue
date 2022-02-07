@@ -27,7 +27,7 @@
           <template #label> <translate> Name </translate> </template>
           <b-form-input
             id="nested-name"
-            v-model="details.custname"
+            v-model.trim="details.custname"
           ></b-form-input>
         </b-form-group>
 
@@ -465,6 +465,12 @@ export default {
                         } updated: ${this.details.custname}`,
                       };
                       axios.post('/log', log);
+                      this.onUpdate({
+                        type: 'update',
+                        data: {
+                          custname: this.details.custname,
+                        },
+                      });
                     }
                     break;
                   case 2:
