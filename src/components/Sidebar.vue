@@ -158,6 +158,9 @@
               <b-icon icon="journals"></b-icon
               ><translate> Bank Reconciliation</translate>
             </b-nav-item>
+            <b-nav-item to="/settings">
+              <b-icon icon="gear"></b-icon> <translate> Settings</translate>
+            </b-nav-item>
           </b-collapse>
 
           <!-- Inventory -->
