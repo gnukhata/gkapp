@@ -419,6 +419,12 @@ export default {
   components: { Godown, GkDate },
   props: {
     name: Object,
+    onUpdate: {
+      type: Function,
+      required: false,
+      note: `Run after every update of Business item, as a callback.
+      Used to update the data used in workflow.`,
+    },
   },
   data() {
     return {
@@ -714,6 +720,7 @@ export default {
                       );
                       this.isLoading = false;
                       document.querySelector('#prod').innerHTML = '';
+                      this.onUpdate({ type: 'delete' });
                     }
                     break;
                   case 3:
@@ -801,7 +808,7 @@ export default {
             if (taxname === 'vat') {
               this.tax.vat.push(item);
             } else if (taxname === 'igst') {
-              item.taxrate = parseFloat(item.taxrate)
+              item.taxrate = parseFloat(item.taxrate);
               this.tax.gst.push(item);
             } else {
               this.tax[taxname] = item;

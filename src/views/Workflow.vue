@@ -416,6 +416,7 @@
             <business-profile
               :name="selectedEntity"
               :key="selectedEntity.srno"
+              :onUpdate="onSelectedEntityUpdate"
             ></business-profile>
           </b-card-body>
         </b-card>
@@ -1118,6 +1119,21 @@ export default {
             let id = this.selectedEntity.custid;
             let index = this.activeTabOptions.data.findIndex(
               (item) => item.custid === id
+            );
+            this.unsetSelectedEntity();
+            this.activeTabOptions.data.splice(index, 1);
+          }
+        }
+        case 'Business': {
+          if (updatedData.type === 'delete') {
+            this.displayToast(
+              `Contact Delete success!`,
+              `Contact : ${this.selectedEntity.productdesc}, deleted successfully.`,
+              'success'
+            );
+            let id = this.selectedEntity.productcode;
+            let index = this.activeTabOptions.data.findIndex(
+              (item) => item.productcode === id
             );
             this.unsetSelectedEntity();
             this.activeTabOptions.data.splice(index, 1);

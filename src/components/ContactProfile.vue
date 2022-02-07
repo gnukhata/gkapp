@@ -306,7 +306,7 @@ export default {
     onUpdate: {
       type: Function,
       required: false,
-      note: `Run after every update of Invoice, as a callback.
+      note: `Run after every update of Contact Item, as a callback.
       Used to update the data used in workflow.`,
     },
   },
