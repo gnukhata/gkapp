@@ -40,7 +40,26 @@
           thead-class="d-none"
           fixed
           class="text-small table-border-dark"
-        ></b-table-lite>
+        >
+          <template #cell(value)="data">
+            <span v-if="typeof data.value !== 'object'">
+              {{ data.value }}
+            </span>
+            <span v-else>
+              <b-link
+                :to="{
+                  name: 'Workflow',
+                  params: {
+                    wfName: 'Transactions-DeliveryNote',
+                    wfId: data.value.id,
+                  },
+                }"
+              >
+                {{ data.value.text }}
+              </b-link>
+            </span>
+          </template>
+        </b-table-lite>
       </b-col>
     </b-row>
     <!-- Content Table -->
@@ -389,14 +408,29 @@ export default {
     invoiceData: (self) => {
       let details = self.invoice;
       let designation = details.designation ? `(${details.designation})` : '';
+
       let res = [
         { title: self.$gettext('No'), value: details.number },
         { title: self.$gettext('Date'), value: details.date },
-        { title: self.$gettext('Eway Bill No.'), value: details.eway || '' },
-        {
+      ];
+      
+      if (details.eway) {
+        res.push({
+          title: self.$gettext('Eway Bill No.'),
+          value: details.eway || '',
+        });
+      }
+
+      if (details.dcid) {
+        res.push({
           title: self.$gettext('Delivery Note No.'),
-          value: details.dcno || '',
-        },
+          value: details.dcid
+            ? { type: 'delchal', id: details.dcid, text: details.dcno }
+            : '',
+        });
+      }
+
+      res.push(
         { title: self.$gettext('Godown'), value: self.dnote.goname || '' },
         {
           title: self.$gettext('Place of Supply'),
@@ -405,11 +439,9 @@ export default {
         {
           title: self.$gettext('Issued By'),
           value: `${details.issuer}  ${designation}`,
-        },
-      ];
-      if (!details.dcno) {
-        res.splice(3, 2);
-      }
+        }
+      );
+      
       return res;
     },
     bankDetails: (self) => {
@@ -437,8 +469,14 @@ export default {
         total.push({ title: 'VAT', value: self.invoice.total.tax });
       }
       total.push(
-        { title: self.$gettext('Invoice Value'), value: self.invoice.total.amount },
-        { title: self.$gettext('Total In Words'), value: self.invoice.total.text }
+        {
+          title: self.$gettext('Invoice Value'),
+          value: self.invoice.total.amount,
+        },
+        {
+          title: self.$gettext('Total In Words'),
+          value: self.invoice.total.text,
+        }
       );
       return total;
     },
@@ -598,7 +636,8 @@ export default {
           designation: details.designation,
           number: details.invoiceno,
           date: details.invoicedate,
-          dcno: details.dcno,
+          dcno: details.dcno || '',
+          dcid: details.dcid || '',
           taxState: this.states[details.taxstatecode],
           eway:
             details.ewaybillno !== 'undefined' && !!details.ewaybillno
