@@ -884,7 +884,7 @@ export default {
                 dateValidity: true,
               });
             }
-            this.tax.gst.forEach((item, index) => {
+            this.tax.gst.forEach((item) => {
               if (prev) {
                 let min = '';
                 let lastDate = new Date(prev.taxfromdate);

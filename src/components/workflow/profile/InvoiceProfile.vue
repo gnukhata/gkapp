@@ -360,9 +360,9 @@ export default {
   },
   computed: {
     tableFields: (self) => {
-      let designation = self.invoice.designation
-        ? `(${self.invoice.designation})`
-        : '';
+      // let designation = self.invoice.designation
+      //   ? `(${self.invoice.designation})`
+      //   : '';
       let fields = [
         {
           key: 'name',
@@ -805,20 +805,22 @@ export default {
       return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
           case 0:
-            // this.invoice = response.data.gkresult;
-            let invData = response.data.gkresult;
-            this.formatInvoiceDetails(invData);
-            if (invData.dcid) {
-              this.getDelNoteDetails(invData.dcid).then((dnResponse) => {
-                let dndata = dnResponse.data.gkresult.delchaldata;
-                this.dnote = {
-                  id: dndata.dcid,
-                  no: dndata.dcno,
-                  goname: dndata.goname,
-                  goid: dndata.goid,
-                  packageQty: dndata.noofpackages,
-                };
-              });
+            {
+              // this.invoice = response.data.gkresult;
+              let invData = response.data.gkresult;
+              this.formatInvoiceDetails(invData);
+              if (invData.dcid) {
+                this.getDelNoteDetails(invData.dcid).then((dnResponse) => {
+                  let dndata = dnResponse.data.gkresult.delchaldata;
+                  this.dnote = {
+                    id: dndata.dcid,
+                    no: dndata.dcno,
+                    goname: dndata.goname,
+                    goid: dndata.goid,
+                    packageQty: dndata.noofpackages,
+                  };
+                });
+              }
             }
             break;
           case 2:
