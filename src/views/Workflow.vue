@@ -1110,23 +1110,25 @@ export default {
             }
           }
           break;
-        case 'Contacts': {
-          if (updatedData.type === 'update') {
-            Object.assign(this.selectedEntity, updatedData.data);
-          } else if (updatedData.type === 'delete') {
-            let id = this.selectedEntity.custid;
-            let index = this.activeTabOptions.data.findIndex(
-              (item) => item.custid === id
-            );
-            this.displayToast(
-              `Contact Delete success!`,
-              `Contact : ${this.selectedEntity.custname}, deleted successfully.`,
-              'success'
-            );
-            this.unsetSelectedEntity();
-            this.activeTabOptions.data.splice(index, 1);
+        case 'Contacts':
+          {
+            if (updatedData.type === 'update') {
+              Object.assign(this.selectedEntity, updatedData.data);
+            } else if (updatedData.type === 'delete') {
+              let id = this.selectedEntity.custid;
+              let index = this.activeTabOptions.data.findIndex(
+                (item) => item.custid === id
+              );
+              this.displayToast(
+                `Contact Delete success!`,
+                `Contact : ${this.selectedEntity.custname}, deleted successfully.`,
+                'success'
+              );
+              this.unsetSelectedEntity();
+              this.activeTabOptions.data.splice(index, 1);
+            }
           }
-        }
+          break;
         case 'Business': {
           if (updatedData.type === 'update') {
             Object.assign(this.selectedEntity, updatedData.data);

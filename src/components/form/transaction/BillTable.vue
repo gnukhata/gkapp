@@ -931,7 +931,7 @@ export default {
      */
     updateTaxAndTotal(index) {
       let item = this.form[index];
-      if (item) {
+      if (item && item.taxes) {
         // find the appropriate tax based on the date of the invoice
         let taxDates = Object.keys(item.taxes);
         if (taxDates.length && this.invDate) {
