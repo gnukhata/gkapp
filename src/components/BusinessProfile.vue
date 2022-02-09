@@ -180,17 +180,31 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group label-size="sm" label="GST" label-cols="4">
+        <b-form-group class="mb-0" label-size="sm" label="GST" label-cols="4">
           <b-input-group size="sm" append="%">
             <b-form-select
               size="sm"
               :options="gstRates"
-              v-model="tax.igst.taxrate"
+              v-model="tax.gst[0].taxrate"
+              :disabled="multiGstFlag"
             >
             </b-form-select>
           </b-input-group>
         </b-form-group>
 
+        <b-form-checkbox
+          size="sm"
+          v-model="multiGstFlag"
+          class="d-inline-block float-right mb-2"
+          switch
+        >
+          <small>
+            <translate>
+              Add GST rates based on date of applicability
+            </translate>
+          </small>
+        </b-form-checkbox>
+        <div class="clearfix"></div>
         <b-form-group label-size="sm" label="CESS" label-cols="4">
           <b-input-group size="sm" append="%">
             <b-form-input
@@ -214,37 +228,7 @@
             ></b-form-input>
           </b-input-group>
         </b-form-group>
-        <b-form-group label-size="sm" label="GST" label-cols="4">
-          <div v-for="(item, index) in tax.gst" :key="index">
-            <b-input-group v-if="item.taxname === 'IGST'" class="mb-2">
-              <b-form-select
-                size="sm"
-                id="bi-input-7"
-                v-model="item.taxrate"
-                :options="gstRates"
-              ></b-form-select>
-              <b-input-group-append>
-                <gk-date
-                  v-model="item.taxfromdate"
-                  :id="`gst-from-${index}`"
-                  :inputStyle="{ 'max-width': '120px' }"
-                ></gk-date>
-                <b-button
-                  variant="outline-dark"
-                  size="sm"
-                  @click.prevent="removeGstEntry(index)"
-                  >-</b-button
-                >
-              </b-input-group-append>
-            </b-input-group>
-          </div>
-          <b-button
-            size="sm"
-            @click.prevent="addGstEntry"
-            class="float-right p-0 px-1"
-            >+ GST</b-button
-          >
-        </b-form-group>
+
         <b-form-group label-size="sm" label="VAT" label-cols="4">
           <div v-for="(item, index) in tax.vat" :key="index">
             <b-input-group v-if="item.taxname === 'VAT'" class="mb-2">
@@ -277,6 +261,65 @@
             >+ VAT</b-button
           >
         </b-form-group>
+        <b-collapse v-model="multiGstFlag">
+          <b-card no-body>
+            <b-card-body class="p-2" style="min-height: 50px">
+              <div class="mb-2">
+                <b>GST</b>
+                <b-button
+                  size="sm"
+                  @click.prevent="addGstEntry"
+                  class="px-1 py-0 float-right"
+                >
+                  + GST
+                </b-button>
+              </div>
+              <b-table-lite
+                bordered
+                head-variant="dark"
+                striped
+                small
+                class="text-small table-border-dark"
+                tbody-tr-class="gk-vertical-row"
+                :items="tax.gst"
+                :fields="[
+                  { key: 'taxrate', label: 'Rate %' },
+                  { key: 'taxfromdate', label: 'Applicable From' },
+                  { key: 'edit', label: '' },
+                ]"
+              >
+                <template #cell(taxrate)="data">
+                  <b-form-select
+                    size="sm"
+                    id="bi-input-7"
+                    v-model="tax.gst[data.index].taxrate"
+                    :options="gstRates"
+                  ></b-form-select>
+                </template>
+                <template #cell(taxfromdate)="data">
+                  <gk-date
+                    v-model="tax.gst[data.index].taxfromdate"
+                    :id="`gst-from-${data.index}`"
+                    :inputStyle="{ 'max-width': '120px' }"
+                    :min="tax.gst[data.index].min"
+                    @validity="updateGstDateValidity($event, data.index)"
+                    :readonly="!data.index"
+                  ></gk-date>
+                </template>
+                <template #cell(edit)="data">
+                  <b-button
+                    variant="secondary"
+                    size="sm"
+                    @click.prevent="removeGstEntry(data.index)"
+                    :disabled="!data.index"
+                  >
+                    -
+                  </b-button>
+                </template>
+              </b-table-lite>
+            </b-card-body>
+          </b-card>
+        </b-collapse>
       </b-collapse>
     </b-card>
 
@@ -436,6 +479,7 @@ export default {
       isCollapsed3: false,
       isCollapsed4: false,
       showGodownForm: false,
+      multiGstFlag: false,
       useGodownwise: false,
       uom: [],
       tax: {
@@ -443,7 +487,13 @@ export default {
         cess: {},
         cvat: {},
         vat: [],
-        gst: [],
+        gst: [
+          {
+            taxrate: 0,
+            taxfromdate: null,
+            // max: this.dateReverse(to),
+          },
+        ],
       },
       loading: true,
       options: {
@@ -486,8 +536,6 @@ export default {
           switch (res.data.gkstatus) {
             case 0:
               this.details = res.data.gkresult;
-              this.tax.gst = [];
-              this.tax.vat = [];
               Promise.all([this.getTaxDetails(), this.getGodowns()]).then(
                 () => {
                   this.loading = false;
@@ -565,7 +613,7 @@ export default {
                         } updated: ${this.details.productdesc}`,
                       };
                       axios.post('/log', log);
-                      
+
                       this.onUpdate({
                         type: 'update',
                         data: {
@@ -652,26 +700,29 @@ export default {
 
     /** Add a new GST entry to the GST list */
     addGstEntry() {
-      // let gsts = this.tax.gst;
-      // let from = this.yearStart,
+      let gsts = this.tax.gst;
+      let min = '';
       //   to = this.yearEnd;
-
-      // if (gsts.length) {
-      //   from = gsts[gsts.length - 1].to;
-      //   to = this.yearEnd;
-      // }
-
+      if (gsts.length && gsts[gsts.length - 1].taxfromdate) {
+        let lastDate = new Date(gsts[gsts.length - 1].taxfromdate);
+        let minDate = new Date(lastDate.getTime() + 24 * 60 * 60 * 1000);
+        min = this.dateReverse(minDate.toISOString().substr(0, 10));
+      }
       this.tax.gst.push({
         taxname: 'IGST',
         taxrate: 0,
-        from: null,
-        // min: this.dateReverse(from),
+        taxfromdate: null,
+        min: min,
+        dateValidity: true,
         // max: this.dateReverse(to),
       });
     },
     /** Remove GST entry from the GST list, from the given position */
     removeGstEntry(index) {
       this.tax.gst.splice(index, 1);
+    },
+    updateGstDateValidity(validity, index) {
+      this.tax.gst[index].dateValidity = validity;
     },
     updateGst() {
       // let gsts = this.tax.gst;
@@ -809,6 +860,8 @@ export default {
         .then((res) => {
           this.options.tax = res.data.gkresult;
           this.options.taxIdMap = {};
+          this.tax.gst = [];
+          this.tax.vat = [];
           this.options.tax.forEach((item) => {
             this.options.taxIdMap[item.taxid] = true;
             let taxname = item.taxname.toLowerCase();
@@ -821,6 +874,32 @@ export default {
               this.tax[taxname] = item;
             }
           });
+          let prev = null;
+          if (this.tax.gst.length) {
+            if (this.tax.gst[0].taxfromdate !== this.yearStart) {
+              this.tax.gst.unshift({
+                taxrate: 0,
+                taxfromdate: this.yearStart,
+                min: this.dateReverse(this.yearStart),
+                dateValidity: true,
+              });
+            }
+            this.tax.gst.forEach((item, index) => {
+              if (prev) {
+                let min = '';
+                let lastDate = new Date(prev.taxfromdate);
+                let minDate = new Date(
+                  lastDate.getTime() + 24 * 60 * 60 * 1000
+                );
+                min = this.dateReverse(minDate.toISOString().substr(0, 10));
+                item.min = min;
+              } else {
+                item.min = this.dateReverse(item.taxfromdate);
+              }
+              prev = item;
+            });
+          }
+          this.multiGstFlag = this.tax.gst.length > 1;
         });
     },
     /**

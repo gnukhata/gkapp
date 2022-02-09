@@ -280,7 +280,7 @@
                         <b-form-select
                           size="sm"
                           id="bi-input-7"
-                          v-model="form.tax.gst"
+                          v-model="form.tax.gsts[0].rate"
                           :options="gstRates"
                           :disabled="form.tax.gstFlag"
                         ></b-form-select>
@@ -400,7 +400,6 @@
                           <b-table-lite
                             bordered
                             head-variant="dark"
-                            stacked="sm"
                             striped
                             small
                             class="text-small table-border-dark"
@@ -429,6 +428,7 @@
                                 @validity="
                                   updateGstDateValidity($event, data.index)
                                 "
+                                :readonly="!data.index"
                               ></gk-date>
                             </template>
                             <template #cell(edit)="data">
@@ -436,6 +436,7 @@
                                 variant="secondary"
                                 size="sm"
                                 @click.prevent="deleteGst(data.index)"
+                                :disabled="!data.index"
                               >
                                 -
                               </b-button>
@@ -575,10 +576,6 @@ export default {
       isPreloading: false,
       showOptional: false,
       uomCode: 'UOM',
-      gsts: [
-        { rate: 'hello', from: 1, edit: '' },
-        { rate: 0, from: 1, edit: '' },
-      ],
       options: {
         godowns: [],
         states: [],
@@ -999,7 +996,9 @@ export default {
           gst: null,
           cvat: null,
           vat: [],
-          gsts: [{ rate: 0, from: '' }],
+          gsts: [
+            { rate: 0, from: this.yearStart, min: this.dateReverse(this.yearStart), dateValidity: true },
+          ],
           gstFlag: false,
         },
         hsn: null,
@@ -1136,6 +1135,7 @@ export default {
     },
   },
   mounted() {
+    this.resetForm();
     this.preloadData();
   },
 };
