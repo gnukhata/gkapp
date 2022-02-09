@@ -413,7 +413,21 @@ export default {
         { title: self.$gettext('No'), value: details.number },
         { title: self.$gettext('Date'), value: details.date },
       ];
-      
+
+      if (details.supinvno) {
+        res.push({
+          title: self.$gettext('Sup. Inv. No'),
+          value: details.supinvno,
+        });
+      }
+
+      if (details.supinvdate) {
+        res.push({
+          title: self.$gettext('Sup. Inv. Date'),
+          value: details.supinvdate,
+        });
+      }
+
       if (details.eway) {
         res.push({
           title: self.$gettext('Eway Bill No.'),
@@ -441,7 +455,7 @@ export default {
           value: `${details.issuer}  ${designation}`,
         }
       );
-      
+
       return res;
     },
     bankDetails: (self) => {
@@ -669,6 +683,14 @@ export default {
           narration: details.narration,
           attachmentCount: details.attachmentcount,
         };
+
+        if (details.inoutflag === 9) {
+          Object.assign(this.invoice, {
+            supinvno: details.supinvno,
+            supinvdate: details.supinvdate,
+          });
+        }
+
         if (details.invcontents) {
           let product = {};
           this.invoice.invItems = Object.keys(details.invcontents).map(

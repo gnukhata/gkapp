@@ -69,6 +69,36 @@
           </gk-date>
         </b-form-group>
         <b-form-group
+          v-if="!saleFlag"
+          label="Supplier Inv. #"
+          label-for="ivd-input-11"
+          label-cols="3"
+          label-cols-md="4"
+          label-size="sm"
+        >
+          <template #label> <translate> Supplier Inv. # </translate> </template>
+          <b-form-input
+            size="sm"
+            id="ivd-input-11"
+            v-model="form.supno"
+            trim
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          v-if="!saleFlag"
+          label="Supplier Inv. Date"
+          label-cols="3"
+          label-cols-md="4"
+          label-size="sm"
+          id="ivd-input-group-11"
+        >
+          <template #label>
+            <translate> Supplier Inv. Date </translate>
+          </template>
+          <gk-date id="ivd-date-11" :format="dateFormat" v-model="form.supdate">
+          </gk-date>
+        </b-form-group>
+        <b-form-group
           label="Place of Supply"
           label-for="ivd-input-11"
           label-cols="3"
@@ -313,6 +343,8 @@ export default {
       form: {
         no: null,
         date: new Date().toISOString().slice(0, 10),
+        supno: null,
+        supdate: null,
         delNote: null,
         dnNo: '',
         godown: null,
@@ -390,6 +422,10 @@ export default {
     saleFlag() {
       this.setInvoiceNo();
       this.updateDelNoteNo();
+      this.form.godown = '';
+      this.$nextTick().then(() => {
+        this.form.godown = this.$store.getters['global/getDefaultGodown'];
+      });
     },
   },
   methods: {
@@ -668,6 +704,10 @@ export default {
       } else {
         this.form.no = '';
       }
+      this.form.godown = '';
+      this.$nextTick().then(() => {
+        this.form.godown = this.$store.getters['global/getDefaultGodown'];
+      });
       this.onUpdateDetails();
       this.updateDelNoteNo(true);
     },
@@ -676,7 +716,6 @@ export default {
     const self = this;
     this.preloadData().then(() => {
       self.resetForm();
-      self.form.godown = self.$store.getters['global/getDefaultGodown'];
     });
   },
 };

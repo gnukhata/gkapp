@@ -685,7 +685,7 @@ export default {
         case 'party-details':
           {
             this.options.partyDetails = payload;
-            
+
             this.setBankDetails();
             Object.assign(this.form.party, payload.data);
             this.form.inv.taxState = payload.data.state;
@@ -1281,6 +1281,8 @@ export default {
         invoice.taxstate = this.form.inv.state.name || null;
         invoice.inoutflag = 9; // purchase
         delete invoice.ewaybillno;
+        invoice.supinvno = this.form.inv.supno;
+        invoice.supinvdate = this.form.inv.supdate;
       }
 
       if (typeof this.form.inv.taxState === 'object') {
