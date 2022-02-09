@@ -7,8 +7,44 @@ The GNUkhata team meets *Every Wednesday @ 11:30 AM (IST)* to discuss about
 development, features, outline plans for next release. Feel free to join
 us & suggest your ideas, comments, feedback.
 
-Jitsi Meet Link: https://meet.jit.si/GNUKhata2020
+Jitsi Meet Link: [[https://meet.jit.si/GNUKhata2020]]
 
+* <2022-02-09 Wed>
+** Karthik
+1. HSN API with offline capability
+   - Vaidate
+   - Search
+2. Org Export API
+** Survesh
+1. Implement stock table recalculation program
+2. UI updates in gst rate applicability
+3. added supplier invoice no, date to invoice form
+** VK
+- Evaluate ICFOSS gst reports module
+** R2
+- Erpnext HSN json has more fields
+** GN
+Absent
+* <2022-02-02 Wed>
+** Karthik
+*** gkcore spreadsheet API's
+- Unbilled delivery challan
+- cancelled delivery challan
+- gst r1
+- gst summary
+- cost center statement
+** Survesh
+  Updates to gst applicability
+   - Remove to date from gst applicability
+   - Make the GST applicability collapsable
+   - Implement GST applicability in invoice
+   - Increase col width of transaction details card
+** GN
+- Discuss with ICFOSS on agreement with texbyte
+** VK
+- Transfer the rate on gst input to GST section with default fy start date, on toggle
+** R2
+- Add a mirror of gnukhata on github
 * <2022-01-26 Wed>
 
 ** karthik
