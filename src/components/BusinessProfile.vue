@@ -681,13 +681,14 @@ export default {
             let payload = item;
             if (name === 'gst') {
               payload = {
-                productcode: item.productcode,
-                state: item.state,
+                state: item.state || '',
                 taxfromdate: item.taxfromdate,
-                taxid: item.taxid,
                 taxname: item.taxname,
                 taxrate: item.taxrate,
               };
+              if(item.taxid) {
+                payload.taxid = item.taxid;
+              }
             }
             updates.push(updateTaxItem(payload));
           });
@@ -926,7 +927,14 @@ export default {
               prev = item;
             });
           } else {
-            this.addGstEntry();
+            this.tax.gst.push({
+              taxname: 'IGST',
+              taxrate: 0,
+              taxfromdate: this.yearStart,
+              min: this.dateReverse(this.yearStart),
+              dateValidity: true,
+              // max: this.dateReverse(to),
+            });
           }
           this.multiGstFlag = this.tax.gst.length > 1;
         });
