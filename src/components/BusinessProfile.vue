@@ -914,6 +914,8 @@ export default {
               }
               prev = item;
             });
+          } else {
+            this.addGstEntry();
           }
           this.multiGstFlag = this.tax.gst.length > 1;
         });
