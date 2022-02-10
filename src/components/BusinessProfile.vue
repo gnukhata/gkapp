@@ -652,7 +652,7 @@ export default {
         const tax = Object.assign({ productcode: self.name.productcode }, item);
         let request;
         if (item.taxid === undefined) {
-          if (parseFloat(item.taxrate) > 0) {
+          if (parseFloat(item.taxrate) > 0 && item.taxfromdate) {
             // create a new tax entry, or newly added tax items
             request = axios.post('/tax2', tax);
           }
@@ -678,7 +678,18 @@ export default {
       for (const name in this.tax) {
         if (name === 'vat' || name === 'gst') {
           this.tax[name].forEach(function(item) {
-            updates.push(updateTaxItem(item));
+            let payload = item;
+            if (name === 'gst') {
+              payload = {
+                productcode: item.productcode,
+                state: item.state,
+                taxfromdate: item.taxfromdate,
+                taxid: item.taxid,
+                taxname: item.taxname,
+                taxrate: item.taxrate,
+              };
+            }
+            updates.push(updateTaxItem(payload));
           });
         } else {
           updates.push(updateTaxItem(this.tax[name]));
