@@ -36,21 +36,17 @@
 | Budget report (Cash & Profit/Loss) | x   |    |
 | List of Users                      | x   |    |
 | List of Transfer Notes             | x   |    |
-|                                    |     |    |
-| List of Unpaid Invoices            |     |    |
-| Unbilled Delivery Notes            |     |    |
-| Cancelled Delivery Notes           |     |    |
-|                                    |     |    |
-| gst_r1                             |     |    |
-| gst report                         |     |    |
-| Cost Center statement              |     |    |
-| List of categories                 |     |    |
-
-- [ ] Data exchange <2022-02-28 Mon>
-  1. [ ] Import
-  2. [ ] Export
+| List of Unpaid Invoices            | x   |    |
+| Unbilled Delivery Notes            | x   |    |
+| Cancelled Delivery Notes           | x   |    |
+| List of categories                 | x   |    |
+| Cost Center statement              | x   |    |
+| gst_r1                             | x   |    |
+| gst report                         | x   |    |
+| Export data                        | x   |    |
+| Import data                        |     |    |
 - [ ] Small business GST Compliance <2022-03-31 Thu>
-- [ ] i18n <2022-01-18 Tue>
+- [X] i18n <2022-01-18 Tue>
  | Pages                      | CRUD | Display |
  |----------------------------+------+---------|
  | Invoice                    | x    | x       |
