@@ -428,6 +428,7 @@
                                 @validity="
                                   updateGstDateValidity($event, data.index)
                                 "
+                                @input="updateGst"
                                 :readonly="!data.index"
                               ></gk-date>
                             </template>
@@ -660,6 +661,22 @@ export default {
       //     gsts[i].max = this.dateReverse(max);
       //   }
       // }
+      let prev = null;
+      let gsts = this.form.tax.gsts;
+      if (gsts.length) {
+        gsts.forEach((item) => {
+          if (prev) {
+            let min = '';
+            let lastDate = new Date(prev.from);
+            let minDate = new Date(lastDate.getTime() + 24 * 60 * 60 * 1000);
+            min = this.dateReverse(minDate.toISOString().substr(0, 10));
+            item.min = min;
+          } else {
+            item.min = this.dateReverse(item.from);
+          }
+          prev = item;
+        });
+      }
     },
     addGst() {
       let gsts = this.form.tax.gsts;
@@ -997,7 +1014,12 @@ export default {
           cvat: null,
           vat: [],
           gsts: [
-            { rate: 0, from: this.yearStart, min: this.dateReverse(this.yearStart), dateValidity: true },
+            {
+              rate: 0,
+              from: this.yearStart,
+              min: this.dateReverse(this.yearStart),
+              dateValidity: true,
+            },
           ],
           gstFlag: false,
         },

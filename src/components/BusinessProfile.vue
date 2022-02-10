@@ -303,6 +303,7 @@
                     :inputStyle="{ 'max-width': '120px' }"
                     :min="tax.gst[data.index].min"
                     @validity="updateGstDateValidity($event, data.index)"
+                    @input="updateGst"
                     :readonly="!data.index"
                   ></gk-date>
                 </template>
@@ -733,6 +734,21 @@ export default {
       //     gsts[i].max = this.dateReverse(max);
       //   }
       // }
+      let prev = null;
+      if (this.tax.gst.length) {
+        this.tax.gst.forEach((item) => {
+          if (prev) {
+            let min = '';
+            let lastDate = new Date(prev.taxfromdate);
+            let minDate = new Date(lastDate.getTime() + 24 * 60 * 60 * 1000);
+            min = this.dateReverse(minDate.toISOString().substr(0, 10));
+            item.min = min;
+          } else {
+            item.min = this.dateReverse(item.taxfromdate);
+          }
+          prev = item;
+        });
+      }
     },
     /**
      * Delete selected product
