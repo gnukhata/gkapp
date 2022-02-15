@@ -1,17 +1,18 @@
 <template>
-  <b-button variant="link" @click.prevent="onFileDownload">
+  <b-button :variant="variant" @click.prevent="onFileDownload">
     <b-icon
       aria-hidden="true"
       class="align-middle"
-      icon="cloud-download"
+      :icon="icon"
       :font-scale="fontScale"
     ></b-icon>
+    {{ name }}
   </b-button>
 </template>
 
 <script>
 import axios from 'axios';
-// import { mapState } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   name: 'GkFileDownloader',
   props: {
@@ -22,7 +23,7 @@ export default {
     },
     fileExtn: {
       type: String,
-      required: true,
+      default: 'xlsx',
       note: 'Extension of the file to be downloaded, e.g. xlsx or jpeg',
     },
     addDate: {
@@ -47,21 +48,31 @@ export default {
       default: 1,
       note: 'The font scale of the icon used',
     },
+    icon: {
+      type: String,
+      default: 'cloud-download',
+      note: 'Icon name',
+    },
+    name: {
+      type: String,
+      note: 'Button Name',
+    },
+    variant: {
+      type: String,
+      default: 'link',
+    },
   },
-  data() {
-    return {};
-  },
+
   computed: {
-    // ...mapState(['orgName', 'userName']),
+    ...mapState(['orgName']),
   },
-  watch: {},
   methods: {
     onFileDownload() {
       axios.get(this.url, { responseType: 'blob' }).then((resp) => {
         if (!resp.data.gkstatus || resp.data.gkstatus === 0) {
           let blob = resp.data;
           if (this.filePath) {
-            if(this.filePath.length) {
+            if (this.filePath.length) {
               this.filePath.forEach((path) => {
                 blob = blob[path];
               });
@@ -72,9 +83,9 @@ export default {
           atag.href = fileUrl;
           if (this.addDate) {
             let date = new Date().toISOString().substr(0, 10);
-            atag.download = `${this.fileName}-${date}.${this.fileExtn}`;
+            atag.download = `${this.fileName}-${this.orgName}-${date}.${this.fileExtn}`;
           } else {
-            atag.download = `${this.fileName}.${this.fileExtn}`;
+            atag.download = `${this.fileName}_${this.orgName}.${this.fileExtn}`;
           }
           atag.style.display = 'none';
           document.body.appendChild(atag);
