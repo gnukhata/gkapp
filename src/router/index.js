@@ -500,6 +500,12 @@ const routes = [
         /* webpackChunkName: "gst-3b-full" */ '../views/gst/3B/Report.vue'
       ),
   },
+  {
+    path: '/export',
+    name: 'Export Data',
+    component: () =>
+      import(/* webpackChunkName: "export-data" */ '../views/DataExport.vue'),
+  },
 ];
 
 const router = new VueRouter({
