@@ -60,26 +60,10 @@ export default {
       type: [String, Boolean],
       default: false,
     },
-    currentHsn: {
+    value: {
       type: [Object, String],
-      // validator: (prop) => {
-      //   if (typeof prop == 'string') {
-      //     return JSON.parse(prop);
-      //   } else {
-      //     return prop;
-      //   }
-      // },
+      default: null,
     },
-  },
-  mounted() {
-    // only run if `prop` currenHsn in provided
-    setInterval(() => {
-      if (this.$props.currentHsn !== undefined) {
-        let o = JSON.parse(this.$props.currentHsn);
-        this.hsn.code = o.hsn_code;
-        this.checkHsn();
-      }
-    }, 1500);
   },
   data() {
     return {
@@ -89,10 +73,21 @@ export default {
         suggestions: [],
         isValid: null,
       },
-      // hsn: JSON.parse(this.value),
     };
   },
+  watch: {
+    value(v) {
+      this.string2json(v);
+    },
+  },
   methods: {
+    /**
+     * Convert string to JSON & validate
+     */
+    string2json(s) {
+      this.hsn.code = JSON.parse(s)['hsn_code'];
+      this.checkHsn();
+    },
     /**
      * Check if entered hsn is valid, else emit
      * `null` & show a list of hsn suggestions
