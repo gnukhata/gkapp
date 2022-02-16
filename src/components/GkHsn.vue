@@ -2,24 +2,26 @@
   <div>
     <b-overlay :show="loading">
       <!-- HSN Input -->
-      <b-form-input
-        type="text"
-        :size="size"
-        @input="checkHsn"
-        v-model="hsn.code"
-        :placeholder="this.$gettext('Enter HSN code / description')"
-        :state="hsn.isValid"
-        :required="required"
-      ></b-form-input>
+      <b-form-group :description="hsn.desc" class="mb-0">
+        <b-form-input
+          type="text"
+          :size="size"
+          @input="checkHsn"
+          v-model="hsn.code"
+          :placeholder="this.$gettext('Enter HSN code / description')"
+          :state="hsn.isValid"
+          :required="required"
+        ></b-form-input>
+      </b-form-group>
     </b-overlay>
     <!-- HSN Suggestions Table -->
     <div
       v-if="hsn.suggestions.length > 0"
-      style="height: 20em; overflow-y:scroll"
+      style="height: 20em; width: inherit; overflow-y:scroll"
       class="border mb-1 text-"
     >
       <b-table
-        table-variant="light"
+        table-variant="warning"
         hover
         small
         thead-class="d-none"
@@ -70,6 +72,7 @@ export default {
       loading: false,
       hsn: {
         code: null,
+        desc: '',
         suggestions: [],
         isValid: null,
       },
@@ -95,6 +98,7 @@ export default {
     checkHsn() {
       if (this.hsn.code.length == 0) {
         this.hsn.isValid = null;
+        this.hsn.desc = '';
         return;
       }
       axios.get(`/hsn?validate=${this.hsn.code}`).then((r) => {
@@ -104,6 +108,7 @@ export default {
           this.$emit('change', null);
         } else {
           this.hsn.isValid = true;
+          this.hsn.desc = r.data.gkresult['hsn_desc'];
           this.hsn.suggestions = [];
           this.$emit('change', JSON.stringify(r.data.gkresult));
         }
