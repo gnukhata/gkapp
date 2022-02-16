@@ -40,7 +40,6 @@
               id="btn-radios-1"
               v-model="orgType"
               :options="options.orgType"
-              :aria-describedby="ariaDescribedby"
               button-variant="outline-dark"
               name="radios-btn-outline"
               buttons
@@ -279,19 +278,19 @@
           <small> <translate> * All fields are required </translate> </small>
           <!-- <hr /> -->
           <div class="float-right">
-            <!-- <b-button
-                   size="sm"
-                   class="mr-2"
-                   variant="danger"
-                   :to="{ name: 'Login' }"
-                   >
-                   <b-icon
-                   aria-hidden="true"
-                   class="align-middle"
-                   icon="arrow-left"
-                   ></b-icon>
-                   <span class="align-middle"> Back</span>
-                   </b-button> -->
+            <b-button
+              size="sm"
+              class="mr-2"
+              variant="danger"
+              @click="$router.go(-1)"
+            >
+              <b-icon
+                aria-hidden="true"
+                class="align-middle"
+                icon="arrow-left"
+              ></b-icon>
+              <span class="align-middle"> <translate>Back</translate></span>
+            </b-button>
             <b-button
               size="sm"
               type="submit"
