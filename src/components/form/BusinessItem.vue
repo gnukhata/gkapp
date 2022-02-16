@@ -203,6 +203,7 @@
                       type="number"
                       no-wheel
                       step="0.01"
+                      @input="calculateDiscount"
                     ></b-form-input>
                   </b-input-group>
                 </b-form-group>
@@ -645,6 +646,10 @@ export default {
     },
   },
   methods: {
+    calculateDiscount() {
+      this.form.discountAmount = this.form.mrp - this.form.salePrice;
+      this.form.discountPercent = (this.form.mrp * this.form.salePrice) / 100;
+    },
     updateGstDateValidity(validity, index) {
       this.form.tax.gsts[index].dateValidity = validity;
     },
