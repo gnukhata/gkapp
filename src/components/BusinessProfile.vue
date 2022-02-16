@@ -5,8 +5,6 @@
     @submit.prevent="updateProfile"
   >
     <b-overlay :show="loading" blur no-wrap></b-overlay>
-    <!-- {{ details }} -->
-    <!-- {{ godowns }} -->
     <!-- name --->
     <b-card
       class="mt-2"
@@ -25,7 +23,11 @@
         </div>
       </template>
       <b-collapse v-model="isCollapsed1" class="p-3" id="collapse-info">
-        <b-form-group label-size="sm" label="Name" label-cols="4">
+        <b-form-group
+          label-size="sm"
+          :label="this.$gettext('Name')"
+          label-cols="4"
+        >
           <b-form-input
             size="sm"
             v-model.trim="details.productdesc"
@@ -36,7 +38,7 @@
         <!-- Opening Stock -->
         <b-form-group
           v-if="details.gsflag == 7"
-          label="Opening Stock"
+          :label="this.$gettext('Opening Stock')"
           label-cols="4"
           label-size="sm"
         >
@@ -83,18 +85,18 @@
             </b-form-select>
           </b-input-group>
         </b-form-group>
-        <!-- HSN / SCN Code -->
-        <b-form-group
-          v-if="details.gsflag == 7"
-          label="HSN Code"
-          label-cols="4"
-          label-size="sm"
-        >
-          <b-form-input size="sm" v-model="details.gscode"></b-form-input>
-        </b-form-group>
-        <b-form-group v-else label="SAC Code" label-cols="4">
-          <b-form-input size="sm" v-model="details.gscode"></b-form-input>
-        </b-form-group>
+        <!-- HSN / SAC Code -->
+        <!-- <b-form-group
+             :label="details.gsflag == 7 ? 'HSN' : 'SAC'"
+             label-cols="4"
+             label-size="sm"
+             >
+             <b-form-input size="sm" v-model="details.gscode"></b-form-input>
+             <gk-hsn v-model="details.gscode"></gk-hsn>
+             </b-form-group>
+             <b-form-group v-else label="SAC" label-cols="4">
+             <b-form-input size="sm" v-model="details.gscode"></b-form-input>
+             </b-form-group> -->
       </b-collapse>
     </b-card>
     <b-card
@@ -170,14 +172,19 @@
         </div>
       </template>
       <b-collapse v-model="isCollapsed3" class="p-3" id="collapse-tax">
-        <b-form-group label-size="sm" label="HSN" label-cols="4">
-          <b-form-input
-            size="sm"
-            type="number"
-            no-wheel
-            required
-            v-model="details.gscode"
-          ></b-form-input>
+        <b-form-group
+          label-size="sm"
+          :label="details.gsflag == 7 ? 'HSN' : 'SAC'"
+          label-cols="4"
+        >
+          <!-- <b-form-input
+               size="sm"
+               type="number"
+               no-wheel
+               required
+               v-model="details.gscode"
+               ></b-form-input> -->
+          <gk-hsn v-model="details.gscode"></gk-hsn>
         </b-form-group>
 
         <b-form-group class="mb-0" label-size="sm" label="GST" label-cols="4">
@@ -457,10 +464,11 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 import Godown from '../components/form/Godown.vue';
 import GkDate from '../components/GkDate.vue';
+import GkHsn from './GkHsn.vue';
 
 export default {
   name: 'BusinessProfile',
-  components: { Godown, GkDate },
+  components: { Godown, GkDate, GkHsn },
   props: {
     name: Object,
     onUpdate: {
@@ -512,6 +520,7 @@ export default {
     isProduct: (self) => self.details.gsflag === 7,
     isGodownUsed: (self) => !!self.oldGodowns.length,
     gstRates: (self) => self.$store.getters['global/getGstRates'],
+
     ...mapState(['gkCoreUrl', 'authToken', 'yearStart', 'yearEnd']),
   },
   methods: {
@@ -583,6 +592,12 @@ export default {
             delete this.details.deletable;
             delete this.details.unitname;
 
+            let hsn = this.details.gscode;
+
+            if (typeof hsn == 'object') {
+              hsn = JSON.stringify(hsn);
+            }
+
             if (this.godowns.length > 0) {
               let godowns = {};
               this.godowns.forEach((godown) => {
@@ -630,6 +645,13 @@ export default {
                     break;
                   case 2:
                     this.$bvToast.toast(this.$gettext(`Unauthorised access`), {
+                      title: this.$gettext('Failure'),
+                      variant: 'danger',
+                      solid: true,
+                    });
+                    break;
+                  case 3:
+                    this.$bvToast.toast(this.$gettext(`Data Error`), {
                       title: this.$gettext('Failure'),
                       variant: 'danger',
                       solid: true,
@@ -686,7 +708,7 @@ export default {
                 taxname: item.taxname,
                 taxrate: item.taxrate,
               };
-              if(item.taxid) {
+              if (item.taxid) {
                 payload.taxid = item.taxid;
               }
             }

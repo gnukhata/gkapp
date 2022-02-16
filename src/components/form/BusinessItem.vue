@@ -260,14 +260,28 @@
                       label-cols="3"
                       :label-class="isHsnRequired ? 'required' : ''"
                     >
-                      <b-form-input
-                        size="sm"
-                        id="bi-input-10"
-                        placeholder=""
+                      <!-- <b-form-input
+                           size="sm"
+                           id="bi-input-10"
+                           placeholder=""
+                           v-model="form.hsn"
+                           trim
+                           :required="isHsnRequired"
+                           ></b-form-input> -->
+                      <gk-hsn
                         v-model="form.hsn"
-                        trim
                         :required="isHsnRequired"
-                      ></b-form-input>
+                      ></gk-hsn>
+                    </b-form-group>
+                    <!-- HSN description -->
+                    <b-form-group
+                      v-if="form.hsn !== null"
+                      label-size="sm"
+                      label-cols="3"
+                      label="Description"
+                    >
+                      <b-form-textarea disabled size="sm" v-model="form.hsn">
+                      </b-form-textarea>
                     </b-form-group>
                     <b-form-group
                       label-size="sm"
@@ -541,10 +555,11 @@ import { mapState } from 'vuex';
 import Godown from './Godown';
 import Autocomplete from '../Autocomplete';
 import GkDate from '../GkDate.vue';
+import GkHsn from '../GkHsn.vue';
 
 export default {
   name: 'BusinessItem',
-  components: { Godown, Autocomplete, GkDate },
+  components: { Godown, Autocomplete, GkDate, GkHsn },
   props: {
     mode: {
       type: String,
