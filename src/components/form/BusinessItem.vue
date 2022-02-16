@@ -204,6 +204,7 @@
                       no-wheel
                       step="0.01"
                       @input="calculateDiscount"
+                      @blur="calculateDiscount"
                     ></b-form-input>
                   </b-input-group>
                 </b-form-group>
@@ -648,7 +649,9 @@ export default {
   methods: {
     calculateDiscount() {
       this.form.discountAmount = this.form.mrp - this.form.salePrice;
-      this.form.discountPercent = (this.form.mrp * this.form.salePrice) / 100;
+      this.form.discountPercent = parseFloat(
+        parseFloat((this.form.discountAmount / this.form.mrp) * 100)
+      ).toFixed(2);
     },
     updateGstDateValidity(validity, index) {
       if(index === 0 && validity === null) {
