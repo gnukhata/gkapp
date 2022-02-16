@@ -273,16 +273,8 @@
                         :required="isHsnRequired"
                       ></gk-hsn>
                     </b-form-group>
-                    <!-- HSN description -->
-                    <b-form-group
-                      v-if="form.hsn !== null"
-                      label-size="sm"
-                      label-cols="3"
-                      label="Description"
-                    >
-                      <b-form-textarea disabled size="sm" v-model="form.hsn">
-                      </b-form-textarea>
-                    </b-form-group>
+
+                    <!-- GST -->
                     <b-form-group
                       label-size="sm"
                       label="GST"
