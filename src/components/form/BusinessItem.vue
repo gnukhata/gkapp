@@ -651,6 +651,9 @@ export default {
       this.form.discountPercent = (this.form.mrp * this.form.salePrice) / 100;
     },
     updateGstDateValidity(validity, index) {
+      if(index === 0 && validity === null) {
+        validity = true;
+      }
       this.form.tax.gsts[index].dateValidity = validity;
     },
     addVat() {

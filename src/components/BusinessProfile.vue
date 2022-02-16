@@ -757,6 +757,9 @@ export default {
       this.tax.gst.splice(index, 1);
     },
     updateGstDateValidity(validity, index) {
+      if(index === 0 && validity === null) {
+        validity = true;
+      }
       this.tax.gst[index].dateValidity = validity;
     },
     updateGst() {
