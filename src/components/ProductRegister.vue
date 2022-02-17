@@ -107,7 +107,7 @@
       <div class="text-right">
         <gk-file-downloader
           :url="
-            `/spreadsheet?type=stockreport&calculatefrom=${dateReverse(
+            `/spreadsheet?stock-report&calculatefrom=${dateReverse(
               this.fromDate
             )}&calculateto=${dateReverse(this.toDate)}&fystart=${
               this.yearStart
