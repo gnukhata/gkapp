@@ -251,6 +251,10 @@
               <b-icon icon="file-earmark"></b-icon
               ><translate> R1 Report</translate>
             </b-nav-item>
+            <b-nav-item to="/gst/3b">
+              <b-icon icon="file-earmark"></b-icon
+              ><translate> 3B Report</translate>
+            </b-nav-item>
           </b-collapse>
 
           <!-- Help -->
