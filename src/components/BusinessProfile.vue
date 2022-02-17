@@ -127,7 +127,12 @@
           label="Selling Price"
           label-cols="4"
         >
-          <b-form-input size="sm" v-model="details.prodsp"></b-form-input>
+          <b-form-input
+            size="sm"
+            @input="calculateDiscount"
+            @blur="calculateDiscount"
+            v-model="details.prodsp"
+          ></b-form-input>
         </b-form-group>
         <!-- discount -->
         <b-form-group
@@ -524,6 +529,12 @@ export default {
     ...mapState(['gkCoreUrl', 'authToken', 'yearStart', 'yearEnd']),
   },
   methods: {
+    calculateDiscount() {
+      this.details.discountamount = this.details.prodmrp - this.details.prodsp;
+      this.details.discountpercent = parseFloat(
+        parseFloat((this.details.discountamount / this.details.prodmrp) * 100)
+      ).toFixed(2);
+    },
     scrollToGodownCard() {
       document
         .getElementById('godown-card')
@@ -757,7 +768,7 @@ export default {
       this.tax.gst.splice(index, 1);
     },
     updateGstDateValidity(validity, index) {
-      if(index === 0 && validity === null) {
+      if (index === 0 && validity === null) {
         validity = true;
       }
       this.tax.gst[index].dateValidity = validity;
