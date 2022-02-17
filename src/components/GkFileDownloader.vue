@@ -1,5 +1,5 @@
 <template>
-  <b-button :variant="variant" @click.prevent="onFileDownload">
+  <b-button :disabled="disabled" :variant="variant" @click.prevent="onFileDownload">
     <b-icon
       aria-hidden="true"
       class="align-middle"
@@ -32,6 +32,12 @@ export default {
       default: false,
       note: 'Flag to add current date to the file name during download',
     },
+    addTimeStamp: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: 'Flag to add time stamp to the file name during download',
+    },
     url: {
       type: String,
       required: true,
@@ -61,6 +67,11 @@ export default {
       type: String,
       default: 'link',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+      note: 'Prop to disable the download button'
+    },
   },
 
   computed: {
@@ -81,12 +92,16 @@ export default {
           let fileUrl = window.URL.createObjectURL(blob);
           let atag = document.createElement('a');
           atag.href = fileUrl;
+          let fileName = `${this.fileName}-${this.orgName}`
           if (this.addDate) {
             let date = new Date().toISOString().substr(0, 10);
-            atag.download = `${this.fileName}-${this.orgName}-${date}.${this.fileExtn}`;
-          } else {
-            atag.download = `${this.fileName}_${this.orgName}.${this.fileExtn}`;
+            fileName += `-${date}`;
+          } 
+          if(this.addTimeStamp){
+            let tStamp = new Date().toISOString().substr(11);
+            fileName += `-${tStamp}`;
           }
+          atag.download = `${fileName}.${this.fileExtn}`;
           atag.style.display = 'none';
           document.body.appendChild(atag);
           atag.click();
