@@ -497,7 +497,6 @@ export default {
       useGodownwise: false,
       uom: [],
       tax: {
-        igst: {},
         cess: {},
         cvat: {},
         vat: [],
@@ -508,6 +507,7 @@ export default {
             // max: this.dateReverse(to),
           },
         ],
+        delGst: [],
       },
       loading: true,
       options: {
@@ -522,6 +522,8 @@ export default {
     };
   },
   computed: {
+    gstDateValidity: (self) =>
+      self.tax.gst.reduce((acc, gst) => acc && gst.dateValidity, true),
     isProduct: (self) => self.details.gsflag === 7,
     isGodownUsed: (self) => !!self.oldGodowns.length,
     gstRates: (self) => self.$store.getters['global/getGstRates'],
@@ -708,11 +710,17 @@ export default {
         return request;
       };
       let updates = [];
+
+      this.tax.gst.sort((a, b) => {
+        let aDate = new Date(a.taxfromdate).getTime(),
+          bDate = new Date(b.taxfromdate).getTime();
+        return aDate - bDate;
+      });
       for (const name in this.tax) {
-        if (name === 'vat' || name === 'gst') {
+        if (name === 'vat' || name === 'gst' || name === 'delGst') {
           this.tax[name].forEach(function(item) {
             let payload = item;
-            if (name === 'gst') {
+            if (name === 'gst' || name === 'delGst') {
               payload = {
                 state: item.state || '',
                 taxfromdate: item.taxfromdate,
@@ -765,7 +773,16 @@ export default {
     },
     /** Remove GST entry from the GST list, from the given position */
     removeGstEntry(index) {
-      this.tax.gst.splice(index, 1);
+      let deleted = this.tax.gst.splice(index, 1)[0];
+      if (deleted && deleted.taxid) {
+        let duplicate = this.tax.delGst.find(
+          (tax) => tax.taxid === deleted.taxid
+        );
+        if (!duplicate) {
+          deleted.taxrate = 0;
+          this.tax.delGst.push(deleted);
+        }
+      }
     },
     updateGstDateValidity(validity, index) {
       if (index === 0 && validity === null) {
@@ -940,12 +957,18 @@ export default {
           });
           let prev = null;
           if (this.tax.gst.length) {
+            this.tax.gst.sort((a, b) => {
+              let aDate = new Date(a.taxfromdate).getTime(),
+                bDate = new Date(b.taxfromdate).getTime();
+              return aDate - bDate;
+            });
             if (this.tax.gst[0].taxfromdate !== this.yearStart) {
               this.tax.gst.unshift({
                 taxrate: 0,
                 taxfromdate: this.yearStart,
                 min: this.dateReverse(this.yearStart),
                 dateValidity: true,
+                taxname: 'IGST'
               });
             }
             this.tax.gst.forEach((item) => {

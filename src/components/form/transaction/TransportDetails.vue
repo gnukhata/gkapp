@@ -132,6 +132,7 @@
             ></b-form-input>
           </b-input-group>
         </b-form-group>
+        <!-- Reverse charge is a mechanism where the recipient of the goods or services is liable to pay Goods and Services Tax (GST) instead of the supplier. -->
         <b-form-checkbox
           v-model="form.reverseCharge"
           size="sm"
