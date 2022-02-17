@@ -9,6 +9,40 @@ us & suggest your ideas, comments, feedback.
 
 Jitsi Meet Link: [[https://meet.jit.si/GNUKhata2020]]
 
+
+* <2022-02-17 Thu>
+** Karthik
+1. HSN Component
+   - Vaidate
+   - Search
+2. Data Export Component
+3. Auto calculation of dicount in create / edit product component
+4. A simple ping bot for gnukhata services using gitlab ci infra
+
+Other miscellaneous styling changes
+
+Suggestion to use json / csv for importing & exporting of an org's data instead of relying on spreadsheets
+** Survesh
+- Fix issues with GST applicability
+- Port GSTR-3B texbyte code to openpyxl
+** VK
+- Display a note on export page that it is WIP & show info on what it exports
+- I suggest to keep export as seperate spreadsheets
+- We should add reports that are calculated at runtime to the export list
+  for comparision with other softwares
+- Add timestamps to the filenames of the exported spreadsheets
+- Control sheet mechanism shows what it is imported so far & allows
+  to upload files.
+** R2
+- Export list of
+  - Accounts
+  - Products
+  - Transactions
+  - Customers
+- Use GST portal compatibile GSTR-3B Returns spreadsheet format
+- Eval ERPNext's GST reports code
+** GN
+- Checkbox for all items to be exported to spreadsheets
 * <2022-02-09 Wed>
 ** Karthik
 1. HSN API with offline capability
