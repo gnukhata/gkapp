@@ -6,12 +6,24 @@
           ><b-icon icon="tag"></b-icon> <translate> Add Category </translate>
         </b-button>
       </template>
+
       <b-form-input
         type="text"
         placeholder="Search Categories"
         v-model="searchText"
-      ></b-form-input> </b-input-group
-    ><b-table
+      ></b-form-input>
+    </b-input-group>
+    <gk-toolbar>
+      <gk-file-download
+        file-suffix="CategoryList"
+        :url="
+          `/spreadsheet?all-categories&fystart=${this.dateReverse(
+            this.yearStart
+          )}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}`
+        "
+      ></gk-file-download>
+    </gk-toolbar>
+    <b-table
       :filter="searchText"
       :fields="[
         { key: 'categoryname', label: 'Category' },
@@ -78,7 +90,10 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import GkFileDownload from '../components/GkFileDownload.vue';
+import GkToolbar from '../components/GkToolbar.vue';
 export default {
+  components: { GkFileDownload, GkToolbar },
   name: 'Categories',
   data() {
     return {
@@ -88,7 +103,7 @@ export default {
     };
   },
   computed: {
-    ...mapState([]),
+    ...mapState(['orgName', 'yearStart', 'yearEnd']),
   },
   methods: {
     deleteCategory(name, id) {

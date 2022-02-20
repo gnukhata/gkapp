@@ -105,7 +105,7 @@
       </report-header>
       <!-- Report download -->
       <div class="text-right">
-        <gk-file-downloader
+        <gk-file-download
           :url="
             `/spreadsheet?stock-report&calculatefrom=${dateReverse(
               this.fromDate
@@ -116,7 +116,7 @@
             }&productcode=${productId}&godownflag=0&productdesc=WALLMART`
           "
           fileExtn="xlsx"
-        ></gk-file-downloader>
+        ></gk-file-download>
       </div>
       <!-- result table -->
       <keep-alive>
@@ -225,10 +225,10 @@ import Autocomplete from './Autocomplete.vue';
 import GkDate from './GkDate.vue';
 import ReportHeader from './ReportHeader.vue';
 import { mapState } from 'vuex';
-import GkFileDownloader from './GkFileDownloader.vue';
+import GkFileDownload from '@/components/GkFileDownload.vue';
 export default {
   name: 'ProductRegister',
-  components: { Autocomplete, GkDate, ReportHeader, GkFileDownloader },
+  components: { Autocomplete, GkDate, ReportHeader, GkFileDownload },
   data() {
     return {
       productList: [],
@@ -421,6 +421,7 @@ export default {
     /**
      * Return godown object for given godown id
      */
+    // eslint-disable-next-line
     godownInfo(id) {
       this.godowns.filter((data) => {
         if (data.goid == id) {

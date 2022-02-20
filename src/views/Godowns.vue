@@ -6,8 +6,8 @@
           @click="$router.push('/godowns/add')"
           variant="warning"
           size="sm"
-          ><b-icon icon="building"></b-icon> <translate> Add Godown </translate> </b-button
-        >
+          ><b-icon icon="building"></b-icon> <translate> Add Godown </translate>
+        </b-button>
       </template>
       <b-form-input
         type="text"
@@ -15,7 +15,17 @@
         v-model="searchText"
       ></b-form-input>
     </b-input-group>
-
+    <gk-toolbar>
+      <gk-file-download
+        title="Download Godown List"
+        file-suffix="GodownList"
+        :url="
+          `/spreadsheet?all-godowns&fystart=${this.dateReverse(
+            this.yearStart
+          )}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}`
+        "
+      ></gk-file-download>
+    </gk-toolbar>
     <b-table
       :filter="searchText"
       :items="allGodowns"
@@ -53,8 +63,11 @@
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios';
+import GkFileDownload from '@/components/GkFileDownload.vue';
+import GkToolbar from '../components/GkToolbar.vue';
 export default {
   name: 'Godowns',
+  components: { GkFileDownload, GkToolbar },
   data() {
     return {
       searchText: '',
@@ -71,7 +84,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['gkCoreUrl', 'authToken']),
+    ...mapState(['gkCoreUrl', 'authToken', 'yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
     /* Fetch all categories from api and assign it to allGodowns */

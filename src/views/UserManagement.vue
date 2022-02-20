@@ -4,12 +4,12 @@
       <template #prepend>
         <!-- <b-input-group-text>Username</b-input-group-text> -->
         <b-button
-          v-translate
+          translate
           @click="$router.push('/users/add')"
           variant="outline-primary"
           v-b-modal.create-user
           ><b-icon icon="person-plus"></b-icon
-          ><v-translate> Add User</v-translate></b-button
+          ><translate> Add User</translate></b-button
         >
       </template>
       <b-form-input
@@ -18,6 +18,17 @@
         v-model="searchText"
       ></b-form-input>
     </b-input-group>
+    <!-- Toolbar -->
+    <gk-toolbar>
+      <gk-file-download
+        file-suffix="UserList"
+        :url="
+          `/spreadsheet?user-list&fystart=${dateReverse(
+            this.yearStart
+          )}&fyend=${dateReverse(this.yearEnd)}&orgname=${this.orgName}`
+        "
+      ></gk-file-download>
+    </gk-toolbar>
     <b-table
       :filter="searchText"
       :items="userList"
@@ -34,7 +45,7 @@
       <template #table-busy>
         <div class="text-center">
           <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong><v-translate> Fetching All Users ...</v-translate></strong>
+          <strong><translate> Fetching All Users ...</translate></strong>
         </div>
       </template>
       <!-- data.item.edit is userid -->
@@ -70,8 +81,11 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import GkToolbar from '../components/GkToolbar.vue';
+import GkFileDownload from '../components/GkFileDownload.vue';
 
 export default {
+  components: { GkToolbar, GkFileDownload },
   name: 'UserManagement',
   data() {
     return {
@@ -95,7 +109,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['authToken', 'gkCoreUrl']),
+    ...mapState(['authToken', 'gkCoreUrl', 'orgName', 'yearStart', 'yearEnd']),
   },
   methods: {
     confirm(obj) {

@@ -57,11 +57,11 @@
         >
           <b-icon class="align-middle" icon="printer"></b-icon>
         </b-button>
-        <gk-file-downloader
+        <gk-file-download
           :url="downloadUrl"
           :fileName="downloadFileName"
           fileExtn=".xlsx"
-        ></gk-file-downloader>
+        ></gk-file-download>
       </div>
       <b-row class="row text-small">
         <b-col cols="12" md="6">
@@ -267,9 +267,9 @@ import { mapState } from 'vuex';
 import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
-import GkFileDownloader from '../components/GkFileDownloader.vue';
+import GkFileDownload from '@/components/GkFileDownload.vue';
 export default {
-  components: { GkCardheader, GkDate, ReportHeader, GkFileDownloader },
+  components: { GkCardheader, GkDate, ReportHeader, GkFileDownload },
   name: 'BalanceSheet',
   data() {
     return {

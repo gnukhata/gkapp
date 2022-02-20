@@ -115,7 +115,7 @@
               >
                 <b-icon
                   class="align-middle"
-                  :font-scale="0.9"
+                  :font-scale="1"
                   icon="funnel"
                 ></b-icon
                 ><span class="sr-only">Filter</span>
@@ -123,10 +123,19 @@
               <print-helper
                 class="px-md-1 px-2"
                 :contentId="`list-${activeWorkflow.tabName}`"
-                :fontScale="0.9"
+                :fontScale="1"
                 variant="link"
                 :fileName="fileName.list"
               ></print-helper>
+              <gk-file-download
+                file-suffix="ProductServiceList"
+                style="margin-top: 3px;"
+                :font-scale="1"
+                :url="
+                  `/spreadsheet?pslist&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+                "
+                title="Download Product Service List"
+              ></gk-file-download>
               <b-button
                 class="px-1"
                 variant="link"
@@ -134,7 +143,7 @@
               >
                 <b-icon
                   class="align-middle"
-                  :font-scale="0.9"
+                  :font-scale="1"
                   icon="gear"
                 ></b-icon
                 ><span class="sr-only">Column Settings</span>
@@ -524,6 +533,7 @@ import ReportHeader from '@/components/ReportHeader.vue';
 import PrintHelper from '@/components/PrintHelper.vue';
 
 import Autocomplete from '../components/Autocomplete.vue';
+import GkFileDownload from '@/components/GkFileDownload.vue';
 
 export default {
   name: 'Workflow',
@@ -534,6 +544,7 @@ export default {
     ReportHeader,
     PrintHelper,
     Autocomplete,
+    GkFileDownload,
   },
   props: {
     wfName: {
