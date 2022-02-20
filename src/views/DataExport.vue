@@ -2,12 +2,11 @@
   <div class="m-2">
     <b-card
       class="gkcard mx-auto"
-      :header="this.$gettext('Data Export Wizard')"
+      :header="this.$gettext('Export Company Data')"
       header-bg-variant="dark"
       header-text-variant="light"
     >
       <b-card-body>
-        <h3><translate>Export Company Data</translate></h3>
         <translate
           >This will enable you to export organisation data, that is, all its
           accounts and records in these accounts in a spreadsheet (xslx) format.
@@ -18,7 +17,7 @@
         >
         <br />
         <br />
-        <gk-file-downloader
+        <gk-file-download
           :url="
             `/data?export&yearstart=${this.yearStart}&yearend=${this.yearEnd}`
           "
@@ -27,18 +26,26 @@
           name="Export"
           variant="dark"
           :add-date="true"
-        ></gk-file-downloader>
+        ></gk-file-download>
+        <b-alert class="mt-3" show variant="warning">
+          <b-icon icon="exclamation-octagon" scale="1.1x" class="mt-2"></b-icon>
+          <b v-translate> Note</b>:
+          <translate
+            >The current exported spreadsheet currenly contains list of accounts
+            & vouchers data only</translate
+          >
+        </b-alert>
       </b-card-body>
     </b-card>
   </div>
 </template>
 
 <script>
-import GkFileDownloader from '@/components/GkFileDownloader.vue';
+import GkFileDownload from '@/components/GkFileDownload.vue';
 import { mapState } from 'vuex';
 export default {
   name: 'DataExport',
-  components: { GkFileDownloader },
+  components: { GkFileDownload },
   data() {
     return {
       fileName: '',
