@@ -90,7 +90,8 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
-      note: 'Prop to disable the download button'
+      note: 'Prop to disable the download button',
+    },
     size: {
       type: String,
       default: 'sm',
@@ -123,25 +124,29 @@ export default {
                 });
               }
             }
+            let fileUrl = window.URL.createObjectURL(blob);
+            let atag = document.createElement('a');
+            atag.href = fileUrl;
+            let fileName = `${this.fileName}-${this.orgName}`;
+            if (this.addDate) {
+              let date = this.dateReverse(this.currentDate());
+              fileName += `-${date}`;
+            }
+            if (this.addTimeStamp) {
+              let tStamp = new Date().toISOString().substr(11);
+              fileName += `-${tStamp}`;
+            }
+            atag.download = `${fileName}.${this.fileExtn}`;
+            atag.style.display = 'none';
+            document.body.appendChild(atag);
+            atag.click();
           }
-          let fileUrl = window.URL.createObjectURL(blob);
-          let atag = document.createElement('a');
-          atag.href = fileUrl;
-          let fileName = `${this.fileName}-${this.orgName}`
-          if (this.addDate) {
-            let date = new Date().toISOString().substr(0, 10);
-            fileName += `-${date}`;
-          } 
-          if(this.addTimeStamp){
-            let tStamp = new Date().toISOString().substr(11);
-            fileName += `-${tStamp}`;
-          }
-          atag.download = `${fileName}.${this.fileExtn}`;
-          atag.style.display = 'none';
-          document.body.appendChild(atag);
-          atag.click();
-        }
-      });
+          this.loading = false;
+        })
+        .catch((e) => {
+          console.log(e);
+          this.loading = false;
+        });
     },
   },
 };

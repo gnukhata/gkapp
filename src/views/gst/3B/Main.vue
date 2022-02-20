@@ -25,7 +25,7 @@
                 <gk-date
                   id="to"
                   v-model="toDate"
-                  :min="fromDate? dateReverse(fromDate) : ''"
+                  :min="fromDate ? dateReverse(fromDate) : ''"
                   :max="dateReverse(yearEnd)"
                   @validity="updateDateValidity($event, 'to')"
                 ></gk-date>
@@ -42,7 +42,7 @@
             class="float-right"
             ><b-icon icon="eye-fill"></b-icon> Show</b-button
           > -->
-          <gk-file-downloader
+          <gk-file-download
             class="float-right"
             :url="spreadSheetUrl"
             fileName="GSTR-3B"
@@ -51,7 +51,7 @@
             :addTimeStamp="true"
             name="Download Report"
             :disabled="!datesValid"
-          ></gk-file-downloader>
+          ></gk-file-download>
         </b-form>
       </b-card>
     </b-overlay>
@@ -63,9 +63,9 @@ import { mapState } from 'vuex';
 import axios from 'axios';
 import GkDate from '../../../components/GkDate.vue';
 import GkState from '../../../components/GkState.vue';
-import GkFileDownloader from '../../../components/GkFileDownloader.vue';
+import GkFileDownload from '@/components/GkFileDownload.vue';
 export default {
-  components: { GkDate, GkState, GkFileDownloader },
+  components: { GkDate, GkState, GkFileDownload },
   name: 'Main',
   data() {
     return {
@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     updateDateValidity(validity, key) {
-      if(validity === null) {
+      if (validity === null) {
         validity = true;
       }
       this.dateValidity[key] = validity;
