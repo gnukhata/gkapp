@@ -1,25 +1,44 @@
 <template>
-  <b-button :disabled="disabled" :variant="variant" @click.prevent="onFileDownload">
-    <b-icon
-      aria-hidden="true"
-      class="align-middle"
-      :icon="icon"
-      :font-scale="fontScale"
-    ></b-icon>
-    {{ name }}
-  </b-button>
+  <b-overlay
+    :spinner-variant="variant"
+    spinner-type="grow"
+    spinner-small
+    :show="loading"
+  >
+    <b-button
+      :disabled="disabled"
+      :label="name"
+      :title="title"
+      :size="size"
+      :variant="variant"
+      @click.prevent="onFileDownload"
+    >
+      <b-icon
+        aria-hidden="true"
+        class="align-middle"
+        :icon="icon"
+        :font-scale="fontScale"
+      ></b-icon>
+      {{ name }}
+    </b-button>
+  </b-overlay>
 </template>
 
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
 export default {
-  name: 'GkFileDownloader',
+  name: 'GkFileDownload',
+  data() {
+    return {
+      loading: false,
+    };
+  },
   props: {
     fileName: {
       type: String,
       required: false,
-      default: `GNUKhata_${new Date().toISOString().substr(0, 10)}`,
+      default: `GNUKhata`,
     },
     fileExtn: {
       type: String,
@@ -29,7 +48,7 @@ export default {
     addDate: {
       type: Boolean,
       required: false,
-      default: false,
+      default: true,
       note: 'Flag to add current date to the file name during download',
     },
     addTimeStamp: {
@@ -56,11 +75,12 @@ export default {
     },
     icon: {
       type: String,
-      default: 'cloud-download',
+      default: 'file-earmark-spreadsheet',
       note: 'Icon name',
     },
     name: {
       type: String,
+      default: '',
       note: 'Button Name',
     },
     variant: {
@@ -71,6 +91,17 @@ export default {
       type: Boolean,
       default: false,
       note: 'Prop to disable the download button'
+    size: {
+      type: String,
+      default: 'sm',
+    },
+    title: {
+      type: String,
+      default: 'Download',
+    },
+    fileSuffix: {
+      type: String,
+      default: '',
     },
   },
 
@@ -79,14 +110,18 @@ export default {
   },
   methods: {
     onFileDownload() {
-      axios.get(this.url, { responseType: 'blob' }).then((resp) => {
-        if (!resp.data.gkstatus || resp.data.gkstatus === 0) {
-          let blob = resp.data;
-          if (this.filePath) {
-            if (this.filePath.length) {
-              this.filePath.forEach((path) => {
-                blob = blob[path];
-              });
+      this.loading = true;
+      axios
+        .get(this.url, { responseType: 'blob' })
+        .then((resp) => {
+          if (!resp.data.gkstatus || resp.data.gkstatus === 0) {
+            let blob = resp.data;
+            if (this.filePath) {
+              if (this.filePath.length) {
+                this.filePath.forEach((path) => {
+                  blob = blob[path];
+                });
+              }
             }
           }
           let fileUrl = window.URL.createObjectURL(blob);
