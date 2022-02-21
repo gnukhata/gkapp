@@ -7,7 +7,7 @@
 | NAMES                              | API | UI |
 |------------------------------------+-----+----|
 | Conventional Balance Sheet         | x   | x  |
-| Invoices List                      | x   |    |
+| Invoices List                      | x   | -  |
 | Stock Report                       | x   |    |
 | Trial Balance                      | x   |    |
 | Product Service List               | x   | x  |
@@ -16,7 +16,7 @@
 | Ledger monthly                     | x   |    |
 | Invoice List                       | x   |    |
 | Cash Flow                          | x   |    |
-| accounts                           | x   |    |
+| accounts                           | x   | x  |
 | List of Godowns                    | x   | x  |
 | Budget report (Cash & Profit/Loss) | x   |    |
 | List of Users                      | x   | x  |
