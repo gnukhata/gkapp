@@ -1,15 +1,26 @@
 <template>
   <section class="m-2">
     <h3 class="text-center" v-translate>Accounts</h3>
-    <hr class="mt-1" />
-    <b-button
-      class="float-right p-1"
-      :class="{ 'mb-2': showSearchBar }"
-      variant="link"
-      @click="showSearchBar = !showSearchBar"
-    >
-      <b-icon icon="funnel"></b-icon>
-    </b-button>
+    <gk-toolbar>
+      <b-button
+        class="float-right p-1"
+        :class="{ 'mb-2': showSearchBar }"
+        variant="link"
+        @click="showSearchBar = !showSearchBar"
+      >
+        <b-icon icon="funnel"></b-icon>
+      </b-button>
+      <gk-file-download
+        file-suffix="AccountList"
+        :font-scale="1"
+        :url="
+          `/spreadsheet?accounts&fystart=${this.dateReverse(
+            this.yearStart
+          )}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}`
+        "
+        title="Download Account List"
+      ></gk-file-download>
+    </gk-toolbar>
     <div class="clearfix"></div>
     <b-collapse v-model="showSearchBar" id="search-bar">
       <b-card body-class="py-2">
@@ -228,9 +239,12 @@
 <script>
 import axios from 'axios';
 import Autocomplete from '../components/Autocomplete.vue';
+import GkFileDownload from '../components/GkFileDownload.vue';
+import GkToolbar from '../components/GkToolbar.vue';
+import { mapState } from 'vuex';
 export default {
   name: 'Accounts',
-  components: { Autocomplete },
+  components: { Autocomplete, GkFileDownload, GkToolbar },
   props: {
     acc: {
       type: [Number, String],
@@ -305,6 +319,7 @@ export default {
       }
       return res;
     },
+    ...mapState(['orgName', 'yearStart', 'yearEnd']),
   },
   methods: {
     onGoToLedger(gid, sgid, accId) {

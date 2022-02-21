@@ -127,7 +127,9 @@
                 variant="link"
                 :fileName="fileName.list"
               ></print-helper>
+              <!-- product / service spreadsheet -->
               <gk-file-download
+                v-if="activeWorkflow.name === 'Business'"
                 file-suffix="ProductServiceList"
                 style="margin-top: 3px;"
                 :font-scale="1"
@@ -135,6 +137,17 @@
                   `/spreadsheet?pslist&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
                 "
                 title="Download Product Service List"
+              ></gk-file-download>
+              <!-- Invoice spreadsheet -->
+              <gk-file-download
+                v-if="activeWorkflow.name == 'Transactions-Invoice'"
+                file-suffix="InvoiceList"
+                style="margin-top: 3px;"
+                :font-scale="1"
+                :url="
+                  `/spreadsheet?invoice-list&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
+                "
+                title="Download Invoice List"
               ></gk-file-download>
               <b-button
                 class="px-1"
