@@ -127,7 +127,7 @@ export default {
             let fileUrl = window.URL.createObjectURL(blob);
             let atag = document.createElement('a');
             atag.href = fileUrl;
-            let fileName = `${this.fileName}-${this.orgName}`;
+            let fileName = `${this.fileName}-${this.orgName}-${this.fileSuffix}`;
             if (this.addDate) {
               let date = this.dateReverse(this.currentDate());
               fileName += `-${date}`;
