@@ -140,6 +140,7 @@ export default {
     input(newInput) {
       // console.log('In input');
       if (this.validateFormat(newInput, this.format)) {
+        // newInput.length ===
         const newDate = this.toInternalFormat(newInput);
         if (this.date !== newDate) {
           this.date = newDate;
@@ -255,20 +256,30 @@ export default {
      *
      * Given a date, it will be converted from the input format
      * to the internally used format
+     * 
+     * length - 8, contains no '-' separator in input to be formatted
      */
     toInternalFormat(input) {
       let date = '';
       switch (this.format) {
         case 'dd-mm-yyyy': {
-          date = input
-            .split('-')
-            .reverse()
-            .join('-');
+          if(input.length === 8) {
+            date = `${input.substr(4,4)}-${input.substr(2,2)}-${input.substr(0,2)}`;
+          } else {
+            date = input
+              .split('-')
+              .reverse()
+              .join('-');
+          }
           break;
         }
         case 'yyyy-mm-dd':
         default: {
-          date = input;
+          if(input.length === 8) {
+            date = `${input.substr(0,4)}-${input.substr(4,2)}-${input.substr(6,2)}`;
+          } else {
+            date = input;
+          }
         }
       }
       return date;
@@ -304,13 +315,25 @@ export default {
      *
      * Given a date string, its format will be validated based on the
      * format
+     * 
+     * length = 8, contains no '-' separator in date to be validated
      */
     validateFormat(date, format) {
-      if (date.length !== 10) {
-        return false;
+      if (date.length !== 10 && date.length !== 8) {
+          return false;
       }
 
-      const items = date.split('-');
+      let items = [];
+      if(date.length === 10) {
+        items = date.split('-');
+      } else if(date.length === 8) {
+        if(format === 'dd-mm-yyyy') {
+          items = [date.substr(0,2), date.substr(2,2), date.substr(4,4)]
+        } else if (format === 'yyyy-mm-dd') {
+          items = [date.substr(0,4), date.substr(4,2), date.substr(6,2)]
+        }
+      }
+
       if (items.length !== 3) {
         return false;
       }
