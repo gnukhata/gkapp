@@ -6,16 +6,16 @@ export default {
     default: {
       type: true,
       inv: {
-        no: true,
+        no: true, // { counter: {sale: 0, purchase: 0} }
         date: true,
         delNote: {
           no: {
             format: {
               code: {
                 in: 'DIN',
-                out: 'DOUT'
-              }
-            }
+                out: 'DOUT',
+              },
+            },
           },
         },
         ebn: true,
@@ -129,8 +129,8 @@ export default {
   },
   actions: {
     initInvoiceConfig({ state, commit }) {
-      let url = `/config?conftype=org&pageid=${PAGES['create-invoice']}&confid=${CONFIGS['page-layout']}`
-      axios.get(url).then((resp) => {
+      let url = `/config?conftype=org&pageid=${PAGES['create-invoice']}&confid=${CONFIGS['page-layout']}`;
+      return axios.get(url).then((resp) => {
         if (resp.data.gkstatus === 0) {
           let invoiceConf = resp.data.gkresult;
           if (invoiceConf) {
@@ -147,13 +147,13 @@ export default {
       commit('setInvoiceConfig', payload);
       const confPayload = {
         config: payload,
-        path: [
-          PAGES['create-invoice'],
-          CONFIGS['page-layout'],
-        ],
+        path: [PAGES['create-invoice'], CONFIGS['page-layout']],
       };
       return axios
-        .put('/config?conftype=org&update=path&confcategory=transaction', confPayload)
+        .put(
+          '/config?conftype=org&update=path&confcategory=transaction',
+          confPayload
+        )
         .then((resp) => {
           return resp.data;
         });

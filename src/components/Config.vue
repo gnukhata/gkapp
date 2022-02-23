@@ -280,6 +280,7 @@ export default {
                 solid: true,
               });
             }
+            this.$emit('update');
           });
       } else {
         this.$bvToast.toast(

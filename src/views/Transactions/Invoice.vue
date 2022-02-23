@@ -43,11 +43,7 @@
         <b-form-radio value="sale"> Sale </b-form-radio>
         <b-form-radio value="purchase"> Purchase </b-form-radio>
       </b-form-radio-group>
-      <span
-        id="edit-invoice-list"
-        class="d-inline-block"
-        v-if="formMode === 'edit'"
-      >
+      <span id="edit-invoice-list" class="d-inline-block" v-if="!isCreate">
         <b-form-select
           size="sm"
           v-model="invoiceId"
@@ -63,6 +59,7 @@
           :setCustom="`${this.vuexNameSpace}/updateInvoiceConfig`"
           :getCustom="`${this.vuexNameSpace}/getCustomInvoiceConfig`"
           confirmMessage="Invoice page config will be applied organisation wide. Do you want to proceed?"
+          @update="resetForm"
         >
         </config>
       </span>
@@ -87,6 +84,7 @@
         <invoice-details
           :config="config.inv"
           :saleFlag="isSale"
+          :editFlag="!isCreate"
           :parentData="form.inv"
           @details-updated="onComponentDataUpdate"
           :updateCounter="updateCounter.inv"
@@ -272,7 +270,7 @@
           class="m-1"
           variant="success"
         >
-          <span v-if="formMode === 'create'">
+          <span v-if="isCreate">
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
               v-else
@@ -312,6 +310,8 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+
+import { PAGES, CONFIGS } from '@/js/enum.js';
 
 // import { getBase64 } from '../../js/utils.js';
 
@@ -535,6 +535,7 @@ export default {
       30,
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
+    isCreate: (self) => self.formMode === 'create',
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
     isCgst: (self) => {
@@ -1133,8 +1134,8 @@ export default {
 
       const payload = this.initPayload();
       // console.log(payload);
-      const method = this.formMode === 'create' ? 'post' : 'put';
-      const actionText = this.formMode === 'create' ? 'Create' : 'Edit';
+      const method = this.isCreate ? 'post' : 'put';
+      const actionText = this.isCreate ? 'Create' : 'Edit';
       axios({ method: method, url: '/invoice', data: payload })
         .then((resp) => {
           self.isLoading = false;
@@ -1158,13 +1159,15 @@ export default {
 
                   let log = {
                     activity: `invoice ${
-                      self.formMode === 'create' ? 'created' : 'updated'
+                      self.isCreate ? 'created' : 'updated'
                     }: ${self.form.inv.no}`,
                   };
                   axios.post('/log', log);
 
-                  if (self.formMode === 'create') {
-                    self.resetForm();
+                  if (self.isCreate) {
+                    self.updateInvNoCounter().then(() => {
+                      self.resetForm();
+                    });
                   }
                 }
                 break;
@@ -1404,7 +1407,7 @@ export default {
         invoice.attachmentcount = this.form.attachments.length;
       }
 
-      if (this.formMode === 'edit') {
+      if (!this.isCreate) {
         const av = Object.assign({}, invoice.av);
         invoice.invid = parseInt(this.invoiceId);
 
@@ -1418,9 +1421,44 @@ export default {
       // console.log({ invoice, stock });
       return { invoice, stock };
     },
+    updateInvNoCounter() {
+      if (
+        this.config &&
+        this.config.inv &&
+        this.config.inv.no &&
+        this.config.inv.no.counter
+      ) {
+        let counter = {
+          sale: this.config.inv.no.counter.sale,
+          purchase: this.config.inv.no.counter.purchase,
+        };
+        if (this.isSale) {
+          counter.sale++;
+        } else {
+          counter.purchase++;
+        }
+
+        const payload = {
+          config: counter,
+          path: [
+            PAGES['create-invoice'] + '',
+            CONFIGS['page-layout'] + '',
+            'inv',
+            'no',
+            'counter',
+          ],
+        };
+        return axios.put(
+          '/config?conftype=org&update=path&confcategory=transaction',
+          payload
+        );
+      } else {
+        return Promise.resolve();
+      }
+    },
     createDelNote() {
       const payload = this.initDelNotePayload();
-      const method = this.formMode === 'create' ? 'post' : 'put';
+      const method = this.isCreate ? 'post' : 'put';
       return axios({ method: method, url: '/delchal', data: payload })
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
@@ -1588,7 +1626,7 @@ export default {
         delchal.dateofsupply = this.form.transport.date;
       }
 
-      // if (this.formMode === 'edit') {
+      // if (!this.isCreate) {
       //   const av = Object.assign({}, invoice.av);
       //   invoice.invid = parseInt(this.invoiceId);
 
@@ -1603,6 +1641,7 @@ export default {
       return { delchaldata: delchal, stockdata: stock };
     },
     resetForm() {
+      this.$store.dispatch(`${this.vuexNameSpace}/initInvoiceConfig`);
       let paymentMode;
       switch (this.defaultPaymentMode) {
         case 'credit':

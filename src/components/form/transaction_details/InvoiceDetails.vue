@@ -307,6 +307,10 @@ export default {
   components: { GkDate, Autocomplete },
   mixins: [trnDetailsMixin],
   props: {
+    editFlag: {
+      type: Boolean,
+      required: true,
+    },
     saleFlag: {
       type: Boolean,
       required: true,
@@ -399,7 +403,7 @@ export default {
   watch: {
     updateCounter() {
       this.resetForm();
-      if (this.parentData.no) {
+      if (this.parentData.no && this.editFlag) {
         this.form.no = this.parentData.no;
       }
       if (this.parentData.date) {
@@ -463,30 +467,46 @@ export default {
           purchase: '',
         };
       }
-      // inoutflag = 9-purchase, 15-sale
-      let self = this;
-      let inoutflag = this.saleFlag ? 15 : 9;
-      return axios
-        .get(`/invoice?getinvid&type=${inoutflag}`)
-        .then((resp) => {
-          if (resp.data.gkstatus === 0) {
-            let codes = self.config.no.format
-              ? self.config.no.format.code
-              : { sale: 'SL', purchase: 'PU' };
-            let code = self.saleFlag ? codes.sale : codes.purchase;
-            self.form.no = self.formatNoteNo(
-              self.numberFormat,
-              parseInt(resp.data.invoiceid),
-              code,
-              self.form.date,
-              self.yearEnd
-            );
-            self.invNo[self.saleFlag ? 'sale' : 'purchase'] = self.form.no;
-          }
-        })
-        .catch((error) => {
-          return error;
-        });
+      if (this.config && this.config.no && this.config.no.counter) {
+        let codes = this.config.no.format
+          ? this.config.no.format.code
+          : { sale: 'SL', purchase: 'PU' };
+        let code = this.saleFlag ? codes.sale : codes.purchase;
+        let counter = this.saleFlag ? this.config.no.counter.sale : this.config.no.counter.purchase;
+        this.form.no = this.formatNoteNo(
+          this.numberFormat,
+          parseInt(counter),
+          code,
+          this.form.date,
+          this.yearEnd
+        );
+        this.invNo[this.saleFlag ? 'sale' : 'purchase'] = this.form.no;
+      } else {
+        // inoutflag = 9-purchase, 15-sale
+        let self = this;
+        let inoutflag = this.saleFlag ? 15 : 9;
+        return axios
+          .get(`/invoice?getinvid&type=${inoutflag}`)
+          .then((resp) => {
+            if (resp.data.gkstatus === 0) {
+              let codes = self.config.no.format
+                ? self.config.no.format.code
+                : { sale: 'SL', purchase: 'PU' };
+              let code = self.saleFlag ? codes.sale : codes.purchase;
+              self.form.no = self.formatNoteNo(
+                self.numberFormat,
+                parseInt(resp.data.invoiceid),
+                code,
+                self.form.date,
+                self.yearEnd
+              );
+              self.invNo[self.saleFlag ? 'sale' : 'purchase'] = self.form.no;
+            }
+          })
+          .catch((error) => {
+            return error;
+          });
+      }
     },
     fetchUserData() {
       let self = this;
