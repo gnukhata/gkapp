@@ -3,13 +3,32 @@
 #+STARTUP: fold
 # table of contents are displayed in files exported to other formats
 
-The GNUkhata team meets *Every Wednesday @ 11:30 AM (IST)* to discuss about
-development, features, outline plans for next release. Feel free to join
-us & suggest your ideas, comments, feedback.
+Meeting notes are moved to [[https://gnukhata.gitlab.io/weekly-meetings]]
 
-Jitsi Meet Link: [[https://meet.jit.si/GNUKhata2020]]
+# The GNUkhata team meets *Every Wednesday @ 11:30 AM (IST)* to discuss about
+# development, features, outline plans for next release. Feel free to join
+# us & suggest your ideas, comments, feedback.
+
+# Jitsi Meet Link: [[https://meet.jit.si/GNUKhata2020]]
 
 
+* <2022-02-23 Wed>
+** Karthik
+- Spreadsheets UI
+- GkToolbar Component
+** Survesh
+  - Fix Cr/Dr issue for groups ["Corpus" ,"Capital" ,"Current Liabilities" ,"Loans(Liability)" ,"Reserves"]
+  - Fix CGST not being populated in GSTR-3B
+  - Fix Phantom Contacts
+Features
+  - Configurable Invoice No. counter
+  - GKDate accepts dates without '-' separator
+** VK
+Absent
+** R2
+NIL
+** GN
+NIL
 * <2022-02-17 Thu>
 ** Karthik
 1. HSN Component
