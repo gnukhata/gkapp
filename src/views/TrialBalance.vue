@@ -35,16 +35,17 @@
         </div>
       </report-header>
       <!-- Radio buttons -->
-      <div class="mt-3" v-if="result !== null">
+      <div class="mt-3 d-print-none" v-if="result !== null">
         <b-form-radio-group
           v-model="trialBalanceType"
           name="radio-options"
           class="mx-auto text-center d-print-none mb-3"
         >
           <b-form-radio value="Net"
-            ><translate>Net</translate>
+            ><translate> Net</translate>
 
             <gk-tooltip
+              class="ml-1"
               icon="info-circle"
               :helpTitle="$gettext('Net Trial Balance')"
               :help-body="
@@ -58,6 +59,7 @@
             ><translate>Gross</translate>
 
             <gk-tooltip
+              class="ml-1"
               icon="info-circle"
               :helpTitle="$gettext('Gross Trial Balance')"
               :help-body="
@@ -71,6 +73,7 @@
             ><translate>Extended</translate>
 
             <gk-tooltip
+              class="ml-1"
               icon="info-circle"
               :helpTitle="$gettext('Extended Trial Balance')"
               :help-body="
@@ -88,6 +91,29 @@
           class="mx-auto gkcard mb-2"
           :placeholder="$gettext('Search trial balance')"
         ></b-form-input>
+        <!-- Toolbar -->
+        <gk-toolbar>
+          <gk-file-download
+            v-if="trialBalanceType == 'Net'"
+            :url="
+              `/spreadsheet?trial-balance&calculateto=${this.toDate}&trialbalancetype=1&financialstart=${this.yearStart}&fystart=${this.yearStart}&fyend=${this.yearEnd}&startdate=${this.yearEnd}&orgname=${this.orgName}`
+            "
+            :commonParams="false"
+            fileSuffix="NetTrialBalance"
+            title="Download Net Trial Balance Spreadsheet"
+          >
+          </gk-file-download>
+          <gk-file-download
+            v-if="trialBalanceType == 'Extended'"
+            :url="
+              `/spreadsheet?trial-balance&calculateto=${this.toDate}&trialbalancetype=3&financialstart=${this.yearStart}&fystart=${this.yearStart}&fyend=${this.yearEnd}&startdate=${this.yearEnd}&orgname=${this.orgName}`
+            "
+            :commonParams="false"
+            fileSuffix="ExtendedTrialBalance"
+            title="Download Extended Trial Balance Spreadsheet"
+          >
+          </gk-file-download>
+        </gk-toolbar>
         <!-- Tables -->
         <!-- Net trial balance -->
         <b-table
@@ -174,9 +200,18 @@ import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import GkTooltip from '../components/GkTooltip.vue';
+import GkToolbar from '../components/GkToolbar.vue';
+import GkFileDownload from '../components/GkFileDownload.vue';
 export default {
-  components: { GkCardheader, GkDate, ReportHeader, GkTooltip },
-  name: 'ProfitLoss',
+  components: {
+    GkCardheader,
+    GkDate,
+    ReportHeader,
+    GkTooltip,
+    GkToolbar,
+    GkFileDownload,
+  },
+  name: 'TrialBalance',
   data() {
     return {
       isLoading: false,
@@ -293,6 +328,19 @@ export default {
     };
   },
   methods: {
+    /**
+     * Return appropriate trial balance code for generating spreadsheet
+     */
+    trialBalanceCode() {
+      console.log(this.trialBalanceType);
+      if (this.trialBalanceType == 'Net') {
+        return 1;
+      } else if (this.trialBalanceType == 'Gross') {
+        return 2;
+      } else {
+        return 3;
+      }
+    },
     getAllTrialBalances() {
       this.isLoading = true;
       Promise.all([
@@ -356,7 +404,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName']),
     showHelpBody() {
       return this.$gettext(`Trial Balance can be seen in three formats.
                   The Net Trial Balance will provide the closing balances or current balance as on selected end date. The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances, while the Extended version shows all this with Opening Balances.
