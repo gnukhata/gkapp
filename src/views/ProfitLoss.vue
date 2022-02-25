@@ -31,7 +31,7 @@ This report can be viewed for any period`)
             <gk-date id="todate" v-model="toDate"></gk-date>
           </b-form-group>
           <b-button variant="success" class="float-right" type="submit"
-            ><b-icon icon="cloud-arrow-up"></b-icon
+            ><b-icon class="mr-1" icon="cloud-arrow-down"></b-icon
             ><translate> Get Details</translate></b-button
           >
         </b-form>
@@ -42,9 +42,20 @@ This report can be viewed for any period`)
           {{ toDate }}
         </div>
       </report-header>
+      <!-- Tool bar -->
+      <gk-toolbar class="mt-2">
+        <GkFileDownload
+          v-if="result !== null"
+          :url="
+            `/spreadsheet?profit-loss&from=${this.fromDate}&to=${this.toDate}&orgtype=Profit Making`
+          "
+          title="Download Profit & Loss Spreadsheet"
+          aria-label="profit & loss Spreadsheet download button"
+        />
+      </gk-toolbar>
       <div class="row mt-4 ml-2 mr-2" v-if="result !== null">
         <div class="col">
-          <b-table-simple small bordered hover>
+          <b-table-simple striped small bordered hover>
             <b-thead head-variant="dark">
               <b-tr>
                 <b-th v-translate>Particulars</b-th>
@@ -88,7 +99,7 @@ This report can be viewed for any period`)
           </b-table-simple>
         </div>
         <div class="col">
-          <b-table-simple small bordered hover>
+          <b-table-simple striped small bordered hover>
             <b-thead head-variant="dark">
               <b-tr>
                 <b-th v-translate>Particulars</b-th>
@@ -138,8 +149,10 @@ import { mapState } from 'vuex';
 import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
+import GkToolbar from '../components/GkToolbar.vue';
+import GkFileDownload from '../components/GkFileDownload.vue';
 export default {
-  components: { GkCardheader, GkDate, ReportHeader },
+  components: { GkCardheader, GkDate, ReportHeader, GkToolbar, GkFileDownload },
   name: 'ProfitLoss',
   data() {
     return {
