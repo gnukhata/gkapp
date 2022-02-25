@@ -111,19 +111,21 @@ export default {
         'Some url params are common for all spreadsheet downloads. This prop if set to true, Adds common request params: fystart, fyend, orgname to url',
     },
   },
-
   computed: {
     ...mapState(['orgName', 'yearStart', 'yearEnd']),
   },
   methods: {
     onFileDownload() {
       this.loading = true;
+
+      let url = this.url;
+
       if (this.commonParams) {
         // prettier-ignore
-        this.url += `&fystart=${this.dateReverse(this.yearStart)}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}`;
+        url += `&fystart=${this.dateReverse(this.yearStart)}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}`
       }
       axios
-        .get(this.url, { responseType: 'blob' })
+        .get(url, { responseType: 'blob' })
         .then((resp) => {
           if (!resp.data.gkstatus || resp.data.gkstatus === 0) {
             let blob = resp.data;
