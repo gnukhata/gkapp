@@ -2,7 +2,7 @@
   <section class="m-2">
     <b-overlay :show="isLoading">
       <b-card
-        class="gkcard mx-auto"
+        class="gkcard mx-auto mb-2"
         header-bg-variant="dark"
         header-text-variant="light"
       >
@@ -37,6 +37,15 @@ All users can view this report`)
           {{ dateReverse(this.yearEnd) }}
         </div>
       </report-header>
+      <gk-toolbar>
+        <GkFileDownload
+          v-if="result1 !== null"
+          :url="
+            `/spreadsheet?cash-flow&from=${this.fromDate}&to=${this.toDate}&orgtype=${orgType}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+          "
+          :commonParams="false"
+        />
+      </gk-toolbar>
       <div class="row mt-3" v-if="result1 !== null">
         <div class="col">
           <b-table
@@ -90,8 +99,10 @@ import { mapState } from 'vuex';
 import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
+import GkToolbar from '../components/GkToolbar.vue';
+import GkFileDownload from '../components/GkFileDownload.vue';
 export default {
-  components: { GkCardheader, GkDate, ReportHeader },
+  components: { GkCardheader, GkDate, ReportHeader, GkToolbar, GkFileDownload },
   name: 'ProfitLoss',
   data() {
     return {
@@ -185,7 +196,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   mounted() {
     this.fromDate = this.yearStart;

@@ -47,7 +47,7 @@ This report can be viewed for any period`)
         <GkFileDownload
           v-if="result !== null"
           :url="
-            `/spreadsheet?profit-loss&from=${this.fromDate}&to=${this.toDate}&orgtype=Profit Making`
+            `/spreadsheet?profit-loss&from=${this.fromDate}&to=${this.toDate}&orgtype=${orgType}`
           "
           title="Download Profit & Loss Spreadsheet"
           aria-label="profit & loss Spreadsheet download button"
@@ -216,7 +216,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgType']),
   },
   mounted() {
     this.fromDate = this.yearStart;

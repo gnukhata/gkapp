@@ -149,6 +149,19 @@
                 "
                 title="Download Invoice List"
               ></gk-file-download>
+              <!-- Transfer Note Spreadsheet -->
+              <gk-file-download
+                v-if="activeWorkflow.name == 'Transactions-TransferNote'"
+                file-suffix="TransferNoteList"
+                style="margin-top: 3px;"
+                :font-scale="1"
+                :url="
+                  `/spreadsheet?transfer-notes&startdate=${this.dateReverse(
+                    this.filters.range.from
+                  )}&enddate=${this.dateReverse(this.filters.range.to)}`
+                "
+                title="Download Transfer Notes"
+              ></gk-file-download>
               <b-button
                 class="px-1"
                 variant="link"
