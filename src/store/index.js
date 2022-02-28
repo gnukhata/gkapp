@@ -23,6 +23,7 @@ export default new Vuex.Store({
     orgCode: null,
     orgName: null,
     orgAddress: null,
+    orgType: null,
     orgImg: 'img/gk.png',
 
     yearStart: null,
@@ -82,6 +83,7 @@ export default new Vuex.Store({
         const orgName = localStorage.getItem('orgName');
         const userName = localStorage.getItem('userName');
         const orgYears = JSON.parse(localStorage.getItem('orgYears'));
+        const orgType = JSON.parse(localStorage.getItem('orgArray'));
 
         if (orgCode) {
           state.orgCode = parseInt(orgCode);
@@ -102,6 +104,9 @@ export default new Vuex.Store({
         if (orgYears) {
           state.yearStart = orgYears.yearStart;
           state.yearEnd = orgYears.yearEnd;
+        }
+        if (orgType) {
+          state.orgType = orgType[1];
         }
       }
 
