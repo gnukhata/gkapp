@@ -73,53 +73,67 @@
         </div>
       </b-card>
     </b-overlay>
-    <div class="px-2" v-if="budId">
-      <u>
-        <small>
-          <translate> Budget: </translate>
-          <span> {{ budName }} ({{ fromDate }} to {{ toDate }}) </span>
-        </small>
-      </u>
-      <div>
-        <div class="float-left">
-          <b-button
-            @click="openTableRow(-1, null, !expandAllRows)"
-            class="p-2"
-            variant="dark"
-            size="sm"
-          >
-            <b-icon
-              class="float-right"
-              font-scale="0.95"
-              :icon="expandAllRows ? 'dash' : 'arrows-fullscreen'"
-            ></b-icon>
-          </b-button>
-          <print-helper
-            name="Budget Report"
-            contentId="budget-table-container"
-            :printStyles="printStyles"
-            class="d-none d-lg-inline-block"
-            fileName="Budget_Report"
-          ></print-helper>
-        </div>
-        <div class="float-right">
-          <b-button
-            @click="expandTable = !expandTable"
-            class="p-2 m-1 d-sm-none"
-            variant="dark"
-            size="sm"
-          >
-            <b-icon
-              class="float-right"
-              font-scale="0.95"
-              :icon="expandTable ? 'arrow-bar-left' : 'arrow-right'"
-            ></b-icon>
-          </b-button>
-        </div>
-        <div class="clearfix"></div>
-      </div>
+    <div v-if="budId">
+      <small>
+        <translate> Budget: </translate>
+        <span> {{ budName }} ({{ fromDate }} to {{ toDate }}) </span>
+      </small>
     </div>
-
+    <gk-toolbar class="mt-2" v-if="budId">
+      <b-button
+        @click="openTableRow(-1, null, !expandAllRows)"
+        class="mr-1"
+        variant="dark"
+        size="sm"
+      >
+        <b-icon
+          font-scale="0.95"
+          :icon="expandAllRows ? 'dash' : 'arrows-fullscreen'"
+        ></b-icon>
+      </b-button>
+      <print-helper
+        name="Budget Report"
+        contentId="budget-table-container"
+        :printStyles="printStyles"
+        class="d-none d-lg-inline-block"
+        fileName="Budget_Report"
+      ></print-helper>
+      <b-button
+        @click="expandTable = !expandTable"
+        class="p-2 m-1 d-sm-none"
+        variant="dark"
+        size="sm"
+      >
+        <b-icon
+          class="float-right"
+          font-scale="0.95"
+          :icon="expandTable ? 'arrow-bar-left' : 'arrow-right'"
+        ></b-icon>
+      </b-button>
+      <!-- Spreadsheet Download -->
+      <GkFileDownload
+        v-if="budgetType === 'pl'"
+        :fileSuffix="`Budget-${budgetType}`"
+        :url="
+          `/spreadsheet?budget-pnl&budid=${this.budId}&budgetdetails=${this.budName}&financialstart=${this.yearStart}`
+        "
+        :title="`Download budget ${budgetType} spreadsheet`"
+        variant="dark"
+        class="ml-1"
+        :aria-label="`Download budget ${budgetType} spreadsheet button`"
+      />
+      <GkFileDownload
+        v-else
+        :fileSuffix="`Budget-${budgetType}`"
+        :url="
+          `/spreadsheet?budget&budid=${this.budId}&budgetdetails=${this.budName}&financialstart=${this.yearStart}`
+        "
+        :title="`Download budget ${budgetType} spreadsheet`"
+        :aria-label="`Download budget ${budgetType} spreadsheet button`"
+        variant="dark"
+        class="ml-1"
+      />
+    </gk-toolbar>
     <!-- Table -->
     <div id="budget-table-container" v-if="budId">
       <report-header>
@@ -219,9 +233,18 @@ import axios from 'axios';
 import Autocomplete from '../components/Autocomplete.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import PrintHelper from '../components/PrintHelper.vue';
+import GkToolbar from '@/components/GkToolbar.vue';
+import GkFileDownload from '@/components/GkFileDownload.vue';
+
 export default {
   name: 'Budget',
-  components: { Autocomplete, ReportHeader, PrintHelper },
+  components: {
+    Autocomplete,
+    ReportHeader,
+    PrintHelper,
+    GkToolbar,
+    GkFileDownload,
+  },
   data() {
     return {
       printStyles: `.table .thead-dark th {

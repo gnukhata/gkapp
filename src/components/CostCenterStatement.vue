@@ -60,12 +60,25 @@
       </b-card>
     </b-overlay>
     <!--  Table -->
-    <report-header>
+    <report-header v-if="report.length > 0">
       <div class="text-center">
-        Cost Center Statement for {{ projectId }} | From: {{ fromDate }} to
-        {{ toDate }}
+        Cost Center Statement for {{ projectName(projectId)[0]['text'] }} |
+        From: {{ fromDate }} to {{ toDate }}
       </div>
     </report-header>
+    <gk-toolbar>
+      <gk-file-download
+        v-if="report.length > 0"
+        :url="
+          `/spreadsheet?cost-center-statement&projectname=${
+            projectName(projectId)[0]['text']
+          }&projectcode=${this.projectId}&finstart=${
+            this.yearStart
+          }&calculateto=${this.toDate}`
+        "
+      >
+      </gk-file-download>
+    </gk-toolbar>
     <b-table-simple
       v-if="report.length > 0"
       class="mt-3"
@@ -104,8 +117,11 @@ import Autocomplete from './Autocomplete.vue';
 import GkDate from './GkDate.vue';
 import { mapState } from 'vuex';
 import ReportHeader from './ReportHeader.vue';
+import GkFileDownload from './GkFileDownload.vue';
+import GkToolbar from '@/components/GkToolbar.vue';
+
 export default {
-  components: { Autocomplete, GkDate, ReportHeader },
+  components: { Autocomplete, GkDate, ReportHeader, GkFileDownload, GkToolbar },
   name: 'ProductRegister',
   data() {
     return {
@@ -118,6 +134,12 @@ export default {
     };
   },
   methods: {
+    projectName(code) {
+      let n = this.projectList.filter((d) => {
+        return d.value === code;
+      });
+      return n;
+    },
     projectReport() {
       this.loading = true;
       axios

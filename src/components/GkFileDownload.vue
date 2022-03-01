@@ -112,7 +112,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['orgName', 'yearStart', 'yearEnd']),
+    ...mapState(['orgName', 'orgType', 'yearStart', 'yearEnd']),
   },
   methods: {
     onFileDownload() {
@@ -122,7 +122,7 @@ export default {
 
       if (this.commonParams) {
         // prettier-ignore
-        url += `&fystart=${this.dateReverse(this.yearStart)}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}`
+        url += `&fystart=${this.dateReverse(this.yearStart)}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}&orgtype=${this.orgType}`
       }
       axios
         .get(url, { responseType: 'blob' })
