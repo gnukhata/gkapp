@@ -104,20 +104,18 @@
         </template>
       </report-header>
       <!-- Report download -->
-      <div class="text-right">
+      <gk-toolbar>
         <gk-file-download
           :url="
             `/spreadsheet?stock-report&calculatefrom=${dateReverse(
               this.fromDate
-            )}&calculateto=${dateReverse(this.toDate)}&fystart=${
-              this.yearStart
-            }&fyend=${this.yearEnd}&orgname=${
-              this.orgName
-            }&productcode=${productId}&godownflag=0&productdesc=WALLMART`
+            )}&calculateto=${dateReverse(
+              this.toDate
+            )}&productcode=${productId}&godownflag=0&productdesc=productList.filter((p) => p['value'] == productId)[0]['text']`
           "
           fileExtn="xlsx"
         ></gk-file-download>
-      </div>
+      </gk-toolbar>
       <!-- result table -->
       <keep-alive>
         <b-table
@@ -226,9 +224,10 @@ import GkDate from './GkDate.vue';
 import ReportHeader from './ReportHeader.vue';
 import { mapState } from 'vuex';
 import GkFileDownload from '@/components/GkFileDownload.vue';
+import GkToolbar from './GkToolbar.vue';
 export default {
   name: 'ProductRegister',
-  components: { Autocomplete, GkDate, ReportHeader, GkFileDownload },
+  components: { Autocomplete, GkDate, ReportHeader, GkFileDownload, GkToolbar },
   data() {
     return {
       productList: [],
