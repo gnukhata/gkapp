@@ -28,6 +28,7 @@
               <gk-gstin
                 @validity="onGstinUpdate"
                 @gstin_data="onGstinDataFetched"
+                @verified="onGstinVerified"
                 v-model="form.gstin.gstin"
                 :showValidation="2"
                 valButtonText="Validate & Autofill"
@@ -39,14 +40,14 @@
             <b-form-group
               label-size="sm"
               label="Name"
-              label-for="ci-input-1"
+              label-for="ci-input-10"
               label-cols="3"
               label-class="required"
             >
               <template #label> <translate> Name </translate> </template>
               <b-form-input
                 size="sm"
-                id="ci-input-1"
+                id="ci-input-10"
                 :placeholder="formType + ' Name'"
                 v-model="form.name"
                 trim
@@ -56,12 +57,12 @@
             <b-form-group
               label-size="sm"
               label="Address"
-              label-for="ci-input-4"
+              label-for="ci-input-40"
               label-cols="3"
             >
               <template #label> <translate> Address </translate> </template>
               <b-form-textarea
-                id="ci-input-4"
+                id="ci-input-40"
                 v-model="form.address"
                 size="sm"
                 rows="2"
@@ -72,12 +73,12 @@
             <b-form-group
               label-size="sm"
               label="State"
-              label-for="ci-input-2"
+              label-for="ci-input-20"
               label-cols="3"
             >
               <template #label> <translate> State </translate> </template>
               <autocomplete
-                id="ci-input-2"
+                id="ci-input-20"
                 v-model="state"
                 :options="options.states"
                 placeholder="Select a State"
@@ -90,13 +91,13 @@
               label-size="sm"
               invalid-feedback="Pincode must be 6 digits long"
               label="Pin Code"
-              label-for="ci-input-3"
+              label-for="ci-input-30"
               label-cols="3"
             >
               <template #label> <translate> Pin Code </translate> </template>
               <b-form-input
                 size="sm"
-                id="ci-input-3"
+                id="ci-input-30"
                 v-model="form.pin"
                 type="number"
                 no-wheel
@@ -108,14 +109,14 @@
             <b-form-group
               label-size="sm"
               label="PAN"
-              label-for="ci-input-8"
+              label-for="ci-input-80"
               :state="validatePan"
               invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
               label-cols="3"
             >
               <b-form-input
                 size="sm"
-                id="ci-input-8"
+                id="ci-input-80"
                 :state="validatePan"
                 v-model="form.pan"
                 trim
@@ -124,6 +125,45 @@
                 debounce="500"
               >
               </b-form-input>
+            </b-form-group>
+            <b-form-group
+              label-size="sm"
+              label="GST Registration Type"
+              label-for="ci-input-11"
+              :state="validatePan"
+              label-cols="3"
+            >
+              <template #label>
+                <translate> GST Registration Type </translate>
+              </template>
+              <b-form-select
+                label-cols="3"
+                id="ci-input-11"
+                size="sm"
+                v-model="form.gstin.regType"
+                :options="options.regTypes"
+              >
+              </b-form-select>
+            </b-form-group>
+            <b-form-group
+              label-size="sm"
+              label="GST Party Type"
+              label-for="ci-input-12"
+              :state="validatePan"
+              label-cols="3"
+              v-if="isGstReg"
+            >
+              <template #label>
+                <translate> GST Party Type </translate>
+              </template>
+              <b-form-select
+                label-cols="3"
+                id="ci-input-12"
+                size="sm"
+                v-model="form.gstin.partyType"
+                :options="options.partyTypes"
+              >
+              </b-form-select>
             </b-form-group>
           </b-col>
           <b-col cols="12">
@@ -139,13 +179,13 @@
               <b-form-group
                 label-size="sm"
                 label="Email"
-                label-for="ci-input-5"
+                label-for="ci-input-50"
                 label-cols="3"
               >
                 <template #label> <translate> Email </translate> </template>
                 <b-form-input
                   size="sm"
-                  id="ci-input-5"
+                  id="ci-input-50"
                   v-model="form.email"
                   type="email"
                   trim
@@ -154,13 +194,13 @@
               <b-form-group
                 label-size="sm"
                 label="Phone"
-                label-for="ci-input-6"
+                label-for="ci-input-60"
                 label-cols="3"
               >
                 <template #label> <translate> Phone </translate> </template>
                 <b-form-input
                   size="sm"
-                  id="ci-input-6"
+                  id="ci-input-60"
                   type="number"
                   no-wheel
                   v-model="form.contact"
@@ -170,13 +210,13 @@
               <b-form-group
                 label-size="sm"
                 label="Fax"
-                label-for="ci-input-7"
+                label-for="ci-input-70"
                 label-cols="3"
               >
                 <template #label> <translate> Fax </translate> </template>
                 <b-form-input
                   size="sm"
-                  id="ci-input-7"
+                  id="ci-input-70"
                   v-model="form.fax"
                   trim
                 ></b-form-input>
@@ -198,7 +238,7 @@
               <b-form-group
                 label-size="sm"
                 label="IFSC"
-                label-for="ci-input-15"
+                label-for="ci-input-150"
                 label-cols="3"
               >
                 <gk-ifsc
@@ -212,13 +252,13 @@
               <b-form-group
                 label-size="sm"
                 label="Name"
-                label-for="ci-input-12"
+                label-for="ci-input-120"
                 label-cols="3"
               >
                 <template #label> <translate> Name </translate> </template>
                 <b-form-input
                   size="sm"
-                  id="ci-input-12"
+                  id="ci-input-120"
                   placeholder="Bank Name"
                   v-model="form.bank.name"
                   trim
@@ -229,13 +269,13 @@
               <b-form-group
                 label-size="sm"
                 label="Branch"
-                label-for="ci-input-13"
+                label-for="ci-input-130"
                 label-cols="3"
               >
                 <template #label> <translate> Branch </translate> </template>
                 <b-form-input
                   size="sm"
-                  id="ci-input-13"
+                  id="ci-input-130"
                   v-model="form.bank.branch"
                   trim
                   :required="showBankDetails"
@@ -245,13 +285,13 @@
               <b-form-group
                 label-size="sm"
                 label="Acc. No."
-                label-for="ci-input-14"
+                label-for="ci-input-140"
                 label-cols="3"
               >
                 <template #label> <translate> Acc. No. </translate> </template>
                 <b-form-input
                   size="sm"
-                  id="ci-input-14"
+                  id="ci-input-140"
                   v-model="form.bank.accNo"
                   trim
                   :required="showBankDetails"
@@ -311,6 +351,7 @@ import { mapState } from 'vuex';
 import Autocomplete from '../Autocomplete';
 import GkGstin from '../GkGstin';
 import GkIfsc from '../GkIfsc.vue';
+import { GST_REG_TYPE, GST_PARTY_TYPE } from '../../js/enum.js';
 export default {
   name: 'ContactItem',
   components: { Autocomplete, GkGstin, GkIfsc },
@@ -355,6 +396,40 @@ export default {
       showBankDetails: false,
       options: {
         states: [],
+        regTypes: [
+          {
+            text: this.$gettext('Registered Regular'),
+            value: GST_REG_TYPE['regular'],
+          },
+          {
+            text: this.$gettext('Registered Composition'),
+            value: GST_REG_TYPE['composition'],
+          },
+          {
+            text: this.$gettext('Unregistered'),
+            value: GST_REG_TYPE['unregistered'],
+          },
+          { text: this.$gettext('Consumer'), value: GST_REG_TYPE['consumer'] },
+        ],
+        partyTypes: [
+          {
+            text: this.$gettext('Regular'),
+            value: null,
+          },
+          {
+            text: this.$gettext('Deemed Export'),
+            value: GST_PARTY_TYPE['deemed_export'],
+          },
+          { text: this.$gettext('SEZ'), value: GST_PARTY_TYPE['sez'] },
+          {
+            text: this.$gettext('Overseas'),
+            value: GST_PARTY_TYPE['overseas'],
+          },
+          {
+            text: this.$gettext('UIN Holders'),
+            value: GST_PARTY_TYPE['uin_holders'],
+          },
+        ],
       },
       regex: {
         pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
@@ -373,6 +448,8 @@ export default {
           stateCode: null,
           pan: null,
           checkSum: null,
+          regType: GST_REG_TYPE['unregistered'],
+          partyType: null,
         },
         bank: {
           name: null,
@@ -385,6 +462,9 @@ export default {
     };
   },
   computed: {
+    isGstReg: (self) =>
+      self.form.gstin.regType === GST_REG_TYPE['regular'] ||
+      self.form.gstin.regType === GST_REG_TYPE['composition'],
     columnOneWidth: (self) =>
       self.showOptional ? (self.showBankDetails ? 4 : 6) : 12,
     columnTwoWidth: (self) => (self.showOptional ? 4 : 12),
@@ -433,7 +513,26 @@ export default {
             this.state = state.value;
           }
         }
+      } else {
+        // debugger;
+        if (!this.form.gstin.gstin) {
+          this.form.state = '';
+          this.form.pan = null;
+          this.form.gstin = {
+            gstin: null,
+            stateCode: null,
+            pan: null,
+            checkSum: null,
+            regType: GST_REG_TYPE['unregistered'],
+          };
+          this.state = null;
+        }
       }
+    },
+    onGstinVerified(verifiedStatus) {
+      this.form.gstin.regType = verifiedStatus
+        ? GST_REG_TYPE['regular']
+        : GST_REG_TYPE['unregistered'];
     },
     confirmOnSubmit() {
       const self = this;
@@ -583,7 +682,12 @@ export default {
         custemail: null,
         custfax: null,
         custpan: null,
+        gst_reg_type: this.form.gstin.regType,
       };
+
+      if (this.isGstReg) {
+        payload.gst_party_type = this.form.gstin.partyType;
+      }
 
       if (gstin !== null) {
         payload.gstin = gstin;
@@ -623,6 +727,8 @@ export default {
           stateCode: null,
           pan: null,
           checkSum: null,
+          regType: GST_REG_TYPE['unregistered'],
+          partyType: null,
         },
         bank: {
           accNo: null,

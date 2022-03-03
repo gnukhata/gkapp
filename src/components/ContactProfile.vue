@@ -1,5 +1,9 @@
 <template>
-  <b-form id="contactinfo" @submit.prevent="updateContact">
+  <b-form
+    id="contactinfo"
+    @submit.prevent="updateContact"
+    class="align-form-label-right"
+  >
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
     <b-card
       class="mt-2"
@@ -18,12 +22,7 @@
         </div>
       </template>
       <b-collapse class="m-3" v-model="isCollapsed1" id="collapse-info">
-        <b-form-group
-          label="Name"
-          label-for="Name"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="Name" label-for="Name" label-cols="3">
           <template #label> <translate> Name </translate> </template>
           <b-form-input
             id="nested-name"
@@ -31,12 +30,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group
-          label="Phone"
-          label-for="Phone Number"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="Phone" label-for="Phone Number" label-cols="3">
           <template #label> <translate> Phone </translate> </template>
           <b-form-input
             v-model="details.custphone"
@@ -44,22 +38,12 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group
-          label="Email"
-          label-for="nested-state"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="Email" label-for="nested-state" label-cols="3">
           <template #label> <translate> Email </translate> </template>
           <b-form-input v-model="details.custemail"></b-form-input>
         </b-form-group>
 
-        <b-form-group
-          label="Fax"
-          label-for="nested-country"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="Fax" label-for="nested-country" label-cols="3">
           <template #label> <translate> Fax </translate> </template>
           <b-form-input v-model="details.custfax"></b-form-input>
         </b-form-group>
@@ -83,12 +67,7 @@
         </div>
       </template>
       <b-collapse class="m-3" v-model="isCollapsed2" id="address">
-        <b-form-group
-          label="Street"
-          label-for="nested-street"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="Street" label-for="nested-street" label-cols="3">
           <template #label> <translate> Street </translate> </template>
           <b-form-input
             id="nested-street"
@@ -96,12 +75,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group
-          label="State"
-          label-for="state"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="State" label-for="state" label-cols="3">
           <template #label> <translate> State </translate> </template>
           <b-form-select
             :options="options.states"
@@ -110,12 +84,7 @@
           ></b-form-select>
         </b-form-group>
 
-        <b-form-group
-          label="Pincode"
-          label-for="nested-country"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="Pincode" label-for="nested-country" label-cols="3">
           <template #label> <translate> Pincode </translate> </template>
           <b-form-input
             type="number"
@@ -146,22 +115,18 @@
       </template>
 
       <b-collapse class="m-3" v-model="isCollapsed3" id="financial">
-        <b-form-group
-          label="GSTIN"
-          label-for="nested-state"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="GSTIN" label-for="nested-state" label-cols="3">
+          <template #label> <translate> GSTIN </translate> </template>
           <gk-gstin @validity="onGstinUpdate" v-model="gstin.gstin"> </gk-gstin>
         </b-form-group>
         <b-form-group
           label="PAN"
           label-for="nested-pan"
-          label-cols-sm="3"
-          label-align-sm="right"
+          label-cols="3"
           :state="isPanValid"
           invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
         >
+          <template #label> <translate> PAN </translate> </template>
           <b-form-input
             :value="details.custpan"
             v-model="details.custpan"
@@ -172,13 +137,41 @@
             :required="!!details.custpan"
           ></b-form-input>
         </b-form-group>
-
         <b-form-group
-          label="TAN"
-          label-for="nested-tan"
-          label-cols-sm="3"
-          label-align-sm="right"
+          label="Registration Type"
+          label-for="nested-gst-reg"
+          label-cols="3"
         >
+          <template #label>
+            <translate> Registration Type </translate>
+          </template>
+          <b-form-select
+            label-cols="3"
+            id="nested-gst-reg"
+            v-model="details.gst_reg_type"
+            :options="options.regTypes"
+          >
+          </b-form-select>
+        </b-form-group>
+        <b-form-group
+          label="Party Type"
+          label-for="nested-gst-party"
+          label-cols="3"
+          v-if="isGstReg"
+        >
+          <template #label>
+            <translate> Party Type </translate>
+          </template>
+          <b-form-select
+            label-cols="3"
+            id="nested-gst-party"
+            v-model="details.gst_party_type"
+            :options="options.partyTypes"
+          >
+          </b-form-select>
+        </b-form-group>
+        <b-form-group label="TAN" label-for="nested-tan" label-cols="3">
+          <template #label> <translate> TAN </translate> </template>
           <b-form-input
             v-model="details.custtan"
             :value="details.custtan"
@@ -207,34 +200,19 @@
       </template>
 
       <b-collapse class="m-3" v-model="isCollapsed4" id="financial">
-        <b-form-group
-          label="IFSC"
-          label-for="cp-bank-ifsc"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="IFSC" label-for="cp-bank-ifsc" label-cols="3">
           <!-- <b-form-input
                  id="cp-bank-ifsc"
                  v-model="bankDetails.ifsc"
                  ></b-form-input> -->
           <gk-ifsc v-model="bankDetails.ifsc" @fill="autofillIfsc"></gk-ifsc>
         </b-form-group>
-        <b-form-group
-          label="Acc. No."
-          label-for="cp-bank-ano"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="Acc. No." label-for="cp-bank-ano" label-cols="3">
           <template #label> <translate> Acc. No. </translate> </template>
           <b-form-input id="cp-bank-ano" v-model="bankDetails.accountno">
           </b-form-input>
         </b-form-group>
-        <b-form-group
-          label="Bank Name"
-          label-for="cp-bank-name"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="Bank Name" label-for="cp-bank-name" label-cols="3">
           <template #label> <translate> Bank Name </translate> </template>
           <b-form-input
             id="cp-bank-name"
@@ -242,12 +220,7 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group
-          label="Branch"
-          label-for="cp-bank-branch"
-          label-cols-sm="3"
-          label-align-sm="right"
-        >
+        <b-form-group label="Branch" label-for="cp-bank-branch" label-cols="3">
           <template #label> <translate> Branch </translate> </template>
           <b-form-input
             id="cp-bank-branch"
@@ -297,6 +270,7 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 import GkGstin from '../components/GkGstin';
 import GkIfsc from './GkIfsc.vue';
+import { GST_REG_TYPE, GST_PARTY_TYPE } from '@/js/enum.js';
 
 export default {
   name: 'ContactProfile',
@@ -324,6 +298,40 @@ export default {
         states: [],
         selectedState: {},
         stateMap: {},
+        regTypes: [
+          {
+            text: this.$gettext('Registered Regular'),
+            value: GST_REG_TYPE['regular'],
+          },
+          {
+            text: this.$gettext('Registered Composition'),
+            value: GST_REG_TYPE['composition'],
+          },
+          {
+            text: this.$gettext('Unregistered'),
+            value: GST_REG_TYPE['unregistered'],
+          },
+          { text: this.$gettext('Consumer'), value: GST_REG_TYPE['consumer'] },
+        ],
+        partyTypes: [
+          {
+            text: this.$gettext('Regular'),
+            value: null,
+          },
+          {
+            text: this.$gettext('Deemed Export'),
+            value: GST_PARTY_TYPE['deemed_export'],
+          },
+          { text: this.$gettext('SEZ'), value: GST_PARTY_TYPE['sez'] },
+          {
+            text: this.$gettext('Overseas'),
+            value: GST_PARTY_TYPE['overseas'],
+          },
+          {
+            text: this.$gettext('UIN Holders'),
+            value: GST_PARTY_TYPE['uin_holders'],
+          },
+        ],
       },
       gstin: {
         gstin: '',
@@ -338,6 +346,9 @@ export default {
     };
   },
   computed: {
+    isGstReg: (self) =>
+      self.details.gst_reg_type === GST_REG_TYPE['regular'] ||
+      self.details.gst_reg_type === GST_REG_TYPE['composition'],
     isChecksumValid: (self) =>
       self.gstin.checksum
         ? self.regex.checksum.test(self.gstin.checksum)
