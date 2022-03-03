@@ -259,8 +259,8 @@ export default {
   watch: {
     input(gstin, oldInput) {
       if (oldInput !== gstin) {
-        this.validateGstin(gstin);
         this.$emit('input', this.input);
+        this.validateGstin(gstin);
       }
     },
     value(gstin, oldValue) {
@@ -269,12 +269,13 @@ export default {
         this.input = gstin;
       } else if (gstin === null) {
         this.input = '';
+        this.resetCaptcha();
       }
     },
   },
   methods: {
     useGstinData() {
-      console.log(this.gstinData.pan);
+      // console.log(this.gstinData.pan);
       this.$emit('gstin_data', {
         name: this.gstinData.tradeName,
         addr: this.gstinData.addr,
@@ -298,27 +299,35 @@ export default {
       axios.post('/gstreturns?type=gstin_captcha', payload).then((resp) => {
         if (resp.data.gkstatus === 0) {
           let data = resp.data.gkresult;
-          let addrSplit = data.pradr.adr.split(', ');
           this.gstinData = {
             tradeName: data.tradeNam ? data.tradeNam : '',
             status: data.sts ? data.sts : '',
-            addr: data.pradr.adr ? data.pradr.adr : '',
-            pincode: addrSplit ? addrSplit[addrSplit.length - 1] : '',
             validity: true,
             stateCode: this.input.substr(0, 2),
             pan: this.input.substr(2, 10),
           };
+          if (data.pradr) {
+            let addrSplit = data.pradr.adr.split(', ');
+            this.gstinData.addr = data.pradr.adr || '';
+            this.gstinData.pincode = addrSplit
+              ? addrSplit[addrSplit.length - 1]
+              : '';
+          }
           this.gstinCaptcha.validity = true;
+          this.$emit('verified', true);
         } else {
           this.gstinData.validity = false;
           let error = resp.data.gkerror;
           if (error) {
+            // if captcha expired, fetch it again
             if (error.errorCode && error.errorCode === 'SWEB_9000') {
               this.gstinCaptcha.validity = false;
               this.gstinCaptcha.text = '';
               this.getGstinCaptcha();
+              return;
             }
           }
+          this.$emit('verified', false);
         }
       });
     },
@@ -394,6 +403,7 @@ export default {
      * @return TRUE/FALSE
      *
      * Code taken from https://excelkida.com/script-library/fn-isvalidgstn
+     * Also refer: https://www.gstzen.in/a/format-of-a-gst-number-gstin.html
      */
     isValidGstin(gstn) {
       let valid = {
@@ -404,19 +414,31 @@ export default {
 
       // check if normal GSTIN (2 digit State Code + 10 digit PAN + 3 digit Checksum)
       // 22AABCU9603R1ZX
-      valid.format = /^(0[1-9]|[1-2][0-9]|3[0-7])[A-Z]{3}([ABCFGHLJPT])[A-Z][0-9]{4}[A-Z][1-9][Z][0-9A-Z]$/g.test(
+      valid.format = /^(0[1-9]|[1-2][0-9]|3[0-7])[A-Z]{3}([ABCFGHLJPT])[A-Z][0-9]{4}[A-Z][1-9]([A,B,Z]|[1-9]|[E-J])[0-9A-Z]$/g.test(
         gstn
       );
 
-      // check if UIN/OIDAR (refer: https://www.teachoo.com/6925/1984/GSTIN-Number-Format/category/GST-Registration/)
+      // check if UIN/OIDAR/Non Resident Online Services Provider (refer: https://www.teachoo.com/6925/1984/GSTIN-Number-Format/category/GST-Registration/)
       // (2 digit StateCode + 2 digit year + 3 digit country code + 5 digit Alphabets + 3 digit checksum )
-      // state code - 99 or 98 (needs review)
-      // 0717USA12345NFD
+      // 0717USA12345NFD, 9917IRL29003OSG
       if (!valid.format) {
         valid.format = /^[0-9]{4}[A-Z]{3}[0-9]{5}[0-9A-Z]{3}/g.test(gstn);
         if (valid.format) {
           valid.isUin = true;
         }
+      }
+
+      // Other Territory, SEZ
+      // state code - 99 or 98 or 97
+      // 97AAACB8516F1ZN, 97AAACE4569K1Z4
+      if (!valid.format) {
+        valid.format = /^(9[0-9])[A-Z]{3}([ABCFGHLJPT])[A-Z][0-9]{4}[A-Z][1-9][Z][0-9A-Z]$/g.test(gstn);
+      }
+
+      // Tax Deductor, Uses TAN instead of PAN
+      // 29BLRA01098G1D8, 23JBPA02268A1DD
+      if (!valid.format) {
+        valid.format = /^(0[1-9]|[1-2][0-9]|3[0-7])[A-Z]{3}([ABCFGHLJPT])([A-Z]|[0-9])[0-9]{4}[A-Z][1-9][D][0-9A-Z]$/g.test(gstn);
       }
 
       if (!valid.format) {
