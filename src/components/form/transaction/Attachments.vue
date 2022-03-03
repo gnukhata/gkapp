@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import { getBase64 } from '../js/utils.js';
+import { getBase64 } from '@/js/utils.js';
 import { mapState } from 'vuex';
 export default {
-  name: 'ImageUploadHelper',
+  name: 'Attachments',
   props: {
     updateCounter: {
       type: Number,
