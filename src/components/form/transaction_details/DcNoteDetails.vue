@@ -119,13 +119,8 @@
             required
             tabindex="-1"
             @input="onUpdateDetails"
+            :options="options.drcrModes"
           >
-            <b-form-select-option value="price">
-              <translate> Adjust Price / Discount </translate>
-            </b-form-select-option>
-            <b-form-select-option value="qty">
-              <translate> Adjust Qty / Return Goods </translate>
-            </b-form-select-option>
           </b-form-select>
         </b-form-group>
         <b-form-group v-if="!isCredit && isReturn && saleFlag">
@@ -191,6 +186,7 @@ import axios from 'axios';
 // import Autocomplete from '../../Autocomplete.vue';
 import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
+import { DR_CR_MODE } from '@/js/enum.js';
 export default {
   name: 'DcNoteDetails',
   components: {
@@ -234,7 +230,7 @@ export default {
         gstin: null,
         referenceFlag: false,
         badQuality: false,
-        purpose: 'price', // 'qty'
+        purpose: DR_CR_MODE['discount'], // 'qty'
         ref: {
           date: '',
           number: '',
@@ -245,11 +241,38 @@ export default {
           dr: { sale: [], purchase: [] },
           cr: { sale: [], purchase: [] },
         },
+        drcrModes: [
+          {
+            text: this.$gettext('Adjust Price / Discount'),
+            value: DR_CR_MODE['discount'],
+          },
+          {
+            text: this.$gettext('Adjust Qty / Return Goods'),
+            value: DR_CR_MODE['returns'],
+          },
+          {
+            text: this.$gettext('Deficiency in services'),
+            value: DR_CR_MODE['service_deficiency'],
+          },
+          {
+            text: this.$gettext('Correction in Invoice'),
+            value: DR_CR_MODE['inv_correction'],
+          },
+          {
+            text: this.$gettext('Change in POS'),
+            value: DR_CR_MODE['pos_change'],
+          },
+          {
+            text: this.$gettext('Finalization of Provisional assessment'),
+            value: DR_CR_MODE['prov_assessment'],
+          },
+          { text: this.$gettext('Others'), value: DR_CR_MODE['others'] },
+        ],
       },
     };
   },
   computed: {
-    isReturn: (self) => self.form.purpose === 'qty',
+    isReturn: (self) => self.form.purpose === 18,
     isCredit: (self) => self.form.type === 'credit',
     minimumDate: (self) => {
       let date = self.reverseDate(self.yearStart);
@@ -339,6 +362,7 @@ export default {
       );
     },
     resetForm() {
+      this.form.purpose = DR_CR_MODE['discount'];
       this.form.date = this.getNoteDate();
       this.setNoteNo(true);
       this.onUpdateDetails();

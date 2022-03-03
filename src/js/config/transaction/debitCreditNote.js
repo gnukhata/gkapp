@@ -12,6 +12,8 @@ export default {
         gstin: true,
         pin: false,
         state: { disabled: true },
+        supplySt: { disabled: true },
+        godown: { disabled: true },
         issuer: true,
         role: true,
         class: {},

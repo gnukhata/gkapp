@@ -78,6 +78,7 @@
 <script>
 import axios from 'axios';
 import { numberToRupees } from '../../../js/utils.js';
+import { DR_CR_MODE } from '@/js/enum.js';
 export default {
   name: 'DcNoteProfile',
   props: {
@@ -126,11 +127,32 @@ export default {
   },
   computed: {
     dcNoteData: (self) => {
+      let modeNameMap = {};
+      modeNameMap[DR_CR_MODE['discount']] = self.$gettext(
+        'Adjust Price / Discount'
+      );
+      modeNameMap[DR_CR_MODE['returns']] = self.$gettext(
+        'Adjust Qty / Return Goods'
+      );
+      modeNameMap[DR_CR_MODE['service_deficiency']] = self.$gettext(
+        'Deficiency in services'
+      );
+      modeNameMap[DR_CR_MODE['inv_correction']] = self.$gettext(
+        'Correction in Invoice'
+      );
+      modeNameMap[DR_CR_MODE['pos_change']] = self.$gettext('Change in POS');
+      modeNameMap[DR_CR_MODE['prov_assessment']] = self.$gettext(
+        'Finalization of Provisional assessment'
+      );
+      modeNameMap[DR_CR_MODE['others']] = self.$gettext('Others');
+      let purpose = modeNameMap[self.dcNote.drcrmode];
+
       return [
         { title: self.$gettext('No.'), value: self.dcNote.no },
         { title: self.$gettext('Date'), value: self.dcNote.date },
         { title: self.$gettext('Inv No.'), value: self.inv.no },
         { title: self.$gettext('Inv Date'), value: self.inv.date },
+        { title: self.$gettext('Purpose'), value: purpose },
       ];
     },
     totalDetails: (self) => {
@@ -223,6 +245,7 @@ export default {
           dcItems: [],
           narration: details.drcrnarration,
           no: details.drcrno,
+          drcrmode: details.drcrmode,
         };
         this.flags = {
           gst: details.taxname !== 'VAT',

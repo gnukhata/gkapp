@@ -56,6 +56,7 @@
           @details-updated="onComponentDataUpdate"
           :updateCounter="updateCounter.invoice"
           ref="invoice"
+          :editFlag="true"
         ></invoice-details>
         <!-- Buyer/Seller Details -->
         <party-details
@@ -208,7 +209,7 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import { reverseDate } from '../../js/utils';
-
+import { DR_CR_MODE } from '@/js/enum.js';
 // import Config from '../../components/Config.vue';
 
 import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
@@ -412,8 +413,9 @@ export default {
                   let message = '';
                   if (vchCode) {
                     if (vchCode.vflag === 0) {
-                      message =
-                        this.$gettext('Accounting entry could not be made due to mismatch of accounts. Please make the entry yourself.');
+                      message = this.$gettext(
+                        'Accounting entry could not be made due to mismatch of accounts. Please make the entry yourself.'
+                      );
                     } else {
                       message = `Accounting entry made with voucher no ${vchCode['vchCode']}`;
                     }
@@ -555,7 +557,8 @@ export default {
     },
     initPayload() {
       this.collectComponentData();
-      const isPrice = this.form.dcNote.purpose === 'price';
+      const isDiscount = this.form.dcNote.purpose === DR_CR_MODE['discount'];
+      const isReturn = this.form.dcNote.purpose === DR_CR_MODE['returns'];
       let drcrdata = {
         invid: this.invId,
         drcrdate: this.form.dcNote.date,
@@ -563,7 +566,7 @@ export default {
         totreduct: this.form.total.amount,
         dctypeflag: this.isCredit ? 3 : 4,
         reductionval: {},
-        drcrmode: isPrice ? 4 : 18,
+        drcrmode: this.form.dcNote.purpose,
         dcinvtnflag: this.form.dcNote.badQuality ? 2 : 7,
         roundoffflag: this.form.total.roundFlag ? 1 : 0,
       };
@@ -602,7 +605,7 @@ export default {
         quantities = {};
       this.form.bill.forEach((item) => {
         if (item.qty) {
-          const rate = isPrice ? item.dcValue || 0 : item.rate;
+          const rate = isDiscount ? item.dcValue || 0 : item.rate;
           product[item.product.name] = rate;
           prodData[item.pid] = rate;
           taxes[item.pid] = this.isGst
@@ -615,7 +618,7 @@ export default {
           quantities[item.pid] = item.qty;
         }
       });
-      if (!isPrice) {
+      if (!isReturn) {
         reductionval.quantities = quantities;
       }
       drcrdata.reductionval = reductionval;
