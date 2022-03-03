@@ -12,6 +12,7 @@
       :size="size"
       :variant="variant"
       @click.prevent="onFileDownload"
+      class="d-print-none"
     >
       <b-icon
         aria-hidden="true"

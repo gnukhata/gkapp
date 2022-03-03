@@ -12,6 +12,14 @@
           {{ dateReverse(yearStart) }} to {{ dateReverse(yearEnd) }}
         </div>
       </report-header>
+      <gk-toolbar>
+        <gk-file-download
+          :common-params="false"
+          :url="
+            `/spreadsheet?ledger-monthly&accountcode=${this.accountCode}&accname=${this.accountName}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+          "
+        ></gk-file-download>
+      </gk-toolbar>
       <b-table
         :items="result"
         small
@@ -33,8 +41,10 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import ReportHeader from '../components/ReportHeader.vue';
+import GkToolbar from '../components/GkToolbar.vue';
+import GkFileDownload from '../components/GkFileDownload.vue';
 export default {
-  components: { ReportHeader },
+  components: { ReportHeader, GkToolbar, GkFileDownload },
   name: 'LedgerMonthly',
   data() {
     return {
@@ -73,7 +83,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   mounted() {
     this.accountCode = this.$route.params.id;

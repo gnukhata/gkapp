@@ -7,28 +7,27 @@
 | NAMES                              | API | UI |
 |------------------------------------+-----+----|
 | Conventional Balance Sheet         | x   | x  |
-| Invoices List                      | x   | -  |
-| Stock Report                       | x   |    |
-| Trial Balance                      | x   |    |
 | Product Service List               | x   | x  |
-| Profit Loss                        | x   |    |
-| Ledger                             | x   |    |
-| Ledger monthly                     | x   |    |
-| Invoice List                       | x   |    |
-| Cash Flow                          | x   |    |
 | accounts                           | x   | x  |
 | List of Godowns                    | x   | x  |
-| Budget report (Cash & Profit/Loss) | x   |    |
 | List of Users                      | x   | x  |
-| List of Transfer Notes             | x   |    |
+| List of categories                 | x   | x  |
+| Export data                        | x   | x  |
+| Invoices List                      | x   | x  |
+| Trial Balance                      | x   | x  |
+| Profit Loss                        | x   | x  |
+| List of Transfer Notes             | x   | x  |
+| Cash Flow                          | x   | x  |
+| gstr3b                             | x   | x  |
+| Budget report (Cash & Profit/Loss) | x   | x  |
+| Cost Center statement              | x   | x  |
+| Ledger monthly                     | x   | x  |
+| Ledger                             | x   |    |
+| Stock Report                       | x   |    |
 | List of Unpaid Invoices            | x   |    |
 | Unbilled Delivery Notes            | x   |    |
 | Cancelled Delivery Notes           | x   |    |
-| List of categories                 | x   | x  |
-| Cost Center statement              | x   |    |
-| gst_r1                             | x   |    |
-| gst report                         | x   |    |
-| Export data                        | x   | x  |
+| gstr1                              | x   |    |
 | Import data                        |     |    |
 
 - [ ] Small business GST Compliance <2022-03-31 Thu>
