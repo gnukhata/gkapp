@@ -622,16 +622,21 @@ export default {
           });
         }
       });
-      setTimeout(() => {
-        if (products.length) {
-          products.forEach((product, index) => {
-            Object.assign(self.form[index], product);
-            self.fetchProductDetails(self.form[index].product.id, index);
-          });
-        }
-        // self.$forceUpdate();
-        self.isPreloading = false;
-      }, 500);
+      this.$forceUpdate();
+      this.$nextTick().then(() => {
+        setTimeout(() => {
+          if (products.length) {
+            products.forEach((product, index) => {
+              self.form[index] = product;
+              // console.log(product);
+              self.fetchProductDetails(self.form[index].product.id, index);
+              self.$forceUpdate();
+            });
+          }
+          // self.$forceUpdate();
+          self.isPreloading = false;
+        }, 500);
+      });
     },
     godownId() {
       // this.fetchStockOnHandData();
@@ -808,6 +813,8 @@ export default {
         if (resp3.data.gkstatus === 0) {
           self.options.stock[id] = parseFloat(resp3.data.gkresult[0].balance);
         }
+
+        self.$forceUpdate();
       });
     },
     onItemEdit(index) {

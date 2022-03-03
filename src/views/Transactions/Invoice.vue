@@ -227,13 +227,13 @@
           </div>
         </div>
       </b-card> -->
-      <image-upload-helper
+      <attachments
         class="mt-2"
         ref="attachments"
         :updateCounter="updateCounter.attachments"
         :parentData="form.attachments"
       >
-      </image-upload-helper>
+      </attachments>
       <hr />
       <div class="float-right">
         <b-button
@@ -299,7 +299,7 @@
       :show="showPrintModal"
       name="Invoice"
       title="Invoice"
-      :id="invoiceId"
+      :id="invModalId"
       :pdata="{}"
       @hidden="showPrintModal = false"
     >
@@ -323,7 +323,7 @@ import TransportDetails from '../../components/form/transaction/TransportDetails
 import Comments from '../../components/form/transaction/Comments.vue';
 import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue';
 import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
-import ImageUploadHelper from '../../components/ImageUploadHelper.vue';
+import Attachments from '../../components/form/transaction/Attachments.vue';
 
 import PrintPage from '../../components/workflow/PrintPage.vue';
 
@@ -344,7 +344,7 @@ export default {
     PaymentDetails,
     TransportDetails,
     Comments,
-    ImageUploadHelper,
+    Attachments,
 
     PrintPage,
   },
@@ -369,6 +369,7 @@ export default {
       vuexNameSpace: '',
       formMode: '',
       invoiceId: 0,
+      invModalId: 0,
       goid: -1,
       dcId: '',
       updateCounter: {
@@ -408,6 +409,7 @@ export default {
       showBusinessForm: false,
       temp: null,
       options: {
+        dcData: {},
         customers: [],
         suppliers: [],
         products: [],
@@ -689,10 +691,12 @@ export default {
 
             this.setBankDetails();
             Object.assign(this.form.party, payload.data);
-            this.form.inv.taxState = payload.data.state;
 
             this.updateCounter.ship++;
-            this.updateCounter.inv++;
+            if (this.isCreate) {
+              this.form.inv.taxState = payload.data.state;
+              this.updateCounter.inv++;
+            }
           }
           break;
         case 'bill-table':
@@ -704,7 +708,30 @@ export default {
           break;
       }
     },
-    // fetchDelNoteGodown(dcid) {},
+    fetchDelNoteGodown(dcid) {
+      const self = this;
+      axios.get(`/delchal?delchal=single&dcid=${dcid}`).then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          // debugger;
+          self.options.dcData = resp.data.gkresult.delchaldata;
+          self.form.inv.godown = resp.data.gkresult.delchaldata.goid;
+          self.form.inv.dnNo = resp.data.gkresult.delchaldata.dcno;
+          self.updateComponentData();
+        }
+      });
+    },
+    fetchAttachments() {
+      // if (this.form.attachments.length) {
+      //   return;
+      // }
+      // this.isAttachmentLoading = true;
+      axios
+        .get(`/invoice?attach=image&invid=${this.invoiceId}`)
+        .then((resp) => {
+          this.form.attachments = resp.data.gkresult;
+          this.updateComponentData(); // this.isAttachmentLoading = false;
+        });
+    },
     fetchDelNoteData(dcid) {
       if (!dcid) return;
       this.isPreloading = true;
@@ -1001,7 +1028,7 @@ export default {
     fetchInvoiceData() {
       this.isPreloading = true;
       let self = this;
-      axios
+      return axios
         .get(`/invoice?inv=single&invid=${this.invoiceId}`)
         .then((resp) => {
           self.isPreloading = false;
@@ -1038,6 +1065,8 @@ export default {
               role: data.designation,
               taxState: taxState ? taxState.value : {},
             };
+
+            self.dcId = data.dcid || '';
 
             self.form.ship.copyFlag =
               data.consignee.consigneename === data.custSupDetails.custname &&
@@ -1113,6 +1142,10 @@ export default {
             }
 
             self.updateComponentData();
+
+            if (data.attachmentcount > 0) {
+              this.fetchAttachments();
+            }
           }
         })
         .catch((error) => {
@@ -1144,7 +1177,8 @@ export default {
               case 0:
                 {
                   // success
-                  self.invoiceId = resp.data.gkresult;
+                  self.invoiceId = self.isCreate ? resp.data.gkresult : self.invoiceId;
+                  self.invModalId = self.invoiceId;
                   self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
                   self.displayToast(
                     self.$gettextInterpolate(
@@ -1458,11 +1492,14 @@ export default {
     },
     createDelNote() {
       const payload = this.initDelNotePayload();
-      const method = this.isCreate ? 'post' : 'put';
+      const method = this.isCreate ? 'post' : !this.dcId ? 'post' : 'put';
+
       return axios({ method: method, url: '/delchal', data: payload })
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
-            this.dcId = resp.data.gkresult || null;
+            if(resp.data.gkresult || this.isCreate) {
+              this.dcId = resp.data.gkresult || null;
+            }
             return resp.data.gkresult;
           } else if (resp.data.gkstatus === 1) {
             // let no = payload.delchaldata.dcno;
@@ -1504,6 +1541,16 @@ export default {
         modeoftransport: this.form.transport.mode,
         noofpackages: this.form.transport.packageCount,
       };
+
+      if (!this.isCreate) {
+        if(this.dcId) {
+          delchal.dcid = this.dcId;
+        }
+
+        if(this.options.dcData && this.options.dcData.dcno) {
+          delchal.dcno = this.options.dcData.dcno;
+        }
+      }
 
       // === Sale / Purchase related data ===
       if (this.isSale) {
@@ -1786,8 +1833,10 @@ export default {
         self.fetchEditableInvoices();
         self.$nextTick().then(() => {
           if (self.formMode === 'edit') {
-            self.fetchInvoiceData();
-            self.fetchDelNoteData();
+            self.fetchInvoiceData().then(() => {
+              self.fetchDelNoteGodown(this.dcId);
+            });
+            // self.fetchDelNoteData();
           }
         });
       });

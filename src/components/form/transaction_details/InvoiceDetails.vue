@@ -114,6 +114,7 @@
             :required="true"
             valueUid="id"
             @input="onUpdateDetails"
+            :readonly="disabled.supplySt"
           ></autocomplete>
         </b-form-group>
         <!-- <b-form-group
@@ -151,7 +152,8 @@
             v-model="form.godown"
             :options="options.godowns"
             @input="onUpdateDetails"
-            required
+            :required="true"
+            :readonly="disabled.godown"
           ></autocomplete>
         </b-form-group>
         <b-form-group
@@ -384,6 +386,8 @@ export default {
         no: false,
         date: false,
         state: false,
+        supplySt: false,
+        godown: false,
       };
 
       if (typeof self.config.no === 'object') {
@@ -397,6 +401,15 @@ export default {
       if (typeof self.config.state === 'object') {
         disabled.state = !!self.config.state.disabled;
       }
+
+      if (typeof self.config.supplySt === 'object') {
+        disabled.supplySt = !!self.config.supplySt.disabled;
+      }
+
+      if (typeof self.config.godown === 'object') {
+        disabled.godown = !!self.config.godown.disabled;
+      }
+
       return disabled;
     },
   },
@@ -421,9 +434,16 @@ export default {
         }
       }
 
+      if (this.parentData.godown) {
+        this.form.godown = this.parentData.godown;
+      }
+
       this.onUpdateDetails();
     },
     saleFlag() {
+      if (this.editFlag) {
+        return;
+      }
       this.setInvoiceNo();
       this.updateDelNoteNo();
       this.form.godown = '';
@@ -472,7 +492,9 @@ export default {
           ? this.config.no.format.code
           : { sale: 'SL', purchase: 'PU' };
         let code = this.saleFlag ? codes.sale : codes.purchase;
-        let counter = this.saleFlag ? this.config.no.counter.sale : this.config.no.counter.purchase;
+        let counter = this.saleFlag
+          ? this.config.no.counter.sale
+          : this.config.no.counter.purchase;
         this.form.no = this.formatNoteNo(
           this.numberFormat,
           parseInt(counter),
@@ -725,9 +747,11 @@ export default {
         this.form.no = '';
       }
       this.form.godown = '';
-      this.$nextTick().then(() => {
-        this.form.godown = this.$store.getters['global/getDefaultGodown'];
-      });
+      if (!this.editFlag) {
+        this.$nextTick().then(() => {
+          this.form.godown = this.$store.getters['global/getDefaultGodown'];
+        });
+      }
       this.onUpdateDetails();
       this.updateDelNoteNo(true);
     },

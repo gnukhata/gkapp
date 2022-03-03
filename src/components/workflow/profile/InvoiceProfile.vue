@@ -812,13 +812,15 @@ export default {
               if (invData.dcid) {
                 this.getDelNoteDetails(invData.dcid).then((dnResponse) => {
                   let dndata = dnResponse.data.gkresult.delchaldata;
-                  this.dnote = {
-                    id: dndata.dcid,
-                    no: dndata.dcno,
-                    goname: dndata.goname,
-                    goid: dndata.goid,
-                    packageQty: dndata.noofpackages,
-                  };
+                  if (dndata) {
+                    this.dnote = {
+                      id: dndata.dcid,
+                      no: dndata.dcno,
+                      goname: dndata.goname,
+                      goid: dndata.goid,
+                      packageQty: dndata.noofpackages,
+                    };
+                  }
                 });
               }
             }
