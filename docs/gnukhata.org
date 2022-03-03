@@ -1,0 +1,110 @@
+#+TITLE: Gnukhata
+* Accion Labs Pvt :Ltd
+Mumbai, India
+* GNUKhata
+* OVERVIEW
+GNUKhata is free and open source software (FOSS) for financial accounting (FA) and was initiated to cater to the needs of Small and Medium scale (SME) entreprises, traders, startups and Non-Governmental Organisastions (NGO). GNUKhata was initiated in India, in 2009. Thus it has been enhanced to support specific compliance and return requirements of the GST (tax) records and returns requirements in India. GNUKhata features adequate inventory management support which is integral to financial accounting needs for many businesses.
+
+* Type Of Software:
+A progressive web application
+Demo URL: https://gnukhata.gitlab.io/gkapp/
+
+* Source Code:
+- Gkcore: https://gitlab.com/gnukhata/gkcore
+- GKapp: https://gitlab.com/gnukhata/gkapp
+
+* Documentation URL's
+- GKcore: https://gitlab.com/gnukhata/gkcore/-/blob/devel/README.md
+- Gkapp: https://gitlab.com/gnukhata/gkapp/-/blob/devel/README.md
+- Windows setup & Docker Image: https://gitlab.com/gnukhata/build/-/blob/master/README.md
+
+| Core Capabilities           | Features | Functionalities |   |   |   |
+|-----------------------------+----------+-----------------+---+---+---|
+| Financial Reports           |          |                 |   |   |   |
+| Book Keeping                |          |                 |   |   |   |
+| Contact management          |          |                 |   |   |   |
+| Inventory management        |          |                 |   |   |   |
+| Accounting Ledgers          |          |                 |   |   |   |
+| Double Entry Accounnting    |          |                 |   |   |   |
+| GST Compliance & validation |          |                 |   |   |   |
+| Data export & import        |          |                 |   |   |   |
+| User management             |          |                 |   |   |   |
+| Organisation management     |          |                 |   |   |   |
+|                             |          |                 |   |   |   |
+
+* Financial Reports
+** Product Register
+1. List the transactions of product in given date range
+2. Searching across godowns
+3. Filter Invoices
+4. Search Invoices
+5. Drill down to invoice numbers
+6. Download the data as a spreadsheet
+** Cost Center Statement
+** View Registers
+1. List the sale & purchase transactions in given date range
+2. Drill down to individual invoices
+3. Searchable table
+
+** Stock On Hand
+1. List the stock info of all the products or individual products on given date
+2. Godown wise individual stock report
+3. Searchable table
+** Categorywise Stock On Hand
+1. List the stock category / subcategory wise on given date
+2. Godown wise individual stock report
+3. Searchable table
+** Profit & Loss
+1. Show profit & loss table for given date range
+2. Spreadsheet Downloadable
+** Cash Flow
+1. Show cash table for given date range
+2. Spreadsheet Downloadable
+3. Drill down to corresponding ledger
+** Trial Balance
+1. Show trial balance types for given date range
+2. Spreadsheet Downloadable
+3. Drill down to corresponding ledger
+4. Search bar
+5. Filter by type
+** Ledger
+1. Show ledger info by monthly or per account
+2. Spreadsheet Download
+3. Drill down to vouchers
+4. Search
+5. Filters
+** Balance Sheet
+1. List balance sheet for given date range
+2. Spreadsheet downloadable
+3. Drill down to account ledgers
+4. Printable to pdf
+* Book Keeping
+** Ledgers
+* Contact management
+** Customers
+** Suppliers
+* Inventory management
+** Unit Of Measurement
+** Business items
+* Double Entry Accounnting
+** Invoice
+** Debit/Credit Note
+** Cash Memo
+** Delivery Note
+** Purchase/Sales Order
+** Rejection Note
+** Transfer Note
+** Voucher
+* GST Compliance & validation
+** GSTR-1
+** GSTR-3B
+* Data export & import
+** Tally Import
+** Data Import
+** Data Export
+* User management
+** Add / remove users
+** Assign permissions
+** Assign / Promote / demote user roles
+* Organisation management
+** Add / remove organisation
