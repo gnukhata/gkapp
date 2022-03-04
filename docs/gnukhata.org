@@ -80,24 +80,102 @@ Demo URL: https://gnukhata.gitlab.io/gkapp/
 4. Printable to pdf
 * Book Keeping
 ** Ledgers
+1. Maintain list of accounts for double entry acounting
+2. CRUD operable
+3. Spreadsheet downloadable
+4. Drilldown to account ledgers
+5. Includes Search
 * Contact management
-** Customers
-** Suppliers
+** Contacts (Customers & Suppliers)
+1. Maintain a list of contacts and their details
+2. CRUD operable
+3. Table Filters
+4. Print to Pdf
 * Inventory management
 ** Unit Of Measurement
-** Business items
+1. Maintain a list of UOM
+2. CRUD operable
+3. Includes Search
+** Business items (Products & Services)
+1. Maintain a list of items  and their details
+2. CRUD operable
+3. Table Filters
+4. Print to Pdf and Spreadsheet
+5. Maintain item stock based on godowns
 * Double Entry Accounnting
 ** Invoice
+1. Maintains invoices that allow tracking the transfer of goods/services for money with customers/suppliers
+2. CRUD operable
+3. Configurable UI
+4. Includes automatic creation of accounting vouchers
+5. Supports preconfigured autofilling of data
+6. Supports saving images as attachments
+7. All transactions are logged
+8. Printable as Spreadsheets and Pdf
+9. Table Filters
 ** Debit/Credit Note
+1. Maintains debit/credit notes that allow tracking transfer of money based on invoices created
+2. CRUD operable
+3. Configurable UI
+4. Supports preconfigured autofilling of data
+5. All transactions are logged
+6. Printable as Pdf
+7. Table Filters
 ** Cash Memo
+1. Maintains cash memo that allow tracking the transfer of goods/services for cash
+2. CRUD operable
+3. Configurable UI
+4. Includes automatic creation of accounting vouchers
+5. Supports preconfigured autofilling of data
+6. Supports saving images as attachments
+7. All transactions are logged
+8. Printable as Pdf
+9. Table Filters
 ** Delivery Note
+1. Maintains delivery notes that allow tracking movement of products during transactions
+2. Configurable UI
+3. Supports preconfigured autofilling of data
+4. All transactions are logged
+5. Printable as Pdf
+6. Table Filters
 ** Purchase/Sales Order
+1. Maintains purchase/sales orders that allow tracking quotations of possible sales/purchases
+2. Configurable UI
+3. Supports preconfigured autofilling of data
+4. All transactions are logged
+5. Printable as Pdf
+6. Table Filters
 ** Rejection Note
+1. Maintains rejection notes that allow tracking returns/refunds for purchases/sales performed
+2. Configurable UI
+3. Supports preconfigured autofilling of data
+4. All transactions are logged
+5. Printable as Pdf
+6. Table Filters
 ** Transfer Note
+1. Maintains transfer notes that allow tracking movement of item between godowns
+2. Configurable UI
+3. Supports preconfigured autofilling of data
+4. All transactions are logged
+5. Printable as Pdf and Spreadsheet
+6. Table Filters
 ** Voucher
+1. Maintains vouchers that allow tracking transfer of money between various accounts in double entry accounting
+2. CRUD operable
+3. Configurable UI
+4. Supports preconfigured autofilling of data
+5. All transactions are logged
+6. Printable as Pdf
+7. Table Filters
 * GST Compliance & validation
 ** GSTR-1
+1. Generate GSTR-1 report for the organisation based on the transactions made
+2. Includes GSTR-1 Summary
+3. Downloadable as Spreadsheet and JSON
 ** GSTR-3B
+1. Generate GSTR-3B report for the organisation based on the transactions made
+2. Includes GSTR-3B Summary
+3. Downloadable as Spreadsheet and JSON
 * Data export & import
 ** Tally Import
 ** Data Import
