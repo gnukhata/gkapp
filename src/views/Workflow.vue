@@ -140,14 +140,52 @@
               ></gk-file-download>
               <!-- Invoice spreadsheet -->
               <gk-file-download
-                v-if="activeWorkflow.name == 'Transactions-Invoice'"
+                v-if="
+                  activeWorkflow.name == 'Transactions-Invoice' &&
+                    filters.active.length == 1 &&
+                    filters.active[0] == 0
+                "
                 file-suffix="InvoiceList"
                 style="margin-top: 3px;"
                 :font-scale="1"
                 :url="
                   `/spreadsheet?invoice-list&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
                 "
-                title="Download Invoice List"
+                title="Download All Invoice List"
+              ></gk-file-download>
+              <!-- Cancelled Invoice spreadsheet -->
+              <gk-file-download
+                v-if="
+                  activeWorkflow.name == 'Transactions-Invoice' &&
+                    filters.active.length == 1 &&
+                    filters.active[0] == 3
+                "
+                file-suffix="CancelledInvoiceList"
+                style="margin-top: 3px;"
+                :font-scale="1"
+                :url="
+                  `/spreadsheet?invoice-cancelled&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
+                "
+                title="Download Cancelled Invoice Spreadsheet"
+              ></gk-file-download>
+              <!-- Credit Invoice Spreadsheet -->
+              <gk-file-download
+                v-if="
+                  activeWorkflow.name == 'Transactions-Invoice' &&
+                    filters.active.length == 1 &&
+                    filters.active[0] == 4
+                "
+                file-suffix="CreditInvoiceList"
+                style="margin-top: 3px;"
+                title="Download Credit Invoice Spreadsheet"
+                :font-scale="1"
+                :url="
+                  `/spreadsheet?invoice-outstanding&fromdate=${dateReverse(
+                    this.filters.range.from
+                  )}&todate=${dateReverse(
+                    this.filters.range.to
+                  )}&inoutflag=15&orderflag=1&typeflag=4`
+                "
               ></gk-file-download>
               <!-- Transfer Note Spreadsheet -->
               <gk-file-download
@@ -162,6 +200,7 @@
                 "
                 title="Download Transfer Notes"
               ></gk-file-download>
+              <!-- Column settings -->
               <b-button
                 class="px-1"
                 variant="link"
