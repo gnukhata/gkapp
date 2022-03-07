@@ -62,6 +62,16 @@
           type="text"
         ></b-form-input>
       </div>
+      <!-- Toolbar -->
+      <gk-toolbar>
+        <gk-file-download
+          v-if="ledgerChoice == 'all'"
+          :common-params="false"
+          :url="
+            `/spreadsheet?ledger&accountcode=${this.accountCode}&accountname=${this.ledgerHead.accountname}&from=${this.fromDate}&to=${this.toDate}&orgtype=${this.orgType}&projectcode=${this.projectCode}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+          "
+        ></gk-file-download>
+      </gk-toolbar>
       <!-- result -->
       <b-table
         :items="result"
@@ -105,8 +115,10 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import ReportHeader from '../components/ReportHeader.vue';
+import GkToolbar from '../components/GkToolbar.vue';
+import GkFileDownload from '../components/GkFileDownload.vue';
 export default {
-  components: { ReportHeader },
+  components: { ReportHeader, GkToolbar, GkFileDownload },
   name: 'LedgerMonthly',
   data() {
     return {
@@ -121,6 +133,7 @@ export default {
       accountName: null,
       fromDate: null,
       toDate: null,
+      orgType: null,
       checkboxes: [
         { text: 'Only Cr', value: 'cr' },
         { text: 'Only Dr', value: 'dr' },
@@ -167,7 +180,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   mounted() {
     const params = this.$route.params;
@@ -179,6 +192,7 @@ export default {
     this.fromDate = params.fd || this.yearStart;
     this.toDate = params.td || this.yearEnd;
     this.getLedger();
+    this.orgType = JSON.parse(localStorage.getItem('orgArray'))[1];
   },
   methods: {
     getCrDrLedger() {

@@ -22,9 +22,10 @@
 | Budget report (Cash & Profit/Loss) | x   | x  |
 | Cost Center statement              | x   | x  |
 | Ledger monthly                     | x   | x  |
-| Ledger                             | x   |    |
-| Stock Report                       | x   |    |
-| List of Unpaid Invoices            | x   |    |
+| Stock Report                       | x   | x  |
+| Cancelled Invoices                 | x   | x  |
+| Credit Invoices                    | x   | x  |
+| Ledger Account                     | x   | x  |
 | Unbilled Delivery Notes            | x   |    |
 | Cancelled Delivery Notes           | x   |    |
 | gstr1                              | x   |    |

@@ -13,6 +13,7 @@
       :variant="variant"
       @click.prevent="onFileDownload"
       class="d-print-none"
+      :aria-label="`${this.title}`"
     >
       <b-icon
         aria-hidden="true"
