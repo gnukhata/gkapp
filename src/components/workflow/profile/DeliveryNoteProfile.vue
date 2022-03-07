@@ -2,6 +2,13 @@
   <b-container fluid>
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
+    <div v-if="pdata.cancelledFlag">
+      <span class="float-right h5 p-2 bg-danger text-white" v-translate>
+        Cancelled
+      </span>
+      <div class="clearfix"></div>
+      <br />
+    </div>
     <b-row>
       <b-col order="2" order-md="1">
         <b-container fluid class="pl-0">
@@ -89,13 +96,13 @@
     </b-row>
     <div class="float-right d-print-none">
       <b-button
-        v-if="cancelFlag"
+        v-if="deleteFlag"
         @click.prevent="onDelete"
         size="sm"
         variant="danger"
         class=""
       >
-        <translate> Delete </translate>
+        <translate> Cancel </translate>
       </b-button>
     </div>
     <br />
@@ -126,7 +133,7 @@ export default {
   data() {
     return {
       isPreloading: false,
-      cancelFlag: false,
+      deleteFlag: false,
       no: '',
       isSale: false,
       delnote: {
@@ -301,7 +308,7 @@ export default {
     formatDetails(details) {
       let noteData = details.delchaldata;
       this.no = noteData.dcno;
-      this.cancelFlag = !noteData.cancelFlag;
+      this.deleteFlag = !this.pdata.invLinkedFlag && !this.pdata.cancelledFlag; // allow cancelling if invLinkedFlag = false
       this.isSale = noteData.inoutflag === 15;
       this.total = {
         amount: noteData.delchaltotal,
@@ -375,17 +382,19 @@ export default {
       }
     },
     getDetails() {
-      return axios
-        .get(`/delchal?delchal=single&dcid=${this.id}`)
-        .catch((error) => {
-          this.$bvToast.toast(`Error: ${error.message}`, {
-            title: this.$gettext(`Fetch Delivery Note Error!`),
-            autoHideDelay: 3000,
-            variant: 'warning',
-            appendToast: true,
-            solid: true,
-          });
+      let url = `/delchal?delchal=single&dcid=${this.id}`;
+      if (this.pdata.cancelledFlag) {
+        url = `/delchal?delchal=singlecancel&dcid=${this.id}`;
+      }
+      return axios.get(url).catch((error) => {
+        this.$bvToast.toast(`Error: ${error.message}`, {
+          title: this.$gettext(`Fetch Delivery Note Error!`),
+          autoHideDelay: 3000,
+          variant: 'warning',
+          appendToast: true,
+          solid: true,
         });
+      });
     },
     fetchAndUpdateData() {
       return this.getDetails().then((response) => {
@@ -438,7 +447,7 @@ export default {
     id: function(id) {
       if (id && parseInt(id) > -1) {
         this.isPreloading = true;
-        console.log(`Fetch id = ${id}`);
+        // console.log(`Fetch id = ${id}`);
         this.fetchAndUpdateData()
           .then(() => {
             this.isPreloading = false;

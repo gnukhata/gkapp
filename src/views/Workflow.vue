@@ -728,6 +728,11 @@ export default {
         case 'DebitCreditNote':
           break;
         case 'DeliveryNote':
+          data = {
+            cancelledFlag: entity.cancelledFlag,
+            unbilledFlag: entity.unbilledFlag,
+            invLinkedFlag: entity.invLinkedFlag
+          }
           break;
         case 'PurchaseSalesOrder':
           break;

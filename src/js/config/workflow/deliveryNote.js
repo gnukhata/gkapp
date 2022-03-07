@@ -32,6 +32,16 @@ const config = {
         props: { key: 'csflag', value: 19 },
         icon: { name: 'basket3' },
       },
+      {
+        text: 'Cancelled',
+        props: { key: 'cancelledFlag', value: true },
+        icon: { name: 'x-circle', variant: 'danger' },
+      },
+      {
+        text: 'Unbilled',
+        props: { key: 'unbilledFlag', value: true },
+        icon: { name: 'dash', variant: 'danger' },
+      },
     ],
     range: [
       {
@@ -137,11 +147,15 @@ const config = {
 
         resp.forEach((_resp, i) => {
           if (_resp.data.gkstatus === 0) {
+            const unbilled = i > 0 && i < 3;
+            const cancelled = i > 2;
             _resp.data.gkresult.forEach((note) => {
               let index = dnoteMap[note.dcid];
               if (index >= 0) {
-                Object.assign(dnotes[index], {
-                  unBillFlag: true,
+                Object.assign(dnotes[note.dcid], {
+                  invLinkedFlag: !note.canceldelchal,
+                  unbilledFlag: unbilled,
+                  cancelledFlag: cancelled,
                   goname: note.goname,
                   dcflag: note.dcflag,
                 });
@@ -164,8 +178,9 @@ const config = {
                           .reverse()
                           .join('-') // date recieved as dd-mm-yyyy, changing it to yyyy-mm-dd format (js Date compatible)
                       ),
-                      unBillFlag: true,
-                      cancelFlag: false,
+                      invLinkedFlag: !note.canceldelchal, // invLinked delchals must not be deleted. canceldelchal = 0, if invlinked and 1 if not linked
+                      unbilledFlag: unbilled,
+                      cancelledFlag: cancelled,
                       goname: note.goname || '',
                       dcflag: note.dcflag || '',
                     },
@@ -224,7 +239,10 @@ function setColumns(columns) {
   if (Array.isArray(columns) && columns.length <= 3) {
     const payload = {
       config: columns,
-      path: [PAGES['workflow-delivery-note'], CONFIGS['workflow-left-pane-columns']],
+      path: [
+        PAGES['workflow-delivery-note'],
+        CONFIGS['workflow-left-pane-columns'],
+      ],
     };
     return axios
       .put('/config?conftype=user&update=path&confcategory=workflow', payload)
