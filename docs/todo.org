@@ -26,8 +26,8 @@
 | Cancelled Invoices                 | x   | x  |
 | Credit Invoices                    | x   | x  |
 | Ledger Account                     | x   | x  |
-| Unbilled Delivery Notes            | x   |    |
-| Cancelled Delivery Notes           | x   |    |
+| Unbilled Delivery Notes            | x   | x  |
+| Cancelled Delivery Notes           | x   | x  |
 | gstr1                              | x   |    |
 | Import data                        |     |    |
 
