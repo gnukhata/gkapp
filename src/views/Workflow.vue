@@ -198,7 +198,37 @@
                     this.filters.range.from
                   )}&enddate=${this.dateReverse(this.filters.range.to)}`
                 "
-                title="Download Transfer Notes"
+                title="Download Transfer Notes Spreadsheet"
+              ></gk-file-download>
+              <!-- Unbilled Delivery Note Spreadsheet -->
+              <gk-file-download
+                v-if="
+                  activeWorkflow.name == 'Transactions-DeliveryNote' &&
+                    filters.active.length == 1 &&
+                    filters.active[0] == 4
+                "
+                file-suffix="UnbilledDeliveryNote"
+                style="margin-top: 3px;"
+                title="Download Unbilled Delivery Note Spreadsheet"
+                :font-scale="1"
+                :url="
+                  `/spreadsheet?delivery-challan-unbilled&inputdate=${this.filters.range.to}&inout=9&del_unbilled_type=All`
+                "
+              ></gk-file-download>
+              <!-- Cancelled Delivery Note Spreadsheet -->
+              <gk-file-download
+                v-if="
+                  activeWorkflow.name == 'Transactions-DeliveryNote' &&
+                    filters.active.length == 1 &&
+                    filters.active[0] == 3
+                "
+                file-suffix="CancelledDeliveryNote"
+                style="margin-top: 3px;"
+                title="Download Cancelled Delivery Note Spreadsheet"
+                :font-scale="1"
+                :url="
+                  `/spreadsheet?delivery-challan-cancelled&inputdate=${this.filters.range.to}&inout=15&del_cancelled_type=All`
+                "
               ></gk-file-download>
               <!-- Column settings -->
               <b-button
@@ -770,8 +800,8 @@ export default {
           data = {
             cancelledFlag: entity.cancelledFlag,
             unbilledFlag: entity.unbilledFlag,
-            invLinkedFlag: entity.invLinkedFlag
-          }
+            invLinkedFlag: entity.invLinkedFlag,
+          };
           break;
         case 'PurchaseSalesOrder':
           break;
