@@ -142,6 +142,7 @@
                 size="sm"
                 v-model="form.gstin.regType"
                 :options="options.regTypes"
+                :disabled="!isGstValid"
               >
               </b-form-select>
             </b-form-group>
@@ -450,6 +451,7 @@ export default {
           checkSum: null,
           regType: GST_REG_TYPE['unregistered'],
           partyType: null,
+          valid: false
         },
         bank: {
           name: null,
@@ -462,6 +464,7 @@ export default {
     };
   },
   computed: {
+    isGstValid: (self) => self.form.gstin.valid,
     isGstReg: (self) =>
       self.form.gstin.regType === GST_REG_TYPE['regular'] ||
       self.form.gstin.regType === GST_REG_TYPE['composition'],
@@ -501,6 +504,7 @@ export default {
           stateCode: stateCode,
           pan: pan,
           checkSum: checksum,
+          valid: true
         });
         if (!this.form.pan) {
           this.form.pan = pan;
@@ -524,6 +528,8 @@ export default {
             pan: null,
             checkSum: null,
             regType: GST_REG_TYPE['unregistered'],
+            partyType: null,
+            valid: false
           };
           this.state = null;
         }

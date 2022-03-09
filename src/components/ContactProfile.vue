@@ -150,6 +150,7 @@
             id="nested-gst-reg"
             v-model="details.gst_reg_type"
             :options="options.regTypes"
+            :disabled="!isGstValid"
           >
           </b-form-select>
         </b-form-group>
@@ -338,6 +339,7 @@ export default {
         stateCode: '',
         pan: '',
         checksum: '',
+        validity: false,
       },
       regex: {
         checksum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
@@ -346,6 +348,7 @@ export default {
     };
   },
   computed: {
+    isGstValid: (self) => self.gstin.validity,
     isGstReg: (self) =>
       self.details.gst_reg_type === GST_REG_TYPE['regular'] ||
       self.details.gst_reg_type === GST_REG_TYPE['composition'],
@@ -376,6 +379,8 @@ export default {
         if (!this.details.state) {
           this.details.state = this.options.states[stateCode];
         }
+      } else {
+        this.gstin.validity = false;
       }
     },
     getDetails() {
@@ -395,6 +400,10 @@ export default {
               {
                 this.details = res.data.gkresult;
 
+                if (!this.details.gst_reg_type) {
+                  this.details.gst_reg_type = GST_REG_TYPE['unregistered'];
+                  this.details.gst_party_type = null;
+                }
                 // update bank details
                 let bdetails = this.details.bankdetails || {};
                 this.bankDetails = {
