@@ -5,8 +5,8 @@
       <div class="text-center">
         GST R1 Summary
         <div>
-          {{ dateReverse(this.params.fd) }} to
-          {{ dateReverse(this.params.td) }}
+          {{ fromDate }} to
+          {{ toDate }}
         </div>
       </div>
     </report-header>
@@ -141,7 +141,7 @@ export default {
   name: 'R1Detailed',
   data() {
     return {
-      list: Object,
+      list: { b2b: [], b2cl: [], b2cs: [], cdnr: [], cdnur: [], hsn1: [] },
       search: null,
       params: null,
       loading: false,
@@ -171,7 +171,21 @@ export default {
       ],
     };
   },
+  props: {
+    td: {
+      type: String
+    },
+    fd: {
+      type: String
+    }
+  },
   computed: {
+    fromDate: function() {
+      return this.fd ? this.dateReverse(this.fd) : '';
+    },
+    toDate: function() {
+      return this.td ? this.dateReverse(this.td) : '';
+    },
     ...mapState(['orgName', 'orgAddress']),
   },
   mounted() {
@@ -180,7 +194,7 @@ export default {
   methods: {
     go(report) {
       this.$router.push(
-        `/gst/r1/${report}/${this.params.fd}&${this.params.td}`
+        `/gst/r1/${report}/${this.fd}&${this.td}`
       );
     },
     /**
@@ -359,12 +373,10 @@ export default {
     getGstR1List() {
       this.loading = true;
       axios
-        .get(
-          `/gstreturns?type=r1&start=${this.params.fd}&end=${this.params.td}`
-        )
+        .get(`/gstreturns?type=r1&start=${this.fd}&end=${this.td}`)
         .then((r) => {
           if (r.status == 200) {
-            switch (r.data.gkresult) {
+            switch (r.data.gkstatus) {
               case 0:
                 this.list = r.data.gkdata;
                 this.b2bSummary();
@@ -415,8 +427,7 @@ export default {
     },
   },
   mounted() {
-    debugger;
-    this.params = this.$route.params;
+    // this.params = this.$route.params;
     this.getGstR1List();
   },
 };

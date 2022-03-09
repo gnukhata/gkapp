@@ -477,6 +477,7 @@ const routes = [
       import(
         /* webpackChunkName: "gst-r1-summary" */ '../views/gst/R1Summary.vue'
       ),
+    props: true
   },
   {
     path: '/gst/r1/:type/:fd&:td',
