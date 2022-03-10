@@ -487,13 +487,13 @@ export default {
   },
   computed: {
     jsonStr: function() {
-      return this.gst_data.gstin
+      return typeof this.gst_data === "object"
         ? JSON.stringify(this.gst_data, null, 4)
         : JSON.stringify({}, null, 2);
     },
     jsonDownloadLink: function() {
       let link = '';
-      if (this.gst_data.gstin) {
+      if (typeof this.gst_data === 'object') {
         link = `data:text/json;charset=utf-8,${encodeURIComponent(
           JSON.stringify(this.gst_data)
         )}`;
