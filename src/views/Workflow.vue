@@ -932,6 +932,14 @@ export default {
       if (this.activeTabOptions.filterBy.value.length) {
         this.filters.active = [0];
       }
+      
+      //sets the props object, which contains the key's value to perform the range filter
+       if (this.activeTabOptions.filterBy.range.length) {
+        this.filters.range.props = Object.assign(
+          {},
+          this.activeTabOptions.filterBy.range[0].props || {}
+        );
+      }
 
       // sets the first sortBy in the sortBy array
       // if (this.activeTabOptions.sortBy.length) {
@@ -942,10 +950,6 @@ export default {
       // }
 
       // if (this.activeTabOptions.filterBy.range.length) {
-      //   this.filter.range.props = Object.assign(
-      //     {},
-      //     this.activeTabOptions.filterBy.range[0].props
-      //   );
       // }
     },
     filterByValue(data, filters) {
@@ -960,7 +964,7 @@ export default {
     },
     filterTable(row) {
       let result;
-      // console.log(this.filter)
+      // console.log(this.filters)
       const self = this;
       if (this.filters.active.length) {
         let filters = this.filters.active.map((filterIndex) =>
