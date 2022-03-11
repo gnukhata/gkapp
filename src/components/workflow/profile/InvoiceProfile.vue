@@ -822,6 +822,14 @@ export default {
                     };
                   }
                 });
+              } else {
+                this.dnote = {
+                  id: '',
+                  no: '',
+                  goname: '',
+                  goid: '',
+                  packageQty: 0,
+                };
               }
             }
             break;
