@@ -216,6 +216,8 @@
             step="0.01"
             min="0.01"
             @input="updateTaxAndTotal(data.item.index)"
+            @click="updateRateField(data.item.index, ['rate'], 'clickin')"
+            @blur="updateRateField(data.item.index, ['rate'], 'clickout')"
             :readonly="disabled.rate"
             :required="!disabled.rate"
           ></b-input>
@@ -262,6 +264,8 @@
             step="0.01"
             min="0.00"
             @input="updateTaxAndTotal(data.item.index)"
+            @click="updateRateField(data.item.index, ['discount', 'amount'], 'clickin')"
+            @blur="updateRateField(data.item.index, ['discount', 'amount'], 'clickout')"
             :readonly="disabled.discount"
           ></b-input>
           <span v-else>{{ form[data.item.index].discount.amount }}</span>
@@ -924,6 +928,34 @@ export default {
     deleteBillItem(index) {
       this.form.splice(index, 1);
       this.indexBillItems();
+    },
+    updateRateField(index, path, flag) {
+      let item = this.form[index];
+      if (!item.pid) {
+        return;
+      }
+      // init item and path
+      // item will be an object which will have the path key in it
+      // sometimes, the object could be nested with multiple keys to traverse through to get to the leaf node
+      let pathLength = path.length - 1,
+        i = -1;
+      while (++i < pathLength) {
+        item = item[path[i]];
+      }
+      path = path[i]; // the last path key is going to be a storing a number like rate or discount amount
+
+      // update the rate field based on the click action and its value
+      if (!parseFloat(item[path]) > 0) {
+        if (flag === 'clickin') {
+          item[path] = null;
+        }
+      }
+
+      if (flag === 'clickout') {
+        if (!item[path]) {
+          item[path] = '0.00';
+        }
+      }
     },
     /**
      * updateTaxAndTotal(index)
