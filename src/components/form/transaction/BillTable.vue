@@ -264,8 +264,20 @@
             step="0.01"
             min="0.00"
             @input="updateTaxAndTotal(data.item.index)"
-            @click="updateRateField(data.item.index, ['discount', 'amount'], 'clickin')"
-            @blur="updateRateField(data.item.index, ['discount', 'amount'], 'clickout')"
+            @click="
+              updateRateField(
+                data.item.index,
+                ['discount', 'amount'],
+                'clickin'
+              )
+            "
+            @blur="
+              updateRateField(
+                data.item.index,
+                ['discount', 'amount'],
+                'clickout'
+              )
+            "
             :readonly="disabled.discount"
           ></b-input>
           <span v-else>{{ form[data.item.index].discount.amount }}</span>
@@ -830,6 +842,7 @@ export default {
       this.editMode = false;
     },
     onBillItemSelect(item, index) {
+      this.$forceUpdate();
       if (item) {
         if (item.id) {
           if (this.form[index].pid !== item.id) {
@@ -840,6 +853,29 @@ export default {
             });
           }
         }
+      } else {
+        Object.assign(this.form[index], {
+          rowSelected: false,
+          product: { id: '', name: '' },
+          hsn: '',
+          qty: null,
+          packageCount: null,
+          rejectedQty: null,
+          dcValue: null,
+          fqty: null,
+          rate: null,
+          discount: { rate: 0, amount: null },
+          taxable: null,
+          cgst: { rate: 0, amount: 0 },
+          sgst: { rate: 0, amount: 0 },
+          igst: { rate: 0, amount: 0 },
+          cess: { rate: 0, amount: 0 },
+          vat: { rate: 0, amount: 0 },
+          total: 0,
+          pid: null,
+          isService: false
+        });
+        this.updateTaxAndTotal(index);
       }
     },
     onBusinessSave() {
