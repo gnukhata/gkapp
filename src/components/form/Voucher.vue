@@ -282,10 +282,10 @@
           >
             <b-icon
               aria-hidden="true"
-              class="align-middle"
+              class="align-middle mr-1"
               icon="arrow-left"
             ></b-icon>
-            <span class="align-middle" v-translate> Back</span>
+            <span class="align-middle" v-translate>Back</span>
           </b-button>
           <b-button
             size="sm"
@@ -296,10 +296,10 @@
           >
             <b-icon
               aria-hidden="true"
-              class="align-middle"
+              class="align-middle mr-1"
               icon="trash"
             ></b-icon>
-            <span class="align-middle" v-translate> Delete</span>
+            <span class="align-middle" v-translate>Delete</span>
           </b-button>
           <b-button
             size="sm"
@@ -312,13 +312,13 @@
             <b-icon
               v-else
               aria-hidden="true"
-              class="align-middle"
+              class="align-middle mr-1"
               :icon="isCreateMode ? 'plus-square' : 'cloud-arrow-up'"
             ></b-icon>
             <span class="align-middle" v-if="isCreateMode" v-translate>
               Save
             </span>
-            <span v-else class="align-middle" v-translate> Update </span>
+            <span v-else class="align-middle" v-translate>Update</span>
           </b-button>
         </div>
         <div class="clearfix"></div>

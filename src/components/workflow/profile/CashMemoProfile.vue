@@ -91,7 +91,7 @@
         variant="primary"
         v-b-toggle.voucher-container
       >
-        <b-icon icon="eye"></b-icon> <translate> View Voucher </translate>
+        <b-icon icon="eye" class="mr-1"></b-icon> <translate>View Voucher</translate>
       </b-button>
     </div>
     <div class="clearfix"></div>

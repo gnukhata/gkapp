@@ -237,16 +237,16 @@
         size="sm"
         class="ml-2"
         variant="danger"
-        ><b-icon icon="person-dash"></b-icon>
-        <translate> Delete Contact </translate>
+        ><b-icon class="mr-1" icon="person-dash"></b-icon>
+        <translate>Delete Contact</translate>
       </b-button>
       <b-button type="submit" size="sm" class="ml-2" variant="success"
-        ><b-icon icon="cloud-arrow-up"></b-icon>
-        <translate> Save Changes </translate>
+        ><b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
+        <translate>Save Changes</translate>
       </b-button>
       <b-button to="/invoice/create/0" size="sm" class="ml-2" variant="dark"
-        ><b-icon icon="receipt"></b-icon>
-        <translate> Add Transaction </translate>
+        ><b-icon class="mr-1" icon="receipt"></b-icon>
+        <translate>Add Transaction</translate>
       </b-button>
       <b-button
         :to="{
@@ -259,8 +259,8 @@
         size="sm"
         class="ml-2"
         variant="warning"
-        ><b-icon icon="file-earmark-plus"></b-icon>
-        <translate> Create Voucher </translate>
+        ><b-icon class="mr-1" icon="file-earmark-plus"></b-icon>
+        <translate>Create Voucher</translate>
       </b-button>
     </div>
   </b-form>

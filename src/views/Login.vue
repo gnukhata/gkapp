@@ -98,7 +98,7 @@
           <!-- Login & create account buttons-->
           <b-button-group size="sm" class="row float-right">
             <b-button variant="dark" class="m-1" @click="switchServer">
-              <b-icon icon="cloud"></b-icon>
+              <b-icon class="mr-1" icon="cloud"></b-icon>
               <translate> Change Server</translate>
             </b-button>
             <b-button
@@ -106,12 +106,12 @@
               variant="dark"
               @click="$router.push('/select-org')"
             >
-              <b-icon icon="building"></b-icon>
+              <b-icon class="mr-1" icon="building"></b-icon>
               <translate> Change Organisation</translate>
             </b-button>
             <b-button class="m-1" variant="success" type="submit">
               <b-spinner v-if="isLoading" small></b-spinner>
-              <b-icon v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
+              <b-icon class="mr-1" v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
               <translate> Login</translate>
             </b-button>
           </b-button-group>

@@ -160,7 +160,8 @@
           v-b-toggle.attachment-container
           @click="fetchAttachments"
         >
-          <b-icon icon="eye"></b-icon> <translate> View Attachments </translate>
+          <b-icon class="mr-1" icon="eye"></b-icon>
+          <translate>View Attachments</translate>
         </b-button>
         <b-button
           class="mr-1"
@@ -168,7 +169,8 @@
           variant="primary"
           v-b-toggle.voucher-container
         >
-          <b-icon icon="eye"></b-icon> <translate> View Vouchers </translate>
+          <b-icon class="mr-1" icon="eye"></b-icon>
+          <translate>View Vouchers</translate>
         </b-button>
         <b-button
           v-if="onCreditFlag"
@@ -183,17 +185,18 @@
             },
           }"
         >
-          <b-icon icon="clipboard-check"></b-icon>
-          <translate> Adjust </translate>
+          <b-icon class="mr-1" icon="clipboard-check"></b-icon>
+          <translate>Adjust</translate>
         </b-button>
         <b-button
           v-if="rectifyFlag"
-          class=""
+          class="mr-1"
           size="sm"
           variant="warning"
           :to="{ name: 'Invoice', params: { mode: 'edit', invid: id } }"
         >
-          <b-icon icon="pencil"></b-icon> <translate> Rectify </translate>
+          <b-icon class="mr-1" icon="pencil"></b-icon>
+          <translate>Rectify</translate>
         </b-button>
         <b-button
           v-if="cancelFlag"
@@ -201,7 +204,8 @@
           variant="danger"
           @click="confirmOnCancel"
         >
-          <b-icon icon="x-octagon"></b-icon> <translate> Cancel </translate>
+          <b-icon class="mr-1" icon="x-octagon"></b-icon>
+          <translate>Cancel</translate>
         </b-button>
       </span>
     </div>

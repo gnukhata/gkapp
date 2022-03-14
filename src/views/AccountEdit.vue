@@ -162,11 +162,11 @@
               >
                 <b-icon
                   aria-hidden="true"
-                  class="align-middle"
+                  class="align-middle mr-1"
                   icon="arrow-left"
                 ></b-icon>
                 <span class="align-middle">
-                  <translate> Back </translate>
+                  <translate>Back</translate>
                 </span>
               </b-button>
               <b-button
@@ -177,11 +177,11 @@
               >
                 <b-icon
                   aria-hidden="true"
-                  class="align-middle"
+                  class="align-middle mr-1"
                   icon="arrow-repeat"
                 ></b-icon>
                 <span class="align-middle">
-                  <translate> Reset </translate>
+                  <translate>Reset</translate>
                 </span>
               </b-button>
               <b-button size="sm" type="submit" class="m-1" variant="success">
@@ -189,11 +189,11 @@
                 <b-icon
                   v-else
                   aria-hidden="true"
-                  class="align-middle"
+                  class="align-middle mr-1"
                   icon="cloud-arrow-up"
                 ></b-icon>
                 <span class="align-middle">
-                  <translate> Update </translate>
+                  <translate>Update</translate>
                 </span>
               </b-button>
             </div>
@@ -488,7 +488,15 @@ export default {
       };
 
       let crdr = this.form.crdr;
-      if(["Corpus" ,"Capital" ,"Current Liabilities" ,"Loans(Liability)" ,"Reserves"].indexOf(groupName) > -1) {
+      if (
+        [
+          'Corpus',
+          'Capital',
+          'Current Liabilities',
+          'Loans(Liability)',
+          'Reserves',
+        ].indexOf(groupName) > -1
+      ) {
         crdr *= -1; // if opening balance is < 0 its dr and if > 0 its cr for the above group names and its reverse for others
       }
 
@@ -581,7 +589,15 @@ export default {
                     self.flags.setSubGroup = group.subgroupcode;
                     self.options.accDetails.subGroup = group.subgroupcode;
                   }
-                  if(["Corpus" ,"Capital" ,"Current Liabilities" ,"Loans(Liability)" ,"Reserves"].indexOf(group.groupname) > -1) {
+                  if (
+                    [
+                      'Corpus',
+                      'Capital',
+                      'Current Liabilities',
+                      'Loans(Liability)',
+                      'Reserves',
+                    ].indexOf(group.groupname) > -1
+                  ) {
                     self.form.crdr *= -1; // if opening balance is < 0 its dr and if > 0 its cr for the above group names and its reverse for others
                   }
                 }

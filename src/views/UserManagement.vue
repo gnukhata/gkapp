@@ -8,9 +8,10 @@
           @click="$router.push('/users/add')"
           variant="outline-primary"
           v-b-modal.create-user
-          ><b-icon icon="person-plus"></b-icon
-          ><translate> Add User</translate></b-button
         >
+          <b-icon class="mr-1" icon="person-plus"></b-icon>
+          <translate>Add User</translate>
+        </b-button>
       </template>
       <b-form-input
         type="text"

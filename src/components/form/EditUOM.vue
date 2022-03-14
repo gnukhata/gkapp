@@ -59,15 +59,16 @@
             ></b-form-input>
           </b-form-group>
           <b-button-group size="sm" class="float-right">
-            <b-button type="submit" class="mr-1" variant="success"
-              ><b-icon icon="thermometer"></b-icon>
+            <b-button type="submit" class="mr-1" variant="success">
+              <b-icon icon="thermometer"></b-icon>
               <translate>Update Unit</translate></b-button
             >
             <b-button
               variant="danger"
               :disabled="sysunit == 1"
               @click="confirm('delete')"
-              ><b-icon icon="x-circle"></b-icon>
+            >
+              <b-icon class="mr-1" icon="x-circle"></b-icon>
               <translate>Delete Unit</translate></b-button
             >
           </b-button-group>

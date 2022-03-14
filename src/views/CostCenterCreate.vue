@@ -15,9 +15,9 @@
             step="0.01"
           ></b-form-input>
         </b-form-group>
-        <b-button type="submit" variant="success"
-          ><b-icon icon="plus"></b-icon><translate> Add</translate></b-button
-        >
+        <b-button type="submit" variant="success">
+          <b-icon icon="plus"></b-icon> <translate>Add</translate>
+        </b-button>
       </b-form>
     </b-overlay>
   </section>

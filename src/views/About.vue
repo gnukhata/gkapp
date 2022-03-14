@@ -24,15 +24,15 @@
       <div class="mt-4 has-text-centered">
         <a class="mx-1" href="https://gnukhata.in" target="_blank">
           <b-button variant="dark">
-            <b-icon icon="globe"></b-icon
-            ><translate> Website</translate></b-button
-          >
+            <b-icon class="mr-1" icon="globe"></b-icon>
+            <translate>Website</translate>
+          </b-button>
         </a>
         <a href="https://gitlab.com/gnukhata" target="_blank">
           <b-button variant="dark">
-            <b-icon icon="code-square"></b-icon
-            ><translate> Source Code</translate></b-button
-          >
+            <b-icon class="mr-1" icon="code-square"></b-icon>
+            <translate> Source Code</translate>
+          </b-button>
         </a>
         <div class="mt-3 d-flex-row">
           <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank">

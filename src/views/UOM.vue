@@ -3,10 +3,10 @@
     <b-input-group class="mb-3 container-sm gksearch d-print-none">
       <template #prepend>
         <!-- <b-input-group-text>Username</b-input-group-text> -->
-        <b-button variant="outline-primary" @click="$router.push('/uom/add')"
-          ><b-icon icon="thermometer"></b-icon>
-          <translate>Add Unit</translate></b-button
-        >
+        <b-button variant="outline-primary" @click="$router.push('/uom/add')">
+          <b-icon icon="thermometer"></b-icon>
+          <translate>Add Unit</translate>
+        </b-button>
       </template>
       <b-form-input
         type="text"

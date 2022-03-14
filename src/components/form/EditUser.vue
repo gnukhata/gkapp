@@ -130,7 +130,7 @@
         </b-form-group>
         <b-button-group size="sm" class="float-right">
           <b-button type="submit" class="mr-1" variant="warning">
-            <b-icon icon="cloud-arrow-up"></b-icon>
+            <b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
             <translate>Update user</translate></b-button
           >
           <b-button
@@ -138,7 +138,7 @@
             :disabled="form.userrole == -1 && admins.length == 1"
             @click="confirm('delete')"
           >
-            <b-icon icon="x-circle"></b-icon>
+            <b-icon class="mr-1" icon="x-circle"></b-icon>
             <translate>Delete User</translate></b-button
           >
         </b-button-group>

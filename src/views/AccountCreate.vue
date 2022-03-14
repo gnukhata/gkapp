@@ -142,10 +142,10 @@
               >
                 <b-icon
                   aria-hidden="true"
-                  class="align-middle"
+                  class="align-middle mr-1"
                   icon="arrow-left"
                 ></b-icon>
-                <span class="align-middle" v-translate> Back</span>
+                <span class="align-middle" v-translate>Back</span>
               </b-button>
               <b-button
                 size="sm"
@@ -155,20 +155,20 @@
               >
                 <b-icon
                   aria-hidden="true"
-                  class="align-middle"
+                  class="align-middle mr-1"
                   icon="arrow-repeat"
                 ></b-icon>
-                <span class="align-middle" v-translate> Reset</span>
+                <span class="align-middle" v-translate>Reset</span>
               </b-button>
               <b-button size="sm" type="submit" class="m-1" variant="success">
                 <b-spinner v-if="isLoading" small></b-spinner>
                 <b-icon
                   v-else
                   aria-hidden="true"
-                  class="align-middle"
+                  class="align-middle mr-1"
                   icon="plus-square"
                 ></b-icon>
-                <span class="align-middle" v-translate> Save</span>
+                <span class="align-middle" v-translate>Save</span>
               </b-button>
             </div>
           </b-form>

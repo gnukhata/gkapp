@@ -71,7 +71,8 @@
           variant="dark"
           size="sm"
         >
-          <b-icon icon="journal"></b-icon><translate> Close Books</translate>
+          <b-icon class="mr-1" icon="journal"></b-icon
+          ><translate>Close Books</translate>
         </b-button>
         <b-alert v-show="details.booksclosedflag == 1" show variant="dark"
           ><translate>Close Books is done</translate></b-alert
@@ -144,8 +145,8 @@
             variant="dark"
             size="sm"
           >
-            <b-icon icon="calendar-check"></b-icon
-            ><translate> Roll Over</translate>
+            <b-icon class="mr-1" icon="calendar-check"></b-icon>
+            <translate>Roll Over</translate>
           </b-button>
         </b-form>
         <b-alert v-if="details.roflag == 1" show variant="success"

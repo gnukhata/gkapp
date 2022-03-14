@@ -64,10 +64,10 @@
               :options="godowns"
             ></autocomplete>
           </b-form-group>
-          <b-button type="submit" variant="success" class="float-right"
-            ><b-icon icon="cloud-download"></b-icon
-            ><translate> Get Details</translate></b-button
-          >
+          <b-button type="submit" variant="success" class="float-right">
+            <b-icon class="mr-1" icon="cloud-download"></b-icon>
+            <translate>Get Details</translate>
+          </b-button>
         </b-form>
       </b-card>
     </b-overlay>

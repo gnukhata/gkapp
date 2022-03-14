@@ -272,10 +272,10 @@
             >
               <b-icon
                 aria-hidden="true"
-                class="align-middle"
+                class="align-middle mr-1"
                 icon="arrow-left"
               ></b-icon>
-              <span class="align-middle" v-translate> Back</span>
+              <span class="align-middle" v-translate>Back</span>
             </b-button>
             <b-button
               size="sm"
@@ -285,10 +285,10 @@
             >
               <b-icon
                 aria-hidden="true"
-                class="align-middle"
+                class="align-middle mr-1"
                 icon="arrow-repeat"
               ></b-icon>
-              <span class="align-middle" v-translate> Reset</span>
+              <span class="align-middle" v-translate>Reset</span>
             </b-button>
             <b-button
               :disabled="!isFormValid"
@@ -301,13 +301,13 @@
               <b-icon
                 v-else
                 aria-hidden="true"
-                class="align-middle"
+                class="align-middle mr-1"
                 :icon="isEditMode ? 'cloud-arrow-up' : 'plus-square'"
               ></b-icon>
               <span class="align-middle" v-translate v-if="isEditMode">
                 Update
               </span>
-              <span class="align-middle" v-translate v-else> Save </span>
+              <span class="align-middle" v-translate v-else>Save</span>
             </b-button>
           </div>
         </div>

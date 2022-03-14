@@ -51,7 +51,7 @@
     <br /><br />
     <div class="float-right">
       <span v-if="!deletedFlag">
-        <b-button @click.prevent="onDelete" size="sm" variant="danger" class="">
+        <b-button @click.prevent="onDelete" size="sm" variant="danger" class="mr-1">
           <translate> Delete </translate>
         </b-button>
         <b-button

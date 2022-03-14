@@ -135,7 +135,7 @@
             class="float-right"
             variant="success"
           >
-            <b-icon type="submit" icon="person-plus"></b-icon>
+            <b-icon class="mr-1" type="submit" icon="person-plus"></b-icon>
             <translate>Create User</translate></b-button
           >
         </slot>

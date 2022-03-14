@@ -121,10 +121,11 @@
           type="submit"
           variant="success"
           class="float-right"
-          ><b-icon v-if="!submitting" icon="key-fill"></b-icon
-          ><b-spinner v-if="submitting" small></b-spinner>
-          <translate>Reset Password</translate></b-button
         >
+          <b-icon class="mr-1" v-if="!submitting" icon="key-fill"></b-icon>
+          <b-spinner v-if="submitting" small></b-spinner>
+          <translate>Reset Password</translate>
+        </b-button>
       </b-form>
     </b-card>
   </section>

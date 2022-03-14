@@ -128,10 +128,10 @@
           >
             <b-icon
               aria-hidden="true"
-              class="align-middle"
+              class="align-middle mr-1"
               icon="plus-square"
             ></b-icon>
-            <translate> Add Voucher </translate>
+            <translate>Add Voucher</translate>
           </b-button>
           <div class="float-right">
             <b-button
@@ -142,10 +142,10 @@
             >
               <b-icon
                 aria-hidden="true"
-                class="align-middle"
+                class="align-middle mr-1"
                 icon="arrow-left"
               ></b-icon>
-              <span class="align-middle" v-translate> Back</span>
+              <span class="align-middle" v-translate>Back</span>
             </b-button>
             <b-button
               size="sm"
@@ -158,10 +158,10 @@
               <b-icon
                 v-else
                 aria-hidden="true"
-                class="align-middle"
+                class="align-middle mr-1"
                 icon="check-square"
               ></b-icon>
-              <span class="align-middle" v-translate> Adjust</span>
+              <span class="align-middle" v-translate>Adjust</span>
             </b-button>
           </div>
         </div>

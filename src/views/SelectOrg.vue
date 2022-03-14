@@ -68,7 +68,8 @@
         </b-form-group>
         <b-button-group size="sm" class="row float-right">
           <b-button variant="dark" class="m-1" size="sm" @click="switchServer">
-            <b-icon icon="cloud"></b-icon> <translate>Change Server</translate>
+            <b-icon class="mr-1" icon="cloud"></b-icon>
+            <translate>Change Server</translate>
           </b-button>
           <b-button
             class="m-1"
@@ -76,11 +77,11 @@
             size="sm"
             :to="{ name: 'Create_Organisation' }"
           >
-            <b-icon icon="person-plus"></b-icon>
+            <b-icon class="mr-1" icon="person-plus"></b-icon>
             <translate>Create Organisation</translate>
           </b-button>
           <b-button size="sm" class="m-1" variant="success" type="submit">
-            <b-icon icon="arrow-right-circle"></b-icon>
+            <b-icon class="mr-1" icon="arrow-right-circle"></b-icon>
             <translate>Continue</translate>
           </b-button>
         </b-button-group>

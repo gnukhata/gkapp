@@ -15,7 +15,7 @@
       <b-card-body>
         <b-form @submit.prevent="setCustomServerUrl" class="text-center">
           <b-button size="sm" variant="dark" @click.prevent="setDefaultServer">
-            <b-icon icon="arrow-right-circle"></b-icon>
+            <b-icon class="mr-1" icon="arrow-right-circle"></b-icon>
             <translate>Continue with Default Server</translate>
           </b-button>
           <div class="mt-2 mb-2"><b>OR</b></div>
@@ -39,9 +39,10 @@
             size="sm"
             variant="success"
             :disabled="serverUrl === '' ? true : false"
-            ><b-icon icon="arrow-right-circle"></b-icon
-            ><translate> Save & Continue</translate></b-button
           >
+            <b-icon class="mr-1" icon="arrow-right-circle"></b-icon>
+            <translate> Save & Continue</translate>
+          </b-button>
         </b-form>
       </b-card-body>
     </b-card>

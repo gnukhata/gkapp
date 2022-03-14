@@ -33,229 +33,218 @@
           ></b-icon>
         </b-button>
       </div>
-      <div
+      <b-form
         class="mt-3 px-2"
         :class="{ 'd-md-block': true, 'd-none': !isCollapsed }"
       >
-        <b-row>
-          <b-col v-if="config.type" cols="12">
-            <b-form-group>
-              <b-form-radio-group
-                button-variant="outline-secondary"
-                size="sm"
-                buttons
-                v-model="form.type"
-                @input="resetPartyDetails()"
-              >
-                <b-form-radio value="customer">
-                  <translate> Customer </translate>
-                </b-form-radio>
-                <b-form-radio value="supplier">
-                  <translate> Supplier </translate>
-                </b-form-radio>
-              </b-form-radio-group>
-              <b-button
-                @click.prevent="showContactForm = true"
-                class="py-0 ml-3"
-                variant="success"
-                size="sm"
-                title="Add Contact"
-                >+</b-button
-              >
-              <b-button
-                v-if="form.name"
-                class="py-0 ml-2"
-                variant="warning"
-                size="sm"
-                @click.prevent="initPartyEdit"
-                :disabled="editFlag"
-                title="Edit Contact"
-                ><b-icon font-scale="0.95" icon="pencil"></b-icon
-              ></b-button>
-            </b-form-group>
-          </b-col>
+        <b-form-group v-if="config.type">
+          <b-form-radio-group
+            button-variant="outline-secondary"
+            size="sm"
+            buttons
+            v-model="form.type"
+            @input="resetPartyDetails()"
+          >
+            <b-form-radio value="customer">
+              <translate> Customer </translate>
+            </b-form-radio>
+            <b-form-radio value="supplier">
+              <translate> Supplier </translate>
+            </b-form-radio>
+          </b-form-radio-group>
+          <b-button
+            @click.prevent="showContactForm = true"
+            class="py-0 ml-3"
+            variant="success"
+            size="sm"
+            title="Add Contact"
+            >+</b-button
+          >
+          <b-button
+            v-if="form.name"
+            class="py-0 ml-2"
+            variant="warning"
+            size="sm"
+            @click.prevent="initPartyEdit"
+            :disabled="editFlag"
+            title="Edit Contact"
+            ><b-icon font-scale="0.95" icon="pencil"></b-icon
+          ></b-button>
+        </b-form-group>
 
-          <b-col cols="12" v-if="config.name">
-            <b-form-group
-              label="Name"
-              label-for="ptd-input-10"
-              label-cols="3"
-              label-cols-md="4"
-              label-cols-lg="3"
-              label-size="sm"
-              :label-class="{ required: !(editFlag || isNameDisabled) }"
-            >
-              <template #label> <translate> Name </translate> </template>
-              <autocomplete
-                size="sm"
-                id="ptd-input-10"
-                v-model="form.name"
-                :options="
-                  form.type === 'customer'
-                    ? options.customers
-                    : options.suppliers
-                "
-                @input="onPartyNameSelect(form.name)"
-                required
-                valueUid="id"
-                :readonly="editFlag || isNameDisabled"
-              >
-              </autocomplete>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12" v-if="config.addr">
-            <b-form-group
-              label-cols="3"
-              label-cols-md="4"
-              label-cols-lg="3"
-              label="Address"
-              label-for="ptd-input-20"
-              label-size="sm"
-            >
-              <template #label> <translate> Address </translate> </template>
-              <b-form-textarea
-                size="sm"
-                id="ptd-input-20"
-                v-model="form.addr"
-                rows="2"
-                trim
-                :readonly="!editFlag"
-                tabindex="-1"
-              ></b-form-textarea>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12" v-if="config.pin">
-            <b-form-group
-              label-cols="3"
-              label-cols-md="4"
-              label-cols-lg="3"
-              label="PIN"
-              label-for="ptd-input-30"
-              label-size="sm"
-            >
-              <b-form-input
-                size="sm"
-                id="ptd-input-30"
-                v-model="form.pin"
-                trim
-                :readonly="!editFlag"
-                tabindex="-1"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12" v-if="editFlag">
-            <b-form-group
-              label="PAN"
-              label-for="ptd-input-40"
-              label-size="sm"
-              label-cols="3"
-              label-cols-md="4"
-              label-cols-lg="3"
-            >
-              <b-form-input
-                size="sm"
-                id="ptd-input-40"
-                v-model="form.pan"
-                trim
-                :disabled="!editFlag"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12" v-if="config.state">
-            <b-form-group
-              label="State"
-              label-for="ptd-input-50"
-              label-size="sm"
-              label-cols="3"
-              label-cols-md="4"
-              label-cols-lg="3"
-            >
-              <template #label> <translate> State </translate> </template>
-              <b-form-select
-                size="sm"
-                id="ptd-input-50"
-                v-model="form.state"
-                :options="!editFlag ? form.options.states : options.states"
-                @input="setPartyGst()"
-                trim
-                :disabled="!editFlag"
-              ></b-form-select>
-            </b-form-group>
-          </b-col>
-          <b-col v-if="gstFlag && config.gstin" cols="12">
-            <b-form-group
-              label-cols="3"
-              label-cols-md="4"
-              label-cols-lg="3"
-              label="GSTIN"
-              label-for="ptd-input-60"
-              label-size="sm"
-            >
-              <b-form-input
-                v-if="!editFlag"
-                size="sm"
-                id="ptd-input-60"
-                v-model="form.gstin"
-                trim
-                :readonly="!editFlag"
-                tabindex="-1"
-              ></b-form-input>
-              <gk-gstin
-                v-else
-                v-model="form.gstin"
-                @gstin_data="onGstinDataFetched"
-              >
-              </gk-gstin>
-            </b-form-group>
-          </b-col>
-          <b-col v-else-if="config.tin" cols="12">
-            <b-form-group
-              label-cols="3"
-              label-cols-md="4"
-              label-cols-lg="3"
-              label="TIN"
-              label-for="ptd-input-70"
-              label-size="sm"
-            >
-              <b-form-input
-                size="sm"
-                id="ptd-input-70"
-                v-model="form.tin"
-                trim
-                :readonly="!editFlag"
-                tabindex="-1"
-              ></b-form-input>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12" v-if="editFlag">
-            <b-button
-              @click.prevent="onPartyEdit(false)"
-              variant="danger"
-              size="sm"
-              class="mr-1"
-            >
-              <b-icon
-                aria-hidden="true"
-                class="align-middle"
-                icon="x-circle"
-              ></b-icon
-              ><span v-translate class="align-middle"> Cancel</span></b-button
-            >
-            <b-button
-              @click.prevent="onPartyEdit(true)"
-              variant="success"
-              size="sm"
-            >
-              <b-icon
-                aria-hidden="true"
-                class="align-middle"
-                icon="cloud-arrow-up"
-              ></b-icon>
-              <span v-translate class="align-middle"> Save Changes</span>
-            </b-button>
-          </b-col>
-        </b-row>
-      </div>
+        <b-form-group
+          v-if="config.name"
+          label="Name"
+          label-for="ptd-input-10"
+          label-cols="3"
+          label-cols-md="4"
+          label-cols-lg="3"
+          label-size="sm"
+          :label-class="{ required: !(editFlag || isNameDisabled) }"
+        >
+          <template #label> <translate> Name </translate> </template>
+          <autocomplete
+            size="sm"
+            id="ptd-input-10"
+            v-model="form.name"
+            :options="
+              form.type === 'customer' ? options.customers : options.suppliers
+            "
+            @input="onPartyNameSelect(form.name)"
+            required
+            valueUid="id"
+            :readonly="editFlag || isNameDisabled"
+          >
+          </autocomplete>
+        </b-form-group>
+        <b-form-group
+          v-if="config.addr"
+          label-cols="3"
+          label-cols-md="4"
+          label-cols-lg="3"
+          label="Address"
+          label-for="ptd-input-20"
+          label-size="sm"
+        >
+          <template #label> <translate> Address </translate> </template>
+          <b-form-textarea
+            size="sm"
+            id="ptd-input-20"
+            v-model="form.addr"
+            rows="2"
+            trim
+            :readonly="!editFlag"
+            tabindex="-1"
+          ></b-form-textarea>
+        </b-form-group>
+        <b-form-group
+          v-if="config.pin"
+          label-cols="3"
+          label-cols-md="4"
+          label-cols-lg="3"
+          label="PIN"
+          label-for="ptd-input-30"
+          label-size="sm"
+        >
+          <b-form-input
+            size="sm"
+            id="ptd-input-30"
+            v-model="form.pin"
+            trim
+            :readonly="!editFlag"
+            tabindex="-1"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group
+          v-if="editFlag"
+          label="PAN"
+          label-for="ptd-input-40"
+          label-size="sm"
+          label-cols="3"
+          label-cols-md="4"
+          label-cols-lg="3"
+        >
+          <b-form-input
+            size="sm"
+            id="ptd-input-40"
+            v-model="form.pan"
+            trim
+            :disabled="!editFlag"
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          v-if="config.state"
+          label="State"
+          label-for="ptd-input-50"
+          label-size="sm"
+          label-cols="3"
+          label-cols-md="4"
+          label-cols-lg="3"
+        >
+          <template #label> <translate> State </translate> </template>
+          <b-form-select
+            size="sm"
+            id="ptd-input-50"
+            v-model="form.state"
+            :options="!editFlag ? form.options.states : options.states"
+            @input="setPartyGst()"
+            trim
+            :disabled="!editFlag"
+          ></b-form-select>
+        </b-form-group>
+
+        <b-form-group
+          v-if="gstFlag && config.gstin"
+          label-cols="3"
+          label-cols-md="4"
+          label-cols-lg="3"
+          label="GSTIN"
+          label-for="ptd-input-60"
+          label-size="sm"
+        >
+          <b-form-input
+            v-if="!editFlag"
+            size="sm"
+            id="ptd-input-60"
+            v-model="form.gstin"
+            trim
+            :readonly="!editFlag"
+            tabindex="-1"
+          ></b-form-input>
+          <gk-gstin
+            v-else
+            v-model="form.gstin"
+            @gstin_data="onGstinDataFetched"
+          >
+          </gk-gstin>
+        </b-form-group>
+        <b-form-group
+          v-else-if="config.tin"
+          label-cols="3"
+          label-cols-md="4"
+          label-cols-lg="3"
+          label="TIN"
+          label-for="ptd-input-70"
+          label-size="sm"
+        >
+          <b-form-input
+            size="sm"
+            id="ptd-input-70"
+            v-model="form.tin"
+            trim
+            :readonly="!editFlag"
+            tabindex="-1"
+          ></b-form-input>
+        </b-form-group>
+        <div v-if="editFlag">
+          <b-button
+            @click.prevent="onPartyEdit(false)"
+            variant="danger"
+            size="sm"
+            class="mr-1"
+          >
+            <b-icon
+              aria-hidden="true"
+              class="align-middle mr-1"
+              icon="x-circle"
+            ></b-icon
+            ><span v-translate class="align-middle">Cancel</span>
+          </b-button>
+          <b-button
+            @click.prevent="onPartyEdit(true)"
+            variant="success"
+            size="sm"
+          >
+            <b-icon
+              aria-hidden="true"
+              class="align-middle mr-1"
+              icon="cloud-arrow-up"
+            ></b-icon>
+            <span v-translate class="align-middle">Save Changes</span>
+          </b-button>
+        </div>
+      </b-form>
     </div>
 
     <!-- Create Contact Item -->

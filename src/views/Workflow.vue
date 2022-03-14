@@ -476,7 +476,7 @@
               ><b-icon icon="arrow-left"></b-icon
             ></b-button>
             <h5 class="m-2 d-inline-block">
-              <b-icon :icon="selectedEntity.icon"></b-icon>
+              <b-icon class="mr-1" :icon="selectedEntity.icon"></b-icon>
               {{ selectedEntity.custname }}'s Profile
             </h5>
           </template>
@@ -509,7 +509,7 @@
               ><b-icon icon="arrow-left"></b-icon
             ></b-button>
             <h5 class="m-2 d-inline-block">
-              <b-icon :icon="selectedEntity.icon"></b-icon>
+              <b-icon class="mr-1" :icon="selectedEntity.icon"></b-icon>
               {{ selectedEntity.productdesc }} Details
             </h5>
           </template>
@@ -544,7 +544,7 @@
               ><b-icon icon="arrow-left"></b-icon
             ></b-button>
             <h5 class="ml-3 mb-0">
-              <b-icon :icon="selectedEntity.icon"></b-icon>
+              <b-icon class="mr-1" :icon="selectedEntity.icon"></b-icon>
               {{ selectedEntity.noteName }} :
               <br class="d-none d-lg-inline-block" />
               {{ selectedEntity.no }}
@@ -932,9 +932,9 @@ export default {
       if (this.activeTabOptions.filterBy.value.length) {
         this.filters.active = [0];
       }
-      
+
       //sets the props object, which contains the key's value to perform the range filter
-       if (this.activeTabOptions.filterBy.range.length) {
+      if (this.activeTabOptions.filterBy.range.length) {
         this.filters.range.props = Object.assign(
           {},
           this.activeTabOptions.filterBy.range[0].props || {}

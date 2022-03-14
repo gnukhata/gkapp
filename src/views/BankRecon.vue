@@ -40,8 +40,9 @@
             variant="success"
             class="float-right"
             @click.prevent="getVouchers"
-            ><b-icon icon="cloud-download"></b-icon> <translate> Get Details </translate> </b-button
-          >
+            ><b-icon class="mr-1" icon="cloud-download"></b-icon>
+            <translate>Get Details</translate>
+          </b-button>
         </b-form>
       </b-card>
     </b-overlay>
@@ -82,7 +83,7 @@
             required
             v-model="activeVouchers[data.index].clearancedate"
             :min="data.item.date"
-            @validity="(isValid) => data.item.valid = isValid"
+            @validity="(isValid) => (data.item.valid = isValid)"
           ></gk-date>
         </template>
         <template #cell(memo)="data">
@@ -94,7 +95,12 @@
           </b-input>
         </template>
         <template #cell(save)="data">
-          <b-button :disabled="!data.item.valid" @click.prevent="updateVoucher(activeVouchers[data.index])" variant="success" size="sm">
+          <b-button
+            :disabled="!data.item.valid"
+            @click.prevent="updateVoucher(activeVouchers[data.index])"
+            variant="success"
+            size="sm"
+          >
             <b-icon
               class="align-middle"
               font-scale="1"
@@ -111,7 +117,10 @@
         striped
         v-if="tableType === 2"
         :items="statements"
-        :fields="[{key: 'particulars', label: 'Reconciliation Statement'}, 'amount']"
+        :fields="[
+          { key: 'particulars', label: 'Reconciliation Statement' },
+          'amount',
+        ]"
       >
       </b-table>
     </div>
@@ -260,10 +269,12 @@ export default {
       ])
         .then((resp) => {
           if (resp[0].data.gkstatus === 0) {
-            this.vouchers.uncleared = resp[0].data.gkresult.recongrid.map((voucher) => {
-              voucher.valid = false;
-              return voucher;
-            });
+            this.vouchers.uncleared = resp[0].data.gkresult.recongrid.map(
+              (voucher) => {
+                voucher.valid = false;
+                return voucher;
+              }
+            );
             this.statements = resp[0].data.gkresult.reconstatement;
             this.statements.shift();
             this.dataFetched = true;

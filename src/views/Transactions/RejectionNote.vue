@@ -131,10 +131,10 @@
         >
           <b-icon
             aria-hidden="true"
-            class="align-middle"
+            class="align-middle mr-1"
             icon="arrow-left"
           ></b-icon>
-          <span class="align-middle" v-translate> Back </span>
+          <span class="align-middle" v-translate>Back</span>
         </b-button>
         <b-button
           class="m-1"
@@ -144,10 +144,10 @@
         >
           <b-icon
             aria-hidden="true"
-            class="align-middle"
+            class="align-middle mr-1"
             icon="arrow-repeat"
           ></b-icon>
-          <span class="align-middle" v-translate> Reset </span>
+          <span class="align-middle" v-translate>Reset</span>
         </b-button>
         <b-button
           id="inv-submit"
@@ -162,10 +162,10 @@
             <b-icon
               v-else
               aria-hidden="true"
-              class="align-middle"
+              class="align-middle mr-1"
               icon="x-circle"
             ></b-icon>
-            <span v-if="isSale" class="align-middle" v-translate> Reject Sale</span>
+            <span v-if="isSale" class="align-middle" v-translate>Reject Sale</span>
             <span v-else class="align-middle" v-translate> Reject Purchase</span>
           </span>
         </b-button>

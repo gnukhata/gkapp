@@ -50,8 +50,8 @@
             </div>
           </div>
           <b-button variant="success" type="submit" class="float-right"
-            ><b-icon icon="cloud-download"></b-icon>
-            <translate> Get Details</translate></b-button
+            ><b-icon class="mr-1" icon="cloud-download"></b-icon>
+            <translate>Get Details</translate></b-button
           >
         </b-form>
       </b-card>

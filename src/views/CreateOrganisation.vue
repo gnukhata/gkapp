@@ -69,33 +69,11 @@
                     <translate> From </translate>
                   </template>
                   <b-input-group class="mb-3">
-                    <!-- <b-form-input
-                           size="md"
-                           @input="setYearEnd"
-                           id="date-1"
-                           v-model="yearStart"
-                           type="text"
-                           placeholder="YYYY-MM-DD"
-                           autocomplete="off"
-                           required
-                           ></b-form-input> -->
                     <gk-date
                       @input="setYearEnd"
                       v-model="yearStart"
                       id="yst"
                     ></gk-date>
-                    <!-- <b-input-group-append>
-                         <b-form-datepicker
-                         size="md"
-                         v-model="yearStart"
-                         button-only
-                         right
-                         locale="en-GB"
-                         @context="setYearEnd"
-                         aria-controls="date-1"
-                         >
-                         </b-form-datepicker>
-                         </b-input-group-append> -->
                   </b-input-group>
                 </b-form-group>
               </div>
@@ -111,27 +89,7 @@
                     <translate> To </translate>
                   </template>
                   <b-input-group class="mb-3">
-                    <!-- <b-form-input
-                           size="md"
-                           id="date-2"
-                           v-model="yearEnd"
-                           type="text"
-                           placeholder="YYYY-MM-DD"
-                           autocomplete="off"
-                           required
-                           ></b-form-input> -->
                     <gk-date v-model="yearEnd" id="ynd"></gk-date>
-                    <!-- <b-input-group-append>
-                         <b-form-datepicker
-                         size="md"
-                         v-model="yearEnd"
-                         button-only
-                         right
-                         locale="en-GB"
-                         aria-controls="date-2"
-                         >
-                         </b-form-datepicker>
-                         </b-input-group-append> -->
                   </b-input-group>
                 </b-form-group>
               </div>
@@ -217,15 +175,6 @@
               <template #label>
                 <translate> Question </translate>
               </template>
-              <!-- <b-form-input
-                     size="md"
-                     id="input-3"
-                     type="text"
-                     placeholder=""
-                     v-model="securityQuestion"
-                     required
-                     >
-                   </b-form-input> -->
               <security-questions
                 v-model="securityQuestion"
               ></security-questions>
@@ -286,7 +235,7 @@
             >
               <b-icon
                 aria-hidden="true"
-                class="align-middle"
+                class="align-middle mr-1"
                 icon="arrow-left"
               ></b-icon>
               <span class="align-middle"> <translate>Back</translate></span>
@@ -302,11 +251,11 @@
               <b-icon
                 v-else
                 aria-hidden="true"
-                class="align-middle"
+                class="align-middle mr-1"
                 icon="plus-square"
               ></b-icon>
               <span class="align-middle">
-                <translate> Create &amp; Login </translate>
+                <translate>Create &amp; Login</translate>
               </span>
             </b-button>
           </div>

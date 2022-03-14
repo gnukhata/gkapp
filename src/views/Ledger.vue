@@ -68,10 +68,10 @@ When a Ledger Account appears on the screen, press Shift + Alt + l to view anoth
             ></autocomplete>
           </b-form-group>
         </fieldset>
-        <b-button type="submit" variant="success" size="sm" class="float-right"
-          ><b-icon icon="eye-fill"></b-icon
-          ><translate> Show</translate></b-button
-        >
+        <b-button type="submit" variant="success" size="sm" class="float-right">
+          <b-icon class="mr-1" icon="eye-fill"></b-icon>
+          <translate>Show</translate>
+        </b-button>
       </b-card>
     </b-form>
   </section>

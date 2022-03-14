@@ -21,8 +21,8 @@
             <gk-date id="todate" v-model="toDate"></gk-date>
           </b-form-group>
           <b-button variant="success" class="float-right" type="submit">
-            <b-icon icon="cloud-arrow-down"></b-icon>
-            <translate> Get Details</translate>
+            <b-icon class="mr-1" icon="cloud-arrow-down"></b-icon>
+            <translate>Get Details</translate>
           </b-button>
         </b-card>
       </b-form>

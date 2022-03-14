@@ -3,9 +3,9 @@
     <b-input-group class="mb-3 w-75 mx-auto">
       <template #prepend>
         <b-button v-b-modal.add-cc variant="warning"
-          ><b-icon icon="cash"></b-icon
-          ><translate> Add Cost Center</translate></b-button
-        >
+          ><b-icon class="mr-1" icon="cash"></b-icon>
+          <translate>Add Cost Center</translate>
+        </b-button>
       </template>
       <b-form-input
         type="text"

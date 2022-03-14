@@ -65,12 +65,13 @@
         </b-form-group>
         <div class="float-right">
           <b-button-group size="sm">
-            <b-button variant="success" type="submit" class="mr-1"
-              ><b-icon icon="cloud-arrow-up"></b-icon>
-              <translate> Update </translate>
+            <b-button variant="success" type="submit" class="mr-1">
+              <b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
+              <translate>Update</translate>
             </b-button>
-            <b-button variant="danger" @click="confirm"
-              ><b-icon icon="x-circle"></b-icon> <translate> Delete </translate>
+            <b-button variant="danger" @click="confirm">
+              <b-icon class="mr-1" icon="x-circle"></b-icon>
+              <translate>Delete</translate>
             </b-button>
           </b-button-group>
         </div>

@@ -410,18 +410,21 @@
     </b-card>
     <!-- Submit & delete buttons -->
     <div class="mt-4 pb-4 d-flex flex-row-reverse">
-      <b-button type="submit" size="sm" class="ml-2" variant="success"
-        ><b-icon icon="cloud-arrow-up"></b-icon>
-        <translate> Save Changes </translate>
+      <b-button type="submit" size="sm" class="ml-2" variant="success">
+        <b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
+        <translate>Save Changes</translate>
       </b-button>
       <b-button
         @click.prevent="delProfile"
         size="sm"
         class="ml-2"
         variant="danger"
-        ><b-icon :icon="details.gsflag == 7 ? 'box' : 'headset'"></b-icon>
-        <span v-if="details.gsflag == 7" v-translate> Delete Product </span>
-        <span v-else v-translate> Delete Service </span>
+        ><b-icon
+          class="mr-1"
+          :icon="details.gsflag == 7 ? 'box' : 'headset'"
+        ></b-icon>
+        <span v-if="details.gsflag == 7" v-translate>Delete Product</span>
+        <span v-else v-translate>Delete Service</span>
       </b-button>
     </div>
 
@@ -968,7 +971,7 @@ export default {
                 taxfromdate: this.yearStart,
                 min: this.dateReverse(this.yearStart),
                 dateValidity: true,
-                taxname: 'IGST'
+                taxname: 'IGST',
               });
             }
             this.tax.gst.forEach((item) => {
