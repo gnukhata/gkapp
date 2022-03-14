@@ -7,7 +7,7 @@
           type="text"
           :size="size"
           @input="checkHsn"
-          v-model="hsn.code"
+          v-model.trim="hsn.code"
           :placeholder="this.$gettext('Enter HSN code / description')"
           :state="hsn.isValid"
           :required="required"
@@ -89,22 +89,23 @@ export default {
      */
     string2json(s) {
       this.hsn.code = JSON.parse(s)['hsn_code'];
-      this.checkHsn();
+      this.checkHsn(this.hsn.code);
     },
     /**
      * Check if entered hsn is valid, else emit
      * `null` & show a list of hsn suggestions
      */
-    checkHsn() {
-      if (this.hsn.code.length == 0) {
+    checkHsn(hsn) {
+      if (hsn.length == 0) {
         this.hsn.isValid = null;
         this.hsn.desc = '';
+        this.hsn.suggestions = [];
         return;
       }
-      axios.get(`/hsn?validate=${this.hsn.code}`).then((r) => {
+      axios.get(`/hsn?validate=${hsn}`).then((r) => {
         if (r.data.gkstatus != 0) {
           this.hsn.isValid = false;
-          this.searchHsn();
+          this.searchHsn(hsn);
           this.$emit('change', null);
         } else {
           this.hsn.isValid = true;
@@ -119,17 +120,18 @@ export default {
      */
     selectHsnSuggestion(o) {
       this.hsn.code = o.hsn_code;
-      this.checkHsn();
+      this.checkHsn(this.hsn.code);
     },
 
     /**
      * Return matching hsn info as array of objects
      */
-    searchHsn() {
+    searchHsn(hsn) {
       this.loading = true;
-      if (this.hsn.code !== '' && this.hsn.code.length >= 3) {
+      // debugger;
+      if (hsn !== '' && hsn.length >= 3) {
         axios
-          .get(`/hsn?search=${this.hsn.code}`)
+          .get(`/hsn?search=${hsn}`)
           .then((r) => {
             switch (r.data.gkstatus) {
               case 0:
