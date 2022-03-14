@@ -129,7 +129,8 @@
             class="text-danger"
             v-if="
               config.qty.checkStock &&
-                form[data.item.index].qty > options.stock[data.item.pid]
+                form[data.item.index].qty > options.stock[data.item.pid] &&
+                !form[data.item.index].isService
             "
           >
             <translate
@@ -873,7 +874,7 @@ export default {
           vat: { rate: 0, amount: 0 },
           total: 0,
           pid: null,
-          isService: false
+          isService: false,
         });
         this.updateTaxAndTotal(index);
       }
