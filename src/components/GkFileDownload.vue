@@ -1,19 +1,19 @@
 <template>
-  <b-overlay
-    :spinner-variant="variant"
-    spinner-type="grow"
-    spinner-small
-    :show="loading"
+  <b-button
+    :disabled="disabled"
+    :label="name"
+    :title="title"
+    :size="size"
+    :variant="variant"
+    @click.prevent="onFileDownload"
+    class="d-print-none"
+    :aria-label="`${this.title}`"
   >
-    <b-button
-      :disabled="disabled"
-      :label="name"
-      :title="title"
-      :size="size"
-      :variant="variant"
-      @click.prevent="onFileDownload"
-      class="d-print-none"
-      :aria-label="`${this.title}`"
+    <b-overlay
+      :spinner-variant="variant"
+      spinner-type="grow"
+      spinner-small
+      :show="loading"
     >
       <b-icon
         aria-hidden="true"
@@ -22,8 +22,8 @@
         :font-scale="fontScale"
       ></b-icon>
       {{ name }}
-    </b-button>
-  </b-overlay>
+    </b-overlay>
+  </b-button>
 </template>
 
 <script>

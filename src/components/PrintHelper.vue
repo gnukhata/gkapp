@@ -3,7 +3,7 @@
     <b-icon
       aria-hidden="true"
       class="align-middle"
-      icon="printer"
+      :icon="iconName"
       :font-scale="fontScale"
       :class="{ 'd-none': textMode }"
     ></b-icon>
@@ -64,6 +64,12 @@ export default {
       default: false,
       note:
         'A mode, where the button uses text instead of icon. The text to be displayed is sent via the prop, when text mode needs to be enabled',
+    },
+    iconName: {
+      type: String,
+      required: false,
+      default: 'printer',
+      note: 'Icon name',
     },
   },
   data() {

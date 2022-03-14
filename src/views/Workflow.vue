@@ -107,143 +107,173 @@
               </b-dropdown-item>
             </b-dropdown>
             <!-- Drop down 2: Filter -->
-            <b-button-group class="float-right">
-              <b-button
-                class="px-1"
-                variant="link"
-                @click="isFilterOpen = !isFilterOpen"
+            <b-button
+              class="px-1 float-right text-dark"
+              variant="link"
+              @click="isOptionsOpen = !isOptionsOpen"
+              size="sm"
+              title="Options"
+            >
+              <b-icon
+                class="align-middle"
+                :font-scale="1"
+                icon="three-dots-vertical"
+              ></b-icon
+              ><span class="sr-only">Options</span>
+            </b-button>
+            <b-collapse v-model="isOptionsOpen">
+              <b-button-group
+                class="float-right"
+                :class="{ 'mt-2': isOptionsOpen }"
               >
-                <b-icon
-                  class="align-middle"
+                <b-button
+                  class="px-1"
+                  variant="outline-dark"
+                  @click="isFilterOpen = !isFilterOpen"
+                  title="Filters"
+                >
+                  <b-icon
+                    class="align-middle"
+                    :font-scale="1"
+                    icon="funnel"
+                  ></b-icon
+                  ><span class="sr-only">Filter</span>
+                </b-button>
+                <print-helper
+                  class="px-md-1 px-2"
+                  :contentId="`list-${activeWorkflow.tabName}`"
+                  :fontScale="1"
+                  iconName="file-earmark-arrow-down"
+                  variant="outline-dark"
+                  :fileName="fileName.list"
+                  title="Download Pdf"
+                ></print-helper>
+                <!-- product / service spreadsheet -->
+                <gk-file-download
+                  variant="outline-dark"
+                  v-if="activeWorkflow.name === 'Business'"
+                  file-suffix="ProductServiceList"
+                  class="px-1"
                   :font-scale="1"
-                  icon="funnel"
-                ></b-icon
-                ><span class="sr-only">Filter</span>
-              </b-button>
-              <print-helper
-                class="px-md-1 px-2"
-                :contentId="`list-${activeWorkflow.tabName}`"
-                :fontScale="1"
-                variant="link"
-                :fileName="fileName.list"
-              ></print-helper>
-              <!-- product / service spreadsheet -->
-              <gk-file-download
-                v-if="activeWorkflow.name === 'Business'"
-                file-suffix="ProductServiceList"
-                style="margin-top: 3px;"
-                :font-scale="1"
-                :url="
-                  `/spreadsheet?pslist&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
-                "
-                title="Download Product Service List"
-              ></gk-file-download>
-              <!-- Invoice spreadsheet -->
-              <gk-file-download
-                v-if="
-                  activeWorkflow.name == 'Transactions-Invoice' &&
-                    filters.active.length == 1 &&
-                    filters.active[0] == 0
-                "
-                file-suffix="InvoiceList"
-                style="margin-top: 3px;"
-                :font-scale="1"
-                :url="
-                  `/spreadsheet?invoice-list&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
-                "
-                title="Download All Invoice List"
-              ></gk-file-download>
-              <!-- Cancelled Invoice spreadsheet -->
-              <gk-file-download
-                v-if="
-                  activeWorkflow.name == 'Transactions-Invoice' &&
-                    filters.active.length == 1 &&
-                    filters.active[0] == 3
-                "
-                file-suffix="CancelledInvoiceList"
-                style="margin-top: 3px;"
-                :font-scale="1"
-                :url="
-                  `/spreadsheet?invoice-cancelled&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
-                "
-                title="Download Cancelled Invoice Spreadsheet"
-              ></gk-file-download>
-              <!-- Credit Invoice Spreadsheet -->
-              <gk-file-download
-                v-if="
-                  activeWorkflow.name == 'Transactions-Invoice' &&
-                    filters.active.length == 1 &&
-                    filters.active[0] == 4
-                "
-                file-suffix="CreditInvoiceList"
-                style="margin-top: 3px;"
-                title="Download Credit Invoice Spreadsheet"
-                :font-scale="1"
-                :url="
-                  `/spreadsheet?invoice-outstanding&fromdate=${dateReverse(
-                    this.filters.range.from
-                  )}&todate=${dateReverse(
-                    this.filters.range.to
-                  )}&inoutflag=15&orderflag=1&typeflag=4`
-                "
-              ></gk-file-download>
-              <!-- Transfer Note Spreadsheet -->
-              <gk-file-download
-                v-if="activeWorkflow.name == 'Transactions-TransferNote'"
-                file-suffix="TransferNoteList"
-                style="margin-top: 3px;"
-                :font-scale="1"
-                :url="
-                  `/spreadsheet?transfer-notes&startdate=${this.dateReverse(
-                    this.filters.range.from
-                  )}&enddate=${this.dateReverse(this.filters.range.to)}`
-                "
-                title="Download Transfer Notes Spreadsheet"
-              ></gk-file-download>
-              <!-- Unbilled Delivery Note Spreadsheet -->
-              <gk-file-download
-                v-if="
-                  activeWorkflow.name == 'Transactions-DeliveryNote' &&
-                    filters.active.length == 1 &&
-                    filters.active[0] == 4
-                "
-                file-suffix="UnbilledDeliveryNote"
-                style="margin-top: 3px;"
-                title="Download Unbilled Delivery Note Spreadsheet"
-                :font-scale="1"
-                :url="
-                  `/spreadsheet?delivery-challan-unbilled&inputdate=${this.filters.range.to}&inout=9&del_unbilled_type=All`
-                "
-              ></gk-file-download>
-              <!-- Cancelled Delivery Note Spreadsheet -->
-              <gk-file-download
-                v-if="
-                  activeWorkflow.name == 'Transactions-DeliveryNote' &&
-                    filters.active.length == 1 &&
-                    filters.active[0] == 3
-                "
-                file-suffix="CancelledDeliveryNote"
-                style="margin-top: 3px;"
-                title="Download Cancelled Delivery Note Spreadsheet"
-                :font-scale="1"
-                :url="
-                  `/spreadsheet?delivery-challan-cancelled&inputdate=${this.filters.range.to}&inout=15&del_cancelled_type=All`
-                "
-              ></gk-file-download>
-              <!-- Column settings -->
-              <b-button
-                class="px-1"
-                variant="link"
-                @click="isSettingsOpen = !isSettingsOpen"
-              >
-                <b-icon
-                  class="align-middle"
+                  :url="
+                    `/spreadsheet?pslist&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+                  "
+                  title="Download Product Service List"
+                ></gk-file-download>
+                <!-- Invoice spreadsheet -->
+                <gk-file-download
+                  variant="outline-dark"
+                  v-if="
+                    activeWorkflow.name == 'Transactions-Invoice' &&
+                      filters.active.length == 1 &&
+                      filters.active[0] == 0
+                  "
+                  file-suffix="InvoiceList"
+                  class="px-1"
                   :font-scale="1"
-                  icon="gear"
-                ></b-icon
-                ><span class="sr-only">Column Settings</span>
-              </b-button>
-            </b-button-group>
+                  :url="
+                    `/spreadsheet?invoice-list&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
+                  "
+                  title="Download All Invoice List"
+                ></gk-file-download>
+                <!-- Cancelled Invoice spreadsheet -->
+                <gk-file-download
+                  variant="outline-dark"
+                  v-if="
+                    activeWorkflow.name == 'Transactions-Invoice' &&
+                      filters.active.length == 1 &&
+                      filters.active[0] == 3
+                  "
+                  file-suffix="CancelledInvoiceList"
+                  class="px-1"
+                  :font-scale="1"
+                  :url="
+                    `/spreadsheet?invoice-cancelled&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
+                  "
+                  title="Download Cancelled Invoice Spreadsheet"
+                ></gk-file-download>
+                <!-- Credit Invoice Spreadsheet -->
+                <gk-file-download
+                  variant="outline-dark"
+                  v-if="
+                    activeWorkflow.name == 'Transactions-Invoice' &&
+                      filters.active.length == 1 &&
+                      filters.active[0] == 4
+                  "
+                  file-suffix="CreditInvoiceList"
+                  class="px-1"
+                  title="Download Credit Invoice Spreadsheet"
+                  :font-scale="1"
+                  :url="
+                    `/spreadsheet?invoice-outstanding&fromdate=${dateReverse(
+                      this.filters.range.from
+                    )}&todate=${dateReverse(
+                      this.filters.range.to
+                    )}&inoutflag=15&orderflag=1&typeflag=4`
+                  "
+                ></gk-file-download>
+                <!-- Transfer Note Spreadsheet -->
+                <gk-file-download
+                  variant="outline-dark"
+                  v-if="activeWorkflow.name == 'Transactions-TransferNote'"
+                  file-suffix="TransferNoteList"
+                  class="px-1"
+                  :font-scale="1"
+                  :url="
+                    `/spreadsheet?transfer-notes&startdate=${this.dateReverse(
+                      this.filters.range.from
+                    )}&enddate=${this.dateReverse(this.filters.range.to)}`
+                  "
+                  title="Download Transfer Notes Spreadsheet"
+                ></gk-file-download>
+                <!-- Unbilled Delivery Note Spreadsheet -->
+                <gk-file-download
+                  variant="outline-dark"
+                  v-if="
+                    activeWorkflow.name == 'Transactions-DeliveryNote' &&
+                      filters.active.length == 1 &&
+                      filters.active[0] == 4
+                  "
+                  file-suffix="UnbilledDeliveryNote"
+                  class="px-1"
+                  title="Download Unbilled Delivery Note Spreadsheet"
+                  :font-scale="1"
+                  :url="
+                    `/spreadsheet?delivery-challan-unbilled&inputdate=${this.filters.range.to}&inout=9&del_unbilled_type=All`
+                  "
+                ></gk-file-download>
+                <!-- Cancelled Delivery Note Spreadsheet -->
+                <gk-file-download
+                  variant="outline-dark"
+                  v-if="
+                    activeWorkflow.name == 'Transactions-DeliveryNote' &&
+                      filters.active.length == 1 &&
+                      filters.active[0] == 3
+                  "
+                  file-suffix="CancelledDeliveryNote"
+                  class="px-1"
+                  title="Download Cancelled Delivery Note Spreadsheet"
+                  :font-scale="1"
+                  :url="
+                    `/spreadsheet?delivery-challan-cancelled&inputdate=${this.filters.range.to}&inout=15&del_cancelled_type=All`
+                  "
+                ></gk-file-download>
+                <!-- Column settings -->
+                <b-button
+                  class="px-1"
+                  variant="outline-dark"
+                  @click="isSettingsOpen = !isSettingsOpen"
+                  title="Column Settings"
+                >
+                  <b-icon
+                    class="align-middle"
+                    :font-scale="1"
+                    icon="gear"
+                  ></b-icon
+                  ><span class="sr-only">Column Settings</span>
+                </b-button>
+              </b-button-group>
+            </b-collapse>
             <!-- Table Column Chooser -->
             <b-collapse v-model="isSettingsOpen">
               <b-card
@@ -680,6 +710,7 @@ export default {
       isPreloading: false,
       isLoading: false,
       isSubMenuOpen: false,
+      isOptionsOpen: false,
       activeWorkflow: {
         index: null,
         icon: '',
