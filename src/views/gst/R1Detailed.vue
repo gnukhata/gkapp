@@ -83,7 +83,7 @@ export default {
         )
         .then((r) => {
           if (r.status == 200) {
-            switch (r.data.gkresult) {
+            switch (r.data.gkstatus) {
               case 0:
                 this.list = r.data.gkdata;
                 break;

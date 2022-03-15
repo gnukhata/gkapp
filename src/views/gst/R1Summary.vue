@@ -128,6 +128,9 @@
           >Details <b-icon icon="chevron-right"></b-icon
         ></b-button>
       </div>
+      <br>
+      <br>
+      <br>
     </b-overlay>
   </section>
 </template>
@@ -173,11 +176,11 @@ export default {
   },
   props: {
     td: {
-      type: String
+      type: String,
     },
     fd: {
-      type: String
-    }
+      type: String,
+    },
   },
   computed: {
     fromDate: function() {
@@ -193,9 +196,7 @@ export default {
   },
   methods: {
     go(report) {
-      this.$router.push(
-        `/gst/r1/${report}/${this.fd}&${this.td}`
-      );
+      this.$router.push(`/gst/r1/${report}/${this.fd}&${this.td}`);
     },
     /**
      * Generates B2B summary
@@ -252,31 +253,19 @@ export default {
         };
         this.summary['b2cs'].push(o);
         // for more than one entry
-      } // else if (b2b.length > 1) {
-      // let o = {
-      //   invoice_count: b2b.length,
-      // };
-      // // add invoice values
-      // let [invVal, taxVal, cessVal] = [0, 0, 0];
-      // for (let i in b2b) {
-      //   invVal += parseFloat(b2b[i].invoice_value);
-      // }
-      // o['invoice_value'] = invVal;
-      //
-      // // add taxable values
-      // for (let i in b2b) {
-      //   taxVal += parseFloat(b2b[i].taxable_value);
-      // }
-      // o['taxable_value'] = taxVal;
-      //
-      // // add cess values
-      // for (let i in b2b) {
-      //   cessVal += parseFloat(b2b[i].cess);
-      // }
-      // o['cess'] = cessVal;
-      //
-      // this.summary['b2b'].push(o);
-      //       }
+      } else if (b2cs.length > 1) {
+        let summary = b2cs.reduce(
+          (acc, item) => {
+            acc.invoice_count++;
+            acc.taxable_value += parseFloat(item.taxable_value);
+            acc.rate += parseFloat(item.rate);
+            acc.cess += parseFloat(item.cess);
+            return acc;
+          },
+          { invoice_count: 0, taxable_value: 0, rate: 0, cess: 0 }
+        );
+        this.summary['b2cs'].push(summary);
+      }
     },
     cdnrSummary() {
       let cdnr = this.list.cdnr;
