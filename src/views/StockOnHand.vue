@@ -112,6 +112,7 @@ export default {
   components: { Autocomplete, GkDate, ReportHeader },
   data() {
     return {
+      prodMap: {}, // product id to name map
       productList: [],
       loading: false,
       productId: '',
@@ -160,8 +161,8 @@ export default {
           if (r.status == 200 && r.data.gkstatus == 0) {
             this.godowns = r.data.gkresult.map((data) => {
               return {
-                value: Object.values(data)[2],
-                text: `${Object.values(data)[3]} (${Object.values(data)[4]}) `,
+                value: data.goid,
+                text: `${data.goname} (${data.goaddr}) `,
               };
             });
           }
@@ -177,9 +178,10 @@ export default {
         .then((r) => {
           if (r.status == 200) {
             this.productList = r.data.gkresult.map((data) => {
+              this.prodMap[data.productcode] = data.productdesc; // create product id to name map
               return {
-                text: Object.values(data)[4],
-                value: Object.values(data)[3],
+                text: data.productdesc,
+                value: data.productcode,
               };
             });
           }
@@ -216,11 +218,11 @@ export default {
               case 0:
                 this.report = r.data.gkresult.map((data) => {
                   return {
-                    no: Object.values(data)[0],
-                    product: Object.values(data)[1],
-                    total_inward_qty: Object.values(data)[2],
-                    total_outward_qty: Object.values(data)[3],
-                    balance: Object.values(data)[4],
+                    no: data.srno,
+                    product: data.productname || this.prodMap[this.productId] || '',
+                    total_inward_qty: data.totalinwardqty,
+                    total_outward_qty: data.totaloutwardqty,
+                    balance: data.balance,
                   };
                 });
                 break;

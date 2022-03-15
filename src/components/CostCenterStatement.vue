@@ -144,7 +144,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `https://test.gnukhata.in/report?type=projectstatement&calculateto=${this.toDate}&financialstart=${this.fromDate}&projectcode=${this.projectId}`
+          `/report?type=projectstatement&calculateto=${this.toDate}&financialstart=${this.fromDate}&projectcode=${this.projectId}`
         )
         .then((r) => {
           const data = r.data;
@@ -202,8 +202,8 @@ export default {
           if (r.status == 200) {
             this.projectList = r.data.gkresult.map((data) => {
               return {
-                text: Object.values(data)[1],
-                value: Object.values(data)[0],
+                text: data.projectname,
+                value: data.projectcode,
               };
             });
           }

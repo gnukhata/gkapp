@@ -381,8 +381,8 @@ export default {
           if (r.status == 200) {
             this.productList = r.data.gkresult.map((data) => {
               return {
-                text: Object.values(data)[4],
-                value: Object.values(data)[3],
+                text: data.productdesc,
+                value: data.productcode,
               };
             });
           }
@@ -404,8 +404,8 @@ export default {
           if (r.status == 200 && r.data.gkstatus == 0) {
             this.godowns = r.data.gkresult.map((data) => {
               return {
-                value: Object.values(data)[2],
-                text: `${Object.values(data)[3]} (${Object.values(data)[4]}) `,
+                value: data.goid,
+                text: `${data.goname} (${data.goaddr}) `,
               };
             });
           }

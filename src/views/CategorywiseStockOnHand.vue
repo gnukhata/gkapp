@@ -172,8 +172,8 @@ export default {
           if (r.status == 200 && r.data.gkstatus == 0) {
             this.godowns = r.data.gkresult.map((data) => {
               return {
-                value: Object.values(data)[2],
-                text: `${Object.values(data)[3]} (${Object.values(data)[4]}) `,
+                value: data.goid,
+                text: `${data.goname} (${data.goaddr}) `,
               };
             });
           }
@@ -190,8 +190,8 @@ export default {
           if (r.status == 200) {
             this.categoryList = r.data.gkresult.map((data) => {
               return {
-                text: Object.values(data)[3],
-                value: Object.values(data)[4],
+                text: data.categoryname,
+                value: data.categorycode,
               };
             });
           }
@@ -215,8 +215,8 @@ export default {
               case 0:
                 this.subCategoryList = r.data.gkresult.map((data) => {
                   return {
-                    text: Object.values(data)[0],
-                    value: Object.values(data)[1],
+                    text: data.categoryname,
+                    value: data.categorycode,
                   };
                 });
                 break;

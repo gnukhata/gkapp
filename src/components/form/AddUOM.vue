@@ -101,10 +101,8 @@ export default {
           if (r.status == 200 && r.data.gkstatus == 0) {
             let u = r.data.gkresult.map((data) => {
               let obj = {};
-              obj.text = `${Object.values(data)[1]} - ${
-                Object.values(data)[2]
-              }`;
-              obj.value = Object.values(data)[0];
+              obj.text = `${data.unitname} - ${data.description}`;
+              obj.value = data.uomid;
               return obj;
             });
             this.uomList = u;
