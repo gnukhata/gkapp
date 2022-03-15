@@ -23,6 +23,7 @@
       responsive="sm"
       :filter="search"
       :busy="loading"
+      :fields="fields"
     >
       <template #table-busy>
         <div class="text-center">
@@ -36,15 +37,13 @@
         </div>
       </template>
       <template #cell(invoice_number)="data">
-        <router-link
-          :to="'/workflow/Transactions-DebitCreditNote/' + data.item.invid"
-        >
+        <router-link :to="'/workflow/Transactions-Invoice/' + data.item.invid">
           {{ data.item.invoice_number }}
         </router-link>
       </template>
       <template #cell(voucher_number)="data">
         <router-link
-          :to="'/workflow/Transactions-DebitCreditNote/' + data.item.voucher_id"
+          :to="'/workflow/Transactions-DebitCreditNote/' + data.item.drcrid"
         >
           {{ data.item.voucher_number }}
         </router-link>
@@ -65,6 +64,7 @@ export default {
   name: 'R1Detailed',
   data() {
     return {
+      fields: [],
       list: [],
       search: null,
       params: null,
@@ -86,6 +86,48 @@ export default {
             switch (r.data.gkstatus) {
               case 0:
                 this.list = r.data.gkdata;
+
+                // remove drilldown id columns
+                if (this.list[this.params.type].length) {
+                  this.fields = Object.keys(this.list[this.params.type][0]);
+                  if (
+                    this.params.type === 'b2b' ||
+                    this.params.type === 'cdnr'
+                  ) {
+                    let index = this.fields.findIndex(
+                      (field) => field === 'invid'
+                    );
+                    this.fields.splice(index, 1);
+
+                    index = this.fields.findIndex(
+                      (field) => field === 'drcrid'
+                    );
+                    this.fields.splice(index, 1);
+
+                    // update labels
+                    for (let i = 0, l = this.fields.length; i<l;i++) {
+                      let field = this.fields[i];
+                      let label = '';
+                      switch (field) {
+                        case 'voucher_number':
+                          label = 'Dr/Cr Note No';
+                          break;
+                        case 'voucher_date':
+                          label = 'Dr/Cr Note Date';
+                          break;
+                        case 'pregst':
+                          label = 'Pre GST';
+                          break;
+                      }
+                      if (label) {
+                        this.fields[i] = {
+                          key: field,
+                          label: label,
+                        };
+                      }
+                    }
+                  }
+                }
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {
