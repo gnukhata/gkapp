@@ -82,7 +82,7 @@ const config = {
       label: 'Amount',
       key: 'netamt',
       sortable: true,
-      tdClass: 'text-right'
+      tdClass: 'text-right',
     },
   ],
   options: {
@@ -111,7 +111,12 @@ const config = {
     columnMap: {
       dateObj: { label: 'Date', key: 'dateObj', sortable: true },
       custname: { label: 'Customer', key: 'custname', sortable: true },
-      netamt: { label: 'Amount', key: 'netamt', sortable: true, tdClass: 'gk-currency' },
+      netamt: {
+        label: 'Amount',
+        key: 'netamt',
+        sortable: true,
+        tdClass: 'gk-currency',
+      },
       invoiceno: { label: 'Inv No', key: 'invoiceno', sortable: true },
       taxamt: { label: 'Tax', key: 'taxamt', sortable: true },
     },
@@ -148,11 +153,13 @@ const config = {
               {
                 id: item.invid,
                 no: item.invoiceno,
-                noteName: `${item.csflag === 3 ? 'Sale' : 'Purchase'} Invoice`,
+                noteName: `${
+                  item.inoutflag === 15 ? 'Sale' : 'Purchase'
+                } Invoice`,
                 date: item.invoicedate,
                 text1: item.custname,
                 text2: `₹ ${item.netamt}`,
-                icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                icon: item.inoutflag === 15 ? 'cash-stack' : 'basket3',
                 onCreditFlag: false,
                 rectifyFlag: false, // can be rectified or not
                 deletedFlag: false,
@@ -188,15 +195,18 @@ const config = {
         // Deleted Invoices
         if (resp[2].data.gkstatus === 0) {
           const deletedInv = resp[2].data.gkresult.map((item) => {
+            debugger;
             return Object.assign(
               {
                 id: item.invid,
                 no: item.invoiceno,
-                noteName: `${item.csflag === 3 ? 'Sale' : 'Purchase'} Invoice`,
+                noteName: `${
+                  item.inoutflag === 15 ? 'Sale' : 'Purchase'
+                } Invoice`,
                 date: item.invoicedate,
                 text1: item.custname,
                 text2: `₹ ${item.netamt}`,
-                icon: item.csflag === 3 ? 'cash-stack' : 'basket3',
+                icon: item.inoutflag === 15 ? 'cash-stack' : 'basket3',
                 onCreditFlag: false,
                 rectifyFlag: false, // can be rectified or not
                 deletedFlag: true,
@@ -251,7 +261,7 @@ function initColumns() {
           label: 'Amount',
           key: 'netamt',
           sortable: true,
-          tdClass: 'gk-currency'
+          tdClass: 'gk-currency',
         },
       ];
     }
@@ -265,12 +275,14 @@ function setColumns(columns) {
       config: columns,
       path: [PAGES['workflow-invoice'], CONFIGS['workflow-left-pane-columns']],
     };
-    return axios.put('/config?conftype=user&update=path&confcategory=workflow', payload).then((resp) => {
-      if (resp.data.gkstatus === 0) {
-        config.fields = columns;
-      }
-      return resp.data;
-    });
+    return axios
+      .put('/config?conftype=user&update=path&confcategory=workflow', payload)
+      .then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          config.fields = columns;
+        }
+        return resp.data;
+      });
   }
 }
 
