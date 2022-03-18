@@ -18,7 +18,7 @@
     <!-- R1 Tables (only shown if they have atleast one entry) -->
     <b-overlay :show="loading" spinner-type="grow">
       <!-- B2B -->
-      <div v-if="list.b2b.length > 0">
+      <div>
         <b-table
           caption-top
           class="mt-3"
@@ -44,7 +44,7 @@
         </b-button>
       </div>
       <!-- B2CL -->
-      <div v-if="list.b2cl.length > 0">
+      <div>
         <b-table
           caption-top
           class="mt-3"
@@ -61,7 +61,7 @@
         >
       </div>
       <!-- B2CS -->
-      <div v-if="list.b2cs.length > 0">
+      <div>
         <b-table
           caption-top
           class="mt-3"
@@ -78,7 +78,7 @@
         ></b-button>
       </div>
       <!-- CDNR -->
-      <div v-if="list.cdnr.length > 0">
+      <div>
         <b-table
           caption-top
           class="mt-3"
@@ -95,7 +95,7 @@
         ></b-button>
       </div>
       <!-- CDNUR -->
-      <div v-if="list.cdnur.length > 0">
+      <div>
         <b-table
           caption-top
           class="mt-3"
@@ -112,7 +112,7 @@
         ></b-button>
       </div>
       <!-- HSN -->
-      <div v-if="list.hsn1.length > 0">
+      <div>
         <b-table
           caption-top
           class="mt-3"
@@ -128,9 +128,9 @@
           >Details <b-icon icon="chevron-right"></b-icon
         ></b-button>
       </div>
-      <br>
-      <br>
-      <br>
+      <br />
+      <br />
+      <br />
     </b-overlay>
   </section>
 </template>
@@ -191,69 +191,55 @@ export default {
     },
     ...mapState(['orgName', 'orgAddress']),
   },
-  mounted() {
-    this.b2bSummary();
-  },
   methods: {
     go(report) {
       this.$router.push(`/gst/r1/${report}/${this.fd}&${this.td}`);
+    },
+    generateSummary() {
+      this.b2bSummary();
+      this.cdnrSummary();
+      this.b2csSummary();
+      this.hsnSummary();
     },
     /**
      * Generates B2B summary
      */
     b2bSummary() {
-      let b2b = this.list.b2b;
-      // if only one entry is present
-      if (b2b.length == 1) {
-        const o = {
-          invoice_count: 1,
-          invoice_value: b2b[0]['invoice_value'],
-          taxable_value: b2b[0]['taxable_value'],
-          cess: b2b[0]['cess'],
-        };
-        this.summary['b2b'].push(o);
-        // for more than one entry
-      } else if (b2b.length > 1) {
+      const b2b = this.list.b2b;
+
+      if (b2b.length) {
         let o = {
           invoice_count: b2b.length,
         };
-        // add invoice values
         let [invVal, taxVal, cessVal] = [0, 0, 0];
         for (let i in b2b) {
+          // add invoice values
           invVal += parseFloat(b2b[i].invoice_value);
-        }
-        o['invoice_value'] = invVal;
-
-        // add taxable values
-        for (let i in b2b) {
+          // add taxable values
           taxVal += parseFloat(b2b[i].taxable_value);
-        }
-        o['taxable_value'] = taxVal;
-
-        // add cess values
-        for (let i in b2b) {
+          // add cess values
           cessVal += parseFloat(b2b[i].cess);
         }
-        o['cess'] = cessVal;
+        o['invoice_value'] = invVal.toFixed(2);
+        o['taxable_value'] = taxVal.toFixed(2);
+        o['cess'] = cessVal.toFixed(2);
 
-        this.summary['b2b'].push(o);
+        this.summary['b2b'] = [o];
+      } else {
+        this.summary['b2b'] = [
+          {
+            invoice_count: 0,
+            invoice_value: 0,
+            taxable_value: 0,
+            cess: 0,
+          },
+        ];
       }
-      this.cdnrSummary();
-      this.b2csSummary();
     },
     b2csSummary() {
-      let b2cs = this.list.b2cs;
-      // if only one entry is present
-      if (b2cs.length == 1) {
-        const o = {
-          invoice_count: 1,
-          taxable_value: b2cs[0]['taxable_value'],
-          rate: b2cs[0]['rate'],
-          cess: b2cs[0]['cess'],
-        };
-        this.summary['b2cs'].push(o);
-        // for more than one entry
-      } else if (b2cs.length > 1) {
+      const b2cs = this.list.b2cs;
+
+      if (b2cs.length) {
         let summary = b2cs.reduce(
           (acc, item) => {
             acc.invoice_count++;
@@ -264,96 +250,95 @@ export default {
           },
           { invoice_count: 0, taxable_value: 0, rate: 0, cess: 0 }
         );
-        this.summary['b2cs'].push(summary);
+        this.summary['b2cs'] = [
+          {
+            invoice_count: summary.invoice_count.toFixed(2),
+            taxable_value: summary.taxable_value.toFixed(2),
+            rate: summary.rate.toFixed(2),
+            cess: summary.cess.toFixed(2),
+          },
+        ];
+      } else {
+        this.summary['b2cs'] = [
+          {
+            invoice_count: 0,
+            taxable_value: 0,
+            rate: 0,
+            cess: 0,
+          },
+        ];
       }
     },
     cdnrSummary() {
-      let cdnr = this.list.cdnr;
-      // if only one entry is present
-      if (cdnr.length == 1) {
-        const o = {
-          invoice_count: 1,
-          invoice_value: cdnr[0]['refund_voucher_value'],
-          taxable_value: cdnr[0]['taxable_value'],
-          cess: cdnr[0]['cess'],
-        };
-        this.summary['cdnr'].push(o);
-        // for more than one entry
-      } else if (cdnr.length > 1) {
+      const cdnr = this.list.cdnr;
+
+      if (cdnr.length) {
         let o = {
           invoice_count: cdnr.length,
         };
-        // add invoice values
         let [rvVal, taxVal, cessVal] = [0, 0, 0];
         for (let i in cdnr) {
+          // add refund voucher values
           rvVal += parseFloat(cdnr[i].refund_voucher_value);
-        }
-        o['refund_voucher_value'] = parseFloat(rvVal).toFixed(2);
-
-        // add taxable values
-        for (let i in cdnr) {
+          // add taxable values
           taxVal += parseFloat(cdnr[i].taxable_value);
-        }
-        o['taxable_value'] = taxVal;
-
-        // add cess values
-        for (let i in cdnr) {
+          // add cess values
           cessVal += parseFloat(cdnr[i].cess);
         }
-        o['CESS'] = cessVal;
-        this.summary['cdnr'].push(o);
+        o['refund_voucher_value'] = parseFloat(rvVal).toFixed(2);
+        o['taxable_value'] = taxVal.toFixed(2);
+        o['CESS'] = cessVal.toFixed(2);
+
+        this.summary['cdnr'] = [o];
+      } else {
+        this.summary['cdnr'] = [
+          {
+            invoice_count: 0,
+            invoice_value: 0,
+            taxable_value: 0,
+            cess: 0,
+          },
+        ];
       }
-      this.hsnSummary();
     },
     hsnSummary() {
-      let hsn = this.list.hsn1;
-      // if only one entry is present
-      if (hsn.length == 1) {
-        const o = {
-          product_entries: 1,
-          total_value: hsn[0]['totalvalue'],
-          taxable_value: hsn[0]['taxableamt'],
-          SGST: hsn[0]['SGSTamt'],
-          IGST: hsn[0]['IGSTamt'],
-          cess: hsn[0]['cess'],
-        };
-        this.summary['hsn'].push(o);
-        // for more than one entry
-      } else if (hsn.length > 1) {
+      const hsn = this.list.hsn1;
+
+      if (hsn.length) {
         let o = {
           product_entries: hsn.length,
         };
-        // add total values
         let [totVal, taxVal, sgstVal, igstVal, cessVal] = [0, 0, 0, 0, 0];
         for (let i in hsn) {
+          // add total values
           totVal += parseFloat(hsn[i].totalvalue);
-        }
-        o['total_value'] = parseFloat(totVal).toFixed(2);
-
-        // add taxable values
-        for (let i in hsn) {
+          // add taxable values
           taxVal += parseFloat(hsn[i].taxableamt);
-        }
-        o['taxable_value'] = taxVal;
-
-        // SGST values
-        for (let i in hsn) {
+          // SGST values
           sgstVal += parseFloat(hsn[i].SGSTamt);
-        }
-        o['SGST'] = sgstVal;
-
-        // IGST values
-        for (let i in hsn) {
+          // IGST values
           igstVal += parseFloat(hsn[i].IGSTamt);
-        }
-        o['IGST'] = igstVal;
-
-        // add cess values
-        for (let i in hsn) {
+          // add cess values
           cessVal += parseFloat(hsn[i].CESSamt);
         }
-        o['CESS'] = cessVal;
-        this.summary['hsn'].push(o);
+        o['total_value'] = totVal.toFixed(2);
+        o['taxable_value'] = taxVal.toFixed(2);
+        o['SGST'] = sgstVal.toFixed(2);
+        o['IGST'] = igstVal.toFixed(2);
+        o['CESS'] = cessVal.toFixed(2);
+
+        this.summary['hsn'] = [o];
+      } else {
+        this.summary['hsn'] = [
+          {
+            product_entries: 0,
+            total_value: 0,
+            taxable_value: 0,
+            SGST: 0,
+            IGST: 0,
+            cess: 0,
+          },
+        ];
       }
     },
     /**
@@ -368,7 +353,7 @@ export default {
             switch (r.data.gkstatus) {
               case 0:
                 this.list = r.data.gkdata;
-                this.b2bSummary();
+                this.generateSummary();
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {
@@ -417,6 +402,7 @@ export default {
   },
   mounted() {
     // this.params = this.$route.params;
+    // this.b2bSummary();
     this.getGstR1List();
   },
 };
