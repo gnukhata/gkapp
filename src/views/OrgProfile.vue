@@ -184,11 +184,6 @@
             label-size="sm"
             label-align="right"
           >
-            <!-- <b-form-input
-                   v-model="bankDetails.ifsc"
-                   size="sm"
-                   type="text"
-                   ></b-form-input> -->
             <gk-ifsc
               v-model="bankDetails.ifsc"
               size="sm"

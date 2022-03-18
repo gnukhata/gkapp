@@ -138,13 +138,10 @@ import axios from 'axios';
 export default {
   name: 'GkIfsc',
   model: {
-    prop: 'ifscCode',
+    prop: 'value',
     event: 'change',
   },
   props: {
-    /**
-     * Jsdoc comment
-     */
     size: {
       type: String,
       default: 'md',
@@ -155,6 +152,9 @@ export default {
       type: [String, Boolean],
       default: false,
     },
+    value: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -162,6 +162,11 @@ export default {
       ifscCode: null,
       ifscData: Object,
     };
+  },
+  watch: {
+    value(c) {
+      this.ifscCode = c;
+    },
   },
   methods: {
     /**
@@ -176,7 +181,6 @@ export default {
      * proxy server & get appropriate response
      */
     validateIfsc() {
-      this.$emit('change');
       this.loading = true;
       axios
         .get(`/ifsc?check=${this.ifscCode}`)
@@ -184,7 +188,7 @@ export default {
           switch (r.data.gkstatus) {
             case 0:
               this.ifscData = r.data.gkresult;
-              this.$emit('change');
+              this.$emit('change', this.ifscCode);
               this.$bvModal.show('ifsc-info');
               break;
             case 1:
