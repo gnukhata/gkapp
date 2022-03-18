@@ -79,11 +79,11 @@ export default {
     };
   },
   watch: {
-    // handle invalid hsn also
     value(v) {
+      // handle invalid hsn also
       try {
         this.string2json(v);
-      } catch (e) {
+      } catch {
         this.hsn.code = v;
       }
     },
