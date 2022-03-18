@@ -22,7 +22,7 @@
           right
           :aria-controls="id"
           :disabled="readonly"
-          :tabindex="readonly ? -1 : 0"
+          :tabindex="readonly ? -1 : 1"
           :min="minDate"
           :max="maxDate"
         >
