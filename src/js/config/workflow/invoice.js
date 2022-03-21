@@ -195,7 +195,7 @@ const config = {
         // Deleted Invoices
         if (resp[2].data.gkstatus === 0) {
           const deletedInv = resp[2].data.gkresult.map((item) => {
-            debugger;
+            // debugger;
             return Object.assign(
               {
                 id: item.invid,
