@@ -85,6 +85,7 @@ export default {
         this.string2json(v);
       } catch {
         this.hsn.code = v;
+        this.hsn.desc = 'Invalid HSN Code';
       }
     },
   },
@@ -133,7 +134,7 @@ export default {
      */
     searchHsn(hsn) {
       this.loading = true;
-      // debugger;
+      this.hsn.desc = '';
       if (hsn !== '' && hsn.length >= 3) {
         axios
           .get(`/hsn?search=${hsn}`)
