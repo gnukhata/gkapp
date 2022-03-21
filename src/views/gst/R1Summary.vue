@@ -19,6 +19,16 @@
     <b-overlay :show="loading" spinner-type="grow">
       <!-- B2B -->
       <div>
+        <gk-file-download
+          class="float-right"
+          :url="spreadSheetUrl"
+          fileName="GSTR1"
+          fileExtn="xlsx"
+          :addDate="true"
+          :addTimeStamp="true"
+          name="Spreadsheet"
+          icon="cloud-download"
+        ></gk-file-download>
         <b-table
           caption-top
           class="mt-3"
@@ -167,9 +177,10 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-import ReportHeader from '../../components/ReportHeader.vue';
+import ReportHeader from '@/components/ReportHeader.vue';
+import GkFileDownload from '@/components/GkFileDownload.vue';
 export default {
-  components: { ReportHeader },
+  components: { ReportHeader, GkFileDownload },
   name: 'R1Detailed',
   data() {
     return {
@@ -196,6 +207,9 @@ export default {
     },
   },
   computed: {
+    spreadSheetUrl: function() {
+      return `/spreadsheet?gstr1&start=${this.fd}&end=${this.td}`;
+    },
     fromDate: function() {
       return this.fd ? this.dateReverse(this.fd) : '';
     },
