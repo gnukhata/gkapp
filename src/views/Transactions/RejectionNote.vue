@@ -51,6 +51,7 @@
         ></rejection-note-details>
         <!-- Invoice Details -->
         <invoice-details
+          :editFlag="true"
           :config="config.inv"
           :saleFlag="isSale"
           :parentData="form.invoice"

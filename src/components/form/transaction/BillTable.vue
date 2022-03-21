@@ -101,7 +101,7 @@
             :inactiveText="config.qty.checkStock ? 'Out of Stock' : ''"
             :blockInactive="blockEmptyStock"
           ></autocomplete>
-          <span v-else>{{ data.value.name }}</span>
+          <span v-else>{{ data.value.name || form[data.item.index].product.name  }}</span>
         </template>
 
         <!-- Qty -->
@@ -196,7 +196,7 @@
             no-wheel
             step="0.01"
             min="0"
-            :max="data.item.qty * data.item.rate"
+            :max="form[data.item.index].qty * form[data.item.index].rate"
             @input="updateTaxAndTotal(data.item.index)"
           ></b-input>
           <span v-else>{{ form[data.item.index].dcValue }}</span>

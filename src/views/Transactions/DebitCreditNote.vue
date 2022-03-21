@@ -737,12 +737,12 @@ export default {
           text: this.isCredit ? 'Credit Note Value' : 'Debit Note Value',
         };
 
-        if (this.form.dcNote.purpose === 'price') {
-          newConf.bill.qty.disabled = true;
-          newConf.bill.dcValue = { mobileMode: { disabled: true } };
-        } else {
+        if (this.form.dcNote.purpose === DR_CR_MODE['returns']) {
           newConf.bill.qty.disabled = false;
           newConf.bill.dcValue = false;
+        } else {
+          newConf.bill.qty.disabled = true;
+          newConf.bill.dcValue = { mobileMode: { disabled: true } };
         }
 
         if (newConf.inv.class) {
