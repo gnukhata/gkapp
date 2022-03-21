@@ -26,7 +26,6 @@
           small
           bordered
           :items="summary.b2b"
-          :fields="b2bfields"
           responsive
         >
           <!-- <template #table-busy>
@@ -39,8 +38,13 @@
             ><h3 class="ml-4">B2B Invoices:</h3>
           </template>
         </b-table>
-        <b-button size="sm" @click="go('b2b')" class="float-right"
-          >Details <b-icon icon="chevron-right"></b-icon>
+        <b-button
+          size="sm"
+          v-if="summary.b2b[0].invoice_count"
+          @click="go('b2b')"
+          class="float-right"
+        >
+          Details <b-icon icon="chevron-right" class="ml-1"> </b-icon>
         </b-button>
       </div>
       <!-- B2CL -->
@@ -51,14 +55,19 @@
           head-variant="dark"
           small
           bordered
-          :items="list.b2cl"
+          :items="summary.b2cl"
           responsive="sm"
         >
           <template #table-caption><h3 class="ml-4">B2CL:</h3></template>
         </b-table>
-        <b-button class="arrow-right-circle" @click="go('b2cl')"
-          >Details</b-button
+        <b-button
+          size="sm"
+          v-if="summary.b2cl[0].invoice_count"
+          class="float-right"
+          @click="go('b2cl')"
         >
+          Details <b-icon class="mx-1" icon="chevron-right"> </b-icon>
+        </b-button>
       </div>
       <!-- B2CS -->
       <div>
@@ -73,9 +82,14 @@
         >
           <template #table-caption><h3 class="ml-4">B2CS:</h3></template>
         </b-table>
-        <b-button size="sm" class="float-right" @click="go('b2cs')"
-          >Details <b-icon icon="chevron-right"></b-icon
-        ></b-button>
+        <b-button
+          size="sm"
+          v-if="summary.b2cs[0].invoice_count"
+          class="float-right"
+          @click="go('b2cs')"
+        >
+          Details <b-icon class="ml-1" icon="chevron-right"> </b-icon>
+        </b-button>
       </div>
       <!-- CDNR -->
       <div>
@@ -90,9 +104,14 @@
         >
           <template #table-caption><h3 class="ml-4">CDNR:</h3></template>
         </b-table>
-        <b-button size="sm" class="float-right" @click="go('cdnr')"
-          >Details <b-icon icon="chevron-right"></b-icon
-        ></b-button>
+        <b-button
+          size="sm"
+          v-if="summary.cdnr[0].invoice_count"
+          class="float-right"
+          @click="go('cdnr')"
+        >
+          Details <b-icon icon="chevron-right" class="ml-1"> </b-icon>
+        </b-button>
       </div>
       <!-- CDNUR -->
       <div>
@@ -102,14 +121,19 @@
           head-variant="dark"
           small
           bordered
-          :items="list.cdnur"
+          :items="summary.cdnur"
           responsive="sm"
         >
           <template #table-caption><h3 class="ml-4">CDNUR:</h3></template>
         </b-table>
-        <b-button size="sm" class="float-right" @click="go('cdnur')"
-          >Details <b-icon icon="chevron-right"></b-icon
-        ></b-button>
+        <b-button
+          size="sm"
+          v-if="summary.cdnur[0].invoice_count"
+          class="float-right"
+          @click="go('cdnur')"
+        >
+          Details <b-icon icon="chevron-right" class="ml-1"> </b-icon>
+        </b-button>
       </div>
       <!-- HSN -->
       <div>
@@ -124,9 +148,14 @@
         >
           <template #table-caption><h3 class="ml-4">HSN:</h3></template>
         </b-table>
-        <b-button size="sm" class="float-right" @click="go('hsn1')"
-          >Details <b-icon icon="chevron-right"></b-icon
-        ></b-button>
+        <b-button
+          size="sm"
+          v-if="summary.hsn[0].product_entries"
+          class="float-right"
+          @click="go('hsn1')"
+        >
+          Details <b-icon icon="chevron-right" class="ml-1"> </b-icon>
+        </b-button>
       </div>
       <br />
       <br />
@@ -149,29 +178,13 @@ export default {
       params: null,
       loading: false,
       summary: {
-        b2b: [],
-        b2cs: [],
-        cdnr: [],
-        hsn: [],
+        b2b: [{}],
+        b2cs: [{}],
+        b2cl: [{}],
+        cdnr: [{}],
+        cdnur: [{}],
+        hsn: [{}],
       },
-      b2bfields: [
-        {
-          key: 'invoice_count',
-          label: 'Invoice Count',
-        },
-        {
-          key: 'invoice_value',
-          label: 'Invoice Value',
-        },
-        {
-          key: 'taxable_value',
-          label: 'Taxable Value',
-        },
-        {
-          key: 'cess',
-          label: 'CESS',
-        },
-      ],
     };
   },
   props: {
@@ -198,7 +211,9 @@ export default {
     generateSummary() {
       this.b2bSummary();
       this.cdnrSummary();
+      this.cdnurSummary();
       this.b2csSummary();
+      this.b2clSummary();
       this.hsnSummary();
     },
     /**
@@ -215,13 +230,16 @@ export default {
         for (let i in b2b) {
           // add invoice values
           invVal += parseFloat(b2b[i].invoice_value);
-          // add taxable values
-          taxVal += parseFloat(b2b[i].taxable_value);
+
+          // add tax values
+          taxVal +=
+            parseFloat(b2b[i].taxable_value) * (parseFloat(b2b[i].rate) * 0.01);
           // add cess values
-          cessVal += parseFloat(b2b[i].cess);
+          cessVal +=
+            parseFloat(b2b[i].taxable_value) * (parseFloat(b2b[i].cess) * 0.01);
         }
         o['invoice_value'] = invVal.toFixed(2);
-        o['taxable_value'] = taxVal.toFixed(2);
+        o['tax'] = taxVal.toFixed(2);
         o['cess'] = cessVal.toFixed(2);
 
         this.summary['b2b'] = [o];
@@ -230,7 +248,7 @@ export default {
           {
             invoice_count: 0,
             invoice_value: 0,
-            taxable_value: 0,
+            tax: 0,
             cess: 0,
           },
         ];
@@ -242,19 +260,23 @@ export default {
       if (b2cs.length) {
         let summary = b2cs.reduce(
           (acc, item) => {
+            let tax =
+              parseFloat(item.taxable_value) * (parseFloat(item.rate) * 0.01);
+            let cess =
+              parseFloat(item.taxable_value) * (parseFloat(item.cess) * 0.01);
             acc.invoice_count++;
-            acc.taxable_value += parseFloat(item.taxable_value);
-            acc.rate += parseFloat(item.rate);
-            acc.cess += parseFloat(item.cess);
+            acc.invoice_value += parseFloat(item.taxable_value) + tax + cess;
+            acc.tax += tax;
+            acc.cess += cess;
             return acc;
           },
-          { invoice_count: 0, taxable_value: 0, rate: 0, cess: 0 }
+          { invoice_count: 0, invoice_value: 0, tax: 0, cess: 0 }
         );
         this.summary['b2cs'] = [
           {
-            invoice_count: summary.invoice_count.toFixed(2),
-            taxable_value: summary.taxable_value.toFixed(2),
-            rate: summary.rate.toFixed(2),
+            invoice_count: summary.invoice_count,
+            invoice_value: summary.invoice_value.toFixed(2),
+            tax: summary.tax.toFixed(2),
             cess: summary.cess.toFixed(2),
           },
         ];
@@ -263,11 +285,44 @@ export default {
           {
             invoice_count: 0,
             taxable_value: 0,
-            rate: 0,
+            tax: 0,
             cess: 0,
           },
         ];
       }
+    },
+    b2clSummary() {
+      const b2cl = this.list.b2cl;
+
+      let summary = { invoice_count: 0, invoice_value: 0, tax: 0, cess: 0 };
+
+      if (b2cl.length) {
+        summary = b2cl.reduce(
+          (acc, item) => {
+            acc.invoice_count++;
+            acc.invoice_value += parseFloat(item.invoice_value);
+            acc.tax +=
+              parseFloat(item.taxable_value) * (parseFloat(item.rate) * 0.01);
+            acc.cess +=
+              parseFloat(item.taxable_value) * (parseFloat(item.cess) * 0.01);
+            return acc;
+          },
+          {
+            invoice_count: 0,
+            invoice_value: 0,
+            tax: 0,
+            cess: 0,
+          }
+        );
+        summary = {
+          invoice_count: summary.invoice_count,
+          invoice_value: summary.invoice_value.toFixed(2),
+          tax: summary.tax.toFixed(2),
+          cess: summary.cess.toFixed(2),
+        };
+      }
+
+      this.summary['b2cl'] = [summary];
     },
     cdnrSummary() {
       const cdnr = this.list.cdnr;
@@ -280,13 +335,18 @@ export default {
         for (let i in cdnr) {
           // add refund voucher values
           rvVal += parseFloat(cdnr[i].refund_voucher_value);
+
           // add taxable values
-          taxVal += parseFloat(cdnr[i].taxable_value);
+          taxVal +=
+            parseFloat(cdnr[i].taxable_value) *
+            (parseFloat(cdnr[i].rate) * 0.01);
           // add cess values
-          cessVal += parseFloat(cdnr[i].cess);
+          cessVal +=
+            parseFloat(cdnr[i].taxable_value) *
+            (parseFloat(cdnr[i].cess) * 0.01);
         }
         o['refund_voucher_value'] = parseFloat(rvVal).toFixed(2);
-        o['taxable_value'] = taxVal.toFixed(2);
+        o['tax'] = taxVal.toFixed(2);
         o['CESS'] = cessVal.toFixed(2);
 
         this.summary['cdnr'] = [o];
@@ -295,11 +355,49 @@ export default {
           {
             invoice_count: 0,
             invoice_value: 0,
-            taxable_value: 0,
+            tax: 0,
             cess: 0,
           },
         ];
       }
+    },
+    cdnurSummary() {
+      const cdnur = this.list.cdnur;
+
+      let summary = {
+        invoice_count: 0,
+        refund_voucher_value: 0,
+        tax: 0,
+        cess: 0,
+      };
+
+      if (cdnur.length) {
+        summary = cdnur.reduce(
+          (acc, item) => {
+            acc.invoice_count++;
+            acc.refund_voucher_value += parseFloat(item.refund_voucher_value);
+            acc.tax +=
+              parseFloat(item.taxable_value) * (parseFloat(item.rate) * 0.01);
+            acc.cess +=
+              parseFloat(item.taxable_value) * (parseFloat(item.cess) * 0.01);
+            return acc;
+          },
+          {
+            invoice_count: 0,
+            refund_voucher_value: 0,
+            tax: 0,
+            cess: 0,
+          }
+        );
+        summary = {
+          invoice_count: summary.invoice_count,
+          refund_voucher_value: summary.refund_voucher_value.toFixed(2),
+          tax: summary.tax.toFixed(2),
+          cess: summary.cess.toFixed(2),
+        };
+      }
+
+      this.summary['cdnur'] = [summary];
     },
     hsnSummary() {
       const hsn = this.list.hsn1;
@@ -322,7 +420,7 @@ export default {
           cessVal += parseFloat(hsn[i].CESSamt);
         }
         o['total_value'] = totVal.toFixed(2);
-        o['taxable_value'] = taxVal.toFixed(2);
+        // o['taxable_value'] = taxVal.toFixed(2);
         o['SGST'] = sgstVal.toFixed(2);
         o['IGST'] = igstVal.toFixed(2);
         o['CESS'] = cessVal.toFixed(2);
@@ -333,7 +431,7 @@ export default {
           {
             product_entries: 0,
             total_value: 0,
-            taxable_value: 0,
+            // taxable_value: 0,
             SGST: 0,
             IGST: 0,
             cess: 0,

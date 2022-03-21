@@ -87,12 +87,14 @@ export default {
               case 0:
                 this.list = r.data.gkdata;
 
+
+
                 // remove drilldown id columns
                 if (this.list[this.params.type].length) {
                   this.fields = Object.keys(this.list[this.params.type][0]);
                   if (
                     this.params.type === 'b2b' ||
-                    this.params.type === 'cdnr'
+                    this.params.type === 'cdnr' || this.params.type === 'cdnur'
                   ) {
                     let index = this.fields.findIndex(
                       (field) => field === 'invid'
