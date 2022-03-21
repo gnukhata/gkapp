@@ -406,12 +406,12 @@ export default {
         let o = {
           product_entries: hsn.length,
         };
-        let [totVal, taxVal, sgstVal, igstVal, cessVal] = [0, 0, 0, 0, 0];
+        let [totVal, sgstVal, igstVal, cessVal] = [0, 0, 0, 0];
         for (let i in hsn) {
           // add total values
           totVal += parseFloat(hsn[i].totalvalue);
           // add taxable values
-          taxVal += parseFloat(hsn[i].taxableamt);
+          // taxVal += parseFloat(hsn[i].taxableamt);
           // SGST values
           sgstVal += parseFloat(hsn[i].SGSTamt);
           // IGST values

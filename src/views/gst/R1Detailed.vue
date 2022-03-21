@@ -87,14 +87,13 @@ export default {
               case 0:
                 this.list = r.data.gkdata;
 
-
-
                 // remove drilldown id columns
                 if (this.list[this.params.type].length) {
                   this.fields = Object.keys(this.list[this.params.type][0]);
                   if (
                     this.params.type === 'b2b' ||
-                    this.params.type === 'cdnr' || this.params.type === 'cdnur'
+                    this.params.type === 'cdnr' ||
+                    this.params.type === 'cdnur'
                   ) {
                     let index = this.fields.findIndex(
                       (field) => field === 'invid'
@@ -107,7 +106,7 @@ export default {
                     this.fields.splice(index, 1);
 
                     // update labels
-                    for (let i = 0, l = this.fields.length; i<l;i++) {
+                    for (let i = 0, l = this.fields.length; i < l; i++) {
                       let field = this.fields[i];
                       let label = '';
                       switch (field) {
@@ -128,6 +127,17 @@ export default {
                         };
                       }
                     }
+                  }
+
+                  if (this.params.type === 'hsn1') {
+                    this.list['hsn1'].forEach((item) => {
+                      // console.log(item.hsnsac)
+                      let hsn = JSON.parse(item.hsnsac || '{}');
+                      if (typeof hsn === 'object') {
+                        hsn = hsn.hsn_code || '';
+                      }
+                      item.hsnsac = hsn;
+                    });
                   }
                 }
                 break;
