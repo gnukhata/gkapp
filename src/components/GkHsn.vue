@@ -80,7 +80,13 @@ export default {
   },
   watch: {
     value(v) {
-      this.string2json(v);
+      // handle invalid hsn also
+      try {
+        this.string2json(v);
+      } catch {
+        this.hsn.code = v;
+        this.hsn.desc = 'Invalid HSN Code';
+      }
     },
   },
   methods: {
@@ -104,9 +110,9 @@ export default {
       }
       axios.get(`/hsn?validate=${hsn}`).then((r) => {
         if (r.data.gkstatus != 0) {
-          this.hsn.isValid = false;
+          this.hsn.isValid = null;
           this.searchHsn(hsn);
-          this.$emit('change', null);
+          this.$emit('change', this.hsn.code);
         } else {
           this.hsn.isValid = true;
           this.hsn.desc = r.data.gkresult['hsn_desc'];
@@ -128,7 +134,7 @@ export default {
      */
     searchHsn(hsn) {
       this.loading = true;
-      // debugger;
+      this.hsn.desc = '';
       if (hsn !== '' && hsn.length >= 3) {
         axios
           .get(`/hsn?search=${hsn}`)

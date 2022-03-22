@@ -924,7 +924,6 @@ export default {
           if (!this.godowns.length) {
             this.addGodown();
           }
-          console.log('godown details fetched');
         })
         .catch((e) => {
           console.log('godown fetch error ', e);
