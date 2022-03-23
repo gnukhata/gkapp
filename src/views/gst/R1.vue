@@ -25,11 +25,10 @@
 </template>
 
 <script>
-import GkDate from '@/components/GkDate.vue';
 import GkPeriod from '@/components/GkPeriod.vue';
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 export default {
-  components: { GkDate, GkPeriod },
+  components: { GkPeriod },
   name: 'R1',
   data() {
     return {

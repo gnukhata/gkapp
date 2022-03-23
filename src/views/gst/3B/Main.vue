@@ -413,11 +413,10 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios';
-import GkDate from '@/components/GkDate.vue';
 import GkFileDownload from '@/components/GkFileDownload.vue';
 import GkPeriod from '@/components/GkPeriod.vue';
 export default {
-  components: { GkDate, GkFileDownload, GkPeriod },
+  components: { GkFileDownload, GkPeriod },
   name: 'Main',
   data() {
     return {
