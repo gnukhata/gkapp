@@ -2,25 +2,16 @@
   <section class="m-1">
     <b-overlay :show="loading">
       <b-card
+        style="min-width: 300px"
         header="GSTR-1 Report"
         header-bg-variant="dark"
         header-text-variant="light"
         class="mx-auto gkcard d-print-none"
       >
         <b-form @submit.prevent="showSummary">
-          <div class="row row-cols-auto">
-            <div class="col">
-              <b-form-group label="From" label-cols="auto" label-align="right">
-                <gk-date id="from" v-model="fromDate"></gk-date>
-              </b-form-group>
-            </div>
-            <div class="col">
-              <b-form-group label="To" label-cols="auto" label-align="right">
-                <gk-date id="to" v-model="toDate"></gk-date>
-              </b-form-group>
-            </div>
-          </div>
+          <gk-period @update="onPeriodUpdate" @validity="updateValidity"> </gk-period>
           <b-button
+            :disabled="!periodValidity"
             type="submit"
             size="sm"
             variant="success"
@@ -34,14 +25,17 @@
 </template>
 
 <script>
-import GkDate from '../../components/GkDate.vue';
+import GkDate from '@/components/GkDate.vue';
+import GkPeriod from '@/components/GkPeriod.vue';
+import { mapState } from 'vuex';
 export default {
-  components: { GkDate },
+  components: { GkDate, GkPeriod },
   name: 'R1',
   data() {
     return {
       fromDate: null,
       toDate: null,
+      periodValidity: false,
       loading: false,
       search: '',
       report: {
@@ -59,25 +53,34 @@ export default {
       },
     };
   },
+  computed: {},
   methods: {
+    updateValidity(validity) {
+      this.periodValidity = validity;
+    },
+    onPeriodUpdate(period) {
+      this.fromDate = period.from || null;
+      this.toDate = period.to || null;
+    },
     showSummary() {
-      this.$router.push(
-        `/gst/r1/summary/from=${this.fromDate}&to=${this.toDate}`
-      );
+      if (this.fromDate && this.toDate) {
+        this.$router.push(
+          `/gst/r1/summary/from=${this.fromDate}&to=${this.toDate}`
+        );
+      } else {
+        this.$bvToast.toast(
+          this.$gettext(`Please select a valid time period.`),
+          {
+            autoHideDelay: 3000,
+            variant: 'warning',
+            appendToast: true,
+          }
+        );
+      }
     },
   },
   mounted() {
-    const d = new Date();
-    let cm = d.getMonth();
-    let lastday = new Date(d.getFullYear(), cm, 0).getDate();
-    if (cm < 10) {
-      cm = '0' + cm;
-    }
-
-    this.fromDate = `01-${cm}-${d.getFullYear()}`;
-    console.log(this.fromDate);
-    this.toDate = `${lastday}-${cm}-${d.getFullYear()}`;
-    console.log(this.toDate);
+    // this.calculateTimePeriods();
   },
 };
 </script>

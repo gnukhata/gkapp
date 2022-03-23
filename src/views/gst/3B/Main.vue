@@ -13,37 +13,17 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
         class="mx-auto gkcard d-print-none"
       >
         <b-form @submit.prevent="getGst3rbJson">
-          <div class="row row-cols-auto">
-            <div class="col">
-              <b-form-group label="From" label-cols="auto" label-align="right">
-                <gk-date
-                  id="from"
-                  v-model="fromDate"
-                  :min="dateReverse(yearStart)"
-                  :max="dateReverse(yearEnd)"
-                  @validity="updateDateValidity($event, 'from')"
-                ></gk-date>
-              </b-form-group>
-            </div>
-            <div class="col">
-              <b-form-group label="To" label-cols="auto" label-align="right">
-                <gk-date
-                  id="to"
-                  v-model="toDate"
-                  :min="fromDate ? dateReverse(fromDate) : ''"
-                  :max="dateReverse(yearEnd)"
-                  @validity="updateDateValidity($event, 'to')"
-                ></gk-date>
-              </b-form-group>
-            </div>
-          </div>
+          <gk-period @update="onPeriodUpdate" @validity="updateValidity">
+          </gk-period>
           <b-button
             type="submit"
             size="sm"
             variant="success"
             class="float-right"
-            ><b-icon icon="eye-fill"></b-icon> Show</b-button
+            :disabled="!periodValidity"
           >
+            <b-icon class="mr-1" icon="eye-fill"></b-icon> Show
+          </b-button>
         </b-form>
       </b-card>
 
@@ -187,7 +167,7 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
           </thead>
           <tbody>
             <tr>
-              <td> <b> Supplies made to Unregistered Persons </b> </td>
+              <td><b> Supplies made to Unregistered Persons </b></td>
               <td colspan="3"></td>
             </tr>
             <tr
@@ -200,7 +180,7 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
               <td class="right">{{ row.iamt }}</td>
             </tr>
             <tr>
-              <td> <b> Supplies made to Composition Taxable Persons </b> </td>
+              <td><b> Supplies made to Composition Taxable Persons </b></td>
               <td colspan="3"></td>
             </tr>
             <tr
@@ -213,7 +193,7 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
               <td class="right">{{ row.iamt }}</td>
             </tr>
             <tr>
-              <td> <b> Supplies made to UIN holders </b> </td>
+              <td><b> Supplies made to UIN holders </b></td>
               <td colspan="3"></td>
             </tr>
             <tr
@@ -433,10 +413,11 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios';
-import GkDate from '../../../components/GkDate.vue';
+import GkDate from '@/components/GkDate.vue';
 import GkFileDownload from '@/components/GkFileDownload.vue';
+import GkPeriod from '@/components/GkPeriod.vue';
 export default {
-  components: { GkDate, GkFileDownload },
+  components: { GkDate, GkFileDownload, GkPeriod },
   name: 'Main',
   data() {
     return {
@@ -466,6 +447,7 @@ export default {
       },
       fromDate: null,
       toDate: null,
+      periodValidity: false,
       loading: false,
       state: '',
       search: '',
@@ -487,7 +469,7 @@ export default {
   },
   computed: {
     jsonStr: function() {
-      return typeof this.gst_data === "object"
+      return typeof this.gst_data === 'object'
         ? JSON.stringify(this.gst_data, null, 4)
         : JSON.stringify({}, null, 2);
     },
@@ -507,6 +489,13 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
+    updateValidity(validity) {
+      this.periodValidity = validity;
+    },
+    onPeriodUpdate(period) {
+      this.fromDate = period.from || null;
+      this.toDate = period.to || null;
+    },
     resetJson() {
       this.gst_data = {
         gstin: '',
@@ -547,7 +536,8 @@ export default {
         )
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
-            this.gst_data = resp.data.gkresult;
+            let result = resp.data.gkresult;
+            this.gst_data = result.json;
           }
         });
     },
@@ -589,8 +579,8 @@ export default {
     },
   },
   mounted() {
-    this.fromDate = this.yearStart;
-    this.toDate = this.yearEnd;
+    // this.fromDate = this.yearStart;
+    // this.toDate = this.yearEnd;
     this.getOrgDetails().then(() => {
       this.getGst3rbJson();
     });
