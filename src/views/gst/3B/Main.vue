@@ -563,6 +563,9 @@ export default {
           let stateCode = stateMap[data.orgstate]
             ? stateMap[data.orgstate]
             : Object.keys(data.gstin)[0];
+          if(stateCode < 10) {
+            stateCode = `0${parseInt(stateCode)}`;
+          }
           let gstin;
           if (data.gstin) {
             gstin = stateCode ? data.gstin[stateCode] : '';
