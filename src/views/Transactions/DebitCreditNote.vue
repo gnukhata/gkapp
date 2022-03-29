@@ -92,6 +92,7 @@
         :parentData="form.bill"
         :cgstFlag="isCgst"
         :creditFlag="isCredit"
+        :blockEmptyStock="false"
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -279,6 +280,7 @@ export default {
         type: 'sale',
         invoice: {
           state: { name: '', id: '' },
+          taxState: { name: '', id: '' },
         },
         dcNote: {
           type: 'debit',
@@ -298,6 +300,8 @@ export default {
       },
       invId: null,
       options: {
+        stateMap: {}, // name to id map
+        dnData: {},
         drInvoices: {
           sale: [],
           purchase: [],
@@ -434,6 +438,7 @@ export default {
                   axios.post('/log', log);
 
                   self.resetForm();
+                  self.preloadData();
                   this.dcnoteId = resp.data.gkresult;
                   this.showPrintModal = true;
                 }
@@ -515,9 +520,16 @@ export default {
               date: reverseDate(inv.invoicedate),
               state:
                 inv.inoutflag === 9
-                  ? { id: inv.taxstatecode, name: inv.destinationstate }
+                  ? {
+                      id: self.options.stateMap.name[inv.destinationstate],
+                      name: inv.destinationstate,
+                    }
                   : { id: inv.sourcestatecode, name: inv.sourcestate },
             });
+            this.form.invoice.taxState = {
+              id: `${inv.taxstatecode}`,
+              name: self.options.stateMap.id[inv.taxstatecode],
+            };
             Object.assign(this.form.party, {
               name: inv.custSupDetails.custname,
               type: inv.custSupDetails.csflag === 3 ? 'customer' : 'supplier',
@@ -548,12 +560,29 @@ export default {
               self.form.bill.push(billItem);
             }
 
-            this.updateComponentData();
+            if (inv.dcid) {
+              self.form.invoice.dcid = inv.dcid;
+              self.fetchDelNoteGodown(inv.dcid);
+            }
+
+            self.updateComponentData();
           }
         })
         .catch(() => {
           return false;
         });
+    },
+    fetchDelNoteGodown(dcid) {
+      const self = this;
+      axios.get(`/delchal?delchal=single&dcid=${dcid}`).then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          // debugger;
+          self.options.dnData = resp.data.gkresult.delchaldata;
+          self.form.invoice.godown = resp.data.gkresult.delchaldata.goid;
+          self.form.invoice.dnNo = resp.data.gkresult.delchaldata.dcno;
+          self.updateComponentData();
+        }
+      });
     },
     initPayload() {
       this.collectComponentData();
@@ -581,6 +610,10 @@ export default {
           : this.form.invoice.state,
         totaltaxable: this.form.total.taxable,
       };
+
+      if(this.form.invoice.godown) {
+        vdataset.goid = this.form.invoice.godown;
+      }
 
       if (this.form.narration) {
         drcrdata.drcrnarration = this.form.narration;
@@ -618,7 +651,7 @@ export default {
           quantities[item.pid] = item.qty;
         }
       });
-      if (!isReturn) {
+      if (isReturn) {
         reductionval.quantities = quantities;
       }
       drcrdata.reductionval = reductionval;
@@ -646,6 +679,8 @@ export default {
         invoice: {
           no: null,
           date: null,
+          state: { name: '', id: '' },
+          taxState: { name: '', id: '' },
         },
         party: {
           name: null,
@@ -701,6 +736,14 @@ export default {
             );
             return error;
           }),
+        axios.get('/state').catch((error) => {
+          this.displayToast(
+            this.$gettext('Fetch State Data Failed!'),
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
       ];
       const self = this;
       function formatInvoice(inv) {
@@ -709,24 +752,43 @@ export default {
           value: inv.invid,
         };
       }
-      return Promise.all(requests).then(([resp1, resp2, resp3, resp4]) => {
-        if (resp1.data.gkstatus === 0) {
-          self.options.crInvoices.sale = resp1.data.gkresult.map(formatInvoice);
+      return Promise.all(requests).then(
+        ([resp1, resp2, resp3, resp4, resp5]) => {
+          if (resp1.data.gkstatus === 0) {
+            self.options.crInvoices.sale = resp1.data.gkresult.map(
+              formatInvoice
+            );
+          }
+          if (resp2.data.gkstatus === 0) {
+            self.options.crInvoices.purchase = resp2.data.gkresult.map(
+              formatInvoice
+            );
+          }
+          if (resp3.data.gkstatus === 0) {
+            self.options.drInvoices.sale = resp3.data.gkresult.map(
+              formatInvoice
+            );
+          }
+          if (resp4.data.gkstatus === 0) {
+            self.options.drInvoices.purchase = resp4.data.gkresult.map(
+              formatInvoice
+            );
+          }
+          if (resp5.data.gkstatus === 0) {
+            let stateMap = {
+              name: {},
+              id: {},
+            };
+            resp5.data.gkresult.forEach((item) => {
+              const state = Object.values(item)[0],
+                code = Object.keys(item)[0];
+              stateMap.name[state] = code;
+              stateMap.id[code] = state;
+            });
+            self.options.stateMap = stateMap;
+          }
         }
-        if (resp2.data.gkstatus === 0) {
-          self.options.crInvoices.purchase = resp2.data.gkresult.map(
-            formatInvoice
-          );
-        }
-        if (resp3.data.gkstatus === 0) {
-          self.options.drInvoices.sale = resp3.data.gkresult.map(formatInvoice);
-        }
-        if (resp4.data.gkstatus === 0) {
-          self.options.drInvoices.purchase = resp4.data.gkresult.map(
-            formatInvoice
-          );
-        }
-      });
+      );
     },
     updateConfig() {
       let newConf = this.$store.getters[
