@@ -186,47 +186,6 @@
           Date must be within the Financial Year, from %{start} to %{end}
         </translate>
       </b-tooltip>
-      <!-- <b-card class="mt-2 mb-2 mb-md-0" border-variant="secondary" no-body>
-        <div class="p-2 p-md-3">
-          <b v-translate> Attachments </b>
-          <b-form-file
-            class="mt-3 float-right d-inline-block"
-            @input="onAttachmentSelect"
-            v-model="attachments"
-            size="sm"
-            accept="image/jpeg"
-            placeholder="Choose a file / Drag & drop it here"
-            drop-placeholder="Drop file here..."
-            plain
-            multiple
-          ></b-form-file>
-          <div class="clearfix"></div>
-          <div class="mt-2">
-            <div
-              class="m-1 d-inline-block text-center float-left position-relative"
-              style="width: 200px; height: 200px; border: 1px solid; line-height: 196px;"
-              v-for="(image, index) in form.attachments"
-              :key="index"
-            >
-              <b-button
-                @click="onAttachmentDelete(index)"
-                variant="link"
-                class="position-absolute"
-                style="right: 0px"
-                size="sm"
-              >
-                <b-icon icon="trash"></b-icon>
-              </b-button>
-              <img
-                style="height: 196px; box-sizing: border-box"
-                @load="onAttachementPreviewLoad"
-                :src="image"
-                :alt="'Preview_' + index"
-              />
-            </div>
-          </div>
-        </div>
-      </b-card> -->
       <attachments
         class="mt-2"
         ref="attachments"
