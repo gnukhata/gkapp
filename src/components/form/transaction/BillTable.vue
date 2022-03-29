@@ -198,6 +198,7 @@
             min="0"
             :max="form[data.item.index].qty * form[data.item.index].rate"
             @input="updateTaxAndTotal(data.item.index)"
+            required
           ></b-input>
           <span v-else>{{ form[data.item.index].dcValue }}</span>
         </template>
@@ -227,27 +228,27 @@
 
         <!-- CGST -->
         <template #cell(cgst)="data">
-          {{ data.value.rate }}
+          {{ form[data.item.index].cgst ? form[data.item.index].cgst.rate : '' }}
         </template>
 
         <!-- SGST -->
         <template #cell(sgst)="data">
-          {{ data.value.rate }}
+          {{ form[data.item.index].sgst ? form[data.item.index].sgst.rate : '' }}
         </template>
 
         <!-- IGST -->
         <template #cell(igst)="data">
-          {{ data.value.rate }}
+          {{ form[data.item.index].igst ? form[data.item.index].igst.rate : '' }}
         </template>
 
         <!-- CESS -->
         <template #cell(cess)="data">
-          {{ data.value.rate }}
+          {{ form[data.item.index].cess ? form[data.item.index].cess.rate : '' }}
         </template>
 
         <!-- VAT -->
         <template #cell(vat)="data">
-          {{ data.value.rate }}
+          {{ form[data.item.index].vat ? form[data.item.index].vat.rate : '' }}
         </template>
 
         <!-- Discount -->
@@ -295,7 +296,7 @@
           <span v-translate>Total </span> <small>₹</small>
         </template>
         <template #cell(total)="data">
-          {{ data.value }}
+          {{ form[data.item.index].total }}
         </template>
 
         <template v-if="config.footer.total" #foot(total)="">
@@ -863,7 +864,7 @@ export default {
           packageCount: null,
           rejectedQty: null,
           dcValue: null,
-          fqty: null,
+          fqty: 0,
           rate: null,
           discount: { rate: 0, amount: null },
           taxable: null,
@@ -948,7 +949,7 @@ export default {
         packageCount: null,
         rejectedQty: null,
         dcValue: null,
-        fqty: null,
+        fqty: 0,
         rate: null,
         discount: { rate: 0, amount: null },
         taxable: null,
@@ -1055,7 +1056,7 @@ export default {
           item.taxable = parseFloat((item.rate * qty - discount).toFixed(2));
 
           if (this.config.dcValue) {
-            item.taxable = parseFloat(item.dcValue);
+            item.taxable = parseFloat(item.dcValue || 0);
           }
 
           if (this.gstFlag) {
@@ -1090,6 +1091,7 @@ export default {
         item.total = '';
       }
       this.onUpdateDetails();
+      this.$forceUpdate();
     },
 
     /**
