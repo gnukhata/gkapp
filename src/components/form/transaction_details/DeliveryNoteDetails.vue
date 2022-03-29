@@ -285,7 +285,6 @@ export default {
           if (isNaN(no)) {
             this.form.no = no;
           } else {
-            no++;
             this.form.no = this.formatNoteNo(
               this.numberFormat,
               no,
@@ -300,18 +299,9 @@ export default {
     getLastDelChalNo() {
       const self = this;
       return this.fetchLastDelChalNo().then(() => {
-        let no = self.saleFlag
+        return self.saleFlag
           ? self.options.lastDelChal.sale
           : self.options.lastDelChal.purchase;
-        if (isNaN(no)) {
-          if (no.indexOf('/D') >= 0) {
-            no = no.split('/D')[0];
-            return parseInt(no);
-          }
-          return no;
-        } else {
-          return parseInt(no);
-        }
       });
     },
     onUpdateDetails() {
@@ -380,7 +370,7 @@ export default {
     fetchLastDelChalNo() {
       const requests = [
         // last purchase delivery chalan
-        axios.get('/delchal?delchal=last&status=9').catch((error) => {
+        axios.get('/delchal?type=dcid&status=9').catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Delivery Challan No. Failed!'),
             error.message,
@@ -389,7 +379,7 @@ export default {
           return error;
         }),
         // last sale delivery chalan
-        axios.get('/delchal?delchal=last&status=15').catch((error) => {
+        axios.get('/delchal?type=dcid&status=15').catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Delivery Challan No. Failed!'),
             error.message,
@@ -402,10 +392,10 @@ export default {
       const self = this;
       return Promise.all(requests).then(([resp1, resp2]) => {
         if (resp1.data.gkstatus === 0) {
-          self.options.lastDelChal.purchase = resp1.data.gkresult.dcno;
+          self.options.lastDelChal.purchase = parseInt(resp1.data.dcid);
         }
         if (resp2.data.gkstatus === 0) {
-          self.options.lastDelChal.sale = resp2.data.gkresult.dcno;
+          self.options.lastDelChal.sale = parseInt(resp2.data.dcid);
         }
       });
     },

@@ -585,7 +585,7 @@ export default {
         this.form.dnNo =
           isNaN(no) || no === -1
             ? no
-            : self.formatNoteNo(self.numberFormat, ++no, code, self.form.date);
+            : self.formatNoteNo(self.numberFormat, no, code, self.form.date);
         self.options.delNoteNo[
           self.saleFlag ? 'sale' : 'purchase'
         ] = this.form.dnNo;
@@ -593,21 +593,14 @@ export default {
     },
     getLastDelNoteNo() {
       let trnCode = this.saleFlag ? 15 : 9;
-      let url = `/delchal?delchal=last&status=${trnCode}`;
+      let url = `/delchal?type=dcid&status=${trnCode}`;
       return axios
         .get(url)
         .then((resp) => {
-          let no = resp.data.gkresult.dcno;
-          if (isNaN(parseInt(no))) {
-            if (no.indexOf('/D') >= 0) {
-              no = parseInt(no.split('/D')[0]);
-            } else {
-              no = 0;
-            }
-          } else {
-            no = parseInt(no);
+          if(resp.data.gkstatus === 0) {
+            return resp.data.dcid;
           }
-          return no;
+          return -1;
         })
         .catch((error) => {
           console.log(error);
@@ -699,7 +692,7 @@ export default {
           return error;
         }),
         this.fetchUserData(),
-        this.fetchDelNotes(),
+        // this.fetchDelNotes(),
       ];
       const self = this;
       return Promise.all(requests)
