@@ -195,15 +195,15 @@ export default {
   mounted() {
     if (this.optionsData.payModes) {
       this.options.payModes = this.optionsData.payModes;
+    } else {
+      // translating the paymodes
+      this.options.payModes = [
+        { text: this.$gettext('-- Payment Mode --'), value: null },
+        { text: this.$gettext('Cash'), value: 3 },
+        { text: this.$gettext('Bank'), value: 2 },
+        { text: this.$gettext('On Credit'), value: 15 },
+      ];
     }
-
-    // translating the paymodes
-    this.options.payModes = [
-      { text: this.$gettext('-- Payment Mode --'), value: null },
-      { text: this.$gettext('Cash'), value: 3 },
-      { text: this.$gettext('Bank'), value: 2 },
-      { text: this.$gettext('On Credit'), value: 15 },
-    ];
   },
 };
 </script>
