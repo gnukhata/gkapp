@@ -131,7 +131,7 @@ export default {
   components: { Captcha, GkCardheader, Password },
   data() {
     return {
-      orgNameDisplay: null,
+      orgNameDisplay: "",
       captchaSolved: false,
       isLoading: false,
       answer: null,
