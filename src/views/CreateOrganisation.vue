@@ -382,17 +382,17 @@ export default {
             switch (response.data.gkstatus) {
               case 0:
                 {
-                  let log = {
-                    activity: `Organisation created: ${payload.orgdetails.orgname}`,
-                  };
-                  axios.post('/log', log);
-
                   this.$store
                     .dispatch('setSessionStates', {
                       orgCode: response.data.orgcode,
                       authToken: response.data.token,
                     })
                     .then(() => {
+                      let log = {
+                        activity: `Organisation created: ${payload.orgdetails.orgname}`,
+                      };
+                      axios.post('/log', log);
+                      
                       // After Org creation is Successfull, Fetch Org Details with AuthToken and Login
                       axios
                         .get('/organisation')
