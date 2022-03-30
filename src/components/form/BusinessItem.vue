@@ -99,39 +99,49 @@
                 <b-card no-body>
                   <div class="p-2">
                     <div class="mb-2">
-                      <b-form-checkbox
+                      <!-- <b-form-checkbox
                         size="sm"
                         v-model="form.stock.godownFlag"
                         class="d-inline-block"
                         switch
                       >
-                        <translate> Godownwise Opening Stock </translate>
-                      </b-form-checkbox>
+                      </b-form-checkbox> -->
+                      <translate> Opening Stock </translate>
                       <b-button
-                        class="mx-2 py-0 px-1"
+                        size="sm"
+                        class="mx-1 py-0 px-1 float-right"
+                        @click.prevent="addGodown"
+                        variant="success"
+                      >
+                        <translate> + Stock </translate>
+                      </b-button>
+                      <b-button
+                        class="mx-1 py-0 px-1 float-right"
                         size="sm"
                         variant="success"
                         @click.prevent="showGodownForm = true"
                       >
                         <translate> + Godown </translate>
                       </b-button>
+                      <div class="clearfix"></div>
                     </div>
                     <div v-if="form.stock.godownFlag">
                       <b-input-group
                         v-for="(godown, index) in form.stock.godowns"
                         :key="index"
-                        class="mb-2"
+                        class="mb-1"
                         :id="'vat-inp-' + index"
                       >
                         <b-input-group-prepend>
                           <autocomplete
                             size="sm"
                             style="max-width: 150px"
-                            v-model="godown.id"
+                            v-model="form.stock.godowns[index].id"
                             :options="options.godowns"
-                            :required="!!godown.value"
+                            :required="!!form.stock.godowns[index].value"
                             :isOptionsShared="true"
                             emptyValue=""
+                            :readonly="!index"
                           ></autocomplete>
                         </b-input-group-prepend>
                         <b-form-input
@@ -145,15 +155,8 @@
                         <b-input-group-append>
                           <b-button
                             size="sm"
-                            @click.prevent="addGodown"
-                            v-if="index === godownLength - 1"
-                          >
-                            +
-                          </b-button>
-                          <b-button
-                            size="sm"
                             @click.prevent="deleteGodown(index)"
-                            v-else
+                            :disabled="!index"
                           >
                             -
                           </b-button>
@@ -598,7 +601,7 @@ export default {
         name: null,
         uom: null,
         stock: {
-          godownFlag: false,
+          godownFlag: true,
           godowns: [
             {
               id: '',
@@ -625,6 +628,7 @@ export default {
     };
   },
   computed: {
+    defaultGodown: (self) => self.$store.getters['global/getDefaultGodown'],
     gstDateValidity: (self) =>
       self.form.tax.gsts.reduce((acc, gst) => acc && gst.dateValidity, true),
     gstRates: (self) => self.$store.getters['global/getGstRates'],
@@ -1017,11 +1021,6 @@ export default {
     resetForm() {
       Object.assign(this.form, {
         name: null,
-        stock: {
-          godownFlag: false,
-          godowns: [{ id: null, value: null }],
-          value: 0,
-        },
         mrp: null,
         salePrice: null,
         discountAmount: null,
@@ -1043,6 +1042,10 @@ export default {
         },
         hsn: null,
       });
+
+      this.form.stock.godowns = [{ id: this.defaultGodown, value: null }];
+
+      this.$forceUpdate();
     },
     fetchGodownList() {
       let self = this;
@@ -1175,8 +1178,9 @@ export default {
     },
   },
   mounted() {
-    this.resetForm();
-    this.preloadData();
+    this.preloadData().then(() => {
+      this.resetForm();
+    });
   },
 };
 </script>
