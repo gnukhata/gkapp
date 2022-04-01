@@ -790,11 +790,10 @@ export default {
         });
     },
     setBankDetails() {
-      let bd = this.isSale
-        ? this.options.orgDetails.bankDetails
-        : this.form.party.name
-        ? this.options.partyDetails.bankDetails
-        : {};
+      const orgBank = this.options.orgDetails.bankDetails || {};
+      const partyBank = this.options.partyDetails.bankDetails || {};
+      let bd = this.isSale ? orgBank : partyBank;
+
       Object.assign(this.form.payment.bank, {
         no: bd.accountno || '',
         name: bd.bankname || '',
@@ -1136,7 +1135,9 @@ export default {
               case 0:
                 {
                   // success
-                  self.invoiceId = self.isCreate ? resp.data.gkresult : self.invoiceId;
+                  self.invoiceId = self.isCreate
+                    ? resp.data.gkresult
+                    : self.invoiceId;
                   self.invModalId = self.invoiceId;
                   self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
                   self.displayToast(
@@ -1456,7 +1457,7 @@ export default {
       return axios({ method: method, url: '/delchal', data: payload })
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
-            if(resp.data.gkresult || this.isCreate) {
+            if (resp.data.gkresult || this.isCreate) {
               this.dcId = resp.data.gkresult || null;
             }
             return resp.data.gkresult;
@@ -1502,11 +1503,11 @@ export default {
       };
 
       if (!this.isCreate) {
-        if(this.dcId) {
+        if (this.dcId) {
           delchal.dcid = this.dcId;
         }
 
-        if(this.options.dcData && this.options.dcData.dcno) {
+        if (this.options.dcData && this.options.dcData.dcno) {
           delchal.dcno = this.options.dcData.dcno;
         }
       }
@@ -1703,6 +1704,7 @@ export default {
         attachments: [],
       };
       this.setOrgDetails();
+      this.setBankDetails();
       this.updateComponentData();
     },
     setOrgDetails() {
