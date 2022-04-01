@@ -101,7 +101,9 @@
             :inactiveText="config.qty.checkStock ? 'Out of Stock' : ''"
             :blockInactive="blockEmptyStock"
           ></autocomplete>
-          <span v-else>{{ data.value.name || form[data.item.index].product.name  }}</span>
+          <span v-else>{{
+            data.value.name || form[data.item.index].product.name
+          }}</span>
         </template>
 
         <!-- Qty -->
@@ -228,22 +230,30 @@
 
         <!-- CGST -->
         <template #cell(cgst)="data">
-          {{ form[data.item.index].cgst ? form[data.item.index].cgst.rate : '' }}
+          {{
+            form[data.item.index].cgst ? form[data.item.index].cgst.rate : ''
+          }}
         </template>
 
         <!-- SGST -->
         <template #cell(sgst)="data">
-          {{ form[data.item.index].sgst ? form[data.item.index].sgst.rate : '' }}
+          {{
+            form[data.item.index].sgst ? form[data.item.index].sgst.rate : ''
+          }}
         </template>
 
         <!-- IGST -->
         <template #cell(igst)="data">
-          {{ form[data.item.index].igst ? form[data.item.index].igst.rate : '' }}
+          {{
+            form[data.item.index].igst ? form[data.item.index].igst.rate : ''
+          }}
         </template>
 
         <!-- CESS -->
         <template #cell(cess)="data">
-          {{ form[data.item.index].cess ? form[data.item.index].cess.rate : '' }}
+          {{
+            form[data.item.index].cess ? form[data.item.index].cess.rate : ''
+          }}
         </template>
 
         <!-- VAT -->
@@ -542,6 +552,7 @@ export default {
           ? self.$gettext('Credited Value')
           : self.$gettext('Debited Value')
       );
+      // debugger;
       if (self.gstFlag) {
         remove('vat');
         if (self.cgstFlag) {
@@ -1101,6 +1112,10 @@ export default {
      * Fetches godown based stock on hand if it exists, else fetches normal stock on hand
      */
     fetchAllStockOnHand(forceFetch) {
+      if (this.godownId === -1) {
+        return;
+      }
+      
       const self = this;
 
       // if godown id is -1, uses stockonhand, else uses godownwise stock on hand
@@ -1132,7 +1147,7 @@ export default {
           self.options.godownStock[self.godownId] = {};
           self.options.stock = {};
           let stock = self.options.stock;
-          let godownStock = self.options.godownStock[self.godownId];
+          let godownStock = {};
           // let prodOptions = self.options.products;
           let id;
           if (resp.data.gkstatus === 0) {
@@ -1145,6 +1160,7 @@ export default {
               // }
               godownStock[id] = stock[id];
             });
+            self.options.godownStock[self.godownId] = godownStock;
             self.setStockStatus();
           }
         })
@@ -1161,6 +1177,7 @@ export default {
         id = product.productcode;
         // option is marked active if stock is greater than 1 or its a service (gsflag=19)
         prodOptions[index].active = self.options.stock[id] > 0;
+        // console.log(`${self.options.stock[id]} - ${prodOptions[index].active}`)
         if (product.gsflag === 19) {
           prodOptions[index].active = true;
         }
