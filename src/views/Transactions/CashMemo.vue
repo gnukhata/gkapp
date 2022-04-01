@@ -429,9 +429,10 @@ export default {
       this.updateCounter.payment++;
     },
     initPayload() {
-      const contact = (this.isSale
-        ? this.defaultContacts['customer']
-        : this.defaultContacts['supplier']) || {};
+      const contact =
+        (this.isSale
+          ? this.defaultContacts['customer']
+          : this.defaultContacts['supplier']) || {};
 
       this.collectComponentData();
       let invoice = {
@@ -494,7 +495,10 @@ export default {
         if (this.isGst) {
           tax[item.product.id] = parseFloat(item.igst.rate).toFixed(2);
           cess[item.product.id] = parseFloat(item.cess.rate).toFixed(2);
-          av.avtax = { GSTName: 'IGST', CESSName: 'CESS' };
+          av.avtax = {
+            GSTName: this.isCgst ? 'CGST' : 'IGST',
+            CESSName: 'CESS',
+          };
         } else {
           tax[item.product.id] = parseFloat(item.vat.rate).toFixed(2);
           av.taxpayment += taxable;
