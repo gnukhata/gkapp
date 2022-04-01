@@ -31,7 +31,7 @@
         <b-form-group
           label="No."
           label-for="cmd-input-10"
-          label-cols-md="2"
+          label-cols-md="4"
           label-cols="3"
           label-size="sm"
         >
@@ -46,7 +46,7 @@
         </b-form-group>
         <b-form-group
           label="Date"
-          label-cols-md="2"
+          label-cols-md="4"
           label-cols="3"
           label-size="sm"
           id="cmd-input-group-1"
@@ -67,7 +67,7 @@
           label="State"
           label-for="cmd-input-20"
           label-size="sm"
-          label-cols-md="2"
+          label-cols-md="4"
           label-cols="3"
         >
           <template #label> <translate> State </translate> </template>
@@ -84,7 +84,7 @@
         <b-form-group
           label="GSTIN"
           label-for="cmd-input-30"
-          label-cols-md="2"
+          label-cols-md="4"
           label-cols="3"
           label-size="sm"
         >
@@ -95,6 +95,45 @@
             trim
             readonly
           ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          label="Place of Supply"
+          label-for="ivd-input-11"
+          label-cols="3"
+          label-cols-md="4"
+          label-size="sm"
+        >
+          <template #label> <translate> Place of Supply </translate> </template>
+          <autocomplete
+            size="sm"
+            id="ivd-input-11"
+            v-model="form.taxState"
+            :options="options.states"
+            :required="true"
+            valueUid="id"
+            @input="onUpdateDetails"
+          ></autocomplete>
+        </b-form-group>
+        <b-form-group
+          :label="saleFlag ? 'From Godown' : 'To Godown'"
+          label-for="ivd-input-21"
+          label-size="sm"
+          label-cols="3"
+          label-cols-md="4"
+        >
+          <template #label>
+            <span v-translate v-if="saleFlag"> From Godown </span>
+            <span v-translate v-else> To Godown </span>
+          </template>
+          <autocomplete
+            size="sm"
+            id="ivd-input-21"
+            valueUid="id"
+            v-model="form.godown"
+            :options="options.godowns"
+            @input="onUpdateDetails"
+            :required="true"
+          ></autocomplete>
         </b-form-group>
       </div>
     </div>
@@ -150,14 +189,18 @@ export default {
       },
       form: {
         no: null,
+        delNoteNo: '',
         date: new Date().toISOString().slice(0, 10),
         state: {},
         gstin: null,
+        godown: null,
+        taxState: {},
         options: {
           gstin: {},
         },
       },
       options: {
+        godowns: [],
         states: [],
         orgDetails: {},
       },
@@ -170,6 +213,11 @@ export default {
     },
     updateCounter() {
       this.resetForm();
+      if (this.parentData.taxState) {
+        if (this.parentData.taxState.id) {
+          this.form.taxState = this.parentData.taxState;
+        }
+      }
     },
   },
   methods: {
@@ -213,12 +261,18 @@ export default {
       this.date.valid = validity;
       this.onUpdateDetails();
     },
-    onUpdateDetails() {
+    onUpdateDetails(extraPayload) {
+      let payload = { isDateValid: this.date.valid };
+
+      if (extraPayload && typeof extraPayload === 'object') {
+        Object.assign(payload, extraPayload);
+      }
+
       setTimeout(() =>
         this.$emit('details-updated', {
           data: this.form,
           name: 'cash-memo-details',
-          options: { isDateValid: this.date.valid },
+          options: payload,
         })
       );
     },
@@ -241,6 +295,7 @@ export default {
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             state: state ? state.value : null,
+            taxState: {},
             options: {
               gstin: gstin || {},
             },
@@ -269,10 +324,18 @@ export default {
           );
           return error;
         }),
+        axios.get(`/godown`).catch((error) => {
+          this.displayToast(
+            this.$gettext('Fetch Godowns Failed!'),
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
       ];
 
       return Promise.all(requests)
-        .then(([resp1, resp2]) => {
+        .then(([resp1, resp2, resp3]) => {
           if (resp1.data.gkstatus === 0) {
             self.options.states = resp1.data.gkresult.map((item) => {
               return {
@@ -290,6 +353,18 @@ export default {
             setTimeout(() => {
               self.setOrgDetails();
             }, 1);
+            self.onUpdateDetails({
+              bankDetails: resp2.data.gkdata.bankdetails,
+            });
+          }
+
+          if (resp3.data.gkstatus === 0) {
+            self.options.godowns = resp3.data.gkresult.map((godown) => {
+              return {
+                text: `${godown.goname} (${godown.goaddr})`,
+                value: godown.goid,
+              };
+            });
           }
           this.isPreloading = false;
         })
@@ -297,10 +372,53 @@ export default {
           this.isPreloading = false;
         });
     },
+    updateDelNoteNo() {
+      const conf = this.config.delNote;
+      let codes = { in: 'DIN', out: 'DOUT' };
+
+      if (typeof conf === 'object' && conf.no) {
+        if (conf.no.format) {
+          codes = conf.no.format.code;
+        }
+      }
+
+      const self = this;
+      return this.fetchDelNoteCounter().then((no) => {
+        // debugger;
+        let code = self.saleFlag ? codes.out : codes.in;
+        let dnNo =
+          isNaN(no) || no === -1
+            ? no
+            : self.formatNoteNo(self.numberFormat, no, code, self.form.date);
+        self.form.delNoteNo = dnNo;
+        self.onUpdateDetails();
+      });
+    },
+    fetchDelNoteCounter() {
+      let trnCode = this.saleFlag ? 15 : 9;
+      let url = `/delchal?type=dcid&status=${trnCode}`;
+      return axios
+        .get(url)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            return resp.data.dcid;
+          }
+          return -1;
+        })
+        .catch((error) => {
+          // console.log(error);
+          return -1;
+        });
+    },
     resetForm() {
       this.setOrgDetails();
+      this.form.godown = '';
       this.form.date = this.getNoteDate();
       this.setNoteNo(true);
+      this.$nextTick().then(() => {
+        this.form.godown = this.$store.getters['global/getDefaultGodown'];
+      });
+      this.updateDelNoteNo();
       this.onUpdateDetails();
     },
   },

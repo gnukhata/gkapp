@@ -5,6 +5,16 @@ export default {
       type: true,
       memo: {
         no: { format: { code: { sale: 'CMS', purchase: 'CMP' } } },
+        delNote: {
+          no: {
+            format: {
+              code: {
+                in: 'DIN',
+                out: 'DOUT',
+              },
+            },
+          },
+        },
         date: true,
         state: true,
         gstin: true,
@@ -12,21 +22,40 @@ export default {
           'mr-md-1': true,
         },
       },
+      party: {
+        type: true,
+        options: {
+          states: true,
+          gstin: true,
+        },
+        custid: true,
+        name: true,
+        addr: true,
+        state: true,
+        gstin: true,
+        tin: true,
+        pin: true,
+        class: {
+          'ml-md-1': true,
+        },
+      },
       taxType: true,
       bill: {
         index: true,
         product: { mobileMode: { disabled: true }, addBtn: true },
         hsn: true,
-        qty: { mobileMode: { disabled: true } },
+        qty: { mobileMode: { disabled: true }, checkStock: true },
         fqty: true,
         rate: true,
         discount: true,
         taxable: true,
         igst: true,
+        cgst: true,
+        sgst: true,
         cess: true,
         vat: true,
         total: { mobileMode: true },
-        addBtn: true,
+        addBtn: { mobileMode: true },
         editBtn: { mobileMode: true },
         footer: {
           discount: true,
@@ -35,7 +64,6 @@ export default {
           cess: true,
           vat: true,
           total: true,
-          headingColspan: 1,
         },
       },
       payment: {
@@ -47,8 +75,8 @@ export default {
           ifsc: true,
         },
         class: {
-          'ml-md-1': true,
-        }
+          'mr-md-1': true,
+        },
       },
       total: {
         taxable: true,
@@ -60,42 +88,63 @@ export default {
         value: true,
         valueText: true,
       },
+      transport: {
+        packageCount: true,
+        mode: true,
+        vno: true,
+        date: true,
+        reverseCharge: true,
+        class: {
+          'mx-md-1': true,
+        },
+      },
+      comments: {
+        class: {
+          'ml-md-1': true,
+        },
+      },
     },
-    custom: {}
+    custom: {},
   },
   getters: {
     getDefaultCashMemoConfig: (state) => {
-      return state.default
+      return state.default;
     },
     getCustomCashMemoConfig: (state) => {
-      return state.custom
-    }
+      return state.custom;
+    },
   },
   mutations: {
-    // note that this mutation, directly stores whatever data is being sent, so 
+    // note that this mutation, directly stores whatever data is being sent, so
     // config must be validated before commit
     setCashMemoConfig(state, payload) {
-      state.custom = payload
-    }
+      state.custom = payload;
+    },
   },
   actions: {
     initCashMemoConfig({ state, commit }, payload) {
-      let conf
-      try { // if the CashMemoConfig isn't a valid JSON, catch the error and  use null to get the default config
-        conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-cashMemoConfig`))
+      let conf;
+      try {
+        // if the CashMemoConfig isn't a valid JSON, catch the error and  use null to get the default config
+        conf = JSON.parse(
+          localStorage.getItem(`${payload.orgCode}-cashMemoConfig`)
+        );
       } catch (error) {
-        conf = null
+        conf = null;
       }
       if (conf !== null) {
-        commit("setCashMemoConfig", conf)
+        commit('setCashMemoConfig', conf);
       } else {
-        commit("setCashMemoConfig", state.default)
+        commit('setCashMemoConfig', state.default);
       }
     },
     updateCashMemoConfig({ commit }, payload) {
-      commit("setCashMemoConfig", payload.data)
-      localStorage.setItem(`${payload.orgCode}-cashMemoConfig`, JSON.stringify(payload.data))
-    }
+      commit('setCashMemoConfig', payload.data);
+      localStorage.setItem(
+        `${payload.orgCode}-cashMemoConfig`,
+        JSON.stringify(payload.data)
+      );
+    },
   },
-  namespaced: true
-}
+  namespaced: true,
+};
