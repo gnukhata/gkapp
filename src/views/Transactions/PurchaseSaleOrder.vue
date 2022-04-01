@@ -472,7 +472,9 @@ export default {
           tax[item.product.id] = parseFloat(item.vat.rate).toFixed(2);
         }
 
-        freeqty[item.product.id] = parseFloat(item.fqty).toFixed(2);
+        freeqty[item.product.id] = isNaN(parseFloat(item.fqty))
+          ? 0
+          : parseFloat(item.fqty).toFixed(2);
         discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
       });
 
