@@ -1,4 +1,4 @@
-import { CONFIGS, PAGES } from '../enum.js';
+import { CONFIGS, PAGES, GST_REG_TYPE } from '../enum.js';
 import axios from 'axios';
 
 export default {
@@ -35,6 +35,7 @@ export default {
           payment: 'bank', // bank, cash, credit
           tax: 'GST', // GST, VAT
           godown: '',
+          contacts: { customer: -1, supplier: -1 },
           partyVoucherFlag: true, // use customer/supplier ledgers for tracking transaction
         },
       },
@@ -51,6 +52,10 @@ export default {
         paymentMode: ['bank', 'cash', 'credit'],
         taxMode: ['None', 'GST', 'VAT', 'GST & VAT'],
         godowns: [],
+        contacts: {
+          customers: [],
+          suppliers: [],
+        },
       },
     },
   },
@@ -82,6 +87,9 @@ export default {
     getDefaultGodown(state) {
       return state.customConf.transaction.default.godown;
     },
+    getDefaultContacts(state) {
+      return state.customConf.transaction.default.contacts;
+    },
   },
   mutations: {
     // note that this mutation, directly stores whatever data is being sent, so
@@ -106,6 +114,13 @@ export default {
     setGodownList(state, payload) {
       state.options.transaction.godowns = payload;
     },
+
+    setContactList(state, payload) {
+      state.options.transaction.contacts = {
+        customers: payload.customers || [],
+        suppliers: payload.suppliers || [],
+      };
+    },
   },
   actions: {
     initGlobalState: ({ state, dispatch, commit, rootGetters }, payload) => {
@@ -114,19 +129,135 @@ export default {
         conf = conf ? JSON.parse(conf) : state.defConf;
         commit('setGlobalConfig', { conf, lang: payload.lang });
         return dispatch('initGlobalConfigOptions').then(() => {
-          return dispatch('initDefaultGodown');
+          return dispatch('initDefaults');
         });
       }
       return new Promise((resolve) => {
         resolve();
       });
     },
-    initDefaultGodown: ({ state, dispatch, rootGetters }) => {
+    initDefaults({ state, dispatch }) {
+      const dispatches = [
+        dispatch('initDefaultContacts'),
+        dispatch('initDefaultGodown'),
+      ];
+
+      return Promise.all(dispatches).then(([respContacts, respGodown]) => {
+        let conf = state.customConf;
+        let callUpdate = false;
+        if (respContacts) {
+          const contacts = conf.transaction.default.contacts;
+          if (contacts) {
+            if (
+              contacts.customers !== respContacts.customers ||
+              contacts.suppliers !== respContacts.suppliers
+            ) {
+              callUpdate = true;
+            }
+            conf.transaction.default.contacts = respContacts;
+          }
+        }
+
+        if (respGodown) {
+          if (conf.transaction.default.godown !== respGodown) {
+            callUpdate = true;
+          }
+          conf.transaction.default.godown = respGodown;
+        }
+
+        if (callUpdate) {
+          return dispatch('updateGlobalConfig', conf);
+        }
+
+        return new Promise((resolve) => {
+          resolve();
+        });
+      });
+    },
+    initDefaultContacts: ({ state }) => {
+      function createContact(name, orgState, csflag) {
+        let payload = {
+          custname: name,
+          custaddr: '',
+          state: orgState,
+          pincode: '',
+          csflag: csflag,
+          custtan: null, // have to check
+          custphone: null,
+          custemail: null,
+          custfax: null,
+          custpan: null,
+          gst_reg_type: GST_REG_TYPE['unregistered'],
+        };
+
+        return axios
+          .post('/customersupplier', payload)
+          .then((resp) => {
+            let result = {
+              text: name,
+            };
+            if (resp.data.gkstatus === 0) {
+              result.value = resp.data.gkresult.custid;
+            } else {
+              result.value = -1;
+            }
+            return result;
+          })
+          .catch(() => {
+            return { text: name, value: -1 };
+          });
+      }
+
+      return axios.get('organisation').then((orgResp) => {
+        if (orgResp.data.gkstatus === 0) {
+          const orgState = orgResp.data.gkdata['orgstate'];
+          let requests = [];
+
+          let custList = state.options.transaction.contacts.customers || [];
+          let custName = 'Retail Cusomter (Default)';
+          const defaults = state.customConf.transaction.default;
+          let rCust = custList.find((cust) => cust.text === custName);
+          if ((!defaults.contacts || !defaults.contacts.customer) && !rCust) {
+            requests.push(createContact(custName, orgState, 3));
+          } else {
+            requests.push(
+              new Promise((resolve) => {
+                resolve(rCust);
+              })
+            );
+          }
+
+          let supList = state.options.transaction.contacts.suppliers || [];
+          let supName = 'Retail Supplier (Default)';
+          let rSup = supList.find((cust) => cust.text === supName);
+          if ((!defaults.contacts || !defaults.contacts.supplier) && !rSup) {
+            requests.push(createContact(supName, orgState, 19));
+          } else {
+            requests.push(
+              new Promise((resolve) => {
+                resolve(rSup);
+              })
+            );
+          }
+
+          return Promise.all(requests).then(([resp1, resp2]) => {
+            return {
+              customer: resp1,
+              supplier: resp2,
+            };
+          });
+        }
+      });
+    },
+    initDefaultGodown: ({ state, rootGetters }) => {
       let goList = state.options.transaction.godowns || [];
       let goName = 'Primary Godown';
       let pGodown = goList.find((go) => go.text === goName);
 
-      if (!state.customConf.transaction.default.godown) {
+      if (
+        !state.customConf.transaction.default.godown ||
+        state.customConf.transaction.default.godown === -1
+      ) {
         if (!pGodown) {
           let orgAddress = rootGetters.getOrgAddress;
           let orgState = orgAddress.orgstate || '';
@@ -139,19 +270,17 @@ export default {
           };
           return axios.post('/godown', payload).then((resp) => {
             if (resp.data.gkstatus === 0 && resp.data.gkresult) {
-              let conf = state.customConf;
-              conf.transaction.default.godown = resp.data.gkresult;
-              return dispatch('updateGlobalConfig', conf);
+              return resp.data.gkresult;
             }
           });
         } else {
-          let conf = state.customConf;
-          conf.transaction.default.godown = pGodown.value;
-          return dispatch('updateGlobalConfig', conf);
+          return new Promise((resolve) => {
+            resolve(pGodown.value);
+          });
         }
       }
       return new Promise((resolve) => {
-        resolve();
+        resolve(state.customConf.transaction.default.godown);
       });
     },
     // must be invoked after successful login
@@ -172,9 +301,15 @@ export default {
       });
     },
     initGlobalConfigOptions({ commit }) {
-      return axios.get('/godown').then((resp) => {
-        if (resp.data.gkstatus === 0) {
-          let godowns = resp.data.gkresult.map((godown) => {
+      const requests = [
+        axios.get('/godown'),
+        axios.get('/customersupplier?qty=custall'),
+        axios.get('/customersupplier?qty=supall'),
+      ];
+
+      return Promise.all(requests).then(([respGodown, respCust, respSup]) => {
+        if (respGodown.data.gkstatus === 0) {
+          const godowns = respGodown.data.gkresult.map((godown) => {
             return {
               text: godown.goname,
               value: godown.goid,
@@ -182,6 +317,21 @@ export default {
           });
           commit('setGodownList', godowns);
         }
+
+        let customers, suppliers;
+        if (respCust.data.gkstatus === 0) {
+          customers = respCust.data.gkresult.map((cust) => {
+            return { text: cust.custname, value: cust.custid };
+          });
+        }
+
+        if (respSup.data.gkstatus === 0) {
+          suppliers = respSup.data.gkresult.map((sup) => {
+            return { text: sup.custname, value: sup.custid };
+          });
+        }
+
+        commit('setContactList', { customers, suppliers });
       });
     },
     updateGlobalConfig({ commit, rootGetters }, conf) {

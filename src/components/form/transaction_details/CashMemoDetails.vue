@@ -96,7 +96,7 @@
             readonly
           ></b-form-input>
         </b-form-group>
-        <b-form-group
+        <!-- <b-form-group
           label="Place of Supply"
           label-for="ivd-input-11"
           label-cols="3"
@@ -113,7 +113,7 @@
             valueUid="id"
             @input="onUpdateDetails"
           ></autocomplete>
-        </b-form-group>
+        </b-form-group> -->
         <b-form-group
           :label="saleFlag ? 'From Godown' : 'To Godown'"
           label-for="ivd-input-21"
@@ -295,7 +295,7 @@ export default {
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             state: state ? state.value : null,
-            taxState: {},
+            taxState: state ? state.value : null,
             options: {
               gstin: gstin || {},
             },

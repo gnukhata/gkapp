@@ -42,6 +42,16 @@ const GST_PARTY_TYPE = {
   uin_holders: 3,
 };
 
+const PAYMENT_TYPE = {
+  bank: 2,
+  cash: 3,
+  credit: 15,
+};
+
+const TRANSPORT_TYPE = {
+  
+}
+
 /*
 Debit Credit Note reasons
   01-Sales Return 
@@ -83,5 +93,13 @@ Object.freeze(CONFIGS);
 Object.freeze(GST_REG_TYPE);
 Object.freeze(GST_PARTY_TYPE);
 Object.freeze(DR_CR_MODE);
+Object.freeze(PAYMENT_TYPE);
 
-export { PAGES, CONFIGS, GST_REG_TYPE, GST_PARTY_TYPE, DR_CR_MODE };
+export {
+  PAGES,
+  CONFIGS,
+  GST_REG_TYPE,
+  GST_PARTY_TYPE,
+  DR_CR_MODE,
+  PAYMENT_TYPE,
+};

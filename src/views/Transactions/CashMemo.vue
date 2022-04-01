@@ -47,7 +47,7 @@
           :saleFlag="isSale"
         ></cash-memo-details>
         <!-- Buyer/Seller Details -->
-        <party-details
+        <!-- <party-details
           :mode="form.type"
           :parentData="form.party"
           :gstFlag="isGst"
@@ -58,7 +58,18 @@
           :updateCounter="updateCounter.party"
           ref="party"
         >
-        </party-details>
+        </party-details> -->
+        <!-- Payment Details -->
+        <payment-details
+          ref="payment"
+          :updateCounter="updateCounter.payment"
+          :config="config.payment"
+          :saleFlag="isSale"
+          :parentData="form.payment"
+          :optionsData="{
+            payModes,
+          }"
+        ></payment-details>
       </b-card-group>
       <div class="my-2" v-if="config.taxType">
         <b-form-radio-group
@@ -101,35 +112,24 @@
           </b-col>
         </b-row>
       </div>
-      <b-card-group class="d-block d-md-flex" deck>
-        <!-- Payment Details -->
-        <payment-details
-          ref="payment"
-          :updateCounter="updateCounter.payment"
-          :config="config.payment"
-          :saleFlag="isSale"
-          :parentData="form.payment"
-          :optionsData="{
-            payModes,
-          }"
-        ></payment-details>
-        <!-- Transport Details -->
-        <transport-details
+      <!-- <b-card-group class="d-block d-md-flex" deck> -->
+      <!-- Transport Details -->
+      <!-- <transport-details
           ref="transport"
           :config="config.transport"
           :updateCounter="updateCounter.transport"
           :parentData="form.transport"
           :invDate="form.memo.date"
           @details-updated="onComponentDataUpdate"
-        ></transport-details>
-        <!-- Invoice Comments -->
-        <comments
+        ></transport-details> -->
+      <!-- Invoice Comments -->
+      <!-- <comments
           ref="narration"
           :config="config.comments"
           :updateCounter="updateCounter.comments"
           :parentData="form.comments"
-        ></comments>
-      </b-card-group>
+        ></comments> -->
+      <!-- </b-card-group> -->
       <b-tooltip
         target="inv-submit"
         :show="showErrorToolTip"
@@ -207,6 +207,7 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import { PAYMENT_TYPE } from '@/js/enum.js';
 
 import Config from '@/components/Config.vue';
 import CashMemoDetails from '@/components/form/transaction_details/CashMemoDetails.vue';
@@ -254,10 +255,10 @@ export default {
           taxState: { id: null },
         },
         bill: [],
-        party: {
-          state: { id: null },
-        },
-        transport: {},
+        // party: {
+        //   state: { id: null },
+        // },
+        // transport: {},
         narration: null,
       },
       options: {
@@ -269,9 +270,9 @@ export default {
         bill: 0,
         totalTable: 0,
         payment: 0,
-        party: 0,
-        transport: 0,
-        comments: 0,
+        // party: 0,
+        // transport: 0,
+        // comments: 0,
       },
     };
   },
@@ -279,8 +280,8 @@ export default {
     payModes: (self) => {
       return [
         { text: self.$gettext('-- Payment Mode --'), value: null },
-        { text: self.$gettext('Cash'), value: 3 },
-        { text: self.$gettext('Bank'), value: 2 },
+        { text: self.$gettext('Cash'), value: PAYMENT_TYPE['cash'] },
+        { text: self.$gettext('Bank'), value: PAYMENT_TYPE['bank'] },
       ];
     },
     isGst: (self) => self.form.taxType === 'gst',
@@ -354,6 +355,7 @@ export default {
         };
       }
     },
+    defaultContacts: (self) => self.$store.getters['global/getDefaultContacts'],
     defaultPaymentMode: (self) =>
       self.$store.getters['global/getDefaultPaymentMode'],
     ...mapState(['yearStart', 'yearEnd', 'orgCode', 'invoiceParty']),
@@ -370,44 +372,47 @@ export default {
       this.updateCounter.bill++;
       this.updateCounter.totalTable++;
       this.updateCounter.payment++;
-      this.updateCounter.party++;
-      this.updateCounter.transport++;
-      this.updateCounter.comments++;
+      // this.updateCounter.party++;
+      // this.updateCounter.transport++;
+      // this.updateCounter.comments++;
     },
     onComponentDataUpdate(payload) {
       switch (payload.name) {
         case 'cash-memo-details':
-          Object.assign(this.form.memo, payload.data);
-          this.isInvDateValid = payload.options.isDateValid;
-          // debugger;
-          if (payload.options.bankDetails) {
-            this.options.orgDetails.bankDetails = payload.options.bankDetails;
-            this.setBankDetails();
+          {
+            Object.assign(this.form.memo, payload.data);
+            this.isInvDateValid = payload.options.isDateValid;
+            // debugger;
+            if (payload.options.bankDetails) {
+              this.options.orgDetails.bankDetails = payload.options.bankDetails;
+              this.setBankDetails();
+            }
+
+            // this.form.transport.date = this.form.memo.date;
+
+            this.goid = payload.data.godown || -1;
+
+            // this.updateCounter.transport++;
+            this.$forceUpdate();
           }
-
-          this.form.transport.date = this.form.memo.date;
-
-          this.goid = payload.data.godown || -1;
-
-          this.updateCounter.transport++;
-          this.$forceUpdate();
           break;
-        case 'party-details':
-          this.options.partyDetails = payload;
-          Object.assign(this.form.party, payload.data);
+        // case 'party-details':
+        //   this.options.partyDetails = payload;
+        //   Object.assign(this.form.party, payload.data);
 
-          this.form.memo.taxState = payload.data.state;
-          this.setBankDetails();
-          // this.updateCounter.ship++;
-          this.updateCounter.memo++;
-          break;
-        case 'bill-table':
+        //   this.form.memo.taxState = payload.data.state;
+        //   this.setBankDetails();
+        //   // this.updateCounter.ship++;
+        //   this.updateCounter.memo++;
+        //   break;
+        case 'bill-table': {
           Object.assign(this.form.bill, payload.data);
           this.updateCounter.totalTable++;
-          break;
-        case 'transport-details':
-          Object.assign(this.form.transport, payload.data);
-          break;
+        }
+        // break;
+        // case 'transport-details':
+        //   Object.assign(this.form.transport, payload.data);
+        //   break;
       }
     },
     setBankDetails() {
@@ -424,6 +429,10 @@ export default {
       this.updateCounter.payment++;
     },
     initPayload() {
+      const contact = (this.isSale
+        ? this.defaultContacts['customer']
+        : this.defaultContacts['supplier']) || {};
+
       this.collectComponentData();
       let invoice = {
         // dcid: null, // Has to be filled when Delivery Note is implemented. If no Deliver Note is available skip this property
@@ -435,7 +444,7 @@ export default {
 
         paymentmode: this.form.payment.mode,
 
-        custid: this.form.party.name.id || '',
+        custid: contact.value || '',
 
         // === Total Invoice price data ===
         invoicetotal: this.form.total.amount,
@@ -520,7 +529,7 @@ export default {
       });
 
       // === payment details, mode = 2 ===
-      if (this.form.payment.mode === 2) {
+      if (this.form.payment.mode === PAYMENT_TYPE['bank']) {
         invoice.bankdetails = {
           accountno: this.form.payment.bank.no,
           bankname: this.form.payment.bank.name,
@@ -533,10 +542,15 @@ export default {
       return { invoice, stock };
     },
     initDelNotePayload() {
+      const contact =
+        (this.isSale
+          ? this.defaultContacts['customer']
+          : this.defaultContacts['supplier']) || {};
+
       this.collectComponentData();
 
       let delchal = {
-        custid: parseInt(this.form.party.name.id) || '',
+        custid: parseInt(contact.value) || '',
         dcno: this.form.memo.delNoteNo,
         dcdate: this.form.memo.date,
         dcflag: this.isSale ? 4 : 16,
@@ -555,7 +569,7 @@ export default {
         designation: this.role,
 
         vehicleno: '',
-        modeoftransport: this.form.transport.mode,
+        modeoftransport: 'Road',
         noofpackages: 0,
       };
 
@@ -612,7 +626,7 @@ export default {
         discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
 
         pricedetails.push({
-          custid: this.form.party.name.id || '',
+          custid: parseInt(contact.value) || '',
           productcode: item.product.id,
           inoutflag: delchal.inoutflag,
           lastprice: item.rate,
@@ -627,13 +641,7 @@ export default {
         discount,
       });
 
-      if (this.form.transport.mode === 'Road') {
-        delchal.vehicleno = this.form.transport.vno;
-      }
-
-      if (this.form.transport.date) {
-        delchal.dateofsupply = this.form.transport.date;
-      }
+      delchal.dateofsupply = this.form.memo.date;
 
       return { delchaldata: delchal, stockdata: stock };
     },
@@ -737,7 +745,6 @@ export default {
       this.delNote.id = -1;
 
       const payload = this.initDelNotePayload();
-      const method = 'post';
 
       return axios
         .post('/delchal', payload)
@@ -785,12 +792,12 @@ export default {
       switch (this.defaultPaymentMode) {
         case 'bank':
           {
-            paymentMode = 2;
+            paymentMode = PAYMENT_TYPE['bank'];
           }
           break;
         case 'cash':
         default: {
-          paymentMode = 3;
+          paymentMode = PAYMENT_TYPE['cash'];
         }
       }
       this.form = {
@@ -804,17 +811,6 @@ export default {
           options: {
             gstin: {},
           },
-        },
-        party: {
-          name: false,
-          state: { id: null },
-        },
-        transport: {
-          packageCount: 0,
-          mode: 'Road',
-          vno: null,
-          date: null,
-          reverseCharge: false,
         },
         narration: null,
         taxType: 'gst', // vat
