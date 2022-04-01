@@ -214,9 +214,9 @@ import CashMemoDetails from '@/components/form/transaction_details/CashMemoDetai
 import BillTable from '@/components/form/transaction/BillTable.vue';
 import PaymentDetails from '@/components/form/transaction/PaymentDetails.vue';
 import TotalTable from '@/components/form/transaction/TotalTable.vue';
-import PartyDetails from '@/components/form/transaction/PartyDetails.vue';
-import Comments from '@/components/form/transaction/Comments.vue';
-import TransportDetails from '@/components/form/transaction/TransportDetails.vue';
+// import PartyDetails from '@/components/form/transaction/PartyDetails.vue';
+// import Comments from '@/components/form/transaction/Comments.vue';
+// import TransportDetails from '@/components/form/transaction/TransportDetails.vue';
 
 import cashMemoConfig from '../../js/config/transaction/cashMemo';
 
@@ -229,9 +229,9 @@ export default {
     Config,
     PaymentDetails,
     TotalTable,
-    PartyDetails,
-    Comments,
-    TransportDetails,
+    // PartyDetails,
+    // Comments,
+    // TransportDetails,
     PrintPage,
   },
   data() {

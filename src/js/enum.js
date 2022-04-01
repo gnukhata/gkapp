@@ -48,10 +48,6 @@ const PAYMENT_TYPE = {
   credit: 15,
 };
 
-const TRANSPORT_TYPE = {
-  
-}
-
 /*
 Debit Credit Note reasons
   01-Sales Return 
