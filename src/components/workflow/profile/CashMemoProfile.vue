@@ -390,8 +390,8 @@ export default {
                 taxable: details.invcontents[key].taxableamount,
                 total: details.invcontents[key].totalAmount,
                 igst: details.invcontents[key].taxrate,
-                cgst: details.invcontents[key].taxrate / 2,
-                sgst: details.invcontents[key].taxrate / 2,
+                cgst: details.invcontents[key].taxrate,
+                sgst: details.invcontents[key].taxrate,
                 cess: {
                   rate: details.invcontents[key].cess,
                   amount: details.invcontents[key].cessrate,
