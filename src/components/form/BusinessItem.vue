@@ -916,7 +916,7 @@ export default {
 
           // format and store godetails, format -> {godownId : stockCount}
           product.godetails = this.form.stock.godowns.reduce((acc, godown) => {
-            if (godown.value && godown.id) {
+            if (godown.value >= 0 && godown.id) {
               acc[godown.id] = godown.value;
             }
             return acc;
@@ -1043,7 +1043,7 @@ export default {
         hsn: null,
       });
 
-      this.form.stock.godowns = [{ id: this.defaultGodown, value: null }];
+      this.form.stock.godowns = [{ id: this.defaultGodown, value: 0 }];
 
       this.$forceUpdate();
     },
