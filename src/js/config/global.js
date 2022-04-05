@@ -145,6 +145,7 @@ export default {
       return Promise.all(dispatches).then(([respContacts, respGodown]) => {
         let conf = state.customConf;
         let callUpdate = false;
+        // debugger;
         if (respContacts) {
           const contacts = conf.transaction.default.contacts;
           if (contacts) {
@@ -154,6 +155,9 @@ export default {
             ) {
               callUpdate = true;
             }
+            conf.transaction.default.contacts = respContacts;
+          } else {
+            callUpdate = true;
             conf.transaction.default.contacts = respContacts;
           }
         }
@@ -217,7 +221,7 @@ export default {
           let custName = 'Retail Cusomter (Default)';
           const defaults = state.customConf.transaction.default;
           let rCust = custList.find((cust) => cust.text === custName);
-          if ((!defaults.contacts || !defaults.contacts.customer) && !rCust) {
+          if ((!defaults.contacts || !defaults.contacts.customer || defaults.contacts.customer < 0) && !rCust) {
             requests.push(createContact(custName, orgState, 3));
           } else {
             requests.push(
@@ -230,7 +234,7 @@ export default {
           let supList = state.options.transaction.contacts.suppliers || [];
           let supName = 'Retail Supplier (Default)';
           let rSup = supList.find((cust) => cust.text === supName);
-          if ((!defaults.contacts || !defaults.contacts.supplier) && !rSup) {
+          if ((!defaults.contacts || !defaults.contacts.supplier || defaults.contacts.supplier < 0) && !rSup) {
             requests.push(createContact(supName, orgState, 19));
           } else {
             requests.push(
