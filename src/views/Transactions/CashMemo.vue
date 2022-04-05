@@ -483,7 +483,7 @@ export default {
       let freeqty = {};
       let discount = {};
       this.form.bill.forEach((item) => {
-        let taxable = item.total * item.qty - item.discount.amount;
+        let taxable = item.rate * item.qty - item.discount.amount;
 
         if (contents[item.product.id] === undefined) {
           contents[item.product.id] = {};
