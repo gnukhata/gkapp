@@ -649,6 +649,10 @@ export default {
                 (state) => state.text.toLowerCase() === orgstate
               )
             : null;
+          let stateCode = state? state.value.id : '';
+          if(stateCode && stateCode < 9) {
+            stateCode = `0${stateCode}`;
+          }
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             addr: this.options.orgDetails.orgaddr,
@@ -657,7 +661,7 @@ export default {
             options: {
               gstin: gstin,
             },
-            gstin: gstin && state ? gstin[state.value.id] : '',
+            gstin: gstin && state ? gstin[stateCode] : '',
             taxState: {},
           });
         }
