@@ -28,7 +28,7 @@ Vue.use(GetTextPlugin, {
   defaultLanguage: 'en',
   translations: translations,
   autoAddKeyAttributes: true,
-  silent: true
+  silent: true,
 });
 
 Vue.mixin({
@@ -51,7 +51,20 @@ Vue.mixin({
     // https://cli.vuejs.org/guide/mode-and-env.html#modes
     // gkMode() {
     //   return process.env.NODE_ENV
-    // },
+
+    /**
+     *
+     * @param {} file
+     * @returns {Promise} Promise object represents base64 string
+     */
+    get_base64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    },
     get_org_address() {
       axios.get('/organisation?osg=true').then((r) => {
         if (r.status === 200 && r.data.gkstatus == 0) {

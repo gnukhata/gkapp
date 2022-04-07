@@ -892,22 +892,12 @@ export default {
         });
       });
     },
-    /*
-     * Image Handling methods
-     */
-    getBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-      });
-    },
+
     prepareImg() {
       const imageSize = (this.details.logo.size / 1000000).toFixed(2);
       // if img size is less than 1 MB just convert it to base64 string. Else compress it
       if (imageSize <= 1) {
-        this.getBase64(this.details.logo).then((r) => {
+        this.get_base64(this.details.logo).then((r) => {
           this.details.logo = r.split(',')[1];
           this.$store.commit(
             'updateOrgImg',
