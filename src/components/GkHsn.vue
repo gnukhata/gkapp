@@ -3,15 +3,27 @@
     <b-overlay :show="loading">
       <!-- HSN Input -->
       <b-form-group :description="hsn.desc" class="mb-0">
-        <b-form-input
-          type="text"
-          :size="size"
-          @input="checkHsn"
-          v-model.trim="hsn.code"
-          :placeholder="this.$gettext('Enter HSN code / description')"
-          :state="hsn.isValid"
-          :required="required"
-        ></b-form-input>
+        <b-input-group>
+          <b-form-input
+            type="text"
+            :size="size"
+            @input="checkHsn"
+            v-model.trim="hsn.code"
+            :placeholder="this.$gettext('Enter HSN/SAC code or description')"
+            :state="hsn.isValid"
+            :required="required"
+          ></b-form-input>
+          <!-- Search button -->
+          <b-input-group-append v-if="hsn.isValid == null">
+            <b-button
+              aria-label="hsn search"
+              variant="dark"
+              :size="size"
+              @click="searchHsn(hsn.code)"
+              ><b-icon-search
+            /></b-button>
+          </b-input-group-append>
+        </b-input-group>
       </b-form-group>
     </b-overlay>
     <!-- HSN Suggestions Table -->
@@ -85,7 +97,7 @@ export default {
         this.string2json(v);
       } catch {
         this.hsn.code = v;
-        this.hsn.desc = 'Invalid HSN Code';
+        this.hsn.desc = 'Invalid HSN/SAC Code';
       }
     },
   },
@@ -111,7 +123,7 @@ export default {
       axios.get(`/hsn?validate=${hsn}`).then((r) => {
         if (r.data.gkstatus != 0) {
           this.hsn.isValid = null;
-          this.searchHsn(hsn);
+          // this.searchHsn(hsn);
           this.$emit('change', this.hsn.code);
         } else {
           this.hsn.isValid = true;
