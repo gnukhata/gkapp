@@ -158,11 +158,14 @@
               <b-icon icon="journals"></b-icon
               ><translate> Bank Reconciliation</translate>
             </b-nav-item>
-            <b-nav-item to="/export">
-              <b-icon icon="cloud-download"></b-icon>
+            <b-nav-item to="/data/export">
+              <b-icon icon="file-arrow-down"></b-icon>
               <translate> Export Data</translate>
             </b-nav-item>
-
+            <b-nav-item to="/data/import">
+              <b-icon icon="file-arrow-up"></b-icon>
+              <translate> Import Data</translate>
+            </b-nav-item>
             <b-nav-item to="/settings">
               <b-icon icon="gear"></b-icon> <translate> Settings</translate>
             </b-nav-item>

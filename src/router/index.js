@@ -477,7 +477,7 @@ const routes = [
       import(
         /* webpackChunkName: "gst-r1-summary" */ '../views/gst/R1Summary.vue'
       ),
-    props: true
+    props: true,
   },
   {
     path: '/gst/r1/:type/:fd&:td',
@@ -502,10 +502,24 @@ const routes = [
       ),
   },
   {
-    path: '/export',
+    path: '/data/export',
     name: 'Export Data',
     component: () =>
-      import(/* webpackChunkName: "export-data" */ '../views/DataExport.vue'),
+      import(/* webpackChunkName: "export-data" */ '../views/data/Export.vue'),
+  },
+  {
+    path: '/data/import',
+    name: 'Import Data',
+    component: () =>
+      import(/* webpackChunkName: "import-data" */ '../views/data/Import.vue'),
+  },
+  {
+    path: '/data/import/help/:help_type',
+    name: 'Import Data Help',
+    component: () =>
+      import(
+        /* webpackChunkName: "import-data-help" */ '../views/data/Help.vue'
+      ),
   },
 ];
 
