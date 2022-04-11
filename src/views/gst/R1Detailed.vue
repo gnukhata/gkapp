@@ -37,7 +37,10 @@
         </div>
       </template>
       <template #cell(invoice_number)="data">
-        <router-link :to="'/workflow/Transactions-Invoice/' + data.item.invid">
+        <router-link v-if="data.item.icflag && data.item.icflag === 3" :to="'/workflow/Transactions-CashMemo/' + data.item.invid">
+          {{ data.item.invoice_number }}
+        </router-link>
+        <router-link v-else :to="'/workflow/Transactions-Invoice/' + data.item.invid">
           {{ data.item.invoice_number }}
         </router-link>
       </template>
@@ -93,7 +96,9 @@ export default {
                   if (
                     this.params.type === 'b2b' ||
                     this.params.type === 'cdnr' ||
-                    this.params.type === 'cdnur'
+                    this.params.type === 'cdnur' ||
+                    this.params.type === 'b2cs' ||
+                    this.params.type === 'b2cl'
                   ) {
                     let index = this.fields.findIndex(
                       (field) => field === 'invid'
@@ -102,6 +107,11 @@ export default {
 
                     index = this.fields.findIndex(
                       (field) => field === 'drcrid'
+                    );
+                    this.fields.splice(index, 1);
+
+                    index = this.fields.findIndex(
+                      (field) => field === 'icflag'
                     );
                     this.fields.splice(index, 1);
 
