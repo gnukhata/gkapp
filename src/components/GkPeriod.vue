@@ -190,7 +190,7 @@ export default {
         };
         let day = current.day < 10 ? `0${current.day}` : current.day;
         let month =
-          current.month < 10 ? `0${current.month + 1}` : current.month + 1;
+          current.month < 9 ? `0${current.month + 1}` : current.month + 1;
         let from = `${current.year}-${month}-${day}`;
         let toDate = new Date(current.year, current.month + 1, 0).getDate();
         let to = `${current.year}-${month}-${toDate}`;
