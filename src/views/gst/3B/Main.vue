@@ -673,6 +673,7 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
           responsive="sm"
           :busy="isLoading"
           :fields="invFields"
+          sticky-header="450px"
         >
           <template #table-busy>
             <div class="text-center">
@@ -767,7 +768,8 @@ export default {
               {
                 key: 'invoicedate',
                 label: 'Date',
-                thStyle: 'max-width: 100px',
+                thStyle: 'width: 175px',
+                tdClass: 'text-truncate',
               },
               // {key: "custname", label: 'Customer'},
               { key: 'netamt', label: 'Taxable Value' },
@@ -908,6 +910,7 @@ export default {
           key: 'invoicedate',
           label: 'Date',
           thStyle: 'max-width: 100px',
+          tdClass: 'text-truncate',
         },
         // {key: "custname", label: 'Customer'},
         { key: 'netamt', label: 'Taxable Value' },
@@ -924,9 +927,11 @@ export default {
       let list = [];
       switch (this.taxGroup) {
         case 'pos_unreg_comp_uin_igst':
-          let options = this.options.invOptions.pos_unreg_comp_uin_igst;
-          list =
-            invoices.pos_unreg_comp_uin_igst[options.type][options.stateCode];
+          {
+            let options = this.options.invOptions.pos_unreg_comp_uin_igst;
+            list =
+              invoices.pos_unreg_comp_uin_igst[options.type][options.stateCode];
+          }
           break;
         default:
           list =
@@ -1117,7 +1122,7 @@ export default {
 }
 
 .modal-content {
-  height: 550px;
+  /* height: 550px; */
 }
 .modal-backdrop {
   height: 100%;
