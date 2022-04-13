@@ -93,12 +93,18 @@
       >
         <template #cell(invoice_no)="d">
           <b-link
-            @click="
-              $router.push(
-                '/workflow/Transactions-Invoice/' + d.item.invoice_id
-              )
-            "
-            >{{ d.item.invoice_no }}
+            :to="{
+              name: 'Workflow',
+              params: {
+                wfName:
+                  d.item.icflag === 9
+                    ? 'Transactions-Invoice'
+                    : 'Transactions-CashMemo',
+                wfId: d.item.invoice_id,
+              },
+            }"
+          >
+            {{ d.item.invoice_no }}
           </b-link>
         </template>
       </b-table>
@@ -144,6 +150,7 @@ export default {
           tax_free: d.taxfree,
           tax: d.tax,
           tax_amount: d.taxamount,
+          icflag: d.icflag,
         };
         // let netTax = obj.tax
         //   for (const i in data.taxcolumns) {
