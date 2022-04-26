@@ -275,8 +275,16 @@
             label-cols="4"
             label-align="right"
           >
-            <div
-              v-for="(gst, sc, index) in gstin"
+            <gk-gstin
+              @validity="onGstinUpdate"
+              @gstin_data="onGstinDataFetched"
+              @verified="onGstinVerified"
+              v-model="gstin"
+              :showValidation="2"
+              valButtonText="Validate & Autofill"
+            ></gk-gstin>
+            <!-- <div
+              v-for="(gst, index) in gstinList"
               :key="index"
               class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
             >
@@ -298,8 +306,8 @@
               >
                 <b-icon font-scale="0.95" icon="trash"></b-icon>
               </b-button>
-            </div>
-            <b-button
+            </div> -->
+            <!-- <b-button
               v-b-modal.gstin
               variant="dark"
               class="p-0 px-1 float-right float-sm-left"
@@ -308,7 +316,7 @@
             >
               <b-icon class="align-middle" icon="plus"></b-icon
               ><translate>GSTIN</translate>
-            </b-button>
+            </b-button> -->
           </b-form-group>
           <b-form-group
             :label="$gettext('CESS')"
@@ -464,16 +472,17 @@
 import { mapState } from 'vuex';
 import axios from 'axios';
 import GkIfsc from '../components/GkIfsc.vue';
+import GkGstin from '@/components/GkGstin.vue';
 
 export default {
-  components: { GkIfsc },
+  components: { GkIfsc, GkGstin },
   name: 'OrgProfile',
   data() {
     return {
       loading: true,
       details: Array,
       states: [],
-      gstin: {},
+      gstin: '',
       cess: {},
       bankDetails: {
         bankname: '',
@@ -497,6 +506,7 @@ export default {
         toBeEdited: {},
         toBeDeleted: {},
       },
+      gstinValid: false,
       gstinModal: {
         stateCode: null,
         checksum: '',
@@ -532,6 +542,33 @@ export default {
       this.bankDetails.bankname = i.BANK;
       this.bankDetails.branchname = i.BRANCH;
     },
+    /**GSTIN methods start*/
+    onGstinDataFetched({ addr, name, pincode }) {
+      this.details.orgaddr = addr;
+      this.details.orgname = name;
+      this.details.orgpincode = pincode;
+    },
+    onGstinUpdate({ validity, stateCode, pan, checksum }) {
+      if (validity.format) {
+        this.gstinValid = true;
+        this.stateCode = stateCode;
+        this.details.orgpan = pan;
+      } else {
+        this.gstinValid = false;
+        // debugger;
+        if (!this.gstin) {
+          this.stateCode = '';
+          this.details.orgpan = '';
+          this.gstin = '';
+        }
+      }
+    },
+    onGstinVerified(verifiedStatus) {
+      // this.form.gstin.regType = verifiedStatus
+      //   ? GST_REG_TYPE['regular']
+      //   : GST_REG_TYPE['unregistered'];
+    },
+    /**GSTIN methods end */
     /**
      * Confirmation for actions
      */
@@ -564,28 +601,40 @@ export default {
     /**
      * Fetch org details from api
      */
-    async getDetails() {
+    getDetails() {
+      const self =this;
       this.loading = true;
       return axios
         .get(`/organisation`)
         .then((res) => {
+          this.loading = false;
           switch (res.data.gkstatus) {
             case 0:
-              this.details = res.data.gkdata;
-              if (this.details.gstin) {
-                this.gstin = Object.assign({}, this.details.gstin);
+              {
+                self.details = res.data.gkdata;
+                if (self.details.gstin) {
+                  let stateName = self.details.orgstate;
+                  if (stateName) {
+                    let state = self.states.find(
+                      (item) => item.text === stateName
+                    );
+                    if (state) {
+                      self.gstin = self.details.gstin[state.value];
+                    }
+                  } else {
+                    // if state doesn't exist, but gstin is there
+                    let stateCodes = Object.keys(self.details.gstin);
+                    self.stateCode = stateCodes[0];
+                    self.gstin = self.details.gstin[self.stateCode];
+                  }
+                }
+                if (self.details.bankdetails) {
+                  Object.assign(self.bankDetails, self.details.bankdetails);
+                }
               }
-              if (this.details.bankdetails) {
-                Object.assign(this.bankDetails, this.details.bankdetails);
-              }
-              this.loading = false;
               break;
             case 2:
               alert('Access Denied');
-              this.loading = false;
-              break;
-            default:
-              this.loading = false;
           }
         })
         .catch((e) => {
@@ -621,8 +670,8 @@ export default {
         });
     },
     /** Gets all the meta data required from the server for creating CESS accounts */
-    async getCreateCessData() {
-      return axios.get('/organisation?getgstgroupcode').then(async (resp) => {
+    getCreateCessData() {
+      return axios.get('/organisation?getgstgroupcode').then((resp) => {
         if (resp.data.gkstatus === 0) {
           let groupCode = resp.data.groupcode,
             subGroupCode = resp.data.subgroupcode;
@@ -659,7 +708,7 @@ export default {
       });
     },
     /**Create / Update the CESS accounts, based on the CESS rates and the states in GSTIN list */
-    async updateCessAccounts() {
+    updateCessAccounts() {
       let cess = Object.keys(this.cess);
       let saveAccount = function(payload) {
         return axios.post('/accounts', payload);
@@ -718,7 +767,7 @@ export default {
     /** Get the state abbraviations of the given statecodes.
      *
      * params: stateCodes -> array of state codes */
-    async getStateAbbreviations(stateCodes) {
+    getStateAbbreviations(stateCodes) {
       let requests = [];
       stateCodes.forEach((code) => {
         requests.push(axios.get(`/state?abbreviation&statecode=${code}`));
@@ -734,7 +783,7 @@ export default {
      * The CESS accounts with states other than the GSTIN states, CESS accounts with edited or deleted rates
      * are no longer required.
      */
-    async getDeleteCessData() {
+    getDeleteCessData() {
       let cess = Object.keys(this.cessModal.toBeDeleted);
       let states = this.options.gstAccounts
         .filter((acc) => {
@@ -753,7 +802,7 @@ export default {
       // if gstin state is edited, delete that state associated with all the cess values
       let gstinEditedStates = Object.values(this.gstinModal.edited);
       return this.getStateAbbreviations(gstinEditedStates).then(
-        async (editedStates) => {
+        (editedStates) => {
           if (editedStates.length) states.push(...editedStates);
           if (gstinEditedStates.length) cess = Object.keys(this.cess);
 
@@ -798,7 +847,7 @@ export default {
     },
     /** Deletes the CESS accounts that have become absolete because of the updates made recently in orgprofile */
     deleteCessAccounts() {
-      this.getDeleteCessData().then(async (data) => {
+      this.getDeleteCessData().then((data) => {
         let accCodes = data.codes,
           accounts = data.accounts;
         let deletedCess = '',
@@ -949,9 +998,16 @@ export default {
       let state = this.states.find((state) => state.value === this.stateCode);
       state = state ? state.text : null;
 
+      let gstin = {}
+      if(this.stateCode && this.gstin) {
+        if(this.gstinValid) {
+          gstin[this.stateCode] = this.gstin;
+        }
+      }
+
       Object.assign(this.details, {
         orgstate: state,
-        gstin: Object.assign({}, this.gstin),
+        gstin: gstin,
         bankdetails: this.bankDetails,
       });
 
@@ -1080,7 +1136,7 @@ export default {
         this.$forceUpdate();
       }
     },
-    async getStates() {
+    getStates() {
       return axios
         .get(`/state`)
         .then((res) => {
@@ -1175,11 +1231,9 @@ export default {
         },
         edited: {}, // edited: {edit: source}
       };
-      return Promise.all([
-        this.getStates(),
-        this.getDetails(),
-        this.getCessDetails(),
-      ]);
+      return this.getStates().then(() => {
+        return Promise.all([this.getDetails(), this.getCessDetails()]);
+      });
     },
   },
   mounted() {
