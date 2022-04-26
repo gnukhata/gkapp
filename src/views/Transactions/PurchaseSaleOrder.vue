@@ -700,6 +700,83 @@ export default {
     initForm() {
       this.resetForm();
     },
+    preloadData() {
+      this.isPreloading = true;
+      const requests = [
+        axios.get('/state').catch((error) => {
+          this.displayToast(
+            this.$gettext('Fetch State Data Failed!'),
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
+        axios.get(`/organisation`).catch((error) => {
+          this.displayToast(
+            this.$gettext('Fetch Organisation Profile Data Failed!'),
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
+      ];
+
+      const self = this;
+      return Promise.all(requests).then(([resp1, resp6]) => {
+        self.isPreloading = false;
+        let preloadErrorList = ''; // To handle the unloaded data, at once than individually
+
+        /**
+         * The data obtained are updated, to be comptaible with the
+         * component they are used with (<b-form-select>)
+         * and based on requirement
+         */
+
+        // === State List ===
+        if (resp1.data.gkstatus === 0) {
+          self.options.states = resp1.data.gkresult.map((item) => {
+            return {
+              text: Object.values(item)[0],
+              value: {
+                id: Object.keys(item)[0],
+                name: Object.values(item)[0],
+              },
+            };
+          });
+        } else {
+          preloadErrorList += ' States,';
+        }
+
+        if (resp6.data.gkstatus === 0) {
+          let orgState = resp6.data.gkdata.orgstate;
+          let state = self.options.states.find(
+            (state) => state.text === orgState
+          );
+          let stateCode = state ? state.value.id : null;
+          let gstin = resp6.data.gkdata.gstin;
+          self.options.orgDetails = {
+            name: resp6.data.gkdata.orgname,
+            addr: resp6.data.gkdata.orgaddr,
+            state: state ? state.value : null,
+            gstin: stateCode && gstin ? gstin[stateCode] : '',
+            tin: '',
+            pin: resp6.data.gkdata.orgpincode,
+            bankDetails: resp6.data.gkdata.bankdetails,
+          };
+          setTimeout(() => {
+            self.setOrgDetails();
+          }, 1);
+        }
+
+        if (preloadErrorList !== '') {
+          this.displayToast(
+            this.$gettext('Error: Unable to Preload Data'),
+            `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
+            'danger'
+          );
+        }
+      });
+    },
     updateConfig() {
       let newConf = this.$store.getters[
         `${this.vuexNameSpace}/getCustomPSOrderConfig`
@@ -797,6 +874,7 @@ export default {
     // Using non props to store these props, as these can be edited in the future
     this.updateConfig();
     this.initForm();
+    this.preloadData();
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
