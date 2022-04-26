@@ -12,6 +12,8 @@ import axios from 'axios';
 import sha512 from 'crypto-js/sha512';
 import GetTextPlugin from 'vue-gettext';
 import translations from './locales/translations.json';
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
@@ -30,6 +32,8 @@ Vue.use(GetTextPlugin, {
   autoAddKeyAttributes: true,
   silent: true,
 });
+
+Vue.component("v-select", vSelect);
 
 Vue.mixin({
   data() {
