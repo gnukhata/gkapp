@@ -7,7 +7,7 @@
   >
     <template #first>
       <b-form-select-option disabled value="">
-        Select a security question
+        <translate>Select a security question</translate>
       </b-form-select-option>
     </template>
   </b-form-select>
@@ -22,6 +22,10 @@ export default {
   },
   props: {
     size: String,
+    value: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -36,6 +40,16 @@ export default {
         'Your First School Name ?',
       ],
     };
+  },
+  watch: {
+    value(v) {
+      for (let q in this.questions) {
+        if (this.questions[q] == v) {
+          this.choice = v;
+          break;
+        }
+      }
+    },
   },
 };
 </script>

@@ -24,7 +24,7 @@
             size="sm"
           ></b-form-input>
           <b-form-invalid-feedback id="input-live-feedback">
-            <v-translate>Username must be minimum of 3 characters</v-translate>
+            <translate>Username must be minimum of 3 characters</translate>
           </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group

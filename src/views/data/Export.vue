@@ -53,10 +53,10 @@
               class="mt-2"
             ></b-icon>
             <b v-translate> Note</b>:
-            <translate
-              >The current exported spreadsheet currenly contains list of
-              accounts & vouchers data only</translate
-            >
+            <translate>
+              The current exported spreadsheet currenly contains list of
+              accounts & vouchers data only
+            </translate>
           </b-alert>
         </b-form>
       </b-card-body>
