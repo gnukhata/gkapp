@@ -30,14 +30,21 @@
           label-cols="4"
         >
           <b-overlay :show="isDisabled">
-            <autocomplete
+            <!-- <autocomplete
               @input="getOrgYears"
               :options="orgList"
-              textField="orgname"
-              valueField="org"
+              textField="label"
+              valueField="value"
               v-model="orgIndex"
               placeholder="Search Org Name"
-            ></autocomplete>
+            ></autocomplete> -->
+            <v-select
+              @input="getOrgYears"
+              :reduce="(option) => option.value"
+              :options="orgList"
+              v-model="selectedOrg"
+              placeholder="Search Org Name"
+            ></v-select>
           </b-overlay>
         </b-form-group>
 
@@ -103,6 +110,7 @@ export default {
       orgYears: [],
       orgList: [],
       orgIndex: '',
+      selectedOrg: { label: '' },
       orgCode: Number,
       isDisabled: true,
     };
@@ -122,8 +130,8 @@ export default {
   },
   methods: {
     save() {
-      let name = this.orgIndex.orgname;
-      let type = this.orgIndex.orgtype;
+      let name = this.selectedOrg.orgname;
+      let type = this.selectedOrg.orgtype;
       // Save org name for next login
       localStorage.setItem('orgChoice', `${name} (${type})`);
       // useful in consolidated final accounts
@@ -141,15 +149,17 @@ export default {
         .then((response) => {
           this.orgList = response.data.gkdata.map((data) => {
             return {
-              orgname: `${data.orgname} (${data.orgtype})`,
-              org: {
+              label: `${data.orgname} (${data.orgtype})`,
+              value: {
+                // label: `${data.orgname} (${data.orgtype})`,
                 orgname: data.orgname,
                 orgtype: data.orgtype,
               },
             };
           });
           if (this.orgList.length > 0) {
-            this.orgIndex = this.orgList[0].org;
+            this.selectedOrg = this.orgList[0].value;
+            this.getOrgYears();
           }
           // this.getOrgYears();
           this.isDisabled = false; // hide the spinner
@@ -167,13 +177,16 @@ export default {
      * send org name & type & get a org's financial years as objects
      */
     getOrgYears() {
-      if (this.orgIndex === null) {
+      if (
+        this.selectedOrg === null ||
+        !this.selectedOrg.orgname || !this.selectedOrg.orgtype
+      ) {
         this.orgCode = -1;
         return;
       }
       this.isDisabled = true;
-      let name = this.orgIndex.orgname;
-      let type = this.orgIndex.orgtype;
+      let name = this.selectedOrg.orgname;
+      let type = this.selectedOrg.orgtype;
       // Save org name for next login
       axios
         .get(`${this.gkCoreUrl}/orgyears/${name}/${type}`)
