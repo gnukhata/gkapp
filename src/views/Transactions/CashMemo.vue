@@ -92,6 +92,7 @@
         :cgstFlag="isCgst"
         ref="bill"
         :godownId="goid"
+        :saleFlag="isSale"
         :blockEmptyStock="isSale"
         :invDate="form.memo.date"
       ></bill-table>
@@ -362,6 +363,7 @@ export default {
   },
   methods: {
     collectComponentData() {
+      this.updateCounter.totalTable++;
       Object.assign(this.form.memo, this.$refs.memo.form);
       Object.assign(this.form.bill, this.$refs.bill.form);
       Object.assign(this.form.total, this.$refs.totalTable.form);
@@ -712,9 +714,9 @@ export default {
                   };
                   axios.post('/log', log);
 
-                  this.showPrintModal = true;
                   this.memoId = resp.data.gkresult;
                   this.resetForm();
+                  this.showPrintModal = true;
                 }
                 break;
               case 1:
@@ -794,6 +796,7 @@ export default {
         });
     },
     resetForm() {
+      this.showPrintModal = false;
       let paymentMode;
       switch (this.defaultPaymentMode) {
         case 'bank':
@@ -806,8 +809,9 @@ export default {
           paymentMode = PAYMENT_TYPE['cash'];
         }
       }
+      let type = this.form.type;
       this.form = {
-        type: 'sale',
+        type: type,
         memo: {
           no: null,
           date: this.formatDateObj(new Date()),

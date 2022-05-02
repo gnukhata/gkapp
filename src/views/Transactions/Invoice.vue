@@ -124,6 +124,7 @@
         :cgstFlag="isCgst"
         ref="bill"
         :godownId="goid"
+        :saleFlag="isSale"
         :blockEmptyStock="isSale"
         :invDate="form.inv.date"
       ></bill-table>
@@ -607,6 +608,7 @@ export default {
         });
     },
     collectComponentData() {
+      this.updateCounter.totalTable++;
       Object.assign(this.form.inv, this.$refs.inv.form);
       Object.assign(this.form.party, this.$refs.party.form);
       Object.assign(this.form.ship, this.$refs.ship.form);
@@ -633,12 +635,17 @@ export default {
         case 'invoice-details':
           {
             // debugger;
-            if (payload.data.delNote !== this.form.inv.delNote) {
-              this.fetchDelNoteData(payload.data.delNote);
-            } else {
-              this.goid = payload.data.godown || -1;
-            }
+            // if (payload.data.delNote !== this.form.inv.delNote) {
+            //   this.fetchDelNoteData(payload.data.delNote);
+            // } else {
+            //   }
+
+            let oldInvNo = this.form.inv.no; 
+            this.goid = payload.data.godown || -1;
             Object.assign(this.form.inv, payload.data);
+            if(!this.isCreate) {
+              this.form.inv.no = oldInvNo;
+            }
             this.form.transport.date = this.form.inv.date;
             const self = this;
             self.updateCounter.transport++;
@@ -691,104 +698,108 @@ export default {
           this.updateComponentData(); // this.isAttachmentLoading = false;
         });
     },
-    fetchDelNoteData(dcid) {
-      if (!dcid) return;
-      this.isPreloading = true;
-      let self = this;
-      axios
-        .get(`/delchal?delchal=single&dcid=${dcid}`)
-        .then((resp) => {
-          if (resp.data.gkstatus === 0) {
-            const data = resp.data.gkresult,
-              dcdata = resp.data.gkresult.delchaldata;
-            // console.log(resp.data);
-            let invState =
-              dcdata.inoutflag === 15 // if sale inv state will be source else it will destination
-                ? self.options.states.find(
-                    (state) => state.text === data.sourcestate
-                  )
-                : self.options.states.find(
-                    (state) => state.text === data.destinationstate
-                  );
-            // set invoice details
-            self.form.type = dcdata.inoutflag === 15 ? 'sale' : 'purchase';
-            Object.assign(self.form.inv, {
-              state: invState ? invState.value : {},
-              issuer: dcdata.issuername,
-              role: dcdata.designation,
-            });
+    // used for fetching delivery note data, when invoice is linked to a delivery note
+    // currently that option is hidden, in favour of the godown option
+    // fetchDelNoteData(dcid) {
+    //   if (!dcid) return;
+    //   this.isPreloading = true;
+    //   let self = this;
+    //   axios
+    //     .get(`/delchal?delchal=single&dcid=${dcid}`)
+    //     .then((resp) => {
+    //       if (resp.data.gkstatus === 0) {
+    //         const data = resp.data.gkresult,
+    //           dcdata = resp.data.gkresult.delchaldata;
+    //         // console.log(resp.data);
+    //         let invState =
+    //           dcdata.inoutflag === 15 // if sale inv state will be source else it will destination
+    //             ? self.options.states.find(
+    //                 (state) => state.text === data.sourcestate
+    //               )
+    //             : self.options.states.find(
+    //                 (state) => state.text === data.destinationstate
+    //               );
+    //         // set invoice details
+    //         self.form.type = dcdata.inoutflag === 15 ? 'sale' : 'purchase';
+    //         Object.assign(self.form.inv, {
+    //           state: invState ? invState.value : {},
+    //           issuer: dcdata.issuername,
+    //           role: dcdata.designation,
+    //         });
 
-            self.goid = dcdata.goid;
-            self.form.ship.copyFlag =
-              dcdata.consignee.consigneename === data.custSupDetails.custname &&
-              dcdata.consignee.consigneeaddress ===
-                data.custSupDetails.custaddr;
+    //         self.goid = dcdata.goid;
+    //         self.form.ship.copyFlag =
+    //           dcdata.consignee.consigneename === data.custSupDetails.custname &&
+    //           dcdata.consignee.consigneeaddress ===
+    //             data.custSupDetails.custaddr;
 
-            self.form.taxType = dcdata.taxflag === 7 ? 'gst' : 'vat';
-            self.form.transport = {
-              mode: dcdata.modeoftransport,
-              vno: dcdata.vehicleno,
-              date: data.dateofsupply,
-            };
-            self.form.total.roundFlag = !!dcdata.roundoffflag;
+    //         self.form.taxType = dcdata.taxflag === 7 ? 'gst' : 'vat';
+    //         self.form.transport = {
+    //           mode: dcdata.modeoftransport,
+    //           vno: dcdata.vehicleno,
+    //           date: data.dateofsupply,
+    //         };
+    //         self.form.total.roundFlag = !!dcdata.roundoffflag;
 
-            self.form.party.type =
-              data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
-            self.$nextTick().then(() => {
-              self.form.party.name = data.custSupDetails.custname;
+    //         self.form.party.type =
+    //           data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+    //         self.$nextTick().then(() => {
+    //           self.form.party.name = data.custSupDetails.custname;
 
-              // set shipping details
-              if (!self.form.ship.copyFlag) {
-                let ship = dcdata.consignee;
-                if (ship) {
-                  Object.assign(self.form.ship, {
-                    name: ship.consigneename,
-                    addr: ship.consigneeaddress,
-                    state: {
-                      name: ship.consigneestate,
-                      id: ship.consigneestatecode,
-                    },
-                    gstin: ship.gstinconsignee,
-                    tin: ship.tinconsignee,
-                    pin: ship.consigneepincode,
-                  });
-                }
-              }
-              self.updateComponentData();
-              self.isPreloading = false;
-            });
+    //           // set shipping details
+    //           if (!self.form.ship.copyFlag) {
+    //             let ship = dcdata.consignee;
+    //             if (ship) {
+    //               Object.assign(self.form.ship, {
+    //                 name: ship.consigneename,
+    //                 addr: ship.consigneeaddress,
+    //                 state: {
+    //                   name: ship.consigneestate,
+    //                   id: ship.consigneestatecode,
+    //                 },
+    //                 gstin: ship.gstinconsignee,
+    //                 tin: ship.tinconsignee,
+    //                 pin: ship.consigneepincode,
+    //               });
+    //             }
+    //           }
+    //           self.updateComponentData();
+    //           self.isPreloading = false;
+    //         }).catch(() => {
+    //           self.isPreloading = false;
+    //         });
 
-            // set bill items
-            self.form.bill = [];
-            for (const itemCode in data.delchalContents) {
-              let item = data.delchalContents[itemCode];
-              let billItem = {
-                product: item.proddesc,
-                discount: { amount: parseFloat(item.discount) },
-                qty: parseFloat(item.qty),
-                fqty: item.freeqty,
-                rate: parseFloat(item.priceperunit),
-                isService: false,
-                igst: { rate: 0 },
-                cgst: { rate: 0 },
-                sgst: { rate: 0 },
-                cess: { rate: 0 },
-                vat: { rate: 0 },
-              };
-              self.form.bill.push(billItem);
-            }
+    //         // set bill items
+    //         self.form.bill = [];
+    //         for (const itemCode in data.delchalContents) {
+    //           let item = data.delchalContents[itemCode];
+    //           let billItem = {
+    //             product: item.proddesc,
+    //             discount: { amount: parseFloat(item.discount) },
+    //             qty: parseFloat(item.qty),
+    //             fqty: item.freeqty,
+    //             rate: parseFloat(item.priceperunit),
+    //             isService: false,
+    //             igst: { rate: 0 },
+    //             cgst: { rate: 0 },
+    //             sgst: { rate: 0 },
+    //             cess: { rate: 0 },
+    //             vat: { rate: 0 },
+    //           };
+    //           self.form.bill.push(billItem);
+    //         }
 
-            self.updateComponentData();
-          }
-        })
-        .catch((error) => {
-          this.displayToast(
-            `Fetch Delivery Note data Error!`,
-            error.message,
-            'warning'
-          );
-        });
-    },
+    //         self.updateComponentData();
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       this.displayToast(
+    //         `Fetch Delivery Note data Error!`,
+    //         error.message,
+    //         'warning'
+    //       );
+    //     });
+    // },
     setBankDetails() {
       const orgBank = this.options.orgDetails.bankDetails || {};
       const partyBank = this.options.partyDetails.bankDetails || {};
@@ -989,7 +1000,7 @@ export default {
       return axios
         .get(`/invoice?inv=single&invid=${this.invoiceId}`)
         .then((resp) => {
-          self.isPreloading = false;
+          // self.isPreloading = false;
           if (resp.data.gkstatus === 0) {
             let data = resp.data.gkresult;
             // console.log(resp.data);
@@ -1070,7 +1081,7 @@ export default {
                   pin: ship.consigneepincode,
                 });
               }
-              self.updateComponentData();
+              // self.updateComponentData();
             });
 
             // debugger;
@@ -1078,10 +1089,12 @@ export default {
 
             // set bill items
             self.form.bill = [];
+            // let bills = [];
             for (const itemCode in data.invcontents) {
               let item = data.invcontents[itemCode];
               let billItem = {
-                product: item.proddesc,
+                // product: item.proddesc,
+                product: {id: itemCode, name: item.proddesc},
                 discount: { amount: parseFloat(item.discount) },
                 qty: parseFloat(item.qty),
                 fqty: item.freeqty,
@@ -1098,13 +1111,14 @@ export default {
               }
               self.form.bill.push(billItem);
             }
-
+            // self.form.bill = bills;
             self.updateComponentData();
 
             if (data.attachmentcount > 0) {
               this.fetchAttachments();
             }
           }
+          self.isPreloading = false;
         })
         .catch((error) => {
           this.displayToast(
@@ -1139,7 +1153,6 @@ export default {
                     ? resp.data.gkresult
                     : self.invoiceId;
                   self.invModalId = self.invoiceId;
-                  self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
                   self.displayToast(
                     self.$gettextInterpolate(
                       self.$gettext(`%{actionText} Invoice Successfull!`),
@@ -1159,9 +1172,17 @@ export default {
                   axios.post('/log', log);
 
                   if (self.isCreate) {
-                    self.updateInvNoCounter().then(() => {
-                      self.resetForm();
-                    });
+                    self
+                      .updateInvNoCounter()
+                      .then(() => {
+                        self.resetForm();
+                        self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                      })
+                      .catch(() => {
+                        self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                      });
+                  } else {
+                    self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
                   }
                 }
                 break;
@@ -1568,7 +1589,9 @@ export default {
       let discount = {};
       this.form.bill.forEach((item) => {
         // let taxable = item.total * item.qty - item.discount.amount;
-
+        if (!item.product) {
+          return;
+        }
         if (contents[item.product.id] === undefined) {
           contents[item.product.id] = {};
         }
@@ -1648,6 +1671,7 @@ export default {
       return { delchaldata: delchal, stockdata: stock };
     },
     resetForm() {
+      this.showPrintModal = false;
       this.$store.dispatch(`${this.vuexNameSpace}/initInvoiceConfig`);
       let paymentMode;
       switch (this.defaultPaymentMode) {
@@ -1666,8 +1690,9 @@ export default {
           paymentMode = 3;
         }
       }
+      let type = this.form.type;
       this.form = {
-        type: this.form.type,
+        type: type,
         inv: {
           state: { id: null },
           taxState: { id: null },

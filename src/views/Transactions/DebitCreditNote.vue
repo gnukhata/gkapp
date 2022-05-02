@@ -92,7 +92,7 @@
         :parentData="form.bill"
         :cgstFlag="isCgst"
         :creditFlag="isCredit"
-        :blockEmptyStock="false"
+        :invDate="form.invoice.date"
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -479,6 +479,7 @@ export default {
         });
     },
     collectComponentData() {
+      this.updateCounter.totalTable++;
       Object.assign(this.form.dcNote, this.$refs.dcNote.form);
       Object.assign(this.form.invoice, this.$refs.invoice.form);
       Object.assign(this.form.party, this.$refs.party.form);
@@ -540,7 +541,7 @@ export default {
             for (const itemCode in inv.invcontents) {
               item = inv.invcontents[itemCode];
               billItem = {
-                product: item.proddesc,
+                product: {name: item.proddesc, id: itemCode},
                 discount: { amount: parseFloat(item.discount) },
                 qty: parseFloat(item.qty),
                 fqty: item.freeqty,
@@ -664,6 +665,7 @@ export default {
       return { dataset: drcrdata, vdataset };
     },
     resetForm() {
+      this.showPrintModal = false;
       this.invId = null;
       Object.assign(this.form, {
         type: 'sale', // purchase

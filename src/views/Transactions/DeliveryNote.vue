@@ -74,6 +74,9 @@
       </div>
       <!-- Bill Table -->
       <bill-table
+        :invDate="form.delNote.date"
+        :saleFlag="isSale"
+        :blockEmptyStock="isSale"
         :gstFlag="isGst"
         :config="config.bill"
         @details-updated="onComponentDataUpdate"
@@ -397,6 +400,7 @@ export default {
   },
   methods: {
     collectComponentData() {
+      this.updateCounter.totalTable++;
       Object.assign(this.form.delNote, this.$refs.delNote.form);
       Object.assign(this.form.party, this.$refs.party.form);
       Object.assign(this.form.ship, this.$refs.ship.form);
@@ -584,8 +588,8 @@ export default {
                   axios.post('/log', log);
 
                   this.delNoteId = resp.data.gkresult;
-                  this.showPrintModal = true;
                   this.resetForm();
+                  this.showPrintModal = true;
                 }
                 break;
               case 1:
@@ -778,6 +782,7 @@ export default {
       return { delchaldata: delchal, stockdata: stock };
     },
     resetForm() {
+      this.showPrintModal = false;
       let delNote = this.form.delNote;
       this.form = {
         type: 'sale',

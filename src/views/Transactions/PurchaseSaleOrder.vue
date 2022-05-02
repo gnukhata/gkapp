@@ -85,6 +85,9 @@
       </div>
       <!-- Bill Table -->
       <bill-table
+        :invDate="form.psOrder.date"
+        :saleFlag="isSale"
+        :blockEmptyStock="isSale"
         :gstFlag="isGst"
         :config="config.bill"
         @details-updated="onComponentDataUpdate"
@@ -359,6 +362,7 @@ export default {
       }
     },
     collectComponentData() {
+      this.updateCounter.totalTable++;
       Object.assign(this.form.psOrder, this.$refs.psOrder.form);
       Object.assign(this.form.party, this.$refs.party.form);
       Object.assign(this.form.ship, this.$refs.ship.form);
@@ -603,6 +607,7 @@ export default {
         });
     },
     resetForm() {
+      this.showPrintModal = false;
       let paymentMode;
       switch (this.defaultPaymentMode) {
         case 'credit':

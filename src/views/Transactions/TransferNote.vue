@@ -27,6 +27,7 @@
       </b-card-group>
       <!-- Bill Table -->
       <bill-table
+        :saleFlag="true"
         :gstFlag="true"
         :config="config.bill"
         @details-updated="onComponentDataUpdate"
@@ -339,6 +340,7 @@ export default {
       return { transferdata, stockdata };
     },
     resetForm() {
+      this.showPrintModal = false;
       this.form = {
         transferNote: {
           godownFrom: -1,

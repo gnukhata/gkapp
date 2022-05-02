@@ -82,6 +82,7 @@
         :parentData="form.bill"
         :onRowSelected="onRowSelected"
         ref="bill"
+        :invDate="form.invoice.date"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
@@ -374,6 +375,7 @@ export default {
       }
     },
     collectComponentData() {
+      this.updateCounter.totalTable++;
       Object.assign(this.form.invoice, this.$refs.invoice.form);
       Object.assign(this.form.rnote, this.$refs.rnote.form);
       Object.assign(this.form.party, this.$refs.party.form);
@@ -600,7 +602,7 @@ export default {
               item = data.invcontents[itemCode];
               itemName = data.invcontents[itemCode].proddesc;
               billItem = {
-                product: itemName,
+                product: {name: itemName, id: itemCode},
                 discount: { amount: parseFloat(item.discount) },
                 qty: parseFloat(qty),
                 fqty: item.freeqty,
@@ -655,6 +657,7 @@ export default {
       }
     },
     resetForm(resetNoteDetails) {
+      this.showPrintModal = false;
       Object.assign(this.form, {
         rnote: {
           no: '',
