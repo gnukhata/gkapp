@@ -40,7 +40,7 @@
         caption-top
         bordered
         striped
-        :items="form"
+        :items="formItems()"
         :fields="fields"
         :primary-key="`tbl_${Date.now()}`"
         :foot-clone="true"
@@ -50,6 +50,7 @@
         head-variant="dark"
         tbody-tr-class="text-center"
         thead-tr-class="text-center"
+        ref="billTable"
       >
         <!-- Index -->
         <template #cell(index)="data">
@@ -75,6 +76,7 @@
         </template>
         <template #cell(rowSelected)="data">
           <b-form-checkbox
+            v-if="form[data.item.index]"
             @input="callRowSelected(data.item.index)"
             v-model="form[data.item.index].rowSelected"
           ></b-form-checkbox>
@@ -85,7 +87,7 @@
           <span>{{ data.label }}</span>
         </template>
         <template #cell(product)="data">
-          <autocomplete
+          <!-- <autocomplete
             v-if="!disabled.product"
             size="sm"
             v-model="form[data.item.index].product"
@@ -100,9 +102,31 @@
             :readonly="disabled.product"
             :inactiveText="config.qty.checkStock ? 'Out of Stock' : ''"
             :blockInactive="blockEmptyStock"
-          ></autocomplete>
+          ></autocomplete> -->
+          <v-select
+            v-if="form[data.item.index] && !disabled.product"
+            @input="
+              onBillItemSelect(form[data.item.index].product, data.item.index)
+            "
+            :options="options.products"
+            label="name"
+            v-model="form[data.item.index].product"
+            placeholder="Select Product/Service"
+            :selectable="checkProductValidity"
+            :disabled="disabled.product"
+          >
+            <template v-slot:option="option">
+              <div v-if="options.productData[option.id].gsflag !== 19">
+                {{ option.name }}
+                <div class="text-small" v-if="options.stock[option.id] > 0">
+                  ({{ options.stock[option.id] }})
+                </div>
+                <div v-else>({{ options.stock[option.id] || 0 }})</div>
+              </div>
+            </template>
+          </v-select>
           <span v-else>{{
-            data.value.name || form[data.item.index].product.name
+            data.value.name || form[data.item.index].product.name || ''
           }}</span>
         </template>
 
@@ -111,36 +135,42 @@
           <span v-translate>Qty</span>
         </template>
         <template #cell(qty)="data">
-          <b-input
-            v-if="!disabled.qty"
-            size="sm"
-            v-model="form[data.item.index].qty"
-            class="hide-spin-button text-right px-1"
-            type="number"
-            no-wheel
-            step="0.01"
-            min="0.01"
-            @input="onQtyUpdate(data.item.index, data.item.pid)"
-            :readonly="data.item.isService || disabled.qty"
-            :tabindex="data.item.isService ? -1 : 0"
-          ></b-input>
-          <span v-else>{{
-            form[data.item.index] ? form[data.item.index].qty : ''
-          }}</span>
-          <small
-            class="text-danger"
-            v-if="
-              config.qty.checkStock &&
-                form[data.item.index].qty > options.stock[data.item.pid] &&
-                !form[data.item.index].isService
-            "
-          >
-            <translate
-              :translate-params="{ stockOnHand: options.stock[data.item.pid] }"
-            >
-              Stock On Hand = %{stockOnHand}
-            </translate>
-          </small>
+          <div v-if="form[data.item.index]">
+            <b-input
+              v-if="!disabled.qty"
+              size="sm"
+              v-model="form[data.item.index].qty"
+              class="hide-spin-button text-right px-1"
+              type="number"
+              no-wheel
+              step="0.01"
+              min="0.01"
+              @input="onQtyUpdate(data.item.index, data.item.pid)"
+              :readonly="data.item.isService || disabled.qty"
+              :tabindex="data.item.isService ? -1 : 0"
+            ></b-input>
+            <span v-else>{{
+              form[data.item.index] ? form[data.item.index].qty : ''
+            }}</span>
+            <div>
+              <small
+                class="text-danger"
+                v-if="
+                  config.qty.checkStock &&
+                    form[data.item.index].qty > options.stock[data.item.pid] &&
+                    !form[data.item.index].isService
+                "
+              >
+                <translate
+                  :translate-params="{
+                    stockOnHand: options.stock[data.item.pid],
+                  }"
+                >
+                  Stock On Hand = %{stockOnHand}
+                </translate>
+              </small>
+            </div>
+          </div>
         </template>
 
         <!-- Package Count (Purchase Sales Order) -->
@@ -148,19 +178,21 @@
           <span v-translate>No. of Packages</span>
         </template>
         <template #cell(packageCount)="data">
-          <b-input
-            v-if="!disabled.packageCount"
-            size="sm"
-            v-model="form[data.item.index].packageCount"
-            class="hide-spin-button text-right px-1"
-            type="number"
-            no-wheel
-            step="0.01"
-            min="0.01"
-            :readonly="data.item.isService"
-            :tabindex="data.item.isService ? -1 : 0"
-          ></b-input>
-          <span v-else>{{ form[data.item.index].packageCount }}</span>
+          <div v-if="form[data.item.index]">
+            <b-input
+              v-if="!disabled.packageCount"
+              size="sm"
+              v-model="form[data.item.index].packageCount"
+              class="hide-spin-button text-right px-1"
+              type="number"
+              no-wheel
+              step="0.01"
+              min="0.01"
+              :readonly="data.item.isService"
+              :tabindex="data.item.isService ? -1 : 0"
+            ></b-input>
+            <span v-else>{{ form[data.item.index].packageCount }}</span>
+          </div>
         </template>
 
         <!-- Rejected Qty (Rejection Note) -->
@@ -168,19 +200,21 @@
           <span v-translate>Rejected Qty</span>
         </template>
         <template #cell(rejectedQty)="data">
-          <b-input
-            v-if="!disabled.rejectedQty"
-            size="sm"
-            v-model="form[data.item.index].rejectedQty"
-            class="hide-spin-button text-right px-1"
-            type="number"
-            no-wheel
-            step="0.01"
-            min="0"
-            :max="data.item.qty"
-            @input="onRejectedQty(data.item.index)"
-          ></b-input>
-          <span v-else>{{ form[data.item.index].rejectedQty }}</span>
+          <div v-if="form[data.item.index]">
+            <b-input
+              v-if="!disabled.rejectedQty"
+              size="sm"
+              v-model="form[data.item.index].rejectedQty"
+              class="hide-spin-button text-right px-1"
+              type="number"
+              no-wheel
+              step="0.01"
+              min="0"
+              :max="data.item.qty"
+              @input="onRejectedQty(data.item.index)"
+            ></b-input>
+            <span v-else>{{ form[data.item.index].rejectedQty }}</span>
+          </div>
         </template>
 
         <!-- Debit Credit Value (Debit Credit Note) -->
@@ -189,20 +223,22 @@
           <span v-else v-translate> Debited Value </span>
         </template>
         <template #cell(dcValue)="data">
-          <b-input
-            v-if="!disabled.dcValue"
-            size="sm"
-            v-model="form[data.item.index].dcValue"
-            class="hide-spin-button text-right px-1"
-            type="number"
-            no-wheel
-            step="0.01"
-            min="0"
-            :max="form[data.item.index].qty * form[data.item.index].rate"
-            @input="updateTaxAndTotal(data.item.index)"
-            required
-          ></b-input>
-          <span v-else>{{ form[data.item.index].dcValue }}</span>
+          <div v-if="form[data.item.index]">
+            <b-input
+              v-if="!disabled.dcValue"
+              size="sm"
+              v-model="form[data.item.index].dcValue"
+              class="hide-spin-button text-right px-1"
+              type="number"
+              no-wheel
+              step="0.01"
+              min="0"
+              :max="form[data.item.index].qty * form[data.item.index].rate"
+              @input="updateTaxAndTotal(data.item.index)"
+              required
+            ></b-input>
+            <span v-else>{{ form[data.item.index].dcValue }}</span>
+          </div>
         </template>
 
         <!-- Rate -->
@@ -210,55 +246,69 @@
           <span v-translate>Rate</span> <small>₹</small>
         </template>
         <template #cell(rate)="data">
-          <b-input
-            v-if="!disabled.rate"
-            v-model="form[data.item.index].rate"
-            size="sm"
-            class="hide-spin-button text-right px-1"
-            type="number"
-            no-wheel
-            step="0.01"
-            min="0.01"
-            @input="updateTaxAndTotal(data.item.index)"
-            @click="updateRateField(data.item.index, ['rate'], 'clickin')"
-            @blur="updateRateField(data.item.index, ['rate'], 'clickout')"
-            :readonly="disabled.rate"
-            :required="!disabled.rate"
-          ></b-input>
-          <span v-else>{{ form[data.item.index].rate }}</span>
+          <div v-if="form[data.item.index]">
+            <b-input
+              v-if="!disabled.rate"
+              v-model="form[data.item.index].rate"
+              size="sm"
+              class="hide-spin-button text-right px-1"
+              type="number"
+              no-wheel
+              step="0.01"
+              min="0.01"
+              @input="updateTaxAndTotal(data.item.index)"
+              @click="updateRateField(data.item.index, ['rate'], 'clickin')"
+              @blur="updateRateField(data.item.index, ['rate'], 'clickout')"
+              :readonly="disabled.rate"
+              :required="!disabled.rate"
+            ></b-input>
+            <span v-else>{{ form[data.item.index].rate }}</span>
+          </div>
         </template>
 
         <!-- CGST -->
         <template #cell(cgst)="data">
           {{
-            form[data.item.index].cgst ? form[data.item.index].cgst.rate : ''
+            form[data.item.index] && form[data.item.index].cgst
+              ? form[data.item.index].cgst.rate
+              : ''
           }}
         </template>
 
         <!-- SGST -->
         <template #cell(sgst)="data">
           {{
-            form[data.item.index].sgst ? form[data.item.index].sgst.rate : ''
+            form[data.item.index] && form[data.item.index].sgst
+              ? form[data.item.index].sgst.rate
+              : ''
           }}
         </template>
 
         <!-- IGST -->
         <template #cell(igst)="data">
           {{
-            form[data.item.index].igst ? form[data.item.index].igst.rate : ''
+            form[data.item.index] && form[data.item.index].igst
+              ? form[data.item.index].igst.rate
+              : ''
           }}
         </template>
 
         <!-- CESS -->
         <template #cell(cess)="data">
           {{
-            form[data.item.index].cess ? form[data.item.index].cess.rate : ''
+            form[data.item.index] && form[data.item.index].cess
+              ? form[data.item.index].cess.rate
+              : ''
           }}
         </template>
 
         <!-- VAT -->
         <template #cell(vat)="data">
-          {{ form[data.item.index].vat ? form[data.item.index].vat.rate : '' }}
+          {{
+            form[data.item.index] && form[data.item.index].vat
+              ? form[data.item.index].vat.rate
+              : ''
+          }}
         </template>
 
         <!-- Discount -->
@@ -266,33 +316,35 @@
           <span v-translate>Discount</span> <small>₹</small>
         </template>
         <template #cell(discount)="data">
-          <b-input
-            v-if="!disabled.discount"
-            size="sm"
-            v-model="form[data.item.index].discount.amount"
-            class="hide-spin-button text-right px-1"
-            type="number"
-            no-wheel
-            step="0.01"
-            min="0.00"
-            @input="updateTaxAndTotal(data.item.index)"
-            @click="
-              updateRateField(
-                data.item.index,
-                ['discount', 'amount'],
-                'clickin'
-              )
-            "
-            @blur="
-              updateRateField(
-                data.item.index,
-                ['discount', 'amount'],
-                'clickout'
-              )
-            "
-            :readonly="disabled.discount"
-          ></b-input>
-          <span v-else>{{ form[data.item.index].discount.amount }}</span>
+          <div v-if="form[data.item.index]">
+            <b-input
+              v-if="!disabled.discount"
+              size="sm"
+              v-model="form[data.item.index].discount.amount"
+              class="hide-spin-button text-right px-1"
+              type="number"
+              no-wheel
+              step="0.01"
+              min="0.00"
+              @input="updateTaxAndTotal(data.item.index)"
+              @click="
+                updateRateField(
+                  data.item.index,
+                  ['discount', 'amount'],
+                  'clickin'
+                )
+              "
+              @blur="
+                updateRateField(
+                  data.item.index,
+                  ['discount', 'amount'],
+                  'clickout'
+                )
+              "
+              :readonly="disabled.discount"
+            ></b-input>
+            <span v-else>{{ form[data.item.index].discount.amount }}</span>
+          </div>
         </template>
 
         <template #foot(discount)="">
@@ -306,7 +358,7 @@
           <span v-translate>Total </span> <small>₹</small>
         </template>
         <template #cell(total)="data">
-          {{ form[data.item.index].total }}
+          {{ form[data.item.index] ? form[data.item.index].total : '' }}
         </template>
 
         <template v-if="config.footer.total" #foot(total)="">
@@ -373,7 +425,7 @@
 
 <script>
 import axios from 'axios';
-import Autocomplete from '../../Autocomplete.vue';
+// import Autocomplete from '../../Autocomplete.vue';
 import BusinessItem from '../BusinessItem.vue';
 import { mapState } from 'vuex';
 import { debounceEvent } from '../../../js/utils';
@@ -381,7 +433,7 @@ import { debounceEvent } from '../../../js/utils';
 export default {
   name: 'BillTable',
   components: {
-    Autocomplete,
+    // Autocomplete,
     BusinessItem,
   },
   props: {
@@ -397,6 +449,12 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+    saleFlag: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: `true if sale, false if purchase. Used to purchase out of stock items`,
     },
     onRowSelected: {
       type: Function,
@@ -426,7 +484,7 @@ export default {
     blockEmptyStock: {
       type: Boolean,
       required: false,
-      default: true,
+      default: false,
       note: 'Flag to block the selection of items with no stock',
     },
     invDate: {
@@ -493,9 +551,9 @@ export default {
         },
       ],
       options: {
-        productData: [],
-        products: [],
-        stock: {},
+        productData: {}, // product's data, mapped to its id
+        products: [], // product list used by the bill table
+        stock: {}, // stock data based on godown id
         godownStock: {},
       },
     };
@@ -614,6 +672,8 @@ export default {
   },
   watch: {
     updateCounter() {
+      // debugger;
+      // console.log(1);
       let updateBillTable = !(
         this.parentData.length &&
         typeof this.parentData[0].product === 'object' &&
@@ -635,14 +695,14 @@ export default {
       let products = [];
       this.parentData.forEach((item) => {
         let product = self.options.products.find(
-          (p) => p.text === item.product
+          (p) => p.name === item.product.name
         );
         if (product) {
-          self.editCounter++;
+          self.editCounter += 2;
           self.addBillItem();
           products.push({
-            pid: product.value.id,
-            product: product.value,
+            pid: product.id,
+            product: product,
             discount: item.discount,
             qty: item.qty,
             fqty: item.fqty,
@@ -651,20 +711,34 @@ export default {
           });
         }
       });
-      this.$forceUpdate();
+      // this.$forceUpdate();
       this.$nextTick().then(() => {
-        setTimeout(() => {
-          if (products.length) {
-            products.forEach((product, index) => {
-              self.form[index] = product;
-              // console.log(product);
-              self.fetchProductDetails(self.form[index].product.id, index);
+        this.$refs.billTable.refresh();
+        if (products.length) {
+          let requests = [];
+          products.forEach((product, index) => {
+            self.form[index] = product;
+            // console.log(product);
+            requests.push(
+              self.fetchProductDetails(self.form[index].product.id, index)
+            );
+          });
+
+          Promise.all(requests)
+            .then(() => {
+              console.log('Calling refresh');
+              self.isPreloading = false;
               self.$forceUpdate();
+              self.$nextTick.then(() => {
+                self.$refs.billTable.refresh();
+              });
+            })
+            .catch(() => {
+              self.isPreloading = false;
             });
-          }
-          // self.$forceUpdate();
+        } else {
           self.isPreloading = false;
-        }, 500);
+        }
       });
     },
     godownId() {
@@ -679,11 +753,68 @@ export default {
     },
   },
   methods: {
-    onQtyUpdate(index, pid) {
+    /**
+     * formItems()
+     * 
+     * provider method for vue bootstrap table
+     * 
+     * params: ctx, callback (in order)
+     * */
+    formItems() {
+      let result = [
+        {
+          rowSelected: false,
+          product: { id: '', name: '' },
+          hsn: '',
+          qty: null,
+          packageCount: null,
+          rejectedQty: null,
+          dcValue: null,
+          fqty: 0,
+          rate: null,
+          discount: { rate: 0, amount: null },
+          taxable: null,
+          cgst: { rate: 0, amount: 0 },
+          sgst: { rate: 0, amount: 0 },
+          igst: { rate: 0, amount: 0 },
+          cess: { rate: 0, amount: 0 },
+          vat: { rate: 0, amount: 0 },
+          total: 0,
+          pid: null,
+        },
+      ];
+      if (this.form.length) {
+        result = this.form;
+      }
+      // console.log(JSON.stringify(result));
+      return result;
+    },
+    /**
+     * checkProductValidity()
+     *
+     * Checks if the product is valid for selection based on the stock qty data.
+     *
+     * Method used as selectable prop for v-select component
+     */
+    checkProductValidity(product) {
+      let id = product.id;
+      // let prodOptions = this.options.products;
+
+      let valid = true;
       if (
-        parseFloat(this.form[index].qty) <= this.options.stock[pid] ||
-        !this.blockEmptyStock
+        this.options.productData[id] &&
+        this.options.productData[id].gsflag !== 19 &&
+        this.saleFlag
       ) {
+        if (!(this.options.stock[id] > 0)) {
+          valid = false;
+        }
+      }
+
+      return valid;
+    },
+    onQtyUpdate(index, pid) {
+      if (parseFloat(this.form[index].qty) <= this.options.stock[pid]) {
         this.updateTaxAndTotal(index);
       }
       this.$forceUpdate();
@@ -1115,7 +1246,7 @@ export default {
       if (this.godownId === -1) {
         return;
       }
-      
+
       const self = this;
 
       // if godown id is -1, uses stockonhand, else uses godownwise stock on hand
@@ -1129,10 +1260,12 @@ export default {
           return;
         } else if (this.options.godownStock[this.godownId] && !forceFetch) {
           this.options.stock = this.options.godownStock[this.godownId];
-          this.setStockStatus();
+          // this.setStockStatus();
           return;
         }
       }
+      
+      this.isPreloading = true;
 
       params = `&enddate=${this.endDate}`;
       if (self.godownId !== -1) {
@@ -1161,10 +1294,12 @@ export default {
               godownStock[id] = stock[id];
             });
             self.options.godownStock[self.godownId] = godownStock;
-            self.setStockStatus();
+            // self.setStockStatus();
+            self.isPreloading = false;
           }
         })
         .catch((error) => {
+          self.isPreloading = false;
           console.log(error);
           return error;
         });
@@ -1194,19 +1329,15 @@ export default {
             if (resp.data.gkstatus === 0) {
               resp.data.gkresult.sort((a, b) => a.productcode - b.productcode);
               self.options.products = [];
-              self.options.productData = [];
+              self.options.productData = {};
               resp.data.gkresult.forEach((item) => {
                 self.options.products.push({
-                  text: item.productdesc,
-                  value: {
-                    id: item.productcode,
-                    name: item.productdesc,
-                  },
+                  id: item.productcode,
+                  name: item.productdesc,
                 });
-                self.options.productData.push({
-                  productcode: item.productcode,
+                self.options.productData[item.productcode] = {
                   gsflag: item.gsflag,
-                });
+                };
               });
               if (self.config.qty.checkStock) {
                 // self.fetchStockOnHandData();
