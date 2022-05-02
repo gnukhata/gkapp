@@ -664,7 +664,15 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
         content-class="modal-content text-small"
         centered
       >
-        <b-table-lite
+        <div class="m-2">
+          <b-form-input
+            :placeholder="$gettext('Search Invoices')"
+            size="sm"
+            v-model="invTableSearch"
+            type="text"
+          ></b-form-input>
+        </div>
+        <b-table
           head-variant="dark"
           small
           bordered
@@ -673,7 +681,10 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
           responsive="sm"
           :busy="isLoading"
           :fields="invFields"
+          :filter="invTableSearch"
           sticky-header="450px"
+          sort-by="invoicedate"
+          :sort-desc="true"
         >
           <template #table-busy>
             <div class="text-center">
@@ -696,7 +707,7 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
               {{ data.item.grossamt }}
             </div>
           </template>
-        </b-table-lite>
+        </b-table>
       </b-modal>
     </div>
   </section>
@@ -744,6 +755,7 @@ export default {
       isLoading: false,
       state: '',
       search: '',
+      invTableSearch: '',
       report: {
         data: null,
         selected: '',
@@ -905,16 +917,17 @@ export default {
     invFields: function() {
       let fields = [
         { key: 'index', label: 'No' },
-        { key: 'invoiceno', label: 'Inv No' },
+        { key: 'invoiceno', label: 'Inv No', sortable: true },
         {
           key: 'invoicedate',
           label: 'Date',
           thStyle: 'max-width: 100px',
           tdClass: 'text-truncate',
+          sortable: true
         },
         // {key: "custname", label: 'Customer'},
-        { key: 'netamt', label: 'Taxable Value' },
-        { key: 'taxamt', label: 'Integrated Tax' },
+        { key: 'netamt', label: 'Taxable Value', sortable: true },
+        { key: 'taxamt', label: 'Integrated Tax', sortable: true },
         // { key: 'grossamt', label: 'Inv Total' },
       ];
       // if (this.taxGroup) {
