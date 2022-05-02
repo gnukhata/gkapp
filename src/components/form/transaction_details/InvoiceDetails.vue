@@ -415,30 +415,36 @@ export default {
   },
   watch: {
     updateCounter() {
-      this.resetForm();
-      if (this.parentData.no && this.editFlag) {
-        this.form.no = this.parentData.no;
-      }
-      if (this.parentData.date) {
-        this.form.date = this.parentData.date;
-      }
-      if (this.parentData.state) {
-        if (this.parentData.state.id) {
-          this.form.state = this.parentData.state;
+      const self = this;
+      this.isPreloading = true;
+      this.resetForm().then(() => {
+        if (self.parentData.no && self.editFlag) {
+          self.form.no = self.parentData.no;
         }
-      }
-
-      if (this.parentData.taxState) {
-        if (this.parentData.taxState.id) {
-          this.form.taxState = this.parentData.taxState;
+        if (self.parentData.date) {
+          self.form.date = self.parentData.date;
         }
-      }
+        if (self.parentData.state) {
+          if (self.parentData.state.id) {
+            self.form.state = self.parentData.state;
+          }
+        }
 
-      if (this.parentData.godown) {
-        this.form.godown = this.parentData.godown;
-      }
+        if (self.parentData.taxState) {
+          if (self.parentData.taxState.id) {
+            self.form.taxState = self.parentData.taxState;
+          }
+        }
 
-      this.onUpdateDetails();
+        if (self.parentData.godown) {
+          self.form.godown = self.parentData.godown;
+        }
+
+        self.onUpdateDetails();
+        self.isPreloading = false;
+      }).catch(() => {
+        self.isPreloading = false;
+      });
     },
     saleFlag() {
       if (this.editFlag) {
@@ -479,7 +485,7 @@ export default {
       if (!fetchNew) {
         this.form.no = this.saleFlag ? this.invNo.sale : this.invNo.purchase;
         if (this.form.no) {
-          return;
+          return Promise.resolve(1);
         }
       } else {
         this.invNo = {
@@ -503,6 +509,7 @@ export default {
           this.yearEnd
         );
         this.invNo[this.saleFlag ? 'sale' : 'purchase'] = this.form.no;
+        return Promise.resolve(1);
       } else {
         // inoutflag = 9-purchase, 15-sale
         let self = this;
@@ -563,7 +570,7 @@ export default {
           ? this.options.delNoteNo['sale']
           : this.options.delNoteNo['purchase'];
         if (this.form.dnNo) {
-          return;
+          return Promise.resolve(1);
         }
       } else {
         this.options.delNoteNo = {
@@ -597,7 +604,7 @@ export default {
       return axios
         .get(url)
         .then((resp) => {
-          if(resp.data.gkstatus === 0) {
+          if (resp.data.gkstatus === 0) {
             return resp.data.dcid;
           }
           return -1;
@@ -649,8 +656,8 @@ export default {
                 (state) => state.text.toLowerCase() === orgstate
               )
             : null;
-          let stateCode = state? state.value.id : '';
-          if(stateCode && stateCode < 9) {
+          let stateCode = state ? state.value.id : '';
+          if (stateCode && stateCode < 9) {
             stateCode = `0${stateCode}`;
           }
           let gstin = this.options.orgDetails.gstin;
@@ -733,13 +740,14 @@ export default {
         });
     },
     resetForm() {
+      let requests = [];
       this.setOrgDetails();
       if (this.disabled.state) {
         this.form.state = '';
       }
       this.form.date = !this.disabled.date ? this.getNoteDate() : '';
       if (!this.disabled.no) {
-        this.setInvoiceNo(true);
+        requests.push(this.setInvoiceNo(true));
       } else {
         this.form.no = '';
       }
@@ -750,7 +758,8 @@ export default {
         });
       }
       this.onUpdateDetails();
-      this.updateDelNoteNo(true);
+      requests.push(this.updateDelNoteNo(true));
+      return Promise.all(requests);
     },
   },
   mounted() {

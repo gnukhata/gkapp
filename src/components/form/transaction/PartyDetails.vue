@@ -428,6 +428,7 @@ export default {
         party = this.options.suppliers.find((sup) => sup.text === partyName);
       }
       if (party) {
+        this.isPreloading = true;
         this.form.name = party.value;
       }
     },
@@ -501,8 +502,10 @@ export default {
         let data = this.options.csData[id];
         if (data) {
           this.setCustomerData(data);
+          this.isPreloading = false;
           return;
         }
+        this.isPreloading = true;
         let self = this;
         axios
           .get(`/customersupplier?qty=single&custid=${id}`)
@@ -530,6 +533,7 @@ export default {
                   'danger'
                 );
             }
+            self.isPreloading = false;
             // debugger;
             // self.setShippingDetails(); // updates shipping details as well if flag is set
           })
@@ -539,6 +543,7 @@ export default {
               error.message,
               'warning'
             );
+            self.isPreloading = false;
           });
       }
     },
