@@ -723,17 +723,17 @@ export default {
         if (name === 'vat' || name === 'gst' || name === 'delGst') {
           this.tax[name].forEach(function(item) {
             let payload = item;
-            if (name === 'gst' || name === 'delGst') {
-              payload = {
-                state: item.state || '',
-                taxfromdate: item.taxfromdate,
-                taxname: item.taxname,
-                taxrate: item.taxrate,
-              };
-              if (item.taxid) {
-                payload.taxid = item.taxid;
-              }
+            payload = {
+              state: item.state || '',
+              taxfromdate: item.taxfromdate || self.yearStart,
+              taxname: item.taxname,
+              taxrate: item.taxrate,
+            };
+            if (item.taxid) {
+              payload.taxid = item.taxid;
             }
+            // if (name === 'gst' || name === 'delGst') {
+            // }
             updates.push(updateTaxItem(payload));
           });
         } else {

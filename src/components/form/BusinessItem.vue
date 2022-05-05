@@ -774,6 +774,7 @@ export default {
                     taxrate: item.taxrate,
                     productcode: productCode,
                     taxfromdate: item.taxfromdate,
+                    state: item.taxname === 'VAT' ? item.state : ''
                   };
                   return axios.post('/tax2', taxPayload);
                 });
@@ -946,6 +947,7 @@ export default {
           taxname: 'CESS',
           state: '',
           taxrate: parseFloat(this.form.tax.cess) || 0,
+          taxfromdate: this.yearStart,
         });
       }
 
@@ -955,6 +957,7 @@ export default {
           taxname: 'CVAT',
           state: '',
           taxrate: parseFloat(this.form.tax.cvat) || 0,
+          taxfromdate: this.yearStart,
         });
       }
 
@@ -967,6 +970,7 @@ export default {
                 taxname: 'VAT',
                 state: vat.state,
                 taxrate: parseFloat(vat.rate) || 0,
+                taxfromdate: this.yearStart,
               });
             }
             return acc;

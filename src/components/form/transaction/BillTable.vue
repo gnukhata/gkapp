@@ -37,7 +37,6 @@
       <b-table
         hover
         small
-        caption-top
         bordered
         striped
         :items="formItems()"
@@ -306,7 +305,7 @@
         <template #cell(vat)="data">
           {{
             form[data.item.index] && form[data.item.index].vat
-              ? form[data.item.index].vat.rate
+              ? form[data.item.index].vat.rate || ''
               : ''
           }}
         </template>
@@ -375,6 +374,12 @@
         <!-- Default fall-back custom formatted footer cell -->
         <template #foot()="">
           {{ '' }}
+        </template>
+
+        <template #table-caption>
+          <small v-if="!gstFlag">
+            {{ taxState ? '' : '* Need Place of Supply to implment taxes' }}
+          </small>
         </template>
       </b-table>
       <b-pagination
@@ -494,6 +499,12 @@ export default {
       note:
         'Invoice date in yyyy-mm-dd format to determine the appropriate gst',
     },
+    taxState: {
+      type: String,
+      required: false,
+      default: '',
+      note: 'tax state is used to choose the appropriate VAT',
+    },
     parentData: {
       type: Array,
       required: false,
@@ -529,6 +540,7 @@ export default {
       currentPage: 1,
       allRowsSelected: false,
       skipAllRowSelect: false,
+      taxInclusiveFlag: false,
       // fields: [],
       form: [
         {
@@ -755,9 +767,9 @@ export default {
   methods: {
     /**
      * formItems()
-     * 
+     *
      * provider method for vue bootstrap table
-     * 
+     *
      * params: ctx, callback (in order)
      * */
     formItems() {
@@ -779,6 +791,7 @@ export default {
           igst: { rate: 0, amount: 0 },
           cess: { rate: 0, amount: 0 },
           vat: { rate: 0, amount: 0 },
+          vatMap: {},
           total: 0,
           pid: null,
         },
@@ -814,7 +827,10 @@ export default {
       return valid;
     },
     onQtyUpdate(index, pid) {
-      if (parseFloat(this.form[index].qty) <= this.options.stock[pid]) {
+      if (
+        parseFloat(this.form[index].qty) <= this.options.stock[pid] ||
+        !this.saleFlag
+      ) {
         this.updateTaxAndTotal(index);
       }
       this.$forceUpdate();
@@ -893,7 +909,7 @@ export default {
                 ? data.filter((item) => item.taxname === 'CESS')
                 : 0,
               vat = self.config.vat
-                ? data.filter((item) => item.taxname === 'CVAT')
+                ? data.filter((item) => item.taxname === 'VAT')
                 : 0;
 
             if (igst.length) {
@@ -957,10 +973,16 @@ export default {
               };
             }
             if (vat.length) {
-              tax['vat'] = {
-                rate: vat[0].taxrate,
-                amount: 0,
-              };
+              tax['vatMap'] = {};
+              vat.forEach((vatItem) => {
+                tax['vatMap'][vatItem.state] = {
+                  rate: parseFloat(vatItem.taxrate),
+                  amount: 0,
+                };
+              });
+              if (this.taxState) {
+                tax['vat'] = tax['vatMap'][this.taxState];
+              }
             }
             Object.assign(self.form[index], tax);
           }
@@ -1150,38 +1172,8 @@ export default {
      */
     updateTaxAndTotal(index) {
       let item = this.form[index];
-      if (item && item.taxes) {
-        // find the appropriate tax based on the date of the invoice
-        let taxDates = Object.keys(item.taxes);
-        if (taxDates.length && this.invDate) {
-          // Sort the tax dates in descending order
-          taxDates.sort(
-            (a, b) => new Date(b).getTime() - new Date(a).getTime()
-          );
-          let invDate = new Date(this.invDate).getTime();
-          let taxDate = taxDates.find((date) => {
-            let tDate = new Date(date).getTime();
-            return tDate <= invDate;
-          });
-          if (taxDate) {
-            let taxes = item.taxes[taxDate];
-            if (taxes.igst) {
-              item.igst = taxes.igst;
-            }
-
-            if (taxes.cgst) {
-              item.cgst = taxes.cgst;
-            }
-
-            if (taxes.sgst) {
-              item.sgst = taxes.sgst;
-            }
-          } else {
-            item.cgst = { rate: 0, amount: 0 };
-            item.sgst = { rate: 0, amount: 0 };
-            item.igst = { rate: 0, amount: 0 };
-          }
-        }
+      if (item) {
+        // calculate taxable
         if (item.rate > 0) {
           let qty = item.qty;
           if (this.config.rejectedQty) {
@@ -1200,8 +1192,43 @@ export default {
           if (this.config.dcValue) {
             item.taxable = parseFloat(item.dcValue || 0);
           }
+        }
 
-          if (this.gstFlag) {
+        // calculate tax
+        if (this.gstFlag) {
+          if (item.taxes) {
+            // find the appropriate tax based on the date of the invoice
+            let taxDates = Object.keys(item.taxes);
+            if (taxDates.length && this.invDate) {
+              // Sort the tax dates in descending order
+              taxDates.sort(
+                (a, b) => new Date(b).getTime() - new Date(a).getTime()
+              );
+              let invDate = new Date(this.invDate).getTime();
+              let taxDate = taxDates.find((date) => {
+                let tDate = new Date(date).getTime();
+                return tDate <= invDate;
+              });
+              if (taxDate) {
+                let taxes = item.taxes[taxDate];
+                if (taxes.igst) {
+                  item.igst = taxes.igst;
+                }
+
+                if (taxes.cgst) {
+                  item.cgst = taxes.cgst;
+                }
+
+                if (taxes.sgst) {
+                  item.sgst = taxes.sgst;
+                }
+              } else {
+                item.cgst = { rate: 0, amount: 0 };
+                item.sgst = { rate: 0, amount: 0 };
+                item.igst = { rate: 0, amount: 0 };
+              }
+            }
+
             if (item.igst.rate > 0) {
               item.igst.amount = parseFloat(
                 (item.taxable * (item.igst.rate * 0.01)).toFixed(2)
@@ -1219,15 +1246,22 @@ export default {
               item.cess.amount
             ).toFixed(2);
           } else {
-            if (item.vat.rate > 0) {
-              item.vat.amount = item.taxable * (item.vat.rate * 0.01);
-            }
-            item.total = (item.taxable + item.vat.amount).toFixed(2);
+            item.taxable = (0).toFixed(2);
+            item.total = (0).toFixed(2);
           }
         } else {
-          item.taxable = (0).toFixed(2);
-          item.total = (0).toFixed(2);
+          item.vat = this.taxState && item.vatMap
+            ? item.vatMap[this.taxState]
+            : { rate: 0, amount: 0 };
+
+          if (item.vat.rate > 0) {
+            item.vat.amount = item.taxable * (item.vat.rate * 0.01);
+          }
+          item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
         }
+      } else {
+        item.taxable = (0).toFixed(2);
+        item.total = (0).toFixed(2);
       }
       if (isNaN(item.taxable) || isNaN(item.total)) {
         item.total = '';
@@ -1264,7 +1298,7 @@ export default {
           return;
         }
       }
-      
+
       this.isPreloading = true;
 
       params = `&enddate=${this.endDate}`;
