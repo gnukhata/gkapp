@@ -77,7 +77,7 @@
               label-cols="3"
             >
               <template #label> <translate> State </translate> </template>
-              <autocomplete
+              <!-- <autocomplete
                 id="ci-input-20"
                 v-model="state"
                 :options="options.states"
@@ -85,7 +85,15 @@
                 valueUid="code"
                 :required="false"
               >
-              </autocomplete>
+              </autocomplete> -->
+              <v-select
+                id="ci-input-20"
+                :options="options.states"
+                v-model="state"
+                label="name"
+                placeholder="Select a State"
+                :required="false"
+              ></v-select>
             </b-form-group>
             <b-form-group
               label-size="sm"
@@ -460,7 +468,7 @@ export default {
           ifsc: null,
         },
       },
-      state: {},
+      state: null,
     };
   },
   computed: {
@@ -758,11 +766,8 @@ export default {
               }
 
               return {
-                text: name,
-                value: {
-                  name: name,
-                  code: code,
-                },
+                name: name,
+                code: code,
               };
             });
           } else {
