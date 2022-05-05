@@ -35,18 +35,42 @@
           <b-form-group
             label-align="right"
             label-cols="4"
+            :label="$gettext('UQC')"
+          >
+            <v-select
+              v-model="form.uqc"
+              :options="uqcList"
+              :reduce="(uqc) => uqc.value"
+              :placeholder="$gettext('Select UQC')"
+            >
+              <template #search="{attributes, events}">
+                <input
+                  class="vs__search"
+                  :required="!form.uqc"
+                  v-bind="attributes"
+                  v-on="events"
+                />
+              </template>
+            </v-select>
+          </b-form-group>
+          <b-form-group
+            label-align="right"
+            label-cols="4"
             :label="$gettext('Sub Unit Of')"
             description="*optional"
           >
-            <autocomplete
+            <v-select
               v-model="form.subunitof"
               :options="uomList"
-              :placeholder="$gettext('Select Unit')"
-            ></autocomplete>
+              :reduce="(uom) => uom.value"
+              :placeholder="$gettext('Select Parent Unit')"
+            ></v-select>
           </b-form-group>
           <b-form-group
-            v-if="form.subunitof !== '' && form.subunitof !== null"
+            label-align="right"
+            label-cols="4"
             :label="$gettext('Conversion Rate')"
+            v-if="form.subunitof"
           >
             <b-form-input
               v-model="form.conversionrate"
@@ -69,18 +93,20 @@
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios';
-import Autocomplete from '../Autocomplete.vue';
+// import Autocomplete from '../Autocomplete.vue';
 export default {
-  components: { Autocomplete },
+  // components: { Autocomplete },
   name: 'AddUOM',
   data() {
     return {
       isLoading: false,
       uomList: [],
+      uqcList: [],
       form: {
         unitname: '',
         description: '',
         subunitof: null,
+        uqc: '',
       },
     };
   },
@@ -99,24 +125,31 @@ export default {
         })
         .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
-            let u = r.data.gkresult.map((data) => {
-              let obj = {};
-              obj.text = `${data.unitname} - ${data.description}`;
-              obj.value = data.uomid;
-              return obj;
+            let uomList = [],
+              uqcList = [];
+            r.data.gkresult.forEach((data) => {
+              let obj = {
+                label: `${data.unitname} - ${data.description}`,
+                value: data.uomid,
+              };
+              uomList.push(obj);
+              if (data.sysunit === 1) {
+                uqcList.push(obj);
+              }
             });
-            this.uomList = u;
-            this.isLoading = false;
+            this.uomList = uomList;
+            this.uqcList = uqcList;
           } else {
             console.log(r.data.gkstatus);
             this.$bvToast.toast(
               'Unable to fetch UOM list, Please reload the page',
               { variant: 'danger' }
             );
-            this.isLoading = false;
           }
+          this.isLoading = false;
         })
         .catch((e) => {
+          this.isLoading = false;
           this.$bvToast.toast(e.message, { variant: 'danger' });
         });
     },

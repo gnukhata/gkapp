@@ -21,7 +21,7 @@
       :show="true"
     >
       Valid GST Units are marked
-      <b-badge variant="success">green</b-badge> If not mapped, Units will be
+      <b-badge variant="success">green</b-badge> Custom Units will be
       marked in <b-badge variant="warning">Yellow</b-badge>
     </b-alert>
     <b-table
@@ -50,6 +50,7 @@
           :variant="subUnitStatus(data.item)"
         ></b-icon>
         <b-link
+          v-if="data.item.sysunit === 0"
           @click="$router.push('/uom/' + data.item.uom_id)"
           title="click to edit UOM"
           :variant="subUnitStatus(data.item)"
@@ -57,6 +58,17 @@
         >
           {{ data.item.unit_name }}
         </b-link>
+        <span v-else>
+          {{ data.item.unit_name }}
+        </span>
+      </template>
+      <template #cell(uqc)="data">
+        <div v-if="!data.value" class="text-danger">
+          <div class="text-small">* Invalid UQC</div>
+        </div>
+        <span v-else>
+          {{ data.value }}
+        </span>
       </template>
     </b-table>
   </section>
@@ -69,6 +81,7 @@ export default {
   name: 'UOM',
   data() {
     return {
+      uomType: {}, // uom name to systemunit flag map
       uomList: [],
       fields: [
         {
@@ -77,6 +90,10 @@ export default {
         },
         {
           key: 'description',
+        },
+        {
+          key: 'uqc',
+          label: 'UQC',
         },
       ],
       selectedUomId: '',
@@ -95,16 +112,24 @@ export default {
         .get('/unitofmeasurement?qty=all')
         .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
-            let usr = r.data.gkresult.map((data) => {
-              let obj = {};
-              obj.unit_name = data.unitname;
-              obj.description = data.description;
-              obj.uom_id = data.uomid;
-              obj.subunitof = data.subunitof;
-              obj.sysunit = data.sysunit;
-              return obj;
+            const uomData = r.data.gkresult;
+            let uomMap = {};
+            uomData.forEach((uom) => {
+              uomMap[uom.uomid] = uom.unitname;
+              this.uomType[uom.unitname] = uom.sysunit;
             });
-            this.uomList = usr;
+            this.uomList = uomData.map((data) => {
+              return {
+                unit_name: data.unitname,
+                description: data.description,
+                uom_id: data.uomid,
+                subunitof: data.sysunit
+                  ? data.unitname
+                  : uomMap[data.subunitof],
+                uqc: data.sysunit ? data.unitname : uomMap[data.uqc],
+                sysunit: data.sysunit,
+              };
+            });
             this.isLoading = false;
           }
         })
@@ -116,11 +141,8 @@ export default {
     subUnitStatus(item) {
       if (item.sysunit === 1) {
         return 'success';
-      } else if (item.sysunit === 0 && item.subunitof == null) {
-        return 'warning';
-      } else {
-        return 'success';
       }
+      return 'warning';
     },
     showEditUOM(id) {
       this.selectedUomId = id;
