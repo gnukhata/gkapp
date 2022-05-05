@@ -220,21 +220,43 @@ export default {
           label: self.$gettext('Discount (₹)'),
           tdClass: 'gk-currency-sm',
         },
-        { key: 'igst', label: 'IGST (%)' },
-        { key: 'cgst', label: 'CGST (%)' },
-        { key: 'sgst', label: 'SGST (%)' },
-        { key: 'cess', label: 'CESS (%)' },
-        {
-          key: 'total',
-          label: self.$gettext('Total (₹)'),
-          tdClass: 'gk-currency-sm',
-        },
       ];
-      if (self.total.isIgst) {
-        fields.splice(5, 2);
+      if (self.delnote.isGst) {
+        if (self.total.isIgst) {
+          fields.push({
+            key: 'igst',
+            label: 'IGST (%)',
+            tdClass: 'gk-currency-sm',
+          });
+        } else {
+          fields.push({
+            key: 'cgst',
+            label: 'CGST (%)',
+            tdClass: 'gk-currency-sm',
+          });
+          fields.push({
+            key: 'sgst',
+            label: 'SGST (%)',
+            tdClass: 'gk-currency-sm',
+          });
+        }
+        fields.push({
+          key: 'cess',
+          label: 'CESS (%)',
+          tdClass: 'gk-currency-sm',
+        });
       } else {
-        fields.splice(4, 1);
+        fields.push({
+          key: 'vat',
+          label: 'VAT (%)',
+          tdClass: 'gk-currency-sm',
+        });
       }
+      fields.push({
+        key: 'total',
+        label: self.$gettext('Total (₹)'),
+        tdClass: 'gk-currency-sm',
+      });
 
       return fields;
     },
@@ -321,6 +343,7 @@ export default {
       };
       this.delnote = {
         isGst: details.taxname !== 'VAT',
+        isIgst: details.taxname === 'IGST',
         contents: [],
         no: noteData.dcno,
         date: noteData.dcdate,
@@ -373,6 +396,7 @@ export default {
           qty: item.qty,
           rate: item.priceperunit,
           discount: item.discount,
+          vat: item.taxrate,
           igst: item.taxrate,
           cgst: item.taxrate / 2,
           sgst: item.taxrate / 2,

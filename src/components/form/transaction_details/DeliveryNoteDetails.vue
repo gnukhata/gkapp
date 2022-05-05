@@ -122,6 +122,25 @@
           ></autocomplete>
         </b-form-group>
         <b-form-group
+          label="Place of Supply"
+          label-for="dnd-input-41"
+          label-cols="3"
+          label-cols-md="4"
+          label-size="sm"
+          label-class="required"
+        >
+          <template #label> <translate> Place of Supply </translate> </template>
+          <autocomplete
+            size="sm"
+            id="dnd-input-41"
+            v-model="form.taxState"
+            :options="options.states"
+            :required="true"
+            valueUid="id"
+            @input="onUpdateDetails"
+          ></autocomplete>
+        </b-form-group>
+        <b-form-group
           label="GSTIN"
           label-for="dnd-input-50"
           label-cols="4"
@@ -203,6 +222,13 @@ export default {
       required: false,
       default: 0,
     },
+    parentData: {
+      type: Object,
+      required: false,
+      default: function() {
+        return {};
+      },
+    },
   },
   data() {
     return {
@@ -242,6 +268,7 @@ export default {
         gstin: null,
         issuer: null,
         role: null,
+        taxState: {},
         options: {
           gstin: {},
         },
@@ -254,7 +281,22 @@ export default {
       this.setDelChalNo();
     },
     updateCounter() {
-      this.resetForm();
+      const self = this;
+      this.isPreloading = true;
+      this.resetForm(false)
+        .then(() => {
+          if (self.parentData.taxState) {
+            if (self.parentData.taxState.id) {
+              self.form.taxState = self.parentData.taxState;
+            }
+          }
+          self.isPreloading = false;
+          self.onUpdateDetails();
+        })
+        .catch(() => {
+          self.isPreloading = false;
+          self.onUpdateDetails();
+        });
     },
   },
   methods: {
@@ -268,7 +310,7 @@ export default {
           ? this.delchalNo['sale']
           : this.delchalNo['purchase'];
         if (this.form.no) {
-          return;
+          return Promise.resolve(1);
         }
       } else {
         this.delchalNo = {
@@ -277,7 +319,7 @@ export default {
         };
       }
       if (this.config.no) {
-        this.getLastDelChalNo().then((no) => {
+        return this.getLastDelChalNo().then((no) => {
           let codes = this.config.no.format
             ? this.config.no.format.code
             : { in: 'DIN', out: 'DOUT' };
@@ -295,6 +337,7 @@ export default {
           }
         });
       }
+      return Promise.resolve(1);
     },
     getLastDelChalNo() {
       const self = this;
@@ -337,9 +380,11 @@ export default {
               gstin: gstin || {},
             },
             gstin: gstin && state ? gstin[state.value.id] : '',
+            taxState: {},
           });
         }
       }
+      this.$forceUpdate();
     },
     fetchUserData() {
       let self = this;
@@ -466,12 +511,15 @@ export default {
           this.isPreloading = false;
         });
     },
-    resetForm() {
+    resetForm(raiseUpdateEvent) {
       this.setOrgDetails();
       this.form.date = this.getNoteDate();
       this.form.type = 1;
-      this.setDelChalNo(true);
-      this.onUpdateDetails();
+      let setNoPromise = this.setDelChalNo(true);
+      if(raiseUpdateEvent) {
+        this.onUpdateDetails();
+      }
+      return setNoPromise;
     },
   },
   mounted() {
@@ -487,8 +535,9 @@ export default {
 
     const self = this;
     this.preloadData().then(() => {
-      self.resetForm();
-      self.form.godown = self.$store.getters['global/getDefaultGodown'];
+      self.resetForm(true).then(() => {
+        self.form.godown = self.$store.getters['global/getDefaultGodown'];
+      });
     });
   },
 };

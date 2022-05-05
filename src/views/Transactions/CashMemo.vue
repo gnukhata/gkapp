@@ -95,6 +95,7 @@
         :saleFlag="isSale"
         :blockEmptyStock="isSale"
         :invDate="form.memo.date"
+        :taxState="taxState"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
@@ -278,6 +279,7 @@ export default {
     };
   },
   computed: {
+    taxState: (self) => self.form.memo.state.name || '',
     payModes: (self) => {
       return [
         { text: self.$gettext('-- Payment Mode --'), value: null },

@@ -46,6 +46,7 @@
           :saleFlag="isSale"
           @details-updated="onComponentDataUpdate"
           :updateCounter="updateCounter.delNote"
+          :parentData="form.delNote"
           ref="delNote"
         ></delivery-note-details>
         <!-- Shipping Details -->
@@ -84,6 +85,7 @@
         :parentData="form.bill"
         :cgstFlag="isCgst"
         :godownId="form.delNote.godown"
+        :taxState="taxState"
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -271,8 +273,13 @@ export default {
       // check resetForm() for the fully defined form{} object
       form: {
         type: 'sale',
-        delNote: {},
-        party: {},
+        delNote: {
+          state: { id: null },
+          taxState: { id: null },
+        },
+        party: {
+          state: { id: null },
+        },
         ship: {},
         taxType: 'gst', // vat
         bill: [],
@@ -296,6 +303,10 @@ export default {
     };
   },
   computed: {
+    taxState: (self) => {
+      debugger;
+      return self.form.delNote.taxState ? self.form.delNote.taxState.name : '';
+    },
     // config : Gets the custom config from the invoiceConfig Vuex module and
     //          prepares it for use by adding some custom additions to it (that should not be user editable)
     config: (self) => {
@@ -419,20 +430,26 @@ export default {
       this.updateCounter.comments++;
     },
     onComponentDataUpdate(payload) {
+      const self = this;
       switch (payload.name) {
         case 'delivery-note-details':
           {
+            debugger;
             Object.assign(this.form.delNote, payload.data);
             this.form.transport.date = this.form.delNote.date;
-            const self = this;
             setTimeout(function() {
               self.updateCounter.transport++;
             });
           }
           break;
         case 'party-details':
+          debugger;
           Object.assign(this.form.party, payload.data);
           this.updateCounter.ship++;
+          this.form.delNote.taxState = payload.data.state;
+          setTimeout(function() {
+            self.updateCounter.delNote++;
+          }, 1)
           break;
         case 'bill-table':
           Object.assign(this.form.bill, payload.data);
@@ -658,6 +675,13 @@ export default {
         delete delchal.ewaybillno;
       }
 
+      // Place of supply is used as taxstate
+      if (typeof this.form.delNote.taxState === 'object') {
+        if (this.form.delNote.taxState.name) {
+          delchal.taxstate = this.form.delNote.taxState.name;
+        }
+      }
+
       // === GST/ VAT related data ===
       if (this.isGst) {
         delchal.taxflag = 7;
@@ -796,59 +820,20 @@ export default {
           issuer: delNote.issuer,
           role: delNote.role,
           options: delNote.options,
+          taxState: { id: null },
         },
         party: {
-          type: 'customer', // supplier
-          options: {
-            states: [],
-            gstin: [],
-          },
-          custid: null,
-          name: { id: null, name: null },
-          addr: null,
-          state: { id: null, name: null },
-          gstin: null,
-          tin: null,
-          pin: null,
-          editFlag: false,
-          loading: false,
+          name: false,
+          state: { id: null },
         },
-        ship: {
-          copyFlag: true,
-          name: null,
-          addr: null,
-          state: {},
-          gstin: null,
-          tin: null,
-          pin: null,
-        },
+        ship: {},
         taxType: 'gst', // vat
         bill: [
           {
             product: { name: '', id: '' },
-            hsn: '',
-            qty: 0,
-            fqty: 0,
-            rate: 0,
-            discount: { rate: 0, amount: 0 },
-            taxable: 0,
-            igst: { rate: 0, amount: 0 },
-            cess: { rate: 0, amount: 0 },
-            vat: { rate: 0, amount: 0 },
-            total: 0,
-            isService: false, // used to make certain fields readonly
           },
         ],
-        total: {
-          taxable: 0,
-          igst: 0,
-          cess: 0,
-          vat: 0,
-          discount: 0,
-          amount: 0,
-          rounded: 0,
-          text: '',
-        },
+        total: {},
         transport: {
           mode: 'Road',
           vno: null,

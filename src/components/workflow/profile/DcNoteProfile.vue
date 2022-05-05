@@ -206,14 +206,37 @@ export default {
           tdClass: 'gk-currency-sm',
         });
       }
-
-      if (self.flags.igst) {
-        fields.push({ key: 'igst', label: 'IGST (%)' });
+      if (self.flags.gst) {
+        if (self.flags.igst) {
+          fields.push({
+            key: 'igst',
+            label: 'IGST (%)',
+            tdClass: 'gk-currency-sm',
+          });
+        } else {
+          fields.push({
+            key: 'cgst',
+            label: 'CGST (%)',
+            tdClass: 'gk-currency-sm',
+          });
+          fields.push({
+            key: 'sgst',
+            label: 'SGST (%)',
+            tdClass: 'gk-currency-sm',
+          });
+        }
+        fields.push({
+          key: 'cess',
+          label: 'CESS (%)',
+          tdClass: 'gk-currency-sm',
+        });
       } else {
-        fields.push({ key: 'cgst', label: 'CGST (%)' });
-        fields.push({ key: 'sgst', label: 'SGST (%)' });
+        fields.push({
+          key: 'vat',
+          label: 'VAT (%)',
+          tdClass: 'gk-currency-sm',
+        });
       }
-      fields.push({ key: 'cess', label: 'CESS (%)' });
       fields.push({
         key: 'total',
         label: self.$gettext('Total (₹)'),
@@ -273,6 +296,7 @@ export default {
           text: numberToRupees(details.totreduct),
         };
         if (details.drcrcontents) {
+          let taxState = details.invdata.taxstate;
           for (const id in details.drcrcontents) {
             let item = details.drcrcontents[id];
             this.dcNote.dcItems.push({
@@ -284,6 +308,7 @@ export default {
               cgst: item.taxrate / 2,
               sgst: item.taxrate / 2,
               cess: item.cessrate,
+              vat: item.taxrate,
               total: item.totalAmount,
               uom: item.uom,
             });

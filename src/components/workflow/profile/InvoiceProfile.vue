@@ -95,7 +95,7 @@
         {{ data.value.rate }} <small> % </small>
       </template>
       <template #cell(vat)="data">
-        {{ data.value.rate }} <small> % </small>
+        {{ data.value }} <small> % </small>
       </template>
       <template #cell(total)="data"> {{ data.value }} </template>
       <template #custom-foot>
@@ -372,7 +372,11 @@ export default {
           key: 'name',
           label: self.$gettext('Item'),
         },
-        'qty',
+        {
+          key: 'qty',
+          label: self.$gettext('Qty'),
+          tdClass: 'gk-currency-sm',
+        },
         {
           key: 'price',
           label: self.$gettext('Rate (₹)'),
@@ -387,16 +391,20 @@ export default {
 
       if (self.invoice.isGst) {
         if (self.invoice.total.isIgst) {
-          fields.push({ key: 'igst', label: 'IGST' });
+          fields.push({
+            key: 'igst',
+            label: 'IGST',
+            tdClass: 'gk-currency-sm',
+          });
         } else {
           fields.push(
-            { key: 'cgst', label: 'CGST' },
-            { key: 'sgst', label: 'SGST' }
+            { key: 'cgst', label: 'CGST', tdClass: 'gk-currency-sm' },
+            { key: 'sgst', label: 'SGST', tdClass: 'gk-currency-sm' }
           );
         }
-        fields.push({ key: 'cess', label: 'CESS' });
+        fields.push({ key: 'cess', label: 'CESS', tdClass: 'gk-currency-sm' });
       } else {
-        fields.push({ key: 'vat', label: 'VAT' });
+        fields.push({ key: 'vat', label: 'VAT', tdClass: 'gk-currency-sm' });
       }
       fields.push({
         key: 'total',

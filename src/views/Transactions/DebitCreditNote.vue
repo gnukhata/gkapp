@@ -93,6 +93,7 @@
         :cgstFlag="isCgst"
         :creditFlag="isCredit"
         :invDate="form.invoice.date"
+        :taxState="taxState"
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -314,6 +315,8 @@ export default {
     };
   },
   computed: {
+    taxState: (self) =>
+      self.form.invoice.taxState ? self.form.invoice.taxState.name : '',
     isFormValid: (self) => self.form.total.amount > 0,
     invList: (self) => {
       const noteType = self.isCredit ? 'crInvoices' : 'drInvoices';
@@ -402,6 +405,8 @@ export default {
       const self = this;
       this.isLoading = true;
       const payload = this.initPayload();
+      // console.log(payload);
+      // return;
       const noteType = this.isCredit ? 'Credit' : 'Debit';
       console.log(payload);
       axios
@@ -606,9 +611,7 @@ export default {
         taxflag: this.isGst ? 7 : 22,
         taxname: this.isGst ? (this.isCgst ? 'SGST' : 'IGST') : 'VAT',
         inoutflag: this.isSale ? 15 : 9,
-        taxstate: this.isSale
-          ? this.form.party.state.name
-          : this.form.invoice.state,
+        taxstate: this.form.invoice.taxState ? this.form.invoice.taxState.name : '',
         totaltaxable: this.form.total.taxable,
       };
 

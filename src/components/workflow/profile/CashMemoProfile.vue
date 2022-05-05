@@ -91,7 +91,8 @@
         variant="primary"
         v-b-toggle.voucher-container
       >
-        <b-icon icon="eye" class="mr-1"></b-icon> <translate>View Voucher</translate>
+        <b-icon icon="eye" class="mr-1"></b-icon>
+        <translate>View Voucher</translate>
       </b-button>
     </div>
     <div class="clearfix"></div>
@@ -229,21 +230,24 @@ export default {
           label: self.$gettext('Discount (₹)'),
           tdClass: 'gk-currency-sm',
         },
-        { key: 'igst', label: 'IGST (%)' },
-        { key: 'cgst', label: 'CGST (%)' },
-        { key: 'sgst', label: 'SGST (%)' },
-        { key: 'cess', label: 'CESS (%)' },
-        {
-          key: 'total',
-          label: self.$gettext('Total (₹)'),
-          tdClass: 'gk-currency-sm',
-        },
       ];
-      if (self.invoice.total.isIgst) {
-        fields.splice(5, 2);
+      if (self.invoice.isGst) {
+        if (self.invoice.total.isIgst) {
+          fields.push({ key: 'igst', label: 'IGST (%)', tdClass: 'gk-currency-sm', });
+        } else {
+          fields.push({ key: 'cgst', label: 'CGST (%)', tdClass: 'gk-currency-sm', });
+          fields.push({ key: 'sgst', label: 'SGST (%)', tdClass: 'gk-currency-sm', });
+        }
+        fields.push({ key: 'cess', label: 'CESS (%)', tdClass: 'gk-currency-sm', });
       } else {
-        fields.splice(4, 1);
+        fields.push({ key: 'vat', label: 'VAT (%)', tdClass: 'gk-currency-sm', });
       }
+
+      fields.push({
+        key: 'total',
+        label: self.$gettext('Total (₹)'),
+        tdClass: 'gk-currency-sm',
+      });
 
       return fields;
     },
@@ -266,7 +270,8 @@ export default {
           addr: '',
           pincodce: '',
         },
-        isSale: '',
+        isSale: true,
+        isGst: true,
         invItems: [],
         total: {
           amount: 0,
@@ -392,6 +397,7 @@ export default {
                 igst: details.invcontents[key].taxrate,
                 cgst: details.invcontents[key].taxrate,
                 sgst: details.invcontents[key].taxrate,
+                vat: details.invcontents[key].taxrate,
                 cess: {
                   rate: details.invcontents[key].cess,
                   amount: details.invcontents[key].cessrate,

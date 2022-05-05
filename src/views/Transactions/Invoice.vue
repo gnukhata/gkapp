@@ -127,6 +127,7 @@
         :saleFlag="isSale"
         :blockEmptyStock="isSale"
         :invDate="form.inv.date"
+        :taxState="taxState"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
@@ -410,6 +411,8 @@ export default {
     };
   },
   computed: {
+    taxState: (self) =>
+      self.form.inv.taxState ? self.form.inv.taxState.name : '',
     // config : Gets the custom config from the invoiceConfig Vuex module and
     //          prepares it for use by adding some custom additions to it (that should not be user editable)
     config: (self) => {
@@ -640,10 +643,10 @@ export default {
             // } else {
             //   }
 
-            let oldInvNo = this.form.inv.no; 
+            let oldInvNo = this.form.inv.no;
             this.goid = payload.data.godown || -1;
             Object.assign(this.form.inv, payload.data);
-            if(!this.isCreate) {
+            if (!this.isCreate) {
               this.form.inv.no = oldInvNo;
             }
             this.form.transport.date = this.form.inv.date;
@@ -1094,7 +1097,7 @@ export default {
               let item = data.invcontents[itemCode];
               let billItem = {
                 // product: item.proddesc,
-                product: {id: itemCode, name: item.proddesc},
+                product: { id: itemCode, name: item.proddesc },
                 discount: { amount: parseFloat(item.discount) },
                 qty: parseFloat(item.qty),
                 fqty: item.freeqty,
@@ -1133,6 +1136,8 @@ export default {
       this.createDelNote().then(() => {
         this.createInvoice();
       });
+      // console.log(this.initDelNotePayload());
+      // console.log(this.initPayload());
     },
     createInvoice() {
       const self = this;
@@ -1303,6 +1308,7 @@ export default {
         invoice.supinvdate = this.form.inv.supdate;
       }
 
+      // Place of supply is used as taxstate
       if (typeof this.form.inv.taxState === 'object') {
         if (this.form.inv.taxState.name) {
           invoice.taxstate = this.form.inv.taxState.name;
@@ -1347,6 +1353,8 @@ export default {
       };
       let freeqty = {};
       let discount = {};
+
+      const self = this;
       this.form.bill.forEach((item) => {
         let taxable = item.rate * item.qty - item.discount.amount;
 
@@ -1357,15 +1365,19 @@ export default {
         contents[item.product.id][item.rate] = parseFloat(item.qty).toFixed(2);
         stock.items[item.product.id] = parseFloat(item.qty).toFixed(2);
 
-        if (this.isGst) {
+        if (self.isGst) {
           tax[item.product.id] = parseFloat(item.igst.rate).toFixed(2);
           cess[item.product.id] = parseFloat(item.cess.rate).toFixed(2);
           av.avtax = {
-            GSTName: this.isCgst ? 'CGST' : 'IGST',
+            GSTName: self.isCgst ? 'CGST' : 'IGST',
             CESSName: 'CESS',
           };
         } else {
-          tax[item.product.id] = parseFloat(item.vat.rate).toFixed(2);
+          let vat = { rate: 0, amount: 0 };
+          if (self.taxState && item.vatMap[self.taxState]) {
+            vat = item.vatMap[self.taxState];
+          }
+          tax[item.product.id] = parseFloat(vat.rate).toFixed(2);
           av.taxpayment += taxable;
         }
 
@@ -1379,7 +1391,7 @@ export default {
         av.totaltaxable += taxable;
 
         pricedetails.push({
-          custid: this.form.party.name.id || '',
+          custid: self.form.party.name.id || '',
           productcode: item.product.id,
           inoutflag: invoice.inoutflag,
           lastprice: item.rate,
@@ -1545,6 +1557,13 @@ export default {
         delete delchal.ewaybillno;
       }
 
+      // Place of supply is used as taxstate
+      if (typeof this.form.inv.taxState === 'object') {
+        if (this.form.inv.taxState.name) {
+          delchal.taxstate = this.form.inv.taxState.name;
+        }
+      }
+
       // === GST/ VAT related data ===
       if (this.isGst) {
         delchal.taxflag = 7;
@@ -1587,6 +1606,8 @@ export default {
       // };
       let freeqty = {};
       let discount = {};
+
+      const self = this;
       this.form.bill.forEach((item) => {
         // let taxable = item.total * item.qty - item.discount.amount;
         if (!item.product) {
@@ -1599,12 +1620,16 @@ export default {
         contents[item.product.id][item.rate] = parseFloat(item.qty).toFixed(2);
         // stock.items[item.product.id] = parseFloat(item.qty).toFixed(2);
 
-        if (this.isGst) {
+        if (self.isGst) {
           tax[item.product.id] = parseFloat(item.igst.rate).toFixed(2);
           cess[item.product.id] = parseFloat(item.cess.rate).toFixed(2);
           // // av.avtax = { GSTName: 'IGST', CESSName: 'CESS' };
         } else {
-          tax[item.product.id] = parseFloat(item.vat.rate).toFixed(2);
+          let vat = { rate: 0, amount: 0 };
+          if (self.taxState && item.vatMap[self.taxState]) {
+            vat = item.vatMap[self.taxState];
+          }
+          tax[item.product.id] = parseFloat(vat.rate).toFixed(2);
           // av.taxpayment += taxable;
         }
 
@@ -1618,7 +1643,7 @@ export default {
         // av.totaltaxable += taxable;
 
         pricedetails.push({
-          custid: this.form.party.name.id || '',
+          custid: self.form.party.name.id || '',
           productcode: item.product.id,
           inoutflag: delchal.inoutflag,
           lastprice: item.rate,
