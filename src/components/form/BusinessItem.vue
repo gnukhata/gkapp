@@ -170,7 +170,7 @@
             <b-card border-variant="dark" no-body>
               <b-card-body class="p-2">
                 <b b-translate>Price</b>
-                <b-form-group
+                <!-- <b-form-group
                   label-size="sm"
                   label="MRP"
                   label-for="bi-input-4"
@@ -187,7 +187,7 @@
                       step="0.01"
                     ></b-form-input>
                   </b-input-group>
-                </b-form-group>
+                </b-form-group> -->
                 <b-form-group
                   label-size="sm"
                   label="Sale Price"
@@ -206,8 +206,6 @@
                       type="number"
                       no-wheel
                       step="0.01"
-                      @input="calculateDiscount"
-                      @blur="calculateDiscount"
                     ></b-form-input>
                   </b-input-group>
                 </b-form-group>

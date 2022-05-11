@@ -117,9 +117,9 @@
       </template>
       <b-collapse v-model="isCollapsed2" class="p-3" id="collapse-price">
         <!-- MRP -->
-        <b-form-group label-size="sm" label="MRP" label-cols="4">
+        <!-- <b-form-group label-size="sm" label="MRP" label-cols="4">
           <b-form-input size="sm" v-model="details.prodmrp"></b-form-input>
-        </b-form-group>
+        </b-form-group> -->
         <!-- Selling Price -->
         <b-form-group
           label-size="sm"
@@ -129,8 +129,6 @@
         >
           <b-form-input
             size="sm"
-            @input="calculateDiscount"
-            @blur="calculateDiscount"
             v-model="details.prodsp"
           ></b-form-input>
         </b-form-group>

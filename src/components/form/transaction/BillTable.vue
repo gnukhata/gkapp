@@ -13,6 +13,9 @@
         >
           <translate> Back </translate>
         </b-button>
+        <b-form-checkbox @input="updateAllTaxAndTotal" v-model="inclusiveFlag" name="check-button" switch>
+          Inclusive of tax
+        </b-form-checkbox>
         <span class="float-right">
           <b-button
             v-if="config.addBtn"
@@ -531,6 +534,7 @@ export default {
   },
   data() {
     return {
+      inclusiveFlag: true,
       endDate: null,
       editMode: false,
       showBusinessForm: false,
@@ -872,7 +876,7 @@ export default {
               Object.assign(self.form[index], {
                 hsn: data.gscode,
                 isService: data.gsflag === 19,
-                rate: data.prodmrp,
+                rate: data.prodsp,
                 qty: 1,
                 discount: {
                   rate: data.discountpercent,
@@ -1159,6 +1163,12 @@ export default {
         }
       }
     },
+    updateAllTaxAndTotal() {
+      let length = this.form.length;
+      while(length--) {
+        this.updateTaxAndTotal(length);
+      }
+    },
     /**
      * updateTaxAndTotal(index)
      *
@@ -1171,30 +1181,9 @@ export default {
      *
      */
     updateTaxAndTotal(index) {
+      let inclusiveFlag = this.inclusiveFlag; // sale price is inclusive of tax
       let item = this.form[index];
       if (item) {
-        // calculate taxable
-        if (item.rate > 0) {
-          let qty = item.qty;
-          if (this.config.rejectedQty) {
-            qty = item.rejectedQty;
-          }
-          // if (item.isService) {
-          //   item.taxable = parseFloat(
-          //     (item.rate - item.discount.amount).toFixed(2)
-          //   );
-          // } else {
-          //   }
-          const discount = this.config.dcValue ? 0 : item.discount.amount;
-
-          item.taxable = parseFloat((item.rate * qty - discount).toFixed(2));
-
-          if (this.config.dcValue) {
-            item.taxable = parseFloat(item.dcValue || 0);
-          }
-        }
-
-        // calculate tax
         if (this.gstFlag) {
           if (item.taxes) {
             // find the appropriate tax based on the date of the invoice
@@ -1229,16 +1218,39 @@ export default {
               }
             }
 
-            if (item.igst.rate > 0) {
-              item.igst.amount = parseFloat(
-                (item.taxable * (item.igst.rate * 0.01)).toFixed(2)
-              );
+            // calculate taxable
+            let rate = parseFloat(item.rate);
+            let igst = parseFloat(item.igst.rate) || 0;
+            let cess = parseFloat(item.cess.rate) || 0;
+            if (item.rate > 0) {
+              let qty = item.qty;
+              if (this.config.rejectedQty) {
+                qty = item.rejectedQty;
+              }
+
+              const discount = this.config.dcValue ? 0 : item.discount.amount;
+
+              if (inclusiveFlag) {
+                // cess + gst + rate = item rate
+                let inclusiveRate = item.rate;
+                rate = inclusiveRate / (0.01 * igst + 0.01 * cess + 1);
+              }
+
+              item.taxable = parseFloat((rate * qty - discount).toFixed(2));
+
+              if (this.config.dcValue) {
+                item.taxable = parseFloat(item.dcValue || 0);
+              }
+            } else {
+              item.taxable = 0;
             }
-            if (item.cess.rate > 0) {
-              item.cess.amount = parseFloat(
-                (item.taxable * (item.cess.rate * 0.01)).toFixed(2)
-              );
-            }
+
+            item.igst.amount = parseFloat(
+              (item.taxable * (igst * 0.01)).toFixed(2)
+            );
+            item.cess.amount = parseFloat(
+              (item.taxable * (cess * 0.01)).toFixed(2)
+            );
 
             item.total = (
               item.taxable +
@@ -1250,13 +1262,38 @@ export default {
             item.total = (0).toFixed(2);
           }
         } else {
-          item.vat = this.taxState && item.vatMap
-            ? item.vatMap[this.taxState]
-            : { rate: 0, amount: 0 };
+          item.vat =
+            this.taxState && item.vatMap
+              ? item.vatMap[this.taxState]
+              : { rate: 0, amount: 0 };
 
-          if (item.vat.rate > 0) {
-            item.vat.amount = item.taxable * (item.vat.rate * 0.01);
+          // calculate taxable
+          let rate = parseFloat(item.rate);
+          let vat = parseFloat(item.vat.rate) || 0;
+          if (item.rate > 0) {
+            let qty = item.qty;
+            if (this.config.rejectedQty) {
+              qty = item.rejectedQty;
+            }
+
+            const discount = this.config.dcValue ? 0 : item.discount.amount;
+
+            if (inclusiveFlag) {
+              // vat + rate = item rate
+              let inclusiveRate = item.rate;
+              rate = inclusiveRate / (0.01 * vat + 1);
+            }
+
+            item.taxable = parseFloat((rate * qty - discount).toFixed(2));
+
+            if (this.config.dcValue) {
+              item.taxable = parseFloat(item.dcValue || 0);
+            }
+          } else {
+            item.taxable = 0;
           }
+
+          item.vat.amount = item.taxable * (vat * 0.01);
           item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
         }
       } else {
