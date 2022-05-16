@@ -176,6 +176,7 @@ export default {
                     if (label) {
                       this.fields[i] = {
                         key: field,
+                        label: label,
                         sortable: true,
                       };
                     } else {
