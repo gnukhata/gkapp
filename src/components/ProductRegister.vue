@@ -130,7 +130,7 @@
         >
           <!-- Transaction type -->
           <template #cell(particulars)="data">
-            <div v-if="data.item.trntype === 'invoice'">
+            <div v-if="data.item.trntype === 'invoice' || data.item.trntype === 'delchal&invoice'">
               <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
               <b-link
                 @click="
