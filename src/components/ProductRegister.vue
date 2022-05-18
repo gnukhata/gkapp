@@ -130,56 +130,81 @@
         >
           <!-- Transaction type -->
           <template #cell(particulars)="data">
-            <div v-if="data.item.trntype === 'invoice' || data.item.trntype === 'delchal&invoice'">
+            <div v-if="data.item.trntype === 'invoice'">
               <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
               <b-link
-                @click="
-                  $router.push(
-                    '/Workflow/Transactions-Invoice/' + data.item.invid
-                  )
-                "
+                :to="{
+                  name: 'Workflow',
+                  params: {
+                    wfName:
+                      data.item.icflag === 3
+                        ? 'Transactions-CashMemo'
+                        : 'Transactions-Invoice',
+                    wfId: data.item.invid,
+                  },
+                }"
               >
-                {{ data.item.invno }}</b-link
+                {{ data.item.invno }}
+              </b-link>
+            </div>
+            <div v-else-if="data.item.trntype === 'delchal'">
+              {{ data.item.particulars }} :
+              <b-link
+                :to="{
+                  name: 'Workflow',
+                  params: {
+                    wfName: 'Transactions-DeliveryNote',
+                    wfId: data.item.dcid,
+                  },
+                }"
               >
+                {{ data.item.dcno }}
+              </b-link>
             </div>
             <div v-else-if="data.item.trntype === 'Rejection Note'">
               <b-icon variant="danger" icon="journal-x"></b-icon>
               {{ data.item.particulars }} :
               <b-link
-                @click="
-                  $router.push(
-                    '/Workflow/Transactions-RejectionNote/' + data.item.rnid
-                  )
-                "
+                :to="{
+                  name: 'Workflow',
+                  params: {
+                    wfName: 'Transactions-RejectionNote',
+                    wfId: data.item.rnid,
+                  },
+                }"
               >
-                {{ data.item.rnno }}</b-link
-              >
+                {{ data.item.rnno }}
+              </b-link>
             </div>
             <div v-else-if="data.item.trntype === 'Debit Note'">
               <b-icon variant="warning" icon="file-earmark-minus"></b-icon>
               {{ data.item.particulars }} :
               <b-link
-                @click="
-                  $router.push(
-                    '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
-                  )
-                "
+                :to="{
+                  name: 'Workflow',
+                  params: {
+                    wfName: 'Transactions-DebitCreditNote',
+                    wfId: data.item.drcrid,
+                  },
+                }"
               >
-                {{ data.item.drcrno }}</b-link
-              >
+                {{ data.item.drcrno }}
+              </b-link>
             </div>
             <div v-else-if="data.item.trntype === 'Credit Note'">
               <b-icon variant="info" icon="file-earmark-plus"></b-icon>
               {{ data.item.particulars }} :
               <b-link
-                @click="
-                  $router.push(
-                    '/Workflow/Transactions-DebitCreditNote/' + data.item.drcrid
-                  )
-                "
+                :to="{
+                  name: 'Workflow',
+                  params: {
+                    wfName: 'Transactions-DebitCreditNote',
+                    wfId: data.item.drcrid,
+                  },
+                }"
               >
-                {{ data.item.drcrno }}</b-link
-              >
+                {{ data.item.drcrno }}
+              </b-link>
             </div>
             <div v-else class="font-weight-bold">
               {{ data.item.particulars }}
@@ -283,7 +308,7 @@ export default {
       if (this.invoiceFilter.length > 0) {
         let items = [];
         for (let i in this.invoiceFilter) {
-          this.report2.filter((data) => {
+          this.report2.forEach((data) => {
             if (data.trntype == this.invoiceFilter[i]) {
               items.push(data);
             }
@@ -315,8 +340,14 @@ export default {
           if (r.status == 200) {
             switch (data.gkstatus) {
               case 0:
-                this.report = data.gkresult;
-                this.report2 = data.gkresult;
+                let report = data.gkresult.map((item) => {
+                  if (item.trntype === 'delchal&invoice') {
+                    item.trntype = 'invoice';
+                  }
+                  return item;
+                });
+                this.report = report;
+                this.report2 = report;
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {
