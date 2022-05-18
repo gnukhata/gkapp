@@ -126,7 +126,11 @@ export default {
       godownReport: [],
       showCard: true,
       search: '',
-      fields: [
+    };
+  },
+  computed: {
+    fields: function() {
+      let fields = [
         {
           key: 'product',
           label: this.$gettext('Product'),
@@ -143,14 +147,15 @@ export default {
           key: 'balance',
           label: this.$gettext('Balance'),
         },
-        {
+      ];
+      if (this.showGodowns) {
+        fields.push({
           key: 'value',
           label: this.$gettext('Value'),
-        },
-      ],
-    };
-  },
-  computed: {
+        });
+      }
+      return fields;
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
@@ -208,12 +213,16 @@ export default {
 
       let stockValueUrl = '';
 
+      let requests = [];
+
       if (this.showGodowns) {
         url = `/report?godownwisestockonhand&type=pg&goid=${this.godownId}&productcode=${this.productId}&enddate=${this.toDate}`;
         stockValueUrl = `/report?godownwise_stock_value&goid=${this.godownId}&productcode=${this.productId}&enddate=${this.toDate}`;
+        requests = [axios.get(url), axios.get(stockValueUrl)];
+      } else {
+        requests = [axios.get(url)];
       }
 
-      const requests = [axios.get(url), axios.get(stockValueUrl)];
       Promise.all(requests)
         .then(([resp1, resp2]) => {
           switch (resp1.data.gkstatus) {
@@ -242,7 +251,7 @@ export default {
               });
           }
 
-          if(resp2.data.gkstatus === 0) {
+          if (this.showGodowns && resp2.data.gkstatus === 0) {
             this.report[0].value = resp2.data.gkresult;
           }
           this.loading = false;
