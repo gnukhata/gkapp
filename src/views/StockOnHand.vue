@@ -130,22 +130,22 @@ export default {
         {
           key: 'product',
           label: this.$gettext('Product'),
-          sortable: true,
         },
         {
           key: 'total_inward_qty',
           label: this.$gettext('Total Inward Qty'),
-          sortable: true,
         },
         {
           key: 'total_outward_qty',
           label: this.$gettext('Total Outward Qty'),
-          sortable: true,
         },
         {
           key: 'balance',
           label: this.$gettext('Balance'),
-          sortable: true,
+        },
+        {
+          key: 'value',
+          label: this.$gettext('Value'),
         },
       ],
     };
@@ -206,66 +206,44 @@ export default {
 
       let url = `/report?stockonhandreport&productcode=${this.productId}&enddate=${this.toDate}`;
 
+      let stockValueUrl = '';
+
       if (this.showGodowns) {
         url = `/report?godownwisestockonhand&type=pg&goid=${this.godownId}&productcode=${this.productId}&enddate=${this.toDate}`;
+        stockValueUrl = `/report?godownwise_stock_value&goid=${this.godownId}&productcode=${this.productId}&enddate=${this.toDate}`;
       }
 
-      axios
-        .get(url)
-        .then((r) => {
-          if (r.status == 200) {
-            switch (r.data.gkstatus) {
-              case 0:
-                this.report = r.data.gkresult.map((data) => {
-                  return {
-                    no: data.srno,
-                    product: data.productname || this.prodMap[this.productId] || '',
-                    total_inward_qty: data.totalinwardqty,
-                    total_outward_qty: data.totaloutwardqty,
-                    balance: data.balance,
-                  };
-                });
-                break;
-              case 1:
-                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
-                  variant: 'warning',
-                  solid: true,
-                });
-                break;
-              case 2:
-                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 3:
-                this.$bvToast.toast(this.$gettext('Data error'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 4:
-                this.$bvToast.toast(this.$gettext('No Privilege'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 5:
-                this.$bvToast.toast(this.$gettext('Integrity error'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-            }
-          } else {
-            this.$bvToast.toast(
-              this.$gettext('Failed to get product stock report with status ') +
-                r.status,
-              {
+      const requests = [axios.get(url), axios.get(stockValueUrl)];
+      Promise.all(requests)
+        .then(([resp1, resp2]) => {
+          switch (resp1.data.gkstatus) {
+            case 0:
+              this.report = resp1.data.gkresult.map((data) => {
+                return {
+                  no: data.srno,
+                  product:
+                    data.productname || this.prodMap[this.productId] || '',
+                  total_inward_qty: data.totalinwardqty,
+                  total_outward_qty: data.totaloutwardqty,
+                  balance: data.balance,
+                };
+              });
+              break;
+            case 2:
+              this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
                 variant: 'danger',
                 solid: true,
-              }
-            );
+              });
+              break;
+            default:
+              this.$bvToast.toast(this.$gettext('Data error'), {
+                variant: 'danger',
+                solid: true,
+              });
+          }
+
+          if(resp2.data.gkstatus === 0) {
+            this.report[0].value = resp2.data.gkresult;
           }
           this.loading = false;
         })
