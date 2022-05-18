@@ -123,7 +123,7 @@
           >
           </b-form-select>
         </b-form-group>
-        <b-form-group v-if="!isCredit && isReturn && saleFlag">
+        <b-form-group v-if="isCredit && isReturn && saleFlag">
           <b-form-checkbox v-model="form.badQuality" size="sm">
             <translate> Bad Quality Goods </translate>
           </b-form-checkbox>
