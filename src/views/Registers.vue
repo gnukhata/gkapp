@@ -83,13 +83,13 @@
         :filter="search"
         class="mt-3"
         head-variant="dark"
-        responsive="lg"
         small
         bordered
         striped
-        stacked="sm"
         v-if="report.length > 0"
         :items="report"
+        :fields="fields"
+        sticky-header="500px"
       >
         <template #cell(invoice_no)="d">
           <b-link
@@ -133,6 +133,7 @@ export default {
       search: '',
       report: [],
       tmp_report: [],
+      fields: [],
     };
   },
   methods: {
@@ -148,19 +149,64 @@ export default {
           TIN: d.customertin,
           gross_amount: d.grossamount,
           tax_free: d.taxfree,
-          tax: d.tax,
-          tax_amount: d.taxamount,
+          // tax: d.tax,
+          // tax_amount: d.taxamount,
           icflag: d.icflag,
         };
+        data.taxcolumns.forEach((taxCol) => {
+          if (d.taxamount[taxCol]) {
+            obj[taxCol] = d.taxamount[taxCol];
+            obj['taxable'] = d.tax[taxCol];
+          } else {
+            obj[taxCol] = 0;
+          }
+        });
         // let netTax = obj.tax
         //   for (const i in data.taxcolumns) {
         //       obj["taxable_amount"] =
         //   }
         return obj;
       });
-      data.totalrow.name = 'Total';
-      newdata.push(data.totalrow);
+
+      let totalRow = {
+        name: 'Total',
+        tax_free: data.totalrow.taxfree,
+        gross_amount: data.totalrow.grossamount,
+      };
+      data.taxcolumns.forEach((taxCol) => {
+        if (data.totalrow.taxamount[taxCol]) {
+          totalRow[taxCol] = data.totalrow.taxamount[taxCol];
+          totalRow['taxable'] = data.totalrow.tax[taxCol];
+        } else {
+          totalRow[taxCol] = 0;
+        }
+      });
+      newdata.push(totalRow);
+
       this.tmp_report = newdata;
+
+      this.fields = [
+        { key: 'sr_no', label: 'No.', stickyColumn: true },
+        { key: 'invoice_no', label: 'Inv. No.', stickyColumn: true },
+        { key: 'date', label: 'Inv. Date' },
+        { key: 'name', label: 'Customer' },
+        { key: 'GSTIN', label: 'GSTIN' },
+        { key: 'TIN', label: 'TIN' },
+        { key: 'tax_free', label: 'Tax Free', tdClass: 'text-right' },
+      ];
+
+      this.fields.push(
+        ...data.taxcolumns.map((taxCol) => {
+          return {
+            key: taxCol,
+            tdClass: 'text-right',
+          };
+        })
+      );
+
+      this.fields.push({ key: 'taxable', tdClass: 'text-right' });
+      this.fields.push({ key: 'gross_amount', tdClass: 'text-right' });
+
       return newdata;
     },
     getRegisters() {
