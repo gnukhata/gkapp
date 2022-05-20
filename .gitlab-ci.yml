@@ -8,7 +8,7 @@
 image: node:gallium-alpine #fermium-alpine3.14 #node:fermium-buster-slim
 stages:
   - build
-  - test
+  # - test
   - deploy
 variables:
   GKAPP_URL: https://gnukhata.gitlab.io/gkapp
@@ -41,13 +41,12 @@ pages:
   only:
     - master
     - devel
-
 # SAST Tests
-sast:
-  stage: test
-  variables:
-    SAST_EXCLUDED_PATHS: spec, test, tests, tmp, dist, package-lock.json
-include:
-  - template: Security/SAST.gitlab-ci.yml
-  - template: Security/Dependency-Scanning.gitlab-ci.yml
-  - template: Security/Secret-Detection.gitlab-ci.yml
+# sast:
+#   stage: test
+#   variables:
+#     SAST_EXCLUDED_PATHS: spec, test, tests, tmp, dist, package-lock.json
+# include:
+#   - template: Security/SAST.gitlab-ci.yml
+#   - template: Security/Dependency-Scanning.gitlab-ci.yml
+#   - template: Security/Secret-Detection.gitlab-ci.yml
