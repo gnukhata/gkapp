@@ -4,7 +4,11 @@
           <div class="row">
             <div class="col">
               <b-icon icon="building" class="mr-1"></b-icon>Bank Balance:
-              <b>₹{{ currentBalance.bankaccdata[0].bankbalance }}</b>
+              <b
+                >₹{{
+                  currentBalance.bankaccdata[0].bankbalance.toLocaleString('en-IN')
+                }}</b
+              >
             </div>
           </div>
         </div>
@@ -12,7 +16,11 @@
           <div class="row">
             <div class="col">
               <b-icon icon="cash" class="mr-1"></b-icon>Cash Balance:
-              <b>₹{{ currentBalance.cashaccdata[0].cashbalance.toFixed(2) }}</b>
+              <b
+                >₹{{
+                  currentBalance.cashaccdata[0].cashbalance.toLocaleString('en-IN')
+                }}</b
+              >
             </div>
           </div>
         </div>
