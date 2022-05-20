@@ -3,8 +3,9 @@
     <balance></balance>
     <!-- bank / cash stats -->
     <b-card-group deck>
-      <b-card class="shadow" no-body>
-        <Cards />
+      <!-- Tiles -->
+      <b-card class="shadow p-0">
+        <Tiles />
       </b-card>
       <b-card class="shadow" no-body>
         <BankCashBalanceGraph
@@ -19,12 +20,12 @@
 </template>
 <script>
 import axios from 'axios';
-import Cards from './Cards.vue';
+import Tiles from './Tiles.vue';
 import BankCashBalanceGraph from './BankCashBalanceGraph.vue';
 import MostValuedCS from './MostValuedCS.vue';
 import Balance from './Balance.vue';
 export default {
-  components: { Cards, BankCashBalanceGraph, MostValuedCS, Balance },
+  components: { Tiles, BankCashBalanceGraph, MostValuedCS, Balance },
   name: 'Main',
   data() {
     return {
