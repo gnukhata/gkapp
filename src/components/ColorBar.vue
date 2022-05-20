@@ -1,7 +1,6 @@
 <template>
   <div class="d-flex flex-row justify-content-left d-print-none">
     <div
-      class="m-1"
       v-for="(style, index) in colorVersion"
       :key="index"
       :style="style"

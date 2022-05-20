@@ -19,6 +19,7 @@
     "jspdf": "^2.4.0",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.14",
+    "vue-chartjs": "^4.0.7",
     "vue-gettext": "^2.1.12",
     "vue-router": "^3.5.3",
     "vue-select": "^3.18.3",
