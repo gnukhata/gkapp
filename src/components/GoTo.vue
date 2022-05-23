@@ -5,6 +5,7 @@
     header-text-variant="light"
     v-model="searchMenu"
     ref="goto-modal"
+    @hide="$store.commit('toggleSearchMenu', false)"
   >
     <template #modal-header>
       <div><b-icon icon="search"></b-icon> Search Menu</div>
@@ -38,6 +39,7 @@ export default {
     return {
       selectedUrl: '',
       finalRoutes: [],
+      keysPressed: {},
     };
   },
   computed: {
@@ -63,9 +65,18 @@ export default {
   },
   created() {
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'Home') {
+      this.keysPressed[event.key] = true;
+
+      if (this.keysPressed.Control == true && this.keysPressed.Home == true) {
+        // Left shift+CONTROL pressed!
+        this.keysPressed = {}; // reset key map
         this.$store.commit('toggleSearchMenu', !this.searchMenu);
       }
+    });
+
+    window.addEventListener('keyup', (event) => {
+      this.keysPressed[event.key] = false;
+      this.keysPressed = {};
     });
   },
   mounted() {
