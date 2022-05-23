@@ -13,9 +13,11 @@
         >
           <translate> Back </translate>
         </b-button>
-        <b-form-checkbox @input="updateAllTaxAndTotal" v-model="inclusiveFlag" name="check-button" switch>
+        <!-- 
+          TODO: Move this option to global settings page
+          <b-form-checkbox @input="updateAllTaxAndTotal" v-model="inclusiveFlag" name="check-button" switch>
           Inclusive of tax
-        </b-form-checkbox>
+        </b-form-checkbox> -->
         <span class="float-right">
           <b-button
             v-if="config.addBtn"
@@ -534,7 +536,7 @@ export default {
   },
   data() {
     return {
-      inclusiveFlag: true,
+      inclusiveFlag: false,
       endDate: null,
       editMode: false,
       showBusinessForm: false,
