@@ -357,13 +357,13 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-import Autocomplete from '../Autocomplete';
+// import Autocomplete from '../Autocomplete';
 import GkGstin from '../GkGstin';
 import GkIfsc from '../GkIfsc.vue';
 import { GST_REG_TYPE, GST_PARTY_TYPE } from '../../js/enum.js';
 export default {
   name: 'ContactItem',
-  components: { Autocomplete, GkGstin, GkIfsc },
+  components: { GkGstin, GkIfsc },
   props: {
     mode: {
       type: String,
@@ -519,10 +519,10 @@ export default {
         }
         if (!this.state || stateCode) {
           let state = this.options.states.find(
-            (state) => state.value.code === stateCode
+            (state) => state.code == stateCode
           );
           if (state) {
-            this.state = state.value;
+            this.state = state;
           }
         }
       } else {
