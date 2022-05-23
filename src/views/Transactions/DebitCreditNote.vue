@@ -546,7 +546,7 @@ export default {
             for (const itemCode in inv.invcontents) {
               item = inv.invcontents[itemCode];
               billItem = {
-                product: {name: item.proddesc, id: itemCode},
+                product: { name: item.proddesc, id: itemCode },
                 discount: { amount: parseFloat(item.discount) },
                 qty: parseFloat(item.qty),
                 fqty: item.freeqty,
@@ -611,11 +611,13 @@ export default {
         taxflag: this.isGst ? 7 : 22,
         taxname: this.isGst ? (this.isCgst ? 'SGST' : 'IGST') : 'VAT',
         inoutflag: this.isSale ? 15 : 9,
-        taxstate: this.form.invoice.taxState ? this.form.invoice.taxState.name : '',
+        taxstate: this.form.invoice.taxState
+          ? this.form.invoice.taxState.name
+          : '',
         totaltaxable: this.form.total.taxable,
       };
 
-      if(this.form.invoice.godown) {
+      if (this.form.invoice.godown) {
         vdataset.goid = this.form.invoice.godown;
       }
 
@@ -645,11 +647,7 @@ export default {
           const rate = isDiscount ? item.dcValue || 0 : item.rate;
           product[item.product.name] = rate;
           prodData[item.pid] = rate;
-          taxes[item.pid] = this.isGst
-            ? this.isCgst
-              ? (item.igst.rate / 2).toFixed(2)
-              : item.igst.rate
-            : item.vat.rate;
+          taxes[item.pid] = this.isGst ? item.igst.rate : item.vat.rate;
           cess[item.pid] = item.cess.rate;
           reductionval[item.pid] = rate;
           quantities[item.pid] = item.qty;
