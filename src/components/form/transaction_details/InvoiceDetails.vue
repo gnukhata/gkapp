@@ -417,7 +417,7 @@ export default {
     updateCounter() {
       const self = this;
       this.isPreloading = true;
-      this.resetForm().then(() => {
+      this.resetForm(false).then(() => {
         if (self.parentData.no && self.editFlag) {
           self.form.no = self.parentData.no;
         }
@@ -739,7 +739,7 @@ export default {
           this.isPreloading = false;
         });
     },
-    resetForm() {
+    resetForm(raiseUpdateEvent) {
       let requests = [];
       this.setOrgDetails();
       if (this.disabled.state) {
@@ -757,7 +757,9 @@ export default {
           this.form.godown = this.$store.getters['global/getDefaultGodown'];
         });
       }
-      this.onUpdateDetails();
+      if(raiseUpdateEvent) {
+        this.onUpdateDetails();
+      }
       requests.push(this.updateDelNoteNo(true));
       return Promise.all(requests);
     },
@@ -765,7 +767,7 @@ export default {
   mounted() {
     const self = this;
     this.preloadData().then(() => {
-      self.resetForm();
+      self.resetForm(true);
     });
   },
 };
