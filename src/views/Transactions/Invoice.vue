@@ -1356,13 +1356,20 @@ export default {
 
       const self = this;
       this.form.bill.forEach((item) => {
-        let taxable = item.rate * item.qty - item.discount.amount;
+        let inclusiveFlag = false; // must add ths to global settings and fetch from there
+        let rate = item.rate;
+        if(inclusiveFlag) {
+          // cess + gst + rate = item rate
+          let inclusiveRate = item.rate;
+          rate = inclusiveRate / (0.01 * item.igst.rate + 0.01 * item.cess.rate + 1);
+        }
+        let taxable = rate * item.qty - item.discount.amount;
 
         if (contents[item.product.id] === undefined) {
           contents[item.product.id] = {};
         }
 
-        contents[item.product.id][item.rate] = parseFloat(item.qty).toFixed(2);
+        contents[item.product.id][rate] = parseFloat(item.qty).toFixed(2);
         stock.items[item.product.id] = parseFloat(item.qty).toFixed(2);
 
         if (self.isGst) {
