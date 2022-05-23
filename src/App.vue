@@ -59,6 +59,7 @@
           <change-pwd v-on:close-pwd="closeModal"></change-pwd>
         </b-modal>
       </b-navbar>
+      <!-- Color bar -->
       <color-bar></color-bar>
     </header>
     <main role="main" class="mb-5">
