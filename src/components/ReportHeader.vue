@@ -4,7 +4,7 @@
       <h3>{{ orgName }}</h3>
       <span class="mr-1 font-weight-bold">GSTIN: </span>
       <span class="text-monospace">{{
-        Object.values(orgAddress.gstin)[0]
+        orgAddress ? Object.values(orgAddress.gstin)[0] : ''
       }}</span>
     </div>
     <slot> </slot>
