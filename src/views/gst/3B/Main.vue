@@ -634,23 +634,41 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
             GSTR-3B JSON
           </b>
         </small>
-        <b-link
-          class="float-right display-inline-block p-1"
-          :href="jsonDownloadLink"
-          download="GSTR_3B.json"
-          :disabled="isLoading"
-        >
-          <b-icon icon="cloud-download"></b-icon>
-        </b-link>
+        <div class="float-right">
+          <b-button @click="copyJsonToClipboard" size="sm" variant="link">
+            <b-icon icon="files"></b-icon>
+          </b-button>
+          <b-link
+            class="display-inline-block p-1"
+            :href="jsonDownloadLink"
+            download="GSTR_3B.json"
+            :disabled="isLoading"
+          >
+            <b-icon icon="cloud-download"></b-icon>
+          </b-link>
+        </div>
       </div>
       <b-overlay :show="isLoading">
-        <b-form-textarea
-          id="textarea"
-          v-model="jsonStr"
-          rows="10"
-          max-rows="20"
-          readonly
-        ></b-form-textarea>
+        <div class="position-relative">
+          <b-toast
+            no-close-button
+            variant="success"
+            id="clipboard-toast"
+            auto-hide-delay="1000"
+            static
+            class="position-absolute"
+            style="right:0"
+          >
+            JSON copied to clipboard!
+          </b-toast>
+          <b-form-textarea
+            id="textarea"
+            v-model="jsonStr"
+            rows="10"
+            max-rows="20"
+            readonly
+          ></b-form-textarea>
+        </div>
       </b-overlay>
 
       <!-- Invoices for each GST group listed above-->
@@ -923,7 +941,7 @@ export default {
           label: 'Date',
           thStyle: 'max-width: 100px',
           tdClass: 'text-truncate',
-          sortable: true
+          sortable: true,
         },
         // {key: "custname", label: 'Customer'},
         { key: 'netamt', label: 'Taxable Value', sortable: true },
@@ -975,6 +993,10 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
+    copyJsonToClipboard() {
+      navigator.clipboard.writeText(this.jsonStr);
+      this.$bvToast.show('clipboard-toast');
+    },
     openInvoicesTable(taxGroup, stateCode, type) {
       this.taxGroup = taxGroup;
       this.showInvoices = true;

@@ -16,7 +16,7 @@
              </div> -->
 
     <!-- R1 Tables (only shown if they have atleast one entry) -->
-    <b-overlay :show="loading" spinner-type="grow">
+    <b-overlay :show="isLoading" spinner-type="grow">
       <!-- B2B -->
       <div>
         <gk-file-download
@@ -172,23 +172,42 @@
       <div class="mt-4">
         <h3 class="d-inline-block text-secondary ml-3">GSTR-1 JSON:</h3>
 
-        <b-link
-          class="float-right display-inline-block p-1"
-          :href="jsonDownloadLink"
-          download="GSTR_1.json"
-          :disabled="isLoading"
-        >
-          <b-icon icon="cloud-download"></b-icon>
-        </b-link>
+        <div class="float-right">
+          <b-button @click="copyJsonToClipboard" size="sm" variant="link">
+            <b-icon icon="files"></b-icon>
+          </b-button>
+          <b-link
+            class="display-inline-block p-1"
+            :href="jsonDownloadLink"
+            download="GSTR_1.json"
+            :disabled="isLoading"
+          >
+            <b-icon icon="cloud-download"></b-icon>
+          </b-link>
+        </div>
       </div>
       <b-overlay :show="isLoading">
-        <b-form-textarea
-          id="textarea"
-          v-model="jsonStr"
-          rows="10"
-          max-rows="20"
-          readonly
-        ></b-form-textarea>
+        <div class="position-relative">
+          <b-toast
+            no-close-button
+            variant="success"
+            id="clipboard-toast"
+            auto-hide-delay="1000"
+            static
+            class="position-absolute"
+            style="right:0"
+          >
+            JSON copied to clipboard!
+          </b-toast>
+          <b-form-textarea
+            id="textarea"
+            v-model="jsonStr"
+            rows="10"
+            max-rows="20"
+            readonly
+          >
+          </b-form-textarea>
+        </div>
       </b-overlay>
       <br />
       <br />
@@ -207,10 +226,10 @@ export default {
   name: 'R1Detailed',
   data() {
     return {
+      isLoading: false,
       list: { b2b: [], b2cl: [], b2cs: [], cdnr: [], cdnur: [], hsn1: [] },
       search: null,
       params: null,
-      loading: false,
       gstData: {},
       summary: {
         b2b: [{}],
@@ -257,6 +276,10 @@ export default {
     ...mapState(['orgName', 'orgAddress']),
   },
   methods: {
+    copyJsonToClipboard() {
+      navigator.clipboard.writeText(this.jsonStr);
+      this.$bvToast.show('clipboard-toast');
+    },
     go(report) {
       this.$router.push(`/gst/r1/${report}/${this.fd}&${this.td}`);
     },
@@ -495,7 +518,7 @@ export default {
      * get GST R1 list
      */
     getGstR1List() {
-      this.loading = true;
+      this.isLoading = true;
       axios
         .get(`/gstreturns?type=r1&start=${this.fd}&end=${this.td}`)
         .then((r) => {
@@ -540,14 +563,14 @@ export default {
           } else {
             console.log(r);
           }
-          this.loading = false;
+          this.isLoading = false;
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
             variant: 'danger',
             solid: true,
           });
-          this.loading = false;
+          this.isLoading = false;
         });
     },
   },
@@ -563,5 +586,4 @@ export default {
 #textarea {
   font-size: 0.8em;
 }
-
 </style>
