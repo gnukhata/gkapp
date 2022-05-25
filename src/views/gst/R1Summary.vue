@@ -166,7 +166,30 @@
         >
           Details <b-icon icon="chevron-right" class="ml-1"> </b-icon>
         </b-button>
+        <div class="clearfix"></div>
       </div>
+      <!-- JSON -->
+      <div class="mt-4">
+        <h3 class="d-inline-block text-secondary ml-3">GSTR-1 JSON:</h3>
+
+        <b-link
+          class="float-right display-inline-block p-1"
+          :href="jsonDownloadLink"
+          download="GSTR_1.json"
+          :disabled="isLoading"
+        >
+          <b-icon icon="cloud-download"></b-icon>
+        </b-link>
+      </div>
+      <b-overlay :show="isLoading">
+        <b-form-textarea
+          id="textarea"
+          v-model="jsonStr"
+          rows="10"
+          max-rows="20"
+          readonly
+        ></b-form-textarea>
+      </b-overlay>
       <br />
       <br />
       <br />
@@ -188,6 +211,7 @@ export default {
       search: null,
       params: null,
       loading: false,
+      gstData: {},
       summary: {
         b2b: [{}],
         b2cs: [{}],
@@ -207,6 +231,20 @@ export default {
     },
   },
   computed: {
+    jsonStr: function() {
+      return typeof this.gstData === 'object'
+        ? JSON.stringify(this.gstData, null, 4)
+        : JSON.stringify({}, null, 2);
+    },
+    jsonDownloadLink: function() {
+      let link = '';
+      if (typeof this.gstData === 'object') {
+        link = `data:text/json;charset=utf-8,${encodeURIComponent(
+          JSON.stringify(this.gstData)
+        )}`;
+      }
+      return link;
+    },
     spreadSheetUrl: function() {
       return `/spreadsheet?gstr1&start=${this.fd}&end=${this.td}`;
     },
@@ -465,6 +503,7 @@ export default {
             switch (r.data.gkstatus) {
               case 0:
                 this.list = r.data.gkdata;
+                this.gstData = r.data.json;
                 this.generateSummary();
                 break;
               case 1:
@@ -519,3 +558,10 @@ export default {
   },
 };
 </script>
+
+<style>
+#textarea {
+  font-size: 0.8em;
+}
+
+</style>
