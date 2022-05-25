@@ -120,7 +120,6 @@ export default {
                     applicable_tax_rate: true,
                     refund_voucher_value: true,
                     invoice_value: true,
-                    taxable_value: true,
                     qty: true,
                     totalvalue: true,
                     taxableamt: true,

@@ -340,14 +340,16 @@ export default {
           if (r.status == 200) {
             switch (data.gkstatus) {
               case 0:
-                let report = data.gkresult.map((item) => {
-                  if (item.trntype === 'delchal&invoice') {
-                    item.trntype = 'invoice';
-                  }
-                  return item;
-                });
-                this.report = report;
-                this.report2 = report;
+                {
+                  let report = data.gkresult.map((item) => {
+                    if (item.trntype === 'delchal&invoice') {
+                      item.trntype = 'invoice';
+                    }
+                    return item;
+                  });
+                  this.report = report;
+                  this.report2 = report;
+                }
                 break;
               case 1:
                 this.$bvToast.toast('Duplicate Entry', {

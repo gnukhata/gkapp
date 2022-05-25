@@ -296,7 +296,7 @@ export default {
           text: numberToRupees(details.totreduct),
         };
         if (details.drcrcontents) {
-          let taxState = details.invdata.taxstate;
+          // let taxState = details.invdata.taxstate;
           for (const id in details.drcrcontents) {
             let item = details.drcrcontents[id];
             this.dcNote.dcItems.push({

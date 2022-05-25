@@ -101,9 +101,9 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import GkCardheader from '../components/GkCardheader.vue';
-import Autocomplete from '../components/Autocomplete.vue';
+// import Autocomplete from '../components/Autocomplete.vue';
 export default {
-  components: { GkCardheader, Autocomplete },
+  components: { GkCardheader },
   name: 'SelectOrg',
   data() {
     return {

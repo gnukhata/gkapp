@@ -548,7 +548,7 @@ export default {
       this.details.orgname = name;
       this.details.orgpincode = pincode;
     },
-    onGstinUpdate({ validity, stateCode, pan, checksum }) {
+    onGstinUpdate({ validity, stateCode, pan }) { // , checksum
       if (validity.format) {
         this.gstinValid = true;
         this.stateCode = stateCode;
@@ -563,7 +563,7 @@ export default {
         }
       }
     },
-    onGstinVerified(verifiedStatus) {
+    onGstinVerified() { // verifiedStatus
       // this.form.gstin.regType = verifiedStatus
       //   ? GST_REG_TYPE['regular']
       //   : GST_REG_TYPE['unregistered'];
