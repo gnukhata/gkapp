@@ -12,8 +12,8 @@ import axios from 'axios';
 import sha512 from 'crypto-js/sha512';
 import GetTextPlugin from 'vue-gettext';
 import translations from './locales/translations.json';
-import vSelect from "vue-select";
-import "vue-select/dist/vue-select.css";
+import vSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
@@ -33,7 +33,7 @@ Vue.use(GetTextPlugin, {
   silent: true,
 });
 
-Vue.component("v-select", vSelect);
+Vue.component('v-select', vSelect);
 
 Vue.mixin({
   data() {
@@ -56,6 +56,39 @@ Vue.mixin({
     // gkMode() {
     //   return process.env.NODE_ENV
 
+    /**
+     * Return language specific number representation of given `value`
+     * @param {} value
+     * @param {} format
+     * @returns {}
+     * TODO handle multiple currencies
+     */
+    gk_currency(value, format = 'en-IN') {
+      // currency symbol
+      const symbol = '₹ ';
+      let formattedValue = null;
+      const decimalExists = value.toString().includes('.');
+      console.log(value);
+      // handle decimal places
+      if (decimalExists) {
+        const num = value.toString().split('.');
+        // if only one decimal place exist, append 0 after decimal place
+        if (num[1].length == 1) {
+          formattedValue = `${num[0]}.0${num[1]}`;
+          // handle more than two decimal places
+        } else if (num[1].length > 2) {
+          formattedValue = `${num[0]}.${num[1].slice(0, 2)}`;
+        }
+        // keep the same value if it has more than one decimal place
+        else {
+          formattedValue = value;
+        }
+      } else {
+        // append 00 at the end of the value, if no decimal place exist
+        formattedValue = value + '.00';
+      }
+      return symbol + formattedValue.toLocaleString(format);
+    },
     /**
      *
      * @param {} file

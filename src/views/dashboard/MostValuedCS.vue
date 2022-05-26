@@ -18,6 +18,9 @@
             {{ d.item.custname }}
           </router-link>
         </template>
+        <template #cell(data)="d">
+          {{ gk_currency(d.item.data) }}
+        </template>
       </b-table>
       <template #footer>
         <b-button

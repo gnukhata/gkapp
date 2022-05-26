@@ -16,6 +16,7 @@
     </b-card-group>
     <!-- Most Valued Customers / suppliers -->
     <MostValuedCS v-if="dataIsFetched" :info="dashboardData" />
+    <MostSoldPS v-if="dataIsFetched" :info="dashboardData" />
   </section>
 </template>
 <script>
@@ -24,8 +25,15 @@ import Tiles from './Tiles.vue';
 import BankCashBalanceGraph from './BankCashBalanceGraph.vue';
 import MostValuedCS from './MostValuedCS.vue';
 import Balance from './Balance.vue';
+import MostSoldPS from './MostSoldPS.vue';
 export default {
-  components: { Tiles, BankCashBalanceGraph, MostValuedCS, Balance },
+  components: {
+    Tiles,
+    BankCashBalanceGraph,
+    MostValuedCS,
+    Balance,
+    MostSoldPS,
+  },
   name: 'Main',
   data() {
     return {
