@@ -168,6 +168,33 @@ export default {
                       case 'voucher_date':
                         label = 'Dr/Cr Note Date';
                         break;
+                      case 'prodctname':
+                        label = 'Description';
+                        break;
+                      case 'hsnsac':
+                       label = 'HSN';
+                        break;
+                      case 'totalvalue':
+                        label = 'Total Value';
+                        break;
+                      case 'taxableamt':
+                        label = 'Taxable Amount';
+                        break;
+                      case 'IGSTamt':
+                        label = 'Integrated Tax';
+                         break;
+                      case 'CESSamt':
+                        label = 'Cess';
+                         break;
+                      case 'uqc':
+                        label = 'UQC';
+                        break;
+                      case 'qty':
+                        label = 'Total Quantity';
+                        break;
+                        case 'SGSTamt':
+                        label = 'State/UT tax';
+                        break;
                       case 'pregst':
                         label = 'Pre GST';
                         break;
