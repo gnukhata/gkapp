@@ -68,7 +68,6 @@ Vue.mixin({
       const symbol = '₹ ';
       let formattedValue = null;
       const decimalExists = value.toString().includes('.');
-      console.log(value);
       // handle decimal places
       if (decimalExists) {
         const num = value.toString().split('.');
@@ -79,12 +78,12 @@ Vue.mixin({
         } else if (num[1].length > 2) {
           formattedValue = `${num[0]}.${num[1].slice(0, 2)}`;
         }
-        // keep the same value if it has more than one decimal place
+        // keep the same value if it has two decimal places
         else {
           formattedValue = value;
         }
       } else {
-        // append 00 at the end of the value, if no decimal place exist
+        // append two decimal palces at the end of the value, if no decimal place exist
         formattedValue = value + '.00';
       }
       return symbol + formattedValue.toLocaleString(format);
