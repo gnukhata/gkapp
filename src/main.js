@@ -73,10 +73,10 @@ Vue.mixin({
         const num = value.toString().split('.');
         // if only one decimal place exist, append 0 after decimal place
         if (num[1].length == 1) {
-          formattedValue = `${num[0]}.0${num[1]}`;
+          formattedValue = parseFloat(`${num[0]}.${num[1]}`).toFixed(2);
           // handle more than two decimal places
         } else if (num[1].length > 2) {
-          formattedValue = `${num[0]}.${num[1].slice(0, 2)}`;
+          formattedValue = parseFloat(`${num[0]}.${num[1].slice(0, 2)}`);
         }
         // keep the same value if it has two decimal places
         else {
@@ -84,7 +84,7 @@ Vue.mixin({
         }
       } else {
         // append two decimal palces at the end of the value, if no decimal place exist
-        formattedValue = value + '.00';
+        formattedValue = parseFloat(value).toFixed(2);
       }
       return symbol + formattedValue.toLocaleString(format);
     },
