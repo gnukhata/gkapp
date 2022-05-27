@@ -163,10 +163,10 @@ export default {
                     let label = '';
                     switch (field) {
                       case 'voucher_number':
-                        label = 'Note Number';
+                        label = 'Dr/Cr Note No';
                         break;
                       case 'voucher_date':
-                        label = 'Note Date';
+                        label = 'Dr/Cr Note Date';
                         break;
                       case 'prodctname':
                         label = 'Description';
@@ -198,24 +198,6 @@ export default {
                       case 'pregst':
                         label = 'Pre GST';
                         break;
-                      case 'receiver':
-                        label = 'Receiver Name';
-                        break;
-                      case 'gstin':
-                        label = 'GSTIN/UIN of Recipient';
-                        break;
-                      case 'ecommerce_gstin':
-                        label = 'E-Commerce GSTIN';
-                        break; 
-                      case 'applicable_tax_rate':
-                        label = 'Applicable % of Tax Rate';
-                        break;                     
-                      case 'document_type':
-                        label = 'Note Type';
-                         break;  
-                      case 'refund_voucher_value':
-                        label = 'Note Value';
-                        break;  
                     }
                     if (label) {
                       this.fields[i] = {
