@@ -304,7 +304,7 @@ export default {
         let [invVal, taxVal, cessVal] = [0, 0, 0];
         for (let i in b2b) {
           // add invoice values
-          invVal += parseFloat(b2b[i].invoice_value);
+          invVal += parseFloat(b2b[i].taxable_value);
 
           // add tax values
           taxVal +=
@@ -313,7 +313,7 @@ export default {
           cessVal +=
             parseFloat(b2b[i].taxable_value) * (parseFloat(b2b[i].cess) * 0.01);
         }
-        o['invoice_value'] = invVal.toFixed(2);
+        o['taxable_value'] = invVal.toFixed(2);
         o['tax'] = taxVal.toFixed(2);
         o['cess'] = cessVal.toFixed(2);
 
@@ -322,7 +322,7 @@ export default {
         this.summary['b2b'] = [
           {
             invoice_count: 0,
-            invoice_value: 0,
+            taxable_value: 0,
             tax: 0,
             cess: 0,
           },
@@ -340,17 +340,17 @@ export default {
             let cess =
               parseFloat(item.taxable_value) * (parseFloat(item.cess) * 0.01);
             acc.invoice_count++;
-            acc.invoice_value += parseFloat(item.taxable_value) + tax + cess;
+            acc.taxable_value += parseFloat(item.taxable_value) + tax + cess;
             acc.tax += tax;
             acc.cess += cess;
             return acc;
           },
-          { invoice_count: 0, invoice_value: 0, tax: 0, cess: 0 }
+          { invoice_count: 0, taxable_value: 0, tax: 0, cess: 0 }
         );
         this.summary['b2cs'] = [
           {
             invoice_count: summary.invoice_count,
-            invoice_value: summary.invoice_value.toFixed(2),
+            taxable_value: summary.taxable_value.toFixed(2),
             tax: summary.tax.toFixed(2),
             cess: summary.cess.toFixed(2),
           },
@@ -369,13 +369,13 @@ export default {
     b2clSummary() {
       const b2cl = this.list.b2cl;
 
-      let summary = { invoice_count: 0, invoice_value: 0, tax: 0, cess: 0 };
+      let summary = { invoice_count: 0, taxable_value: 0, tax: 0, cess: 0 };
 
       if (b2cl.length) {
         summary = b2cl.reduce(
           (acc, item) => {
             acc.invoice_count++;
-            acc.invoice_value += parseFloat(item.invoice_value);
+            acc.taxable_value += parseFloat(item.taxable_value);
             acc.tax +=
               parseFloat(item.taxable_value) * (parseFloat(item.rate) * 0.01);
             acc.cess +=
@@ -384,14 +384,14 @@ export default {
           },
           {
             invoice_count: 0,
-            invoice_value: 0,
+            taxable_value: 0,
             tax: 0,
             cess: 0,
           }
         );
         summary = {
           invoice_count: summary.invoice_count,
-          invoice_value: summary.invoice_value.toFixed(2),
+          taxable_value: summary.taxable_value.toFixed(2),
           tax: summary.tax.toFixed(2),
           cess: summary.cess.toFixed(2),
         };
@@ -408,8 +408,8 @@ export default {
         };
         let [rvVal, taxVal, cessVal] = [0, 0, 0];
         for (let i in cdnr) {
-          // add refund voucher values
-          rvVal += parseFloat(cdnr[i].refund_voucher_value);
+          // add refund voucher taxable values
+          rvVal += parseFloat(cdnr[i].taxable_value);
 
           // add taxable values
           taxVal +=
@@ -420,7 +420,7 @@ export default {
             parseFloat(cdnr[i].taxable_value) *
             (parseFloat(cdnr[i].cess) * 0.01);
         }
-        o['refund_voucher_value'] = parseFloat(rvVal).toFixed(2);
+        o['taxable_value'] = parseFloat(rvVal).toFixed(2);
         o['tax'] = taxVal.toFixed(2);
         o['CESS'] = cessVal.toFixed(2);
 
@@ -429,7 +429,7 @@ export default {
         this.summary['cdnr'] = [
           {
             invoice_count: 0,
-            invoice_value: 0,
+            taxable_value: 0,
             tax: 0,
             cess: 0,
           },
@@ -441,7 +441,7 @@ export default {
 
       let summary = {
         invoice_count: 0,
-        refund_voucher_value: 0,
+        taxable_value: 0,
         tax: 0,
         cess: 0,
       };
@@ -450,7 +450,7 @@ export default {
         summary = cdnur.reduce(
           (acc, item) => {
             acc.invoice_count++;
-            acc.refund_voucher_value += parseFloat(item.refund_voucher_value);
+            acc.refund_voucher_value += parseFloat(item.taxable_value);
             acc.tax +=
               parseFloat(item.taxable_value) * (parseFloat(item.rate) * 0.01);
             acc.cess +=
@@ -459,14 +459,14 @@ export default {
           },
           {
             invoice_count: 0,
-            refund_voucher_value: 0,
+            taxable_value: 0,
             tax: 0,
             cess: 0,
           }
         );
         summary = {
           invoice_count: summary.invoice_count,
-          refund_voucher_value: summary.refund_voucher_value.toFixed(2),
+          taxable_value: summary.refund_voucher_value.toFixed(2),
           tax: summary.tax.toFixed(2),
           cess: summary.cess.toFixed(2),
         };
@@ -484,7 +484,7 @@ export default {
         let [totVal, sgstVal, igstVal, cessVal] = [0, 0, 0, 0];
         for (let i in hsn) {
           // add total values
-          totVal += parseFloat(hsn[i].totalvalue);
+          totVal += parseFloat(hsn[i].taxableamt);
           // add taxable values
           // taxVal += parseFloat(hsn[i].taxableamt);
           // SGST values
@@ -494,7 +494,7 @@ export default {
           // add cess values
           cessVal += parseFloat(hsn[i].CESSamt);
         }
-        o['total_value'] = totVal.toFixed(2);
+        o['taxable_value'] = totVal.toFixed(2);
         // o['taxable_value'] = taxVal.toFixed(2);
         o['SGST'] = sgstVal.toFixed(2);
         o['IGST'] = igstVal.toFixed(2);
@@ -505,7 +505,7 @@ export default {
         this.summary['hsn'] = [
           {
             product_entries: 0,
-            total_value: 0,
+            taxable_value: 0,
             // taxable_value: 0,
             SGST: 0,
             IGST: 0,
