@@ -11,7 +11,7 @@
     "i18n-compile": "make translations"
   },
   "dependencies": {
-    "bootstrap-vue": "^2.21.2",
+    "bootstrap-vue": "^2.22.0",
     "check-password-strength": "^1.0.15",
     "core-js": "^3.19.1",
     "crypto-js": "^4.1.1",
