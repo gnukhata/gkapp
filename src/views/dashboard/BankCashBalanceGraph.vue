@@ -1,8 +1,13 @@
 <template>
-  <LineChart :chart-options="chartOptions" :chart-data="chartData" />
+  <LineChart
+    :width="200"
+    :chart-options="chartOptions"
+    :chart-data="chartData"
+  />
 </template>
 
 <script>
+// TODO vue3: migration
 import { Line as LineChart } from 'vue-chartjs/legacy';
 import {
   Chart as ChartJS,
@@ -31,7 +36,7 @@ export default {
   props: {
     chartInput: {
       type: Object,
-      default: {},
+      default: () => {},
     },
   },
   data() {
