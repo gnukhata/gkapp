@@ -1,5 +1,5 @@
 <template>
-  <b-card-group deck class="mt-4">
+  <b-card-group deck class="mt-">
     <!-- Make Payment -->
     <b-card class="shadow">
       <b-card-header
@@ -75,6 +75,9 @@
           </router-link>
           from {{ d.item.custname }}
         </template>
+        <template #cell(balanceamount)="d">
+          {{ gk_currency(d.item.balanceamount) }}
+        </template>
       </b-table>
       <!-- <template #footer>
            <b-button
@@ -140,16 +143,6 @@ export default {
     };
   },
   methods: {
-    /*Let's Rename the columns with one's specified via prop `columns`*/
-    renameColumns() {
-      const newNames = this.info.map((obj) => {
-        let newObj = {};
-        newObj[this.columns[0]] = Object.values(obj)[0];
-        newObj[this.columns[1]] = Object.values(obj)[1];
-        return newObj;
-      });
-      return newNames;
-    },
     sortPurchaseInvoice() {
       if (this.invoice.purchase.sort_by === 'date') {
         this.invoice.purchase.data = this.info.amtwisepurinv;

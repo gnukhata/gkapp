@@ -1,10 +1,14 @@
 <template>
-  <b-card-group deck class="mt-4">
+  <b-card-group deck class="mt-5">
     <!-- Most valude customer -->
     <b-card class="shadow">
-      <h5 class="ml-2 mt-4 text-secondary">
+      <b-card-header
+        header-bg-variant="light"
+        header-class="mb-1 font-weight-bold"
+        header-text-variant="dark"
+      >
         <translate>Most Valued Customer</translate>
-      </h5>
+      </b-card-header>
       <b-table
         :items="info.topfivecustlist"
         :fields="cusFields"
@@ -32,9 +36,13 @@
     </b-card>
     <!-- Most Valued Supplier -->
     <b-card class="shadow">
-      <h5 class="ml-2 mt-4 text-secondary">
+      <b-card-header
+        header-bg-variant="light"
+        header-class="mb-1 font-weight-bold"
+        header-text-variant="dark"
+      >
         <translate>Most Valued Supplier</translate>
-      </h5>
+      </b-card-header>
       <b-table
         :fields="supFields"
         :items="info.topfivesuplist"

@@ -1,5 +1,5 @@
 <template>
-  <b-card-group deck class="mt-3">
+  <b-card-group deck class="mt-5">
     <!-- Sale Invoices -->
     <b-card no-body>
       <Bar

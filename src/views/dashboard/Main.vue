@@ -21,6 +21,8 @@
       <MostValuedCS :info="dashboardData" />
       <!-- Most Sold Produc/ Services -->
       <MostSoldPS :info="dashboardData" />
+      <!-- Income / Assets Chart -->
+      <IncomeAssetsChart />
     </div>
   </section>
 </template>
@@ -33,6 +35,7 @@ import Balance from './Balance.vue';
 import MostSoldPS from './MostSoldPS.vue';
 import SalePurchaseInvoiceGraph from './SalePurchaseInvoiceGraph.vue';
 import MakeRecievePayment from './MakeRecievePayment.vue';
+import IncomeAssetsChart from './IncomeAssetsChart.vue';
 export default {
   components: {
     Tiles,
@@ -42,6 +45,7 @@ export default {
     MostSoldPS,
     SalePurchaseInvoiceGraph,
     MakeRecievePayment,
+    IncomeAssetsChart,
   },
   name: 'Main',
   data() {
