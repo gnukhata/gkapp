@@ -242,7 +242,7 @@ const routes = [
     props: true,
   },
   {
-    path: '/contact-details/:mode',
+    path: '/contact-details/:mode/:type', // mode = create/edit, type = customer/supplier
     name: 'Contact_Details',
     component: () =>
       import(

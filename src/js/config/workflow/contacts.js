@@ -8,7 +8,7 @@ const config = {
   uidKey: 'custid',
   createNewPath: {
     name: 'Contact_Details',
-    params: { mode: 'create' },
+    params: { mode: 'create', type: 'customer' },
   },
   printPath: {
     name: 'Contact List',
