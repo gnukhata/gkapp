@@ -477,7 +477,7 @@ export default {
         } else {
           gkdata.groupcode = this.form.group;
         }
-      } else if (!this.form.subGroup) {
+      } else if (!this.form.subGroup || this.form.subGroup < 0) {
         // if subGroup is None
         gkdata.groupcode = this.form.group;
       }
