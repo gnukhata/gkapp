@@ -27,11 +27,11 @@
         </template>
       </b-table>
       <template #footer>
-        <b-button
-          @click="$router.push('/contact-details/create')"
-          variant="dark float-right"
-          ><translate>Add Customer</translate></b-button
-        >
+        <router-link to="/contact-details/create/customer">
+          <b-button variant="dark float-right"
+            ><translate>Add Customer</translate></b-button
+          >
+        </router-link>
       </template>
     </b-card>
     <!-- Most Valued Supplier -->
@@ -58,11 +58,11 @@
         </template>
       </b-table>
       <template #footer>
-        <b-button
-          @click="$router.push('/contact-details/create')"
-          variant="dark float-right"
-          ><translate>Add Supplier</translate></b-button
-        >
+        <router-link to="/contact-details/create/supplier">
+          <b-button variant="dark float-right"
+            ><translate>Add Supplier</translate></b-button
+          >
+        </router-link>
       </template>
     </b-card>
   </b-card-group>

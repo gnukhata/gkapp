@@ -1,6 +1,6 @@
 <template>
   <div class="card mx-0">
-    <div class="card-header text-left py-2">
+    <div class="card-header text-left py-2 bg-dark text-light">
       <b v-translate>Contact Person Details</b>
       <slot name="close-button"> </slot>
     </div>
