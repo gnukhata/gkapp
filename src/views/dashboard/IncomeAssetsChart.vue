@@ -7,6 +7,9 @@
         header-text-variant="dark"
       >
         <translate>Assets & Liabilities</translate>
+        <span class="text-muted">
+          ({{ dateReverse(yearStart) }} to {{ dateReverse(yearEnd) }})
+        </span>
       </b-card-header>
       <Doughnut
         :chart-options="chartOptions"
@@ -26,7 +29,10 @@
         header-class="mb-1 font-weight-bold"
         header-text-variant="dark"
       >
-        <translate>Income & Expense</translate>
+        <translate>Incomes & Expenses</translate>
+        <span class="text-muted">
+          ({{ dateReverse(yearStart) }} to {{ dateReverse(yearEnd) }})
+        </span>
       </b-card-header>
       <Doughnut
         :chart-options="chartOptions"
