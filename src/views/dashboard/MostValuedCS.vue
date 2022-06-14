@@ -29,9 +29,7 @@
       <template #footer>
         <router-link to="/contact-details/create/customer">
           <b-button size="sm" variant="dark float-right"
-            ><BIcon icon="person" class="mr-1" /><translate
-              >Add Customer</translate
-            ></b-button
+            ><translate>Add Customer</translate></b-button
           >
         </router-link>
       </template>
