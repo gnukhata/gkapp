@@ -133,9 +133,7 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col
-            v-if="config.state"
-          >
+          <b-col v-if="config.state">
             <b-form-group
               label="State"
               label-for="pod-input-50"
@@ -321,7 +319,7 @@ export default {
         role: null,
         terms: null,
         creditPeriod: null,
-        godown: null,
+        godown: '',
       },
       options: {
         states: [],
@@ -512,8 +510,13 @@ export default {
         self.form.date = self.getNoteDate();
         self.form.terms = null;
         self.form.creditPeriod = null;
-        self.form.godown = null;
+        self.form.godown = '';
         self.setNoteNo(true);
+        if (self.form.godown === '') {
+          self.$store.dispatch('global/initDefaultGodown').then((defGodown) => {
+            self.form.godown = defGodown;
+          });
+        }
         self.onUpdateDetails();
       });
     },

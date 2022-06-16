@@ -94,6 +94,7 @@
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
         :cgstFlag="isCgst"
+        :godownId="goid"
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -284,6 +285,7 @@ export default {
       },
       showPrintModal: false,
       orderId: 0,
+      goid: -1,
       vuexNameSpace: '',
       isLoading: false,
       isInvDateValid: false,
@@ -316,6 +318,8 @@ export default {
     };
   },
   computed: {
+    // taxState: (self) =>
+    //   self.form.inv.taxState ? self.form.inv.taxState.name : '',
     defaultPaymentMode: (self) =>
       self.$store.getters['global/getDefaultPaymentMode'],
     party: (self) =>
@@ -342,6 +346,9 @@ export default {
             Object.assign(this.form.psOrder, payload.data);
             this.isInvDateValid = payload.options.isDateValid;
             this.form.transport.date = this.form.psOrder.date;
+
+            this.goid = payload.data.godown || -1;
+
             const self = this;
             setTimeout(function() {
               self.updateCounter.transport++;
@@ -768,9 +775,9 @@ export default {
             pin: resp6.data.gkdata.orgpincode,
             bankDetails: resp6.data.gkdata.bankdetails,
           };
-          setTimeout(() => {
-            self.setOrgDetails();
-          }, 1);
+          // setTimeout(() => {
+          //   self.setOrgDetails();
+          // }, 1);
         }
 
         if (preloadErrorList !== '') {
@@ -788,7 +795,9 @@ export default {
       ];
       if (newConf) {
         newConf.total.value = {
-          text: this.isSale ? this.$gettext('Sale Order Value') : this.$gettext('Purchase Order Value'),
+          text: this.isSale
+            ? this.$gettext('Sale Order Value')
+            : this.$gettext('Purchase Order Value'),
         };
         if (newConf.psOrder.class) {
           newConf.psOrder.class = {
