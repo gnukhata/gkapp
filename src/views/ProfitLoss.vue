@@ -65,13 +65,13 @@ This report can be viewed for any period`)
             <b-tbody>
               <b-tr>
                 <b-th v-translate>DIRECT EXPENSE</b-th>
-                <b-th>{{ result['Direct Expense']['direxpbal'] }}</b-th>
+                <b-th class="text-right">{{ result['Direct Expense']['direxpbal'] }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th class="pl-5 font-weight-normal"
                   ><i v-translate>Purchase</i></b-th
                 >
-                <b-th>{{
+                <b-th class="text-right">{{
                   result['Direct Expense']['Purchase']['balance']
                 }}</b-th>
               </b-tr>
@@ -79,19 +79,21 @@ This report can be viewed for any period`)
                 <b-th class="pl-5 font-weight-normal text-danger"
                   ><i v-translate>Gross Profit C/F</i></b-th
                 >
-                <b-th>{{ result['grossprofitcf'] }}</b-th>
+                <b-th class="text-right">{{ result['grossprofitcf'] }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th v-translate>INDIRECT EXPENSE</b-th>
-                <b-th>{{ result['Indirect Expense']['indirexpbal'] }}</b-th>
+                <b-th class="text-right">{{
+                  result['Indirect Expense']['indirexpbal']
+                }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th v-translate>Net Profit</b-th>
-                <b-th>{{ result['netprofit'] }}</b-th>
+                <b-th class="text-right">{{ result['netprofit'] }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th><b v-translate>Total</b></b-th>
-                <b-th
+                <b-th class="text-right"
                   ><b>{{ result['Total'] }}</b></b-th
                 >
               </b-tr>
@@ -109,30 +111,38 @@ This report can be viewed for any period`)
             <b-tbody>
               <b-tr>
                 <b-th v-translate>DIRECT INCOME</b-th>
-                <b-th>{{ result['Direct Income']['dirincmbal'] }}</b-th>
+                <b-th class="text-right">{{
+                  result['Direct Income']['dirincmbal']
+                }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th class="pl-4 font-weight-normal" v-translate>SALES</b-th>
-                <b-th>{{ result['Direct Income']['Sales']['balance'] }}</b-th>
+                <b-th class="text-right">{{
+                  result['Direct Income']['Sales']['balance']
+                }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th class="pl-5 font-weight-normal" v-translate
                   >Sales A/C</b-th
                 >
-                <b-th>{{ result['Direct Income']['Sales']['Sale A/C'] }}</b-th>
+                <b-th class="text-right">{{
+                  result['Direct Income']['Sales']['Sale A/C']
+                }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th v-translate>INDIRECT INCOME</b-th>
-                <b-th>{{ result['Indirect Expense']['indirexpbal'] }}</b-th>
+                <b-th class="text-right">{{
+                  result['Indirect Expense']['indirexpbal']
+                }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th v-translate>Closing Stock</b-th>
-                <b-th>{{ result['Closing Stock'] }}</b-th>
+                <b-th class="text-right">{{ result['Closing Stock'] }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th><b v-translate>Total</b></b-th>
                 <b-th
-                  ><b>{{ result['Total'] }}</b></b-th
+                 class="text-right" ><b>{{ result['Total'] }}</b></b-th
                 >
               </b-tr>
             </b-tbody>
