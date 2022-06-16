@@ -18,6 +18,8 @@ export default {
             },
           },
         },
+        supInvNo: true,
+        supInvDate: true,
         ebn: true,
         addr: true,
         pin: true,

@@ -69,7 +69,7 @@
           </gk-date>
         </b-form-group>
         <b-form-group
-          v-if="!saleFlag"
+          v-if="!saleFlag && config.supInvNo"
           label="Supplier Inv. #"
           label-for="ivd-input-11"
           label-cols="3"
@@ -82,10 +82,11 @@
             id="ivd-input-11"
             v-model="form.supno"
             trim
+            :readonly="disabled.supNo"
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          v-if="!saleFlag"
+          v-if="!saleFlag && config.supInvDate"
           label="Supplier Inv. Date"
           label-cols="3"
           label-cols-md="4"
@@ -95,7 +96,7 @@
           <template #label>
             <translate> Supplier Inv. Date </translate>
           </template>
-          <gk-date id="ivd-date-11" :format="dateFormat" v-model="form.supdate">
+          <gk-date id="ivd-date-11" :format="dateFormat" v-model="form.supdate" :readonly="disabled.supDate">
           </gk-date>
         </b-form-group>
         <b-form-group
@@ -388,6 +389,8 @@ export default {
         state: false,
         supplySt: false,
         godown: false,
+        supNo: false,
+        supDate: false
       };
 
       if (typeof self.config.no === 'object') {
@@ -410,6 +413,14 @@ export default {
         disabled.godown = !!self.config.godown.disabled;
       }
 
+      if (typeof self.config.supInvNo === 'object') {
+        disabled.supNo = !!self.config.supInvNo.disabled;
+      }
+
+      if (typeof self.config.supInvDate === 'object') {
+        disabled.supDate = !!self.config.supInvDate.disabled;
+      }
+
       return disabled;
     },
   },
@@ -424,6 +435,15 @@ export default {
         if (self.parentData.date) {
           self.form.date = self.parentData.date;
         }
+
+        if(self.parentData.supinvno) {
+          self.form.supinvno = self.parentData.supinvno;
+        }
+
+        if(self.parentData.supinvdate) {
+          self.form.supinvdate = self.parentData.supinvdate;
+        }
+
         if (self.parentData.state) {
           if (self.parentData.state.id) {
             self.form.state = self.parentData.state;
@@ -741,6 +761,7 @@ export default {
     },
     resetForm(raiseUpdateEvent) {
       let requests = [];
+      const self = this;
       this.setOrgDetails();
       if (this.disabled.state) {
         this.form.state = '';
@@ -754,7 +775,11 @@ export default {
       this.form.godown = '';
       if (!this.editFlag) {
         this.$nextTick().then(() => {
-          this.form.godown = this.$store.getters['global/getDefaultGodown'];
+          if(self.form.godown === "") {
+            self.$store.dispatch('global/initDefaultGodown').then((defGodown) => {
+              self.form.godown = defGodown;
+            });
+          }
         });
       }
       if(raiseUpdateEvent) {

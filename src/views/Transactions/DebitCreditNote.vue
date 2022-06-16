@@ -524,6 +524,8 @@ export default {
             Object.assign(self.form.invoice, {
               no: inv.invoiceno,
               date: reverseDate(inv.invoicedate),
+              supno:inv.supinvno || '',
+              supdate:inv.supinvdate || '',
               state:
                 inv.inoutflag === 9
                   ? {

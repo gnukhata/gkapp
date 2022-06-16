@@ -11,6 +11,8 @@ export default {
         addr: true,
         gstin: true,
         pin: false,
+        supInvNo: { disabled: true },
+        supInvDate: { disabled: true },
         state: { disabled: true },
         supplySt: { disabled: true },
         godown: { disabled: true },
@@ -25,16 +27,16 @@ export default {
           format: {
             code: {
               dr: 'DN',
-              cr: 'CN'
-            }
-          }
+              cr: 'CN',
+            },
+          },
         },
         date: true,
         gstin: true,
         referenceFlag: true,
         badQuality: true,
         purpose: true,
-        class: {}
+        class: {},
       },
       party: {
         type: false,
@@ -81,7 +83,7 @@ export default {
         },
       },
       comments: {
-        class: {}
+        class: {},
       },
       total: {
         taxable: true,
@@ -94,41 +96,47 @@ export default {
         valueText: true,
       },
     },
-    custom: {}
+    custom: {},
   },
   getters: {
     getDefaultDCNoteConfig: (state) => {
-      return state.default
+      return state.default;
     },
     getCustomDCNoteConfig: (state) => {
-      return state.custom
-    }
+      return state.custom;
+    },
   },
   mutations: {
-    // note that this mutation, directly stores whatever data is being sent, so 
+    // note that this mutation, directly stores whatever data is being sent, so
     // config must be validated before commit
     setDCNoteConfig(state, payload) {
-      state.custom = payload
-    }
+      state.custom = payload;
+    },
   },
   actions: {
     initDCNoteConfig({ state, commit }, payload) {
-      let conf
-      try { // if the DCNoteConfig isn't a valid JSON, catch the error and  use null to get the default config
-        conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-dcNoteConfig`))
+      let conf;
+      try {
+        // if the DCNoteConfig isn't a valid JSON, catch the error and  use null to get the default config
+        conf = JSON.parse(
+          localStorage.getItem(`${payload.orgCode}-dcNoteConfig`)
+        );
       } catch (error) {
-        conf = null
+        conf = null;
       }
       if (conf !== null) {
-        commit("setDCNoteConfig", conf)
+        commit('setDCNoteConfig', conf);
       } else {
-        commit("setDCNoteConfig", state.default)
+        commit('setDCNoteConfig', state.default);
       }
     },
     updateDCNoteConfig({ commit }, payload) {
-      commit("setDCNoteConfig", payload.data)
-      localStorage.setItem(`${payload.orgCode}-dcNoteConfig`, JSON.stringify(payload.data))
-    }
+      commit('setDCNoteConfig', payload.data);
+      localStorage.setItem(
+        `${payload.orgCode}-dcNoteConfig`,
+        JSON.stringify(payload.data)
+      );
+    },
   },
-  namespaced: true
-}
+  namespaced: true,
+};
