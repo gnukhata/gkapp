@@ -390,6 +390,14 @@ export default {
             });
           }
           this.loading = false;
+        })
+        .catch(() => {
+          this.loading = false;
+          this.$bvToast.toast('Failed to get stock report ', {
+              variant: 'danger',
+              title: "Server Error",
+              solid: true,
+            });
         });
     },
     getGodownStock() {
@@ -400,10 +408,24 @@ export default {
         )
         .then((r) => {
           if (r.status == 200) {
-            this.report = r.data.gkresult;
+            let report = r.data.gkresult.map((item) => {
+              if (item.trntype === 'delchal&invoice') {
+                item.trntype = 'invoice';
+              }
+              return item;
+            });
+            this.report = report;
             //             this.showCard = false;
           }
           this.loading = false;
+        })
+        .catch(() => {
+          this.loading = false;
+          this.$bvToast.toast('Failed to get stock report ', {
+              variant: 'danger',
+              title: "Server Error",
+              solid: true,
+            });
         });
     },
     getProductList() {
