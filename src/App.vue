@@ -100,7 +100,7 @@ export default {
       }, 1500);
     },
   },
-  beforeMount() {
+  beforeCreate() {
     // initialize the required vuex states from local storage
     this.$store.dispatch('initLocalStates').then(() => {
       // init global config of an org
