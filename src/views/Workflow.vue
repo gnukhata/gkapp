@@ -579,7 +579,7 @@
               <br class="d-none d-lg-inline-block" />
               {{ selectedEntity.no }}
             </h5>
-            <div>
+            <div v-if="usePrintTriplicate">
               <b-button
                 class="float-right"
                 v-b-toggle.p-collapse
@@ -618,6 +618,13 @@
                 ></print-helper>
               </b-collapse>
             </div>
+            <print-helper
+              v-else
+              contentId="transaction-profile-wrapper"
+              variant="link"
+              :pageTitle="selectedEntity.noteName"
+              :fileName="selectedEntity.noteName"
+            ></print-helper>
           </template>
           <b-card-body
             class="px-0"
@@ -804,6 +811,10 @@ export default {
     },
   },
   computed: {
+    usePrintTriplicate: (self) =>
+      ['Invoice', 'CashMemo', 'DeliveryNote'].indexOf(
+        self.activeWorkflow.tabName
+      ) > -1,
     fileName: (self) => {
       return {
         list: `${self.activeWorkflow.name}-List`,

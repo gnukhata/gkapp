@@ -34,6 +34,7 @@
             rows="4"
             max-rows="5"
             trim
+            :placeholder="placeHolder"
           ></b-form-textarea>
         </b-form-group>
       </div>
@@ -61,6 +62,11 @@ export default {
         return { narration: '' };
       },
     },
+    placeHolder: {
+      type: String,
+      required: false,
+      default: ''
+    }
   },
   watch: {
     updateCounter() {

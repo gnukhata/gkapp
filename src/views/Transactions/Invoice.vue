@@ -157,6 +157,7 @@
           :optionsData="{
             payModes: options.payModes,
           }"
+          @details-updated="onComponentDataUpdate"
         ></payment-details>
         <!-- Transport Details -->
         <transport-details
@@ -173,6 +174,7 @@
           :config="config.comments"
           :updateCounter="updateCounter.comments"
           :parentData="form.comments"
+          :placeHolder="defaultNarration"
         ></comments>
       </b-card-group>
       <b-tooltip
@@ -261,7 +263,10 @@
       name="Invoice"
       title="Invoice"
       :id="invModalId"
-      :pdata="{}"
+      :pdata="{
+        printTitle: { page: 'Tax Invoice', file: 'tax_invoice' },
+        useTriplicate: true,
+      }"
       @hidden="showPrintModal = false"
     >
     </print-page>
@@ -272,7 +277,7 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 
-import { PAGES, CONFIGS } from '@/js/enum.js';
+import { PAGES, CONFIGS, PAYMENT_TYPE } from '@/js/enum.js';
 
 // import { getBase64 } from '../../js/utils.js';
 
@@ -368,6 +373,7 @@ export default {
       isPreloading: false,
       showContactForm: false,
       showBusinessForm: false,
+      defaultNarration: '',
       temp: null,
       options: {
         dcData: {},
@@ -666,16 +672,42 @@ export default {
               this.form.inv.taxState = payload.data.state;
               this.updateCounter.inv++;
             }
+            this.updateDefaultNarration();
           }
           break;
         case 'bill-table':
           Object.assign(this.form.bill, payload.data);
           this.updateCounter.totalTable++;
+          this.updateDefaultNarration();
           break;
         case 'transport-details':
           Object.assign(this.form.transport, payload.data);
           break;
+        case 'payment-details':
+          Object.assign(this.form.payment, payload.data);
+          this.updateDefaultNarration();
+          break;
       }
+    },
+    updateDefaultNarration() {
+      let total = this.form.bill.reduce((acc, item) => {
+        return acc + parseFloat(item.total);
+      }, 0);
+      let party = this.form.party.name ? this.form.party.name.name || '' : '';
+      let invNo = this.form.inv.no || '';
+      let type = this.isSale ? 'Sold' : 'Bought';
+      let payment = '';
+      switch (this.form.payment.mode) {
+        case PAYMENT_TYPE['cash']:
+          payment = 'by cash';
+          break;
+        case PAYMENT_TYPE['credit']:
+          payment = 'on credit';
+          break;
+        case PAYMENT_TYPE['bank']:
+          payment = 'by cheque';
+      }
+      this.defaultNarration = `${type} goods worth Rupees ${total} to ${party} ${payment}, ref invoice no. ${invNo}`;
     },
     fetchDelNoteGodown(dcid) {
       const self = this;
@@ -1246,6 +1278,7 @@ export default {
     },
     initPayload() {
       this.collectComponentData();
+      this.updateDefaultNarration();
       let paymentMode = this.form.payment.mode;
       let partyVoucherFlag = this.$store.getters['global/getPartyVoucherFlag'];
       if (partyVoucherFlag) {
@@ -1285,7 +1318,7 @@ export default {
         reversecharge: this.form.transport.reverseCharge ? 1 : 0,
 
         discflag: 1, // discount flag, 1 - amount, 16 - percent
-        invnarration: this.form.narration,
+        invnarration: this.form.narration || this.defaultNarration,
       };
 
       // debugger;
@@ -1358,10 +1391,11 @@ export default {
       this.form.bill.forEach((item) => {
         let inclusiveFlag = false; // must add ths to global settings and fetch from there
         let rate = item.rate;
-        if(inclusiveFlag) {
+        if (inclusiveFlag) {
           // cess + gst + rate = item rate
           let inclusiveRate = item.rate;
-          rate = inclusiveRate / (0.01 * item.igst.rate + 0.01 * item.cess.rate + 1);
+          rate =
+            inclusiveRate / (0.01 * item.igst.rate + 0.01 * item.cess.rate + 1);
         }
         let taxable = rate * item.qty - item.discount.amount;
 
@@ -1521,7 +1555,7 @@ export default {
     },
     initDelNotePayload() {
       this.collectComponentData();
-
+      this.updateDefaultNarration();
       let delchal = {
         custid: parseInt(this.form.party.name.id) || '',
         dcno: this.form.inv.dnNo,
@@ -1530,7 +1564,7 @@ export default {
         taxstate: this.form.party.state.name,
         orgstategstin: this.form.inv.gstin || '',
         discflag: 1,
-        dcnarration: this.form.narration,
+        dcnarration: this.form.narration || this.defaultNarration,
         roundoffflag: this.form.total.roundFlag ? 1 : 0,
         consignee: {},
 

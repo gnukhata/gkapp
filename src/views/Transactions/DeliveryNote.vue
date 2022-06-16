@@ -202,7 +202,10 @@
       name="DeliveryNote"
       title="Delivery Note"
       :id="delNoteId"
-      :pdata="{}"
+      :pdata="{
+        printTitle: { page: 'Delivery Note', file: 'delivery_note' },
+        useTriplicate: true,
+      }"
     >
     </print-page>
   </b-container>
@@ -449,7 +452,7 @@ export default {
           this.form.delNote.taxState = payload.data.state;
           setTimeout(function() {
             self.updateCounter.delNote++;
-          }, 1)
+          }, 1);
           break;
         case 'bill-table':
           Object.assign(this.form.bill, payload.data);
@@ -806,7 +809,7 @@ export default {
       return { delchaldata: delchal, stockdata: stock };
     },
     resetForm() {
-      this.showPrintModal = false;
+      this.showPrintModal = true;
       let delNote = this.form.delNote;
       this.form = {
         type: 'sale',

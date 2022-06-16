@@ -40,6 +40,7 @@
             v-model="form.mode"
             :options="options.payModes"
             required
+            @input="onUpdateDetails"
           ></b-form-select>
         </b-form-group>
         <div v-if="form.mode === 3">
@@ -191,6 +192,16 @@ export default {
       },
       isCollapsed: false,
     };
+  },
+  methods: {
+    onUpdateDetails() {
+      setTimeout(() =>
+        this.$emit('details-updated', {
+          data: this.form,
+          name: 'payment-details',
+        })
+      );
+    },
   },
   mounted() {
     if (this.optionsData.payModes) {

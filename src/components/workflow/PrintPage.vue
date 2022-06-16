@@ -53,49 +53,63 @@
         </b-button>
         <br />
         <div class="clearfix"></div>
-        <b-button
-          class="m-1 float-right"
-          v-b-toggle.p-collapse
-          size="sm"
-          variant="primary"
-        >
-          <b-icon
-            aria-hidden="true"
-            class="align-middle"
-            icon="printer"
-          ></b-icon>
-          <span class="sr-only">Print</span>
-        </b-button>
-        <div class="clearfix"></div>
-        <b-collapse id="p-collapse">
-          <print-helper
-            class="d-block"
-            contentId="transaction-print-page"
-            variant="link"
-            textMode="Original"
-            pageTitle="Tax Invoice - Original for Recipient"
-            :printStyles="printStyles"
-            fileName="Tax_Invoice_For_Recipient"
-          ></print-helper>
-          <print-helper
-            class="d-block"
-            contentId="transaction-print-page"
-            variant="link"
-            textMode="Duplicate"
-            pageTitle="Tax Invoice - Duplicate for Transporter"
-            :printStyles="printStyles"
-            fileName="Tax_Invoice_For_Transporter"
-          ></print-helper>
-          <print-helper
-            class="d-block"
-            contentId="transaction-print-page"
-            variant="link"
-            textMode="Triplicate"
-            pageTitle="Tax Invoice - Triplicate for Supplier"
-            :printStyles="printStyles"
-            fileName="Tax_Invoice_For_Supplier"
-          ></print-helper>
-        </b-collapse>
+        <div v-if="useTriplicate">
+          <b-button
+            class="m-1 float-right"
+            @click="toggleTriplicateMenu"
+            size="sm"
+            variant="primary"
+          >
+            <b-icon
+              aria-hidden="true"
+              class="align-middle"
+              icon="printer"
+            ></b-icon>
+            <span class="sr-only">Print</span>
+          </b-button>
+          <div class="clearfix"></div>
+          <b-collapse
+            id="triplicate-wrapper"
+            class="shadow-sm"
+            v-model="showTripMenu"
+          >
+            <print-helper
+              class="d-block"
+              contentId="transaction-print-page"
+              variant="link"
+              textMode="Original"
+              :pageTitle="triplicateTitle[0].page"
+              :printStyles="printStyles"
+              :fileName="triplicateTitle[0].file"
+            ></print-helper>
+            <print-helper
+              class="d-block"
+              contentId="transaction-print-page"
+              variant="link"
+              textMode="Duplicate"
+              :pageTitle="triplicateTitle[1].page"
+              :printStyles="printStyles"
+              :fileName="triplicateTitle[1].file"
+            ></print-helper>
+            <print-helper
+              class="d-block"
+              contentId="transaction-print-page"
+              variant="link"
+              textMode="Triplicate"
+              :pageTitle="triplicateTitle[2].page"
+              :printStyles="printStyles"
+              :fileName="triplicateTitle[2].file"
+            ></print-helper>
+          </b-collapse>
+        </div>
+        <print-helper
+          v-else
+          class="btn-primary m-1 float-right"
+          contentId="transaction-print-page"
+          :pageTitle="printPageTitle"
+          :printStyles="printStyles"
+          :fileName="printFileTitle"
+        ></print-helper>
       </div>
     </div>
   </b-modal>
@@ -146,11 +160,20 @@ export default {
     pdata: {
       type: Object,
       required: true,
-      note: 'Data for the Transaction Profiles',
+      note: `Data for the Transaction Profiles
+        {
+          title: {
+            page: 'page name',
+            file: 'file name
+          }
+          useTriplicate: Boolean
+        }
+      `,
     },
   },
   data() {
     return {
+      showTripMenu: false,
       printStyles: `.table .thead-dark th {
           color: #fff !important;
           background-color: #343a40 !important;
@@ -167,6 +190,39 @@ export default {
       },
     };
   },
+  computed: {
+    useTriplicate: (self) => !!self.pdata.useTriplicate,
+    printPageTitle: (self) => {
+      let title = self.title;
+      if (self.useTriplicate) {
+        title = self.pdata.printTitle.page;
+      }
+      return title;
+    },
+    printFileTitle: (self) => {
+      let title = self.title.split(' ').join('_');
+      if (self.useTriplicate) {
+        title = self.pdata.printTitle.file;
+      }
+      return title;
+    },
+    triplicateTitle: (self) => {
+      return [
+        {
+          page: `${self.printPageTitle} - Original for Recipient`,
+          file: `${self.printFileTitle}_original_for_recipient`,
+        },
+        {
+          page: `${self.printPageTitle} - Duplicate for Transporter`,
+          file: `${self.printFileTitle}_duplicate_for_transporter`,
+        },
+        {
+          page: `${self.printPageTitle} - Triplicate for Supplier`,
+          file: `${self.printFileTitle}_triplicate_for_supplier`,
+        },
+      ];
+    },
+  },
   watch: {
     show() {
       this.showModal = this.show;
@@ -178,6 +234,11 @@ export default {
     },
   },
   methods: {
+    toggleTriplicateMenu() {
+      if (this.useTriplicate) {
+        this.showTripMenu = !this.showTripMenu;
+      }
+    },
     getOrgDetails() {
       const requests = [
         axios.get('/state').catch((e) => e),
@@ -223,6 +284,17 @@ export default {
 </script>
 
 <style>
+#triplicate-wrapper {
+  background-color: white;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+#triplicate-wrapper > button:not(:last-child) {
+  border-bottom: 1px solid;
+  display: block !important;
+  width: 100%;
+}
 #button-wrapper {
   position: fixed;
   right: 25px;

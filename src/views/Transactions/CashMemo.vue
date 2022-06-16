@@ -200,7 +200,10 @@
       name="CashMemo"
       title="Cash Memo"
       :id="memoId"
-      :pdata="{}"
+      :pdata="{
+        printTitle: { page: 'Tax Invoice', file: 'tax_invoice' },
+        useTriplicate: true,
+      }"
     >
     </print-page>
   </b-container>
