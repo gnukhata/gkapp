@@ -428,7 +428,7 @@ export default {
         party = this.options.suppliers.find((sup) => sup.text === partyName);
       }
       if (party) {
-        this.isPreloading = true;
+        // this.isPreloading = true;
         this.form.name = party.value;
       }
     },
@@ -667,20 +667,24 @@ export default {
       ];
 
       const self = this;
-      return Promise.all(requests).then(([resp1]) => {
-        self.isPreloading = false;
-        if (resp1.data.gkstatus === 0) {
-          self.options.states = resp1.data.gkresult.map((item) => {
-            return {
-              text: Object.values(item)[0],
-              value: {
-                id: Object.keys(item)[0],
-                name: Object.values(item)[0],
-              },
-            };
-          });
-        }
-      });
+      return Promise.all(requests)
+        .then(([resp1]) => {
+          self.isPreloading = false;
+          if (resp1.data.gkstatus === 0) {
+            self.options.states = resp1.data.gkresult.map((item) => {
+              return {
+                text: Object.values(item)[0],
+                value: {
+                  id: Object.keys(item)[0],
+                  name: Object.values(item)[0],
+                },
+              };
+            });
+          }
+        })
+        .catch(() => {
+          self.isPreloading = false;
+        });
     },
     fetchContactList() {
       const requests = [
