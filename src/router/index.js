@@ -75,7 +75,7 @@ const routes = [
   },
   {
     path: '/uom',
-    name: 'UnitOfMeasurement',
+    name: 'Unit Of Measurement',
     component: UOM,
   },
   {

@@ -13,7 +13,7 @@
           @input="navigate"
           :options="finalRoutes"
           v-model="selectedUrl"
-          placeholder="Search Menu"
+          :placeholder="this.$gettext('Search Menu')"
           label="name"
         ></v-select>
       </div>
@@ -49,16 +49,19 @@ export default {
   methods: {
     navigate() {
       if (this.selectedUrl !== null) {
-        this.$router.push(this.selectedUrl);
+        this.$router.push(this.selectedUrl.path);
         this.selectedUrl = null;
         this.$store.commit('toggleSearchMenu', false);
       }
     },
-    // remove dynamic routes
+    // create menu list from vue router config list
     filterRoutes() {
       const re = new RegExp(':');
+      // do not include dynamic routes
       this.finalRoutes = routes.options.routes.filter((route) => {
         if (!re.test(route.path)) {
+          // sanitize route names
+          route['name'] = route.name.replaceAll('_', ' ');
           return route;
         }
       });
@@ -67,9 +70,9 @@ export default {
   created() {
     window.addEventListener('keydown', (event) => {
       this.keysPressed[event.key] = true;
+      // Ctrl+k should bring up menu search
       if (this.keysPressed.Control && this.keysPressed['k']) {
         event.preventDefault();
-        // Left shift+CONTROL pressed!
         this.$store.commit('toggleSearchMenu', !this.searchMenu);
         this.keysPressed = {}; // reset key map
       }
