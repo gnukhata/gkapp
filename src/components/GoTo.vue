@@ -67,15 +67,15 @@ export default {
   created() {
     window.addEventListener('keydown', (event) => {
       this.keysPressed[event.key] = true;
-
-      if (this.keysPressed.Control && this.keysPressed.Home) {
+      if (this.keysPressed.Control && this.keysPressed['k']) {
+        event.preventDefault();
         // Left shift+CONTROL pressed!
-        this.keysPressed = {}; // reset key map
         this.$store.commit('toggleSearchMenu', !this.searchMenu);
+        this.keysPressed = {}; // reset key map
       }
     });
 
-    window.addEventListener('keydown', (event) => {
+    window.addEventListener('keyup', (event) => {
       this.keysPressed[event.key] = false;
       this.keysPressed = {};
     });
