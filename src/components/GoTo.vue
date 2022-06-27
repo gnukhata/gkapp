@@ -1,40 +1,41 @@
 <template>
   <b-modal
     hide-footer
+    hide-header
     header-bg-variant="dark"
     header-text-variant="light"
     v-model="searchMenu"
-    ref="goto-modal"
     @hide="$store.commit('toggleSearchMenu', false)"
   >
-    <template #modal-header>
-      <div><b-icon icon="search"></b-icon> Search Menu</div>
-    </template>
-    <b-form ref="gotoform" class="mb-5" @submit.prevent="navigate">
-      <autocomplete
-        ref="gksearch"
-        v-model="selectedUrl"
-        placeholder="Select / Search Menu"
-        :options="finalRoutes"
-        textField="name"
-        valueField="path"
-        @input="navigate"
-      ></autocomplete>
-      <div class="mt-3 text-center">
-        <span class="text-muted">Press <kbd>ESC</kbd> to exit </span>
+    <b-row cols="2">
+      <div class="col-10">
+        <v-select
+          @input="navigate"
+          :options="finalRoutes"
+          v-model="selectedUrl"
+          :placeholder="this.$gettext('Search Menu')"
+          label="name"
+        ></v-select>
       </div>
-    </b-form>
+      <div class="col-1 mt-1" role="button">
+        <BIcon
+          scale="1.3x"
+          variant="danger"
+          icon="x-circle-fill"
+          @click="$store.commit('toggleSearchMenu', false)"
+          title="close"
+        />
+      </div>
+    </b-row>
   </b-modal>
 </template>
 
 <script>
-import Autocomplete from './Autocomplete.vue';
 import routes from '../router/index';
 import { mapState } from 'vuex';
 
 export default {
   name: 'GoTo',
-  components: { Autocomplete },
   data() {
     return {
       selectedUrl: '',
@@ -48,16 +49,19 @@ export default {
   methods: {
     navigate() {
       if (this.selectedUrl !== null) {
-        this.$router.push(this.selectedUrl);
+        this.$router.push(this.selectedUrl.path);
         this.selectedUrl = null;
         this.$store.commit('toggleSearchMenu', false);
       }
     },
-    // remove dynamic routes
+    // create menu list from vue router config list
     filterRoutes() {
       const re = new RegExp(':');
+      // do not include dynamic routes
       this.finalRoutes = routes.options.routes.filter((route) => {
         if (!re.test(route.path)) {
+          // sanitize route names
+          route['name'] = route.name.replaceAll('_', ' ');
           return route;
         }
       });
@@ -66,11 +70,11 @@ export default {
   created() {
     window.addEventListener('keydown', (event) => {
       this.keysPressed[event.key] = true;
-
-      if (this.keysPressed.Control == true && this.keysPressed.Home == true) {
-        // Left shift+CONTROL pressed!
-        this.keysPressed = {}; // reset key map
+      // Ctrl+k should bring up menu search
+      if (this.keysPressed.Control && this.keysPressed['k']) {
+        event.preventDefault();
         this.$store.commit('toggleSearchMenu', !this.searchMenu);
+        this.keysPressed = {}; // reset key map
       }
     });
 

@@ -52,10 +52,16 @@ Vue.mixin({
     },
   },
   methods: {
-    // https://cli.vuejs.org/guide/mode-and-env.html#modes
-    // gkMode() {
-    //   return process.env.NODE_ENV
+    // Naming convention for methods is: snake_casing
 
+    // https://cli.vuejs.org/guide/mode-and-env.html#modes
+    gk_env() {
+      return {
+        node_env: process.env.NODE_ENV,
+        gkcore_url: process.env.VUE_APP_GKCORE_URL || null,
+        gkapp_url: process.env.GKAPP_URL || null,
+      };
+    },
     /**
      * Return language specific number representation of given `value`
      * @param {} value
@@ -63,9 +69,7 @@ Vue.mixin({
      * @returns {}
      * TODO handle multiple currencies
      */
-    gk_currency(value, format = 'en-IN') {
-      // currency symbol
-      const symbol = '₹ ';
+    gk_currency(value, format = 'en-IN', symbol = '₹ ') {
       let formattedValue = null;
       const decimalExists = value.toString().includes('.');
       // handle decimal places

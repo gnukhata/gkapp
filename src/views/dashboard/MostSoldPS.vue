@@ -1,10 +1,47 @@
 <template>
   <b-card-group deck class="mt-4">
-    <!-- Most bought product/service -->
+    <!-- Most Sold Product / Service-->
     <b-card class="shadow">
-      <h5 class="ml-2 mt-4 text-secondary">
-        <translate>Most Brough Product/Service</translate>
-      </h5>
+      <b-card-header
+        header-bg-variant="light"
+        header-class="mb-1 font-weight-bold"
+        header-text-variant="dark"
+      >
+        <translate>Most Sold Product / Service</translate>
+      </b-card-header>
+      <b-table
+        :fields="supFields"
+        :items="info.stockonhanddata"
+        class="table-border-dark"
+        head-variant="dark"
+        striped
+        small
+      >
+        <template #cell(productname)="d">
+          <router-link :to="'/workflow/Business/' + d.item.productcode">
+            {{ d.item.productname }}
+          </router-link>
+        </template>
+      </b-table>
+      <template #footer>
+        <router-link to="business-details/create">
+          <b-button size="sm" variant="dark float-right"
+            ><BIcon icon="box" class="mr-1" /><translate
+              >Add Product / Service</translate
+            ></b-button
+          >
+        </router-link>
+      </template>
+    </b-card>
+    <!-- Most purchased product/service -->
+    <b-card class="shadow">
+      <b-card-header
+        header-bg-variant="light"
+        header-class="mb-1 font-weight-bold"
+        header-text-variant="dark"
+      >
+        <translate>Most Purchased Product / Service</translate>
+      </b-card-header>
       <b-table
         :items="info.mostboughtprodsev"
         :fields="cusFields"
@@ -20,38 +57,13 @@
         </template>
       </b-table>
       <template #footer>
-        <b-button
-          @click="$router.push('/business-details/create')"
-          variant="dark float-right"
-          ><translate>Add product/Service</translate></b-button
-        >
-      </template>
-    </b-card>
-    <!-- Most Valued Supplier -->
-    <b-card class="shadow">
-      <h5 class="ml-2 mt-4 text-secondary">
-        <translate>Most Valued Supplier</translate>
-      </h5>
-      <b-table
-        :fields="supFields"
-        :items="info.topfivesuplist"
-        class="table-border-dark"
-        head-variant="dark"
-        striped
-        small
-      >
-        <template #cell(custname)="d">
-          <router-link :to="'/workflow/Contacts/' + d.item.custid">
-            {{ d.item.custname }}
-          </router-link>
-        </template>
-      </b-table>
-      <template #footer>
-        <b-button
-          @click="$router.push('/contact-details/create')"
-          variant="dark float-right"
-          ><translate>Add Supplier</translate></b-button
-        >
+        <router-link to="business-details/create">
+          <b-button size="sm" variant="dark float-right"
+            ><BIcon icon="box" class="mr-1" /><translate
+              >Add Product / Service</translate
+            ></b-button
+          >
+        </router-link>
       </template>
     </b-card>
   </b-card-group>
@@ -78,12 +90,12 @@ export default {
       ],
       supFields: [
         {
-          key: 'custname',
+          key: 'productname',
           label: 'Name',
         },
         {
-          key: 'data',
-          label: 'Invoice Count',
+          key: 'balance',
+          label: 'Stock On Hand',
         },
       ],
     };

@@ -28,7 +28,7 @@
       </b-table>
       <template #footer>
         <router-link to="/contact-details/create/customer">
-          <b-button variant="dark float-right"
+          <b-button size="sm" variant="dark float-right"
             ><translate>Add Customer</translate></b-button
           >
         </router-link>
@@ -56,11 +56,15 @@
             {{ d.item.custname }}
           </router-link>
         </template>
+        <template #cell(data)="d">
+          {{ parseInt(d.item.data) }}
+        </template>
       </b-table>
       <template #footer>
         <router-link to="/contact-details/create/supplier">
-          <b-button variant="dark float-right"
-            ><translate>Add Supplier</translate></b-button
+          <b-button size="sm" variant="dark float-right"
+            ><BIcon icon="briefcase" class="mr-1" />
+            <translate>Add Supplier</translate></b-button
           >
         </router-link>
       </template>
