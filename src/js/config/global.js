@@ -67,28 +67,30 @@ export default {
       return state.options;
     },
     getDateFormat: (state) => {
-      return state.customConf.general.format.date;
+      return state.customConf.general
+        ? state.customConf.general.format.date
+        : state.defConf.general.format.date;
     },
     getTrnNoFormat: (state) => {
-      return state.customConf.transaction.format.no;
+      return state.customConf.transaction ? state.customConf.transaction.format.no : state.defConf.transaction.format.no ;
     },
     getDefaultPaymentMode(state) {
-      return state.customConf.transaction.default.payment;
+      return state.customConf.transaction ? state.customConf.transaction.default.payment : state.defConf.transaction.default.payment ;
     },
     getDefaultTaxMode(state) {
-      return state.customConf.transaction.default.tax;
+      return state.customConf.transaction ? state.customConf.transaction.default.tax : state.defConf.transaction.default.tax ;
     },
     getGstRates(state) {
       return state.constant.gstRates;
     },
     getPartyVoucherFlag(state) {
-      return state.customConf.transaction.default.partyVoucherFlag;
+      return state.customConf.transaction ? state.customConf.transaction.default.partyVoucherFlag : state.defConf.transaction.default.partyVoucherFlag ;
     },
     getDefaultGodown(state) {
-      return state.customConf.transaction.default.godown;
+      return state.customConf.transaction ? state.customConf.transaction.default.godown : state.defConf.transaction.default.godown ;
     },
     getDefaultContacts(state) {
-      return state.customConf.transaction.default.contacts;
+      return state.customConf.transaction ? state.customConf.transaction.default.contacts : state.defConf.transaction.default.contacts ;
     },
   },
   mutations: {
@@ -221,7 +223,12 @@ export default {
           let custName = 'Retail Cusomter (Default)';
           const defaults = state.customConf.transaction.default;
           let rCust = custList.find((cust) => cust.text === custName);
-          if ((!defaults.contacts || !defaults.contacts.customer || defaults.contacts.customer < 0) && !rCust) {
+          if (
+            (!defaults.contacts ||
+              !defaults.contacts.customer ||
+              defaults.contacts.customer < 0) &&
+            !rCust
+          ) {
             requests.push(createContact(custName, orgState, 3));
           } else {
             requests.push(
@@ -234,7 +241,12 @@ export default {
           let supList = state.options.transaction.contacts.suppliers || [];
           let supName = 'Retail Supplier (Default)';
           let rSup = supList.find((cust) => cust.text === supName);
-          if ((!defaults.contacts || !defaults.contacts.supplier || defaults.contacts.supplier < 0) && !rSup) {
+          if (
+            (!defaults.contacts ||
+              !defaults.contacts.supplier ||
+              defaults.contacts.supplier < 0) &&
+            !rSup
+          ) {
             requests.push(createContact(supName, orgState, 19));
           } else {
             requests.push(

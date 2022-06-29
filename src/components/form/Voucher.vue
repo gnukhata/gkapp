@@ -28,7 +28,18 @@
     <div>
       <b-form class="p-2 pt-3" @submit.prevent="confirmOnSubmit">
         <b-row no-gutters>
-          <b-col> </b-col>
+          <b-col>
+            <v-select
+              v-if="isReceiptOrPayment"
+              id="v-input-11"
+              :options="creditInv"
+              v-model="form.inv"
+              placeholder="Select an Invoice"
+              :required="true"
+              :reduce="(inv) => inv.id"
+              @input="onInvSelect"
+            ></v-select>
+          </b-col>
           <b-col class="mb-2" :style="{ 'max-width': '200px' }">
             <gk-date
               id="v-date-1"
@@ -404,6 +415,12 @@ export default {
         acc: {}, // account id to name map
         dr: [],
         cr: [],
+        creditInv: {
+          // on credit invoices for receipt and payment vouchers
+          sale: [],
+          purchase: [],
+          map: {},
+        },
         balances: {},
         vtype: [
           { text: 'Receipt', value: 'receipt' },
@@ -419,7 +436,9 @@ export default {
         ],
       },
       isDateValid: null,
+      customerName: '-1',
       form: {
+        inv: null,
         vtype: { text: '', value: '' },
         date: null,
         dr: [
@@ -450,6 +469,18 @@ export default {
   computed: {
     isCreateMode: (self) => self.mode === 'create',
     dateFormat: (self) => self.$store.getters['global/getDateFormat'],
+    isReceiptOrPayment: (self) => {
+      let result = false;
+      if (self.form.vtype) {
+        let type = self.form.vtype.value;
+        result = type === 'receipt' || type === 'payment';
+      }
+      return result;
+    },
+    creditInv: (self) =>
+      self.form.vtype.value === 'payment'
+        ? self.options.creditInv.purchase
+        : self.options.creditInv.sale,
     totalDr: (self) =>
       self.form.dr.reduce(
         (acc, item) => acc + (item.amount ? parseFloat(item.amount) : 0),
@@ -473,6 +504,7 @@ export default {
     ...mapState(['yearStart', 'yearEnd']),
   },
   watch: {
+    customer(val) {},
     isOpen(val) {
       if (this.inOverlay) {
         if (val) {
@@ -644,27 +676,49 @@ export default {
       let type = this.form.vtype.acc
         ? this.form.vtype.acc
         : this.form.vtype.value;
-      const requests = [
+      let requests = [
         axios.get(`/accountsbyrule?type=${type}&side=Dr`).catch((error) => {
-          this.displayToast(
-            this.$gettext('Fetch State Data Failed!'),
-            error.message,
-            'danger'
-          );
+          // this.displayToast(
+          //   this.$gettext('Fetch State Data Failed!'),
+          //   error.message,
+          //   'danger'
+          // );
+          console.log('Fetch Dr accounts failed');
           return error;
         }),
         axios.get(`/accountsbyrule?type=${type}&side=Cr`).catch((error) => {
-          this.displayToast(
-            this.$gettext('Fetch State Data Failed!'),
-            error.message,
-            'danger'
-          );
+          // this.displayToast(
+          //   this.$gettext('Fetch State Data Failed!'),
+          //   error.message,
+          //   'danger'
+          // );
+          console.log('Fetch Cr accounts failed');
           return error;
         }),
       ];
 
+      this.options.creditInv = {
+        sale: [],
+        purchase: [],
+        map: {},
+      };
+
+      if (this.isReceiptOrPayment) {
+        requests.push(
+          axios.get(`billwise?type=all`).catch((error) => {
+            // this.displayToast(
+            //   this.$gettext('Fetch State Data Failed!'),
+            //   error.message,
+            //   'danger'
+            // );
+            console.log('Fetch billwise accounts failed');
+            return error;
+          })
+        );
+      }
+
       const self = this;
-      return Promise.all(requests).then(([resp1, resp2]) => {
+      return Promise.all(requests).then(([resp1, resp2, resp3]) => {
         let preloadErrorList = ''; // To handle the unloaded data, at once than individually
         // === Dr Accounts ===
         if (resp1.data.gkstatus === 0) {
@@ -688,6 +742,26 @@ export default {
           });
         } else {
           preloadErrorList += ' Cr Accounts,';
+        }
+
+        // on credit invoices
+        if (self.isReceiptOrPayment) {
+          if (resp3.data.gkstatus === 0) {
+            resp3.data.invoices.forEach((item) => {
+              let option = {
+                id: item.invid,
+                label: item.invoiceno,
+              };
+              if (item.inoutflag === 15) {
+                self.options.creditInv.sale.push(option);
+              } else {
+                self.options.creditInv.purchase.push(option);
+              }
+              self.options.creditInv.map[item.invid] = item;
+            });
+          } else {
+            preloadErrorList += ' On credit invoices,';
+          }
         }
 
         if (preloadErrorList !== '') {
@@ -820,6 +894,16 @@ export default {
         solid: true,
       });
     },
+    onInvSelect() {
+      if (this.form.inv) {
+        let invData = this.options.creditInv.map[this.form.inv];
+        this.customerName = invData.custname;
+        this.autoChooseAccounts();
+        this.form.dr[0].amount = this.form.cr[0].amount = parseFloat(
+          invData.balanceamount
+        );
+      }
+    },
     /**
      * updateAccounts()
      *
@@ -836,32 +920,41 @@ export default {
       );
       let self = this;
       return this.preloadData().then(() => {
-        if (self.customer !== '-1') {
-          let dr, cr;
-          if (self.type === 'receipt') {
-            dr = self.options.dr.find((acc) => acc.accountname === 'Bank A/C');
-            cr = self.options.cr.find(
-              (acc) => acc.accountname === self.customer
-            );
-            self.form.dr[0].account = dr ? dr.accountcode : -1;
-            self.form.cr[0].account = cr ? cr.accountcode : -1;
-          } else if (self.type === 'payment') {
-            dr = self.options.dr.find(
-              (acc) => acc.accountname === self.customer
-            );
-            cr = self.options.cr.find((acc) => acc.accountname === 'Bank A/C');
-            self.form.dr[0].account = dr ? dr.accountcode : -1;
-            self.form.cr[0].account = cr ? cr.accountcode : -1;
-          }
-        }
-        return;
+        self.autoChooseAccounts();
       });
+    },
+    autoChooseAccounts() {
+      if (this.customerName !== '-1') {
+        let dr, cr;
+        if (this.form.vtype.value === 'receipt') {
+          dr = this.options.dr.find((acc) => acc.accountname === 'Bank A/C');
+          cr = this.options.cr.find(
+            (acc) => acc.accountname === this.customerName
+          );
+          this.form.dr[0].account = dr ? dr.accountcode : -1;
+          this.form.cr[0].account = cr ? cr.accountcode : -1;
+        } else if (this.form.vtype.value === 'payment') {
+          dr = this.options.dr.find(
+            (acc) => acc.accountname === this.customerName
+          );
+          cr = this.options.cr.find((acc) => acc.accountname === 'Bank A/C');
+          this.form.dr[0].account = dr ? dr.accountcode : -1;
+          this.form.cr[0].account = cr ? cr.accountcode : -1;
+        }
+      }
     },
     resetForm() {
       this.form.amount = 0;
       this.form.narration = '';
       this.form.dr = [];
       this.form.cr = [];
+      this.form.inv = null;
+      this.options.creditInv = {
+        sale: [],
+        purchase: [],
+        map: {},
+      };
+      this.customerName = '-1';
       this.addRow('cr');
       this.addRow('dr');
       this.updateDate();
