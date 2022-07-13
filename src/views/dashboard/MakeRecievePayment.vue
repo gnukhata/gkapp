@@ -35,6 +35,11 @@
         <template #cell(balanceamount)="d">
           {{ gk_currency(d.item.balanceamount) }}
         </template>
+        <template #cell(payment)="data">
+          <b-button @click="onPayment('payment', data.item.invid)" size="sm">
+            Pay
+          </b-button>
+        </template>
       </b-table>
       <!-- <template #footer>
            <b-button
@@ -78,6 +83,11 @@
         <template #cell(balanceamount)="d">
           {{ gk_currency(d.item.balanceamount) }}
         </template>
+        <template #cell(receipt)="data">
+          <b-button @click="onPayment('receipt', data.item.invid)" size="sm">
+            Receive
+          </b-button>
+        </template>
       </b-table>
       <!-- <template #footer>
            <b-button
@@ -96,6 +106,10 @@ export default {
     info: {
       type: [Array, Object],
       default: () => {},
+    },
+    onPayment: {
+      type: Function,
+      required: true,
     },
   },
   data() {
@@ -124,6 +138,11 @@ export default {
           label: 'Amount',
           class: 'gk-currency',
         },
+        {
+          key: 'payment',
+          label: '',
+          tdClass: 'text-center',
+        },
       ],
       saleFields: [
         {
@@ -138,6 +157,11 @@ export default {
           key: 'balanceamount',
           label: 'Amount',
           class: 'gk-currency',
+        },
+        {
+          key: 'receipt',
+          label: '',
+          tdClass: 'text-center',
         },
       ],
     };

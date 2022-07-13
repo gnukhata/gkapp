@@ -16,13 +16,30 @@
       <!-- Sale/Purchase Invoice Graphs -->
       <SalePurchaseInvoiceGraph :info="dashboardData" />
       <!-- Make / Recieve Payment -->
-      <MakeRecievePayment :info="dashboardData" />
+      <MakeRecievePayment :info="dashboardData" :onPayment="onPayment" />
       <!-- Most Valued Customers / suppliers -->
       <MostValuedCS :info="dashboardData" />
       <!-- Most Sold Produc/ Services -->
       <MostSoldPS :info="dashboardData" />
       <!-- Income / Assets Chart -->
       <IncomeAssetsChart />
+
+      <b-modal
+        size="lg"
+        v-model="showVoucherModal"
+        centered
+        static
+        body-class="p-0"
+        id="contact-item-modal"
+        hide-footer
+        hide-header
+      >
+        <easy-voucher
+          :type="voucherType"
+          :invId="voucherInvId"
+          :onSave="onPaymentComplete"
+        ></easy-voucher>
+      </b-modal>
     </div>
   </section>
 </template>
@@ -36,6 +53,8 @@ import MostSoldPS from './MostSoldPS.vue';
 import SalePurchaseInvoiceGraph from './SalePurchaseInvoiceGraph.vue';
 import MakeRecievePayment from './MakeRecievePayment.vue';
 import IncomeAssetsChart from './IncomeAssetsChart.vue';
+import EasyVoucher from '@/components/form/VoucherEasy.vue';
+
 export default {
   components: {
     Tiles,
@@ -46,15 +65,30 @@ export default {
     SalePurchaseInvoiceGraph,
     MakeRecievePayment,
     IncomeAssetsChart,
+    EasyVoucher,
   },
   name: 'Main',
   data() {
     return {
       dashboardData: {},
       dataIsFetched: false,
+      showVoucherModal: false,
+      voucherType: 'payment',
+      voucherInvId: -1,
     };
   },
   methods: {
+    onPayment(type, id) {
+      this.voucherType = type;
+      this.voucherInvId = id;
+      this.showVoucherModal = true;
+    },
+    onPaymentComplete() {
+      this.showVoucherModal = false;
+      this.voucherInvId = -1;
+      this.getDashboardData();
+
+    },
     getDashboardData() {
       axios
         .get('/dashboard?type=dashboarddata')
@@ -62,6 +96,7 @@ export default {
           if (r.status == 200) {
             this.dashboardData = r.data.gkresult;
             this.dataIsFetched = true;
+            this.$forceUpdate();
           }
         })
         .catch((e) => {

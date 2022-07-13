@@ -42,10 +42,7 @@
           class="text-small table-border-dark"
         >
           <template #cell(value)="data">
-            <span v-if="typeof data.value !== 'object'">
-              {{ data.value }}
-            </span>
-            <span v-else>
+            <span v-if="typeof data.value === 'object'">
               <b-link
                 :to="{
                   name: 'Workflow',
@@ -57,6 +54,9 @@
               >
                 {{ data.value.text }}
               </b-link>
+            </span>
+            <span v-else>
+              {{ data.value }}
             </span>
           </template>
         </b-table-lite>
@@ -172,7 +172,7 @@
           <b-icon class="mr-1" icon="eye"></b-icon>
           <translate>View Vouchers</translate>
         </b-button>
-        <b-button
+        <!-- <b-button
           v-if="onCreditFlag"
           class="mr-1"
           size="sm"
@@ -187,6 +187,18 @@
         >
           <b-icon class="mr-1" icon="clipboard-check"></b-icon>
           <translate>Adjust</translate>
+        </b-button> -->
+        <b-button
+          @click="onPayment"
+          v-if="onCreditFlag"
+          class="mr-1"
+          size="sm"
+          variant="success"
+        >
+          <!-- <b-icon class="mr-1" icon="clipboard-check"></b-icon> -->
+          <translate>{{
+            invoice.isSale ? 'Receive Payment' : 'Make Payment'
+          }}</translate>
         </b-button>
         <b-button
           v-if="rectifyFlag"
@@ -292,16 +304,33 @@
         </translate>
       </div>
     </b-collapse>
+    <b-modal
+      size="lg"
+      v-model="showVoucherModal"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-footer
+      hide-header
+    >
+      <easy-voucher
+        :type="voucherType"
+        :invId="voucherInvId"
+        :onSave="onPaymentComplete"
+      ></easy-voucher>
+    </b-modal>
   </b-container>
 </template>
 
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import EasyVoucher from '@/components/form/VoucherEasy.vue';
 
 export default {
   name: 'InvoiceProfile',
-  components: {},
+  components: { EasyVoucher },
   props: {
     id: {
       type: Number,
@@ -359,6 +388,9 @@ export default {
       showAttachments: false,
       showVouchers: false,
       isAttachmentLoading: false,
+      voucherType: 'receipt',
+      voucherInvId: -1,
+      showVoucherModal: false,
       states: {},
     };
   },
@@ -533,6 +565,16 @@ export default {
     ...mapState(['authToken']),
   },
   methods: {
+    onPayment() {
+      this.voucherType = this.invoice.isSale ? 'receipt' : 'payment';
+      this.voucherInvId = this.id;
+      this.showVoucherModal = true;
+    },
+    onPaymentComplete() {
+      this.showVoucherModal = false;
+      this.voucherInvId = -1;
+      this.refresh();
+    },
     onAttachementPreviewLoad(e) {
       // console.log(e)
       if (e.target) {
@@ -880,22 +922,25 @@ export default {
         }
       });
     },
+    refresh() {
+      this.isPreloading = true;
+      this.showVouchers = false;
+      this.vouchers = [];
+      this.showAttachments = false;
+      this.attachments = [];
+      Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
+        .then(() => {
+          this.isPreloading = false;
+        })
+        .catch(() => {
+          this.isPreloading = false;
+        });
+    },
   },
   watch: {
     id(newId) {
       if (newId && parseInt(newId) > -1) {
-        this.isPreloading = true;
-        this.showVouchers = false;
-        this.vouchers = [];
-        this.showAttachments = false;
-        this.attachments = [];
-        Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
-          .then(() => {
-            this.isPreloading = false;
-          })
-          .catch(() => {
-            this.isPreloading = false;
-          });
+        this.refresh();
       }
     },
   },

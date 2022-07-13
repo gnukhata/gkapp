@@ -704,6 +704,10 @@ export default {
       type: [Number, String],
       required: true,
       default: null,
+      validator: function(value) {
+        console.log(value)
+        return true;
+      },
     },
   },
   data() {
@@ -1188,13 +1192,19 @@ export default {
     },
     /** Update the URL based on current entity selected */
     updateUrl() {
+      console.log("Url Update")
       let url = window.location.href.split('#')[0];
       let wfName = this.activeWorkflow.name;
       let key = this.activeTabOptions.uidKey;
       let wfId = this.selectedEntity ? this.selectedEntity[key] || -1 : -1;
+      console.log(wfId);
       url += `#/workflow/${wfName}/${wfId}`;
       if (url != window.location.href) {
-        history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
+        this.$router.replace({
+          name: 'Workflow',
+          params: { wfName: wfName, wfId: wfId },
+        });
+        // history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
         // instead of creating a new history instances for every entity selected
       }
     },
