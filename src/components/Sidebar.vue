@@ -133,7 +133,7 @@
             <b-nav-item to="/accounts/-1/-1/-1">
               <b-icon icon="files-alt"></b-icon><translate> Accounts</translate>
             </b-nav-item>
-            <b-nav-item disabled to="/budgets/cash/-1">
+            <b-nav-item to="/budgets/cash/-1">
               <b-icon icon="file-ruled"></b-icon><translate> Budget</translate>
             </b-nav-item>
             <b-nav-item
@@ -150,7 +150,7 @@
               <b-icon icon="journals"></b-icon
               ><translate> Close Books / Roll Over</translate>
             </b-nav-item>
-            <b-nav-item disabled to="/bank-recon">
+            <b-nav-item to="/bank-recon">
               <b-icon icon="journals"></b-icon
               ><translate> Bank Reconciliation</translate>
             </b-nav-item>
@@ -179,12 +179,12 @@
               ><b-icon icon="building"></b-icon
               ><translate> Godowns</translate></b-nav-item
             >
-            <b-nav-item disabled to="/costcenter">
+            <b-nav-item to="/costcenter">
               <b-icon icon="cash-stack"></b-icon
               ><translate> Cost Center</translate>
             </b-nav-item>
 
-            <b-nav-item disabled to="/categories">
+            <b-nav-item to="/categories">
               <b-icon icon="tags"></b-icon><translate> Categories</translate>
             </b-nav-item>
 
@@ -207,7 +207,7 @@
               <b-icon icon="box-seam"></b-icon
               ><translate> Product Register</translate>
             </b-nav-item>
-            <b-nav-item disabled to="/cost-center-statement">
+            <b-nav-item to="/cost-center-statement">
               <b-icon icon="cash"></b-icon
               ><translate> Cost Center Statement</translate>
             </b-nav-item>
@@ -219,7 +219,7 @@
               <b-icon icon="receipt"></b-icon
               ><translate> Stock On Hand</translate>
             </b-nav-item>
-            <b-nav-item disabled to="/categorywise-stock-on-hand">
+            <b-nav-item to="/categorywise-stock-on-hand">
               <b-icon icon="tag"></b-icon
               ><translate> Categorywise Stock On Hand</translate>
             </b-nav-item>
@@ -227,7 +227,7 @@
               <b-icon icon="graph-up"></b-icon
               ><translate> Profit & Loss</translate>
             </b-nav-item>
-            <b-nav-item disabled to="/cash-flow">
+            <b-nav-item to="/cash-flow">
               <b-icon icon="wallet"></b-icon><translate> Cash Flow</translate>
             </b-nav-item>
             <b-nav-item to="/trial-balance">
