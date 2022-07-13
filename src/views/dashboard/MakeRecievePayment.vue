@@ -56,7 +56,7 @@
         header-class="mb-1 font-weight-bold"
         header-text-variant="dark"
       >
-        <translate>Receive Payment</translate>
+        <translate>Issue Receipt</translate>
         <b-badge
           pill
           variant="primary"
@@ -85,7 +85,7 @@
         </template>
         <template #cell(receipt)="data">
           <b-button @click="onPayment('receipt', data.item.invid)" size="sm">
-            Receive
+            Receipt
           </b-button>
         </template>
       </b-table>
