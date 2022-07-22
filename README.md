@@ -1,20 +1,20 @@
 # [GKApp - GNUKhata Progressive Web App](https://gitlab.com/gnukhata/gkapp)
 
-[![version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://gitlab.com/gnukhata/gkapp)  [![license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://gitlab.com/gnukhata/gkapp)
+[![version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://gitlab.com/gnukhata/gkapp) [![license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://gitlab.com/gnukhata/gkapp)
 
 **GKApp** is a Progressive Web App made using Vue & Bootstrap.
 
-* Free & Open Source under AGPLv3 License
-* PWA/SPA — Single page app
-* Built with Vuejs & Bootstrap Vue
-* SCSS sources with variables
+- Free & Open Source under AGPLv3 License
+- PWA/SPA — Single page app
+- Built with Vuejs & Bootstrap Vue
+- SCSS sources with variables
 
 ## Table of Contents
 
-* [Description & Demo](#description--demo)
-* [Quick Start](#quick-start)
-* [Licensing](#licensing)
-* [Useful Links](#useful-links)
+- [Description & Demo](#description--demo)
+- [Quick Start](#quick-start)
+- [Licensing](#licensing)
+- [Useful Links](#useful-links)
 
 ## Description & Demo
 
@@ -26,11 +26,11 @@ https://gnukhata.gitlab.io/gkapp
 
 #### Get the repo
 
-* [Clone from Gitlab](https://gitlab.com/gnukhata/gkapp)
+- [Clone from Gitlab](https://gitlab.com/gnukhata/gkapp)
 
 #### Install
 
-`cd` to project's dir and run `npm install` 
+`cd` to project's dir and run `npm install`
 
 #### Serve
 
@@ -38,12 +38,12 @@ To pre-compile & hot-reload for development run `npm run serve`
 
 #### Build
 
-* Production-ready with minified bundle `npm run build`.
+- Production-ready with minified bundle `npm run build`.
 
-* By default app is served from site's root `/`. To change the url, Set the `GKAPP_URL` environment variable to your custom domain. 
+- By default app is served from site's root `/`. To change the url, Set the `GKAPP_URL` environment variable to your custom domain.
 
-* The default `gkcore` server url is `localhost:6543`, It can changed by setting environmental
-variable `VUE_APP_GKCORE_URL` to your preferred url.
+- The default `gkcore` server url is `localhost:6543`, It can changed by setting environmental
+  variable `VUE_APP_GKCORE_URL` to your preferred url.
 
 Example:
 
@@ -63,7 +63,7 @@ npm run build
 
 ## Useful Links
 
-- [GNUKhata](https://gnukhata.in/)
+- [GNUKhata](https://gnukhata.org/)
 - [GNUKhata Wiki](https://gitlab.com/gnukhata/gkapp/-/wikis/home)
 - [Vue.js](https://vuejs.org)
 - [Vue CLI](https://cli.vuejs.org)
