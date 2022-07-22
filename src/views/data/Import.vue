@@ -20,14 +20,17 @@
             <h4 class="mt-4">Import Instructions</h4>
             <ul>
               <li>
-                <router-link to="/data/import/help/tally"> Tally</router-link>
+                <router-link to="/data/import/help/tally">
+                  Tally & GNUKhata</router-link
+                >
               </li>
               <li>
-                <router-link to="/data/import/help/json"> Json</router-link>
+                <router-link to="/data/import/help/json"> JSON</router-link>
               </li>
             </ul>
           </div>
           <br />
+          <!--  -->
           <!-- Export buttons -->
           <b-form-file
             required
@@ -45,6 +48,35 @@
               <translate> Import Data</translate></b-button
             >
           </div>
+          <!-- show duplicate entries -->
+          <b-modal
+            id="response-modal"
+            title="Import Stats"
+            hide-footer
+            scrollable
+            header-bg-variant="dark"
+            header-text-variant="light"
+            header-class="p-2"
+            size="md"
+          >
+            <div v-if="json_info != null">
+              <h3 v-translate>Duplicate Entries</h3>
+              <div
+                v-for="(section, index) in json_info.duplicate"
+                :key="section"
+              >
+                <h4 class="text-capitalize">{{ index }}:</h4>
+                <ol>
+                  <li
+                    class="text-monospace text-muted"
+                    v-for="item in section"
+                    :key="item"
+                    v-text="item"
+                  ></li>
+                </ol>
+              </div>
+            </div>
+          </b-modal>
         </b-form>
       </b-card-body>
     </b-card>
@@ -60,15 +92,9 @@ export default {
     return {
       file: [],
       file_str: null,
+      json_info: null,
     };
   },
-  // watch: {
-  //   file(f) {
-  //     this.get_base64(f).then((r) => {
-  //       this.file_str = r;
-  //     });
-  //   },
-  // },
   methods: {
     check() {
       const f = this.file;
@@ -96,6 +122,10 @@ export default {
                 variant: 'success',
                 solid: true,
               });
+              if (this.file.type == 'application/json') {
+                this.json_info = r.data.gkresult;
+                this.$bvModal.show('response-modal');
+              }
               this.$emit('refresh');
               break;
             case 1:
