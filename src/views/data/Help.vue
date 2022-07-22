@@ -8,7 +8,7 @@
     </b-alert>
     <!-- Tally documentation -->
     <div v-if="help_type == 'tally'" v-translate>
-      <h3>Tally & GNUKhata (.xlsx)</h3>
+      <h3 id="tally">Tally (.xlsx)</h3>
       <p>
         This section will assist you to import data from any software that
         exports data to XLSX spreadsheets.Such software includes Tally ERP 9
@@ -40,22 +40,22 @@
         </li>
         <li>
           While exporting the Day Book choose following options :
-          <ul style="list-style-type:circle">
-            <li>Language : Default(Language).</li>
-            <li>Format : Excel(Spreadsheet).</li>
-            <li>Output File Name : Choose your own .</li>
-            <li>Output Sheet Name : Choose your own .</li>
-            <li>Format : Detailed</li>
-            <li>Show Voucher Numbers also ? Yes</li>
-            <li>Show narrations ? Yes</li>
-            <li>Show bill wise details ? No</li>
-            <li>Show Cost Centre details also ? No</li>
-            <li>Show inventory details ? No</li>
-            <li>Show additional description of Stock item ? No</li>
-            <li>Show Bank Details also ? No</li>
-            <li>Show additional details ? No</li>
-          </ul>
         </li>
+        <ul style="list-style-type:circle">
+          <li>Language : Default(Language).</li>
+          <li>Format : Excel(Spreadsheet).</li>
+          <li>Output File Name : Choose your own .</li>
+          <li>Output Sheet Name : Choose your own .</li>
+          <li>Format : Detailed</li>
+          <li>Show Voucher Numbers also ? <code>Yes</code></li>
+          <li>Show narrations ? <code>Yes</code></li>
+          <li>Show bill wise details ?<code> No</code></li>
+          <li>Show Cost Centre details also ?<code> No</code></li>
+          <li>Show inventory details ? <code>No</code></li>
+          <li>Show additional description of Stock item ? <code>No</code></li>
+          <li>Show Bank Details also ? <code>No</code></li>
+          <li>Show additional details ? <code>No</code></li>
+        </ul>
       </ul>
       For more details on how to export, please refer Tally documentation.<br />
       Once data is exported to the spreadsheet, it however has to comply with
@@ -131,13 +131,19 @@
         </ul>
       </div>
     </div>
+    <!-- GNUKhata -->
+    <div v-if="help_type == 'tally'" v-translate>
+      <h3 id="gnukhata">GNUKhata (.xlsx)</h3>
+      TODO
+    </div>
     <!-- Json documentation -->
     <div v-translate v-else>
-      <h3>Json</h3>
+      <h3 id="json">JSON</h3>
       The following data is imported:
       <ul>
         <li>Customers / Suppliers (contacts)</li>
         <li>Godowns</li>
+        <li>Accounts</li>
       </ul>
     </div>
   </section>
