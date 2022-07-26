@@ -1,11 +1,5 @@
 <template>
   <section class="container-fluid">
-    <div class="text-center mb-2 d-none d-print-block">
-      <h3>{{ orgName }}</h3>
-      <i>
-        <translate>Audit Logs</translate>
-      </i>
-    </div>
     <div class="d-flex justify-content-center mt-3 mb-3 d-print-none">
       <b-form-input
         class="border border-secondary container-sm gksearch"
@@ -14,11 +8,23 @@
         v-model="searchText"
       ></b-form-input>
     </div>
-    <gk-toolbar>
+    <!-- Log info -->
+    <b-alert show class="bg-dark text-light text-center d-print-none">
+      <div v-if="dateRange.isActive">
+        Audit Logs: From {{ dateReverse(dateRange.from) }} to
+        {{ dateReverse(dateRange.to) }}
+      </div>
+      <div v-else>
+        Audit Logs: From {{ dateReverse(yearStart) }} to
+        {{ dateReverse(yearEnd) }}
+      </div>
+    </b-alert>
+    <gk-toolbar class="d-print-none">
       <div>
         <b-button variant="link" id="date-select">
           <b-icon icon="funnel"></b-icon>
         </b-button>
+        <!-- Filters -->
         <b-popover
           class="bg-secondary"
           target="date-select"
@@ -29,25 +35,34 @@
           <b-form @submit.prevent="logsByDateRange">
             <h6 v-text="'Sort by Date Range:'"></h6>
             <!-- date start -->
-            <gk-form-date
-              dateId="fd"
+            <gk-date
+              id="fd"
               format="dd-mm-yyyy"
               v-model="dateRange.from"
               :min="dateReverse(yearStart)"
               :max="dateReverse(yearEnd)"
               :required="true"
-            ></gk-form-date>
+            ></gk-date>
 
             <!-- date end -->
-            <gk-form-date
-              dateId="td"
+            <gk-date
+              id="td"
               format="dd-mm-yyyy"
               v-model="dateRange.to"
               :min="dateReverse(yearStart)"
               :max="dateReverse(yearEnd)"
               :required="true"
-            ></gk-form-date>
-            <b-button variant="dark" type="submit" size="sm">Submit</b-button>
+              class="mb-2 mt-2"
+            ></gk-date>
+            <b-button-group size="sm">
+              <b-button variant="dark" type="submit"
+                ><translate>Submit</translate></b-button
+              >
+
+              <b-button @click="$router.go()" variant="danger" class="ml-1"
+                ><translate>Clear</translate></b-button
+              >
+            </b-button-group>
           </b-form>
           <!-- <hr /> -->
           <!-- <h6 v-text="this.$gettext('Filter by Role:')" /> -->
@@ -58,8 +73,20 @@
         </b-popover>
       </div>
     </gk-toolbar>
+    <report-header>
+      <div class="text-center">
+        <div v-if="dateRange.isActive" class="text-center">
+          Audit Logs: From {{ dateReverse(dateRange.from) }} to
+          {{ dateReverse(dateRange.to) }}
+        </div>
+        <div v-else class="text-center">
+          Audit Logs: From {{ dateReverse(yearStart) }} to
+          {{ dateReverse(yearEnd) }}
+        </div>
+      </div>
+    </report-header>
     <b-table
-      stacked="sm"
+      responsive="sm"
       small
       hover
       striped
@@ -92,9 +119,10 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import GkToolbar from '@/components/GkToolbar.vue';
-import GkFormDate from '@/components/GkFormDate.vue';
+import GkDate from '@/components/GkDate.vue';
+import ReportHeader from '@/components/ReportHeader.vue';
 export default {
-  components: { GkToolbar, GkFormDate },
+  components: { GkToolbar, GkDate, ReportHeader },
   name: 'Logs',
   data() {
     return {
@@ -132,6 +160,7 @@ export default {
                     }
                   );
                 } else {
+                  this.dateRange.isActive = true;
                   this.log = r.data.gkresult;
                   this.$root.$emit('bv::hide::popover', 'date-select');
                 }
@@ -202,8 +231,6 @@ export default {
   },
   mounted() {
     this.getLogs();
-    this.dateRange.from = this.yearStart;
-    this.dateRange.to = this.yearEnd;
   },
 };
 </script>
