@@ -1,15 +1,10 @@
 <template>
   <section class="container-fluid">
-    <div class="d-flex justify-content-center mt-3 mb-3 d-print-none">
-      <b-form-input
-        class="border border-secondary container-sm gksearch"
-        type="text"
-        placeholder="Search Logs"
-        v-model="searchText"
-      ></b-form-input>
-    </div>
     <!-- Log info -->
-    <b-alert show class="bg-dark text-light text-center d-print-none">
+    <b-alert
+      show
+      class="bg-dark text-center text-light mx-auto d-print-none mt-2"
+    >
       <div v-if="dateRange.isActive">
         Audit Logs: From {{ dateReverse(dateRange.from) }} to
         {{ dateReverse(dateRange.to) }}
@@ -19,6 +14,14 @@
         {{ dateReverse(yearEnd) }}
       </div>
     </b-alert>
+    <div class="d-flex justify-content-center mt-3 mb-3 d-print-none">
+      <b-form-input
+        class="border border-secondary container-sm gksearch"
+        type="text"
+        placeholder="Search Logs"
+        v-model="searchText"
+      ></b-form-input>
+    </div>
     <gk-toolbar class="d-print-none">
       <div>
         <b-button variant="link" id="date-select">
@@ -74,8 +77,8 @@
       </div>
     </gk-toolbar>
     <report-header>
-      <div class="text-center">
-        <div v-if="dateRange.isActive" class="text-center">
+      <div class="mx-auto text-center">
+        <div v-if="dateRange.isActive">
           Audit Logs: From {{ dateReverse(dateRange.from) }} to
           {{ dateReverse(dateRange.to) }}
         </div>
@@ -83,9 +86,23 @@
           Audit Logs: From {{ dateReverse(yearStart) }} to
           {{ dateReverse(yearEnd) }}
         </div>
+        <div v-if="searchText.length > 0">
+          Search Terms: <b>{{ searchText }}</b>
+        </div>
       </div>
     </report-header>
+    <b-alert
+      class="text-center mt-5 mx-auto"
+      style="width: 20em"
+      v-if="log.length == 0"
+      show
+      variant="warning"
+    >
+      <b-icon icon="exclamation-triangle-fill" class="mr-1"></b-icon>
+      <translate>No Logs Available</translate>
+    </b-alert>
     <b-table
+      v-else
       responsive="sm"
       small
       hover
@@ -107,11 +124,16 @@
         </div>
       </template>
       <template #cell(username)="data">
-        <b-link @click="$router.push(`/users/${data.item.userid}`)">{{
+        <router-link :to="`/users/${data.item.userid}`">{{
           data.item.username
-        }}</b-link>
+        }}</router-link>
       </template>
-      <template #cell(time)="data"> {{ data.item.time }} </template>
+      <template #cell(time)="data">
+        <b-icon icon="calendar-event" class="mr-1"></b-icon>
+        {{ data.item.time.split(' ')[0] }}
+        <b-icon icon="clock" class="mr-1"></b-icon
+        >{{ data.item.time.split(' ')[1] }}
+      </template>
     </b-table>
   </section>
 </template>
@@ -149,21 +171,9 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                // if no logs are present in given date range, inform user
-                if (r.data.gkresult.length == 0) {
-                  this.$bvToast.toast(
-                    this.$gettext('No entries present in given date range'),
-                    {
-                      title: this.$gettext('No Data'),
-                      variant: 'warning',
-                      solid: true,
-                    }
-                  );
-                } else {
-                  this.dateRange.isActive = true;
-                  this.log = r.data.gkresult;
-                  this.$root.$emit('bv::hide::popover', 'date-select');
-                }
+                this.dateRange.isActive = true;
+                this.log = r.data.gkresult;
+                this.$root.$emit('bv::hide::popover', 'date-select');
                 this.isLoading = false;
                 break;
               case 2:
