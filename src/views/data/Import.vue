@@ -30,7 +30,6 @@
             </ul>
           </div>
           <br />
-          <!--  -->
           <!-- Export buttons -->
           <b-form-file
             required
@@ -60,15 +59,21 @@
             size="md"
           >
             <div v-if="json_info != null">
-              <h3 v-translate>Duplicate Entries</h3>
+              <h5>
+                <translate>Imported Entries</translate>: {{ json_info.success }}
+              </h5>
+              <h5 v-translate class="text-primary">Duplicate Entries</h5>
+
               <div
                 v-for="(section, index) in json_info.duplicate"
                 :key="section"
               >
-                <h4 class="text-capitalize">{{ index }}:</h4>
+                <h6 class="text-capitalize">
+                  {{ index }} ({{ section.length }})
+                </h6>
                 <ol>
                   <li
-                    class="text-monospace text-muted"
+                    class="text-sm text-monospace text-muted"
                     v-for="item in section"
                     :key="item"
                     v-text="item"

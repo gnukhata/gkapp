@@ -124,9 +124,7 @@
         </div>
       </template>
       <template #cell(username)="data">
-        <router-link :to="`/users/${data.item.userid}`">{{
-          data.item.username
-        }}</router-link>
+        {{ data.item.username }}
       </template>
       <template #cell(time)="data">
         <b-icon icon="calendar-event" class="mr-1"></b-icon>
