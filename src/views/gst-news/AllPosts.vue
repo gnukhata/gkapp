@@ -5,7 +5,11 @@
     </h4>
     <b-overlay :show="loading">
       <div class="container">
-        <div v-for="post in newsItems" :key="post.id" class="news-item mb-3">
+        <div
+          v-for="post in newsItems"
+          :key="post.id"
+          class="news-item bg-light mb-3 p-2"
+        >
           <span class="text-muted text-monospace">{{ post.date }}</span>
           <router-link :to="`/gst/news/${post.id}`">
             <h5>{{ post.title }}</h5>

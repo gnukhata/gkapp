@@ -4,10 +4,10 @@
       News From GST Portal
     </h4>
     <b-overlay :show="loading">
-      <div class="container">
-			<h3>{{post.title}}</h3>
-			<span class="text-muted text-monospace">{{post.date}}</span>
-			<p class="mt-3" v-html="post.content"></p>
+      <div class="container bg-light">
+        <h3>{{ post.title }}</h3>
+        <span class="text-muted text-monospace">Date: {{ post.date }}</span>
+        <p class="mt-3" v-html="post.content"></p>
       </div>
     </b-overlay>
   </section>
@@ -18,10 +18,10 @@ import axios from 'axios';
 export default {
   name: 'SinglePost',
   props: {
-		id: {
-			required: true
-		}
-	},
+    id: {
+      required: true,
+    },
+  },
   data() {
     return {
       post: () => {},
@@ -30,19 +30,21 @@ export default {
   },
   methods: {
     getNewsItem() {
-			this.loading = true
-      axios.get(`/gst-news?id=${this.id}`).then((r) => {
-        if (r.status == 200) {
-          this.post = r.data.gkresult;
-        } else {
-					console.log(r.data)
-				}
-				this.loading = false
-      })
-			.catch(e=>{
-					console.log(e)
-					this.loading = false
-			})
+      this.loading = true;
+      axios
+        .get(`/gst-news?id=${this.id}`)
+        .then((r) => {
+          if (r.status == 200) {
+            this.post = r.data.gkresult;
+          } else {
+            console.log(r.data);
+          }
+          this.loading = false;
+        })
+        .catch((e) => {
+          console.log(e);
+          this.loading = false;
+        });
     },
   },
   mounted() {
