@@ -251,7 +251,6 @@ export default {
   },
   methods: {
     confirmOnSubmit() {
-      const self = this;
       let total = parseFloat(this.cash || 0) + parseFloat(this.bank || 0);
       const text = this.$createElement('div', {
         domProps: {
@@ -280,8 +279,8 @@ export default {
       const self = this;
 
       const payload = this.initPayload();
-    //   console.log(payload);
-    //   return;
+      //   console.log(payload);
+      //   return;
 
       const method = 'post';
       const failTitle = this.$gettext('Create Voucher Failure!'),
@@ -326,11 +325,10 @@ export default {
                 };
 
                 axios.post('/billwise', billData).finally(() => {
-                    if (self.onSave !== null) {
-                      self.onSave(resp.data);
-                    }
+                  if (self.onSave !== null) {
+                    self.onSave(resp.data);
+                  }
                 });
-
               }
               break;
             default:
