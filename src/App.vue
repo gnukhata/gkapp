@@ -108,6 +108,7 @@ export default {
     });
   },
   mounted() {
+    this.check_gst_news();
     document.querySelector('title').textContent = `GNUKhata ${
       this.orgName !== null ? '| ' + this.orgName : ''
     }`;

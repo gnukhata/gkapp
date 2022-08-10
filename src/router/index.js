@@ -521,6 +521,23 @@ const routes = [
         /* webpackChunkName: "import-data-help" */ '../views/data/Help.vue'
       ),
   },
+  {
+    path: '/gst/news',
+    name: 'GST News',
+    component: () =>
+      import(
+        /* webpackChunkName: "gstnews-all-posts" */ '../views/gst-news/AllPosts.vue'
+      ),
+  },
+  {
+    path: '/gst/news/:id',
+    name: 'GST News',
+    props: true,
+    component: () =>
+      import(
+        /* webpackChunkName: "gstnews-single-post" */ '../views/gst-news/SinglePost.vue'
+      ),
+  },
 ];
 
 const router = new VueRouter({

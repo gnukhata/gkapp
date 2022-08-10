@@ -25,9 +25,9 @@ export default new Vuex.Store({
     orgAddress: null,
     orgType: null,
     orgImg: 'img/gk.png',
-
     yearStart: null,
     yearEnd: null,
+    newGstNews: false,
 
     gkTestUrl: 'http://localhost:6543',
     gkCoreUrl: null,
@@ -56,6 +56,9 @@ export default new Vuex.Store({
     /* A fit-them-all commit */
     basic(state, payload) {
       state[payload.key] = payload.value;
+    },
+    gstNews(state, payload) {
+      state.newGstNews = payload;
     },
     resetOrg(state) {
       state.orgName = null;

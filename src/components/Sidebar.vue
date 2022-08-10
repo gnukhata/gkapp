@@ -259,6 +259,16 @@
               <b-icon icon="file-earmark"></b-icon
               ><translate> 3B Report</translate>
             </b-nav-item>
+            <b-nav-item to="/gst/news">
+              <b-icon icon="newspaper"></b-icon><translate> GST News</translate
+              ><b-icon
+                v-if="newGstNews"
+                icon="bell-fill"
+                variant="warning"
+                class="ml-1 pt-1"
+                animation="pulse"
+              ></b-icon>
+            </b-nav-item>
           </b-collapse>
 
           <!-- Help -->
@@ -299,7 +309,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['searchMenu']),
+    ...mapState(['searchMenu', 'newGstNews']),
   },
 };
 </script>

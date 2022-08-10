@@ -54,6 +54,20 @@ Vue.mixin({
   methods: {
     // Naming convention for methods is: snake_casing
 
+    // fetch latest gst news from api & check if
+    // new news items are available
+    check_gst_news() {
+      axios.get('/gst-news').then((r) => {
+        if (localStorage.getItem('gstNewsCount')) {
+          if (
+            r.data.gkresult.length >
+            parseInt(localStorage.getItem('gstNewsCount'))
+          ) {
+            this.$store.commit('gstNews', true);
+          }
+        }
+      });
+    },
     // https://cli.vuejs.org/guide/mode-and-env.html#modes
     gk_env() {
       return {
