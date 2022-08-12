@@ -4,7 +4,7 @@
       News From GST Portal
     </h4>
     <b-overlay :show="loading">
-      <div class="container bg-light">
+      <div class="container bg-light p-2">
         <h3>{{ post.title }}</h3>
         <span class="text-muted text-monospace">Date: {{ post.date }}</span>
         <p class="mt-3" v-html="post.content"></p>
