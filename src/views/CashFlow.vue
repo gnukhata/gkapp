@@ -24,7 +24,12 @@ All users can view this report`)
           <b-form-group label="To" label-align="right" content-cols="8">
             <gk-date id="todate" v-model="toDate"></gk-date>
           </b-form-group>
-          <b-button variant="success" class="float-right" type="submit">
+          <b-button
+            variant="success"
+            class="float-right"
+            @click="updateRoute()"
+            type="submit"
+          >
             <b-icon class="mr-1" icon="cloud-arrow-down"></b-icon>
             <translate>Get Details</translate>
           </b-button>
@@ -46,7 +51,7 @@ All users can view this report`)
           :commonParams="false"
         />
       </gk-toolbar>
-      <div class="row mt-3" v-if="result1 !== null">
+      <div class="row mt-5" v-if="result1 !== null">
         <div class="col">
           <b-table
             :fields="fields1"
@@ -59,11 +64,16 @@ All users can view this report`)
             head-variant="dark"
           >
             <template #cell(particulars)="data">
-              <b-link
-                class="text-dark"
-                @click="$router.push(`/ledger/${data.item.accountcode}`)"
+              <router-link
+                v-if="data.item.particulars != 'Total'"
+                :to="`/ledger/${data.item.accountcode}`"
                 >{{ data.item.particulars }}
-              </b-link>
+              </router-link>
+              <b v-else>{{ data.item.particulars }}</b>
+            </template>
+
+            <template #cell(amount)="data">
+              {{ data.item.amount }}
             </template>
           </b-table>
         </div>
@@ -79,12 +89,16 @@ All users can view this report`)
             head-variant="dark"
           >
             <template #cell(particulars)="data">
-              <div
-                v-if="data.item.particulars == 'Total'"
-                class="text-weight-bold"
-              >
-                {{ data.item.particulars }}
-              </div>
+              <router-link
+                v-if="data.item.particulars != 'Total'"
+                :to="`/ledger/${data.item.accountcode}`"
+                >{{ data.item.particulars }}
+              </router-link>
+              <b v-else>{{ data.item.particulars }}</b>
+            </template>
+
+            <template #cell(amount)="data">
+              {{ data.item.amount }}
             </template>
           </b-table>
         </div>
@@ -123,6 +137,7 @@ export default {
         {
           key: 'amount',
           label: this.$gettext('Amount'),
+          class: 'gk-currency',
         },
       ],
       fields2: [
@@ -137,6 +152,7 @@ export default {
         {
           key: 'amount',
           label: this.$gettext('Amount'),
+          class: 'gk-currency',
         },
       ],
     };
@@ -194,13 +210,33 @@ export default {
           this.isLoading = false;
         });
     },
+    // change url query params when date is changed by user
+    updateRoute() {
+      this.$router.replace({
+        query: {
+          from: this.fromDate,
+          to: this.toDate,
+        },
+      });
+    },
+    // check if user changed the date range, then applied them to the url
+    parseParams() {
+      const params = this.$route.query;
+      if (Object.keys(params).length > 0) {
+        this.fromDate = params.from;
+        this.toDate = params.to;
+      } else {
+        this.fromDate = this.yearStart;
+        this.toDate = this.yearEnd;
+      }
+      this.getProfitLossData();
+    },
   },
   computed: {
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   mounted() {
-    this.fromDate = this.yearStart;
-    this.toDate = this.yearEnd;
+    this.parseParams();
   },
 };
 </script>

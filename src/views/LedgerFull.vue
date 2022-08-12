@@ -4,7 +4,7 @@
       <div class="bg-dark mb-4">
         <!-- header -->
         <h6 class="text-center card-header text-light d-print-none">
-          <i v-translate>Ledger Account:</i>
+          <i class="mr-1" v-translate>Ledger Account:</i>
           <b>{{ ledgerHead.accountname }}</b> |
           <i v-translate>Period: </i>
           <b> {{ ledgerHead.calculatefrom }} </b> to
@@ -91,15 +91,11 @@
           </div>
         </template>
         <template #cell(vouchernumber)="data">
-          <b-link
-            @click="
-              $router.push(
-                `/Workflow/Transactions-Voucher/${data.item.vouchercode}`
-              )
-            "
+          <router-link
+            :to="`/Workflow/Transactions-Voucher/${data.item.vouchercode}`"
           >
             {{ data.item.vouchernumber }}
-          </b-link>
+          </router-link>
         </template>
         <template #cell(particulars)="data">
           <div v-for="item in data.item.particulars" :key="item.accountname">
