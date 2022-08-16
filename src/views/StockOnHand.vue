@@ -15,6 +15,7 @@
               :options="productList"
               :placeholder="$gettext('Select Product')"
               :required="!allProducts"
+              :disabled="allProducts"
             ></autocomplete>
             <div class="text-left">
               <b-form-checkbox
@@ -64,7 +65,12 @@
               :options="godowns"
             ></autocomplete>
           </b-form-group>
-          <b-button type="submit" variant="success" class="float-right">
+          <b-button
+            @click="updateRoute"
+            type="submit"
+            variant="success"
+            class="float-right"
+          >
             <b-icon class="mr-1" icon="cloud-download"></b-icon>
             <translate>Get Details</translate>
           </b-button>
@@ -90,12 +96,26 @@
         small
         bordered
         striped
-        stacked="sm"
+        responsive
         :filter="search"
         v-if="report.length > 0"
         :items="report"
         :fields="fields"
       >
+        <template #cell(product)="data">
+          <router-link :to="`/workflow/Business/${data.item.productcode}`"
+            >{{ data.item.product }}
+          </router-link>
+        </template>
+        <template #cell(balance)="data">
+          <div
+            v-if="data.item.balance.split('').includes('-')"
+            class="text-danger"
+          >
+            {{ data.item.balance }}
+          </div>
+          <div v-else>{{ data.item.balance }}</div>
+        </template>
       </b-table>
     </section>
   </section>
@@ -115,7 +135,7 @@ export default {
       prodMap: {}, // product id to name map
       productList: [],
       loading: false,
-      productId: '',
+      productId: 'all',
       allProducts: false,
       fromDate: '',
       toDate: '',
@@ -235,6 +255,7 @@ export default {
                   total_inward_qty: data.totalinwardqty,
                   total_outward_qty: data.totaloutwardqty,
                   balance: data.balance,
+                  productcode: data.productcode,
                 };
               });
               break;
@@ -264,11 +285,32 @@ export default {
           this.loading = false;
         });
     },
+    // change url query params when date is changed by user
+    updateRoute() {
+      this.$router.replace({
+        query: {
+          to: this.toDate,
+          prodCode: this.productId,
+        },
+      });
+    },
+    // check if user changed the date range, then applied them to the url
+    parseParams() {
+      const params = this.$route.query;
+      if (Object.keys(params).length > 0) {
+        this.toDate = params.to;
+        this.productId = params.prodCode;
+      } else {
+        this.allProducts = true;
+        this.toDate = this.currentDate();
+        this.getProductList();
+        this.getGodownList();
+      }
+      this.stockOnHand();
+    },
   },
   mounted() {
-    this.getProductList();
-    this.getGodownList();
-    this.toDate = this.currentDate();
+    this.parseParams();
   },
 };
 </script>

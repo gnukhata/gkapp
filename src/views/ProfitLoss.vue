@@ -65,7 +65,9 @@ This report can be viewed for any period`)
             <b-tbody>
               <b-tr>
                 <b-th v-translate>DIRECT EXPENSE</b-th>
-                <b-th class="text-right">{{ result['Direct Expense']['direxpbal'] }}</b-th>
+                <b-th class="text-right">{{
+                  result['Direct Expense']['direxpbal']
+                }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th class="pl-5 font-weight-normal"
@@ -141,8 +143,8 @@ This report can be viewed for any period`)
               </b-tr>
               <b-tr>
                 <b-th><b v-translate>Total</b></b-th>
-                <b-th
-                 class="text-right" ><b>{{ result['Total'] }}</b></b-th
+                <b-th class="text-right"
+                  ><b>{{ result['Total'] }}</b></b-th
                 >
               </b-tr>
             </b-tbody>
@@ -173,6 +175,27 @@ export default {
     };
   },
   methods: {
+    // change url query params when date is changed by user
+    updateRoute() {
+      this.$router.replace({
+        query: {
+          from: this.fromDate,
+          to: this.toDate,
+        },
+      });
+    },
+    // check if user changed the date range, then applied them to the url
+    parseParams() {
+      const params = this.$route.query;
+      if (Object.keys(params).length > 0) {
+        this.fromDate = params.from;
+        this.toDate = params.to;
+      } else {
+        this.fromDate = this.yearStart;
+        this.toDate = this.yearEnd;
+      }
+      this.getProfitLossData();
+    },
     getProfitLossData() {
       this.isLoading = true;
       axios
@@ -231,6 +254,7 @@ export default {
   mounted() {
     this.fromDate = this.yearStart;
     this.toDate = this.yearEnd;
+    this.getProfitLossData();
   },
 };
 </script>

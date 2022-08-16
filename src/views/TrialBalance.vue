@@ -20,7 +20,12 @@
           <b-form-group label="To" label-align="right" content-cols="8">
             <gk-date id="todate" v-model="toDate"></gk-date>
           </b-form-group>
-          <b-button variant="success" class="float-right" type="submit">
+          <b-button
+            variant="success"
+            @click="updateRoute"
+            class="float-right"
+            type="submit"
+          >
             <b-icon class="mr-1" icon="cloud-arrow-down"></b-icon>
             <translate>Get Details</translate>
           </b-button>
@@ -127,16 +132,16 @@
           bordered
           hover
           striped
-          stacked="sm"
           head-variant="dark"
+          responsive
         >
           <template #cell(accountname)="data">
-            <b-link
+            <router-link
               v-if="data.item.accountname !== 'Total'"
-              @click="$router.push(`/ledger/${data.item.accountcode}`)"
+              :to="`/ledger/${data.item.accountcode}`"
             >
               {{ data.item.accountname }}
-            </b-link>
+            </router-link>
             <div v-else>{{ data.item.accountname }}</div>
           </template>
         </b-table>
@@ -151,16 +156,16 @@
           small
           bordered
           striped
-          stacked="sm"
           head-variant="dark"
+          responsive
         >
           <template #cell(accountname)="data">
-            <b-link
+            <router-link
               v-if="data.item.accountname !== 'Total'"
-              @click="$router.push(`/ledger/${data.item.accountcode}`)"
+              :to="`/ledger/${data.item.accountcode}`"
             >
               {{ data.item.accountname }}
-            </b-link>
+            </router-link>
             <div v-else>{{ data.item.accountname }}</div>
           </template>
         </b-table>
@@ -175,16 +180,16 @@
           small
           bordered
           striped
-          stacked="sm"
           head-variant="dark"
+          responsive
         >
           <template #cell(accountname)="data">
-            <b-link
+            <router-link
               v-if="data.item.accountname !== 'Total'"
-              @click="$router.push(`/ledger/${data.item.accountcode}`)"
+              :to="`/ledger/${data.item.accountcode}`"
             >
               {{ data.item.accountname }}
-            </b-link>
+            </router-link>
             <div v-else>{{ data.item.accountname }}</div>
           </template>
         </b-table>
@@ -402,6 +407,29 @@ export default {
           this.isLoading = false;
         });
     },
+    // change url query params when date is changed by user
+    updateRoute() {
+      this.$router.replace({
+        query: {
+          from: this.fromDate,
+          to: this.toDate,
+          balType: this.trialBalanceType,
+        },
+      });
+    },
+    // check if user changed the date range, then applied them to the url
+    parseParams() {
+      const params = this.$route.query;
+      if (Object.keys(params).length > 0) {
+        this.fromDate = params.from;
+        this.toDate = params.to;
+        this.trialBalanceType = params.balType;
+      } else {
+        this.fromDate = this.yearStart;
+        this.toDate = this.yearEnd;
+      }
+      this.getAllTrialBalances();
+    },
   },
   computed: {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
@@ -415,9 +443,13 @@ export default {
                   All users can view all types of Trial Balances.`);
     },
   },
+  watch: {
+    trialBalanceType() {
+      this.updateRoute();
+    },
+  },
   mounted() {
-    this.fromDate = this.yearStart;
-    this.toDate = this.yearEnd;
+    this.parseParams();
   },
 };
 </script>

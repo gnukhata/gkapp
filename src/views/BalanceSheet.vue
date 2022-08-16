@@ -461,6 +461,7 @@ export default {
   mounted() {
     this.fromDate = this.yearStart;
     this.toDate = this.yearEnd;
+    this.getReport();
   },
 };
 </script>

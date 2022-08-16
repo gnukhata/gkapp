@@ -49,7 +49,11 @@
               </b-form-group>
             </div>
           </div>
-          <b-button variant="success" type="submit" class="float-right"
+          <b-button
+            @click="updateRoute()"
+            variant="success"
+            type="submit"
+            class="float-right"
             ><b-icon class="mr-1" icon="cloud-download"></b-icon>
             <translate>Get Details</translate></b-button
           >
@@ -270,13 +274,36 @@ export default {
           this.loading = false;
         });
     },
+    // change url query params when date is changed by user
+    updateRoute() {
+      this.$router.replace({
+        query: {
+          from: this.fromDate,
+          to: this.toDate,
+          type: this.registerType,
+        },
+      });
+    },
+    // check if user changed the date range, then applied them to the url
+    parseParams() {
+      const params = this.$route.query;
+      if (Object.keys(params).length > 0) {
+        this.fromDate = params.from;
+        this.toDate = params.to;
+        this.registerType = params.type;
+      } else {
+        this.fromDate = this.dateReverse(this.yearStart);
+        this.toDate = this.dateReverse(this.currentDate());
+        this.registerType = 0;
+      }
+      this.getRegisters();
+    },
   },
   computed: {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   mounted() {
-    this.fromDate = this.dateReverse(this.yearStart);
-    this.toDate = this.dateReverse(this.currentDate());
+    this.parseParams();
   },
 };
 </script>
