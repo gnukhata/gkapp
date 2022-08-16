@@ -531,7 +531,7 @@ const routes = [
   },
   {
     path: '/gst/news/:id',
-    name: 'GST News',
+    name: 'GST News Single',
     props: true,
     component: () =>
       import(

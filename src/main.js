@@ -14,6 +14,7 @@ import GetTextPlugin from 'vue-gettext';
 import translations from './locales/translations.json';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
+import { mapState } from 'vuex';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
@@ -50,6 +51,7 @@ Vue.mixin({
         notice: process.env.VUE_APP_GKAPP_NOTICE || true,
       };
     },
+		...mapState(['userAuthenticated']),
   },
   methods: {
     // Naming convention for methods is: snake_casing
@@ -58,11 +60,27 @@ Vue.mixin({
     // new news items are available
     check_gst_news() {
       axios.get('/gst-news').then((r) => {
-        if (localStorage.getItem('gstNewsCount')) {
+        if ((localStorage.getItem('gstNewsCount')) && (this.userAuthenticated)) {
           if (
             r.data.gkresult.length >
             parseInt(localStorage.getItem('gstNewsCount'))
           ) {
+            const link = this.$createElement;
+            const $url = link(
+              'router-link',
+              {
+                props: {
+                  to: '/gst/news',
+                },
+              },
+              'Check out!'
+            );
+            this.$bvToast.toast(['You have unread news, ', $url], {
+              title: 'GST News',
+              variant: 'info',
+              solid: true,
+              toaster: 'b-toaster-top-center',
+            });
             this.$store.commit('gstNews', true);
           }
         }
