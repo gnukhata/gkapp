@@ -290,7 +290,7 @@ export default {
       this.$router.replace({
         query: {
           to: this.toDate,
-          prodCode: this.productId,
+          prodcode: this.allProducts ? 'all' : this.productId,
         },
       });
     },
@@ -299,7 +299,10 @@ export default {
       const params = this.$route.query;
       if (Object.keys(params).length > 0) {
         this.toDate = params.to;
-        this.productId = params.prodCode;
+        this.productId = params.prodcode;
+        if (this.productId == 'all') {
+          this.allProducts = true;
+        }
       } else {
         this.allProducts = true;
         this.toDate = this.currentDate();
