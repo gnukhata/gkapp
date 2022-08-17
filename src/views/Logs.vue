@@ -29,24 +29,24 @@
           <b-form @submit.prevent="logsByDateRange">
             <h6 v-text="'Sort by Date Range:'"></h6>
             <!-- date start -->
-            <gk-form-date
+            <gk-date
               dateId="fd"
               format="dd-mm-yyyy"
               v-model="dateRange.from"
               :min="dateReverse(yearStart)"
               :max="dateReverse(yearEnd)"
               :required="true"
-            ></gk-form-date>
+            ></gk-date>
 
             <!-- date end -->
-            <gk-form-date
+            <gk-date
               dateId="td"
               format="dd-mm-yyyy"
               v-model="dateRange.to"
               :min="dateReverse(yearStart)"
               :max="dateReverse(yearEnd)"
               :required="true"
-            ></gk-form-date>
+            ></gk-date>
             <b-button variant="dark" type="submit" size="sm">Submit</b-button>
           </b-form>
           <!-- <hr /> -->
@@ -92,9 +92,9 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import GkToolbar from '@/components/GkToolbar.vue';
-import GkFormDate from '@/components/GkFormDate.vue';
+import GkDate from '@/components/GkDate.vue';
 export default {
-  components: { GkToolbar, GkFormDate },
+  components: { GkToolbar, GkDate },
   name: 'Logs',
   data() {
     return {

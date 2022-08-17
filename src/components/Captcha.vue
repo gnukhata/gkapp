@@ -5,7 +5,7 @@
       title="Audio question"
       :width="width"
       :height="height"
-      id="captchaCanvas"
+      ref="canvas"
       style="border: 1px solid black; background-color: antiquewhite"
       class="ml-2"
     ></canvas>
@@ -68,7 +68,7 @@ export default {
       let b = Math.floor(Math.random() * 11);
       this.text = `${a} + ${b}`;
       let answer = a + b;
-      const canvas = document.getElementById('captchaCanvas');
+      const canvas = this.$refs.canvas;
       const ctx = canvas.getContext('2d');
       ctx.font = '20px Arial';
       ctx.textAlign = 'center';

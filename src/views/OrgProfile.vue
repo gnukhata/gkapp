@@ -1075,9 +1075,9 @@ export default {
             // reset orgname
             this.$store.commit('resetOrg');
             // change auth status
-            this.$store.commit('setAuthStatus');
+            this.$store.commit('setUserOrgAuthStatus');
             // redirect to login page
-            this.$router.push('/');
+            this.$router.push('/user-login');
             // clear localStorage
             localStorage.clear();
             // set gkCore url

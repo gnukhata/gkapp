@@ -3,7 +3,7 @@
     <header id="app-header">
       <!--navbar-->
       <b-navbar size="sm">
-        <sidebar v-if="userAuthenticated"></sidebar>
+        <sidebar v-if="userOrgAuthenticated"></sidebar>
         <b-navbar-brand class="mt-2">
           <router-link
             style="border-bottom: 0px"
@@ -29,7 +29,7 @@
           </div>
         </b-navbar-brand>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown v-if="userAuthenticated" right>
+          <b-nav-item-dropdown v-if="userOrgAuthenticated" right>
             <template #button-content>
               <b-avatar
                 variant="dark"
@@ -65,7 +65,7 @@
     <main role="main" class="mb-5">
       <router-view />
     </main>
-    <go-to v-if="userAuthenticated"></go-to>
+    <go-to v-if="userOrgAuthenticated"></go-to>
     <title-bar></title-bar>
   </div>
 </template>
@@ -86,7 +86,7 @@ export default {
       'orgName',
       'gkCoreUrl',
       'authToken',
-      'userAuthenticated',
+      'userOrgAuthenticated',
       'orgImg',
     ]),
   },

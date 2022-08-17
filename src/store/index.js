@@ -16,8 +16,10 @@ export default new Vuex.Store({
     userName: null,
     userEmail: null,
     userAvatar: null,
+    userOrgAuthenticated: null,
     userAuthenticated: null,
     authToken: null,
+    userAuthToken: null,
 
     /* Org */
     orgCode: null,
@@ -72,12 +74,18 @@ export default new Vuex.Store({
     },
     // Init the required vuex store states from session storage
     initStore(state) {
-      const authStatus = localStorage.getItem('userAuthenticated');
+      const userAuthStatus = localStorage.getItem('userAuthenticated');
+      const authStatus = localStorage.getItem('userOrgAuthenticated');
       const gkCoreUrl = localStorage.getItem('gkCoreUrl');
       const authToken = localStorage.getItem('authToken');
+      const userAuthToken = localStorage.getItem('userAuthToken');
 
-      if (authStatus === 'true') {
+      if(userAuthStatus === 'true') {
         state.userAuthenticated = true;
+      }
+      
+      if (authStatus === 'true') {
+        state.userOrgAuthenticated = true;
 
         const orgCode = localStorage.getItem('orgCode');
         const orgName = localStorage.getItem('orgName');
@@ -95,6 +103,10 @@ export default new Vuex.Store({
 
         if (authToken) {
           state.authToken = authToken;
+        }
+
+        if (userAuthToken) {
+          state.userAuthToken = userAuthToken;
         }
 
         if (userName) {
@@ -120,9 +132,14 @@ export default new Vuex.Store({
     },
 
     /* Session Auth States */
-    setAuthStatus(state, payload) {
+    setUserAuthStatus(state, payload) {
       state.userAuthenticated = !!payload;
       localStorage.setItem('userAuthenticated', state.userAuthenticated);
+    },
+
+    setUserOrgAuthStatus(state, payload) {
+      state.userOrgAuthenticated = !!payload;
+      localStorage.setItem('userOrgAuthenticated', state.userOrgAuthenticated);
     },
 
     setOrgCode(state, payload) {
@@ -139,6 +156,12 @@ export default new Vuex.Store({
       state.authToken = payload;
       localStorage.setItem('authToken', state.authToken);
       axios.defaults.headers = { gktoken: state.authToken };
+    },
+
+    setUserAuthToken(state, payload) {
+      state.userAuthToken = payload;
+      localStorage.setItem('userAuthToken', state.userAuthToken);
+      axios.defaults.headers = { gkusertoken: state.userAuthToken };
     },
 
     setOrgYears(state, payload) {
@@ -220,7 +243,10 @@ export default new Vuex.Store({
     },
     setSessionStates({ commit }, payload) {
       if (payload.auth !== undefined) {
-        commit('setAuthStatus', payload.auth);
+        commit('setUserOrgAuthStatus', payload.auth);
+      }
+      if (payload.userAuth !== undefined) {
+        commit('setUserAuthStatus', payload.userAuth);
       }
       if (payload.orgCode !== undefined) {
         commit('setOrgCode', payload.orgCode);
@@ -230,6 +256,9 @@ export default new Vuex.Store({
       }
       if (payload.authToken !== undefined) {
         commit('setAuthToken', payload.authToken);
+      }
+      if (payload.userAuthToken !== undefined) {
+        commit('setUserAuthToken', payload.userAuthToken);
       }
       if (payload.user !== undefined) {
         commit('user', payload.user);
@@ -244,6 +273,7 @@ export default new Vuex.Store({
   },
   getters: {
     isUserAuthenticated: (state) => state.userAuthenticated,
+    isUserOrgAuthenticated: (state) => state.userOrgAuthenticated,
     getOrgCode: (state) => state.orgCode,
     getOrgAddress: (state) => state.orgAddress,
   },
