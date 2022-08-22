@@ -82,10 +82,14 @@
         :placeholder="$gettext('search Register')"
         v-model="search"
       ></b-form-input>
+      <div class="d-flex mt-3 mr-1 flex-row-reverse">
+        <b-checkbox switch v-model="expandedTable"></b-checkbox>
+        <span class="mr-1" v-translate>Expanded Table</span>
+      </div>
       <b-table
         caption-top
         :filter="search"
-        class="mt-3"
+        class="mt-2"
         head-variant="dark"
         small
         bordered
@@ -115,11 +119,6 @@
     </div>
   </section>
 </template>
-<!-- TODOS
-     * Fix Table fields
-     * API response has object with multiple key/values. Process them
-     * Add Button for export as spreadsheet
--->
 <script>
 import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
@@ -138,7 +137,14 @@ export default {
       report: [],
       tmp_report: [],
       fields: [],
+      expandedTable: false,
     };
+  },
+  watch: {
+    expandedTable(v) {
+      console.info(v);
+      this.getRegisters();
+    },
   },
   methods: {
     formatTable(data) {
@@ -188,7 +194,36 @@ export default {
       newdata.push(totalRow);
 
       this.tmp_report = newdata;
+      if (this.expandedTable) {
+        this.fields = [
+          { key: 'sr_no', label: 'No.', stickyColumn: true },
+          { key: 'invoice_no', label: 'Inv. No.', stickyColumn: true },
+          { key: 'date', label: 'Inv. Date' },
+          { key: 'name', label: 'Customer' },
+          { key: 'GSTIN', label: 'GSTIN' },
+          { key: 'TIN', label: 'TIN' },
+          { key: 'tax_free', label: 'Tax Free', tdClass: 'text-right' },
+        ];
 
+        this.fields.push(
+          ...data.taxcolumns.map((taxCol) => {
+            return {
+              key: taxCol,
+              tdClass: 'text-right',
+            };
+          })
+        );
+
+        this.fields.push({ key: 'taxable', tdClass: 'text-right' });
+        this.fields.push({ key: 'gross_amount', tdClass: 'text-right' });
+      } else {
+        this.conciseTableRows();
+      }
+
+      return newdata;
+    },
+    // this method get's triggered when the user toggles the table view switch
+    conciseTableRows() {
       this.fields = [
         { key: 'sr_no', label: 'No.', stickyColumn: true },
         { key: 'invoice_no', label: 'Inv. No.', stickyColumn: true },
@@ -197,21 +232,9 @@ export default {
         { key: 'GSTIN', label: 'GSTIN' },
         { key: 'TIN', label: 'TIN' },
         { key: 'tax_free', label: 'Tax Free', tdClass: 'text-right' },
+        { key: 'taxable', tdClass: 'text-right' },
+        { key: 'gross_amount', tdClass: 'text-right' },
       ];
-
-      this.fields.push(
-        ...data.taxcolumns.map((taxCol) => {
-          return {
-            key: taxCol,
-            tdClass: 'text-right',
-          };
-        })
-      );
-
-      this.fields.push({ key: 'taxable', tdClass: 'text-right' });
-      this.fields.push({ key: 'gross_amount', tdClass: 'text-right' });
-
-      return newdata;
     },
     getRegisters() {
       this.report = [];
