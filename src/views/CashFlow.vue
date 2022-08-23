@@ -66,7 +66,9 @@ All users can view this report`)
             <template #cell(particulars)="data">
               <router-link
                 v-if="data.item.particulars != 'Total'"
-                :to="`/ledger/${data.item.accountcode}`"
+                :to="
+                  `/ledger/${data.item.accountcode}&null&${fromDate}&${toDate}`
+                "
                 >{{ data.item.particulars }}
               </router-link>
               <b v-else>{{ data.item.particulars }}</b>
@@ -91,7 +93,9 @@ All users can view this report`)
             <template #cell(particulars)="data">
               <router-link
                 v-if="data.item.particulars != 'Total'"
-                :to="`/ledger/${data.item.accountcode}`"
+                :to="
+                  `/ledger/${data.item.accountcode}&null&${fromDate}&${toDate}`
+                "
                 >{{ data.item.particulars }}
               </router-link>
               <b v-else>{{ data.item.particulars }}</b>
@@ -240,8 +244,4 @@ export default {
   },
 };
 </script>
-<style>
-tr[data-pk='Total'] {
-  font-weight: bold;
-}
-</style>
+<style></style>
