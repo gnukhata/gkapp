@@ -103,7 +103,10 @@
         :fields="fields"
       >
         <template #cell(product)="data">
-          <router-link :to="`/workflow/Business/${data.item.productcode}`"
+          <router-link
+            :to="
+              `/product-register?product_id=${data.item.productcode}&current_date=${toDate}`
+            "
             >{{ data.item.product }}
           </router-link>
         </template>

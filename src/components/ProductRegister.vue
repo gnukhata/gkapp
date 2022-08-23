@@ -10,11 +10,11 @@
       >
         <b-form @submit.prevent="check">
           <b-form-group label="Product" label-align="right" label-cols="auto">
-            <autocomplete
-              v-model="productId"
-              :options="productList"
+            <v-select
               placeholder="Select Product"
-            ></autocomplete>
+              :options="productList"
+              v-model="productId"
+            ></v-select>
           </b-form-group>
           <div class="row">
             <div class="col">
@@ -93,9 +93,7 @@
         <template>
           <div class="text-center">
             Product Register:
-            <b>{{
-              productList.filter((p) => p['value'] == productId)[0]['text']
-            }}</b>
+            <b>{{ productId.label }}</b>
             | From
             <b>{{ dateReverse(fromDate) }}</b>
             to
@@ -109,142 +107,139 @@
           :url="
             `/spreadsheet?stock-report&calculatefrom=${dateReverse(
               this.fromDate
-            )}&calculateto=${dateReverse(
-              this.toDate
-            )}&productcode=${productId}&godownflag=0&productdesc=productList.filter((p) => p['value'] == productId)[0]['text']`
+            )}&calculateto=${dateReverse(this.toDate)}&productcode=${
+              productId.id
+            }`
           "
           fileExtn="xlsx"
         ></gk-file-download>
       </gk-toolbar>
       <!-- result table -->
-      <keep-alive>
-        <b-table
-          small
-          class="table-border-dark"
-          striped
-          head-variant="dark"
-          :items="report"
-          responsive="sm"
-          :fields="fields"
-          :filter="search"
-        >
-          <!-- Transaction type -->
-          <template #cell(particulars)="data">
-            <div v-if="data.item.trntype === 'invoice'">
-              <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
-              <b-link
-                :to="{
-                  name: 'Workflow',
-                  params: {
-                    wfName:
-                      data.item.icflag === 3
-                        ? 'Transactions-CashMemo'
-                        : 'Transactions-Invoice',
-                    wfId: data.item.invid,
-                  },
-                }"
-              >
-                {{ data.item.invno }}
-              </b-link>
-            </div>
-            <div v-else-if="data.item.trntype === 'delchal'">
-              {{ data.item.particulars }} :
-              <b-link
-                :to="{
-                  name: 'Workflow',
-                  params: {
-                    wfName: 'Transactions-DeliveryNote',
-                    wfId: data.item.dcid,
-                  },
-                }"
-              >
-                {{ data.item.dcno }}
-              </b-link>
-            </div>
-            <div v-else-if="data.item.trntype === 'Rejection Note'">
-              <b-icon variant="danger" icon="journal-x"></b-icon>
-              {{ data.item.particulars }} :
-              <b-link
-                :to="{
-                  name: 'Workflow',
-                  params: {
-                    wfName: 'Transactions-RejectionNote',
-                    wfId: data.item.rnid,
-                  },
-                }"
-              >
-                {{ data.item.rnno }}
-              </b-link>
-            </div>
-            <div v-else-if="data.item.trntype === 'Debit Note'">
-              <b-icon variant="warning" icon="file-earmark-minus"></b-icon>
-              {{ data.item.particulars }} :
-              <b-link
-                :to="{
-                  name: 'Workflow',
-                  params: {
-                    wfName: 'Transactions-DebitCreditNote',
-                    wfId: data.item.drcrid,
-                  },
-                }"
-              >
-                {{ data.item.drcrno }}
-              </b-link>
-            </div>
-            <div v-else-if="data.item.trntype === 'Credit Note'">
-              <b-icon variant="info" icon="file-earmark-plus"></b-icon>
-              {{ data.item.particulars }} :
-              <b-link
-                :to="{
-                  name: 'Workflow',
-                  params: {
-                    wfName: 'Transactions-DebitCreditNote',
-                    wfId: data.item.drcrid,
-                  },
-                }"
-              >
-                {{ data.item.drcrno }}
-              </b-link>
-            </div>
-            <div v-else class="font-weight-bold">
-              {{ data.item.particulars }}
-            </div>
-          </template>
-          <template #cell(inward)="data">
-            <div class="text-right">
-              <span v-if="data.item.particulars === 'opening stock'">{{
-                data.item.inward
-              }}</span>
-              <span v-if="data.item.particulars === 'Total'">{{
-                data.item.totalinwardqty
-              }}</span>
-              <span v-else>{{ data.item.inwardqty }}</span>
-            </div>
-          </template>
-          <!-- Outward -->
-          <template #cell(outward)="data">
-            <div class="text-right">
-              <span v-if="data.item.particulars === 'opening stock'">{{
-                data.item.outward
-              }}</span>
-              <span v-if="data.item.particulars === 'Total'">{{
-                data.item.totaloutwardqty
-              }}</span>
-              <span v-else>{{ data.item.outwardqty }}</span>
-            </div>
-          </template>
-          <!-- balance -->
-          <template #cell(balance)="data"
-            ><div class="text-right">{{ data.item.balance }}</div>
-          </template>
-        </b-table>
-      </keep-alive>
+      <b-table
+        small
+        class="table-border-dark"
+        striped
+        head-variant="dark"
+        :items="report"
+        responsive="sm"
+        :fields="fields"
+        :filter="search"
+      >
+        <!-- Transaction type -->
+        <template #cell(particulars)="data">
+          <div v-if="data.item.trntype === 'invoice'">
+            <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
+            <b-link
+              :to="{
+                name: 'Workflow',
+                params: {
+                  wfName:
+                    data.item.icflag === 3
+                      ? 'Transactions-CashMemo'
+                      : 'Transactions-Invoice',
+                  wfId: data.item.invid,
+                },
+              }"
+            >
+              {{ data.item.invno }}
+            </b-link>
+          </div>
+          <div v-else-if="data.item.trntype === 'delchal'">
+            {{ data.item.particulars }} :
+            <b-link
+              :to="{
+                name: 'Workflow',
+                params: {
+                  wfName: 'Transactions-DeliveryNote',
+                  wfId: data.item.dcid,
+                },
+              }"
+            >
+              {{ data.item.dcno }}
+            </b-link>
+          </div>
+          <div v-else-if="data.item.trntype === 'Rejection Note'">
+            <b-icon variant="danger" icon="journal-x"></b-icon>
+            {{ data.item.particulars }} :
+            <b-link
+              :to="{
+                name: 'Workflow',
+                params: {
+                  wfName: 'Transactions-RejectionNote',
+                  wfId: data.item.rnid,
+                },
+              }"
+            >
+              {{ data.item.rnno }}
+            </b-link>
+          </div>
+          <div v-else-if="data.item.trntype === 'Debit Note'">
+            <b-icon variant="warning" icon="file-earmark-minus"></b-icon>
+            {{ data.item.particulars }} :
+            <b-link
+              :to="{
+                name: 'Workflow',
+                params: {
+                  wfName: 'Transactions-DebitCreditNote',
+                  wfId: data.item.drcrid,
+                },
+              }"
+            >
+              {{ data.item.drcrno }}
+            </b-link>
+          </div>
+          <div v-else-if="data.item.trntype === 'Credit Note'">
+            <b-icon variant="info" icon="file-earmark-plus"></b-icon>
+            {{ data.item.particulars }} :
+            <b-link
+              :to="{
+                name: 'Workflow',
+                params: {
+                  wfName: 'Transactions-DebitCreditNote',
+                  wfId: data.item.drcrid,
+                },
+              }"
+            >
+              {{ data.item.drcrno }}
+            </b-link>
+          </div>
+          <div v-else class="font-weight-bold">
+            {{ data.item.particulars }}
+          </div>
+        </template>
+        <template #cell(inward)="data">
+          <div class="text-right">
+            <span v-if="data.item.particulars === 'opening stock'">{{
+              data.item.inward
+            }}</span>
+            <span v-if="data.item.particulars === 'Total'">{{
+              data.item.totalinwardqty
+            }}</span>
+            <span v-else>{{ data.item.inwardqty }}</span>
+          </div>
+        </template>
+        <!-- Outward -->
+        <template #cell(outward)="data">
+          <div class="text-right">
+            <span v-if="data.item.particulars === 'opening stock'">{{
+              data.item.outward
+            }}</span>
+            <span v-if="data.item.particulars === 'Total'">{{
+              data.item.totaloutwardqty
+            }}</span>
+            <span v-else>{{ data.item.outwardqty }}</span>
+          </div>
+        </template>
+        <!-- balance -->
+        <template #cell(balance)="data"
+          ><div class="text-right">{{ data.item.balance }}</div>
+        </template>
+      </b-table>
     </div>
   </section>
 </template>
 <script>
 import axios from 'axios';
-import Autocomplete from './Autocomplete.vue';
 import GkDate from './GkDate.vue';
 import ReportHeader from './ReportHeader.vue';
 import { mapState } from 'vuex';
@@ -252,7 +247,12 @@ import GkFileDownload from '@/components/GkFileDownload.vue';
 import GkToolbar from './GkToolbar.vue';
 export default {
   name: 'ProductRegister',
-  components: { Autocomplete, GkDate, ReportHeader, GkFileDownload, GkToolbar },
+  components: {
+    GkDate,
+    ReportHeader,
+    GkFileDownload,
+    GkToolbar,
+  },
   data() {
     return {
       productList: [],
@@ -333,7 +333,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `/report?type=stockreport&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
+          `/report?type=stockreport&productcode=${this.productId.id}&startdate=${this.fromDate}&enddate=${this.toDate}`
         )
         .then((r) => {
           const data = r.data;
@@ -394,17 +394,17 @@ export default {
         .catch(() => {
           this.loading = false;
           this.$bvToast.toast('Failed to get stock report ', {
-              variant: 'danger',
-              title: "Server Error",
-              solid: true,
-            });
+            variant: 'danger',
+            title: 'Server Error',
+            solid: true,
+          });
         });
     },
     getGodownStock() {
       this.loading = true;
       axios
         .get(
-          `/report?type=godownstockreport&goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
+          `/report?type=godownstockreport&goid=${this.godownId}&productcode=${this.productId.id}&startdate=${this.fromDate}&enddate=${this.toDate}`
         )
         .then((r) => {
           if (r.status == 200) {
@@ -415,17 +415,16 @@ export default {
               return item;
             });
             this.report = report;
-            //             this.showCard = false;
           }
           this.loading = false;
         })
         .catch(() => {
           this.loading = false;
           this.$bvToast.toast('Failed to get stock report ', {
-              variant: 'danger',
-              title: "Server Error",
-              solid: true,
-            });
+            variant: 'danger',
+            title: 'Server Error',
+            solid: true,
+          });
         });
     },
     getProductList() {
@@ -436,13 +435,14 @@ export default {
           if (r.status == 200) {
             this.productList = r.data.gkresult.map((data) => {
               return {
-                text: data.productdesc,
-                value: data.productcode,
+                label: data.productdesc,
+                id: data.productcode,
               };
             });
           }
           this.loading = false;
         })
+        .then(() => this.parseParams())
         .catch((e) => {
           this.$bvToast.toast(e.message, {
             variant: 'danger',
@@ -469,6 +469,19 @@ export default {
           console.log(e.message);
         });
     },
+    // check if user changed the date range, then applied them to the url
+    parseParams() {
+      const params = this.$route.query;
+      this.fromDate = this.yearStart;
+      this.toDate = this.yearEnd;
+      if (Object.keys(params).length > 0) {
+        this.productId = this.productList.filter((d) => {
+          return params.product_id == d.id;
+        })[0];
+        this.toDate = params.current_date;
+        this.getStockReport();
+      }
+    },
   },
   computed: {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
@@ -487,8 +500,6 @@ export default {
   mounted() {
     this.getProductList();
     this.getGodownList();
-    this.fromDate = this.yearStart;
-    this.toDate = this.yearEnd;
   },
 };
 </script>
