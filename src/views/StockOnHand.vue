@@ -112,10 +112,10 @@
         </template>
         <template #cell(balance)="data">
           <div
+            class="bg-danger text-light"
             v-if="data.item.balance.split('').includes('-')"
-            class="text-danger"
           >
-            {{ data.item.balance }}
+            <div class="ml-1">{{ data.item.balance }}</div>
           </div>
           <div v-else>{{ data.item.balance }}</div>
         </template>
