@@ -51,16 +51,19 @@ Vue.mixin({
         notice: process.env.VUE_APP_GKAPP_NOTICE || true,
       };
     },
-		...mapState(['userAuthenticated']),
+    ...mapState(['userAuthenticated']),
   },
   methods: {
     // Naming convention for methods is: snake_casing
 
     // fetch latest gst news from api & check if
     // new news items are available
+    is_mobile() {
+      return window.innerWidth <= 768 ? true : false;
+    },
     check_gst_news() {
       axios.get('/gst-news').then((r) => {
-        if ((localStorage.getItem('gstNewsCount')) && (this.userAuthenticated)) {
+        if (localStorage.getItem('gstNewsCount') && this.userAuthenticated) {
           if (
             r.data.gkresult.length >
             parseInt(localStorage.getItem('gstNewsCount'))

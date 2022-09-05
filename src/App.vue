@@ -2,30 +2,45 @@
   <div id="app">
     <header id="app-header">
       <!--navbar-->
-      <b-navbar size="sm">
+      <b-navbar size="sm" variant="light">
         <sidebar v-if="userAuthenticated"></sidebar>
-        <b-navbar-brand class="mt-2">
+        <b-navbar-brand class="d-flex flex-row">
           <router-link
-            style="border-bottom: 0px"
+            style="border-bottom: 0px; align-self: center"
             to="/workflow/Transactions-Invoice/-1"
+            class="flex-column"
           >
             <img
               :src="orgImg"
-              width="30"
-              height="30"
+              width="40"
+              height="40"
               class="d-inline-block align-top"
               alt="logo"
             />
           </router-link>
-          <div
-            :style="{ maxWidth: '185px' }"
-            class="ml-2 d-inline-block text-truncate"
-          >
+          <div class="ml-2 d-inline-block text-truncate">
             <!-- Without textwrap, creates horizontal overlfow in mobile view -->
-            <span v-if="this.orgName">
-              {{ this.orgName }}
-            </span>
-            <translate v-else> GNUKhata </translate>
+            <div
+              :class="{ 'text-truncate': is_mobile() }"
+              :style="{ 'max-width': is_mobile() ? '6em' : '' }"
+            >
+              <span class="text-sm" v-if="this.orgName">
+                {{ this.orgName }}
+              </span>
+              <span v-else class="mt-1">
+                <translate>
+                  GNUKhata
+                </translate>
+              </span>
+              <div
+                style="font-size: 0.6em"
+                class="font-italic"
+                v-if="userAuthenticated"
+              >
+                FY {{ yearStart.split('-')[0] }} -
+                {{ yearEnd.split('-')[0] }}
+              </div>
+            </div>
           </div>
         </b-navbar-brand>
         <b-navbar-nav class="ml-auto">
@@ -60,7 +75,7 @@
         </b-modal>
       </b-navbar>
       <!-- Color bar -->
-      <color-bar></color-bar>
+      <!-- <color-bar></color-bar> -->
     </header>
     <main role="main" class="mb-5">
       <router-view />
@@ -71,14 +86,14 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import ColorBar from '@/components/ColorBar.vue';
+// import ColorBar from '@/components/ColorBar.vue';
 import ChangePwd from '@/components/form/ChangePwd.vue';
 import Sidebar from './components/Sidebar.vue';
 import TitleBar from './components/TitleBar.vue';
 import GoTo from './components/GoTo.vue';
 export default {
   name: 'App',
-  components: { ColorBar, ChangePwd, Sidebar, TitleBar, GoTo },
+  components: { /* ColorBar, */ ChangePwd, Sidebar, TitleBar, GoTo },
   computed: {
     activeNav: (self) => self.$route.name,
     ...mapState([
@@ -88,6 +103,8 @@ export default {
       'authToken',
       'userAuthenticated',
       'orgImg',
+      'yearStart',
+      'yearEnd',
     ]),
   },
   methods: {
