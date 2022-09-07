@@ -19,12 +19,17 @@
             />
           </router-link>
           <div class="ml-2 d-inline-block text-truncate">
-            <!-- Without textwrap, creates horizontal overlfow in mobile view -->
+            <!-- truncate org name in mobile view -->
             <div
               :class="{ 'text-truncate': is_mobile() }"
-              :style="{ 'max-width': is_mobile() ? '6em' : '' }"
+              :style="{ 'max-width': is_mobile() ? '6.5em' : '' }"
             >
-              <span class="text-sm" v-if="this.orgName">
+              <span
+                v-b-tooltip.click
+                v-if="this.orgName"
+                :title="this.orgName"
+                class="text-sm"
+              >
                 {{ this.orgName }}
               </span>
               <span v-else class="mt-1">
@@ -38,7 +43,8 @@
                 v-if="userAuthenticated"
               >
                 FY {{ yearStart.split('-')[0] }} -
-                {{ yearEnd.split('-')[0] }}
+                <!-- WARN: beware of Y3K Bug -->
+                {{ yearEnd.split('-')[0].slice(2, 4) }}
               </div>
             </div>
           </div>

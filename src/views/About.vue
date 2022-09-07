@@ -7,22 +7,22 @@
       src="img/icons/manifest-icon-192.png"
     ></b-img>
     <div class="text-center">
-      <b-badge pill variant="primary">v{{ ver }}</b-badge>
+      <b-badge pill variant="danger">v{{ ver }}</b-badge>
     </div>
     <div class="text-center mt-2">
-      <h4 class="font-italic text-dark">
-        <translate>
-          GNUKhata is A Community Driven Free &amp; Open Source Accounting
-          Software
-        </translate>
-      </h4>
-      <p class="text-muted text-monospace text-left" v-translate>
-        Founded and Developed by Digital Freedom Foundation under the leadership
-        of Mr. Krishnakant Mane, Currently supported by Accion Labs Pvt. Ltd as
-        a social contribution to the Open Source Community.
+      <h4 class="font-italic text-dark"></h4>
+      <p class="text-monospace text-left mt-3" v-translate>
+        GNUKhata is free and open source software (FOSS) for financial
+        accounting (FA) and was initiated to cater to the needs of Small and
+        Medium scale (SME) entreprises, traders, startups and Non-Governmental
+        Organisastions (NGO). GNUKhata was initiated in India, in 2009. Thus it
+        has been enhanced to support specific compliance and return requirements
+        of the GST (tax) records and returns requirements in India. GNUKhata
+        features adequate inventory management support which is integral to
+        financial accounting needs for many businesses.
       </p>
       <div class="mt-4 has-text-centered">
-        <a class="mx-1" href="https://gnukhata.in" target="_blank">
+        <a class="mx-1" href="https://gnukhata.org" target="_blank">
           <b-button variant="dark">
             <b-icon class="mr-1" icon="globe"></b-icon>
             <translate>Website</translate>

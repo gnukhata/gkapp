@@ -20,10 +20,11 @@
             class="ml-4 mt-1"
             alt="GNUKhata Logo"
           />
-          <div style="font-size: 20px" class="font-weight-normal mt-1 ml-2">
+          <div style="font-size: 0.8em" class="font-weight-normal mt-1 ml-1">
             <translate> GNUKhata </translate>
           </div>
         </div>
+        <!-- <b-badge class="m-0" variant="danger" pill>{{ app_version }}</b-badge> -->
       </template>
       <hr class="m-0" />
       <template>
@@ -282,7 +283,11 @@
             <b-nav-item to="/about" class="mr-3">
               <b-icon icon="info-circle"></b-icon><translate> About</translate>
             </b-nav-item>
-            <b-nav-item class="mr-3" target="_blank" href="https://gnukhata.in">
+            <b-nav-item
+              class="mr-3"
+              target="_blank"
+              href="https://gnukhata.org"
+            >
               <b-icon icon="globe"></b-icon><translate> Website</translate>
             </b-nav-item>
             <b-nav-item
