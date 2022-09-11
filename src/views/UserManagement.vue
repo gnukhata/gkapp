@@ -5,12 +5,12 @@
         <!-- <b-input-group-text>Username</b-input-group-text> -->
         <b-button
           translate
-          @click="$router.push('/users/add')"
+          @click="$router.push('/users/invite')"
           variant="outline-primary"
           v-b-modal.create-user
         >
           <b-icon class="mr-1" icon="person-plus"></b-icon>
-          <translate>Add User</translate>
+          <translate>Invite User</translate>
         </b-button>
       </template>
       <b-form-input
@@ -30,7 +30,7 @@
         "
       ></gk-file-download>
     </gk-toolbar>
-    <b-table
+    <!-- <b-table
       :filter="searchText"
       :items="userList"
       :fields="fields"
@@ -49,7 +49,6 @@
           <strong><translate> Fetching All Users ...</translate></strong>
         </div>
       </template>
-      <!-- data.item.edit is userid -->
       <template #cell(user)="data">
         <b-link
           @click="$router.push(`/users/${data.item.userid}`)"
@@ -75,7 +74,54 @@
           @click="confirm(data.item)"
         ></b-icon>
       </template>
-    </b-table>
+    </b-table> -->
+    <b-row>
+      <b-col>
+        <h5 class="mb-3">Users</h5>
+        <b-table-lite
+          head-variant="dark"
+          class="table-border-dark"
+          hover
+          outlined
+          striped
+          small
+          :fields="userFields"
+          :items="userList"
+        ></b-table-lite>
+      </b-col>
+      <b-col>
+        <h5 class="mb-3">Invitations</h5>
+        <b-table-lite
+          head-variant="dark"
+          class="table-border-dark"
+          hover
+          outlined
+          striped
+          small
+          :fields="invitedUserFields"
+          :items="invitedUsers"
+          v-if="invitedUsers.length"
+        >
+          <template #cell(action)="data">
+            <b-icon
+              v-if="data.item.status === true"
+              icon="pencil-square"
+              class="mr-1"
+              role="button"
+            ></b-icon>
+            <b-icon
+              v-if="data.item.roleid !== -1"
+              icon="trash"
+              variant="danger"
+              class="ml-1"
+              role="button"
+              @click="onCancelInvite(data.item)"
+            ></b-icon>
+          </template>
+        </b-table-lite>
+        <b v-else>No pending invitations</b>
+      </b-col>
+    </b-row>
   </section>
 </template>
 
@@ -84,6 +130,7 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 import GkToolbar from '../components/GkToolbar.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
+import { STATUS_CODES } from '@/js/enum';
 
 export default {
   components: { GkToolbar, GkFileDownload },
@@ -104,6 +151,14 @@ export default {
         },
       ],
       userList: [],
+      invitedUsers: [],
+      userFields: [{ key: 'name', label: 'User' }, 'role', 'action'],
+      invitedUserFields: [
+        { key: 'name', label: 'User' },
+        'role',
+        'status',
+        'action',
+      ],
       searchText: '',
       isLoading: false,
       selectedUserId: '',
@@ -113,6 +168,24 @@ export default {
     ...mapState(['authToken', 'gkCoreUrl', 'orgName', 'yearStart', 'yearEnd']),
   },
   methods: {
+    onCancelInvite(userData) {
+      this.$bvModal
+        .msgBoxConfirm(`Cancel invite for user: ${userData.name} ?`, {
+          centered: true,
+          size: 'md',
+          okVariant: 'danger',
+
+          headerBgVariant: 'danger',
+          headerTextVariant: 'light',
+        })
+        // delete user is confirmed
+        .then((r) => {
+          if (r) {
+            this.cancelInvite(userData.name, userData.userid);
+            return;
+          }
+        });
+    },
     confirm(obj) {
       this.$bvModal
         .msgBoxConfirm(`Delete user ${obj.user} ?`, {
@@ -134,24 +207,85 @@ export default {
     getUsers() {
       this.isLoading = true;
       axios
-        .get('/users')
-        .then((r) => {
-          if (r.status == 200 && r.data.gkstatus == 0) {
-            let usr = r.data.gkresult.map((data) => {
-              return {
-                user: data.username,
-                role: data.userrolename,
-                roleid: data.userrole,
-                userid: data.userid,
-              };
+        .get('/gkusers?type=all_user_data')
+        .then((resp) => {
+          if (resp.status == 200 && resp.data.gkstatus == 0) {
+            // let usr = resp.data.gkresult.map((data) => {
+            //   return {
+            //     user: data.username,
+            //     role: data.userrolename,
+            //     roleid: data.userrole,
+            //     userid: data.userid,
+            //   };
+            // });
+            this.userList = [];
+            this.invitedUsers = [];
+            resp.data.gkresult.forEach((item) => {
+              if (item.invitestatus === true) {
+                this.userList.push({
+                  name: item.username,
+                  role: item.userrolename,
+                  userid: item.userid,
+                });
+              } else {
+                this.invitedUsers.push({
+                  name: item.username,
+                  role: item.userrolename,
+                  userid: item.userid,
+                  status: item.invitestatus,
+                });
+              }
             });
-            this.userList = usr;
-            this.isLoading = false;
+            // this.userList = usr;
           }
         })
         .catch((e) => {
           console.log(e);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
+    },
+    cancelInvite(name, id) {
+      const config = {
+        headers: {
+          gktoken: this.authToken,
+        },
+        data: {
+          userid: id,
+        },
+      };
+      axios.delete('/userorg?type=delete_invite', config).then((resp) => {
+        switch (resp.data.gkstatus) {
+          case STATUS_CODES['Success']:
+            this.$bvToast.toast(`Invite for ${name} cancelled successfully`, {
+              variant: 'success',
+            });
+            this.getUsers();
+            break;
+          case STATUS_CODES['UnauthorisedAccess']:
+            this.$bvToast.toast(`Please check login status`, {
+              variant: 'warning',
+            });
+            break;
+          case STATUS_CODES['ActionDisallowed']:
+            this.$bvToast.toast(
+              `User does not have the ability to cancel invites. Please contact admin.`,
+              {
+                variant: 'warning',
+              }
+            );
+            break;
+          case STATUS_CODES['ConnectionFailed']:
+          default:
+            this.$bvToast.toast(
+              `Could not cancel invite, please contact admin`,
+              {
+                variant: 'danger',
+              }
+            );
+        }
+      });
     },
     deleteUser(name, id) {
       this.isLoading = true;

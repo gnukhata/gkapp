@@ -188,8 +188,9 @@ export default {
       let name = this.selectedOrg.orgname;
       let type = this.selectedOrg.orgtype;
       // Save org name for next login
+      const URL = `${this.gkCoreUrl}/orgyears/${encodeURIComponent(name)}/${type}`
       axios
-        .get(`${this.gkCoreUrl}/orgyears/${name}/${type}`)
+        .get(URL)
         .then((r) => {
           if (r.status == 200) {
             this.orgYears = r.data.gkdata;

@@ -3,7 +3,7 @@
     <header id="app-header">
       <!--navbar-->
       <b-navbar size="sm" variant="light">
-        <sidebar v-if="userAuthenticated"></sidebar>
+        <sidebar v-if="userOrgAuthenticated"></sidebar>
         <b-navbar-brand class="d-flex flex-row">
           <router-link
             style="border-bottom: 0px; align-self: center"
@@ -50,7 +50,7 @@
           </div>
         </b-navbar-brand>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown v-if="userAuthenticated" right>
+          <b-nav-item-dropdown v-if="userOrgAuthenticated" right>
             <template #button-content>
               <b-avatar
                 variant="dark"
@@ -63,7 +63,7 @@
               <b-icon icon="key"></b-icon> Change Password
             </b-dropdown-item>
             <b-dropdown-item @click="logOut" href="#">
-              <b-icon icon="box-arrow-in-left"></b-icon> Log Out
+              <b-icon icon="box-arrow-in-left"></b-icon> Change Org
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -86,7 +86,7 @@
     <main role="main" class="mb-5">
       <router-view />
     </main>
-    <go-to v-if="userAuthenticated"></go-to>
+    <go-to v-if="userOrgAuthenticated"></go-to>
     <title-bar></title-bar>
   </div>
 </template>
@@ -107,7 +107,7 @@ export default {
       'orgName',
       'gkCoreUrl',
       'authToken',
-      'userAuthenticated',
+      'userOrgAuthenticated',
       'orgImg',
       'yearStart',
       'yearEnd',

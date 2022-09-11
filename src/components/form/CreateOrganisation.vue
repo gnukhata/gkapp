@@ -4,7 +4,7 @@
   * Check accessibility
 -->
 <template>
-  <div class="d-flex justify-content-center mt-3 mx-3 align-form-label-right">
+  <div class="align-form-label-right">
     <div v-if="showMenu" class="card shadow" :style="{ 'min-width': '350px' }">
       <div class="card-header bg-dark text-light">
         <translate> Create Organisation </translate>
@@ -26,7 +26,7 @@
               id="input-1"
               type="text"
               placeholder="Organisation Name"
-              v-model="orgName"
+              v-model.trim="orgName"
               required
             >
             </b-form-input>
@@ -95,113 +95,8 @@
               </div>
             </div>
           </b-form-group>
-          <b-form-group
-            label-size="md"
-            id="input-group-5"
-            label="Admin User"
-            label-for="input-2"
-            label-cols="3"
-          >
-            <template #label>
-              <translate> Admin User </translate>
-            </template>
-            <b-form-input
-              size="md"
-              id="input-2"
-              type="text"
-              placeholder="Enter Admin Username"
-              v-model="userName"
-              required
-            >
-            </b-form-input>
-          </b-form-group>
-          <b-form-group
-            label-size="md"
-            id="input-group-6"
-            label="Password"
-            label-for="password-1"
-            label-cols="3"
-          >
-            <template #label>
-              <translate> Password </translate>
-            </template>
-            <b-row>
-              <b-col sm="6" class="mb-1 mb-sm-0 pr-sm-1">
-                <password v-model.lazy="userPassword"></password>
-              </b-col>
-              <b-col sm="6" class="mt-2 mt-sm-0 pl-sm-1">
-                <b-form-group
-                  label="Confirmation"
-                  label-class="label-on-input"
-                  class="position-relative mb-2"
-                >
-                  <template #label>
-                    <translate> Confirmation </translate>
-                  </template>
-                  <b-form-input
-                    size="md"
-                    id="password-2"
-                    type="password"
-                    placeholder=""
-                    v-model.lazy="confirmPassword"
-                    label-cols="1"
-                    :state="arePasswordsSame"
-                    required
-                  >
-                  </b-form-input>
-                </b-form-group>
-              </b-col>
-            </b-row>
-          </b-form-group>
-          <b-form-group
-            label-size="md"
-            id="input-group-7"
-            label="Password Recovery"
-            label-class="mb-2"
-            class="mb-0"
-            label-cols="3"
-          >
-            <template #label>
-              <translate> Password Recovery </translate>
-            </template>
-            <b-form-group
-              label-size="md"
-              id="input-group-8"
-              label="Question"
-              label-for="input-3"
-              label-class="label-on-input"
-              class="position-relative"
-            >
-              <template #label>
-                <translate> Question </translate>
-              </template>
-              <security-questions
-                v-model="securityQuestion"
-              ></security-questions>
-            </b-form-group>
-            <b-form-group
-              label-size="md"
-              id="input-group-9"
-              label="Answer"
-              label-for="input-4"
-              label-class="label-on-input"
-              class="position-relative"
-            >
-              <template #label>
-                <translate> Answer </translate>
-              </template>
-              <b-form-input
-                size="md"
-                id="input-4"
-                type="text"
-                placeholder=""
-                v-model="securityAnswer"
-                isVal
-                required
-              >
-              </b-form-input>
-            </b-form-group>
-          </b-form-group>
+          <hr />
+
           <b-form-group
             label-size="md"
             id="input-group-1"
@@ -227,7 +122,7 @@
           <small> <translate> * All fields are required </translate> </small>
           <!-- <hr /> -->
           <div class="float-right">
-            <b-button
+            <!-- <b-button
               size="sm"
               class="mr-2"
               variant="danger"
@@ -239,13 +134,12 @@
                 icon="arrow-left"
               ></b-icon>
               <span class="align-middle"> <translate>Back</translate></span>
-            </b-button>
+            </b-button> -->
             <b-button
               size="sm"
               type="submit"
               class="mr-2"
               variant="success"
-              :disabled="allFieldsValid"
             >
               <b-spinner v-if="isLoading" small></b-spinner>
               <b-icon
@@ -274,14 +168,23 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import passwordStrength from 'check-password-strength';
-import Captcha from '../components/Captcha.vue';
-import SecurityQuestions from '../components/SecurityQuestions.vue';
-import Password from '../components/Password.vue';
-import GkDate from '../components/GkDate.vue';
+import Captcha from '@/components/Captcha.vue';
+import GkDate from '@/components/GkDate.vue';
 
 export default {
   name: 'CreateOrganisation',
-  components: { Captcha, SecurityQuestions, Password, GkDate },
+  components: { Captcha, GkDate },
+  props: {
+    onSave: {
+      type: Function,
+      required: false,
+    },
+    inOverlay: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
   data() {
     return {
       // gkCoreUrl: 'https://satheerthan.site:6543', // 'http://localhost:6543',
@@ -313,7 +216,6 @@ export default {
       self.userPassword !== '' && self.userPassword !== null
         ? passwordStrength(self.userPassword)
         : { value: 'Empty' },
-    allFieldsValid: (self) => !self.isPasswordValid && !self.arePasswordsSame,
     isPasswordValid: (self) =>
       self.pwdStrength.value === 'Empty'
         ? null
@@ -372,10 +274,15 @@ export default {
       if (this.userAnswer == this.answer) {
         this.isLoading = true;
         const payload = this.initPayload();
-
+        const userAuthToken = localStorage.getItem('userAuthToken');
         // Create Organisation
         axios
-          .post('/organisations', payload)
+          .post('/organisations', payload, {
+            headers: {
+              gktoken: userAuthToken,
+              gkusertoken: userAuthToken,
+            },
+          })
           .then((response) => {
             // console.log(response)
             this.isLoading = false;
@@ -392,78 +299,6 @@ export default {
                         activity: `Organisation created: ${payload.orgdetails.orgname}`,
                       };
                       axios.post('/log', log);
-                      
-                      // After Org creation is Successfull, Fetch Org Details with AuthToken and Login
-                      axios
-                        .get('/organisation')
-                        .then((response2) => {
-                          if (response2.data.gkstatus === 0) {
-                            this.$store.dispatch('setSessionStates', {
-                              auth: true,
-                              orgName: `${response2.data.gkdata.orgname} (${response2.data.gkdata.orgtype})`,
-                              user: { username: payload.userdetails.username },
-                              orgYears: {
-                                yearStart: response2.data.gkdata.yearstart,
-                                yearEnd: response2.data.gkdata.yearend,
-                              },
-                            });
-                            Promise.all([
-                              this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
-                              this.$store.dispatch('global/initGlobalConfig'), // initialises global config
-                            ]).then(() => {
-                              this.$store
-                                .dispatch('global/initGlobalState', {
-                                  lang: this.$language,
-                                })
-                                .then(() => {
-                                  // redirect to workflow on login
-                                  // this.$router.push(
-                                  //   '/workflow/Transactions-Invoice/-1'
-                                  // );
-                                  this.$router
-                                    .push('/workflow/Transactions-Invoice/-1')
-                                    .then(() => {
-                                      this.$bvToast.toast(
-                                        this.$gettext(
-                                          `Logged in Successfully!`
-                                        ),
-                                        {
-                                          title: this.$gettext(
-                                            'Create Account Success!'
-                                          ),
-                                          autoHideDelay: 3000,
-                                          variant: 'success',
-                                          appendToast: true,
-                                          solid: true,
-                                        }
-                                      );
-                                    });
-                                });
-                            });
-                          } else {
-                            this.$bvToast.toast(
-                              this.$gettext(
-                                `Unable to Login to Account, Please try again`
-                              ),
-                              {
-                                title: this.$gettext('Login Error!'),
-                                autoHideDelay: 3000,
-                                variant: 'danger',
-                                appendToast: true,
-                                solid: true,
-                              }
-                            );
-                          }
-                        })
-                        .catch((error) => {
-                          this.$bvToast.toast(`Error: ${error.message}`, {
-                            title: this.$gettext('Login Error!'),
-                            autoHideDelay: 3000,
-                            variant: 'danger',
-                            appendToast: true,
-                            solid: true,
-                          });
-                        });
                     });
                 }
                 break;
@@ -493,6 +328,7 @@ export default {
                   }
                 );
             } // end switch
+            this.onSave(response.data.gkstatus === 0);
           })
           .catch((error) => {
             this.$bvToast.toast(`Error: ${error.message}`, {
@@ -525,12 +361,6 @@ export default {
     },
     initPayload() {
       return {
-        userdetails: {
-          username: this.userName,
-          userpassword: this.userPassword,
-          userquestion: this.securityQuestion,
-          useranswer: this.securityAnswer,
-        },
         orgdetails: {
           orgname: this.orgName,
           orgtype: this.options.orgType[this.orgType].text,

@@ -201,10 +201,10 @@ Vue.mixin({
       this.$store.commit('resetOrg');
 
       // change auth status
-      this.$store.commit('setAuthStatus');
+      this.$store.commit('setUserOrgAuthStatus');
 
       // delete items from localStorage
-      let deleteList = ['authToken', 'orgCode', 'orgName', 'userName'];
+      let deleteList = ['authToken', 'orgCode', 'orgName', 'orgyears'];
       for (let i in deleteList) {
         localStorage.removeItem(deleteList[i]);
       }
@@ -213,7 +213,7 @@ Vue.mixin({
       this.$store.commit('setGkCoreUrl', { gkCoreUrl: this.gkCoreUrl });
 
       // redirect to login page
-      this.$router.push('/');
+      this.$router.push('/user-login');
 
       // alert the user on logout
       this.$bvToast.toast(`Logged out succesfully`, {

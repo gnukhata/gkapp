@@ -95,7 +95,8 @@ export default {
             this.$store.commit('setGkCoreUrl', {
               gkCoreUrl: defaultGkCoreUrl,
             });
-            this.$router.push('/select-org');
+            // this.$router.push('/select-org'); // old code
+            this.$router.push('/user-login'); // new code
           } else {
             this.$bvToast.toast('Please check your server setup', {
               title: 'Unable to Connect To The Server :-(',

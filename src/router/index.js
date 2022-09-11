@@ -5,7 +5,7 @@ import Logs from '@/views/Logs.vue';
 import CloseBooks from '@/views/CloseBooks.vue';
 import UserManagement from '@/views/UserManagement.vue';
 import UOM from '@/views/UOM.vue';
-import ResetPassword from '@/views/ResetPassword.vue';
+import ResetPassword from '@/views/ResetPassword_legacy.vue';
 import Categories from '@/views/Categories.vue';
 import AddCategory from '@/views/CategoryCreate.vue';
 
@@ -13,34 +13,64 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    meta: {
+      title: 'Login',
+    },
     path: '/',
     name: 'Login',
     component: () =>
       import(/* webpackChunkName: "login" */ '../views/Login.vue'),
   },
   {
+    meta: {
+      title: 'User Login',
+    },
+    path: '/user-login',
+    name: 'User Login',
+    component: () =>
+      import(/* webpackChunkName: "user-login" */ '../views/SelectUserOrg.vue'),
+  },
+  {
+    meta: {
+      title: 'Select Organisation',
+    },
     path: '/select-org',
     name: 'Select Organisation',
     component: () =>
       import(/* webpackChunkName: "select-org" */ '../views/SelectOrg.vue'),
   },
   {
+    meta: {
+      title: 'Server Setup',
+    },
     path: '/server-setup',
     name: 'Server Setup',
     component: () =>
       import(/* webpackChunkName: "server-setup" */ '../views/ServerSetup.vue'),
   },
   {
+    meta: {
+      title: 'Organisation Profile',
+      requiresOrgAuth: true,
+    },
     path: '/orgprofile',
     name: 'Organisation Profile',
     component: OrgProfile,
   },
   {
+    meta: {
+      title: 'Organisation Logs',
+      requiresOrgAuth: true,
+    },
     path: '/logs',
     name: 'Organisation Logs',
     component: Logs,
   },
   {
+    meta: {
+      title: 'Settings',
+      requiresOrgAuth: true,
+    },
     path: '/settings',
     name: 'Settings',
     component: () =>
@@ -48,19 +78,31 @@ const routes = [
   },
   // User Management
   {
+    meta: {
+      title: 'User Management',
+      requiresOrgAuth: true,
+    },
     path: '/users',
     name: 'User Management',
     component: UserManagement,
   },
   {
-    path: '/users/add',
-    name: 'User Add',
+    meta: {
+      title: 'User invite',
+      requiresOrgAuth: true,
+    },
+    path: '/users/invite',
+    name: 'User Invite',
     component: () =>
       import(
-        /* webpackChunkName: "useradd" */ '../components/form/AddUser.vue'
+        /* webpackChunkName: "useradd" */ '../components/form/InviteUser.vue'
       ),
   },
   {
+    meta: {
+      title: 'User Edit',
+      requiresOrgAuth: true,
+    },
     path: '/users/:id',
     name: 'User Edit',
     component: () =>
@@ -69,22 +111,38 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Close Books & Roll Over',
+      requiresOrgAuth: true,
+    },
     path: '/closebooks',
     name: 'Close Books & Roll Over',
     component: CloseBooks,
   },
   {
+    meta: {
+      title: 'Unit Of Measurement',
+      requiresOrgAuth: true,
+    },
     path: '/uom',
     name: 'Unit Of Measurement',
     component: UOM,
   },
   {
+    meta: {
+      title: 'Unit Add',
+      requiresOrgAuth: true,
+    },
     path: '/uom/add',
     name: 'Unit Add',
     component: () =>
       import(/* webpackChunkName: "uomadd" */ '../components/form/AddUOM.vue'),
   },
   {
+    meta: {
+      title: 'Unit Edit',
+      requiresOrgAuth: true,
+    },
     path: '/uom/:id',
     name: 'Unit Edit',
     component: () =>
@@ -93,21 +151,36 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Reset Password',
+    },
     path: '/resetpassword',
     name: 'Reset Password',
     component: ResetPassword,
   },
   {
+    meta: {
+      title: 'Categories',
+      requiresOrgAuth: true,
+    },
     path: '/categories',
     name: 'Categories',
     component: Categories,
   },
   {
+    meta: {
+      title: 'Add Category',
+      requiresOrgAuth: true,
+    },
     path: '/categories/add',
     name: 'Add Category',
     component: AddCategory,
   },
   {
+    meta: {
+      title: 'Edit_Category',
+      requiresOrgAuth: true,
+    },
     path: '/categories/edit/:id',
     name: 'Edit_Category',
     component: () =>
@@ -117,6 +190,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Stock On Hand',
+      requiresOrgAuth: true,
+    },
     path: '/stock-on-hand',
     name: 'Stock On Hand',
     // route level code-splitting
@@ -126,6 +203,10 @@ const routes = [
       import(/* webpackChunkName: "stockonhand" */ '../views/StockOnHand.vue'),
   },
   {
+    meta: {
+      title: 'Category Wise Stock On Hand',
+      requiresOrgAuth: true,
+    },
     path: '/categorywise-stock-on-hand',
     name: 'Category Wise Stock On Hand',
     // route level code-splitting
@@ -137,6 +218,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'View Registers',
+      requiresOrgAuth: true,
+    },
     path: '/registers',
     name: 'View Registers',
     // route level code-splitting
@@ -146,6 +231,10 @@ const routes = [
       import(/* webpackChunkName: "registers" */ '../views/Registers.vue'),
   },
   {
+    meta: {
+      title: 'Cost Center Statement',
+      requiresOrgAuth: true,
+    },
     path: '/cost-center-statement',
     name: 'Cost Center Statement',
     // route level code-splitting
@@ -157,6 +246,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Product Register',
+      requiresOrgAuth: true,
+    },
     path: '/product-register',
     name: 'Product Register',
     // route level code-splitting
@@ -168,6 +261,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Cost Center',
+      requiresOrgAuth: true,
+    },
     path: '/costcenter',
     name: 'Cost Center',
     // route level code-splitting
@@ -177,6 +274,10 @@ const routes = [
       import(/* webpackChunkName: "costcenter" */ '../views/CostCenter.vue'),
   },
   {
+    meta: {
+      title: 'Godowns',
+      requiresOrgAuth: true,
+    },
     path: '/godowns',
     name: 'Godowns',
     // route level code-splitting
@@ -186,6 +287,10 @@ const routes = [
       import(/* webpackChunkName: "godowns" */ '../views/Godowns.vue'),
   },
   {
+    meta: {
+      title: 'Add Godown',
+      requiresOrgAuth: true,
+    },
     path: '/godowns/add',
     name: 'Add Godown',
     // route level code-splitting
@@ -197,6 +302,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Edit Godown',
+      requiresOrgAuth: true,
+    },
     path: '/godowns/:id',
     name: 'Edit Godown',
     // route level code-splitting
@@ -206,6 +315,10 @@ const routes = [
       import(/* webpackChunkName: "editgodown" */ '../views/GodownEdit.vue'),
   },
   {
+    meta: {
+      title: 'About',
+      requiresOrgAuth: true,
+    },
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -215,6 +328,10 @@ const routes = [
       import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
   {
+    meta: {
+      title: 'Dashboard',
+      requiresOrgAuth: true,
+    },
     path: '/dashboard',
     name: 'Dashboard',
     // route level code-splitting
@@ -224,17 +341,10 @@ const routes = [
       import(/* webpackChunkName: "dashboard" */ '../views/dashboard/Main.vue'),
   },
   {
-    path: '/createorg',
-    name: 'Create_Organisation',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        /* webpackChunkName: "createorg" */ '../views/CreateOrganisation.vue'
-      ),
-  },
-  {
+    meta: {
+      title: 'Workflow',
+      requiresOrgAuth: true,
+    },
     path: '/workflow/:wfName/:wfId', // wf -> workflow
     name: 'Workflow',
     component: () =>
@@ -242,6 +352,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Contact_Details',
+      requiresOrgAuth: true,
+    },
     path: '/contact-details/:mode/:type', // mode = create/edit, type = customer/supplier
     name: 'Contact_Details',
     component: () =>
@@ -251,6 +365,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Business_Details',
+      requiresOrgAuth: true,
+    },
     path: '/business-details/:mode',
     name: 'Business_Details',
     component: () =>
@@ -260,6 +378,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Invoice',
+      requiresOrgAuth: true,
+    },
     path: '/invoice/:mode/:invid',
     name: 'Invoice',
     component: () =>
@@ -269,6 +391,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Create_Voucher',
+      requiresOrgAuth: true,
+    },
     path: '/voucher/create/:type/:customer',
     name: 'Create_Voucher',
     component: () =>
@@ -278,6 +404,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Edit_Voucher',
+      requiresOrgAuth: true,
+    },
     path: '/voucher/edit/:vid',
     name: 'Edit_Voucher',
     component: () =>
@@ -285,6 +415,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Billwise',
+      requiresOrgAuth: true,
+    },
     path: '/billwise/:custType/:custName',
     name: 'Billwise',
     component: () =>
@@ -292,6 +426,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Delivery_Note',
+      requiresOrgAuth: true,
+    },
     path: '/delivery-note/:mode/:invid',
     name: 'Delivery_Note',
     component: () =>
@@ -301,6 +439,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Cash_Memo',
+      requiresOrgAuth: true,
+    },
     path: '/cash-memo',
     name: 'Cash_Memo',
     component: () =>
@@ -309,6 +451,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Purchase_Sales_Order',
+      requiresOrgAuth: true,
+    },
     path: '/ps-order',
     name: 'Purchase_Sales_Order',
     component: () =>
@@ -317,6 +463,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Debit_Credit_Note',
+      requiresOrgAuth: true,
+    },
     path: '/dc-note',
     name: 'Debit_Credit_Note',
     component: () =>
@@ -325,6 +475,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Transfer_Note',
+      requiresOrgAuth: true,
+    },
     path: '/transfer-note',
     name: 'Transfer_Note',
     component: () =>
@@ -333,6 +487,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Rejection_Note',
+      requiresOrgAuth: true,
+    },
     path: '/rejection-note',
     name: 'Rejection_Note',
     component: () =>
@@ -341,6 +499,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Accounts',
+      requiresOrgAuth: true,
+    },
     path: '/accounts/:group/:subGroup/:acc',
     name: 'Accounts',
     component: () =>
@@ -348,6 +510,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Create_Account',
+      requiresOrgAuth: true,
+    },
     path: '/account/create/:group/:subGroup',
     name: 'Create_Account',
     component: () =>
@@ -357,6 +523,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Edit_Account',
+      requiresOrgAuth: true,
+    },
     path: '/account/edit/:id/:sysFlag',
     name: 'Edit_Account',
     component: () =>
@@ -364,18 +534,30 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Product List',
+      requiresOrgAuth: true,
+    },
     path: '/product-list',
     name: 'Product List',
     component: () =>
       import(/* webpackChunkName: "product-list" */ '../views/ProductList.vue'),
   },
   {
+    meta: {
+      title: 'Contact List',
+      requiresOrgAuth: true,
+    },
     path: '/contact-list',
     name: 'Contact List',
     component: () =>
       import(/* webpackChunkName: "contact-list" */ '../views/ContactList.vue'),
   },
   {
+    meta: {
+      title: 'Budget',
+      requiresOrgAuth: true,
+    },
     path: '/budgets/:type/:id',
     name: 'Budget',
     component: () =>
@@ -383,6 +565,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Create_Budget',
+      requiresOrgAuth: true,
+    },
     path: '/budget/create/:type',
     name: 'Create_Budget',
     component: () =>
@@ -392,6 +578,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'Edit_Budget',
+      requiresOrgAuth: true,
+    },
     path: '/budget/edit/:id',
     name: 'Edit_Budget',
     component: () =>
@@ -400,18 +590,30 @@ const routes = [
   },
   // Reports
   {
+    meta: {
+      title: 'Profit & Loss',
+      requiresOrgAuth: true,
+    },
     path: '/profit-loss',
     name: 'Profit & Loss',
     component: () =>
       import(/* webpackChunkName: "profit-loss" */ '../views/ProfitLoss.vue'),
   },
   {
+    meta: {
+      title: 'Cash Flow',
+      requiresOrgAuth: true,
+    },
     path: '/cash-flow',
     name: 'Cash Flow',
     component: () =>
       import(/* webpackChunkName: "cash-flow" */ '../views/CashFlow.vue'),
   },
   {
+    meta: {
+      title: 'Trial Balance',
+      requiresOrgAuth: true,
+    },
     path: '/trial-balance',
     name: 'Trial Balance',
     component: () =>
@@ -420,6 +622,10 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'Balance_Sheet',
+      requiresOrgAuth: true,
+    },
     path: '/balance-sheet',
     name: 'Balance_Sheet',
     component: () =>
@@ -428,12 +634,20 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'View Ledger',
+      requiresOrgAuth: true,
+    },
     path: '/ledger',
     name: 'View Ledger',
     component: () =>
       import(/* webpackChunkName: "ledger" */ '../views/Ledger.vue'),
   },
   {
+    meta: {
+      title: 'Monthly Ledger',
+      requiresOrgAuth: true,
+    },
     path: '/ledger/monthly/:id',
     name: 'Monthly Ledger',
     component: () =>
@@ -443,6 +657,10 @@ const routes = [
   },
   {
     // ac=accountcode, pc=productcode, fs=financialstart, fd=fromdate, td=todate,
+    meta: {
+      title: 'Ledger Full',
+      requiresOrgAuth: true,
+    },
     path: '/ledger/:ac&:pc&:fd&:td',
     name: 'Ledger Full',
     component: () =>
@@ -450,6 +668,10 @@ const routes = [
   },
   {
     // ac=accountcode
+    meta: {
+      title: 'Ledger Single',
+      requiresOrgAuth: true,
+    },
     path: '/ledger/:ac',
     name: 'Ledger Single',
     component: () =>
@@ -457,6 +679,10 @@ const routes = [
   },
   {
     // ac=accountcode
+    meta: {
+      title: 'Bank_Reconc',
+      requiresOrgAuth: true,
+    },
     path: '/bank-recon',
     name: 'Bank_Reconc',
     component: () =>
@@ -465,12 +691,20 @@ const routes = [
 
   // GST
   {
+    meta: {
+      title: 'GST R1 Report',
+      requiresOrgAuth: true,
+    },
     path: '/gst/r1',
     name: 'GST R1 Report',
     component: () =>
       import(/* webpackChunkName: "gst-r1" */ '../views/gst/R1.vue'),
   },
   {
+    meta: {
+      title: 'GST R1 Summary',
+      requiresOrgAuth: true,
+    },
     path: '/gst/r1/summary/from=:fd&to=:td',
     name: 'GST R1 Summary',
     component: () =>
@@ -480,6 +714,10 @@ const routes = [
     props: true,
   },
   {
+    meta: {
+      title: 'GST R1 Detailed',
+      requiresOrgAuth: true,
+    },
     path: '/gst/r1/:type/:fd&:td',
     name: 'GST R1 Detailed',
     component: () =>
@@ -488,12 +726,20 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'GST 3B Report',
+      requiresOrgAuth: true,
+    },
     path: '/gst/3b',
     name: 'GST 3B Report',
     component: () =>
       import(/* webpackChunkName: "gst-3b" */ '../views/gst/3B/Main.vue'),
   },
   {
+    meta: {
+      title: 'GST 3B Full',
+      requiresOrgAuth: true,
+    },
     path: '/gst/3b/from=:fd&to=:td&state=:state',
     name: 'GST 3B Full',
     component: () =>
@@ -502,18 +748,30 @@ const routes = [
       ),
   },
   {
+    meta: {
+      title: 'GNUKhata Export',
+      requiresOrgAuth: true,
+    },
     path: '/data/export',
     name: 'Export Data',
     component: () =>
       import(/* webpackChunkName: "export-data" */ '../views/data/Export.vue'),
   },
   {
+    meta: {
+      title: 'GNUKhata Import',
+      requiresOrgAuth: true,
+    },
     path: '/data/import',
     name: 'Import Data',
     component: () =>
       import(/* webpackChunkName: "import-data" */ '../views/data/Import.vue'),
   },
   {
+    meta: {
+      title: 'Import Help',
+      requiresOrgAuth: true,
+    },
     path: '/data/import/help/:help_type',
     name: 'Import Data Help',
     component: () =>
@@ -543,5 +801,31 @@ const routes = [
 const router = new VueRouter({
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresOrgAuth) {
+    // login required
+    const userOrgAuthStatus = localStorage.getItem('userOrgAuthenticated');
+    if (userOrgAuthStatus !== 'true') {
+      next({ name: 'User Login' });
+    } else {
+      // console.log('Auth succeeded')
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
+const defaultDocumentTitle = 'GNUKhata'
+
+router.afterEach(to => {
+  if (to.meta.title) {
+    document.title = `${to.meta.title} — ${defaultDocumentTitle}`
+  } else {
+    document.title = defaultDocumentTitle
+  }
+})
+
 
 export default router;

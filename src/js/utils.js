@@ -106,6 +106,14 @@ function debounceEvent(target, event, handler, interval) {
   );
 }
 
+function debounce(callback, interval, ctxt, args) {
+  let timeout;
+  return function() {
+    clearTimeout(timeout);
+    timeout = setTimeout(callback.bind(ctxt, args), interval);
+  };
+}
+
 /*
  * Image Handling methods
  */
@@ -124,5 +132,6 @@ export {
   reverseDate,
   formatDateObj,
   debounceEvent,
+  debounce,
   getBase64,
 };
