@@ -42,7 +42,7 @@
               <b-icon icon="key"></b-icon> Change Password
             </b-dropdown-item>
             <b-dropdown-item @click="logOut" href="#">
-              <b-icon icon="box-arrow-in-left"></b-icon> Log Out
+              <b-icon icon="box-arrow-in-left"></b-icon> Change Org
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>

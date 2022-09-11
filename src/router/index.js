@@ -5,10 +5,9 @@ import Logs from '@/views/Logs.vue';
 import CloseBooks from '@/views/CloseBooks.vue';
 import UserManagement from '@/views/UserManagement.vue';
 import UOM from '@/views/UOM.vue';
-import ResetPassword from '@/views/ResetPassword.vue';
+import ResetPassword from '@/views/ResetPassword_legacy.vue';
 import Categories from '@/views/Categories.vue';
 import AddCategory from '@/views/CategoryCreate.vue';
-import store from '../store'
 
 Vue.use(VueRouter);
 
@@ -89,14 +88,14 @@ const routes = [
   },
   {
     meta: {
-      title: 'User Add',
+      title: 'User invite',
       requiresOrgAuth: true,
     },
-    path: '/users/add',
-    name: 'User Add',
+    path: '/users/invite',
+    name: 'User Invite',
     component: () =>
       import(
-        /* webpackChunkName: "useradd" */ '../components/form/AddUser.vue'
+        /* webpackChunkName: "useradd" */ '../components/form/InviteUser.vue'
       ),
   },
   {
@@ -154,7 +153,6 @@ const routes = [
   {
     meta: {
       title: 'Reset Password',
-      requiresOrgAuth: true,
     },
     path: '/resetpassword',
     name: 'Reset Password',
@@ -341,20 +339,6 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "dashboard" */ '../views/dashboard/Main.vue'),
-  },
-  {
-    meta: {
-      title: 'Create_Organisation',
-    },
-    path: '/createorg',
-    name: 'Create_Organisation',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        /* webpackChunkName: "createorg" */ '../views/CreateOrganisation.vue'
-      ),
   },
   {
     meta: {

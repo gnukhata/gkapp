@@ -4,7 +4,7 @@
   * Check accessibility
 -->
 <template>
-  <div class="d-flex justify-content-center mt-3 mx-3 align-form-label-right">
+  <div class="align-form-label-right">
     <div v-if="showMenu" class="card shadow" :style="{ 'min-width': '350px' }">
       <div class="card-header bg-dark text-light">
         <translate> Create Organisation </translate>
@@ -122,7 +122,7 @@
           <small> <translate> * All fields are required </translate> </small>
           <!-- <hr /> -->
           <div class="float-right">
-            <b-button
+            <!-- <b-button
               size="sm"
               class="mr-2"
               variant="danger"
@@ -134,7 +134,7 @@
                 icon="arrow-left"
               ></b-icon>
               <span class="align-middle"> <translate>Back</translate></span>
-            </b-button>
+            </b-button> -->
             <b-button
               size="sm"
               type="submit"
@@ -168,14 +168,12 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import passwordStrength from 'check-password-strength';
-import Captcha from '../components/Captcha.vue';
-import SecurityQuestions from '../components/SecurityQuestions.vue';
-import Password from '../components/Password.vue';
-import GkDate from '../components/GkDate.vue';
+import Captcha from '@/components/Captcha.vue';
+import GkDate from '@/components/GkDate.vue';
 
 export default {
   name: 'CreateOrganisation',
-  components: { Captcha, SecurityQuestions, Password, GkDate },
+  components: { Captcha, GkDate },
   props: {
     onSave: {
       type: Function,
@@ -282,6 +280,7 @@ export default {
           .post('/organisations', payload, {
             headers: {
               gktoken: userAuthToken,
+              gkusertoken: userAuthToken,
             },
           })
           .then((response) => {

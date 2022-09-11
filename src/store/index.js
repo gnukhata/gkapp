@@ -80,10 +80,10 @@ export default new Vuex.Store({
       const authToken = localStorage.getItem('authToken');
       const userAuthToken = localStorage.getItem('userAuthToken');
 
-      if(userAuthStatus === 'true') {
+      if (userAuthStatus === 'true') {
         state.userAuthenticated = true;
       }
-      
+
       if (authStatus === 'true') {
         state.userOrgAuthenticated = true;
 
@@ -127,7 +127,15 @@ export default new Vuex.Store({
 
         // set axios default every time store inits, as its lost on page refresh
         axios.defaults.baseURL = gkCoreUrl;
-        axios.defaults.headers = { gktoken: authToken };
+        let headers = {};
+
+        if (authToken) {
+          headers.gktoken = authToken;
+        }
+        if (userAuthToken) {
+          headers.gkusertoken = userAuthToken;
+        }
+        axios.defaults.headers = headers;
       }
     },
 

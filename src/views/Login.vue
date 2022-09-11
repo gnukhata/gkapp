@@ -421,7 +421,7 @@ export default {
     newUserName(name) {
       if (name) {
         axios
-          .get(`/gkusers?type=unique_check&username=${name}`)
+          .get(`/gkusers?type=unique_check&username=${name}&check_legacy=true`)
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
               this.userNameValidity = resp.data.gkresult;

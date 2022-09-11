@@ -11,9 +11,9 @@
       <b>Username - admin , Password - admin</b>
       <br />
     </b-alert> -->
-
+    <!-- User Login -->
     <b-card
-      v-if="!orgs.length"
+      v-if="!userAuthToken"
       class="shadow mx-auto"
       style="max-width: 35em"
       header-bg-variant="dark"
@@ -51,9 +51,13 @@
             :placeholder="$gettext('Password')"
             size="sm"
           ></password>
-          <router-link class="float-right" to="/resetpassword">
+          <b-button
+            variant="link"
+            class="p-0 float-right"
+            @click="showForm.resetPwd = true"
+          >
             <small><translate>Forgot Password?</translate></small>
-          </router-link>
+          </b-button>
         </b-form-group>
 
         <!--Captcha question -->
@@ -87,6 +91,14 @@
             <b-icon class="mr-1" icon="cloud"></b-icon>
             <translate> Change Server</translate>
           </b-button>
+          <b-button
+            @click="showForm.createUser = true"
+            variant="dark"
+            class="m-1"
+          >
+            <b-icon class="mr-1" icon="person-plus"></b-icon>
+            <translate> Create User</translate>
+          </b-button>
           <b-button class="m-1" variant="success" type="submit">
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
@@ -99,9 +111,9 @@
         </b-button-group>
       </b-form>
     </b-card>
-
+    <!-- Org selection -->
     <b-card v-else class="mt-3">
-      <span class="h3 underline">Welcome {{ this.form.name }}!</span>
+      <span class="h3 underline">Welcome {{ form.name || userName || '' }}!</span>
       <b-button @click="onLogout" class="float-right" size="sm"
         >Logout</b-button
       >
@@ -111,7 +123,11 @@
         <b-col>
           <div class="mb-2">
             <h5 class="d-inline-block">Your Organisations</h5>
-            <b-button size="sm" :disabled="showCreateOrgForm" @click="showCreateOrgForm = true" class="float-right"
+            <b-button
+              size="sm"
+              :disabled="showForm.createOrg"
+              @click="showForm.createOrg = true"
+              class="float-right"
               >Create Org</b-button
             >
           </div>
@@ -122,11 +138,14 @@
             striped
             :items="orgs"
             :fields="orgFields"
+            responsive
+            :sticky-header="true"
+            v-if="orgs.length"
           >
             <template #cell(year)="data">
               <v-select
                 :reduce="(option) => option.index"
-                :options="data.item.data"
+                :options="data.item.yearData"
                 v-model="data.item.selected"
               ></v-select>
             </template>
@@ -137,10 +156,10 @@
               {{ userRoles[data.value] }}
             </template>
           </b-table-lite>
+          <b v-else>You are not part of any organisations yet</b>
         </b-col>
         <b-col>
           <h5 class="mb-3">Invitations</h5>
-
           <b-table-lite
             head-variant="dark"
             small
@@ -148,24 +167,37 @@
             striped
             :items="invitedOrgs"
             :fields="invOrgFields"
-            class="text-center"
+            responsive
+            v-if="invitedOrgs.length"
           >
             <template #cell(role)="data">
               {{ userRoles[data.value] }}
             </template>
-            <template #cell(action)="">
+            <template #cell(action)="data">
               <div>
-                <b-button size="sm" disabled class="mx-1"> Accept </b-button>
-                <b-button size="sm" disabled> Reject </b-button>
+                <b-button
+                  @click="onAcceptInvite(data.index, data.item.name)"
+                  size="sm"
+                  class="mx-1"
+                >
+                  Accept
+                </b-button>
+                <b-button
+                  @click="onRejectInvite(data.index, data.item.name)"
+                  size="sm"
+                >
+                  Reject
+                </b-button>
               </div>
             </template>
           </b-table-lite>
+          <b v-else>No invitations pending</b>
         </b-col>
       </b-row>
     </b-card>
     <b-modal
       size="lg"
-      v-model="showCreateOrgForm"
+      v-model="showForm.createOrg"
       centered
       static
       body-class="p-0"
@@ -176,22 +208,59 @@
       <create-organisation :inOverlay="true" :onSave="onOrgCreate">
       </create-organisation>
     </b-modal>
+    <b-modal
+      size="lg"
+      v-model="showForm.resetPwd"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-footer
+      hide-header
+    >
+      <reset-password :onSuccess="onPwdReset"></reset-password>
+    </b-modal>
+    <b-modal
+      size="lg"
+      v-model="showForm.createUser"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-footer
+      hide-header
+    >
+      <create-user :onSuccess="onUserCreate"></create-user>
+    </b-modal>
   </section>
 </template>
 
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-import Captcha from '../components/Captcha.vue';
-import Password from '../components/Password.vue';
-import CreateOrganisation from '@/views/CreateOrganisation.vue';
+import Captcha from '@/components/Captcha.vue';
+import Password from '@/components/Password.vue';
+import CreateOrganisation from '@/components/form/CreateOrganisation.vue';
+import ResetPassword from '@/components/form/ResetPassword.vue';
+import CreateUser from '@/components/form/CreateUser.vue';
+import { STATUS_CODES } from '@/js/enum';
 export default {
-  components: { Password, Captcha, CreateOrganisation },
+  components: {
+    Password,
+    Captcha,
+    CreateOrganisation,
+    ResetPassword,
+    CreateUser,
+  },
   name: 'SelectOrg',
   data() {
     return {
       isLoading: false,
-      showCreateOrgForm: false,
+      showForm: {
+        createOrg: false,
+        resetPwd: false,
+        createUser: false,
+      },
       form: {
         name: '',
         pwd: '',
@@ -202,7 +271,12 @@ export default {
       },
       orgs: [],
       invitedOrgs: [],
-      orgFields: ['name', 'role', 'year', 'action'],
+      orgFields: [
+        { label: 'name', key: 'name', stickyColumn: true },
+        'role',
+        'year',
+        'action',
+      ],
       invOrgFields: ['name', 'role', 'action'],
       selectedOrg: null,
       userRoles: {
@@ -215,7 +289,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['gkCoreUrl', 'userAuthToken']),
+    ...mapState(['gkCoreUrl', 'userAuthToken', 'userName']),
   },
   created() {
     if (
@@ -228,9 +302,21 @@ export default {
     }
   },
   methods: {
+    onPwdReset() {
+      this.showForm.resetPwd = false;
+    },
+    onUserCreate({ token, username }) {
+      this.showForm.createUser = false;
+      this.$store.dispatch('setSessionStates', {
+        userAuth: true,
+        userAuthToken: token,
+        user: { username },
+      });
+      this.fetchUserOrgs();
+    },
     onOrgCreate(success) {
-      if(success) {
-        this.showCreateOrgForm = false;
+      if (success) {
+        this.showForm.createOrg = false;
         this.fetchUserOrgs();
       }
     },
@@ -241,17 +327,18 @@ export default {
       });
       this.orgs = [];
       this.invitedOrgs = [];
+      localStorage.removeItem("userName");
     },
-    initOrgs(orgs) {
+    initOrgs(orgsData) {
       this.orgs = [];
       this.invitedOrgs = [];
-      for (let orgName in orgs) {
-        orgs[orgName];
-        orgs[orgName].reverse();
+      for (let orgName in orgsData) {
+        // orgsData[orgName];
+        orgsData[orgName].reverse(); // reverse the order of financial year data, so that the latest years come on top
         let orgData = {
           name: orgName,
-          type: orgs[orgName][0].orgtype,
-          data: orgs[orgName].map((org, index) => {
+          type: orgsData[orgName][0].orgtype,
+          yearData: orgsData[orgName].map((org, index) => {
             return {
               index,
               code: org.orgcode,
@@ -260,17 +347,136 @@ export default {
               yend: org.yearend,
             };
           }),
-          role: orgs[orgName][0].userrole,
+          role: orgsData[orgName][0].userrole,
           selected: 0,
         };
-        if (orgs[orgName][0].invitestatus) {
+        if (orgsData[orgName][0].invitestatus) {
           this.orgs.push(orgData);
         } else {
           this.invitedOrgs.push(orgData);
         }
       }
     },
+    onRejectInvite(index, name) {
+      this.$bvModal
+        .msgBoxConfirm(`Reject invitation to organisation: ${name} ?`, {
+          centered: true,
+          size: 'md',
+          okVariant: 'danger',
 
+          headerBgVariant: 'danger',
+          headerTextVariant: 'light',
+        })
+        // delete user is confirmed
+        .then((r) => {
+          if (r) {
+            this.rejectInvite(index);
+            return;
+          }
+        });
+    },
+    rejectInvite(index) {
+      let org = this.invitedOrgs[index];
+      let payload = { orgcode: parseInt(org.yearData[org.selected].code) };
+      axios.put('/userorg?type=reject_invite', payload).then((resp) => {
+        switch (resp.data.gkstatus) {
+          case STATUS_CODES['Success']:
+            this.$bvToast.toast(
+              `Invitation to ${org.name} organisation has been rejected successfully`,
+              {
+                autoHideDelay: 3000,
+                variant: 'success',
+              }
+            );
+            this.fetchUserOrgs();
+            break;
+          case STATUS_CODES['ActionDisallowed']:
+            this.$bvToast.toast(
+              `Please check the invitation status with the organisation`,
+              {
+                autoHideDelay: 3000,
+                variant: 'warning',
+              }
+            );
+            break;
+          case STATUS_CODES['UnauthorisedAccess']:
+            this.$bvToast.toast(`Please check your login status`, {
+              autoHideDelay: 3000,
+              variant: 'warning',
+            });
+            break;
+          case STATUS_CODES['ConnectionFailed']:
+          default:
+            this.$bvToast.toast(
+              `An issue has ocurred while trying to reject the invitation to ${org.name}. Please contact admin`,
+              {
+                autoHideDelay: 3000,
+                variant: 'danger',
+              }
+            );
+        }
+      });
+    },
+    onAcceptInvite(index, name) {
+      this.$bvModal
+        .msgBoxConfirm(`Accept invitation to organisation: ${name} ?`, {
+          centered: true,
+          size: 'md',
+          okVariant: 'success',
+
+          headerBgVariant: 'success',
+          headerTextVariant: 'light',
+        })
+        // delete user is confirmed
+        .then((r) => {
+          if (r) {
+            this.acceptInvite(index);
+            return;
+          }
+        });
+    },
+    acceptInvite(index) {
+      let org = this.invitedOrgs[index];
+      let payload = { orgcode: parseInt(org.yearData[org.selected].code) };
+      axios.put('/userorg?type=accept_invite', payload).then((resp) => {
+        switch (resp.data.gkstatus) {
+          case STATUS_CODES['Success']:
+            this.$bvToast.toast(
+              `Invitation to ${org.name} organisation has been accepted successfully`,
+              {
+                autoHideDelay: 3000,
+                variant: 'success',
+              }
+            );
+            this.fetchUserOrgs();
+            break;
+          case STATUS_CODES['ActionDisallowed']:
+            this.$bvToast.toast(
+              `Please check the invitation status with the organisation`,
+              {
+                autoHideDelay: 3000,
+                variant: 'warning',
+              }
+            );
+            break;
+          case STATUS_CODES['UnauthorisedAccess']:
+            this.$bvToast.toast(`Please check your login status`, {
+              autoHideDelay: 3000,
+              variant: 'warning',
+            });
+            break;
+          case STATUS_CODES['ConnectionFailed']:
+          default:
+            this.$bvToast.toast(
+              `An issue has ocurred while trying to accept the invitation to ${org.name}. Please contact admin`,
+              {
+                autoHideDelay: 3000,
+                variant: 'danger',
+              }
+            );
+        }
+      });
+    },
     // to save to local storage on login
     // orgChoice -> orgname (orgtype)
     // orgArray -> [orgname, orgtype]
@@ -325,7 +531,7 @@ export default {
     },
     orgLogin(orgData) {
       const userAuthToken = localStorage.getItem('userAuthToken');
-      let selectedYear = orgData.data[orgData.selected];
+      let selectedYear = orgData.yearData[orgData.selected];
       let payload = {
         orgcode: selectedYear.code,
       };
@@ -334,6 +540,7 @@ export default {
         .post(`${this.gkCoreUrl}/login?type=org`, payload, {
           headers: {
             gktoken: userAuthToken,
+            gkusertoken: userAuthToken,
           },
         })
         .then((resp) => {
@@ -341,7 +548,6 @@ export default {
             case 0:
               axios.defaults.baseURL = this.gkCoreUrl;
               axios.defaults.headers = { gktoken: resp.data.token };
-
               // Initiate vuex store
               this.$store.dispatch('setSessionStates', {
                 auth: true,
@@ -403,6 +609,7 @@ export default {
           .get(`${this.gkCoreUrl}/gkusers?type=get_user_orgs`, {
             headers: {
               gktoken: userAuthToken,
+              gkusertoken: userAuthToken,
             },
           })
           .then((resp) => {
@@ -411,7 +618,7 @@ export default {
             }
           });
       }
-    }
+    },
   },
   mounted() {
     this.fetchUserOrgs();

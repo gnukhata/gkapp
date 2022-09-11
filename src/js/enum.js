@@ -1,3 +1,13 @@
+const STATUS_CODES = {
+  Success: 0,
+  DuplicateEntry: 1,
+  UnauthorisedAccess: 2,
+  ConnectionFailed: 3,
+  BadPrivilege: 4,
+  ActionDisallowed: 5,
+  ProxyServerError: 6,
+};
+
 const PAGES = {
   global: 0,
   workflow: 10,
@@ -84,18 +94,29 @@ const DR_CR_MODE = {
   others: 14,
 };
 
+const USER_ROLES = {
+  admin: -1,
+  manager: 0,
+  operator: 1,
+  auditor: 2,
+  godown_incharge: 3,
+};
+
 Object.freeze(PAGES);
 Object.freeze(CONFIGS);
 Object.freeze(GST_REG_TYPE);
 Object.freeze(GST_PARTY_TYPE);
 Object.freeze(DR_CR_MODE);
 Object.freeze(PAYMENT_TYPE);
+Object.freeze(USER_ROLES);
 
 export {
+  STATUS_CODES,
   PAGES,
   CONFIGS,
   GST_REG_TYPE,
   GST_PARTY_TYPE,
   DR_CR_MODE,
   PAYMENT_TYPE,
+  USER_ROLES,
 };

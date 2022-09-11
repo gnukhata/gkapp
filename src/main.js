@@ -169,7 +169,7 @@ Vue.mixin({
       this.$store.commit('setUserOrgAuthStatus');
 
       // delete items from localStorage
-      let deleteList = ['authToken', 'orgCode', 'orgName', 'userName'];
+      let deleteList = ['authToken', 'orgCode', 'orgName', 'orgyears'];
       for (let i in deleteList) {
         localStorage.removeItem(deleteList[i]);
       }
