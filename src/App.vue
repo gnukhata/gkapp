@@ -40,7 +40,7 @@
               <div
                 style="font-size: 0.6em"
                 class="font-italic"
-                v-if="userAuthenticated"
+                v-if="userOrgAuthenticated"
               >
                 FY {{ yearStart.split('-')[0] }} -
                 <!-- WARN: beware of Y3K Bug -->
