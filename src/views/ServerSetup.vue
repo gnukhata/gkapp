@@ -61,11 +61,11 @@ export default {
     };
   },
   created() {
-    if (localStorage.getItem('gkCoreUrl')) {
-      if (localStorage.getItem('gkCoreUrl') != 'null') {
-        this.$router.push('/select-org');
-      }
-    }
+    // if (localStorage.getItem('gkCoreUrl')) {
+    //   if (localStorage.getItem('gkCoreUrl') != 'null') {
+    //     // this.$router.push('/select-org');
+    //   }
+    // }
   },
   computed: {
     urlIsValid() {
