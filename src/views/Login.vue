@@ -65,9 +65,14 @@
               :placeholder="$gettext('Password')"
               size="sm"
             ></password>
-            <router-link class="float-right" to="/resetpassword">
-              <small><translate>Forgot Password?</translate></small>
-            </router-link>
+
+            <b-button
+              variant="link"
+              class="p-0 float-right"
+              @click="showResetPwd = true"
+            >
+              <small> <translate>Forgot Password?</translate> </small>
+            </b-button>
           </b-form-group>
 
           <!--Captcha question -->
@@ -171,6 +176,18 @@
         </b-button>
       </b-form>
     </b-card>
+    <b-modal
+      size="lg"
+      v-model="showResetPwd"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-footer
+      hide-header
+    >
+      <reset-password :onSuccess="onPwdReset"></reset-password>
+    </b-modal>
   </section>
 </template>
 <script>
@@ -179,11 +196,13 @@ import { mapState } from 'vuex';
 import Captcha from '../components/Captcha.vue';
 import GkCardheader from '../components/GkCardheader.vue';
 import Password from '../components/Password.vue';
+import ResetPassword from '@/components/form/ResetPassword.vue';
 export default {
   name: 'login',
-  components: { Captcha, GkCardheader, Password },
+  components: { Captcha, GkCardheader, Password, ResetPassword },
   data() {
     return {
+      showResetPwd: false,
       orgNameDisplay: '',
       captchaSolved: false,
       isLoading: false,
@@ -204,6 +223,9 @@ export default {
     };
   },
   methods: {
+    onPwdReset() {
+      this.showResetPwd = false;
+    },
     updateUserName() {
       if (!this.userNameValidity) {
         return;
