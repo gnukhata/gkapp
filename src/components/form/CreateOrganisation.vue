@@ -17,6 +17,8 @@
             label="Name"
             label-for="input-1"
             label-cols="3"
+            :state="orgNameValidity"
+            :invalid-feedback="orgNameFeedback"
           >
             <template #label>
               <translate> Name </translate>
@@ -28,6 +30,8 @@
               placeholder="Organisation Name"
               v-model.trim="orgName"
               required
+              debounce="500"
+              :state="orgNameValidity"
             >
             </b-form-input>
           </b-form-group>
@@ -135,12 +139,7 @@
               ></b-icon>
               <span class="align-middle"> <translate>Back</translate></span>
             </b-button> -->
-            <b-button
-              size="sm"
-              type="submit"
-              class="mr-2"
-              variant="success"
-            >
+            <b-button size="sm" type="submit" class="mr-2" variant="success">
               <b-spinner v-if="isLoading" small></b-spinner>
               <b-icon
                 v-else
@@ -170,6 +169,7 @@ import { mapState } from 'vuex';
 import passwordStrength from 'check-password-strength';
 import Captcha from '@/components/Captcha.vue';
 import GkDate from '@/components/GkDate.vue';
+import { STATUS_CODES } from '@/js/enum.js';
 
 export default {
   name: 'CreateOrganisation',
@@ -208,6 +208,11 @@ export default {
       answer: null,
       userAnswer: null,
       showMenu: true,
+      valid: {
+        nameFormat: null,
+        nameUnique: null
+      },
+      orgNameRegEx: null,
     };
   },
   computed: {
@@ -228,8 +233,55 @@ export default {
       }
       return null;
     },
+    _orgName: (self) => self.orgName,
+    orgNameValidity: (self) => {
+      if(self.valid.nameFormat === null && self.valid.nameUnique === null) {
+        return null;
+      }
+
+      return self.valid.nameFormat && self.valid.nameUnique;
+    },
+    orgNameFeedback: (self) => {
+      let feedback = '';
+      if(!self.valid.nameFormat && self.valid.nameFormat !== null ) {
+        feedback = 'Orgname can only be alphanumeric with _ and . symbols.'
+      }
+      if(!self.valid.nameUnique && self.valid.nameUnique !== null) {
+        feedback += 'Orgname provided has been taken, please try another name'
+      }
+      return feedback;
+    }
+  },
+  watch: {
+    _orgName(name) {
+      this.checkOrgName(name);
+    },
   },
   methods: {
+    checkOrgName(query) {
+      if(!query) {
+        this.valid.nameFormat = null;
+        this.valid.nameUnique = null;
+        return;
+      }
+      if(!this.orgNameRegEx.test(query)) {
+        this.valid.nameFormat = false;
+        return;
+      }
+      this.valid.nameFormat = true;
+      const self = this;
+      axios
+        .get(`/organisations?type=name_exists&orgname=${query}`)
+        .then((resp) => {
+          if (query === self.orgName) {
+            if (resp.data.gkstatus === STATUS_CODES['Success']) {
+              self.valid.nameUnique = true;
+            } else {
+              self.valid.nameUnique = false;
+            }
+          }
+        });
+    },
     checkRegistrationStatus() {
       axios.get('/organisations?registration-status').then((r) => {
         if (r.status === 200 && r.data.gkstatus == 5) {
@@ -396,6 +448,7 @@ export default {
   mounted() {
     this.checkRegistrationStatus();
     this.yearStart = `${new Date().getFullYear()}-04-01`; // 1st of April, current year. YYYY-MM-DD
+    this.orgNameRegEx = new RegExp('^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$');
   },
 };
 </script>
