@@ -85,6 +85,14 @@ export default new Vuex.Store({
 
       if (userAuthStatus === 'true') {
         state.userAuthenticated = true;
+        const userName = localStorage.getItem('userName');
+        if (userAuthToken) {
+          state.userAuthToken = userAuthToken;
+        }
+
+        if (userName) {
+          state.userName = userName;
+        }
       }
 
       if (authStatus === 'true') {
@@ -92,7 +100,6 @@ export default new Vuex.Store({
 
         const orgCode = localStorage.getItem('orgCode');
         const orgName = localStorage.getItem('orgName');
-        const userName = localStorage.getItem('userName');
         const orgYears = JSON.parse(localStorage.getItem('orgYears'));
         const orgType = JSON.parse(localStorage.getItem('orgArray'));
 
@@ -106,14 +113,6 @@ export default new Vuex.Store({
 
         if (authToken) {
           state.authToken = authToken;
-        }
-
-        if (userAuthToken) {
-          state.userAuthToken = userAuthToken;
-        }
-
-        if (userName) {
-          state.userName = userName;
         }
 
         if (orgYears) {
