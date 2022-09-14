@@ -29,6 +29,7 @@
               <translate>Validate</translate>
             </b-button>
           </b-input-group>
+          <small>* Type an existing user's name</small>
           <b-form-invalid-feedback id="input-live-feedback">
             <translate>Username must be minimum of 3 characters</translate>
           </b-form-invalid-feedback>
