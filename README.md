@@ -55,6 +55,11 @@ export GKAPP_URL=https://example.com
 npm run build
 ```
 
+## Configuration
+
+You can customize gkapp with `gkapp.config.js` which exposes few options. To apply the changes,
+gkapp has to be built with `npm run build`
+
 ## License
 
 - Gkapp is Licensed under `AGPLv3`

@@ -32,11 +32,11 @@
               >
                 {{ this.orgName }}
               </span>
-              <span v-else class="mt-1">
+              <div v-else class="mt-1">
                 <translate>
                   GNUKhata
                 </translate>
-              </span>
+              </div>
               <div
                 style="font-size: 0.6em"
                 class="font-italic"

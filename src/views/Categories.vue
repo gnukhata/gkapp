@@ -70,7 +70,7 @@
             title="delete"
             variant="danger"
             size="sm"
-            class="px-1"
+            class="px-1 ml-1"
           >
             <b-icon
               class="align-middle"

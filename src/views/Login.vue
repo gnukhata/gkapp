@@ -1,20 +1,13 @@
 <template>
   <section class="m-2">
     <b-alert
-      v-if="gkConfig.notice"
       show
-      variant="dark"
+      :variant="gkConfig().conf.login_banner.variant"
       :hidden="false"
       class="mb-2 mx-auto"
       style="max-width:35em"
+      v-html="gkConfig().conf.login_banner.content"
     >
-      <i>Demo Account Details:</i>
-      <br />Organisation:
-      <b>WALLMART</b>
-      <br />Username:
-      <b>admin</b>
-      <br />Password:
-      <b>admin</b>
     </b-alert>
     <!-- Login card -->
     <b-card

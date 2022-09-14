@@ -134,7 +134,7 @@
             <b-nav-item to="/accounts/-1/-1/-1">
               <b-icon icon="files-alt"></b-icon><translate> Accounts</translate>
             </b-nav-item>
-            <b-nav-item to="/budgets/cash/-1">
+            <b-nav-item disabled to="/budgets/cash/-1">
               <b-icon icon="file-ruled"></b-icon><translate> Budget</translate>
             </b-nav-item>
             <b-nav-item
@@ -151,7 +151,7 @@
               <b-icon icon="journals"></b-icon
               ><translate> Close Books / Roll Over</translate>
             </b-nav-item>
-            <b-nav-item to="/bank-recon">
+            <b-nav-item to="/bank-recon" disabled>
               <b-icon icon="journals"></b-icon
               ><translate> Bank Reconciliation</translate>
             </b-nav-item>
@@ -249,7 +249,7 @@
               :icon="collapsed.gst ? 'caret-down-fill' : 'caret-right-fill'"
               class="text-right"
             ></b-icon>
-            GST
+            GST <b-badge pill>WIP</b-badge>
           </h6>
           <b-collapse v-model="collapsed.gst" id="gst">
             <b-nav-item to="/gst/r1">
@@ -299,6 +299,13 @@
             </b-nav-item>
           </b-collapse>
         </b-nav>
+        <hr />
+        <b-alert
+          class="m-2"
+          :variant="gkConfig().conf.sidebar_banner.variant"
+          :show="gkConfig().conf.sidebar_banner.show"
+          v-html="gkConfig().conf.sidebar_banner.content"
+        ></b-alert>
       </template>
     </b-sidebar>
   </section>
