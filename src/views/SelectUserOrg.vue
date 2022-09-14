@@ -113,7 +113,9 @@
     </b-card>
     <!-- Org selection -->
     <b-card v-else class="mt-3">
-      <span class="h3 underline">Welcome {{ form.name || userName || '' }}!</span>
+      <span class="h3 underline"
+        >Welcome {{ form.name || userName || '' }}!</span
+      >
       <b-button @click="onLogout" class="float-right" size="sm"
         >Logout</b-button
       >
@@ -131,7 +133,7 @@
               >Create Org</b-button
             >
           </div>
-          <b-table-lite
+          <b-table
             head-variant="dark"
             small
             bordered
@@ -140,8 +142,15 @@
             :fields="orgFields"
             responsive
             :sticky-header="true"
-            v-if="orgs.length"
+            v-if="isOrgLoading || orgs.length"
+            :busy="isOrgLoading"
           >
+            <template #table-busy>
+              <div class="text-center">
+                <b-spinner class="align-middle" type="grow"></b-spinner>
+                <strong> <translate>Fetching List...</translate> </strong>
+              </div>
+            </template>
             <template #cell(year)="data">
               <v-select
                 :reduce="(option) => option.index"
@@ -155,12 +164,12 @@
             <template #cell(role)="data">
               {{ userRoles[data.value] }}
             </template>
-          </b-table-lite>
+          </b-table>
           <b v-else>You are not part of any organisations yet</b>
         </b-col>
         <b-col>
           <h5 class="mb-3">Invitations</h5>
-          <b-table-lite
+          <b-table
             head-variant="dark"
             small
             bordered
@@ -168,8 +177,15 @@
             :items="invitedOrgs"
             :fields="invOrgFields"
             responsive
-            v-if="invitedOrgs.length"
+            v-if="isOrgLoading || invitedOrgs.length"
+            :busy="isOrgLoading"
           >
+            <template #table-busy>
+              <div class="text-center">
+                <b-spinner class="align-middle" type="grow"></b-spinner>
+                <strong> <translate>Fetching List...</translate> </strong>
+              </div>
+            </template>
             <template #cell(role)="data">
               {{ userRoles[data.value] }}
             </template>
@@ -190,7 +206,7 @@
                 </b-button>
               </div>
             </template>
-          </b-table-lite>
+          </b-table>
           <b v-else>No invitations pending</b>
         </b-col>
       </b-row>
@@ -256,6 +272,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      isOrgLoading: false,
       showForm: {
         createOrg: false,
         resetPwd: false,
@@ -327,7 +344,7 @@ export default {
       });
       this.orgs = [];
       this.invitedOrgs = [];
-      localStorage.removeItem("userName");
+      localStorage.removeItem('userName');
     },
     initOrgs(orgsData) {
       this.orgs = [];
@@ -489,6 +506,7 @@ export default {
           username: this.form.name,
           userpassword: this.form.pwd,
         };
+        this.isOrgLoading = true;
         axios
           .post(`${this.gkCoreUrl}/login?type=user`, payload)
           .then((resp) => {
@@ -526,6 +544,9 @@ export default {
                   variant: 'danger',
                 });
             }
+          })
+          .finally(() => {
+            this.isOrgLoading = false;
           });
       }
     },
@@ -605,6 +626,7 @@ export default {
       const userAuthStatus = localStorage.getItem('userAuthenticated');
       const userAuthToken = localStorage.getItem('userAuthToken');
       if (userAuthStatus === 'true') {
+        this.isOrgLoading = true;
         axios
           .get(`${this.gkCoreUrl}/gkusers?type=get_user_orgs`, {
             headers: {
@@ -616,6 +638,9 @@ export default {
             if (resp.data.gkstatus === 0) {
               this.initOrgs(resp.data.gkresult);
             }
+          })
+          .finally(() => {
+            this.isOrgLoading = false;
           });
       }
     },
