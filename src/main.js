@@ -15,6 +15,8 @@ import translations from './locales/translations.json';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import { mapState } from 'vuex';
+// app config
+import gkappConfig from '../gkapp.config';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
@@ -45,12 +47,6 @@ Vue.mixin({
   },
   computed: {
     // https://cli.vuejs.org/guide/mode-and-env.html#modes
-    gkConfig() {
-      return {
-        mode: process.env.NODE_ENV || 'production',
-        notice: process.env.VUE_APP_GKAPP_NOTICE || true,
-      };
-    },
     ...mapState(['userAuthenticated']),
   },
   methods: {
@@ -58,6 +54,13 @@ Vue.mixin({
 
     // fetch latest gst news from api & check if
     // new news items are available
+    gkConfig() {
+      return {
+        mode: process.env.NODE_ENV || 'production',
+        notice: process.env.VUE_APP_GKAPP_NOTICE || true,
+        conf: gkappConfig,
+      };
+    },
     is_mobile() {
       return window.innerWidth <= 768 ? true : false;
     },

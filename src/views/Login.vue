@@ -1,20 +1,13 @@
 <template>
   <section class="m-2">
     <b-alert
-      v-if="gkConfig.notice"
       show
-      variant="dark"
+      :variant="gkConfig().conf.login_banner.variant"
       :hidden="false"
       class="mb-2 mx-auto"
       style="max-width:35em"
+      v-html="gkConfig().conf.login_banner.content"
     >
-      <i>Demo Account Details:</i>
-      <br />Organisation:
-      <b>WALLMART</b>
-      <br />Username:
-      <b>admin</b>
-      <br />Password:
-      <b>admin</b>
     </b-alert>
     <!-- Login card -->
     <b-card
@@ -111,7 +104,11 @@
             </b-button>
             <b-button class="m-1" variant="success" type="submit">
               <b-spinner v-if="isLoading" small></b-spinner>
-              <b-icon class="mr-1" v-if="!isLoading" icon="box-arrow-in-right"></b-icon>
+              <b-icon
+                class="mr-1"
+                v-if="!isLoading"
+                icon="box-arrow-in-right"
+              ></b-icon>
               <translate> Login</translate>
             </b-button>
           </b-button-group>
@@ -131,7 +128,7 @@ export default {
   components: { Captcha, GkCardheader, Password },
   data() {
     return {
-      orgNameDisplay: "",
+      orgNameDisplay: '',
       captchaSolved: false,
       isLoading: false,
       answer: null,
