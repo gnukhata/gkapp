@@ -10,10 +10,12 @@
       >
         <b-form @submit.prevent="check">
           <b-form-group label="Product" label-align="right" label-cols="auto">
+            <!-- select product -->
             <v-select
               placeholder="Select Product"
               :options="productList"
               v-model="productId"
+              required
             ></v-select>
           </b-form-group>
           <div class="row">
@@ -109,7 +111,11 @@
               this.fromDate
             )}&calculateto=${dateReverse(this.toDate)}&productcode=${
               productId.id
-            }`
+            }&productdesc=${productId.label}&godownflag=${
+              this.showGodowns ? '1' : '0'
+            }&goid=${this.godownId}&goname=${
+              getGodownName(this.godownId).text
+            }&goaddr=${getGodownName(this.godownId).text}`
           "
           fileExtn="xlsx"
         ></gk-file-download>
@@ -245,6 +251,8 @@ import ReportHeader from './ReportHeader.vue';
 import { mapState } from 'vuex';
 import GkFileDownload from '@/components/GkFileDownload.vue';
 import GkToolbar from './GkToolbar.vue';
+import autocomplete from '@/components/Autocomplete.vue';
+
 export default {
   name: 'ProductRegister',
   components: {
@@ -252,6 +260,7 @@ export default {
     ReportHeader,
     GkFileDownload,
     GkToolbar,
+    autocomplete,
   },
   data() {
     return {
@@ -297,6 +306,14 @@ export default {
     };
   },
   methods: {
+    getGodownName(id) {
+      if (!this.showGodowns) {
+        return 'name';
+      }
+      return this.godowns.filter((go) => {
+        return go.value == id;
+      })[0];
+    },
     check() {
       if (this.showGodowns) {
         this.getGodownStock();
