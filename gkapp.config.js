@@ -4,7 +4,7 @@ const conf = {
     // allowed variants: primary, secondary, link, light, dark
     variant: 'info',
     // text, html is supported
-    content: `Demo Organisation: <b>WALLMART</b> <br/> User/Password: <b>admin</b>`,
+    content: `Demo Organisation: <b>WALLMART</b> <br/> User/Password: WM_admin/admin`,
   },
   sidebar_banner: {
     show: true,
