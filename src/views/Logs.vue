@@ -94,7 +94,7 @@
     <b-alert
       class="text-center mt-5 mx-auto"
       style="width: 20em"
-      v-if="log.length == 0"
+      v-if="log.length == 0 && !isLoading"
       show
       variant="warning"
     >
