@@ -18,33 +18,45 @@
               alt="logo"
             />
           </router-link>
-          <div class="ml-2 d-inline-block text-truncate">
+          <div class="ml-2 d-inline-block">
             <!-- truncate org name in mobile view -->
-            <div
-              :class="{ 'text-truncate': is_mobile() }"
-              :style="{ 'max-width': is_mobile() ? '6.5em' : '' }"
-            >
-              <span
+            <div>
+              <div
                 v-b-tooltip.click
-                v-if="this.orgName"
-                :title="this.orgName"
                 class="text-sm"
+                :class="{ 'text-truncate': is_mobile() }"
+                :style="{ 'max-width': is_mobile() ? '6.5em' : '' }"
               >
-                {{ this.orgName }}
-              </span>
-              <div v-else class="mt-1">
-                <translate>
-                  GNUKhata
-                </translate>
+                <span v-if="this.orgName">
+                  {{ this.orgName }}
+                </span>
+                <span v-else>
+                  <translate>
+                    GNUKhata
+                  </translate>
+                </span>
               </div>
               <div
                 style="font-size: 0.6em"
                 class="font-italic"
                 v-if="userOrgAuthenticated"
               >
-                FY {{ yearStart.split('-')[0] }} -
+                <!-- FY {{ yearStart.split('-')[0] }} - -->
                 <!-- WARN: beware of Y3K Bug -->
-                {{ yearEnd.split('-')[0].slice(2, 4) }}
+                <!-- {{ yearEnd.split('-')[0].slice(2, 4) }} -->
+                <v-select
+                  :reduce="(option) => option.index"
+                  :options="finYears"
+                  v-model="currentFinYear"
+                  class="mw-100p"
+                  id="fin-years"
+                >
+                  <template #selected-option="{ yend, ystart }">
+                    FY {{ ystart.split('-')[2] }} -
+                    <!-- WARN: beware of Y3K Bug -->
+                    {{ yend.split('-')[2].slice(2, 4) }}
+                  </template>
+                </v-select>
               </div>
             </div>
           </div>
@@ -57,7 +69,7 @@
                 icon="person"
                 :title="userName"
               ></b-avatar>
-              {{ userName }}
+              <span class="d-none d-md-inline"> {{ userName }} </span>
             </template>
             <b-dropdown-item v-b-modal.change-pwd>
               <b-icon icon="key"></b-icon> Change Password
@@ -91,6 +103,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 import { mapState } from 'vuex';
 // import ColorBar from '@/components/ColorBar.vue';
 import ChangePwd from '@/components/form/ChangePwd.vue';
@@ -100,6 +113,11 @@ import GoTo from './components/GoTo.vue';
 export default {
   name: 'App',
   components: { /* ColorBar, */ ChangePwd, Sidebar, TitleBar, GoTo },
+  data() {
+    return {
+      currentFinYear: null,
+    };
+  },
   computed: {
     activeNav: (self) => self.$route.name,
     ...mapState([
@@ -111,7 +129,33 @@ export default {
       'orgImg',
       'yearStart',
       'yearEnd',
+      'finYears',
     ]),
+  },
+  watch: {
+    currentFinYear(index) {
+      this.orgLogin(this.finYears[index]);
+    },
+    yearStart(newStart, oldStart) {
+      if (!oldStart && newStart && !this.currentFinYear) {
+        let res = null;
+        if (this.yearStart && this.yearEnd) {
+          let ystart = this.yearStart
+            .split('-')
+            .reverse()
+            .join('-');
+          let yend = this.yearEnd
+            .split('-')
+            .reverse()
+            .join('-');
+          let currentYear = this.finYears.find(
+            (ydata) => ydata.ystart === ystart && ydata.yend === yend
+          );
+          res = currentYear;
+        }
+        this.currentFinYear = res;
+      }
+    },
   },
   methods: {
     /*
@@ -121,6 +165,79 @@ export default {
       setTimeout(() => {
         this.$refs['change-pwd-close'].hide();
       }, 1500);
+    },
+    orgLogin(yearData) {
+      if (!yearData) {
+        return;
+      }
+      const userAuthToken = localStorage.getItem('userAuthToken');
+      let selectedYear = yearData;
+      let payload = {
+        orgcode: selectedYear.code,
+      };
+      // TODO: here instead of sending the username and password, send the new user auth token
+      axios
+        .post(`${this.gkCoreUrl}/login?type=org`, payload, {
+          headers: {
+            gktoken: userAuthToken,
+            gkusertoken: userAuthToken,
+          },
+        })
+        .then((resp) => {
+          switch (resp.data.gkstatus) {
+            case 0:
+              axios.defaults.baseURL = this.gkCoreUrl;
+              axios.defaults.headers = { gktoken: resp.data.token };
+              // Initiate vuex store
+              this.$store.dispatch('setSessionStates', {
+                auth: true,
+                orgCode: selectedYear.code,
+                authToken: resp.data.token,
+                orgYears: {
+                  yearStart: selectedYear.ystart
+                    .split('-')
+                    .reverse()
+                    .join('-'),
+                  yearEnd: selectedYear.yend
+                    .split('-')
+                    .reverse()
+                    .join('-'),
+                },
+              });
+
+              Promise.all([
+                this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
+                this.$store.dispatch('global/initGlobalConfig'), // initialises global config
+              ]).then(() => {
+                this.$store
+                  .dispatch('global/initGlobalState', {
+                    lang: this.$language,
+                  })
+                  .then(() => {
+                    // debugger;
+                    // redirect to workflow on login
+                    location.reload();
+                  });
+              });
+              break;
+            case 2:
+              this.$bvToast.toast(`Invalid login details`, {
+                title: 'Login Error!',
+                autoHideDelay: 3000,
+                variant: 'danger',
+              });
+              break;
+            case 5:
+              this.$router.push('/select-org');
+              break;
+            default:
+              this.$bvToast.toast(`Internal Server Error`, {
+                title: 'Login Error!',
+                autoHideDelay: 3000,
+                variant: 'danger',
+              });
+          }
+        });
     },
   },
   beforeCreate() {
@@ -154,6 +271,23 @@ export default {
         }, 3000);
       });
     }
+
+    if (this.yearStart && this.yearEnd) {
+      let ystart = this.yearStart
+        .split('-')
+        .reverse()
+        .join('-');
+      let yend = this.yearEnd
+        .split('-')
+        .reverse()
+        .join('-');
+      let currentYear = this.finYears.find(
+        (ydata) => ydata.ystart === ystart && ydata.yend === yend
+      );
+      this.currentFinYear = currentYear;
+    } else {
+      this.currentFinYear = null;
+    }
   },
   created() {
     // this.get_org_address();
@@ -161,3 +295,11 @@ export default {
   },
 };
 </script>
+<style>
+.mw-100p {
+  max-width: 155px;
+}
+#fin-years .vs__dropdown-option {
+  padding-left: 1em;
+}
+</style>

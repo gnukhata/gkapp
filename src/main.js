@@ -206,6 +206,11 @@ Vue.mixin({
       // change auth status
       this.$store.commit('setUserOrgAuthStatus');
 
+      // remove custom states in localhost
+      localStorage.removeItem('orgChoice');
+      localStorage.removeItem('orgArray');
+      localStorage.removeItem('orgCodeChoice');
+
       // delete items from localStorage
       let deleteList = ['authToken', 'orgCode', 'orgName', 'orgyears'];
       for (let i in deleteList) {

@@ -113,18 +113,22 @@
     </b-card>
     <!-- Org selection -->
     <b-card v-else class="mt-3">
-      <span class="h3 underline"
-        >Welcome {{ form.name || userName || '' }}!</span
-      >
-      <b-button @click="onLogout" class="float-right" size="sm"
-        >Logout</b-button
-      >
+      <div class="d-flex justify-content-between">
+        <span class="h6 underline"
+          >Welcome {{ form.name || userName || '' }}!</span
+        >
+        <b-button @click="onLogout" class="float-right" size="sm"
+          >Logout</b-button
+        >
+      </div>
       <div class="clearfix"></div>
       <hr />
       <b-row>
         <b-col>
           <div class="mb-2">
-            <h5 class="d-inline-block">Your Organisations</h5>
+            <h5 class="d-inline-block">
+              Organisations <span> ({{ orgs.length }}) </span>
+            </h5>
             <b-button
               size="sm"
               :disabled="showForm.createOrg"
@@ -144,6 +148,7 @@
             :sticky-header="true"
             v-if="isOrgLoading || orgs.length"
             :busy="isOrgLoading"
+            id="org-table"
           >
             <template #table-busy>
               <div class="text-center">
@@ -151,12 +156,21 @@
                 <strong> <translate>Fetching List...</translate> </strong>
               </div>
             </template>
+            <template #cell(index)="data">
+              {{ data.index + 1 }}
+            </template>
             <template #cell(year)="data">
               <v-select
                 :reduce="(option) => option.index"
                 :options="data.item.yearData"
                 v-model="data.item.selected"
-              ></v-select>
+              >
+                <template #selected-option="{ yend, ystart }">
+                  <div class="text-truncate">{{ ystart }}</div>
+                  <div>to</div>
+                  <div class="text-truncate">{{ yend }}</div>
+                </template>
+              </v-select>
             </template>
             <template #cell(action)="data">
               <b-button size="sm" @click="orgLogin(data.item)"> Open </b-button>
@@ -168,7 +182,9 @@
           <b v-else>You are not part of any organisations yet</b>
         </b-col>
         <b-col>
-          <h5 class="mb-3">Invitations</h5>
+          <h5 class="mb-3">
+            Invitations <span> ({{ invitedOrgs.length }}) </span>
+          </h5>
           <b-table
             head-variant="dark"
             small
@@ -186,23 +202,29 @@
                 <strong> <translate>Fetching List...</translate> </strong>
               </div>
             </template>
+            <template #cell(index)="data">
+              {{ data.index + 1 }}
+            </template>
             <template #cell(role)="data">
               {{ userRoles[data.value] }}
             </template>
             <template #cell(action)="data">
-              <div>
+              <div class="d-flex">
                 <b-button
                   @click="onAcceptInvite(data.index, data.item.name)"
                   size="sm"
-                  class="mx-1"
+                  class="p-1 mx-1"
+                  variant="success"
                 >
-                  Accept
+                  <b-icon scale="0.9" icon="check-circle"></b-icon>
                 </b-button>
                 <b-button
                   @click="onRejectInvite(data.index, data.item.name)"
                   size="sm"
+                  class="p-1"
+                  variant="danger"
                 >
-                  Reject
+                  <b-icon scale="0.9" icon="trash"></b-icon>
                 </b-button>
               </div>
             </template>
@@ -289,12 +311,18 @@ export default {
       orgs: [],
       invitedOrgs: [],
       orgFields: [
-        { label: 'name', key: 'name', stickyColumn: true },
+        { label: 'No.', key: 'index', stickyColumn: true },
+        { label: 'Name', key: 'name', stickyColumn: true },
         'role',
-        'year',
+        // 'year',
         'action',
       ],
-      invOrgFields: ['name', 'role', 'action'],
+      invOrgFields: [
+        { label: 'No.', key: 'index', stickyColumn: true },
+        { label: 'Name', key: 'name', stickyColumn: true },
+        'role',
+        'action',
+      ],
       selectedOrg: null,
       userRoles: {
         '-1': 'Admin',
@@ -341,6 +369,7 @@ export default {
       this.$store.dispatch('setSessionStates', {
         userAuth: false,
         userAuthToken: null,
+        finYears: [],
       });
       this.orgs = [];
       this.invitedOrgs = [];
@@ -567,41 +596,57 @@ export default {
         .then((resp) => {
           switch (resp.data.gkstatus) {
             case 0:
-              axios.defaults.baseURL = this.gkCoreUrl;
-              axios.defaults.headers = { gktoken: resp.data.token };
-              // Initiate vuex store
-              this.$store.dispatch('setSessionStates', {
-                auth: true,
-                orgCode: selectedYear.code,
-                orgName: `${orgData.name} (${orgData.type})`,
-                authToken: resp.data.token,
-                user: { username: this.form.name },
-                orgYears: {
-                  yearStart: selectedYear.ystart
-                    .split('-')
-                    .reverse()
-                    .join('-'),
-                  yearEnd: selectedYear.yend
-                    .split('-')
-                    .reverse()
-                    .join('-'),
-                },
-              });
+              {
+                axios.defaults.baseURL = this.gkCoreUrl;
+                axios.defaults.headers = { gktoken: resp.data.token };
 
-              Promise.all([
-                this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
-                this.$store.dispatch('global/initGlobalConfig'), // initialises global config
-              ]).then(() => {
-                this.$store
-                  .dispatch('global/initGlobalState', {
-                    lang: this.$language,
-                  })
-                  .then(() => {
-                    // debugger;
-                    // redirect to workflow on login
-                    this.$router.push('/workflow/Transactions-Invoice/-1');
-                  });
-              });
+                // Initiate Custom states to localhost
+                let orgName = orgData.name;
+                let orgType = orgData.type;
+                // Save org name for next login
+                localStorage.setItem('orgChoice', `${orgName} (${orgType})`);
+                // useful in consolidated final accounts
+                localStorage.setItem(
+                  'orgArray',
+                  JSON.stringify([orgName, orgType])
+                );
+                localStorage.setItem('orgCodeChoice', selectedYear.code);
+
+                // Initiate vuex store
+                this.$store.dispatch('setSessionStates', {
+                  auth: true,
+                  orgCode: selectedYear.code,
+                  orgName: `${orgName} (${orgType})`,
+                  authToken: resp.data.token,
+                  user: { username: this.form.name },
+                  orgYears: {
+                    yearStart: selectedYear.ystart
+                      .split('-')
+                      .reverse()
+                      .join('-'),
+                    yearEnd: selectedYear.yend
+                      .split('-')
+                      .reverse()
+                      .join('-'),
+                  },
+                  finYears: orgData.yearData,
+                });
+
+                Promise.all([
+                  this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
+                  this.$store.dispatch('global/initGlobalConfig'), // initialises global config
+                ]).then(() => {
+                  this.$store
+                    .dispatch('global/initGlobalState', {
+                      lang: this.$language,
+                    })
+                    .then(() => {
+                      // debugger;
+                      // redirect to workflow on login
+                      this.$router.push('/workflow/Transactions-Invoice/-1');
+                    });
+                });
+              }
               break;
             case 2:
               this.$bvToast.toast(`Invalid login details`, {
@@ -650,3 +695,10 @@ export default {
   },
 };
 </script>
+
+<style>
+#org-table .vs__selected {
+  display: flex;
+  flex-direction: column;
+}
+</style>

@@ -30,6 +30,7 @@ export default new Vuex.Store({
     yearStart: null,
     yearEnd: null,
     newGstNews: false,
+    finYears: [],
 
     gkTestUrl: 'http://localhost:6543',
     gkCoreUrl: null,
@@ -102,6 +103,7 @@ export default new Vuex.Store({
         const orgName = localStorage.getItem('orgName');
         const orgYears = JSON.parse(localStorage.getItem('orgYears'));
         const orgType = JSON.parse(localStorage.getItem('orgArray'));
+        const finYears = JSON.parse(localStorage.getItem('finYears'));
 
         if (orgCode) {
           state.orgCode = parseInt(orgCode);
@@ -121,6 +123,9 @@ export default new Vuex.Store({
         }
         if (orgType) {
           state.orgType = orgType[1];
+        }
+        if (finYears) {
+          state.finYears = finYears;
         }
       }
 
@@ -198,6 +203,13 @@ export default new Vuex.Store({
       }
     },
 
+    setFinYears(state, payload) {
+      if (payload) {
+        state.finYears = payload;
+        localStorage.setItem('finYears', JSON.stringify(state.finYears));
+      }
+    },
+
     /* User */
     user(state, payload) {
       if (payload.username) {
@@ -264,6 +276,9 @@ export default new Vuex.Store({
       if (payload.orgName !== undefined) {
         commit('setOrgName', payload.orgName);
       }
+      if (payload.finYears !== undefined) {
+        commit('setFinYears', payload.finYears);
+      }
       if (payload.authToken !== undefined) {
         commit('setAuthToken', payload.authToken);
       }
@@ -286,5 +301,24 @@ export default new Vuex.Store({
     isUserOrgAuthenticated: (state) => state.userOrgAuthenticated,
     getOrgCode: (state) => state.orgCode,
     getOrgAddress: (state) => state.orgAddress,
+    // currentFinYear: (state) => {
+    //   let res = null;
+    //   if (state.yearStart && state.yearEnd) {
+    //     let ystart = state.yearStart
+    //       .split('-')
+    //       .reverse()
+    //       .join('-');
+    //     let yend = state.yearEnd
+    //       .split('-')
+    //       .reverse()
+    //       .join('-');
+    //     let currentYear = state.finYears.find(
+    //       (ydata) => ydata.ystart === ystart && ydata.yend === yend
+    //     );
+    //     res = currentYear;
+    //   }
+    //   return res;
+    // },
+    // getFinYears: (state) => state.finYears,
   },
 });
