@@ -138,7 +138,7 @@
                             style="max-width: 150px"
                             v-model="form.stock.godowns[index].id"
                             :options="options.godowns"
-                            :required="!!form.stock.godowns[index].value"
+                            :required="!!form.stock.godowns[index].qty"
                             :isOptionsShared="true"
                             emptyValue=""
                             :readonly="!index"
@@ -146,11 +146,19 @@
                         </b-input-group-prepend>
                         <b-form-input
                           size="sm"
-                          v-model="godown.value"
+                          v-model="godown.qty"
                           type="number"
                           no-wheel
                           step="0.01"
-                          placeholder="Stock qty"
+                          placeholder="Qty"
+                        ></b-form-input>
+                        <b-form-input
+                          size="sm"
+                          v-model="godown.rate"
+                          type="number"
+                          no-wheel
+                          step="0.01"
+                          placeholder="Value"
                         ></b-form-input>
                         <b-input-group-append>
                           <b-button
@@ -603,7 +611,8 @@ export default {
           godowns: [
             {
               id: '',
-              value: null,
+              qty: null,
+              rate: null
             },
           ], // opening stock based on godown
           value: 0, // opening stock
@@ -719,7 +728,7 @@ export default {
       this.form.tax.gsts.splice(index, 1);
     },
     addGodown() {
-      this.form.stock.godowns.push({ id: '', value: '' });
+      this.form.stock.godowns.push({ id: '', qty: null, rate: null });
     },
     deleteGodown(index) {
       this.form.stock.godowns.splice(index, 1);
@@ -915,8 +924,9 @@ export default {
 
           // format and store godetails, format -> {godownId : stockCount}
           product.godetails = this.form.stock.godowns.reduce((acc, godown) => {
-            if (godown.value >= 0 && godown.id) {
-              acc[godown.id] = godown.value;
+            if (godown.qty >= 0 && godown.id) {
+              // TODO: add godown open stock value
+              acc[godown.id] = {qty: godown.qty, rate: godown.rate};
             }
             return acc;
           }, {});

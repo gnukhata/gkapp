@@ -103,7 +103,7 @@ This report can be viewed for any period`)
           </b-table-simple>
         </div>
         <div class="col">
-          <b-table-simple striped small bordered hover>
+          <b-table-simple class="mb-1" striped small bordered hover>
             <b-thead head-variant="dark">
               <b-tr>
                 <b-th v-translate>Particulars</b-th>
@@ -139,7 +139,9 @@ This report can be viewed for any period`)
               </b-tr>
               <b-tr>
                 <b-th v-translate>Closing Stock</b-th>
-                <b-th class="text-right">{{ result['Closing Stock'] }}</b-th>
+                <b-th class="text-right">
+                  {{ result['Closing Stock']['total'] }}
+                </b-th>
               </b-tr>
               <b-tr>
                 <b-th><b v-translate>Total</b></b-th>
@@ -149,6 +151,7 @@ This report can be viewed for any period`)
               </b-tr>
             </b-tbody>
           </b-table-simple>
+          <small> <b> * (Closing Stock is calculated using FIFO algorithm) </b> </small>
         </div>
       </div>
     </b-overlay>

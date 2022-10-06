@@ -127,10 +127,7 @@
           label="Selling Price"
           label-cols="4"
         >
-          <b-form-input
-            size="sm"
-            v-model="details.prodsp"
-          ></b-form-input>
+          <b-form-input size="sm" v-model="details.prodsp"></b-form-input>
         </b-form-group>
         <!-- discount -->
         <b-form-group
@@ -375,11 +372,20 @@
             <b-form-input
               class="mx-2"
               size="sm"
-              v-model="godown.value"
+              v-model="godown.qty"
               type="number"
               no-wheel
               step="0.01"
-              placeholder="Stock qty"
+              placeholder="Qty"
+            ></b-form-input>
+            <b-form-input
+              class="mx-2"
+              size="sm"
+              v-model="godown.rate"
+              type="number"
+              no-wheel
+              step="0.01"
+              placeholder="Value"
             ></b-form-input>
             <b-button
               variant="outline-secondary"
@@ -616,7 +622,10 @@ export default {
               let godowns = {};
               this.godowns.forEach((godown) => {
                 if (godown.id) {
-                  godowns[godown.id] = parseFloat(godown.value) || 0;
+                  godowns[godown.id] = {
+                    qty: parseFloat(godown.qty) || 0,
+                    rate: parseFloat(godown.rate) || 0,
+                  };
                 }
               });
               payload['godetails'] = godowns;
@@ -915,7 +924,8 @@ export default {
           this.godowns = res.data.gkresult.map((godown) => {
             return {
               id: godown.goid,
-              value: godown.goopeningstock,
+              qty: godown.goopeningstock,
+              rate: godown.openingstockvalue,
             };
           });
           this.oldGodowns = this.godowns.slice();
@@ -1070,7 +1080,7 @@ export default {
       });
     },
     addGodown() {
-      this.godowns.push({ id: '', value: '' });
+      this.godowns.push({ id: '', qty: null, rate: null });
     },
     deleteGodown(index) {
       this.godowns.splice(index, 1);
