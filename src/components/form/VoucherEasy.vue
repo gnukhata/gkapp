@@ -294,7 +294,7 @@ export default {
               {
                 self.displayToast(
                   this.$gettext('Success!'),
-                  this.$gettext(`Successfully ${self.defComment}`),
+                  `Successfully ${self.defComment}`,
                   'success'
                 );
                 const accMap = self.options.acc;
