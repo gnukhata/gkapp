@@ -134,7 +134,7 @@
             <b-nav-item to="/accounts/-1/-1/-1">
               <b-icon icon="files-alt"></b-icon><translate> Accounts</translate>
             </b-nav-item>
-            <b-nav-item disabled to="/budgets/cash/-1">
+            <b-nav-item to="/budgets/cash/-1">
               <b-icon icon="file-ruled"></b-icon><translate> Budget</translate>
             </b-nav-item>
             <b-nav-item
@@ -151,7 +151,7 @@
               <b-icon icon="journals"></b-icon
               ><translate> Close Books / Roll Over</translate>
             </b-nav-item>
-            <b-nav-item to="/bank-recon" disabled>
+            <b-nav-item to="/bank-recon">
               <b-icon icon="journals"></b-icon
               ><translate> Bank Reconciliation</translate>
             </b-nav-item>
