@@ -58,39 +58,6 @@
     </b-overlay>
     <!-- report -->
     <div v-if="report.length > 0" class="mt-2">
-      <!-- filters -->
-      <div>
-        <b-form-checkbox-group
-          @change="applyFilters"
-          @input="applyFilters"
-          class="text-center mb-2"
-          v-model="invoiceFilter"
-        >
-          <b-form-checkbox value="invoice"
-            ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
-          >
-          <b-form-checkbox value="Rejection Note"
-            ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
-            Note</b-form-checkbox
-          >
-          <b-form-checkbox value="Debit Note"
-            ><b-icon icon="file-earmark-minus" variant="warning"></b-icon> Debit
-            Note</b-form-checkbox
-          >
-          <b-form-checkbox value="Credit Note"
-            ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
-            Note</b-form-checkbox
-          >
-        </b-form-checkbox-group>
-      </div>
-      <!-- search bar -->
-      <div class="gkcard mx-auto mb-4">
-        <b-form-input
-          v-model="search"
-          class="border-dark"
-          placeholder="search invoices"
-        ></b-form-input>
-      </div>
       <report-header>
         <template>
           <div class="text-center">
@@ -103,8 +70,47 @@
           </div>
         </template>
       </report-header>
-      <!-- Report download -->
+      <!-- Toolbar -->
       <gk-toolbar>
+        <!-- search bar -->
+        <template #left>
+          <b-form-input
+            size="sm"
+            v-model="search"
+            class="border-dark"
+            style="align-self: center"
+            placeholder="search invoices"
+          ></b-form-input>
+        </template>
+        <!-- filters -->
+        <gk-hovermenu>
+          <div class="font-weight-bold bg-dark text-light p-1 mb-1">
+            Invoice Type
+          </div>
+          <b-form-checkbox-group
+            @change="applyFilters"
+            @input="applyFilters"
+            class=""
+            v-model="invoiceFilter"
+          >
+            <b-form-checkbox value="invoice"
+              ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
+            >
+            <b-form-checkbox value="Rejection Note"
+              ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
+              Note</b-form-checkbox
+            >
+            <b-form-checkbox value="Debit Note"
+              ><b-icon icon="file-earmark-minus" variant="warning"></b-icon>
+              Debit Note</b-form-checkbox
+            >
+            <b-form-checkbox value="Credit Note"
+              ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
+              Note</b-form-checkbox
+            >
+          </b-form-checkbox-group>
+        </gk-hovermenu>
+        <!-- Report download -->
         <gk-file-download
           :url="
             `/spreadsheet?stock-report&calculatefrom=${dateReverse(
@@ -252,6 +258,7 @@ import { mapState } from 'vuex';
 import GkFileDownload from '@/components/GkFileDownload.vue';
 import GkToolbar from './GkToolbar.vue';
 import autocomplete from '@/components/Autocomplete.vue';
+import GkHovermenu from '@/components/GkHovermenu.vue';
 
 export default {
   name: 'ProductRegister',
@@ -261,6 +268,7 @@ export default {
     GkFileDownload,
     GkToolbar,
     autocomplete,
+    GkHovermenu,
   },
   data() {
     return {

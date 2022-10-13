@@ -39,65 +39,74 @@
           {{ dateReverse(this.yearEnd) }}
         </div>
       </report-header>
-      <!-- Radio buttons -->
-      <div class="mt-3 d-print-none" v-if="result !== null">
-        <b-form-radio-group
-          v-model="trialBalanceType"
-          name="radio-options"
-          class="mx-auto text-center d-print-none mb-3"
-        >
-          <b-form-radio value="Net"
-            ><translate> Net</translate>
-
-            <gk-tooltip
-              class="ml-1"
-              icon="info-circle"
-              :helpTitle="$gettext('Net Trial Balance')"
-              :help-body="
-                $gettext(
-                  'The Net Trial Balance will provide the closing balances (or current balance as on selected end date)'
-                )
-              "
-            ></gk-tooltip>
-          </b-form-radio>
-          <b-form-radio value="Gross"
-            ><translate>Gross</translate>
-
-            <gk-tooltip
-              class="ml-1"
-              icon="info-circle"
-              :helpTitle="$gettext('Gross Trial Balance')"
-              :help-body="
-                $gettext(
-                  'The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances'
-                )
-              "
-            ></gk-tooltip>
-          </b-form-radio>
-          <b-form-radio value="Extended"
-            ><translate>Extended</translate>
-
-            <gk-tooltip
-              class="ml-1"
-              icon="info-circle"
-              :helpTitle="$gettext('Extended Trial Balance')"
-              :help-body="
-                $gettext(
-                  'The extended version shows all gross & net trial balances with Opening Balances'
-                )
-              "
-            ></gk-tooltip>
-          </b-form-radio>
-        </b-form-radio-group>
-        <!-- search bar -->
-        <b-form-input
-          v-model.lazy="search"
-          type="text"
-          class="mx-auto gkcard mb-2"
-          :placeholder="$gettext('Search trial balance')"
-        ></b-form-input>
+      <div class="mt-3" v-if="result !== null">
         <!-- Toolbar -->
         <gk-toolbar>
+          <template #left>
+            <!-- search bar -->
+            <b-form-input
+              size="sm"
+              v-model.lazy="search"
+              type="text"
+              :placeholder="$gettext('Search trial balance')"
+              style="align-self: center"
+            ></b-form-input>
+          </template>
+          <!-- Select balance type buttons -->
+          <gk-hovermenu>
+            <div class="bg-dark text-light p-1 mb-1">
+              <b v-translate>Balance Type</b>
+            </div>
+            <b-form-radio-group
+              class="d-flex flex-column"
+              v-model="trialBalanceType"
+              name="radio-options"
+            >
+              <b-form-radio value="Net"
+                ><translate> Net</translate>
+
+                <gk-tooltip
+                  class="ml-1"
+                  icon="info-circle"
+                  :helpTitle="$gettext('Net Trial Balance')"
+                  :help-body="
+                    $gettext(
+                      'The Net Trial Balance will provide the closing balances (or current balance as on selected end date)'
+                    )
+                  "
+                ></gk-tooltip>
+              </b-form-radio>
+              <b-form-radio value="Gross"
+                ><translate>Gross</translate>
+
+                <gk-tooltip
+                  class="ml-1"
+                  icon="info-circle"
+                  :helpTitle="$gettext('Gross Trial Balance')"
+                  :help-body="
+                    $gettext(
+                      'The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances'
+                    )
+                  "
+                ></gk-tooltip>
+              </b-form-radio>
+              <b-form-radio value="Extended"
+                ><translate>Extended</translate>
+
+                <gk-tooltip
+                  class="ml-1"
+                  icon="info-circle"
+                  :helpTitle="$gettext('Extended Trial Balance')"
+                  :help-body="
+                    $gettext(
+                      'The extended version shows all gross & net trial balances with Opening Balances'
+                    )
+                  "
+                ></gk-tooltip>
+              </b-form-radio>
+            </b-form-radio-group>
+          </gk-hovermenu>
+          <!-- spreadsheet download button -->
           <gk-file-download
             v-if="trialBalanceType == 'Net'"
             :url="
@@ -207,6 +216,7 @@ import ReportHeader from '../components/ReportHeader.vue';
 import GkTooltip from '../components/GkTooltip.vue';
 import GkToolbar from '../components/GkToolbar.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
+import GkHovermenu from '@/components/GkHovermenu.vue';
 export default {
   components: {
     GkCardheader,
@@ -215,6 +225,7 @@ export default {
     GkTooltip,
     GkToolbar,
     GkFileDownload,
+    GkHovermenu,
   },
   name: 'TrialBalance',
   data() {
