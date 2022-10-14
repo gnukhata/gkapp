@@ -25,6 +25,19 @@ gkapp:
     paths:
       - dist
 
+services:
+  - docker:20.10.19-dind
+
+before_script:
+  - docker info
+
+# build gkapp docker image
+docker-image:
+  stage: build
+  script:
+    # build the docker image with latest commit hash as tag
+    - docker build -t gkapp:$(git log -1 --format=%H) .
+
 # gzip files & deploy to gitlab pages
 pages:
   stage: deploy
