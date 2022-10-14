@@ -1041,7 +1041,7 @@ export default {
               break;
             case 4:
               this.loading = false;
-              this.$bvToast.toast('You have no permissions to delete details', {
+              this.$bvToast.toast('You are not authorised to delete the Organisation Details. Please contact the admin', {
                 variant: 'danger',
                 solid: true,
               });
@@ -1072,17 +1072,8 @@ export default {
               variant: 'success',
               solid: true,
             });
-            // reset orgname
-            this.$store.commit('resetOrg');
-            // change auth status
-            this.$store.commit('setUserOrgAuthStatus');
-            // redirect to login page
-            this.$router.push('/user-login');
-            // clear localStorage
-            localStorage.clear();
-            // set gkCore url
-            this.$store.commit('setGkCoreUrl', { gkCoreUrl: this.gkCoreUrl });
             this.loading = false;
+            this.logOut();
           } else {
             this.$bvToast.toast(r.status, {
               title: 'Error',

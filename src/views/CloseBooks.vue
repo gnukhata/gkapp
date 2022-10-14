@@ -285,7 +285,8 @@ export default {
                   variant: 'success',
                   solid: true,
                 });
-                this.getDetails();
+                // this.getDetails();
+                this.logOut();
                 break;
               case 1:
                 this.$bvToast.toast(this.$gettext('Duplicate Financial Year'), {
@@ -310,7 +311,7 @@ export default {
                 break;
               case 4:
                 this.$bvToast.toast(
-                  this.$gettext('You have no access for perform this task'),
+                  this.$gettext('You do not have the access to perform this task. Please contact the admin '),
                   {
                     title: this.$gettext('Privilige Error'),
                     variant: 'danger',
