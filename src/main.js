@@ -200,6 +200,8 @@ Vue.mixin({
      * Logout the user, But preserve the gkcore url
      */
     logOut() {
+      let gkcoreUrl = this.$store.getters["getGkCoreUrl"];
+
       // reset orgname
       this.$store.commit('resetOrg');
 
@@ -218,7 +220,7 @@ Vue.mixin({
       }
 
       // set gkCore url
-      this.$store.commit('setGkCoreUrl', { gkCoreUrl: this.gkCoreUrl });
+      this.$store.commit('setGkCoreUrl', { gkCoreUrl: gkcoreUrl });
 
       // redirect to login page
       this.$router.push('/user-login');

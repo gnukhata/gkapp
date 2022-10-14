@@ -297,6 +297,7 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    getGkCoreUrl: (state) => state.gkCoreUrl,
     isUserAuthenticated: (state) => state.userAuthenticated,
     isUserOrgAuthenticated: (state) => state.userOrgAuthenticated,
     getOrgCode: (state) => state.orgCode,
