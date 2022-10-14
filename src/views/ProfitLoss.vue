@@ -59,10 +59,16 @@ This report can be viewed for any period`)
             <b-thead head-variant="dark">
               <b-tr>
                 <b-th v-translate>Particulars</b-th>
-                <b-th v-translate>Amount</b-th>
+                <b-th v-translate>Dr Amount</b-th>
               </b-tr>
             </b-thead>
             <b-tbody>
+              <b-tr>
+                <b-th v-translate>Opening Stock</b-th>
+                <b-th class="text-right">{{
+                  result['Opening Stock']['total']
+                }}</b-th>
+              </b-tr>
               <b-tr>
                 <b-th v-translate>DIRECT EXPENSE</b-th>
                 <b-th class="text-right">{{
@@ -77,11 +83,17 @@ This report can be viewed for any period`)
                   result['Direct Expense']['Purchase']['balance']
                 }}</b-th>
               </b-tr>
-              <b-tr>
+              <b-tr v-if="result['grossprofitcf'] != undefined">
                 <b-th class="pl-5 font-weight-normal text-danger"
                   ><i v-translate>Gross Profit C/F</i></b-th
                 >
                 <b-th class="text-right">{{ result['grossprofitcf'] }}</b-th>
+              </b-tr>
+              <b-tr v-else>
+                <b-th class="pl-5 font-weight-normal text-danger"
+                  ><i v-translate>Gross Loss C/F</i></b-th
+                >
+                <b-th class="text-right">{{ result['grosslosscf'] }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th v-translate>INDIRECT EXPENSE</b-th>
@@ -89,9 +101,13 @@ This report can be viewed for any period`)
                   result['Indirect Expense']['indirexpbal']
                 }}</b-th>
               </b-tr>
-              <b-tr>
+              <b-tr v-if="result['netprofit'] != undefined">
                 <b-th v-translate>Net Profit</b-th>
                 <b-th class="text-right">{{ result['netprofit'] }}</b-th>
+              </b-tr>
+              <b-tr v-else>
+                <b-th v-translate>Net Loss</b-th>
+                <b-th class="text-right">{{ result['netloss'] }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th><b v-translate>Total</b></b-th>
@@ -107,7 +123,7 @@ This report can be viewed for any period`)
             <b-thead head-variant="dark">
               <b-tr>
                 <b-th v-translate>Particulars</b-th>
-                <b-th v-translate>Amount</b-th>
+                <b-th v-translate>Cr Amount</b-th>
               </b-tr>
             </b-thead>
             <b-tbody>
@@ -132,16 +148,24 @@ This report can be viewed for any period`)
                 }}</b-th>
               </b-tr>
               <b-tr>
+                <b-th v-translate>Closing Stock</b-th>
+                <b-th class="text-right">
+                  {{ result['Closing Stock']['total'] }}
+                </b-th>
+              </b-tr>
+              <b-tr>
                 <b-th v-translate>INDIRECT INCOME</b-th>
                 <b-th class="text-right">{{
                   result['Indirect Expense']['indirexpbal']
                 }}</b-th>
               </b-tr>
-              <b-tr>
-                <b-th v-translate>Closing Stock</b-th>
-                <b-th class="text-right">
-                  {{ result['Closing Stock']['total'] }}
-                </b-th>
+              <b-tr v-if="result['grossprofitcf'] != undefined">
+                <b-th v-translate>Gross Profit B/F</b-th>
+                <b-th class="text-right">{{ result['grossprofitcf'] }}</b-th>
+              </b-tr>
+              <b-tr v-else>
+                <b-th v-translate>Gross Loss B/F</b-th>
+                <b-th class="text-right">{{ result['grosslosscf'] }}</b-th>
               </b-tr>
               <b-tr>
                 <b-th><b v-translate>Total</b></b-th>
@@ -151,7 +175,9 @@ This report can be viewed for any period`)
               </b-tr>
             </b-tbody>
           </b-table-simple>
-          <small> <b> * (Closing Stock is calculated using FIFO algorithm) </b> </small>
+          <small>
+            <b> * (Closing Stock is calculated using FIFO algorithm) </b>
+          </small>
         </div>
       </div>
     </b-overlay>
