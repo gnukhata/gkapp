@@ -1624,7 +1624,7 @@ export default {
           gstinconsignee: this.form.ship.gstin || '',
           consigneeaddress: this.form.ship.addr || '',
           consigneestate: this.form.ship.state? this.form.ship.state.name || null : null,
-          consigneestatecode: this.form.ship.state.id || null,
+          consigneestatecode: this.form.ship.state? this.form.ship.state.id || null : null,
           consigneepincode: this.form.ship.pin || '',
         };
       }
