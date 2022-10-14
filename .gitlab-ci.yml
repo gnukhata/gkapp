@@ -6,13 +6,17 @@
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 
 image: node:gallium-alpine #fermium-alpine3.14 #node:fermium-buster-slim
+
 stages:
   - build
   # - test
   - deploy
+
 variables:
   GKAPP_URL: https://gnukhata.gitlab.io/gkapp
   VUE_APP_GKAPP_NOTICE: 'true'
+  DOCKER_TLS_CERTDIR: '/certs'
+  # DOCKER_HOST: tcp://docker:2375
 
 # build gkapp
 gkapp:
@@ -33,6 +37,7 @@ before_script:
 
 # build gkapp docker image
 docker-image:
+  image: docker:20.10.19
   stage: build
   script:
     # build the docker image with latest commit hash as tag
@@ -52,7 +57,6 @@ pages:
     paths:
       - public
   only:
-    - master
     - devel
 # SAST Tests
 # sast:
