@@ -6,14 +6,14 @@
     </div>
     <b-modal
       id="m1"
-      size="lg"
+      size="md"
       ok-variant="dark"
       :title="helpTitle"
       hide-footer
       no-stacking
       scrollable
     >
-      {{ helpBody }}
+      <p v-html="helpBody"></p>
     </b-modal>
   </div>
 </template>
