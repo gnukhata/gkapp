@@ -8,7 +8,6 @@ WORKDIR /gkapp
 # install dependencies & build
 RUN npm install -g @vue/cli \
 	&& npm install \
-	&& npm audit fix \
 	&& npm run build
 
 # copy the contents of dist/ to nginx image
