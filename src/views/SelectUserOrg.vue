@@ -1,16 +1,14 @@
 <template>
   <section class="m-2">
-    <!-- <b-alert
-      v-if="gkConfig.notice"
-      show
-      variant="dark"
-      class="mb-2 gkcard mx-auto"
-      style="max-width: 35em"
+    <!-- login banner -->
+    <b-alert
+      :show="gkConfig().conf.login_banner.show"
+      :variant="gkConfig().conf.login_banner.variant"
+      class="mb-2 mx-auto"
+      style="max-width:35em"
+      v-html="gkConfig().conf.login_banner.content"
     >
-      Demo User:
-      <b>Username - admin , Password - admin</b>
-      <br />
-    </b-alert> -->
+    </b-alert>
     <!-- User Login -->
     <b-card
       v-if="!userAuthToken"

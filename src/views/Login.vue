@@ -1,14 +1,5 @@
 <template>
   <section class="m-2">
-    <b-alert
-      show
-      :variant="gkConfig().conf.login_banner.variant"
-      :hidden="false"
-      class="mb-2 mx-auto"
-      style="max-width:35em"
-      v-html="gkConfig().conf.login_banner.content"
-    >
-    </b-alert>
     <!-- Login card -->
     <b-card
       v-if="!loginSuccess"
