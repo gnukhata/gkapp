@@ -38,10 +38,9 @@ docker-image:
   stage: build
   script:
     # build the docker image with latest commit hash as tag
-    - apk add git
-    - docker build -t digitalfreedom/gkapp:$(git log -1 --format=%H) .
+    - docker build -t digitalfreedom/gkapp:$CI_COMMIT_SHORT_SHA .
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD
-    - docker push digitalfreedom/gkapp:$(git log -1 --format=%H)
+    - docker push digitalfreedom/gkapp:$CI_COMMIT_SHORT_SHA
 
 # gzip files & deploy to gitlab pages
 pages:
