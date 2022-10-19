@@ -32,15 +32,32 @@ gkapp:
 services:
   - docker:20.10.19-dind
 
-# build gkapp docker image & upload it to docker hub
-docker-image:
+# build gkapp docker image from devel commits & upload it to docker hub
+docker-devel:
   image: docker:20.10.19
   stage: build
   script:
-    # build the docker image with latest commit hash as tag
-    - docker build -t digitalfreedom/gkapp:$CI_COMMIT_SHORT_SHA .
+    # build the docker image & push to the dockerhub
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD
-    - docker push digitalfreedom/gkapp:$CI_COMMIT_SHORT_SHA
+    - docker build -t digitalfreedom/gkapp:devel .
+    - docker push digitalfreedom/gkapp:devel
+    # - docker build -t digitalfreedom/gkapp:$CI_COMMIT_SHORT_SHA .
+    # - docker login -u digitalfreedom -p $DOCKERHUB_PWD
+    # - docker push digitalfreedom/gkapp:$CI_COMMIT_SHORT_SHA
+  only:
+    - devel
+
+# build gkapp docker image on a release & push it to the docker hub
+docker-prod:
+  image: docker:20.10.19
+  stage: build
+  script:
+    # build the docker image & push to the dockerhub
+    - docker login -u digitalfreedom -p $DOCKERHUB_PWD
+    - docker build -t digitalfreedom/gkapp:$CI_COMMIT_TAG .
+    - docker push digitalfreedom/gkapp:$CI_COMMIT_TAG
+  only:
+    - tags
 
 # gzip files & deploy to gitlab pages
 pages:
