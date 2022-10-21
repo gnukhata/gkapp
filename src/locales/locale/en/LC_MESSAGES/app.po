@@ -389,7 +389,7 @@ msgstr "action"
 msgid "Action Denied"
 msgstr "Action Denied"
 
-#: src/components/BusinessProfile.vue:431 src/views/CloseBooks.vue:164
+#: src/components/BusinessProfile.vue:431 src/views/CloseBooks.vue:165
 msgid "Action Disallowed"
 msgstr "Action Disallowed"
 
@@ -546,15 +546,14 @@ msgid "All Products"
 msgstr "All Products"
 
 #: src/views/Billwise.vue:343 src/views/CashFlow.vue:29
-#: src/views/CashFlow.vue:44 src/views/ProfitLoss.vue:38
-#: src/views/ProfitLoss.vue:80
+#: src/views/CashFlow.vue:44
 msgid "Amount"
 msgstr "Amount"
 
 #: src/components/form/ChangePwd.vue:106 src/components/form/CreateUser.vue:121
 #: src/components/form/EditUser.vue:279 src/components/form/InviteUser.vue:337
-#: src/components/form/ResetPassword.vue:163 src/views/Login.vue:137
-#: src/views/ResetPassword_legacy.vue:152 src/views/SelectUserOrg.vue:144
+#: src/components/form/ResetPassword.vue:163 src/views/Login.vue:129
+#: src/views/ResetPassword_legacy.vue:152 src/views/SelectUserOrg.vue:152
 msgid "Answer"
 msgstr "Answer"
 
@@ -871,7 +870,7 @@ msgstr "CESS"
 msgid "Change in POS"
 msgstr "Change Server"
 
-#: src/views/Login.vue:45
+#: src/views/Login.vue:43
 msgid "Change Organisation"
 msgstr "Change Organisation"
 
@@ -879,8 +878,8 @@ msgstr "Change Organisation"
 msgid "Change Password"
 msgstr "Change Password"
 
-#: src/views/Login.vue:41 src/views/SelectOrg.vue:41
-#: src/views/SelectUserOrg.vue:43
+#: src/views/Login.vue:39 src/views/SelectOrg.vue:41
+#: src/views/SelectUserOrg.vue:35
 msgid "Change Server"
 msgstr "Change Server"
 
@@ -913,7 +912,7 @@ msgstr "Close Books is done"
 msgid "Closing Balance"
 msgstr "Closing Balance"
 
-#: src/views/ProfitLoss.vue:109
+#: src/views/ProfitLoss.vue:117
 msgid "Closing Stock"
 msgstr "Closing Stock"
 
@@ -976,7 +975,7 @@ msgstr "Contact Person Details"
 msgid "Contacts"
 msgstr "Contacts"
 
-#: src/views/Login.vue:71 src/views/SelectOrg.vue:49
+#: src/views/Login.vue:69 src/views/SelectOrg.vue:49
 msgid "Continue"
 msgstr "Continue"
 
@@ -1020,6 +1019,11 @@ msgstr "Could not Fetch Budget Details!"
 #: src/views/OrgProfile.vue:191
 msgid "Country"
 msgstr "Country"
+
+#: src/views/ProfitLoss.vue:94
+#, fuzzy
+msgid "Cr Amount"
+msgstr "Amount"
 
 #: src/views/TrialBalance.vue:89 src/views/TrialBalance.vue:130
 msgid "Cr Balance"
@@ -1214,7 +1218,7 @@ msgstr "Create Transfer Note Failed!"
 msgid "Create Transfer Note Successfull!"
 msgstr "Create Transfer Note Successfull!"
 
-#: src/components/form/CreateUser.vue:26 src/views/SelectUserOrg.vue:47
+#: src/components/form/CreateUser.vue:26 src/views/SelectUserOrg.vue:39
 msgid "Create User"
 msgstr "Create User"
 
@@ -1305,8 +1309,8 @@ msgstr "Customer Details"
 msgid "Data error"
 msgstr "Data error"
 
-#: src/components/BusinessProfile.vue:209 src/views/CloseBooks.vue:131
-#: src/views/CloseBooks.vue:145
+#: src/components/BusinessProfile.vue:209 src/views/CloseBooks.vue:132
+#: src/views/CloseBooks.vue:146
 msgid "Data Error"
 msgstr "Data Error"
 
@@ -1522,11 +1526,11 @@ msgstr "Designation"
 msgid "Destination State"
 msgstr "Destination State"
 
-#: src/views/ProfitLoss.vue:43
+#: src/views/ProfitLoss.vue:49
 msgid "DIRECT EXPENSE"
 msgstr "DIRECT EXPENSE"
 
-#: src/views/ProfitLoss.vue:85
+#: src/views/ProfitLoss.vue:99
 msgid "DIRECT INCOME"
 msgstr "DIRECT INCOME"
 
@@ -1567,6 +1571,11 @@ msgstr "Dispatch From"
 #: src/components/form/transaction_details/TransferNoteDetails.vue:1
 msgid "Dispatch To"
 msgstr "Dispatch To"
+
+#: src/views/ProfitLoss.vue:38
+#, fuzzy
+msgid "Dr Amount"
+msgstr "Amount"
 
 #: src/views/TrialBalance.vue:84 src/views/TrialBalance.vue:125
 msgid "Dr Balance"
@@ -1632,7 +1641,7 @@ msgstr "Duplicate Entry, Check No."
 msgid "Duplicate Entry! Please Check the Organisation Name"
 msgstr "Duplicate Entry! Please Check the Organisation Name"
 
-#: src/views/CloseBooks.vue:130
+#: src/views/CloseBooks.vue:131
 msgid "Duplicate Financial Year"
 msgstr "Duplicate Financial Year"
 
@@ -1692,11 +1701,11 @@ msgstr "Enter Custom Server URL"
 msgid "Enter HSN/SAC code or description"
 msgstr ""
 
-#: src/views/Login.vue:148 src/views/SelectUserOrg.vue:155
+#: src/views/Login.vue:140 src/views/SelectUserOrg.vue:163
 msgid "Enter the Answer"
 msgstr "Enter the Answer"
 
-#: src/views/Login.vue:79 src/views/SelectUserOrg.vue:86
+#: src/views/Login.vue:71 src/views/SelectUserOrg.vue:94
 msgid "Enter Username"
 msgstr "Enter Username"
 
@@ -1988,7 +1997,7 @@ msgid "Fetching Categories ..."
 msgstr "Fetching Categories ..."
 
 #: src/views/CostCenter.vue:15 src/views/CostCenter.vue:3
-#: src/views/SelectUserOrg.vue:77 src/views/SelectUserOrg.vue:109
+#: src/views/SelectUserOrg.vue:69 src/views/SelectUserOrg.vue:101
 #: src/views/SelectUserOrg.vue:3
 msgid "Fetching List..."
 msgstr "Fetching List..."
@@ -2015,7 +2024,7 @@ msgstr "Financial Details"
 msgid "Financial Year"
 msgstr "Financial Year"
 
-#: src/views/Login.vue:24 src/views/SelectUserOrg.vue:27
+#: src/views/Login.vue:22 src/views/SelectUserOrg.vue:19
 msgid "Forgot Password?"
 msgstr "Forgot Password?"
 
@@ -2028,7 +2037,7 @@ msgstr "Free Replacement"
 #: src/components/form/CreateOrganisation.vue:29
 #: src/components/form/CreateOrganisation.vue:1 src/views/CloseBooks.vue:95
 #: src/views/CloseBooks.vue:238 src/views/Ledger.vue:83
-#: src/views/ProfitLoss.vue:88 src/views/Registers.vue:41
+#: src/views/ProfitLoss.vue:96 src/views/Registers.vue:41
 #: src/views/Registers.vue:119
 msgid "From"
 msgstr "From"
@@ -2127,7 +2136,22 @@ msgstr "Grand Total"
 msgid "Gross"
 msgstr "Gross"
 
-#: src/views/ProfitLoss.vue:55
+#: src/views/ProfitLoss.vue:133
+#, fuzzy
+msgid "Gross Loss B/F"
+msgstr "Gross Profit C/F"
+
+#: src/views/ProfitLoss.vue:65
+#, fuzzy
+msgid "Gross Loss C/F"
+msgstr "Gross Profit C/F"
+
+#: src/views/ProfitLoss.vue:129
+#, fuzzy
+msgid "Gross Profit B/F"
+msgstr "Gross Profit C/F"
+
+#: src/views/ProfitLoss.vue:61
 msgid "Gross Profit C/F"
 msgstr "Gross Profit C/F"
 
@@ -2216,7 +2240,7 @@ msgstr "Voucher Created Successfully!"
 msgid "Imported Entries"
 msgstr ""
 
-#: src/views/ProfitLoss.vue:77
+#: src/views/ProfitLoss.vue:85
 msgid ""
 "Income & Expenditure Account / Profit & Loss Account\n"
 "This report can be viewed for any period"
@@ -2228,11 +2252,11 @@ msgstr ""
 msgid "Incomes & Expenses"
 msgstr ""
 
-#: src/views/ProfitLoss.vue:59
+#: src/views/ProfitLoss.vue:69
 msgid "INDIRECT EXPENSE"
 msgstr "INDIRECT EXPENSE"
 
-#: src/views/ProfitLoss.vue:103
+#: src/views/ProfitLoss.vue:123
 msgid "INDIRECT INCOME"
 msgstr "INDIRECT INCOME"
 
@@ -2275,7 +2299,7 @@ msgstr "Inv. #"
 msgid "Invalid answer, Please try again"
 msgstr "Invalid answer, Please try again"
 
-#: src/views/CloseBooks.vue:144
+#: src/views/CloseBooks.vue:145
 msgid "Invalid Data"
 msgstr "Invalid Data"
 
@@ -2364,11 +2388,11 @@ msgstr "Ledger Account:"
 msgid "List Settings"
 msgstr "List Settings"
 
-#: src/views/Login.vue:50 src/views/SelectUserOrg.vue:52
+#: src/views/Login.vue:48 src/views/SelectUserOrg.vue:44
 msgid "Login"
 msgstr "Login"
 
-#: src/views/Login.vue:51
+#: src/views/Login.vue:43
 msgid "Login To %{orgNameDisplay}"
 msgstr "Login To %{orgNameDisplay}"
 
@@ -2471,7 +2495,11 @@ msgstr "Narration: %{narration}"
 msgid "Net"
 msgstr "Net"
 
-#: src/components/form/BudgetItem.vue:96 src/views/ProfitLoss.vue:65
+#: src/views/ProfitLoss.vue:79
+msgid "Net Loss"
+msgstr ""
+
+#: src/components/form/BudgetItem.vue:96 src/views/ProfitLoss.vue:75
 msgid "Net Profit"
 msgstr "Net Profit"
 
@@ -2489,7 +2517,7 @@ msgstr "New Financial Year:"
 msgid "New Password"
 msgstr "New Password"
 
-#: src/views/Login.vue:266
+#: src/views/Login.vue:258
 #, fuzzy
 msgid "New User Name"
 msgstr "Enter Username"
@@ -2602,7 +2630,7 @@ msgstr "Opening Balance"
 #: src/components/BusinessProfile.vue:149
 #: src/components/form/BusinessItem.vue:41
 #: src/components/form/BusinessItem.vue:57
-#: src/components/form/BusinessItem.vue:1
+#: src/components/form/BusinessItem.vue:1 src/views/ProfitLoss.vue:43
 msgid "Opening Stock"
 msgstr "Opening Stock"
 
@@ -2662,7 +2690,7 @@ msgstr "Parent Category"
 
 #: src/views/Budget.vue:62 src/views/CashFlow.vue:25 src/views/CashFlow.vue:40
 #: src/views/LedgerFull.vue:48 src/views/ProfitLoss.vue:37
-#: src/views/ProfitLoss.vue:79
+#: src/views/ProfitLoss.vue:93
 msgid "Particulars"
 msgstr "Particulars"
 
@@ -2671,8 +2699,8 @@ msgid "Party Type"
 msgstr ""
 
 #: src/components/form/CreateUser.vue:61 src/components/form/InviteUser.vue:277
-#: src/views/Login.vue:87 src/views/Login.vue:97 src/views/SelectUserOrg.vue:94
-#: src/views/SelectUserOrg.vue:104
+#: src/views/Login.vue:79 src/views/Login.vue:89
+#: src/views/SelectUserOrg.vue:102 src/views/SelectUserOrg.vue:112
 msgid "Password"
 msgstr "Password"
 
@@ -2782,7 +2810,7 @@ msgstr "Please enter atleast 1 budget amount for %{inType}!"
 msgid "Please enter atleast 1 budget amount for %{outType}!"
 msgstr "Please enter atleast 1 budget amount for %{outType}!"
 
-#: src/views/CloseBooks.vue:137
+#: src/views/CloseBooks.vue:138
 msgid "Please login to access"
 msgstr "Please login to access"
 
@@ -2822,7 +2850,7 @@ msgstr "Preload Data Failed!"
 msgid "Price"
 msgstr "Price"
 
-#: src/views/CloseBooks.vue:154
+#: src/views/CloseBooks.vue:155
 msgid "Privilige Error"
 msgstr "Privilige Error"
 
@@ -2848,7 +2876,7 @@ msgstr "Product Register"
 msgid "Profit & Loss"
 msgstr "Profit & Loss"
 
-#: src/views/ProfitLoss.vue:75
+#: src/views/ProfitLoss.vue:83
 msgid "Profit & Loss Statement"
 msgstr "Profit & Loss Statement"
 
@@ -2862,7 +2890,7 @@ msgstr "Proxy Server Error"
 
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:336
 #: src/components/form/transaction_details/TransferNoteDetails.vue:297
-#: src/views/ProfitLoss.vue:49 src/views/Registers.vue:11
+#: src/views/ProfitLoss.vue:55 src/views/Registers.vue:11
 #: src/views/Transactions/CashMemo.vue:13
 #: src/views/Transactions/DebitCreditNote.vue:14
 #: src/views/Transactions/DeliveryNote.vue:13
@@ -2916,7 +2944,7 @@ msgstr "Qty Debited"
 
 #: src/components/form/ChangePwd.vue:91 src/components/form/CreateUser.vue:106
 #: src/components/form/EditUser.vue:263 src/components/form/InviteUser.vue:322
-#: src/views/Login.vue:122 src/views/SelectUserOrg.vue:129
+#: src/views/Login.vue:114 src/views/SelectUserOrg.vue:137
 msgid "Question"
 msgstr "Question"
 
@@ -3126,11 +3154,11 @@ msgstr "Sale Price"
 msgid "Sale Rejection"
 msgstr "Sale Rejection"
 
-#: src/views/ProfitLoss.vue:91
+#: src/views/ProfitLoss.vue:105
 msgid "SALES"
 msgstr "SALES"
 
-#: src/views/ProfitLoss.vue:97
+#: src/views/ProfitLoss.vue:111
 msgid "Sales A/C"
 msgstr "Sales A/C"
 
@@ -3634,7 +3662,7 @@ msgstr "to"
 #: src/components/form/CreateOrganisation.vue:39
 #: src/components/form/CreateOrganisation.vue:1 src/views/CloseBooks.vue:118
 #: src/views/CloseBooks.vue:260 src/views/Ledger.vue:96
-#: src/views/ProfitLoss.vue:102 src/views/Registers.vue:135
+#: src/views/ProfitLoss.vue:110 src/views/Registers.vue:135
 msgid "To"
 msgstr "To"
 
@@ -3659,7 +3687,7 @@ msgstr "To Godown"
 #: src/components/workflow/profile/InvoiceProfile.vue:2
 #: src/components/workflow/profile/VoucherProfile.vue:19
 #: src/components/workflow/profile/VoucherProfile.vue:1
-#: src/views/ProfitLoss.vue:69 src/views/ProfitLoss.vue:115
+#: src/views/ProfitLoss.vue:83 src/views/ProfitLoss.vue:137
 msgid "Total"
 msgstr "Total"
 
@@ -3893,7 +3921,7 @@ msgstr "Unauthorised access"
 #: src/components/ContactProfile.vue:297 src/components/GkHsn.vue:102
 #: src/components/GkIfsc.vue:65 src/views/BalanceSheet.vue:164
 #: src/views/Budget.vue:283 src/views/CashFlow.vue:71
-#: src/views/CategorywiseStockOnHand.vue:159 src/views/CloseBooks.vue:138
+#: src/views/CategorywiseStockOnHand.vue:159 src/views/CloseBooks.vue:139
 #: src/views/CostCenter.vue:97 src/views/CostCenterCreate.vue:44
 #: src/views/CostCenterEdit.vue:65 src/views/GodownEdit.vue:86
 #: src/views/Ledger.vue:86 src/views/LedgerFull.vue:108
@@ -4011,8 +4039,8 @@ msgstr "user"
 msgid "User"
 msgstr "User"
 
-#: src/components/form/ResetPassword.vue:44 src/views/Login.vue:68
-#: src/views/ResetPassword_legacy.vue:86 src/views/SelectUserOrg.vue:74
+#: src/components/form/ResetPassword.vue:44 src/views/Login.vue:60
+#: src/views/ResetPassword_legacy.vue:86 src/views/SelectUserOrg.vue:82
 msgid "Username"
 msgstr "Username"
 
@@ -4153,12 +4181,14 @@ msgstr "Vouchers:"
 msgid "Website"
 msgstr "Website"
 
-#: src/views/CloseBooks.vue:162
+#: src/views/CloseBooks.vue:163
 msgid "You are not allowed to perform this action"
 msgstr "You are not allowed to perform this action"
 
-#: src/views/CloseBooks.vue:152
-msgid "You have no access for perform this task"
+#: src/views/CloseBooks.vue:153
+#, fuzzy
+msgid ""
+"You do not have the access to perform this task. Please contact the admin "
 msgstr "You have no access for perform this task"
 
 #: src/views/Logs.vue:48 src/views/Logs.vue:79
