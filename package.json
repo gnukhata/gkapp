@@ -7,21 +7,21 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "build-dev": "vue-cli-service build --mode development",
-    "i18n-extract": "make makemessages && rm src/locales/locale/*/*/app.po~",
-    "i18n-compile": "make translations"
+    "translate-extract": "make makemessages && rm src/locales/locale/*/*/app.po~",
+    "translate-compile": "make translations"
   },
   "dependencies": {
     "bootstrap-vue": "^2.22.0",
     "check-password-strength": "^1.0.15",
-    "core-js": "^3.23.5",
+    "core-js": "^3.25.5",
     "crypto-js": "^4.1.1",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "register-service-worker": "^1.7.2",
-    "vue": "^2.7.8",
-    "vue-chartjs": "^4.1.1",
+    "vue": "^2.7.13",
+    "vue-chartjs": "^4.1.2",
     "vue-gettext": "^2.1.12",
-    "vue-router": "^3.5.4",
+    "vue-router": "^3.6.5",
     "vue-select": "^3.20.0",
     "vuex": "^3.6.2"
   },
@@ -43,11 +43,11 @@
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
     "prettier": "^1.19.1",
-    "sass": "^1.53.0",
+    "sass": "^1.55.0",
     "sass-loader": "^10.3.1",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-bootstrap-vue": "^0.7.0",
-    "vue-template-compiler": "^2.7.8"
+    "vue-template-compiler": "^2.7.13"
   },
   "eslintConfig": {
     "root": true,
