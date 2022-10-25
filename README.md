@@ -30,28 +30,27 @@ https://gnukhata.gitlab.io/gkapp
 
 #### Install
 
-`cd` to project's dir and run `npm install`
+`cd` to project's dir and run `npm install` which installs the required dependencies
 
-#### Serve
+#### Development
 
 To pre-compile & hot-reload for development run `npm run serve`
+
+To generate the translations: `npm run translate-extract` & then run `npm run translate-compile`
 
 #### Build
 
 - Production-ready with minified bundle `npm run build`.
 
-- By default app is served from site's root `/`. To change the url, Set the `GKAPP_URL` environment variable to your custom domain.
+<!-- - By default app is served from site's root `/`. To change the url, Set the `GKAPP_URL` environment variable to your custom domain. -->
 
 - The default `gkcore` server url is `localhost:6543`, It can changed by setting environmental
-  variable `VUE_APP_GKCORE_URL` to your preferred url.
+  variable `VUE_APP_GKCORE_URL` to your preferred url before building the app.
 
 Example:
 
-```bash
+```sh
 export VUE_APP_GKCORE_URL=https://gkcore.example.com
-
-export GKAPP_URL=https://example.com
-
 npm run build
 ```
 
