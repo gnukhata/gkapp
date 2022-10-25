@@ -233,7 +233,7 @@ Vue.mixin({
         variant: 'success',
       });
     },
-	 //This method runs when switch server button is clicked
+		//This method runs when switch server button is clicked
     switchServer() {
       this.$store.commit('setGkCoreUrl', {
         gkCoreUrl: null,
