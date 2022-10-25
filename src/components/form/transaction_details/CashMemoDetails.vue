@@ -120,6 +120,7 @@
           label-size="sm"
           label-cols="3"
           label-cols-md="4"
+          label-class="required"
         >
           <template #label>
             <span v-translate v-if="saleFlag"> From Godown </span>

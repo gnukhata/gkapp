@@ -35,19 +35,13 @@
               </b-form-group>
             </div>
           </div>
-          <b-form-checkbox
-            v-model="showGodowns"
-            @change="report = []"
-            class="mb-2"
-            switch
-            >Godown Wise Product Register</b-form-checkbox
-          >
           <!-- Godown select -->
-          <b-form-group v-if="showGodowns" label="Godown" label-cols="auto">
+          <b-form-group label="Godown" label-cols="auto">
             <autocomplete
               placeholder="Search / Select a godown"
               v-model="godownId"
               :options="godowns"
+              :required="true"
             ></autocomplete>
           </b-form-group>
           <b-button type="submit" variant="success" class="float-right"
@@ -117,11 +111,11 @@
               this.fromDate
             )}&calculateto=${dateReverse(this.toDate)}&productcode=${
               productId.id
-            }&productdesc=${productId.label}&godownflag=${
-              this.showGodowns ? '1' : '0'
-            }&goid=${this.godownId}&goname=${
+            }&productdesc=${productId.label}&godownflag=1&goid=${
+              this.godownId
+            }&goname=${getGodownName(this.godownId).text}&goaddr=${
               getGodownName(this.godownId).text
-            }&goaddr=${getGodownName(this.godownId).text}`
+            }`
           "
           fileExtn="xlsx"
         ></gk-file-download>
@@ -281,7 +275,6 @@ export default {
       report: [],
       report2: [],
       godowns: [],
-      showGodowns: false,
       godownId: '',
       godownReport: [],
       invoiceFilter: [],
@@ -315,19 +308,12 @@ export default {
   },
   methods: {
     getGodownName(id) {
-      if (!this.showGodowns) {
-        return 'name';
-      }
       return this.godowns.filter((go) => {
         return go.value == id;
       })[0];
     },
     check() {
-      if (this.showGodowns) {
-        this.getGodownStock();
-      } else {
-        this.getStockReport();
-      }
+      this.getGodownStock();
     },
     applyFilters() {
       if (this.invoiceFilter.length > 0) {

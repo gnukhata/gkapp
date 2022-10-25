@@ -35,39 +35,6 @@
             required
           ></b-form-input>
         </b-form-group>
-        <!-- Opening Stock -->
-        <b-form-group
-          v-if="details.gsflag == 7"
-          :label="this.$gettext('Opening Stock')"
-          label-cols="4"
-          label-size="sm"
-        >
-          <template #label> <translate> Opening Stock </translate> </template>
-          <b-input-group size="sm">
-            <b-form-input
-              v-model="details.openingstock"
-              type="number"
-              no-wheel
-              step="0.01"
-              :readonly="isGodownUsed || useGodownwise"
-            ></b-form-input>
-            <template v-if="isGodownUsed" #append>
-              <b-button @click="scrollToGodownCard" variant="dark">
-                <b-icon font-scale="0.9" icon="pencil"></b-icon>
-              </b-button>
-            </template>
-          </b-input-group>
-          <b-form-checkbox
-            v-if="!isGodownUsed"
-            v-model="useGodownwise"
-            class="float-right"
-            name="check-button"
-            switch
-            size="sm"
-          >
-            <translate> Use Godownwise Opening Stock </translate>
-          </b-form-checkbox>
-        </b-form-group>
         <!-- UOM -->
         <b-form-group
           v-if="details.gsflag == 7"
@@ -337,7 +304,6 @@
       header-bg-variant="dark"
       header-text-variant="light"
       id="godown-card"
-      v-if="isProduct && (useGodownwise || isGodownUsed)"
     >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-godown>
@@ -501,7 +467,6 @@ export default {
       isCollapsed4: false,
       showGodownForm: false,
       multiGstFlag: false,
-      useGodownwise: false,
       uom: [],
       tax: {
         cess: {},
@@ -532,7 +497,6 @@ export default {
     gstDateValidity: (self) =>
       self.tax.gst.reduce((acc, gst) => acc && gst.dateValidity, true),
     isProduct: (self) => self.details.gsflag === 7,
-    isGodownUsed: (self) => !!self.oldGodowns.length,
     gstRates: (self) => self.$store.getters['global/getGstRates'],
 
     ...mapState(['gkCoreUrl', 'authToken', 'yearStart', 'yearEnd']),

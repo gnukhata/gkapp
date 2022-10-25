@@ -704,8 +704,8 @@ export default {
       type: [Number, String],
       required: true,
       default: null,
-      validator: function(value) {
-        console.log(value)
+      validator: function() {
+        // console.log(value)
         return true;
       },
     },
@@ -1192,12 +1192,12 @@ export default {
     },
     /** Update the URL based on current entity selected */
     updateUrl() {
-      console.log("Url Update")
+      // console.log("Url Update")
       let url = window.location.href.split('#')[0];
       let wfName = this.activeWorkflow.name;
       let key = this.activeTabOptions.uidKey;
       let wfId = this.selectedEntity ? this.selectedEntity[key] || -1 : -1;
-      console.log(wfId);
+      // console.log(wfId);
       url += `#/workflow/${wfName}/${wfId}`;
       if (url != window.location.href) {
         this.$router.replace({
