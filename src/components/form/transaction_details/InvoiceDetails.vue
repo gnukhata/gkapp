@@ -105,7 +105,7 @@
           label-cols="3"
           label-cols-md="4"
           label-size="sm"
-          label-class="required"
+          :label-class="{required: !disabled.supplySt}"
         >
           <template #label> <translate> Place of Supply </translate> </template>
           <autocomplete
@@ -142,7 +142,7 @@
           label-size="sm"
           label-cols="3"
           label-cols-md="4"
-          label-class="required"
+          :label-class="{required: !disabled.godown}"
         >
           <template #label>
             <span v-translate v-if="saleFlag"> From Godown </span>

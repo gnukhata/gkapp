@@ -14,6 +14,8 @@ export default {
         role: false,
         gstin: true,
         class: {},
+        supplySt: { disabled: true },
+        godown: { disabled: true },
       },
       party: {
         type: false,
