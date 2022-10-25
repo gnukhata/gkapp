@@ -67,7 +67,12 @@
         <b-button
           :disabled="details.booksclosedflag == 1"
           class="float-right"
-          @click="confirm('close')"
+          @click="
+            confirm(
+              'close',
+              'You are about to close your books. This action can not be undone, are you sure?'
+            )
+          "
           variant="dark"
           size="sm"
         >
@@ -105,7 +110,14 @@
           </div>
         </template>
         <!-- Set New Financial Year -->
-        <b-form @submit.prevent="confirm">
+        <b-form
+          @submit.prevent="
+            confirm(
+              'rollover',
+              'You are about to rollover to a new financial year. Are you sure?'
+            )
+          "
+        >
           <b-form-group
             id="input-group-2"
             label-class="font-weight-bold"
@@ -170,7 +182,7 @@ export default {
   name: 'CloseBooks',
   data() {
     return {
-      details: [],
+      details: {},
       isLoading: true,
       newYearStart: '',
       newYearEnd: '',
@@ -178,9 +190,9 @@ export default {
   },
   computed: {},
   methods: {
-    confirm(type) {
+    confirm(type, message) {
       this.$bvModal
-        .msgBoxConfirm(`Confirm ?`, {
+        .msgBoxConfirm(message, {
           centered: true,
           size: 'sm',
           okVariant: 'danger',
@@ -204,9 +216,20 @@ export default {
         .then((res) => {
           if (res.status == 200)
             switch (res.data.gkstatus) {
-              case 0:
+              case 0: {
                 this.details = res.data.gkdata;
+
+                // autofill rollover dates
+                const ONE_DAY = 86400000;
+                let oldEnd = new Date(
+                  this.details.yearend.split('-').join('/')
+                );
+                let newStart = new Date(oldEnd.getTime() + ONE_DAY * 2);
+                let newEnd = new Date(newStart.getTime() + ONE_DAY * 364);
+                this.newYearStart = newStart.toISOString().substr(0, 10);
+                this.newYearEnd = newEnd.toISOString().substr(0, 10);
                 this.isLoading = false;
+              }
             }
         })
         .catch((e) => {
@@ -244,11 +267,14 @@ export default {
           if (r.status == 200 && r.data.gkstatus == 0) {
             switch (r.data.gkstatus) {
               case 0:
-                this.$bvToast.toast('Close Books Complete', {
-                  title: 'Success',
-                  variant: 'success',
-                  solid: true,
-                });
+                this.$bvToast.toast(
+                  'Books have been closed successfully for this financial year.',
+                  {
+                    title: 'Success',
+                    variant: 'success',
+                    solid: true,
+                  }
+                );
                 this.getDetails();
                 this.isLoading = false;
                 break;
@@ -259,11 +285,15 @@ export default {
         })
         .catch((e) => {
           this.isLoading = false;
-          this.$bvToast.toast(e.message + ' Please Retry', {
-            title: 'Close Books Error',
-            variant: 'danger',
-            solid: true,
-          });
+          this.$bvToast.toast(
+            e.message +
+              '. An error was encountered while closing books. Please Retry',
+            {
+              title: 'Close Books Error',
+              variant: 'danger',
+              solid: true,
+            }
+          );
         });
     },
     /**
@@ -280,13 +310,24 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                this.$bvToast.toast(this.$gettext('Roll Over Complete'), {
-                  title: this.$gettext('Success'),
-                  variant: 'success',
-                  solid: true,
-                });
-                // this.getDetails();
-                this.logOut();
+                {
+                  this.$bvToast.toast(
+                    this.$gettext(
+                      'Roll Over to new financial year has been successful'
+                    ),
+                    {
+                      title: this.$gettext('Success'),
+                      variant: 'success',
+                      solid: true,
+                    }
+                  );
+                  let data = r.data.gkresult;
+                  this.orgLogin({
+                    code: data.neworgcode,
+                    ystart: data.yearstart,
+                    yend: data.yearend,
+                  });
+                }
                 break;
               case 1:
                 this.$bvToast.toast(this.$gettext('Duplicate Financial Year'), {
@@ -311,7 +352,9 @@ export default {
                 break;
               case 4:
                 this.$bvToast.toast(
-                  this.$gettext('You do not have the access to perform this task. Please contact the admin '),
+                  this.$gettext(
+                    'You do not have the access to perform this task. Please contact the admin '
+                  ),
                   {
                     title: this.$gettext('Privilige Error'),
                     variant: 'danger',
@@ -340,6 +383,64 @@ export default {
             variant: 'danger',
             solid: true,
           });
+        });
+    },
+    orgLogin(yearData) {
+      if (!yearData) {
+        return;
+      }
+      console.log(yearData);
+      // const userAuthToken = localStorage.getItem('userAuthToken');
+      let selectedYear = yearData;
+      let payload = {
+        orgcode: selectedYear.code,
+      };
+      // TODO: here instead of sending the username and password, send the new user auth token
+      axios
+        .post(`/login?type=org`, payload)
+        .then((resp) => {
+          switch (resp.data.gkstatus) {
+            case 0:
+              axios.defaults.baseURL = this.gkCoreUrl;
+              axios.defaults.headers = { gktoken: resp.data.token };
+              // Initiate vuex store
+              this.$store.dispatch('setSessionStates', {
+                auth: true,
+                orgCode: selectedYear.code,
+                authToken: resp.data.token,
+                orgYears: {
+                  yearStart: selectedYear.ystart
+                    .split('-')
+                    .reverse()
+                    .join('-'),
+                  yearEnd: selectedYear.yend
+                    .split('-')
+                    .reverse()
+                    .join('-'),
+                },
+              });
+
+              Promise.all([
+                this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
+                this.$store.dispatch('global/initGlobalConfig'), // initialises global config
+              ]).then(() => {
+                this.$store
+                  .dispatch('global/initGlobalState', {
+                    lang: this.$language,
+                  })
+                  .then(() => {
+                    // debugger;
+                    // redirect to workflow on login
+                    this.$router.push('/workflow/Transactions-Invoice/-1');
+                  });
+              });
+              break;
+            default:
+              this.logOut();
+          }
+        })
+        .catch(() => {
+          this.logOut();
         });
     },
   },
