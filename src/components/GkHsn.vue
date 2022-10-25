@@ -7,11 +7,12 @@
           <b-form-input
             type="text"
             :size="size"
-            @input="checkHsn"
             v-model.trim="hsn.code"
             :placeholder="this.$gettext('Enter HSN/SAC code or description')"
             :state="hsn.isValid"
             :required="required"
+            debounce="600"
+            @update="checkHsn"
           ></b-form-input>
           <!-- Search button -->
           <b-input-group-append v-if="hsn.isValid == null">

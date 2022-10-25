@@ -9,7 +9,7 @@
       @focus="showOptions()"
       @blur="exit()"
       @keydown="keyMonitor"
-      @input="onInput"
+      @update="onInput"
       debounce="500"
       autocomplete="off"
       :readonly="readonly"

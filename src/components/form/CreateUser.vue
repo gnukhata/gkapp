@@ -25,6 +25,7 @@
             size="sm"
             :state="valid.username"
             min="3"
+            @update="checkUserName"
           ></b-form-input>
         </b-form-group>
         <b-form-group
@@ -125,9 +126,6 @@ export default {
     },
   },
   computed: {
-    _username() {
-      return this.form.username;
-    },
     ...mapState(['gkCoreUrl', 'authToken']),
     pwdMatch() {
       if (this.cnfPassword == '') {
@@ -141,23 +139,20 @@ export default {
       }
     },
   },
-  watch: {
-    _username(val) {
-      this.checkUserName(val);
-    },
-  },
   methods: {
     checkUserName(query) {
       const self = this;
-      axios.get(`/gkusers?type=unique_check&username=${query}&check_legacy=true`).then((resp) => {
-        if (query === self.form.username) {
-          if (resp.data.gkstatus === STATUS_CODES['Success']) {
-            self.valid.username = resp.data.gkresult;
-          } else {
-            self.valid.username = false;
+      axios
+        .get(`/gkusers?type=unique_check&username=${query}&check_legacy=true`)
+        .then((resp) => {
+          if (query === self.form.username) {
+            if (resp.data.gkstatus === STATUS_CODES['Success']) {
+              self.valid.username = resp.data.gkresult;
+            } else {
+              self.valid.username = false;
+            }
           }
-        }
-      });
+        });
     },
     /* Create User */
     addUser() {

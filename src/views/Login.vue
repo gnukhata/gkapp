@@ -142,6 +142,7 @@
             required
             size="sm"
             :state="userNameValidity"
+            @update="updateUserNameValidity"
           ></b-form-input>
         </b-form-group>
         <b-button
@@ -422,9 +423,7 @@ export default {
         }
       }
     },
-  },
-  watch: {
-    newUserName(name) {
+    updateUserNameValidity(name) {
       if (name) {
         axios
           .get(`/gkusers?type=unique_check&username=${name}&check_legacy=true`)
@@ -436,7 +435,7 @@ export default {
       } else {
         this.userNameValidity = null;
       }
-    },
+    }
   },
   mounted() {
     let url = localStorage.getItem('gkCoreUrl');

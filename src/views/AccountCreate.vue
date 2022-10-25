@@ -121,7 +121,7 @@
                   size="sm"
                   v-model="form.openingBalance"
                   step="0.01"
-                  @input="onOBalanceUpdate"
+                  @update="onOBalanceUpdate"
                   debounce="600"
                 ></b-form-input>
                 <template #append>
