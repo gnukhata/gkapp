@@ -297,6 +297,9 @@
             >
               <b-icon icon="code"></b-icon><translate> Source Code</translate>
             </b-nav-item>
+            <b-nav-item class="mr-3" to="/report-bug">
+              <b-icon icon="bug"></b-icon><translate> Report Bug</translate>
+            </b-nav-item>
           </b-collapse>
         </b-nav>
         <hr />
