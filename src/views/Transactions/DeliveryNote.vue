@@ -809,7 +809,7 @@ export default {
       return { delchaldata: delchal, stockdata: stock };
     },
     resetForm() {
-      this.showPrintModal = true;
+      this.showPrintModal = false;
       let delNote = this.form.delNote;
       this.form = {
         type: 'sale',
