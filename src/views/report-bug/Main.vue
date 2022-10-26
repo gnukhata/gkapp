@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-5">
+  <section class="mt-5 m-2">
     <b-card
       header="Report Bug"
       header-bg-variant="dark"
@@ -21,15 +21,28 @@
       <b-form-group
         label="Select Module"
         label-class="font-weight-bold required"
+        label-cols="auto"
         content-cols="11"
       >
         <v-select
           :options="finalRoutes"
-          v-model="selectedUrl"
+          v-model="selectedModule"
           :placeholder="this.$gettext('Select / Search Modules')"
           label="name"
           required
         ></v-select>
+      </b-form-group>
+      <!-- Bug Title -->
+      <b-form-group
+        label-cols="10"
+        label="Title"
+        label-class="font-weight-bold required"
+        content-cols="11"
+      >
+        <b-form-input
+          :placeholder="$gettext('Title')"
+          v-model="bugTitle"
+        ></b-form-input>
       </b-form-group>
       <!-- bug description -->
       <b-form-group
@@ -44,17 +57,24 @@
           :placeholder="this.$gettext('Describe your problem')"
         ></b-textarea>
       </b-form-group>
+      <!-- Submit button -->
       <b-button
-        :href="
-          `mailto:?to=incoming+gnukhata-gnukhata-40456223-8s695fsvkl2uw7wjim3xsmk0r-issue@incoming.gitlab.com&subject=${this.selectedUrl.name}&body=${this.bugDescription}`
+        :disabled="
+          !selectedModule.name ||
+            bugTitle.length == 0 ||
+            bugDescription.length == 0
         "
-        :disabled="!selectedUrl.name || !this.bugDescription.length > 0"
         variant="success"
+        type="submit"
         size="sm"
-        class="mt-2 float-right"
-        ><b-icon class="mr-1" icon="envelope"></b-icon
-        ><translate>Submit</translate></b-button
+        class="float-right"
+        :href="
+          `mailto:incoming+gnukhata-issue-tracker-40456223-8s695fsvkl2uw7wjim3xsmk0r-issue@incoming.gitlab.com?subject=[${this.selectedModule.name}] ${this.bugTitle}&body=${this.bugDescription}`
+        "
       >
+        <b-icon class="mr-1" icon="envelope"></b-icon
+        ><translate>Submit</translate>
+      </b-button>
     </b-card>
   </section>
 </template>
@@ -66,8 +86,9 @@ export default {
   components: { GkCardheader },
   data() {
     return {
-      selectedUrl: '',
+      selectedModule: '',
       finalRoutes: [],
+      bugTitle: '',
       bugDescription: '',
     };
   },
