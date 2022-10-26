@@ -17,9 +17,9 @@ const routes = [
       title: 'User Login',
 		},
 		path: '/',
-    name: 'User Login',
+    name: 'Login',
 		component: () =>
-      import(/* webpackChunkName: "user-login" */ '../views/SelectUserOrg.vue'),
+      import(/* webpackChunkName: "select-org" */ '../views/SelectUserOrg.vue'),
 	},
   {
     meta: {
@@ -30,15 +30,6 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "user-login" */ '../views/SelectUserOrg.vue'),
   },
-  // {
-  //   meta: {
-  //     title: 'Select Organisation',
-  //   },
-  //   path: '/select-org',
-  //   name: 'Select Organisation',
-  //   component: () =>
-  //     import(/* webpackChunkName: "select-org" */ '../views/SelectOrg.vue'),
-  // },
   {
     meta: {
       title: 'Server Setup',

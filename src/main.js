@@ -227,11 +227,11 @@ Vue.mixin({
 			// reset the org image to default
       this.$store.commit('updateOrgImg', 'img/gk.png');
       // alert the user on logout
-      this.$bvToast.toast(this.$gettext(`Logged out succesfully`), {
+      /* this.$bvToast.toast(this.$gettext(`Logged out succesfully`), {
         title: 'Logout',
         solid: true,
         variant: 'success',
-      });
+      }); */
     },
 		//This method runs when switch server button is clicked
     switchServer() {
