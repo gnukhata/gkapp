@@ -464,7 +464,7 @@ export default {
       this.loading = true;
     },
     getGodownList() {
-      axios
+      return axios
         .get('/godown')
         .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
@@ -510,7 +510,9 @@ export default {
   },
   mounted() {
     this.getProductList();
-    this.getGodownList();
+    this.getGodownList().then(() => {
+      this.godownId = this.$store.getters['global/getDefaultGodown'];
+    });
   },
 };
 </script>
