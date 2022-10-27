@@ -200,7 +200,7 @@ Vue.mixin({
      * Logout the user, But preserve the gkcore url
      */
     logOut() {
-      let gkcoreUrl = this.$store.getters["getGkCoreUrl"];
+      const gkcoreUrl = this.$store.getters["getGkCoreUrl"];
 
       // reset orgname
       this.$store.commit('resetOrg');
@@ -214,8 +214,8 @@ Vue.mixin({
       localStorage.removeItem('orgCodeChoice');
 
       // delete items from localStorage
-      let deleteList = ['authToken', 'orgCode', 'orgName', 'orgyears'];
-      for (let i in deleteList) {
+      const deleteList = ['authToken', 'orgCode', 'orgName', 'orgyears'];
+      for (const i in deleteList) {
         localStorage.removeItem(deleteList[i]);
       }
 
@@ -224,14 +224,16 @@ Vue.mixin({
 
       // redirect to login page
       this.$router.push('/user-login');
-
+			// reset the org image to default
+      this.$store.commit('updateOrgImg', 'img/gk.png');
       // alert the user on logout
-      this.$bvToast.toast(`Logged out succesfully`, {
+      /* this.$bvToast.toast(this.$gettext(`Logged out succesfully`), {
         title: 'Logout',
         solid: true,
         variant: 'success',
-      });
+      }); */
     },
+		//This method runs when switch server button is clicked
     switchServer() {
       this.$store.commit('setGkCoreUrl', {
         gkCoreUrl: null,

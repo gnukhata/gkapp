@@ -12,15 +12,15 @@ import AddCategory from '@/views/CategoryCreate.vue';
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    meta: {
-      title: 'Login',
-    },
-    path: '/',
+	{
+		meta: {
+      title: 'User Login',
+		},
+		path: '/',
     name: 'Login',
-    component: () =>
-      import(/* webpackChunkName: "login" */ '../views/Login.vue'),
-  },
+		component: () =>
+      import(/* webpackChunkName: "select-org" */ '../views/SelectUserOrg.vue'),
+	},
   {
     meta: {
       title: 'User Login',
@@ -29,15 +29,6 @@ const routes = [
     name: 'User Login',
     component: () =>
       import(/* webpackChunkName: "user-login" */ '../views/SelectUserOrg.vue'),
-  },
-  {
-    meta: {
-      title: 'Select Organisation',
-    },
-    path: '/select-org',
-    name: 'Select Organisation',
-    component: () =>
-      import(/* webpackChunkName: "select-org" */ '../views/SelectOrg.vue'),
   },
   {
     meta: {
@@ -63,7 +54,7 @@ const routes = [
       requiresOrgAuth: true,
     },
     path: '/logs',
-    name: 'Organisation Logs',
+    name: 'Audit Logs',
     component: Logs,
   },
   {
@@ -794,6 +785,14 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "gstnews-single-post" */ '../views/gst-news/SinglePost.vue'
+      ),
+  },
+  {
+    path: '/report-bug',
+    name: 'Report Bug',
+    component: () =>
+      import(
+        /* webpackChunkName: "gstnews-single-post" */ '../views/report-bug/Main.vue'
       ),
   },
 ];

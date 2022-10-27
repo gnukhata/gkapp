@@ -640,8 +640,8 @@ export default {
                     })
                     .then(() => {
                       // debugger;
-                      // redirect to workflow on login
-                      this.$router.push('/workflow/Transactions-Invoice/-1').then(() => {
+                      // visit the dashboard page
+                      this.$router.push('/dashboard').then(() => {
                         window.location.reload();
                       });
                     });
