@@ -272,6 +272,9 @@ export default {
       });
     }
 
+    // The below code checks the store and updates the current financial year when the app reloads
+    // TODO: Must make this part of code reactive, such that the current financial year is updated when 
+    // its changed in any view and doesn't require a page refresh to reflect
     if (this.yearStart && this.yearEnd) {
       let ystart = this.yearStart
         .split('-')

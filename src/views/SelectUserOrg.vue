@@ -641,7 +641,9 @@ export default {
                     .then(() => {
                       // debugger;
                       // redirect to workflow on login
-                      this.$router.push('/workflow/Transactions-Invoice/-1');
+                      this.$router.push('/workflow/Transactions-Invoice/-1').then(() => {
+                        window.location.reload();
+                      });
                     });
                 });
               }

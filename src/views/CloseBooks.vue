@@ -20,7 +20,6 @@
                 v-b-popover.click.blur="{
                   variant: 'dark',
                   title: 'Close Books',
-                  html: 'true',
                   content:
                     'On activating this option, balances in all expense and income accounts will be transferred to Profit & Loss or Income & Expenditure Account and these accounts will be closed. No transactions can be recorded in these accounts but Ledger accounts can be viewed, printed. To <b>ROLL OVER</b> the company to new financial year, You have to close books first',
                 }"
@@ -34,32 +33,26 @@
           :label="$gettext('Current Financial Year:')"
         >
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-md-6">
               <b-form-group
-                content-cols="auto"
                 id="input-group-3"
                 :label="$gettext('From')"
-                label-for="date-1"
+                label-for="cb-from"
               >
-                <b-input-group class="mb-3">
-                  <gk-date
-                    :readonly="true"
-                    id="cb-from"
-                    v-model="details.yearstart"
-                  ></gk-date>
-                </b-input-group>
+                <gk-date
+                  :readonly="true"
+                  id="cb-from"
+                  v-model="details.yearstart"
+                ></gk-date>
               </b-form-group>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-6">
               <b-form-group
-                content-cols="auto"
                 id="input-group-4"
                 :label="$gettext('To')"
-                label-for="date-2"
+                label-for="cb-to"
               >
-                <b-input-group>
-                  <gk-date id="cb-to" v-model="details.yearend"></gk-date>
-                </b-input-group>
+                <gk-date id="cb-to" v-model="details.yearend"></gk-date>
               </b-form-group>
             </div>
           </div>
@@ -124,28 +117,22 @@
             :label="$gettext('New Financial Year:')"
           >
             <div class="row">
-              <div class="col-sm-4">
+              <div class="col-md-6">
                 <b-form-group
-                  content-cols="auto"
                   id="input-group-3"
                   :label="$gettext('From')"
-                  label-for="date-1"
+                  label-for="ro-from"
                 >
-                  <b-input-group>
-                    <gk-date id="ro-from" v-model="newYearStart"></gk-date>
-                  </b-input-group>
+                  <gk-date id="ro-from" v-model="newYearStart"></gk-date>
                 </b-form-group>
               </div>
-              <div class="col-sm-4">
+              <div class="col-md-6">
                 <b-form-group
-                  content-cols="auto"
                   id="input-group-4"
                   :label="$gettext('To')"
-                  label-for="date-2"
+                  label-for="ro-to"
                 >
-                  <b-input-group class="mb-3">
-                    <gk-date id="ro-from" v-model="newYearEnd"></gk-date>
-                  </b-input-group>
+                  <gk-date id="ro-to" v-model="newYearEnd"></gk-date>
                 </b-form-group>
               </div>
             </div>
@@ -177,6 +164,7 @@
  */
 import axios from 'axios';
 import GkDate from '../components/GkDate.vue';
+import { mapState } from 'vuex';
 export default {
   components: { GkDate },
   name: 'CloseBooks',
@@ -188,7 +176,9 @@ export default {
       newYearEnd: '',
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(['finYears']),
+  },
   methods: {
     confirm(type, message) {
       this.$bvModal
@@ -225,7 +215,13 @@ export default {
                   this.details.yearend.split('-').join('/')
                 );
                 let newStart = new Date(oldEnd.getTime() + ONE_DAY * 2);
-                let newEnd = new Date(newStart.getTime() + ONE_DAY * 364);
+                let endYear = newStart.getFullYear() + 1;
+                let newEnd = '';
+                if (endYear % 4 === 0) {
+                  newEnd = new Date(newStart.getTime() + ONE_DAY * 365);
+                } else {
+                  newEnd = new Date(newStart.getTime() + ONE_DAY * 364);
+                }
                 this.newYearStart = newStart.toISOString().substr(0, 10);
                 this.newYearEnd = newEnd.toISOString().substr(0, 10);
                 this.isLoading = false;
@@ -304,7 +300,7 @@ export default {
       this.isLoading = true;
       axios
         .get(
-          `/rollclose?task=rollover&financialend=${this.newYearEnd}&financialstart=${this.newYearStart}"`
+          `/rollclose?task=rollover&financialend=${this.newYearEnd}&financialstart=${this.newYearStart}`
         )
         .then((r) => {
           if (r.status == 200) {
@@ -387,7 +383,7 @@ export default {
     },
     orgLogin(yearData) {
       if (!yearData) {
-        return;
+        this.logOut();
       }
       console.log(yearData);
       // const userAuthToken = localStorage.getItem('userAuthToken');
@@ -401,39 +397,60 @@ export default {
         .then((resp) => {
           switch (resp.data.gkstatus) {
             case 0:
-              axios.defaults.baseURL = this.gkCoreUrl;
-              axios.defaults.headers = { gktoken: resp.data.token };
-              // Initiate vuex store
-              this.$store.dispatch('setSessionStates', {
-                auth: true,
-                orgCode: selectedYear.code,
-                authToken: resp.data.token,
-                orgYears: {
-                  yearStart: selectedYear.ystart
+              {
+                // debugger;
+                axios.defaults.baseURL = this.gkCoreUrl;
+                axios.defaults.headers = { gktoken: resp.data.token };
+                let finYears = this.finYears;
+                let ystart = selectedYear.ystart
                     .split('-')
                     .reverse()
                     .join('-'),
-                  yearEnd: selectedYear.yend
+                  yend = selectedYear.yend
                     .split('-')
                     .reverse()
-                    .join('-'),
-                },
-              });
+                    .join('-');
+                finYears.unshift({
+                  code: selectedYear.code,
+                  index: finYears.length,
+                  label: `${ystart} - ${yend}`,
+                  yend, // dd-mm-yyyy
+                  ystart, // dd-mm-yyyy
+                });
 
-              Promise.all([
-                this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
-                this.$store.dispatch('global/initGlobalConfig'), // initialises global config
-              ]).then(() => {
-                this.$store
-                  .dispatch('global/initGlobalState', {
-                    lang: this.$language,
-                  })
-                  .then(() => {
-                    // debugger;
-                    // redirect to workflow on login
-                    this.$router.push('/workflow/Transactions-Invoice/-1');
-                  });
-              });
+                localStorage.setItem('orgCodeChoice', selectedYear.code);
+
+                // Initiate vuex store
+                this.$store.dispatch('setSessionStates', {
+                  auth: true,
+                  orgCode: selectedYear.code,
+                  authToken: resp.data.token,
+                  orgYears: {
+                    yearStart: selectedYear.ystart, // yyyy-mm-dd
+                    yearEnd: selectedYear.yend, // yyyy-mm-dd
+                  },
+                  finYears,
+                });
+
+                Promise.all([
+                  this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
+                  this.$store.dispatch('global/initGlobalConfig'), // initialises global config
+                ]).then(() => {
+                  this.$store
+                    .dispatch('global/initGlobalState', {
+                      lang: this.$language,
+                    })
+                    .then(() => {
+                      // debugger;
+                      // redirect to workflow on login
+                      this.$router
+                        .push('/workflow/Transactions-Invoice/-1')
+                        .then(() => {
+                          window.location.reload();
+                        });
+                    });
+                });
+              }
               break;
             default:
               this.logOut();
