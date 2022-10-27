@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid">
-    <!-- Log info -->
+    <!-- heading -->
     <b-alert
       show
       class="bg-dark text-center text-light mx-auto d-print-none mt-2"
@@ -14,15 +14,19 @@
         {{ dateReverse(yearEnd) }}
       </div>
     </b-alert>
-    <div class="d-flex justify-content-center mt-3 mb-3 d-print-none">
-      <b-form-input
-        class="border border-secondary container-sm gksearch"
-        type="text"
-        placeholder="Search Logs"
-        v-model="searchText"
-      ></b-form-input>
-    </div>
-    <gk-toolbar class="d-print-none">
+    <!-- toolbar -->
+    <gk-toolbar class="d-print-none mt-5">
+      <template #left>
+        <!-- search bar -->
+        <b-form-input
+          class="m-1 border border-secondary container-sm gksearch"
+          type="text"
+          :placeholder="$gettext('Search Logs')"
+          v-model="searchText"
+          size="sm"
+          style="align-self:center"
+        ></b-form-input>
+      </template>
       <div>
         <b-button variant="link" id="date-select">
           <b-icon icon="funnel"></b-icon>
@@ -36,7 +40,7 @@
         >
           <!-- Get logs by date range -->
           <b-form @submit.prevent="logsByDateRange">
-            <h6 v-text="'Sort by Date Range:'"></h6>
+            <h6 class="bg-dark text-light p-1" v-text="'Date Range'"></h6>
             <!-- date start -->
             <gk-date
               id="fd"
