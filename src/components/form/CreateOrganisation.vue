@@ -35,6 +35,44 @@
             >
             </b-form-input>
           </b-form-group>
+          <b-form-group
+            label-size="md"
+            id="input-group-11"
+            label="Address"
+            label-for="input-11"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> Address </translate>
+            </template>
+            <b-form-input
+              size="md"
+              id="input-11"
+              type="text"
+              placeholder="Address"
+              v-model.trim="orgAddr"
+              required
+            >
+            </b-form-input>
+          </b-form-group>
+          <b-form-group
+            label-size="md"
+            id="input-group-12"
+            label="State"
+            label-for="select-1"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> State </translate>
+            </template>
+            <v-select
+              :options="states"
+              v-model="orgState"
+              id="select-1"
+              :required="true"
+            >
+            </v-select>
+          </b-form-group>
           <b-form-group label-size="md" label="Type" label-cols="3">
             <template #label>
               <translate> Type </translate>
@@ -198,6 +236,8 @@ export default {
       },
       orgName: '',
       orgType: 0,
+      orgState: '',
+      orgAddr: '',
       yearStart: null,
       yearEnd: null,
       userName: '',
@@ -210,9 +250,10 @@ export default {
       showMenu: true,
       valid: {
         nameFormat: null,
-        nameUnique: null
+        nameUnique: null,
       },
       orgNameRegEx: null,
+      states: [],
     };
   },
   computed: {
@@ -235,7 +276,7 @@ export default {
     },
     _orgName: (self) => self.orgName,
     orgNameValidity: (self) => {
-      if(self.valid.nameFormat === null && self.valid.nameUnique === null) {
+      if (self.valid.nameFormat === null && self.valid.nameUnique === null) {
         return null;
       }
 
@@ -243,14 +284,14 @@ export default {
     },
     orgNameFeedback: (self) => {
       let feedback = '';
-      if(!self.valid.nameFormat && self.valid.nameFormat !== null ) {
-        feedback = 'Orgname can only be alphanumeric with _ and . symbols.'
+      if (!self.valid.nameFormat && self.valid.nameFormat !== null) {
+        feedback = 'Orgname can only be alphanumeric with _ and . symbols.';
       }
-      if(!self.valid.nameUnique && self.valid.nameUnique !== null) {
-        feedback += 'Orgname provided has been taken, please try another name'
+      if (!self.valid.nameUnique && self.valid.nameUnique !== null) {
+        feedback += 'Orgname provided has been taken, please try another name';
       }
       return feedback;
-    }
+    },
   },
   watch: {
     _orgName(name) {
@@ -259,12 +300,12 @@ export default {
   },
   methods: {
     checkOrgName(query) {
-      if(!query) {
+      if (!query) {
         this.valid.nameFormat = null;
         this.valid.nameUnique = null;
         return;
       }
-      if(!this.orgNameRegEx.test(query)) {
+      if (!this.orgNameRegEx.test(query)) {
         this.valid.nameFormat = false;
         return;
       }
@@ -291,37 +332,21 @@ export default {
     },
     setYearEnd() {
       // console.log('On date change')
-      if (this.yearStart !== null) {
-        const from = this.yearStart.split('-'); // yyyy/mm/dd
-        const to = new Date(`${parseInt(from[0]) + 1}/${from[1]}/${from[2]}`);
-        let end = null;
-        to.setDate(to.getDate() - 1);
-        end = to.toISOString().substr(0, 10);
-        if (end.includes('NaN')) {
-          this.yearEnd = null;
+      if (this.yearStart !== null && this.yearStart) {
+        const ONE_DAY = 86400000;
+        let startDate = new Date(this.yearStart.split('-').join('/'));
+        let endYear = startDate.getFullYear() + 1;
+        let endDate = '';
+        if (endYear % 4 === 0) {
+          endDate = new Date(startDate.getTime() + ONE_DAY * 366);
         } else {
-          this.yearEnd = end;
+          endDate = new Date(startDate.getTime() + ONE_DAY * 365);
         }
+        this.yearEnd = endDate.toISOString().substr(0, 10);
       } else {
         this.yearEnd = null;
       }
     },
-    // getPasswordHint(pwdStrength) {
-    //   const available = pwdStrength.contains.map((item) => item.message);
-    //   let hint = this.options.pwdFieldTypes
-    //     .filter((item) => !available.includes(item))
-    //     .reduce((prev, cur) => {
-    //       return `${prev} ${cur},`;
-    //     }, '');
-    //   hint = hint.substring(0, hint.length - 1);
-    //   if (available.length < 4) {
-    //     hint = `Require atleast 1 ${hint}.`;
-    //   }
-    //   if (pwdStrength.length < 8) {
-    //     hint += ' Must be minimum 8 characters long';
-    //   }
-    //   return hint;
-    // },
     onSubmit() {
       if (this.userAnswer == this.answer) {
         this.isLoading = true;
@@ -418,8 +443,9 @@ export default {
           orgtype: this.options.orgType[this.orgType].text,
           yearstart: this.yearStart.split('-').join('/'),
           yearend: this.yearEnd.split('-').join('/'),
+          orgstate: this.orgState,
           orgcity: null,
-          orgaddr: null,
+          orgaddr: this.orgAddr,
           orgpincode: null,
           orgcountry: null,
           orgtelno: null,
@@ -444,11 +470,29 @@ export default {
         },
       };
     },
+    preloadData() {
+      this.isPreloading = true;
+      axios
+        .get('/state')
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            this.states = resp.data.gkresult.map(
+              (state) => Object.values(state)[0]
+            );
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   mounted() {
+    this.preloadData();
     this.checkRegistrationStatus();
     this.yearStart = `${new Date().getFullYear()}-04-01`; // 1st of April, current year. YYYY-MM-DD
-    this.orgNameRegEx = new RegExp('^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$');
+    this.orgNameRegEx = new RegExp(
+      '^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$'
+    );
   },
 };
 </script>
