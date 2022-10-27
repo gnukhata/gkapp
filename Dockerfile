@@ -1,4 +1,4 @@
-FROM node:lts-alpine as build
+FROM node:gallium-alpine as build
 
 # copy the contents of gkapp to the image
 COPY . /gkapp
