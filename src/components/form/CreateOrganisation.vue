@@ -31,6 +31,7 @@
               v-model.trim="orgName"
               required
               debounce="500"
+              @update="checkOrgName"
               :state="orgNameValidity"
             >
             </b-form-input>
@@ -137,30 +138,6 @@
               </div>
             </div>
           </b-form-group>
-          <hr />
-
-          <b-form-group
-            label-size="md"
-            id="input-group-1"
-            label="Captcha"
-            label-for="captcha-1"
-            label-cols="3"
-          >
-            <template #label>
-              <captcha width="90" v-model="answer"></captcha>
-            </template>
-            <!-- <b-col> -->
-            <b-form-input
-              size="md"
-              class="mt-1"
-              id="captcha-1"
-              v-model="userAnswer"
-              type="text"
-              placeholder="Captcha Answer"
-              required
-            >
-            </b-form-input>
-          </b-form-group>
           <small> <translate> * All fields are required </translate> </small>
           <!-- <hr /> -->
           <div class="float-right">
@@ -205,13 +182,12 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import passwordStrength from 'check-password-strength';
-import Captcha from '@/components/Captcha.vue';
 import GkDate from '@/components/GkDate.vue';
 import { STATUS_CODES } from '@/js/enum.js';
 
 export default {
   name: 'CreateOrganisation',
-  components: { Captcha, GkDate },
+  components: { GkDate },
   props: {
     onSave: {
       type: Function,
@@ -245,8 +221,6 @@ export default {
       confirmPassword: '',
       securityAnswer: '',
       securityQuestion: '',
-      answer: null,
-      userAnswer: null,
       showMenu: true,
       valid: {
         nameFormat: null,
@@ -274,7 +248,6 @@ export default {
       }
       return null;
     },
-    _orgName: (self) => self.orgName,
     orgNameValidity: (self) => {
       if (self.valid.nameFormat === null && self.valid.nameUnique === null) {
         return null;
@@ -285,17 +258,17 @@ export default {
     orgNameFeedback: (self) => {
       let feedback = '';
       if (!self.valid.nameFormat && self.valid.nameFormat !== null) {
-        feedback = 'Orgname can only be alphanumeric with _ and . symbols.';
+        if (self.orgName.length < 6 || self.orgName.length > 20) {
+          feedback =
+            'Orgname must be minimum 6 characters and maximum 20 characters long';
+        } else {
+          feedback = 'Orgname can only be alphanumeric with spaces, _ and . symbols.';
+        }
       }
       if (!self.valid.nameUnique && self.valid.nameUnique !== null) {
         feedback += 'Orgname provided has been taken, please try another name';
       }
       return feedback;
-    },
-  },
-  watch: {
-    _orgName(name) {
-      this.checkOrgName(name);
     },
   },
   methods: {
@@ -348,93 +321,76 @@ export default {
       }
     },
     onSubmit() {
-      if (this.userAnswer == this.answer) {
-        this.isLoading = true;
-        const payload = this.initPayload();
-        const userAuthToken = localStorage.getItem('userAuthToken');
-        // Create Organisation
-        axios
-          .post('/organisations', payload, {
-            headers: {
-              gktoken: userAuthToken,
-              gkusertoken: userAuthToken,
-            },
-          })
-          .then((response) => {
-            // console.log(response)
-            this.isLoading = false;
-            switch (response.data.gkstatus) {
-              case 0:
+      this.isLoading = true;
+      const payload = this.initPayload();
+      const userAuthToken = localStorage.getItem('userAuthToken');
+      // Create Organisation
+      axios
+        .post('/organisations', payload, {
+          headers: {
+            gktoken: userAuthToken,
+            gkusertoken: userAuthToken,
+          },
+        })
+        .then((response) => {
+          // console.log(response)
+          this.isLoading = false;
+          switch (response.data.gkstatus) {
+            case 0:
+              {
+                this.$store
+                  .dispatch('setSessionStates', {
+                    orgCode: response.data.orgcode,
+                    authToken: response.data.token,
+                  })
+                  .then(() => {
+                    let log = {
+                      activity: `Organisation created: ${payload.orgdetails.orgname}`,
+                    };
+                    axios.post('/log', log);
+                  });
+              }
+              break;
+            case 1:
+              this.$bvToast.toast(
+                this.$gettext(
+                  `Duplicate Entry! Please Check the Organisation Name`
+                ),
                 {
-                  this.$store
-                    .dispatch('setSessionStates', {
-                      orgCode: response.data.orgcode,
-                      authToken: response.data.token,
-                    })
-                    .then(() => {
-                      let log = {
-                        activity: `Organisation created: ${payload.orgdetails.orgname}`,
-                      };
-                      axios.post('/log', log);
-                    });
+                  title: this.$gettext('Create Account Error!'),
+                  autoHideDelay: 3000,
+                  variant: 'danger',
+                  appendToast: true,
+                  solid: true,
                 }
-                break;
-              case 1:
-                this.$bvToast.toast(
-                  this.$gettext(
-                    `Duplicate Entry! Please Check the Organisation Name`
-                  ),
-                  {
-                    title: this.$gettext('Create Account Error!'),
-                    autoHideDelay: 3000,
-                    variant: 'danger',
-                    appendToast: true,
-                    solid: true,
-                  }
-                );
-                break;
-              default:
-                this.$bvToast.toast(
-                  this.$gettext(`Unable to create account, Please try again`),
-                  {
-                    title: this.$gettext('Create Account Error!'),
-                    autoHideDelay: 3000,
-                    variant: 'danger',
-                    appendToast: true,
-                    solid: true,
-                  }
-                );
-            } // end switch
-            this.onSave(response.data.gkstatus === 0);
-          })
-          .catch((error) => {
-            this.$bvToast.toast(`Error: ${error.message}`, {
-              title: this.$gettext('Create Account Error!'),
-              autoHideDelay: 3000,
-              variant: 'warning',
-              appendToast: true,
-              solid: true,
-            });
-          })
-          .then(() => {
-            this.isLoading = false;
-          });
-        // console.log(this.initPayload())
-      } else {
-        // Alert the user on captcha failure
-        this.$bvToast.toast(
-          this.$gettext(`Captcha is incorrect. Please try again`),
-          {
-            title: this.$gettext('Captcha Error!'),
+              );
+              break;
+            default:
+              this.$bvToast.toast(
+                this.$gettext(`Unable to create account, Please try again`),
+                {
+                  title: this.$gettext('Create Account Error!'),
+                  autoHideDelay: 3000,
+                  variant: 'danger',
+                  appendToast: true,
+                  solid: true,
+                }
+              );
+          } // end switch
+          this.onSave(response.data.gkstatus === 0);
+        })
+        .catch((error) => {
+          this.$bvToast.toast(`Error: ${error.message}`, {
+            title: this.$gettext('Create Account Error!'),
             autoHideDelay: 3000,
             variant: 'warning',
             appendToast: true,
             solid: true,
-          }
-        );
-        // Generate new captcha
-        this.genCaptcha();
-      }
+          });
+        })
+        .then(() => {
+          this.isLoading = false;
+        });
     },
     initPayload() {
       return {
@@ -491,7 +447,7 @@ export default {
     this.checkRegistrationStatus();
     this.yearStart = `${new Date().getFullYear()}-04-01`; // 1st of April, current year. YYYY-MM-DD
     this.orgNameRegEx = new RegExp(
-      '^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$'
+      '^(?=.{6,20}$)(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_. ])$'
     );
   },
 };

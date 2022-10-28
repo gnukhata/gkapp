@@ -74,6 +74,29 @@
             size="sm"
           ></b-form-input>
         </b-form-group>
+        <hr />
+        <b-form-group
+          label-size="md"
+          id="input-group-1"
+          label="Captcha"
+          label-for="captcha-1"
+          label-cols="3"
+        >
+          <template #label>
+            <captcha width="90" v-model="answer"></captcha>
+          </template>
+          <!-- <b-col> -->
+          <b-form-input
+            size="md"
+            class="mt-1"
+            id="captcha-1"
+            v-model="userAnswer"
+            type="text"
+            placeholder="Captcha Answer"
+            required
+          >
+          </b-form-input>
+        </b-form-group>
         <slot name="modal-footer">
           <b-button
             :disabled="!pwdMatch"
@@ -99,13 +122,16 @@ import axios from 'axios';
 import Password from '@/components/Password.vue';
 import SecurityQuestions from '@/components/SecurityQuestions.vue';
 import { STATUS_CODES } from '@/js/enum.js';
+import Captcha from '@/components/Captcha.vue';
 export default {
-  components: { SecurityQuestions, Password },
+  components: { SecurityQuestions, Password, Captcha },
   name: 'CreateUser',
   data() {
     return {
       isLoading: false,
       cnfPassword: '',
+      answer: null,
+      userAnswer: null,
       form: {
         username: '',
         userpassword: '',
@@ -156,6 +182,21 @@ export default {
     },
     /* Create User */
     addUser() {
+      if (this.userAnswer != this.answer) {
+        // Alert the user on captcha failure
+        this.$bvToast.toast(
+          this.$gettext(`Captcha is incorrect. Please try again`),
+          {
+            title: this.$gettext('Captcha Error!'),
+            autoHideDelay: 3000,
+            variant: 'warning',
+            appendToast: true,
+            solid: true,
+          }
+        );
+        return;
+      }
+
       this.isLoading = true;
       // If selected role is godown incharge, add selected godown id's to the submitted form
 
