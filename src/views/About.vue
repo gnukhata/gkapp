@@ -1,15 +1,14 @@
 <template>
   <div class="container">
+    <!-- image -->
     <b-img
       fluid
       center
       width="90"
       src="img/icons/manifest-icon-192.png"
     ></b-img>
-    <div class="text-center">
-      <b-badge pill variant="danger">v{{ ver }}</b-badge>
-    </div>
-    <div class="text-center mt-2">
+    <!-- about -->
+    <div class="text-center mt-4">
       <h4 class="font-italic text-dark"></h4>
       <p class="text-monospace text-left mt-3" v-translate>
         GNUKhata is free and open source software (FOSS) for financial
@@ -21,6 +20,7 @@
         features adequate inventory management support which is integral to
         financial accounting needs for many businesses.
       </p>
+      <!-- links -->
       <div class="mt-4 has-text-centered">
         <a class="mx-1" href="https://gnukhata.org" target="_blank">
           <b-button variant="dark">
@@ -34,7 +34,8 @@
             <translate> Source Code</translate>
           </b-button>
         </a>
-        <div class="mt-3 d-flex-row">
+        <!-- credits -->
+        <div class="mt-5 d-flex-row">
           <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank">
             <img
               class="mt-3 img-fluid"
@@ -52,18 +53,32 @@
             />
           </a>
         </div>
+    <!-- app version info -->
+      <p class="mt-3 text-center">
+        gkapp: <code>v{{gkappVersion}}</code> | gkcore: <code>v{{gkcoreVersion}}</code>
+      </p>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from 'axios';
 import { version } from '../../package';
 export default {
   name: 'About',
   data() {
     return {
-      ver: version,
+      gkappVersion: version,
+      gkcoreVersion: null,
     };
+  },
+  mounted() {
+    axios.get('/')
+    .then(r=>{
+      if (r.status == 200) {
+        this.gkcoreVersion = r.data.version
+      }
+    })
   },
 };
 </script>
