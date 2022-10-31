@@ -15,8 +15,6 @@ import translations from './locales/translations.json';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import { mapState } from 'vuex';
-// app config
-import gkappConfig from '../gkapp.config';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
@@ -43,27 +41,47 @@ Vue.mixin({
     return {
       sidebarToggle: false,
       user_role: Number,
+      gkConfig: {
+        // https://cli.vuejs.org/guide/mode-and-env.html#modes
+        mode: process.env.NODE_ENV || 'production',
+        notice: process.env.VUE_APP_GKAPP_NOTICE || true,
+        conf: {},
+      },
     };
   },
   computed: {
-    // https://cli.vuejs.org/guide/mode-and-env.html#modes
     ...mapState(['userAuthenticated']),
   },
+  created() {
+    this.get_gk_config();
+  },
+  // Naming convention for methods is: snake_casing
   methods: {
-    // Naming convention for methods is: snake_casing
-
-    // fetch latest gst news from api & check if
-    // new news items are available
-    gkConfig() {
-      return {
-        mode: process.env.NODE_ENV || 'production',
-        notice: process.env.VUE_APP_GKAPP_NOTICE || true,
-        conf: gkappConfig,
-      };
+    /**
+     * Get gkapp config from json file
+     */
+    get_gk_config() {
+      fetch('/gkapp-config.json')
+        .then((r) => r.json())
+        .then((r) => {
+          this.gkConfig['conf'] = r;
+        })
+        .catch((e) => {
+          this.$gettext('failed to load gkapp config file'),
+            {
+              title: this.$gettext('Error'),
+              variant: 'danger',
+              solid: true,
+            };
+          console.log(e);
+        });
     },
     is_mobile() {
       return window.innerWidth <= 768 ? true : false;
     },
+    /**
+     * check for latest news from the gst portal
+     */
     check_gst_news() {
       axios.get('/gst-news').then((r) => {
         if (localStorage.getItem('gstNewsCount') && this.userAuthenticated) {
@@ -120,8 +138,7 @@ Vue.mixin({
           // handle more than two decimal places
         } else if (num[1].length > 2) {
           formattedValue = parseFloat(`${num[0]}.${num[1].slice(0, 2)}`);
-        }
-        // keep the same value if it has two decimal places
+        } // keep the same value if it has two decimal places
         else {
           formattedValue = value;
         }
@@ -132,7 +149,6 @@ Vue.mixin({
       return symbol + formattedValue.toLocaleString(format);
     },
     /**
-     *
      * @param {} file
      * @returns {Promise} Promise object represents base64 string
      */
@@ -200,7 +216,7 @@ Vue.mixin({
      * Logout the user, But preserve the gkcore url
      */
     logOut() {
-      const gkcoreUrl = this.$store.getters["getGkCoreUrl"];
+      const gkcoreUrl = this.$store.getters['getGkCoreUrl'];
 
       // reset orgname
       this.$store.commit('resetOrg');
@@ -224,7 +240,7 @@ Vue.mixin({
 
       // redirect to login page
       this.$router.push('/user-login');
-			// reset the org image to default
+      // reset the org image to default
       this.$store.commit('updateOrgImg', 'img/gk.png');
       // alert the user on logout
       /* this.$bvToast.toast(this.$gettext(`Logged out succesfully`), {
@@ -233,7 +249,7 @@ Vue.mixin({
         variant: 'success',
       }); */
     },
-		//This method runs when switch server button is clicked
+    //This method runs when switch server button is clicked
     switchServer() {
       this.$store.commit('setGkCoreUrl', {
         gkCoreUrl: null,

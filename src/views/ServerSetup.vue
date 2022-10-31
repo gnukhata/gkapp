@@ -60,13 +60,6 @@ export default {
       serverUrl: '',
     };
   },
-  created() {
-    // if (localStorage.getItem('gkCoreUrl')) {
-    //   if (localStorage.getItem('gkCoreUrl') != 'null') {
-    //     // this.$router.push('/select-org');
-    //   }
-    // }
-  },
   computed: {
     urlIsValid() {
       if (this.serverUrl !== '') {
@@ -82,32 +75,33 @@ export default {
     },
   },
   methods: {
+    /*
+     * this method is called when user clicks on the "Continue with default server" button
+     */
     setDefaultServer() {
-      // If you want to change this value, Set environment variable VUE_APP_GKCORE_URL (only updates during build)
-      const defaultGkCoreUrl =
-        process.env.VUE_APP_GKCORE_URL !== undefined
-          ? process.env.VUE_APP_GKCORE_URL
-          : 'http://localhost:6543';
+      const defaultGkCoreUrl = this.gkConfig.conf.gkcore_url;
       axios
         .get(`${defaultGkCoreUrl}/state`)
         .then((res) => {
-          if (res.status == 200 && res.data.gkstatus == 0) {
+          if (res.status == 200) {
             this.$store.commit('setGkCoreUrl', {
               gkCoreUrl: defaultGkCoreUrl,
             });
-            // this.$router.push('/select-org'); // old code
-            this.$router.push('/user-login'); // new code
+            this.$router.push('/user-login');
           } else {
-            this.$bvToast.toast('Please check your server setup', {
-              title: 'Unable to Connect To The Server :-(',
-              variant: 'danger',
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext('Please check your server setup'),
+              {
+                title: this.$gettext('Unable to Connect To The Server'),
+                variant: 'danger',
+                solid: true,
+              }
+            );
           }
         })
         .catch((e) => {
           this.$bvToast.toast(
-            'Please check if gkcore is properly setup & running on port 6543',
+            this.$gettext('Please check if gkcore is properly setup'),
             {
               title: e.message,
               solid: true,
@@ -129,16 +123,19 @@ export default {
             });
             this.$router.push('/user-login');
           } else {
-            this.$bvToast.toast('Please check your server setup', {
-              title: 'Unable to Connect To The Server :-(',
-              variant: 'danger',
-              solid: true,
-            });
+            this.$bvToast.toast(
+              this.$gettext('Please check your server setup'),
+              {
+                title: this.$gettext('Unable to Connect To The Server'),
+                variant: 'danger',
+                solid: true,
+              }
+            );
           }
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
-            title: 'Invalid URL',
+            title: this.$gettext('Invalid URL'),
             variant: 'danger',
             solid: true,
           });

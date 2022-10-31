@@ -56,8 +56,26 @@ npm run build
 
 ## Configuration
 
-You can customize gkapp with `gkapp.config.js` which exposes few options. To apply the changes,
-gkapp has to be built with `npm run build`
+After building, You can customize gkapp with `gkapp-config.json` located in the `public` dir, It helps customizing some aspects of gkapp. Useful for
+those who self host an instance of GNUKhata.
+
+Default config:
+
+```json
+{
+  "gkcore_url": "http://localhost:6543",
+  "login_banner": {
+    "show": false,
+    "variant": "info",
+    "content": "This text appears in the login screen"
+  },
+  "sidebar_banner": {
+    "show": false,
+    "variant": "info",
+    "content": "This text appears inside the sidebar, after the user is logged in"
+  }
+}
+```
 
 ## License
 
