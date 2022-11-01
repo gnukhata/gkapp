@@ -22,6 +22,10 @@ variables:
 gkapp:
   stage: build
   script:
+    # Replace default gkapp config with custom one
+    - rm public/gkapp-config.json && wget https://gitlab.com/gnukhata/build/-/raw/master/gkapp-config.json?inline=false
+    - mv gkapp-config.json public/
+    # install dependencies & build
     - npm install -g @vue/cli
     - npm install
     - npm run build
