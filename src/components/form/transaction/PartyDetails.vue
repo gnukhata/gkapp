@@ -808,7 +808,7 @@ export default {
           payload.gstin[this.form.state.id] = this.form.gstin;
         }
         axios.put('customersupplier', payload).then((resp) => {
-          if (resp.data.gkstaus === 0) {
+          if (resp.data.gkstatus === 0) {
             delete this.options.csData[this.form.name.id];
           }
           this.form.loading = false;
