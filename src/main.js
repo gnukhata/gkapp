@@ -64,8 +64,8 @@ Vue.mixin({
 			let configFilePath = 'gkapp-config.json'
 			// if the webapp is not hosted on web path instead of root domain, Eg: Gitlab pages,
 			// set file url accordingly
-			if (window.location.pathname !== '/') {
-				configFilePath = window.location.hostname + window.location.pathname + configFilePath
+			if (window.location.pathname != '/') {
+				configFilePath = window.location.origin + window.location.pathname + configFilePath
 			} else {
 				configFilePath = '/' + configFilePath
 			}
