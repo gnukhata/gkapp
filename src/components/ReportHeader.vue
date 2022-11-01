@@ -2,10 +2,8 @@
   <section :class="show ? '' : 'd-none d-print-block'">
     <div class="text-center bg-light mb-2">
       <h3>{{ orgName }}</h3>
-      <span class="mr-1 font-weight-bold">GSTIN: </span>
-      <span class="text-monospace">{{
-        orgAddress ? Object.values(orgAddress.gstin)[0] : ''
-      }}</span>
+      <span v-if="gstin" class="mr-1 font-weight-bold">GSTIN: </span>
+      <span v-if="gstin" class="text-monospace">{{ gstin }}</span>
     </div>
     <slot> </slot>
     <div class="text-center">
@@ -28,6 +26,7 @@ export default {
   name: 'ReportHeader',
   computed: {
     ...mapState(['orgName', 'userName', 'orgAddress']),
+    gstin: (self) => (self?.orgAddress.gstin ? self.orgAddress.gstin[0] : ''),
   },
 };
 </script>
