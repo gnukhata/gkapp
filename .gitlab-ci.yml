@@ -60,6 +60,9 @@ docker-prod:
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD
     - docker build -t digitalfreedom/gkapp:$CI_COMMIT_TAG .
     - docker push digitalfreedom/gkapp:$CI_COMMIT_TAG
+    # create alias for the latest tag 
+    - docker tag digitalfreedom/gkapp:$CI_COMMIT_TAG digitalfreedom/gkapp:latest 
+    - docker push digitalfreedom/gkapp:latest
   only:
     - tags
 
