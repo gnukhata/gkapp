@@ -158,6 +158,31 @@ export default {
     },
   },
   methods: {
+    /**
+     * fetch latest app changes, only when gkapp-config.json has it enabled
+     */
+    upgradeAppToLatestVersion() {
+      if (this.gkConfig.conf.fetch_latest_version) {
+        this.$workbox.addEventListener('waiting', () => {
+          // this.showUpdateUI = true;
+          // notify the user before updating the app
+          this.$bvToast.toast(`Updating app to the latest version`, {
+            title: 'New Update Available!',
+            solid: 'true',
+            variant: 'warning',
+            autoHideDelay: 3000,
+          });
+          // pull the latest code
+          setTimeout(() => {
+            this.$workbox.messageSW({ type: 'SKIP_WAITING' });
+          }, 3000);
+        });
+      } else {
+        console.warn(
+          'Pulling latest app changes is disabled in the gkapp-config.json'
+        );
+      }
+    },
     /*
      * Close Change password window on successful password change
      */
@@ -248,32 +273,13 @@ export default {
     });
   },
   mounted() {
+    this.upgradeAppToLatestVersion();
     this.check_gst_news();
     document.querySelector('title').textContent = `GNUKhata ${
       this.orgName !== null ? '| ' + this.orgName : ''
     }`;
-    /**
-     * fetch latest app changes
-     */
-    if (this.$workbox) {
-      this.$workbox.addEventListener('waiting', () => {
-        // this.showUpdateUI = true;
-        // notify the user before updating the app
-        this.$bvToast.toast(`Updating app to the latest version`, {
-          title: 'New Update Available!',
-          solid: 'true',
-          variant: 'warning',
-          autoHideDelay: 3000,
-        });
-        // pull the latest code
-        setTimeout(() => {
-          this.$workbox.messageSW({ type: 'SKIP_WAITING' });
-        }, 3000);
-      });
-    }
-
     // The below code checks the store and updates the current financial year when the app reloads
-    // TODO: Must make this part of code reactive, such that the current financial year is updated when 
+    // TODO: Must make this part of code reactive, such that the current financial year is updated when
     // its changed in any view and doesn't require a page refresh to reflect
     if (this.yearStart && this.yearEnd) {
       let ystart = this.yearStart
