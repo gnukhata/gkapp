@@ -53,10 +53,11 @@
             />
           </a>
         </div>
-    <!-- app version info -->
-      <p class="mt-3 text-center">
-        gkapp: <code>v{{gkappVersion}}</code> | gkcore: <code>v{{gkcoreVersion}}</code>
-      </p>
+        <!-- app version info -->
+        <p class="mt-3 text-center">
+          Frontend (gkapp): <code>v{{ gkappVersion }}</code> | Backend (gkcore):
+          <code>v{{ gkcoreVersion }}</code>
+        </p>
       </div>
     </div>
   </div>
@@ -73,12 +74,11 @@ export default {
     };
   },
   mounted() {
-    axios.get('/')
-    .then(r=>{
+    axios.get('/').then((r) => {
       if (r.status == 200) {
-        this.gkcoreVersion = r.data.version
+        this.gkcoreVersion = r.data.version;
       }
-    })
+    });
   },
 };
 </script>
