@@ -42,7 +42,7 @@ All users can view this report`)
           {{ dateReverse(this.yearEnd) }}
         </div>
       </report-header>
-      <gk-toolbar>
+      <gk-toolbar class="mt-5">
         <GkFileDownload
           v-if="result1 !== null"
           :url="
@@ -51,7 +51,7 @@ All users can view this report`)
           :commonParams="false"
         />
       </gk-toolbar>
-      <div class="row mt-5" v-if="result1 !== null">
+      <div class="row" v-if="result1 !== null">
         <div class="col">
           <b-table
             :fields="fields1"
