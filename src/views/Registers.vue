@@ -71,21 +71,29 @@
             Register</b
           >
           | <translate>From</translate>
-          <b>{{ fromDate }}</b>
+          <b class="ml-1 mr-1">{{ fromDate }}</b>
           <translate>to</translate>
-          <b>{{ toDate }}</b>
+          <b class="mr-1 ml-2">{{ toDate }}</b>
         </div>
       </report-header>
-      <b-form-input
-        type="text"
-        class="mx-auto gkcard mt-3 border border-dark d-print-none"
-        :placeholder="$gettext('search Register')"
-        v-model="search"
-      ></b-form-input>
-      <div class="d-flex mt-3 mr-1 flex-row-reverse">
-        <b-checkbox switch v-model="expandedTable"></b-checkbox>
-        <span class="mr-1" v-translate>Expanded Table</span>
-      </div>
+      <gk-toolbar class="mt-5">
+        <template #left>
+          <b-form-input
+            type="text"
+            class="d-print-none"
+            :placeholder="$gettext('search Register')"
+            v-model="search"
+            size="sm"
+            style="align-self:center"
+          ></b-form-input>
+        </template>
+        <template>
+          <div class="d-flex flex-row-reverse m-1">
+            <b-checkbox switch v-model="expandedTable"></b-checkbox>
+            <span class="mr-1" v-translate>Expanded Table</span>
+          </div>
+        </template>
+      </gk-toolbar>
       <b-table
         caption-top
         :filter="search"
@@ -124,9 +132,10 @@ import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import axios from 'axios';
 import ReportHeader from '../components/ReportHeader.vue';
+import GkToolbar from '@/components/GkToolbar.vue';
 export default {
   name: 'Registers',
-  components: { GkDate, ReportHeader },
+  components: { GkDate, ReportHeader, GkToolbar },
   data() {
     return {
       loading: false,
