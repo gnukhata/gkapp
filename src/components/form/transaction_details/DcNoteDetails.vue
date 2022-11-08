@@ -224,7 +224,7 @@ export default {
       drNo: '',
       crNo: '',
       form: {
-        type: 'debit',
+        type: 'credit', // debit, credit
         no: null,
         date: new Date().toISOString().slice(0, 10),
         gstin: null,
@@ -301,6 +301,13 @@ export default {
     invDate() {
       this.form.ref.date = this.invDate;
     },
+    saleFlag(isSale) {
+      if (isSale) {
+        this.form.type = 'credit';
+      } else {
+        this.form.type = 'debit';
+      }
+    },
   },
   methods: {
     onNoteTypeUpdate() {
@@ -362,6 +369,7 @@ export default {
       );
     },
     resetForm() {
+      this.date.valid = null;
       this.form.purpose = DR_CR_MODE['discount'];
       this.form.date = this.getNoteDate();
       this.setNoteNo(true);
