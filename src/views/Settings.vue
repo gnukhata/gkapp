@@ -195,6 +195,9 @@ export default {
           }
         });
     },
+    checkMobileMode() {
+      this.mobileMode = window.innerWidth < 576;
+    },
   },
   mounted() {
     const self = this;
@@ -208,15 +211,8 @@ export default {
       };
     });
 
-    debounceEvent(
-      window,
-      'resize',
-      () => {
-        self.mobileMode = window.innerWidth < 576;
-        console.log(self.mobileMode);
-      },
-      300
-    );
+    debounceEvent(window, 'resize', this.checkMobileMode, 300);
+    this.checkMobileMode();
   },
 };
 </script>
