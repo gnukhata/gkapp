@@ -25,6 +25,7 @@ export default new Vuex.Store({
     orgCode: null,
     orgName: null,
     orgAddress: null,
+    orgGstin: null,
     orgType: null,
     orgImg: 'img/gk.png',
     yearStart: null,
@@ -76,6 +77,7 @@ export default new Vuex.Store({
       state.orgAddress = payload;
       if (state.orgAddress.orgname) state.orgName = state.orgAddress.orgname;
     },
+
     // Init the required vuex store states from session storage
     initStore(state) {
       const userAuthStatus = localStorage.getItem('userAuthenticated');
@@ -104,6 +106,7 @@ export default new Vuex.Store({
         const orgYears = JSON.parse(localStorage.getItem('orgYears'));
         const orgType = JSON.parse(localStorage.getItem('orgArray'));
         const finYears = JSON.parse(localStorage.getItem('finYears'));
+        const orgGstin = localStorage.getItem('orgGstin');
 
         if (orgCode) {
           state.orgCode = parseInt(orgCode);
@@ -126,6 +129,14 @@ export default new Vuex.Store({
         }
         if (finYears) {
           state.finYears = finYears;
+        }
+
+        if (orgGstin) {
+          if(orgGstin === "null" || orgGstin === "undefined") {
+            state.orgGstin = null;  
+          } else {
+            state.orgGstin = orgGstin;
+          }
         }
       }
 
@@ -165,6 +176,11 @@ export default new Vuex.Store({
     setOrgName(state, payload) {
       state.orgName = payload;
       localStorage.setItem('orgName', state.orgName);
+    },
+
+    setOrgGstin(state, payload) {
+      state.orgGstin = payload;
+      localStorage.setItem('orgGstin', state.orgGstin);
     },
 
     setAuthToken(state, payload) {
@@ -240,6 +256,18 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    initGstin({ commit }) {
+      return axios.get('/organisations?type=get_gstin').then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          let result = resp.data.gkresult;
+          let gstin =
+            result.gstin && typeof result.gstin === 'object'
+              ? result.gstin[result.stateCode]
+              : null;
+          commit('setOrgGstin', gstin || null);
+        }
+      });
+    },
     initLocalStates({ commit, dispatch }) {
       commit('initStore');
       return Promise.all([dispatch('initOrgAddress'), dispatch('initOrgImg')]);

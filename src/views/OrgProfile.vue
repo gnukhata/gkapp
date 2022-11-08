@@ -548,7 +548,8 @@ export default {
       this.details.orgname = name;
       this.details.orgpincode = pincode;
     },
-    onGstinUpdate({ validity, stateCode, pan }) { // , checksum
+    onGstinUpdate({ validity, stateCode, pan }) {
+      // , checksum
       if (validity.format) {
         this.gstinValid = true;
         this.stateCode = stateCode;
@@ -563,7 +564,8 @@ export default {
         }
       }
     },
-    onGstinVerified() { // verifiedStatus
+    onGstinVerified() {
+      // verifiedStatus
       // this.form.gstin.regType = verifiedStatus
       //   ? GST_REG_TYPE['regular']
       //   : GST_REG_TYPE['unregistered'];
@@ -602,7 +604,7 @@ export default {
      * Fetch org details from api
      */
     getDetails() {
-      const self =this;
+      const self = this;
       this.loading = true;
       return axios
         .get(`/organisation`)
@@ -619,7 +621,12 @@ export default {
                       (item) => item.text === stateName
                     );
                     if (state) {
-                      self.gstin = self.details.gstin[state.value];
+                      let stateCode = parseInt(state.value);
+                      self.gstin = self.details.gstin[stateCode];
+                      // sometimes statecodes less that 10 have a 0 prefixed and sometimes not. This is caused because of an inconsistency between modules
+                      if (!self.gstin && stateCode < 10) {
+                        self.gstin = self.details.gstin[`0${stateCode}`];
+                      }
                     }
                   } else {
                     // if state doesn't exist, but gstin is there
@@ -998,9 +1005,9 @@ export default {
       let state = this.states.find((state) => state.value === this.stateCode);
       state = state ? state.text : null;
 
-      let gstin = {}
-      if(this.stateCode && this.gstin) {
-        if(this.gstinValid) {
+      let gstin = {};
+      if (this.stateCode && this.gstin) {
+        if (this.gstinValid) {
           gstin[this.stateCode] = this.gstin;
         }
       }
@@ -1041,10 +1048,13 @@ export default {
               break;
             case 4:
               this.loading = false;
-              this.$bvToast.toast('You are not authorised to delete the Organisation Details. Please contact the admin', {
-                variant: 'danger',
-                solid: true,
-              });
+              this.$bvToast.toast(
+                'You are not authorised to delete the Organisation Details. Please contact the admin',
+                {
+                  variant: 'danger',
+                  solid: true,
+                }
+              );
               break;
           }
         })

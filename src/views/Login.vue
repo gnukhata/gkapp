@@ -249,6 +249,7 @@ export default {
       Promise.all([
         this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
         this.$store.dispatch('global/initGlobalConfig'), // initialises global config
+        this.$store.dispatch('initGstin'), // initialises org GSTIN
       ]).then(() => {
         this.$store
           .dispatch('global/initGlobalState', {
@@ -358,6 +359,7 @@ export default {
                 Promise.all([
                   this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
                   this.$store.dispatch('global/initGlobalConfig'), // initialises global config
+                  this.$store.dispatch('initGstin'), // initialises org GSTIN
                 ]).then(() => {
                   this.$store
                     .dispatch('global/initGlobalState', {

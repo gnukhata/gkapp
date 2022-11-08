@@ -252,11 +252,14 @@
             GST <b-badge pill>WIP</b-badge>
           </h6>
           <b-collapse v-model="collapsed.gst" id="gst">
-            <b-nav-item to="/gst/r1">
+            <div class="ml-3">
+              <small v-if="!gstinValid"> * Update <b><i>Administration -> Organisation Profile </i></b> with a valid GSTIN to access the GST reports </small>
+            </div>
+            <b-nav-item :disabled="!gstinValid" to="/gst/r1">
               <b-icon icon="file-earmark"></b-icon
               ><translate> R1 Report</translate>
             </b-nav-item>
-            <b-nav-item to="/gst/3b">
+            <b-nav-item :disabled="!gstinValid" to="/gst/3b">
               <b-icon icon="file-earmark"></b-icon
               ><translate> 3B Report</translate>
             </b-nav-item>
@@ -324,7 +327,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(['searchMenu', 'newGstNews']),
+    ...mapState(['searchMenu', 'newGstNews', 'orgGstin']),
+    gstinValid: (self) => !!self.orgGstin,
   },
 };
 </script>

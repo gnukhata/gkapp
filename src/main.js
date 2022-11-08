@@ -238,7 +238,7 @@ Vue.mixin({
       localStorage.removeItem('orgCodeChoice');
 
       // delete items from localStorage
-      const deleteList = ['authToken', 'orgCode', 'orgName', 'orgyears'];
+      const deleteList = ['authToken', 'orgCode', 'orgName', 'orgyears', 'orgGstin'];
       for (const i in deleteList) {
         localStorage.removeItem(deleteList[i]);
       }
