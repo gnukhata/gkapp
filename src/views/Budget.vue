@@ -633,12 +633,12 @@ export default {
       });
     });
 
-    self.expandTable = window.innerWidth > 575;
+    self.expandTable = !this.is_mobile();
     debounceEvent(
       window,
       'resize',
       () => {
-        self.expandTable = window.innerWidth > 575;
+        self.expandTable = !self.is_mobile();
       },
       100
     );

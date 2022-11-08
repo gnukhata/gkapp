@@ -196,7 +196,7 @@ export default {
         });
     },
     checkMobileMode() {
-      this.mobileMode = window.innerWidth < 576;
+      this.mobileMode = this.is_mobile();
     },
   },
   mounted() {

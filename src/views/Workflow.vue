@@ -1141,7 +1141,7 @@ export default {
           true
         );
       }
-      if (window.innerWidth > 752 || parseInt(this.wfId) !== -1) {
+      if (!this.is_mobile() || parseInt(this.wfId) !== -1) {
         if (setActiveWorkflow) {
           setActiveWorkflow.then(() => {
             self.initSelectedEntity(tab);
@@ -1153,7 +1153,7 @@ export default {
     },
     selectFirstListItem() {
       // console.log('In select first item method');
-      if (window.innerWidth > 752) {
+      if (!this.is_mobile()) {
         const self = this;
         this.$forceUpdate();
         this.$nextTick().then(() => {

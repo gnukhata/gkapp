@@ -1503,12 +1503,12 @@ export default {
       date > maxDate ? new Date().toISOString().slice(0, 10) : this.yearEnd;
 
     // add event listener for tracking screen size
-    this.mobileMode = window.innerWidth < 576;
+    this.mobileMode = this.is_mobile();
     debounceEvent(
       window,
       'resize',
       () => {
-        self.mobileMode = window.innerWidth < 576;
+        self.mobileMode = self.is_mobile();
         if (!self.mobileMode) {
           self.currentPage = 1;
           self.editMode = false;
