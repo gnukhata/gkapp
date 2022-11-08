@@ -69,7 +69,7 @@
               <b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
               <translate>Update</translate>
             </b-button>
-            <b-button variant="danger" @click="confirm">
+            <b-button :disabled="isDefault" variant="danger" @click="confirm">
               <b-icon class="mr-1" icon="x-circle"></b-icon>
               <translate>Delete</translate>
             </b-button>
@@ -90,6 +90,7 @@ export default {
       loading: false,
       form: {},
       id: Number,
+      isDefault: null,
     };
   },
   computed: {
@@ -254,6 +255,8 @@ export default {
   mounted() {
     this.id = this.$route.params.id;
     this.getGodownInfo();
+    let defaultGodown = this.$store.getters['global/getDefaultGodown'];
+    this.isDefault = defaultGodown == this.id;
   },
 };
 </script>
