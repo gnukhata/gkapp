@@ -14,6 +14,7 @@
 - [Description & Demo](#description--demo)
 - [Quick Start](#quick-start)
 - [Licensing](#licensing)
+- [Contribution](#contribution)
 - [Useful Links](#useful-links)
 
 ## Description & Demo
@@ -42,46 +43,20 @@ To generate the translations: `npm run translate-extract` & then run `npm run tr
 
 - Production-ready with minified bundle `npm run build`.
 
-<!-- - By default app is served from site's root `/`. To change the url, Set the `GKAPP_URL` environment variable to your custom domain. -->
-
-- The default `gkcore` server url is `localhost:6543`, It can changed by setting environmental
-  variable `VUE_APP_GKCORE_URL` to your preferred url before building the app.
-
-Example:
-
-```sh
-export VUE_APP_GKCORE_URL=https://gkcore.example.com
-npm run build
-```
-
 ## Configuration
 
-After building, You can customize gkapp with `gkapp-config.json` located in the `public` dir, It helps customizing some aspects of gkapp. Useful for
+After building, You can customize gkapp with `gkapp-config.json`. Example config file is located in the `public` dir, It helps customizing some aspects of gkapp. Useful for
 those who self host an instance of GNUKhata.
-
-Default config:
-
-```json
-{
-  "gkcore_url": "http://localhost:6543",
-  "login_banner": {
-    "show": false,
-    "variant": "info",
-    "content": "This text appears in the login screen"
-  },
-  "sidebar_banner": {
-    "show": false,
-    "variant": "info",
-    "content": "This text appears inside the sidebar, after the user is logged in"
-  }
-}
-```
 
 ## License
 
-- Gkapp is Licensed under `AGPLv3`
+Gkapp is Licensed under `AGPLv3`
 
 ![AGPLv3](public/img/agpl3.png)
+
+## Contribution
+
+Any contribution to the gkapp will be licensed under AGPLv3
 
 ## Useful Links
 
