@@ -302,7 +302,6 @@ export default {
   created() {
     // this.get_org_address();
     // this.getOrgImage();
-    this.get_gk_config();
   },
 };
 </script>
