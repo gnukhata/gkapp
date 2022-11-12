@@ -166,6 +166,14 @@ export default {
     },
   },
   methods: {
+    resetForm() {
+      this.form = {
+        username: '',
+        userpassword: '',
+        userquestion: '',
+        useranswer: '',
+      };
+    },
     checkUserName(query) {
       const self = this;
       axios
@@ -200,23 +208,21 @@ export default {
       this.isLoading = true;
       // If selected role is godown incharge, add selected godown id's to the submitted form
 
+      let userName = this.form.username;
       axios
         .post(`/gkusers`, this.form)
         .then((resp) => {
           switch (resp.data.gkstatus) {
             case STATUS_CODES['Success']:
               {
-                this.$bvToast.toast(
-                  `${this.form.username} created successfully`,
-                  {
-                    title: 'Success',
-                    variant: 'success',
-                    solid: true,
-                  }
-                );
+                this.$bvToast.toast(`${userName} created successfully`, {
+                  title: 'Success',
+                  variant: 'success',
+                  solid: true,
+                });
                 // Add user created log to server
                 const payload = {
-                  activity: `user ${this.form.username} created`,
+                  activity: `user ${userName} created`,
                 };
                 axios.post(`/log`, payload, {
                   headers: {
@@ -226,18 +232,16 @@ export default {
                 // refresh users list in USerManagement.vue
                 this.onSuccess({
                   token: resp.data.token,
-                  username: this.form.username,
+                  username: userName,
                 });
+                this.resetForm();
               }
               break;
             case STATUS_CODES['DuplicateEntry']:
-              this.$bvToast.toast(
-                `Username ${this.form.username} already exists`,
-                {
-                  variant: 'danger',
-                  solid: true,
-                }
-              );
+              this.$bvToast.toast(`Username ${userName} already exists`, {
+                variant: 'danger',
+                solid: true,
+              });
               break;
             case STATUS_CODES['ConnectionFailed']:
               this.$bvToast.toast('Connection Failed', {
