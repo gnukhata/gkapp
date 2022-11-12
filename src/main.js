@@ -52,9 +52,6 @@ Vue.mixin({
   computed: {
     ...mapState(['userAuthenticated']),
   },
-  created() {
-    this.get_gk_config();
-  },
   // Naming convention for methods is: snake_casing
   methods: {
     /**
