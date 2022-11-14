@@ -73,6 +73,7 @@
         head-variant="dark"
         striped
         small
+        responsive
       >
         <template #cell(invoiceno)="d">
           <router-link :to="'/workflow/Transactions-Invoice/' + d.item.invid">

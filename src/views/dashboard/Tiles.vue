@@ -11,14 +11,20 @@
         :border-variant="card.color"
         style="height: 10em; width: 10em"
       >
-        <b-card-text
-          ><b-icon
+        <img
+          v-if="card.name == 'Go To Workflow'"
+          src="img/workflow.svg"
+          width="100"
+          style="position: relative; bottom: 20px"
+        />
+        <b-card-text v-else>
+          <b-icon
             scale="4"
             :variant="card.color"
             :icon="card.icon"
             class="mt-3"
-          ></b-icon
-        ></b-card-text>
+          ></b-icon>
+        </b-card-text>
       </b-card>
     </router-link>
   </b-row>
