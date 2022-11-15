@@ -6,12 +6,6 @@ export default {
     return {
       sidebarToggle: false,
       user_role: Number,
-      // gkConfig: {
-      //   // https://cli.vuejs.org/guide/mode-and-env.html#modes
-      //   mode: process.env.NODE_ENV || 'production',
-      //   notice: process.env.VUE_APP_GKAPP_NOTICE || true,
-      //   conf: {},
-      // },
     };
   },
   computed: {
@@ -52,14 +46,6 @@ export default {
           }
         }
       });
-    },
-    // https://cli.vuejs.org/guide/mode-and-env.html#modes
-    gk_env() {
-      return {
-        node_env: process.env.NODE_ENV,
-        gkcore_url: process.env.VUE_APP_GKCORE_URL || null,
-        gkapp_url: process.env.GKAPP_URL || null,
-      };
     },
     /**
      * Return language specific number representation of given `value`

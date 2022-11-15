@@ -13,6 +13,7 @@ import translations from './locales/translations.json';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import globalMixins from '@/mixins/global.js';
+import defaultConfig from '../public/gkapp-config.json';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
@@ -55,23 +56,8 @@ function get_gk_config() {
       return r;
     })
     .catch(() => {
-      console.log("Using default gkconfig");
-      return {
-        gkconfig_default: true,
-        gkcore_url: 'http://localhost:6543',
-        fetch_latest_version: false,
-        login_banner: {
-          show: false,
-          variant: 'info',
-          content: 'This text appears in the login screen',
-        },
-        sidebar_banner: {
-          show: false,
-          variant: 'info',
-          content:
-            'This text appears inside the sidebar, after the user is logged in',
-        },
-      };
+      console.log('Using default gkconfig');
+      return defaultConfig;
     });
 }
 
