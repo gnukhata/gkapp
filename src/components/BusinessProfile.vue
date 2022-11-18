@@ -52,18 +52,6 @@
             </b-form-select>
           </b-input-group>
         </b-form-group>
-        <!-- HSN / SAC Code -->
-        <!-- <b-form-group
-             :label="details.gsflag == 7 ? 'HSN' : 'SAC'"
-             label-cols="4"
-             label-size="sm"
-             >
-             <b-form-input size="sm" v-model="details.gscode"></b-form-input>
-             <gk-hsn v-model="details.gscode"></gk-hsn>
-             </b-form-group>
-             <b-form-group v-else label="SAC" label-cols="4">
-             <b-form-input size="sm" v-model="details.gscode"></b-form-input>
-             </b-form-group> -->
       </b-collapse>
     </b-card>
     <b-card
@@ -83,10 +71,6 @@
         </div>
       </template>
       <b-collapse v-model="isCollapsed2" class="p-3" id="collapse-price">
-        <!-- MRP -->
-        <!-- <b-form-group label-size="sm" label="MRP" label-cols="4">
-          <b-form-input size="sm" v-model="details.prodmrp"></b-form-input>
-        </b-form-group> -->
         <!-- Selling Price -->
         <b-form-group
           label-size="sm"
@@ -119,8 +103,6 @@
         </b-form-group>
       </b-collapse>
     </b-card>
-    <!-- <h3 class="text-muted text-center mt-3 mb-3">Taxes</h3> -->
-    <!-- <b-card class="mt-2" header="Tax" header-bg-variant="warning"> -->
     <!-- {{ options.tax }} -->
     <b-card
       no-body
@@ -138,19 +120,13 @@
           </div>
         </div>
       </template>
-      <b-collapse v-model="isCollapsed3" class="p-3" id="collapse-tax">
+      <b-collapse class="p-3" id="collapse-tax">
         <b-form-group
           label-size="sm"
           :label="details.gsflag == 7 ? 'HSN' : 'SAC'"
           label-cols="4"
         >
-          <!-- <b-form-input
-               size="sm"
-               type="number"
-               no-wheel
-               required
-               v-model="details.gscode"
-               ></b-form-input> -->
+          <!-- gst / hsn input -->
           <gk-hsn v-model="details.gscode"></gk-hsn>
         </b-form-group>
 
@@ -316,7 +292,7 @@
         </div>
       </template>
       <div class="p-2">
-        <b-collapse v-model="isCollapsed4" class="p-3" id="collapse-godown">
+        <b-collapse class="p-3" id="collapse-godown">
           <div
             v-for="(godown, index) in godowns"
             :key="index"
