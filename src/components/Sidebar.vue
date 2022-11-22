@@ -312,9 +312,9 @@
         <hr />
         <b-alert
           class="m-2"
-          :show="gkConfig.conf.sidebar_banner.show"
-          :variant="gkConfig.conf.sidebar_banner.variant"
-          v-html="gkConfig.conf.sidebar_banner.content"
+          :show="gkConfig.sidebar_banner.show"
+          :variant="gkConfig.sidebar_banner.variant"
+          v-html="gkConfig.sidebar_banner.content"
         ></b-alert>
       </template>
     </b-sidebar>

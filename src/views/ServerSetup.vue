@@ -79,7 +79,7 @@ export default {
      * this method is called when user clicks on the "Continue with default server" button
      */
     setDefaultServer() {
-      const defaultGkCoreUrl = this.gkConfig.conf.gkcore_url;
+      const defaultGkCoreUrl = this.gkConfig.gkcore_url;
       axios
         .get(`${defaultGkCoreUrl}/state`)
         .then((res) => {

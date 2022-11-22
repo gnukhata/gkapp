@@ -41,8 +41,8 @@ Vue.prototype.$reload = () => location.reload();
 function get_gk_config() {
   console.log('init call');
   let configFilePath = 'gkapp-config.json';
-  // if the webapp is not hosted on web path instead of root domain, Eg: Gitlab pages,
-  // set file url accordingly
+  // if the webapp is hosted on web path instead of root domain, Eg: Gitlab pages,
+  // set file url path accordingly
   if (window.location.pathname != '/') {
     configFilePath =
       window.location.origin + window.location.pathname + configFilePath;
@@ -66,12 +66,7 @@ get_gk_config().then((gkConfig) => {
     return {
       sidebarToggle: false,
       user_role: Number,
-      gkConfig: {
-        // https://cli.vuejs.org/guide/mode-and-env.html#modes
-        mode: process.env.NODE_ENV || 'production',
-        notice: process.env.VUE_APP_GKAPP_NOTICE || true,
-        conf: gkConfig,
-      },
+      gkConfig: gkConfig,
     };
   };
   Vue.mixin(globalMixins);

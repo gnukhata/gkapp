@@ -162,7 +162,7 @@ export default {
      * fetch latest app changes, only when gkapp-config.json has it enabled
      */
     upgradeAppToLatestVersion() {
-      if (this.gkConfig.conf.fetch_latest_version) {
+      if (this.gkConfig.fetch_latest_version) {
         this.$workbox.addEventListener('waiting', () => {
           // this.showUpdateUI = true;
           // notify the user before updating the app
