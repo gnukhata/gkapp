@@ -46,7 +46,7 @@
               :icon="collapsed.master ? 'caret-down-fill' : 'caret-right-fill'"
               class="text-right"
             ></b-icon>
-            <translate>Master</translate>
+            <translate>Workflow</translate>
           </h6>
           <b-collapse v-model="collapsed.master" id="master">
             <!-- Transactions -->
@@ -253,7 +253,11 @@
           </h6>
           <b-collapse v-model="collapsed.gst" id="gst">
             <div class="ml-3">
-              <small v-if="!gstinValid"> * Update <b><i>Administration -> Organisation Profile </i></b> with a valid GSTIN to access the GST reports </small>
+              <small v-if="!gstinValid">
+                * Update
+                <b><i>Administration -> Organisation Profile </i></b> with a
+                valid GSTIN to access the GST reports
+              </small>
             </div>
             <b-nav-item :disabled="!gstinValid" to="/gst/r1">
               <b-icon icon="file-earmark"></b-icon
