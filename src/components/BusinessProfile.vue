@@ -16,13 +16,11 @@
         <div class="d-flex" v-b-toggle.collapse-info>
           <div class="mr-auto" v-translate>Info</div>
           <div>
-            <b-icon
-              :icon="isCollapsed1 ? 'dash' : 'arrows-fullscreen'"
-            ></b-icon>
+            <b-icon icon="dash"></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse v-model="isCollapsed1" class="p-3" id="collapse-info">
+      <b-collapse class="p-3" id="collapse-info">
         <b-form-group
           label-size="sm"
           :label="this.$gettext('Name')"
@@ -64,13 +62,11 @@
         <div class="d-flex" v-b-toggle.collapse-price>
           <div class="mr-auto" v-translate>Price</div>
           <div>
-            <b-icon
-              :icon="isCollapsed2 ? 'dash' : 'arrows-fullscreen'"
-            ></b-icon>
+            <b-icon icon="dash"></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse v-model="isCollapsed2" class="p-3" id="collapse-price">
+      <b-collapse class="p-3" id="collapse-price">
         <!-- Selling Price -->
         <b-form-group
           label-size="sm"
@@ -114,9 +110,7 @@
         <div class="d-flex" v-b-toggle.collapse-tax>
           <div class="mr-auto" v-translate>Taxes</div>
           <div>
-            <b-icon
-              :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
-            ></b-icon>
+            <b-icon icon="dash"></b-icon>
           </div>
         </div>
       </template>
@@ -285,9 +279,7 @@
         <div class="d-flex" v-b-toggle.collapse-godown>
           <div class="mr-auto" v-translate>Godownwise Opening Stock</div>
           <div>
-            <b-icon
-              :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
-            ></b-icon>
+            <b-icon icon="dash"></b-icon>
           </div>
         </div>
       </template>
@@ -437,10 +429,6 @@ export default {
       details: [],
       oldGodowns: [],
       godowns: [],
-      isCollapsed1: false,
-      isCollapsed2: false,
-      isCollapsed3: false,
-      isCollapsed4: false,
       showGodownForm: false,
       multiGstFlag: false,
       uom: [],

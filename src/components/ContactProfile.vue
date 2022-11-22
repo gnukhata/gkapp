@@ -15,13 +15,11 @@
         <div class="d-flex" v-b-toggle.collapse-info>
           <div class="mr-auto" v-translate>Info</div>
           <div>
-            <b-icon
-              :icon="isCollapsed1 ? 'dash' : 'arrows-fullscreen'"
-            ></b-icon>
+            <b-icon icon="dash"></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse class="m-3" v-model="isCollapsed1" id="collapse-info">
+      <b-collapse class="m-3" id="collapse-info">
         <b-form-group label="Name" label-for="Name" label-cols="3">
           <template #label> <translate> Name </translate> </template>
           <b-form-input
@@ -60,13 +58,11 @@
         <div v-b-toggle.address class="d-flex">
           <div class="mr-auto" v-translate>Address</div>
           <div>
-            <b-icon
-              :icon="isCollapsed2 ? 'dash' : 'arrows-fullscreen'"
-            ></b-icon>
+            <b-icon icon="dash"></b-icon>
           </div>
         </div>
       </template>
-      <b-collapse class="m-3" v-model="isCollapsed2" id="address">
+      <b-collapse class="m-3" id="address">
         <b-form-group label="Street" label-for="nested-street" label-cols="3">
           <template #label> <translate> Street </translate> </template>
           <b-form-input
@@ -106,15 +102,12 @@
         <div v-b-toggle.financial class="d-flex">
           <div class="mr-auto" v-translate>Financial Details</div>
           <div>
-            <b-icon
-              variant="light"
-              :icon="isCollapsed3 ? 'dash' : 'arrows-fullscreen'"
-            ></b-icon>
+            <b-icon variant="light" icon="dash"></b-icon>
           </div>
         </div>
       </template>
 
-      <b-collapse class="m-3" v-model="isCollapsed3" id="financial">
+      <b-collapse class="m-3" id="financial">
         <b-form-group label="GSTIN" label-for="nested-state" label-cols="3">
           <template #label> <translate> GSTIN </translate> </template>
           <gk-gstin @validity="onGstinUpdate" v-model="gstin.gstin"> </gk-gstin>
@@ -192,15 +185,12 @@
         <div v-b-toggle.financial class="d-flex">
           <div class="mr-auto" v-translate>Bank Details</div>
           <div>
-            <b-icon
-              variant="light"
-              :icon="isCollapsed4 ? 'dash' : 'arrows-fullscreen'"
-            ></b-icon>
+            <b-icon variant="light" icon="dash"></b-icon>
           </div>
         </div>
       </template>
 
-      <b-collapse class="m-3" v-model="isCollapsed4" id="financial">
+      <b-collapse class="m-3" id="financial">
         <b-form-group label="IFSC" label-for="cp-bank-ifsc" label-cols="3">
           <!-- <b-form-input
                  id="cp-bank-ifsc"
@@ -291,10 +281,6 @@ export default {
       bankDetails: {},
       oldContactName: '',
       isLoading: true,
-      isCollapsed1: false,
-      isCollapsed2: false,
-      isCollapsed3: false,
-      isCollapsed4: false,
       options: {
         states: [],
         selectedState: {},
