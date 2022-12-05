@@ -168,7 +168,9 @@ export default {
     logsByDateRange() {
       this.loading = true;
       axios
-        .get(`/log?range&from=${this.dateRange.from}&to=${this.dateRange.to}`)
+        .get(
+          `/log/dateRange?from=${this.dateRange.from}&to=${this.dateRange.to}`
+        )
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
