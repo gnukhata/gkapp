@@ -104,12 +104,12 @@ export default {
     check() {
       const f = this.file;
       if (f.type === 'application/json') {
-        this.upload('import-json');
+        this.upload('json');
       } else if (
         f.type ===
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       ) {
-        this.upload('import-tally');
+        this.upload('xlsx');
       }
     },
 
@@ -119,7 +119,7 @@ export default {
       fd.append('gkfile', this.file);
 
       axios
-        .post(`/data?${url}`, fd, { headers: { gktoken: this.authToken } })
+        .post(`/import/${url}`, fd, { headers: { gktoken: this.authToken } })
         .then((r) => {
           switch (r.data.gkstatus) {
             case 0:
