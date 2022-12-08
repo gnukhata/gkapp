@@ -26,7 +26,7 @@
           <b-button-group>
             <gk-file-download
               :url="
-                `/data?export&yearstart=${this.yearStart}&yearend=${this.yearEnd}`
+                `/export/xlsx?yearstart=${this.yearStart}&yearend=${this.yearEnd}`
               "
               :fileName="`GNUKhata-DataExport`"
               name="Export (Legacy)"
@@ -36,7 +36,7 @@
               class="mr-1"
             ></gk-file-download>
             <gk-file-download
-              :url="`/data?export-json`"
+              :url="`/export/json`"
               fileExtn="json"
               icon="file-earmark-code"
               name="Export (Json)"
@@ -44,6 +44,7 @@
               :add-date="true"
               fileSuffix="Export"
               :addTimeStamp="true"
+							:commonParams="false"
             ></gk-file-download>
           </b-button-group>
           <b-alert class="mt-3" show variant="warning">
