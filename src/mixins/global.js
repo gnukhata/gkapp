@@ -90,7 +90,7 @@ export default {
       });
     },
     get_org_address() {
-      axios.get('/organisation?osg=true').then((r) => {
+      axios.get('/organisation').then((r) => {
         if (r.status === 200 && r.data.gkstatus == 0) {
           this.$store.commit('setOrgAddress', r.data.gkdata);
         }
@@ -129,9 +129,9 @@ export default {
     /* Get org image from server */
     getOrgImage() {
       axios
-        .get('/organisation?attach=image')
+        .get('/organisation/attachment')
         .then((r) => {
-          if (r.status == 200 && r.data.logo !== null) {
+          if (r.status === 200 && r.data.logo && r.data.logo !== null) {
             const payload = `data:image/jpg;base64,${r.data.logo}`;
             this.$store.commit('updateOrgImg', payload);
           }

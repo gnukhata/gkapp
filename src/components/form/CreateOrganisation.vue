@@ -285,7 +285,7 @@ export default {
       this.valid.nameFormat = true;
       const self = this;
       axios
-        .get(`/organisations?type=name_exists&orgname=${query}`)
+        .get(`/organisation/check/${query}`)
         .then((resp) => {
           if (query === self.orgName) {
             if (resp.data.gkstatus === STATUS_CODES['Success']) {
@@ -297,7 +297,7 @@ export default {
         });
     },
     checkRegistrationStatus() {
-      axios.get('/organisations?registration-status').then((r) => {
+      axios.get('/organisation/check_registration').then((r) => {
         if (r.status === 200 && r.data.gkstatus == 5) {
           this.showMenu = false;
         }
@@ -326,7 +326,7 @@ export default {
       const userAuthToken = localStorage.getItem('userAuthToken');
       // Create Organisation
       axios
-        .post('/organisations', payload, {
+        .post('/organisation', payload, {
           headers: {
             gktoken: userAuthToken,
             gkusertoken: userAuthToken,

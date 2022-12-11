@@ -145,7 +145,7 @@ export default {
      * */
     fetchOrgs() {
       axios
-        .get(`${this.gkCoreUrl}/organisations`)
+        .get(`${this.gkCoreUrl}/organisation/all`)
         .then((response) => {
           this.orgList = response.data.gkdata.map((data) => {
             return {

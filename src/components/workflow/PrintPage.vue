@@ -245,7 +245,7 @@ export default {
         axios.get(`/organisation`).catch((e) => {
           return e;
         }),
-        axios.get('/organisation?attach=image').catch((e) => e),
+        axios.get('/organisation/attachment').catch((e) => e),
       ];
       Promise.all(requests).then(([resp1, resp2, resp3]) => {
         let states = {};

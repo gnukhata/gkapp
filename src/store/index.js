@@ -257,7 +257,7 @@ export default new Vuex.Store({
   },
   actions: {
     initGstin({ commit }) {
-      return axios.get('/organisations?type=get_gstin').then((resp) => {
+      return axios.get('/organisation/gstin').then((resp) => {
         if (resp.data.gkstatus === 0) {
           let result = resp.data.gkresult;
           let gstin =
@@ -274,7 +274,7 @@ export default new Vuex.Store({
     },
     initOrgAddress({ state, commit }) {
       if (state.userAuthenticated) {
-        return axios.get('/organisation?osg=true').then((r) => {
+        return axios.get('/organisation').then((r) => {
           if (r.status === 200 && r.data.gkstatus == 0) {
             commit('setOrgAddress', r.data.gkdata);
           }
@@ -283,7 +283,7 @@ export default new Vuex.Store({
     },
     initOrgImg({ state, commit }) {
       if (state.userAuthenticated) {
-        return axios.get('/organisation?attach=image').then((r) => {
+        return axios.get('/organisation/attachment').then((r) => {
           if (r.data.logo !== null) {
             const payload = `data:image/jpg;base64,${r.data.logo}`;
             commit('updateOrgImg', payload);

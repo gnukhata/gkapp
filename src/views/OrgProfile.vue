@@ -652,7 +652,7 @@ export default {
     /** Get GST accounts and update the CESS fields */
     getCessDetails() {
       axios
-        .get('/organisation?getgstaccounts')
+        .get('/organisation/gst_accounts')
         .then((res) => {
           if (res.data.gkstatus === 0) {
             let cess = {};
@@ -678,7 +678,7 @@ export default {
     },
     /** Gets all the meta data required from the server for creating CESS accounts */
     getCreateCessData() {
-      return axios.get('/organisation?getgstgroupcode').then((resp) => {
+      return axios.get('/organisation/gst_accounts/codes').then((resp) => {
         if (resp.data.gkstatus === 0) {
           let groupCode = resp.data.groupcode,
             subGroupCode = resp.data.subgroupcode;
@@ -1019,7 +1019,7 @@ export default {
       });
 
       axios
-        .put(`/organisations`, this.details)
+        .put(`/organisation`, this.details)
         .then((res) => {
           switch (res.data.gkstatus) {
             case 0:
@@ -1073,7 +1073,7 @@ export default {
       this.loading = true;
 
       axios
-        .delete(`/organisations`)
+        .delete(`/organisation`)
         .then((r) => {
           console.trace(r);
           if (r.status == '200' && r.data.gkstatus == 0) {

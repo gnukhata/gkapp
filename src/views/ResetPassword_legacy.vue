@@ -180,7 +180,7 @@ export default {
     fetchOrgs() {
       this.loadingOrgs = true;
       axios
-        .get(`/organisations`)
+        .get(`/organisation/all`)
         .then((response) => {
           this.orgList = response.data.gkdata;
           let opt = [];
