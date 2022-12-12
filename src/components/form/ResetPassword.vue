@@ -244,7 +244,7 @@ export default {
         case POSITION['VERIFY_USER']:
         case POSITION['VERIFY_USER_LEGACY']:
           {
-            let url = `/gkusers?type=recovery_question&username=${this.form.username}`;
+            let url = `/gkuser/pwd/question?username=${this.form.username}`;
             if (this.formPosition === POSITION['VERIFY_USER_LEGACY']) {
               url += `&orgname=${this.selectedOrg.orgname}&orgtype=${this.selectedOrg.orgtype}`;
             }
@@ -290,7 +290,7 @@ export default {
         case POSITION['VERIFY_ANSWER']: {
           axios
             .get(
-              `/gkusers?type=verify_answer&userid=${this.uid}&useranswer=${this.form.useranswer}`
+              `/gkuser/pwd/answer?userid=${this.uid}&useranswer=${this.form.useranswer}`
             )
             .then((resp) => {
               switch (resp.data.gkstatus) {
@@ -333,7 +333,7 @@ export default {
             userpassword: this.form.userpassword,
           };
           axios
-            .put(`/gkusers?type=reset_password`, payload)
+            .put(`/gkuser/pwd/reset`, payload)
             .then((resp) => {
               switch (resp.data.gkstatus) {
                 case STATUS_CODES['Success']:
@@ -389,24 +389,25 @@ export default {
      * */
     fetchOrgs() {
       this.loadingOrgs = true;
+      const self = this;
       axios
         .get(`/organisation/all`)
         .then((response) => {
-          this.orgList = response.data.gkdata;
+          self.orgList = response.data.gkdata;
           let opt = [];
-          for (const i in this.orgList) {
+          for (const i in self.orgList) {
             const item = {
-              value: this.orgList[i],
-              label: `${this.orgList[i].orgname} (${this.orgList[i].orgtype})`,
+              value: self.orgList[i],
+              label: `${self.orgList[i].orgname} (${self.orgList[i].orgtype})`,
             };
             opt.push(item);
           }
-          this.orgList = opt;
-          this.loadingOrgs = false;
+          self.orgList = opt;
+          self.loadingOrgs = false;
         })
         .catch(function(error) {
           console.log(error);
-          this.loadingOrgs = false;
+          self.loadingOrgs = false;
         });
     },
     /*

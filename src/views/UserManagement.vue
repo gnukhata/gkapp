@@ -207,7 +207,7 @@ export default {
     getUsers() {
       this.isLoading = true;
       axios
-        .get('/gkusers?type=all_user_data')
+        .get('/organisation/gkusers')
         .then((resp) => {
           if (resp.status == 200 && resp.data.gkstatus == 0) {
             // let usr = resp.data.gkresult.map((data) => {

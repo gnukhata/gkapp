@@ -674,7 +674,7 @@ export default {
       if (userAuthStatus === 'true') {
         this.isOrgLoading = true;
         axios
-          .get(`${this.gkCoreUrl}/gkusers?type=get_user_orgs`, {
+          .get(`${this.gkCoreUrl}/gkuser/orgs`, {
             headers: {
               gktoken: userAuthToken,
               gkusertoken: userAuthToken,

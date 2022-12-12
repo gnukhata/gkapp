@@ -177,7 +177,7 @@ export default {
     checkUserName(query) {
       const self = this;
       axios
-        .get(`/gkusers?type=unique_check&username=${query}&check_legacy=true`)
+        .get(`/gkuser/check/${query}?check_legacy=true`)
         .then((resp) => {
           if (query === self.form.username) {
             if (resp.data.gkstatus === STATUS_CODES['Success']) {
@@ -210,7 +210,7 @@ export default {
 
       let userName = this.form.username;
       axios
-        .post(`/gkusers`, this.form)
+        .post(`/gkuser`, this.form)
         .then((resp) => {
           switch (resp.data.gkstatus) {
             case STATUS_CODES['Success']:

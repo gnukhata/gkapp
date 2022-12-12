@@ -263,7 +263,7 @@ export default {
       this.validating = true;
       const self = this;
       axios
-        .get(`/gkusers?type=unique_check&username=${this.form.username}`)
+        .get(`/gkuser/check/${this.form.username}`)
         .then((resp) => {
           if (resp.data.gkstatus === STATUS_CODES['Success']) {
             self.validUser = !resp.data.gkresult;

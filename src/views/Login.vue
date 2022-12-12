@@ -220,7 +220,7 @@ export default {
         olduserid: this.olduserid,
         username: this.newUserName,
       };
-      axios.put('/gkusers?type=default_user_name', payload).then((resp) => {
+      axios.put('/gkuser?type=default_user_name', payload).then((resp) => {
         if (resp.data.gkstatus === 0) {
           this.$store.dispatch('setSessionStates', {
             userAuth: true,
@@ -428,7 +428,7 @@ export default {
     updateUserNameValidity(name) {
       if (name) {
         axios
-          .get(`/gkusers?type=unique_check&username=${name}&check_legacy=true`)
+          .get(`/gkuser/check/${name}?check_legacy=true`)
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
               this.userNameValidity = resp.data.gkresult;
