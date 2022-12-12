@@ -535,7 +535,7 @@ export default {
         };
         this.isOrgLoading = true;
         axios
-          .post(`${this.gkCoreUrl}/login?type=user`, payload)
+          .post(`${this.gkCoreUrl}/login/user`, payload)
           .then((resp) => {
             switch (resp.data.gkstatus) {
               case 0:
@@ -585,7 +585,7 @@ export default {
       };
       // TODO: here instead of sending the username and password, send the new user auth token
       axios
-        .post(`${this.gkCoreUrl}/login?type=org`, payload, {
+        .post(`${this.gkCoreUrl}/login/org`, payload, {
           headers: {
             gktoken: userAuthToken,
             gkusertoken: userAuthToken,

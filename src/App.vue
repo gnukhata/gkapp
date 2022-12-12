@@ -202,7 +202,7 @@ export default {
       };
       // TODO: here instead of sending the username and password, send the new user auth token
       axios
-        .post(`${this.gkCoreUrl}/login?type=org`, payload, {
+        .post(`${this.gkCoreUrl}/login/org`, payload, {
           headers: {
             gktoken: userAuthToken,
             gkusertoken: userAuthToken,

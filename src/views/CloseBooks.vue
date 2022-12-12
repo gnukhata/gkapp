@@ -393,7 +393,7 @@ export default {
       };
       // TODO: here instead of sending the username and password, send the new user auth token
       axios
-        .post(`/login?type=org`, payload)
+        .post(`/login/org`, payload)
         .then((resp) => {
           switch (resp.data.gkstatus) {
             case 0:

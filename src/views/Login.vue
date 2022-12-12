@@ -268,7 +268,7 @@ export default {
     login() {
       this.isLoading = true;
       axios
-        .post(`${this.gkCoreUrl}/login?type=org`, this.form)
+        .post(`${this.gkCoreUrl}/login/org`, this.form)
         .then((response) => {
           // alert user depending on the gkstatus code
           this.loginSuccess = false;
