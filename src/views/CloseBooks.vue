@@ -258,7 +258,7 @@ export default {
     closeBooks() {
       this.isLoading = true;
       axios
-        .get(`/rollclose?task=closebooks&financialend=${this.details.yearend}`)
+        .get(`/closebooks?financialend=${this.details.yearend}`)
         .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
             switch (r.data.gkstatus) {
@@ -300,7 +300,7 @@ export default {
       this.isLoading = true;
       axios
         .get(
-          `/rollclose?task=rollover&financialend=${this.newYearEnd}&financialstart=${this.newYearStart}`
+          `/rollover?financialend=${this.newYearEnd}&financialstart=${this.newYearStart}`
         )
         .then((r) => {
           if (r.status == 200) {
