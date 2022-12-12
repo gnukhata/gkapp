@@ -304,7 +304,7 @@ export default {
       // console.log(payload)
       // return;
       axios
-        .post('/userorg?type=create_invite', payload)
+        .post('/invite', payload)
         .then((resp) => {
           switch (resp.data.gkstatus) {
             case STATUS_CODES['Success']:

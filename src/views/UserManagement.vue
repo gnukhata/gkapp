@@ -255,7 +255,7 @@ export default {
           userid: id,
         },
       };
-      axios.delete('/userorg?type=delete_invite', config).then((resp) => {
+      axios.delete('/invite', config).then((resp) => {
         switch (resp.data.gkstatus) {
           case STATUS_CODES['Success']:
             this.$bvToast.toast(`Invite for ${name} cancelled successfully`, {

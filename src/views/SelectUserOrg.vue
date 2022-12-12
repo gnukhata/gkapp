@@ -422,7 +422,7 @@ export default {
     rejectInvite(index) {
       let org = this.invitedOrgs[index];
       let payload = { orgcode: parseInt(org.yearData[org.selected].code) };
-      axios.put('/userorg?type=reject_invite', payload).then((resp) => {
+      axios.post('/invite/reject', payload).then((resp) => {
         switch (resp.data.gkstatus) {
           case STATUS_CODES['Success']:
             this.$bvToast.toast(
@@ -482,7 +482,7 @@ export default {
     acceptInvite(index) {
       let org = this.invitedOrgs[index];
       let payload = { orgcode: parseInt(org.yearData[org.selected].code) };
-      axios.put('/userorg?type=accept_invite', payload).then((resp) => {
+      axios.post('/invite/accept', payload).then((resp) => {
         switch (resp.data.gkstatus) {
           case STATUS_CODES['Success']:
             this.$bvToast.toast(
