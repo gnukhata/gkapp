@@ -14,11 +14,13 @@
         file-suffix="AccountList"
         :font-scale="1"
         :url="
-          `/spreadsheet?accounts&fystart=${this.dateReverse(
+          `/accounts/spreadsheet?fystart=${this.dateReverse(
             this.yearStart
-          )}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}`
+          )}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}&orgtype=${this.orgType}`
         "
+
         title="Download Account List"
+				:commonParams="false"
       ></gk-file-download>
     </gk-toolbar>
     <div class="clearfix"></div>
@@ -319,7 +321,7 @@ export default {
       }
       return res;
     },
-    ...mapState(['orgName', 'yearStart', 'yearEnd']),
+    ...mapState(['orgName', 'yearStart', 'yearEnd', 'orgType']),
   },
   methods: {
     onGoToLedger(gid, sgid, accId) {
