@@ -107,7 +107,7 @@
         <!-- Report download -->
         <gk-file-download
           :url="
-            `/spreadsheet?stock-report&calculatefrom=${dateReverse(
+            `/spreadsheet/product-register?calculatefrom=${dateReverse(
               this.fromDate
             )}&calculateto=${dateReverse(this.toDate)}&productcode=${
               productId.id
@@ -115,9 +115,12 @@
               this.godownId
             }&goname=${getGodownName(this.godownId).text}&goaddr=${
               getGodownName(this.godownId).text
-            }`
+            }&fystart=${dateReverse(this.yearStart)}&fyend=${dateReverse(
+              this.yearEnd
+            )}&orgname=${this.orgName}&orgtype=${this.orgType}`
           "
           fileExtn="xlsx"
+          :commonParams="false"
         ></gk-file-download>
       </gk-toolbar>
       <!-- result table -->
@@ -415,7 +418,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `/report?type=godownstockreport&goid=${this.godownId}&productcode=${this.productId.id}&startdate=${this.fromDate}&enddate=${this.toDate}`
+          `/reports/product-register?goid=${this.godownId}&productcode=${this.productId.id}&startdate=${this.fromDate}&enddate=${this.toDate}`
         )
         .then((r) => {
           if (r.status == 200) {
@@ -495,7 +498,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd', 'orgName']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
     /**
      * Return godown object for given godown id
      */

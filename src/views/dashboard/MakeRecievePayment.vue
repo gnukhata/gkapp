@@ -1,5 +1,5 @@
 <template>
-  <b-card-group deck class="mt-">
+  <b-card-group deck class="mt-5">
     <!-- Make Payment -->
     <b-card class="shadow">
       <b-card-header

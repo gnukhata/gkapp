@@ -250,7 +250,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `/report?type=register&flag=${this.registerType}&calculatefrom=${this.fromDate}&calculateto=${this.toDate}`
+          `/reports/registers?flag=${this.registerType}&calculatefrom=${this.fromDate}&calculateto=${this.toDate}`
         )
         .then((r) => {
           if (r.status == 200) {
