@@ -47,7 +47,7 @@ This report can be viewed for any period`)
         <GkFileDownload
           v-if="result !== null"
           :url="
-            `/spreadsheet?profit-loss&from=${this.fromDate}&to=${this.toDate}&orgtype=${orgType}`
+            `/spreadsheet/profit-loss?from=${this.fromDate}&to=${this.toDate}`
           "
           title="Download Profit & Loss Spreadsheet"
           aria-label="profit & loss Spreadsheet download button"
@@ -229,7 +229,7 @@ export default {
       this.isLoading = true;
       axios
         .get(
-          `/report?type=profitloss&calculatefrom=${this.fromDate}&calculateto=${this.toDate}`
+          `/reports/profit-loss?calculatefrom=${this.fromDate}&calculateto=${this.toDate}`
         )
         .then((r) => {
           if (r.status == 200) {
