@@ -324,7 +324,7 @@ export default {
       } else {
         orgType = 'Organisation';
       }
-      return `/spreadsheet?type=conv_bal_sheet&calculateto=${self.toDate}&calculatefrom=${self.fromDate}&fystart=${self.yearStart}&orgname=${self.orgName}&fyend=${self.yearEnd}&orgtype=${orgType}&baltype=1`;
+      return `/spreadsheet/balance-sheet?calculateto=${self.toDate}&calculatefrom=${self.fromDate}&fystart=${self.yearStart}&orgname=${self.orgName}&fyend=${self.yearEnd}&orgtype=${orgType}&baltype=1`;
     },
     downloadFileName: (self) =>
       `Balance_Sheet_${self.fromDate}_to_${self.toDate}`,
@@ -402,7 +402,7 @@ export default {
       this.isLoading = true;
       axios
         .get(
-          `/report?type=balancesheet&calculateto=${this.fromDate}&baltype=1&calculatefrom=${this.toDate}`
+          `/reports/balance-sheet?calculateto=${this.fromDate}&baltype=1&calculatefrom=${this.toDate}`
         )
         .then((r) => {
           if (r.status == 200) {
