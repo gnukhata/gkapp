@@ -110,7 +110,17 @@
           <gk-file-download
             v-if="trialBalanceType == 'Net'"
             :url="
-              `/spreadsheet?trial-balance&calculateto=${this.toDate}&trialbalancetype=1&financialstart=${this.yearStart}&fystart=${this.yearStart}&fyend=${this.yearEnd}&startdate=${this.yearEnd}&orgname=${this.orgName}`
+              `/spreadsheet/trial-balance?calculateto=${this.toDate}&trialbalancetype=1&fystart=${this.yearStart}&fyend=${this.yearEnd}&&orgname=${this.orgName}`
+            "
+            :commonParams="false"
+            fileSuffix="NetTrialBalance"
+            title="Download Net Trial Balance Spreadsheet"
+          >
+          </gk-file-download>
+          <gk-file-download
+            v-if="trialBalanceType == 'Gross'"
+            :url="
+              `/spreadsheet/trial-balance?calculateto=${this.toDate}&trialbalancetype=2&fystart=${this.yearStart}&fyend=${this.yearEnd}&&orgname=${this.orgName}`
             "
             :commonParams="false"
             fileSuffix="NetTrialBalance"
@@ -120,7 +130,7 @@
           <gk-file-download
             v-if="trialBalanceType == 'Extended'"
             :url="
-              `/spreadsheet?trial-balance&calculateto=${this.toDate}&trialbalancetype=3&financialstart=${this.yearStart}&fystart=${this.yearStart}&fyend=${this.yearEnd}&startdate=${this.yearEnd}&orgname=${this.orgName}`
+              `/spreadsheet/trial-balance?calculateto=${this.toDate}&trialbalancetype=3&&fystart=${this.yearStart}&fyend=${this.yearEnd}&&orgname=${this.orgName}`
             "
             :commonParams="false"
             fileSuffix="ExtendedTrialBalance"
@@ -361,13 +371,13 @@ export default {
       this.isLoading = true;
       Promise.all([
         axios.get(
-          `/report?type=nettrialbalance&financialstart=${this.fromDate}&calculateto=${this.toDate}`
+          `/reports/trial-balance/gross?financialstart=${this.fromDate}&calculateto=${this.toDate}`
         ),
         axios.get(
-          `/report?type=grosstrialbalance&financialstart=${this.fromDate}&calculateto=${this.toDate}`
+          `/reports/trial-balance/net?financialstart=${this.fromDate}&calculateto=${this.toDate}`
         ),
         axios.get(
-          `/report?type=extendedtrialbalance&financialstart=${this.fromDate}&calculateto=${this.toDate}`
+          `/reports/trial-balance/extended?financialstart=${this.fromDate}&calculateto=${this.toDate}`
         ),
       ])
         .then((r) => {
