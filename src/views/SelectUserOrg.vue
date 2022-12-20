@@ -1,14 +1,5 @@
 <template>
   <section class="m-2">
-    <!-- login banner -->
-    <b-alert
-      :show="gkConfig.login_banner.show"
-      :variant="gkConfig.login_banner.variant"
-      class="mb-2 mx-auto"
-      style="max-width:35em"
-      v-html="gkConfig.login_banner.content"
-    >
-    </b-alert>
     <!-- User Login -->
     <b-card
       v-if="!userAuthToken"
@@ -20,6 +11,15 @@
       <template #header>
         Login
       </template>
+      <!-- login banner -->
+      <b-alert
+        :show="gkConfig.login_banner.show"
+        :variant="gkConfig.login_banner.variant"
+        class="mb-2 mx-auto"
+        style="max-width:35em"
+        v-html="gkConfig.login_banner.content"
+      >
+      </b-alert>
       <b-form @submit.prevent="userLogin">
         <!--Username area-->
         <b-form-group

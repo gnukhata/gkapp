@@ -7,7 +7,7 @@
         <b-navbar-brand class="d-flex flex-row">
           <router-link
             style="border-bottom: 0px; align-self: center"
-            to="/workflow/Transactions-Invoice/-1"
+            to="/dashboard"
             class="flex-column"
           >
             <img
