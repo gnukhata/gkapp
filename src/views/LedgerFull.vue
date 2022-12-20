@@ -68,7 +68,7 @@
           v-if="ledgerChoice == 'all'"
           :common-params="false"
           :url="
-            `/spreadsheet?ledger&accountcode=${this.accountCode}&accountname=${this.ledgerHead.accountname}&from=${this.fromDate}&to=${this.toDate}&orgtype=${this.orgType}&projectcode=${this.projectCode}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+            `/spreadsheet/ledger?accountcode=${this.accountCode}&accountname=${this.ledgerHead.accountname}&from=${this.fromDate}&to=${this.toDate}&orgtype=${this.orgType}&projectcode=${this.projectCode}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
           "
         ></gk-file-download>
       </gk-toolbar>
@@ -199,7 +199,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `/report?type=crdrledger&accountcode=${this.accountCode}&projectcode=${this.projectCode}&calculatefrom=${this.fromDate}&calculateto=${this.toDate}&financialstart=${this.yearStart}&side=${this.ledgerChoice}`
+          `/reports/ledger/crdr?accountcode=${this.accountCode}&projectcode=${this.projectCode}&calculatefrom=${this.fromDate}&calculateto=${this.toDate}&financialstart=${this.yearStart}&side=${this.ledgerChoice}`
         )
         .then((r) => {
           if (r.status == 200) {
@@ -247,7 +247,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `/report?type=ledger&accountcode=${this.accountCode}&projectcode=${this.projectCode}&calculatefrom=${this.fromDate}&calculateto=${this.toDate}&financialstart=${this.yearStart}`
+          `reports/ledger?accountcode=${this.accountCode}&projectcode=${this.projectCode}&calculatefrom=${this.fromDate}&calculateto=${this.toDate}&financialstart=${this.yearStart}`
         )
         .then((r) => {
           if (r.status == 200) {

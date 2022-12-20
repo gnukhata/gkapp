@@ -16,7 +16,7 @@
         <gk-file-download
           :common-params="false"
           :url="
-            `/spreadsheet?ledger-monthly&accountcode=${this.accountCode}&accname=${this.accountName}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+            `/spreadsheet/ledger/monthly?accountcode=${this.accountCode}&accname=${this.accountName}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
           "
         ></gk-file-download>
       </gk-toolbar>
@@ -93,7 +93,7 @@ export default {
     getAccounts() {
       this.loading = true;
       axios
-        .get(`/report?type=monthlyledger&accountcode=${this.accountCode}`)
+        .get(`/reports/ledger/monthly?accountcode=${this.accountCode}`)
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {

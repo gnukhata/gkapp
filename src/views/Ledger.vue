@@ -91,7 +91,7 @@ export default {
       loading: false,
       accountsList: [],
       costCenterList: [],
-      showMonthlyLedger: true,
+      showMonthlyLedger: false,
       //       ledgerOptions: [],
       // checkboxes: [
       //   { text: 'Narration', value: 'narration' },
