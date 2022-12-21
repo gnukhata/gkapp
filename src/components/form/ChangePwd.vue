@@ -122,7 +122,7 @@ export default {
     getUserInfo() {
       this.isLoading = true;
       axios
-        .get(`${this.gkCoreUrl}/users?user=single`, {
+        .get(`${this.gkCoreUrl}/gkuser`, {
           headers: {
             gktoken: this.authToken,
           },
@@ -155,7 +155,7 @@ export default {
       this.isLoading = true;
       axios
         .post(
-          `${this.gkCoreUrl}/users?userloginstatus`,
+          `${this.gkCoreUrl}/gkuser/pwd/validate`,
           {
             username: this.userName,
             userpassword: this.currentPwd,
@@ -207,7 +207,7 @@ export default {
     changePwd() {
       axios
         .put(
-          `${this.gkCoreUrl}/users`,
+          `${this.gkCoreUrl}/gkuser`,
           {
             userid: this.form.userid,
             username: this.userName,

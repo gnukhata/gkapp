@@ -404,101 +404,101 @@ export default {
         });
     },
     /* Create User */
-    addUser() {
-      this.isLoading = true;
-      // If selected role is godown incharge, add selected godown id's to the submitted form
-      if (this.form.userrole == 3) {
-        let list = [];
-        for (let i in this.allGodowns) {
-          if (this.allGodowns[i].checked === 'accepted') {
-            list.push(this.allGodowns[i].goid);
-          }
-        }
-        this.form.golist = list;
-      }
-      axios
-        .post(`${this.gkCoreUrl}/users`, this.form, {
-          headers: {
-            gktoken: this.authToken,
-          },
-        })
-        .then((r) => {
-          if (r.status == 200) {
-            switch (r.data.gkstatus) {
-              case 0:
-                {
-                  this.$bvToast.toast(
-                    `${this.form.username} created successfully`,
-                    {
-                      title: 'Success',
-                      variant: 'success',
-                      solid: true,
-                    }
-                  );
-                  // Add user created log to server
-                  const payload = {
-                    activity: `user ${this.form.username} created`,
-                  };
-                  axios.post(`${this.gkCoreUrl}/log`, payload, {
-                    headers: { gktoken: this.authToken },
-                  });
-                  // refresh users list in USerManagement.vue
-                  this.$emit('refreshUsers');
-                  this.isLoading = false;
-                  this.$refs.createForm.reset();
-                }
-                break;
-              case 1:
-                this.$bvToast.toast(
-                  `Username ${this.form.username} already exists`,
-                  {
-                    variant: 'danger',
-                    solid: true,
-                  }
-                );
-                this.isLoading = false;
-                break;
-              case 2:
-                this.$bvToast.toast('Unauthorised access', {
-                  variant: 'danger',
-                  solid: true,
-                });
-                this.isLoading = false;
-                break;
-              case 3:
-                this.$bvToast.toast('Connection Failed', {
-                  variant: 'danger',
-                  solid: true,
-                });
-                this.isLoading = false;
-                break;
-              case 4:
-                this.$bvToast.toast('Bad Privilege', {
-                  variant: 'danger',
-                  solid: true,
-                });
-                this.isLoading = false;
-                break;
-              case 5:
-                this.$bvToast.toast('Action Disallowed', {
-                  variant: 'danger',
-                  solid: true,
-                });
-                this.isLoading = false;
-                break;
-            }
-          } else {
-            this.$bvToast.toast(
-              'Connection failed with status code ' + r.status,
-              {
-                variant: 'danger',
-                solid: true,
-              }
-            );
-            this.isLoading = false;
-          }
-        });
-    },
+    // addUser() {
+    //   this.isLoading = true;
+    //   // If selected role is godown incharge, add selected godown id's to the submitted form
+    //   if (this.form.userrole == 3) {
+    //     let list = [];
+    //     for (let i in this.allGodowns) {
+    //       if (this.allGodowns[i].checked === 'accepted') {
+    //         list.push(this.allGodowns[i].goid);
+    //       }
+    //     }
+    //     this.form.golist = list;
+    //   }
+    //   axios
+    //     .post(`${this.gkCoreUrl}/gkuser`, this.form, {
+    //       headers: {
+    //         gktoken: this.authToken,
+    //       },
+    //     })
+    //     .then((r) => {
+    //       if (r.status == 200) {
+    //         switch (r.data.gkstatus) {
+    //           case 0:
+    //             {
+    //               this.$bvToast.toast(
+    //                 `${this.form.username} created successfully`,
+    //                 {
+    //                   title: 'Success',
+    //                   variant: 'success',
+    //                   solid: true,
+    //                 }
+    //               );
+    //               // Add user created log to server
+    //               const payload = {
+    //                 activity: `user ${this.form.username} created`,
+    //               };
+    //               axios.post(`${this.gkCoreUrl}/log`, payload, {
+    //                 headers: { gktoken: this.authToken },
+    //               });
+    //               // refresh users list in USerManagement.vue
+    //               this.$emit('refreshUsers');
+    //               this.isLoading = false;
+    //               this.$refs.createForm.reset();
+    //             }
+    //             break;
+    //           case 1:
+    //             this.$bvToast.toast(
+    //               `Username ${this.form.username} already exists`,
+    //               {
+    //                 variant: 'danger',
+    //                 solid: true,
+    //               }
+    //             );
+    //             this.isLoading = false;
+    //             break;
+    //           case 2:
+    //             this.$bvToast.toast('Unauthorised access', {
+    //               variant: 'danger',
+    //               solid: true,
+    //             });
+    //             this.isLoading = false;
+    //             break;
+    //           case 3:
+    //             this.$bvToast.toast('Connection Failed', {
+    //               variant: 'danger',
+    //               solid: true,
+    //             });
+    //             this.isLoading = false;
+    //             break;
+    //           case 4:
+    //             this.$bvToast.toast('Bad Privilege', {
+    //               variant: 'danger',
+    //               solid: true,
+    //             });
+    //             this.isLoading = false;
+    //             break;
+    //           case 5:
+    //             this.$bvToast.toast('Action Disallowed', {
+    //               variant: 'danger',
+    //               solid: true,
+    //             });
+    //             this.isLoading = false;
+    //             break;
+    //         }
+    //       } else {
+    //         this.$bvToast.toast(
+    //           'Connection failed with status code ' + r.status,
+    //           {
+    //             variant: 'danger',
+    //             solid: true,
+    //           }
+    //         );
+    //         this.isLoading = false;
+    //       }
+    //     });
+    // },
   },
 };
 </script>

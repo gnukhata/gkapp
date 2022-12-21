@@ -781,7 +781,7 @@ export default {
     fetchUserData() {
       let self = this;
       return axios
-        .get(`/users?user=single`)
+        .get(`/gkuser`)
         .then((resp) => {
           // === User name and role ===
           if (resp.data.gkstatus === 0) {

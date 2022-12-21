@@ -287,46 +287,46 @@ export default {
         }
       });
     },
-    deleteUser(name, id) {
-      this.isLoading = true;
-      axios
-        .delete('/users', {
-          headers: {
-            gktoken: this.authToken,
-          },
-          data: {
-            userid: id,
-          },
-        })
-        .then((r) => {
-          if (r.status == 200 && r.data.gkstatus == 0) {
-            this.$bvToast.toast(`${name} removed successfully`, {
-              title: 'Delete Success',
-              variant: 'success',
-              solid: true,
-            });
+    // deleteUser(name, id) {
+    //   this.isLoading = true;
+    //   axios
+    //     .delete('/gkuser', {
+    //       headers: {
+    //         gktoken: this.authToken,
+    //       },
+    //       data: {
+    //         userid: id,
+    //       },
+    //     })
+    //     .then((r) => {
+    //       if (r.status == 200 && r.data.gkstatus == 0) {
+    //         this.$bvToast.toast(`${name} removed successfully`, {
+    //           title: 'Delete Success',
+    //           variant: 'success',
+    //           solid: true,
+    //         });
 
-            // Add delete user log to server
-            const payload = {
-              activity: `user ${this.name} deleted`,
-            };
-            axios.post(`${this.gkCoreUrl}/log`, payload, {
-              headers: { gktoken: this.authToken },
-            });
-            // refresh user list
-            this.getUsers();
-            this.isLoading = false;
-          }
-        })
-        .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            title: e.message,
-            variant: 'danger',
-            solid: true,
-          });
-          this.isLoading = false;
-        });
-    },
+    //         // Add delete user log to server
+    //         const payload = {
+    //           activity: `user ${this.name} deleted`,
+    //         };
+    //         axios.post(`${this.gkCoreUrl}/log`, payload, {
+    //           headers: { gktoken: this.authToken },
+    //         });
+    //         // refresh user list
+    //         this.getUsers();
+    //         this.isLoading = false;
+    //       }
+    //     })
+    //     .catch((e) => {
+    //       this.$bvToast.toast(e.message, {
+    //         title: e.message,
+    //         variant: 'danger',
+    //         solid: true,
+    //       });
+    //       this.isLoading = false;
+    //     });
+    // },
   },
   mounted() {
     this.getUsers();

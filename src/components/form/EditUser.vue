@@ -148,6 +148,8 @@
 </template>
 
 <script>
+// TODO: Must update this view to be compatible with the new user flow
+// Possibly make it a component that can be accessed in the org login page that comes after user is logged in
 import axios from 'axios';
 import { mapState } from 'vuex';
 import SecurityQuestions from '../SecurityQuestions.vue';

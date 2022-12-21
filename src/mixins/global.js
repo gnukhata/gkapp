@@ -118,7 +118,7 @@ export default {
      */
     get_user_role() {
       axios
-        .get(`/user?type=role`)
+        .get(`/gkuser/role`)
         .then((res) => {
           this.user_role = res.data.gkresult;
         })
