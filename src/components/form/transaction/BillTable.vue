@@ -858,7 +858,7 @@ export default {
         stockParams += `&goid=${this.godownId}&type=pg`;
       }
       const requests = [
-        axios.get(`/products?qty=single&productcode=${id}`).catch((error) => {
+        axios.get(`/product/${id}`).catch((error) => {
           return error;
         }),
         axios.get(`/tax2?pscflag=p&productcode=${id}`).catch((error) => {
@@ -1395,7 +1395,7 @@ export default {
       let self = this;
       this.isPreloading = true;
       return axios
-        .get('/products')
+        .get('/product')
         .then((resp) => {
           self.isPreloading = false;
           if (resp.status === 200) {

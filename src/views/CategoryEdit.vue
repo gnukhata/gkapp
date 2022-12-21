@@ -358,7 +358,7 @@ export default {
         axios.get(`/categories?type=single&categorycode=${id}`),
         axios.get(`/tax?pscflag=c&categorycode=${id}`),
         axios.get(`/categoryspecs?categorycode=${id}`),
-        axios.get(`/products?by=category&categorycode=${id}`),
+        axios.get(`/product/category/${id}`),
       ]).then((resp) => {
         // Category name and parent
         if (resp[0].data.gkstatus === 0) {

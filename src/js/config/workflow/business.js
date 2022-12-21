@@ -52,7 +52,7 @@ const config = {
   },
   loadList: function() {
     return axios
-      .get('/products')
+      .get('/product')
       .then((resp) => {
         let list = [];
         // Products & Services List

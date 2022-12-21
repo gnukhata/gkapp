@@ -483,7 +483,7 @@ export default {
     getDetails() {
       axios
         .get(
-          `${this.gkCoreUrl}/products?qty=single&productcode=${this.name.productcode}`,
+          `${this.gkCoreUrl}/product/${this.name.productcode}`,
           {
             headers: {
               gktoken: this.authToken,
@@ -560,7 +560,7 @@ export default {
               payload.godownflag = true;
             }
             axios
-              .put(`/products`, payload, config)
+              .put(`/product/${this.details.productcode}`, payload, config)
               .then((res) => {
                 switch (res.data.gkstatus) {
                   case 0:
@@ -775,7 +775,7 @@ export default {
               },
             };
             axios
-              .delete('/products', config)
+              .delete(`/product/${this.details.productcode}`, config)
               .then((res) => {
                 switch (res.data.gkstatus) {
                   case 0:
@@ -843,7 +843,7 @@ export default {
      */
     getGodowns() {
       return axios
-        .get(`/products?by=godown&productcode=${this.details.productcode}`, {
+        .get(`/godown/product/${this.details.productcode}`, {
           headers: {
             gktoken: this.authToken,
           },

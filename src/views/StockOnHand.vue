@@ -202,7 +202,7 @@ export default {
     getProductList() {
       this.loading = true;
       axios
-        .get('/products?invdc=4')
+        .get('/product?invdc=4')
         .then((r) => {
           if (r.status == 200) {
             this.productList = r.data.gkresult.map((data) => {

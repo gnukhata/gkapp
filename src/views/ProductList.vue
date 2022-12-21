@@ -118,7 +118,7 @@ export default {
     },
     getProducts() {
       axios
-        .get('/products')
+        .get('/product')
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {

@@ -1301,8 +1301,8 @@ export default {
             Object.assign(this.selectedEntity, updatedData.data);
           } else if (updatedData.type === 'delete') {
             this.displayToast(
-              `Contact Delete success!`,
-              `Contact : ${this.selectedEntity.productdesc}, deleted successfully.`,
+              `Business Item Delete success!`,
+              `Business Item : ${this.selectedEntity.productdesc}, deleted successfully.`,
               'success'
             );
             let id = this.selectedEntity.productcode;
@@ -1328,7 +1328,7 @@ export default {
     psList() {
       this.isLoading = true;
       axios
-        .get('/products')
+        .get('/product')
         .then((res) => {
           this.filterProducts(res.data.gkresult);
           this.isLoading = false;
