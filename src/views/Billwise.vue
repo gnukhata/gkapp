@@ -453,7 +453,7 @@ export default {
     preloadData() {
       this.isPreloading = true;
       const requests = [
-        axios.get('/customersupplier?qty=custall').catch((error) => {
+        axios.get('/customer?qty=custall').catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Customer List Failed!'),
             error.message,
@@ -461,7 +461,7 @@ export default {
           );
           return error;
         }),
-        axios.get('/customersupplier?qty=supall').catch((error) => {
+        axios.get('/customer?qty=supall').catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Supplier List Failed!'),
             error.message,

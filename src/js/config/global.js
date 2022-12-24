@@ -197,7 +197,7 @@ export default {
         };
 
         return axios
-          .post('/customersupplier', payload)
+          .post('/customer', payload)
           .then((resp) => {
             let result = {
               text: name,
@@ -319,8 +319,8 @@ export default {
     initGlobalConfigOptions({ commit }) {
       const requests = [
         axios.get('/godown'),
-        axios.get('/customersupplier?qty=custall'),
-        axios.get('/customersupplier?qty=supall'),
+        axios.get('/customer?qty=custall'),
+        axios.get('/customer?qty=supall'),
       ];
 
       return Promise.all(requests).then(([respGodown, respCust, respSup]) => {

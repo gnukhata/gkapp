@@ -52,10 +52,10 @@ const config = {
   },
   loadList: function() {
     const requests = [
-      axios.get('/customersupplier?qty=custall').catch((error) => {
+      axios.get('/customer?qty=custall').catch((error) => {
         return error;
       }),
-      axios.get('/customersupplier?qty=supall').catch((error) => {
+      axios.get('/customer?qty=supall').catch((error) => {
         return error;
       }),
     ];

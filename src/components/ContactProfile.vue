@@ -376,10 +376,7 @@ export default {
         },
       };
       axios
-        .get(
-          `${this.gkCoreUrl}/customersupplier?qty=single&custid=${this.customer.custid}`,
-          config
-        )
+        .get(`/customer/${this.customer.custid}`, config)
         .then((res) => {
           switch (res.data.gkstatus) {
             case 0:
@@ -449,7 +446,7 @@ export default {
             }
             this.details.bankdetails = this.bankDetails;
             axios
-              .put(`/customersupplier`, this.details)
+              .put(`/customer/${this.details.custid}`, this.details)
               .then((res) => {
                 switch (res.data.gkstatus) {
                   case 0:
@@ -518,17 +515,9 @@ export default {
         })
         .then((val) => {
           if (val) {
-            const config = {
-              headers: {
-                gktoken: this.authToken,
-              },
-              data: {
-                custid: this.details.custid,
-              },
-            };
             this.isLoading = true;
             axios
-              .delete(`${this.gkCoreUrl}/customersupplier`, config)
+              .delete(`/customer/${this.details.custid}`)
               .then((res) => {
                 this.isLoading = true;
                 switch (res.data.gkstatus) {

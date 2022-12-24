@@ -578,7 +578,7 @@ export default {
       this.isLoading = true;
       const payload = this.initPayload();
       axios
-        .post('/customersupplier', payload)
+        .post('/customer', payload)
         .then((response) => {
           // console.log(response)
           this.isLoading = false;

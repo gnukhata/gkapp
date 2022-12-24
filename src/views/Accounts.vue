@@ -16,11 +16,12 @@
         :url="
           `/accounts/spreadsheet?fystart=${this.dateReverse(
             this.yearStart
-          )}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}&orgtype=${this.orgType}`
+          )}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${
+            this.orgName
+          }&orgtype=${this.orgType}`
         "
-
         title="Download Account List"
-				:commonParams="false"
+        :commonParams="false"
       ></gk-file-download>
     </gk-toolbar>
     <div class="clearfix"></div>
@@ -355,36 +356,27 @@ export default {
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             if (custId) {
-              axios
-                .delete('/customersupplier', {
-                  data: {
-                    custid: custId,
-                  },
-                })
-                .then((resp2) => {
-                  let custType = isCustomer ? 'customer' : 'supplier';
-                  if (resp2.data.gkstatus !== 0) {
-                    this.$bvToast.toast(
-                      `Delete ${custType} ${custName} Failed!`,
-                      {
-                        variant: 'danger',
-                        solid: true,
-                      }
-                    );
-                    return;
-                  }
-                  let custLog = {
-                    activity: `${custName} ${custType} deleted.`,
-                  };
-                  axios.post('/log', custLog);
+              axios.delete(`/customer/${custId}`).then((resp2) => {
+                let custType = isCustomer ? 'customer' : 'supplier';
+                if (resp2.data.gkstatus !== 0) {
                   this.$bvToast.toast(
-                    `Delete ${custType} ${custName} Success!`,
+                    `Delete ${custType} ${custName} Failed!`,
                     {
-                      variant: 'success',
+                      variant: 'danger',
                       solid: true,
                     }
                   );
+                  return;
+                }
+                let custLog = {
+                  activity: `${custName} ${custType} deleted.`,
+                };
+                axios.post('/log', custLog);
+                this.$bvToast.toast(`Delete ${custType} ${custName} Success!`, {
+                  variant: 'success',
+                  solid: true,
                 });
+              });
             }
             let log = { activity: `${accountName} account deleted.` };
             axios.post('/log', log);
@@ -410,20 +402,18 @@ export default {
           credGroupCode = resp.data.gkresult['Sundry Creditors for Purchase'];
         if (debtGroupCode === groupCode || credGroupCode === groupCode) {
           let custType = debtGroupCode === groupCode ? 'custall' : 'supall';
-          return axios
-            .get(`/customersupplier?qty=${custType}`)
-            .then((resp2) => {
-              if (resp2.data.gkstatus === 0) {
-                let cust = resp2.data.gkresult.find(
-                  (cust) => cust.custname === account
-                );
-                if (cust) {
-                  cust.isCustomer = debtGroupCode === groupCode;
-                }
-                return cust;
+          return axios.get(`/customer?qty=${custType}`).then((resp2) => {
+            if (resp2.data.gkstatus === 0) {
+              let cust = resp2.data.gkresult.find(
+                (cust) => cust.custname === account
+              );
+              if (cust) {
+                cust.isCustomer = debtGroupCode === groupCode;
               }
-              return null;
-            });
+              return cust;
+            }
+            return null;
+          });
         } else {
           return null;
         }
