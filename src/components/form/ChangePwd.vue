@@ -158,7 +158,7 @@ export default {
           `${this.gkCoreUrl}/gkuser/pwd/validate`,
           {
             username: this.userName,
-            userpassword: this.currentPwd,
+            userpassword: this.hashedPassword(this.currentPwd),
           },
           { headers: { gktoken: this.authToken } }
         )
@@ -207,7 +207,7 @@ export default {
     changePwd() {
       axios
         .put(
-          `${this.gkCoreUrl}/gkuser`,
+          `${this.gkCoreUrl}/gkuser/${this.form.userid}`,
           {
             userid: this.form.userid,
             username: this.userName,
