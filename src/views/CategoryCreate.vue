@@ -298,7 +298,7 @@ export default {
         return;
       }
       Promise.all([
-        axios.get(`/tax?pscflag=c&categorycode=${parentId}`),
+        axios.get(`/tax/search/c?categorycode=${parentId}`),
         axios.get(`/categoryspecs?categorycode=${parentId}`),
       ]).then((resp) => {
         if (resp[0].data.gkstatus === 0) {

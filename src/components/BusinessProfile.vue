@@ -482,14 +482,11 @@ export default {
      */
     getDetails() {
       axios
-        .get(
-          `${this.gkCoreUrl}/product/${this.name.productcode}`,
-          {
-            headers: {
-              gktoken: this.authToken,
-            },
-          }
-        )
+        .get(`${this.gkCoreUrl}/product/${this.name.productcode}`, {
+          headers: {
+            gktoken: this.authToken,
+          },
+        })
         .then((res) => {
           switch (res.data.gkstatus) {
             case 0:
@@ -627,7 +624,7 @@ export default {
         if (item.taxid === undefined) {
           if (parseFloat(item.taxrate) > 0 && item.taxfromdate) {
             // create a new tax entry, or newly added tax items
-            request = axios.post('/tax2', tax);
+            request = axios.post('/tax', tax);
           }
         } else {
           if (
@@ -635,14 +632,10 @@ export default {
             parseFloat(item.taxrate) === 0
           ) {
             // delete items that were deleted as an update or equal to 0
-            request = axios.delete('/tax2', {
-              data: {
-                taxid: item.taxid,
-              },
-            });
+            request = axios.delete(`/tax/${item.taxid}`);
           } else {
             // update existing tax items
-            request = axios.put('/tax2', tax);
+            request = axios.put(`/tax/${item.taxid}`, tax);
           }
         }
         return request;
@@ -869,7 +862,7 @@ export default {
     getTaxDetails() {
       return axios
         .get(
-          `${this.gkCoreUrl}/tax2?pscflag=p&productcode=${this.name.productcode}`,
+          `${this.gkCoreUrl}/tax/search/p?productcode=${this.name.productcode}`,
           {
             headers: {
               gktoken: this.authToken,

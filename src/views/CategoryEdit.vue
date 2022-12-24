@@ -356,7 +356,7 @@ export default {
       }
       Promise.all([
         axios.get(`/categories?type=single&categorycode=${id}`),
-        axios.get(`/tax?pscflag=c&categorycode=${id}`),
+        axios.get(`/tax/search/c?categorycode=${id}`),
         axios.get(`/categoryspecs?categorycode=${id}`),
         axios.get(`/product/category/${id}`),
       ]).then((resp) => {
@@ -373,7 +373,10 @@ export default {
           resp[1].data.gkresult.forEach((tax) => {
             switch (tax.taxname) {
               case 'IGST':
-                self.form.taxes[0].rate = parseInt(tax.taxrate);
+                self.form.taxes[0].rate =
+                  tax.taxrate % 1
+                    ? parseFloat(tax.taxrate)
+                    : parseInt(tax.taxrate);
                 self.form.taxes[0].id = tax.taxid;
                 break;
               case 'CESS':
@@ -515,10 +518,7 @@ export default {
       });
 
       this.form.deletedTaxes.forEach((taxid) => {
-        let payload = {
-          data: { taxid: taxid },
-        };
-        axios.delete('/tax', payload);
+        axios.delete(`/tax/${taxid}`);
       });
       this.form.deletedSpecs.forEach((spcode) => {
         let payload = {
@@ -595,7 +595,7 @@ export default {
                 categorycode: catCode,
                 state: tax.state ? self.stateIdMap[tax.state] : null,
               };
-              axios.put('/tax', payload);
+              axios.put(`/tax/${tax.id}`, payload);
             });
           }
 

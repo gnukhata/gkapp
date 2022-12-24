@@ -783,7 +783,7 @@ export default {
                     taxfromdate: item.taxfromdate,
                     state: item.taxname === 'VAT' ? item.state : ''
                   };
-                  return axios.post('/tax2', taxPayload);
+                  return axios.post('/tax', taxPayload);
                 });
                 Promise.all(taxRequests).then(() => {
                   // console.log(responses)

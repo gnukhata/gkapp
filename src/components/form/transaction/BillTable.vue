@@ -861,7 +861,7 @@ export default {
         axios.get(`/product/${id}`).catch((error) => {
           return error;
         }),
-        axios.get(`/tax2?pscflag=p&productcode=${id}`).catch((error) => {
+        axios.get(`/tax/search/p?productcode=${id}`).catch((error) => {
           return error;
         }),
         axios.get(`${stockPath}${stockParams}`).catch((error) => {
