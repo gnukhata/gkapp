@@ -537,7 +537,7 @@ export default {
         let self = this;
         let inoutflag = this.saleFlag ? 15 : 9;
         return axios
-          .get(`/invoice/id?type=${inoutflag}`)
+          .get(`/invoice/next_id?type=${inoutflag}`)
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
               let codes = self.config.no.format
@@ -646,7 +646,7 @@ export default {
       const self = this;
       axios
         .get(
-          `/delnote/unbilled?inputdate=${this.form.date}&type=invoice`
+          `/delchal/unbilled?inputdate=${this.form.date}&type=invoice`
         )
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
