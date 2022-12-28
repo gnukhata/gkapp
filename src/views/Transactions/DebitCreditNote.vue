@@ -582,7 +582,7 @@ export default {
     },
     fetchDelNoteGodown(dcid) {
       const self = this;
-      axios.get(`/delchal?delchal=single&dcid=${dcid}`).then((resp) => {
+      axios.get(`/delchal/${dcid}`).then((resp) => {
         if (resp.data.gkstatus === 0) {
           // debugger;
           self.options.dnData = resp.data.gkresult.delchaldata;

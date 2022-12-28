@@ -676,7 +676,7 @@ export default {
       });
     },
     getDelNoteDetails(id) {
-      return axios.get(`/delchal?delchal=single&dcid=${id}`).catch((error) => {
+      return axios.get(`/delchal/${id}`).catch((error) => {
         this.$bvToast.toast(`Error: ${error.message}`, {
           title: this.$gettext(`Fetch Delivery Note Error!`),
           autoHideDelay: 3000,

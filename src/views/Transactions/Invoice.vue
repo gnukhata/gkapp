@@ -711,7 +711,7 @@ export default {
     },
     fetchDelNoteGodown(dcid) {
       const self = this;
-      axios.get(`/delchal?delchal=single&dcid=${dcid}`).then((resp) => {
+      axios.get(`/delchal/${dcid}`).then((resp) => {
         if (resp.data.gkstatus === 0) {
           // debugger;
           self.options.dcData = resp.data.gkresult.delchaldata;
@@ -1532,9 +1532,15 @@ export default {
     },
     createDelNote() {
       const payload = this.initDelNotePayload();
-      const method = this.isCreate ? 'post' : !this.dcId ? 'post' : 'put';
+      let method = 'post',
+        url = '/delchal';
 
-      return axios({ method: method, url: '/delchal', data: payload })
+      if (!this.isCreate && this.dcId) {
+        method = 'put';
+        url = `/delchal/${this.dcId}`;
+      }
+
+      return axios({ method: method, url: url, data: payload })
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             if (resp.data.gkresult || this.isCreate) {
@@ -1553,11 +1559,9 @@ export default {
         });
     },
     deleteDelNote(dcid) {
-      return axios
-        .delete('/delchal?type=canceldel', { data: { dcid: dcid } })
-        .then((resp) => {
-          return resp.data.gkstatus;
-        });
+      return axios.delete(`/delchal/${dcid}`).then((resp) => {
+        return resp.data.gkstatus;
+      });
     },
     initDelNotePayload() {
       this.collectComponentData();

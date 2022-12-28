@@ -415,7 +415,7 @@ export default {
     fetchLastDelChalNo() {
       const requests = [
         // last purchase delivery chalan
-        axios.get('/delchal?type=dcid&status=9').catch((error) => {
+        axios.get('/delchal/next_id?status=9').catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Delivery Challan No. Failed!'),
             error.message,
@@ -424,7 +424,7 @@ export default {
           return error;
         }),
         // last sale delivery chalan
-        axios.get('/delchal?type=dcid&status=15').catch((error) => {
+        axios.get('/delchal/next_id?status=15').catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Delivery Challan No. Failed!'),
             error.message,

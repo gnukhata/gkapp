@@ -397,7 +397,7 @@ export default {
     },
     fetchDelNoteCounter() {
       let trnCode = this.saleFlag ? 15 : 9;
-      let url = `/delchal?type=dcid&status=${trnCode}`;
+      let url = `/delchal/next_id?status=${trnCode}`;
       return axios
         .get(url)
         .then((resp) => {

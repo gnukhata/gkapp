@@ -335,7 +335,7 @@ export default {
     fetchLastDelChalNo() {
       const requests = [
         // last purchase delivery chalan
-        axios.get('/delchal?delchal=last&status=9').catch((error) => {
+        axios.get('/delchal/last?status=9').catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Delivery Challan No. Failed!'),
             error.message,
@@ -344,7 +344,7 @@ export default {
           return error;
         }),
         // last sale delivery chalan
-        axios.get('/delchal?delchal=last&status=15').catch((error) => {
+        axios.get('/delchal/last?status=15').catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Delivery Challan No. Failed!'),
             error.message,
@@ -392,7 +392,7 @@ export default {
           return error;
         }),
         this.fetchUserData(),
-        this.fetchLastDelChalNo(),
+        // this.fetchLastDelChalNo(), 
       ];
       const self = this;
       return Promise.all(requests)

@@ -105,35 +105,38 @@ const config = {
       dcflag: { label: 'Delivery Type', key: 'dcflag', sortable: true },
     },
   },
-  loadList: function(fromDate) {
+  loadList: function(fromDate, toDate) {
+    let toTime = new Date(toDate).getTime();
+    let nowTime = new Date().getTime();
+    let date = nowTime <= toTime? new Date().toISOString().substr(0, 10) : toDate;
     const requests = [
-      axios.get('/delchal?delchal=all').catch((error) => {
+      axios.get('/delchal').catch((error) => {
         return error;
       }),
       axios
         .get(
-          `/report?type=del_unbilled&inout=i&inputdate=${fromDate}&del_unbilled_type=0`
+          `/report?type=del_unbilled&inout=i&inputdate=${date}&del_unbilled_type=0`
         )
         .catch((error) => {
           return error;
         }),
       axios
         .get(
-          `/report?type=del_unbilled&inout=o&inputdate=${fromDate}&del_unbilled_type=0`
+          `/report?type=del_unbilled&inout=o&inputdate=${date}&del_unbilled_type=0`
         )
         .catch((error) => {
           return error;
         }),
       axios
         .get(
-          `/delchal?type=listofcancelleddel&inout=i&inputdate=${fromDate}&del_cancelled_type=0`
+          `/delchal/cancel?inout=i&inputdate=${date}&del_cancelled_type=0`
         )
         .catch((error) => {
           return error;
         }),
       axios
         .get(
-          `/delchal?type=listofcancelleddel&inout=o&inputdate=${fromDate}&del_cancelled_type=0`
+          `/delchal/cancel?inout=o&inputdate=${date}&del_cancelled_type=0`
         )
         .catch((error) => {
           return error;

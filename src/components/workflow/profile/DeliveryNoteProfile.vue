@@ -282,48 +282,42 @@ export default {
         .then((val) => {
           if (val) {
             // return;
-            axios
-              .delete('/delchal?type=canceldel', {
-                data: {
-                  dcid: this.id,
-                },
-              })
-              .then((resp) => {
-                if (resp.data.gkstatus === 0) {
-                  let type = self.isSale ? 'sale' : 'purchase';
-                  let log = {
-                    activity: `delivery note for ${type} deleted: ${self.no}`,
-                  };
-                  axios.post('/log', log);
+            axios.delete(`/delchal/${this.id}`).then((resp) => {
+              if (resp.data.gkstatus === 0) {
+                let type = self.isSale ? 'sale' : 'purchase';
+                let log = {
+                  activity: `delivery note for ${type} deleted: ${self.no}`,
+                };
+                axios.post('/log', log);
 
-                  self.displayToast(
-                    this.$gettext(`Delivery Note Delete success!`),
-                    this.$gettextInterpolate(
-                      this.$gettext(
-                        `Delivery Note : %{delNoteNo}, deleted successfully.`
-                      ),
-                      {
-                        delNoteNo: self.no,
-                      }
+                self.displayToast(
+                  this.$gettext(`Delivery Note Delete success!`),
+                  this.$gettextInterpolate(
+                    this.$gettext(
+                      `Delivery Note : %{delNoteNo}, deleted successfully.`
                     ),
-                    'success'
-                  );
-                  this.onUpdate({ type: 'delete' });
-                } else {
-                  self.displayToast(
-                    this.$gettext(`Delivery Note Delete failed!`),
-                    this.$gettextInterpolate(
-                      this.$gettext(
-                        `Unable to delete Delivery Note : %{delNoteNo}`
-                      ),
-                      {
-                        delNoteNo: self.no,
-                      }
+                    {
+                      delNoteNo: self.no,
+                    }
+                  ),
+                  'success'
+                );
+                this.onUpdate({ type: 'delete' });
+              } else {
+                self.displayToast(
+                  this.$gettext(`Delivery Note Delete failed!`),
+                  this.$gettextInterpolate(
+                    this.$gettext(
+                      `Unable to delete Delivery Note : %{delNoteNo}`
                     ),
-                    'danger'
-                  );
-                }
-              });
+                    {
+                      delNoteNo: self.no,
+                    }
+                  ),
+                  'danger'
+                );
+              }
+            });
           }
         });
     },
@@ -406,9 +400,9 @@ export default {
       }
     },
     getDetails() {
-      let url = `/delchal?delchal=single&dcid=${this.id}`;
+      let url = `/delchal/${this.id}`;
       if (this.pdata.cancelledFlag) {
-        url = `/delchal?delchal=singlecancel&dcid=${this.id}`;
+        url = `/delchal/cancel/${this.id}`;
       }
       return axios.get(url).catch((error) => {
         this.$bvToast.toast(`Error: ${error.message}`, {
