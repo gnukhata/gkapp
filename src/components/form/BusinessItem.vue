@@ -539,14 +539,15 @@
         <template #close-button>
           <b-button
             size="sm"
-            class="float-right py-0"
+            class="float-right py-0 p-0"
+            variant="dark"
             @click.prevent="
               () => {
                 showGodownForm = false;
               }
             "
-            >x</b-button
-          >
+            ><b-icon icon="x-circle"></b-icon
+          ></b-button>
         </template>
       </godown>
     </b-modal>
