@@ -140,6 +140,8 @@ export default {
     selectHsnSuggestion(o) {
       this.hsn.code = o.hsn_code;
       this.checkHsn(this.hsn.code);
+      // clear the suggestions
+      this.hsn.suggestions = [];
     },
 
     /**

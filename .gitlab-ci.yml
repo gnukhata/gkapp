@@ -41,8 +41,8 @@ docker-devel:
   image: docker:20.10.19
   stage: build
   needs:
-    job: gkapp
-    artifacts: true
+    - job: gkapp
+      artifacts: true
   script:
     # build the docker image & push to the dockerhub
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD
@@ -56,8 +56,8 @@ docker-prod:
   image: docker:20.10.19
   stage: build
   needs:
-    job: gkapp
-    artifacts: true
+    - job: gkapp
+      artifacts: true
   script:
     # build the docker image & push to the dockerhub
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD

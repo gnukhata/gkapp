@@ -10,12 +10,13 @@
          <b>Create Godown</b>
          <slot name="close-button"> </slot>
          </div> -->
-    <b-card
-      header="Create Godown"
-      header-bg-variant="dark"
-      header-text-variant="light"
-    >
-      <template #header> <translate> Create Godown </translate> </template>
+    <b-card header-bg-variant="dark" header-text-variant="light">
+      <template #header>
+        <div>
+          <translate> Create Godown </translate>
+          <slot name="close-button"> </slot>
+        </div>
+      </template>
       <b-form class="text-left" @submit.prevent="confirmOnSubmit">
         <b-row>
           <b-col cols="12" :md="inOverlay ? 12 : 6" lg="6">

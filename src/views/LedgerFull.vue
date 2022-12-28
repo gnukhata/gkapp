@@ -20,50 +20,48 @@
           {{ ledgerHead.calculateto }}
         </div>
       </report-header>
-      <!-- Checkboxes -->
-      <div class="d-flex justify-content-center mb-3">
-        <b-form-checkbox
-          class="mr-2"
-          @change="getLedger"
-          v-model="ledgerChoice"
-          value="all"
-          unchecked-value="all"
-          switch
-        >
-          <translate>All</translate></b-form-checkbox
-        >
-        <b-form-checkbox
-          @change="getCrDrLedger"
-          class="mr-2"
-          v-model="ledgerChoice"
-          value="cr"
-          unchecked-value="all"
-          switch
-        >
-          <translate>Credit Only</translate></b-form-checkbox
-        >
-        <b-form-checkbox
-          @change="getCrDrLedger"
-          class="mr-2"
-          v-model="ledgerChoice"
-          unchecked-value="all"
-          value="dr"
-          switch
-        >
-          <translate>Debit Only</translate></b-form-checkbox
-        >
-      </div>
-      <!-- search bar -->
-      <div class="text-center gkcard mx-auto mb-3">
-        <b-form-input
-          :placeholder="$gettext('Search Ledger')"
-          size="sm"
-          v-model="search"
-          type="text"
-        ></b-form-input>
-      </div>
       <!-- Toolbar -->
       <gk-toolbar>
+        <template #left>
+          <!-- search bar -->
+          <b-form-input
+            :placeholder="$gettext('Search Ledger')"
+            size="sm"
+            v-model="search"
+            type="text"
+            style="align-self:center"
+          ></b-form-input>
+        </template>
+        <gk-hover class="col">
+          <!-- Filters / Checkboxes -->
+          <b-form-checkbox
+            class="mr-2"
+            @change="getLedger"
+            v-model="ledgerChoice"
+            value="all"
+            unchecked-value="all"
+          >
+            <translate>All</translate></b-form-checkbox
+          >
+          <b-form-checkbox
+            @change="getCrDrLedger"
+            class="mr-2"
+            v-model="ledgerChoice"
+            value="cr"
+            unchecked-value="all"
+          >
+            <translate>Credit Only</translate></b-form-checkbox
+          >
+          <b-form-checkbox
+            @change="getCrDrLedger"
+            class="mr-2"
+            v-model="ledgerChoice"
+            unchecked-value="all"
+            value="dr"
+          >
+            <translate>Debit Only</translate></b-form-checkbox
+          >
+        </gk-hover>
         <gk-file-download
           v-if="ledgerChoice == 'all'"
           :common-params="false"
@@ -113,8 +111,9 @@ import { mapState } from 'vuex';
 import ReportHeader from '../components/ReportHeader.vue';
 import GkToolbar from '../components/GkToolbar.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
+import GkHover from '../components/GkHovermenu.vue';
 export default {
-  components: { ReportHeader, GkToolbar, GkFileDownload },
+  components: { ReportHeader, GkToolbar, GkFileDownload, GkHover },
   name: 'LedgerMonthly',
   data() {
     return {

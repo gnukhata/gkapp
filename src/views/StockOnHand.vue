@@ -14,22 +14,20 @@
               v-model="productId"
               :options="productList"
               :placeholder="$gettext('Select Product')"
-              :required="!allProducts"
+              :required="true"
               :disabled="allProducts"
             ></autocomplete>
-            <div class="text-left">
-              <b-form-checkbox
-                v-model="allProducts"
-                ref="allstock"
-                class="mt-2"
-                switch
-                :disabled="showGodowns"
-                :unchecked-value="false"
-                ><translate>All Products</translate></b-form-checkbox
-              >
-            </div>
+            <div class="text-left"></div>
           </b-form-group>
-
+          <!-- Godown select -->
+          <b-form-group :label="$gettext('Godown')" label-cols="auto">
+            <autocomplete
+              :placeholder="$gettext('Search / Select a godown')"
+              v-model="godownId"
+              :options="godowns"
+              :required="true"
+            ></autocomplete>
+          </b-form-group>
           <div class="col">
             <b-form-group
               :label="$gettext('As on')"
@@ -39,32 +37,6 @@
               <gk-date :required="true" v-model="toDate" id="to"></gk-date>
             </b-form-group>
           </div>
-          <!-- checkboxes -->
-          <b-form-group>
-            <b-form-checkbox
-              v-model="showGodowns"
-              ref="allstock"
-              class="mb-2"
-              switch
-              :unchecked-value="false"
-              :disabled="allProducts"
-              ><translate
-                >Godown Wise Stock On Hand Report</translate
-              ></b-form-checkbox
-            >
-          </b-form-group>
-          <!-- Godown select -->
-          <b-form-group
-            v-if="showGodowns"
-            :label="$gettext('Godown')"
-            label-cols="auto"
-          >
-            <autocomplete
-              :placeholder="$gettext('Search / Select a godown')"
-              v-model="godownId"
-              :options="godowns"
-            ></autocomplete>
-          </b-form-group>
           <b-button
             @click="updateRoute"
             type="submit"
@@ -129,7 +101,7 @@ import axios from 'axios';
 import Autocomplete from '../components/Autocomplete.vue';
 import GkDate from '../components/GkDate.vue';
 import { mapState } from 'vuex';
-import ReportHeader from '../components/ReportHeader.vue';
+import ReportHeader from '@/components/ReportHeader.vue';
 export default {
   name: 'StockOnHand',
   components: { Autocomplete, GkDate, ReportHeader },
@@ -182,6 +154,9 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
+    resetResults() {
+      this.report = [];
+    },
     getGodownList() {
       axios
         .get('/godown')
@@ -228,9 +203,9 @@ export default {
       this.report = [];
       this.loading = true;
 
-      if (this.allProducts) {
-        this.productId = 'all';
-      }
+      // if (this.allProducts) {
+      //   this.productId = 'all';
+      // }
 
       let url = `/report?stockonhandreport&productcode=${this.productId}&enddate=${this.toDate}`;
 
@@ -293,7 +268,7 @@ export default {
       this.$router.replace({
         query: {
           to: this.toDate,
-          prodcode: this.allProducts ? 'all' : this.productId,
+          prodcode: this.productId,
         },
       });
     },
@@ -303,16 +278,11 @@ export default {
       if (Object.keys(params).length > 0) {
         this.toDate = params.to;
         this.productId = params.prodcode;
-        if (this.productId == 'all') {
-          this.allProducts = true;
-        }
-      } else {
-        this.allProducts = true;
-        this.toDate = this.currentDate();
-        this.getProductList();
-        this.getGodownList();
+        this.stockOnHand();
       }
-      this.stockOnHand();
+      this.toDate = this.currentDate();
+      this.getProductList();
+      this.getGodownList();
     },
   },
   mounted() {

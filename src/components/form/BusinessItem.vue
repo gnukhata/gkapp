@@ -237,6 +237,7 @@
                           type="number"
                           no-wheel
                           step="0.01"
+                          @blur="calculateDiscount"
                         ></b-form-input>
                       </b-input-group>
                     </b-col>
@@ -538,14 +539,15 @@
         <template #close-button>
           <b-button
             size="sm"
-            class="float-right py-0"
+            class="float-right py-0 p-0"
+            variant="dark"
             @click.prevent="
               () => {
                 showGodownForm = false;
               }
             "
-            >x</b-button
-          >
+            ><b-icon icon="x-circle"></b-icon
+          ></b-button>
         </template>
       </godown>
     </b-modal>
@@ -612,7 +614,7 @@ export default {
             {
               id: '',
               qty: null,
-              rate: null
+              rate: null,
             },
           ], // opening stock based on godown
           value: 0, // opening stock
@@ -659,9 +661,8 @@ export default {
   },
   methods: {
     calculateDiscount() {
-      this.form.discountAmount = this.form.mrp - this.form.salePrice;
       this.form.discountPercent = parseFloat(
-        parseFloat((this.form.discountAmount / this.form.mrp) * 100)
+        parseFloat((this.form.discountAmount / this.form.salePrice) * 100)
       ).toFixed(2);
     },
     updateGstDateValidity(validity, index) {
@@ -781,7 +782,7 @@ export default {
                     taxrate: item.taxrate,
                     productcode: productCode,
                     taxfromdate: item.taxfromdate,
-                    state: item.taxname === 'VAT' ? item.state : ''
+                    state: item.taxname === 'VAT' ? item.state : '',
                   };
                   return axios.post('/tax', taxPayload);
                 });
@@ -926,7 +927,7 @@ export default {
           product.godetails = this.form.stock.godowns.reduce((acc, godown) => {
             if (godown.qty >= 0 && godown.id) {
               // TODO: add godown open stock value
-              acc[godown.id] = {qty: godown.qty, rate: godown.rate};
+              acc[godown.id] = { qty: godown.qty, rate: godown.rate };
             }
             return acc;
           }, {});
