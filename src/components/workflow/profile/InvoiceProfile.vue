@@ -594,7 +594,7 @@ export default {
         return;
       }
       this.isAttachmentLoading = true;
-      axios.get(`/invoice?attach=image&invid=${this.id}`).then((resp) => {
+      axios.get(`/invoice/attachment/${this.id}`).then((resp) => {
         this.attachments = resp.data.gkresult;
         this.isAttachmentLoading = false;
       });
@@ -661,18 +661,19 @@ export default {
         });
     },
     getDetails() {
-      let type = this.deletedFlag ? 'deletedsingle' : 'single';
-      return axios
-        .get(`/invoice?inv=${type}&invid=${this.id}`)
-        .catch((error) => {
-          this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `${this.formMode} ${this.formType} Error!`,
-            autoHideDelay: 3000,
-            variant: 'warning',
-            appendToast: true,
-            solid: true,
-          });
+      // let type = this.deletedFlag ? 'deletedsingle' : 'single';
+      let url = this.deletedFlag
+        ? `/invoice/cancel/${this.id}`
+        : `/invoice/${this.id}`;
+      return axios.get(url).catch((error) => {
+        this.$bvToast.toast(`Error: ${error.message}`, {
+          title: `${this.formMode} ${this.formType} Error!`,
+          autoHideDelay: 3000,
+          variant: 'warning',
+          appendToast: true,
+          solid: true,
         });
+      });
     },
     getDelNoteDetails(id) {
       return axios.get(`/delchal?delchal=single&dcid=${id}`).catch((error) => {
@@ -783,13 +784,8 @@ export default {
       }
     },
     cancelInvoice() {
-      const payload = {
-        data: {
-          invid: this.id,
-        },
-      };
       axios
-        .delete('/invoice?type=cancel', payload)
+        .delete(`/invoice/cancel/${this.id}`)
         .then((response) => {
           switch (response.data.gkstatus) {
             case 0:

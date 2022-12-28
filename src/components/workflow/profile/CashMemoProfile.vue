@@ -412,7 +412,7 @@ export default {
     },
     getDetails() {
       return axios
-        .get(`/invoice?inv=single&invid=${this.id}`)
+        .get(`/invoice/${this.id}`)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
             title: this.$gettext(`Fetch Cash Memo Error!`),

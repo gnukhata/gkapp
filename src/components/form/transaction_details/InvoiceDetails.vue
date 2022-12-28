@@ -537,7 +537,7 @@ export default {
         let self = this;
         let inoutflag = this.saleFlag ? 15 : 9;
         return axios
-          .get(`/invoice?getinvid&type=${inoutflag}`)
+          .get(`/invoice/id?type=${inoutflag}`)
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
               let codes = self.config.no.format
@@ -641,11 +641,12 @@ export default {
           return -1;
         });
     },
+    // TODO: provide an option choose delnotes and not always create them automatically
     fetchDelNotes() {
       const self = this;
       axios
         .get(
-          `/invoice?unbilled_delnotes&inputdate=${this.form.date}&type=invoice`
+          `/delnote/unbilled?inputdate=${this.form.date}&type=invoice`
         )
         .then((resp) => {
           if (resp.data.gkstatus === 0) {

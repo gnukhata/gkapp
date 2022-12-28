@@ -515,7 +515,7 @@ export default {
       }
       let self = this;
       axios
-        .get(`/invoice?inv=single&invid=${invoiceId}`)
+        .get(`/invoice/${invoiceId}`)
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             const inv = resp.data.gkresult;

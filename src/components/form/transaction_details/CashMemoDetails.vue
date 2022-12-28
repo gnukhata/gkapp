@@ -234,7 +234,7 @@ export default {
           sale: '',
         };
       }
-      let url = `/invoice?cash=all&inoutflag=${this.saleFlag ? 15 : 9}`;
+      let url = `/cashmemo?inoutflag=${this.saleFlag ? 15 : 9}`;
       axios
         .get(url)
         .then((resp) => {

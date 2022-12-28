@@ -726,12 +726,10 @@ export default {
       //   return;
       // }
       // this.isAttachmentLoading = true;
-      axios
-        .get(`/invoice?attach=image&invid=${this.invoiceId}`)
-        .then((resp) => {
-          this.form.attachments = resp.data.gkresult;
-          this.updateComponentData(); // this.isAttachmentLoading = false;
-        });
+      axios.get(`/invoice/attachment/${this.invoiceId}`).then((resp) => {
+        this.form.attachments = resp.data.gkresult;
+        this.updateComponentData(); // this.isAttachmentLoading = false;
+      });
     },
     // used for fetching delivery note data, when invoice is linked to a delivery note
     // currently that option is hidden, in favour of the godown option
@@ -1033,7 +1031,7 @@ export default {
       this.isPreloading = true;
       let self = this;
       return axios
-        .get(`/invoice?inv=single&invid=${this.invoiceId}`)
+        .get(`/invoice/${this.invoiceId}`)
         .then((resp) => {
           // self.isPreloading = false;
           if (resp.data.gkstatus === 0) {
@@ -1176,9 +1174,17 @@ export default {
 
       const payload = this.initPayload();
       // console.log(payload);
-      const method = this.isCreate ? 'post' : 'put';
-      const actionText = this.isCreate ? 'Create' : 'Edit';
-      axios({ method: method, url: '/invoice', data: payload })
+      let method, actionText, url;
+      if (this.isCreate) {
+        method = 'post';
+        actionText = 'Create';
+        url = '/invoice';
+      } else {
+        method = 'put';
+        actionText = 'Edit';
+        url = `/invoice/${payload.invoice.invid}`;
+      }
+      axios({ method: method, url: url, data: payload })
         .then((resp) => {
           self.isLoading = false;
           if (resp.status === 200) {
@@ -1623,8 +1629,12 @@ export default {
           tinconsignee: this.form.ship.tin || '',
           gstinconsignee: this.form.ship.gstin || '',
           consigneeaddress: this.form.ship.addr || '',
-          consigneestate: this.form.ship.state? this.form.ship.state.name || null : null,
-          consigneestatecode: this.form.ship.state? this.form.ship.state.id || null : null,
+          consigneestate: this.form.ship.state
+            ? this.form.ship.state.name || null
+            : null,
+          consigneestatecode: this.form.ship.state
+            ? this.form.ship.state.id || null
+            : null,
           consigneepincode: this.form.ship.pin || '',
         };
       }
@@ -1824,8 +1834,8 @@ export default {
     fetchEditableInvoices() {
       const self = this;
       const requests = [
-        axios.get(`/invoice?type=rectifyinvlist&invtype=15`),
-        axios.get(`/invoice?type=rectifyinvlist&invtype=9`),
+        axios.get(`/invoice/list/rectify?invtype=15`),
+        axios.get(`/invoice/list/rectify?invtype=9`),
       ];
 
       Promise.all(requests).then(([resp1, resp2]) => {

@@ -125,7 +125,7 @@ const config = {
     const requests = [
       axios
         .get(
-          `/invoice?type=list&flag=0&fromdate=${yearStart}&todate=${yearEnd}`
+          `/invoice/list?type=list&flag=0&fromdate=${yearStart}&todate=${yearEnd}`
         )
         .catch((error) => {
           return error;
@@ -135,7 +135,7 @@ const config = {
       }),
       axios
         .get(
-          `/invoice?type=listdeleted&flag=0&fromdate=${yearStart}&todate=${yearEnd}`
+          `/invoice/list?type=listdeleted&flag=0&fromdate=${yearStart}&todate=${yearEnd}`
         )
         .catch((error) => {
           return error;

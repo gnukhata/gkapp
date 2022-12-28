@@ -527,7 +527,7 @@ export default {
     preloadData() {
       const requests = [
         axios
-          .get('/invoice?type=nonrejected', {
+          .get('/invoice/nonrejected', {
             data: { inputdate: this.yearEnd },
           })
           .catch((error) => {
@@ -580,7 +580,7 @@ export default {
     updateBillTable(invoiceId, prodCount) {
       let self = this;
       axios
-        .get(`/invoice?inv=single&invid=${invoiceId}`)
+        .get(`/invoice/${invoiceId}`)
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             let data = resp.data.gkresult;

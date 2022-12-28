@@ -149,17 +149,15 @@ export default {
   },
   methods: {
     getDetails() {
-      return axios
-        .get(`/invoice?inv=single&invid=${this.invid}`)
-        .catch((error) => {
-          this.$bvToast.toast(`Error: ${error.message}`, {
-            title: `${this.formMode} ${this.formType} Error!`,
-            autoHideDelay: 3000,
-            variant: 'warning',
-            appendToast: true,
-            solid: true,
-          });
+      return axios.get(`/invoice/${this.invid}`).catch((error) => {
+        this.$bvToast.toast(`Error: ${error.message}`, {
+          title: `${this.formMode} ${this.formType} Error!`,
+          autoHideDelay: 3000,
+          variant: 'warning',
+          appendToast: true,
+          solid: true,
         });
+      });
     },
     /**
      * formatInvoiceDetails()
@@ -219,13 +217,8 @@ export default {
       }
     },
     cancelInvoice() {
-      const payload = {
-        data: {
-          invid: this.invid,
-        },
-      };
       axios
-        .delete('/invoice?type=cancel', payload)
+        .delete(`/invoice/cancel/${this.invid}`)
         .then((response) => {
           switch (response.data.gkstatus) {
             case 0:

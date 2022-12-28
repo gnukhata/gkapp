@@ -74,11 +74,11 @@ const config = {
   },
   loadList: function() {
     const requests = [
-      axios.get('/invoice?cash=all&inoutflag=15').catch((error) => {
+      axios.get('/cashmemo?inoutflag=15').catch((error) => {
         return error;
       }),
       //purchase
-      axios.get('/invoice?cash=all&inoutflag=9').catch((error) => {
+      axios.get('/cashmemo?inoutflag=9').catch((error) => {
         return error;
       }),
     ];
