@@ -13,13 +13,13 @@ list of all the props, methods, computed and data items not defined in this file
         <b-card bg-variant="light" class="text-left mb-3">
           <b-card-text>
             <h5 class="text-center">Invoice Details</h5>
-            No : {{ creditInvData.invoiceno }} <br class="d-sm-none" />
+            No : {{ creditInvData?.invoiceno }} <br class="d-sm-none" />
             <span class="float-sm-right">
-              Date: {{ creditInvData.invoicedate }}
+              Date: {{ creditInvData?.invoicedate }}
             </span>
             <br />
-            Invoice Amount : {{ creditInvData.invoicetotal || '' }} <br />
-            Balance Amount : {{ creditInvData.balanceamount || '' }} <br />
+            Invoice Amount : {{ creditInvData?.invoicetotal || '' }} <br />
+            Balance Amount : {{ creditInvData?.balanceamount || '' }} <br />
           </b-card-text>
         </b-card>
         <b-form-group
@@ -186,25 +186,25 @@ export default {
         title += 'Make payment to';
       }
 
-      title += ` ${this.creditInvData.custname}`;
+      title += ` ${this.creditInvData?.custname || ''}`;
       return title;
     },
     defComment: function() {
       let comment = '';
-      let invNo = this.creditInvData.invoiceno || '';
+      let invNo = this.creditInvData?.invoiceno || '';
       let invTotal = parseFloat(this.cash || 0) + parseFloat(this.bank || 0);
       if (this.type === 'receipt') {
         comment += `Received payment of Rs. ${invTotal} from`;
       } else if (this.type === 'payment') {
         comment += `Made payment of Rs. ${invTotal} to`;
       }
-      comment += ` ${this.creditInvData.custname || ''}`;
+      comment += ` ${this.creditInvData?.custname || ''}`;
       comment += ` for Invoice on credit, ${invNo}.`;
       return comment;
     },
     minDate: function() {
       let date = '';
-      if (this.creditInvData.invoicedate) {
+      if (this.creditInvData?.invoicedate) {
         date = this.creditInvData.invoicedate;
       } else {
         date =
@@ -215,12 +215,12 @@ export default {
       return date;
     },
     isDueValid: function() {
-      let balance = parseFloat(this.creditInvData.balanceamount || 0);
+      let balance = parseFloat(this.creditInvData?.balanceamount || 0);
       return this.due >= 0 && this.due < balance;
     },
     allValid: function() {
       let total = parseFloat(this.cash || 0) + parseFloat(this.bank || 0);
-      let balance = parseFloat(this.creditInvData.balanceamount || 0);
+      let balance = parseFloat(this.creditInvData?.balanceamount || 0);
       let totalValid = total > 0 && total <= balance;
       let dueValid = this.due >= 0 && this.due < balance;
       let dateValid = this.isDateValid || this.isDateValid === null;
@@ -390,7 +390,7 @@ export default {
       this.cash = 0;
       this.bank = 0;
       this.due = 0;
-      return this._resetForm();
+      return this._resetForm(null, true);
     },
   },
   mounted() {

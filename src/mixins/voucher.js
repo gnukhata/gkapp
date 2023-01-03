@@ -34,6 +34,8 @@ export default {
         acc: {}, // account id to name map
         dr: [],
         cr: [],
+        drAcc: {}, // type to accounts data map, used to avoid refetching data every time the voucher type is changed
+        crAcc: {},
         creditInv: {
           // on credit invoices for receipt and payment vouchers
           sale: [],
@@ -54,6 +56,7 @@ export default {
           { text: 'Purchase Return', acc: 'journal', value: 'purchasereturn' },
         ],
       },
+      allFlag: false,
       isDateValid: null,
       customerName: '-1',
       form: {
@@ -87,6 +90,7 @@ export default {
   },
   computed: {
     dateFormat: (self) => self.$store.getters['global/getDateFormat'],
+    isJournal: (self) => self.form.vtype.value === 'journal',
     isReceiptOrPayment: (self) => {
       let result = false;
       if (self.form.vtype) {
@@ -102,7 +106,7 @@ export default {
     creditInvData: (self) => {
       let data = {};
       if (self.isReceiptOrPayment && self.form.inv > 0) {
-        data = self.options.creditInv.map[self.form.inv];
+        data = self.options.creditInv.map[self.form.inv] || {};
       }
       return data;
     },
@@ -204,10 +208,23 @@ export default {
      *
      * Description: Fetches the list of Accounts for Dr and Cr fields for the current Voucher type
      */
-    preloadData() {
+    preloadData(refreshFlag) {
       let type = this.form.vtype.acc
         ? this.form.vtype.acc
         : this.form.vtype.value;
+
+      if (this.allFlag) {
+        type = 'all';
+      }
+
+      // If the data is already fetched use the same, unless refreshFlag is true
+      if (this.options.drAcc[type] && !refreshFlag) {
+        this.parsePreloadData(null, null, null, type, this.isReceiptOrPayment, refreshFlag);
+        return new Promise((resolve) => {
+          resolve();
+        });
+      }
+
       let requests = [
         axios.get(`/accountsbyrule?type=${type}&side=Dr`).catch((error) => {
           // this.displayToast(
@@ -229,12 +246,6 @@ export default {
         }),
       ];
 
-      this.options.creditInv = {
-        sale: [],
-        purchase: [],
-        map: {},
-      };
-
       if (this.isReceiptOrPayment) {
         requests.push(
           axios.get(`billwise?type=all`).catch((error) => {
@@ -251,66 +262,64 @@ export default {
 
       const self = this;
       return Promise.all(requests).then(([resp1, resp2, resp3]) => {
-        let preloadErrorList = ''; // To handle the unloaded data, at once than individually
-        // === Dr Accounts ===
-        if (resp1.data.gkstatus === 0) {
-          self.options.dr = [];
-          resp1.data.gkresult.forEach((item) => {
-            self.options.dr.push(Object.assign(item, { disabled: false }));
-            self.options.acc[item.accountcode] = item.accountname;
-            self.options.nameToId[item.accountname] = item.accountcode;
-          });
-        } else {
-          preloadErrorList += ' Dr Accounts,';
-        }
-
-        // === Cr Accounts ===
-        if (resp2.data.gkstatus === 0) {
-          self.options.cr = [];
-          resp2.data.gkresult.forEach((item) => {
-            self.options.cr.push(Object.assign(item, { disabled: false }));
-            self.options.acc[item.accountcode] = item.accountname;
-            self.options.nameToId[item.accountname] = item.accountcode;
-          });
-        } else {
-          preloadErrorList += ' Cr Accounts,';
-        }
-
-        // on credit invoices
-        if (self.isReceiptOrPayment) {
-          if (resp3.data.gkstatus === 0) {
-            self.options.creditInv = {
-              sale: [],
-              purchase: [],
-              map: {},
-            };
-            resp3.data.invoices.forEach((item) => {
-              let option = {
-                id: item.invid,
-                label: `${item.invoiceno}, ${item.custname}, ${item.invoicedate}`,
-              };
-              if (item.inoutflag === 15) {
-                self.options.creditInv.sale.push(option);
-              } else {
-                self.options.creditInv.purchase.push(option);
-              }
-              self.options.creditInv.map[item.invid] = item;
-            });
-          } else {
-            preloadErrorList += ' On credit invoices,';
-          }
-        }
-
-        if (preloadErrorList !== '') {
-          this.displayToast(
-            this.$gettext('Error: Unable to Preload Data'),
-            `Issues with fetching ${preloadErrorList} Please try again or Contact Admin`,
-            'danger'
-          );
-        }
+        self.parsePreloadData(
+          resp1,
+          resp2,
+          resp3,
+          type,
+          self.isReceiptOrPayment,
+          refreshFlag
+        );
       });
     },
 
+    parsePreloadData(drData, crData, onCreditData, type, receiptFlag, refreshFlag) {
+      if (this.options.drAcc[type] && !refreshFlag) {
+        this.options.dr = this.options.drAcc[type];
+        this.options.cr = this.options.crAcc[type];
+      } else {
+        // === Dr Accounts ===
+        this.options.dr = [];
+        drData.data.gkresult.forEach((item) => {
+          this.options.dr.push(Object.assign(item, { disabled: false }));
+          this.options.acc[item.accountcode] = item.accountname;
+          this.options.nameToId[item.accountname] = item.accountcode;
+        });
+
+        // === Cr Accounts ===
+        this.options.cr = [];
+        crData.data.gkresult.forEach((item) => {
+          this.options.cr.push(Object.assign(item, { disabled: false }));
+          this.options.acc[item.accountcode] = item.accountname;
+          this.options.nameToId[item.accountname] = item.accountcode;
+        });
+
+        this.options.drAcc[type] = this.options.dr.slice();
+        this.options.crAcc[type] = this.options.cr.slice();
+
+        // on credit invoices
+        if (receiptFlag) {
+          this.options.creditInv = {
+            sale: [],
+            purchase: [],
+            map: {},
+          };
+          onCreditData.data.invoices.forEach((item) => {
+            let option = {
+              id: item.invid,
+              label: `${item.invoiceno}, ${item.custname}, ${item.invoicedate}`,
+            };
+            if (item.inoutflag === 15) {
+              this.options.creditInv.sale.push(option);
+            } else {
+              this.options.creditInv.purchase.push(option);
+            }
+            this.options.creditInv.map[item.invid] = item;
+          });
+          console.log(this.options.creditInv.map);
+        }
+      }
+    },
     _initPayload() {
       let payload = {
         voucherdate: this.form.date,
@@ -362,11 +371,13 @@ export default {
     onInvSelect() {
       if (this.form.inv > 0) {
         let invData = this.options.creditInv.map[this.form.inv];
-        this.customerName = invData.custname;
-        this.autoChooseAccounts();
-        this.form.dr[0].amount = this.form.cr[0].amount = parseFloat(
-          invData.balanceamount
-        );
+        if (invData) {
+          this.customerName = invData.custname;
+          this.autoChooseAccounts();
+          this.form.dr[0].amount = this.form.cr[0].amount = parseFloat(
+            invData.balanceamount
+          );
+        }
       }
     },
     /**
@@ -379,14 +390,14 @@ export default {
      *
      * (Currently only supports receipt and payment vouchers)
      */
-    updateAccounts(skipVtype) {
+    updateAccounts(skipVtype, refreshFlag) {
       if (!skipVtype) {
         this.form.vtype = this.options.vtype.find(
           (type) => type.value === this.type
         );
       }
       let self = this;
-      return this.preloadData().then(() => {
+      return this.preloadData(refreshFlag).then(() => {
         self.autoChooseAccounts();
       });
     },
@@ -411,7 +422,7 @@ export default {
       }
     },
     // skipVtype - skip the voucher type update
-    _resetForm(skipVtype) {
+    _resetForm(skipVtype, refreshFlag) {
       this.form.amount = 0;
       this.form.narration = '';
       this.form.dr = [];
@@ -427,7 +438,7 @@ export default {
       this.addRow('cr');
       this.addRow('dr');
       this.updateDate();
-      return this.updateAccounts(skipVtype);
+      return this.updateAccounts(skipVtype, !!refreshFlag);
     },
     updateDate() {
       let today = new Date().getTime();

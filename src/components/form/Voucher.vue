@@ -42,6 +42,9 @@
                 Invoice Balance Amount: {{ creditInvData.balanceamount }}
               </p>
             </div>
+            <div>
+              <b-checkbox v-if="isJournal" v-model="allFlag" @change="preloadData"> Use All Accounts </b-checkbox>
+            </div>
           </b-col>
           <b-col sm="6" class="mb-2">
             <gk-date
@@ -66,7 +69,7 @@
                     :style="{
                       maxWidth: '300px',
                       width: '150px',
-                      minWidth: '100px',
+                      minWidth: '90px',
                     }"
                   >
                     <translate> Account </translate>
@@ -514,6 +517,10 @@ export default {
       // console.log(payload);
       // return;
 
+      if (!payload.invid || payload.invid == null) {
+        delete payload.invid;
+      }
+
       const method = this.isCreateMode ? 'post' : 'put';
       const failTitle = this.isCreateMode
           ? this.$gettext('Create Voucher Failure!')
@@ -607,10 +614,10 @@ export default {
         payload.vouchercode = this.vid;
         const vdata = this.options.vdata;
         if (vdata.vouchertype === 'sale' || vdata.vouchertype === 'purchase') {
-          payload.invid = vdata.invid ? vdata.invid : null;
+          payload.invid = vdata.invid ? vdata.invid : '';
         }
       } else if (this.isReceiptOrPayment && !this.inOverlay) {
-        payload.invid = `${this.form.inv}` || null;
+        payload.invid = `${this.form.inv || ''}` || '';
       }
 
       return payload;
