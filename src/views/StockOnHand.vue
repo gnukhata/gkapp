@@ -10,23 +10,24 @@
         <b-form @submit.prevent="stockOnHand">
           <!-- product select -->
           <b-form-group :label="$gettext('Product')" label-cols="auto">
-            <autocomplete
-              v-model="productId"
+            <v-select
               :options="productList"
-              :placeholder="$gettext('Select Product')"
-              :required="true"
-              :disabled="allProducts"
-            ></autocomplete>
+              v-model="selectedProduct"
+              :placeholder="this.$gettext('Search Products')"
+              label="name"
+              required="true"
+            ></v-select>
             <div class="text-left"></div>
           </b-form-group>
           <!-- Godown select -->
           <b-form-group :label="$gettext('Godown')" label-cols="auto">
-            <autocomplete
-              :placeholder="$gettext('Search / Select a godown')"
-              v-model="godownId"
+            <v-select
+              v-model="selectedGodown"
               :options="godowns"
-              :required="true"
-            ></autocomplete>
+              :placeholder="this.$gettext('Search / Select a godown')"
+              label="name"
+              required="true"
+            ></v-select>
           </b-form-group>
           <div class="col">
             <b-form-group
@@ -53,7 +54,10 @@
     <section class="mt-2" v-if="report.length > 0">
       <report-header>
         <div class="text-center">
-          <i>Stock report as on: {{ dateReverse(toDate) }}</i>
+          <i
+            >Stock report of {{ selectedProduct.name }} in Godown:
+            {{ selectedGodown.name }} as on: {{ dateReverse(toDate) }}
+          </i>
         </div>
       </report-header>
       <b-form-input
@@ -61,6 +65,7 @@
         :placeholder="$gettext('Search Products')"
         class="gkcard mx-auto d-print-none"
       ></b-form-input>
+      <!-- results -->
       <b-table
         caption-top
         class="mt-3"
@@ -77,7 +82,7 @@
         <template #cell(product)="data">
           <router-link
             :to="
-              `/product-register?product_id=${data.item.productcode}&current_date=${toDate}`
+              `/product-register?product_id=${selectedProduct.id}&current_date=${toDate}`
             "
             >{{ data.item.product }}
           </router-link>
@@ -98,32 +103,30 @@
 
 <script>
 import axios from 'axios';
-import Autocomplete from '../components/Autocomplete.vue';
 import GkDate from '../components/GkDate.vue';
 import { mapState } from 'vuex';
 import ReportHeader from '@/components/ReportHeader.vue';
 export default {
   name: 'StockOnHand',
-  components: { Autocomplete, GkDate, ReportHeader },
+  components: { GkDate, ReportHeader },
   data() {
     return {
-      prodMap: {}, // product id to name map
       productList: [],
       loading: false,
-      productId: 'all',
+      selectedProduct: {},
       allProducts: false,
       fromDate: '',
       toDate: '',
       report: [],
       godowns: [],
-      showGodowns: false,
-      godownId: '',
+      selectedGodown: {},
       godownReport: [],
       showCard: true,
       search: '',
     };
   },
   computed: {
+    ...mapState(['yearStart', 'yearEnd', 'orgName']),
     fields: function() {
       let fields = [
         {
@@ -142,21 +145,15 @@ export default {
           key: 'balance',
           label: this.$gettext('Balance'),
         },
-      ];
-      if (this.showGodowns) {
-        fields.push({
+        {
           key: 'value',
           label: this.$gettext('Value'),
-        });
-      }
+        },
+      ];
       return fields;
     },
-    ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
-    resetResults() {
-      this.report = [];
-    },
     getGodownList() {
       axios
         .get('/godown')
@@ -164,8 +161,8 @@ export default {
           if (r.status == 200 && r.data.gkstatus == 0) {
             this.godowns = r.data.gkresult.map((data) => {
               return {
-                value: data.goid,
-                text: `${data.goname} (${data.goaddr}) `,
+                id: data.goid,
+                name: `${data.goname} (${data.goaddr}) `,
               };
             });
           }
@@ -174,6 +171,9 @@ export default {
           console.log(e.message);
         });
     },
+    /* sdsds
+		dsd
+		sd*/
     getProductList() {
       this.loading = true;
       axios
@@ -181,10 +181,9 @@ export default {
         .then((r) => {
           if (r.status == 200) {
             this.productList = r.data.gkresult.map((data) => {
-              this.prodMap[data.productcode] = data.productdesc; // create product id to name map
               return {
-                text: data.productdesc,
-                value: data.productcode,
+                name: data.productdesc,
+                id: data.productcode,
               };
             });
           }
@@ -203,23 +202,11 @@ export default {
       this.report = [];
       this.loading = true;
 
-      // if (this.allProducts) {
-      //   this.productId = 'all';
-      // }
-
-      let url = `/report?stockonhandreport&productcode=${this.productId}&enddate=${this.toDate}`;
-
-      let stockValueUrl = '';
-
       let requests = [];
 
-      if (this.showGodowns) {
-        url = `/report?godownwisestockonhand&type=pg&goid=${this.godownId}&productcode=${this.productId}&enddate=${this.toDate}`;
-        stockValueUrl = `/report?godownwise_stock_value&goid=${this.godownId}&productcode=${this.productId}&enddate=${this.toDate}`;
-        requests = [axios.get(url), axios.get(stockValueUrl)];
-      } else {
-        requests = [axios.get(url)];
-      }
+      let url = `/report?godownwisestockonhand&type=pg&goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
+      let stockValueUrl = `/report?godownwise_stock_value&goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
+      requests = [axios.get(url), axios.get(stockValueUrl)];
 
       Promise.all(requests)
         .then(([resp1, resp2]) => {
@@ -228,8 +215,7 @@ export default {
               this.report = resp1.data.gkresult.map((data) => {
                 return {
                   no: data.srno,
-                  product:
-                    data.productname || this.prodMap[this.productId] || '',
+                  product: data.productname || this.selectedProduct.name,
                   total_inward_qty: data.totalinwardqty,
                   total_outward_qty: data.totaloutwardqty,
                   balance: data.balance,
@@ -250,7 +236,7 @@ export default {
               });
           }
 
-          if (this.showGodowns && resp2.data.gkstatus === 0) {
+          if (resp2.data.gkstatus === 0) {
             this.report[0].value = resp2.data.gkresult;
           }
           this.loading = false;
@@ -268,21 +254,27 @@ export default {
       this.$router.replace({
         query: {
           to: this.toDate,
-          prodcode: this.productId,
+          prodcode: this.selectedProduct.id,
+          prodname: this.selectedProduct.name,
+          goid: this.selectedGodown.id,
+          goname: this.selectedGodown.name,
         },
       });
     },
     // check if user changed the date range, then applied them to the url
     parseParams() {
+      this.getGodownList();
+      this.getProductList();
+      this.toDate = this.currentDate();
       const params = this.$route.query;
       if (Object.keys(params).length > 0) {
         this.toDate = params.to;
-        this.productId = params.prodcode;
+        this.selectedProduct['id'] = params.prodcode;
+        this.selectedProduct['name'] = params.prodname;
+        this.selectedGodown.id = params.goid;
+        this.selectedGodown.name = params.goname;
         this.stockOnHand();
       }
-      this.toDate = this.currentDate();
-      this.getProductList();
-      this.getGodownList();
     },
   },
   mounted() {
