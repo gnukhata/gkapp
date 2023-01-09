@@ -1,6 +1,6 @@
 {
   "name": "gkapp",
-  "version": "0.8.0-a1",
+  "version": "0.8.0-a2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
