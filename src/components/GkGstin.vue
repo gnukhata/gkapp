@@ -23,8 +23,9 @@
       variant="success"
       class="px-1 py-0 mt-1"
       @click.prevent="getGstinCaptcha"
-      :disabled="!(validity.checksum && validity.format)"
+      :disabled="!(validity.checksum && validity.format) || isCaptchaLoading"
     >
+      <b-spinner v-if="isCaptchaLoading" small class="mr-1"></b-spinner>
       {{ valButtonText }}
     </b-button>
 
@@ -85,7 +86,9 @@
           variant="warning"
           class="mx-1"
           @click.prevent="validateGstinOnline"
+          :disabled="isValidationLoading"
         >
+          <b-spinner v-if="isValidationLoading" small class="mr-1"></b-spinner>
           <translate> Validate </translate>
         </b-button>
       </b-container>
@@ -230,6 +233,8 @@ export default {
         pan: '',
         sateCode: '',
       },
+      isCaptchaLoading: false,
+      isValidationLoading: false
     };
   },
   computed: {
@@ -296,6 +301,7 @@ export default {
         },
         cookie: this.gstinCaptcha.cookie,
       };
+      this.isValidationLoading = true;
       axios.post('/gstreturns?type=gstin_captcha', payload).then((resp) => {
         if (resp.data.gkstatus === 0) {
           let data = resp.data.gkresult;
@@ -329,9 +335,12 @@ export default {
           }
           this.$emit('verified', false);
         }
+      }).finally(() => {
+        this.isValidationLoading = false;
       });
     },
     getGstinCaptcha() {
+      this.isCaptchaLoading = true;
       axios.get('/gstreturns?type=gstin_captcha').then((resp) => {
         if (resp.data.gkstatus === 0) {
           let data = resp.data.gkresult;
@@ -342,6 +351,8 @@ export default {
         } else {
           this.gstinCaptcha.show = false;
         }
+      }).finally(() => {
+        this.isCaptchaLoading = false;
       });
     },
     /**

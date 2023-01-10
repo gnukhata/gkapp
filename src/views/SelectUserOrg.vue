@@ -85,7 +85,12 @@
           ></b-form-input>
         </b-form-group>
         <b-button-group size="sm" class="row float-right">
-          <b-button variant="dark" class="m-1" @click="switchServer">
+          <b-button
+            variant="dark"
+            class="m-1"
+            @click="switchServer"
+            :disabled="isOrgLoading"
+          >
             <b-icon class="mr-1" icon="cloud"></b-icon>
             <translate> Change Server</translate>
           </b-button>
@@ -93,17 +98,19 @@
             @click="showForm.createUser = true"
             variant="dark"
             class="m-1"
+            :disabled="isOrgLoading"
           >
             <b-icon class="mr-1" icon="person-plus"></b-icon>
             <translate> Create User</translate>
           </b-button>
-          <b-button class="m-1" variant="success" type="submit">
-            <b-spinner v-if="isLoading" small></b-spinner>
-            <b-icon
-              class="mr-1"
-              v-if="!isLoading"
-              icon="box-arrow-in-right"
-            ></b-icon>
+          <b-button
+            :disabled="isOrgLoading"
+            class="m-1"
+            variant="success"
+            type="submit"
+          >
+            <b-spinner class="mr-1" v-if="isOrgLoading" small> </b-spinner>
+            <b-icon class="mr-1" v-else icon="box-arrow-in-right"></b-icon>
             <translate> Login</translate>
           </b-button>
         </b-button-group>
@@ -111,6 +118,7 @@
     </b-card>
     <!-- Org selection -->
     <b-card v-else class="mt-3">
+      <b-overlay :show="isLoading" variant="secondary" no-wrap blur></b-overlay>
       <div class="d-flex justify-content-between">
         <span class="h6 underline"
           >Welcome {{ form.name || userName || '' }}!</span
@@ -583,6 +591,7 @@ export default {
       let payload = {
         orgcode: selectedYear.code,
       };
+      this.isLoading = true;
       // TODO: here instead of sending the username and password, send the new user auth token
       axios
         .post(`${this.gkCoreUrl}/login/org`, payload, {
@@ -643,6 +652,7 @@ export default {
                       // debugger;
                       // visit the dashboard page
                       this.$router.push('/dashboard').then(() => {
+                        this.isLoading = false;
                         window.location.reload();
                       });
                     });
@@ -666,6 +676,12 @@ export default {
                 variant: 'danger',
               });
           }
+          if (resp.data.gkstatus) {
+            this.isLoading = false;
+          }
+        })
+        .catch(() => {
+          this.isLoading = false;
         });
     },
     fetchUserOrgs() {

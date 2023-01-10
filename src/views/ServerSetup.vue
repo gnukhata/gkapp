@@ -6,6 +6,7 @@
       header-text-variant="light"
       class="shadow mx-auto gkcard"
     >
+      <b-overlay :show="isLoading" variant="secondary" no-wrap blur></b-overlay>
       <template #header>
         <gk-cardheader
           :name="$gettext('GNUKhata Server Setup')"
@@ -58,6 +59,7 @@ export default {
   data() {
     return {
       serverUrl: '',
+      isLoading: false,
     };
   },
   computed: {
@@ -79,6 +81,7 @@ export default {
      * this method is called when user clicks on the "Continue with default server" button
      */
     setDefaultServer() {
+      this.isLoading = true;
       const defaultGkCoreUrl = this.gkConfig.gkcore_url;
       axios
         .get(`${defaultGkCoreUrl}/state`)
@@ -98,8 +101,10 @@ export default {
               }
             );
           }
+          this.isLoading = false;
         })
         .catch((e) => {
+          this.isLoading = false;
           this.$bvToast.toast(
             this.$gettext('Please check if gkcore is properly setup'),
             {
@@ -114,6 +119,7 @@ export default {
      * Validate given server URL
      */
     setCustomServerUrl() {
+      this.isLoading = true;
       axios
         .get(`${this.serverUrl}/state`)
         .then((res) => {
@@ -132,6 +138,7 @@ export default {
               }
             );
           }
+          this.isLoading = false;
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
@@ -139,6 +146,7 @@ export default {
             variant: 'danger',
             solid: true,
           });
+          this.isLoading = false;
         });
     },
   },
