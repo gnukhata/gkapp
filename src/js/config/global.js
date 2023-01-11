@@ -220,7 +220,7 @@ export default {
           let requests = [];
 
           let custList = state.options.transaction.contacts.customers || [];
-          let custName = 'Retail Cusomter (Default)';
+          let custName = 'Retail Customer (Default)';
           const defaults = state.customConf.transaction.default;
           let rCust = custList.find((cust) => cust.text === custName);
           if (
