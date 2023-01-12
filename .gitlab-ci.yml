@@ -1,29 +1,29 @@
-# You can override the included template(s) by including variable overrides
 # SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
 # Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
 # Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 
-image: node:gallium-alpine #fermium-alpine3.14 #node:fermium-buster-slim
-
 stages:
   - build
-  # - test
+  - test
   - deploy
 
 variables:
-  GKAPP_URL: https://gnukhata.gitlab.io/gkapp
-  VUE_APP_GKAPP_NOTICE: 'true'
   DOCKER_TLS_CERTDIR: '/certs'
   # DOCKER_HOST: tcp://docker:2375
 
 # build gkapp
 gkapp:
   stage: build
+  image: node:gallium-alpine
+  variables:
+    # required to serve gkapp on gitlab pages
+    GKAPP_URL: https://gnukhata.gitlab.io/gkapp
   script:
     # Replace default gkapp config with custom one
-    - rm public/gkapp-config.json && wget https://gitlab.com/gnukhata/build/-/raw/master/gkapp-config.json
+    - mv public/gkapp-config.json public/gkapp-config.json.bak &&\
+      wget https://gitlab.com/gnukhata/build/-/raw/master/gkapp-config.json
     - mv gkapp-config.json public/
     # install dependencies & build
     - npm install -g @vue/cli
@@ -40,9 +40,6 @@ services:
 docker-devel:
   image: docker:20.10.19
   stage: build
-  needs:
-    - job: gkapp
-      artifacts: true
   script:
     # build the docker image & push to the dockerhub
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD
@@ -55,9 +52,6 @@ docker-devel:
 docker-prod:
   image: docker:20.10.19
   stage: build
-  needs:
-    - job: gkapp
-      artifacts: true
   script:
     # build the docker image & push to the dockerhub
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD
@@ -68,6 +62,16 @@ docker-prod:
     - docker push digitalfreedom/gkapp:latest
   only:
     - tags
+
+# SAST Tests
+sast:
+  stage: test
+  variables:
+    SAST_EXCLUDED_PATHS: spec, test, tests, tmp, dist, package-lock.json
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
 
 # gzip files & deploy to gitlab pages
 pages:
@@ -84,12 +88,3 @@ pages:
       - public
   only:
     - devel
-# SAST Tests
-# sast:
-#   stage: test
-#   variables:
-#     SAST_EXCLUDED_PATHS: spec, test, tests, tmp, dist, package-lock.json
-# include:
-#   - template: Security/SAST.gitlab-ci.yml
-#   - template: Security/Dependency-Scanning.gitlab-ci.yml
-#   - template: Security/Secret-Detection.gitlab-ci.yml
