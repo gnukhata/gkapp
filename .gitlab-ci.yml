@@ -22,8 +22,8 @@ gkapp:
     GKAPP_URL: https://gnukhata.gitlab.io/gkapp
   script:
     # Replace default gkapp config with custom one
-    - mv public/gkapp-config.json public/gkapp-config.json.bak &&\
-      wget https://gitlab.com/gnukhata/build/-/raw/master/gkapp-config.json
+    - mv public/gkapp-config.json public/gkapp-config.json.bak
+    - wget https://gitlab.com/gnukhata/build/-/raw/master/gkapp-config.json
     - mv gkapp-config.json public/
     # install dependencies & build
     - npm install -g @vue/cli
