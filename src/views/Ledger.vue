@@ -66,6 +66,9 @@ When a Ledger Account appears on the screen, press Shift + Alt + l to view anoth
               textField="projectname"
               valueField="projectcode"
             ></autocomplete>
+            <router-link to="/costcenter" class="float-right mt-2"
+              >+ <translate>add cost center</translate></router-link
+            >
           </b-form-group>
         </fieldset>
         <b-button type="submit" variant="success" size="sm" class="float-right">
