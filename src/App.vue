@@ -41,26 +41,14 @@
                 class="font-italic"
                 v-if="userOrgAuthenticated"
               >
-                <!-- FY {{ yearStart.split('-')[0] }} - -->
                 <!-- WARN: beware of Y3K Bug -->
-                <!-- {{ yearEnd.split('-')[0].slice(2, 4) }} -->
-                <v-select
-                  :reduce="(option) => option.index"
-                  :options="finYears"
-                  v-model="currentFinYear"
-                  class="mw-100p"
-                  id="fin-years"
-                >
-                  <template #selected-option="{ yend, ystart }">
-                    FY {{ ystart.split('-')[2] }} -
-                    <!-- WARN: beware of Y3K Bug -->
-                    {{ yend.split('-')[2].slice(2, 4) }}
-                  </template>
-                </v-select>
+                FY {{ yearStart.split('-')[0] }} -
+                {{ yearEnd.split('-')[0].slice(2, 4) }}
               </div>
             </div>
           </div>
         </b-navbar-brand>
+        <!-- user menu -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="userOrgAuthenticated" right>
             <template #button-content>
@@ -76,6 +64,19 @@
             </b-dropdown-item>
             <b-dropdown-item @click="logOut" href="#">
               <b-icon icon="box-arrow-in-left"></b-icon> Change Org
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <v-select
+                :reduce="(option) => option.index"
+                :options="finYears"
+                v-model="currentFinYear"
+              >
+                <template #selected-option="{ yend, ystart }">
+                  <!-- WARN: beware of Y3K Bug -->
+                  FY {{ ystart.split('-')[2] }} -
+                  {{ yend.split('-')[2].slice(2, 4) }}
+                </template>
+              </v-select>
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -306,10 +307,7 @@ export default {
 };
 </script>
 <style>
-.mw-100p {
-  max-width: 155px;
-}
-#fin-years .vs__dropdown-option {
-  padding-left: 1em;
+li[role='presentation'] {
+  width: max-content;
 }
 </style>
