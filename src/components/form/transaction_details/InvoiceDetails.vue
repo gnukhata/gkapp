@@ -339,7 +339,7 @@ export default {
   },
   data() {
     return {
-      isCollapsed: false,
+      isCollapsed: true,
       isPreloading: false,
       invNo: {
         sale: '',

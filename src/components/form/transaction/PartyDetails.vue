@@ -390,7 +390,7 @@ export default {
         gstin: null,
         pin: null,
       },
-      isCollapsed: false,
+      isCollapsed: true,
       showContactForm: false,
       isPreloading: false,
     };

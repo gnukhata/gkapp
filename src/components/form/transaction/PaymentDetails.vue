@@ -190,7 +190,7 @@ export default {
           { text: 'On Credit', value: 15 },
         ],
       },
-      isCollapsed: false,
+      isCollapsed: true,
     };
   },
   methods: {
