@@ -402,7 +402,7 @@ export default {
       this.isLoading = true;
       axios
         .get(
-          `/reports/balance-sheet?calculateto=${this.fromDate}&baltype=1&calculatefrom=${this.toDate}`
+          `/reports/balance-sheet?calculateto=${this.toDate}&baltype=1&calculatefrom=${this.fromDate}`
         )
         .then((r) => {
           if (r.status == 200) {
