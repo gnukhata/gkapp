@@ -18,7 +18,7 @@
               label-class="required"
             >
               <template #label> <translate> Group </translate> </template>
-              <autocomplete
+              <!-- <autocomplete
                 size="sm"
                 id="acc-input-10"
                 v-model="form.group"
@@ -28,7 +28,17 @@
                 @input="fetchSubGroups"
                 required
                 valueUid="id"
-              ></autocomplete>
+              ></autocomplete> -->
+              <v-select
+                id="acc-input-10"
+                v-model="form.group"
+                :options="options.groups"
+                label="groupname"
+                :reduce="(acc) => acc.groupcode"
+                @input="fetchSubGroups"
+                required
+              >
+              </v-select>
             </b-form-group>
             <b-form-group
               label="Sub-Group"
@@ -37,7 +47,7 @@
               label-size="sm"
             >
               <template #label> <translate> Sub-Group </translate> </template>
-              <autocomplete
+              <!-- <autocomplete
                 size="sm"
                 id="acc-input-20"
                 v-model="form.subGroup"
@@ -48,7 +58,18 @@
                 :required="false"
                 valueUid="id"
                 :readonly="!subGroups.length || flags.newSubGroup"
-              ></autocomplete>
+              ></autocomplete> -->
+              <v-select
+                id="acc-input-20"
+                v-model="form.subGroup"
+                :options="subGroups"
+                label="subgroupname"
+                @input="onSubGroupSelect"
+                :required="false"
+                :disabled="!subGroups.length || flags.newSubGroup"
+                :reduce="(acc) => acc.groupcode"
+              >
+              </v-select>
             </b-form-group>
             <b-card body-class="p-2" class="mb-3" bg-variant="light">
               <b-form-checkbox
@@ -180,12 +201,9 @@
 
 <script>
 import axios from 'axios';
-import Autocomplete from '../components/Autocomplete.vue';
 export default {
   name: 'AccountCreate',
-  components: {
-    Autocomplete,
-  },
+  components: {},
   data() {
     return {
       form: {
@@ -412,7 +430,7 @@ export default {
       // console.log(payload);
 
       this.isLoading = true;
-      console.log(payload);
+      // console.log(payload);
       // return;
 
       if (payload.gkdata.groupcode === 'New') {
@@ -423,9 +441,15 @@ export default {
           .then((data) => {
             if (data.gkstatus === 0) {
               payload.gkdata.groupcode = data.gkresult;
-              self.createAccount(payload).then(() => {
-                self.isLoading = false;
-              });
+              self.flags.setSubGroup = data.gkresult;
+              self
+                .createAccount(payload)
+                .then(() => {
+                  self.isLoading = false;
+                })
+                .finally(() => {
+                  self.fetchSubGroups(true);
+                });
             } else {
               self.isLoading = false;
             }
@@ -497,24 +521,11 @@ export default {
      * Description: Resets the form and also resets the subgroups list for the last chosen group
      */
     resetForm() {
-      if (this.form.group) {
-        delete this.options.subGroups[this.form.group];
-      }
-      this.form = {
-        name: null,
-        group: null,
-        subGroup: null,
-        crdr: 1,
-        openingBalance: '0.00',
-      };
-      this.flags = {
-        default: false,
-        newSubGroup: false,
-        gst: false,
-        moreDetails: false,
-        setSubGroup: false,
-      };
-      this.newSubGroup = '';
+      this.form.name = null;
+      this.form.crdr = 1;
+      this.form.openingBalance = '0.00';
+      this.form.defaultFlag = false;
+      this.flags.default = false;
       this.flags.newSubGroup = false;
     },
     /**
@@ -637,6 +648,7 @@ export default {
       self.form.group = parseInt(self.group);
       if (self.subGroup) {
         self.flags.setSubGroup = parseInt(self.subGroup);
+        this.fetchSubGroups(true);
       }
     });
   },
