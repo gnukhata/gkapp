@@ -192,7 +192,12 @@
                                     variant="danger"
                                     class="pt-0"
                                     @click.prevent="
-                                      confirmOnDelete(accData, sgdata.id)
+                                      confirmOnDelete(
+                                        accData,
+                                        gdata.id,
+                                        sgdata.id,
+                                        accId
+                                      )
                                     "
                                   >
                                     <b-icon
@@ -419,7 +424,7 @@ export default {
         }
       });
     },
-    confirmOnDelete(accDetails, subGroupCode) {
+    confirmOnDelete(accDetails, groupCode, subGroupCode, accountId) {
       this.getCust(subGroupCode, accDetails.name).then((cust) => {
         const self = this;
         let text = `Delete Account <b>${accDetails.name}</b> ?`;
@@ -449,7 +454,7 @@ export default {
             if (val) {
               self
                 .deleteAccount(
-                  accDetails.id,
+                  accountId,
                   accDetails.name,
                   cust.custid,
                   cust.custname,
@@ -457,7 +462,10 @@ export default {
                 )
                 .then((status) => {
                   if (status === 0) {
-                    self.getAccountsList();
+                    self.getAccountsList().then(() => {
+                      self.updateUrl(groupCode, subGroupCode, -1);
+                      location.reload();
+                    });
                   }
                 });
             }
