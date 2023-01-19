@@ -41,7 +41,7 @@
                 class="font-italic"
                 v-if="userOrgAuthenticated"
               >
-                <!-- WARN: beware of Y3K Bug -->
+                <!-- WARN: beware of Y3K Bug ;-)  -->
                 FY {{ yearStart.split('-')[0] }} -
                 {{ yearEnd.split('-')[0].slice(2, 4) }}
               </div>
@@ -50,7 +50,7 @@
         </b-navbar-brand>
         <!-- user menu -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown v-if="userOrgAuthenticated" right>
+          <b-nav-item-dropdown id="usermenu" v-if="userOrgAuthenticated" right>
             <template #button-content>
               <b-avatar
                 variant="dark"
@@ -65,7 +65,8 @@
             <b-dropdown-item @click="logOut" href="#">
               <b-icon icon="box-arrow-in-left"></b-icon> Change Org
             </b-dropdown-item>
-            <b-dropdown-item>
+            <b-dropdown-item id="fy-select">
+              <!-- financial year selection -->
               <v-select
                 :reduce="(option) => option.index"
                 :options="finYears"
@@ -300,14 +301,10 @@ export default {
       this.currentFinYear = null;
     }
   },
-  created() {
-    // this.get_org_address();
-    // this.getOrgImage();
-  },
 };
 </script>
 <style>
-li[role='presentation'] {
+#usermenu > ul > li {
   width: max-content;
 }
 </style>
