@@ -219,7 +219,14 @@ export default {
 
       // If the data is already fetched use the same, unless refreshFlag is true
       if (this.options.drAcc[type] && !refreshFlag) {
-        this.parsePreloadData(null, null, null, type, this.isReceiptOrPayment, refreshFlag);
+        this.parsePreloadData(
+          null,
+          null,
+          null,
+          type,
+          this.isReceiptOrPayment,
+          refreshFlag
+        );
         return new Promise((resolve) => {
           resolve();
         });
@@ -273,7 +280,14 @@ export default {
       });
     },
 
-    parsePreloadData(drData, crData, onCreditData, type, receiptFlag, refreshFlag) {
+    parsePreloadData(
+      drData,
+      crData,
+      onCreditData,
+      type,
+      receiptFlag,
+      refreshFlag
+    ) {
       if (this.options.drAcc[type] && !refreshFlag) {
         this.options.dr = this.options.drAcc[type];
         this.options.cr = this.options.crAcc[type];
@@ -316,7 +330,6 @@ export default {
             }
             this.options.creditInv.map[item.invid] = item;
           });
-          console.log(this.options.creditInv.map);
         }
       }
     },
