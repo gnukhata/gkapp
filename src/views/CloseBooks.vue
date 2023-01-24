@@ -1,160 +1,166 @@
 <template>
-  <section class="m-2">
-    <!-- {{ details }} -->
-    <b-card-group>
-      <!-- Close Books -->
-      <b-card
-        v-if="details.booksclosedflag == 0"
-        header-bg-variant="dark"
-        header-text-variant="light"
-        class="mt-4"
-        style="max-width: 40em; margin: auto"
-      >
-        <b-overlay :show="isLoading" no-wrap></b-overlay>
-        <template #header>
-          <div class="d-flex">
-            <div class="mr-auto"><translate>Close Books</translate></div>
-            <div>
-              <b-icon
-                icon="question-circle"
-                v-b-popover.click.blur="{
-                  variant: 'dark',
-                  title: 'Close Books',
-                  content:
-                    'On activating this option, balances in all expense and income accounts will be transferred to Profit & Loss or Income & Expenditure Account and these accounts will be closed. No transactions can be recorded in these accounts but Ledger accounts can be viewed, printed. To <b>ROLL OVER</b> the company to new financial year, You have to close books first',
-                }"
-              ></b-icon>
-            </div>
+  <section class="m-2 mx-auto">
+    <!-- alerts which show the status of closebooks and rollover -->
+    <b-alert
+      class="mt-5 container"
+      show
+      v-if="details.booksclosedflag == 1"
+      variant="success"
+    >
+      <translate>Close Books is Done for this financial year</translate></b-alert
+    >
+    <b-alert
+      class="mt-5 container"
+      show
+      v-if="details.roflag == 1"
+      variant="success"
+    >
+     <translate>Rollover is Done for this financial year</translate></b-alert
+    >
+    <!-- Close Books -->
+    <b-card
+      v-if="details.booksclosedflag == 0"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      class="mt-4"
+      style="max-width: 40em; margin: auto"
+    >
+      <b-overlay :show="isLoading" no-wrap></b-overlay>
+      <template #header>
+        <div class="d-flex">
+          <div class="mr-auto"><translate>Close Books</translate></div>
+          <div>
+            <b-icon
+              icon="question-circle"
+              v-b-popover.click.blur="{
+                variant: 'dark',
+                title: 'Close Books',
+                content:
+                  'On activating this option, balances in all expense and income accounts will be transferred to Profit & Loss or Income & Expenditure Account and these accounts will be closed. No transactions can be recorded in these accounts but Ledger accounts can be viewed, printed. To <b>ROLL OVER</b> the company to new financial year, You have to close books first',
+              }"
+            ></b-icon>
           </div>
-        </template>
+        </div>
+      </template>
+      <b-form-group
+        id="input-group-2"
+        label-class="font-weight-bold"
+        :label="$gettext('Current Financial Year:')"
+      >
+        <div class="row">
+          <div class="col-md-6">
+            <b-form-group
+              id="input-group-3"
+              :label="$gettext('From')"
+              label-for="cb-from"
+            >
+              <gk-date
+                :readonly="true"
+                id="cb-from"
+                v-model="details.yearstart"
+              ></gk-date>
+            </b-form-group>
+          </div>
+          <div class="col-md-6">
+            <b-form-group
+              id="input-group-4"
+              :label="$gettext('To')"
+              label-for="cb-to"
+            >
+              <gk-date id="cb-to" v-model="details.yearend"></gk-date>
+            </b-form-group>
+          </div>
+        </div>
+      </b-form-group>
+      <b-button
+        :disabled="details.booksclosedflag == 1"
+        class="float-right"
+        @click="
+          confirm(
+            'close',
+            'You are about to close your books. This action can not be undone, are you sure?'
+          )
+        "
+        variant="dark"
+        size="sm"
+      >
+        <b-icon class="mr-1" icon="journal"></b-icon
+        ><translate>Close Books</translate>
+      </b-button>
+    </b-card>
+    <!-- Roll Over -->
+    <b-card
+      header-bg-variant="dark"
+      header-text-variant="light"
+      class="mt-4 gkcard mx-auto"
+			v-if="roflag==0"
+    >
+      <b-overlay :show="isLoading" no-wrap></b-overlay>
+
+      <template #header>
+        <div class="d-flex">
+          <div class="mr-auto"><translate>Roll Over</translate></div>
+          <div>
+            <b-icon
+              icon="question-circle"
+              v-b-popover.click.blur="{
+                variant: 'info',
+                title: 'Roll Over',
+                content:
+                  '<ul><li>A new organization with the same name and type is created forthe next accounting year,</li><li>Every existing asset and liability account is automatically opened under its respective Group and Sub-Group and correct opening balance is brought down, in case of expense and income accounts these are also opened under their respective Groups and Sub-Groups, of course, without opening balances, </li><li>The Closing Stock of the earlier year gets transferred to thenext year as Opening Stock. This module can only be activated after CLOSE BOOKS is done.</li></ul>',
+                html: true,
+              }"
+            ></b-icon>
+          </div>
+        </div>
+      </template>
+      <!-- Set New Financial Year -->
+      <b-form
+        @submit.prevent="
+          confirm(
+            'rollover',
+            'You are about to rollover to a new financial year. Are you sure?'
+          )
+        "
+      >
         <b-form-group
           id="input-group-2"
           label-class="font-weight-bold"
-          :label="$gettext('Current Financial Year:')"
+          :label="$gettext('New Financial Year:')"
         >
           <div class="row">
             <div class="col-md-6">
               <b-form-group
                 id="input-group-3"
                 :label="$gettext('From')"
-                label-for="cb-from"
+                label-for="ro-from"
               >
-                <gk-date
-                  :readonly="true"
-                  id="cb-from"
-                  v-model="details.yearstart"
-                ></gk-date>
+                <gk-date id="ro-from" v-model="newYearStart"></gk-date>
               </b-form-group>
             </div>
             <div class="col-md-6">
               <b-form-group
                 id="input-group-4"
                 :label="$gettext('To')"
-                label-for="cb-to"
+                label-for="ro-to"
               >
-                <gk-date id="cb-to" v-model="details.yearend"></gk-date>
+                <gk-date id="ro-to" v-model="newYearEnd"></gk-date>
               </b-form-group>
             </div>
           </div>
         </b-form-group>
         <b-button
-          :disabled="details.booksclosedflag == 1"
+          :disabled="details.booksclosedflag == 0"
+          type="submit"
           class="float-right"
-          @click="
-            confirm(
-              'close',
-              'You are about to close your books. This action can not be undone, are you sure?'
-            )
-          "
           variant="dark"
           size="sm"
         >
-          <b-icon class="mr-1" icon="journal"></b-icon
-          ><translate>Close Books</translate>
+          <b-icon class="mr-1" icon="calendar-check"></b-icon>
+          <translate>Roll Over</translate>
         </b-button>
-        <b-alert v-show="details.booksclosedflag == 1" show variant="dark"
-          ><translate>Close Books is done</translate></b-alert
-        >
-      </b-card>
-
-      <!-- Roll Over -->
-      <b-card
-        header-bg-variant="dark"
-        header-text-variant="light"
-        class="mt-4 gkcard mx-auto"
-      >
-        <b-overlay :show="isLoading" no-wrap></b-overlay>
-
-        <template #header>
-          <div class="d-flex">
-            <div class="mr-auto"><translate>Roll Over</translate></div>
-            <div>
-              <b-icon
-                icon="question-circle"
-                v-b-popover.click.blur="{
-                  variant: 'info',
-                  title: 'Roll Over',
-                  content:
-                    '<ul><li>A new organization with the same name and type is created forthe next accounting year,</li><li>Every existing asset and liability account is automatically opened under its respective Group and Sub-Group and correct opening balance is brought down, in case of expense and income accounts these are also opened under their respective Groups and Sub-Groups, of course, without opening balances, </li><li>The Closing Stock of the earlier year gets transferred to thenext year as Opening Stock. This module can only be activated after CLOSE BOOKS is done.</li></ul>',
-                  html: true,
-                }"
-              ></b-icon>
-            </div>
-          </div>
-        </template>
-        <!-- Set New Financial Year -->
-        <b-form
-          @submit.prevent="
-            confirm(
-              'rollover',
-              'You are about to rollover to a new financial year. Are you sure?'
-            )
-          "
-        >
-          <b-form-group
-            id="input-group-2"
-            label-class="font-weight-bold"
-            :label="$gettext('New Financial Year:')"
-          >
-            <div class="row">
-              <div class="col-md-6">
-                <b-form-group
-                  id="input-group-3"
-                  :label="$gettext('From')"
-                  label-for="ro-from"
-                >
-                  <gk-date id="ro-from" v-model="newYearStart"></gk-date>
-                </b-form-group>
-              </div>
-              <div class="col-md-6">
-                <b-form-group
-                  id="input-group-4"
-                  :label="$gettext('To')"
-                  label-for="ro-to"
-                >
-                  <gk-date id="ro-to" v-model="newYearEnd"></gk-date>
-                </b-form-group>
-              </div>
-            </div>
-          </b-form-group>
-          <b-button
-            :disabled="details.booksclosedflag == 0"
-            type="submit"
-            class="float-right"
-            variant="dark"
-            size="sm"
-          >
-            <b-icon class="mr-1" icon="calendar-check"></b-icon>
-            <translate>Roll Over</translate>
-          </b-button>
-        </b-form>
-        <b-alert v-if="details.roflag == 1" show variant="success"
-          ><translate
-            >Roll Over is done for this financial year</translate
-          ></b-alert
-        >
-      </b-card>
-    </b-card-group>
+      </b-form>
+    </b-card>
   </section>
 </template>
 <script>
