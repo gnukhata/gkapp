@@ -43,7 +43,13 @@
               </p>
             </div>
             <div>
-              <b-checkbox v-if="isJournal" v-model="allFlag" @change="preloadData"> Use All Accounts </b-checkbox>
+              <b-checkbox
+                v-if="isJournal"
+                v-model="allFlag"
+                @change="preloadData"
+              >
+                Use All Accounts
+              </b-checkbox>
             </div>
           </b-col>
           <b-col sm="6" class="mb-2">
@@ -138,7 +144,7 @@
 
                   <!-- Account -->
                   <b-td>
-                    <autocomplete
+                    <!-- <autocomplete
                       size="sm"
                       v-model="form.dr[indexDr].account"
                       :options="options['dr']"
@@ -150,7 +156,17 @@
                       :isOptionsShared="true"
                       class="text-left"
                       dropDownWidth="200px"
-                    ></autocomplete>
+                    ></autocomplete> -->
+                    <v-select
+                      v-model="form.dr[indexDr].account"
+                      :options="options['dr']"
+                      label="accountname"
+                      :reduce="(acc) => acc.accountcode"
+                      required
+                      @input="onAccountSelect(data.account, 'dr', indexDr)"
+                      class="text-left"
+                    >
+                    </v-select>
                   </b-td>
 
                   <!-- Balance -->
@@ -206,7 +222,7 @@
 
                   <!-- Account -->
                   <b-td>
-                    <autocomplete
+                    <!-- <autocomplete
                       class="text-left"
                       size="sm"
                       v-model="data.account"
@@ -218,7 +234,17 @@
                       required
                       @input="onAccountSelect(data.account, 'cr', indexCr)"
                       dropDownWidth="200px"
-                    ></autocomplete>
+                    ></autocomplete> -->
+                    <v-select
+                      class="text-left"
+                      v-model="data.account"
+                      :options="options['cr']"
+                      label="accountname"
+                      :reduce="(acc) => acc.accountcode"
+                      required
+                      @input="onAccountSelect(data.account, 'cr', indexCr)"
+                    >
+                    </v-select>
                   </b-td>
 
                   <!-- Balance -->
@@ -361,13 +387,13 @@
 <script>
 import axios from 'axios';
 import { numberToRupees } from '../../js/utils';
-import Autocomplete from '../Autocomplete.vue';
+// import Autocomplete from '../Autocomplete.vue';
 import GkDate from '../GkDate.vue';
 import voucherMixin from '@/mixins/voucher.js';
 
 export default {
   name: 'Voucher',
-  components: { Autocomplete, GkDate },
+  components: { GkDate },
   mixins: [voucherMixin],
   props: {
     customer: {
