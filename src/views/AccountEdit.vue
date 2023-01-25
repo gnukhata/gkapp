@@ -21,7 +21,7 @@
               label-class="required"
             >
               <template #label> <translate> Group </translate> </template>
-              <autocomplete
+              <!-- <autocomplete
                 size="sm"
                 id="acc-input-10"
                 v-model="form.group"
@@ -32,7 +32,17 @@
                 required
                 valueUid="id"
                 :readonly="disableFields.group"
-              ></autocomplete>
+              ></autocomplete> -->
+              <v-select
+                id="acc-input-10"
+                v-model="form.group"
+                :options="options.groups"
+                label="groupname"
+                :reduce="(acc) => acc.groupcode"
+                @input="fetchSubGroups"
+                required
+                :disabled="disableFields.group"
+              ></v-select>
             </b-form-group>
             <b-form-group
               label="Sub-Group"
@@ -41,7 +51,7 @@
               label-size="sm"
             >
               <template #label> <translate> Sub-Group </translate> </template>
-              <autocomplete
+              <!-- <autocomplete
                 size="sm"
                 id="acc-input-20"
                 v-model="form.subGroup"
@@ -56,7 +66,21 @@
                     flags.newSubGroup ||
                     disableFields.subGroup
                 "
-              ></autocomplete>
+              ></autocomplete> -->
+              <v-select
+                id="acc-input-20"
+                v-model="form.subGroup"
+                :options="subGroups"
+                label="subgroupname"
+                :reduce="(acc) => acc.groupcode"
+                @input="onSubGroupSelect"
+                :required="false"
+                :disabled="
+                  !subGroups.length ||
+                    flags.newSubGroup ||
+                    disableFields.subGroup
+                "
+              ></v-select>
             </b-form-group>
             <b-card
               body-class="p-2"
@@ -206,12 +230,9 @@
 
 <script>
 import axios from 'axios';
-import Autocomplete from '../components/Autocomplete.vue';
 export default {
   name: 'AccountEdit',
-  components: {
-    Autocomplete,
-  },
+  components: { },
   data() {
     return {
       form: {
@@ -588,6 +609,7 @@ export default {
                   if (group.groupcode !== group.subgroupcode) {
                     self.flags.setSubGroup = group.subgroupcode;
                     self.options.accDetails.subGroup = group.subgroupcode;
+                    self.fetchSubGroups(true);
                   }
                   if (
                     [
@@ -633,6 +655,9 @@ export default {
      * Description: Fetches the subgroups for the selected group
      */
     fetchSubGroups(fetchNew) {
+      if(typeof(fetchNew) !== 'boolean') {
+        fetchNew = false;
+      }
       const groupId = this.form.group;
       const self = this;
       if (!groupId) {
@@ -652,11 +677,14 @@ export default {
           self.subGroups = self.options.subGroups[groupId];
           if (!self.subGroups.length) {
             self.flags.newSubGroup = true;
+            this.form.subGroup = null;
           } else {
             self.subGroups.forEach((subGroup) => {
               self.options.groupNameToCode[subGroup.groupcode] =
                 subGroup.subgroupname;
             });
+            self.flags.newSubGroup = false;
+            this.form.subGroup = self.subGroups[0].groupcode;
           }
 
           self.$nextTick().then(() => {

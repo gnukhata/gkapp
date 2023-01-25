@@ -18,17 +18,6 @@
               label-class="required"
             >
               <template #label> <translate> Group </translate> </template>
-              <!-- <autocomplete
-                size="sm"
-                id="acc-input-10"
-                v-model="form.group"
-                :options="options.groups"
-                textField="groupname"
-                valueField="groupcode"
-                @input="fetchSubGroups"
-                required
-                valueUid="id"
-              ></autocomplete> -->
               <v-select
                 id="acc-input-10"
                 v-model="form.group"
@@ -47,18 +36,6 @@
               label-size="sm"
             >
               <template #label> <translate> Sub-Group </translate> </template>
-              <!-- <autocomplete
-                size="sm"
-                id="acc-input-20"
-                v-model="form.subGroup"
-                :options="subGroups"
-                textField="subgroupname"
-                valueField="groupcode"
-                @input="onSubGroupSelect"
-                :required="false"
-                valueUid="id"
-                :readonly="!subGroups.length || flags.newSubGroup"
-              ></autocomplete> -->
               <v-select
                 id="acc-input-20"
                 v-model="form.subGroup"
@@ -548,7 +525,7 @@ export default {
      * Description: Fetches the subgroups for the selected group
      */
     fetchSubGroups(fetchNew) {
-      if(typeof(fetchnew) !== 'boolean') {
+      if (typeof fetchNew !== 'boolean') {
         fetchNew = false;
       }
       const groupId = this.form.group;
@@ -653,7 +630,12 @@ export default {
     this.preloadData().then(() => {
       self.form.group = parseInt(self.group);
       if (self.subGroup) {
-        self.flags.setSubGroup = parseInt(self.subGroup);
+        let subGroup = parseInt(self.subGroup);
+        if (subGroup > 0) {
+          self.flags.setSubGroup = subGroup;
+        } else {
+          this.form.subGroup = null;
+        }
         this.fetchSubGroups(true);
       }
     });
