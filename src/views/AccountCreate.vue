@@ -548,6 +548,9 @@ export default {
      * Description: Fetches the subgroups for the selected group
      */
     fetchSubGroups(fetchNew) {
+      if(typeof(fetchnew) !== 'boolean') {
+        fetchNew = false;
+      }
       const groupId = this.form.group;
       const self = this;
       if (!groupId) {
@@ -567,11 +570,14 @@ export default {
           self.subGroups = self.options.subGroups[groupId];
           if (!self.subGroups.length) {
             self.flags.newSubGroup = true;
+            this.form.subGroup = null;
           } else {
             self.subGroups.forEach((subGroup) => {
               self.options.groupNameToCode[subGroup.groupcode] =
                 subGroup.subgroupname;
             });
+            self.flags.newSubGroup = false;
+            this.form.subGroup = self.subGroups[0].groupcode;
           }
 
           self.$nextTick().then(() => {
