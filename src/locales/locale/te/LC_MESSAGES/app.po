@@ -338,7 +338,7 @@ msgid "Account name"
 msgstr ""
 
 #: src/components/form/Account.vue:48 src/components/form/Account.vue:1
-#: src/views/AccountCreate.vue:39 src/views/AccountCreate.vue:1
+#: src/views/AccountCreate.vue:64 src/views/AccountCreate.vue:1
 #: src/views/AccountEdit.vue:46 src/views/AccountEdit.vue:1
 #: src/views/BankRecon.vue:7 src/views/BankRecon.vue:1
 #: src/views/TrialBalance.vue:42 src/views/TrialBalance.vue:68
@@ -433,7 +433,7 @@ msgstr ""
 msgid "Add Item"
 msgstr ""
 
-#: src/components/form/Account.vue:28 src/views/AccountCreate.vue:22
+#: src/components/form/Account.vue:28 src/views/AccountCreate.vue:47
 #: src/views/AccountEdit.vue:29
 msgid "Add New Sub-Group"
 msgstr ""
@@ -591,7 +591,7 @@ msgstr ""
 #: src/components/form/CreateOrganisation.vue:8
 #: src/components/form/Godown.vue:51 src/components/form/Voucher.vue:156
 #: src/components/form/transaction/BillTable.vue:7
-#: src/views/AccountCreate.vue:61 src/views/AccountEdit.vue:69
+#: src/views/AccountCreate.vue:86 src/views/AccountEdit.vue:69
 #: src/views/Billwise.vue:79 src/views/Transactions/CashMemo.vue:88
 #: src/views/Transactions/DebitCreditNote.vue:66
 #: src/views/Transactions/DeliveryNote.vue:61
@@ -880,7 +880,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: src/views/CloseBooks.vue:9 src/views/CloseBooks.vue:40
+#: src/views/CloseBooks.vue:12 src/views/CloseBooks.vue:43
 #: src/views/CloseBooks.vue:2
 msgid "Close Books"
 msgstr ""
@@ -889,8 +889,8 @@ msgstr ""
 msgid "Close Books / Roll Over"
 msgstr ""
 
-#: src/views/CloseBooks.vue:42
-msgid "Close Books is done"
+#: src/views/CloseBooks.vue:4
+msgid "Close Books is Done for this financial year"
 msgstr ""
 
 #: src/components/form/BudgetItem.vue:70
@@ -1048,18 +1048,18 @@ msgid "Create Account Error!"
 msgstr ""
 
 #: src/components/form/Account.vue:239 src/components/form/Account.vue:248
-#: src/components/form/Account.vue:257 src/views/AccountCreate.vue:157
-#: src/views/AccountCreate.vue:166 src/views/AccountCreate.vue:175
-#: src/views/AccountCreate.vue:267
+#: src/components/form/Account.vue:257 src/views/AccountCreate.vue:154
+#: src/views/AccountCreate.vue:163 src/views/AccountCreate.vue:172
+#: src/views/AccountCreate.vue:270
 msgid "Create Account Failed"
 msgstr ""
 
 #: src/components/form/Account.vue:204 src/components/form/Account.vue:268
-#: src/views/AccountCreate.vue:127 src/views/AccountCreate.vue:186
+#: src/views/AccountCreate.vue:124 src/views/AccountCreate.vue:183
 msgid "Create Account Failed!"
 msgstr ""
 
-#: src/components/form/Account.vue:220 src/views/AccountCreate.vue:143
+#: src/components/form/Account.vue:220 src/views/AccountCreate.vue:140
 msgid "Create Account Success"
 msgstr ""
 
@@ -1172,12 +1172,12 @@ msgstr ""
 msgid "Create Sale Order"
 msgstr ""
 
-#: src/components/form/Account.vue:192 src/views/AccountCreate.vue:118
-#: src/views/AccountCreate.vue:254
+#: src/components/form/Account.vue:192 src/views/AccountCreate.vue:115
+#: src/views/AccountCreate.vue:257
 msgid "Create Sub-Group Failed"
 msgstr ""
 
-#: src/components/form/Account.vue:181 src/views/AccountCreate.vue:112
+#: src/components/form/Account.vue:181 src/views/AccountCreate.vue:109
 msgid "Create Sub-Group Success"
 msgstr ""
 
@@ -1256,7 +1256,7 @@ msgstr ""
 msgid "Credited Value (₹)"
 msgstr ""
 
-#: src/views/CloseBooks.vue:79
+#: src/views/CloseBooks.vue:112
 msgid "Current Financial Year:"
 msgstr ""
 
@@ -1594,7 +1594,7 @@ msgstr ""
 msgid "Duplicate Entry"
 msgstr ""
 
-#: src/components/form/Account.vue:240 src/views/AccountCreate.vue:158
+#: src/components/form/Account.vue:240 src/views/AccountCreate.vue:155
 msgid "Duplicate Entry, change account name and try again!"
 msgstr ""
 
@@ -1757,7 +1757,7 @@ msgstr ""
 msgid "Failed to delete"
 msgstr ""
 
-#: src/views/Accounts.vue:311
+#: src/views/Accounts.vue:314
 msgid "Failed to fetch Accounts"
 msgstr ""
 
@@ -1852,7 +1852,7 @@ msgstr ""
 msgid "Fetch Godowns Failed!"
 msgstr ""
 
-#: src/components/form/Account.vue:625 src/views/AccountCreate.vue:414
+#: src/components/form/Account.vue:625 src/views/AccountCreate.vue:404
 msgid "Fetch Groups Data Failed!"
 msgstr ""
 
@@ -1910,7 +1910,7 @@ msgstr ""
 msgid "Fetch State Data Failed!"
 msgstr ""
 
-#: src/components/form/Account.vue:608 src/views/AccountCreate.vue:397
+#: src/components/form/Account.vue:608 src/views/AccountCreate.vue:387
 msgid "Fetch SubGroups Data Failed!"
 msgstr ""
 
@@ -2017,8 +2017,8 @@ msgstr ""
 
 #: src/components/GkPeriod.vue:16 src/components/GkPeriod.vue:1
 #: src/components/form/CreateOrganisation.vue:43
-#: src/components/form/CreateOrganisation.vue:1 src/views/CloseBooks.vue:86
-#: src/views/CloseBooks.vue:227 src/views/Ledger.vue:82
+#: src/components/form/CreateOrganisation.vue:1 src/views/CloseBooks.vue:119
+#: src/views/CloseBooks.vue:246 src/views/Ledger.vue:82
 #: src/views/ProfitLoss.vue:59 src/views/Registers.vue:41
 #: src/views/Registers.vue:111
 msgid "From"
@@ -2150,7 +2150,7 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
-#: src/components/form/Account.vue:40 src/views/AccountCreate.vue:34
+#: src/components/form/Account.vue:40 src/views/AccountCreate.vue:59
 #: src/views/AccountEdit.vue:41
 msgid "GST Account"
 msgstr ""
@@ -2479,7 +2479,7 @@ msgstr ""
 msgid "Net Trial Balance"
 msgstr ""
 
-#: src/views/CloseBooks.vue:220
+#: src/views/CloseBooks.vue:239
 msgid "New Financial Year:"
 msgstr ""
 
@@ -2590,7 +2590,7 @@ msgid "Only opening balance of this system generated account can be edited."
 msgstr ""
 
 #: src/components/form/Account.vue:52 src/components/form/Account.vue:1
-#: src/components/form/BudgetItem.vue:54 src/views/AccountCreate.vue:45
+#: src/components/form/BudgetItem.vue:54 src/views/AccountCreate.vue:70
 #: src/views/AccountCreate.vue:1 src/views/AccountEdit.vue:52
 #: src/views/AccountEdit.vue:1 src/views/TrialBalance.vue:110
 msgid "Opening Balance"
@@ -2815,7 +2815,7 @@ msgstr ""
 
 #: src/components/form/Account.vue:645 src/components/form/ContactItem.vue:418
 #: src/components/form/ContactItem.vue:428 src/components/form/Godown.vue:202
-#: src/components/form/Godown.vue:212 src/views/AccountCreate.vue:435
+#: src/components/form/Godown.vue:212 src/views/AccountCreate.vue:425
 msgid "Preload Data Failed!"
 msgstr ""
 
@@ -3034,7 +3034,7 @@ msgstr ""
 #: src/components/form/BusinessItem.vue:242
 #: src/components/form/ContactItem.vue:128 src/components/form/Godown.vue:55
 #: src/components/form/Voucher.vue:160 src/components/form/VoucherEasy.vue:60
-#: src/views/AccountCreate.vue:65 src/views/AccountEdit.vue:75
+#: src/views/AccountCreate.vue:90 src/views/AccountEdit.vue:75
 #: src/views/Transactions/CashMemo.vue:92
 #: src/views/Transactions/DebitCreditNote.vue:70
 #: src/views/Transactions/DeliveryNote.vue:65
@@ -3077,17 +3077,17 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-#: src/views/CloseBooks.vue:51 src/views/CloseBooks.vue:86
+#: src/views/CloseBooks.vue:52 src/views/CloseBooks.vue:87
 #: src/views/CloseBooks.vue:2
 msgid "Roll Over"
 msgstr ""
 
-#: src/views/CloseBooks.vue:89
-msgid "Roll Over is done for this financial year"
-msgstr ""
-
 #: src/views/CloseBooks.vue:151
 msgid "Roll Over to new financial year has been successful"
+msgstr ""
+
+#: src/views/CloseBooks.vue:6
+msgid "Rollover is Done for this financial year"
 msgstr ""
 
 #: src/components/form/transaction/TotalTable.vue:56
@@ -3146,7 +3146,7 @@ msgstr ""
 #: src/components/form/BusinessItem.vue:247
 #: src/components/form/ContactItem.vue:133 src/components/form/Godown.vue:60
 #: src/components/form/Voucher.vue:169 src/components/form/VoucherEasy.vue:64
-#: src/views/AccountCreate.vue:70 src/views/CategoryCreate.vue:84
+#: src/views/AccountCreate.vue:95 src/views/CategoryCreate.vue:84
 #: src/views/Workflow.vue:150
 msgid "Save"
 msgstr ""
@@ -3389,13 +3389,13 @@ msgstr ""
 msgid "Sub Unit Of"
 msgstr ""
 
-#: src/views/AccountCreate.vue:17 src/views/AccountCreate.vue:1
+#: src/views/AccountCreate.vue:29 src/views/AccountCreate.vue:1
 #: src/views/AccountEdit.vue:20 src/views/AccountEdit.vue:1
 msgid "Sub-Group"
 msgstr ""
 
 #: src/components/form/Account.vue:33 src/components/form/Account.vue:1
-#: src/views/AccountCreate.vue:27 src/views/AccountCreate.vue:1
+#: src/views/AccountCreate.vue:52 src/views/AccountCreate.vue:1
 #: src/views/AccountEdit.vue:34 src/views/AccountEdit.vue:1
 msgid "Sub-Group Name"
 msgstr ""
@@ -3611,8 +3611,8 @@ msgstr ""
 
 #: src/components/GkPeriod.vue:26 src/components/GkPeriod.vue:1
 #: src/components/form/CreateOrganisation.vue:53
-#: src/components/form/CreateOrganisation.vue:1 src/views/CloseBooks.vue:103
-#: src/views/CloseBooks.vue:243 src/views/Ledger.vue:95
+#: src/components/form/CreateOrganisation.vue:1 src/views/CloseBooks.vue:136
+#: src/views/CloseBooks.vue:262 src/views/Ledger.vue:95
 #: src/views/ProfitLoss.vue:73 src/views/Registers.vue:127
 msgid "To"
 msgstr ""
@@ -3791,7 +3791,7 @@ msgstr ""
 msgid "Unable to create %{formType}, Please try again"
 msgstr ""
 
-#: src/components/form/Account.vue:258 src/views/AccountCreate.vue:176
+#: src/components/form/Account.vue:258 src/views/AccountCreate.vue:173
 msgid "Unable to Create Acccount, please try again later!"
 msgstr ""
 
@@ -3899,7 +3899,7 @@ msgstr ""
 msgid "Unauthorized access, please contact admin."
 msgstr ""
 
-#: src/components/form/Account.vue:249 src/views/AccountCreate.vue:167
+#: src/components/form/Account.vue:249 src/views/AccountCreate.vue:164
 msgid "Unauthorized access, please sign in and try again!"
 msgstr ""
 
