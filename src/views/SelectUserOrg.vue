@@ -120,12 +120,23 @@
     <b-card v-else class="mt-3">
       <b-overlay :show="isLoading" variant="secondary" no-wrap blur></b-overlay>
       <div class="d-flex justify-content-between">
-        <span class="h6 underline"
-          >Welcome {{ form.name || userName || '' }}!</span
+        <span class="">Welcome {{ form.name || userName || '' }}!</span>
+        <b-dropdown
+          :text="$gettext('Actions')"
+          dropleft
+          size="sm"
+          variant="dark"
         >
-        <b-button @click="onLogout" class="float-right" size="sm"
-          >Logout</b-button
-        >
+          <b-dropdown-item @click="onLogout"
+            ><translate>Log Out</translate></b-dropdown-item
+          >
+          <b-dropdown-item v-b-modal.change-pwd
+            ><translate>Change Password</translate></b-dropdown-item
+          >
+          <b-dropdown-item @click="deleteUser" variant="danger"
+            ><translate>Delete Account</translate></b-dropdown-item
+          >
+        </b-dropdown>
       </div>
       <div class="clearfix"></div>
       <hr />
@@ -137,6 +148,7 @@
             </h5>
             <b-button
               size="sm"
+              variant="success"
               :disabled="showForm.createOrg"
               @click="showForm.createOrg = true"
               class="float-right"
@@ -179,7 +191,9 @@
               </v-select>
             </template>
             <template #cell(action)="data">
-              <b-button size="sm" @click="orgLogin(data.item)"> Open </b-button>
+              <b-button size="sm" variant="dark" @click="orgLogin(data.item)">
+                Open
+              </b-button>
             </template>
             <template #cell(role)="data">
               {{ userRoles[data.value] }}
@@ -235,10 +249,13 @@
               </div>
             </template>
           </b-table>
-          <b v-else>No invitations pending</b>
+          <b-alert class="text-center" variant="success" show v-else
+            >No invitations pending!</b-alert
+          >
         </b-col>
       </b-row>
     </b-card>
+    <!-- create org modal -->
     <b-modal
       size="lg"
       v-model="showForm.createOrg"
@@ -252,6 +269,7 @@
       <create-organisation :inOverlay="true" :onSave="onOrgCreate">
       </create-organisation>
     </b-modal>
+    <!-- forgot password modal -->
     <b-modal
       size="lg"
       v-model="showForm.resetPwd"
@@ -264,6 +282,7 @@
     >
       <reset-password :onSuccess="onPwdReset"></reset-password>
     </b-modal>
+    <!-- create user modal -->
     <b-modal
       size="lg"
       v-model="showForm.createUser"
@@ -276,6 +295,18 @@
     >
       <create-user :onSuccess="onUserCreate"></create-user>
     </b-modal>
+    <!-- Change password dialog -->
+    <b-modal
+      ref="change-pwd-close"
+      id="change-pwd"
+      size="md"
+      :title="'Change Password for ' + userName"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      hide-footer
+    >
+      <change-pwd v-on:close-pwd="closeModal"></change-pwd>
+    </b-modal>
   </section>
 </template>
 
@@ -287,6 +318,7 @@ import Password from '@/components/Password.vue';
 import CreateOrganisation from '@/components/form/CreateOrganisation.vue';
 import ResetPassword from '@/components/form/ResetPassword.vue';
 import CreateUser from '@/components/form/CreateUser.vue';
+import ChangePwd from '@/components/form/ChangePwd.vue';
 import { STATUS_CODES } from '@/js/enum';
 export default {
   components: {
@@ -295,6 +327,7 @@ export default {
     CreateOrganisation,
     ResetPassword,
     CreateUser,
+    ChangePwd,
   },
   name: 'SelectOrg',
   data() {
@@ -353,6 +386,60 @@ export default {
     }
   },
   methods: {
+    /*
+     * Close Change password window on successful password change
+     */
+    closeModal() {
+      setTimeout(() => {
+        this.$refs['change-pwd-close'].hide();
+      }, 1500);
+    },
+    deleteUser() {
+      // confirm before sending the delete api request
+      this.$bvModal
+        .msgBoxConfirm(`confirm deletion? This action cannot be reversed.`, {
+          centered: true,
+          size: 'md',
+          okVariant: 'danger',
+
+          headerBgVariant: 'danger',
+          headerTextVariant: 'light',
+        })
+        // send the api request if the user confirmed
+        .then((r) => {
+          if (r) {
+            axios.delete('/gkuser').then((r) => {
+              if (r.status === 200) {
+                if (r.data.gkstatus == 0) {
+                  this.$bvToast.toast(`Account Deletion Successful`, {
+                    autoHideDelay: 3000,
+                    variant: 'success',
+                  });
+                  this.onLogout();
+                } else {
+                  this.$bvToast.toast(
+                    `Delete all the organisations which you created first, or leave the organisations which you are already part of, where you have admin role`,
+                    {
+                      title: 'Account Deletion Unsuccessful',
+                      autoHideDelay: 5000,
+                      variant: 'danger',
+                      solid: true,
+                    }
+                  );
+                }
+              } else {
+                this.$bvToast.toast(
+                  `Request failed with status code ${r.status}`,
+                  {
+                    autoHideDelay: 3000,
+                    variant: 'danger',
+                  }
+                );
+              }
+            });
+          }
+        });
+    },
     onPwdReset() {
       this.showForm.resetPwd = false;
     },
@@ -375,7 +462,10 @@ export default {
       this.$store.dispatch('setSessionStates', {
         userAuth: false,
         userAuthToken: null,
+        authToken: null,
         finYears: [],
+        orgName: null,
+        orgYears: null,
       });
       this.orgs = [];
       this.invitedOrgs = [];
