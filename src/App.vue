@@ -59,9 +59,6 @@
               ></b-avatar>
               <span class="d-none d-md-inline"> {{ userName }} </span>
             </template>
-            <b-dropdown-item v-b-modal.change-pwd>
-              <b-icon icon="key"></b-icon> Change Password
-            </b-dropdown-item>
             <b-dropdown-item @click="logOut" href="#">
               <b-icon icon="box-arrow-in-left"></b-icon> Change Org
             </b-dropdown-item>
@@ -81,18 +78,6 @@
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
-        <!-- Change password dialog -->
-        <b-modal
-          ref="change-pwd-close"
-          id="change-pwd"
-          size="md"
-          :title="'Update Password for ' + userName"
-          header-bg-variant="dark"
-          header-text-variant="light"
-          hide-footer
-        >
-          <change-pwd v-on:close-pwd="closeModal"></change-pwd>
-        </b-modal>
       </b-navbar>
       <!-- Color bar -->
       <!-- <color-bar></color-bar> -->
@@ -108,13 +93,12 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 // import ColorBar from '@/components/ColorBar.vue';
-import ChangePwd from '@/components/form/ChangePwd.vue';
 import Sidebar from './components/Sidebar.vue';
 import TitleBar from './components/TitleBar.vue';
 import GoTo from './components/GoTo.vue';
 export default {
   name: 'App',
-  components: { /* ColorBar, */ ChangePwd, Sidebar, TitleBar, GoTo },
+  components: { /* ColorBar, */ Sidebar, TitleBar, GoTo },
   data() {
     return {
       currentFinYear: null,
@@ -184,14 +168,6 @@ export default {
           'Pulling latest app changes is disabled in the gkapp-config.json'
         );
       }
-    },
-    /*
-     * Close Change password window on successful password change
-     */
-    closeModal() {
-      setTimeout(() => {
-        this.$refs['change-pwd-close'].hide();
-      }, 1500);
     },
     orgLogin(yearData) {
       if (!yearData) {

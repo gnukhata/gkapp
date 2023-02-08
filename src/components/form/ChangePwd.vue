@@ -96,8 +96,8 @@ export default {
       isLoading: false,
       currentPwd: '',
       confirmPwd: '',
-      answer: '',
-      userAnswer: '',
+      answer: null,
+      userAnswer: null,
       form: {
         userid: Number,
         userpassword: '',
@@ -119,7 +119,7 @@ export default {
   },
   methods: {
     /* Get user's details from api */
-    getUserInfo() {
+    /* getUserInfo() {
       this.isLoading = true;
       axios
         .get(`${this.gkCoreUrl}/gkuser`, {
@@ -149,7 +149,8 @@ export default {
           console.log(e);
           this.isLoading = false;
         });
-    },
+    }, */
+
     /* Check if user's password is valid */
     validatePwd() {
       this.isLoading = true;
@@ -167,6 +168,7 @@ export default {
             switch (r.data.gkstatus) {
               case 0:
                 if (this.userAnswer == this.answer) {
+                  // run the method which hits the change pwd API
                   this.changePwd();
                 } else {
                   this.$bvToast.toast('Invalid Captcha', {
@@ -207,10 +209,10 @@ export default {
     changePwd() {
       axios
         .put(
-          `${this.gkCoreUrl}/gkuser/${this.form.userid}`,
+          `${this.gkCoreUrl}/gkuser/pwd/change`,
           {
-            userid: this.form.userid,
-            username: this.userName,
+            /* userid: this.form.userid,
+            username: this.userName, */
             userpassword: this.form.userpassword,
           },
           {
@@ -254,9 +256,6 @@ export default {
           this.isLoading = false;
         });
     },
-  },
-  mounted() {
-    this.getUserInfo();
   },
 };
 </script>
