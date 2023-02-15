@@ -70,7 +70,11 @@ export default {
       if (today >= min && today <= max) {
         noteDate = this.convertDateToStr(new Date());
       } else {
-        noteDate = this.yearEnd;
+        if(today<min) {
+          noteDate = this.yearStart;
+        } else {
+          noteDate = this.yearEnd;
+        }
       }
       return noteDate
     },
