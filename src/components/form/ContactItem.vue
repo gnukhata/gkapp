@@ -12,7 +12,7 @@
               <template #label> <translate> Type </translate> </template>
               <b-form-radio-group
                 button-variant="outline-primary"
-                v-model="type"
+                v-model="contactType"
                 buttons
                 size="sm"
               >
@@ -443,6 +443,7 @@ export default {
       regex: {
         pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
       },
+      contactType: 'customer',
       form: {
         name: null,
         state: null,
@@ -479,8 +480,8 @@ export default {
     columnOneWidth: (self) =>
       self.showOptional ? (self.showBankDetails ? 4 : 6) : 12,
     columnTwoWidth: (self) => (self.showOptional ? 4 : 12),
-    isSupplier: (self) => self.type === 'supplier',
-    formType: (self) => (self.type === 'customer' ? 'Customer' : 'Supplier'),
+    isSupplier: (self) => self.contactType === 'supplier',
+    formType: (self) => (self.contactType === 'customer' ? 'Customer' : 'Supplier'),
     formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
     validatePin: (self) =>
       self.form.pin ? self.form.pin > 100000 && self.form.pin < 999999 : null,
@@ -489,6 +490,11 @@ export default {
     ...mapState(['gkCoreUrl', 'gkCoreTestUrl', 'authToken']),
   },
   watch: {
+    type(type) {
+      if(type !== this.contactType) {
+        this.contactType = type;
+      }
+    },
     state(newValue) {
       if (newValue) {
         this.form.state = newValue.name;
@@ -690,7 +696,7 @@ export default {
         custaddr: this.form.address,
         state: this.form.state,
         pincode: this.form.pin,
-        csflag: this.type === 'customer' ? 3 : 19,
+        csflag: this.contactType === 'customer' ? 3 : 19,
         custtan: null, // have to check
         custphone: null,
         custemail: null,
@@ -712,7 +718,7 @@ export default {
         payload.custemail = this.form.email;
         payload.custfax = this.form.fax;
         payload.custpan = this.form.pan;
-        payload.csflag = this.type === 'customer' ? 3 : 19;
+        payload.csflag = this.contactType === 'customer' ? 3 : 19;
       }
 
       if (this.showBankDetails && bankDetails.length === 4) {
