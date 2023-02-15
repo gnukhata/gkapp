@@ -83,7 +83,7 @@
           :label-class="{ required: !(editFlag || isNameDisabled) }"
         >
           <template #label> <translate> Name </translate> </template>
-          <autocomplete
+          <!-- <autocomplete
             size="sm"
             id="ptd-input-10"
             v-model="form.name"
@@ -95,7 +95,27 @@
             valueUid="id"
             :readonly="editFlag || isNameDisabled"
           >
-          </autocomplete>
+          </autocomplete> -->
+          <v-select
+            v-if="isCustomer"
+            id="ptd-input-10"
+            v-model="form.name"
+            :options="options.customers"
+            @input="onPartyNameSelect(form.name)"
+            required
+            label="name"
+            :readonly="editFlag || isNameDisabled"
+          ></v-select>
+          <v-select
+            v-else
+            id="ptd-input-11"
+            v-model="form.name"
+            :options="options.suppliers"
+            @input="onPartyNameSelect(form.name)"
+            required
+            label="name"
+            :readonly="editFlag || isNameDisabled"
+          ></v-select>
         </b-form-group>
         <b-form-group
           v-if="config.addr"
@@ -285,13 +305,13 @@
 
 <script>
 import axios from 'axios';
-import Autocomplete from '../../Autocomplete.vue';
+// import Autocomplete from '../../Autocomplete.vue';
 import GkGstin from '../../GkGstin.vue';
 import ContactItem from '../ContactItem.vue';
 export default {
   name: 'PartyDetails',
   components: {
-    Autocomplete,
+    // Autocomplete,
     ContactItem,
     GkGstin,
   },
@@ -423,13 +443,14 @@ export default {
       }
       let party;
       if (this.parentData.type === 'customer') {
-        party = this.options.customers.find((cust) => cust.text === partyName);
+        party = this.options.customers.find((cust) => cust.name === partyName);
       } else {
-        party = this.options.suppliers.find((sup) => sup.text === partyName);
+        party = this.options.suppliers.find((sup) => sup.name === partyName);
       }
       if (party) {
         // this.isPreloading = true;
-        this.form.name = party.value;
+        this.form.name = party;
+        this.onPartyNameSelect(this.form.name)
       }
     },
   },
@@ -716,11 +737,8 @@ export default {
               resp1.data.gkresult.sort((a, b) => a.custid - b.custid); // sorting items based on custid, to display in the order of creation
               self.options.customers = resp1.data.gkresult.map((item) => {
                 return {
-                  text: item.custname,
-                  value: {
-                    id: item.custid,
-                    name: item.custname,
-                  },
+                  id: item.custid,
+                  name: item.custname,
                 };
               });
             } else {
@@ -734,11 +752,8 @@ export default {
               resp2.data.gkresult.sort((a, b) => a.custid - b.custid); // sorting items based on custid, to display in the order of creation
               self.options.suppliers = resp2.data.gkresult.map((item) => {
                 return {
-                  text: item.custname,
-                  value: {
-                    id: item.custid,
-                    name: item.custname,
-                  },
+                  id: item.custid,
+                  name: item.custname,
                 };
               });
             } else {
