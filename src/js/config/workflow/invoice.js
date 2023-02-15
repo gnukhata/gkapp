@@ -8,10 +8,7 @@ const config = {
   uidKey: 'invid',
   createNewPath: {
     name: 'Invoice',
-    params: {
-      mode: 'create',
-      invid: 0,
-    },
+    params: {},
   },
   printPath: {
     name: 'Invoice_List',

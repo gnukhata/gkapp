@@ -205,7 +205,7 @@
           class="mr-1"
           size="sm"
           variant="warning"
-          :to="{ name: 'Invoice', params: { mode: 'edit', invid: id } }"
+          :to="{ name: 'Invoice_Edit', params: { invid: id } }"
         >
           <b-icon class="mr-1" icon="pencil"></b-icon>
           <translate>Rectify</translate>
