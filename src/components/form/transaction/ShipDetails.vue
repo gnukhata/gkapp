@@ -211,10 +211,12 @@ export default {
     billingDetails: {
       type: Object,
       required: true,
+      note: "Party details, used for Sale Invoices"
     },
     organisationDetails: {
       type: Object,
       required: true,
+      note: "Organisation details, used for Purchase Invoices"
     },
     config: {
       type: Object,
@@ -225,13 +227,26 @@ export default {
       required: false,
       default: 0,
     },
+    customDetails: {
+      type: Object,
+      required: false,
+      default: null,
+      note: "Custom Details, used for edit Invoices"
+    }
   },
   watch: {
     copyFlag() {
       this.setShippingDetails();
     },
     updateCounter() {
-      this.setShippingDetails();
+      if(this.customDetails) {
+        Object.assign(this.form, this.customDetails);
+        if(typeof(this.customDetails.copyFlag) === "boolean") {
+          this.copyFlag = this.customDetails.copyFlag;
+        }
+      } else {
+        this.setShippingDetails();
+      }
     },
     saleFlag() {
       this.setShippingDetails();
@@ -282,6 +297,9 @@ export default {
         }
       } else {
         this.resetForm();
+        if(this.customDetails){
+          Object.assign(this.form, this.customDetails);
+        }
       }
     },
     resetForm() {

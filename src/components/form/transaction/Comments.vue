@@ -56,21 +56,20 @@ export default {
       default: 0,
     },
     parentData: {
-      type: Object,
+      type: String,
       required: false,
-      default: function () {
-        return { narration: '' };
-      },
     },
     placeHolder: {
       type: String,
       required: false,
-      default: ''
-    }
+      default: '',
+    },
   },
   watch: {
     updateCounter() {
-      Object.assign(this.form, this.parentData);
+      if (this.parentData) {
+        this.form.narration = this.parentData;
+      }
     },
   },
   data() {
