@@ -82,6 +82,10 @@ msgstr ""
 "* Total amount (₹ %{totalAdjusted}) must not exceed the\n"
 "                    voucher amount (₹ %{voucherAmount})"
 
+#: src/components/form/InviteUser.vue:14
+msgid "* Type an existing user's name"
+msgstr ""
+
 #: src/views/Transactions/Invoice.vue:999
 msgid "%{actionText} Invoice Error!"
 msgstr "%{actionText} Invoice Error!"
@@ -138,7 +142,7 @@ msgstr "+ Godown"
 msgid "+ Stock"
 msgstr "Stock"
 
-#: src/views/UserManagement.vue:5 src/views/UserManagement.vue:2
+#: src/views/UserManagement.vue:4 src/views/UserManagement.vue:1
 #, fuzzy
 msgid ""
 "<b-icon class=\"mr-1\" icon=\"person-plus\"/>\n"
@@ -334,7 +338,7 @@ msgstr "Acc. No."
 msgid "Access Denied"
 msgstr "Access Denied"
 
-#: src/components/form/Voucher.vue:49 src/views/Accounts.vue:36
+#: src/components/form/Voucher.vue:51 src/views/Accounts.vue:36
 #: src/views/Accounts.vue:1
 msgid "Account"
 msgstr "Account"
@@ -344,8 +348,8 @@ msgid "Account name"
 msgstr "Account name"
 
 #: src/components/form/Account.vue:48 src/components/form/Account.vue:1
-#: src/views/AccountCreate.vue:64 src/views/AccountCreate.vue:1
-#: src/views/AccountEdit.vue:46 src/views/AccountEdit.vue:1
+#: src/views/AccountCreate.vue:41 src/views/AccountCreate.vue:1
+#: src/views/AccountEdit.vue:74 src/views/AccountEdit.vue:1
 #: src/views/BankRecon.vue:7 src/views/BankRecon.vue:1
 #: src/views/TrialBalance.vue:42 src/views/TrialBalance.vue:68
 #: src/views/TrialBalance.vue:106
@@ -392,6 +396,11 @@ msgstr "Action Denied"
 #: src/components/BusinessProfile.vue:418 src/views/CloseBooks.vue:205
 msgid "Action Disallowed"
 msgstr "Action Disallowed"
+
+#: src/views/SelectUserOrg.vue:255
+#, fuzzy
+msgid "Actions"
+msgstr "action"
 
 #: src/components/workflow/profile/TransferNoteProfile.vue:90
 msgid "Actual Receipt Date"
@@ -443,8 +452,8 @@ msgstr ""
 msgid "Add Item"
 msgstr "Add Item"
 
-#: src/components/form/Account.vue:28 src/views/AccountCreate.vue:47
-#: src/views/AccountEdit.vue:29
+#: src/components/form/Account.vue:28 src/views/AccountCreate.vue:24
+#: src/views/AccountEdit.vue:57
 msgid "Add New Sub-Group"
 msgstr "Add New Sub-Group"
 
@@ -554,9 +563,9 @@ msgid "Amount"
 msgstr "Amount"
 
 #: src/components/form/ChangePwd.vue:103 src/components/form/CreateUser.vue:122
-#: src/components/form/EditUser.vue:269 src/components/form/InviteUser.vue:328
+#: src/components/form/EditUser.vue:269 src/components/form/InviteUser.vue:336
 #: src/components/form/ResetPassword.vue:157 src/views/Login.vue:122
-#: src/views/ResetPassword_legacy.vue:147 src/views/SelectUserOrg.vue:140
+#: src/views/ResetPassword_legacy.vue:147 src/views/SelectUserOrg.vue:143
 msgid "Answer"
 msgstr "Answer"
 
@@ -594,6 +603,10 @@ msgstr "Attachments:"
 msgid "Audit Logs"
 msgstr "Audit Logs"
 
+#: src/components/form/InviteUser.vue:191
+msgid "Authrization Error: User has not been granted invite permissions"
+msgstr ""
+
 #: src/components/GkIfsc.vue:18 src/components/GkIfsc.vue:2
 msgid "Auto fill"
 msgstr "Auto fill"
@@ -602,9 +615,9 @@ msgstr "Auto fill"
 #: src/components/form/BusinessItem.vue:238
 #: src/components/form/ContactItem.vue:124
 #: src/components/form/CreateOrganisation.vue:8
-#: src/components/form/Godown.vue:51 src/components/form/Voucher.vue:156
+#: src/components/form/Godown.vue:51 src/components/form/Voucher.vue:186
 #: src/components/form/transaction/BillTable.vue:7
-#: src/views/AccountCreate.vue:86 src/views/AccountEdit.vue:69
+#: src/views/AccountCreate.vue:63 src/views/AccountEdit.vue:97
 #: src/views/Billwise.vue:79 src/views/Transactions/CashMemo.vue:88
 #: src/views/Transactions/DebitCreditNote.vue:66
 #: src/views/Transactions/DeliveryNote.vue:61
@@ -623,7 +636,7 @@ msgstr "Bad Privilige"
 msgid "Bad Quality Goods"
 msgstr "Bad Quality Goods"
 
-#: src/components/form/Voucher.vue:56 src/views/CategorywiseStockOnHand.vue:34
+#: src/components/form/Voucher.vue:58 src/views/CategorywiseStockOnHand.vue:34
 #: src/views/LedgerFull.vue:63 src/views/StockOnHand.vue:42
 msgid "Balance"
 msgstr "Balance"
@@ -877,7 +890,7 @@ msgstr "Change Server"
 msgid "Change Organisation"
 msgstr "Change Organisation"
 
-#: src/components/form/ChangePwd.vue:25
+#: src/components/form/ChangePwd.vue:25 src/views/SelectUserOrg.vue:56
 msgid "Change Password"
 msgstr "Change Password"
 
@@ -933,7 +946,7 @@ msgid "Configuration validated successfully!"
 msgstr "Configuration validated successfully!"
 
 #: src/components/form/ChangePwd.vue:61 src/components/form/CreateUser.vue:77
-#: src/components/form/InviteUser.vue:283
+#: src/components/form/InviteUser.vue:291
 #: src/components/form/ResetPassword.vue:221
 #: src/views/ResetPassword_legacy.vue:179
 msgid "Confirm Password"
@@ -1055,6 +1068,11 @@ msgstr "Cr Note No."
 #: src/views/Transactions/TransferNote.vue:33
 msgid "Create"
 msgstr "Create"
+
+#: src/components/form/InviteUser.vue:75
+#, fuzzy
+msgid "Create & Invite User"
+msgstr "Create User"
 
 #: src/components/form/CreateOrganisation.vue:82
 msgid "Create &amp; Login"
@@ -1430,11 +1448,16 @@ msgstr ""
 msgid "Del. Note No."
 msgstr "Del. Note No."
 
-#: src/components/form/Voucher.vue:164
+#: src/components/form/Voucher.vue:194
 #: src/components/workflow/profile/VoucherProfile.vue:36
 #: src/views/Budget.vue:33 src/views/GodownEdit.vue:38
 msgid "Delete"
 msgstr "Delete"
+
+#: src/views/SelectUserOrg.vue:57
+#, fuzzy
+msgid "Delete Account"
+msgstr "Create Account"
 
 #: src/views/Budget.vue:133 src/views/Budget.vue:148
 msgid "Delete Budget \"%{budgetName}\" failed!"
@@ -1709,11 +1732,11 @@ msgstr "Enter Custom Server URL"
 msgid "Enter HSN/SAC code or description"
 msgstr ""
 
-#: src/views/Login.vue:133 src/views/SelectUserOrg.vue:151
+#: src/views/Login.vue:133 src/views/SelectUserOrg.vue:154
 msgid "Enter the Answer"
 msgstr "Enter the Answer"
 
-#: src/views/Login.vue:64 src/views/SelectUserOrg.vue:82
+#: src/views/Login.vue:64 src/views/SelectUserOrg.vue:85
 msgid "Enter Username"
 msgstr "Enter Username"
 
@@ -1795,6 +1818,11 @@ msgstr "Failed to fetch categories"
 #: src/views/CostCenter.vue:51 src/views/Ledger.vue:54
 msgid "Failed to fetch cost center items"
 msgstr "Failed to fetch cost center items"
+
+#: src/components/form/InviteUser.vue:246
+#, fuzzy
+msgid "Failed to fetch godown info, Please reload the page"
+msgstr "Unable to create Godown, Please try again"
 
 #: src/views/CategorywiseStockOnHand.vue:185
 msgid "Failed to get product stock report with status "
@@ -1878,7 +1906,7 @@ msgstr "Fetch Delivery Note Error!"
 msgid "Fetch Godowns Failed!"
 msgstr "Fetch Godowns Failed!"
 
-#: src/components/form/Account.vue:625 src/views/AccountCreate.vue:404
+#: src/components/form/Account.vue:625 src/views/AccountCreate.vue:410
 msgid "Fetch Groups Data Failed!"
 msgstr "Fetch Groups Data Failed!"
 
@@ -1936,7 +1964,7 @@ msgstr "Fetch sale order error"
 msgid "Fetch State Data Failed!"
 msgstr "Fetch State Data Failed!"
 
-#: src/components/form/Account.vue:608 src/views/AccountCreate.vue:387
+#: src/components/form/Account.vue:608 src/views/AccountCreate.vue:393
 msgid "Fetch SubGroups Data Failed!"
 msgstr "Fetch SubGroups Data Failed!"
 
@@ -1996,16 +2024,12 @@ msgstr "Fetched Budget Details!"
 msgid "Fetching All Units ..."
 msgstr "Fetching All Units ..."
 
-#: src/views/UserManagement.vue:7
-msgid "Fetching All Users ..."
-msgstr "Fetching All Users ..."
-
 #: src/views/Categories.vue:25 src/views/Categories.vue:3
 msgid "Fetching Categories ..."
 msgstr "Fetching Categories ..."
 
 #: src/views/CostCenter.vue:15 src/views/CostCenter.vue:3
-#: src/views/SelectUserOrg.vue:70 src/views/SelectUserOrg.vue:102
+#: src/views/SelectUserOrg.vue:74 src/views/SelectUserOrg.vue:108
 #: src/views/SelectUserOrg.vue:3
 msgid "Fetching List..."
 msgstr "Fetching List..."
@@ -2179,8 +2203,8 @@ msgstr "Group"
 msgid "Groups"
 msgstr "Groups"
 
-#: src/components/form/Account.vue:40 src/views/AccountCreate.vue:59
-#: src/views/AccountEdit.vue:41
+#: src/components/form/Account.vue:40 src/views/AccountCreate.vue:36
+#: src/views/AccountEdit.vue:69
 msgid "GST Account"
 msgstr "GST Account"
 
@@ -2324,8 +2348,8 @@ msgstr "Invalid Data"
 msgid "Inventory"
 msgstr "Inventory"
 
-#: src/components/form/InviteUser.vue:42 src/views/UserManagement.vue:7
-#: src/views/UserManagement.vue:4
+#: src/components/form/InviteUser.vue:76 src/components/form/InviteUser.vue:41
+#: src/views/UserManagement.vue:6 src/views/UserManagement.vue:3
 #, fuzzy
 msgid "Invite User"
 msgstr "Enter Username"
@@ -2349,6 +2373,12 @@ msgstr "Invoice Value"
 #: src/views/dashboard/MakeRecievePayment.vue:35
 msgid "Issue Receipt"
 msgstr ""
+
+#: src/components/form/InviteUser.vue:203
+#: src/components/form/InviteUser.vue:215
+#, fuzzy
+msgid "Issue with invitation creation, please contact admin"
+msgstr "Unauthorized access, please contact admin."
 
 #: src/components/workflow/profile/DeliveryNoteProfile.vue:59
 #: src/components/workflow/profile/InvoiceProfile.vue:172
@@ -2400,6 +2430,10 @@ msgstr "Ledger Account:"
 #: src/views/Workflow.vue:131
 msgid "List Settings"
 msgstr "List Settings"
+
+#: src/views/SelectUserOrg.vue:55
+msgid "Log Out"
+msgstr ""
 
 #: src/views/Login.vue:48 src/views/SelectUserOrg.vue:44
 msgid "Login"
@@ -2473,7 +2507,7 @@ msgstr "MRP"
 #: src/components/form/CreateUser.vue:38 src/components/form/EditUOM.vue:33
 #: src/components/form/EditUser.vue:33 src/components/form/EditUser.vue:52
 #: src/components/form/Godown.vue:19 src/components/form/Godown.vue:1
-#: src/components/form/InviteUser.vue:31 src/components/form/InviteUser.vue:59
+#: src/components/form/InviteUser.vue:31 src/components/form/InviteUser.vue:58
 #: src/components/form/transaction/PartyDetails.vue:31
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:23
@@ -2560,6 +2594,10 @@ msgstr "No Outstanding Invoices To Be Adjusted!"
 msgid "No Privilege"
 msgstr "No Privilege"
 
+#: src/views/UserManagement.vue:70
+msgid "No privileges to delete the user"
+msgstr ""
+
 #. %{memoNo} is a variable, translation is not required for it. Enter it, as it is while translation.
 #: src/components/workflow/profile/CashMemoProfile.vue:90
 msgid "No vouchers were found for Cash Memo: %{memoNo}"
@@ -2629,8 +2667,8 @@ msgid "Only opening balance of this system generated account can be edited."
 msgstr "Only opening balance of this system generated account can be edited."
 
 #: src/components/form/Account.vue:52 src/components/form/Account.vue:1
-#: src/components/form/BudgetItem.vue:54 src/views/AccountCreate.vue:70
-#: src/views/AccountCreate.vue:1 src/views/AccountEdit.vue:52
+#: src/components/form/BudgetItem.vue:54 src/views/AccountCreate.vue:47
+#: src/views/AccountCreate.vue:1 src/views/AccountEdit.vue:80
 #: src/views/AccountEdit.vue:1 src/views/TrialBalance.vue:110
 msgid "Opening Balance"
 msgstr "Opening Balance"
@@ -2705,9 +2743,9 @@ msgstr "Particulars"
 msgid "Party Type"
 msgstr ""
 
-#: src/components/form/CreateUser.vue:62 src/components/form/InviteUser.vue:268
-#: src/views/Login.vue:72 src/views/Login.vue:82 src/views/SelectUserOrg.vue:90
-#: src/views/SelectUserOrg.vue:100
+#: src/components/form/CreateUser.vue:62 src/components/form/InviteUser.vue:276
+#: src/views/Login.vue:72 src/views/Login.vue:82 src/views/SelectUserOrg.vue:93
+#: src/views/SelectUserOrg.vue:103
 msgid "Password"
 msgstr "Password"
 
@@ -2718,7 +2756,7 @@ msgid "Password Change Successful, Memorize it well this time 😉"
 msgstr "Password Change Successful, Memorize it well this time 😉"
 
 #: src/components/form/ChangePwd.vue:13 src/components/form/CreateUser.vue:15
-#: src/components/form/InviteUser.vue:62
+#: src/components/form/InviteUser.vue:63
 msgid "Passwords do not match"
 msgstr "Passwords do not match"
 
@@ -2857,7 +2895,7 @@ msgstr "Preload Budget List Failed!"
 
 #: src/components/form/Account.vue:645 src/components/form/ContactItem.vue:418
 #: src/components/form/ContactItem.vue:428 src/components/form/Godown.vue:202
-#: src/components/form/Godown.vue:212 src/views/AccountCreate.vue:425
+#: src/components/form/Godown.vue:212 src/views/AccountCreate.vue:431
 msgid "Preload Data Failed!"
 msgstr "Preload Data Failed!"
 
@@ -2958,8 +2996,8 @@ msgid "Qty Debited"
 msgstr "Qty Debited"
 
 #: src/components/form/ChangePwd.vue:88 src/components/form/CreateUser.vue:107
-#: src/components/form/EditUser.vue:253 src/components/form/InviteUser.vue:313
-#: src/views/Login.vue:107 src/views/SelectUserOrg.vue:125
+#: src/components/form/EditUser.vue:253 src/components/form/InviteUser.vue:321
+#: src/views/Login.vue:107 src/views/SelectUserOrg.vue:128
 msgid "Question"
 msgstr "Question"
 
@@ -3082,8 +3120,8 @@ msgstr "Reports"
 #: src/components/form/Account.vue:63 src/components/form/BudgetItem.vue:156
 #: src/components/form/BusinessItem.vue:242
 #: src/components/form/ContactItem.vue:128 src/components/form/Godown.vue:55
-#: src/components/form/Voucher.vue:160 src/components/form/VoucherEasy.vue:60
-#: src/views/AccountCreate.vue:90 src/views/AccountEdit.vue:75
+#: src/components/form/Voucher.vue:190 src/components/form/VoucherEasy.vue:60
+#: src/views/AccountCreate.vue:67 src/views/AccountEdit.vue:103
 #: src/views/Transactions/CashMemo.vue:92
 #: src/views/Transactions/DebitCreditNote.vue:70
 #: src/views/Transactions/DeliveryNote.vue:65
@@ -3112,7 +3150,7 @@ msgstr "Road"
 msgid "role"
 msgstr "role"
 
-#: src/components/form/EditUser.vue:83 src/components/form/InviteUser.vue:111
+#: src/components/form/EditUser.vue:83 src/components/form/InviteUser.vue:117
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:58
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
 #: src/components/form/transaction_details/InvoiceDetails.vue:97
@@ -3196,8 +3234,8 @@ msgstr "save"
 #: src/components/Config.vue:45 src/components/form/BudgetItem.vue:164
 #: src/components/form/BusinessItem.vue:247
 #: src/components/form/ContactItem.vue:133 src/components/form/Godown.vue:60
-#: src/components/form/Voucher.vue:169 src/components/form/VoucherEasy.vue:64
-#: src/views/AccountCreate.vue:95 src/views/CategoryCreate.vue:84
+#: src/components/form/Voucher.vue:199 src/components/form/VoucherEasy.vue:64
+#: src/views/AccountCreate.vue:72 src/views/CategoryCreate.vue:84
 #: src/views/Workflow.vue:150
 msgid "Save"
 msgstr "Save"
@@ -3261,7 +3299,7 @@ msgstr "Search trial balance"
 msgid "Search Units"
 msgstr "Search Units"
 
-#: src/views/UserManagement.vue:55
+#: src/views/UserManagement.vue:57
 msgid "Search Users"
 msgstr "Search Users"
 
@@ -3467,14 +3505,14 @@ msgstr "Sub Unit of"
 msgid "Sub Unit Of"
 msgstr "Sub Unit Of"
 
-#: src/views/AccountCreate.vue:29 src/views/AccountCreate.vue:1
-#: src/views/AccountEdit.vue:20 src/views/AccountEdit.vue:1
+#: src/views/AccountCreate.vue:18 src/views/AccountCreate.vue:1
+#: src/views/AccountEdit.vue:32 src/views/AccountEdit.vue:1
 msgid "Sub-Group"
 msgstr "Sub-Group"
 
 #: src/components/form/Account.vue:33 src/components/form/Account.vue:1
-#: src/views/AccountCreate.vue:52 src/views/AccountCreate.vue:1
-#: src/views/AccountEdit.vue:34 src/views/AccountEdit.vue:1
+#: src/views/AccountCreate.vue:29 src/views/AccountCreate.vue:1
+#: src/views/AccountEdit.vue:62 src/views/AccountEdit.vue:1
 msgid "Sub-Group Name"
 msgstr "Sub-Group Name"
 
@@ -3720,7 +3758,7 @@ msgstr "To Be Paid By Bank Transfer"
 msgid "To Godown"
 msgstr "To Godown"
 
-#: src/components/form/Voucher.vue:133
+#: src/components/form/Voucher.vue:163
 #: src/components/form/transaction/BillTable.vue:228
 #: src/components/form/transaction/BillTable.vue:1
 #: src/components/form/transaction/TotalTable.vue:4
@@ -4026,8 +4064,8 @@ msgstr "Unit of measurement"
 msgid "Unregistered"
 msgstr ""
 
-#: src/components/form/BudgetItem.vue:161 src/components/form/Voucher.vue:172
-#: src/views/AccountEdit.vue:82 src/views/CategoryEdit.vue:84
+#: src/components/form/BudgetItem.vue:161 src/components/form/Voucher.vue:202
+#: src/views/AccountEdit.vue:110 src/views/CategoryEdit.vue:84
 #: src/views/CostCenterEdit.vue:12 src/views/GodownEdit.vue:34
 msgid "Update"
 msgstr "Update"
@@ -4080,8 +4118,42 @@ msgstr "user"
 msgid "User"
 msgstr "User"
 
+#: src/components/form/InviteUser.vue:293 src/views/UserManagement.vue:87
+#, fuzzy
+msgid "User deletion failed"
+msgstr "Voucher Delete failed!"
+
+#: src/views/UserManagement.vue:79
+#, fuzzy
+msgid "User deletion is not allowed"
+msgstr "Action Disallowed"
+
+#: src/components/form/InviteUser.vue:283
+msgid ""
+"User deletion is not allowed. Only a user with admin role can delete another "
+"user"
+msgstr ""
+
+#: src/components/form/InviteUser.vue:274
+#, fuzzy
+msgid "User deletion unsuccessful"
+msgstr "Voucher Delete success!"
+
+#: src/components/form/InviteUser.vue:169
+msgid ""
+"User is already part of the organisation, please try again with another user"
+msgstr ""
+
+#: src/views/UserManagement.vue:61
+msgid "User is removed"
+msgstr ""
+
+#: src/components/form/InviteUser.vue:180
+msgid "User not authorised, Please check your login status"
+msgstr ""
+
 #: src/components/form/ResetPassword.vue:38 src/views/Login.vue:53
-#: src/views/ResetPassword_legacy.vue:81 src/views/SelectUserOrg.vue:70
+#: src/views/ResetPassword_legacy.vue:81 src/views/SelectUserOrg.vue:73
 msgid "Username"
 msgstr "Username"
 
@@ -4247,6 +4319,9 @@ msgstr "You have no permissions to delete details"
 #: src/components/ContactProfile.vue:291
 msgid "You have no permissions to modify details"
 msgstr "You have no permissions to modify details"
+
+#~ msgid "Fetching All Users ..."
+#~ msgstr "Fetching All Users ..."
 
 #~ msgid "Close Books is done"
 #~ msgstr "Close Books is done"
