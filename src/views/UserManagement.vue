@@ -2,7 +2,6 @@
   <section class="mt-2 mr-3 ml-3">
     <b-input-group class="mb-3 container-sm gksearch d-print-none">
       <template #prepend>
-        <!-- <b-input-group-text>Username</b-input-group-text> -->
         <b-button
           translate
           @click="$router.push('/users/invite')"
@@ -30,55 +29,10 @@
         "
       ></gk-file-download>
     </gk-toolbar>
-    <!-- <b-table
-      :filter="searchText"
-      :items="userList"
-      :fields="fields"
-      :busy="isLoading"
-      style="margin: auto"
-      head-variant="dark"
-      class="table-border-dark"
-      hover
-      outlined
-      striped
-      small
-    >
-      <template #table-busy>
-        <div class="text-center">
-          <b-spinner class="align-middle" type="grow"></b-spinner>
-          <strong><translate> Fetching All Users ...</translate></strong>
-        </div>
-      </template>
-      <template #cell(user)="data">
-        <b-link
-          @click="$router.push(`/users/${data.item.userid}`)"
-          title="click to edit contact"
-          variant="dark"
-          size="sm"
-          >{{ data.item.user }}</b-link
-        >
-      </template>
-      <template #cell(action)="data">
-        <b-icon
-          icon="pencil-square"
-          class="mr-1"
-          @click="$router.push('/users/' + data.item.userid)"
-          role="button"
-        ></b-icon>
-        <b-icon
-          v-if="data.item.roleid !== -1"
-          icon="trash"
-          variant="danger"
-          class="ml-1"
-          role="button"
-          @click="confirm(data.item)"
-        ></b-icon>
-      </template>
-    </b-table> -->
     <b-row>
       <b-col>
         <h5 class="mb-3">Users</h5>
-        <b-table-lite
+        <b-table
           head-variant="dark"
           class="table-border-dark"
           hover
@@ -87,7 +41,22 @@
           small
           :fields="userFields"
           :items="userList"
-        ></b-table-lite>
+        >
+          <template #cell(action)="data">
+            <b-button
+              @click="confirmRemoveUser(data.item)"
+              variant="danger"
+              size="sm"
+            >
+              <B-Icon
+                role="button"
+                icon="person-x"
+                v-b-tooltip.focus
+                title="remove user"
+              />
+            </b-button>
+          </template>
+        </b-table>
       </b-col>
       <b-col>
         <h5 class="mb-3">Invitations</h5>
@@ -168,6 +137,66 @@ export default {
     ...mapState(['authToken', 'gkCoreUrl', 'orgName', 'yearStart', 'yearEnd']),
   },
   methods: {
+    // remove a user from organisation
+    removeUser(userID) {
+      this.isLoading = true;
+      let payload = {
+        headers: {
+          gktoken: this.authToken,
+          gkauthtoken: this.userAuthToken,
+        },
+        data: {
+          userid: userID,
+        },
+      };
+      axios
+        .delete('/organisation/remove-user', payload)
+        .then((r) => {
+          if (r.status == 200) {
+            switch (r.data.gkstatus) {
+              case STATUS_CODES['Success']:
+                this.$bvToast.toast(this.$gettext('User is removed'), {
+                  title: 'Success',
+                  variant: 'success',
+                });
+                // refresh user list
+                this.getUsers();
+                break;
+              case STATUS_CODES['BadPrivilege']:
+                this.$bvToast.toast(
+                  this.$gettext('No privileges to delete the user'),
+                  {
+                    title: 'Error',
+                    variant: 'danger',
+                  }
+                );
+                break;
+              case STATUS_CODES['ActionDisallowed']:
+                this.$bvToast.toast(
+                  this.$gettext('User deletion is not allowed'),
+                  {
+                    title: 'Error',
+                    variant: 'danger',
+                  }
+                );
+                break;
+              case STATUS_CODES['ConnectionFailed']:
+                this.$bvToast.toast(this.$gettext('User deletion failed'), {
+                  title: 'error',
+                  variant: 'danger',
+                });
+                break;
+            }
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e, {
+            title: 'error',
+            variant: 'danger',
+          });
+        });
+      this.isLoading = false;
+    },
     onCancelInvite(userData) {
       this.$bvModal
         .msgBoxConfirm(`Cancel invite for user: ${userData.name} ?`, {
@@ -186,24 +215,24 @@ export default {
           }
         });
     },
-    confirm(obj) {
+    confirmRemoveUser(obj) {
+      console.log(obj);
       this.$bvModal
-        .msgBoxConfirm(`Delete user ${obj.user} ?`, {
+        .msgBoxConfirm(`Delete user: ${obj.name} ?`, {
           centered: true,
-          size: 'md',
+          size: 'sm',
           okVariant: 'danger',
-          okTitle: 'Delete',
-          headerBgVariant: 'danger',
-          headerTextVariant: 'light',
+          okTitle: 'Remove',
         })
-        // delete user is confirmed
+        // remove user is confirmed
         .then((r) => {
           if (r) {
-            this.deleteUser(obj.user, obj.userid);
+            this.removeUser(obj.userid);
             return;
           }
         });
     },
+    // get users who are part of the org
     getUsers() {
       this.isLoading = true;
       axios
@@ -287,46 +316,6 @@ export default {
         }
       });
     },
-    // deleteUser(name, id) {
-    //   this.isLoading = true;
-    //   axios
-    //     .delete('/gkuser', {
-    //       headers: {
-    //         gktoken: this.authToken,
-    //       },
-    //       data: {
-    //         userid: id,
-    //       },
-    //     })
-    //     .then((r) => {
-    //       if (r.status == 200 && r.data.gkstatus == 0) {
-    //         this.$bvToast.toast(`${name} removed successfully`, {
-    //           title: 'Delete Success',
-    //           variant: 'success',
-    //           solid: true,
-    //         });
-
-    //         // Add delete user log to server
-    //         const payload = {
-    //           activity: `user ${this.name} deleted`,
-    //         };
-    //         axios.post(`${this.gkCoreUrl}/log`, payload, {
-    //           headers: { gktoken: this.authToken },
-    //         });
-    //         // refresh user list
-    //         this.getUsers();
-    //         this.isLoading = false;
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       this.$bvToast.toast(e.message, {
-    //         title: e.message,
-    //         variant: 'danger',
-    //         solid: true,
-    //       });
-    //       this.isLoading = false;
-    //     });
-    // },
   },
   mounted() {
     this.getUsers();

@@ -7,7 +7,7 @@
       header-text-variant="light"
       class="gkcard mx-auto"
     >
-      <b-form ref="createForm" @submit.prevent="inviteUser">
+      <b-form ref="createForm" @submit.prevent="check">
         <b-overlay :show="isLoading" blur no-wrap></b-overlay>
         <b-form-group
           :label="$gettext('Name')"
@@ -29,7 +29,7 @@
               <translate>Validate</translate>
             </b-button>
           </b-input-group>
-          <small>* Type an existing user's name</small>
+          <small><translate>* Type an existing user's name</translate></small>
           <b-form-invalid-feedback id="input-live-feedback">
             <translate>Username must be minimum of 3 characters</translate>
           </b-form-invalid-feedback>
@@ -58,6 +58,7 @@
           small
           caption-top
           responsive
+          striped
         >
           <caption>
             <translate>Select Godowns</translate>
@@ -98,6 +99,7 @@
           </b-form-checkbox>
           <div class="clearfix"></div>
         </div>
+        <!-- create new user -->
         <div v-if="createUser">
           <b-form-group
             :label="$gettext('Password')"
@@ -155,8 +157,10 @@
             variant="success"
           >
             <b-icon class="mr-1" type="submit" icon="person-plus"></b-icon>
-            <span v-if="createUser"> Create & Invite User </span>
-            <span v-else> Invite User </span>
+            <span v-if="createUser"
+              ><translate>Create & Invite User</translate></span
+            >
+            <span v-else><translate> Invite User </translate></span>
           </b-button>
         </slot>
       </b-form>
@@ -259,6 +263,13 @@ export default {
     },
   },
   methods: {
+    check() {
+      if (this.createUser) {
+        this.addInviteNewUser();
+      } else {
+        this.inviteUser();
+      }
+    },
     validateUser() {
       this.validating = true;
       const self = this;
@@ -291,7 +302,7 @@ export default {
       };
 
       // If selected role is godown incharge, add selected godown id's to the submitted form
-      console.log(USER_ROLES["godown_incharge"])
+      console.log(USER_ROLES['godown_incharge']);
       if (this.form.userrole == USER_ROLES['godown_incharge']) {
         let list = [];
         for (let i in this.allGodowns) {
@@ -326,7 +337,9 @@ export default {
               break;
             case STATUS_CODES['DuplicateEntry']:
               this.$bvToast.toast(
-                'User is already part of the organisation, please try again with another user',
+                this.$gettext(
+                  'User is already part of the organisation, please try again with another user'
+                ),
                 {
                   variant: 'warning',
                   solid: true,
@@ -335,7 +348,9 @@ export default {
               break;
             case STATUS_CODES['UnauthorisedAccess']:
               this.$bvToast.toast(
-                'User not authorised, Please check your login status',
+                this.$gettext(
+                  'User not authorised, Please check your login status'
+                ),
                 {
                   variant: 'warning',
                   solid: true,
@@ -344,7 +359,9 @@ export default {
               break;
             case STATUS_CODES['ActionDisallowed']:
               this.$bvToast.toast(
-                'Authrization Error: User has not been granted invite permissions',
+                this.$gettext(
+                  'Authrization Error: User has not been granted invite permissions'
+                ),
                 {
                   variant: 'warning',
                   solid: true,
@@ -354,7 +371,9 @@ export default {
             case STATUS_CODES['ConnectionFailed']:
             default:
               this.$bvToast.toast(
-                'Issue with invitation creation, please contact admin',
+                this.$gettext(
+                  'Issue with invitation creation, please contact admin'
+                ),
                 {
                   variant: 'danger',
                   solid: true,
@@ -364,7 +383,9 @@ export default {
         })
         .catch(() => {
           this.$bvToast.toast(
-            'Issue with invitation creation, please contact admin',
+            this.$gettext(
+              'Issue with invitation creation, please contact admin'
+            ),
             {
               variant: 'danger',
               solid: true,
@@ -393,7 +414,9 @@ export default {
         })
         .catch((e) => {
           this.$bvToast.toast(
-            'Failed to fetch godown info, Please reload the page',
+            this.$gettext(
+              'Failed to fetch godown info, Please reload the page'
+            ),
             {
               title: e.message,
               variant: 'danger',
@@ -403,102 +426,57 @@ export default {
           this.isLoading = false;
         });
     },
-    /* Create User */
-    // addUser() {
-    //   this.isLoading = true;
-    //   // If selected role is godown incharge, add selected godown id's to the submitted form
-    //   if (this.form.userrole == 3) {
-    //     let list = [];
-    //     for (let i in this.allGodowns) {
-    //       if (this.allGodowns[i].checked === 'accepted') {
-    //         list.push(this.allGodowns[i].goid);
-    //       }
-    //     }
-    //     this.form.golist = list;
-    //   }
-    //   axios
-    //     .post(`${this.gkCoreUrl}/gkuser`, this.form, {
-    //       headers: {
-    //         gktoken: this.authToken,
-    //       },
-    //     })
-    //     .then((r) => {
-    //       if (r.status == 200) {
-    //         switch (r.data.gkstatus) {
-    //           case 0:
-    //             {
-    //               this.$bvToast.toast(
-    //                 `${this.form.username} created successfully`,
-    //                 {
-    //                   title: 'Success',
-    //                   variant: 'success',
-    //                   solid: true,
-    //                 }
-    //               );
-    //               // Add user created log to server
-    //               const payload = {
-    //                 activity: `user ${this.form.username} created`,
-    //               };
-    //               axios.post(`${this.gkCoreUrl}/log`, payload, {
-    //                 headers: { gktoken: this.authToken },
-    //               });
-    //               // refresh users list in USerManagement.vue
-    //               this.$emit('refreshUsers');
-    //               this.isLoading = false;
-    //               this.$refs.createForm.reset();
-    //             }
-    //             break;
-    //           case 1:
-    //             this.$bvToast.toast(
-    //               `Username ${this.form.username} already exists`,
-    //               {
-    //                 variant: 'danger',
-    //                 solid: true,
-    //               }
-    //             );
-    //             this.isLoading = false;
-    //             break;
-    //           case 2:
-    //             this.$bvToast.toast('Unauthorised access', {
-    //               variant: 'danger',
-    //               solid: true,
-    //             });
-    //             this.isLoading = false;
-    //             break;
-    //           case 3:
-    //             this.$bvToast.toast('Connection Failed', {
-    //               variant: 'danger',
-    //               solid: true,
-    //             });
-    //             this.isLoading = false;
-    //             break;
-    //           case 4:
-    //             this.$bvToast.toast('Bad Privilege', {
-    //               variant: 'danger',
-    //               solid: true,
-    //             });
-    //             this.isLoading = false;
-    //             break;
-    //           case 5:
-    //             this.$bvToast.toast('Action Disallowed', {
-    //               variant: 'danger',
-    //               solid: true,
-    //             });
-    //             this.isLoading = false;
-    //             break;
-    //         }
-    //       } else {
-    //         this.$bvToast.toast(
-    //           'Connection failed with status code ' + r.status,
-    //           {
-    //             variant: 'danger',
-    //             solid: true,
-    //           }
-    //         );
-    //         this.isLoading = false;
-    //       }
-    //     });
-    // },
+    // add a new user by calling the /gkuser api
+    // on success, call the inviteUser() to invite
+    // the created user
+    addInviteNewUser() {
+      this.isLoading = true;
+      axios
+        .post('/gkuser', this.form)
+        .then((r) => {
+          if (r.status == 200) {
+            switch (r.data.gkstatus) {
+              case STATUS_CODES['Success']:
+                this.validUser = true;
+                this.inviteUser();
+                break;
+              case STATUS_CODES['BadPrivilege']:
+                this.$bvToast.toast(
+                  this.$gettext(`User deletion unsuccessful`),
+                  {
+                    title: 'error',
+                    variant: 'danger',
+                  }
+                );
+                break;
+              case STATUS_CODES['ActionDisallowed']:
+                this.$bvToast.toast(
+                  this.$gettext(
+                    `User deletion is not allowed. Only a user with admin role can delete another user`
+                  ),
+                  {
+                    title: 'error',
+                    variant: 'danger',
+                  }
+                );
+                break;
+              case STATUS_CODES['ConnectionFailed']:
+                this.$bvToast.toast(this.$gettext(`User deletion failed`), {
+                  title: 'error',
+                  variant: 'danger',
+                });
+                break;
+            }
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e, {
+            title: 'error',
+            variant: 'danger',
+          });
+        });
+      this.isLoading = false;
+    },
   },
 };
 </script>
