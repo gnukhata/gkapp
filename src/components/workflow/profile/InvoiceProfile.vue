@@ -955,6 +955,15 @@ export default {
         .catch(() => {
           this.isPreloading = false;
         });
+    } else {
+      this.isPreloading = true;
+      this.fetchState()
+        .then(() => {
+          this.isPreloading = false;
+        })
+        .catch(() => {
+          this.isPreloading = false;
+        });
     }
   },
 };
