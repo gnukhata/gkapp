@@ -235,11 +235,11 @@ export default {
     validateName() {
       // remove spaces in username
       this.form.username = this.form.username.split(' ').join('');
-      // username should be atleast three characters
       if (this.form.username === '') {
         return null;
       }
-      if (this.form.username.length <= 2) {
+      // username should be atleast three characters
+      if (this.form.username.length < 3) {
         return false;
       } else {
         return true;
@@ -272,21 +272,20 @@ export default {
     },
     validateUser() {
       this.validating = true;
-      const self = this;
       axios
         .get(`/gkuser/check/${this.form.username}`)
         .then((resp) => {
           if (resp.data.gkstatus === STATUS_CODES['Success']) {
-            self.validUser = !resp.data.gkresult;
+            this.validUser = !resp.data.gkresult;
           } else {
-            self.validUser = false;
+            this.validUser = false;
           }
         })
         .catch(() => {
-          self.validUser = false;
+          this.validUser = false;
         })
         .finally(() => {
-          self.validating = false;
+          this.validating = false;
         });
     },
     inviteUser() {

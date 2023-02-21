@@ -8,13 +8,14 @@
     >
       <b-form ref="createForm" @submit.prevent="addUser">
         <b-overlay :show="isLoading" blur no-wrap></b-overlay>
+        <!-- user name -->
         <b-form-group
           :label="$gettext('Name')"
           label-align="right"
           label-cols="4"
           label-size="sm"
           :state="valid.username"
-          invalid-feedback="Username not unique"
+          invalid-feedback="Username not unique or less than 3 characters"
         >
           <b-form-input
             v-model="form.username"
@@ -24,8 +25,7 @@
             debounce="500"
             size="sm"
             :state="valid.username"
-            min="3"
-            @update="checkUserName"
+            @update="validateName"
           ></b-form-input>
         </b-form-group>
         <b-form-group
@@ -36,6 +36,7 @@
         >
           <password size="sm" v-model="form.userpassword"></password>
         </b-form-group>
+        <!-- confirm pwd -->
         <b-form-group
           :label="$gettext('Confirm Password')"
           label-align="right"
@@ -68,7 +69,7 @@
           :label="$gettext('Answer')"
         >
           <b-form-input
-            v-model.trim="form.useranswer"
+            v-model="form.useranswer"
             required
             type="text"
             size="sm"
@@ -85,7 +86,7 @@
           <template #label>
             <captcha width="90" v-model="answer"></captcha>
           </template>
-          <!-- <b-col> -->
+          <!-- user answer -->
           <b-form-input
             size="md"
             class="mt-1"
@@ -97,6 +98,7 @@
           >
           </b-form-input>
         </b-form-group>
+        <!-- create user  -->
         <slot name="modal-footer">
           <b-button
             :disabled="!pwdMatch"
@@ -143,6 +145,11 @@ export default {
       },
     };
   },
+  watch: {
+    'form.username'(v) {
+      this.validateName();
+    },
+  },
   props: {
     onSuccess: {
       type: Function,
@@ -166,6 +173,22 @@ export default {
     },
   },
   methods: {
+    validateName() {
+      // remove spaces in username
+      this.form.username = this.form.username.split(' ').join('');
+      if (this.form.username === '') {
+        this.valid.username = null;
+        return;
+      }
+      // username should be atleast three characters
+      if (this.form.username.length < 3) {
+        this.valid.username = false;
+        return;
+      } else {
+        this.valid.username = true;
+        this.checkUserName();
+      }
+    },
     resetForm() {
       this.form = {
         username: '',
@@ -176,17 +199,15 @@ export default {
     },
     checkUserName(query) {
       const self = this;
-      axios
-        .get(`/gkuser/check/${query}?check_legacy=true`)
-        .then((resp) => {
-          if (query === self.form.username) {
-            if (resp.data.gkstatus === STATUS_CODES['Success']) {
-              self.valid.username = resp.data.gkresult;
-            } else {
-              self.valid.username = false;
-            }
+      axios.get(`/gkuser/check/${query}?check_legacy=true`).then((resp) => {
+        if (query === self.form.username) {
+          if (resp.data.gkstatus === STATUS_CODES['Success']) {
+            self.valid.username = resp.data.gkresult;
+          } else {
+            self.valid.username = false;
           }
-        });
+        }
+      });
     },
     /* Create User */
     addUser() {
