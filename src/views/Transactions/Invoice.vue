@@ -1,11 +1,3 @@
-<!-- ToDo
-    Add free qty field
-    Make the table fixed height
-    Print screen
-    Display transaction in print screen
-    Add discount percent
-    Add check conditions for the dates used in the form
- -->
 <template>
   <b-container
     style="min-width: 300px"
@@ -75,7 +67,6 @@
         ></invoice-details>
         <!-- Shipping Details -->
         <ship-details
-          :states="options.states"
           :gstFlag="isGst"
           :saleFlag="isSale"
           :billingDetails="form.party"
@@ -864,11 +855,8 @@ export default {
         if (resp1.data.gkstatus === 0) {
           self.options.states = resp1.data.gkresult.map((item) => {
             return {
-              text: Object.values(item)[0],
-              value: {
-                id: Object.keys(item)[0],
-                name: Object.values(item)[0],
-              },
+              id: Object.keys(item)[0],
+              name: Object.values(item)[0],
             };
           });
         } else {
@@ -878,19 +866,22 @@ export default {
         if (resp6.data.gkstatus === 0) {
           let orgState = resp6.data.gkdata.orgstate;
           let state = self.options.states.find(
-            (state) => state.text === orgState
+            (state) => state.name === orgState
           );
-          let stateCode = state ? state.value.id : null;
+          let stateCode = state ? state.id : null;
           let gstin = resp6.data.gkdata.gstin;
           self.options.orgDetails = {
             name: resp6.data.gkdata.orgname,
             addr: resp6.data.gkdata.orgaddr,
-            state: state ? state.value : null,
+            state: state ? state : null,
             gstin: stateCode && gstin ? gstin[stateCode] : '',
             tin: '',
             pin: resp6.data.gkdata.orgpincode,
             bankDetails: resp6.data.gkdata.bankdetails,
           };
+          if(!self.options.orgDetails.gstin && stateCode < 10) {
+            self.options.orgDetails.gstin = gstin[`0${stateCode}`];
+          }
           setTimeout(() => {
             self.setOrgDetails();
           }, 1);
