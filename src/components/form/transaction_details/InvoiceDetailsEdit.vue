@@ -124,23 +124,6 @@
             :reduce="(state) => state.name"
           ></v-select>
         </b-form-group>
-        <!-- <b-form-group
-          v-if="config.delNote"
-          label="Del. Note"
-          label-for="ivd-input-20"
-          label-cols="3"
-          label-cols-md="4"
-          label-size="sm"
-        >
-          <autocomplete
-            size="sm"
-            id="ivd-input-20"
-            v-model="form.delNote"
-            :options="delNoteOptions"
-            @input="onUpdateDetails"
-            :required="false"
-          ></autocomplete>
-        </b-form-group> -->
         <b-form-group
           :label="saleFlag ? 'From Godown' : 'To Godown'"
           label-for="ivd-input-21"
@@ -153,16 +136,6 @@
             <span v-translate v-if="saleFlag"> From Godown </span>
             <span v-translate v-else> To Godown </span>
           </template>
-          <!-- <autocomplete
-            size="sm"
-            id="ivd-input-21"
-            valueUid="id"
-            v-model="form.godown"
-            :options="options.godowns"
-            @input="onUpdateDetails"
-            :required="true"
-            :readonly="disabled.godown"
-          ></autocomplete> -->
           <v-select
             id="ivd-input-21"
             v-model="form.godown"

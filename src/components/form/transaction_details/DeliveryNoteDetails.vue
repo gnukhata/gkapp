@@ -90,15 +90,15 @@
             <span v-if="saleFlag" v-translate> Origin State </span>
             <span v-else v-translate> Destination State </span>
           </template>
-          <autocomplete
-            size="sm"
+          <v-select
             id="dnd-input-30"
-            valueUid="id"
             v-model="form.state"
             :options="options.states"
             @input="onSelectState(form.state)"
             required
-          ></autocomplete>
+            label="name"
+          >
+          </v-select>
         </b-form-group>
         <b-form-group
           :label="saleFlag ? 'From Godown' : 'To Godown'"
@@ -111,15 +111,16 @@
             <span v-if="saleFlag" v-translate> From Godown </span>
             <span v-else v-translate> To Godown </span>
           </template>
-          <autocomplete
-            size="sm"
+          <v-select
             id="dnd-input-40"
-            valueUid="id"
             v-model="form.godown"
             :options="options.godowns"
             @input="onUpdateDetails"
             required
-          ></autocomplete>
+            label="text"
+            :reduce="(gdata) => gdata.value"
+          >
+          </v-select>
         </b-form-group>
         <b-form-group
           label="Place of Supply"
@@ -130,15 +131,15 @@
           label-class="required"
         >
           <template #label> <translate> Place of Supply </translate> </template>
-          <autocomplete
-            size="sm"
+          <v-select
             id="dnd-input-41"
             v-model="form.taxState"
             :options="options.states"
             :required="true"
-            valueUid="id"
             @input="onUpdateDetails"
-          ></autocomplete>
+            label="name"
+          >
+          </v-select>
         </b-form-group>
         <b-form-group
           label="GSTIN"
@@ -196,7 +197,6 @@
 <script>
 import axios from 'axios';
 // import { mapState } from 'vuex';
-import Autocomplete from '../../Autocomplete.vue';
 import GkDate from '../../GkDate.vue';
 
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
@@ -204,7 +204,6 @@ import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'DeliveryNoteDetails',
   components: {
-    Autocomplete,
     GkDate,
   },
   mixins: [trnDetailsMixin],
@@ -262,13 +261,13 @@ export default {
       form: {
         no: null,
         date: new Date().toISOString().slice(0, 10),
-        state: {},
+        state: { name: '' },
         godown: null,
         type: null,
         gstin: null,
         issuer: null,
         role: null,
-        taxState: {},
+        taxState: { name: '' },
         options: {
           gstin: {},
         },
@@ -368,19 +367,19 @@ export default {
           let orgstate = (this.options.orgDetails.orgstate || '').toLowerCase();
           let state = orgstate
             ? this.options.states.find(
-                (state) => state.text.toLowerCase() === orgstate
+                (state) => state.name.toLowerCase() === orgstate
               )
             : null;
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             addr: this.options.orgDetails.orgaddr,
             pin: this.options.orgDetails.orgpincode,
-            state: state ? state.value : {},
+            state: state ? state : { name: '' },
             options: {
               gstin: gstin || {},
             },
-            gstin: gstin && state ? gstin[state.value.id] : '',
-            taxState: {},
+            gstin: gstin && state ? gstin[state.id] : '',
+            taxState: { name: '' },
           });
         }
       }
@@ -496,11 +495,8 @@ export default {
           if (resp3.data.gkstatus === 0) {
             self.options.states = resp3.data.gkresult.map((item) => {
               return {
-                text: Object.values(item)[0],
-                value: {
-                  id: Object.keys(item)[0],
-                  name: Object.values(item)[0],
-                },
+                id: Object.keys(item)[0],
+                name: Object.values(item)[0],
               };
             });
           }
@@ -516,7 +512,7 @@ export default {
       this.form.date = this.getNoteDate();
       this.form.type = 1;
       let setNoPromise = this.setDelChalNo(true);
-      if(raiseUpdateEvent) {
+      if (raiseUpdateEvent) {
         this.onUpdateDetails();
       }
       return setNoPromise;

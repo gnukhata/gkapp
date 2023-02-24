@@ -38,14 +38,15 @@
               label-class="label-on-input"
             >
               <template #label> <translate> Group </translate> </template>
-              <autocomplete
+              <v-select
                 id="search-by-group"
                 v-model="searchBy.group"
                 :options="options.groups"
-                placeholder=""
-                emptyValue=""
+                label="text"
+                :reduce="(gdata) => gdata.value"
                 @input="openSearchedCard(!!searchBy.group, null, null)"
-              ></autocomplete>
+              >
+              </v-select>
             </b-form-group>
           </b-col>
           <b-col class="px-1" cols="12" md="4">
@@ -55,14 +56,16 @@
               label-class="label-on-input"
             >
               <template #label> <translate> Sub Group </translate> </template>
-              <autocomplete
+              <v-select
                 id="search-by-sub-group"
                 v-model="searchBy.subGroup"
                 :options="subGroups"
-                placeholder=""
                 @input="openSearchedCard(null, !!searchBy.subGroup, null)"
-                emptyValue=""
-              ></autocomplete>
+                label="text"
+                :reduce="(sgdata) => sgdata.value"
+                :resetOnOptionsChange="true"
+              >
+              </v-select>
             </b-form-group>
           </b-col>
           <b-col class="px-1" cols="12" md="4">
@@ -72,14 +75,16 @@
               label-class="label-on-input"
             >
               <template #label> <translate> Account </translate> </template>
-              <autocomplete
+              <v-select
                 id="search-by-account"
                 v-model="searchBy.account"
                 :options="accounts"
-                placeholder=""
                 @input="openSearchedCard(null, null, !!searchBy.account)"
-                emptyValue=""
-              ></autocomplete>
+                label="text"
+                :reduce="(accdata) => accdata.value"
+                :resetOnOptionsChange="true"
+              >
+              </v-select>
             </b-form-group>
           </b-col>
         </b-row>
@@ -246,13 +251,12 @@
 
 <script>
 import axios from 'axios';
-import Autocomplete from '../components/Autocomplete.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
 import GkToolbar from '../components/GkToolbar.vue';
 import { mapState } from 'vuex';
 export default {
   name: 'Accounts',
-  components: { Autocomplete, GkFileDownload, GkToolbar },
+  components: { GkFileDownload, GkToolbar },
   props: {
     acc: {
       type: [Number, String],

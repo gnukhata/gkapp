@@ -25,17 +25,20 @@
             <translate> Purchase Rejection </translate>
           </b-form-radio>
         </b-form-radio-group>
-        <span id="edit-invoice-list" class="d-inline-block">
-          <autocomplete
-            size="sm"
+        <span id="edit-invoice-list" class="d-inline-block mt-2 mt-sm-0">
+          <v-select
             id="input-8-2"
             v-model="invIndex"
             :options="invList"
             required
             @input="updateFormData"
-            placeholder="Invoice"
+            placeholder="Choose an Invoice"
+            label="text"
+            :reduce="(invdata) => invdata.value"
+            style="min-width: 200px"
+            :resetOnOptionsChange="true"
           >
-          </autocomplete>
+          </v-select>
         </span>
         <div class="clearfix"></div>
       </div>
@@ -167,8 +170,12 @@
               class="align-middle mr-1"
               icon="x-circle"
             ></b-icon>
-            <span v-if="isSale" class="align-middle" v-translate>Reject Sale</span>
-            <span v-else class="align-middle" v-translate> Reject Purchase</span>
+            <span v-if="isSale" class="align-middle" v-translate
+              >Reject Sale</span
+            >
+            <span v-else class="align-middle" v-translate>
+              Reject Purchase</span
+            >
           </span>
         </b-button>
       </div>
@@ -201,7 +208,6 @@ import InvoiceDetails from '../../components/form/transaction_details/InvoiceDet
 
 import rejectionNoteConfig from '../../js/config/transaction/rejectionNote.js';
 import PrintPage from '../../components/workflow/PrintPage.vue';
-import Autocomplete from '../../components/Autocomplete.vue';
 
 import { reverseDate } from '../../js/utils';
 
@@ -219,7 +225,6 @@ export default {
     InvoiceDetails,
     PrintPage,
 
-    Autocomplete,
   },
   data() {
     return {
@@ -602,7 +607,7 @@ export default {
               item = data.invcontents[itemCode];
               itemName = data.invcontents[itemCode].proddesc;
               billItem = {
-                product: {name: itemName, id: itemCode},
+                product: { name: itemName, id: itemCode },
                 discount: { amount: parseFloat(item.discount) },
                 qty: parseFloat(qty),
                 fqty: item.freeqty,

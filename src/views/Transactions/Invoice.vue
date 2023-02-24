@@ -1767,7 +1767,7 @@ export default {
             addr: this.options.orgDetails.addr,
             pin: this.options.orgDetails.pin,
             state: this.options.orgDetails.state
-              ? this.options.orgDetails.state.value
+              ? this.options.orgDetails.state
               : null,
           });
         }

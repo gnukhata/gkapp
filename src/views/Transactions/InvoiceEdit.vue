@@ -836,10 +836,10 @@ export default {
               ebn: data.ewaybillno || null,
               addr: data.address,
               pin: data.pincode,
-              state: invState ? invState.value : {},
+              state: invState ? invState : {},
               issuer: data.issuername,
               role: data.designation,
-              taxState: taxState ? taxState.value : {},
+              taxState: taxState ? taxState : {},
             };
 
             if (self.form.type === 'purchase') {
@@ -1603,7 +1603,7 @@ export default {
             addr: this.options.orgDetails.addr,
             pin: this.options.orgDetails.pin,
             state: this.options.orgDetails.state
-              ? this.options.orgDetails.state.value
+              ? this.options.orgDetails.state
               : null,
           });
         }

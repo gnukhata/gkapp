@@ -144,19 +144,6 @@
 
                   <!-- Account -->
                   <b-td>
-                    <!-- <autocomplete
-                      size="sm"
-                      v-model="form.dr[indexDr].account"
-                      :options="options['dr']"
-                      text-field="accountname"
-                      value-field="accountcode"
-                      disabled-field="disabled"
-                      required
-                      @input="onAccountSelect(data.account, 'dr', indexDr)"
-                      :isOptionsShared="true"
-                      class="text-left"
-                      dropDownWidth="200px"
-                    ></autocomplete> -->
                     <v-select
                       v-model="form.dr[indexDr].account"
                       :options="options['dr']"
@@ -165,6 +152,7 @@
                       required
                       @input="onAccountSelect(data.account, 'dr', indexDr)"
                       class="text-left"
+                      :resetOnOptionsChange="true"
                     >
                     </v-select>
                   </b-td>
@@ -222,19 +210,6 @@
 
                   <!-- Account -->
                   <b-td>
-                    <!-- <autocomplete
-                      class="text-left"
-                      size="sm"
-                      v-model="data.account"
-                      :options="options['cr']"
-                      text-field="accountname"
-                      value-field="accountcode"
-                      disabled-field="disabled"
-                      :isOptionsShared="true"
-                      required
-                      @input="onAccountSelect(data.account, 'cr', indexCr)"
-                      dropDownWidth="200px"
-                    ></autocomplete> -->
                     <v-select
                       class="text-left"
                       v-model="data.account"
@@ -243,6 +218,7 @@
                       :reduce="(acc) => acc.accountcode"
                       required
                       @input="onAccountSelect(data.account, 'cr', indexCr)"
+                      :resetOnOptionsChange="true"
                     >
                     </v-select>
                   </b-td>
@@ -387,7 +363,6 @@
 <script>
 import axios from 'axios';
 import { numberToRupees } from '../../js/utils';
-// import Autocomplete from '../Autocomplete.vue';
 import GkDate from '../GkDate.vue';
 import voucherMixin from '@/mixins/voucher.js';
 

@@ -65,14 +65,14 @@
                   <template #label>
                     <translate> Unit of Measure </translate>
                   </template>
-                  <autocomplete
-                    size="sm"
+                  <v-select
                     id="bi-input-2"
                     v-model="uom"
                     :options="options.uom"
-                    valueUid="id"
+                    label="name"
                     required
-                  ></autocomplete>
+                  >
+                  </v-select>
                 </b-form-group>
                 <b-form-group
                   label-size="sm"
@@ -133,16 +133,15 @@
                         :id="'vat-inp-' + index"
                       >
                         <b-input-group-prepend>
-                          <autocomplete
+                          <b-form-select
                             size="sm"
                             style="max-width: 150px"
                             v-model="form.stock.godowns[index].id"
                             :options="options.godowns"
                             :required="!!form.stock.godowns[index].qty"
-                            :isOptionsShared="true"
-                            emptyValue=""
                             :readonly="!index"
-                          ></autocomplete>
+                          >
+                          </b-form-select>
                         </b-input-group-prepend>
                         <b-form-input
                           size="sm"
@@ -372,16 +371,14 @@
                           :id="'vat-inp-' + index"
                           size="sm"
                         >
-                          <b-input-group-prepend>
-                            <autocomplete
-                              size="sm"
+                          <b-input-group-prepend>                            
+                            <b-form-select size="sm"
                               style="max-width: 150px"
                               v-model="vat.state"
                               :options="options.states"
-                              :required="!!vat.rate"
-                              :isOptionsShared="true"
-                              emptyValue=""
-                            ></autocomplete>
+                              :required="!!vat.rate">
+
+                            </b-form-select>
                           </b-input-group-prepend>
                           <b-form-input
                             size="sm"
@@ -558,13 +555,12 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Godown from './Godown';
-import Autocomplete from '../Autocomplete';
 import GkDate from '../GkDate.vue';
 import GkHsn from '../GkHsn.vue';
 
 export default {
   name: 'BusinessItem',
-  components: { Godown, Autocomplete, GkDate, GkHsn },
+  components: { Godown, GkDate, GkHsn },
   props: {
     mode: {
       type: String,
@@ -633,7 +629,7 @@ export default {
         },
         hsn: null,
       },
-      uom: {},
+      uom: {name: ''},
     };
   },
   computed: {
@@ -655,7 +651,7 @@ export default {
     uom(newValue) {
       if (newValue) {
         this.form.uom = newValue.id;
-        this.form.uomCode = newValue.name;
+        this.form.uomCode = newValue.code;
       }
     },
   },
@@ -1132,13 +1128,12 @@ export default {
           if (resp1.data.gkstatus === 0) {
             self.options.uom = resp1.data.gkresult.map((uom) => {
               return {
-                text: `${uom.unitname} (${uom.description})`,
-                value: { id: uom.uomid, name: uom.unitname },
+                id: uom.uomid,
+                name: `${uom.unitname} (${uom.description})`,
+                code: uom.unitname,
               };
             });
-            self.uom = self.options.uom.filter(
-              (uom) => uom.value.name === 'UNT'
-            )[0].value;
+            self.uom = self.options.uom.filter((uom) => uom.code === 'UNT')[0];
             // console.log(resp1.data.gkresult)
           } else {
             preloadErrorList += ' Unit of Measurement List, ';

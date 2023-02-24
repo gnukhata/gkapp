@@ -79,15 +79,16 @@
           <template #label>
             <translate> Dispatch From </translate>
           </template>
-          <autocomplete
-            size="sm"
+          <v-select
             id="tnd-input-20"
-            valueUid="id"
             v-model="form.godownFrom"
             :options="options.godowns"
             @input="onUpdateDetails"
             required
-          ></autocomplete>
+            label="text"
+            :reduce="(gdata) => gdata.value"
+          >
+          </v-select>
         </b-form-group>
         <b-form-group
           label="Dispatch To"
@@ -100,15 +101,16 @@
           <template #label>
             <translate> Dispatch To </translate>
           </template>
-          <autocomplete
-            size="sm"
+          <v-select
             id="tnd-input-30"
-            valueUid="id"
             v-model="form.godownTo"
             :options="options.godowns"
             @input="onUpdateDetails"
             required
-          ></autocomplete>
+            label="text"
+            :reduce="(gdata) => gdata.value"
+          >
+          </v-select>
         </b-form-group>
         <b-form-group
           label="Issuer"
@@ -156,13 +158,11 @@
 </template>
 <script>
 import axios from 'axios';
-import Autocomplete from '../../Autocomplete.vue';
 import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'TransferNoteDetails',
   components: {
-    Autocomplete,
     GkDate,
   },
   mixins: [trnDetailsMixin],
@@ -392,7 +392,7 @@ export default {
           return error;
         }),
         this.fetchUserData(),
-        // this.fetchLastDelChalNo(), 
+        // this.fetchLastDelChalNo(),
       ];
       const self = this;
       return Promise.all(requests)

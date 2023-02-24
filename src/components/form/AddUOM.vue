@@ -93,9 +93,7 @@
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios';
-// import Autocomplete from '../Autocomplete.vue';
 export default {
-  // components: { Autocomplete },
   name: 'AddUOM',
   data() {
     return {

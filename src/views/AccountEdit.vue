@@ -21,18 +21,6 @@
               label-class="required"
             >
               <template #label> <translate> Group </translate> </template>
-              <!-- <autocomplete
-                size="sm"
-                id="acc-input-10"
-                v-model="form.group"
-                :options="options.groups"
-                textField="groupname"
-                valueField="groupcode"
-                @input="fetchSubGroups"
-                required
-                valueUid="id"
-                :readonly="disableFields.group"
-              ></autocomplete> -->
               <v-select
                 id="acc-input-10"
                 v-model="form.group"
@@ -51,22 +39,6 @@
               label-size="sm"
             >
               <template #label> <translate> Sub-Group </translate> </template>
-              <!-- <autocomplete
-                size="sm"
-                id="acc-input-20"
-                v-model="form.subGroup"
-                :options="subGroups"
-                textField="subgroupname"
-                valueField="groupcode"
-                @input="onSubGroupSelect"
-                :required="false"
-                valueUid="id"
-                :readonly="
-                  !subGroups.length ||
-                    flags.newSubGroup ||
-                    disableFields.subGroup
-                "
-              ></autocomplete> -->
               <v-select
                 id="acc-input-20"
                 v-model="form.subGroup"

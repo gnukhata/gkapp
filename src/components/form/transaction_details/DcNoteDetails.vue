@@ -183,14 +183,12 @@
 <script>
 import axios from 'axios';
 // import { mapState } from 'vuex';
-// import Autocomplete from '../../Autocomplete.vue';
 import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 import { DR_CR_MODE } from '@/js/enum.js';
 export default {
   name: 'DcNoteDetails',
   components: {
-    // Autocomplete,
     GkDate,
   },
   mixins: [trnDetailsMixin],

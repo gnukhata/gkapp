@@ -71,15 +71,15 @@
           label-cols="3"
         >
           <template #label> <translate> State </translate> </template>
-          <autocomplete
+          <v-select
             size="sm"
             id="cmd-input-20"
-            valueUid="id"
             v-model="form.state"
             :options="options.states"
+            label="name"
             @input="onSelectState(form.state)"
             required
-          ></autocomplete>
+          ></v-select>
         </b-form-group>
         <b-form-group
           label="GSTIN"
@@ -96,24 +96,6 @@
             readonly
           ></b-form-input>
         </b-form-group>
-        <!-- <b-form-group
-          label="Place of Supply"
-          label-for="ivd-input-11"
-          label-cols="3"
-          label-cols-md="4"
-          label-size="sm"
-        >
-          <template #label> <translate> Place of Supply </translate> </template>
-          <autocomplete
-            size="sm"
-            id="ivd-input-11"
-            v-model="form.taxState"
-            :options="options.states"
-            :required="true"
-            valueUid="id"
-            @input="onUpdateDetails"
-          ></autocomplete>
-        </b-form-group> -->
         <b-form-group
           :label="saleFlag ? 'From Godown' : 'To Godown'"
           label-for="ivd-input-21"
@@ -126,15 +108,13 @@
             <span v-translate v-if="saleFlag"> From Godown </span>
             <span v-translate v-else> To Godown </span>
           </template>
-          <autocomplete
-            size="sm"
-            id="ivd-input-21"
-            valueUid="id"
+          <v-select id="ivd-input-21"
             v-model="form.godown"
             :options="options.godowns"
             @input="onUpdateDetails"
-            :required="true"
-          ></autocomplete>
+            label="text"
+            :reduce="(gdata) => gdata.value"
+            :required="true"></v-select>
         </b-form-group>
       </div>
     </div>
@@ -145,13 +125,12 @@
 import axios from 'axios';
 // import { mapState } from 'vuex';
 
-import Autocomplete from '../../Autocomplete.vue';
 import GkDate from '../../GkDate.vue';
 
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'CashMemoDetails',
-  components: { Autocomplete, GkDate },
+  components: { GkDate },
   mixins: [trnDetailsMixin],
   props: {
     config: {
@@ -192,7 +171,7 @@ export default {
         no: null,
         delNoteNo: '',
         date: new Date().toISOString().slice(0, 10),
-        state: {},
+        state: {name: ''},
         gstin: null,
         godown: null,
         taxState: {},
@@ -290,17 +269,17 @@ export default {
           let orgstate = (this.options.orgDetails.orgstate || '').toLowerCase();
           let state = orgstate
             ? this.options.states.find(
-                (state) => state.text.toLowerCase() === orgstate
+                (state) => state.name.toLowerCase() === orgstate
               )
             : null;
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
-            state: state ? state.value : null,
-            taxState: state ? state.value : null,
+            state: state || {name: ''},
+            taxState: state || null,
             options: {
               gstin: gstin || {},
             },
-            gstin: gstin && state ? gstin[state.value.id] : '',
+            gstin: gstin && state ? gstin[state.id] : '',
           });
         }
       }
@@ -340,11 +319,8 @@ export default {
           if (resp1.data.gkstatus === 0) {
             self.options.states = resp1.data.gkresult.map((item) => {
               return {
-                text: Object.values(item)[0],
-                value: {
-                  id: Object.keys(item)[0],
-                  name: Object.values(item)[0],
-                },
+                id: Object.keys(item)[0],
+                name: Object.values(item)[0],
               };
             });
           }

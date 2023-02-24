@@ -249,15 +249,15 @@
                 <span v-if="saleFlag" v-translate> Dispatch From </span>
                 <span v-else v-translate> Dispatch To </span>
               </template>
-              <autocomplete
-                size="sm"
+              <v-select
                 id="pod-input-100"
-                valueUid="id"
                 v-model="form.godown"
                 :options="options.godowns"
                 @input="onUpdateDetails"
                 required
-              ></autocomplete>
+                label="text"
+                :reduce="(gdata) => gdata.value"
+              ></v-select>
             </b-form-group>
           </b-col>
         </b-row>
@@ -269,7 +269,6 @@
 import axios from 'axios';
 // import { mapState } from 'vuex';
 
-import Autocomplete from '../../Autocomplete.vue';
 import GkDate from '../../GkDate.vue';
 
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
@@ -277,7 +276,6 @@ import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'PsOrderDetails',
   components: {
-    Autocomplete,
     GkDate,
   },
   mixins: [trnDetailsMixin],

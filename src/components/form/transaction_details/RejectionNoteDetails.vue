@@ -66,28 +66,6 @@
           ></gk-date>
         </b-form-group>
         <b-form-group
-          :label="saleFlag ? 'Dispatch From' : 'Received At'"
-          label-for="rnd-input-20"
-          label-size="sm"
-          label-cols-md="4"
-          label-cols="3"
-        >
-          <template #label>
-            <span v-translate v-if="saleFlag">Dispatch From</span>
-            <span v-translate v-else>Received At</span>
-          </template>
-          <autocomplete
-            size="sm"
-            id="rnd-input-20"
-            valueUid="id"
-            v-model="form.godown"
-            :options="options.godowns"
-            @input="onUpdateDetails"
-            :readonly="true"
-            required
-          ></autocomplete>
-        </b-form-group>
-        <b-form-group
           label="Transaction Type"
           label-for="rnd-input-30"
           label-cols-md="4"
@@ -154,13 +132,12 @@
 import axios from 'axios';
 // import { mapState } from 'vuex';
 
-import Autocomplete from '../../Autocomplete.vue';
 // import GkDate from '../../GkDate.vue';
 import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 export default {
   name: 'RejectionNoteDetails',
-  components: { Autocomplete, GkDate },
+  components: { GkDate },
   mixins: [trnDetailsMixin],
   props: {
     invDate: {

@@ -45,18 +45,18 @@
               label-class="required"
             >
               <template #label> <translate> State </translate> </template>
-              <autocomplete
+              <v-select
                 id="go-input-2"
                 v-model="form.state"
                 :options="options.states"
                 required
-              ></autocomplete>
+                label="name"
+              >
+              </v-select>
             </b-form-group>
             <b-form-group
               label-size="sm"
               label="Address"
-              label-for="go-input-3"
-              label-cols="3"
               label-class="required"
             >
               <template #label> <translate> Address </translate> </template>
@@ -156,12 +156,8 @@
 
 <script>
 import axios from 'axios';
-import Autocomplete from '../Autocomplete.vue';
 export default {
   name: 'Godown',
-  components: {
-    Autocomplete,
-  },
   data() {
     return {
       form: {
@@ -345,13 +341,9 @@ export default {
               if (code.length < 2) {
                 code = '0' + code;
               }
-
               return {
-                text: name,
-                value: {
-                  name: name,
-                  code: code,
-                },
+                name: name,
+                code: code,
               };
             });
           } else {

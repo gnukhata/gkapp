@@ -290,31 +290,30 @@
                   <div class="container">
                     <b-row>
                       <b-col class="px-1">
-                        <autocomplete
+                        <b-form-select
                           v-model="listSettings.columns[0]"
+                          text-field="label"
                           :options="activeTabOptions.options.columns"
                           placeholder="Column 1"
-                          textField="label"
-                        >
-                        </autocomplete>
+                        ></b-form-select>
                       </b-col>
                       <b-col class="px-0">
-                        <autocomplete
+                        <b-form-select
                           v-model="listSettings.columns[1]"
+                          text-field="label"
                           :options="activeTabOptions.options.columns"
                           placeholder="Column 2"
-                          textField="label"
                         >
-                        </autocomplete>
+                        </b-form-select>
                       </b-col>
                       <b-col class="px-1">
-                        <autocomplete
+                        <b-form-select
                           v-model="listSettings.columns[2]"
+                          text-field="label"
                           :options="activeTabOptions.options.columns"
                           placeholder="Column 3"
-                          textField="label"
                         >
-                        </autocomplete>
+                        </b-form-select>
                       </b-col>
                     </b-row>
                   </div>
@@ -664,7 +663,6 @@ import TransactionProfile from '@/components/workflow/profile/Transaction.vue';
 import ReportHeader from '@/components/ReportHeader.vue';
 import PrintHelper from '@/components/PrintHelper.vue';
 
-import Autocomplete from '../components/Autocomplete.vue';
 import GkFileDownload from '@/components/GkFileDownload.vue';
 
 export default {
@@ -675,7 +673,6 @@ export default {
     TransactionProfile,
     ReportHeader,
     PrintHelper,
-    Autocomplete,
     GkFileDownload,
   },
   props: {

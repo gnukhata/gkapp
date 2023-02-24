@@ -77,15 +77,6 @@
               label-cols="3"
             >
               <template #label> <translate> State </translate> </template>
-              <!-- <autocomplete
-                id="ci-input-20"
-                v-model="state"
-                :options="options.states"
-                placeholder="Select a State"
-                valueUid="code"
-                :required="false"
-              >
-              </autocomplete> -->
               <v-select
                 id="ci-input-20"
                 :options="options.states"
@@ -357,7 +348,6 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-// import Autocomplete from '../Autocomplete';
 import GkGstin from '../GkGstin';
 import GkIfsc from '../GkIfsc.vue';
 import { GST_REG_TYPE, GST_PARTY_TYPE } from '../../js/enum.js';

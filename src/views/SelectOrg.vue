@@ -30,14 +30,6 @@
           label-cols="4"
         >
           <b-overlay :show="isDisabled">
-            <!-- <autocomplete
-              @input="getOrgYears"
-              :options="orgList"
-              textField="label"
-              valueField="value"
-              v-model="orgIndex"
-              placeholder="Search Org Name"
-            ></autocomplete> -->
             <v-select
               @input="getOrgYears"
               :reduce="(option) => option.value"
@@ -101,7 +93,6 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import GkCardheader from '../components/GkCardheader.vue';
-// import Autocomplete from '../components/Autocomplete.vue';
 export default {
   components: { GkCardheader },
   name: 'SelectOrg',

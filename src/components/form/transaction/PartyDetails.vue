@@ -83,19 +83,6 @@
           :label-class="{ required: !(editFlag || isNameDisabled) }"
         >
           <template #label> <translate> Name </translate> </template>
-          <!-- <autocomplete
-            size="sm"
-            id="ptd-input-10"
-            v-model="form.name"
-            :options="
-              form.type === 'customer' ? options.customers : options.suppliers
-            "
-            @input="onPartyNameSelect(form.name)"
-            required
-            valueUid="id"
-            :readonly="editFlag || isNameDisabled"
-          >
-          </autocomplete> -->
           <v-select
             v-if="isCustomer"
             id="ptd-input-10"
@@ -305,13 +292,11 @@
 
 <script>
 import axios from 'axios';
-// import Autocomplete from '../../Autocomplete.vue';
 import GkGstin from '../../GkGstin.vue';
 import ContactItem from '../ContactItem.vue';
 export default {
   name: 'PartyDetails',
   components: {
-    // Autocomplete,
     ContactItem,
     GkGstin,
   },
@@ -364,7 +349,7 @@ export default {
           },
           type: 'customer', // supplier
           custid: null,
-          name: {},
+          name: {name: ''},
           addr: null,
           state: {},
           gstin: null,
@@ -386,7 +371,7 @@ export default {
         },
         type: 'customer', // supplier
         custid: null,
-        name: {},
+        name: {name: ''},
         addr: null,
         state: {},
         gstin: null,
@@ -479,7 +464,7 @@ export default {
     },
     resetPartyDetails() {
       Object.assign(this.form, {
-        name: '',
+        name: {name: ''},
         addr: null,
         options: {
           states: [],
@@ -651,7 +636,7 @@ export default {
     },
     resetForm() {
       this.form = {
-        name: null,
+        name: {name: ''},
         address: null,
         state: '',
         contactNumber: null,

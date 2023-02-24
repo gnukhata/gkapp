@@ -159,7 +159,6 @@ import axios from 'axios';
 import voucherMixin from '@/mixins/voucher.js';
 import GkDate from '@/components/GkDate.vue';
 // import { mapState } from 'vuex';
-// import Autocomplete from '../Autocomplete';
 export default {
   name: 'EasyVoucher',
   mixins: [voucherMixin],
