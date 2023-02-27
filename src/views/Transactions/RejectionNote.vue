@@ -54,7 +54,6 @@
         ></rejection-note-details>
         <!-- Invoice Details -->
         <invoice-details
-          :editFlag="true"
           :config="config.inv"
           :saleFlag="isSale"
           :parentData="form.invoice"
@@ -86,6 +85,10 @@
         :onRowSelected="onRowSelected"
         ref="bill"
         :invDate="form.invoice.date"
+        :cgstFlag="isCgst"
+        :godownId="-1"
+        :saleFlag="isSale"
+        :blockEmptyStock="isSale"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
@@ -204,7 +207,7 @@ import BillTable from '../../components/form/transaction/BillTable.vue';
 import TotalTable from '../../components/form/transaction/TotalTable.vue';
 // import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
-import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
+import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetailsEdit.vue';
 
 import rejectionNoteConfig from '../../js/config/transaction/rejectionNote.js';
 import PrintPage from '../../components/workflow/PrintPage.vue';
@@ -224,7 +227,6 @@ export default {
     Comments,
     InvoiceDetails,
     PrintPage,
-
   },
   data() {
     return {
@@ -248,8 +250,10 @@ export default {
         rnote: {},
         invoice: {
           date: '',
+          state: { id: '' },
+          taxState: { id: '' },
         },
-        party: {},
+        party: { state: { id: '' } },
         taxType: 'gst', // vat
         bill: [],
         narration: null,
@@ -357,6 +361,27 @@ export default {
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isSale: (self) => self.form.type === 'sale',
+    isCgst: (self) => {
+      if (
+        self.form.invoice.state &&
+        (self.form.invoice.taxState || self.form.party.state)
+      ) {
+        if (self.form.invoice.taxState) {
+          if (
+            parseInt(self.form.invoice.state.id) ===
+            parseInt(self.form.invoice.taxState.id)
+          ) {
+            return true;
+          }
+        } else if (
+          parseInt(self.form.invoice.state.id) ===
+          parseInt(self.form.party.state.id)
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
     isGst: (self) => self.form.taxType === 'gst',
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
@@ -594,8 +619,12 @@ export default {
             self.form.taxType = data.taxflag === 7 ? 'gst' : 'vat';
             self.form.invoice.state =
               data.inoutflag === 9
-                ? { id: data.taxstatecode, name: data.destintationstate }
+                ? { id: data.taxstatecode, name: data.destinationstate }
                 : { id: data.sourcestatecode, name: data.sourcestate };
+            self.form.invoice.taxState =
+              data.inoutflag === 9
+                ? { id: data.sourcestatecode, name: data.sourcestate }
+                : { id: data.taxstatecode, name: data.destinationstate };
 
             let item, itemName, billItem;
             self.form.bill = [];
@@ -613,6 +642,11 @@ export default {
                 fqty: item.freeqty,
                 rate: parseFloat(item.priceperunit),
                 isService: item.gsflag === 19,
+                igst: { rate: 0 },
+                cgst: { rate: 0 },
+                sgst: { rate: 0 },
+                cess: { rate: 0 },
+                vat: { rate: 0 },
               };
               if (billItem.isService) {
                 billItem.qty = 1;
@@ -621,6 +655,7 @@ export default {
             }
 
             self.updateCounter.bill++;
+            self.updateCounter.invoice++;
           }
         })
         .catch(() => {

@@ -65,7 +65,7 @@
             :required="true"
           ></gk-date>
         </b-form-group>
-        <b-form-group
+        <!-- <b-form-group
           label="Transaction Type"
           label-for="rnd-input-30"
           label-cols-md="4"
@@ -83,7 +83,7 @@
             :disabled="true"
           >
           </b-form-select>
-        </b-form-group>
+        </b-form-group> -->
         <b-form-group
           label="Issuer"
           label-for="rnd-input-40"

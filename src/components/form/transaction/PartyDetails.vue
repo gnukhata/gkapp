@@ -91,7 +91,7 @@
             @input="onPartyNameSelect(form.name)"
             required
             label="name"
-            :readonly="editFlag || isNameDisabled"
+            :disabled="editFlag || isNameDisabled"
           ></v-select>
           <v-select
             v-else
@@ -101,7 +101,7 @@
             @input="onPartyNameSelect(form.name)"
             required
             label="name"
-            :readonly="editFlag || isNameDisabled"
+            :disabled="editFlag || isNameDisabled"
           ></v-select>
         </b-form-group>
         <b-form-group

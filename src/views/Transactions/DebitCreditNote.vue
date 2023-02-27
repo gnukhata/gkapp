@@ -223,7 +223,7 @@ import BillTable from '../../components/form/transaction/BillTable.vue';
 import TotalTable from '../../components/form/transaction/TotalTable.vue';
 // import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
-import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
+import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetailsEdit.vue';
 import DcNoteDetails from '../../components/form/transaction_details/DcNoteDetails.vue';
 
 import PrintPage from '../../components/workflow/PrintPage.vue';
@@ -510,8 +510,11 @@ export default {
       if (!isNaN(invoiceId) && !invoiceId) {
         this.form.bill = [{ product: { name: '' } }];
         this.form.party.name = '';
+        this.form.invoice = {};
+
         this.updateCounter.party++;
         this.updateCounter.bill++;
+        this.updateCounter.invoice++;
         return;
       }
       let self = this;
