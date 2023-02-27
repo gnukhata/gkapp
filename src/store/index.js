@@ -264,6 +264,9 @@ export default new Vuex.Store({
             result.gstin && typeof result.gstin === 'object'
               ? result.gstin[result.stateCode]
               : null;
+            if(!gstin && result.stateCode < 10) {
+              gstin = result.gstin[`0${result.stateCode}`];
+            }
           commit('setOrgGstin', gstin || null);
         }
       });

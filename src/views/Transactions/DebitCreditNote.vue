@@ -25,17 +25,20 @@
             <translate> Purchase </translate>
           </b-form-radio>
         </b-form-radio-group>
-        <span id="edit-invoice-list" class="d-inline-block">
-          <autocomplete
-            size="sm"
+        <span id="edit-invoice-list" class="d-inline-block mt-2 mt-sm-0">
+          <v-select
             id="input-8-2"
             v-model="invId"
             :options="invList"
             @input="updateInvoiceData(invId)"
             :required="true"
-            placeholder="Invoice"
+            placeholder="Choose an Invoice"
+            label="text"
+            :reduce="(invdata) => invdata.value"
+            style="min-width: 200px"
+            :resetOnOptionsChange="true"
           >
-          </autocomplete>
+          </v-select>
         </span>
       </div>
       <b-card-group class="d-block d-md-flex my-2" deck>
@@ -220,10 +223,9 @@ import BillTable from '../../components/form/transaction/BillTable.vue';
 import TotalTable from '../../components/form/transaction/TotalTable.vue';
 // import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
-import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
+import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetailsEdit.vue';
 import DcNoteDetails from '../../components/form/transaction_details/DcNoteDetails.vue';
 
-import Autocomplete from '../../components/Autocomplete.vue';
 import PrintPage from '../../components/workflow/PrintPage.vue';
 
 import dcNoteConfig from '../../js/config/transaction/debitCreditNote.js';
@@ -242,7 +244,6 @@ export default {
     Comments,
     InvoiceDetails,
     PrintPage,
-    Autocomplete,
   },
   data() {
     return {
@@ -509,8 +510,11 @@ export default {
       if (!isNaN(invoiceId) && !invoiceId) {
         this.form.bill = [{ product: { name: '' } }];
         this.form.party.name = '';
+        this.form.invoice = {};
+
         this.updateCounter.party++;
         this.updateCounter.bill++;
+        this.updateCounter.invoice++;
         return;
       }
       let self = this;
@@ -524,8 +528,8 @@ export default {
             Object.assign(self.form.invoice, {
               no: inv.invoiceno,
               date: reverseDate(inv.invoicedate),
-              supno:inv.supinvno || '',
-              supdate:inv.supinvdate || '',
+              supno: inv.supinvno || '',
+              supdate: inv.supinvdate || '',
               state:
                 inv.inoutflag === 9
                   ? {

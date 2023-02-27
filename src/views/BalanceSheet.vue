@@ -76,7 +76,7 @@
             class="text-small table-border-dark"
             tbody-tr-class="bs-row"
             responsive=""
-            sticky-header=""
+            :sticky-header="`${minTableHeight}px`"
             filter="a"
             :filter-function="filterLeftTable"
           >
@@ -172,7 +172,7 @@
             class="text-small table-border-dark"
             tbody-tr-class="bs-row"
             responsive=""
-            sticky-header=""
+            :sticky-header="`${minTableHeight}px`"
             filter="a"
             :filter-function="filterRightTable"
           >
@@ -316,6 +316,18 @@ export default {
     };
   },
   computed: {
+    minTableHeight: (self) => {
+      let height = 300;
+      let bsheet = self.bsheet;
+      if (bsheet.left.length && bsheet.right.length) {
+        height =
+          bsheet.left.length < bsheet.right.length
+            ? bsheet.left.length
+            : bsheet.right.length;
+        height *= 26;
+      }
+      return height;
+    },
     downloadUrl: (self) => {
       let orgChoice = (localStorage.getItem('orgChoice') || '').split(' (');
       let orgType = '';

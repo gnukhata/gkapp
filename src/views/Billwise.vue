@@ -24,19 +24,21 @@
                 <translate> Supplier </translate>
               </b-form-radio>
             </b-form-radio-group>
-            <b-form-group class="d-inline-block mb-2 ml-2">
-              <autocomplete
-                size="sm"
+            <b-form-group class="d-inline-block mb-2 ml-sm-2">
+              <v-select
                 v-model="custid"
-                textField="custname"
-                valueField="custid"
                 :options="currentPartyOptions"
                 @input="fetchUnadjustedItems()"
                 required
-              ></autocomplete>
+                label="custname"
+                :reduce="(cust) => cust.custid"
+                style="min-width: 200px"
+                :placeholder="isCustomer? 'Choose Customer': 'Choose Supplier'"
+              >
+              </v-select>
             </b-form-group>
           </b-col>
-          <b-col cols="12" sm="5">
+          <b-col cols="12" md="5">
             <b-form-group
               label="Vouchers"
               label-for="input-9"
@@ -44,12 +46,14 @@
               label-size="sm"
             >
               <template #label> <translate> Vouchers </translate> </template>
-              <autocomplete
-                size="sm"
+              <v-select
                 v-model="vcode"
                 :options="options.vouchers"
                 required
-              ></autocomplete>
+                placeholder="Choose a Voucher"
+                label="text"
+                :reduce="(vdata) => vdata.value"
+              ></v-select>
             </b-form-group>
           </b-col>
           <b-col cols="12" v-if="custid !== null">
@@ -207,13 +211,11 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Voucher from '../components/form/Voucher.vue';
-import Autocomplete from '../components/Autocomplete.vue';
 
 export default {
   name: 'Billwise',
   components: {
     Voucher,
-    Autocomplete,
   },
   props: {
     custType: {
@@ -288,6 +290,14 @@ export default {
     },
     custname: (self) => self.options.partyIdToName[self.custid] || null,
     ...mapState([]),
+  },
+  watch: {
+    custid(newCustId) {
+      if(newCustId === '' || newCustId === null || newCustId === undefined) {
+        this.options.invoices = [];
+        this.options.vouchers = [];
+      }
+    }
   },
   methods: {
     /**After creating a new voucher, refetch the List of vouchers and select the new Voucher  */
@@ -565,6 +575,7 @@ export default {
           (party) => party.custname === this.custName
         );
         this.custid = party ? party.custid : this.custid;
+        this.fetchUnadjustedItems();
       }
     });
   },

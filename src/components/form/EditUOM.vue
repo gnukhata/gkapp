@@ -59,11 +59,6 @@
             :label="$gettext('Sub Unit of')"
             description="optional"
           >
-            <!-- <autocomplete
-              v-model="form.subunitof"
-              :options="uomList"
-              :placeholder="$gettext('Select Unit')"
-            ></autocomplete> -->
             <v-select
               v-model="form.subunitof"
               :options="uomList"
@@ -108,9 +103,7 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-// import Autocomplete from '../Autocomplete.vue';
 export default {
-  // components: { Autocomplete },
   name: 'EditUOM',
   data() {
     return {

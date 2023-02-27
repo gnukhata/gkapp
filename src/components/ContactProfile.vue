@@ -234,7 +234,7 @@
         ><b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
         <translate>Save Changes</translate>
       </b-button>
-      <b-button to="/invoice/create/0" size="sm" class="ml-2" variant="dark"
+      <b-button to="/invoice" size="sm" class="ml-2" variant="dark"
         ><b-icon class="mr-1" icon="receipt"></b-icon>
         <translate>Add Transaction</translate>
       </b-button>

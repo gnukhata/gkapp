@@ -44,8 +44,7 @@
           label-size="sm"
         >
           <template #label> <translate> Budget List </translate> </template>
-          <autocomplete
-            size="sm"
+          <v-select
             id="input-10"
             v-model="budId"
             :options="budgetList"
@@ -55,8 +54,11 @@
               budgetList.length ? 'Select a Budget' : 'No Budgets Found!'
             "
             :readonly="!budgetList.length"
+            label="text"
+            :reduce="(bdata) => bdata.value"
+            :resetOnOptionsChange="true"
           >
-          </autocomplete>
+          </v-select>
         </b-form-group>
         <div class="float-right" v-if="budId">
           <b-button
@@ -230,7 +232,6 @@
 import { mapState } from 'vuex';
 import { debounceEvent } from '../js/utils.js';
 import axios from 'axios';
-import Autocomplete from '../components/Autocomplete.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import PrintHelper from '../components/PrintHelper.vue';
 import GkToolbar from '@/components/GkToolbar.vue';
@@ -239,7 +240,6 @@ import GkFileDownload from '@/components/GkFileDownload.vue';
 export default {
   name: 'Budget',
   components: {
-    Autocomplete,
     ReportHeader,
     PrintHelper,
     GkToolbar,
@@ -627,7 +627,8 @@ export default {
       self.budgetType = self.type;
       self.$nextTick().then(() => {
         if (self.id) {
-          self.budId = parseInt(self.id);
+          let id = parseInt(self.id)
+          self.budId = !isNaN(id) && id > 0 ? id : null;
         }
         self.onBudgetFilterUpdate();
       });

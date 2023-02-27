@@ -346,7 +346,7 @@ export default {
         supdate: null,
         delNote: null,
         dnNo: '',
-        godown: {text: ''},
+        godown: null,
         ebn: null,
         addr: null,
         pin: null,
@@ -422,6 +422,12 @@ export default {
       this.isPreloading = true;
       this.resetForm(false)
         .then(() => {
+            // console.log(self.parentData)
+          
+          if (self.parentData.no) {
+            self.form.no = self.parentData.no;
+          }
+          
           if (self.parentData.date) {
             self.form.date = self.parentData.date;
           }
@@ -450,6 +456,14 @@ export default {
             self.form.godown = self.parentData.godown;
           }
 
+          if (self.parentData.supdate) {
+            self.form.supdate = self.parentData.supdate;
+          }
+
+          if (self.parentData.supno) {
+            self.form.supno = self.parentData.supno;
+          }
+
           self.onUpdateDetails();
           self.isPreloading = false;
         })
@@ -457,14 +471,14 @@ export default {
           self.isPreloading = false;
         });
     },
-    saleFlag() {
-      this.setInvoiceNo();
-      this.updateDelNoteNo();
-      this.form.godown = '';
-      this.$nextTick().then(() => {
-        this.form.godown = this.$store.getters['global/getDefaultGodown'];
-      });
-    },
+    // saleFlag() {
+    //   this.setInvoiceNo();
+    //   this.updateDelNoteNo();
+    //   this.form.godown = '';
+    //   this.$nextTick().then(() => {
+    //     this.form.godown = this.$store.getters['global/getDefaultGodown'];
+    //   });
+    // },
   },
   methods: {
     setDateValidity(validity) {
@@ -572,88 +586,88 @@ export default {
           return error;
         });
     },
-    updateDelNoteNo(fetchNew) {
-      if (!fetchNew) {
-        this.form.dnNo = this.saleFlag
-          ? this.options.delNoteNo['sale']
-          : this.options.delNoteNo['purchase'];
-        if (this.form.dnNo) {
-          return Promise.resolve(1);
-        }
-      } else {
-        this.options.delNoteNo = {
-          sale: '',
-          purchase: '',
-        };
-      }
+    // updateDelNoteNo(fetchNew) {
+    //   if (!fetchNew) {
+    //     this.form.dnNo = this.saleFlag
+    //       ? this.options.delNoteNo['sale']
+    //       : this.options.delNoteNo['purchase'];
+    //     if (this.form.dnNo) {
+    //       return Promise.resolve(1);
+    //     }
+    //   } else {
+    //     this.options.delNoteNo = {
+    //       sale: '',
+    //       purchase: '',
+    //     };
+    //   }
 
-      let codes = { in: 'DIN', out: 'DOUT' };
-      if (typeof this.config.delNote === 'object' && this.config.delNote.no) {
-        if (this.config.delNote.no.format) {
-          codes = this.config.delNote.no.format.code;
-        }
-      }
-      const self = this;
-      return this.getLastDelNoteNo().then((no) => {
-        // debugger;
-        let code = self.saleFlag ? codes.out : codes.in;
-        this.form.dnNo =
-          isNaN(no) || no === -1
-            ? no
-            : self.formatNoteNo(self.numberFormat, no, code, self.form.date);
-        self.options.delNoteNo[
-          self.saleFlag ? 'sale' : 'purchase'
-        ] = this.form.dnNo;
-      });
-    },
-    getLastDelNoteNo() {
-      let trnCode = this.saleFlag ? 15 : 9;
-      let url = `/delchal/next_id?status=${trnCode}`;
-      return axios
-        .get(url)
-        .then((resp) => {
-          if (resp.data.gkstatus === 0) {
-            return resp.data.dcid;
-          }
-          return -1;
-        })
-        .catch((error) => {
-          console.log(error);
-          // this.displayToast(
-          //   'Fetch Delivery Challan No. Failed!',
-          //   error.message,
-          //   'danger'
-          // );
-          return -1;
-        });
-    },
+    //   let codes = { in: 'DIN', out: 'DOUT' };
+    //   if (typeof this.config.delNote === 'object' && this.config.delNote.no) {
+    //     if (this.config.delNote.no.format) {
+    //       codes = this.config.delNote.no.format.code;
+    //     }
+    //   }
+    //   const self = this;
+    //   return this.getLastDelNoteNo().then((no) => {
+    //     // debugger;
+    //     let code = self.saleFlag ? codes.out : codes.in;
+    //     this.form.dnNo =
+    //       isNaN(no) || no === -1
+    //         ? no
+    //         : self.formatNoteNo(self.numberFormat, no, code, self.form.date);
+    //     self.options.delNoteNo[
+    //       self.saleFlag ? 'sale' : 'purchase'
+    //     ] = this.form.dnNo;
+    //   });
+    // },
+    // getLastDelNoteNo() {
+    //   let trnCode = this.saleFlag ? 15 : 9;
+    //   let url = `/delchal/next_id?status=${trnCode}`;
+    //   return axios
+    //     .get(url)
+    //     .then((resp) => {
+    //       if (resp.data.gkstatus === 0) {
+    //         return resp.data.dcid;
+    //       }
+    //       return -1;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       // this.displayToast(
+    //       //   'Fetch Delivery Challan No. Failed!',
+    //       //   error.message,
+    //       //   'danger'
+    //       // );
+    //       return -1;
+    //     });
+    // },
     // TODO: provide an option choose delnotes and not always create them automatically
-    fetchDelNotes() {
-      const self = this;
-      axios
-        .get(`/delchal/unbilled?inputdate=${this.form.date}&type=invoice`)
-        .then((resp) => {
-          if (resp.data.gkstatus === 0) {
-            self.options.delNotes = {
-              sale: [],
-              purchase: [],
-            };
-            resp.data.gkresult.forEach((delNote) => {
-              if (delNote.inoutflag === 15) {
-                self.options.delNotes.sale.push({
-                  text: `${delNote.dcno},${delNote.dcdate},${delNote.custname}`,
-                  value: delNote.dcid,
-                });
-              } else {
-                self.options.delNotes.purchase.push({
-                  text: `${delNote.dcno},${delNote.dcdate},${delNote.custname}`,
-                  value: delNote.dcid,
-                });
-              }
-            });
-          }
-        });
-    },
+    // fetchDelNotes() {
+    //   const self = this;
+    //   axios
+    //     .get(`/delchal/unbilled?inputdate=${this.form.date}&type=invoice`)
+    //     .then((resp) => {
+    //       if (resp.data.gkstatus === 0) {
+    //         self.options.delNotes = {
+    //           sale: [],
+    //           purchase: [],
+    //         };
+    //         resp.data.gkresult.forEach((delNote) => {
+    //           if (delNote.inoutflag === 15) {
+    //             self.options.delNotes.sale.push({
+    //               text: `${delNote.dcno},${delNote.dcdate},${delNote.custname}`,
+    //               value: delNote.dcid,
+    //             });
+    //           } else {
+    //             self.options.delNotes.purchase.push({
+    //               text: `${delNote.dcno},${delNote.dcdate},${delNote.custname}`,
+    //               value: delNote.dcid,
+    //             });
+    //           }
+    //         });
+    //       }
+    //     });
+    // },
     setOrgDetails() {
       if (this.options.orgDetails !== null) {
         if (this.options.orgDetails.orgname) {
@@ -752,7 +766,7 @@ export default {
       }
       this.form.date = !this.disabled.date ? this.getNoteDate() : '';
       if (!this.disabled.no) {
-        requests.push(this.setInvoiceNo(true));
+        // requests.push(this.setInvoiceNo(true));
       } else {
         this.form.no = '';
       }
@@ -768,7 +782,7 @@ export default {
       if (raiseUpdateEvent) {
         this.onUpdateDetails();
       }
-      requests.push(this.updateDelNoteNo(true));
+    //   requests.push(this.updateDelNoteNo(true));
       return Promise.all(requests);
     },
   },

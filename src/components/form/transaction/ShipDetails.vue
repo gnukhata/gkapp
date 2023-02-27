@@ -115,16 +115,17 @@
               label-cols-lg="3"
             >
               <template #label> <translate> State </translate> </template>
-              <autocomplete
-                size="sm"
+              <v-select
                 id="spd-input-40"
                 v-model="form.state"
                 :options="options.states"
                 trim
-                valueUid="id"
-                :readonly="copyFlag"
-                tabindex="-1"
-              ></autocomplete>
+                :disabled="copyFlag"
+                :tabindex="-1"
+                label="name"
+                :reduce="(state) => state.name"
+              >
+              </v-select>
             </b-form-group>
           </b-col>
           <b-col v-if="gstFlag && config.gstin" cols="12">
@@ -171,11 +172,9 @@
 
 <script>
 import axios from 'axios';
-import Autocomplete from '../../Autocomplete.vue';
 export default {
   name: 'ShipDetails',
   components: {
-    Autocomplete,
   },
   data() {
     return {
@@ -185,7 +184,7 @@ export default {
       form: {
         name: null,
         addr: null,
-        state: {},
+        state: {name: ''},
         gstin: null,
         tin: null,
         pin: null,
@@ -196,10 +195,6 @@ export default {
     };
   },
   props: {
-    states: {
-      type: Array,
-      required: false,
-    },
     gstFlag: {
       type: Boolean,
       required: true,
@@ -211,10 +206,12 @@ export default {
     billingDetails: {
       type: Object,
       required: true,
+      note: 'Party details, used for Sale Invoices',
     },
     organisationDetails: {
       type: Object,
       required: true,
+      note: 'Organisation details, used for Purchase Invoices',
     },
     config: {
       type: Object,
@@ -225,13 +222,26 @@ export default {
       required: false,
       default: 0,
     },
+    customDetails: {
+      type: Object,
+      required: false,
+      default: null,
+      note: 'Custom Details, used for edit Invoices',
+    },
   },
   watch: {
     copyFlag() {
       this.setShippingDetails();
     },
     updateCounter() {
-      this.setShippingDetails();
+      if (this.customDetails) {
+        Object.assign(this.form, this.customDetails);
+        if (typeof this.customDetails.copyFlag === 'boolean') {
+          this.copyFlag = this.customDetails.copyFlag;
+        }
+      } else {
+        this.setShippingDetails();
+      }
     },
     saleFlag() {
       this.setShippingDetails();
@@ -248,11 +258,8 @@ export default {
           if (resp.data.gkstatus === 0) {
             self.options.states = resp.data.gkresult.map((item) => {
               return {
-                text: Object.values(item)[0],
-                value: {
-                  id: Object.keys(item)[0],
-                  name: Object.values(item)[0],
-                },
+                id: Object.keys(item)[0],
+                name: Object.values(item)[0]
               };
             });
           }
@@ -282,13 +289,16 @@ export default {
         }
       } else {
         this.resetForm();
+        if (this.customDetails) {
+          Object.assign(this.form, this.customDetails);
+        }
       }
     },
     resetForm() {
       this.form = {
         name: null,
         addr: null,
-        state: {},
+        state: {name: ''},
         gstin: null,
         tin: null,
         pin: null,
@@ -305,11 +315,7 @@ export default {
     },
   },
   mounted() {
-    if (this.states.length) {
-      this.options.states = this.states;
-    } else {
-      this.preloadData();
-    }
+    this.preloadData();
   },
 };
 </script>

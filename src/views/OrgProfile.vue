@@ -523,7 +523,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['gkCoreUrl', 'orgImg']),
+    ...mapState(['gkCoreUrl', 'orgImg', "orgGstin"]),
     isGstinValid: function() {
       if (
         this.gstinModal.stateCode !== null &&
@@ -1038,6 +1038,9 @@ export default {
               // this.getOrgImage();
               this.$store.dispatch('initOrgAddress');
               this.$store.dispatch('initOrgImg');
+              if(!this.orgGstin) {
+                this.$store.dispatch("initGstin");
+              }
               break;
             case 2:
               this.loading = false;

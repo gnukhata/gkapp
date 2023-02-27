@@ -373,11 +373,24 @@ const routes = [
       title: 'Invoice',
       requiresOrgAuth: true,
     },
-    path: '/invoice/:mode/:invid',
+    path: '/invoice',
     name: 'Invoice',
     component: () =>
       import(
         /* webpackChunkName: "invoice" */ '../views/Transactions/Invoice.vue'
+      ),
+    props: true,
+  },
+  {
+    meta: {
+      title: 'Invoice_Edit',
+      requiresOrgAuth: true,
+    },
+    path: '/invoice/:invid',
+    name: 'Invoice_Edit',
+    component: () =>
+      import(
+        /* webpackChunkName: "invoice_edit" */ '../views/Transactions/InvoiceEdit.vue'
       ),
     props: true,
   },

@@ -1,3 +1,7 @@
+<!-- ToDo
+    * Add discount percent
+    * Currently in edit mode, product tax is fetched from the tax table. Instead use the tax from the invoice details fetched.
+ -->
 <template>
   <div>
     <div v-if="config" class="position-relative my-2">
@@ -91,22 +95,6 @@
           <span>{{ data.label }}</span>
         </template>
         <template #cell(product)="data">
-          <!-- <autocomplete
-            v-if="!disabled.product"
-            size="sm"
-            v-model="form[data.item.index].product"
-            :options="options.products"
-            @input="
-              onBillItemSelect(form[data.item.index].product, data.item.index)
-            "
-            valueUid="id"
-            :isOptionsShared="true"
-            required
-            emptyValue=""
-            :readonly="disabled.product"
-            :inactiveText="config.qty.checkStock ? 'Out of Stock' : ''"
-            :blockInactive="blockEmptyStock"
-          ></autocomplete> -->
           <v-select
             v-if="form[data.item.index] && !disabled.product"
             @input="
@@ -130,7 +118,7 @@
             </template>
           </v-select>
           <span v-else>{{
-            data.value.name || form[data.item.index].product.name || ''
+            data.value.name || form[data.item.index]?.product.name || ''
           }}</span>
         </template>
 
@@ -435,7 +423,6 @@
 
 <script>
 import axios from 'axios';
-// import Autocomplete from '../../Autocomplete.vue';
 import BusinessItem from '../BusinessItem.vue';
 import { mapState } from 'vuex';
 import { debounceEvent } from '../../../js/utils';
@@ -443,7 +430,6 @@ import { debounceEvent } from '../../../js/utils';
 export default {
   name: 'BillTable',
   components: {
-    // Autocomplete,
     BusinessItem,
   },
   props: {
@@ -716,7 +702,7 @@ export default {
           (p) => p.name === item.product.name
         );
         if (product) {
-          self.editCounter += 2;
+          self.editCounter += 1; // parent is calling child update hook once 
           self.addBillItem();
           products.push({
             pid: product.id,

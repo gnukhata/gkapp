@@ -120,7 +120,7 @@ export default {
       axios
         .get(`/gkuser/role`)
         .then((res) => {
-          this.user_role = res.data.gkresult;
+          this.user_role = res.data.gkresult?.userrole || null;
         })
         .catch((e) => {
           console.log('admin fetch', e.message);
@@ -146,7 +146,8 @@ export default {
      */
     logOut() {
       const gkcoreUrl = this.$store.getters['getGkCoreUrl'];
-
+      let orgcode = localStorage.getItem("orgCode");
+      
       // reset orgname
       this.$store.commit('resetOrg');
 
@@ -163,8 +164,10 @@ export default {
         'authToken',
         'orgCode',
         'orgName',
-        'orgyears',
+        'orgYears',
         'orgGstin',
+        `${orgcode}-globalConf`,
+        'finYears'
       ];
       for (const i in deleteList) {
         localStorage.removeItem(deleteList[i]);

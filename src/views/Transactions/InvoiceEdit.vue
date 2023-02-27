@@ -4,9 +4,10 @@
     fluid
     class="mt-2 px-md-3 px-2 align-form-label-right"
   >
-    <h3 class="text-center">Create Invoice</h3>
+    <h3 class="text-center">
+      Edit Invoice
+    </h3>
     <hr class="mb-2 mt-0" />
-
     <div class="mb-2">
       <b-form-radio-group
         v-model="form.type"
@@ -19,14 +20,14 @@
         <b-form-radio value="sale"> Sale </b-form-radio>
         <b-form-radio value="purchase"> Purchase </b-form-radio>
       </b-form-radio-group>
-      <!-- <span id="edit-invoice-list" class="d-inline-block" v-if="!isCreate">
+      <span id="edit-invoice-list" class="d-inline-block" v-if="!isCreate">
         <b-form-select
           size="sm"
           v-model="invoiceId"
           :options="editableInvoices"
           @change="initForm()"
         ></b-form-select>
-      </span> -->
+      </span>
       <span class="float-right">
         <config
           v-if="user_role === -1"
@@ -73,6 +74,7 @@
           :organisationDetails="options.orgDetails"
           :updateCounter="updateCounter.ship"
           :config="config.ship"
+          :customDetails="options.shippingDetails"
           ref="ship"
         >
         </ship-details>
@@ -147,7 +149,7 @@
           ref="narration"
           :config="config.comments"
           :updateCounter="updateCounter.comments"
-          :parentData="form.comments"
+          :parentData="form.narration"
           :placeHolder="defaultNarration"
         ></comments>
       </b-card-group>
@@ -207,7 +209,7 @@
           class="m-1"
           variant="success"
         >
-          <span>
+          <span v-if="isCreate">
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
               v-else
@@ -218,7 +220,7 @@
             <span class="align-middle" v-translate>Create</span>
           </span>
 
-          <!-- <span v-else>
+          <span v-else>
             <b-spinner v-if="isLoading" small></b-spinner>
             <b-icon
               v-else
@@ -227,7 +229,7 @@
               icon="cloud-arrow-up"
             ></b-icon>
             <span class="align-middle" v-translate>Save Changes</span>
-          </span> -->
+          </span>
         </b-button>
       </div>
       <div class="clearfix"></div>
@@ -262,7 +264,7 @@ import TotalTable from '../../components/form/transaction/TotalTable.vue';
 import TransportDetails from '../../components/form/transaction/TransportDetails.vue';
 import Comments from '../../components/form/transaction/Comments.vue';
 import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue';
-import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
+import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetailsEdit.vue';
 import Attachments from '../../components/form/transaction/Attachments.vue';
 
 import PrintPage from '../../components/workflow/PrintPage.vue';
@@ -296,10 +298,10 @@ export default {
     //   },
     //   required: true,
     // },
-    // invid: {
-    //   type: [String, Number],
-    //   required: true,
-    // },
+    invid: {
+      type: [String, Number],
+      required: true,
+    },
   },
   data() {
     return {
@@ -377,6 +379,7 @@ export default {
           purchase: [],
           sale: [],
         },
+        shippingDetails: null,
       },
       isCollapsed: {
         billedTo: false,
@@ -480,7 +483,7 @@ export default {
       30,
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
-    // isCreate: (self) => self.formMode === 'create',
+    isCreate: (self) => self.formMode === 'create',
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
     isCgst: (self) => {
@@ -623,12 +626,13 @@ export default {
             // } else {
             //   }
 
+            let oldInvNo = this.form.inv.no;
             this.goid = payload.data.godown || -1;
             Object.assign(this.form.inv, payload.data);
-            // if (!this.isCreate) {
-            //   this.form.inv.no = oldInvNo;
-            // }
-            this.form.transport.date = this.form.inv.date;
+            if (!this.isCreate) {
+              this.form.inv.no = oldInvNo;
+            }
+            // this.form.transport.date = this.form.inv.date;
             const self = this;
             self.updateCounter.transport++;
           }
@@ -641,10 +645,10 @@ export default {
             Object.assign(this.form.party, payload.data);
 
             this.updateCounter.ship++;
-            this.form.inv.taxState = payload.data.state;
-            this.updateCounter.inv++;
-            // if (this.isCreate) {
-            // }
+            if (this.isCreate) {
+              this.form.inv.taxState = payload.data.state;
+              this.updateCounter.inv++;
+            }
             this.updateDefaultNarration();
           }
           break;
@@ -687,15 +691,17 @@ export default {
       axios.get(`/delchal/${dcid}`).then((resp) => {
         if (resp.data.gkstatus === 0) {
           // debugger;
-          self.options.dcData = resp.data.gkresult.delchaldata;
-          self.form.inv.godown = resp.data.gkresult.delchaldata.goid;
-          self.form.inv.dnNo = resp.data.gkresult.delchaldata.dcno;
+          let dcData = resp.data.gkresult.delchaldata;
+          self.options.dcData = dcData;
+          self.form.inv.godown = dcData.goid;
+          self.form.inv.dnNo = dcData.dcno;
+          self.form.transport.packageCount = dcData.noofpackages;
           self.updateComponentData();
         }
       });
-      // },
-      // fetchAttachments() {
-      //   // if (this.form.attachments.length) {
+    },
+    fetchAttachments() {
+      // if (this.form.attachments.length) {
       //   return;
       // }
       // this.isAttachmentLoading = true;
@@ -704,108 +710,6 @@ export default {
         this.updateComponentData(); // this.isAttachmentLoading = false;
       });
     },
-    // used for fetching delivery note data, when invoice is linked to a delivery note
-    // currently that option is hidden, in favour of the godown option
-    // fetchDelNoteData(dcid) {
-    //   if (!dcid) return;
-    //   this.isPreloading = true;
-    //   let self = this;
-    //   axios
-    //     .get(`/delchal?delchal=single&dcid=${dcid}`)
-    //     .then((resp) => {
-    //       if (resp.data.gkstatus === 0) {
-    //         const data = resp.data.gkresult,
-    //           dcdata = resp.data.gkresult.delchaldata;
-    //         // console.log(resp.data);
-    //         let invState =
-    //           dcdata.inoutflag === 15 // if sale inv state will be source else it will destination
-    //             ? self.options.states.find(
-    //                 (state) => state.text === data.sourcestate
-    //               )
-    //             : self.options.states.find(
-    //                 (state) => state.text === data.destinationstate
-    //               );
-    //         // set invoice details
-    //         self.form.type = dcdata.inoutflag === 15 ? 'sale' : 'purchase';
-    //         Object.assign(self.form.inv, {
-    //           state: invState ? invState.value : {},
-    //           issuer: dcdata.issuername,
-    //           role: dcdata.designation,
-    //         });
-
-    //         self.goid = dcdata.goid;
-    //         self.form.ship.copyFlag =
-    //           dcdata.consignee.consigneename === data.custSupDetails.custname &&
-    //           dcdata.consignee.consigneeaddress ===
-    //             data.custSupDetails.custaddr;
-
-    //         self.form.taxType = dcdata.taxflag === 7 ? 'gst' : 'vat';
-    //         self.form.transport = {
-    //           mode: dcdata.modeoftransport,
-    //           vno: dcdata.vehicleno,
-    //           date: data.dateofsupply,
-    //         };
-    //         self.form.total.roundFlag = !!dcdata.roundoffflag;
-
-    //         self.form.party.type =
-    //           data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
-    //         self.$nextTick().then(() => {
-    //           self.form.party.name = data.custSupDetails.custname;
-
-    //           // set shipping details
-    //           if (!self.form.ship.copyFlag) {
-    //             let ship = dcdata.consignee;
-    //             if (ship) {
-    //               Object.assign(self.form.ship, {
-    //                 name: ship.consigneename,
-    //                 addr: ship.consigneeaddress,
-    //                 state: {
-    //                   name: ship.consigneestate,
-    //                   id: ship.consigneestatecode,
-    //                 },
-    //                 gstin: ship.gstinconsignee,
-    //                 tin: ship.tinconsignee,
-    //                 pin: ship.consigneepincode,
-    //               });
-    //             }
-    //           }
-    //           self.updateComponentData();
-    //           self.isPreloading = false;
-    //         }).catch(() => {
-    //           self.isPreloading = false;
-    //         });
-
-    //         // set bill items
-    //         self.form.bill = [];
-    //         for (const itemCode in data.delchalContents) {
-    //           let item = data.delchalContents[itemCode];
-    //           let billItem = {
-    //             product: item.proddesc,
-    //             discount: { amount: parseFloat(item.discount) },
-    //             qty: parseFloat(item.qty),
-    //             fqty: item.freeqty,
-    //             rate: parseFloat(item.priceperunit),
-    //             isService: false,
-    //             igst: { rate: 0 },
-    //             cgst: { rate: 0 },
-    //             sgst: { rate: 0 },
-    //             cess: { rate: 0 },
-    //             vat: { rate: 0 },
-    //           };
-    //           self.form.bill.push(billItem);
-    //         }
-
-    //         self.updateComponentData();
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       this.displayToast(
-    //         `Fetch Delivery Note data Error!`,
-    //         error.message,
-    //         'warning'
-    //       );
-    //     });
-    // },
     setBankDetails() {
       const orgBank = this.options.orgDetails.bankDetails || {};
       const partyBank = this.options.partyDetails.bankDetails || {};
@@ -896,244 +800,151 @@ export default {
         }
       });
     },
-    fetchUserData() {
+    // TODO: use parent -> child events to update async data across the child components
+    fetchInvoiceData() {
+      this.isPreloading = true;
       let self = this;
       return axios
-        .get(`/gkuser`)
+        .get(`/invoice/${this.invoiceId}`)
         .then((resp) => {
-          // === User name and role ===
-          if (resp.status === 200) {
-            if (resp.data.gkstatus === 0) {
-              self.form.inv.issuer = resp.data.gkresult.username;
-              self.form.inv.role = resp.data.gkresult.userroleName;
-            } else {
-              // User data not available, check again
-            }
-          } else {
-            // User data not available, check again
-          }
-        })
-        .catch((error) => {
-          this.displayToast('Fetch User Data Failed!', error.message, 'danger');
-          return error;
-        });
-    },
-    fetchContactList() {
-      const requests = [
-        axios.get('/customer?qty=custall').catch((error) => {
-          this.displayToast(
-            this.$gettext('Fetch Customer Data Failed!'),
-            error.message,
-            'danger'
-          );
-          return error;
-        }),
-        axios.get('/customer?qty=supall').catch((error) => {
-          this.displayToast(
-            this.$gettext('Fetch Supplier Data Failed!'),
-            error.message,
-            'danger'
-          );
-          return error;
-        }),
-      ];
+          // self.isPreloading = false;
+          if (resp.data.gkstatus === 0) {
+            let data = resp.data.gkresult;
+            // console.log(resp.data);
 
-      let self = this;
-      return Promise.all(requests)
-        .then(([resp1, resp2]) => {
-          // === Customer List ===
-          if (resp1.status === 200) {
-            if (resp1.data.gkstatus === 0) {
-              resp1.data.gkresult.sort((a, b) => a.custid - b.custid); // sorting items based on custid, to display in the order of creation
-              self.options.customers = resp1.data.gkresult.map((item) => {
-                return {
-                  text: item.custname,
-                  value: {
-                    id: item.custid,
-                    name: item.custname,
+            let taxState = self.options.states.find(
+              (state) => state.id == data.taxstatecode
+            );
+
+            let invState =
+              data.inoutflag === 15 // if sale inv state will be source else it will destination
+                ? self.options.states.find(
+                    (state) => state.name === data.sourcestate
+                  )
+                : self.options.states.find(
+                    (state) => state.name === data.destinationstate
+                  );
+            // set invoice details
+            self.form.type = data.inoutflag === 15 ? 'sale' : 'purchase';
+            self.form.inv = {
+              no: data.invoiceno,
+              date: data.invoicedate
+                .split('-')
+                .reverse()
+                .join('-'),
+              delNote: null, /////////////////////////
+              ebn: data.ewaybillno || null,
+              addr: data.address,
+              pin: data.pincode,
+              state: invState ? invState : {},
+              issuer: data.issuername,
+              role: data.designation,
+              taxState: taxState ? taxState : {},
+            };
+
+            if (self.form.type === 'purchase') {
+              self.form.inv.supdate = data.supinvdate || '';
+              self.form.inv.supno = data.supinvno || '';
+            }
+
+            self.dcId = data.dcid || '';
+
+            self.form.ship.copyFlag =
+              data.consignee.consigneename === data.custSupDetails.custname &&
+              data.consignee.consigneeaddress === data.custSupDetails.custaddr;
+
+            self.form.taxType = data.taxflag === 7 ? 'gst' : 'vat';
+            self.form.payment.mode = data.paymentmode;
+            self.form.transport = {
+              mode: data.transportationmode,
+              vno: data.vehicleno,
+              date: self.dateReverse(data.dateofsupply),
+              reverseCharge: data.reversecharge,
+            };
+            self.form.narration = data.narration;
+            self.form.total.roundFlag = !!data.roundoff;
+
+            if (data.bankdetails) {
+              self.form.payment.bank = {
+                no: data.bankdetails.accountno,
+                name: data.bankdetails.bankname,
+                branch: data.bankdetails.branch,
+                ifsc: data.bankdetails.ifsc,
+              };
+            }
+
+            self.form.party.type =
+              data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
+            self.$nextTick().then(() => {
+              self.form.party.name = data.custSupDetails.custname;
+              // console.log(self.form.party.name);
+              // set shipping details
+              if (!self.form.ship.copyFlag) {
+                let ship = {
+                  name: data.consignee.consigneename,
+                  addr: data.consignee.consigneeaddress,
+                  state: {
+                    name: data.consignee.consigneestate,
+                    id: data.consignee.consigneestatecode,
                   },
+                  gstin: data.consignee.gstinconsignee,
+                  tin: data.consignee.tinconsignee,
+                  pin: data.consignee.consigneepincode,
+                  copyFlag: false
                 };
-              });
-            } else {
-              // Customer List not loaded
-            }
-          }
-
-          // === Supplier List ===
-          if (resp2.status === 200) {
-            if (resp2.data.gkstatus === 0) {
-              resp2.data.gkresult.sort((a, b) => a.custid - b.custid); // sorting items based on custid, to display in the order of creation
-              self.options.suppliers = resp2.data.gkresult.map((item) => {
-                return {
-                  text: item.custname,
-                  value: {
-                    id: item.custid,
-                    name: item.custname,
-                  },
-                };
-              });
-            } else {
-              // Supplier list not loaded
-            }
-          }
-
-          // If coming from Contact's page, autofill invoice party details from store
-          if (self.invoiceParty.id !== null) {
-            self.form.type =
-              self.invoiceParty.type === 'customer' ? 'sale' : 'purchase';
-            Object.assign(self.form.party, {
-              type: self.invoiceParty.type,
-              name: {
-                id: self.invoiceParty.id,
-                name: self.invoiceParty.name,
-              },
+                Object.assign(self.form.ship, ship);
+                self.options.shippingDetails = {};
+                Object.assign(self.options.shippingDetails, ship);
+              }
+              // self.updateComponentData();
+              this.updateCounter.party++;
             });
+
+            // debugger;
+            this.$nextTick().then(() => {});
+
+            // set bill items
+            self.form.bill = [];
+            // let bills = [];
+            for (const itemCode in data.invcontents) {
+              let item = data.invcontents[itemCode];
+              let billItem = {
+                // product: item.proddesc,
+                product: { id: itemCode, name: item.proddesc },
+                discount: { amount: parseFloat(item.discount) },
+                qty: parseFloat(item.qty),
+                fqty: item.freeqty,
+                rate: parseFloat(item.priceperunit),
+                isService: item.gsflag === 19,
+                igst: { rate: 0 },
+                cgst: { rate: 0 },
+                sgst: { rate: 0 },
+                cess: { rate: 0 },
+                vat: { rate: 0 },
+              };
+              if (billItem.isService) {
+                billItem.qty = 1;
+              }
+              self.form.bill.push(billItem);
+            }
+            // self.form.bill = bills;
+            // console.log(self.form.party.name, 'Name');
+            // self.updateComponentData(); // will be called in update delnote godown
+
+            if (data.attachmentcount > 0) {
+              this.fetchAttachments();
+            }
           }
+          self.isPreloading = false;
         })
         .catch((error) => {
           this.displayToast(
-            this.$gettext('Fetch Customer/Supplier Data Failed!'),
+            `Fetch Invoice ${this.invid} data Error!`,
             error.message,
-            'danger'
+            'warning'
           );
-          return error;
         });
     },
-
-    // fetchInvoiceData() {
-    //   this.isPreloading = true;
-    //   let self = this;
-    //   return axios
-    //     .get(`/invoice/${this.invoiceId}`)
-    //     .then((resp) => {
-    //       // self.isPreloading = false;
-    //       if (resp.data.gkstatus === 0) {
-    //         let data = resp.data.gkresult;
-    //         // console.log(resp.data);
-
-    //         let taxState = self.options.states.find(
-    //           (state) => state.value.id == data.taxstatecode
-    //         );
-
-    //         let invState =
-    //           data.inoutflag === 15 // if sale inv state will be source else it will destination
-    //             ? self.options.states.find(
-    //                 (state) => state.text === data.sourcestate
-    //               )
-    //             : self.options.states.find(
-    //                 (state) => state.text === data.destinationstate
-    //               );
-    //         // set invoice details
-    //         self.form.type = data.inoutflag === 15 ? 'sale' : 'purchase';
-    //         self.form.inv = {
-    //           no: data.invoiceno,
-    //           date: data.invoicedate
-    //             .split('-')
-    //             .reverse()
-    //             .join('-'),
-    //           delNote: null, /////////////////////////
-    //           ebn: data.ewaybillno || null,
-    //           addr: data.address,
-    //           pin: data.pincode,
-    //           state: invState ? invState.value : {},
-    //           issuer: data.issuername,
-    //           role: data.designation,
-    //           taxState: taxState ? taxState.value : {},
-    //         };
-
-    //         self.dcId = data.dcid || '';
-
-    //         self.form.ship.copyFlag =
-    //           data.consignee.consigneename === data.custSupDetails.custname &&
-    //           data.consignee.consigneeaddress === data.custSupDetails.custaddr;
-
-    //         self.form.taxType = data.taxflag === 7 ? 'gst' : 'vat';
-    //         self.form.payment.mode = data.paymentmode;
-    //         self.form.transport = {
-    //           mode: data.transportationmode,
-    //           vno: data.vehicleno,
-    //           date: data.dateofsupply,
-    //           reverseCharge: data.reversecharge,
-    //         };
-    //         self.form.narration = data.narration;
-    //         self.form.total.roundFlag = !!data.roundoff;
-
-    //         if (data.bankdetails) {
-    //           self.form.payment.bank = {
-    //             no: data.bankdetails.accountno,
-    //             name: data.bankdetails.bankname,
-    //             branch: data.bankdetails.branch,
-    //             ifsc: data.bankdetails.ifsc,
-    //           };
-    //         }
-
-    //         self.form.party.type =
-    //           data.custSupDetails.csflag === 3 ? 'customer' : 'supplier';
-    //         self.$nextTick().then(() => {
-    //           self.form.party.name = data.custSupDetails.custname;
-
-    //           // set shipping details
-    //           if (!self.form.ship.copyFlag) {
-    //             let ship = data.consignee;
-    //             Object.assign(self.form.ship, {
-    //               name: ship.consigneename,
-    //               addr: ship.consigneeaddress,
-    //               state: {
-    //                 name: ship.consigneestate,
-    //                 id: ship.consigneestatecode,
-    //               },
-    //               gstin: ship.gstinconsignee,
-    //               tin: ship.tinconsignee,
-    //               pin: ship.consigneepincode,
-    //             });
-    //           }
-    //           // self.updateComponentData();
-    //         });
-
-    //         // debugger;
-    //         this.$nextTick().then(() => {});
-
-    //         // set bill items
-    //         self.form.bill = [];
-    //         // let bills = [];
-    //         for (const itemCode in data.invcontents) {
-    //           let item = data.invcontents[itemCode];
-    //           let billItem = {
-    //             // product: item.proddesc,
-    //             product: { id: itemCode, name: item.proddesc },
-    //             discount: { amount: parseFloat(item.discount) },
-    //             qty: parseFloat(item.qty),
-    //             fqty: item.freeqty,
-    //             rate: parseFloat(item.priceperunit),
-    //             isService: item.gsflag === 19,
-    //             igst: { rate: 0 },
-    //             cgst: { rate: 0 },
-    //             sgst: { rate: 0 },
-    //             cess: { rate: 0 },
-    //             vat: { rate: 0 },
-    //           };
-    //           if (billItem.isService) {
-    //             billItem.qty = 1;
-    //           }
-    //           self.form.bill.push(billItem);
-    //         }
-    //         // self.form.bill = bills;
-    //         self.updateComponentData();
-
-    //         // if (data.attachmentcount > 0) {
-    //         //   this.fetchAttachments();
-    //         // }
-    //       }
-    //       self.isPreloading = false;
-    //     })
-    //     .catch((error) => {
-    //       this.displayToast(
-    //         `Fetch Invoice ${this.invid} data Error!`,
-    //         error.message,
-    //         'warning'
-    //       );
-    //     });
-    // },
     onSubmit() {
       this.isLoading = true;
       this.createDelNote().then(() => {
@@ -1146,8 +957,18 @@ export default {
       const self = this;
 
       const payload = this.initPayload();
-      axios
-        .post('/invoice', payload)
+      // console.log(payload);
+      let method, actionText, url;
+      if (this.isCreate) {
+        method = 'post';
+        actionText = 'Create';
+        url = '/invoice';
+      } else {
+        method = 'put';
+        actionText = 'Edit';
+        url = `/invoice/${payload.invoice.invid}`;
+      }
+      axios({ method: method, url: url, data: payload })
         .then((resp) => {
           self.isLoading = false;
           if (resp.status === 200) {
@@ -1155,13 +976,15 @@ export default {
               case 0:
                 {
                   // success
-                  self.invoiceId = resp.data.gkresult;
-                  //  self.isCreate
-                  //   ? resp.data.gkresult
-                  //   : self.invoiceId;
+                  self.invoiceId = self.isCreate
+                    ? resp.data.gkresult
+                    : self.invoiceId;
                   self.invModalId = self.invoiceId;
                   self.displayToast(
-                    self.$gettext(`Create Invoice Successfull!`),
+                    self.$gettextInterpolate(
+                      self.$gettext(`%{actionText} Invoice Successfull!`),
+                      { actionText: actionText }
+                    ),
                     `Invoice saved with entry no. ${resp.data.invoiceid ||
                       resp.data.gkresult ||
                       resp.data.vchData.vchno}`,
@@ -1170,31 +993,33 @@ export default {
 
                   let log = {
                     activity: `invoice ${
-                      'created' // self.isCreate ? 'created' : 'updated'
+                      self.isCreate ? 'created' : 'updated'
                     }: ${self.form.inv.no}`,
                   };
                   axios.post('/log', log);
 
-                  self
-                    .updateInvNoCounter()
-                    .then(() => {
-                      self.resetForm();
-                      self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
-                    })
-                    .catch(() => {
-                      self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
-                    });
-                  // if (self.isCreate) {
-                  // }
-                  // else {
-                  //   self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
-                  // }
+                  if (self.isCreate) {
+                    self
+                      .updateInvNoCounter()
+                      .then(() => {
+                        self.resetForm();
+                        self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                      })
+                      .catch(() => {
+                        self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                      });
+                  } else {
+                    self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                  }
                 }
                 break;
               case 1:
                 // Duplicate entry
                 self.displayToast(
-                  self.$gettext(`Create Invoice Failed!`),
+                  self.$gettextInterpolate(
+                    self.$gettext(`%{actionText} Invoice Failed!`),
+                    { actionText: actionText }
+                  ),
                   self.$gettext('Duplicate Entry, Check Invoice Id'),
                   'warning'
                 );
@@ -1202,7 +1027,10 @@ export default {
               case 2:
                 // Unauthorized access
                 self.displayToast(
-                  self.$gettext(`Create Invoice Failed!`),
+                  self.$gettextInterpolate(
+                    self.$gettext(`%{actionText} Invoice Failed!`),
+                    { actionText: actionText }
+                  ),
                   self.$gettext('Unauthorized Access, Contact Admin'),
                   'warning'
                 );
@@ -1210,7 +1038,10 @@ export default {
               case 3:
                 // Connection failed, Check inputs and try again
                 self.displayToast(
-                  self.$gettext(`Create Invoice Failed!`),
+                  self.$gettextInterpolate(
+                    self.$gettext(`%{actionText} Invoice Failed!`),
+                    { actionText: actionText }
+                  ),
                   self.$gettext('Please check your input and try again later'),
                   'danger'
                 );
@@ -1224,7 +1055,12 @@ export default {
         .catch((error) => {
           self.isLoading = false;
           self.displayToast(
-            this.$gettext(`Create Invoice Error!`),
+            this.$gettextInterpolate(
+              this.$gettext(`%{actionText} Invoice Error!`),
+              {
+                actionText: actionText,
+              }
+            ),
             error.message,
             'warning'
           );
@@ -1429,16 +1265,16 @@ export default {
         invoice.attachmentcount = this.form.attachments.length;
       }
 
-      // if (!this.isCreate) {
-      //   const av = Object.assign({}, invoice.av);
-      //   invoice.invid = parseInt(this.invoiceId);
+      if (!this.isCreate) {
+        const av = Object.assign({}, invoice.av);
+        invoice.invid = parseInt(this.invoiceId);
 
-      //   delete invoice.av;
-      //   delete invoice.pincode;
-      //   delete invoice.discflag;
+        delete invoice.av;
+        delete invoice.pincode;
+        delete invoice.discflag;
 
-      //   return { invoice, stock, av };
-      // }
+        return { invoice, stock, av };
+      }
 
       // console.log({ invoice, stock });
       return { invoice, stock };
@@ -1483,17 +1319,17 @@ export default {
       let method = 'post',
         url = '/delchal';
 
-      // if (!this.isCreate && this.dcId) {
-      //   method = 'put';
-      //   url = `/delchal/${this.dcId}`;
-      // }
+      if (!this.isCreate && this.dcId) {
+        method = 'put';
+        url = `/delchal/${this.dcId}`;
+      }
 
       return axios({ method: method, url: url, data: payload })
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
-            this.dcId = resp.data.gkresult || null;
-            // if (resp.data.gkresult || this.isCreate) {
-            // }
+            if (resp.data.gkresult || this.isCreate) {
+              this.dcId = resp.data.gkresult || null;
+            }
             return resp.data.gkresult;
           } else if (resp.data.gkstatus === 1) {
             // let no = payload.delchaldata.dcno;
@@ -1534,15 +1370,15 @@ export default {
         noofpackages: this.form.transport.packageCount,
       };
 
-      // if (!this.isCreate) {
-      //   if (this.dcId) {
-      //     delchal.dcid = this.dcId;
-      //   }
+      if (!this.isCreate) {
+        if (this.dcId) {
+          delchal.dcid = this.dcId;
+        }
 
-      //   if (this.options.dcData && this.options.dcData.dcno) {
-      //     delchal.dcno = this.options.dcData.dcno;
-      //   }
-      // }
+        if (this.options.dcData && this.options.dcData.dcno) {
+          delchal.dcno = this.options.dcData.dcno;
+        }
+      }
 
       // === Sale / Purchase related data ===
       if (this.isSale) {
@@ -1774,46 +1610,46 @@ export default {
       }
     },
 
-    // initPartyEdit() {
-    //   this.form.party.editFlag = true;
-    //   this.form.party.editMode = {
-    //     addr: this.form.party.addr,
-    //     state: this.form.party.state,
-    //     gstin: this.form.party.gstin,
-    //     pin: this.form.party.pin,
-    //   };
-    // },
-    // fetchEditableInvoices() {
-    //   const self = this;
-    //   const requests = [
-    //     axios.get(`/invoice/list/rectify?invtype=15`),
-    //     axios.get(`/invoice/list/rectify?invtype=9`),
-    //   ];
+    initPartyEdit() {
+      this.form.party.editFlag = true;
+      this.form.party.editMode = {
+        addr: this.form.party.addr,
+        state: this.form.party.state,
+        gstin: this.form.party.gstin,
+        pin: this.form.party.pin,
+      };
+    },
+    fetchEditableInvoices() {
+      const self = this;
+      const requests = [
+        axios.get(`/invoice/list/rectify?invtype=15`),
+        axios.get(`/invoice/list/rectify?invtype=9`),
+      ];
 
-    //   Promise.all(requests).then(([resp1, resp2]) => {
-    //     if (resp1.data.gkstatus === 0) {
-    //       self.options.editableInvoices['sale'] = resp1.data.invoices.map(
-    //         (inv) => {
-    //           return {
-    //             text: `${inv.invoiceno}, ${inv.invoicedate}, ${inv.custname}`,
-    //             value: inv.invid,
-    //           };
-    //         }
-    //       );
-    //     }
+      Promise.all(requests).then(([resp1, resp2]) => {
+        if (resp1.data.gkstatus === 0) {
+          self.options.editableInvoices['sale'] = resp1.data.invoices.map(
+            (inv) => {
+              return {
+                text: `${inv.invoiceno}, ${inv.invoicedate}, ${inv.custname}`,
+                value: inv.invid,
+              };
+            }
+          );
+        }
 
-    //     if (resp2.data.gkstatus === 0) {
-    //       self.options.editableInvoices['purchase'] = resp2.data.invoices.map(
-    //         (inv) => {
-    //           return {
-    //             text: `${inv.invoiceno}, ${inv.invoicedate}, ${inv.custname}`,
-    //             value: inv.invid,
-    //           };
-    //         }
-    //       );
-    //     }
-    //   });
-    // },
+        if (resp2.data.gkstatus === 0) {
+          self.options.editableInvoices['purchase'] = resp2.data.invoices.map(
+            (inv) => {
+              return {
+                text: `${inv.invoiceno}, ${inv.invoicedate}, ${inv.custname}`,
+                value: inv.invid,
+              };
+            }
+          );
+        }
+      });
+    },
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
         title: title,
@@ -1826,13 +1662,13 @@ export default {
     /** Update the URL based on form mode selected (Create/Edit) */
     // updateUrl() {
     //   let url = window.location.href.split('#')[0];
-    //   url += `#/invoice`; // /${this.formMode}/0
+    //   url += `#/invoice/${this.formMode}/0`;
     //   history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
     //   // instead of creating a new history instances for every entity selected
     // },
     initForm() {
       let self = this;
-      // this.updateUrl();
+      //   this.updateUrl();
       this.resetForm();
       this.preloadData().then(() => {
         let bd = self.options.orgDetails.bankDetails || {};
@@ -1844,15 +1680,13 @@ export default {
         });
         self.updateCounter.payment++;
 
-        // self.fetchEditableInvoices();
-        // self.$nextTick().then(() => {
-        //   if (self.formMode === 'edit') {
-        //     self.fetchInvoiceData().then(() => {
-        //       self.fetchDelNoteGodown(this.dcId);
-        //     });
-        //     // self.fetchDelNoteData();
-        //   }
-        // });
+        self.fetchEditableInvoices();
+        self.$nextTick().then(() => {
+          self.fetchInvoiceData().then(() => {
+            self.fetchDelNoteGodown(this.dcId);
+          });
+          // self.fetchDelNoteData();
+        });
       });
     },
   },
@@ -1869,7 +1703,8 @@ export default {
   },
   mounted() {
     // Using non props to store these props, as these can be edited in the future
-    // this.invoiceId = parseInt(this.invid);
+    this.formMode = this.mode;
+    this.invoiceId = parseInt(this.invid);
     this.initForm();
     if (isNaN(this.user_role)) {
       this.get_user_role();
