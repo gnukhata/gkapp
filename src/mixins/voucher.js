@@ -456,8 +456,11 @@ export default {
     updateDate() {
       let today = new Date().getTime();
       let maxDate = new Date(this.yearEnd).getTime();
+      let minDate = new Date(this.yearStart).getTime();
       if (today > maxDate) {
         this.form.date = this.yearEnd;
+      } else if (today < minDate) {
+        this.form.date = this.yearStart;
       } else {
         this.form.date = new Date().toISOString().slice(0, 10);
       }
