@@ -121,7 +121,6 @@
             @input="onUpdateDetails"
             :disabled="disabled.supplySt"
             label="name"
-            :reduce="(state) => state.name"
           ></v-select>
         </b-form-group>
         <b-form-group
@@ -238,7 +237,6 @@
                 required
                 :disabled="true"
                 :tabindex="-1"
-                :reduce="(state) => state.name"
                 label="name"
               >
               </v-select>
@@ -671,7 +669,7 @@ export default {
           Object.assign(this.form, {
             addr: this.options.orgDetails.orgaddr,
             pin: this.options.orgDetails.orgpincode,
-            state: state ? state.name : { name: '' },
+            state: state || { name: '' },
             options: {
               gstin: gstin,
             },

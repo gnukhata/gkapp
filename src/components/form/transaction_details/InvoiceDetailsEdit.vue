@@ -121,7 +121,6 @@
             @input="onUpdateDetails"
             :disabled="disabled.supplySt"
             label="name"
-            :reduce="(state) => state.name"
           ></v-select>
         </b-form-group>
         <b-form-group
