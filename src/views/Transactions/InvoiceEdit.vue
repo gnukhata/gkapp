@@ -688,7 +688,7 @@ export default {
     },
     fetchDelNoteGodown(dcid) {
       const self = this;
-      axios.get(`/delchal/${dcid}`).then((resp) => {
+      return axios.get(`/delchal/${dcid}`).then((resp) => {
         if (resp.data.gkstatus === 0) {
           // debugger;
           let dcData = resp.data.gkresult.delchaldata;
@@ -696,7 +696,7 @@ export default {
           self.form.inv.godown = dcData.goid;
           self.form.inv.dnNo = dcData.dcno;
           self.form.transport.packageCount = dcData.noofpackages;
-          self.updateComponentData();
+          return;
         }
       });
     },
@@ -861,6 +861,7 @@ export default {
               date: self.dateReverse(data.dateofsupply),
               reverseCharge: data.reversecharge,
             };
+            self.updateCounter.transport++;
             self.form.narration = data.narration;
             self.form.total.roundFlag = !!data.roundoff;
 
@@ -930,7 +931,7 @@ export default {
             // self.form.bill = bills;
             // console.log(self.form.party.name, 'Name');
             // self.updateComponentData(); // will be called in update delnote godown
-
+            self.updateCounter.bill++;
             if (data.attachmentcount > 0) {
               this.fetchAttachments();
             }
@@ -1683,7 +1684,9 @@ export default {
         self.fetchEditableInvoices();
         self.$nextTick().then(() => {
           self.fetchInvoiceData().then(() => {
-            self.fetchDelNoteGodown(this.dcId);
+            self.fetchDelNoteGodown(this.dcId).then(() => {
+              self.updateComponentData();
+            });
           });
           // self.fetchDelNoteData();
         });

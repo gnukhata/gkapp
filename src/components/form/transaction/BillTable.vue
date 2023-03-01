@@ -702,7 +702,7 @@ export default {
           (p) => p.name === item.product.name
         );
         if (product) {
-          self.editCounter += 1; // parent is calling child update hook once 
+          self.editCounter += 2; // parent is calling child update hook twice 
           self.addBillItem();
           products.push({
             pid: product.id,
