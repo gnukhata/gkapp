@@ -325,7 +325,7 @@ export default {
         this.registerType = params.type;
       } else {
         this.fromDate = this.dateReverse(this.yearStart);
-        this.toDate = this.dateReverse(this.currentDate());
+        this.toDate = this.dateReverse(this.yearEnd);
         this.registerType = 0;
       }
       this.getRegisters();
