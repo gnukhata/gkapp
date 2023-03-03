@@ -534,38 +534,6 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
   },
   methods: {
-    // onAttachmentDelete(index) {
-    //   this.form.attachments.splice(index, 1);
-    // },
-    // onAttachementPreviewLoad(e) {
-    //   // console.log(e)
-    //   if (e.target) {
-    //     let height = e.target.height;
-    //     let width = e.target.width;
-    //     if (width > height) {
-    //       e.target.style.height = 'auto';
-    //       e.target.style.width = '196px';
-    //     } else {
-    //       e.target.style.width = 'auto';
-    //       e.target.style.height = '196px';
-    //     }
-    //   }
-    // },
-    // onAttachmentSelect() {
-    //   let attachments = this.attachments;
-    //   let images = [];
-    //   let b64Requests = [];
-    //   if (attachments.length) {
-    //     b64Requests = attachments.map((att) => getBase64(att));
-    //     Promise.all(b64Requests).then((b64Images) => {
-    //       images = b64Images.map((image) => {
-    //         let imageData = image.split(',')[1];
-    //         return `data:image/jpg;base64,${imageData}`;
-    //       });
-    //       this.form.attachments.push(...images);
-    //     });
-    //   }
-    // },
     confirmOnSubmit() {
       Object.assign(this.form.inv, this.$refs.inv.form);
       const self = this;
@@ -598,7 +566,8 @@ export default {
       Object.assign(this.form.inv, this.$refs.inv.form);
       Object.assign(this.form.party, this.$refs.party.form);
       Object.assign(this.form.ship, this.$refs.ship.form);
-      Object.assign(this.form.bill, this.$refs.bill.form);
+      // Object.assign(this.form.bill, this.$refs.bill.form);
+      this.form.bill = this.$refs.bill.form;
       Object.assign(this.form.payment, this.$refs.payment.form);
       Object.assign(this.form.total, this.$refs.totalTable.form);
       Object.assign(this.form.transport, this.$refs.transport.form);
@@ -948,7 +917,15 @@ export default {
     },
     onSubmit() {
       this.isLoading = true;
-      this.createDelNote().then(() => {
+      this.createDelNote().then((status) => {
+        if(!status) {
+          this.displayToast(
+          this.$gettext(`Create Invoice Failed!`),
+          this.$gettext('Please check your input and try again later'),
+          'danger'
+        );  
+          return;
+        }
         this.createInvoice();
       });
       // console.log(this.initDelNotePayload());
@@ -958,6 +935,15 @@ export default {
       const self = this;
 
       const payload = this.initPayload();
+      if (!payload) {
+        this.displayToast(
+          this.$gettext(`Create Invoice Failed!`),
+          this.$gettext('Please check your input and try again later'),
+          'danger'
+        );
+        this.deleteDelNote(this.dcId);
+        return;
+      }
       // console.log(payload);
       let method, actionText, url;
       if (this.isCreate) {
@@ -1067,9 +1053,20 @@ export default {
           );
         });
     },
+    sanitizeBillItems() {
+      return this.form.bill.filter((item) => item.product &&
+            item.rate &&
+            item.qty &&
+            item.product.id &&
+            item.product.name)
+    },
     initPayload() {
       this.collectComponentData();
       this.updateDefaultNarration();
+      let billItems = this.sanitizeBillItems();
+      if (!billItems.length) {
+        return false;
+      }
       let paymentMode = this.form.payment.mode;
       let partyVoucherFlag = this.$store.getters['global/getPartyVoucherFlag'];
       if (partyVoucherFlag) {
@@ -1179,7 +1176,8 @@ export default {
       let discount = {};
 
       const self = this;
-      this.form.bill.forEach((item) => {
+      billItems.forEach((item) => {
+
         let inclusiveFlag = false; // must add ths to global settings and fetch from there
         let rate = item.rate;
         if (inclusiveFlag) {
@@ -1317,6 +1315,15 @@ export default {
     },
     createDelNote() {
       const payload = this.initDelNotePayload();
+      if (!payload) {
+        this.displayToast(
+          this.$gettext(`Create Delivery Note Failed!`),
+          this.$gettext('Please check your input and try again later'),
+          'danger'
+        );
+        return -1;
+      }
+
       let method = 'post',
         url = '/delchal';
 
@@ -1351,6 +1358,12 @@ export default {
     initDelNotePayload() {
       this.collectComponentData();
       this.updateDefaultNarration();
+      
+      let billItems = this.sanitizeBillItems();
+      if (!billItems.length) {
+        return false;
+      }
+
       let delchal = {
         custid: parseInt(this.form.party.name.id) || '',
         dcno: this.form.inv.dnNo,
@@ -1448,11 +1461,9 @@ export default {
       let discount = {};
 
       const self = this;
-      this.form.bill.forEach((item) => {
+      billItems.forEach((item) => {
         // let taxable = item.total * item.qty - item.discount.amount;
-        if (!item.product) {
-          return;
-        }
+
         if (contents[item.product.id] === undefined) {
           contents[item.product.id] = {};
         }
