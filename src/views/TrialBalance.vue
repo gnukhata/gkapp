@@ -263,12 +263,12 @@ export default {
         },
 
         {
-          key: 'Dr balance',
+          key: 'Dr',
           label: this.$gettext('Debit'),
           class: 'text-right',
         },
         {
-          key: 'Cr balance',
+          key: 'Cr',
           label: this.$gettext('Credit'),
           class: 'text-right',
         },
@@ -288,24 +288,24 @@ export default {
           label: this.$gettext('Account Name'),
         },
 
-        {
-          key: 'ttlRunDr',
-          label: this.$gettext('Debit'),
-          class: 'text-right',
-        },
-        {
-          key: 'ttlRunCr',
-          label: this.$gettext('Credit'),
-          class: 'text-right',
-        },
+        // {
+        //   key: 'ttlRunDr',
+        //   label: this.$gettext('Debit'),
+        //   class: 'text-right',
+        // },
+        // {
+        //   key: 'ttlRunCr',
+        //   label: this.$gettext('Credit'),
+        //   class: 'text-right',
+        // },
 
         {
-          key: 'Dr',
+          key: 'Dr balance',
           label: this.$gettext('Dr Balance'),
           class: 'text-right',
         },
         {
-          key: 'Cr',
+          key: 'Cr balance',
           label: this.$gettext('Cr Balance'),
           class: 'text-right',
         },
