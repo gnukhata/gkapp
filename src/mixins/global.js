@@ -13,6 +13,19 @@ export default {
   },
   // Naming convention for methods is: snake_casing
   methods: {
+    // adds a log entry for an org, payload is a string
+    gk_log(payload) {
+      axios
+        .post('/log', { activity: payload })
+        .then((r) => {
+          if (r.data.gkstatus == 0) {
+            console.log(payload);
+          }
+        })
+        .catch((e) => {
+          console.log('failed to log: ', e);
+        });
+    },
     is_mobile() {
       return window.innerWidth <= 768 ? true : false;
     },
@@ -146,8 +159,8 @@ export default {
      */
     logOut() {
       const gkcoreUrl = this.$store.getters['getGkCoreUrl'];
-      let orgcode = localStorage.getItem("orgCode");
-      
+      let orgcode = localStorage.getItem('orgCode');
+
       // reset orgname
       this.$store.commit('resetOrg');
 
@@ -167,7 +180,7 @@ export default {
         'orgYears',
         'orgGstin',
         `${orgcode}-globalConf`,
-        'finYears'
+        'finYears',
       ];
       for (const i in deleteList) {
         localStorage.removeItem(deleteList[i]);

@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     // remove a user from organisation
-    removeUser(userID) {
+    removeUser(userID, userName) {
       this.isLoading = true;
       let payload = {
         headers: {
@@ -155,6 +155,7 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case STATUS_CODES['Success']:
+                this.gk_log(`user removed: ${userName}`);
                 this.$bvToast.toast(this.$gettext('User is removed'), {
                   title: 'Success',
                   variant: 'success',
@@ -216,7 +217,6 @@ export default {
         });
     },
     confirmRemoveUser(obj) {
-      console.log(obj);
       this.$bvModal
         .msgBoxConfirm(`Delete user: ${obj.name} ?`, {
           centered: true,
@@ -227,7 +227,7 @@ export default {
         // remove user is confirmed
         .then((r) => {
           if (r) {
-            this.removeUser(obj.userid);
+            this.removeUser(obj.userid, obj.name);
             return;
           }
         });

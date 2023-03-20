@@ -301,7 +301,6 @@ export default {
       };
 
       // If selected role is godown incharge, add selected godown id's to the submitted form
-      console.log(USER_ROLES['godown_incharge']);
       if (this.form.userrole == USER_ROLES['godown_incharge']) {
         let list = [];
         for (let i in this.allGodowns) {
@@ -318,6 +317,7 @@ export default {
         .then((resp) => {
           switch (resp.data.gkstatus) {
             case STATUS_CODES['Success']:
+              this.gk_log(`user invited: ${this.form.username}`);
               this.$bvToast.toast(
                 `${this.form.username} has been invited successfully`,
                 {
@@ -359,7 +359,7 @@ export default {
             case STATUS_CODES['ActionDisallowed']:
               this.$bvToast.toast(
                 this.$gettext(
-                  'Authrization Error: User has not been granted invite permissions'
+                  'Authorization Error: User has not been granted invite permissions'
                 ),
                 {
                   variant: 'warning',
