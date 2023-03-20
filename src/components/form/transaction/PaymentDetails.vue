@@ -8,7 +8,11 @@
   >
     <div class="p-2 p-md-3">
       <div>
-        <b v-translate> Payment Details </b>
+        <b class="mr-1" v-translate> Payment Details </b>
+        <GkTooltip
+          helpTitle="Mode of Payment"
+          helpBody="Available mode of payments are Cash, Bank, Credit. Default mode is Cash. This option can be changed in Administration > Settings > Transaction > Payment Mode"
+        />
         <b-button
           variant="secondary"
           size="sm"
@@ -26,6 +30,7 @@
         </b-button>
       </div>
       <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
+        <!-- payment details -->
         <b-form-group
           label="Mode of Payment"
           label-for="pmd-input-10"
@@ -37,7 +42,7 @@
           <b-form-select
             size="sm"
             id="pmd-input-10"
-            v-model="form.mode"
+            v-model.lazy="form.mode"
             :options="options.payModes"
             required
             @input="onUpdateDetails"
@@ -126,8 +131,9 @@
 
 <script>
 import GkIfsc from '../../GkIfsc.vue';
+import GkTooltip from '@/components/GkTooltip.vue';
 export default {
-  components: { GkIfsc },
+  components: { GkIfsc, GkTooltip },
   name: 'PaymentDetails',
   props: {
     saleFlag: {
@@ -174,6 +180,7 @@ export default {
   data() {
     return {
       form: {
+        // default is cash mode
         mode: 3,
         bank: {
           no: null,

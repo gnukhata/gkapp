@@ -32,7 +32,7 @@ export default {
           },
         },
         default: {
-          payment: 'bank', // bank, cash, credit
+          payment: 'cash', // bank, cash, credit
           tax: 'GST', // GST, VAT
           godown: '',
           contacts: { customer: -1, supplier: -1 },
@@ -72,25 +72,37 @@ export default {
         : state.defConf.general.format.date;
     },
     getTrnNoFormat: (state) => {
-      return state.customConf.transaction ? state.customConf.transaction.format.no : state.defConf.transaction.format.no ;
+      return state.customConf.transaction
+        ? state.customConf.transaction.format.no
+        : state.defConf.transaction.format.no;
     },
     getDefaultPaymentMode(state) {
-      return state.customConf.transaction ? state.customConf.transaction.default.payment : state.defConf.transaction.default.payment ;
+      return state.customConf.transaction
+        ? state.customConf.transaction.default.payment
+        : state.defConf.transaction.default.payment;
     },
     getDefaultTaxMode(state) {
-      return state.customConf.transaction ? state.customConf.transaction.default.tax : state.defConf.transaction.default.tax ;
+      return state.customConf.transaction
+        ? state.customConf.transaction.default.tax
+        : state.defConf.transaction.default.tax;
     },
     getGstRates(state) {
       return state.constant.gstRates;
     },
     getPartyVoucherFlag(state) {
-      return state.customConf.transaction ? state.customConf.transaction.default.partyVoucherFlag : state.defConf.transaction.default.partyVoucherFlag ;
+      return state.customConf.transaction
+        ? state.customConf.transaction.default.partyVoucherFlag
+        : state.defConf.transaction.default.partyVoucherFlag;
     },
     getDefaultGodown(state) {
-      return state.customConf.transaction ? state.customConf.transaction.default.godown : state.defConf.transaction.default.godown ;
+      return state.customConf.transaction
+        ? state.customConf.transaction.default.godown
+        : state.defConf.transaction.default.godown;
     },
     getDefaultContacts(state) {
-      return state.customConf.transaction ? state.customConf.transaction.default.contacts : state.defConf.transaction.default.contacts ;
+      return state.customConf.transaction
+        ? state.customConf.transaction.default.contacts
+        : state.defConf.transaction.default.contacts;
     },
   },
   mutations: {
