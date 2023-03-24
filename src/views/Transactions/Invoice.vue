@@ -288,19 +288,6 @@ export default {
 
     PrintPage,
   },
-  props: {
-    // mode: {
-    //   type: String,
-    //   validator: function(value) {
-    //     return ['create', 'edit'].indexOf(value) !== -1;
-    //   },
-    //   required: true,
-    // },
-    // invid: {
-    //   type: [String, Number],
-    //   required: true,
-    // },
-  },
   data() {
     return {
       // config: {},
@@ -588,7 +575,6 @@ export default {
       switch (payload.name) {
         case 'invoice-details':
           {
-            // debugger;
             // if (payload.data.delNote !== this.form.inv.delNote) {
             //   this.fetchDelNoteData(payload.data.delNote);
             // } else {
@@ -657,7 +643,6 @@ export default {
       const self = this;
       axios.get(`/delchal/${dcid}`).then((resp) => {
         if (resp.data.gkstatus === 0) {
-          // debugger;
           self.options.dcData = resp.data.gkresult.delchaldata;
           self.form.inv.godown = resp.data.gkresult.delchaldata.goid;
           self.form.inv.dnNo = resp.data.gkresult.delchaldata.dcno;
@@ -872,12 +857,12 @@ export default {
     onSubmit() {
       this.isLoading = true;
       this.createDelNote().then((status) => {
-        if(!status) {
+        if (!status) {
           this.displayToast(
-          this.$gettext(`Create Invoice Failed!`),
-          this.$gettext('Please check your input and try again later'),
-          'danger'
-        );  
+            this.$gettext(`Create Invoice Failed!`),
+            this.$gettext('Please check your input and try again later'),
+            'danger'
+          );
           return;
         }
         this.createInvoice();
@@ -1031,12 +1016,10 @@ export default {
         invnarration: this.form.narration || this.defaultNarration,
       };
 
-      // debugger;
       // === Delivery Note ===
       if (this.dcId) {
         invoice.dcid = this.dcId;
       }
-
       // === Sale / Purchase related data ===
       if (this.isSale) {
         invoice.sourcestate = this.form.inv.state.name || null;
@@ -1058,6 +1041,10 @@ export default {
         }
       }
 
+      // if purchase invoice, place of supply is party state
+      if (this.isSale == false) {
+        invoice.taxstate = this.form.inv.state.name;
+      }
       // === GST/ VAT related data ===
       if (this.isGst) {
         invoice.taxflag = 7;
@@ -1311,17 +1298,6 @@ export default {
         modeoftransport: this.form.transport.mode,
         noofpackages: this.form.transport.packageCount,
       };
-
-      // if (!this.isCreate) {
-      //   if (this.dcId) {
-      //     delchal.dcid = this.dcId;
-      //   }
-
-      //   if (this.options.dcData && this.options.dcData.dcno) {
-      //     delchal.dcno = this.options.dcData.dcno;
-      //   }
-      // }
-
       // === Sale / Purchase related data ===
       if (this.isSale) {
         delchal.sourcestate = this.form.inv.state.name || null;
@@ -1339,6 +1315,10 @@ export default {
         if (this.form.inv.taxState.name) {
           delchal.taxstate = this.form.inv.taxState.name;
         }
+      }
+      // if purchase invoice, place of supply is party state
+      if (this.isSale == false) {
+        delchal.taxstate = this.form.inv.state.name;
       }
 
       // === GST/ VAT related data ===
