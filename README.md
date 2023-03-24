@@ -27,17 +27,15 @@ https://gnukhata.gitlab.io/gkapp
 
 #### Requirements
 
-- Nodejs `v16.18.0` (you can use [nvm](https://github.com/nvm-sh/nvm) for managing node versions)
-
-#### Get the repo
-
-- [Clone from Gitlab](https://gitlab.com/gnukhata/gkapp)
+- Nodejs `v16.18.0` (use [nvm](https://github.com/nvm-sh/nvm) for managing node versions)
 
 #### Install
 
 `cd` to project's dir and run `npm install` which installs the required dependencies
 
 #### Development
+
+Development happens on the `devel` branch.
 
 To pre-compile & hot-reload for development run `npm run serve`
 
@@ -70,5 +68,6 @@ Any contribution to the gkapp will be licensed under AGPLv3
 - [GNUKhata Wiki](https://gitlab.com/gnukhata/gkapp/-/wikis/home)
 - [Vue CLI](https://cli.vuejs.org)
 - [Vue.js](https://vuejs.org)
+- [Vue.js 2 Tutorial (youtube playlist)](https://www.youtube.com/playlist?list=PL4cUxeGkcC9gQcYgjhBoeQH7wiAyZNrYa)
 - [Bootstrap Vue](https://bootstrap-vue.org)
 - [vue-gettext](https://github.com/Polyconseil/vue-gettext)
