@@ -21,8 +21,8 @@
       :show="true"
     >
       Valid GST Units are marked
-      <b-badge variant="success">green</b-badge> Custom Units will be
-      marked in <b-badge variant="warning">Yellow</b-badge>
+      <b-badge variant="success">green</b-badge> Custom Units will be marked in
+      <b-badge variant="warning">Yellow</b-badge>
     </b-alert>
     <b-table
       :filter="searchText"
@@ -109,7 +109,7 @@ export default {
     getUOM() {
       this.isLoading = true;
       axios
-        .get('/unitofmeasurement?qty=all')
+        .get('/unitofmeasurement')
         .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
             const uomData = r.data.gkresult;

@@ -164,14 +164,11 @@ export default {
      */
     getUOMInfo() {
       axios
-        .get(
-          `${this.gkCoreUrl}/unitofmeasurement?qty=single&uomid=${this.id}`,
-          {
-            headers: {
-              gktoken: this.authToken,
-            },
-          }
-        )
+        .get(`${this.gkCoreUrl}/unitofmeasurement/${this.id}`, {
+          headers: {
+            gktoken: this.authToken,
+          },
+        })
         .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
             let res = r.data.gkresult;
@@ -204,7 +201,7 @@ export default {
     getUOM() {
       this.isLoading = true;
       axios
-        .get(`${this.gkCoreUrl}/unitofmeasurement?qty=all`, {
+        .get(`${this.gkCoreUrl}/unitofmeasurement`, {
           headers: { gktoken: this.authToken },
         })
         .then((r) => {

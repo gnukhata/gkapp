@@ -118,7 +118,7 @@ export default {
     getUOM() {
       this.isLoading = true;
       axios
-        .get(`${this.gkCoreUrl}/unitofmeasurement?qty=all`, {
+        .get(`${this.gkCoreUrl}/unitofmeasurement`, {
           headers: { gktoken: this.authToken },
         })
         .then((r) => {
