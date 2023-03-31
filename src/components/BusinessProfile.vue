@@ -41,10 +41,10 @@
           label-size="sm"
         >
           <template #label> <translate> Unit of Measure </translate> </template>
-          <b-input-group size="sm" :prepend="details.unitname">
+          <b-input-group size="sm">
             <b-form-select
               size="sm"
-              v-model="details.unitname"
+              v-model="details.uomid"
               :options="options.uom"
             >
             </b-form-select>
@@ -939,20 +939,17 @@ export default {
         },
       };
       return axios
-        .get(`${this.gkCoreUrl}/unitofmeasurement?qty=all`, config)
+        .get(`${this.gkCoreUrl}/unitofmeasurement`, config)
         .then((response) => {
           switch (response.data.gkstatus) {
             case 0:
               this.options.uom = response.data.gkresult.map((uom) => {
                 return {
                   text: `${uom.unitname} (${uom.description})`,
-                  value: { id: uom.uomid, name: uom.unitname },
+                  // value: { id: uom.uomid, name: uom.unitname },
+                  value: uom.uomid,
                 };
               });
-              this.uom = this.options.uom.filter(
-                (uom) => uom.value.name === 'UNT'
-              )[0].value;
-              // console.log(response.data.gkresult)
               break;
             default:
               this.$bvToast.toast(this.$gettext(`Please try after sometime`), {

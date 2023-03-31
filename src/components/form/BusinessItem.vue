@@ -371,13 +371,14 @@
                           :id="'vat-inp-' + index"
                           size="sm"
                         >
-                          <b-input-group-prepend>                            
-                            <b-form-select size="sm"
+                          <b-input-group-prepend>
+                            <b-form-select
+                              size="sm"
                               style="max-width: 150px"
                               v-model="vat.state"
                               :options="options.states"
-                              :required="!!vat.rate">
-
+                              :required="!!vat.rate"
+                            >
                             </b-form-select>
                           </b-input-group-prepend>
                           <b-form-input
@@ -629,7 +630,7 @@ export default {
         },
         hsn: null,
       },
-      uom: {name: ''},
+      uom: { name: '' },
     };
   },
   computed: {
@@ -1094,7 +1095,7 @@ export default {
     preloadData() {
       this.isPreloading = true;
       const requests = [
-        axios.get('/unitofmeasurement?qty=all').catch((error) => {
+        axios.get('/unitofmeasurement').catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Unit of Measurement Failed!'),
             error.message,
