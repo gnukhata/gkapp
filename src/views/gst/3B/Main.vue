@@ -1052,7 +1052,7 @@ export default {
       const self = this;
       axios
         .get(
-          `/gstreturns?type=r3b&calculateto=${this.toDate}&calculatefrom=${this.fromDate}&gstin=${this.orgGstin}`
+          `/gst/returns/3b?calculateto=${this.toDate}&calculatefrom=${this.fromDate}&gstin=${this.orgGstin}`
         )
         .then((resp) => {
           self.isLoading = false;

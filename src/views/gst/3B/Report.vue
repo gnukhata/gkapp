@@ -73,7 +73,7 @@ export default {
     getGstSummary() {
       this.loading = true;
       axios
-        .get(`/gstreturns?type=3b&from=${this.params.fd}&to=${this.params.td}`)
+        .get(`/gst/returns/3b?from=${this.params.fd}&to=${this.params.td}`)
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {

@@ -101,9 +101,7 @@ export default {
     getGstR1Report() {
       this.loading = true;
       axios
-        .get(
-          `/gstreturns?type=r1&start=${this.params.fd}&end=${this.params.td}`
-        )
+        .get(`/gst/returns/r1?start=${this.params.fd}&end=${this.params.td}`)
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
@@ -172,7 +170,7 @@ export default {
                         label = 'Description';
                         break;
                       case 'hsnsac':
-                       label = 'HSN';
+                        label = 'HSN';
                         break;
                       case 'totalvalue':
                         label = 'Total Value';
@@ -182,17 +180,17 @@ export default {
                         break;
                       case 'IGSTamt':
                         label = 'Integrated Tax';
-                         break;
+                        break;
                       case 'CESSamt':
                         label = 'Cess';
-                         break;
+                        break;
                       case 'uqc':
                         label = 'UQC';
                         break;
                       case 'qty':
                         label = 'Total Quantity';
                         break;
-                        case 'SGSTamt':
+                      case 'SGSTamt':
                         label = 'State/UT tax';
                         break;
                       case 'pregst':
@@ -206,16 +204,16 @@ export default {
                         break;
                       case 'ecommerce_gstin':
                         label = 'E-Commerce GSTIN';
-                        break; 
+                        break;
                       case 'applicable_tax_rate':
                         label = 'Applicable % of Tax Rate';
-                        break;                     
+                        break;
                       case 'document_type':
                         label = 'Note Type';
-                         break;  
+                        break;
                       case 'refund_voucher_value':
                         label = 'Note Value';
-                        break;  
+                        break;
                     }
                     if (label) {
                       this.fields[i] = {
@@ -230,7 +228,7 @@ export default {
                       };
                     }
 
-                    if(field === 'invoice_number') {
+                    if (field === 'invoice_number') {
                       this.fields[i].stickyColumn = true;
                     }
 

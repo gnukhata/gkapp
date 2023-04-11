@@ -520,7 +520,7 @@ export default {
     getGstR1List() {
       this.isLoading = true;
       axios
-        .get(`/gstreturns?type=r1&start=${this.fd}&end=${this.td}`)
+        .get(`/gst/returns/r1?start=${this.fd}&end=${this.td}`)
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {

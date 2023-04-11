@@ -234,7 +234,7 @@ export default {
         sateCode: '',
       },
       isCaptchaLoading: false,
-      isValidationLoading: false
+      isValidationLoading: false,
     };
   },
   computed: {
@@ -302,58 +302,64 @@ export default {
         cookie: this.gstinCaptcha.cookie,
       };
       this.isValidationLoading = true;
-      axios.post('/gstreturns?type=gstin_captcha', payload).then((resp) => {
-        if (resp.data.gkstatus === 0) {
-          let data = resp.data.gkresult;
-          this.gstinData = {
-            tradeName: data.tradeNam ? data.tradeNam : '',
-            status: data.sts ? data.sts : '',
-            validity: true,
-            stateCode: this.input.substr(0, 2),
-            pan: this.input.substr(2, 10),
-          };
-          if (data.pradr) {
-            let addrSplit = data.pradr.adr.split(', ');
-            this.gstinData.addr = data.pradr.adr || '';
-            this.gstinData.pincode = addrSplit
-              ? addrSplit[addrSplit.length - 1]
-              : '';
-          }
-          this.gstinCaptcha.validity = true;
-          this.$emit('verified', true);
-        } else {
-          this.gstinData.validity = false;
-          let error = resp.data.gkerror;
-          if (error) {
-            // if captcha expired, fetch it again
-            if (error.errorCode && error.errorCode === 'SWEB_9000') {
-              this.gstinCaptcha.validity = false;
-              this.gstinCaptcha.text = '';
-              this.getGstinCaptcha();
-              return;
+      axios
+        .post('/gst/captcha', payload)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let data = resp.data.gkresult;
+            this.gstinData = {
+              tradeName: data.tradeNam ? data.tradeNam : '',
+              status: data.sts ? data.sts : '',
+              validity: true,
+              stateCode: this.input.substr(0, 2),
+              pan: this.input.substr(2, 10),
+            };
+            if (data.pradr) {
+              let addrSplit = data.pradr.adr.split(', ');
+              this.gstinData.addr = data.pradr.adr || '';
+              this.gstinData.pincode = addrSplit
+                ? addrSplit[addrSplit.length - 1]
+                : '';
             }
+            this.gstinCaptcha.validity = true;
+            this.$emit('verified', true);
+          } else {
+            this.gstinData.validity = false;
+            let error = resp.data.gkerror;
+            if (error) {
+              // if captcha expired, fetch it again
+              if (error.errorCode && error.errorCode === 'SWEB_9000') {
+                this.gstinCaptcha.validity = false;
+                this.gstinCaptcha.text = '';
+                this.getGstinCaptcha();
+                return;
+              }
+            }
+            this.$emit('verified', false);
           }
-          this.$emit('verified', false);
-        }
-      }).finally(() => {
-        this.isValidationLoading = false;
-      });
+        })
+        .finally(() => {
+          this.isValidationLoading = false;
+        });
     },
     getGstinCaptcha() {
       this.isCaptchaLoading = true;
-      axios.get('/gstreturns?type=gstin_captcha').then((resp) => {
-        if (resp.data.gkstatus === 0) {
-          let data = resp.data.gkresult;
-          let captchaB64 = data.captcha;
-          this.gstinCaptcha.cookie = data.cookie;
-          this.gstinCaptcha.image = `data:image/png;base64,${captchaB64}`;
-          this.gstinCaptcha.show = true;
-        } else {
-          this.gstinCaptcha.show = false;
-        }
-      }).finally(() => {
-        this.isCaptchaLoading = false;
-      });
+      axios
+        .get('/gst/captcha')
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            let data = resp.data.gkresult;
+            let captchaB64 = data.captcha;
+            this.gstinCaptcha.cookie = data.cookie;
+            this.gstinCaptcha.image = `data:image/png;base64,${captchaB64}`;
+            this.gstinCaptcha.show = true;
+          } else {
+            this.gstinCaptcha.show = false;
+          }
+        })
+        .finally(() => {
+          this.isCaptchaLoading = false;
+        });
     },
     /**
      * Validates the gstin and emits a payload with validity status and checksum, pan and state code
@@ -443,13 +449,17 @@ export default {
       // state code - 99 or 98 or 97
       // 97AAACB8516F1ZN, 97AAACE4569K1Z4
       if (!valid.format) {
-        valid.format = /^(9[0-9])[A-Z]{3}([ABCFGHLJPT])[A-Z][0-9]{4}[A-Z][1-9][Z][0-9A-Z]$/g.test(gstn);
+        valid.format = /^(9[0-9])[A-Z]{3}([ABCFGHLJPT])[A-Z][0-9]{4}[A-Z][1-9][Z][0-9A-Z]$/g.test(
+          gstn
+        );
       }
 
       // Tax Deductor, Uses TAN instead of PAN
       // 29BLRA01098G1D8, 23JBPA02268A1DD
       if (!valid.format) {
-        valid.format = /^(0[1-9]|[1-2][0-9]|3[0-7])[A-Z]{3}([ABCFGHLJPT])([A-Z]|[0-9])[0-9]{4}[A-Z][1-9][D][0-9A-Z]$/g.test(gstn);
+        valid.format = /^(0[1-9]|[1-2][0-9]|3[0-7])[A-Z]{3}([ABCFGHLJPT])([A-Z]|[0-9])[0-9]{4}[A-Z][1-9][D][0-9A-Z]$/g.test(
+          gstn
+        );
       }
 
       if (!valid.format) {
