@@ -21,6 +21,7 @@
               variant="dark"
               :size="size"
               @click="searchHsn(hsn.code)"
+							:disabled="hsn.code.length < 1"
               ><b-icon-search
             /></b-button>
           </b-input-group-append>
@@ -31,7 +32,7 @@
     <div
       v-if="hsn.suggestions.length > 0"
       style="height: 20em; width: inherit; overflow-y:scroll"
-      class="border mb-1 text-"
+      class="border mb-1"
     >
       <b-table
         table-variant="warning"
@@ -84,7 +85,7 @@ export default {
     return {
       loading: false,
       hsn: {
-        code: null,
+        code: '',
         desc: '',
         suggestions: [],
         isValid: null,
