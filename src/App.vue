@@ -59,22 +59,13 @@
               ></b-avatar>
               <span class="d-none d-md-inline"> {{ userName }} </span>
             </template>
+						<!-- logout button -->
             <b-dropdown-item @click="logOut" href="#">
               <b-icon icon="box-arrow-in-left"></b-icon> Change Org
             </b-dropdown-item>
-            <b-dropdown-item id="fy-select">
-              <!-- financial year selection -->
-              <v-select
-                :reduce="(option) => option.index"
-                :options="finYears"
-                v-model="currentFinYear"
-              >
-                <template #selected-option="{ yend, ystart }">
-                  <!-- WARN: beware of Y3K Bug -->
-                  FY {{ ystart.split('-')[2] }} -
-                  {{ yend.split('-')[2].slice(2, 4) }}
-                </template>
-              </v-select>
+						<!-- fy switch button, only shown when org has more than one financial year -->
+						<b-dropdown-item v-if="finYears.length > 1" v-b-modal.fy-modal href="#">
+              <b-icon icon="toggles"></b-icon> Switch FY 
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -87,6 +78,28 @@
     </main>
     <go-to v-if="userOrgAuthenticated"></go-to>
     <title-bar></title-bar>
+    <b-modal
+      :title="$gettext('Select Financial Year')"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      hide-footer
+      id="fy-modal"
+      size="sm"
+			centered
+    >
+      <!-- financial year selection -->
+      <v-select
+        :reduce="(option) => option.index"
+        :options="finYears"
+        v-model="currentFinYear"
+      >
+        <template #selected-option="{ yend, ystart }">
+          <!-- WARN: beware of Y3K Bug -->
+          FY {{ ystart.split('-')[2] }} -
+          {{ yend.split('-')[2].slice(2, 4) }}
+        </template>
+      </v-select>
+    </b-modal>
   </div>
 </template>
 <script>
