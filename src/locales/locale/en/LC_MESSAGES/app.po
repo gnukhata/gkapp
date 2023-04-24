@@ -312,12 +312,12 @@ msgid ""
 "      </div>"
 msgstr ""
 
-#: src/components/Sidebar.vue:201 src/components/Sidebar.vue:185
+#: src/components/Sidebar.vue:202 src/components/Sidebar.vue:186
 #, fuzzy
 msgid "3B Report"
 msgstr "R1 Report"
 
-#: src/components/Sidebar.vue:215 src/components/Sidebar.vue:199
+#: src/components/Sidebar.vue:216 src/components/Sidebar.vue:200
 msgid "About"
 msgstr "About"
 
@@ -380,7 +380,7 @@ msgstr ""
 "Accounting entry could not be made due to mismatch of accounts. Please make "
 "the entry yourself."
 
-#: src/components/Sidebar.vue:94 src/components/Sidebar.vue:78
+#: src/components/Sidebar.vue:95 src/components/Sidebar.vue:79
 #: src/views/Accounts.vue:2
 msgid "Accounts"
 msgstr "Accounts"
@@ -529,7 +529,7 @@ msgstr "Address"
 msgid "Adjust"
 msgstr "Adjust"
 
-#: src/components/Sidebar.vue:103 src/components/Sidebar.vue:87
+#: src/components/Sidebar.vue:104 src/components/Sidebar.vue:88
 msgid "Adjust Bills"
 msgstr "Adjust Bills"
 
@@ -601,7 +601,7 @@ msgstr "Attachments"
 msgid "Attachments:"
 msgstr "Attachments:"
 
-#: src/components/Sidebar.vue:92 src/components/Sidebar.vue:76
+#: src/components/Sidebar.vue:93 src/components/Sidebar.vue:77
 msgid "Audit Logs"
 msgstr "Audit Logs"
 
@@ -649,7 +649,7 @@ msgstr "Balance"
 msgid "Balance Due"
 msgstr "Balance"
 
-#: src/components/Sidebar.vue:181 src/components/Sidebar.vue:165
+#: src/components/Sidebar.vue:182 src/components/Sidebar.vue:166
 msgid "Balance Sheet"
 msgstr "Balance Sheet"
 
@@ -680,7 +680,7 @@ msgstr "Bank Details"
 msgid "Bank Name"
 msgstr "Bank Name"
 
-#: src/components/Sidebar.vue:110 src/components/Sidebar.vue:94
+#: src/components/Sidebar.vue:111 src/components/Sidebar.vue:95
 msgid "Bank Reconciliation"
 msgstr "Bank Reconciliation"
 
@@ -714,7 +714,7 @@ msgstr "Billwise Acccounting"
 msgid "Branch"
 msgstr "Branch"
 
-#: src/components/Sidebar.vue:97 src/components/Sidebar.vue:81
+#: src/components/Sidebar.vue:98 src/components/Sidebar.vue:82
 #: src/views/Budget.vue:5 src/views/Budget.vue:1
 msgid "Budget"
 msgstr "Budget"
@@ -816,7 +816,7 @@ msgstr "Cash"
 msgid "Cash Available"
 msgstr "Cash Available"
 
-#: src/components/Sidebar.vue:170 src/components/Sidebar.vue:154
+#: src/components/Sidebar.vue:171 src/components/Sidebar.vue:155
 msgid "Cash Flow"
 msgstr "Cash Flow"
 
@@ -850,7 +850,7 @@ msgstr "CASH RECEIVED"
 msgid "Cash Transfer Amount"
 msgstr "Create Transfer Note"
 
-#: src/components/Sidebar.vue:137 src/components/Sidebar.vue:121
+#: src/components/Sidebar.vue:138 src/components/Sidebar.vue:122
 msgid "Categories"
 msgstr "Categories"
 
@@ -862,7 +862,7 @@ msgstr "Category"
 msgid "Category wise Stock On Hand"
 msgstr "Category wise Stock On Hand"
 
-#: src/components/Sidebar.vue:164 src/components/Sidebar.vue:148
+#: src/components/Sidebar.vue:165 src/components/Sidebar.vue:149
 msgid "Categorywise Stock On Hand"
 msgstr "Categorywise Stock On Hand"
 
@@ -919,7 +919,7 @@ msgstr ""
 msgid "Close Books"
 msgstr "Close Books"
 
-#: src/components/Sidebar.vue:107 src/components/Sidebar.vue:91
+#: src/components/Sidebar.vue:108 src/components/Sidebar.vue:92
 msgid "Close Books / Roll Over"
 msgstr "Close Books / Roll Over"
 
@@ -1013,12 +1013,12 @@ msgstr "Conversion Rate"
 msgid "Correction in Invoice"
 msgstr "Create Invoice"
 
-#: src/components/Sidebar.vue:133 src/components/Sidebar.vue:117
+#: src/components/Sidebar.vue:134 src/components/Sidebar.vue:118
 #: src/views/Ledger.vue:111
 msgid "Cost Center"
 msgstr "Cost Center"
 
-#: src/components/Sidebar.vue:155 src/components/Sidebar.vue:139
+#: src/components/Sidebar.vue:156 src/components/Sidebar.vue:140
 msgid "Cost Center Statement"
 msgstr "Cost Center Statement"
 
@@ -1348,7 +1348,7 @@ msgstr "Customer Details"
 #: src/views/CostCenterEdit.vue:71 src/views/GodownEdit.vue:93
 #: src/views/Ledger.vue:92 src/views/LedgerFull.vue:115
 #: src/views/LedgerFull.vue:163 src/views/LedgerMonthly.vue:77
-#: src/views/ProfitLoss.vue:66 src/views/StockOnHand.vue:129
+#: src/views/ProfitLoss.vue:66 src/views/StockOnHand.vue:135
 #: src/views/TrialBalance.vue:185
 msgid "Data error"
 msgstr "Data error"
@@ -1808,7 +1808,7 @@ msgstr "Expected Receipt Date"
 msgid "Export Company Data"
 msgstr ""
 
-#: src/components/Sidebar.vue:114 src/components/Sidebar.vue:98
+#: src/components/Sidebar.vue:1 src/views/Settings.vue:273
 msgid "Export Data"
 msgstr ""
 
@@ -2126,7 +2126,7 @@ msgstr "Get Details"
 msgid "Getting Security Question"
 msgstr "Getting Security Question"
 
-#: src/views/Settings.vue:47 src/views/Settings.vue:56
+#: src/views/Settings.vue:51 src/views/Settings.vue:60
 msgid "Global Config Saved Successfully."
 msgstr "Global Config Saved Successfully."
 
@@ -2176,7 +2176,7 @@ msgstr "Godown Info Updated Successfully"
 msgid "Godown Wise Stock On Hand Report"
 msgstr "Godown Wise Stock On Hand Report"
 
-#: src/components/Sidebar.vue:131 src/components/Sidebar.vue:115
+#: src/components/Sidebar.vue:132 src/components/Sidebar.vue:116
 msgid "Godowns"
 msgstr "Godowns"
 
@@ -2238,7 +2238,7 @@ msgstr "Groups"
 msgid "GST Account"
 msgstr "GST Account"
 
-#: src/components/Sidebar.vue:204 src/components/Sidebar.vue:188
+#: src/components/Sidebar.vue:205 src/components/Sidebar.vue:189
 msgid "GST News"
 msgstr ""
 
@@ -2258,7 +2258,7 @@ msgstr "Transaction Type"
 msgid "GSTIN"
 msgstr "GSTIN"
 
-#: src/components/Sidebar.vue:211 src/components/Sidebar.vue:195
+#: src/components/Sidebar.vue:212 src/components/Sidebar.vue:196
 msgid "Help"
 msgstr "Help"
 
@@ -2288,7 +2288,7 @@ msgstr "Image"
 msgid "Import Company Data"
 msgstr ""
 
-#: src/components/Sidebar.vue:118 src/components/Sidebar.vue:102
+#: src/components/Sidebar.vue:1 src/views/Settings.vue:269
 #: src/views/data/Import.vue:30
 msgid "Import Data"
 msgstr ""
@@ -2376,7 +2376,7 @@ msgstr "Invalid IFSC Code"
 msgid "Invalid URL"
 msgstr "Invalid Data"
 
-#: src/components/Sidebar.vue:128 src/components/Sidebar.vue:112
+#: src/components/Sidebar.vue:129 src/components/Sidebar.vue:113
 msgid "Inventory"
 msgstr "Inventory"
 
@@ -2454,7 +2454,7 @@ msgstr "Item"
 msgid "JSON validation error! Fix your JSON structure and try again."
 msgstr "JSON validation error! Fix your JSON structure and try again."
 
-#: src/components/Sidebar.vue:177 src/components/Sidebar.vue:161
+#: src/components/Sidebar.vue:178 src/components/Sidebar.vue:162
 msgid "Ledger"
 msgstr "Ledger"
 
@@ -2483,7 +2483,7 @@ msgstr "Login To %{orgNameDisplay}"
 msgid "Make Payment"
 msgstr "Mode of Payment"
 
-#: src/components/Sidebar.vue:90 src/components/Sidebar.vue:74
+#: src/components/Sidebar.vue:91 src/components/Sidebar.vue:75
 msgid "Manage Users"
 msgstr "Manage Users"
 
@@ -2713,11 +2713,11 @@ msgstr "Opening Balance"
 msgid "Opening Stock"
 msgstr "Opening Stock"
 
-#: src/views/SelectOrg.vue:56
+#: src/views/SelectOrg.vue:56 src/views/Settings.vue:261
 msgid "Organisation"
 msgstr "Organisation"
 
-#: src/components/Sidebar.vue:86 src/components/Sidebar.vue:70
+#: src/components/Sidebar.vue:1
 msgid "Organisation Profile"
 msgstr "Organisation Profile"
 
@@ -2962,11 +2962,11 @@ msgstr "Product does not exist"
 msgid "Product Name"
 msgstr "Product Name"
 
-#: src/components/Sidebar.vue:152 src/components/Sidebar.vue:136
+#: src/components/Sidebar.vue:153 src/components/Sidebar.vue:137
 msgid "Product Register"
 msgstr "Product Register"
 
-#: src/components/Sidebar.vue:167 src/components/Sidebar.vue:151
+#: src/components/Sidebar.vue:168 src/components/Sidebar.vue:152
 #: src/components/form/BudgetItem.vue:24 src/views/Budget.vue:17
 msgid "Profit & Loss"
 msgstr "Profit & Loss"
@@ -3043,7 +3043,7 @@ msgstr "Qty Debited"
 msgid "Question"
 msgstr "Question"
 
-#: src/components/Sidebar.vue:198 src/components/Sidebar.vue:182
+#: src/components/Sidebar.vue:199 src/components/Sidebar.vue:183
 msgid "R1 Report"
 msgstr "R1 Report"
 
@@ -3145,12 +3145,12 @@ msgstr "Rejection Note"
 msgid "Rejection Note Details"
 msgstr "Rejection Note Details"
 
-#: src/components/Sidebar.vue:224 src/components/Sidebar.vue:208
+#: src/components/Sidebar.vue:225 src/components/Sidebar.vue:209
 #, fuzzy
 msgid "Report Bug"
 msgstr "Reports"
 
-#: src/components/Sidebar.vue:148 src/components/Sidebar.vue:132
+#: src/components/Sidebar.vue:149 src/components/Sidebar.vue:133
 msgid "Reports"
 msgstr "Reports"
 
@@ -3244,11 +3244,6 @@ msgstr "Sale Order Details"
 #: src/views/Transactions/PurchaseSaleOrder.vue:575
 msgid "Sale Order Value"
 msgstr "Sale Order Value"
-
-#: src/components/form/BusinessItem.vue:109
-#: src/components/form/BusinessItem.vue:1
-msgid "Sale Price"
-msgstr "Sale Price"
 
 #: src/views/Transactions/RejectionNote.vue:10
 msgid "Sale Rejection"
@@ -3420,7 +3415,7 @@ msgstr "ServiceTax Number"
 msgid "Set default for %{groupName}"
 msgstr "Set default for %{groupName}"
 
-#: src/components/Sidebar.vue:121 src/components/Sidebar.vue:105
+#: src/components/Sidebar.vue:122 src/components/Sidebar.vue:106
 #, fuzzy
 msgid "Settings"
 msgstr "List Settings"
@@ -3485,7 +3480,7 @@ msgstr ""
 "Each Ledger Account of the dual ledgers has a separate Quick Search "
 "facility. All users can view this report. This report is unique to GNUKhata."
 
-#: src/components/Sidebar.vue:221 src/components/Sidebar.vue:205
+#: src/components/Sidebar.vue:222 src/components/Sidebar.vue:206
 #: src/views/About.vue:28
 msgid "Source Code"
 msgstr "Source Code"
@@ -3522,7 +3517,7 @@ msgstr "State"
 msgid "Status"
 msgstr "Status"
 
-#: src/components/Sidebar.vue:161 src/components/Sidebar.vue:145
+#: src/components/Sidebar.vue:162 src/components/Sidebar.vue:146
 #: src/views/StockOnHand.vue:37
 msgid "Stock On Hand"
 msgstr "Stock On Hand"
@@ -3582,8 +3577,8 @@ msgstr "Success"
 
 #: src/components/form/BudgetItem.vue:186
 #: src/components/form/BudgetItem.vue:363
-#: src/components/form/VoucherEasy.vue:138 src/views/Settings.vue:46
-#: src/views/Settings.vue:55
+#: src/components/form/VoucherEasy.vue:138 src/views/Settings.vue:50
+#: src/views/Settings.vue:59
 msgid "Success!"
 msgstr "Success!"
 
@@ -3663,6 +3658,12 @@ msgstr "Taxable"
 #: src/components/form/transaction/TotalTable.vue:10
 msgid "Taxable Amount"
 msgstr "Taxable Amount"
+
+#: src/components/form/BusinessItem.vue:109
+#: src/components/form/BusinessItem.vue:1
+#, fuzzy
+msgid "Taxable Sale Price"
+msgstr "Sale Price"
 
 #: src/components/BusinessProfile.vue:57 src/components/BusinessProfile.vue:2
 msgid "Taxes"
@@ -3873,6 +3874,11 @@ msgstr "Total Inward Qty"
 msgid "Total Outward Qty"
 msgstr "Total Outward Qty"
 
+#: src/views/Settings.vue:126
+#, fuzzy
+msgid "Transaction"
+msgstr "Transactions"
+
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:27
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
 #: src/components/form/transaction_details/RejectionNoteDetails.vue:5
@@ -3918,7 +3924,7 @@ msgstr "Transport By"
 msgid "Transport Details"
 msgstr "Transport Details"
 
-#: src/components/Sidebar.vue:174 src/components/Sidebar.vue:158
+#: src/components/Sidebar.vue:175 src/components/Sidebar.vue:159
 msgid "Trial Balance"
 msgstr "Trial Balance"
 
@@ -4063,7 +4069,7 @@ msgstr "Unauthorised access"
 #: src/views/Ledger.vue:86 src/views/LedgerFull.vue:109
 #: src/views/LedgerFull.vue:157 src/views/LedgerMonthly.vue:71
 #: src/views/Logs.vue:42 src/views/Logs.vue:73 src/views/ProfitLoss.vue:60
-#: src/views/StockOnHand.vue:123 src/views/TrialBalance.vue:179
+#: src/views/StockOnHand.vue:129 src/views/TrialBalance.vue:179
 msgid "Unauthorised Access"
 msgstr "Unauthorised Access"
 
@@ -4110,7 +4116,7 @@ msgstr "Unauthorized access, please sign in and try again!"
 msgid "Unit of Measure"
 msgstr "Unit of Measure"
 
-#: src/components/Sidebar.vue:141 src/components/Sidebar.vue:125
+#: src/components/Sidebar.vue:142 src/components/Sidebar.vue:126
 msgid "Unit of measurement"
 msgstr "Unit of measurement"
 
@@ -4270,7 +4276,7 @@ msgstr "View Attachments"
 msgid "View Ledger"
 msgstr "View Ledger"
 
-#: src/components/Sidebar.vue:158 src/components/Sidebar.vue:142
+#: src/components/Sidebar.vue:159 src/components/Sidebar.vue:143
 #: src/views/Registers.vue:40
 msgid "View Registers"
 msgstr "View Registers"
@@ -4343,7 +4349,7 @@ msgstr "Vouchers"
 msgid "Vouchers:"
 msgstr "Vouchers:"
 
-#: src/components/Sidebar.vue:218 src/components/Sidebar.vue:202
+#: src/components/Sidebar.vue:219 src/components/Sidebar.vue:203
 #: src/views/About.vue:22 src/views/OrgProfile.vue:94
 msgid "Website"
 msgstr "Website"

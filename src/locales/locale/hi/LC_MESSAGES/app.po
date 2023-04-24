@@ -307,11 +307,11 @@ msgid ""
 "      </div>"
 msgstr ""
 
-#: src/components/Sidebar.vue:201 src/components/Sidebar.vue:185
+#: src/components/Sidebar.vue:202 src/components/Sidebar.vue:186
 msgid "3B Report"
 msgstr ""
 
-#: src/components/Sidebar.vue:215 src/components/Sidebar.vue:199
+#: src/components/Sidebar.vue:216 src/components/Sidebar.vue:200
 msgid "About"
 msgstr ""
 
@@ -372,7 +372,7 @@ msgid ""
 "the entry yourself."
 msgstr ""
 
-#: src/components/Sidebar.vue:94 src/components/Sidebar.vue:78
+#: src/components/Sidebar.vue:95 src/components/Sidebar.vue:79
 #: src/views/Accounts.vue:2
 msgid "Accounts"
 msgstr ""
@@ -516,7 +516,7 @@ msgstr ""
 msgid "Adjust"
 msgstr ""
 
-#: src/components/Sidebar.vue:103 src/components/Sidebar.vue:87
+#: src/components/Sidebar.vue:104 src/components/Sidebar.vue:88
 msgid "Adjust Bills"
 msgstr ""
 
@@ -587,7 +587,7 @@ msgstr ""
 msgid "Attachments:"
 msgstr ""
 
-#: src/components/Sidebar.vue:92 src/components/Sidebar.vue:76
+#: src/components/Sidebar.vue:93 src/components/Sidebar.vue:77
 msgid "Audit Logs"
 msgstr ""
 
@@ -634,7 +634,7 @@ msgstr ""
 msgid "Balance Due"
 msgstr ""
 
-#: src/components/Sidebar.vue:181 src/components/Sidebar.vue:165
+#: src/components/Sidebar.vue:182 src/components/Sidebar.vue:166
 msgid "Balance Sheet"
 msgstr ""
 
@@ -664,7 +664,7 @@ msgstr ""
 msgid "Bank Name"
 msgstr ""
 
-#: src/components/Sidebar.vue:110 src/components/Sidebar.vue:94
+#: src/components/Sidebar.vue:111 src/components/Sidebar.vue:95
 msgid "Bank Reconciliation"
 msgstr ""
 
@@ -697,7 +697,7 @@ msgstr ""
 msgid "Branch"
 msgstr ""
 
-#: src/components/Sidebar.vue:97 src/components/Sidebar.vue:81
+#: src/components/Sidebar.vue:98 src/components/Sidebar.vue:82
 #: src/views/Budget.vue:5 src/views/Budget.vue:1
 msgid "Budget"
 msgstr ""
@@ -799,7 +799,7 @@ msgstr ""
 msgid "Cash Available"
 msgstr ""
 
-#: src/components/Sidebar.vue:170 src/components/Sidebar.vue:154
+#: src/components/Sidebar.vue:171 src/components/Sidebar.vue:155
 msgid "Cash Flow"
 msgstr ""
 
@@ -832,7 +832,7 @@ msgstr ""
 msgid "Cash Transfer Amount"
 msgstr ""
 
-#: src/components/Sidebar.vue:137 src/components/Sidebar.vue:121
+#: src/components/Sidebar.vue:138 src/components/Sidebar.vue:122
 msgid "Categories"
 msgstr ""
 
@@ -844,7 +844,7 @@ msgstr ""
 msgid "Category wise Stock On Hand"
 msgstr ""
 
-#: src/components/Sidebar.vue:164 src/components/Sidebar.vue:148
+#: src/components/Sidebar.vue:165 src/components/Sidebar.vue:149
 msgid "Categorywise Stock On Hand"
 msgstr ""
 
@@ -900,7 +900,7 @@ msgstr ""
 msgid "Close Books"
 msgstr ""
 
-#: src/components/Sidebar.vue:107 src/components/Sidebar.vue:91
+#: src/components/Sidebar.vue:108 src/components/Sidebar.vue:92
 msgid "Close Books / Roll Over"
 msgstr ""
 
@@ -991,12 +991,12 @@ msgstr ""
 msgid "Correction in Invoice"
 msgstr ""
 
-#: src/components/Sidebar.vue:133 src/components/Sidebar.vue:117
+#: src/components/Sidebar.vue:134 src/components/Sidebar.vue:118
 #: src/views/Ledger.vue:111
 msgid "Cost Center"
 msgstr ""
 
-#: src/components/Sidebar.vue:155 src/components/Sidebar.vue:139
+#: src/components/Sidebar.vue:156 src/components/Sidebar.vue:140
 msgid "Cost Center Statement"
 msgstr ""
 
@@ -1320,7 +1320,7 @@ msgstr ""
 #: src/views/CostCenterEdit.vue:71 src/views/GodownEdit.vue:93
 #: src/views/Ledger.vue:92 src/views/LedgerFull.vue:115
 #: src/views/LedgerFull.vue:163 src/views/LedgerMonthly.vue:77
-#: src/views/ProfitLoss.vue:66 src/views/StockOnHand.vue:129
+#: src/views/ProfitLoss.vue:66 src/views/StockOnHand.vue:135
 #: src/views/TrialBalance.vue:185
 msgid "Data error"
 msgstr ""
@@ -1776,7 +1776,7 @@ msgstr ""
 msgid "Export Company Data"
 msgstr ""
 
-#: src/components/Sidebar.vue:114 src/components/Sidebar.vue:98
+#: src/components/Sidebar.vue:1 src/views/Settings.vue:273
 msgid "Export Data"
 msgstr ""
 
@@ -2093,7 +2093,7 @@ msgstr ""
 msgid "Getting Security Question"
 msgstr ""
 
-#: src/views/Settings.vue:47 src/views/Settings.vue:56
+#: src/views/Settings.vue:51 src/views/Settings.vue:60
 msgid "Global Config Saved Successfully."
 msgstr ""
 
@@ -2143,7 +2143,7 @@ msgstr ""
 msgid "Godown Wise Stock On Hand Report"
 msgstr ""
 
-#: src/components/Sidebar.vue:131 src/components/Sidebar.vue:115
+#: src/components/Sidebar.vue:132 src/components/Sidebar.vue:116
 msgid "Godowns"
 msgstr ""
 
@@ -2202,7 +2202,7 @@ msgstr ""
 msgid "GST Account"
 msgstr ""
 
-#: src/components/Sidebar.vue:204 src/components/Sidebar.vue:188
+#: src/components/Sidebar.vue:205 src/components/Sidebar.vue:189
 msgid "GST News"
 msgstr ""
 
@@ -2221,7 +2221,7 @@ msgstr ""
 msgid "GSTIN"
 msgstr ""
 
-#: src/components/Sidebar.vue:211 src/components/Sidebar.vue:195
+#: src/components/Sidebar.vue:212 src/components/Sidebar.vue:196
 msgid "Help"
 msgstr ""
 
@@ -2251,7 +2251,7 @@ msgstr ""
 msgid "Import Company Data"
 msgstr ""
 
-#: src/components/Sidebar.vue:118 src/components/Sidebar.vue:102
+#: src/components/Sidebar.vue:1 src/views/Settings.vue:269
 #: src/views/data/Import.vue:30
 msgid "Import Data"
 msgstr ""
@@ -2335,7 +2335,7 @@ msgstr ""
 msgid "Invalid URL"
 msgstr ""
 
-#: src/components/Sidebar.vue:128 src/components/Sidebar.vue:112
+#: src/components/Sidebar.vue:129 src/components/Sidebar.vue:113
 msgid "Inventory"
 msgstr ""
 
@@ -2410,7 +2410,7 @@ msgstr ""
 msgid "JSON validation error! Fix your JSON structure and try again."
 msgstr ""
 
-#: src/components/Sidebar.vue:177 src/components/Sidebar.vue:161
+#: src/components/Sidebar.vue:178 src/components/Sidebar.vue:162
 msgid "Ledger"
 msgstr ""
 
@@ -2438,7 +2438,7 @@ msgstr ""
 msgid "Make Payment"
 msgstr ""
 
-#: src/components/Sidebar.vue:90 src/components/Sidebar.vue:74
+#: src/components/Sidebar.vue:91 src/components/Sidebar.vue:75
 msgid "Manage Users"
 msgstr ""
 
@@ -2666,11 +2666,11 @@ msgstr ""
 msgid "Opening Stock"
 msgstr ""
 
-#: src/views/SelectOrg.vue:56
+#: src/views/SelectOrg.vue:56 src/views/Settings.vue:261
 msgid "Organisation"
 msgstr ""
 
-#: src/components/Sidebar.vue:86 src/components/Sidebar.vue:70
+#: src/components/Sidebar.vue:1
 msgid "Organisation Profile"
 msgstr ""
 
@@ -2912,11 +2912,11 @@ msgstr ""
 msgid "Product Name"
 msgstr ""
 
-#: src/components/Sidebar.vue:152 src/components/Sidebar.vue:136
+#: src/components/Sidebar.vue:153 src/components/Sidebar.vue:137
 msgid "Product Register"
 msgstr ""
 
-#: src/components/Sidebar.vue:167 src/components/Sidebar.vue:151
+#: src/components/Sidebar.vue:168 src/components/Sidebar.vue:152
 #: src/components/form/BudgetItem.vue:24 src/views/Budget.vue:17
 msgid "Profit & Loss"
 msgstr ""
@@ -2993,7 +2993,7 @@ msgstr ""
 msgid "Question"
 msgstr ""
 
-#: src/components/Sidebar.vue:198 src/components/Sidebar.vue:182
+#: src/components/Sidebar.vue:199 src/components/Sidebar.vue:183
 msgid "R1 Report"
 msgstr ""
 
@@ -3089,11 +3089,11 @@ msgstr ""
 msgid "Rejection Note Details"
 msgstr ""
 
-#: src/components/Sidebar.vue:224 src/components/Sidebar.vue:208
+#: src/components/Sidebar.vue:225 src/components/Sidebar.vue:209
 msgid "Report Bug"
 msgstr ""
 
-#: src/components/Sidebar.vue:148 src/components/Sidebar.vue:132
+#: src/components/Sidebar.vue:149 src/components/Sidebar.vue:133
 msgid "Reports"
 msgstr ""
 
@@ -3184,11 +3184,6 @@ msgstr ""
 #: src/components/workflow/profile/PsOrderProfile.vue:92
 #: src/views/Transactions/PurchaseSaleOrder.vue:575
 msgid "Sale Order Value"
-msgstr ""
-
-#: src/components/form/BusinessItem.vue:109
-#: src/components/form/BusinessItem.vue:1
-msgid "Sale Price"
 msgstr ""
 
 #: src/views/Transactions/RejectionNote.vue:10
@@ -3354,7 +3349,7 @@ msgstr ""
 msgid "Set default for %{groupName}"
 msgstr ""
 
-#: src/components/Sidebar.vue:121 src/components/Sidebar.vue:105
+#: src/components/Sidebar.vue:122 src/components/Sidebar.vue:106
 msgid "Settings"
 msgstr ""
 
@@ -3398,7 +3393,7 @@ msgid ""
 "facility. All users can view this report. This report is unique to GNUKhata."
 msgstr ""
 
-#: src/components/Sidebar.vue:221 src/components/Sidebar.vue:205
+#: src/components/Sidebar.vue:222 src/components/Sidebar.vue:206
 #: src/views/About.vue:28
 msgid "Source Code"
 msgstr ""
@@ -3435,7 +3430,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: src/components/Sidebar.vue:161 src/components/Sidebar.vue:145
+#: src/components/Sidebar.vue:162 src/components/Sidebar.vue:146
 #: src/views/StockOnHand.vue:37
 msgid "Stock On Hand"
 msgstr ""
@@ -3495,8 +3490,8 @@ msgstr ""
 
 #: src/components/form/BudgetItem.vue:186
 #: src/components/form/BudgetItem.vue:363
-#: src/components/form/VoucherEasy.vue:138 src/views/Settings.vue:46
-#: src/views/Settings.vue:55
+#: src/components/form/VoucherEasy.vue:138 src/views/Settings.vue:50
+#: src/views/Settings.vue:59
 msgid "Success!"
 msgstr ""
 
@@ -3571,6 +3566,11 @@ msgstr ""
 
 #: src/components/form/transaction/TotalTable.vue:10
 msgid "Taxable Amount"
+msgstr ""
+
+#: src/components/form/BusinessItem.vue:109
+#: src/components/form/BusinessItem.vue:1
+msgid "Taxable Sale Price"
 msgstr ""
 
 #: src/components/BusinessProfile.vue:57 src/components/BusinessProfile.vue:2
@@ -3774,6 +3774,10 @@ msgstr ""
 msgid "Total Outward Qty"
 msgstr ""
 
+#: src/views/Settings.vue:126
+msgid "Transaction"
+msgstr ""
+
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:27
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:1
 #: src/components/form/transaction_details/RejectionNoteDetails.vue:5
@@ -3819,7 +3823,7 @@ msgstr ""
 msgid "Transport Details"
 msgstr ""
 
-#: src/components/Sidebar.vue:174 src/components/Sidebar.vue:158
+#: src/components/Sidebar.vue:175 src/components/Sidebar.vue:159
 msgid "Trial Balance"
 msgstr ""
 
@@ -3945,7 +3949,7 @@ msgstr ""
 #: src/views/Ledger.vue:86 src/views/LedgerFull.vue:109
 #: src/views/LedgerFull.vue:157 src/views/LedgerMonthly.vue:71
 #: src/views/Logs.vue:42 src/views/Logs.vue:73 src/views/ProfitLoss.vue:60
-#: src/views/StockOnHand.vue:123 src/views/TrialBalance.vue:179
+#: src/views/StockOnHand.vue:129 src/views/TrialBalance.vue:179
 msgid "Unauthorised Access"
 msgstr ""
 
@@ -3992,7 +3996,7 @@ msgstr ""
 msgid "Unit of Measure"
 msgstr ""
 
-#: src/components/Sidebar.vue:141 src/components/Sidebar.vue:125
+#: src/components/Sidebar.vue:142 src/components/Sidebar.vue:126
 msgid "Unit of measurement"
 msgstr ""
 
@@ -4147,7 +4151,7 @@ msgstr ""
 msgid "View Ledger"
 msgstr ""
 
-#: src/components/Sidebar.vue:158 src/components/Sidebar.vue:142
+#: src/components/Sidebar.vue:159 src/components/Sidebar.vue:143
 #: src/views/Registers.vue:40
 msgid "View Registers"
 msgstr ""
@@ -4220,7 +4224,7 @@ msgstr ""
 msgid "Vouchers:"
 msgstr ""
 
-#: src/components/Sidebar.vue:218 src/components/Sidebar.vue:202
+#: src/components/Sidebar.vue:219 src/components/Sidebar.vue:203
 #: src/views/About.vue:22 src/views/OrgProfile.vue:94
 msgid "Website"
 msgstr ""
