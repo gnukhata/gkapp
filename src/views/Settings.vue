@@ -50,7 +50,7 @@
             </b-button>
           </b-form>
         </b-tab>
-        <b-tab title="Transaction">
+        <b-tab :title="$gettext('Transaction')">
           <!-- <b-card-text>Tab contents 2</b-card-text> -->
           <b-form @submit.prevent="saveConfig">
             <b-form-group
@@ -128,6 +128,19 @@
             </b-button>
           </b-form>
         </b-tab>
+        <b-tab
+          :title="$gettext('Organisation')"
+          @click="$router.push('/orgprofile')"
+        ></b-tab>
+        <b-tab title="Manage Users" @click="$router.push('/users')"></b-tab>
+        <b-tab
+          :title="$gettext('Import Data')"
+          @click="$router.push('/data/import')"
+        ></b-tab>
+        <b-tab
+          :title="$gettext('Export Data')"
+          @click="$router.push('/data/export')"
+        ></b-tab>
       </b-tabs>
     </b-card>
   </section>
@@ -150,6 +163,10 @@ export default {
           default: {},
         },
         transaction: {
+          format: {},
+          default: {},
+        },
+        OrgProfile: {
           format: {},
           default: {},
         },
