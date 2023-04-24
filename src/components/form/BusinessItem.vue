@@ -199,10 +199,10 @@
                   label-size="sm"
                   label="Sale Price"
                   label-for="bi-input-5"
-                  label-cols="3"
+                  label-cols="4"
                 >
                   <template #label>
-                    <translate> Sale Price </translate>
+                    <translate> Taxable Sale Price </translate>
                   </template>
                   <b-input-group append="₹" size="sm">
                     <b-form-input
@@ -1134,7 +1134,7 @@ export default {
                 code: uom.unitname,
               };
             });
-            self.uom = self.options.uom.filter((uom) => uom.code === 'UNT')[0];
+            self.uom = self.options.uom.filter((uom) => uom.code === 'PCS')[0];
             // console.log(resp1.data.gkresult)
           } else {
             preloadErrorList += ' Unit of Measurement List, ';
