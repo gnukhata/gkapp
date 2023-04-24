@@ -59,13 +59,17 @@
               ></b-avatar>
               <span class="d-none d-md-inline"> {{ userName }} </span>
             </template>
-						<!-- logout button -->
+            <!-- logout button -->
             <b-dropdown-item @click="logOut" href="#">
               <b-icon icon="box-arrow-in-left"></b-icon> Change Org
             </b-dropdown-item>
-						<!-- fy switch button, only shown when org has more than one financial year -->
-						<b-dropdown-item v-if="finYears.length > 1" v-b-modal.fy-modal href="#">
-              <b-icon icon="toggles"></b-icon> Switch FY 
+            <!-- fy switch button, only shown when org has more than one financial year -->
+            <b-dropdown-item
+              v-if="finYears.length > 1"
+              v-b-modal.fy-modal
+              href="#"
+            >
+              <b-icon icon="toggles"></b-icon> Switch FY
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
@@ -85,7 +89,7 @@
       hide-footer
       id="fy-modal"
       size="sm"
-			centered
+      centered
     >
       <!-- financial year selection -->
       <v-select

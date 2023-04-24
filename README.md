@@ -60,6 +60,8 @@ Gkapp is Licensed under `AGPLv3`
 
 ## Contribution
 
+See [CONTRIBUTING.md](./docs/CONTRIBUTING.md)
+
 Any contribution to the gkapp will be licensed under AGPLv3
 
 ## Useful Links
