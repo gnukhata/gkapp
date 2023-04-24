@@ -15,7 +15,7 @@
               v-model="selectedProduct"
               :placeholder="this.$gettext('Search Products')"
               label="name"
-              required="true"
+              :required="true"
             ></v-select>
             <div class="text-left"></div>
           </b-form-group>
@@ -26,7 +26,7 @@
               :options="godowns"
               :placeholder="this.$gettext('Search / Select a godown')"
               label="name"
-              required="true"
+              :required="true"
             ></v-select>
           </b-form-group>
           <div class="col">
@@ -165,15 +165,17 @@ export default {
                 name: `${data.goname} (${data.goaddr}) `,
               };
             });
+            // pre fill the godown input with a godown if user selected godown exits
+            if (Object.keys(this.$route.query).length == 0) {
+              this.selectedGodown = this.godowns[0];
+            }
           }
         })
         .catch((e) => {
           console.log(e.message);
         });
     },
-    /* sdsds
-		dsd
-		sd*/
+    // get product list from the api
     getProductList() {
       this.loading = true;
       axios
@@ -186,6 +188,10 @@ export default {
                 id: data.productcode,
               };
             });
+            //prefill a product if user did not specify any
+            if (Object.keys(this.$route.query).length == 0) {
+              this.selectedProduct = this.productList[0];
+            }
           }
           this.loading = false;
         })
@@ -274,6 +280,8 @@ export default {
         this.selectedGodown.id = params.goid;
         this.selectedGodown.name = params.goname;
         this.stockOnHand();
+      } else {
+        this.selectedGodown = this.godowns[0];
       }
     },
   },
