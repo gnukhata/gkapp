@@ -24,7 +24,7 @@
           <span> <b> GSTIN: </b> {{ invoice.party.gstin || '' }} </span>
         </p>
       </b-col>
-      <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
+      <b-col class="text-md-left" cols="12" md="6" order="1" order-md="2">
         <b key="3" v-if="invoice.isSale" v-translate>
           Sale Invoice Details
         </b>
@@ -67,6 +67,7 @@
       :items="invoice.invItems"
       :fields="tableFields"
       bordered
+      responsive
       head-variant="dark"
       stacked="sm"
       striped
@@ -76,6 +77,9 @@
     >
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
+      </template>
+      <template #cell(hsn)="data">
+        {{ data.item.hsn.hsn_code }}
       </template>
       <template #cell(price)="data"> {{ data.value }} </template>
       <template #cell(discount)="data"> {{ data.value }} </template>
@@ -102,11 +106,11 @@
         <b-tr>
           <b-th
             v-translate
-            :colspan="invoice.isGst ? (invoice.total.isIgst ? 6 : 7) : 5"
+            :colspan="invoice.isGst ? (invoice.total.isIgst ? 7 : 8) : 5"
           >
             Total
           </b-th>
-          <b-th> {{ invoice.total.amount }}</b-th>
+          <b-th class="text-right"> {{ invoice.total.amount }}</b-th>
         </b-tr>
       </template>
     </b-table-lite>
@@ -403,6 +407,11 @@ export default {
         {
           key: 'name',
           label: self.$gettext('Item'),
+        },
+        {
+          key: 'hsn',
+          label: self.$gettext('HSN / SAC'),
+          tdClass: 'gk-currency-sm',
         },
         {
           key: 'qty',
@@ -762,6 +771,7 @@ export default {
                 discount: details.invcontents[key].discount,
                 taxable: details.invcontents[key].taxableamount,
                 total: details.invcontents[key].totalAmount,
+                hsn: JSON.parse(details.invcontents[key].gscode),
                 tax: {
                   name: details.invcontents[key].taxname,
                   rate: details.invcontents[key].taxrate,
@@ -969,12 +979,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   filter: invert(1);
 }
 .carousel-indicators > li {
   background-color: #000;
+}
+thead > tr > th {
+  width: 0;
 }
 </style>
