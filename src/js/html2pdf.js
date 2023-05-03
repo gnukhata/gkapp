@@ -62,7 +62,7 @@ const defaultOpts = {
     bottom: 0,
     left: 0,
   },
-  imageType: 'image/jpeg',
+  imageType: 'image/png',
   imageQuality: 1,
   output: 'jspdf-generate.pdf',
   init: function() {},
@@ -284,7 +284,7 @@ async function html2PDF(dom, opts = {}) {
     });
   } else {
     // save pdf
-    opts.success.call(opts, pdfInstance.pdf);
+    // opts.success.call(opts, pdfInstance.pdf);
   }
 
   return pdfInstance.pdf;

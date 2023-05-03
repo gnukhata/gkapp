@@ -151,7 +151,7 @@ export default {
         `scrollbars=1,resizable=1,width=${2480},height=${3508}`
       );
 
-      let header = `
+      /* let header = `
           <div class="text-center">
             <h3> ${this.orgName} </h3>
           </div>
@@ -163,11 +163,11 @@ export default {
               Printed by User: <b>${this.userName}</b> <i>on</i> ${new Date()}
             </small>
           </div>
-      `;
+      `; */
 
       let printContent = '';
 
-      printContent += header;
+      // printContent += header;
 
       tableFlag = contentDom.tagName === 'TABLE';
 
@@ -202,14 +202,18 @@ export default {
         @media print {
           *{
             color-adjust: exact !important;
-              print-color-adjust: exact !important;
-              -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            -webkit-print-color-adjust: exact !important;
+						border: inherit;
             }
-            ${this.printStyles}
+          ${this.printStyles}
         }
         .d-print-none{
           display: none;
         }
+				body {
+					margin-top: 1%
+				}
       `;
 
       printWindow.document.open();
@@ -240,11 +244,12 @@ export default {
       let time = dateString.split('T')[1];
       let timeStamp = `${date}_${time}`;
       let fileName = `${this.orgName}_${this.fileName}_${timeStamp}.pdf`;
+      // see
       html2PDF(element, {
         jsPDF: {
           format: 'a4',
         },
-        imageType: 'image/jpeg',
+        imageType: 'image/png',
         output: `${fileName}.pdf`,
         margin: {
           top: 25,
