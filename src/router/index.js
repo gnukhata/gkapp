@@ -808,6 +808,7 @@ const routes = [
         /* webpackChunkName: "gstnews-single-post" */ '../views/report-bug/Main.vue'
       ),
   },
+  
 ];
 
 const router = new VueRouter({

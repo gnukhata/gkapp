@@ -307,6 +307,14 @@
             <b-nav-item class="mr-3" to="/report-bug">
               <b-icon icon="bug"></b-icon><translate> Report Bug</translate>
             </b-nav-item>
+            
+            <b-nav-item
+              class="mr-3"
+              target="_blank"
+              href="https://gnukhata.org/faq"
+            >
+              <b-icon icon="question-circle"></b-icon><translate> FAQ</translate>
+            </b-nav-item>
           </b-collapse>
         </b-nav>
         <hr />
