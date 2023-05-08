@@ -752,7 +752,7 @@ export default {
             pin: resp6.data.gkdata.orgpincode,
             bankDetails: resp6.data.gkdata.bankdetails,
           };
-          if(!self.options.orgDetails.gstin && stateCode < 10) {
+          if (!self.options.orgDetails.gstin && stateCode < 10) {
             self.options.orgDetails.gstin = gstin[`0${stateCode}`];
           }
           setTimeout(() => {
@@ -860,7 +860,7 @@ export default {
                   gstin: data.consignee.gstinconsignee,
                   tin: data.consignee.tinconsignee,
                   pin: data.consignee.consigneepincode,
-                  copyFlag: false
+                  copyFlag: false,
                 };
                 Object.assign(self.form.ship, ship);
                 self.options.shippingDetails = {};
@@ -918,12 +918,12 @@ export default {
     onSubmit() {
       this.isLoading = true;
       this.createDelNote().then((status) => {
-        if(!status) {
+        if (status !== 0) {
           this.displayToast(
-          this.$gettext(`Create Invoice Failed!`),
-          this.$gettext('Please check your input and try again later'),
-          'danger'
-        );  
+            this.$gettext(`Create Invoice Failed!`),
+            this.$gettext('Please check your input and try again later'),
+            'danger'
+          );
           return;
         }
         this.createInvoice();
@@ -974,7 +974,8 @@ export default {
                     ),
                     `Invoice saved with entry no. ${resp.data.invoiceid ||
                       resp.data.gkresult ||
-                      resp.data.vchData.vchno}`,
+                      resp.data.vchData.vchno ||
+                      this.invoiceId}`,
                     'success'
                   );
 
@@ -1054,11 +1055,14 @@ export default {
         });
     },
     sanitizeBillItems() {
-      return this.form.bill.filter((item) => item.product &&
-            item.rate &&
-            item.qty &&
-            item.product.id &&
-            item.product.name)
+      return this.form.bill.filter(
+        (item) =>
+          item.product &&
+          item.rate &&
+          item.qty &&
+          item.product.id &&
+          item.product.name
+      );
     },
     initPayload() {
       this.collectComponentData();
@@ -1177,7 +1181,6 @@ export default {
 
       const self = this;
       billItems.forEach((item) => {
-
         let inclusiveFlag = false; // must add ths to global settings and fetch from there
         let rate = item.rate;
         if (inclusiveFlag) {
@@ -1331,20 +1334,12 @@ export default {
         method = 'put';
         url = `/delchal/${this.dcId}`;
       }
-
       return axios({ method: method, url: url, data: payload })
         .then((resp) => {
-          if (resp.data.gkstatus === 0) {
-            if (resp.data.gkresult || this.isCreate) {
-              this.dcId = resp.data.gkresult || null;
-            }
-            return resp.data.gkresult;
-          } else if (resp.data.gkstatus === 1) {
-            // let no = payload.delchaldata.dcno;
-            // let
-            // this.form.inv.delNoteNo = parseInt(no.split('/')[0])++;
-            // this.createDelNote();
+          if (resp.data.gkstatus !== 0) {
+            return -1;
           }
+          return 0;
         })
         .catch(() => {
           return -1;
@@ -1358,7 +1353,7 @@ export default {
     initDelNotePayload() {
       this.collectComponentData();
       this.updateDefaultNarration();
-      
+
       let billItems = this.sanitizeBillItems();
       if (!billItems.length) {
         return false;
