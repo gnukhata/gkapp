@@ -4,6 +4,39 @@
     @submit.prevent="updateContact"
     class="align-form-label-right"
   >
+  <!-- Action Buttons -->
+    <div class="pt-2 pb-3 d-flex flex-row-reverse">
+      <b-button
+        @click.prevent="deleteContact"
+        size="sm"
+        class="ml-2"
+        variant="danger"
+        ><b-icon class="mr-1" icon="person-dash"></b-icon>
+        <translate>Delete Contact</translate>
+      </b-button>
+      <b-button type="submit" size="sm" class="ml-2" variant="success"
+        ><b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
+        <translate>Save Changes</translate>
+      </b-button>
+      <b-button to="/invoice" size="sm" class="ml-2" variant="dark"
+        ><b-icon class="mr-1" icon="receipt"></b-icon>
+        <translate>Add Transaction</translate>
+      </b-button>
+      <b-button
+        :to="{
+          name: 'Create_Voucher',
+          params: {
+            type: customer.csflag ? 'receipt' : 'payment',
+            customer: customer.custname || '',
+          },
+        }"
+        size="sm"
+        class="ml-2"
+        variant="warning"
+        ><b-icon class="mr-1" icon="file-earmark-plus"></b-icon>
+        <translate>Create Voucher</translate>
+      </b-button>
+    </div>
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
     <b-card
       class="mt-2"
@@ -220,39 +253,7 @@
         </b-form-group>
       </b-collapse>
     </b-card>
-    <!-- Action Buttons -->
-    <div class="pt-2 pb-3 d-flex flex-row-reverse">
-      <b-button
-        @click.prevent="deleteContact"
-        size="sm"
-        class="ml-2"
-        variant="danger"
-        ><b-icon class="mr-1" icon="person-dash"></b-icon>
-        <translate>Delete Contact</translate>
-      </b-button>
-      <b-button type="submit" size="sm" class="ml-2" variant="success"
-        ><b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
-        <translate>Save Changes</translate>
-      </b-button>
-      <b-button to="/invoice" size="sm" class="ml-2" variant="dark"
-        ><b-icon class="mr-1" icon="receipt"></b-icon>
-        <translate>Add Transaction</translate>
-      </b-button>
-      <b-button
-        :to="{
-          name: 'Create_Voucher',
-          params: {
-            type: customer.csflag ? 'receipt' : 'payment',
-            customer: customer.custname || '',
-          },
-        }"
-        size="sm"
-        class="ml-2"
-        variant="warning"
-        ><b-icon class="mr-1" icon="file-earmark-plus"></b-icon>
-        <translate>Create Voucher</translate>
-      </b-button>
-    </div>
+    
   </b-form>
 </template>
 
