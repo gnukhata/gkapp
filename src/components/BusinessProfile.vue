@@ -5,6 +5,25 @@
     @submit.prevent="updateProfile"
   >
     <b-overlay :show="loading" blur no-wrap></b-overlay>
+    <!-- Submit & delete buttons -->
+    <div class="mt-4 pb-4 d-flex flex-row-reverse">
+      <b-button type="submit" size="sm" class="ml-2" variant="success">
+        <b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
+        <translate>Save Changes</translate>
+      </b-button>
+      <b-button
+        @click.prevent="delProfile"
+        size="sm"
+        class="ml-2"
+        variant="danger"
+        ><b-icon
+          class="mr-1"
+          :icon="details.gsflag == 7 ? 'box' : 'headset'"
+        ></b-icon>
+        <span v-if="details.gsflag == 7" v-translate>Delete Product</span>
+        <span v-else v-translate>Delete Service</span>
+      </b-button>
+    </div>
     <!-- name --->
     <b-card
       class="mt-2"
@@ -12,6 +31,7 @@
       header-text-variant="light"
       no-body
     >
+    
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-info>
           <div class="mr-auto" v-translate>Info</div>
@@ -346,25 +366,7 @@
         </b-collapse>
       </div>
     </b-card>
-    <!-- Submit & delete buttons -->
-    <div class="mt-4 pb-4 d-flex flex-row-reverse">
-      <b-button type="submit" size="sm" class="ml-2" variant="success">
-        <b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
-        <translate>Save Changes</translate>
-      </b-button>
-      <b-button
-        @click.prevent="delProfile"
-        size="sm"
-        class="ml-2"
-        variant="danger"
-        ><b-icon
-          class="mr-1"
-          :icon="details.gsflag == 7 ? 'box' : 'headset'"
-        ></b-icon>
-        <span v-if="details.gsflag == 7" v-translate>Delete Product</span>
-        <span v-else v-translate>Delete Service</span>
-      </b-button>
-    </div>
+    
 
     <b-modal
       size="lg"
