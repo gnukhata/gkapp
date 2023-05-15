@@ -48,6 +48,7 @@
         small
         bordered
         striped
+        fixed
         :items="formItems()"
         :fields="fields"
         :primary-key="`tbl_${Date.now()}`"
@@ -56,8 +57,6 @@
         :per-page="editMode ? 1 : 10"
         :current-page="currentPage"
         head-variant="dark"
-        tbody-tr-class="text-center"
-        thead-tr-class="text-center"
         ref="billTable"
       >
         <!-- Index -->
@@ -702,7 +701,7 @@ export default {
           (p) => p.name === item.product.name
         );
         if (product) {
-          self.editCounter += 2; // parent is calling child update hook twice 
+          self.editCounter += 2; // parent is calling child update hook twice
           self.addBillItem();
           products.push({
             pid: product.id,
@@ -1153,7 +1152,7 @@ export default {
     },
     updateAllTaxAndTotal() {
       let length = this.form.length;
-      while(length--) {
+      while (length--) {
         this.updateTaxAndTotal(length);
       }
     },
