@@ -79,7 +79,7 @@
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
       <template #cell(hsn)="data">
-        {{ data.item.hsn.hsn_code }}
+        {{ data.item.hsn.hsn_code || 'N/A' }}
       </template>
       <template #cell(price)="data"> {{ data.value }} </template>
       <template #cell(discount)="data"> {{ data.value }} </template>
@@ -771,7 +771,7 @@ export default {
                 discount: details.invcontents[key].discount,
                 taxable: details.invcontents[key].taxableamount,
                 total: details.invcontents[key].totalAmount,
-                hsn: JSON.parse(details.invcontents[key].gscode),
+                hsn: JSON.parse(details.invcontents[key].gscode) || 'N/A',
                 tax: {
                   name: details.invcontents[key].taxname,
                   rate: details.invcontents[key].taxrate,
