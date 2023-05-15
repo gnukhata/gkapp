@@ -141,7 +141,7 @@
           label-cols="4"
         >
           <!-- gst / hsn input -->
-          <gk-hsn v-model="details.gscode"></gk-hsn>
+          <gk-hsn required="true" v-model="details.gscode"></gk-hsn>
         </b-form-group>
 
         <b-form-group class="mb-0" label-size="sm" label="GST" label-cols="4">
