@@ -31,7 +31,6 @@
       header-text-variant="light"
       no-body
     >
-    
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-info>
           <div class="mr-auto" v-translate>Info</div>
@@ -140,8 +139,8 @@
           :label="details.gsflag == 7 ? 'HSN' : 'SAC'"
           label-cols="4"
         >
-          <!-- gst / hsn input -->
-          <gk-hsn required="true" v-model="details.gscode"></gk-hsn>
+          <!-- hsn /sac input -->
+          <gk-hsn :required="gstinValid" v-model="details.gscode"></gk-hsn>
         </b-form-group>
 
         <b-form-group class="mb-0" label-size="sm" label="GST" label-cols="4">
@@ -366,7 +365,6 @@
         </b-collapse>
       </div>
     </b-card>
-    
 
     <b-modal
       size="lg"
