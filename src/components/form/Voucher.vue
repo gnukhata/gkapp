@@ -79,6 +79,12 @@
                     }"
                   >
                     <translate> Account </translate>
+                    <b-button
+                        class="ml-2 py-0 px-1"
+                        variant="success"
+                        size="sm"
+                         @click.prevent="onCreateAccount(1,2)"
+                        >+</b-button>
                   </b-th>
                   <b-th
                     :style="{
@@ -428,6 +434,20 @@ export default {
     },
   },
   methods: {
+    onCreateAccount(gid, sgid) {
+      this.updateUrl();
+      this.$router.push({
+        name: 'Create_Account',
+        params: { group: gid, subGroup: sgid },
+      });
+    },
+    updateUrl() {
+      let url = window.location.href.split('#')[0];
+      // += `#/accounts/${gid}/${sgid}/${aid}`;
+      url+="#/voucher/create/receipt/-1";
+      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
+      // instead of creating a new history instances for every entity selected
+    },
     confirmOnDelete() {
       const self = this;
       const text = this.$createElement('div', {
