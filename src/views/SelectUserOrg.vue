@@ -20,7 +20,7 @@
         v-html="gkConfig.login_banner.content"
       >
       </b-alert>
-      <b-form @submit.prevent="userLogin">
+      <b-form @submit.prevent="preUserLogin">
         <!--Username area-->
         <b-form-group
           :label="$gettext('Username')"
@@ -59,31 +59,34 @@
         </b-form-group>
 
         <!--Captcha question -->
-        <b-form-group
-          :label="$gettext('Question')"
-          label-align="right"
-          label-cols="4"
-          label-size="sm"
-        >
-          <captcha v-model="captcha.answer"></captcha>
-        </b-form-group>
+        <!-- only shown if captcha is enabled in gkapp config -->
+        <div v-if="!gkConfig.disable_captcha">
+          <b-form-group
+            :label="$gettext('Question')"
+            label-align="right"
+            label-cols="4"
+            label-size="sm"
+          >
+            <captcha v-model="captcha.answer"></captcha>
+          </b-form-group>
 
-        <!-- captcha answer -->
-        <b-form-group
-          :label="$gettext('Answer')"
-          label-cols="4"
-          label-size="sm"
-          label-align="right"
-        >
-          <b-form-input
-            v-model="captcha.userAnswer"
-            type="number"
-            no-wheel
-            :placeholder="$gettext('Enter the Answer')"
-            required
-            size="sm"
-          ></b-form-input>
-        </b-form-group>
+          <!-- captcha answer -->
+          <b-form-group
+            :label="$gettext('Answer')"
+            label-cols="4"
+            label-size="sm"
+            label-align="right"
+          >
+            <b-form-input
+              v-model="captcha.userAnswer"
+              type="number"
+              no-wheel
+              :placeholder="$gettext('Enter the Answer')"
+              required
+              size="sm"
+            ></b-form-input>
+          </b-form-group>
+        </div>
         <b-button-group size="sm" class="row float-right">
           <b-button
             variant="dark"
@@ -625,55 +628,73 @@ export default {
     // orgCodeChoice -> orgcode
     // save org year start and year end
 
-    userLogin() {
-      if (this.captcha.answer == this.captcha.userAnswer) {
-        let payload = {
-          username: this.form.name,
-          userpassword: this.form.pwd,
-        };
-        this.isOrgLoading = true;
-        axios
-          .post(`${this.gkCoreUrl}/login/user`, payload)
-          .then((resp) => {
-            switch (resp.data.gkstatus) {
-              case 0:
-                this.$bvToast.toast(`Welcome ${this.form.name}`, {
-                  title: 'Login Success!',
-                  autoHideDelay: 3000,
-                  variant: 'success',
-                });
-                // console.log(resp.data);
-                // set the user auth status
-                this.$store.dispatch('setSessionStates', {
-                  userAuth: true,
-                  userAuthToken: resp.data.token,
-                  user: { username: payload.username },
-                });
-                this.initOrgs(resp.data.gkresult);
-                break;
-              case 2:
-                this.$bvToast.toast(`Invalid login details`, {
-                  title: 'Login Error!',
-                  autoHideDelay: 3000,
-                  variant: 'danger',
-                });
-                break;
-              case 5:
-                // Username was not unique but exists in the old users table, so try loggin in the old way
-                this.$router.push('/select-org');
-                break;
-              default:
-                this.$bvToast.toast(`Internal Server Error`, {
-                  title: 'Login Error!',
-                  autoHideDelay: 3000,
-                  variant: 'danger',
-                });
-            }
-          })
-          .finally(() => {
-            this.isOrgLoading = false;
+    // perform checks before logging a user
+    // if captcha is disabled, login the user directly
+    // or verify the captcha & login the user or throw the error
+    preUserLogin() {
+      if (this.gkConfig.disable_captcha) {
+        this.userLogin();
+      } else {
+        if (this.captcha.answer == this.captcha.userAnswer) {
+          this.userLogin();
+        } else {
+          // Alert the user on captcha failure
+          this.$bvToast.toast(this.$gettext(`Incorrect Answer`), {
+            title: this.$gettext('Captcha failed'),
+            autoHideDelay: 3000,
+            appendToast: true,
+            variant: 'danger',
+            solid: true,
           });
+        }
       }
+    },
+    userLogin() {
+      let payload = {
+        username: this.form.name,
+        userpassword: this.form.pwd,
+      };
+      this.isOrgLoading = true;
+      axios
+        .post(`${this.gkCoreUrl}/login/user`, payload)
+        .then((resp) => {
+          switch (resp.data.gkstatus) {
+            case 0:
+              this.$bvToast.toast(`Welcome ${this.form.name}`, {
+                title: 'Login Success!',
+                autoHideDelay: 3000,
+                variant: 'success',
+              });
+              // set the user auth status
+              this.$store.dispatch('setSessionStates', {
+                userAuth: true,
+                userAuthToken: resp.data.token,
+                user: { username: payload.username },
+              });
+              this.initOrgs(resp.data.gkresult);
+              break;
+            case 2:
+              this.$bvToast.toast(`Invalid login details`, {
+                title: 'Login Error!',
+                autoHideDelay: 3000,
+                variant: 'danger',
+              });
+              break;
+            case 5:
+              // Username was not unique but exists in the old users table, so try loggin in the old way
+              this.$router.push('/select-org');
+              break;
+            default:
+              this.$bvToast.toast(`Internal Server Error`, {
+                title: 'Login Error!',
+                autoHideDelay: 3000,
+                variant: 'danger',
+              });
+          }
+        })
+        .finally(() => {
+          this.isOrgLoading = false;
+        });
     },
     orgLogin(orgData) {
       const userAuthToken = localStorage.getItem('userAuthToken');
