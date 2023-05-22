@@ -280,7 +280,7 @@ async function html2PDF(dom, opts = {}) {
       }
       pdfInstance.pdf = addWaterMark(pdfInstance.pdf, opts);
       // save pdf
-      opts.success.call(opts, pdfInstance.pdf);
+      // opts.success.call(opts, pdfInstance.pdf);
     });
   } else {
     // save pdf
