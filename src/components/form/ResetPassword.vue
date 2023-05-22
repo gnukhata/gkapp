@@ -129,6 +129,7 @@
             :state="matchingPwd"
             required
             v-model="password2"
+            type="password"
           ></b-form-input>
           <b-form-valid-feedback>
             <translate>Passwords Match</translate>
