@@ -4,7 +4,7 @@
     @submit.prevent="updateContact"
     class="align-form-label-right"
   >
-  <!-- Action Buttons -->
+    <!-- Action Buttons -->
     <div class="pt-2 pb-3 d-flex flex-row-reverse">
       <b-button
         @click.prevent="deleteContact"
@@ -104,12 +104,18 @@
           ></b-form-input>
         </b-form-group>
 
-        <b-form-group label="State" label-for="state" label-cols="3">
+        <b-form-group
+          label="State"
+          label-class="required"
+          label-for="state"
+          label-cols="3"
+        >
           <template #label> <translate> State </translate> </template>
           <b-form-select
             :options="options.states"
             v-model="details.state"
             @change="gstin.stateCode = options.stateMap[details.state]"
+            required="true"
           ></b-form-select>
         </b-form-group>
 
@@ -253,7 +259,6 @@
         </b-form-group>
       </b-collapse>
     </b-card>
-    
   </b-form>
 </template>
 

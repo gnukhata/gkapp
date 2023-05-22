@@ -75,6 +75,7 @@
               label="State"
               label-for="ci-input-20"
               label-cols="3"
+              label-class="required"
             >
               <template #label> <translate> State </translate> </template>
               <v-select
@@ -83,7 +84,7 @@
                 v-model="state"
                 label="name"
                 placeholder="Select a State"
-                :required="false"
+                :required="true"
               ></v-select>
             </b-form-group>
             <b-form-group
@@ -471,7 +472,8 @@ export default {
       self.showOptional ? (self.showBankDetails ? 4 : 6) : 12,
     columnTwoWidth: (self) => (self.showOptional ? 4 : 12),
     isSupplier: (self) => self.contactType === 'supplier',
-    formType: (self) => (self.contactType === 'customer' ? 'Customer' : 'Supplier'),
+    formType: (self) =>
+      self.contactType === 'customer' ? 'Customer' : 'Supplier',
     formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
     validatePin: (self) =>
       self.form.pin ? self.form.pin > 100000 && self.form.pin < 999999 : null,
@@ -481,7 +483,7 @@ export default {
   },
   watch: {
     type(type) {
-      if(type !== this.contactType) {
+      if (type !== this.contactType) {
         this.contactType = type;
       }
     },
