@@ -1,7 +1,7 @@
 {
   "gkcore_url": "http://localhost:6543",
   "fetch_latest_version": false,
-	"disable_captcha": false,
+	"disable_captcha": true,
   "login_banner": {
     "show": false,
     "variant": "info",

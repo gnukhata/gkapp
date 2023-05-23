@@ -260,99 +260,97 @@
           </b-col>
           <b-col cols="12" :md="inOverlay ? 12 : 6" lg="6" class="mb-3">
             <b-card no-body border-variant="dark">
-              <b-card-body class="p-2">
+              <b-card-body cla="p-2">
                 <b>Tax</b>
                 <b-row>
                   <b-col cols="12">
-                    <b-form-group
-                      label-size="sm"
-                      :label="isService ? 'SAC' : 'HSN'"
-                      label-for="bi-input-10"
-                      label-cols="3"
-                      :label-class="isHsnRequired ? 'required' : ''"
-                    >
-                      <!-- <b-form-input
-                           size="sm"
-                           id="bi-input-10"
-                           placeholder=""
-                           v-model="form.hsn"
-                           trim
-                           :required="isHsnRequired"
-                           ></b-form-input> -->
-                      <gk-hsn
-                        v-model="form.hsn"
-                        :required="isHsnRequired"
-                      ></gk-hsn>
-                    </b-form-group>
+                    <div v-if="orgGstin">
+                      <b-form-group
+                        label-size="sm"
+                        :label="isService ? 'SAC' : 'HSN'"
+                        label-for="bi-input-10"
+                        label-cols="3"
+                        :label-class="isHsnRequired ? 'required' : ''"
+                      >
+                        <gk-hsn
+                          v-model="form.hsn"
+                          :required="isHsnRequired"
+                        ></gk-hsn>
+                      </b-form-group>
 
-                    <!-- GST -->
-                    <b-form-group
-                      label-size="sm"
-                      label="GST"
-                      label-for="bi-input-7"
-                      label-cols="3"
-                      class="mb-0"
+                      <!-- GST -->
+                      <b-form-group
+                        label-size="sm"
+                        label="GST"
+                        label-for="bi-input-7"
+                        label-cols="3"
+                        class="mb-0"
+                      >
+                        <b-input-group append="%" size="sm">
+                          <b-form-select
+                            size="sm"
+                            id="bi-input-7"
+                            v-model="form.tax.gsts[0].rate"
+                            :options="gstRates"
+                            :disabled="form.tax.gstFlag"
+                          ></b-form-select>
+                        </b-input-group>
+                      </b-form-group>
+                      <b-form-checkbox
+                        size="sm"
+                        v-model="form.tax.gstFlag"
+                        class="d-inline-block float-right mb-2"
+                        switch
+                      >
+                        <small>
+                          <translate>
+                            Add GST rates based on date of applicability
+                          </translate>
+                        </small>
+                      </b-form-checkbox>
+                      <div class="clearfix"></div>
+                      <b-form-group
+                        label-size="sm"
+                        label="CESS"
+                        label-for="bi-input-8"
+                        label-cols="3"
+                      >
+                        <b-input-group append="%" size="sm">
+                          <b-form-input
+                            size="sm"
+                            id="bi-input-8"
+                            placeholder=""
+                            v-model="form.tax.cess"
+                            type="number"
+                            no-wheel
+                            step="0.01"
+                          ></b-form-input>
+                        </b-input-group>
+                      </b-form-group>
+                      <b-form-group
+                        label-size="sm"
+                        label="CVAT"
+                        label-for="bi-input-9"
+                        label-cols="3"
+                      >
+                        <b-input-group append="%" size="sm">
+                          <b-form-input
+                            size="sm"
+                            id="bi-input-9"
+                            placeholder=""
+                            v-model="form.tax.cvat"
+                            type="number"
+                            no-wheel
+                            step="0.01"
+                          ></b-form-input>
+                        </b-input-group>
+                      </b-form-group>
+                    </div>
+                    <b-alert v-else show variant="warning"
+                      >Please add a valid GSTIN in organisation settings to
+                      enable HSN/SAC</b-alert
                     >
-                      <b-input-group append="%" size="sm">
-                        <b-form-select
-                          size="sm"
-                          id="bi-input-7"
-                          v-model="form.tax.gsts[0].rate"
-                          :options="gstRates"
-                          :disabled="form.tax.gstFlag"
-                        ></b-form-select>
-                      </b-input-group>
-                    </b-form-group>
-                    <b-form-checkbox
-                      size="sm"
-                      v-model="form.tax.gstFlag"
-                      class="d-inline-block float-right mb-2"
-                      switch
-                    >
-                      <small>
-                        <translate>
-                          Add GST rates based on date of applicability
-                        </translate>
-                      </small>
-                    </b-form-checkbox>
-                    <div class="clearfix"></div>
-                    <b-form-group
-                      label-size="sm"
-                      label="CESS"
-                      label-for="bi-input-8"
-                      label-cols="3"
-                    >
-                      <b-input-group append="%" size="sm">
-                        <b-form-input
-                          size="sm"
-                          id="bi-input-8"
-                          placeholder=""
-                          v-model="form.tax.cess"
-                          type="number"
-                          no-wheel
-                          step="0.01"
-                        ></b-form-input>
-                      </b-input-group>
-                    </b-form-group>
-                    <b-form-group
-                      label-size="sm"
-                      label="CVAT"
-                      label-for="bi-input-9"
-                      label-cols="3"
-                    >
-                      <b-input-group append="%" size="sm">
-                        <b-form-input
-                          size="sm"
-                          id="bi-input-9"
-                          placeholder=""
-                          v-model="form.tax.cvat"
-                          type="number"
-                          no-wheel
-                          step="0.01"
-                        ></b-form-input>
-                      </b-input-group>
-                    </b-form-group>
-                    <b-card no-body class="mb-2">
+                    <b-card no-body class="mt-2 mb-2">
                       <b-card-body class="p-2" style="min-height: 50px">
                         <div class="mb-2">
                           <b>VAT</b>
@@ -589,7 +587,6 @@ export default {
     return {
       showGodownForm: false,
       type: 'product', // product, service
-      blankURL: 'http://localhost:1111',
       isLoading: false,
       isPreloading: false,
       showOptional: false,
@@ -646,7 +643,7 @@ export default {
       self.type === 'product' ? 'cart-variant' : 'face-agent',
     vatLength: (self) => self.form.tax.vat.length,
     godownLength: (self) => self.form.stock.godowns.length,
-    ...mapState(['yearStart', 'yearEnd']),
+    ...mapState(['yearStart', 'yearEnd', 'orgGstin']),
   },
   watch: {
     uom(newValue) {
