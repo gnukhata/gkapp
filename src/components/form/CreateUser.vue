@@ -211,6 +211,20 @@ export default {
     },
     /* Create User */
     addUser() {
+      if (this.form.username.length < 3) {
+        // Alert the user on username length
+        this.$bvToast.toast(
+          this.$gettext(`Username is less than 3 characters`),
+          {
+            title: this.$gettext('Invalid username'),
+            autoHideDelay: 3000,
+            variant: 'danger',
+            appendToast: true,
+            solid: true,
+          }
+        );
+        return;
+      }
       if (this.userAnswer != this.answer) {
         // Alert the user on captcha failure
         this.$bvToast.toast(
