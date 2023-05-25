@@ -132,8 +132,8 @@ export default new Vuex.Store({
         }
 
         if (orgGstin) {
-          if(orgGstin === "null" || orgGstin === "undefined") {
-            state.orgGstin = null;  
+          if (orgGstin === 'null' || orgGstin === 'undefined') {
+            state.orgGstin = null;
           } else {
             state.orgGstin = orgGstin;
           }
@@ -261,12 +261,12 @@ export default new Vuex.Store({
         if (resp.data.gkstatus === 0) {
           let result = resp.data.gkresult;
           let gstin =
-            result.gstin && typeof result.gstin === 'object'
+            result.gstin != null && typeof result.gstin === 'object'
               ? result.gstin[result.stateCode]
               : null;
-            if(!gstin && result.stateCode < 10) {
-              gstin = result.gstin[`0${result.stateCode}`];
-            }
+          if (gstin != null && result.stateCode < 10) {
+            gstin = result.gstin[`0${result.stateCode}`];
+          }
           commit('setOrgGstin', gstin || null);
         }
       });
