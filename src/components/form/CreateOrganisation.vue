@@ -138,7 +138,9 @@
               </div>
             </div>
           </b-form-group>
-          <small> <translate> * All fields are required </translate> </small>
+          <small class="text-danger">
+            <translate> * All fields are required </translate>
+          </small>
           <!-- <hr /> -->
           <div class="float-right">
             <!-- <b-button
@@ -262,7 +264,8 @@ export default {
           feedback =
             'Orgname must be minimum 6 characters and maximum 20 characters long';
         } else {
-          feedback = 'Orgname can only be alphanumeric with spaces, _ and . symbols.';
+          feedback =
+            'Orgname can only be alphanumeric with spaces, _ and . symbols.';
         }
       }
       if (!self.valid.nameUnique && self.valid.nameUnique !== null) {
@@ -284,17 +287,15 @@ export default {
       }
       this.valid.nameFormat = true;
       const self = this;
-      axios
-        .get(`/organisation/check/${query}`)
-        .then((resp) => {
-          if (query === self.orgName) {
-            if (resp.data.gkstatus === STATUS_CODES['Success']) {
-              self.valid.nameUnique = true;
-            } else {
-              self.valid.nameUnique = false;
-            }
+      axios.get(`/organisation/check/${query}`).then((resp) => {
+        if (query === self.orgName) {
+          if (resp.data.gkstatus === STATUS_CODES['Success']) {
+            self.valid.nameUnique = true;
+          } else {
+            self.valid.nameUnique = false;
           }
-        });
+        }
+      });
     },
     checkRegistrationStatus() {
       axios.get('/organisation/check_registration').then((r) => {
@@ -324,6 +325,18 @@ export default {
       this.isLoading = true;
       const payload = this.initPayload();
       const userAuthToken = localStorage.getItem('userAuthToken');
+      //state is mandatory to create org
+      if (this.orgState.length == 0) {
+        this.$bvToast.toast(this.$gettext(`State is required`), {
+          title: this.$gettext('Organisation create Error!'),
+          autoHideDelay: 3000,
+          variant: 'danger',
+          appendToast: true,
+          solid: true,
+        });
+        this.isLoading = false;
+        return;
+      }
       // Create Organisation
       axios
         .post('/organisation', payload, {
