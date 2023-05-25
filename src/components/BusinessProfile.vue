@@ -140,7 +140,10 @@
           label-cols="4"
         >
           <!-- hsn /sac input -->
-          <gk-hsn :required="gstinValid" v-model="details.gscode"></gk-hsn>
+          <gk-hsn
+            :required="orgGstin != null"
+            v-model="details.gscode"
+          ></gk-hsn>
         </b-form-group>
 
         <b-form-group class="mb-0" label-size="sm" label="GST" label-cols="4">
@@ -463,7 +466,7 @@ export default {
     isProduct: (self) => self.details.gsflag === 7,
     gstRates: (self) => self.$store.getters['global/getGstRates'],
 
-    ...mapState(['gkCoreUrl', 'authToken', 'yearStart', 'yearEnd']),
+    ...mapState(['orgGstin', 'gkCoreUrl', 'authToken', 'yearStart', 'yearEnd']),
   },
   methods: {
     calculateDiscount() {
