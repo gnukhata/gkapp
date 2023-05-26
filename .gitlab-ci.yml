@@ -20,6 +20,7 @@ gkapp:
   variables:
     # required to serve gkapp on gitlab pages
     GKAPP_URL: https://gnukhata.gitlab.io/gkapp
+    VUE_APP_GKAPP_VERSION: $CI_COMMIT_SHORT_SHA 
   script:
     # Replace default gkapp config with custom one
     - mv public/gkapp-config.json public/gkapp-config.json.bak
@@ -43,7 +44,7 @@ docker-devel:
   script:
     # build the docker image & push to the dockerhub
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD
-    - docker build -t digitalfreedom/gkapp:devel .
+    - docker build -t digitalfreedom/gkapp:devel --build-arg VERSION=$CI_COMMIT_SHORT_SHA .
     - docker push digitalfreedom/gkapp:devel
   only:
     - devel
@@ -55,7 +56,7 @@ docker-prod:
   script:
     # build the docker image & push to the dockerhub
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD
-    - docker build -t digitalfreedom/gkapp:$CI_COMMIT_TAG .
+    - docker build -t digitalfreedom/gkapp:$CI_COMMIT_TAG --build-arg VERSION=$CI_COMMIT_TAG .
     - docker push digitalfreedom/gkapp:$CI_COMMIT_TAG
     # create alias for the latest tag
     - docker tag digitalfreedom/gkapp:$CI_COMMIT_TAG digitalfreedom/gkapp:latest

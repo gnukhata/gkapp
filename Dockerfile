@@ -3,6 +3,9 @@ FROM node:gallium-alpine as build
 # copy the contents of repository on to the image
 COPY . /gkapp
 
+ARG VERSION="dev"
+ENV VUE_APP_GKAPP_VERION=${VERSION}
+
 WORKDIR /gkapp
 
 # install dependencies & build
