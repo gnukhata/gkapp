@@ -43,7 +43,7 @@
           label-cols="4"
           label-size="sm"
         >
-          <b-form-input :state="pwdMatch" v-model="cnfPassword" size="sm">
+          <b-form-input :state="pwdMatch" v-model="cnfPassword" size="sm" type="password">
           </b-form-input>
           <b-form-invalid-feedback
             ><translate
