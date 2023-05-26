@@ -69,7 +69,7 @@ export default {
   name: 'About',
   data() {
     return {
-      gkappVersion: version,
+      gkappVersion: process.env.VUE_APP_GKAPP_VERSION || version,
       gkcoreVersion: null,
     };
   },
