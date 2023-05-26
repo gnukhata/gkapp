@@ -60,7 +60,7 @@
 
         <!--Captcha question -->
         <!-- only shown if captcha is enabled in gkapp config -->
-        <div v-if="!gkConfig.disable_captcha">
+        <div v-if="gkConfig.login_captcha">
           <b-form-group
             :label="$gettext('Question')"
             label-align="right"
@@ -632,7 +632,7 @@ export default {
     // if captcha is disabled, login the user directly
     // or verify the captcha & login the user or throw the error
     preUserLogin() {
-      if (this.gkConfig.disable_captcha) {
+      if (!this.gkConfig.login_captcha) {
         this.userLogin();
       } else {
         if (this.captcha.answer == this.captcha.userAnswer) {
