@@ -4,7 +4,7 @@ FROM node:gallium-alpine as build
 COPY . /gkapp
 
 ARG VERSION="dev"
-ENV VUE_APP_GKAPP_VERION=${VERSION}
+ENV VUE_APP_GKAPP_VERSION=${VERSION}
 
 WORKDIR /gkapp
 
