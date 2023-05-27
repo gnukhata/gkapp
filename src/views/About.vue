@@ -55,8 +55,8 @@
         </div>
         <!-- app version info -->
         <p class="mt-3 text-center">
-          Frontend (gkapp): <code>v{{ gkappVersion }}</code> | Backend (gkcore):
-          <code>v{{ gkcoreVersion }}</code>
+          Frontend (gkapp): <code>{{ gkappVersion }}</code> | Backend (gkcore):
+          <code>{{ gkcoreVersion }}</code>
         </p>
       </div>
     </div>
