@@ -52,6 +52,7 @@
               <translate> Supplier </translate>
             </b-form-radio>
           </b-form-radio-group>
+          <!-- add contact button -->
           <b-button
             @click.prevent="showContactForm = true"
             class="py-0 ml-3"
@@ -60,8 +61,9 @@
             title="Add Contact"
             >+</b-button
           >
+          <!-- edit contact button. only shown when a contact is selected -->
           <b-button
-            v-if="form.name"
+            v-if="form.name.name != ''"
             class="py-0 ml-2"
             variant="warning"
             size="sm"
@@ -349,7 +351,7 @@ export default {
           },
           type: 'customer', // supplier
           custid: null,
-          name: {name: ''},
+          name: { name: '' },
           addr: null,
           state: {},
           gstin: null,
@@ -371,7 +373,7 @@ export default {
         },
         type: 'customer', // supplier
         custid: null,
-        name: {name: ''},
+        name: { name: '' },
         addr: null,
         state: {},
         gstin: null,
@@ -435,7 +437,7 @@ export default {
       if (party) {
         // this.isPreloading = true;
         this.form.name = party;
-        this.onPartyNameSelect(this.form.name)
+        this.onPartyNameSelect(this.form.name);
       }
     },
   },
@@ -464,7 +466,7 @@ export default {
     },
     resetPartyDetails() {
       Object.assign(this.form, {
-        name: {name: ''},
+        name: { name: '' },
         addr: null,
         options: {
           states: [],
@@ -636,7 +638,7 @@ export default {
     },
     resetForm() {
       this.form = {
-        name: {name: ''},
+        name: { name: '' },
         address: null,
         state: '',
         contactNumber: null,
@@ -807,13 +809,20 @@ export default {
           payload.gstin = {};
           payload.gstin[this.form.state.id] = this.form.gstin;
         }
-        axios.put('customersupplier', payload).then((resp) => {
-          if (resp.data.gkstatus === 0) {
-            delete this.options.csData[this.form.name.id];
-          }
-          this.form.loading = false;
-          this.onPartyNameSelect(this.form.name);
-        });
+        axios
+          .put(`customer/${payload.custid}`, payload)
+          .then((resp) => {
+            if (resp.data.gkstatus === 0) {
+              delete this.options.csData[this.form.name.id];
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          })
+          .finally(() => {
+            this.form.loading = false;
+            this.onPartyNameSelect(this.form.name);
+          });
       } else {
         this.form.addr = this.editMode.addr;
         this.form.state = this.editMode.state;
