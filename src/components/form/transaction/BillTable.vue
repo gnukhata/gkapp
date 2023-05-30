@@ -48,7 +48,6 @@
         small
         bordered
         striped
-        fixed
         :items="formItems()"
         :fields="fields"
         :primary-key="`tbl_${Date.now()}`"
