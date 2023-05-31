@@ -54,7 +54,7 @@
           </b-form-radio-group>
           <!-- add contact button -->
           <b-button
-            @click.prevent="showContactForm = true"
+            v-b-modal.contact-item-modal
             class="py-0 ml-3"
             variant="success"
             size="sm"
@@ -259,14 +259,16 @@
     <!-- Create Contact Item -->
     <b-modal
       size="lg"
-      v-model="showContactForm"
       v-if="config"
       centered
       static
       body-class="p-0"
       id="contact-item-modal"
       hide-footer
-      hide-header
+      header-bg-variant="dark"
+      title="Create Contact"
+      header-text-variant="light"
+      header-class="p-2"
     >
       <contact-item
         :hideBackButton="true"
@@ -274,19 +276,8 @@
         mode="create"
         :type="form.type"
         :inOverlay="true"
+        :showHeader="false"
       >
-        <template #close-button>
-          <b-button
-            size="sm"
-            class="float-right py-0"
-            @click.prevent="
-              () => {
-                showContactForm = false;
-              }
-            "
-            >x</b-button
-          >
-        </template>
       </contact-item>
     </b-modal>
   </b-card>
@@ -398,7 +389,6 @@ export default {
         pin: null,
       },
       isCollapsed: true,
-      showContactForm: false,
       isPreloading: false,
     };
   },
@@ -772,7 +762,6 @@ export default {
     },
     onContactSave() {
       const self = this;
-      this.showContactForm = false;
       this.fetchContactList().then(() => {
         if (self.options.customers.length) {
           self.form.name =

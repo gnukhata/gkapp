@@ -1,6 +1,9 @@
 <template>
   <div class="card mx-0">
-    <div class="card-header text-left py-2 bg-dark text-light">
+    <div
+      v-if="showHeader"
+      class="card-header text-left py-2 bg-dark text-light"
+    >
       <b v-translate>Contact Person Details</b>
       <slot name="close-button"> </slot>
     </div>
@@ -362,6 +365,10 @@ export default {
         return ['create', 'edit'].indexOf(value) !== -1;
       },
       required: true,
+    },
+    showHeader: {
+      type: Boolean,
+      default: true,
     },
     type: {
       type: String,
