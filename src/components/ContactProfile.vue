@@ -115,7 +115,7 @@
             :options="options.states"
             v-model="details.state"
             @change="gstin.stateCode = options.stateMap[details.state]"
-            required="true"
+            :required="true"
           ></b-form-select>
         </b-form-group>
 
