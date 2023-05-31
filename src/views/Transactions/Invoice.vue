@@ -1569,10 +1569,11 @@ export default {
     //     }
     //   });
     // },
+    //TODO: reset the timer to 3 seconds
     displayToast(title, message, variant) {
       this.$bvToast.toast(message, {
         title: title,
-        autoHideDelay: 3000,
+        autoHideDelay: 30 * 1000,
         variant: variant,
         appendToast: true,
         solid: true,
