@@ -58,7 +58,7 @@
             class="py-0 ml-3"
             variant="success"
             size="sm"
-            title="Add Contact"
+            :title="$gettext('Add Contact')"
             >+</b-button
           >
           <!-- edit contact button. only shown when a contact is selected -->
