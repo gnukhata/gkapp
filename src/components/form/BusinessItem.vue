@@ -149,7 +149,7 @@
                           type="number"
                           no-wheel
                           step="0.01"
-                          placeholder="Qty"
+                          placeholder="Stock Qty"
                         ></b-form-input>
                         <b-form-input
                           size="sm"
@@ -157,7 +157,7 @@
                           type="number"
                           no-wheel
                           step="0.01"
-                          placeholder="Value"
+                          placeholder="Stock Value"
                         ></b-form-input>
                         <b-input-group-append>
                           <b-button
