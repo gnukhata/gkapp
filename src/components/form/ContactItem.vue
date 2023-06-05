@@ -554,6 +554,10 @@ export default {
         : GST_REG_TYPE['unregistered'];
     },
     confirmOnSubmit() {
+      if (this.state == null) {
+        this.gk_toast('State Not Set', 'Please select a State');
+        return;
+      }
       const self = this;
       let party = this.isSupplier ? 'Supplier' : 'Customer';
       let text = `Create ${party} <b>${this.form.name}</b>?`;

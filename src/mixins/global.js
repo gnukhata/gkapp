@@ -11,8 +11,19 @@ export default {
   computed: {
     ...mapState(['userAuthenticated']),
   },
-  // Naming convention for methods is: snake_casing
+  // Naming convention for mixin methods is `snake_casing`
+  // to distinguish b/w component methods & mixin methods
   methods: {
+    //wrapper around the bootstrap-vue toast
+    gk_toast(title, message, variant = 'danger') {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 5000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
+    },
     // adds a log entry for an org, payload is a string
     gk_log(payload) {
       axios
