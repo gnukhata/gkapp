@@ -24,6 +24,17 @@
         </b-form-checkbox> -->
         <span class="float-right">
           <b-button
+            v-if="showAddProduct"
+            @click.prevent="showBusinessForm = true"
+            class="py-0 mx-1"
+            variant="success"
+            size="sm"
+          >
+            <translate>
+              Create Item
+            </translate>
+          </b-button>
+          <b-button
             v-if="config.addBtn"
             @click.prevent="addBillItem()"
             class="py-0 mx-1"
@@ -31,15 +42,6 @@
             size="sm"
           >
             <translate> Add Item </translate>
-          </b-button>
-          <b-button
-            v-if="showAddProduct"
-            @click.prevent="showBusinessForm = true"
-            class="py-0 mx-1"
-            variant="success"
-            size="sm"
-          >
-            <translate> Create Item </translate>
           </b-button>
         </span>
       </b-card>
