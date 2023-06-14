@@ -53,12 +53,16 @@
             </b-form-radio>
           </b-form-radio-group>
           <!-- add contact button -->
+          <!-- NOTE: disabled this modal, because it freezes the page after closing 
+					Adding link to create contact as workarond
+					-->
+
           <b-button
-            v-b-modal.contact-item-modal
             class="py-0 ml-3"
             variant="success"
             size="sm"
             :title="$gettext('Add Contact')"
+            @click="$router.push('/contact-details/create/customer')"
             >+</b-button
           >
           <!-- edit contact button. only shown when a contact is selected -->
@@ -94,6 +98,7 @@
             required
             label="name"
             :disabled="editFlag || isNameDisabled"
+            :clearable="false"
           ></v-select>
           <v-select
             v-else
@@ -104,6 +109,7 @@
             required
             label="name"
             :disabled="editFlag || isNameDisabled"
+            :clearable="false"
           ></v-select>
         </b-form-group>
         <b-form-group
@@ -256,8 +262,8 @@
       </b-form>
     </div>
 
-    <!-- Create Contact Item -->
-    <b-modal
+    <!-- Create Contact Item modal -->
+    <!-- <b-modal
       size="lg"
       v-if="config"
       centered
@@ -279,7 +285,7 @@
         :showHeader="false"
       >
       </contact-item>
-    </b-modal>
+    </b-modal> -->
   </b-card>
 </template>
 
