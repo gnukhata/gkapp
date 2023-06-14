@@ -292,11 +292,11 @@
 <script>
 import axios from 'axios';
 import GkGstin from '../../GkGstin.vue';
-import ContactItem from '../ContactItem.vue';
+// import ContactItem from '../ContactItem.vue';
 export default {
   name: 'PartyDetails',
   components: {
-    ContactItem,
+    // ContactItem,
     GkGstin,
   },
   props: {
