@@ -55,6 +55,21 @@
         <div v-if="form.mode === 2">
           <b v-translate> Bank Details </b>
           <b-form-group
+            label="IFSC"
+            label-for="pmd-input-50"
+            label-cols="3"
+            label-size="sm"
+            label-cols-lg="autauto"
+            v-if="config.bank.ifsc"
+          >
+            <gk-ifsc
+              size="sm"
+              @fill="autoFillBankInfo"
+              v-model="form.bank.ifsc"
+            >
+            </gk-ifsc>
+          </b-form-group>
+          <b-form-group
             label="Acc. No."
             label-for="pmd-input-20"
             label-cols="3"
@@ -104,23 +119,6 @@
               trim
               required
             ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            label="IFSC"
-            label-for="pmd-input-50"
-            label-cols="3"
-            label-size="sm"
-            label-cols-lg="autauto"
-            v-if="config.bank.ifsc"
-          >
-            <!-- <b-form-input
-                   size="sm"
-                   id="pmd-input-50"
-                   v-model="form.bank.ifsc"
-                   trim
-                   required
-                   ></b-form-input> -->
-            <gk-ifsc v-model="form.bank.ifsc"></gk-ifsc>
           </b-form-group>
         </div>
         <b v-if="form.mode === 15" v-translate>ON CREDIT</b>
@@ -201,6 +199,10 @@ export default {
     };
   },
   methods: {
+    autoFillBankInfo(bank) {
+      this.form.bank.name = bank.BANK;
+      this.form.bank.branch = bank.BRANCH;
+    },
     onUpdateDetails() {
       setTimeout(() =>
         this.$emit('details-updated', {
