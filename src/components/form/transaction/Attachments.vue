@@ -27,7 +27,7 @@
             style="right: 0px"
             size="sm"
           >
-            <b-icon icon="trash"></b-icon>
+            <b-icon variant="danger" icon="trash"></b-icon>
           </b-button>
           <img
             style="height: 196px; box-sizing: border-box"
