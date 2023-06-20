@@ -10,7 +10,6 @@
         accept="image/jpeg"
         placeholder="Choose a file / Drag & drop it here"
         drop-placeholder="Drop file here..."
-        plain
         multiple
       ></b-form-file>
       <div class="clearfix"></div>
@@ -78,7 +77,7 @@ export default {
   watch: {
     updateCounter() {
       this.form.attachments = this.parentData;
-      if(!this.form.attachments.length) {
+      if (!this.form.attachments.length) {
         this.currentAttachments = [];
       }
     },
