@@ -8,7 +8,6 @@
           placeholder="eg: KARB0000001"
           :size="size"
           v-model="ifscCode"
-          @blur="validateIfsc"
           trim
         ></b-form-input>
         <!-- Validate button -->
