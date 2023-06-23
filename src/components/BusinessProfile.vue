@@ -289,13 +289,14 @@
         </b-collapse>
       </b-collapse>
     </b-card>
-
+    <!-- opening stock, Only visible for products-->
     <b-card
       no-body
       class="mt-2"
       header-bg-variant="dark"
       header-text-variant="light"
       id="godown-card"
+      v-if="details.gsflag == 7"
     >
       <template #header>
         <div class="d-flex" v-b-toggle.collapse-godown>
