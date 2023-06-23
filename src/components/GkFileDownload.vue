@@ -129,7 +129,7 @@ export default {
       axios
         .get(url, { responseType: 'blob' })
         .then((resp) => {
-          if (!resp.data.gkstatus || resp.data.gkstatus === 0) {
+          if (resp.data.gkstatus === 0) {
             let blob = resp.data;
             if (this.filePath) {
               if (this.filePath.length) {
@@ -154,6 +154,11 @@ export default {
             atag.style.display = 'none';
             document.body.appendChild(atag);
             atag.click();
+          } else {
+            this.gk_toast(
+              'File Download failed',
+              `Failed with status code ${resp.data.gkstatus}`
+            );
           }
           this.loading = false;
         })
