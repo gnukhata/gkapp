@@ -211,6 +211,7 @@
             v-else
             v-model="form.gstin"
             @gstin_data="onGstinDataFetched"
+            @validity="checkGstinValidity"
           >
           </gk-gstin>
         </b-form-group>
@@ -250,6 +251,7 @@
             @click.prevent="onPartyEdit(true)"
             variant="success"
             size="sm"
+            :disabled="!isValidGstin"
           >
             <b-icon
               aria-hidden="true"
@@ -362,6 +364,7 @@ export default {
   },
   data() {
     return {
+      isValidGstin: false,
       form: {
         loading: false,
         options: {
@@ -438,6 +441,9 @@ export default {
     },
   },
   methods: {
+    checkGstinValidity(r) {
+      this.isValidGstin = r.validity.format;
+    },
     onGstinDataFetched({ addr, pincode, pan, statecode }) {
       //      this.form.name = name;
       this.form.addr = addr;
