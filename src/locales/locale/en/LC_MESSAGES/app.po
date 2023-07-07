@@ -14,7 +14,7 @@ msgstr ""
 msgid "-- Choose a Godown --"
 msgstr "-- Choose a Godown --"
 
-#: src/components/form/transaction/PaymentDetails.vue:87
+#: src/components/form/transaction/PaymentDetails.vue:91
 #: src/views/Transactions/CashMemo.vue:76
 msgid "-- Payment Mode --"
 msgstr "-- Payment Mode --"
@@ -329,7 +329,7 @@ msgstr "Acc No"
 #: src/components/ContactProfile.vue:142 src/components/ContactProfile.vue:1
 #: src/components/form/ContactItem.vue:105
 #: src/components/form/ContactItem.vue:1
-#: src/components/form/transaction/PaymentDetails.vue:27
+#: src/components/form/transaction/PaymentDetails.vue:31
 #: src/components/form/transaction/PaymentDetails.vue:1
 msgid "Acc. No."
 msgstr "Acc. No."
@@ -423,7 +423,7 @@ msgstr "Add Category"
 msgid "Add CESS"
 msgstr "Add CESS"
 
-#: src/components/form/transaction/PartyDetails.vue:122
+#: src/components/form/transaction/PartyDetails.vue:120
 #, fuzzy
 msgid "Add Contact"
 msgstr "Contact"
@@ -453,7 +453,7 @@ msgstr "Add Godown"
 msgid "Add GST rates based on date of applicability"
 msgstr ""
 
-#: src/components/form/transaction/BillTable.vue:16
+#: src/components/form/transaction/BillTable.vue:21
 msgid "Add Item"
 msgstr "Add Item"
 
@@ -508,13 +508,13 @@ msgid "Add Voucher"
 msgstr "Add Voucher"
 
 #: src/components/ContactProfile.vue:59 src/components/ContactProfile.vue:2
-#: src/components/GkIfsc.vue:147 src/components/form/ContactItem.vue:32
+#: src/components/GkIfsc.vue:146 src/components/form/ContactItem.vue:32
 #: src/components/form/ContactItem.vue:1
 #: src/components/form/CreateOrganisation.vue:17
 #: src/components/form/CreateOrganisation.vue:1
 #: src/components/form/EditUser.vue:35 src/components/form/Godown.vue:28
 #: src/components/form/Godown.vue:1 src/components/form/InviteUser.vue:33
-#: src/components/form/transaction/PartyDetails.vue:38
+#: src/components/form/transaction/PartyDetails.vue:42
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:29
 #: src/components/form/transaction/ShipDetails.vue:1
@@ -663,8 +663,8 @@ msgstr "Balance Sheet"
 msgid "Balance Type"
 msgstr "Balance"
 
-#: src/components/GkIfsc.vue:87
-#: src/components/form/transaction/PaymentDetails.vue:89
+#: src/components/GkIfsc.vue:86
+#: src/components/form/transaction/PaymentDetails.vue:93
 #: src/components/workflow/profile/CashMemoProfile.vue:57
 #: src/components/workflow/profile/InvoiceProfile.vue:188
 #: src/components/workflow/profile/PsOrderProfile.vue:104
@@ -680,7 +680,7 @@ msgid "Bank Details"
 msgstr "Bank Details"
 
 #: src/components/ContactProfile.vue:147 src/components/ContactProfile.vue:1
-#: src/components/form/transaction/PaymentDetails.vue:31
+#: src/components/form/transaction/PaymentDetails.vue:35
 #: src/components/form/transaction/PaymentDetails.vue:1
 msgid "Bank Name"
 msgstr "Bank Name"
@@ -708,9 +708,9 @@ msgid "Billwise Acccounting"
 msgstr "Billwise Acccounting"
 
 #: src/components/ContactProfile.vue:152 src/components/ContactProfile.vue:1
-#: src/components/GkIfsc.vue:102 src/components/form/ContactItem.vue:100
+#: src/components/GkIfsc.vue:101 src/components/form/ContactItem.vue:100
 #: src/components/form/ContactItem.vue:1
-#: src/components/form/transaction/PaymentDetails.vue:35
+#: src/components/form/transaction/PaymentDetails.vue:39
 #: src/components/form/transaction/PaymentDetails.vue:1
 #: src/components/workflow/profile/CashMemoProfile.vue:58
 #: src/components/workflow/profile/InvoiceProfile.vue:189
@@ -767,7 +767,7 @@ msgid "Buyer Details"
 msgstr "Buyer Details"
 
 #: src/components/TransactionProfile.vue:46
-#: src/components/form/transaction/PartyDetails.vue:63
+#: src/components/form/transaction/PartyDetails.vue:67
 #: src/components/workflow/profile/DeliveryNoteProfile.vue:73
 #: src/components/workflow/profile/InvoiceProfile.vue:157
 #: src/views/OrgProfile.vue:160 src/views/OrgProfile.vue:175
@@ -817,7 +817,7 @@ msgid "Captcha not correct, please try again!"
 msgstr "Captcha not correct, please try again!"
 
 #: src/components/form/BudgetItem.vue:21
-#: src/components/form/transaction/PaymentDetails.vue:88
+#: src/components/form/transaction/PaymentDetails.vue:92
 #: src/views/Budget.vue:14 src/views/Transactions/CashMemo.vue:77
 msgid "Cash"
 msgstr "Cash"
@@ -884,7 +884,7 @@ msgstr "Categorywise Stock On Hand report as on:"
 msgid "Causes Integrity Issues"
 msgstr "Causes Integrity Issues"
 
-#: src/components/GkIfsc.vue:117
+#: src/components/GkIfsc.vue:116
 msgid "Center"
 msgstr "Center"
 
@@ -916,7 +916,7 @@ msgstr "Change Server"
 msgid "Choose a Category"
 msgstr "Choose a Category"
 
-#: src/components/GkIfsc.vue:132 src/views/OrgProfile.vue:152
+#: src/components/GkIfsc.vue:131 src/views/OrgProfile.vue:152
 msgid "City"
 msgstr "City"
 
@@ -975,7 +975,7 @@ msgstr "Consignment"
 msgid "Consumer"
 msgstr "Consignment"
 
-#: src/components/GkIfsc.vue:177
+#: src/components/GkIfsc.vue:176
 msgid "Contact"
 msgstr "Contact"
 
@@ -1208,7 +1208,7 @@ msgstr "Cancel Invoice Failure!"
 msgid "Create Invoice Successfull!"
 msgstr "Cancel Invoice Success!"
 
-#: src/components/form/transaction/BillTable.vue:19
+#: src/components/form/transaction/BillTable.vue:16
 msgid "Create Item"
 msgstr "Create Item"
 
@@ -1319,7 +1319,7 @@ msgstr "Credit Only"
 msgid "Credit Period"
 msgstr "Credit Period"
 
-#: src/components/form/transaction/BillTable.vue:115
+#: src/components/form/transaction/BillTable.vue:117
 #: src/components/form/transaction/BillTable.vue:1
 #: src/components/form/transaction/BillTable.vue:190
 msgid "Credited Value"
@@ -1454,7 +1454,7 @@ msgstr "Debit Only"
 msgid "Debit/Credit Note"
 msgstr "Debit/Credit Note"
 
-#: src/components/form/transaction/BillTable.vue:116
+#: src/components/form/transaction/BillTable.vue:118
 #: src/components/form/transaction/BillTable.vue:2
 #: src/components/form/transaction/BillTable.vue:191
 msgid "Debited Value"
@@ -1602,7 +1602,7 @@ msgstr "DIRECT INCOME"
 #: src/components/BusinessProfile.vue:54 src/components/BusinessProfile.vue:1
 #: src/components/form/BusinessItem.vue:117
 #: src/components/form/BusinessItem.vue:1
-#: src/components/form/transaction/BillTable.vue:183
+#: src/components/form/transaction/BillTable.vue:185
 #: src/components/form/transaction/BillTable.vue:1
 #: src/components/form/transaction/TotalTable.vue:34
 msgid "Discount"
@@ -1894,7 +1894,7 @@ msgstr "Fetch Budget Details Error!"
 msgid "Fetch Cash Memo Error!"
 msgstr "Fetch Cash Memo Error!"
 
-#: src/components/form/transaction/PartyDetails.vue:405
+#: src/components/form/transaction/PartyDetails.vue:409
 #: src/views/Transactions/Invoice.vue:529
 msgid "Fetch Customer Data Failed!"
 msgstr "Fetch Customer Data Failed!"
@@ -1903,13 +1903,13 @@ msgstr "Fetch Customer Data Failed!"
 msgid "Fetch Customer List Failed!"
 msgstr "Fetch Customer List Failed!"
 
-#: src/components/form/transaction/PartyDetails.vue:232
-#: src/components/form/transaction/PartyDetails.vue:241
-#: src/components/form/transaction/PartyDetails.vue:254
+#: src/components/form/transaction/PartyDetails.vue:236
+#: src/components/form/transaction/PartyDetails.vue:245
+#: src/components/form/transaction/PartyDetails.vue:258
 msgid "Fetch Customer/Supplier Data Error!"
 msgstr "Fetch Customer/Supplier Data Error!"
 
-#: src/components/form/transaction/PartyDetails.vue:470
+#: src/components/form/transaction/PartyDetails.vue:474
 #: src/views/Transactions/Invoice.vue:599
 msgid "Fetch Customer/Supplier Data Failed!"
 msgstr "Fetch Customer/Supplier Data Failed!"
@@ -1989,7 +1989,7 @@ msgid "Fetch sale order error"
 msgstr "Fetch sale order error"
 
 #: src/components/form/BusinessItem.vue:552
-#: src/components/form/transaction/PartyDetails.vue:372
+#: src/components/form/transaction/PartyDetails.vue:376
 #: src/components/form/transaction/ShipDetails.vue:97
 #: src/components/form/transaction_details/CashMemoDetails.vue:169
 #: src/components/form/transaction_details/DeliveryNoteDetails.vue:270
@@ -2009,7 +2009,7 @@ msgstr "Fetch State Data Failed!"
 msgid "Fetch SubGroups Data Failed!"
 msgstr "Fetch SubGroups Data Failed!"
 
-#: src/components/form/transaction/PartyDetails.vue:413
+#: src/components/form/transaction/PartyDetails.vue:417
 #: src/views/Transactions/Invoice.vue:537
 msgid "Fetch Supplier Data Failed!"
 msgstr "Fetch Supplier Data Failed!"
@@ -2294,7 +2294,7 @@ msgstr "IFSC"
 msgid "IFSC Code"
 msgstr "IFSC Code"
 
-#: src/components/GkIfsc.vue:59
+#: src/components/GkIfsc.vue:58
 msgid "IFSC Details"
 msgstr "IFSC Details"
 
@@ -2515,7 +2515,7 @@ msgstr "Mode of Payment"
 msgid "Manage Users"
 msgstr "Manage Users"
 
-#: src/components/GkIfsc.vue:192
+#: src/components/GkIfsc.vue:191
 msgid "MICR"
 msgstr "MICR"
 
@@ -2570,7 +2570,7 @@ msgstr "MRP"
 #: src/components/form/EditUser.vue:33 src/components/form/EditUser.vue:52
 #: src/components/form/Godown.vue:19 src/components/form/Godown.vue:1
 #: src/components/form/InviteUser.vue:31 src/components/form/InviteUser.vue:58
-#: src/components/form/transaction/PartyDetails.vue:33
+#: src/components/form/transaction/PartyDetails.vue:37
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:23
 #: src/components/form/transaction/ShipDetails.vue:1
@@ -2699,7 +2699,7 @@ msgstr "No. Of Debit Records"
 msgid "No. of packages"
 msgstr "No. of packages"
 
-#: src/components/form/transaction/BillTable.vue:93
+#: src/components/form/transaction/BillTable.vue:95
 #: src/components/form/transaction/BillTable.vue:1
 #: src/components/form/transaction/BillTable.vue:166
 #: src/components/workflow/profile/TransferNoteProfile.vue:74
@@ -2714,13 +2714,13 @@ msgstr "No. of Unlocked Transactions"
 msgid "Note"
 msgstr ""
 
-#: src/components/form/transaction/PaymentDetails.vue:90
+#: src/components/form/transaction/PaymentDetails.vue:94
 #: src/components/workflow/profile/CashMemoProfile.vue:44
 #: src/components/workflow/profile/PsOrderProfile.vue:59
 msgid "On Credit"
 msgstr "On Credit"
 
-#: src/components/form/transaction/PaymentDetails.vue:49
+#: src/components/form/transaction/PaymentDetails.vue:43
 msgid "ON CREDIT"
 msgstr "ON CREDIT"
 
@@ -3054,7 +3054,7 @@ msgstr "Purchase/Sales Order"
 msgid "Purpose"
 msgstr "Purpose"
 
-#: src/components/form/transaction/BillTable.vue:67
+#: src/components/form/transaction/BillTable.vue:69
 #: src/components/form/transaction/BillTable.vue:1
 #: src/components/form/transaction/BillTable.vue:165
 #: src/components/workflow/profile/CashMemoProfile.vue:68
@@ -3084,7 +3084,7 @@ msgstr "R1 Report"
 msgid "Rail"
 msgstr "Rail"
 
-#: src/components/form/transaction/BillTable.vue:127
+#: src/components/form/transaction/BillTable.vue:129
 #: src/components/form/transaction/BillTable.vue:1
 msgid "Rate"
 msgstr "Rate"
@@ -3158,7 +3158,7 @@ msgstr "Reject Purchase"
 msgid "Reject Sale"
 msgstr "Reject Sale"
 
-#: src/components/form/transaction/BillTable.vue:104
+#: src/components/form/transaction/BillTable.vue:106
 #: src/components/form/transaction/BillTable.vue:1
 #: src/components/form/transaction/BillTable.vue:167
 #: src/components/workflow/profile/RejectionNoteProfile.vue:49
@@ -3313,7 +3313,7 @@ msgid "Save & Continue"
 msgstr "Save & Continue"
 
 #: src/components/BusinessProfile.vue:7 src/components/ContactProfile.vue:8
-#: src/components/form/transaction/PartyDetails.vue:67
+#: src/components/form/transaction/PartyDetails.vue:71
 #: src/views/OrgProfile.vue:134 src/views/Transactions/DeliveryNote.vue:77
 #: src/views/Transactions/Invoice.vue:6
 #: src/views/Transactions/InvoiceEdit.vue:86
@@ -3523,13 +3523,13 @@ msgid "Sr. No."
 msgstr "Sr. No."
 
 #: src/components/ContactProfile.vue:72 src/components/ContactProfile.vue:1
-#: src/components/GkIfsc.vue:162 src/components/form/ContactItem.vue:37
+#: src/components/GkIfsc.vue:161 src/components/form/ContactItem.vue:37
 #: src/components/form/ContactItem.vue:1
 #: src/components/form/CreateOrganisation.vue:24
 #: src/components/form/CreateOrganisation.vue:1
 #: src/components/form/EditUser.vue:34 src/components/form/Godown.vue:23
 #: src/components/form/Godown.vue:1 src/components/form/InviteUser.vue:32
-#: src/components/form/transaction/PartyDetails.vue:49
+#: src/components/form/transaction/PartyDetails.vue:53
 #: src/components/form/transaction/PartyDetails.vue:1
 #: src/components/form/transaction/ShipDetails.vue:40
 #: src/components/form/transaction/ShipDetails.vue:1
@@ -3559,7 +3559,7 @@ msgstr "Status"
 msgid "Stock On Hand"
 msgstr "Stock On Hand"
 
-#: src/components/form/transaction/BillTable.vue:81
+#: src/components/form/transaction/BillTable.vue:83
 #: src/components/form/transaction/BillTable.vue:12
 msgid "Stock On Hand = %{stockOnHand}"
 msgstr "Stock On Hand = %{stockOnHand}"
@@ -3851,7 +3851,7 @@ msgid "To Godown"
 msgstr "To Godown"
 
 #: src/components/form/Voucher.vue:138
-#: src/components/form/transaction/BillTable.vue:212
+#: src/components/form/transaction/BillTable.vue:214
 #: src/components/form/transaction/BillTable.vue:1
 #: src/components/form/transaction/TotalTable.vue:4
 #: src/components/workflow/profile/InvoiceProfile.vue:85
@@ -4057,7 +4057,7 @@ msgstr "Unable to delete Delivery Note : %{delNoteNo}"
 msgid "Unable to Fetch Cash Memo Details! Please Try after sometime."
 msgstr "Unable to Fetch Cash Memo Details! Please Try after sometime."
 
-#: src/components/form/transaction/PartyDetails.vue:242
+#: src/components/form/transaction/PartyDetails.vue:246
 msgid "Unable to Fetch Customer/Supplier Data, Please try again"
 msgstr "Unable to Fetch Customer/Supplier Data, Please try again"
 
@@ -4135,7 +4135,7 @@ msgstr "Unauthorized Access, Contact Admin"
 msgid "Unauthorized access, Please contact admin"
 msgstr "Unauthorized access, Please contact admin"
 
-#: src/components/form/transaction/PartyDetails.vue:233
+#: src/components/form/transaction/PartyDetails.vue:237
 msgid "Unauthorized Access, Please contact Admin"
 msgstr "Unauthorized Access, Please contact Admin"
 
@@ -4267,7 +4267,7 @@ msgstr "Username must be minimum 3 characters"
 msgid "Username must be minimum of 3 characters"
 msgstr "Username must be minimum of 3 characters"
 
-#: src/components/GkIfsc.vue:34
+#: src/components/GkIfsc.vue:33
 msgid "validate"
 msgstr "validate"
 
