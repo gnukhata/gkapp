@@ -214,11 +214,6 @@ export default {
         })
         .then((r) => {
           if ((r.status == 200) & (r.data.gkstatus == 0)) {
-            this.$bvToast.toast(`${this.form.goname} deleted`, {
-              title: 'Success',
-              variant: 'success',
-              solid: true,
-            });
             axios
               .post(
                 `${this.gkCoreUrl}/log`,
@@ -235,19 +230,15 @@ export default {
                 this.$bvModal.hide('edit-godown');
                 this.loading = false;
               });
+            // alter user about deleting the godown
+            this.gk_toast('Success', `${this.form.goname} deleted`, 'success');
+            setTimeout(() => this.$router.push('/godowns'), 2000);
           } else {
-            this.$bvToast.toast(this.$gettext('Failed to delete'), {
-              title: 'Success',
-              variant: 'success',
-              solid: true,
-            });
+            this.gk_toast('Error', 'Failed To Delete Godown');
           }
         })
         .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            variant: 'danger',
-            solid: true,
-          });
+          this.gk_toast('Error', e.message);
         });
       this.loading = false;
     },
