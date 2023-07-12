@@ -338,10 +338,6 @@ export default {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                this.$bvToast.toast(`${this.form.unitname} deleted`, {
-                  variant: 'success',
-                  solid: true,
-                });
                 // Create log
                 axios.post(
                   `${this.gkCoreUrl}/log`,
@@ -356,9 +352,12 @@ export default {
                 );
                 this.isLoading = false;
                 this.$emit('refresh');
-                setTimeout(() => {
-                  this.$bvModal.hide('edit-uom');
-                }, 2000);
+                this.gk_toast(
+                  'Success',
+                  `${this.form.unitname} deleted`,
+                  'success'
+                );
+                setTimeout(() => this.$router.push('/uom'), 2000);
                 break;
               case 1:
                 this.$bvToast.toast(`Duplicate Entry`, {
