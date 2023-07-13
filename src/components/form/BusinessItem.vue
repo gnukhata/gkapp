@@ -74,7 +74,7 @@
                   <template #search="{attributes, events}">
                     <input
                       class="vs__search"
-                      :required="true"
+                      :required="!uom"
                       v-bind="attributes"
                       v-on="events"
                     />
