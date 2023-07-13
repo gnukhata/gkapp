@@ -129,7 +129,8 @@ export default {
       axios
         .get(url, { responseType: 'blob' })
         .then((resp) => {
-          if (resp.data.gkstatus === 0) {
+          console.log(resp.data.gkstatus);
+          if (resp.data.gkstatus === 0 || resp.data.gkstatus === undefined) {
             let blob = resp.data;
             if (this.filePath) {
               if (this.filePath.length) {
