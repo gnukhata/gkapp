@@ -70,8 +70,15 @@
                     v-model="uom"
                     :options="options.uom"
                     label="name"
-                    required
                   >
+                  <template #search="{attributes, events}">
+                    <input
+                      class="vs__search"
+                      :required="true"
+                      v-bind="attributes"
+                      v-on="events"
+                    />
+                  </template>
                   </v-select>
                 </b-form-group>
                 <b-form-group
