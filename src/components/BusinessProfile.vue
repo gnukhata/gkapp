@@ -107,6 +107,7 @@
             <b-form-input
               size="sm"
               v-model="details.discountamount"
+              @blur="calculateDiscount"
             ></b-form-input>
           </b-input-group>
           <b-input-group label-size="sm" size="sm" class="mt-1" prepend="%">
@@ -404,12 +405,6 @@
 </template>
 
 <script>
-/**
- * TODO
- *
- * Delete product
- * add / delete tax
- */
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Godown from '../components/form/Godown.vue';
@@ -471,9 +466,8 @@ export default {
   },
   methods: {
     calculateDiscount() {
-      this.details.discountamount = this.details.prodmrp - this.details.prodsp;
       this.details.discountpercent = parseFloat(
-        parseFloat((this.details.discountamount / this.details.prodmrp) * 100)
+        parseFloat((this.details.discountamount / this.details.prodsp) * 100)
       ).toFixed(2);
     },
     scrollToGodownCard() {
@@ -535,9 +529,12 @@ export default {
               productdetails: this.details,
               godownflag: false,
             };
-
+            // the table name is different from response key, So changing it back, else fails to insert the updated details
+            this.details['percentdiscount'] = this.details.discountpercent;
+            this.details['amountdiscount'] = this.details.discountamount;
             delete this.details.discountamount;
             delete this.details.discountpercent;
+            // these are not db columns, so rm them
             delete this.details.deletable;
             delete this.details.unitname;
 
