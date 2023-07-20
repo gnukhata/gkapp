@@ -9,8 +9,14 @@
       <div class="clearfix"></div>
       <br />
     </div>
-    <b-row>
-      <b-col cols="12" md="6" order="2" order-md="1">
+    <div>
+      <h2 v-translate class="d-none d-print-block text-center mt-2">
+        TAX INVOICE
+      </h2>
+    </div>
+    <b-card-group deck class="mb-2">
+      <!-- buyer/seller details -->
+      <b-card class="m-1">
         <b key="1" v-if="invoice.isSale" v-translate>
           Buyer Details
         </b>
@@ -21,10 +27,12 @@
           <span>{{ invoice.party.addr }} </span> <br />
           <span>{{ invoice.party.state }} </span> <br />
           <span>{{ invoice.party.pincode }} </span>
-          <span> <b> GSTIN: </b> {{ invoice.party.gstin || '' }} </span>
+          <span> <b> GSTIN: </b> {{ invoice.party.gstin || '-' }} </span>
         </p>
-      </b-col>
-      <b-col class="text-md-left" cols="12" md="6" order="1" order-md="2">
+      </b-card>
+
+      <!-- invoice details -->
+      <b-card class="m-1" order="1">
         <b key="3" v-if="invoice.isSale" v-translate>
           Sale Invoice Details
         </b>
@@ -36,10 +44,9 @@
           :fields="['title', 'value']"
           :items="invoiceData"
           small
-          bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
+          class="text-small"
         >
           <template #cell(value)="data">
             <span v-if="typeof data.value === 'object'">
@@ -60,9 +67,9 @@
             </span>
           </template>
         </b-table-lite>
-      </b-col>
-    </b-row>
-    <!-- Content Table -->
+      </b-card>
+    </b-card-group>
+    <!-- bill items Table -->
     <b-table-lite
       :items="invoice.invItems"
       :fields="tableFields"
@@ -114,10 +121,30 @@
         </b-tr>
       </template>
     </b-table-lite>
-    <b-row>
-      <b-col class="my-2"> </b-col>
-      <b-col cols="12" md="8" class="my-2">
-        <!-- Total Table -->
+    <b-card-group deck>
+      <!-- payment details -->
+      <b-card>
+        <b v-translate> Payment Details </b>
+        <div v-if="bankMode" class="mb-3">
+          {{ paymentMode }}
+          <b-table-lite
+            :items="bankDetails"
+            :fields="['title', 'value']"
+            small
+            bordered
+            fixed
+            thead-class="d-none"
+            class="mt-1 text-small"
+          >
+          </b-table-lite>
+        </div>
+        <div class="text-small" v-else>
+          {{ paymentMode }}
+        </div>
+        <b v-translate> Narration: </b> {{ invoice.narration }}
+      </b-card>
+      <!-- Total Table -->
+      <b-card>
         <b-table-lite
           :items="totalDetails"
           :fields="[
@@ -128,32 +155,8 @@
           fixed
           class="text-small"
         ></b-table-lite>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col class="my-2"> </b-col>
-      <b-col cols="12" md="8" class="my-2">
-        <div>
-          <b v-translate> Payment Details </b>
-          <div v-if="bankMode" class="mb-3">
-            {{ paymentMode }}
-            <b-table-lite
-              :items="bankDetails"
-              :fields="['title', 'value']"
-              small
-              bordered
-              fixed
-              thead-class="d-none"
-            >
-            </b-table-lite>
-          </div>
-          <div class="text-small" v-else>
-            {{ paymentMode }}
-          </div>
-        </div>
-        <b v-translate> Narration: </b> {{ invoice.narration }}
-      </b-col>
-    </b-row>
+      </b-card>
+    </b-card-group>
     <div class="float-right my-2 d-print-none">
       <span v-if="!deletedFlag">
         <b-button
@@ -541,7 +544,7 @@ export default {
           value: self.invoice.total.amount,
         },
         {
-          title: self.$gettext('Total In Words'),
+          title: self.$gettext('Invoice Value In Words'),
           value: self.invoice.total.text,
         }
       );
