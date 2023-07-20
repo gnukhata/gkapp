@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import html2PDF from '../js/html2pdf.js';
+// import html2PDF from '../js/html2pdf.js';
 import { mapState } from 'vuex';
 export default {
   name: 'PrintHelper',
@@ -126,7 +126,7 @@ export default {
       return pages;
     },
     onPrint() {
-      const self = this;
+      // const self = this;
       let tableFlag = false;
       this.$emit('before-print');
       let contentDom = document.getElementById(this.contentId);
@@ -150,20 +150,6 @@ export default {
         `Print ${this.name} - GNUKhata`,
         `scrollbars=1,resizable=1,width=${2480},height=${3508}`
       );
-
-      /* let header = `
-          <div class="text-center">
-            <h3> ${this.orgName} </h3>
-          </div>
-          <div class="text-center">
-            ${this.pageTitle}
-          </div>
-          <div class="text-center">
-            <small>
-              Printed by User: <b>${this.userName}</b> <i>on</i> ${new Date()}
-            </small>
-          </div>
-      `; */
 
       let printContent = '';
 
@@ -205,6 +191,7 @@ export default {
             print-color-adjust: exact !important;
             -webkit-print-color-adjust: exact !important;
 						border: inherit;
+						font-size: 3em;
             }
           ${this.printStyles}
         }
@@ -218,23 +205,23 @@ export default {
 
       printWindow.document.open();
       printWindow.document.write(
-        `<html><head>${links}<style>${styles}</style></head>`
+        `<!DOCTYPE html><html><head>${links}<style>${styles}</style></head>`
       );
       printWindow.document.write(`<body>${printContent}</body>`);
       printWindow.document.write(`</html>`);
       printWindow.document.close();
 
-      printWindow.onload = function() {
+      /* printWindow.onload = function() {
         self.downloadPdf(
           tableFlag
             ? printWindow.document.body.querySelectorAll('table')
             : printWindow.document.body,
           printWindow
         );
-      };
+      }; */
     },
 
-    downloadPdf(element, pwindow) {
+    /* downloadPdf(element, pwindow) {
       let dateString = new Date().toISOString().split('.')[0];
       let date = dateString
         .split('T')[0]
@@ -263,7 +250,7 @@ export default {
           pwindow.close();
         },
       });
-    },
+    }, */
   },
 };
 </script>
