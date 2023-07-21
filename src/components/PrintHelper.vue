@@ -153,18 +153,19 @@ export default {
 
       let printContent = '';
 
-      // printContent += header;
-
       tableFlag = contentDom.tagName === 'TABLE';
 
       if (tableFlag) {
         let tables = this.splitTable(contentDom);
+
         tables.forEach((table) => {
           printContent += table.outerHTML;
         });
       } else {
         printContent += contentDom.outerHTML;
       }
+
+      printContent += this.pageTitle;
 
       let links = '';
       let linkDoms = Array.from(document.getElementsByTagName('link'));

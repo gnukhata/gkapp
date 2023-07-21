@@ -75,11 +75,10 @@
       :fields="tableFields"
       bordered
       responsive
-      head-variant="dark"
       stacked="sm"
       striped
       small
-      class="text-small table-border-dark"
+      class="text-small"
       tbody-tr-class="gk-vertical-row"
     >
       <template #cell(qty)="data">
@@ -157,6 +156,11 @@
         ></b-table-lite>
       </b-card>
     </b-card-group>
+    <!-- signature section -->
+    <div class="text-right mt-5 font-weight-bold d-none d-print-block mr-2">
+      Authorized signature
+    </div>
+    <!-- action buttons -->
     <div class="float-right my-2 d-print-none">
       <span v-if="!deletedFlag">
         <b-button
