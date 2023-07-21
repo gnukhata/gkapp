@@ -10,9 +10,9 @@
       <br />
     </div>
     <div>
-      <h2 v-translate class="d-none d-print-block text-center mt-2">
+      <h3 v-translate class="d-none d-print-block text-center mt-1">
         TAX INVOICE
-      </h2>
+      </h3>
     </div>
     <b-card-group deck class="mb-2">
       <!-- buyer/seller details -->
