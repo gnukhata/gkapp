@@ -1,7 +1,7 @@
 <template>
   <section :class="show ? '' : 'd-none d-print-block'">
     <!-- org details card, appears while printing only -->
-    <div class="d-flex flex-row justify-content-between m-2 bg-light">
+    <div class="d-flex flex-row justify-content-between m-2 border-dark border">
       <!-- col 1 -->
       <div class="d-flex flex-row">
         <div class="flex-column" style="align-self: center">
