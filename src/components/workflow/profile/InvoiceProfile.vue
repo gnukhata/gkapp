@@ -158,7 +158,7 @@
     </b-card-group>
     <!-- signature section -->
     <div class="text-right mt-5 font-weight-bold d-none d-print-block mr-2">
-      Authorized signature
+      Authorized signatory
     </div>
     <!-- action buttons -->
     <div class="float-right my-2 d-print-none">
