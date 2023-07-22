@@ -16,7 +16,7 @@
     </div>
     <b-card-group deck class="mb-2">
       <!-- buyer/seller details -->
-      <b-card class="m-1">
+      <b-card class="border-dark">
         <b key="1" v-if="invoice.isSale" v-translate>
           Buyer Details
         </b>
@@ -32,7 +32,7 @@
       </b-card>
 
       <!-- invoice details -->
-      <b-card class="m-1" order="1">
+      <b-card class="border-dark" order="1">
         <b key="3" v-if="invoice.isSale" v-translate>
           Sale Invoice Details
         </b>
@@ -46,7 +46,7 @@
           small
           thead-class="d-none"
           fixed
-          class="text-small"
+          class="text-small border-dark"
         >
           <template #cell(value)="data">
             <span v-if="typeof data.value === 'object'">
@@ -78,7 +78,7 @@
       stacked="sm"
       striped
       small
-      class="text-small"
+      class="text-small border border-dark"
       tbody-tr-class="gk-vertical-row"
     >
       <template #cell(qty)="data">
@@ -122,7 +122,7 @@
     </b-table-lite>
     <b-card-group deck>
       <!-- payment details -->
-      <b-card>
+      <b-card class="border-dark">
         <b v-translate> Payment Details </b>
         <div v-if="bankMode" class="mb-3">
           {{ paymentMode }}
@@ -143,7 +143,7 @@
         <b v-translate> Narration: </b> {{ invoice.narration }}
       </b-card>
       <!-- Total Table -->
-      <b-card>
+      <b-card class="border-dark">
         <b-table-lite
           :items="totalDetails"
           :fields="[

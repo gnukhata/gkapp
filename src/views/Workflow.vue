@@ -598,21 +598,21 @@
                   contentId="transaction-profile-wrapper"
                   variant="link"
                   textMode="Original"
-                  pageTitle="Tax Invoice - Original for Recipient"
+                  pageTitle="<div class='text-center'>Tax Invoice - Original for Recipient</div>"
                   fileName="Tax_Invoice_For_Recipient"
                 ></print-helper>
                 <print-helper
                   contentId="transaction-profile-wrapper"
                   variant="link"
                   textMode="Duplicate"
-                  pageTitle="Tax Invoice - Duplicate for Transporter"
+                  pageTitle="<div class='text-center'>Tax Invoice - Duplicate for Transporter</div>"
                   fileName="Tax_Invoice_For_Transporter"
                 ></print-helper>
                 <print-helper
                   contentId="transaction-profile-wrapper"
                   variant="link"
                   textMode="Triplicate"
-                  pageTitle="Tax Invoice - Triplicate for Supplier"
+                  pageTitle="<div class='text-center'>Tax Invoice - Triplicate for Supplier</div>"
                   fileName="Tax_Invoice_For_Supplier"
                 ></print-helper>
               </b-collapse>
