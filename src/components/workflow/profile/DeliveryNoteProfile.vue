@@ -392,8 +392,8 @@ export default {
           discount: item.discount,
           vat: item.taxrate,
           igst: item.taxrate,
-          cgst: item.taxrate / 2,
-          sgst: item.taxrate / 2,
+          cgst: item.taxrate,
+          sgst: item.taxrate,
           cess: item.cessrate,
           total: item.totalAmount,
         });
