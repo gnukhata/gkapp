@@ -192,7 +192,7 @@ export default {
             print-color-adjust: exact !important;
             -webkit-print-color-adjust: exact !important;
 						border: inherit;
-						font-size: 3em;
+						font-size: 1em;
             }
           ${this.printStyles}
         }
