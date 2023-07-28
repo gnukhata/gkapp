@@ -36,21 +36,23 @@
       </template>
       <template #cell(manage)="data">
         <!-- edit cost center button -->
-        <b-icon
-          icon="pencil-square"
-          role="button"
-          @click="showEditCostCenter(data.item.id)"
+        <b-button
+          variant="dark"
           size="sm"
           class="mr-1"
-          variant="dark"
-        ></b-icon>
+          @click="showEditCostCenter(data.item.id)"
+        >
+          <b-icon
+            icon="pencil-square"
+            role="button"
+            size="sm"
+            variant="light"
+          ></b-icon>
+        </b-button>
         <!-- delete cost center button -->
-        <b-icon
-          role="button"
-          icon="trash"
-          variant="danger"
-          @click="confirm(data.item)"
-        ></b-icon>
+        <b-button size="sm" variant="danger" @click="confirm(data.item)">
+          <b-icon role="button" icon="trash" variant="light"></b-icon>
+        </b-button>
       </template>
     </b-table>
     <b-modal
@@ -91,7 +93,7 @@ export default {
       fields: [
         { key: 'name', sortable: true },
         { key: 'sanctioned_amount', class: 'text-right', sortable: true },
-        { key: 'manage', class: 'text-right' },
+        { key: 'manage', class: 'text-center' },
       ],
       costCenters: [],
       ccId: '',

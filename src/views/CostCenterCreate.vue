@@ -1,7 +1,7 @@
 <template>
   <section class="m-2">
     <b-overlay :show="loading" fixed spinner-type="grow" blur>
-      <b-form @submit.prevent="createCostCenter">
+      <b-form ref="costCenterAdd" @submit.prevent="createCostCenter">
         <b-form-group :label="$gettext('Name')">
           <b-form-input v-model="form.projectname" required></b-form-input>
         </b-form-group>
@@ -55,6 +55,8 @@ export default {
                     solid: true,
                   }
                 );
+                //reset the form
+                this.$refs.costCenterAdd.reset();
                 axios.post('/log', {
                   activity: 'cost center create: ' + this.form.projectname,
                 });

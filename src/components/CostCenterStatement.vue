@@ -40,10 +40,10 @@
             <div class="col">
               <b-form-group label="From" label-align="Left">
                 <gk-date
-                  :required="true"
                   v-model="fromDate"
                   id="from"
                   class="mr-4"
+                  :readonly="true"
                 ></gk-date>
               </b-form-group>
             </div>
