@@ -238,6 +238,21 @@
           header-text-variant="light"
         >
           <b-form-group
+            :label="$gettext('GSTIN')"
+            label-size="sm"
+            label-cols="4"
+            label-align="right"
+          >
+            <gk-gstin
+              @validity="onGstinUpdate"
+              @gstin_data="onGstinDataFetched"
+              @verified="onGstinVerified"
+              v-model="gstin"
+              :showValidation="2"
+              valButtonText="Validate & Autofill"
+            ></gk-gstin>
+          </b-form-group>
+          <b-form-group
             :label="$gettext('PAN')"
             label-align="right"
             label-cols="4"
@@ -269,55 +284,6 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group
-            :label="$gettext('GSTIN')"
-            label-size="sm"
-            label-cols="4"
-            label-align="right"
-          >
-            <gk-gstin
-              @validity="onGstinUpdate"
-              @gstin_data="onGstinDataFetched"
-              @verified="onGstinVerified"
-              v-model="gstin"
-              :showValidation="2"
-              valButtonText="Validate & Autofill"
-            ></gk-gstin>
-            <!-- <div
-              v-for="(gst, index) in gstinList"
-              :key="index"
-              class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
-            >
-              <b>{{ gst }}</b>
-              <b-button
-                v-b-modal.gstin
-                class="mx-2"
-                size="sm"
-                variant="warning"
-                @click="onGstinEdit(gst)"
-              >
-                <b-icon font-scale="0.95" icon="pencil"></b-icon>
-              </b-button>
-              <b-button
-                class="text-small"
-                size="sm"
-                variant="danger"
-                @click="deleteGstin(sc)"
-              >
-                <b-icon font-scale="0.95" icon="trash"></b-icon>
-              </b-button>
-            </div> -->
-            <!-- <b-button
-              v-b-modal.gstin
-              variant="dark"
-              class="p-0 px-1 float-right float-sm-left"
-              @click="onGstinAdd"
-              size="sm"
-            >
-              <b-icon class="align-middle" icon="plus"></b-icon
-              ><translate>GSTIN</translate>
-            </b-button> -->
-          </b-form-group>
           <b-form-group
             :label="$gettext('CESS')"
             label-size="sm"
@@ -523,7 +489,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['gkCoreUrl', 'orgImg', "orgGstin"]),
+    ...mapState(['gkCoreUrl', 'orgImg', 'orgGstin']),
     isGstinValid: function() {
       if (
         this.gstinModal.stateCode !== null &&
@@ -1038,8 +1004,8 @@ export default {
               // this.getOrgImage();
               this.$store.dispatch('initOrgAddress');
               this.$store.dispatch('initOrgImg');
-              if(!this.orgGstin) {
-                this.$store.dispatch("initGstin");
+              if (!this.orgGstin) {
+                this.$store.dispatch('initGstin');
               }
               break;
             case 2:

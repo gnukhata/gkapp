@@ -8,10 +8,21 @@
       >
         <template #header>
           <gk-cardheader
+            v-if="orgType == 'Profit Making'"
             :name="$gettext('Profit & Loss Statement')"
             :help-body="
-              $gettext(`Income & Expenditure Account / Profit & Loss Account
-This report can be viewed for any period`)
+              $gettext(
+                `Profit & Loss Account. This report can be viewed for any period`
+              )
+            "
+          ></gk-cardheader>
+          <gk-cardheader
+            v-else
+            :name="$gettext('Income & Expenditure')"
+            :help-body="
+              $gettext(
+                `Income & Expenditure Account. This report can be viewed for any period`
+              )
             "
           ></gk-cardheader>
         </template>
@@ -38,7 +49,8 @@ This report can be viewed for any period`)
       </b-card>
       <report-header>
         <div class="text-center">
-          <b>Profit & Loss Account</b> for the period {{ fromDate }} to
+          <b v-if="orgtype == 'Profit Making'">profit & loss account</b
+          ><b v-else>Income & Expenditure</b> for the period {{ fromDate }} to
           {{ toDate }}
         </div>
       </report-header>
@@ -64,7 +76,7 @@ This report can be viewed for any period`)
             </b-thead>
             <b-tbody>
               <b-tr>
-                <b-th v-translate>Opening Stock</b-th>
+                <b-th v-translate>Opening Stock Value</b-th>
                 <b-th class="text-right">{{
                   result['Opening Stock']['total']
                 }}</b-th>
@@ -148,7 +160,7 @@ This report can be viewed for any period`)
                 }}</b-th>
               </b-tr>
               <b-tr>
-                <b-th v-translate>Closing Stock</b-th>
+                <b-th v-translate>Closing Stock Value</b-th>
                 <b-th class="text-right">
                   {{ result['Closing Stock']['total'] }}
                 </b-th>
@@ -278,7 +290,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd', 'orgType']),
+    ...mapState(['yearStart', 'yearEnd', 'orgType', 'orgType']),
   },
   mounted() {
     this.fromDate = this.yearStart;

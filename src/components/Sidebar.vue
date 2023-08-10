@@ -226,7 +226,10 @@
             </b-nav-item>
             <b-nav-item to="/profit-loss">
               <b-icon icon="graph-up"></b-icon
-              ><translate> Profit & Loss</translate>
+              ><translate v-if="orgType == 'Profit Making'">
+                Profit & Loss</translate
+              >
+              <translate v-else> Income & Expenditure</translate>
             </b-nav-item>
             <b-nav-item to="/cash-flow">
               <b-icon icon="wallet"></b-icon><translate> Cash Flow</translate>
@@ -240,7 +243,10 @@
             </b-nav-item>
             <b-nav-item to="/balance-sheet">
               <b-icon icon="journals"></b-icon>
-              <translate> Balance Sheet</translate>
+              <translate v-if="orgType == 'Profit Making'">
+                Balance Sheet</translate
+              >
+              <translate v-else> Statement Of Affairs</translate>
             </b-nav-item>
           </b-collapse>
           <!-- GST -->
@@ -307,13 +313,14 @@
             <b-nav-item class="mr-3" to="/report-bug">
               <b-icon icon="bug"></b-icon><translate> Report Bug</translate>
             </b-nav-item>
-            
+
             <b-nav-item
               class="mr-3"
               target="_blank"
               href="https://gnukhata.org/faq"
             >
-              <b-icon icon="question-circle"></b-icon><translate> FAQ</translate>
+              <b-icon icon="question-circle"></b-icon
+              ><translate> FAQ</translate>
             </b-nav-item>
           </b-collapse>
         </b-nav>
@@ -339,7 +346,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['searchMenu', 'newGstNews', 'orgGstin']),
+    ...mapState(['searchMenu', 'newGstNews', 'orgGstin', 'orgType']),
     gstinValid: (self) => !!self.orgGstin,
   },
 };

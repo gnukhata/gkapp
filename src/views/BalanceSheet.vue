@@ -8,8 +8,33 @@
       >
         <template #header>
           <gk-cardheader
-            name="Balance Sheet Statement"
-            :helpBody="''"
+            v-if="orgType == 'Profit Making'"
+            :name="$gettext('Balance Sheet Statement')"
+            helpBody="Statement of Affairs / Balance Sheet
+This report can be seen in two formats, namely, Conventional and Vertical.
+The Vertical format is also called Sources and Application of Funds. The period for this report must begin with the first date of the Financial Year and can end on any date.
+In the Conventional format assets are shown on right side and capital and liabilities on the left side. In the Vertical format capital & liabilities are shown in the upper part and assets are shown in the lower part. Operators cannot view this report. Besides this report you can also see a Consolidated Balance Sheet of holding and subsidiary organizations. For this select Consolidated Final Accounts from the drop down of the report menu.
+Final Accounts means the Balance Sheet and Profit & Loss Account.
+Where in a business house has a number of different organizations, it may want to view a combined view of its profitability and State of Affairs.
+GNUKhata provides an easy and quick way of doing this.
+The user will be asked to select a Holding Company and its subsidiary company(s).
+All these organizations must be of the same Type and must have the same Financial Year.
+Note that this is a consolidated report generated from organizations which are separately created in GNUKhata and no changes in the accounts of these organizations will take place. Operators cannot view this report."
+          ></gk-cardheader>
+
+          <gk-cardheader
+            v-else
+            name="Statement Of Affairs"
+            helpBody="Statement of Affairs / Balance Sheet
+This report can be seen in two formats, namely, Conventional and Vertical.
+The Vertical format is also called Sources and Application of Funds. The period for this report must begin with the first date of the Financial Year and can end on any date.
+In the Conventional format assets are shown on right side and capital and liabilities on the left side. In the Vertical format capital & liabilities are shown in the upper part and assets are shown in the lower part. Operators cannot view this report. Besides this report you can also see a Consolidated Balance Sheet of holding and subsidiary organizations. For this select Consolidated Final Accounts from the drop down of the report menu.
+Final Accounts means the Balance Sheet and Profit & Loss Account.
+Where in a business house has a number of different organizations, it may want to view a combined view of its profitability and State of Affairs.
+GNUKhata provides an easy and quick way of doing this.
+The user will be asked to select a Holding Company and its subsidiary company(s).
+All these organizations must be of the same Type and must have the same Financial Year.
+Note that this is a consolidated report generated from organizations which are separately created in GNUKhata and no changes in the accounts of these organizations will take place. Operators cannot view this report."
           ></gk-cardheader>
         </template>
         <b-form @submit.prevent="getReport">
@@ -28,7 +53,9 @@
       <!--     {{ result }} -->
       <report-header>
         <div class="text-center">
-          <b>Balance Sheet</b> for the period {{ fromDate }} to
+          <b v-if="orgType == 'Profit Making'" v-translate>Balance Sheet</b>
+          <b v-else v-translate>Statement Of Affairs</b>for the period
+          {{ fromDate }} to
           {{ toDate }}
           <br />
           <small v-if="hideZeroFilter" v-translate>
@@ -341,7 +368,7 @@ export default {
     downloadFileName: (self) =>
       `Balance_Sheet_${self.fromDate}_to_${self.toDate}`,
     hideZeroFilter: (self) => (self.hideZero ? 'a' : null),
-    ...mapState(['yearStart', 'yearEnd', 'orgName']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   methods: {
     filterTable(list, item) {
