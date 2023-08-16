@@ -276,7 +276,7 @@ export default {
       fromDate: '',
       toDate: '',
       report: [],
-      report2: [],
+      immutableReport: [],
       godowns: [],
       godownId: '',
       godownReport: [],
@@ -322,7 +322,7 @@ export default {
       if (this.invoiceFilter.length > 0) {
         let items = [];
         for (let i in this.invoiceFilter) {
-          this.report2.forEach((data) => {
+          this.immutableReport.forEach((data) => {
             if (data.trntype == this.invoiceFilter[i]) {
               items.push(data);
             }
@@ -332,15 +332,15 @@ export default {
           this.report = items;
           // if selected filter has no matching entries show notification
         } else {
-          this.report = this.report2;
-          this.$bvToast.toast(`No data present for selected filter`, {
-            variant: 'warning',
-            title: 'Alert',
-            solid: true,
-          });
+          this.report = this.immutableReport;
+          this.gk_toast(
+            this.$gettext('Alert'),
+            this.$gettext('No data present for selected filter'),
+            'warning'
+          );
         }
       } else {
-        this.report = this.report2;
+        this.report = this.immutableReport;
       }
     },
     getStockReport() {
@@ -355,63 +355,68 @@ export default {
             switch (data.gkstatus) {
               case 0:
                 {
-                  let report = data.gkresult.map((item) => {
+                  const r = data.gkresult.map((item) => {
                     if (item.trntype === 'delchal&invoice') {
                       item.trntype = 'invoice';
                     }
                     return item;
                   });
-                  this.report = report;
-                  this.report2 = report;
+                  this.report = r;
+                  this.immutableReport = r;
                 }
                 break;
               case 1:
-                this.$bvToast.toast('Duplicate Entry', {
-                  variant: 'warning',
-                  solid: true,
-                });
+                this.gk_toast(
+                  this.$gettext('Alert'),
+                  this.$gettext('Duplicate Entry'),
+                  'warning'
+                );
                 break;
               case 2:
-                this.$bvToast.toast('Unauthorised Access', {
-                  variant: 'danger',
-                  solid: true,
-                });
+                this.gk_toast(
+                  this.$gettext('Unauthorised Access'),
+                  this.$gettext('Invalid user'),
+                  'danger'
+                );
                 break;
               case 3:
-                this.$bvToast.toast('Data error', {
-                  variant: 'danger',
-                  solid: true,
-                });
+                this.gk_toast(
+                  this.$gettext('Data Error'),
+                  this.$gettext('Error in fetching the data'),
+                  'danger'
+                );
                 break;
               case 4:
-                this.$bvToast.toast('No Privilege', {
-                  variant: 'danger',
-                  solid: true,
-                });
+                this.gk_toast(
+                  this.$gettext('Privilege Error'),
+                  this.$gettext('Your role does not have access to this data'),
+                  'danger'
+                );
                 break;
               case 5:
-                this.$bvToast.toast('Integrity error', {
-                  variant: 'danger',
-                  solid: true,
-                });
+                this.gk_toast(
+                  this.$gettext('Integrity error'),
+                  this.$gettext('Something unexpected has happened'),
+                  'danger'
+                );
                 break;
             }
           } else {
-            this.$bvToast.toast('Failed to get stock report ', {
-              variant: 'danger',
-              title: r.status,
-              solid: true,
-            });
+            this.gk_toast(
+              this.$gettext('Error'),
+              this.$gettext('Failed to get the stock report'),
+              'danger'
+            );
           }
           this.loading = false;
         })
         .catch(() => {
           this.loading = false;
-          this.$bvToast.toast('Failed to get stock report ', {
-            variant: 'danger',
-            title: 'Server Error',
-            solid: true,
-          });
+          this.gk_toast(
+            this.$gettext('Error'),
+            this.$gettext('Failed to get the stock report'),
+            'danger'
+          );
         });
     },
     getGodownStock() {
@@ -422,23 +427,24 @@ export default {
         )
         .then((r) => {
           if (r.status == 200) {
-            let report = r.data.gkresult.map((item) => {
+            const report = r.data.gkresult.map((item) => {
               if (item.trntype === 'delchal&invoice') {
                 item.trntype = 'invoice';
               }
               return item;
             });
             this.report = report;
+            this.immutableReport = report;
           }
           this.loading = false;
         })
         .catch(() => {
           this.loading = false;
-          this.$bvToast.toast('Failed to get stock report ', {
-            variant: 'danger',
-            title: 'Server Error',
-            solid: true,
-          });
+          this.gk_toast(
+            this.$gettext('Error'),
+            this.$gettext('Failed to get the stock report'),
+            'danger'
+          );
         });
     },
     getProductList() {
@@ -458,10 +464,7 @@ export default {
         })
         .then(() => this.parseParams())
         .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            variant: 'danger',
-            solid: true,
-          });
+          this.gk_toast(this.$gettext('Error'), e.message);
           this.loading = false;
         });
       this.loading = true;
@@ -493,7 +496,7 @@ export default {
           return params.product_id == d.id;
         })[0];
         this.toDate = params.current_date;
-        this.getStockReport();
+        this.getGodownStock();
       }
     },
   },
