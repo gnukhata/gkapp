@@ -1,4 +1,0 @@
-{
-    "gkstatus": 0,
-    "gkresult": []
-}
