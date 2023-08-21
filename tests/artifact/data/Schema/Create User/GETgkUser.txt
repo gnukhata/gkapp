@@ -1,0 +1,70 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "gkstatus",
+        "gkresult"
+    ],
+    "properties": {
+        "gkstatus": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkstatus Schema",
+            "examples": [
+                0
+            ]
+        },
+        "gkresult": {
+            "type": "object",
+            "default": {},
+            "title": "The gkresult Schema",
+            "required": [
+                "username",
+                "userid",
+                "userrole"
+            ],
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The username Schema",
+                    "examples": [
+                        "WM_admin"
+                    ]
+                },
+                "userid": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The userid Schema",
+                    "examples": [
+                        278
+                    ]
+                },
+                "userrole": {
+                    "type": "null",
+                    "default": null,
+                    "title": "The userrole Schema",
+                    "examples": [
+                        null
+                    ]
+                }
+            },
+            "examples": [{
+                "username": "WM_admin",
+                "userid": 278,
+                "userrole": null
+            }]
+        }
+    },
+    "examples": [{
+        "gkstatus": 0,
+        "gkresult": {
+            "username": "WM_admin",
+            "userid": 278,
+            "userrole": null
+        }
+    }]
+}

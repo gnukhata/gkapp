@@ -1,0 +1,389 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "gkstatus",
+        "gkdata"
+    ],
+    "properties": {
+        "gkstatus": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkstatus Schema",
+            "examples": [
+                0
+            ]
+        },
+        "gkdata": {
+            "type": "object",
+            "default": {},
+            "title": "The gkdata Schema",
+            "required": [
+                "orgname",
+                "orgtype",
+                "yearstart",
+                "yearend",
+                "orgcity",
+                "orgaddr",
+                "orgpincode",
+                "orgstate",
+                "orgcountry",
+                "orgtelno",
+                "orgfax",
+                "orgwebsite",
+                "orgemail",
+                "orgpan",
+                "orgmvat",
+                "orgstax",
+                "orgregno",
+                "orgregdate",
+                "orgfcrano",
+                "orgfcradate",
+                "roflag",
+                "booksclosedflag",
+                "invflag",
+                "billflag",
+                "invsflag",
+                "gstin",
+                "bankdetails",
+                "avflag",
+                "maflag",
+                "avnoflag",
+                "ainvnoflag",
+                "modeflag"
+            ],
+            "properties": {
+                "orgname": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgname Schema",
+                    "examples": [
+                        "GNUKhata"
+                    ]
+                },
+                "orgtype": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgtype Schema",
+                    "examples": [
+                        "Profit Making"
+                    ]
+                },
+                "yearstart": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The yearstart Schema",
+                    "examples": [
+                        "2022-04-01"
+                    ]
+                },
+                "yearend": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The yearend Schema",
+                    "examples": [
+                        "2023-03-31"
+                    ]
+                },
+                "orgcity": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgcity Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgaddr": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgaddr Schema",
+                    "examples": [
+                        "address of test org 2"
+                    ]
+                },
+                "orgpincode": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgpincode Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgstate": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgstate Schema",
+                    "examples": [
+                        "Tamil Nadu"
+                    ]
+                },
+                "orgcountry": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgcountry Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgtelno": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgtelno Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgfax": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgfax Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgwebsite": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgwebsite Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgemail": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgemail Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgpan": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgpan Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgmvat": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgmvat Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgstax": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgstax Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgregno": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgregno Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgregdate": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgregdate Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgfcrano": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgfcrano Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "orgfcradate": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The orgfcradate Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "roflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The roflag Schema",
+                    "examples": [
+                        0
+                    ]
+                },
+                "booksclosedflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The booksclosedflag Schema",
+                    "examples": [
+                        0
+                    ]
+                },
+                "invflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The invflag Schema",
+                    "examples": [
+                        1
+                    ]
+                },
+                "billflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The billflag Schema",
+                    "examples": [
+                        1
+                    ]
+                },
+                "invsflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The invsflag Schema",
+                    "examples": [
+                        1
+                    ]
+                },
+                "gstin": {
+                    "type": "null",
+                    "default": null,
+                    "title": "The gstin Schema",
+                    "examples": [
+                        null
+                    ]
+                },
+                "bankdetails": {
+                    "type": "null",
+                    "default": null,
+                    "title": "The bankdetails Schema",
+                    "examples": [
+                        null
+                    ]
+                },
+                "avflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The avflag Schema",
+                    "examples": [
+                        1
+                    ]
+                },
+                "maflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The maflag Schema",
+                    "examples": [
+                        0
+                    ]
+                },
+                "avnoflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The avnoflag Schema",
+                    "examples": [
+                        1
+                    ]
+                },
+                "ainvnoflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The ainvnoflag Schema",
+                    "examples": [
+                        1
+                    ]
+                },
+                "modeflag": {
+                    "type": "null",
+                    "default": null,
+                    "title": "The modeflag Schema",
+                    "examples": [
+                        null
+                    ]
+                }
+            },
+            "examples": [{
+                "orgname": "GNUKhata",
+                "orgtype": "Profit Making",
+                "yearstart": "2022-04-01",
+                "yearend": "2023-03-31",
+                "orgcity": "",
+                "orgaddr": "address of test org 2",
+                "orgpincode": "",
+                "orgstate": "Tamil Nadu",
+                "orgcountry": "",
+                "orgtelno": "",
+                "orgfax": "",
+                "orgwebsite": "",
+                "orgemail": "",
+                "orgpan": "",
+                "orgmvat": "",
+                "orgstax": "",
+                "orgregno": "",
+                "orgregdate": "",
+                "orgfcrano": "",
+                "orgfcradate": "",
+                "roflag": 0,
+                "booksclosedflag": 0,
+                "invflag": 1,
+                "billflag": 1,
+                "invsflag": 1,
+                "gstin": null,
+                "bankdetails": null,
+                "avflag": 1,
+                "maflag": 0,
+                "avnoflag": 1,
+                "ainvnoflag": 1,
+                "modeflag": null
+            }]
+        }
+    },
+    "examples": [{
+        "gkstatus": 0,
+        "gkdata": {
+            "orgname": "GNUKhata",
+            "orgtype": "Profit Making",
+            "yearstart": "2022-04-01",
+            "yearend": "2023-03-31",
+            "orgcity": "",
+            "orgaddr": "address of test org 2",
+            "orgpincode": "",
+            "orgstate": "Tamil Nadu",
+            "orgcountry": "",
+            "orgtelno": "",
+            "orgfax": "",
+            "orgwebsite": "",
+            "orgemail": "",
+            "orgpan": "",
+            "orgmvat": "",
+            "orgstax": "",
+            "orgregno": "",
+            "orgregdate": "",
+            "orgfcrano": "",
+            "orgfcradate": "",
+            "roflag": 0,
+            "booksclosedflag": 0,
+            "invflag": 1,
+            "billflag": 1,
+            "invsflag": 1,
+            "gstin": null,
+            "bankdetails": null,
+            "avflag": 1,
+            "maflag": 0,
+            "avnoflag": 1,
+            "ainvnoflag": 1,
+            "modeflag": null
+        }
+    }]
+}

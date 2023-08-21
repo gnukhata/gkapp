@@ -1,0 +1,33 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "gkstatus",
+        "token"
+    ],
+    "properties": {
+        "gkstatus": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkstatus Schema",
+            "examples": [
+                0
+            ]
+        },
+        "token": {
+            "type": "string",
+            "default": "",
+            "title": "The token Schema",
+            "examples": [
+                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbkxhYnMxIiwidXNlcmlkIjo3Nn0.TZzh_2ZlrBqGBSKQBAETF4sPTA_6xL8GaDgJ6jC9Y3E"
+            ]
+        }
+    },
+    "examples": [{
+        "gkstatus": 0,
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbkxhYnMxIiwidXNlcmlkIjo3Nn0.TZzh_2ZlrBqGBSKQBAETF4sPTA_6xL8GaDgJ6jC9Y3E"
+    }]
+}

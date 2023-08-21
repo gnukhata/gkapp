@@ -1,0 +1,18 @@
+{
+  "gkstatus": 0,
+  "gkresult": [
+    {
+      "month": "string",
+      "Dr": "string",
+      "Cr": "string",
+      "period": "string",
+      "vcount": 0,
+      "vcountDr": 0,
+      "vcountCr": 0,
+      "vcountLock": 0,
+      "advflag": 0
+    }
+  ],
+  "accountcode": "string",
+  "accountname": "string"
+}

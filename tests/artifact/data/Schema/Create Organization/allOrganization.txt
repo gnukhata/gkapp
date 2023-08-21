@@ -1,0 +1,1239 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "gkstatus",
+        "gkdata"
+    ],
+    "properties": {
+        "gkstatus": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkstatus Schema",
+            "examples": [
+                0
+            ]
+        },
+        "gkdata": {
+            "type": "array",
+            "default": [],
+            "title": "The gkdata Schema",
+            "items": {
+                "type": "object",
+                "title": "A Schema",
+                "required": [
+                    "orgname",
+                    "orgtype"
+                ],
+                "properties": {
+                    "orgname": {
+                        "type": "string",
+                        "title": "The orgname Schema",
+                        "examples": [
+                            "ABCXYZ",
+                            "ARENGCO",
+                            "Aaagghbhhnj",
+                            "Aamis",
+                            "Abc",
+                            "Abhijith",
+                            "AccionLabs",
+                            "Accion_MilkMart",
+                            "Accion_MilkMart_Test",
+                            "Accion_Product",
+                            "Acdfugg",
+                            "Anz",
+                            "Apikhun",
+                            "Apikhun106",
+                            "Bright",
+                            "Bright1",
+                            "Brightaha",
+                            "Brightahaa",
+                            "Brightinthestar",
+                            "Brighttiger",
+                            "Brightza",
+                            "Carzone Workshop",
+                            "Cleartax",
+                            "DSSSSS",
+                            "DailyMilk",
+                            "DairyMilk India",
+                            "Demo Organization",
+                            "Demo org",
+                            "Edgo_Demo",
+                            "Fork \u0026 File",
+                            "GNUKhata123",
+                            "GNUKhata_Milk_Product",
+                            "Global enterprise",
+                            "Home12",
+                            "IndianInstitute",
+                            "Indihaus",
+                            "International School of Karachi",
+                            "Ishitasureka",
+                            "JITENDRA",
+                            "KMS brass",
+                            "Khaimook",
+                            "L.L.Pvt.LTD",
+                            "Marymatha",
+                            "Mazda C",
+                            "Meddad",
+                            "Milk_Industry1",
+                            "MyCompany",
+                            "NYAITR",
+                            "Nikhil private ltd",
+                            "PARAKKAL",
+                            "Potter",
+                            "PwC India",
+                            "Ratumal Laljimal Co",
+                            "Rayanic",
+                            "SNS Tech Limited",
+                            "SS Erectors",
+                            "STIKES",
+                            "S_Co_Associatte",
+                            "TESTORG",
+                            "Test 1",
+                            "TestMenot",
+                            "TestOrg1",
+                            "Thanal",
+                            "Thinkersteps",
+                            "Userrrr",
+                            "VGLUG Foundation",
+                            "WEG LBstr 123",
+                            "Zeko General Trading",
+                            "Zenith Outfitters",
+                            "abcdef",
+                            "ahfgdh",
+                            "asdfasdf",
+                            "companyone",
+                            "demo 2",
+                            "demo org",
+                            "gnukhata",
+                            "kmskms",
+                            "mycamu",
+                            "narimanprodc",
+                            "palli mahall",
+                            "parambilpalli",
+                            "piecomp",
+                            "refaat",
+                            "salihenterprises",
+                            "shre yade",
+                            "sscrdj",
+                            "sup org",
+                            "test8215",
+                            "wisdom",
+                            "zionchemicals",
+                            "zionchemicals900"
+                        ]
+                    },
+                    "orgtype": {
+                        "type": "string",
+                        "title": "The orgtype Schema",
+                        "examples": [
+                            "Profit Making",
+                            "Not For Profit",
+                            "For Profit"
+                        ]
+                    }
+                },
+                "examples": [{
+                    "orgname": "ABCXYZ",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "ARENGCO",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Aaagghbhhnj",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Aamis",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Abc",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Abhijith",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "AccionLabs",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Accion_MilkMart",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Accion_MilkMart_Test",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Accion_Product",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Acdfugg",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Anz",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Apikhun",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Apikhun106",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Bright",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Bright1",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brightaha",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brightahaa",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brightinthestar",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brighttiger",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brightza",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Carzone Workshop",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Cleartax",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "DSSSSS",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "DailyMilk",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "DairyMilk India",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Demo Organization",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Demo org",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Edgo_Demo",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "Fork \u0026 File",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "GNUKhata123",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "GNUKhata_Milk_Product",
+                    "orgtype": "For Profit"
+                },
+                {
+                    "orgname": "Global enterprise",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Home12",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "IndianInstitute",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Indihaus",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "International School of Karachi",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Ishitasureka",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "JITENDRA",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "KMS brass",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Khaimook",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "L.L.Pvt.LTD",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Marymatha",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "Mazda C",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "Meddad",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Milk_Industry1",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "MyCompany",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "NYAITR",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Nikhil private ltd",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "PARAKKAL",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Potter",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "PwC India",
+                    "orgtype": "For Profit"
+                },
+                {
+                    "orgname": "Ratumal Laljimal Co",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Rayanic",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "SNS Tech Limited",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "SS Erectors",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "STIKES",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "S_Co_Associatte",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "TESTORG",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Test 1",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "TestMenot",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "TestOrg1",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Thanal",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "Thinkersteps",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Userrrr",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "VGLUG Foundation",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "WEG LBstr 123",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Zeko General Trading",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Zenith Outfitters",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "abcdef",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "ahfgdh",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "asdfasdf",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "companyone",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "demo 2",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "demo org",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "gnukhata",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "kmskms",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "mycamu",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "narimanprodc",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "palli mahall",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "parambilpalli",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "piecomp",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "refaat",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "salihenterprises",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "shre yade",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "sscrdj",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "sup org",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "test8215",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "wisdom",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "zionchemicals",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "zionchemicals900",
+                    "orgtype": "Not For Profit"
+                }]
+            },
+            "examples": [
+                [{
+                    "orgname": "ABCXYZ",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "ARENGCO",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Aaagghbhhnj",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Aamis",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Abc",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Abhijith",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "AccionLabs",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Accion_MilkMart",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Accion_MilkMart_Test",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Accion_Product",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Acdfugg",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Anz",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Apikhun",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Apikhun106",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Bright",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Bright1",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brightaha",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brightahaa",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brightinthestar",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brighttiger",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Brightza",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Carzone Workshop",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Cleartax",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "DSSSSS",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "DailyMilk",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "DairyMilk India",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Demo Organization",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Demo org",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Edgo_Demo",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "Fork \u0026 File",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "GNUKhata123",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "GNUKhata_Milk_Product",
+                    "orgtype": "For Profit"
+                },
+                {
+                    "orgname": "Global enterprise",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Home12",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "IndianInstitute",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Indihaus",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "International School of Karachi",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Ishitasureka",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "JITENDRA",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "KMS brass",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Khaimook",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "L.L.Pvt.LTD",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Marymatha",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "Mazda C",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "Meddad",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Milk_Industry1",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "MyCompany",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "NYAITR",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Nikhil private ltd",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "PARAKKAL",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Potter",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "PwC India",
+                    "orgtype": "For Profit"
+                },
+                {
+                    "orgname": "Ratumal Laljimal Co",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Rayanic",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "SNS Tech Limited",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "SS Erectors",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "STIKES",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "S_Co_Associatte",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "TESTORG",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Test 1",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "TestMenot",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "TestOrg1",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Thanal",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "Thinkersteps",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Userrrr",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "VGLUG Foundation",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "WEG LBstr 123",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Zeko General Trading",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "Zenith Outfitters",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "abcdef",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "ahfgdh",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "asdfasdf",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "companyone",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "demo 2",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "demo org",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "gnukhata",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "kmskms",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "mycamu",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "narimanprodc",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "palli mahall",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "parambilpalli",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "piecomp",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "refaat",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "salihenterprises",
+                    "orgtype": "Not For Profit"
+                },
+                {
+                    "orgname": "shre yade",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "sscrdj",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "sup org",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "test8215",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "wisdom",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "zionchemicals",
+                    "orgtype": "Profit Making"
+                },
+                {
+                    "orgname": "zionchemicals900",
+                    "orgtype": "Not For Profit"
+                }]
+            ]
+        }
+    },
+    "examples": [{
+        "gkstatus": 0,
+        "gkdata": [{
+            "orgname": "ABCXYZ",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "ARENGCO",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Aaagghbhhnj",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Aamis",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Abc",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Abhijith",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "AccionLabs",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Accion_MilkMart",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Accion_MilkMart_Test",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Accion_Product",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Acdfugg",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Anz",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Apikhun",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Apikhun106",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Bright",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Bright1",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Brightaha",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Brightahaa",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Brightinthestar",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Brighttiger",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Brightza",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Carzone Workshop",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Cleartax",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "DSSSSS",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "DailyMilk",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "DairyMilk India",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Demo Organization",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Demo org",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Edgo_Demo",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "Fork \u0026 File",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "GNUKhata123",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "GNUKhata_Milk_Product",
+            "orgtype": "For Profit"
+        },
+        {
+            "orgname": "Global enterprise",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Home12",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "IndianInstitute",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Indihaus",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "International School of Karachi",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Ishitasureka",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "JITENDRA",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "KMS brass",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Khaimook",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "L.L.Pvt.LTD",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Marymatha",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "Mazda C",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "Meddad",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Milk_Industry1",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "MyCompany",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "NYAITR",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Nikhil private ltd",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "PARAKKAL",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Potter",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "PwC India",
+            "orgtype": "For Profit"
+        },
+        {
+            "orgname": "Ratumal Laljimal Co",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Rayanic",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "SNS Tech Limited",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "SS Erectors",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "STIKES",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "S_Co_Associatte",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "TESTORG",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Test 1",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "TestMenot",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "TestOrg1",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Thanal",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "Thinkersteps",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Userrrr",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "VGLUG Foundation",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "WEG LBstr 123",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Zeko General Trading",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "Zenith Outfitters",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "abcdef",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "ahfgdh",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "asdfasdf",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "companyone",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "demo 2",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "demo org",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "gnukhata",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "kmskms",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "mycamu",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "narimanprodc",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "palli mahall",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "parambilpalli",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "piecomp",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "refaat",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "salihenterprises",
+            "orgtype": "Not For Profit"
+        },
+        {
+            "orgname": "shre yade",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "sscrdj",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "sup org",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "test8215",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "wisdom",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "zionchemicals",
+            "orgtype": "Profit Making"
+        },
+        {
+            "orgname": "zionchemicals900",
+            "orgtype": "Not For Profit"
+        }]
+    }]
+}

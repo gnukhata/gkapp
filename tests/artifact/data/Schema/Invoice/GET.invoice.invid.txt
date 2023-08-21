@@ -1,0 +1,1262 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "gkstatus",
+        "gkresult"
+    ],
+    "properties": {
+        "gkstatus": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkstatus Schema",
+            "examples": [
+                0
+            ]
+        },
+        "gkresult": {
+            "type": "object",
+            "default": {},
+            "title": "The gkresult Schema",
+            "required": [
+                "roundoffvalue",
+                "invid",
+                "taxflag",
+                "invoiceno",
+                "ewaybillno",
+                "invoicedate",
+                "icflag",
+                "invoicetotal",
+                "invoicetotalword",
+                "bankdetails",
+                "orgstategstin",
+                "paymentmode",
+                "inoutflag",
+                "roundoff",
+                "narration",
+                "discflag",
+                "deletable",
+                "sourcestate",
+                "sourcestatecode",
+                "address",
+                "pincode",
+                "issuername",
+                "designation",
+                "consignee",
+                "attachmentcount",
+                "dateofsupply",
+                "transportationmode",
+                "vehicleno",
+                "reversecharge",
+                "destinationstate",
+                "taxstatecode",
+                "dcid",
+                "dcno",
+                "dcdate",
+                "custSupDetails",
+                "billentrysingleflag",
+                "totaldiscount",
+                "totaltaxablevalue",
+                "totaltaxamt",
+                "totalcessamt",
+                "taxname",
+                "invcontents",
+                "vouchercount"
+            ],
+            "properties": {
+                "roundoffvalue": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The roundoffvalue Schema",
+                    "examples": [
+                        "0.00"
+                    ]
+                },
+                "invid": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The invid Schema",
+                    "examples": [
+                        461
+                    ]
+                },
+                "taxflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The taxflag Schema",
+                    "examples": [
+                        7
+                    ]
+                },
+                "invoiceno": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The invoiceno Schema",
+                    "examples": [
+                        "4/SL-24"
+                    ]
+                },
+                "ewaybillno": {
+                    "type": "null",
+                    "default": null,
+                    "title": "The ewaybillno Schema",
+                    "examples": [
+                        null
+                    ]
+                },
+                "invoicedate": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The invoicedate Schema",
+                    "examples": [
+                        "31-03-2024"
+                    ]
+                },
+                "icflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The icflag Schema",
+                    "examples": [
+                        9
+                    ]
+                },
+                "invoicetotal": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The invoicetotal Schema",
+                    "examples": [
+                        "11550.00"
+                    ]
+                },
+                "invoicetotalword": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The invoicetotalword Schema",
+                    "examples": [
+                        "Eleven Thousand Five Hundred Fifty Rupees"
+                    ]
+                },
+                "bankdetails": {
+                    "type": "null",
+                    "default": null,
+                    "title": "The bankdetails Schema",
+                    "examples": [
+                        null
+                    ]
+                },
+                "orgstategstin": {
+                    "type": "null",
+                    "default": null,
+                    "title": "The orgstategstin Schema",
+                    "examples": [
+                        null
+                    ]
+                },
+                "paymentmode": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The paymentmode Schema",
+                    "examples": [
+                        5
+                    ]
+                },
+                "inoutflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The inoutflag Schema",
+                    "examples": [
+                        15
+                    ]
+                },
+                "roundoff": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The roundoff Schema",
+                    "examples": [
+                        0
+                    ]
+                },
+                "narration": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The narration Schema",
+                    "examples": [
+                        "Sold goods worth Rupees 11550 to ACCION LABS INDIA PRIVATE LIMITED by cash, ref invoice no. 1/SL-24"
+                    ]
+                },
+                "discflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The discflag Schema",
+                    "examples": [
+                        1
+                    ]
+                },
+                "deletable": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The deletable Schema",
+                    "examples": [
+                        1
+                    ]
+                },
+                "sourcestate": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The sourcestate Schema",
+                    "examples": [
+                        "Karnataka"
+                    ]
+                },
+                "sourcestatecode": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The sourcestatecode Schema",
+                    "examples": [
+                        29
+                    ]
+                },
+                "address": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The address Schema",
+                    "examples": [
+                        "Bangalore"
+                    ]
+                },
+                "pincode": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The pincode Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "issuername": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The issuername Schema",
+                    "examples": [
+                        "WM_admin"
+                    ]
+                },
+                "designation": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The designation Schema",
+                    "examples": [
+                        "Admin"
+                    ]
+                },
+                "consignee": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The consignee Schema",
+                    "required": [
+                        "tinconsignee",
+                        "consigneename",
+                        "consigneestate",
+                        "gstinconsignee",
+                        "consigneeaddress",
+                        "consigneepincode",
+                        "consigneestatecode"
+                    ],
+                    "properties": {
+                        "tinconsignee": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The tinconsignee Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "consigneename": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The consigneename Schema",
+                            "examples": [
+                                "ACCION LABS INDIA PRIVATE LIMITED"
+                            ]
+                        },
+                        "consigneestate": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The consigneestate Schema",
+                            "examples": [
+                                "Telangana"
+                            ]
+                        },
+                        "gstinconsignee": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The gstinconsignee Schema",
+                            "examples": [
+                                "36AALCA1638A1Z2"
+                            ]
+                        },
+                        "consigneeaddress": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The consigneeaddress Schema",
+                            "examples": [
+                                "Survey 11, 2nd Floor, Jyothi Pinnacle, Kondapur, Rangareddy, Rangareddy, Telangana, 500084"
+                            ]
+                        },
+                        "consigneepincode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The consigneepincode Schema",
+                            "examples": [
+                                "500084"
+                            ]
+                        },
+                        "consigneestatecode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The consigneestatecode Schema",
+                            "examples": [
+                                "36"
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "tinconsignee": "",
+                        "consigneename": "ACCION LABS INDIA PRIVATE LIMITED",
+                        "consigneestate": "Telangana",
+                        "gstinconsignee": "36AALCA1638A1Z2",
+                        "consigneeaddress": "Survey 11, 2nd Floor, Jyothi Pinnacle, Kondapur, Rangareddy, Rangareddy, Telangana, 500084",
+                        "consigneepincode": "500084",
+                        "consigneestatecode": "36"
+                    }]
+                },
+                "attachmentcount": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The attachmentcount Schema",
+                    "examples": [
+                        0
+                    ]
+                },
+                "dateofsupply": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The dateofsupply Schema",
+                    "examples": [
+                        "31-03-2024"
+                    ]
+                },
+                "transportationmode": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The transportationmode Schema",
+                    "examples": [
+                        "Road"
+                    ]
+                },
+                "vehicleno": {
+                    "type": "null",
+                    "default": null,
+                    "title": "The vehicleno Schema",
+                    "examples": [
+                        null
+                    ]
+                },
+                "reversecharge": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The reversecharge Schema",
+                    "examples": [
+                        "0"
+                    ]
+                },
+                "destinationstate": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The destinationstate Schema",
+                    "examples": [
+                        "Karnataka"
+                    ]
+                },
+                "taxstatecode": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The taxstatecode Schema",
+                    "examples": [
+                        29
+                    ]
+                },
+                "dcid": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The dcid Schema",
+                    "examples": [
+                        404
+                    ]
+                },
+                "dcno": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The dcno Schema",
+                    "examples": [
+                        "3/DOUT-24"
+                    ]
+                },
+                "dcdate": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The dcdate Schema",
+                    "examples": [
+                        "31-03-2024"
+                    ]
+                },
+                "custSupDetails": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The custSupDetails Schema",
+                    "required": [
+                        "custid",
+                        "custname",
+                        "custsupstate",
+                        "custaddr",
+                        "csflag",
+                        "pincode",
+                        "custphone",
+                        "custsupstatecode",
+                        "custgstinlist",
+                        "statelist",
+                        "gst_reg_type",
+                        "gst_party_type",
+                        "custgstin"
+                    ],
+                    "properties": {
+                        "custid": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "The custid Schema",
+                            "examples": [
+                                1557
+                            ]
+                        },
+                        "custname": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The custname Schema",
+                            "examples": [
+                                "ACCION LABS INDIA PRIVATE LIMITED"
+                            ]
+                        },
+                        "custsupstate": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The custsupstate Schema",
+                            "examples": [
+                                "Telangana"
+                            ]
+                        },
+                        "custaddr": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The custaddr Schema",
+                            "examples": [
+                                "Survey 11, 2nd Floor, Jyothi Pinnacle, Kondapur, Rangareddy, Rangareddy, Telangana, 500084"
+                            ]
+                        },
+                        "csflag": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "The csflag Schema",
+                            "examples": [
+                                3
+                            ]
+                        },
+                        "pincode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The pincode Schema",
+                            "examples": [
+                                "500084"
+                            ]
+                        },
+                        "custphone": {
+                            "type": "null",
+                            "default": null,
+                            "title": "The custphone Schema",
+                            "examples": [
+                                null
+                            ]
+                        },
+                        "custsupstatecode": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "The custsupstatecode Schema",
+                            "examples": [
+                                36
+                            ]
+                        },
+                        "custgstinlist": {
+                            "type": "object",
+                            "default": {},
+                            "title": "The custgstinlist Schema",
+                            "required": [
+                                "36"
+                            ],
+                            "properties": {
+                                "36": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The 36 Schema",
+                                    "examples": [
+                                        "36AALCA1638A1Z2"
+                                    ]
+                                }
+                            },
+                            "examples": [{
+                                "36": "36AALCA1638A1Z2"
+                            }]
+                        },
+                        "statelist": {
+                            "type": "array",
+                            "default": [],
+                            "title": "The statelist Schema",
+                            "items": {
+                                "type": "object",
+                                "title": "A Schema",
+                                "required": [
+                                    "36",
+                                    "29"
+                                ],
+                                "properties": {
+                                    "36": {
+                                        "type": "string",
+                                        "default": "",
+                                        "title": "The 36 Schema",
+                                        "examples": [
+                                            "Telangana"
+                                        ]
+                                    },
+                                    "29": {
+                                        "type": "string",
+                                        "default": "",
+                                        "title": "The 29 Schema",
+                                        "examples": [
+                                            "Karnataka"
+                                        ]
+                                    }
+                                },
+                                "examples": [{
+                                    "36": "Telangana"
+                                },
+                                {
+                                    "29": "Karnataka"
+                                }]
+                            },
+                            "examples": [
+                                [{
+                                    "36": "Telangana"
+                                },
+                                {
+                                    "29": "Karnataka"
+                                }]
+                            ]
+                        },
+                        "gst_reg_type": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "The gst_reg_type Schema",
+                            "examples": [
+                                2
+                            ]
+                        },
+                        "gst_party_type": {
+                            "type": "null",
+                            "default": null,
+                            "title": "The gst_party_type Schema",
+                            "examples": [
+                                null
+                            ]
+                        },
+                        "custgstin": {
+                            "type": "null",
+                            "default": null,
+                            "title": "The custgstin Schema",
+                            "examples": [
+                                null
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "custid": 1557,
+                        "custname": "ACCION LABS INDIA PRIVATE LIMITED",
+                        "custsupstate": "Telangana",
+                        "custaddr": "Survey 11, 2nd Floor, Jyothi Pinnacle, Kondapur, Rangareddy, Rangareddy, Telangana, 500084",
+                        "csflag": 3,
+                        "pincode": "500084",
+                        "custphone": null,
+                        "custsupstatecode": 36,
+                        "custgstinlist": {
+                            "36": "36AALCA1638A1Z2"
+                        },
+                        "statelist": [{
+                            "36": "Telangana"
+                        },
+                        {
+                            "29": "Karnataka"
+                        }],
+                        "gst_reg_type": 2,
+                        "gst_party_type": null,
+                        "custgstin": null
+                    }]
+                },
+                "billentrysingleflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The billentrysingleflag Schema",
+                    "examples": [
+                        1
+                    ]
+                },
+                "totaldiscount": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The totaldiscount Schema",
+                    "examples": [
+                        "1000.00"
+                    ]
+                },
+                "totaltaxablevalue": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The totaltaxablevalue Schema",
+                    "examples": [
+                        "11000.00"
+                    ]
+                },
+                "totaltaxamt": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The totaltaxamt Schema",
+                    "examples": [
+                        "275.00"
+                    ]
+                },
+                "totalcessamt": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The totalcessamt Schema",
+                    "examples": [
+                        "0.00"
+                    ]
+                },
+                "taxname": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The taxname Schema",
+                    "examples": [
+                        "SGST"
+                    ]
+                },
+                "invcontents": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The invcontents Schema",
+                    "required": [
+                        "909",
+                        "910"
+                    ],
+                    "properties": {
+                        "909": {
+                            "type": "object",
+                            "default": {},
+                            "title": "The 909 Schema",
+                            "required": [
+                                "proddesc",
+                                "gscode",
+                                "gsflag",
+                                "uom",
+                                "qty",
+                                "freeqty",
+                                "priceperunit",
+                                "discount",
+                                "taxableamount",
+                                "totalAmount",
+                                "taxname",
+                                "taxrate",
+                                "taxamount",
+                                "cess",
+                                "cessrate"
+                            ],
+                            "properties": {
+                                "proddesc": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The proddesc Schema",
+                                    "examples": [
+                                        "Laptop"
+                                    ]
+                                },
+                                "gscode": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The gscode Schema",
+                                    "examples": [
+                                        "{\"hsn_code\":49119910,\"hsn_desc\":\"OTHER PRINTED MATTER, INCLUDING PRINTED PICTURES AND PHOTOGRAPHS - OTHER : OTHER : HARD COPY (PRINTED) OF COMPUTER SOFTWARE\"}"
+                                    ]
+                                },
+                                "gsflag": {
+                                    "type": "integer",
+                                    "default": 0,
+                                    "title": "The gsflag Schema",
+                                    "examples": [
+                                        7
+                                    ]
+                                },
+                                "uom": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The uom Schema",
+                                    "examples": [
+                                        "CAN"
+                                    ]
+                                },
+                                "qty": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The qty Schema",
+                                    "examples": [
+                                        "1.00"
+                                    ]
+                                },
+                                "freeqty": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The freeqty Schema",
+                                    "examples": [
+                                        "0.00"
+                                    ]
+                                },
+                                "priceperunit": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The priceperunit Schema",
+                                    "examples": [
+                                        "10000.00"
+                                    ]
+                                },
+                                "discount": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The discount Schema",
+                                    "examples": [
+                                        "0.00"
+                                    ]
+                                },
+                                "taxableamount": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The taxableamount Schema",
+                                    "examples": [
+                                        "10000.00"
+                                    ]
+                                },
+                                "totalAmount": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The totalAmount Schema",
+                                    "examples": [
+                                        "10500.00"
+                                    ]
+                                },
+                                "taxname": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The taxname Schema",
+                                    "examples": [
+                                        "SGST"
+                                    ]
+                                },
+                                "taxrate": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The taxrate Schema",
+                                    "examples": [
+                                        "2.50"
+                                    ]
+                                },
+                                "taxamount": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The taxamount Schema",
+                                    "examples": [
+                                        "250.00"
+                                    ]
+                                },
+                                "cess": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The cess Schema",
+                                    "examples": [
+                                        "0.00"
+                                    ]
+                                },
+                                "cessrate": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The cessrate Schema",
+                                    "examples": [
+                                        "0.00"
+                                    ]
+                                }
+                            },
+                            "examples": [{
+                                "proddesc": "Laptop",
+                                "gscode": "{\"hsn_code\":49119910,\"hsn_desc\":\"OTHER PRINTED MATTER, INCLUDING PRINTED PICTURES AND PHOTOGRAPHS - OTHER : OTHER : HARD COPY (PRINTED) OF COMPUTER SOFTWARE\"}",
+                                "gsflag": 7,
+                                "uom": "CAN",
+                                "qty": "1.00",
+                                "freeqty": "0.00",
+                                "priceperunit": "10000.00",
+                                "discount": "0.00",
+                                "taxableamount": "10000.00",
+                                "totalAmount": "10500.00",
+                                "taxname": "SGST",
+                                "taxrate": "2.50",
+                                "taxamount": "250.00",
+                                "cess": "0.00",
+                                "cessrate": "0.00"
+                            }]
+                        },
+                        "910": {
+                            "type": "object",
+                            "default": {},
+                            "title": "The 910 Schema",
+                            "required": [
+                                "proddesc",
+                                "gscode",
+                                "gsflag",
+                                "uom",
+                                "qty",
+                                "freeqty",
+                                "priceperunit",
+                                "discount",
+                                "taxableamount",
+                                "totalAmount",
+                                "taxname",
+                                "taxrate",
+                                "taxamount",
+                                "cess",
+                                "cessrate"
+                            ],
+                            "properties": {
+                                "proddesc": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The proddesc Schema",
+                                    "examples": [
+                                        "Mobile"
+                                    ]
+                                },
+                                "gscode": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The gscode Schema",
+                                    "examples": [
+                                        "{\"hsn_code\":40122020,\"hsn_desc\":\"RETREADED OR USED PNEUMATIC TYRES OF RUBBER, SOLID OR CUSHION TYRES, TYRE TREADS AND TYRE FLAPS, OF RUBBER - USED PNEUMATIC TYRES : FOR PASSENGER AUTOMOBILE VEHICLES, INCLUDING TWO WHEELERS, THREE WHEELERS AND PERSONAL TYPE VEHICLES\"}"
+                                    ]
+                                },
+                                "gsflag": {
+                                    "type": "integer",
+                                    "default": 0,
+                                    "title": "The gsflag Schema",
+                                    "examples": [
+                                        7
+                                    ]
+                                },
+                                "uom": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The uom Schema",
+                                    "examples": [
+                                        "BOX"
+                                    ]
+                                },
+                                "qty": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The qty Schema",
+                                    "examples": [
+                                        "1.00"
+                                    ]
+                                },
+                                "freeqty": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The freeqty Schema",
+                                    "examples": [
+                                        "0.00"
+                                    ]
+                                },
+                                "priceperunit": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The priceperunit Schema",
+                                    "examples": [
+                                        "2000.00"
+                                    ]
+                                },
+                                "discount": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The discount Schema",
+                                    "examples": [
+                                        "1000.00"
+                                    ]
+                                },
+                                "taxableamount": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The taxableamount Schema",
+                                    "examples": [
+                                        "1000.00"
+                                    ]
+                                },
+                                "totalAmount": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The totalAmount Schema",
+                                    "examples": [
+                                        "1050.00"
+                                    ]
+                                },
+                                "taxname": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The taxname Schema",
+                                    "examples": [
+                                        "SGST"
+                                    ]
+                                },
+                                "taxrate": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The taxrate Schema",
+                                    "examples": [
+                                        "2.50"
+                                    ]
+                                },
+                                "taxamount": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The taxamount Schema",
+                                    "examples": [
+                                        "25.00"
+                                    ]
+                                },
+                                "cess": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The cess Schema",
+                                    "examples": [
+                                        "0.00"
+                                    ]
+                                },
+                                "cessrate": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The cessrate Schema",
+                                    "examples": [
+                                        "0.00"
+                                    ]
+                                }
+                            },
+                            "examples": [{
+                                "proddesc": "Mobile",
+                                "gscode": "{\"hsn_code\":40122020,\"hsn_desc\":\"RETREADED OR USED PNEUMATIC TYRES OF RUBBER, SOLID OR CUSHION TYRES, TYRE TREADS AND TYRE FLAPS, OF RUBBER - USED PNEUMATIC TYRES : FOR PASSENGER AUTOMOBILE VEHICLES, INCLUDING TWO WHEELERS, THREE WHEELERS AND PERSONAL TYPE VEHICLES\"}",
+                                "gsflag": 7,
+                                "uom": "BOX",
+                                "qty": "1.00",
+                                "freeqty": "0.00",
+                                "priceperunit": "2000.00",
+                                "discount": "1000.00",
+                                "taxableamount": "1000.00",
+                                "totalAmount": "1050.00",
+                                "taxname": "SGST",
+                                "taxrate": "2.50",
+                                "taxamount": "25.00",
+                                "cess": "0.00",
+                                "cessrate": "0.00"
+                            }]
+                        }
+                    },
+                    "examples": [{
+                        "909": {
+                            "proddesc": "Laptop",
+                            "gscode": "{\"hsn_code\":49119910,\"hsn_desc\":\"OTHER PRINTED MATTER, INCLUDING PRINTED PICTURES AND PHOTOGRAPHS - OTHER : OTHER : HARD COPY (PRINTED) OF COMPUTER SOFTWARE\"}",
+                            "gsflag": 7,
+                            "uom": "CAN",
+                            "qty": "1.00",
+                            "freeqty": "0.00",
+                            "priceperunit": "10000.00",
+                            "discount": "0.00",
+                            "taxableamount": "10000.00",
+                            "totalAmount": "10500.00",
+                            "taxname": "SGST",
+                            "taxrate": "2.50",
+                            "taxamount": "250.00",
+                            "cess": "0.00",
+                            "cessrate": "0.00"
+                        },
+                        "910": {
+                            "proddesc": "Mobile",
+                            "gscode": "{\"hsn_code\":40122020,\"hsn_desc\":\"RETREADED OR USED PNEUMATIC TYRES OF RUBBER, SOLID OR CUSHION TYRES, TYRE TREADS AND TYRE FLAPS, OF RUBBER - USED PNEUMATIC TYRES : FOR PASSENGER AUTOMOBILE VEHICLES, INCLUDING TWO WHEELERS, THREE WHEELERS AND PERSONAL TYPE VEHICLES\"}",
+                            "gsflag": 7,
+                            "uom": "BOX",
+                            "qty": "1.00",
+                            "freeqty": "0.00",
+                            "priceperunit": "2000.00",
+                            "discount": "1000.00",
+                            "taxableamount": "1000.00",
+                            "totalAmount": "1050.00",
+                            "taxname": "SGST",
+                            "taxrate": "2.50",
+                            "taxamount": "25.00",
+                            "cess": "0.00",
+                            "cessrate": "0.00"
+                        }
+                    }]
+                },
+                "vouchercount": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The vouchercount Schema",
+                    "examples": [
+                        2
+                    ]
+                }
+            },
+            "examples": [{
+                "roundoffvalue": "0.00",
+                "invid": 461,
+                "taxflag": 7,
+                "invoiceno": "4/SL-24",
+                "ewaybillno": null,
+                "invoicedate": "31-03-2024",
+                "icflag": 9,
+                "invoicetotal": "11550.00",
+                "invoicetotalword": "Eleven Thousand Five Hundred Fifty Rupees",
+                "bankdetails": null,
+                "orgstategstin": null,
+                "paymentmode": 5,
+                "inoutflag": 15,
+                "roundoff": 0,
+                "narration": "Sold goods worth Rupees 11550 to ACCION LABS INDIA PRIVATE LIMITED by cash, ref invoice no. 1/SL-24",
+                "discflag": 1,
+                "deletable": 1,
+                "sourcestate": "Karnataka",
+                "sourcestatecode": 29,
+                "address": "Bangalore",
+                "pincode": "",
+                "issuername": "WM_admin",
+                "designation": "Admin",
+                "consignee": {
+                    "tinconsignee": "",
+                    "consigneename": "ACCION LABS INDIA PRIVATE LIMITED",
+                    "consigneestate": "Telangana",
+                    "gstinconsignee": "36AALCA1638A1Z2",
+                    "consigneeaddress": "Survey 11, 2nd Floor, Jyothi Pinnacle, Kondapur, Rangareddy, Rangareddy, Telangana, 500084",
+                    "consigneepincode": "500084",
+                    "consigneestatecode": "36"
+                },
+                "attachmentcount": 0,
+                "dateofsupply": "31-03-2024",
+                "transportationmode": "Road",
+                "vehicleno": null,
+                "reversecharge": "0",
+                "destinationstate": "Karnataka",
+                "taxstatecode": 29,
+                "dcid": 404,
+                "dcno": "3/DOUT-24",
+                "dcdate": "31-03-2024",
+                "custSupDetails": {
+                    "custid": 1557,
+                    "custname": "ACCION LABS INDIA PRIVATE LIMITED",
+                    "custsupstate": "Telangana",
+                    "custaddr": "Survey 11, 2nd Floor, Jyothi Pinnacle, Kondapur, Rangareddy, Rangareddy, Telangana, 500084",
+                    "csflag": 3,
+                    "pincode": "500084",
+                    "custphone": null,
+                    "custsupstatecode": 36,
+                    "custgstinlist": {
+                        "36": "36AALCA1638A1Z2"
+                    },
+                    "statelist": [{
+                        "36": "Telangana"
+                    },
+                    {
+                        "29": "Karnataka"
+                    }],
+                    "gst_reg_type": 2,
+                    "gst_party_type": null,
+                    "custgstin": null
+                },
+                "billentrysingleflag": 1,
+                "totaldiscount": "1000.00",
+                "totaltaxablevalue": "11000.00",
+                "totaltaxamt": "275.00",
+                "totalcessamt": "0.00",
+                "taxname": "SGST",
+                "invcontents": {
+                    "909": {
+                        "proddesc": "Laptop",
+                        "gscode": "{\"hsn_code\":49119910,\"hsn_desc\":\"OTHER PRINTED MATTER, INCLUDING PRINTED PICTURES AND PHOTOGRAPHS - OTHER : OTHER : HARD COPY (PRINTED) OF COMPUTER SOFTWARE\"}",
+                        "gsflag": 7,
+                        "uom": "CAN",
+                        "qty": "1.00",
+                        "freeqty": "0.00",
+                        "priceperunit": "10000.00",
+                        "discount": "0.00",
+                        "taxableamount": "10000.00",
+                        "totalAmount": "10500.00",
+                        "taxname": "SGST",
+                        "taxrate": "2.50",
+                        "taxamount": "250.00",
+                        "cess": "0.00",
+                        "cessrate": "0.00"
+                    },
+                    "910": {
+                        "proddesc": "Mobile",
+                        "gscode": "{\"hsn_code\":40122020,\"hsn_desc\":\"RETREADED OR USED PNEUMATIC TYRES OF RUBBER, SOLID OR CUSHION TYRES, TYRE TREADS AND TYRE FLAPS, OF RUBBER - USED PNEUMATIC TYRES : FOR PASSENGER AUTOMOBILE VEHICLES, INCLUDING TWO WHEELERS, THREE WHEELERS AND PERSONAL TYPE VEHICLES\"}",
+                        "gsflag": 7,
+                        "uom": "BOX",
+                        "qty": "1.00",
+                        "freeqty": "0.00",
+                        "priceperunit": "2000.00",
+                        "discount": "1000.00",
+                        "taxableamount": "1000.00",
+                        "totalAmount": "1050.00",
+                        "taxname": "SGST",
+                        "taxrate": "2.50",
+                        "taxamount": "25.00",
+                        "cess": "0.00",
+                        "cessrate": "0.00"
+                    }
+                },
+                "vouchercount": 2
+            }]
+        }
+    },
+    "examples": [{
+        "gkstatus": 0,
+        "gkresult": {
+            "roundoffvalue": "0.00",
+            "invid": 461,
+            "taxflag": 7,
+            "invoiceno": "4/SL-24",
+            "ewaybillno": null,
+            "invoicedate": "31-03-2024",
+            "icflag": 9,
+            "invoicetotal": "11550.00",
+            "invoicetotalword": "Eleven Thousand Five Hundred Fifty Rupees",
+            "bankdetails": null,
+            "orgstategstin": null,
+            "paymentmode": 5,
+            "inoutflag": 15,
+            "roundoff": 0,
+            "narration": "Sold goods worth Rupees 11550 to ACCION LABS INDIA PRIVATE LIMITED by cash, ref invoice no. 1/SL-24",
+            "discflag": 1,
+            "deletable": 1,
+            "sourcestate": "Karnataka",
+            "sourcestatecode": 29,
+            "address": "Bangalore",
+            "pincode": "",
+            "issuername": "WM_admin",
+            "designation": "Admin",
+            "consignee": {
+                "tinconsignee": "",
+                "consigneename": "ACCION LABS INDIA PRIVATE LIMITED",
+                "consigneestate": "Telangana",
+                "gstinconsignee": "36AALCA1638A1Z2",
+                "consigneeaddress": "Survey 11, 2nd Floor, Jyothi Pinnacle, Kondapur, Rangareddy, Rangareddy, Telangana, 500084",
+                "consigneepincode": "500084",
+                "consigneestatecode": "36"
+            },
+            "attachmentcount": 0,
+            "dateofsupply": "31-03-2024",
+            "transportationmode": "Road",
+            "vehicleno": null,
+            "reversecharge": "0",
+            "destinationstate": "Karnataka",
+            "taxstatecode": 29,
+            "dcid": 404,
+            "dcno": "3/DOUT-24",
+            "dcdate": "31-03-2024",
+            "custSupDetails": {
+                "custid": 1557,
+                "custname": "ACCION LABS INDIA PRIVATE LIMITED",
+                "custsupstate": "Telangana",
+                "custaddr": "Survey 11, 2nd Floor, Jyothi Pinnacle, Kondapur, Rangareddy, Rangareddy, Telangana, 500084",
+                "csflag": 3,
+                "pincode": "500084",
+                "custphone": null,
+                "custsupstatecode": 36,
+                "custgstinlist": {
+                    "36": "36AALCA1638A1Z2"
+                },
+                "statelist": [{
+                    "36": "Telangana"
+                },
+                {
+                    "29": "Karnataka"
+                }],
+                "gst_reg_type": 2,
+                "gst_party_type": null,
+                "custgstin": null
+            },
+            "billentrysingleflag": 1,
+            "totaldiscount": "1000.00",
+            "totaltaxablevalue": "11000.00",
+            "totaltaxamt": "275.00",
+            "totalcessamt": "0.00",
+            "taxname": "SGST",
+            "invcontents": {
+                "909": {
+                    "proddesc": "Laptop",
+                    "gscode": "{\"hsn_code\":49119910,\"hsn_desc\":\"OTHER PRINTED MATTER, INCLUDING PRINTED PICTURES AND PHOTOGRAPHS - OTHER : OTHER : HARD COPY (PRINTED) OF COMPUTER SOFTWARE\"}",
+                    "gsflag": 7,
+                    "uom": "CAN",
+                    "qty": "1.00",
+                    "freeqty": "0.00",
+                    "priceperunit": "10000.00",
+                    "discount": "0.00",
+                    "taxableamount": "10000.00",
+                    "totalAmount": "10500.00",
+                    "taxname": "SGST",
+                    "taxrate": "2.50",
+                    "taxamount": "250.00",
+                    "cess": "0.00",
+                    "cessrate": "0.00"
+                },
+                "910": {
+                    "proddesc": "Mobile",
+                    "gscode": "{\"hsn_code\":40122020,\"hsn_desc\":\"RETREADED OR USED PNEUMATIC TYRES OF RUBBER, SOLID OR CUSHION TYRES, TYRE TREADS AND TYRE FLAPS, OF RUBBER - USED PNEUMATIC TYRES : FOR PASSENGER AUTOMOBILE VEHICLES, INCLUDING TWO WHEELERS, THREE WHEELERS AND PERSONAL TYPE VEHICLES\"}",
+                    "gsflag": 7,
+                    "uom": "BOX",
+                    "qty": "1.00",
+                    "freeqty": "0.00",
+                    "priceperunit": "2000.00",
+                    "discount": "1000.00",
+                    "taxableamount": "1000.00",
+                    "totalAmount": "1050.00",
+                    "taxname": "SGST",
+                    "taxrate": "2.50",
+                    "taxamount": "25.00",
+                    "cess": "0.00",
+                    "cessrate": "0.00"
+                }
+            },
+            "vouchercount": 2
+        }
+    }]
+}

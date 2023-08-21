@@ -1,0 +1,27 @@
+{
+  "gkstatus": 0,
+  "gkresult": {
+    "leftlist": [
+      {
+        "groupAccname": "string",
+        "amount": "string",
+        "groupAcccode": "string",
+        "subgroupof": "string",
+        "accountof": "string",
+        "groupAccflag": "string",
+        "advflag": "string"
+      }
+    ],
+    "rightlist": [
+      {
+        "groupAccname": "string",
+        "amount": "string",
+        "groupAcccode": "string",
+        "subgroupof": "string",
+        "accountof": "string",
+        "groupAccflag": "string",
+        "advflag": "string"
+      }
+    ]
+  }
+}

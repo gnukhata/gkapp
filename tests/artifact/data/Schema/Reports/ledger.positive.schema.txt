@@ -1,0 +1,32 @@
+{
+  "gkstatus": 0,
+  "gkresult": [
+    {
+      "vouchercode": 0,
+      "vouchernumber": "string",
+      "voucherdate": "string",
+      "narration": "string",
+      "status": true,
+      "vouchertype": "string",
+      "advflag": "string",
+      "Dr": "string",
+      "Cr": "string",
+      "particulars": [
+        {
+          "accountname": "string",
+          "balance": "string",
+          "ttlRunDr": "string",
+          "ttlRunCr": "string",
+          "dcinfo": "string"
+        }
+      ]
+    }
+  ],
+  "userrole": -1,
+  "ledgerheader": {
+    "accountname": "string",
+    "projectname": "string",
+    "calculateto": "string",
+    "calculatefrom": "string"
+  }
+}

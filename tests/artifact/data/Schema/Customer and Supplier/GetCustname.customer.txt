@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "gkstatus": {
+      "type": "integer"
+    },
+    "gkresult": {
+      "type": "object",
+      "properties": {
+        "custid": {
+          "type": "integer"
+        },
+        "custname": {
+          "type": "string"
+        },
+        "custaddr": {
+          "type": "string"
+        },
+        "custphone": {
+          "type": "null"
+        },
+        "custemail": {
+          "type": "null"
+        },
+        "custfax": {
+          "type": "null"
+        },
+        "custpan": {
+          "type": "null"
+        },
+        "custtan": {
+          "type": "null"
+        },
+        "state": {
+          "type": "string"
+        },
+        "custdoc": {
+          "type": "null"
+        },
+        "csflag": {
+          "type": "integer"
+        },
+        "gstin": {
+          "type": "null"
+        },
+        "pincode": {
+          "type": "string"
+        },
+        "bankdetails": {
+          "type": "string"
+        },
+        "statelist": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "28": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "28"
+              ]
+            }
+          ]
+        },
+        "gst_reg_type": {
+          "type": "integer"
+        },
+        "gst_party_type": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "custid",
+        "custname",
+        "custaddr",
+        "custphone",
+        "custemail",
+        "custfax",
+        "custpan",
+        "custtan",
+        "state",
+        "custdoc",
+        "csflag",
+        "gstin",
+        "pincode",
+        "bankdetails",
+        "statelist",
+        "gst_reg_type",
+        "gst_party_type"
+      ]
+    }
+  },
+  "required": [
+    "gkstatus",
+    "gkresult"
+  ]
+}

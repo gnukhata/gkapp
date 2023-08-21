@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "gkstatus": {
+      "type": "integer"
+    },
+    "gkresult": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "custid": {
+              "type": "integer"
+            },
+            "custname": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "custid",
+            "custname"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "custid": {
+              "type": "integer"
+            },
+            "custname": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "custid",
+            "custname"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "gkstatus",
+    "gkresult"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+    "gkstatus": 0,
+    "gkresult": [
+        {
+            "userid": 3,
+            "username": "WALLMART_p_kar",
+            "userrole": -1,
+            "userrolename": "Admin",
+            "invitestatus": true
+        },
+        {
+            "userid": 644,
+            "username": "test1890",
+            "userrole": 0,
+            "userrolename": "Manager",
+            "invitestatus": false
+        },
+        {
+            "userid": 645,
+            "username": "1234",
+            "userrole": 1,
+            "userrolename": "Operator",
+            "invitestatus": false
+        },
+        {
+            "userid": 646,
+            "username": "sanket",
+            "userrole": 3,
+            "userrolename": "Godown In Charge",
+            "invitestatus": false
+        },
+        {
+            "userid": 606,
+            "username": "Testing",
+            "userrole": 0,
+            "userrolename": "Manager",
+            "invitestatus": false
+        },
+        {
+            "userid": 278,
+            "username": "WM_admin",
+            "userrole": -1,
+            "userrolename": "Admin",
+            "invitestatus": true
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome7",
+    "definitions": {
+        "Welcome7": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "gkstatus": {
+                    "type": "integer"
+                },
+                "gkresult": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "gkresult",
+                "gkstatus"
+            ],
+            "title": "Welcome7"
+        }
+    }
+}

@@ -1,0 +1,429 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome9",
+    "definitions": {
+        "Welcome9": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "gnukhata": {
+                    "$ref": "#/definitions/Gnukhata"
+                },
+                "groupsubgroups": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Groupsubgroup"
+                    }
+                },
+                "gkusers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Gkuser"
+                    }
+                },
+                "categorysubcategories": {
+                    "type": "array",
+                    "items": {}
+                },
+                "customerandsupplier": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Customerandsupplier"
+                    }
+                },
+                "projects": {
+                    "type": "array",
+                    "items": {}
+                },
+                "users": {
+                    "type": "array",
+                    "items": {}
+                },
+                "voucherbin": {
+                    "type": "array",
+                    "items": {}
+                },
+                "godown": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Godown"
+                    }
+                },
+                "log": {
+                    "type": "array",
+                    "items": {}
+                },
+                "categoryspecs": {
+                    "type": "array",
+                    "items": {}
+                },
+                "product": {
+                    "type": "array",
+                    "items": {}
+                },
+                "accounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Account"
+                    }
+                },
+                "purchaseorder": {
+                    "type": "array",
+                    "items": {}
+                },
+                "budget": {
+                    "type": "array",
+                    "items": {}
+                },
+                "usergodown": {
+                    "type": "array",
+                    "items": {}
+                },
+                "transfernote": {
+                    "type": "array",
+                    "items": {}
+                },
+                "cslastprice": {
+                    "type": "array",
+                    "items": {}
+                },
+                "invoice": {
+                    "type": "array",
+                    "items": {}
+                },
+                "invoicebin": {
+                    "type": "array",
+                    "items": {}
+                },
+                "delchal": {
+                    "type": "array",
+                    "items": {}
+                },
+                "delchalbin": {
+                    "type": "array",
+                    "items": {}
+                },
+                "stock": {
+                    "type": "array",
+                    "items": {}
+                },
+                "goprod": {
+                    "type": "array",
+                    "items": {}
+                },
+                "tax": {
+                    "type": "array",
+                    "items": {}
+                },
+                "dcinv": {
+                    "type": "array",
+                    "items": {}
+                },
+                "rejectionnote": {
+                    "type": "array",
+                    "items": {}
+                },
+                "drcr": {
+                    "type": "array",
+                    "items": {}
+                },
+                "vouchers": {
+                    "type": "array",
+                    "items": {}
+                },
+                "billwise": {
+                    "type": "array",
+                    "items": {}
+                },
+                "bankrecon": {
+                    "type": "array",
+                    "items": {}
+                }
+            },
+            "required": [
+                "accounts",
+                "bankrecon",
+                "billwise",
+                "budget",
+                "categoryspecs",
+                "categorysubcategories",
+                "cslastprice",
+                "customerandsupplier",
+                "dcinv",
+                "delchal",
+                "delchalbin",
+                "drcr",
+                "gkusers",
+                "gnukhata",
+                "godown",
+                "goprod",
+                "groupsubgroups",
+                "invoice",
+                "invoicebin",
+                "log",
+                "product",
+                "projects",
+                "purchaseorder",
+                "rejectionnote",
+                "stock",
+                "tax",
+                "transfernote",
+                "usergodown",
+                "users",
+                "voucherbin",
+                "vouchers"
+            ],
+            "title": "Welcome9"
+        },
+        "Account": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "accountcode": {
+                    "type": "integer"
+                },
+                "accountname": {
+                    "type": "string"
+                },
+                "groupcode": {
+                    "type": "integer"
+                },
+                "openingbal": {
+                    "type": "number"
+                },
+                "vouchercount": {
+                    "type": "integer"
+                },
+                "sysaccount": {
+                    "type": "integer"
+                },
+                "defaultflag": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "accountcode",
+                "accountname",
+                "defaultflag",
+                "groupcode",
+                "openingbal",
+                "sysaccount",
+                "vouchercount"
+            ],
+            "title": "Account"
+        },
+        "Customerandsupplier": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "custid": {
+                    "type": "integer"
+                },
+                "custname": {
+                    "type": "string"
+                },
+                "gstin": {
+                    "type": "null"
+                },
+                "gst_reg_type": {
+                    "type": "null"
+                },
+                "gst_party_type": {
+                    "type": "null"
+                },
+                "custaddr": {
+                    "type": "string"
+                },
+                "pincode": {
+                    "type": "string"
+                },
+                "custphone": {
+                    "type": "null"
+                },
+                "custemail": {
+                    "type": "null"
+                },
+                "custfax": {
+                    "type": "null"
+                },
+                "custpan": {
+                    "type": "null"
+                },
+                "custtan": {
+                    "type": "null"
+                },
+                "custdoc": {
+                    "type": "null"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "csflag": {
+                    "type": "integer"
+                },
+                "bankdetails": {
+                    "type": "null"
+                }
+            },
+            "required": [
+                "bankdetails",
+                "csflag",
+                "custaddr",
+                "custdoc",
+                "custemail",
+                "custfax",
+                "custid",
+                "custname",
+                "custpan",
+                "custphone",
+                "custtan",
+                "gst_party_type",
+                "gst_reg_type",
+                "gstin",
+                "pincode",
+                "state"
+            ],
+            "title": "Customerandsupplier"
+        },
+        "Gkuser": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "userid": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "userpassword": {
+                    "type": "string"
+                },
+                "userquestion": {
+                    "type": "string"
+                },
+                "useranswer": {
+                    "type": "string"
+                },
+                "orgs": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Org"
+                    }
+                }
+            },
+            "required": [
+                "orgs",
+                "useranswer",
+                "userid",
+                "username",
+                "userpassword",
+                "userquestion"
+            ],
+            "title": "Gkuser"
+        },
+        "Org": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "userconf": {
+                    "$ref": "#/definitions/Userconf"
+                },
+                "userrole": {
+                    "type": "integer"
+                },
+                "invitestatus": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "invitestatus",
+                "userconf",
+                "userrole"
+            ],
+            "title": "Org"
+        },
+        "Userconf": {
+            "type": "object",
+            "additionalProperties": false,
+            "title": "Userconf"
+        },
+        "Gnukhata": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "export_version": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "export_version"
+            ],
+            "title": "Gnukhata"
+        },
+        "Godown": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "goid": {
+                    "type": "integer"
+                },
+                "goname": {
+                    "type": "string"
+                },
+                "goaddr": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "gocontact": {
+                    "type": "string"
+                },
+                "contactname": {
+                    "type": "string"
+                },
+                "designation": {
+                    "type": "null"
+                }
+            },
+            "required": [
+                "contactname",
+                "designation",
+                "goaddr",
+                "gocontact",
+                "goid",
+                "goname",
+                "state"
+            ],
+            "title": "Godown"
+        },
+        "Groupsubgroup": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "groupcode": {
+                    "type": "integer"
+                },
+                "groupname": {
+                    "type": "string"
+                },
+                "subgroupof": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "groupcode",
+                "groupname",
+                "subgroupof"
+            ],
+            "title": "Groupsubgroup"
+        }
+    }
+}

@@ -1,0 +1,70 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "gkstatus",
+        "gkresult"
+    ],
+    "properties": {
+        "gkstatus": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkstatus Schema",
+            "examples": [
+                0
+            ]
+        },
+        "gkresult": {
+            "type": "object",
+            "default": {},
+            "title": "The gkresult Schema",
+            "required": [
+                "neworgcode",
+                "yearstart",
+                "yearend"
+            ],
+            "properties": {
+                "neworgcode": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The neworgcode Schema",
+                    "examples": [
+                        51
+                    ]
+                },
+                "yearstart": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The yearstart Schema",
+                    "examples": [
+                        "2024-04-01"
+                    ]
+                },
+                "yearend": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The yearend Schema",
+                    "examples": [
+                        "2025-03-31"
+                    ]
+                }
+            },
+            "examples": [{
+                "neworgcode": 51,
+                "yearstart": "2024-04-01",
+                "yearend": "2025-03-31"
+            }]
+        }
+    },
+    "examples": [{
+        "gkstatus": 0,
+        "gkresult": {
+            "neworgcode": 51,
+            "yearstart": "2024-04-01",
+            "yearend": "2025-03-31"
+        }
+    }]
+}

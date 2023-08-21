@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome4",
+    "definitions": {
+        "Welcome4": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "gkstatus": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "gkstatus"
+            ],
+            "title": "Welcome4"
+        }
+    }
+}

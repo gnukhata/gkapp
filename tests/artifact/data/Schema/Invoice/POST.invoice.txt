@@ -1,0 +1,112 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "gkstatus",
+        "gkresult",
+        "vchData"
+    ],
+    "properties": {
+        "gkstatus": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkstatus Schema",
+            "examples": [
+                0
+            ]
+        },
+        "gkresult": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkresult Schema",
+            "examples": [
+                461
+            ]
+        },
+        "vchData": {
+            "type": "object",
+            "default": {},
+            "title": "The vchData Schema",
+            "required": [
+                "status",
+                "vchno",
+                "vchid"
+            ],
+            "properties": {
+                "status": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The status Schema",
+                    "examples": [
+                        0
+                    ]
+                },
+                "vchno": {
+                    "type": "array",
+                    "default": [],
+                    "title": "The vchno Schema",
+                    "items": {
+                        "type": "string",
+                        "title": "A Schema",
+                        "examples": [
+                            "sl2",
+                            "rt2"
+                        ]
+                    },
+                    "examples": [
+                        ["sl2",
+                            "rt2"
+                        ]
+                    ]
+                },
+                "vchid": {
+                    "type": "array",
+                    "default": [],
+                    "title": "The vchid Schema",
+                    "items": {
+                        "type": "integer",
+                        "title": "A Schema",
+                        "examples": [
+                            911,
+                            912
+                        ]
+                    },
+                    "examples": [
+                        [911,
+                            912
+                        ]
+                    ]
+                }
+            },
+            "examples": [{
+                "status": 0,
+                "vchno": [
+                    "sl2",
+                    "rt2"
+                ],
+                "vchid": [
+                    911,
+                    912
+                ]
+            }]
+        }
+    },
+    "examples": [{
+        "gkstatus": 0,
+        "gkresult": 461,
+        "vchData": {
+            "status": 0,
+            "vchno": [
+                "sl2",
+                "rt2"
+            ],
+            "vchid": [
+                911,
+                912
+            ]
+        }
+    }]
+}

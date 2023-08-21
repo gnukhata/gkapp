@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "gkstatus": {
+      "type": "integer"
+    },
+    "gkresult": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "taxid": {
+              "type": "integer"
+            },
+            "taxname": {
+              "type": "string"
+            },
+            "taxrate": {
+              "type": "string"
+            },
+            "state": {
+              "type": "null"
+            },
+            "taxfromdate": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "taxid",
+            "taxname",
+            "taxrate",
+            "state",
+            "taxfromdate"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "gkstatus",
+    "gkresult"
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "gkstatus": {
+      "type": "integer"
+    },
+    "gkdata": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "taxid": {
+              "type": "integer"
+            },
+            "taxname": {
+              "type": "string"
+            },
+            "taxrate": {
+              "type": "string"
+            },
+            "taxfromdate": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "categorycode": {
+              "type": "null"
+            },
+            "productcode": {
+              "type": "integer"
+            },
+            "orgcode": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "taxid",
+            "taxname",
+            "taxrate",
+            "taxfromdate",
+            "state",
+            "categorycode",
+            "productcode",
+            "orgcode"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "taxid": {
+              "type": "integer"
+            },
+            "taxname": {
+              "type": "string"
+            },
+            "taxrate": {
+              "type": "string"
+            },
+            "taxfromdate": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "categorycode": {
+              "type": "null"
+            },
+            "productcode": {
+              "type": "integer"
+            },
+            "orgcode": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "taxid",
+            "taxname",
+            "taxrate",
+            "taxfromdate",
+            "state",
+            "categorycode",
+            "productcode",
+            "orgcode"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "taxid": {
+              "type": "integer"
+            },
+            "taxname": {
+              "type": "string"
+            },
+            "taxrate": {
+              "type": "string"
+            },
+            "taxfromdate": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "categorycode": {
+              "type": "null"
+            },
+            "productcode": {
+              "type": "integer"
+            },
+            "orgcode": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "taxid",
+            "taxname",
+            "taxrate",
+            "taxfromdate",
+            "state",
+            "categorycode",
+            "productcode",
+            "orgcode"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "taxid": {
+              "type": "integer"
+            },
+            "taxname": {
+              "type": "string"
+            },
+            "taxrate": {
+              "type": "string"
+            },
+            "taxfromdate": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "categorycode": {
+              "type": "null"
+            },
+            "productcode": {
+              "type": "integer"
+            },
+            "orgcode": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "taxid",
+            "taxname",
+            "taxrate",
+            "taxfromdate",
+            "state",
+            "categorycode",
+            "productcode",
+            "orgcode"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "taxid": {
+              "type": "integer"
+            },
+            "taxname": {
+              "type": "string"
+            },
+            "taxrate": {
+              "type": "string"
+            },
+            "taxfromdate": {
+              "type": "string"
+            },
+            "state": {
+              "type": "null"
+            },
+            "categorycode": {
+              "type": "null"
+            },
+            "productcode": {
+              "type": "integer"
+            },
+            "orgcode": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "taxid",
+            "taxname",
+            "taxrate",
+            "taxfromdate",
+            "state",
+            "categorycode",
+            "productcode",
+            "orgcode"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "gkstatus",
+    "gkdata"
+  ]
+}

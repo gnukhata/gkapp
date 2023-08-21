@@ -1,0 +1,481 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "gkstatus",
+        "gkresult",
+        "baltbl"
+    ],
+    "properties": {
+        "gkstatus": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkstatus Schema",
+            "examples": [
+                0
+            ]
+        },
+        "gkresult": {
+            "type": "array",
+            "default": [],
+            "title": "The gkresult Schema",
+            "items": {
+                "type": "object",
+                "title": "A Schema",
+                "required": [
+                    "groupname",
+                    "groupcode"
+                ],
+                "properties": {
+                    "groupname": {
+                        "type": "string",
+                        "title": "The groupname Schema",
+                        "examples": [
+                            "Capital",
+                            "Current Assets",
+                            "Current Liabilities",
+                            "Direct Expense",
+                            "Direct Income",
+                            "Fixed Assets",
+                            "Indirect Expense",
+                            "Indirect Income",
+                            "Investments",
+                            "Loans(Asset)",
+                            "Loans(Liability)",
+                            "Miscellaneous Expenses(Asset)",
+                            "Reserves"
+                        ]
+                    },
+                    "groupcode": {
+                        "type": "integer",
+                        "title": "The groupcode Schema",
+                        "examples": [
+                            1285,
+                            1254,
+                            1260,
+                            1265,
+                            1268,
+                            1270,
+                            1275,
+                            1276,
+                            1277,
+                            1280,
+                            1281,
+                            1286,
+                            1284
+                        ]
+                    }
+                },
+                "examples": [{
+                    "groupname": "Capital",
+                    "groupcode": 1285
+                },
+                {
+                    "groupname": "Current Assets",
+                    "groupcode": 1254
+                },
+                {
+                    "groupname": "Current Liabilities",
+                    "groupcode": 1260
+                },
+                {
+                    "groupname": "Direct Expense",
+                    "groupcode": 1265
+                },
+                {
+                    "groupname": "Direct Income",
+                    "groupcode": 1268
+                },
+                {
+                    "groupname": "Fixed Assets",
+                    "groupcode": 1270
+                },
+                {
+                    "groupname": "Indirect Expense",
+                    "groupcode": 1275
+                },
+                {
+                    "groupname": "Indirect Income",
+                    "groupcode": 1276
+                },
+                {
+                    "groupname": "Investments",
+                    "groupcode": 1277
+                },
+                {
+                    "groupname": "Loans(Asset)",
+                    "groupcode": 1280
+                },
+                {
+                    "groupname": "Loans(Liability)",
+                    "groupcode": 1281
+                },
+                {
+                    "groupname": "Miscellaneous Expenses(Asset)",
+                    "groupcode": 1286
+                },
+                {
+                    "groupname": "Reserves",
+                    "groupcode": 1284
+                }]
+            },
+            "examples": [
+                [{
+                    "groupname": "Capital",
+                    "groupcode": 1285
+                },
+                {
+                    "groupname": "Current Assets",
+                    "groupcode": 1254
+                },
+                {
+                    "groupname": "Current Liabilities",
+                    "groupcode": 1260
+                },
+                {
+                    "groupname": "Direct Expense",
+                    "groupcode": 1265
+                },
+                {
+                    "groupname": "Direct Income",
+                    "groupcode": 1268
+                },
+                {
+                    "groupname": "Fixed Assets",
+                    "groupcode": 1270
+                },
+                {
+                    "groupname": "Indirect Expense",
+                    "groupcode": 1275
+                },
+                {
+                    "groupname": "Indirect Income",
+                    "groupcode": 1276
+                },
+                {
+                    "groupname": "Investments",
+                    "groupcode": 1277
+                },
+                {
+                    "groupname": "Loans(Asset)",
+                    "groupcode": 1280
+                },
+                {
+                    "groupname": "Loans(Liability)",
+                    "groupcode": 1281
+                },
+                {
+                    "groupname": "Miscellaneous Expenses(Asset)",
+                    "groupcode": 1286
+                },
+                {
+                    "groupname": "Reserves",
+                    "groupcode": 1284
+                }]
+            ]
+        },
+        "baltbl": {
+            "type": "array",
+            "default": [],
+            "title": "The baltbl Schema",
+            "items": {
+                "anyOf": [{
+                    "type": "string",
+                    "title": "A Schema",
+                    "examples": [
+                        "CAPITAL \u0026 LIABILITIES",
+                        "PROPERTY \u0026 ASSETS"
+                    ]
+                },
+                {
+                    "type": "object",
+                    "title": "A Schema",
+                    "required": [
+                        "groupname",
+                        "numberofaccounts",
+                        "groupbalance",
+                        "Total",
+                        "Difference in balance"
+                    ],
+                    "properties": {
+                        "groupname": {
+                            "type": "string",
+                            "title": "The groupname Schema",
+                            "examples": [
+                                "Capital",
+                                "Reserves",
+                                "Loans(Liability)",
+                                "Current Liabilities",
+                                "Fixed Assets",
+                                "Investments",
+                                "Loans(Asset)",
+                                "Current Assets",
+                                "Miscellaneous Expenses(Asset)"
+                            ]
+                        },
+                        "numberofaccounts": {
+                            "type": "integer",
+                            "title": "The numberofaccounts Schema",
+                            "examples": [
+                                0,
+                                4,
+                                1
+                            ]
+                        },
+                        "groupbalance": {
+                            "type": "string",
+                            "title": "The groupbalance Schema",
+                            "examples": [
+                                "0.00"
+                            ]
+                        },
+                        "Total": {
+                            "type": "string",
+                            "title": "The Total Schema",
+                            "examples": [
+                                "0.00"
+                            ]
+                        },
+                        "Difference in balance": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Difference in balance Schema",
+                            "examples": [
+                                "0.00"
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "groupname": "Capital",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Reserves",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Loans(Liability)",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Current Liabilities",
+                        "numberofaccounts": 4,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "Total": "0.00"
+                    },
+                    {
+                        "groupname": "Fixed Assets",
+                        "numberofaccounts": 1,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Investments",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Loans(Asset)",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Current Assets",
+                        "numberofaccounts": 4,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Miscellaneous Expenses(Asset)",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "Total": "0.00"
+                    },
+                    {
+                        "Difference in balance": "0.00"
+                    }]
+                }]
+            },
+            "examples": [
+                ["CAPITAL \u0026 LIABILITIES",
+                    {
+                        "groupname": "Capital",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Reserves",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Loans(Liability)",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Current Liabilities",
+                        "numberofaccounts": 4,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "Total": "0.00"
+                    },
+                    "PROPERTY \u0026 ASSETS",
+                    {
+                        "groupname": "Fixed Assets",
+                        "numberofaccounts": 1,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Investments",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Loans(Asset)",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Current Assets",
+                        "numberofaccounts": 4,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "groupname": "Miscellaneous Expenses(Asset)",
+                        "numberofaccounts": 0,
+                        "groupbalance": "0.00"
+                    },
+                    {
+                        "Total": "0.00"
+                    },
+                    {
+                        "Difference in balance": "0.00"
+                    }
+                ]
+            ]
+        }
+    },
+    "examples": [{
+        "gkstatus": 0,
+        "gkresult": [{
+            "groupname": "Capital",
+            "groupcode": 1285
+        },
+        {
+            "groupname": "Current Assets",
+            "groupcode": 1254
+        },
+        {
+            "groupname": "Current Liabilities",
+            "groupcode": 1260
+        },
+        {
+            "groupname": "Direct Expense",
+            "groupcode": 1265
+        },
+        {
+            "groupname": "Direct Income",
+            "groupcode": 1268
+        },
+        {
+            "groupname": "Fixed Assets",
+            "groupcode": 1270
+        },
+        {
+            "groupname": "Indirect Expense",
+            "groupcode": 1275
+        },
+        {
+            "groupname": "Indirect Income",
+            "groupcode": 1276
+        },
+        {
+            "groupname": "Investments",
+            "groupcode": 1277
+        },
+        {
+            "groupname": "Loans(Asset)",
+            "groupcode": 1280
+        },
+        {
+            "groupname": "Loans(Liability)",
+            "groupcode": 1281
+        },
+        {
+            "groupname": "Miscellaneous Expenses(Asset)",
+            "groupcode": 1286
+        },
+        {
+            "groupname": "Reserves",
+            "groupcode": 1284
+        }],
+        "baltbl": [
+            "CAPITAL \u0026 LIABILITIES",
+            {
+                "groupname": "Capital",
+                "numberofaccounts": 0,
+                "groupbalance": "0.00"
+            },
+            {
+                "groupname": "Reserves",
+                "numberofaccounts": 0,
+                "groupbalance": "0.00"
+            },
+            {
+                "groupname": "Loans(Liability)",
+                "numberofaccounts": 0,
+                "groupbalance": "0.00"
+            },
+            {
+                "groupname": "Current Liabilities",
+                "numberofaccounts": 4,
+                "groupbalance": "0.00"
+            },
+            {
+                "Total": "0.00"
+            },
+            "PROPERTY \u0026 ASSETS",
+            {
+                "groupname": "Fixed Assets",
+                "numberofaccounts": 1,
+                "groupbalance": "0.00"
+            },
+            {
+                "groupname": "Investments",
+                "numberofaccounts": 0,
+                "groupbalance": "0.00"
+            },
+            {
+                "groupname": "Loans(Asset)",
+                "numberofaccounts": 0,
+                "groupbalance": "0.00"
+            },
+            {
+                "groupname": "Current Assets",
+                "numberofaccounts": 4,
+                "groupbalance": "0.00"
+            },
+            {
+                "groupname": "Miscellaneous Expenses(Asset)",
+                "numberofaccounts": 0,
+                "groupbalance": "0.00"
+            },
+            {
+                "Total": "0.00"
+            },
+            {
+                "Difference in balance": "0.00"
+            }
+        ]
+    }]
+}

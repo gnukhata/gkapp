@@ -1,0 +1,29 @@
+{
+    "gkstatus": 0,
+    "gkresult": {
+        "custid": 17,
+        "custname": "Retail Supplier (Default)",
+        "custaddr": "",
+        "custphone": null,
+        "custemail": null,
+        "custfax": null,
+        "custpan": null,
+        "custtan": null,
+        "state": "Andhra Pradesh",
+        "custdoc": null,
+        "csflag": 19,
+        "gstin": null,
+        "pincode": "",
+        "bankdetails": "",
+        "statelist": [
+            {
+                "28": "Andhra Pradesh"
+            },
+            {
+                "28": "Andhra Pradesh"
+            }
+        ],
+        "gst_reg_type": 0,
+        "gst_party_type": null
+    }
+}

@@ -1,0 +1,125 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "gkstatus",
+        "gkresult"
+    ],
+    "properties": {
+        "gkstatus": {
+            "type": "integer",
+            "default": 0,
+            "title": "The gkstatus Schema",
+            "examples": [
+                0
+            ]
+        },
+        "gkresult": {
+            "type": "object",
+            "default": {},
+            "title": "The gkresult Schema",
+            "required": [
+                "discountpercent",
+                "discountamount",
+                "productcode",
+                "productdesc",
+                "gsflag",
+                "gscode",
+                "prodsp",
+                "prodmrp"
+            ],
+            "properties": {
+                "discountpercent": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The discountpercent Schema",
+                    "examples": [
+                        "0.00"
+                    ]
+                },
+                "discountamount": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The discountamount Schema",
+                    "examples": [
+                        "0.00"
+                    ]
+                },
+                "productcode": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The productcode Schema",
+                    "examples": [
+                        852
+                    ]
+                },
+                "productdesc": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The productdesc Schema",
+                    "examples": [
+                        "test46329"
+                    ]
+                },
+                "gsflag": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The gsflag Schema",
+                    "examples": [
+                        19
+                    ]
+                },
+                "gscode": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The gscode Schema",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "prodsp": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The prodsp Schema",
+                    "examples": [
+                        "0.00"
+                    ]
+                },
+                "prodmrp": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The prodmrp Schema",
+                    "examples": [
+                        "0.00"
+                    ]
+                }
+            },
+            "examples": [{
+                "discountpercent": "0.00",
+                "discountamount": "0.00",
+                "productcode": 852,
+                "productdesc": "test46329",
+                "gsflag": 19,
+                "gscode": "",
+                "prodsp": "0.00",
+                "prodmrp": "0.00"
+            }]
+        }
+    },
+    "examples": [{
+        "gkstatus": 0,
+        "gkresult": {
+            "discountpercent": "0.00",
+            "discountamount": "0.00",
+            "productcode": 852,
+            "productdesc": "test46329",
+            "gsflag": 19,
+            "gscode": "",
+            "prodsp": "0.00",
+            "prodmrp": "0.00"
+        }
+    }]
+}
