@@ -6,8 +6,8 @@
 
 stages:
   - build
-  - test
   - deploy
+  - test
 
 variables:
   DOCKER_TLS_CERTDIR: '/certs'
@@ -20,7 +20,7 @@ gkapp:
   variables:
     # required to serve gkapp on gitlab pages
     GKAPP_URL: https://gnukhata.gitlab.io/gkapp
-    VUE_APP_GKAPP_VERSION: $CI_COMMIT_SHORT_SHA 
+    VUE_APP_GKAPP_VERSION: $CI_COMMIT_SHORT_SHA
   script:
     # Replace default gkapp config with custom one
     - mv public/gkapp-config.json public/gkapp-config.json.bak
@@ -74,7 +74,19 @@ include:
   - template: Security/Dependency-Scanning.gitlab-ci.yml
   - template: Security/Secret-Detection.gitlab-ci.yml
 
-# gzip files & deploy to gitlab pages
+# runs the ui tests against the dev server
+ui_tests:
+  image: kskarthik/nexial-core:latest
+  stage: test
+  # this job runs with a delay to make sure the dev server
+  # is updated to latest commit
+  when: delayed
+  start_in: 3 minutes
+  script: |
+    cd tests/artifact
+    nexial.sh -plan plan/GNUKhata-plan.xlsx
+
+# gzip the files & deploy to gitlab pages
 pages:
   stage: deploy
   needs:
