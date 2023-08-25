@@ -7,7 +7,9 @@
       v-if="details.booksclosedflag == 1"
       variant="success"
     >
-      <translate>Close Books is Done for this financial year</translate></b-alert
+      <translate
+        >Close Books is Done for this financial year</translate
+      ></b-alert
     >
     <b-alert
       class="mt-5 container"
@@ -15,7 +17,7 @@
       v-if="details.roflag == 1"
       variant="success"
     >
-     <translate>Rollover is Done for this financial year</translate></b-alert
+      <translate>Rollover is Done for this financial year</translate></b-alert
     >
     <!-- Close Books -->
     <b-card
@@ -93,7 +95,7 @@
       header-bg-variant="dark"
       header-text-variant="light"
       class="mt-4 gkcard mx-auto"
-			v-if="roflag==0"
+      v-if="roflag == 0"
     >
       <b-overlay :show="isLoading" no-wrap></b-overlay>
 
@@ -424,7 +426,7 @@ export default {
                   ystart, // dd-mm-yyyy
                 });
 
-                localStorage.setItem('orgCodeChoice', selectedYear.code);
+                // localStorage.setItem('orgCodeChoice', selectedYear.code);
 
                 // Initiate vuex store
                 this.$store.dispatch('setSessionStates', {

@@ -36,7 +36,7 @@ export default {
      */
     getOrgYears() {
       this.isDisabled = true;
-      const org = JSON.parse(localStorage.getItem('orgArray'));
+      const org = JSON.parse(sessionStorage.getItem('orgArray'));
       // Save org name for next login
       axios
         .get(`/orgyears/${org[0]}/${org[1]}`)

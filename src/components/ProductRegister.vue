@@ -486,6 +486,17 @@ export default {
           console.log(e.message);
         });
     },
+    // change url query params when date is changed by user
+    updateRoute() {
+      this.$router.replace({
+        query: {
+          from: this.fromDate,
+          to: this.toDate,
+          godown_id: this.godownId,
+          product_id: this.productId,
+        },
+      });
+    },
     // check if user changed the date range, then applied them to the url
     parseParams() {
       const params = this.$route.query;

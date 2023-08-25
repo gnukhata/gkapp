@@ -1,11 +1,13 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
-import axios from 'axios';
+import axios from "axios";
 
-import global from '../js/config/global.js';
+import global from "../js/config/global.js";
 
 Vue.use(Vuex);
+
+const AppStorage = sessionStorage;
 
 export default new Vuex.Store({
   modules: {
@@ -20,20 +22,20 @@ export default new Vuex.Store({
     userAuthenticated: null,
     authToken: null,
     userAuthToken: null,
-
+    userRole: null,
     /* Org */
     orgCode: null,
     orgName: null,
     orgAddress: null,
     orgGstin: null,
     orgType: null,
-    orgImg: 'img/gk.png',
+    orgImg: "img/gk.png",
     yearStart: null,
     yearEnd: null,
     newGstNews: false,
     finYears: [],
 
-    gkTestUrl: 'http://localhost:6543',
+    gkTestUrl: "http://localhost:6543",
     gkCoreUrl: null,
     searchMenu: false,
 
@@ -43,23 +45,27 @@ export default new Vuex.Store({
       type: null,
     },
 
-    locale: 'en',
+    locale: "en",
 
     // constants
     gstRates: [0, 0.1, 0.25, 1, 1.5, 3, 5, 7.5, 12, 18, 28],
     locales: [
-      { text: 'En - En', value: 'en' },
-      { text: 'हि - Hi', value: 'hi' },
-      { text: 'മ - Ml', value: 'ml' },
-      { text: 'म - Mr', value: 'mr' },
-      { text: 'த - Ta', value: 'ta' },
-      { text: 'తె - Te', value: 'te' },
+      { text: "En - En", value: "en" },
+      { text: "हि - Hi", value: "hi" },
+      { text: "മ - Ml", value: "ml" },
+      { text: "म - Mr", value: "mr" },
+      { text: "த - Ta", value: "ta" },
+      { text: "తె - Te", value: "te" },
     ],
   },
   mutations: {
-    /* A fit-them-all commit */
-    basic(state, payload) {
-      state[payload.key] = payload.value;
+    setUserRole(state, payload) {
+      state.userRole = payload;
+      AppStorage.setItem("userRole", payload);
+    },
+    setOrgType(state, payload) {
+      state.orgType = payload;
+      AppStorage.setItem("orgType", payload);
     },
     gstNews(state, payload) {
       state.newGstNews = payload;
@@ -80,15 +86,15 @@ export default new Vuex.Store({
 
     // Init the required vuex store states from session storage
     initStore(state) {
-      const userAuthStatus = localStorage.getItem('userAuthenticated');
-      const authStatus = localStorage.getItem('userOrgAuthenticated');
-      const gkCoreUrl = localStorage.getItem('gkCoreUrl');
-      const authToken = localStorage.getItem('authToken');
-      const userAuthToken = localStorage.getItem('userAuthToken');
+      const userAuthStatus = AppStorage.getItem("userAuthenticated");
+      const authStatus = AppStorage.getItem("userOrgAuthenticated");
+      const gkCoreUrl = localStorage.getItem("gkCoreUrl");
+      const authToken = AppStorage.getItem("authToken");
+      const userAuthToken = AppStorage.getItem("userAuthToken");
 
-      if (userAuthStatus === 'true') {
+      if (userAuthStatus === "true") {
         state.userAuthenticated = true;
-        const userName = localStorage.getItem('userName');
+        const userName = AppStorage.getItem("userName");
         if (userAuthToken) {
           state.userAuthToken = userAuthToken;
         }
@@ -98,15 +104,20 @@ export default new Vuex.Store({
         }
       }
 
-      if (authStatus === 'true') {
+      if (authStatus === "true") {
         state.userOrgAuthenticated = true;
 
-        const orgCode = localStorage.getItem('orgCode');
-        const orgName = localStorage.getItem('orgName');
-        const orgYears = JSON.parse(localStorage.getItem('orgYears'));
-        const orgType = JSON.parse(localStorage.getItem('orgArray'));
-        const finYears = JSON.parse(localStorage.getItem('finYears'));
-        const orgGstin = localStorage.getItem('orgGstin');
+        const orgCode = AppStorage.getItem("orgCode");
+        const orgName = AppStorage.getItem("orgName");
+        const orgYears = JSON.parse(AppStorage.getItem("orgYears"));
+        const orgType = JSON.parse(AppStorage.getItem("orgArray"));
+        const finYears = JSON.parse(AppStorage.getItem("finYears"));
+        const orgGstin = AppStorage.getItem("orgGstin");
+        const userRole = AppStorage.getItem("userRole");
+
+        if (userRole) {
+          state.userRole = userRole;
+        }
 
         if (orgCode) {
           state.orgCode = parseInt(orgCode);
@@ -132,7 +143,7 @@ export default new Vuex.Store({
         }
 
         if (orgGstin) {
-          if (orgGstin === 'null' || orgGstin === 'undefined') {
+          if (orgGstin === "null" || orgGstin === "undefined") {
             state.orgGstin = null;
           } else {
             state.orgGstin = orgGstin;
@@ -160,52 +171,52 @@ export default new Vuex.Store({
     /* Session Auth States */
     setUserAuthStatus(state, payload) {
       state.userAuthenticated = !!payload;
-      localStorage.setItem('userAuthenticated', state.userAuthenticated);
+      AppStorage.setItem("userAuthenticated", state.userAuthenticated);
     },
 
     setUserOrgAuthStatus(state, payload) {
       state.userOrgAuthenticated = !!payload;
-      localStorage.setItem('userOrgAuthenticated', state.userOrgAuthenticated);
+      AppStorage.setItem("userOrgAuthenticated", state.userOrgAuthenticated);
     },
 
     setOrgCode(state, payload) {
       state.orgCode = payload;
-      localStorage.setItem('orgCode', state.orgCode);
+      AppStorage.setItem("orgCode", state.orgCode);
     },
 
     setOrgName(state, payload) {
       state.orgName = payload;
-      localStorage.setItem('orgName', state.orgName);
+      AppStorage.setItem("orgName", state.orgName);
     },
 
     setOrgGstin(state, payload) {
       state.orgGstin = payload;
-      localStorage.setItem('orgGstin', state.orgGstin);
+      AppStorage.setItem("orgGstin", state.orgGstin);
     },
 
     setAuthToken(state, payload) {
       state.authToken = payload;
-      localStorage.setItem('authToken', state.authToken);
+      AppStorage.setItem("authToken", state.authToken);
       axios.defaults.headers = { gktoken: state.authToken };
     },
 
     setUserAuthToken(state, payload) {
       state.userAuthToken = payload;
-      localStorage.setItem('userAuthToken', state.userAuthToken);
+      AppStorage.setItem("userAuthToken", state.userAuthToken);
       axios.defaults.headers = { gkusertoken: state.userAuthToken };
     },
 
     setOrgYears(state, payload) {
       state.yearStart = payload.yearStart;
       state.yearEnd = payload.yearEnd;
-      localStorage.setItem(
-        'orgYears',
-        JSON.stringify({ yearStart: state.yearStart, yearEnd: state.yearEnd })
+      AppStorage.setItem(
+        "orgYears",
+        JSON.stringify({ yearStart: state.yearStart, yearEnd: state.yearEnd }),
       );
     },
     setGkCoreUrl(state, payload) {
       state.gkCoreUrl = payload.gkCoreUrl;
-      localStorage.setItem('gkCoreUrl', state.gkCoreUrl);
+      localStorage.setItem("gkCoreUrl", state.gkCoreUrl);
       axios.defaults.baseURL = payload.gkCoreUrl; // update axios config when the url is set to use it when continuing without page refresh.
     },
 
@@ -222,7 +233,7 @@ export default new Vuex.Store({
     setFinYears(state, payload) {
       if (payload) {
         state.finYears = payload;
-        localStorage.setItem('finYears', JSON.stringify(state.finYears));
+        // AppStorage.setItem("finYears", JSON.stringify(state.finYears));
       }
     },
 
@@ -230,15 +241,15 @@ export default new Vuex.Store({
     user(state, payload) {
       if (payload.username) {
         state.userName = payload.username;
-        localStorage.setItem('userName', state.userName);
+        AppStorage.setItem("userName", state.userName);
       }
       if (payload.email) {
         state.userEmail = payload.email;
-        localStorage.setItem('userEmail', state.userEmail);
+        AppStorage.setItem("userEmail", state.userEmail);
       }
       if (payload.avatar) {
         state.userAvatar = payload.avatar;
-        localStorage.setItem('userAvatar', state.userAvatar);
+        AppStorage.setItem("userAvatar", state.userAvatar);
       }
     },
 
@@ -251,79 +262,78 @@ export default new Vuex.Store({
 
       if (locale) {
         state.locale = payload;
-        localStorage.setItem('locale', state.locale);
+        AppStorage.setItem("locale", state.locale);
       }
     },
   },
   actions: {
     initGstin({ commit }) {
-      return axios.get('/organisation/gstin').then((resp) => {
+      return axios.get("/organisation/gstin").then((resp) => {
         if (resp.data.gkstatus === 0) {
           let result = resp.data.gkresult;
-          let gstin =
-            result.gstin != null && typeof result.gstin === 'object'
-              ? result.gstin[result.stateCode]
-              : null;
+          let gstin = result.gstin != null && typeof result.gstin === "object"
+            ? result.gstin[result.stateCode]
+            : null;
           if (gstin != null && result.stateCode < 10) {
             gstin = result.gstin[`0${result.stateCode}`];
           }
-          commit('setOrgGstin', gstin || null);
+          commit("setOrgGstin", gstin || null);
         }
       });
     },
     initLocalStates({ commit, dispatch }) {
-      commit('initStore');
-      return Promise.all([dispatch('initOrgAddress'), dispatch('initOrgImg')]);
+      commit("initStore");
+      return Promise.all([dispatch("initOrgAddress"), dispatch("initOrgImg")]);
     },
     initOrgAddress({ state, commit }) {
       if (state.userAuthenticated) {
-        return axios.get('/organisation').then((r) => {
+        return axios.get("/organisation").then((r) => {
           if (r.status === 200 && r.data.gkstatus == 0) {
-            commit('setOrgAddress', r.data.gkdata);
+            commit("setOrgAddress", r.data.gkdata);
           }
         });
       }
     },
     initOrgImg({ state, commit }) {
       if (state.userAuthenticated) {
-        return axios.get('/organisation/attachment').then((r) => {
+        return axios.get("/organisation/attachment").then((r) => {
           if (r.data.logo !== null) {
             const payload = `data:image/jpg;base64,${r.data.logo}`;
-            commit('updateOrgImg', payload);
+            commit("updateOrgImg", payload);
           }
         });
       }
     },
     setSessionStates({ commit }, payload) {
       if (payload.auth !== undefined) {
-        commit('setUserOrgAuthStatus', payload.auth);
+        commit("setUserOrgAuthStatus", payload.auth);
       }
       if (payload.userAuth !== undefined) {
-        commit('setUserAuthStatus', payload.userAuth);
+        commit("setUserAuthStatus", payload.userAuth);
       }
       if (payload.orgCode !== undefined) {
-        commit('setOrgCode', payload.orgCode);
+        commit("setOrgCode", payload.orgCode);
       }
       if (payload.orgName !== undefined) {
-        commit('setOrgName', payload.orgName);
+        commit("setOrgName", payload.orgName);
       }
       if (payload.finYears !== undefined) {
-        commit('setFinYears', payload.finYears);
+        commit("setFinYears", payload.finYears);
       }
       if (payload.authToken !== undefined) {
-        commit('setAuthToken', payload.authToken);
+        commit("setAuthToken", payload.authToken);
       }
       if (payload.userAuthToken !== undefined) {
-        commit('setUserAuthToken', payload.userAuthToken);
+        commit("setUserAuthToken", payload.userAuthToken);
       }
       if (payload.user !== undefined) {
-        commit('user', payload.user);
+        commit("user", payload.user);
       }
       if (payload.orgYears !== undefined) {
-        commit('setOrgYears', payload.orgYears);
+        commit("setOrgYears", payload.orgYears);
       }
       if (payload.gkCoreUrl !== undefined) {
-        commit('setGkCoreUrl', payload);
+        commit("setGkCoreUrl", payload);
       }
     },
   },
@@ -333,24 +343,5 @@ export default new Vuex.Store({
     isUserOrgAuthenticated: (state) => state.userOrgAuthenticated,
     getOrgCode: (state) => state.orgCode,
     getOrgAddress: (state) => state.orgAddress,
-    // currentFinYear: (state) => {
-    //   let res = null;
-    //   if (state.yearStart && state.yearEnd) {
-    //     let ystart = state.yearStart
-    //       .split('-')
-    //       .reverse()
-    //       .join('-');
-    //     let yend = state.yearEnd
-    //       .split('-')
-    //       .reverse()
-    //       .join('-');
-    //     let currentYear = state.finYears.find(
-    //       (ydata) => ydata.ystart === ystart && ydata.yend === yend
-    //     );
-    //     res = currentYear;
-    //   }
-    //   return res;
-    // },
-    // getFinYears: (state) => state.finYears,
   },
 });

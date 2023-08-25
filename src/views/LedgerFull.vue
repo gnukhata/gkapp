@@ -128,7 +128,6 @@ export default {
       accountName: null,
       fromDate: null,
       toDate: null,
-      orgType: null,
       checkboxes: [
         { text: 'Only Cr', value: 'cr' },
         { text: 'Only Dr', value: 'dr' },
@@ -175,7 +174,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['yearStart', 'yearEnd', 'orgName']),
+    ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   mounted() {
     const params = this.$route.params;
@@ -187,7 +186,6 @@ export default {
     this.fromDate = params.fd || this.yearStart;
     this.toDate = params.td || this.yearEnd;
     this.getLedger();
-    this.orgType = JSON.parse(localStorage.getItem('orgArray'))[1];
   },
   methods: {
     getCrDrLedger() {

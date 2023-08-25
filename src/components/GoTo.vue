@@ -44,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['searchMenu']),
+    ...mapState(['searchMenu', 'userRole']),
   },
   methods: {
     navigate() {
@@ -68,20 +68,23 @@ export default {
     },
   },
   created() {
-    window.addEventListener('keydown', (event) => {
-      this.keysPressed[event.key] = true;
-      // Ctrl+k should bring up menu search
-      if (this.keysPressed.Control && this.keysPressed['k']) {
-        event.preventDefault();
-        this.$store.commit('toggleSearchMenu', !this.searchMenu);
-        this.keysPressed = {}; // reset key map
-      }
-    });
+    // keyboard shortcut is enabled only for admin role
+    if (this.userRole == -1) {
+      window.addEventListener('keydown', (event) => {
+        this.keysPressed[event.key] = true;
+        // Ctrl+k should bring up menu search
+        if (this.keysPressed.Control && this.keysPressed['k']) {
+          event.preventDefault();
+          this.$store.commit('toggleSearchMenu', !this.searchMenu);
+          this.keysPressed = {}; // reset key map
+        }
+      });
 
-    window.addEventListener('keyup', (event) => {
-      this.keysPressed[event.key] = false;
-      this.keysPressed = {};
-    });
+      window.addEventListener('keyup', (event) => {
+        this.keysPressed[event.key] = false;
+        this.keysPressed = {};
+      });
+    }
   },
   mounted() {
     this.filterRoutes();

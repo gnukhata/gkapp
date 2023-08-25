@@ -376,17 +376,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(['gkCoreUrl', 'userAuthToken', 'userName']),
-  },
-  created() {
-    if (
-      localStorage.getItem('gkCoreUrl') == null ||
-      localStorage.getItem('gkCoreUrl') == 'null'
-    ) {
-      this.$router.push('/server-setup');
-    } else {
-      //   this.fetchOrgs();
-    }
+    ...mapState([
+      'gkCoreUrl',
+      'userAuthToken',
+      'userAuthenticated',
+      'userName',
+    ]),
   },
   methods: {
     /*
@@ -697,7 +692,7 @@ export default {
         });
     },
     orgLogin(orgData) {
-      const userAuthToken = localStorage.getItem('userAuthToken');
+      const userAuthToken = this.userAuthToken;
       let selectedYear = orgData.yearData[orgData.selected];
       let payload = {
         orgcode: selectedYear.code,
@@ -721,14 +716,12 @@ export default {
                 // Initiate Custom states to localhost
                 let orgName = orgData.name;
                 let orgType = orgData.type;
-                // Save org name for next login
-                localStorage.setItem('orgChoice', `${orgName} (${orgType})`);
                 // useful in consolidated final accounts
-                localStorage.setItem(
+                sessionStorage.setItem(
                   'orgArray',
                   JSON.stringify([orgName, orgType])
                 );
-                localStorage.setItem('orgCodeChoice', selectedYear.code);
+                sessionStorage.setItem('orgCodeChoice', selectedYear.code);
 
                 // Initiate vuex store
                 this.$store.dispatch('setSessionStates', {
@@ -749,25 +742,35 @@ export default {
                   },
                   finYears: orgData.yearData,
                 });
-
                 Promise.all([
                   this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
                   this.$store.dispatch('global/initGlobalConfig'), // initialises global config
                   this.$store.dispatch('initGstin'), // initialises org GSTIN
-                ]).then(() => {
-                  this.$store
-                    .dispatch('global/initGlobalState', {
-                      lang: this.$language,
-                    })
-                    .then(() => {
-                      // debugger;
-                      // visit the dashboard page
-                      this.$router.push('/dashboard').then(() => {
-                        this.isLoading = false;
-                        window.location.reload();
+                ])
+                  .then(() => {
+                    this.$store
+                      .dispatch('global/initGlobalState', {
+                        lang: this.$language,
+                      })
+                      .then(() => {
+                        this.$store.commit('setUserRole', orgData.role);
+                        this.$store.commit('setOrgType', orgType);
+                        // visit the dashboard page
+                        this.$router
+                          .push('/dashboard')
+                          .then(() => {
+                            this.isLoading = false;
+                            // window.location.reload();
+                          })
+                          .catch((e) => {
+                            console.log(e);
+                            this.isLoading = false;
+                          });
                       });
-                    });
-                });
+                  })
+                  .catch((e) => {
+                    console.log(e);
+                  });
               }
               break;
             case 2:
@@ -796,9 +799,9 @@ export default {
         });
     },
     fetchUserOrgs() {
-      const userAuthStatus = localStorage.getItem('userAuthenticated');
-      const userAuthToken = localStorage.getItem('userAuthToken');
-      if (userAuthStatus === 'true') {
+      const userAuthStatus = this.userAuthenticated;
+      const userAuthToken = this.userAuthToken;
+      if (userAuthStatus) {
         this.isOrgLoading = true;
         axios
           .get(`${this.gkCoreUrl}/gkuser/orgs`, {
@@ -819,7 +822,11 @@ export default {
     },
   },
   mounted() {
-    this.fetchUserOrgs();
+    if (this.gkCoreUrl == null) {
+      this.$router.push('/server-setup');
+    } else {
+      this.fetchUserOrgs();
+    }
   },
 };
 </script>
