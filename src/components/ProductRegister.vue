@@ -139,6 +139,7 @@
           <div v-if="data.item.trntype === 'invoice'">
             <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
             <b-link
+              @click="updateRoute"
               :to="{
                 name: 'Workflow',
                 params: {
@@ -150,12 +151,15 @@
                 },
               }"
             >
-              {{ data.item.invno }}
+              <div class="d-inline" @click="updateRoute">
+                {{ data.item.invno }}
+              </div>
             </b-link>
           </div>
           <div v-else-if="data.item.trntype === 'delchal'">
             {{ data.item.particulars }} :
             <b-link
+              @click="updateRoute"
               :to="{
                 name: 'Workflow',
                 params: {
@@ -164,7 +168,9 @@
                 },
               }"
             >
-              {{ data.item.dcno }}
+              <div class="d-inline" @click="updateRoute">
+                {{ data.item.dcno }}
+              </div>
             </b-link>
           </div>
           <div v-else-if="data.item.trntype === 'Rejection Note'">
@@ -179,7 +185,9 @@
                 },
               }"
             >
-              {{ data.item.rnno }}
+              <div class="d-inline" @click="updateRoute">
+                {{ data.item.rnno }}
+              </div>
             </b-link>
           </div>
           <div v-else-if="data.item.trntype === 'Debit Note'">
@@ -194,7 +202,9 @@
                 },
               }"
             >
-              {{ data.item.drcrno }}
+              <div class="d-inline" @click="updateRoute">
+                {{ data.item.dcrno }}
+              </div>
             </b-link>
           </div>
           <div v-else-if="data.item.trntype === 'Credit Note'">
@@ -209,11 +219,15 @@
                 },
               }"
             >
-              {{ data.item.drcrno }}
+              <div class="d-inline" @click="updateRoute">
+                {{ data.item.drcrno }}
+              </div>
             </b-link>
           </div>
           <div v-else class="font-weight-bold">
-            {{ data.item.particulars }}
+            <div class="d-inline" @click="updateRoute">
+              {{ data.item.particulars }}
+            </div>
           </div>
         </template>
         <template #cell(inward)="data">
@@ -445,7 +459,8 @@ export default {
             this.$gettext('Failed to get the stock report'),
             'danger'
           );
-        });
+        })
+        .finally(() => (this.loading = false));
     },
     getProductList() {
       this.loading = true;
@@ -486,27 +501,29 @@ export default {
           console.log(e.message);
         });
     },
-    // change url query params when date is changed by user
+    // change url query params when user clicks on one of result
+    // this is useful in keep track page of history
     updateRoute() {
       this.$router.replace({
         query: {
           from: this.fromDate,
           to: this.toDate,
           godown_id: this.godownId,
-          product_id: this.productId,
+          product_id: this.productId.id,
         },
       });
     },
-    // check if user changed the date range, then applied them to the url
+    // parse params and assign them to variables
     parseParams() {
       const params = this.$route.query;
       this.fromDate = this.yearStart;
       this.toDate = this.yearEnd;
       if (Object.keys(params).length > 0) {
-        this.productId = this.productList.filter((d) => {
-          return params.product_id == d.id;
+        this.productId = this.productList.filter((product) => {
+          return parseInt(params.product_id) == product.id;
         })[0];
-        this.toDate = params.current_date;
+        this.toDate = params.to;
+        this.godownId = params.godown_id;
         this.getGodownStock();
       }
     },
@@ -525,11 +542,13 @@ export default {
       });
     },
   },
-  mounted() {
+  created() {
     this.getProductList();
-    this.getGodownList().then(() => {
-      this.godownId = this.$store.getters['global/getDefaultGodown'];
-    });
+    this.getGodownList()
+      .then(() => {
+        this.godownId = this.$store.getters['global/getDefaultGodown'];
+      })
+      .then(() => this.parseParams());
   },
 };
 </script>
