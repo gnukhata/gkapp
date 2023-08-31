@@ -95,7 +95,7 @@
       header-bg-variant="dark"
       header-text-variant="light"
       class="mt-4 gkcard mx-auto"
-      v-if="roflag == 0"
+      v-if="details.roflag == 0"
     >
       <b-overlay :show="isLoading" no-wrap></b-overlay>
 
