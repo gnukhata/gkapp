@@ -219,9 +219,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.fetchOrgs();
-  },
   methods: {
     resetForm() {
       this.form = {
@@ -384,32 +381,6 @@ export default {
             });
         }
       }
-    },
-    /**
-     * Get list of companies & show them in login form for user to select
-     * */
-    fetchOrgs() {
-      this.loadingOrgs = true;
-      const self = this;
-      axios
-        .get(`/organisation/all`)
-        .then((response) => {
-          self.orgList = response.data.gkdata;
-          let opt = [];
-          for (const i in self.orgList) {
-            const item = {
-              value: self.orgList[i],
-              label: `${self.orgList[i].orgname} (${self.orgList[i].orgtype})`,
-            };
-            opt.push(item);
-          }
-          self.orgList = opt;
-          self.loadingOrgs = false;
-        })
-        .catch(function(error) {
-          console.log(error);
-          self.loadingOrgs = false;
-        });
     },
     /*
      * send org name & type & get a org's financial years as objects
