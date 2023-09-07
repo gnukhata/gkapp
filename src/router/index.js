@@ -620,11 +620,11 @@ const routes = [
   },
   {
     meta: {
-      title: "Balance_Sheet",
+      title: "Balance Sheet",
       requiresOrgAuth: true,
     },
     path: "/balance-sheet",
-    name: "Balance_Sheet",
+    name: "Balance Sheet",
     component: () =>
       import(
         /* webpackChunkName: "balance-sheet" */ "../views/BalanceSheet.vue"
