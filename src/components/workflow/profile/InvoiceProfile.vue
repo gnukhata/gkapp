@@ -9,6 +9,64 @@
       <div class="clearfix"></div>
       <br />
     </div>
+    <!-- action buttons -->
+    <div class="mb-3 clearfix d-print-none">
+      <div class="float-right">
+        <span v-if="!deletedFlag">
+          <b-button
+            v-if="invoice.attachmentCount"
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.attachment-container
+            @click="fetchAttachments"
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <translate>View Attachments</translate>
+          </b-button>
+          <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <translate>View Vouchers</translate>
+          </b-button>
+          <b-button
+            @click="onPayment"
+            v-if="onCreditFlag"
+            class="mr-1"
+            size="sm"
+            variant="success"
+          >
+            <!-- <b-icon class="mr-1" icon="clipboard-check"></b-icon> -->
+            <translate>{{
+              invoice.isSale ? 'Receive Payment' : 'Make Payment'
+            }}</translate>
+          </b-button>
+          <b-button
+            v-if="rectifyFlag"
+            class="mr-1"
+            size="sm"
+            variant="warning"
+            :to="{ name: 'Invoice_Edit', params: { invid: id } }"
+          >
+            <b-icon class="mr-1" icon="pencil"></b-icon>
+            <translate>Rectify</translate>
+          </b-button>
+          <b-button
+            v-if="cancelFlag"
+            size="sm"
+            variant="danger"
+            @click="confirmOnCancel"
+          >
+            <b-icon class="mr-1" icon="x-octagon"></b-icon>
+            <translate>Cancel</translate>
+          </b-button>
+        </span>
+      </div>
+    </div>
     <div>
       <h3 v-translate class="d-none d-print-block text-center mt-1">
         TAX INVOICE
@@ -159,78 +217,6 @@
     <!-- signature section -->
     <div class="text-right mt-5 font-weight-bold d-none d-print-block mr-2">
       Authorized signatory
-    </div>
-    <!-- action buttons -->
-    <div class="float-right my-2 d-print-none">
-      <span v-if="!deletedFlag">
-        <b-button
-          v-if="invoice.attachmentCount"
-          class="mr-1"
-          size="sm"
-          variant="primary"
-          v-b-toggle.attachment-container
-          @click="fetchAttachments"
-        >
-          <b-icon class="mr-1" icon="eye"></b-icon>
-          <translate>View Attachments</translate>
-        </b-button>
-        <b-button
-          class="mr-1"
-          size="sm"
-          variant="primary"
-          v-b-toggle.voucher-container
-        >
-          <b-icon class="mr-1" icon="eye"></b-icon>
-          <translate>View Vouchers</translate>
-        </b-button>
-        <!-- <b-button
-          v-if="onCreditFlag"
-          class="mr-1"
-          size="sm"
-          variant="success"
-          :to="{
-            name: 'Billwise',
-            params: {
-              custType: invoice.party.csflag,
-              custName: invoice.party.name,
-            },
-          }"
-        >
-          <b-icon class="mr-1" icon="clipboard-check"></b-icon>
-          <translate>Adjust</translate>
-        </b-button> -->
-        <b-button
-          @click="onPayment"
-          v-if="onCreditFlag"
-          class="mr-1"
-          size="sm"
-          variant="success"
-        >
-          <!-- <b-icon class="mr-1" icon="clipboard-check"></b-icon> -->
-          <translate>{{
-            invoice.isSale ? 'Receive Payment' : 'Make Payment'
-          }}</translate>
-        </b-button>
-        <b-button
-          v-if="rectifyFlag"
-          class="mr-1"
-          size="sm"
-          variant="warning"
-          :to="{ name: 'Invoice_Edit', params: { invid: id } }"
-        >
-          <b-icon class="mr-1" icon="pencil"></b-icon>
-          <translate>Rectify</translate>
-        </b-button>
-        <b-button
-          v-if="cancelFlag"
-          size="sm"
-          variant="danger"
-          @click="confirmOnCancel"
-        >
-          <b-icon class="mr-1" icon="x-octagon"></b-icon>
-          <translate>Cancel</translate>
-        </b-button>
-      </span>
     </div>
     <div class="clearfix"></div>
     <br />
