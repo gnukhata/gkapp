@@ -47,9 +47,97 @@
                 </b-form-group>
               </b-col>
             </b-row>
+            <!-- price card -->
+            <b-card border-variant="dark" no-body>
+              <b-card-body class="p-2 mb-2">
+                <b b-translate>Price</b>
+                <b-form-group
+                  label-size="sm"
+                  label="Cost Price"
+                  label-for="bi-input-4"
+                  label-cols="3"
+                  v-if="!isService"
+                >
+                  <template #label>
+                    <translate> Cost Price </translate>
+                  </template>
+                  <b-input-group size="sm" append="₹">
+                    <b-form-input
+                      id="bi-input-4"
+                      placeholder=""
+                      v-model="form.mrp"
+                      type="number"
+                      no-wheel
+                      step="0.01"
+                    ></b-form-input>
+                  </b-input-group>
+                </b-form-group>
+                <b-form-group
+                  label-size="sm"
+                  label="Sale Price"
+                  label-for="bi-input-5"
+                  label-cols="4"
+                >
+                  <template #label>
+                    <translate> Taxable Sale Price </translate>
+                  </template>
+                  <b-input-group append="₹" size="sm">
+                    <b-form-input
+                      size="sm"
+                      id="bi-input-5"
+                      placeholder=""
+                      v-model="form.salePrice"
+                      type="number"
+                      no-wheel
+                      step="0.01"
+                    ></b-form-input>
+                  </b-input-group>
+                </b-form-group>
+                <b-form-group
+                  label-size="sm"
+                  label="Discount"
+                  label-for="bi-input-6"
+                  label-cols="3"
+                >
+                  <template #label>
+                    <translate> Discount </translate>
+                  </template>
+                  <b-row>
+                    <b-col class="pr-1">
+                      <b-input-group append="₹" size="sm">
+                        <b-form-input
+                          size="sm"
+                          id="bi-input-6"
+                          placeholder=""
+                          v-model="form.discountAmount"
+                          type="number"
+                          no-wheel
+                          step="0.01"
+                          @blur="calculateDiscount"
+                        ></b-form-input>
+                      </b-input-group>
+                    </b-col>
+                    <b-col class="pl-1">
+                      <b-input-group append="%" size="sm">
+                        <b-form-input
+                          size="sm"
+                          id="bi-input-11"
+                          placeholder=""
+                          v-model="form.discountPercent"
+                          type="number"
+                          no-wheel
+                          step="0.01"
+                        ></b-form-input>
+                      </b-input-group>
+                    </b-col>
+                  </b-row>
+                </b-form-group>
+              </b-card-body>
+            </b-card>
+            <!-- Stock -->
             <b-card
               border-variant="dark"
-              class="mb-3"
+              class="mt-2"
               v-if="!isService"
               no-body
             >
@@ -71,14 +159,14 @@
                     :options="options.uom"
                     label="name"
                   >
-                  <template #search="{attributes, events}">
-                    <input
-                      class="vs__search"
-                      :required="!uom"
-                      v-bind="attributes"
-                      v-on="events"
-                    />
-                  </template>
+                    <template #search="{attributes, events}">
+                      <input
+                        class="vs__search"
+                        :required="!uom"
+                        v-bind="attributes"
+                        v-on="events"
+                      />
+                    </template>
                   </v-select>
                 </b-form-group>
                 <b-form-group
@@ -156,7 +244,7 @@
                           type="number"
                           no-wheel
                           step="0.01"
-                          placeholder="Stock Qty"
+                          placeholder="Opening Stock Qty"
                         ></b-form-input>
                         <b-form-input
                           size="sm"
@@ -164,7 +252,7 @@
                           type="number"
                           no-wheel
                           step="0.01"
-                          placeholder="Stock Value"
+                          placeholder="Opening Stock Value"
                         ></b-form-input>
                         <b-input-group-append>
                           <b-button
@@ -179,89 +267,6 @@
                     </div>
                   </div>
                 </b-card>
-              </b-card-body>
-            </b-card>
-            <b-card border-variant="dark" no-body>
-              <b-card-body class="p-2">
-                <b b-translate>Price</b>
-                <!-- <b-form-group
-                  label-size="sm"
-                  label="MRP"
-                  label-for="bi-input-4"
-                  label-cols="3"
-                >
-                  <template #label> <translate> MRP </translate> </template>
-                  <b-input-group size="sm" append="₹">
-                    <b-form-input
-                      id="bi-input-4"
-                      placeholder=""
-                      v-model="form.mrp"
-                      type="number"
-                      no-wheel
-                      step="0.01"
-                    ></b-form-input>
-                  </b-input-group>
-                </b-form-group> -->
-                <b-form-group
-                  label-size="sm"
-                  label="Sale Price"
-                  label-for="bi-input-5"
-                  label-cols="4"
-                >
-                  <template #label>
-                    <translate> Taxable Sale Price </translate>
-                  </template>
-                  <b-input-group append="₹" size="sm">
-                    <b-form-input
-                      size="sm"
-                      id="bi-input-5"
-                      placeholder=""
-                      v-model="form.salePrice"
-                      type="number"
-                      no-wheel
-                      step="0.01"
-                    ></b-form-input>
-                  </b-input-group>
-                </b-form-group>
-                <b-form-group
-                  label-size="sm"
-                  label="Discount"
-                  label-for="bi-input-6"
-                  label-cols="3"
-                >
-                  <template #label>
-                    <translate> Discount </translate>
-                  </template>
-                  <b-row>
-                    <b-col class="pr-1">
-                      <b-input-group append="₹" size="sm">
-                        <b-form-input
-                          size="sm"
-                          id="bi-input-6"
-                          placeholder=""
-                          v-model="form.discountAmount"
-                          type="number"
-                          no-wheel
-                          step="0.01"
-                          @blur="calculateDiscount"
-                        ></b-form-input>
-                      </b-input-group>
-                    </b-col>
-                    <b-col class="pl-1">
-                      <b-input-group append="%" size="sm">
-                        <b-form-input
-                          size="sm"
-                          id="bi-input-11"
-                          placeholder=""
-                          v-model="form.discountPercent"
-                          type="number"
-                          no-wheel
-                          step="0.01"
-                        ></b-form-input>
-                      </b-input-group>
-                    </b-col>
-                  </b-row>
-                </b-form-group>
               </b-card-body>
             </b-card>
           </b-col>

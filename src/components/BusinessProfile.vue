@@ -53,12 +53,7 @@
           ></b-form-input>
         </b-form-group>
         <!-- UOM -->
-        <b-form-group
-          v-if="details.gsflag == 7"
-          label="Unit of Measure"
-          label-cols="4"
-          label-size="sm"
-        >
+        <b-form-group label="Unit of Measure" label-cols="4" label-size="sm">
           <template #label> <translate> Unit of Measure </translate> </template>
           <b-input-group size="sm">
             <b-form-select
@@ -86,11 +81,32 @@
         </div>
       </template>
       <b-collapse class="p-3" id="collapse-price">
-        <!-- Selling Price -->
+        <!--  Cost price. only shown for product -->
         <b-form-group
           label-size="sm"
           id="input-group-2"
-          label="Selling Price"
+          :label="$gettext('Cost Price')"
+          label-cols="4"
+          v-if="details.gsflag == 7"
+        >
+          <b-form-input size="sm" v-model="details.prodmrp"></b-form-input>
+        </b-form-group>
+        <!-- Selling Price -->
+        <b-form-group
+          v-if="details.gsflag == 7"
+          label-size="sm"
+          id="input-group-2"
+          :label="$gettext('Selling Price')"
+          label-cols="4"
+        >
+          <b-form-input size="sm" v-model="details.prodsp"></b-form-input>
+        </b-form-group>
+        <!-- Taxable Sale Price, Incase of a service -->
+        <b-form-group
+          v-else
+          label-size="sm"
+          id="input-group-2"
+          :label="$gettext('Taxable Sale Price')"
           label-cols="4"
         >
           <b-form-input size="sm" v-model="details.prodsp"></b-form-input>
@@ -99,7 +115,7 @@
         <b-form-group
           label-size="sm"
           label-cols="4"
-          label="Discount"
+          :label="$gettext('Discount')"
           label-for="input-3"
         >
           <template #label> <translate> Discount </translate> </template>
@@ -315,11 +331,14 @@
             class="mb-2 d-flex"
             :id="'vat-inp-' + index"
           >
+            <div class="m-1">{{ index + 1 }}.</div>
+            <!-- godown select -->
             <b-form-select
               size="sm"
               style="max-width: 350px"
               v-model="godown.id"
               :options="options.godowns"
+              required="true"
             >
               <template #first>
                 <b-form-select-option value="" disabled>
@@ -327,6 +346,7 @@
                 </b-form-select-option>
               </template>
             </b-form-select>
+            <!-- godown stock quantity -->
             <b-form-input
               class="mx-2"
               size="sm"
@@ -334,8 +354,10 @@
               type="number"
               no-wheel
               step="0.01"
-              placeholder="Qty"
+              placeholder="Stock Qty"
+              required="true"
             ></b-form-input>
+            <!-- godown stock value -->
             <b-form-input
               class="mx-2"
               size="sm"
@@ -343,16 +365,21 @@
               type="number"
               no-wheel
               step="0.01"
-              placeholder="Value"
+              placeholder="Stock Value (Cost Price x Stock Qty)"
+              required="true"
             ></b-form-input>
+            <!-- delete godown button. only appears when there atleast one active godown -->
             <b-button
-              variant="outline-secondary"
+              variant="danger"
               size="sm"
               @click.prevent="deleteGodown(index)"
+              title="Delete Godown"
+              v-if="options.godowns.length < 2 && godowns.length > 1"
             >
-              -
+              <B-Icon icon="trash" variant="light" />
             </b-button>
           </div>
+          <!-- add row button -->
           <b-button
             size="sm"
             @click.prevent="addGodown"
@@ -360,8 +387,9 @@
           >
             <translate> Add Row </translate>
           </b-button>
+          <!-- create godown button -->
           <b-button
-            class="float-right mx-2 py-0 px-1"
+            class="float-right mx-2 py-0 px-1 bg-success"
             size="sm"
             @click.prevent="showGodownForm = true"
           >
