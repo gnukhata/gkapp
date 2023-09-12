@@ -35,15 +35,15 @@
           </b-button>
           <b-button
             @click="onPayment"
-            v-if="onCreditFlag"
+            v-if="invoice.payment.mode != 5"
             class="mr-1"
             size="sm"
             variant="success"
           >
             <!-- <b-icon class="mr-1" icon="clipboard-check"></b-icon> -->
-            <translate>{{
-              invoice.isSale ? 'Receive Payment' : 'Make Payment'
-            }}</translate>
+            <translate
+              >{{ invoice.isSale ? 'Receive Payment' : 'Make Payment' }}
+            </translate>
           </b-button>
           <b-button
             v-if="rectifyFlag"
