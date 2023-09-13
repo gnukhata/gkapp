@@ -1,0 +1,19 @@
+{
+  "gkstatus": 0,
+  "gkresult": [
+    {
+      "accountcode": 0,
+      "accountname": "string",
+      "groupname": "string",
+      "totaldr": "string",
+      "totalcr": "string",
+      "srno": 0,
+      "openingbalance": "string",
+      "curbaldr": "string",
+      "curbalcr": "string",
+      "ttlRunDr": "string",
+      "ttlRunCr": "string",
+      "advflag": 0
+    }
+  ]
+}
