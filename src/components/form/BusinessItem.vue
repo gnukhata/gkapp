@@ -194,14 +194,7 @@
                 <b-card no-body>
                   <div class="p-2">
                     <div class="mb-2">
-                      <!-- <b-form-checkbox
-                        size="sm"
-                        v-model="form.stock.godownFlag"
-                        class="d-inline-block"
-                        switch
-                      >
-                      </b-form-checkbox> -->
-                      <translate> Opening Stock </translate>
+                      <b v-translate>Opening Stock</b>
                       <b-button
                         size="sm"
                         class="mx-1 py-0 px-1 float-right"
@@ -244,7 +237,7 @@
                           type="number"
                           no-wheel
                           step="0.01"
-                          placeholder="Opening Stock Qty"
+                          placeholder="Stock Qty"
                         ></b-form-input>
                         <b-form-input
                           size="sm"
@@ -252,15 +245,16 @@
                           type="number"
                           no-wheel
                           step="0.01"
-                          placeholder="Opening Stock Value"
+                          placeholder="Stock Value (Cost Price x Stock Qty)"
                         ></b-form-input>
                         <b-input-group-append>
                           <b-button
                             size="sm"
                             @click.prevent="deleteGodown(index)"
                             :disabled="!index"
+                            variant="danger"
                           >
-                            -
+                            <B-Icon icon="trash" variant="light" />
                           </b-button>
                         </b-input-group-append>
                       </b-input-group>
@@ -769,7 +763,6 @@ export default {
       // console.log('in submit')
       this.isLoading = true;
       const payload = this.initPayload();
-      console.log(payload);
       axios
         .post('/product', payload.product)
         .then((response) => {
