@@ -168,7 +168,7 @@
               <b-tr>
                 <b-th v-translate>INDIRECT INCOME</b-th>
                 <b-th class="text-right">{{
-                  result['Indirect Expense']['indirexpbal']
+                  result['Indirect Income']['indirincmbal']
                 }}</b-th>
               </b-tr>
               <b-tr v-if="result['grossprofitcf'] != undefined">
