@@ -324,7 +324,7 @@ export default {
     onSubmit() {
       this.isLoading = true;
       const payload = this.initPayload();
-      const userAuthToken = localStorage.getItem('userAuthToken');
+      const userAuthToken = sessionStorage.getItem('userAuthToken');
       //state is mandatory to create org
       if (this.orgState.length == 0) {
         this.$bvToast.toast(this.$gettext(`State is required`), {
