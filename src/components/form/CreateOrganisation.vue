@@ -36,26 +36,7 @@
             >
             </b-form-input>
           </b-form-group>
-          <b-form-group
-            label-size="md"
-            id="input-group-11"
-            label="Address"
-            label-for="input-11"
-            label-cols="3"
-          >
-            <template #label>
-              <translate> Address </translate>
-            </template>
-            <b-form-input
-              size="md"
-              id="input-11"
-              type="text"
-              placeholder="Address"
-              v-model.trim="orgAddr"
-              required
-            >
-            </b-form-input>
-          </b-form-group>
+          <!-- state -->
           <b-form-group
             label-size="md"
             id="input-group-12"
@@ -74,6 +55,26 @@
             >
             </v-select>
           </b-form-group>
+          <!-- address -->
+          <!-- <b-form-group
+            label-size="md"
+            id="input-group-11"
+            label="Address"
+            label-for="input-11"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> Address </translate>
+            </template>
+            <b-form-input
+              size="md"
+              id="input-11"
+              type="text"
+              placeholder="Address"
+              v-model.trim="orgAddr"
+            >
+            </b-form-input>
+          </b-form-group> -->
           <b-form-group label-size="md" label="Type" label-cols="3">
             <template #label>
               <translate> Type </translate>

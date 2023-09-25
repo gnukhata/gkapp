@@ -1,6 +1,11 @@
 <template>
   <section class="m-2">
     <b-overlay :show="isLoading">
+      <!-- TODO: rm this alert when fixed -->
+      <b-alert show variant="warning" class="container mt-2"
+        ><b>NOTE:</b> Some data presented in this report is incorrect. We are
+        working on fixing the issue.</b-alert
+      >
       <b-card
         class="gkcard mx-auto"
         header-bg-variant="dark"
