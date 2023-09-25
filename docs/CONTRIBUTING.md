@@ -30,9 +30,17 @@ Vetur plugin: https://marketplace.visualstudio.com/items?itemName=octref.vetur
 
 Mason: Install `vetur-vls` and linter `prettier`
 
-# Merge request
+# Merge requests
 
 Development happens on the `devel` branch. Create a feature branch from it, add your changes and make a merge request
 
-`master` branch is intended for stable code. So, do not push changes to it.
+> `master` branch is intended for stable code. Do not push changes to it.
 
+# Release Strategy
+
+Checklist:
+
+1. Git checkout to master
+2. merge commits from devel -> master
+3. Wait for the ci/cd pipeline to finish. Make sure all jobs are successful
+4. Create a Release / tag
