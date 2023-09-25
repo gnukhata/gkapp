@@ -53,64 +53,7 @@
             />
           </a>
         </div>
-        <!-- app version info -->
-        <p class="mt-3 text-center">
-          Frontend (gkapp):
-          <b-link target="_blank" :href="url.gkapp"
-            ><code>{{ gkappVersion }}</code></b-link
-          >
-          | Backend (gkcore):
-          <b-link target="_blank" :href="url.gkcore"
-            ><code>{{ gkcoreVersion }}</code></b-link
-          >
-        </p>
       </div>
     </div>
   </div>
 </template>
-<script>
-import axios from 'axios';
-import { version } from '../../package';
-export default {
-  name: 'About',
-  data() {
-    return {
-      gkappVersion: process.env.VUE_APP_GKAPP_VERSION || version,
-      gkcoreVersion: null,
-      url: {},
-    };
-  },
-  methods: {
-    gitUrl() {
-      const baseUrl = 'https://gitlab.com/gnukhata';
-      let url = {};
-      if (this.gkappVersion.includes('.')) {
-        url['gkapp'] = `${baseUrl}/gkapp/-/tags/${this.gkappVersion}`;
-      } else {
-        url['gkapp'] = `${baseUrl}/gkapp/-/commit/${this.gkappVersion}`;
-      }
-      if (this.gkcoreVersion.includes('.')) {
-        url['gkcore'] = `${baseUrl}/gkcore/-/tags/${this.gkcoreVersion}`;
-      } else {
-        url['gkcore'] = `${baseUrl}/gkcore/-/commit/${this.gkcoreVersion}`;
-      }
-      this.url = url;
-    },
-  },
-  created() {
-    axios
-      .get('/')
-      .then((r) => {
-        if (r.status == 200) {
-          this.gkcoreVersion = r.data.version;
-        }
-      })
-      .then(() => {
-        this.gitUrl();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  },
-};
-</script>

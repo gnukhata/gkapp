@@ -104,6 +104,7 @@
         </template>
       </v-select>
     </b-modal>
+    <VersionInfo />
   </div>
 </template>
 <script>
@@ -113,9 +114,10 @@ import { mapState } from 'vuex';
 import Sidebar from './components/Sidebar.vue';
 import TitleBar from './components/TitleBar.vue';
 import GoTo from './components/GoTo.vue';
+import VersionInfo from './components/VersionInfo.vue';
 export default {
   name: 'App',
-  components: { /* ColorBar, */ Sidebar, TitleBar, GoTo },
+  components: { /* ColorBar, */ Sidebar, TitleBar, GoTo, VersionInfo },
   data() {
     return {
       currentFinYear: null,
