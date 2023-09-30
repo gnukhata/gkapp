@@ -29,6 +29,9 @@ gkapp:
     # install dependencies & build
     - npm install -g @vue/cli
     - npm install
+    # run lint on project files
+    - npm run lint src/
+    # then build, dist/ has the artifact
     - npm run build
   artifacts:
     paths:
