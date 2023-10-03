@@ -1,0 +1,44 @@
+{
+  "delchaldata": {
+    "custid":${custid},
+    "dcno":"[NUMBER(${num})=>randomDigits(2)]/DOUT-23",
+    "dcdate": "2023-09-06",
+    "dcflag": 4,
+    "taxstate": "Maharashtra",
+    "orgstategstin": "",
+    "discflag": 1,
+    "dcnarration": "Sold goods worth Rupees 47 to Retail Customer (Default) by cash, ref invoice no. 13/SL-23",
+    "roundoffflag": 0,
+    "consignee": {
+      "consigneename": "Retail Customer (Default)",
+      "tinconsignee": "",
+      "gstinconsignee": "",
+      "consigneeaddress": "",
+      "consigneestate": "Maharashtra",
+      "consigneestatecode": "27",
+      "consigneepincode": ""    },
+    "issuername": "Accion",
+    "designation": "Admin",
+    "vehicleno": null,
+    "modeoftransport": "Road",
+    "noofpackages": 0,
+    "sourcestate": "Maharashtra",
+    "inoutflag": 15,
+    "taxflag": 7,
+    "delchaltotal": "47.00",
+    "totalinword": "Forty Seven Rupees",
+    "contents": {
+      "335": {
+        "50.00": "1.00"      }    },
+    "tax": {
+      "335": "0.00"    },
+    "cess": {
+      "335": "0.00"    },
+    "freeqty": {
+      "335": "0.00"    },
+    "discount": {
+      "335": "3.00"    },
+    "dateofsupply": "2023-09-06"  },
+  "stockdata": {
+    "inout": 15,
+    "goid": 170  }}
