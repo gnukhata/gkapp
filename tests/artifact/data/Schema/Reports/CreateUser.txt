@@ -1,0 +1,4 @@
+{
+  "gkstatus": 0,
+  "token": "string"
+}

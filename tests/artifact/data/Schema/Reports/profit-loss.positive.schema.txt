@@ -1,0 +1,15 @@
+{
+  "gkstatus": 0,
+  "gkresult": {
+    "Closing Stock": {},
+    "Opening Stock": {},
+    "Direct Expense": {},
+    "Direct Income": {},
+    "grossprofitcf": "string",
+    "totalD": "string",
+    "Indirect Expense": {},
+    "Indirect Income": {},
+    "netprofit": "string",
+    "Total": "string"
+  }
+}

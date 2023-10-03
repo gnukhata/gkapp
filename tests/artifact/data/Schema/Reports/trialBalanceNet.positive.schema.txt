@@ -1,0 +1,16 @@
+{
+  "gkstatus": 0,
+  "gkresult": [
+    {
+      "accountcode": 0,
+      "accountname": "string",
+      "groupname": "string",
+      "srno": 0,
+      "Dr": "string",
+      "Cr": "string",
+      "advflag": 0,
+      "ttlRunDr": "string",
+      "ttlRunCr": "string"
+    }
+  ]
+}
