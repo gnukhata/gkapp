@@ -7,7 +7,7 @@
       header-text-variant="light"
       class="gkcard mx-auto"
     >
-      <b-form ref="createForm" @submit.prevent="check">
+      <b-form ref="createUserForm" @submit.prevent="check">
         <b-overlay :show="isLoading" blur no-wrap></b-overlay>
         <b-form-group
           :label="$gettext('Name')"
@@ -115,7 +115,12 @@
             label-cols="4"
             label-size="sm"
           >
-            <b-form-input :state="pwdMatch" v-model="cnfPassword" size="sm">
+            <b-form-input
+              :state="pwdMatch"
+              type="password"
+              v-model="cnfPassword"
+              size="sm"
+            >
             </b-form-input>
             <b-form-invalid-feedback
               ><translate
@@ -325,14 +330,9 @@ export default {
                   solid: true,
                 }
               );
-              this.form = {
-                username: '',
-                userpassword: '',
-                userrole: null,
-                userquestion: '',
-                useranswer: '',
-                golist: [],
-              };
+              this.$refs['createUserForm'].reset();
+              this.createUser = false;
+              this.validUser = null;
               break;
             case STATUS_CODES['DuplicateEntry']:
               this.$bvToast.toast(
@@ -437,6 +437,7 @@ export default {
             switch (r.data.gkstatus) {
               case STATUS_CODES['Success']:
                 this.validUser = true;
+                // invoke invite user api & reset the form
                 this.inviteUser();
                 break;
               case STATUS_CODES['BadPrivilege']:
