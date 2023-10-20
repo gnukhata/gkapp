@@ -20,6 +20,8 @@ yarn-error.log*
 *.sw?
 .log
 .projectile
+*gkapp-config.json
 
 # Ignore po files
 *.po~
+GNUKhata.code-workspace
