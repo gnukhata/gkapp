@@ -1,0 +1,14 @@
+Test Step       : DeliveryNote.20230921_174009.001|GET|Fetch all the Customer id's|# 10|ws.get(url,queryString,va
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-21 17:40:11.764
+Request URL     : https://api-dev.gnukhata.org/customer?qty=custall
+Request Method  : GET
+Request Headers : {gkusertoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA, gkToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxNzYsInVzZXJpZCI6Mn0.U3J8W-hzCmaKNVBngUrv1bZxonB6RgIMLRGOwHG9Nyk}
+----------------------------------------------------------------------------------------------------
+Return Code     : 200
+Status Text     : OK
+TTFB            : 693
+Elapsed Time    : 694
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 1791, Date: Thu, 21 Sep 2023 12:05:32 GMT, Content-Type: application/json }
+Response Body   : 1791 bytes. 
+{"gkstatus": 0, "gkresult": [{"custid": 996, "custname": "Cust32142"}, {"custid": 989, "custname": "Customer1"}, {"custid": 980, "custname": "Customer3214"}, {"custid": 571, "custname": "Retail Customer (Default)"}, {"custid": 1210, "custname": "test178817"}, {"custid": 1020, "custname": "test190339"}, {"custid": 982, "custname": "test225816"}, {"custid": 1002, "custname": "test237989"}, {"custid": 1214, "custname": "test286512"}, {"custid": 1018, "custname": "test301250"}, {"custid": 1244, "custname": "test310904"}, {"custid": 1296, "custname": "test311568"}, {"custid": 1152, "custname": "test378033"}, {"custid": 1014, "custname": "test379966"}, {"custid": 983, "custname": "test410794"}, {"custid": 1226, "custname": "test421257"}, {"custid": 1230, "custname": "test439957"}, {"custid": 1224, "custname": "test441997"}, {"custid": 1006, "custname": "test465360"}, {"custid": 1284, "custname": "test468855"}, {"custid": 1240, "custname": "test469479"}, {"custid": 1012, "custname": "test503672"}, {"custid": 994, "custname": "test519863"}, {"custid": 995, "custname": "test532628"}, {"custid": 1216, "custname": "test532822"}, {"custid": 981, "custname": "test5628"}, {"custid": 1222, "custname": "test599803"}, {"custid": 991, "custname": "test625628"}, {"custid": 1238, "custname": "test630950"}, {"custid": 1242, "custname": "test678547"}, {"custid": 1234, "custname": "test714176"}, {"custid": 1286, "custname": "test738247"}, {"custid": 1232, "custname": "test799084"}, {"custid": 1797, "custname": "test819353"}, {"custid": 1022, "custname": "test835083"}, {"custid": 985, "custname": "test859504"}, {"custid": 1218, "custname": "test909212"}, {"custid": 1024, "custname": "test913017"}, {"custid": 1010, "custname": "test946270"}, {"custid": 1016, "custname": "test947998"}]}

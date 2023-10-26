@@ -1,0 +1,689 @@
+2023-09-22 16:37:38.944|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2023-09-22 16:37:38.944|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\SNEFi\DeliveryNote.data.xlsx
+2023-09-22 16:37:38.944|I|main|(DELAYED) input files and output directory resolved...
+2023-09-22 16:37:38.944|I|main|(DELAYED) cleaning up outdated temp files...
+2023-09-22 16:37:38.944|I|main|(DELAYED) No predefined nexial-setup found
+2023-09-22 16:37:38.944|I|main|[20230922_163737] [C:\projects\GNUAPI\tests\artifact\script\DeliveryNote.xlsx] resolve RUN ID as 20230922_163737
+2023-09-22 16:37:39.172|I|main|No predefined nexial-setup found
+2023-09-22 16:37:39.793|I|main|outputBase not set; output-to-cloud DISABLED!
+2023-09-22 16:37:39.793|I|main|accessKey not set; output-to-cloud DISABLED!
+2023-09-22 16:37:39.793|I|main|secretKey not set; output-to-cloud DISABLED!
+2023-09-22 16:37:40.059|I|main|missing REQUIRED configuration; sms DISABLED!
+2023-09-22 16:37:40.968|I|main|On-Demand Inspection detection enabled
+2023-09-22 16:37:41.287|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-22 16:37:43.315|I|main|[20230922_163737] executing C:\projects\GNUAPI\tests\artifact\script\DeliveryNote.xlsx. [1] total 1
+2023-09-22 16:37:43.315|I|main|[20230922_163737] create directory C:\projects\GNUAPI\tests\output\20230922_163737\captures
+2023-09-22 16:37:43.321|I|main|[20230922_163737] create directory C:\projects\GNUAPI\tests\output\20230922_163737\logs
+2023-09-22 16:37:46.040|I|main|[20230922_163737] merging test data to tmp file C:\projects\GNUAPI\tests\output\20230922_163737\DeliveryNote.20230922_163743.001.xlsx
+2023-09-22 16:37:46.040|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-22 16:37:46.733|I|main|[20230922_163737] test script and test data merged to C:\projects\GNUAPI\tests\output\20230922_163737\DeliveryNote.20230922_163743.001.xlsx
+2023-09-22 16:37:47.932|I|main|STARTS
+2023-09-22 16:37:47.997|I|main|DeliveryNote.20230922_163743.001|Token|Login Token - executing activity
+2023-09-22 16:37:48.005|I|main|DeliveryNote.20230922_163743.001|Token|Login Token|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|getGKUserToken), username=${login.username}
+password=${login.password}, response=response)
+2023-09-22 16:37:48.482|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  2|base.save(var,value)      - executing save(var,value)(url, ${api.baseUrl}login/user)
+2023-09-22 16:37:48.499|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  2|base.save(var,value)      - PASS stored 'https://api-dev.gnukhata.org/login/user' as ${url}
+2023-09-22 16:37:48.499|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  3|base.save(var,value)      - executing save(var,value)(body, {"username":"${username}","userpassword":"${password}"})
+2023-09-22 16:37:48.499|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  3|base.save(var,value)      - PASS stored '{"username":"${username}","userpassword":"${password}"}' as ${body}
+2023-09-22 16:37:48.506|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - executing post(url,body,var)(${url}, ${body}, response)
+2023-09-22 16:37:49.114|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/login/user HTTP/1.1
+2023-09-22 16:37:51.745|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-22 16:37:51.755|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/login/user HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:37:51.800|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/login/user'
+2023-09-22 16:37:51.800|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  5|ws.assertReturnCode(var,r - executing assertReturnCode(var,returnCode)(response, 200)
+2023-09-22 16:37:51.800|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKUserToken)|#  5|ws.assertReturnCode(var,r - PASS EXPECTED return code found
+2023-09-22 16:37:51.808|I|main|DeliveryNote.20230922_163743.001|Token|Login Token|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:37:51.809|I|main|DeliveryNote.20230922_163743.001|Token|Login Token|#  6|base.save(var,value)      - executing save(var,value)(gkusertoken, [JSON(${response}.body) => extract(token)])
+2023-09-22 16:37:51.987|I|main|DeliveryNote.20230922_163743.001|Token|Login Token|#  6|base.save(var,value)      - PASS stored 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA' as ${gkusertoken}
+2023-09-22 16:37:51.987|I|main|DeliveryNote.20230922_163743.001|Token|Login Token|#  7|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|getGKToken), gkusertoken=${gkusertoken}
+orgcode=${login.orgcode}, response=response)
+2023-09-22 16:37:52.392|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  6|ws.header(name,value)     - executing header(name,value)(gkusertoken, ${gkusertoken})
+2023-09-22 16:37:52.392|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  6|ws.header(name,value)     - PASS set HTTP Header gkusertoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA
+2023-09-22 16:37:52.392|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  7|base.save(var,value)      - executing save(var,value)(url, ${api.baseUrl}login/org)
+2023-09-22 16:37:52.392|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  7|base.save(var,value)      - PASS stored 'https://api-dev.gnukhata.org/login/org' as ${url}
+2023-09-22 16:37:52.392|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  8|base.save(var,value)      - executing save(var,value)(body, {"orgcode": ${orgcode}})
+2023-09-22 16:37:52.392|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  8|base.save(var,value)      - PASS stored '{"orgcode": ${orgcode}}' as ${body}
+2023-09-22 16:37:52.401|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - executing post(url,body,var)(${url}, ${body}, response)
+2023-09-22 16:37:52.410|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/login/org HTTP/1.1
+2023-09-22 16:37:53.678|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-22 16:37:53.678|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/login/org HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:37:53.685|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/login/org'
+2023-09-22 16:37:53.685|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|# 10|ws.assertReturnCode(var,r - executing assertReturnCode(var,returnCode)(response, 200)
+2023-09-22 16:37:53.685|I|main|DeliveryNote.20230922_163743.001|Token|Login Token (getGKToken)|# 10|ws.assertReturnCode(var,r - PASS EXPECTED return code found
+2023-09-22 16:37:53.685|I|main|DeliveryNote.20230922_163743.001|Token|Login Token|#  7|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:37:53.685|I|main|DeliveryNote.20230922_163743.001|Token|Login Token|#  8|base.save(var,value)      - executing save(var,value)(gktoken, [JSON(${response}.body) => extract(token)])
+2023-09-22 16:37:53.692|I|main|DeliveryNote.20230922_163743.001|Token|Login Token|#  8|base.save(var,value)      - PASS stored 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxOTYsInVzZXJpZCI6Mn0.R5yHQ4AwWFSIVF_8LMacyeMsN88LI9A7J2Ru6dzcBh0' as ${gktoken}
+2023-09-22 16:37:53.692|I|main|DeliveryNote.20230922_163743.001|Token|Login Token - ending activity
+2023-09-22 16:38:27.198|E|main|Invalid step specified: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61]
+2023-09-22 16:38:36.076|I|main|[20230922_163737] executing C:\projects\GNUAPI\tests\artifact\script\DeliveryNote.xlsx. [1] total 1
+2023-09-22 16:38:36.076|I|main|[20230922_163737] create directory C:\projects\GNUAPI\tests\output\20230922_163737\captures
+2023-09-22 16:38:36.076|I|main|[20230922_163737] create directory C:\projects\GNUAPI\tests\output\20230922_163737\logs
+2023-09-22 16:38:37.217|I|main|[20230922_163737] merging test data to tmp file C:\projects\GNUAPI\tests\output\20230922_163737\DeliveryNote.20230922_163836.001.xlsx
+2023-09-22 16:38:37.217|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-22 16:38:37.566|I|main|[20230922_163737] test script and test data merged to C:\projects\GNUAPI\tests\output\20230922_163737\DeliveryNote.20230922_163836.001.xlsx
+2023-09-22 16:38:38.294|I|main|STARTS
+2023-09-22 16:38:38.310|I|main|skipping test step in ROW 5 since it's disabled
+2023-09-22 16:38:38.326|I|main|skipping test step in ROW 6 since it's disabled
+2023-09-22 16:38:38.342|I|main|skipping test step in ROW 7 since it's disabled
+2023-09-22 16:38:38.342|I|main|skipping test step in ROW 8 since it's disabled
+2023-09-22 16:38:38.342|I|main|skipping test step in ROW 9 since it's disabled
+2023-09-22 16:38:38.342|I|main|skipping test step in ROW 10 since it's disabled
+2023-09-22 16:38:38.342|I|main|skipping test step in ROW 11 since it's disabled
+2023-09-22 16:38:38.359|I|main|skipping test step in ROW 12 since it's disabled
+2023-09-22 16:38:38.359|I|main|skipping test step in ROW 13 since it's disabled
+2023-09-22 16:38:38.359|I|main|skipping test step in ROW 14 since it's disabled
+2023-09-22 16:38:38.382|I|main|skipping test step in ROW 15 since it's disabled
+2023-09-22 16:38:38.383|I|main|skipping test step in ROW 19 since it's disabled
+2023-09-22 16:38:38.416|I|main|skipping test step in ROW 26 since it's disabled
+2023-09-22 16:38:38.424|I|main|skipping test step in ROW 31 since it's disabled
+2023-09-22 16:38:38.424|I|main|skipping test step in ROW 32 since it's disabled
+2023-09-22 16:38:38.424|I|main|skipping test step in ROW 37 since it's disabled
+2023-09-22 16:38:38.437|I|main|skipping test step in ROW 42 since it's disabled
+2023-09-22 16:38:38.453|I|main|skipping test step in ROW 47 since it's disabled
+2023-09-22 16:38:38.457|I|main|skipping test step in ROW 52 since it's disabled
+2023-09-22 16:38:38.457|I|main|skipping test step in ROW 57 since it's disabled
+2023-09-22 16:38:38.493|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  5|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:38.500|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.500|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  5|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.500|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  6|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal, ${schema.path}\createdeliverynote.txt, response)
+2023-09-22 16:38:38.500|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  6|ws.post(url,body,var)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  7|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:38.516|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  7|base.save(var,value)      - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  8|base.save(var,value)      - executing save(var,value)(gkresult, [JSON(${response}.body) => extract(gkresult)])
+2023-09-22 16:38:38.516|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  8|base.save(var,value)      - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  9|base.save(var,value)      - executing save(var,value)(custid, [JSON(${response}.body) => extract(gkresult.custid[1])])
+2023-09-22 16:38:38.516|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|#  9|base.save(var,value)      - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|# 10|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:38.516|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|# 10|base.macroFlex(macro,inpu - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-22 16:38:38.516|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive - Create DeliveryNote|# 11|base.assertEqual(expected - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all Delivery Notes|# 12|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:38.516|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all Delivery Notes|# 12|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all Delivery Notes|# 13|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal?inoutflag=9, , response)
+2023-09-22 16:38:38.516|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.516|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all Delivery Notes|# 13|ws.get(url,queryString,va - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.532|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all Delivery Notes|# 14|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:38.532|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.532|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all Delivery Notes|# 14|base.save(var,value)      - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.532|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all Delivery Notes|# 15|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:38.532|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:38.532|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all Delivery Notes|# 15|base.macroFlex(macro,inpu - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:38.532|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 16|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:38.537|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 16|ws.header(name,value)     - PASS set HTTP Header gkToken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxOTYsInVzZXJpZCI6Mn0.R5yHQ4AwWFSIVF_8LMacyeMsN88LI9A7J2Ru6dzcBh0
+2023-09-22 16:38:38.537|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 17|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}customer?qty=custall, , response)
+2023-09-22 16:38:38.548|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 17|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/customer?qty=custall HTTP/1.1
+2023-09-22 16:38:39.656|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 17|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:38:39.659|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 17|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/customer?qty=custall HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:38:39.659|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 17|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/customer?qty=custall'
+2023-09-22 16:38:39.659|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 18|base.save(var,value)      - executing save(var,value)(custid, [JSON(${response}.body) => extract(gkresult.custid[1])])
+2023-09-22 16:38:39.688|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 18|base.save(var,value)      - PASS stored '596' as ${custid}
+2023-09-22 16:38:39.692|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 19|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:39.692|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:39.692|I|main|DeliveryNote.20230922_163836.001|GET|Fetch all the Customer id's|# 19|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:39.696|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 20|base.save(var,value)      - executing save(var,value)(body, ${schema.path}\createdeliverynote.txt)
+2023-09-22 16:38:39.696|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 20|base.save(var,value)      - PASS stored 'C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\createdeliverynote.txt' as ${body}
+2023-09-22 16:38:39.696|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 21|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal, ${body}, response)
+2023-09-22 16:38:39.707|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 21|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal HTTP/1.1
+2023-09-22 16:38:41.180|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 21|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-22 16:38:41.180|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 21|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:38:41.195|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 21|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal'
+2023-09-22 16:38:41.195|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 22|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:41.195|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 22|base.save(var,value)      - PASS stored '0' as ${actualGkStatus}
+2023-09-22 16:38:41.195|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 23|base.save(var,value)      - executing save(var,value)(gkresult, [JSON(${response}.body) => extract(gkresult)])
+2023-09-22 16:38:41.195|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 23|base.save(var,value)      - PASS stored '1434' as ${gkresult}
+2023-09-22 16:38:41.211|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 24|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:41.735|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:38:41.744|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:38:41.744|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:38:41.744|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1478 is less than or equal to 3000
+2023-09-22 16:38:41.744|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:38:41.751|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:38:41.751|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:38:41.751|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-22 16:38:42.383|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:38:42.383|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:38:42.383|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:38:42.383|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 24|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:38:42.383|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 25|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-22 16:38:42.383|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 25|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '0' = '0'
+2023-09-22 16:38:42.383|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 26|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:42.383|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:42.383|I|main|DeliveryNote.20230922_163836.001|GET|create a delivery Note|# 26|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:42.383|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 27|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/attachment/${gkresult}, , response)
+2023-09-22 16:38:42.395|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 27|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/attachment/1434 HTTP/1.1
+2023-09-22 16:38:43.444|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 27|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:38:43.444|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 27|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/attachment/1434 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:38:43.444|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 27|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/attachment/1434'
+2023-09-22 16:38:43.444|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 28|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:43.444|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 28|base.save(var,value)      - PASS stored '0' as ${actualGkStatus}
+2023-09-22 16:38:43.459|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 29|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:43.809|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:38:43.809|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:38:43.814|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:38:43.814|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1052 is less than or equal to 3000
+2023-09-22 16:38:43.814|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:38:43.818|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:38:43.818|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:38:43.818|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-22 16:38:43.823|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:38:43.823|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:38:43.823|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:38:43.840|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 29|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:38:43.841|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 30|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-22 16:38:43.842|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 30|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '0' = '0'
+2023-09-22 16:38:43.842|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 31|ws.clearHeaders(headers)  - executing clearHeaders(headers)(gkusertoken,gkToken)
+2023-09-22 16:38:43.842|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:43.842|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 31|ws.clearHeaders(headers)  - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:43.842|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 32|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:43.842|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:43.842|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 32|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:43.842|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 33|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i, , response)
+2023-09-22 16:38:43.855|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 33|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i HTTP/1.1
+2023-09-22 16:38:44.979|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 33|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:38:44.979|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 33|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:38:44.995|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note attachment|# 33|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i'
+2023-09-22 16:38:44.999|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details|# 34|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:44.999|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details|# 34|base.save(var,value)      - PASS stored '0' as ${actualGkStatus}
+2023-09-22 16:38:44.999|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details|# 35|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:45.352|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:38:45.352|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:38:45.352|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:38:45.352|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1137 is less than or equal to 3000
+2023-09-22 16:38:45.352|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:38:45.352|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:38:45.352|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:38:45.361|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-22 16:38:45.371|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:38:45.371|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:38:45.371|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:38:45.371|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details|# 35|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:38:45.371|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details|# 36|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-22 16:38:45.377|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details|# 36|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '0' = '0'
+2023-09-22 16:38:45.379|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details|# 37|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:45.379|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:45.379|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all cancelled delivery note details|# 37|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:45.379|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 38|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/last?status=9, , response)
+2023-09-22 16:38:45.379|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 38|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/last?status=9 HTTP/1.1
+2023-09-22 16:38:46.617|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 38|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:38:46.617|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 38|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/last?status=9 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:38:46.628|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 38|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/last?status=9'
+2023-09-22 16:38:46.628|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 39|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:46.628|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 39|base.save(var,value)      - PASS stored '0' as ${actualGkStatus}
+2023-09-22 16:38:46.636|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 40|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:46.945|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:38:46.960|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:38:46.960|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:38:46.960|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1240 is less than or equal to 3000
+2023-09-22 16:38:46.960|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:38:46.960|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:38:46.960|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:38:46.960|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-22 16:38:46.977|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:38:46.977|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:38:46.977|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:38:46.981|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 40|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:38:46.981|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 41|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-22 16:38:46.981|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 41|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '0' = '0'
+2023-09-22 16:38:46.981|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 42|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:46.981|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:46.981|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch all delivery note details|# 42|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:46.981|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 43|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/next_id?status=9, , response)
+2023-09-22 16:38:46.981|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 43|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/next_id?status=9 HTTP/1.1
+2023-09-22 16:38:47.912|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 43|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:38:47.912|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 43|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/next_id?status=9 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:38:47.912|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 43|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/next_id?status=9'
+2023-09-22 16:38:47.912|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 44|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:47.927|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 44|base.save(var,value)      - PASS stored '0' as ${actualGkStatus}
+2023-09-22 16:38:47.927|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 45|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:48.248|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:38:48.248|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:38:48.248|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:38:48.248|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 12|number.assertLesserOrEqua - PASS 930 is less than or equal to 3000
+2023-09-22 16:38:48.248|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:38:48.261|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:38:48.262|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:38:48.263|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-22 16:38:48.263|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:38:48.263|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:38:48.276|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:38:48.276|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 45|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:38:48.276|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 46|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-22 16:38:48.276|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 46|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '0' = '0'
+2023-09-22 16:38:48.276|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 47|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:48.284|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:48.284|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch next delivery note id|# 47|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:48.284|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 48|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/${gkresult}, , response)
+2023-09-22 16:38:48.284|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 48|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/1434 HTTP/1.1
+2023-09-22 16:38:49.256|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 48|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:38:49.256|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 48|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/1434 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:38:49.256|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 48|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/1434'
+2023-09-22 16:38:49.256|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 49|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:49.273|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 49|base.save(var,value)      - PASS stored '3' as ${actualGkStatus}
+2023-09-22 16:38:49.273|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 50|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:49.622|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:38:49.622|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:38:49.622|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:38:49.622|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 975 is less than or equal to 3000
+2023-09-22 16:38:49.622|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:38:49.622|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:38:49.622|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:38:49.622|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-22 16:38:49.643|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:38:49.643|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:38:49.643|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:38:49.643|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 50|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:38:49.643|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 51|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-22 16:38:49.643|E|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 51|base.assertEqual(expected - FAIL 
+expected=0
+actual  =3
+2023-09-22 16:38:49.654|E|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 51|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230922_163737\logs\DeliveryNote.20230922_163836.001.xlsx_GET_A51.log
+2023-09-22 16:38:49.655|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 52|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:49.655|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:49.655|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch delivery note details|# 52|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:49.655|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 53|ws.delete(url,body,var)   - executing delete(url,body,var)(${api.baseUrl}delchal/${gkresult}, , response)
+2023-09-22 16:38:49.655|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 53|ws.delete(url,body,var)   - Executing request DELETE https://api-dev.gnukhata.org/delchal/1434 HTTP/1.1
+2023-09-22 16:38:50.620|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 53|ws.delete(url,body,var)   - Saving response payload as raw bytes
+2023-09-22 16:38:50.632|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 53|ws.delete(url,body,var)   - Executed request DELETE https://api-dev.gnukhata.org/delchal/1434 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:38:50.632|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 53|ws.delete(url,body,var)   - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/1434'
+2023-09-22 16:38:50.632|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 54|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:50.632|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 54|base.save(var,value)      - PASS stored '0' as ${actualGkStatus}
+2023-09-22 16:38:50.632|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 55|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:50.950|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:38:50.950|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:38:50.950|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:38:50.950|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 12|number.assertLesserOrEqua - PASS 971 is less than or equal to 3000
+2023-09-22 16:38:50.950|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:38:50.950|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:38:50.950|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:38:50.950|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-22 16:38:50.966|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:38:50.966|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:38:50.966|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:38:50.966|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 55|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:38:50.966|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 56|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-22 16:38:50.966|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 56|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '0' = '0'
+2023-09-22 16:38:50.966|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 57|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-22 16:38:50.981|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-22 16:38:50.981|I|main|DeliveryNote.20230922_163836.001|GET|Cancel Delivery Note|# 57|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-22 16:38:50.984|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 58|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/cancel/${gkresult}, , response)
+2023-09-22 16:38:50.984|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 58|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/cancel/1434 HTTP/1.1
+2023-09-22 16:38:51.949|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 58|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:38:51.949|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 58|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/cancel/1434 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:38:51.949|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 58|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/cancel/1434'
+2023-09-22 16:38:51.949|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 59|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:38:51.949|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 59|base.save(var,value)      - PASS stored '3' as ${actualGkStatus}
+2023-09-22 16:38:51.949|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 60|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-22 16:38:52.297|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:38:52.313|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:38:52.313|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:38:52.313|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - PASS 966 is less than or equal to 3000
+2023-09-22 16:38:52.313|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:38:52.313|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:38:52.313|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:38:52.313|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-22 16:38:52.329|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:38:52.329|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:38:52.329|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:38:52.329|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 60|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:38:52.329|I|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 61|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-22 16:38:52.341|E|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 61|base.assertEqual(expected - FAIL 
+expected=0
+actual  =3
+2023-09-22 16:38:52.341|E|main|DeliveryNote.20230922_163836.001|GET|Positive-Fetch Cancelled Delivery Notes|# 61|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230922_163737\logs\DeliveryNote.20230922_163836.001.xlsx_GET_A61.log
+2023-09-22 16:48:15.152|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-22 16:48:28.708|I|main|[20230922_163737] executing C:\projects\GNUAPI\tests\artifact\script\DeliveryNote.xlsx. [1] total 1
+2023-09-22 16:48:28.708|I|main|[20230922_163737] create directory C:\projects\GNUAPI\tests\output\20230922_163737\captures
+2023-09-22 16:48:28.708|I|main|[20230922_163737] create directory C:\projects\GNUAPI\tests\output\20230922_163737\logs
+2023-09-22 16:48:29.688|I|main|[20230922_163737] merging test data to tmp file C:\projects\GNUAPI\tests\output\20230922_163737\DeliveryNote.20230922_164828.001.xlsx
+2023-09-22 16:48:29.688|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-22 16:48:29.942|I|main|[20230922_163737] test script and test data merged to C:\projects\GNUAPI\tests\output\20230922_163737\DeliveryNote.20230922_164828.001.xlsx
+2023-09-22 16:48:30.588|I|main|STARTS
+2023-09-22 16:48:30.605|I|main|skipping test step in ROW 5 since it's disabled
+2023-09-22 16:48:30.605|I|main|skipping test step in ROW 6 since it's disabled
+2023-09-22 16:48:30.613|I|main|skipping test step in ROW 7 since it's disabled
+2023-09-22 16:48:30.613|I|main|skipping test step in ROW 8 since it's disabled
+2023-09-22 16:48:30.613|I|main|skipping test step in ROW 9 since it's disabled
+2023-09-22 16:48:30.620|I|main|skipping test step in ROW 10 since it's disabled
+2023-09-22 16:48:30.620|I|main|skipping test step in ROW 11 since it's disabled
+2023-09-22 16:48:30.620|I|main|skipping test step in ROW 12 since it's disabled
+2023-09-22 16:48:30.620|I|main|skipping test step in ROW 13 since it's disabled
+2023-09-22 16:48:30.620|I|main|skipping test step in ROW 14 since it's disabled
+2023-09-22 16:48:30.620|I|main|skipping test step in ROW 15 since it's disabled
+2023-09-22 16:48:30.636|I|main|skipping test step in ROW 19 since it's disabled
+2023-09-22 16:48:30.636|I|main|skipping test step in ROW 26 since it's disabled
+2023-09-22 16:48:30.636|I|main|skipping test step in ROW 31 since it's disabled
+2023-09-22 16:48:30.636|I|main|skipping test step in ROW 32 since it's disabled
+2023-09-22 16:48:30.651|I|main|skipping test step in ROW 37 since it's disabled
+2023-09-22 16:48:30.651|I|main|skipping test step in ROW 42 since it's disabled
+2023-09-22 16:48:30.651|I|main|skipping test step in ROW 47 since it's disabled
+2023-09-22 16:48:30.651|I|main|skipping test step in ROW 52 since it's disabled
+2023-09-22 16:48:30.667|I|main|skipping test step in ROW 57 since it's disabled
+2023-09-22 16:48:30.683|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 62|ws.clearHeaders(headers)  - executing clearHeaders(headers)(gkusertoken,gkToken)
+2023-09-22 16:48:30.683|I|main|removed nexial.ws.header.gkusertoken as HTTP Header; previous value=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA
+2023-09-22 16:48:30.683|I|main|removed nexial.ws.header.gkToken as HTTP Header; previous value=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxOTYsInVzZXJpZCI6Mn0.R5yHQ4AwWFSIVF_8LMacyeMsN88LI9A7J2Ru6dzcBh0
+2023-09-22 16:48:30.683|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 62|ws.clearHeaders(headers)  - PASS HTTP Header(s) removed.
+2023-09-22 16:48:30.683|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 63|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal?inoutflag=9, , response)
+2023-09-22 16:48:30.698|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 63|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal?inoutflag=9 HTTP/1.1
+2023-09-22 16:48:32.235|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 63|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:48:32.248|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 63|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal?inoutflag=9 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:48:32.250|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 63|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal?inoutflag=9'
+2023-09-22 16:48:32.250|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 64|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:48:32.250|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 64|base.save(var,value)      - PASS stored '2' as ${actualGkStatus}
+2023-09-22 16:48:32.250|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 65|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\invalidresponse.txt)
+2023-09-22 16:48:32.580|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:48:32.580|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:48:32.580|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:48:32.580|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1550 is less than or equal to 3000
+2023-09-22 16:48:32.580|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:48:32.580|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:48:32.580|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:48:32.580|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\invalidresponse.txt!=null)		=> MATCHED
+2023-09-22 16:48:32.597|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:48:32.597|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:48:32.597|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:48:32.597|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 65|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:48:32.597|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 66|base.assertEqual(expected - executing assertEqual(expected,actual)(2, ${actualGkStatus})
+2023-09-22 16:48:32.608|I|main|DeliveryNote.20230922_164828.001|GET|Neative-Fetch all Delivery Notes|# 66|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '2' = '2'
+2023-09-22 16:48:32.608|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 67|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/attachment/${gkresult}, , response)
+2023-09-22 16:48:32.612|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 67|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/attachment/1434 HTTP/1.1
+2023-09-22 16:48:33.672|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 67|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:48:33.672|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 67|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/attachment/1434 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:48:33.672|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 67|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/attachment/1434'
+2023-09-22 16:48:33.672|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 68|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body)=>extract(gkstatus)])
+2023-09-22 16:48:33.672|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 68|base.save(var,value)      - PASS stored '2' as ${actualGkStatus}
+2023-09-22 16:48:33.672|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 69|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\invalidresponse.txt)
+2023-09-22 16:48:34.037|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1065 is less than or equal to 3000
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:48:34.051|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\invalidresponse.txt!=null)		=> MATCHED
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:48:34.051|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 69|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:48:34.068|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 70|base.assertEqual(expected - executing assertEqual(expected,actual)(2, ${actualGkStatus})
+2023-09-22 16:48:34.070|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note attachment|# 70|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '2' = '2'
+2023-09-22 16:48:34.071|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 71|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i, , response)
+2023-09-22 16:48:34.072|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 71|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i HTTP/1.1
+2023-09-22 16:48:35.221|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 71|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:48:35.236|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 71|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:48:35.242|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 71|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i'
+2023-09-22 16:48:35.242|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 72|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:48:35.245|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 72|base.save(var,value)      - PASS stored '2' as ${actualGkStatus}
+2023-09-22 16:48:35.245|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 73|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\invalidresponse.txt)
+2023-09-22 16:48:35.616|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:48:35.616|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:48:35.616|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:48:35.616|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1163 is less than or equal to 3000
+2023-09-22 16:48:35.616|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:48:35.616|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:48:35.631|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:48:35.632|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\invalidresponse.txt!=null)		=> MATCHED
+2023-09-22 16:48:35.632|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:48:35.632|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:48:35.640|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:48:35.640|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 73|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:48:35.640|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 74|base.assertEqual(expected - executing assertEqual(expected,actual)(2, ${actualGkStatus})
+2023-09-22 16:48:35.640|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all cancelled delivery note details|# 74|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '2' = '2'
+2023-09-22 16:48:35.640|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 75|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/last?status=9, , response)
+2023-09-22 16:48:35.647|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 75|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/last?status=9 HTTP/1.1
+2023-09-22 16:48:36.652|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 75|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:48:36.653|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 75|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/last?status=9 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:48:36.663|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 75|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/last?status=9'
+2023-09-22 16:48:36.663|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 76|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:48:36.663|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 76|base.save(var,value)      - PASS stored '2' as ${actualGkStatus}
+2023-09-22 16:48:36.663|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 77|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\invalidresponse.txt)
+2023-09-22 16:48:37.036|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:48:37.037|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:48:37.038|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:48:37.039|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1006 is less than or equal to 3000
+2023-09-22 16:48:37.040|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:48:37.041|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:48:37.042|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:48:37.044|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\invalidresponse.txt!=null)		=> MATCHED
+2023-09-22 16:48:37.047|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:48:37.047|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:48:37.047|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:48:37.047|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 77|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:48:37.047|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 78|base.assertEqual(expected - executing assertEqual(expected,actual)(2, ${actualGkStatus})
+2023-09-22 16:48:37.047|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch all delivery note details|# 78|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '2' = '2'
+2023-09-22 16:48:37.047|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 79|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/next_id?status=9, , response)
+2023-09-22 16:48:37.055|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 79|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/next_id?status=9 HTTP/1.1
+2023-09-22 16:48:38.304|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 79|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:48:38.304|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 79|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/next_id?status=9 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:48:38.304|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 79|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/next_id?status=9'
+2023-09-22 16:48:38.304|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 80|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:48:38.320|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 80|base.save(var,value)      - PASS stored '2' as ${actualGkStatus}
+2023-09-22 16:48:38.321|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 81|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\invalidresponse.txt)
+2023-09-22 16:48:38.687|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:48:38.689|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:48:38.690|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:48:38.691|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1259 is less than or equal to 3000
+2023-09-22 16:48:38.692|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:48:38.693|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:48:38.693|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:48:38.694|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\invalidresponse.txt!=null)		=> MATCHED
+2023-09-22 16:48:38.701|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:48:38.702|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:48:38.704|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:48:38.706|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 81|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:48:38.706|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 82|base.assertEqual(expected - executing assertEqual(expected,actual)(2, ${actualGkStatus})
+2023-09-22 16:48:38.706|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch next delivery note id|# 82|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '2' = '2'
+2023-09-22 16:48:38.707|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 83|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/${gkresult}, , response)
+2023-09-22 16:48:38.710|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 83|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/1434 HTTP/1.1
+2023-09-22 16:48:39.921|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 83|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:48:39.921|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 83|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/1434 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:48:39.921|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 83|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/1434'
+2023-09-22 16:48:39.921|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 84|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:48:39.935|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 84|base.save(var,value)      - PASS stored '2' as ${actualGkStatus}
+2023-09-22 16:48:39.935|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 85|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\invalidresponse.txt)
+2023-09-22 16:48:40.298|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:48:40.298|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:48:40.298|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:48:40.298|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1219 is less than or equal to 3000
+2023-09-22 16:48:40.298|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:48:40.298|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:48:40.298|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:48:40.298|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\invalidresponse.txt!=null)		=> MATCHED
+2023-09-22 16:48:40.314|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:48:40.314|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:48:40.314|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:48:40.314|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 85|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:48:40.314|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 86|base.assertEqual(expected - executing assertEqual(expected,actual)(2, ${actualGkStatus})
+2023-09-22 16:48:40.314|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch delivery note details|# 86|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '2' = '2'
+2023-09-22 16:48:40.314|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 87|ws.get(url,queryString,va - executing get(url,queryString,var)(${api.baseUrl}delchal/cancel/${gkresult}, , response)
+2023-09-22 16:48:40.314|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 87|ws.get(url,queryString,va - Executing request GET https://api-dev.gnukhata.org/delchal/cancel/1434 HTTP/1.1
+2023-09-22 16:48:41.421|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 87|ws.get(url,queryString,va - Saving response payload as raw bytes
+2023-09-22 16:48:41.422|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 87|ws.get(url,queryString,va - Executed request GET https://api-dev.gnukhata.org/delchal/cancel/1434 HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 16:48:41.437|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 87|ws.get(url,queryString,va - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/cancel/1434'
+2023-09-22 16:48:41.442|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 88|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-22 16:48:41.444|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 88|base.save(var,value)      - PASS stored '2' as ${actualGkStatus}
+2023-09-22 16:48:41.444|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 89|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\invalidresponse.txt)
+2023-09-22 16:48:41.822|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 16:48:41.822|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 16:48:41.822|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 16:48:41.822|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1101 is less than or equal to 3000
+2023-09-22 16:48:41.822|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 16:48:41.822|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 16:48:41.822|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 16:48:41.822|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\invalidresponse.txt!=null)		=> MATCHED
+2023-09-22 16:48:41.837|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 16:48:41.838|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 16:48:41.838|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 16:48:41.838|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 89|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 16:48:41.838|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 90|base.assertEqual(expected - executing assertEqual(expected,actual)(2, ${actualGkStatus})
+2023-09-22 16:48:41.838|I|main|DeliveryNote.20230922_164828.001|GET|Negative-Fetch Cancelled Delivery Notes|# 90|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '2' = '2'
+2023-09-22 17:16:59.676|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-22 17:17:13.274|I|main|[20230922_163737] executing C:\projects\GNUAPI\tests\artifact\script\DeliveryNote.xlsx. [1] total 1
+2023-09-22 17:17:13.274|I|main|[20230922_163737] create directory C:\projects\GNUAPI\tests\output\20230922_163737\captures
+2023-09-22 17:17:13.274|I|main|[20230922_163737] create directory C:\projects\GNUAPI\tests\output\20230922_163737\logs
+2023-09-22 17:17:14.435|I|main|[20230922_163737] merging test data to tmp file C:\projects\GNUAPI\tests\output\20230922_163737\DeliveryNote.20230922_171713.001.xlsx
+2023-09-22 17:17:14.435|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-22 17:17:14.672|I|main|[20230922_163737] test script and test data merged to C:\projects\GNUAPI\tests\output\20230922_163737\DeliveryNote.20230922_171713.001.xlsx
+2023-09-22 17:17:15.328|I|main|STARTS
+2023-09-22 17:17:15.339|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  5|ws.clearHeaders(headers)  - executing clearHeaders(headers)(gkusertoken,gkToken)
+2023-09-22 17:17:15.339|I|main|removed nexial.ws.header.gkusertoken as HTTP Header; previous value=null
+2023-09-22 17:17:15.339|I|main|removed nexial.ws.header.gkToken as HTTP Header; previous value=null
+2023-09-22 17:17:15.339|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  5|ws.clearHeaders(headers)  - PASS HTTP Header(s) removed.
+2023-09-22 17:17:15.339|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  6|base.save(var,value)      - executing save(var,value)(url, ${api.baseUrl}delchal)
+2023-09-22 17:17:15.339|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  6|base.save(var,value)      - PASS stored 'https://api-dev.gnukhata.org/delchal' as ${url}
+2023-09-22 17:17:15.339|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  7|base.save(var,value)      - executing save(var,value)(body, ${schema.path}\createdeliverynote.txt)
+2023-09-22 17:17:15.339|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  7|base.save(var,value)      - PASS stored 'C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\createdeliverynote.txt' as ${body}
+2023-09-22 17:17:15.339|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  8|ws.post(url,body,var)     - executing post(url,body,var)(${url}, ${body}, response)
+2023-09-22 17:17:15.355|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  8|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal HTTP/1.1
+2023-09-22 17:17:17.260|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  8|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-22 17:17:17.260|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  8|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal HTTP/1.1: HTTP/1.1 200 OK
+2023-09-22 17:17:17.271|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  8|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal'
+2023-09-22 17:17:17.271|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  9|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body)=>extract(gkstatus)])
+2023-09-22 17:17:17.274|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|#  9|base.save(var,value)      - PASS stored '2' as ${actualGkStatus}
+2023-09-22 17:17:17.274|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|# 10|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\invalidresponse.txt)
+2023-09-22 17:17:17.557|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-22 17:17:17.557|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '200' = '200'
+2023-09-22 17:17:17.557|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-22 17:17:17.563|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1909 is less than or equal to 3000
+2023-09-22 17:17:17.563|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-22 17:17:17.563|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 13|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'application/json' = 'application/json'
+2023-09-22 17:17:17.563|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-22 17:17:17.563|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\invalidresponse.txt!=null)		=> MATCHED
+2023-09-22 17:17:17.571|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-22 17:17:17.571|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-22 17:17:17.571|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-22 17:17:17.571|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|# 10|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-22 17:17:17.571|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(2, ${actualGkStatus})
+2023-09-22 17:17:17.571|I|main|DeliveryNote.20230922_171713.001|POST|Negative - Create DeliveryNote|# 11|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; '2' = '2'

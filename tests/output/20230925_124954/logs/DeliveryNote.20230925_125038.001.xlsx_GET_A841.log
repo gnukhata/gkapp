@@ -1,0 +1,44 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2023-09-25 12:53:39.562
+Test Step:         [DeliveryNote.20230925_125038.001.xlsx][GET][Negative-Fetch delivery note details][STEP  84][base][save(var,value)]
+--------------------------------------------------------------------------------
+org.nexial.core.variable.TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+	at org.nexial.core.variable.JsonDataType.init(JsonDataType.java:78)
+	at org.nexial.core.variable.ExpressionDataType.<init>(ExpressionDataType.java:28)
+	at org.nexial.core.variable.JsonDataType.<init>(JsonDataType.java:41)
+	at org.nexial.core.variable.ExpressionDataTypeBuilder.newJsonDataType(ExpressionDataTypeBuilder.java:112)
+	at jdk.internal.reflect.GeneratedMethodAccessor21.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.nexial.core.variable.ExpressionDataTypeBuilder.newDataType(ExpressionDataTypeBuilder.java:91)
+	at org.nexial.core.variable.ExpressionParser.parse(ExpressionParser.java:64)
+	at org.nexial.core.variable.ExpressionParser.parse(ExpressionParser.java:47)
+	at org.nexial.core.variable.ExpressionProcessor.process(ExpressionProcessor.java:39)
+	at org.nexial.core.model.ExecutionContext.handleExpression(ExecutionContext.java:1067)
+	at org.nexial.core.model.ExecutionContext.replaceTokens(ExecutionContext.java:1054)
+	at org.nexial.core.model.ExecutionContext.replaceTokens(ExecutionContext.java:899)
+	at org.nexial.core.plugins.base.BaseCommand.resolveParamValues(BaseCommand.java:1576)
+	at org.nexial.core.plugins.base.BaseCommand.execute(BaseCommand.java:131)
+	at org.nexial.core.model.TestStep.invokeCommand(TestStep.java:449)
+	at org.nexial.core.model.TestStep.execute(TestStep.java:247)
+	at org.nexial.core.interactive.NexialInteractive.executeSteps(NexialInteractive.kt:529)
+	at org.nexial.core.interactive.NexialInteractive.execute(NexialInteractive.kt:461)
+	at org.nexial.core.interactive.NexialInteractive.processMenu(NexialInteractive.kt:213)
+	at org.nexial.core.interactive.NexialInteractive.startSession(NexialInteractive.kt:138)
+	at org.nexial.core.Nexial.interact(Nexial.java:751)
+	at org.nexial.core.Nexial.main(Nexial.java:241)
+

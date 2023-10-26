@@ -1,0 +1,21 @@
+Test Step       : DeliveryNote.20231020_150247.001|GET|Fetch delivery note attachment|# 95|ws.post(url,body,var)    
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-10-20 15:03:12.380
+Request URL     : https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i
+Request Method  : POST
+Request Headers : {Content-Type: application/json}
+----------------------------------------------------------------------------------------------------
+Return Code     : 404
+Status Text     : Not Found
+TTFB            : 928
+Elapsed Time    : 929
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 119, Date: Fri, 20 Oct 2023 09:27:45 GMT, Content-Type: text/plain; charset=UTF-8 }
+Response Body   : 119 bytes. 
+404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+

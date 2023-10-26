@@ -1,0 +1,17 @@
+request-time,script,scenario,row-id,url,method,request-body-length,return-code,status-code,ttfb,elapsed-time,response-body-length
+2023-09-25 17:29:22.103,DeliveryNote.20230925_172915.001,Token,Row 4,https://api-dev.gnukhata.org/login/user,POST,167,200,OK,2840,2849,19316
+2023-09-25 17:29:25.756,DeliveryNote.20230925_172915.001,Token,Row 9,https://api-dev.gnukhata.org/login/org,POST,16,200,OK,1108,1109,144
+2023-09-25 17:33:45.566,DeliveryNote.20230925_173343.001,GET,Row 100,https://api-dev.gnukhata.org/delchal/attachment/,POST,0,404,Not Found,1881,1883,72
+2023-09-25 17:33:48.740,DeliveryNote.20230925_173343.001,GET,Row 106,https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i,POST,0,404,Not Found,917,918,119
+2023-09-25 17:33:50.128,DeliveryNote.20230925_173343.001,GET,Row 111,https://api-dev.gnukhata.org/delchal/last?status=9,POST,0,404,Not Found,796,797,119
+2023-09-25 17:33:51.329,DeliveryNote.20230925_173343.001,GET,Row 116,https://api-dev.gnukhata.org/delchal/next_id?status=9,POST,0,404,Not Found,925,926,119
+2023-09-25 17:33:52.798,DeliveryNote.20230925_173343.001,GET,Row 121,https://api-dev.gnukhata.org/delchal/,POST,0,404,Not Found,834,835,61
+2023-09-25 17:33:54.129,DeliveryNote.20230925_173343.001,GET,Row 126,https://api-dev.gnukhata.org/delchal/,POST,0,404,Not Found,798,799,61
+2023-09-25 17:33:55.384,DeliveryNote.20230925_173343.001,GET,Row 131,https://api-dev.gnukhata.org/delchal/cancel/,POST,0,404,Not Found,667,668,68
+2023-09-25 17:34:00.243,DeliveryNote.20230925_173343.001,GET,Row 100,https://api-dev.gnukhata.org/delchal/attachment/,POST,0,404,Not Found,829,830,72
+2023-09-25 17:34:01.495,DeliveryNote.20230925_173343.001,GET,Row 106,https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i,POST,0,404,Not Found,996,997,119
+2023-09-25 17:34:02.903,DeliveryNote.20230925_173343.001,GET,Row 111,https://api-dev.gnukhata.org/delchal/last?status=9,POST,0,404,Not Found,823,824,119
+2023-09-25 17:34:04.201,DeliveryNote.20230925_173343.001,GET,Row 116,https://api-dev.gnukhata.org/delchal/next_id?status=9,POST,0,404,Not Found,964,965,119
+2023-09-25 17:34:05.563,DeliveryNote.20230925_173343.001,GET,Row 121,https://api-dev.gnukhata.org/delchal/,POST,0,404,Not Found,859,860,61
+2023-09-25 17:34:06.829,DeliveryNote.20230925_173343.001,GET,Row 126,https://api-dev.gnukhata.org/delchal/,POST,0,404,Not Found,706,707,61
+2023-09-25 17:34:07.920,DeliveryNote.20230925_173343.001,GET,Row 131,https://api-dev.gnukhata.org/delchal/cancel/,POST,0,404,Not Found,931,932,68

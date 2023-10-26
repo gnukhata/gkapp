@@ -1,0 +1,21 @@
+Test Step       : DeliveryNote.20231020_150247.001|GET|Fetch next delivery note id|#103|ws.post(url,body,var)    
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-10-20 15:03:14.924
+Request URL     : https://api-dev.gnukhata.org/delchal/next_id?status=9
+Request Method  : POST
+Request Headers : {Content-Type: application/json}
+----------------------------------------------------------------------------------------------------
+Return Code     : 404
+Status Text     : Not Found
+TTFB            : 890
+Elapsed Time    : 891
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 119, Date: Fri, 20 Oct 2023 09:27:48 GMT, Content-Type: text/plain; charset=UTF-8 }
+Response Body   : 119 bytes. 
+404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+

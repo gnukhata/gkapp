@@ -1,0 +1,14 @@
+Test Step       : DeliveryNote.20230925_131635.001|GET|Fetch all the Customerids|# 63|ws.get(url,queryString,va
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-25 13:16:37.202
+Request URL     : https://api-dev.gnukhata.org/customer?qty=custall
+Request Method  : GET
+Request Headers : {gkToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxOTYsInVzZXJpZCI6Mn0.R5yHQ4AwWFSIVF_8LMacyeMsN88LI9A7J2Ru6dzcBh0}
+----------------------------------------------------------------------------------------------------
+Return Code     : 200
+Status Text     : OK
+TTFB            : 1001
+Elapsed Time    : 1002
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 87, Date: Mon, 25 Sep 2023 07:41:51 GMT, Content-Type: application/json }
+Response Body   : 87 bytes. 
+{"gkstatus": 0, "gkresult": [{"custid": 596, "custname": "Retail Customer (Default)"}]}

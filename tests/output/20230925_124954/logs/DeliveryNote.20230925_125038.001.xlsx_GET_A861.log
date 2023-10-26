@@ -1,0 +1,14 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2023-09-25 12:53:39.875
+Test Step:         [DeliveryNote.20230925_125038.001.xlsx][GET][Negative-Fetch delivery note details][STEP  86][base][assertEqual(expected,actual)]
+--------------------------------------------------------------------------------
+
+expected=2
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+) => extract(gkstatus)]

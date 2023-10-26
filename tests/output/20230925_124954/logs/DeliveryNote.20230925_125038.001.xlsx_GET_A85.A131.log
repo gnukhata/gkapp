@@ -1,0 +1,7 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2023-09-25 12:53:39.863
+Test Step:         [GNUKhata.macro.xlsx][MacroLibrary][Negative-Fetch delivery note details][STEP  13][base][assertEqual(expected,actual)]
+--------------------------------------------------------------------------------
+
+expected=application/json
+actual  =text/plain; charset=UTF-8

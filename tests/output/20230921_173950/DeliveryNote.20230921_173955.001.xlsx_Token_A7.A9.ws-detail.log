@@ -1,0 +1,16 @@
+Test Step       : DeliveryNote.20230921_173955.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)    
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-21 17:39:58.888
+Request URL     : https://api-dev.gnukhata.org/login/org
+Request Method  : POST
+Request Headers : {gkusertoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA, Content-Type: application/json}
+Request Body    : 16 bytes. 
+{"orgcode": 176}
+----------------------------------------------------------------------------------------------------
+Return Code     : 200
+Status Text     : OK
+TTFB            : 972
+Elapsed Time    : 974
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 144, Date: Thu, 21 Sep 2023 12:05:20 GMT, Content-Type: application/json }
+Response Body   : 144 bytes. 
+{"gkstatus": 0, "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxNzYsInVzZXJpZCI6Mn0.U3J8W-hzCmaKNVBngUrv1bZxonB6RgIMLRGOwHG9Nyk"}

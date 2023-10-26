@@ -1,0 +1,14 @@
+Test Step       : DeliveryNote.20230922_151810.001|GET|Positive-Fetch delivery note attachment|# 27|ws.get(url,queryString,va
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-22 15:19:34.440
+Request URL     : https://api-dev.gnukhata.org/delchal/attachment/1433
+Request Method  : GET
+Request Headers : {gkusertoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA, gkToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxOTYsInVzZXJpZCI6Mn0.R5yHQ4AwWFSIVF_8LMacyeMsN88LI9A7J2Ru6dzcBh0}
+----------------------------------------------------------------------------------------------------
+Return Code     : 200
+Status Text     : OK
+TTFB            : 1446
+Elapsed Time    : 1447
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 88, Date: Fri, 22 Sep 2023 09:44:54 GMT, Content-Type: application/json }
+Response Body   : 88 bytes. 
+{"gkstatus": 0, "gkresult": null, "dcno": "55/DOUT-23", "cancelflag": 0, "userrole": -1}

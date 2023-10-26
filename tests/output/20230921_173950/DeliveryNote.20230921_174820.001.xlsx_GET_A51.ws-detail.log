@@ -1,0 +1,21 @@
+Test Step       : DeliveryNote.20230921_174820.001|GET|Positive-Fetch Cancelled Delivery Notes|# 51|ws.get(url,queryString,va
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-21 17:48:29.026
+Request URL     : https://api-dev.gnukhata.org/delchal/cancel/
+Request Method  : GET
+Request Headers : {gkToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjo5ODksInVzZXJpZCI6Mn0.7xalMu23Ly4aMoyxDRfdvpZ99iRJYKIxxSI_Q8wVA8o}
+----------------------------------------------------------------------------------------------------
+Return Code     : 404
+Status Text     : Not Found
+TTFB            : 720
+Elapsed Time    : 721
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 68, Date: Thu, 21 Sep 2023 12:13:50 GMT, Content-Type: text/plain; charset=UTF-8 }
+Response Body   : 68 bytes. 
+404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+

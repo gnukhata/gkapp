@@ -1,0 +1,14 @@
+Test Step       : DeliveryNote.20230925_125038.001|GET|Neative-Fetch all Delivery Notes|# 63|ws.get(url,queryString,va
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-25 12:50:41.449
+Request URL     : https://api-dev.gnukhata.org/delchal?inoutflag=9
+Request Method  : GET
+Request Headers : {}
+----------------------------------------------------------------------------------------------------
+Return Code     : 200
+Status Text     : OK
+TTFB            : 1715
+Elapsed Time    : 1717
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 15, Date: Mon, 25 Sep 2023 07:15:56 GMT, Content-Type: application/json }
+Response Body   : 15 bytes. 
+{"gkstatus": 2}

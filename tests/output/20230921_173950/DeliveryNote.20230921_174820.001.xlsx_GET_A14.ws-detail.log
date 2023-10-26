@@ -1,0 +1,59 @@
+Test Step       : DeliveryNote.20230921_174820.001|GET|create a delivery Note|# 14|ws.post(url,body,var)    
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-21 17:48:22.989
+Request URL     : https://api-dev.gnukhata.org/delchal
+Request Method  : POST
+Request Headers : {gkusertoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA, gkToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjo5ODksInVzZXJpZCI6Mn0.7xalMu23Ly4aMoyxDRfdvpZ99iRJYKIxxSI_Q8wVA8o, Content-Type: application/json}
+Request Body    : 1184 bytes. 
+{
+  "delchaldata": {
+    "custid":989,
+    "dcno":"43/DOUT-23",
+    "dcdate": "2023-09-06",
+    "dcflag": 4,
+    "taxstate": "Maharashtra",
+    "orgstategstin": "",
+    "discflag": 1,
+    "dcnarration": "Sold goods worth Rupees 47 to Retail Customer (Default) by cash, ref invoice no. 13/SL-23",
+    "roundoffflag": 0,
+    "consignee": {
+      "consigneename": "Retail Customer (Default)",
+      "tinconsignee": "",
+      "gstinconsignee": "",
+      "consigneeaddress": "",
+      "consigneestate": "Maharashtra",
+      "consigneestatecode": "27",
+      "consigneepincode": ""    },
+    "issuername": "Accion",
+    "designation": "Admin",
+    "vehicleno": null,
+    "modeoftransport": "Road",
+    "noofpackages": 0,
+    "sourcestate": "Maharashtra",
+    "inoutflag": 15,
+    "taxflag": 7,
+    "delchaltotal": "47.00",
+    "totalinword": "Forty Seven Rupees",
+    "contents": {
+      "335": {
+        "50.00": "1.00"      }    },
+    "tax": {
+      "335": "0.00"    },
+    "cess": {
+      "335": "0.00"    },
+    "freeqty": {
+      "335": "0.00"    },
+    "discount": {
+      "335": "3.00"    },
+    "dateofsupply": "2023-09-06"  },
+  "stockdata": {
+    "inout": 15,
+    "goid": 170  }}
+----------------------------------------------------------------------------------------------------
+Return Code     : 200
+Status Text     : OK
+TTFB            : 946
+Elapsed Time    : 947
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 15, Date: Thu, 21 Sep 2023 12:13:44 GMT, Content-Type: application/json }
+Response Body   : 15 bytes. 
+{"gkstatus": 1}

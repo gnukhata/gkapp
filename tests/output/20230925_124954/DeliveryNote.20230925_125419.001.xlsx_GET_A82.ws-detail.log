@@ -1,0 +1,14 @@
+Test Step       : DeliveryNote.20230925_125419.001|GET|Negative-Fetch all cancelled delivery note details|# 82|ws.get(url,queryString,va
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-25 12:54:26.995
+Request URL     : https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i
+Request Method  : GET
+Request Headers : {}
+----------------------------------------------------------------------------------------------------
+Return Code     : 200
+Status Text     : OK
+TTFB            : 838
+Elapsed Time    : 838
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 15, Date: Mon, 25 Sep 2023 07:19:41 GMT, Content-Type: application/json }
+Response Body   : 15 bytes. 
+{"gkstatus": 2}

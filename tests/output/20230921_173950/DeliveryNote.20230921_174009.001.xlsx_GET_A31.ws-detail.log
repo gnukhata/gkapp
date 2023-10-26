@@ -1,0 +1,14 @@
+Test Step       : DeliveryNote.20230921_174009.001|GET|Positive-Fetch all delivery note details|# 31|ws.get(url,queryString,va
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-21 17:40:15.380
+Request URL     : https://api-dev.gnukhata.org/delchal/last?status=9
+Request Method  : GET
+Request Headers : {gkToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxNzYsInVzZXJpZCI6Mn0.U3J8W-hzCmaKNVBngUrv1bZxonB6RgIMLRGOwHG9Nyk}
+----------------------------------------------------------------------------------------------------
+Return Code     : 200
+Status Text     : OK
+TTFB            : 714
+Elapsed Time    : 715
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 55, Date: Thu, 21 Sep 2023 12:05:36 GMT, Content-Type: application/json }
+Response Body   : 55 bytes. 
+{"gkstatus": 0, "gkresult": {"dcdate": "", "dcno": ""}}

@@ -1,0 +1,7 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2023-09-21 18:05:54.118
+Test Step:         [DeliveryNote.20230921_180551.001.xlsx][GET][create a delivery Note][STEP  18][base][assertEqual(expected,actual)]
+--------------------------------------------------------------------------------
+
+expected=0
+actual  =1

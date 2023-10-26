@@ -1,0 +1,5 @@
+request-time,script,scenario,row-id,url,method,request-body-length,return-code,status-code,ttfb,elapsed-time,response-body-length
+2023-09-22 15:15:00.436,DeliveryNote.20230922_151454.001,Token,Row 4,https://api-dev.gnukhata.org/login/user,POST,167,200,OK,2554,2561,19148
+2023-09-22 15:15:03.656,DeliveryNote.20230922_151454.001,Token,Row 9,https://api-dev.gnukhata.org/login/org,POST,16,200,OK,1172,1173,144
+2023-09-22 15:15:24.841,DeliveryNote.20230922_151522.001,GET,Row 17,https://api-dev.gnukhata.org/customer?qty=custall,GET,0,200,OK,1084,1085,31
+2023-09-22 15:15:25.970,DeliveryNote.20230922_151522.001,GET,Row 21,https://api-dev.gnukhata.org/delchal,POST,1181,200,OK,1383,1384,15

@@ -1,0 +1,7 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2023-09-25 17:34:09.200
+Test Step:         [GNUKhata.macro.xlsx][MacroLibrary][Fetch Cancelled Delivery Notes][STEP  11][base][assertEqual(expected,actual)]
+--------------------------------------------------------------------------------
+
+expected=200
+actual  =404

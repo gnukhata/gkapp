@@ -1,0 +1,14 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2023-10-20 15:03:16.187
+Test Step:         [DeliveryNote.20231020_150247.001.xlsx][GET][Fetch next delivery note id][STEP 106][base][assertEqual(expected,actual)]
+--------------------------------------------------------------------------------
+
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]

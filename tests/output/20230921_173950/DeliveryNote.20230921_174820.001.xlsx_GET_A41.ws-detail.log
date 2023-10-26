@@ -1,0 +1,21 @@
+Test Step       : DeliveryNote.20230921_174820.001|GET|Positive-Fetch delivery note details|# 41|ws.get(url,queryString,va
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-21 17:48:27.389
+Request URL     : https://api-dev.gnukhata.org/delchal/
+Request Method  : GET
+Request Headers : {gkToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjo5ODksInVzZXJpZCI6Mn0.7xalMu23Ly4aMoyxDRfdvpZ99iRJYKIxxSI_Q8wVA8o}
+----------------------------------------------------------------------------------------------------
+Return Code     : 404
+Status Text     : Not Found
+TTFB            : 708
+Elapsed Time    : 710
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 61, Date: Thu, 21 Sep 2023 12:13:48 GMT, Content-Type: text/plain; charset=UTF-8 }
+Response Body   : 61 bytes. 
+404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+

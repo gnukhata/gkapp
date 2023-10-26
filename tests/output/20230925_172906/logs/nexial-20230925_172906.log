@@ -1,0 +1,3381 @@
+2023-09-25 17:29:07.128|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2023-09-25 17:29:07.135|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\hRChg\DeliveryNote.data.xlsx
+2023-09-25 17:29:07.135|I|main|(DELAYED) input files and output directory resolved...
+2023-09-25 17:29:07.135|I|main|(DELAYED) cleaning up outdated temp files...
+2023-09-25 17:29:07.135|I|main|(DELAYED) No predefined nexial-setup found
+2023-09-25 17:29:07.135|I|main|[20230925_172906] [C:\projects\GNUAPI\tests\artifact\script\DeliveryNote.xlsx] resolve RUN ID as 20230925_172906
+2023-09-25 17:29:07.311|I|main|No predefined nexial-setup found
+2023-09-25 17:29:07.842|I|main|outputBase not set; output-to-cloud DISABLED!
+2023-09-25 17:29:07.842|I|main|accessKey not set; output-to-cloud DISABLED!
+2023-09-25 17:29:07.842|I|main|secretKey not set; output-to-cloud DISABLED!
+2023-09-25 17:29:08.051|I|main|missing REQUIRED configuration; sms DISABLED!
+2023-09-25 17:29:08.926|I|main|On-Demand Inspection detection enabled
+2023-09-25 17:29:09.207|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-25 17:29:15.388|I|main|[20230925_172906] executing C:\projects\GNUAPI\tests\artifact\script\DeliveryNote.xlsx. [1] total 1
+2023-09-25 17:29:15.428|I|main|[20230925_172906] create directory C:\projects\GNUAPI\tests\output\20230925_172906\captures
+2023-09-25 17:29:15.428|I|main|[20230925_172906] create directory C:\projects\GNUAPI\tests\output\20230925_172906\logs
+2023-09-25 17:29:18.719|I|main|[20230925_172906] merging test data to tmp file C:\projects\GNUAPI\tests\output\20230925_172906\DeliveryNote.20230925_172915.001.xlsx
+2023-09-25 17:29:18.719|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-25 17:29:19.557|I|main|[20230925_172906] test script and test data merged to C:\projects\GNUAPI\tests\output\20230925_172906\DeliveryNote.20230925_172915.001.xlsx
+2023-09-25 17:29:21.027|I|main|STARTS
+2023-09-25 17:29:21.112|I|main|DeliveryNote.20230925_172915.001|Token|Login Token - executing activity
+2023-09-25 17:29:21.124|I|main|DeliveryNote.20230925_172915.001|Token|Login Token|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|getGKUserToken), username=${login.username}
+password=${login.password}, response=response)
+2023-09-25 17:29:21.701|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  2|base.save(var,value)      - executing save(var,value)(url, ${api.baseUrl}login/user)
+2023-09-25 17:29:21.718|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  2|base.save(var,value)      - PASS stored 'https://api-dev.gnukhata.org/login/user' as ${url}
+2023-09-25 17:29:21.718|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  3|base.save(var,value)      - executing save(var,value)(body, {"username":"${username}","userpassword":"${password}"})
+2023-09-25 17:29:21.725|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  3|base.save(var,value)      - PASS stored '{"username":"${username}","userpassword":"${password}"}' as ${body}
+2023-09-25 17:29:21.725|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - executing post(url,body,var)(${url}, ${body}, response)
+2023-09-25 17:29:22.438|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/login/user HTTP/1.1
+2023-09-25 17:29:24.944|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:29:24.952|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/login/user HTTP/1.1: HTTP/1.1 200 OK
+2023-09-25 17:29:25.009|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  4|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/login/user'
+2023-09-25 17:29:25.009|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  5|ws.assertReturnCode(var,r - executing assertReturnCode(var,returnCode)(response, 200)
+2023-09-25 17:29:25.009|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKUserToken)|#  5|ws.assertReturnCode(var,r - PASS EXPECTED return code found
+2023-09-25 17:29:25.017|I|main|DeliveryNote.20230925_172915.001|Token|Login Token|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:29:25.017|I|main|DeliveryNote.20230925_172915.001|Token|Login Token|#  6|base.save(var,value)      - executing save(var,value)(gkusertoken, [JSON(${response}.body) => extract(token)])
+2023-09-25 17:29:25.219|I|main|DeliveryNote.20230925_172915.001|Token|Login Token|#  6|base.save(var,value)      - PASS stored 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA' as ${gkusertoken}
+2023-09-25 17:29:25.219|I|main|DeliveryNote.20230925_172915.001|Token|Login Token|#  7|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|getGKToken), gkusertoken=${gkusertoken}
+orgcode=${login.orgcode}, response=response)
+2023-09-25 17:29:25.748|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  6|ws.header(name,value)     - executing header(name,value)(gkusertoken, ${gkusertoken})
+2023-09-25 17:29:25.748|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  6|ws.header(name,value)     - PASS set HTTP Header gkusertoken=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA
+2023-09-25 17:29:25.748|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  7|base.save(var,value)      - executing save(var,value)(url, ${api.baseUrl}login/org)
+2023-09-25 17:29:25.748|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  7|base.save(var,value)      - PASS stored 'https://api-dev.gnukhata.org/login/org' as ${url}
+2023-09-25 17:29:25.748|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  8|base.save(var,value)      - executing save(var,value)(body, {"orgcode": ${orgcode}})
+2023-09-25 17:29:25.748|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  8|base.save(var,value)      - PASS stored '{"orgcode": ${orgcode}}' as ${body}
+2023-09-25 17:29:25.756|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - executing post(url,body,var)(${url}, ${body}, response)
+2023-09-25 17:29:25.756|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/login/org HTTP/1.1
+2023-09-25 17:29:26.870|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:29:26.870|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/login/org HTTP/1.1: HTTP/1.1 200 OK
+2023-09-25 17:29:26.878|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|#  9|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/login/org'
+2023-09-25 17:29:26.878|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|# 10|ws.assertReturnCode(var,r - executing assertReturnCode(var,returnCode)(response, 200)
+2023-09-25 17:29:26.878|I|main|DeliveryNote.20230925_172915.001|Token|Login Token (getGKToken)|# 10|ws.assertReturnCode(var,r - PASS EXPECTED return code found
+2023-09-25 17:29:26.883|I|main|DeliveryNote.20230925_172915.001|Token|Login Token|#  7|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:29:26.883|I|main|DeliveryNote.20230925_172915.001|Token|Login Token|#  8|base.save(var,value)      - executing save(var,value)(gktoken, [JSON(${response}.body) => extract(token)])
+2023-09-25 17:29:26.886|I|main|DeliveryNote.20230925_172915.001|Token|Login Token|#  8|base.save(var,value)      - PASS stored 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjoxOTYsInVzZXJpZCI6Mn0.R5yHQ4AwWFSIVF_8LMacyeMsN88LI9A7J2Ru6dzcBh0' as ${gktoken}
+2023-09-25 17:29:26.886|I|main|DeliveryNote.20230925_172915.001|Token|Login Token - ending activity
+2023-09-25 17:29:53.813|E|main|Invalid step specified: [101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135]
+2023-09-25 17:31:11.005|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-25 17:32:43.032|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-25 17:33:11.026|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-25 17:33:43.047|I|main|[20230925_172906] executing C:\projects\GNUAPI\tests\artifact\script\DeliveryNote.xlsx. [1] total 1
+2023-09-25 17:33:43.047|I|main|[20230925_172906] create directory C:\projects\GNUAPI\tests\output\20230925_172906\captures
+2023-09-25 17:33:43.047|I|main|[20230925_172906] create directory C:\projects\GNUAPI\tests\output\20230925_172906\logs
+2023-09-25 17:33:44.211|I|main|[20230925_172906] merging test data to tmp file C:\projects\GNUAPI\tests\output\20230925_172906\DeliveryNote.20230925_173343.001.xlsx
+2023-09-25 17:33:44.211|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\DeliveryNote.data.xlsx
+2023-09-25 17:33:44.527|I|main|[20230925_172906] test script and test data merged to C:\projects\GNUAPI\tests\output\20230925_172906\DeliveryNote.20230925_173343.001.xlsx
+2023-09-25 17:33:45.284|I|main|STARTS
+2023-09-25 17:33:45.298|I|main|skipping test step in ROW 5 since it's disabled
+2023-09-25 17:33:45.330|I|main|skipping test step in ROW 6 since it's disabled
+2023-09-25 17:33:45.330|I|main|skipping test step in ROW 7 since it's disabled
+2023-09-25 17:33:45.330|I|main|skipping test step in ROW 8 since it's disabled
+2023-09-25 17:33:45.347|I|main|skipping test step in ROW 9 since it's disabled
+2023-09-25 17:33:45.347|I|main|skipping test step in ROW 10 since it's disabled
+2023-09-25 17:33:45.347|I|main|skipping test step in ROW 11 since it's disabled
+2023-09-25 17:33:45.347|I|main|skipping test step in ROW 12 since it's disabled
+2023-09-25 17:33:45.347|I|main|skipping test step in ROW 13 since it's disabled
+2023-09-25 17:33:45.347|I|main|skipping test step in ROW 14 since it's disabled
+2023-09-25 17:33:45.362|I|main|skipping test step in ROW 15 since it's disabled
+2023-09-25 17:33:45.362|I|main|skipping test step in ROW 19 since it's disabled
+2023-09-25 17:33:45.426|I|main|skipping test step in ROW 26 since it's disabled
+2023-09-25 17:33:45.426|I|main|skipping test step in ROW 31 since it's disabled
+2023-09-25 17:33:45.426|I|main|skipping test step in ROW 32 since it's disabled
+2023-09-25 17:33:45.443|I|main|skipping test step in ROW 37 since it's disabled
+2023-09-25 17:33:45.456|I|main|skipping test step in ROW 42 since it's disabled
+2023-09-25 17:33:45.456|I|main|skipping test step in ROW 47 since it's disabled
+2023-09-25 17:33:45.456|I|main|skipping test step in ROW 52 since it's disabled
+2023-09-25 17:33:45.472|I|main|skipping test step in ROW 57 since it's disabled
+2023-09-25 17:33:45.534|I|main|skipping test step in ROW 104 since it's disabled
+2023-09-25 17:33:45.534|I|main|skipping test step in ROW 105 since it's disabled
+2023-09-25 17:33:45.534|I|main|skipping test step in ROW 110 since it's disabled
+2023-09-25 17:33:45.534|I|main|skipping test step in ROW 115 since it's disabled
+2023-09-25 17:33:45.534|I|main|skipping test step in ROW 120 since it's disabled
+2023-09-25 17:33:45.550|I|main|skipping test step in ROW 125 since it's disabled
+2023-09-25 17:33:45.550|I|main|skipping test step in ROW 130 since it's disabled
+2023-09-25 17:33:45.566|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/attachment/${gkresult}, , response)
+2023-09-25 17:33:45.566|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/attachment/ HTTP/1.1
+2023-09-25 17:33:47.444|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:33:47.444|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/attachment/ HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:33:47.461|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/attachment/'
+2023-09-25 17:33:47.461|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#101|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:33:47.461|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:47.461|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:33:47.475|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#101|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A101.log
+2023-09-25 17:33:47.475|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#101|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:33:47.475|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#102|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:33:47.974|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:33:47.988|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:33:47.988|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A102.A11.log
+2023-09-25 17:33:47.988|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:33:47.988|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 12|number.assertLesserOrEqua - PASS 1883 is less than or equal to 3000
+2023-09-25 17:33:47.988|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:33:47.999|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:33:48.002|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A102.A13.log
+2023-09-25 17:33:48.002|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:33:48.005|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:33:48.676|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:33:48.676|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:33:48.676|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:33:48.692|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#102|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:33:48.692|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:33:48.692|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:48.692|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:33:48.692|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A103.log
+2023-09-25 17:33:48.692|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:48.692|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:33:48.707|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1031.log
+2023-09-25 17:33:48.716|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+) => extract(gkstatus)]
+2023-09-25 17:33:48.716|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1031.log
+2023-09-25 17:33:48.716|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#104|ws.clearHeaders(headers)  - executing clearHeaders(headers)(gkusertoken,gkToken)
+2023-09-25 17:33:48.723|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:33:48.723|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#104|ws.clearHeaders(headers)  - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:33:48.723|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#105|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:33:48.739|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:33:48.739|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#105|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:33:48.740|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i, , response)
+2023-09-25 17:33:48.740|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i HTTP/1.1
+2023-09-25 17:33:49.657|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:33:49.657|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:33:49.706|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i'
+2023-09-25 17:33:49.706|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:33:49.706|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:49.706|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:49.706|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A107.log
+2023-09-25 17:33:49.719|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:49.719|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:33:49.719|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1071.log
+2023-09-25 17:33:49.734|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:49.734|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:33:49.750|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1071.log
+2023-09-25 17:33:49.750|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:33:49.750|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#108|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:33:50.065|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:33:50.065|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:33:50.065|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A108.A11.log
+2023-09-25 17:33:50.065|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:33:50.065|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 918 is less than or equal to 3000
+2023-09-25 17:33:50.065|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:33:50.065|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:33:50.081|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A108.A13.log
+2023-09-25 17:33:50.081|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:33:50.081|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:33:50.097|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:33:50.097|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:33:50.097|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:33:50.097|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#108|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:33:50.097|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:33:50.097|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:50.097|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:50.112|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A109.log
+2023-09-25 17:33:50.119|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:50.119|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:50.119|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1091.log
+2023-09-25 17:33:50.128|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]
+2023-09-25 17:33:50.128|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1091.log
+2023-09-25 17:33:50.128|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#110|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:33:50.128|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:33:50.128|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#110|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:33:50.128|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/last?status=9, , response)
+2023-09-25 17:33:50.128|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/last?status=9 HTTP/1.1
+2023-09-25 17:33:50.934|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:33:50.934|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/last?status=9 HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:33:50.934|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/last?status=9'
+2023-09-25 17:33:50.934|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:33:50.934|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:50.934|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:50.951|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A112.log
+2023-09-25 17:33:50.951|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:50.951|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:50.951|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1121.log
+2023-09-25 17:33:50.951|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:50.965|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:50.965|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1121.log
+2023-09-25 17:33:50.965|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:33:50.965|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#113|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:33:51.266|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:33:51.266|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:33:51.266|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A113.A11.log
+2023-09-25 17:33:51.266|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:33:51.266|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 797 is less than or equal to 3000
+2023-09-25 17:33:51.266|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:33:51.282|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:33:51.282|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A113.A13.log
+2023-09-25 17:33:51.282|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:33:51.282|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:33:51.297|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:33:51.297|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:33:51.297|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:33:51.297|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#113|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:33:51.297|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:33:51.297|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:51.297|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:51.315|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A114.log
+2023-09-25 17:33:51.322|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:51.322|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:51.329|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1141.log
+2023-09-25 17:33:51.329|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]
+2023-09-25 17:33:51.329|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1141.log
+2023-09-25 17:33:51.329|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#115|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:33:51.329|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:33:51.329|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#115|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:33:51.329|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/next_id?status=9, , response)
+2023-09-25 17:33:51.329|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/next_id?status=9 HTTP/1.1
+2023-09-25 17:33:52.260|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:33:52.260|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/next_id?status=9 HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:33:52.260|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/next_id?status=9'
+2023-09-25 17:33:52.260|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:33:52.275|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:52.275|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:52.275|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A117.log
+2023-09-25 17:33:52.291|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:52.295|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:52.295|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1171.log
+2023-09-25 17:33:52.307|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:52.307|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:52.307|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1171.log
+2023-09-25 17:33:52.307|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:33:52.307|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#118|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:33:52.702|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:33:52.702|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:33:52.702|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A118.A11.log
+2023-09-25 17:33:52.702|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:33:52.702|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 12|number.assertLesserOrEqua - PASS 926 is less than or equal to 3000
+2023-09-25 17:33:52.702|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:33:52.702|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:33:52.718|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A118.A13.log
+2023-09-25 17:33:52.718|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:33:52.718|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:33:52.725|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:33:52.725|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:33:52.725|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:33:52.734|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#118|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:33:52.734|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:33:52.734|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:52.734|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:52.776|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A119.log
+2023-09-25 17:33:52.782|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:52.782|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:52.782|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1191.log
+2023-09-25 17:33:52.782|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]
+2023-09-25 17:33:52.782|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1191.log
+2023-09-25 17:33:52.782|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#120|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:33:52.782|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:33:52.782|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#120|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:33:52.782|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/${gkresult}, , response)
+2023-09-25 17:33:52.798|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/ HTTP/1.1
+2023-09-25 17:33:53.628|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:33:53.633|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/ HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:33:53.633|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/'
+2023-09-25 17:33:53.633|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:33:53.633|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:53.633|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:53.633|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A122.log
+2023-09-25 17:33:53.650|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:53.651|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:53.652|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1221.log
+2023-09-25 17:33:53.652|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:53.652|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:33:53.664|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1221.log
+2023-09-25 17:33:53.664|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:33:53.664|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#123|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:33:54.029|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:33:54.029|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:33:54.029|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A123.A11.log
+2023-09-25 17:33:54.029|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:33:54.029|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 835 is less than or equal to 3000
+2023-09-25 17:33:54.029|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:33:54.029|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:33:54.029|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A123.A13.log
+2023-09-25 17:33:54.043|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:33:54.045|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:33:54.058|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:33:54.058|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:33:54.058|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:33:54.058|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#123|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:33:54.058|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:33:54.058|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:54.058|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:54.058|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A124.log
+2023-09-25 17:33:54.075|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:54.075|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:54.115|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1241.log
+2023-09-25 17:33:54.122|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+) => extract(gkstatus)]
+2023-09-25 17:33:54.122|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1241.log
+2023-09-25 17:33:54.122|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#125|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:33:54.122|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:33:54.122|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#125|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:33:54.122|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/${gkresult}, , response)
+2023-09-25 17:33:54.129|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/ HTTP/1.1
+2023-09-25 17:33:54.925|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:33:54.930|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/ HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:33:54.930|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/'
+2023-09-25 17:33:54.930|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:33:54.930|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:54.930|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:54.945|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A127.log
+2023-09-25 17:33:54.945|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:54.945|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:54.945|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1271.log
+2023-09-25 17:33:54.957|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:54.958|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:54.958|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1271.log
+2023-09-25 17:33:54.958|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:33:54.958|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#128|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:33:55.273|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:33:55.273|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:33:55.273|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A128.A11.log
+2023-09-25 17:33:55.273|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:33:55.273|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 12|number.assertLesserOrEqua - PASS 799 is less than or equal to 3000
+2023-09-25 17:33:55.273|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:33:55.330|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:33:55.335|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A128.A13.log
+2023-09-25 17:33:55.335|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:33:55.335|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:33:55.351|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:33:55.353|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:33:55.353|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:33:55.353|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#128|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:33:55.358|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:33:55.359|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:55.359|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:55.359|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A129.log
+2023-09-25 17:33:55.368|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:55.368|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:55.368|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1291.log
+2023-09-25 17:33:55.368|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+) => extract(gkstatus)]
+2023-09-25 17:33:55.368|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1291.log
+2023-09-25 17:33:55.381|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#130|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:33:55.383|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:33:55.384|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#130|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:33:55.384|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/cancel/${gkresult}, , response)
+2023-09-25 17:33:55.384|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/cancel/ HTTP/1.1
+2023-09-25 17:33:56.054|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:33:56.055|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/cancel/ HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:33:56.062|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/cancel/'
+2023-09-25 17:33:56.062|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:33:56.065|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:56.066|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+2023-09-25 17:33:56.067|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A132.log
+2023-09-25 17:33:56.067|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:56.067|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:56.077|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1321.log
+2023-09-25 17:33:56.077|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:56.077|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:33:56.077|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1321.log
+2023-09-25 17:33:56.077|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:33:56.077|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#133|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:33:56.376|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:33:56.376|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:33:56.376|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A133.A11.log
+2023-09-25 17:33:56.376|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:33:56.376|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - PASS 668 is less than or equal to 3000
+2023-09-25 17:33:56.376|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:33:56.392|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:33:56.392|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A133.A13.log
+2023-09-25 17:33:56.392|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:33:56.392|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:33:56.407|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:33:56.407|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:33:56.407|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:33:56.407|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#133|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:33:56.407|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:33:56.407|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:56.407|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+2023-09-25 17:33:56.423|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A134.log
+2023-09-25 17:33:56.423|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:33:56.423|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+2023-09-25 17:33:56.423|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1341.log
+2023-09-25 17:33:56.433|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+) => extract(gkstatus)]
+2023-09-25 17:33:56.438|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1341.log
+2023-09-25 17:34:00.227|I|main|[20230925_172906] executing C:\projects\GNUAPI\tests\artifact\script\DeliveryNote.xlsx. [1] total 1
+2023-09-25 17:34:00.227|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/attachment/${gkresult}, , response)
+2023-09-25 17:34:00.244|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/attachment/ HTTP/1.1
+2023-09-25 17:34:01.069|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:34:01.069|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/attachment/ HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:34:01.069|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/attachment/'
+2023-09-25 17:34:01.069|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#101|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:34:01.069|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:01.083|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:34:01.083|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#101|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1011.log
+2023-09-25 17:34:01.083|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:01.083|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+2023-09-25 17:34:01.083|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#101|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1011.log
+2023-09-25 17:34:01.083|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:01.083|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+2023-09-25 17:34:01.100|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#101|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1011.log
+2023-09-25 17:34:01.100|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#101|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:34:01.100|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#102|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:34:01.447|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:34:01.447|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:34:01.447|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A102.A111.log
+2023-09-25 17:34:01.447|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:34:01.447|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 12|number.assertLesserOrEqua - PASS 830 is less than or equal to 3000
+2023-09-25 17:34:01.461|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:34:01.465|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:34:01.465|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A102.A131.log
+2023-09-25 17:34:01.465|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:34:01.465|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:34:01.480|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:34:01.480|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:34:01.480|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:34:01.480|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#102|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:34:01.480|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:34:01.480|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:01.480|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:34:01.486|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1031.log
+2023-09-25 17:34:01.486|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:01.486|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:34:01.495|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1031.log
+2023-09-25 17:34:01.495|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+) => extract(gkstatus)]
+2023-09-25 17:34:01.495|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#103|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1031.log
+2023-09-25 17:34:01.495|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#104|ws.clearHeaders(headers)  - executing clearHeaders(headers)(gkusertoken,gkToken)
+2023-09-25 17:34:01.495|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:34:01.495|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#104|ws.clearHeaders(headers)  - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:34:01.495|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#105|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:34:01.495|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:34:01.495|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#105|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:34:01.495|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i, , response)
+2023-09-25 17:34:01.510|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i HTTP/1.1
+2023-09-25 17:34:02.494|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:34:02.494|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:34:02.509|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#106|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i'
+2023-09-25 17:34:02.509|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:34:02.509|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:02.509|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:02.527|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1071.log
+2023-09-25 17:34:02.527|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:02.527|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:34:02.540|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1071.log
+2023-09-25 17:34:02.540|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:02.540|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+2023-09-25 17:34:02.550|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1071.log
+2023-09-25 17:34:02.557|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#107|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:34:02.558|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#108|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:34:02.855|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:34:02.855|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:34:02.855|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A108.A111.log
+2023-09-25 17:34:02.855|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:34:02.855|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 997 is less than or equal to 3000
+2023-09-25 17:34:02.855|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:34:02.855|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:34:02.871|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A108.A131.log
+2023-09-25 17:34:02.871|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:34:02.871|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:34:02.871|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:34:02.871|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:34:02.871|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:34:02.886|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#108|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:34:02.887|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:34:02.887|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:02.887|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:02.887|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1091.log
+2023-09-25 17:34:02.887|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:02.887|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:02.902|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1091.log
+2023-09-25 17:34:02.903|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]
+2023-09-25 17:34:02.903|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#109|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1091.log
+2023-09-25 17:34:02.903|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#110|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:34:02.903|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:34:02.903|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all cancelled delivery note details|#110|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:34:02.903|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/last?status=9, , response)
+2023-09-25 17:34:02.903|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/last?status=9 HTTP/1.1
+2023-09-25 17:34:03.729|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:34:03.729|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/last?status=9 HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:34:03.729|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#111|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/last?status=9'
+2023-09-25 17:34:03.743|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:34:03.745|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:03.747|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:03.747|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1121.log
+2023-09-25 17:34:03.754|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:03.754|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:03.754|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1121.log
+2023-09-25 17:34:03.759|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:03.759|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:03.765|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1121.log
+2023-09-25 17:34:03.765|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#112|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:34:03.765|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#113|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:34:04.152|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:34:04.155|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:34:04.155|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A113.A111.log
+2023-09-25 17:34:04.155|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:34:04.155|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 824 is less than or equal to 3000
+2023-09-25 17:34:04.155|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:34:04.155|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:34:04.155|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A113.A131.log
+2023-09-25 17:34:04.155|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:34:04.155|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:34:04.169|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:34:04.169|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:34:04.169|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:34:04.169|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#113|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:34:04.169|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:34:04.169|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:04.169|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:04.184|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1141.log
+2023-09-25 17:34:04.184|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:04.184|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:04.184|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1141.log
+2023-09-25 17:34:04.184|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]
+2023-09-25 17:34:04.201|E|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#114|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1141.log
+2023-09-25 17:34:04.201|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#115|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:34:04.201|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:34:04.201|I|main|DeliveryNote.20230925_173343.001|GET|Fetch all delivery note details|#115|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:34:04.201|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/next_id?status=9, , response)
+2023-09-25 17:34:04.201|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/next_id?status=9 HTTP/1.1
+2023-09-25 17:34:05.168|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:34:05.170|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/next_id?status=9 HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:34:05.170|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#116|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/next_id?status=9'
+2023-09-25 17:34:05.170|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:34:05.170|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:05.170|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:05.183|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1171.log
+2023-09-25 17:34:05.186|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:05.186|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:05.186|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1171.log
+2023-09-25 17:34:05.186|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:05.186|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:05.199|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1171.log
+2023-09-25 17:34:05.199|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#117|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:34:05.199|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#118|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:34:05.498|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:34:05.514|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:34:05.514|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A118.A111.log
+2023-09-25 17:34:05.514|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:34:05.514|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 12|number.assertLesserOrEqua - PASS 965 is less than or equal to 3000
+2023-09-25 17:34:05.514|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:34:05.514|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:34:05.514|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A118.A131.log
+2023-09-25 17:34:05.514|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:34:05.514|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:34:05.530|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:34:05.530|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:34:05.530|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:34:05.530|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#118|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:34:05.530|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:34:05.530|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:05.530|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:05.545|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1191.log
+2023-09-25 17:34:05.545|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:05.545|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:05.545|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1191.log
+2023-09-25 17:34:05.561|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+) => extract(gkstatus)]
+2023-09-25 17:34:05.563|E|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#119|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1191.log
+2023-09-25 17:34:05.563|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#120|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:34:05.563|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:34:05.563|I|main|DeliveryNote.20230925_173343.001|GET|Fetch next delivery note id|#120|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:34:05.563|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/${gkresult}, , response)
+2023-09-25 17:34:05.563|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/ HTTP/1.1
+2023-09-25 17:34:06.418|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:34:06.418|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/ HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:34:06.428|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#121|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/'
+2023-09-25 17:34:06.428|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:34:06.428|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:06.428|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:06.444|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1221.log
+2023-09-25 17:34:06.444|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:06.448|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:06.448|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1221.log
+2023-09-25 17:34:06.448|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD): JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:06.448|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+2023-09-25 17:34:06.459|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+predicate mismatch for view api_delchal (request_method = GET,HEAD)
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1221.log
+2023-09-25 17:34:06.460|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#122|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:34:06.461|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#123|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:34:06.782|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:34:06.782|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:34:06.782|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A123.A111.log
+2023-09-25 17:34:06.782|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:34:06.782|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 12|number.assertLesserOrEqua - PASS 860 is less than or equal to 3000
+2023-09-25 17:34:06.782|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:34:06.798|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:34:06.798|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A123.A131.log
+2023-09-25 17:34:06.798|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:34:06.798|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:34:06.814|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:34:06.814|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:34:06.814|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:34:06.814|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#123|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:34:06.814|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:34:06.814|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:06.814|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:06.814|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1241.log
+2023-09-25 17:34:06.814|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:06.814|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:06.829|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1241.log
+2023-09-25 17:34:06.829|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+) => extract(gkstatus)]
+2023-09-25 17:34:06.829|E|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#124|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1241.log
+2023-09-25 17:34:06.829|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#125|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:34:06.829|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:34:06.829|I|main|DeliveryNote.20230925_173343.001|GET|Fetch delivery note details|#125|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:34:06.829|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/${gkresult}, , response)
+2023-09-25 17:34:06.829|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/ HTTP/1.1
+2023-09-25 17:34:07.540|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:34:07.540|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/ HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:34:07.540|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#126|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/'
+2023-09-25 17:34:07.555|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:34:07.558|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:07.558|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:07.562|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1271.log
+2023-09-25 17:34:07.562|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:07.562|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:07.562|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1271.log
+2023-09-25 17:34:07.572|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:07.572|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:07.572|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1271.log
+2023-09-25 17:34:07.572|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#127|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:34:07.572|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#128|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:34:07.863|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:34:07.873|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:34:07.873|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A128.A111.log
+2023-09-25 17:34:07.873|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:34:07.873|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 12|number.assertLesserOrEqua - PASS 707 is less than or equal to 3000
+2023-09-25 17:34:07.873|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:34:07.873|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:34:07.873|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A128.A131.log
+2023-09-25 17:34:07.873|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:34:07.873|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:34:07.888|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:34:07.888|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:34:07.888|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note- (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:34:07.888|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#128|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:34:07.888|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:34:07.888|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:07.888|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:07.903|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1291.log
+2023-09-25 17:34:07.903|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:07.903|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:07.903|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1291.log
+2023-09-25 17:34:07.919|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+) => extract(gkstatus)]
+2023-09-25 17:34:07.920|E|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#129|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1291.log
+2023-09-25 17:34:07.920|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#130|ws.header(name,value)     - executing header(name,value)(gkToken, ${gktoken})
+2023-09-25 17:34:07.920|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-09-25 17:34:07.920|I|main|DeliveryNote.20230925_173343.001|GET|Cancel Delivery Note-|#130|ws.header(name,value)     - SKIPPED current step skipped: SkipIf(true)
+2023-09-25 17:34:07.920|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - executing post(url,body,var)(${api.baseUrl}delchal/cancel/${gkresult}, , response)
+2023-09-25 17:34:07.920|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - Executing request POST https://api-dev.gnukhata.org/delchal/cancel/ HTTP/1.1
+2023-09-25 17:34:08.854|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - Saving response payload as raw bytes
+2023-09-25 17:34:08.856|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - Executed request POST https://api-dev.gnukhata.org/delchal/cancel/ HTTP/1.1: HTTP/1.1 404 Not Found
+2023-09-25 17:34:08.856|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#131|ws.post(url,body,var)     - PASS Successfully invoked web service 'https://api-dev.gnukhata.org/delchal/cancel/'
+2023-09-25 17:34:08.856|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - executing save(var,value)(actualGkStatus, [JSON(${response}.body) => extract(gkstatus)])
+2023-09-25 17:34:08.856|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:08.866|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+2023-09-25 17:34:08.866|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1321.log
+2023-09-25 17:34:08.873|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:08.875|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:08.875|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1321.log
+2023-09-25 17:34:08.875|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:08.881|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+2023-09-25 17:34:08.885|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1321.log
+2023-09-25 17:34:08.886|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#132|base.save(var,value)      - PASS stored '[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+) => extract(gkstatus)]' as ${actualGkStatus}
+2023-09-25 17:34:08.886|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#133|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|validateResponse), actualReturnCode=${response}.returnCode
+actualResponseTime=${response}.elapsedTime
+actualContentType=${response}.headers.[Content-Type]
+responseBody=${response}.body
+expectedReturnCode=200
+expectedResponseTime=3000
+expectedContentType=application/json
+schema=${schema.path}\DeliveryNote.txt)
+2023-09-25 17:34:09.200|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedReturnCode}, ${actualReturnCode})
+2023-09-25 17:34:09.217|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - FAIL 
+expected=200
+actual  =404
+2023-09-25 17:34:09.217|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 11|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A133.A111.log
+2023-09-25 17:34:09.217|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - executing assertLesserOrEqual(num1,num2)(${actualResponseTime}, ${expectedResponseTime})
+2023-09-25 17:34:09.217|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 12|number.assertLesserOrEqua - PASS 932 is less than or equal to 3000
+2023-09-25 17:34:09.217|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - executing assertEqual(expected,actual)(${expectedContentType}, ${actualContentType})
+2023-09-25 17:34:09.217|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - FAIL 
+expected=application/json
+actual  =text/plain; charset=UTF-8
+2023-09-25 17:34:09.217|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 13|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A133.A131.log
+2023-09-25 17:34:09.217|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - executing assertCorrectness(json,schema)(${responseBody}, ${schema})
+2023-09-25 17:34:09.217|I|main|evaluating flow control:	ProceedIf(C:\projects\GNUAPI\tests\artifact\data\Schema\DeliveryNote\DeliveryNote.txt!=null)		=> MATCHED
+2023-09-25 17:34:09.233|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 14|json.assertCorrectness(js - PASS json validated successfully against schema
+2023-09-25 17:34:09.233|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 15|base.clear(vars)          - executing clear(vars)(response, returnCode, responseTime, contentType, schema)
+2023-09-25 17:34:09.233|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes (validateResponse)|# 15|base.clear(vars)          - PASS The following data variable(s) are removed from execution: response,schema
+2023-09-25 17:34:09.233|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#133|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-25 17:34:09.233|I|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - executing assertEqual(expected,actual)(0, ${actualGkStatus})
+2023-09-25 17:34:09.233|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:09.249|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+2023-09-25 17:34:09.249|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1341.log
+2023-09-25 17:34:09.249|E|main|Unable to parse as JSON - 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/: JsonSyntaxException: JSON document was not fully consumed.
+2023-09-25 17:34:09.249|E|main|Unable to construct JSON: TypeConversionException: Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+2023-09-25 17:34:09.249|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - Unable to process expression due to Error when converting as 'JSON' on data '404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+': Cannot convert to JSON: 404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+
+Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1341.log
+2023-09-25 17:34:09.264|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - FAIL 
+expected=0
+actual  =[JSON(404 Not Found
+
+The resource could not be found.
+
+
+/delchal/cancel/
+
+) => extract(gkstatus)]
+2023-09-25 17:34:09.264|E|main|DeliveryNote.20230925_173343.001|GET|Fetch Cancelled Delivery Notes|#134|base.assertEqual(expected - Error log: C:\projects\GNUAPI\tests\output\20230925_172906\logs\DeliveryNote.20230925_173343.001.xlsx_GET_A1341.log

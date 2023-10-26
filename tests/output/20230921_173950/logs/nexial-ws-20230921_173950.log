@@ -1,0 +1,48 @@
+request-time,script,scenario,row-id,url,method,request-body-length,return-code,status-code,ttfb,elapsed-time,response-body-length
+2023-09-21 17:39:56.897,DeliveryNote.20230921_173955.001,Token,Row 4,https://api-dev.gnukhata.org/login/user,POST,167,200,OK,1698,1703,19148
+2023-09-21 17:39:58.888,DeliveryNote.20230921_173955.001,Token,Row 9,https://api-dev.gnukhata.org/login/org,POST,16,200,OK,972,974,144
+2023-09-21 17:40:10.615,DeliveryNote.20230921_174009.001,GET,Row 6,https://api-dev.gnukhata.org/delchal?inoutflag=9,GET,0,200,OK,739,740,31
+2023-09-21 17:40:11.764,DeliveryNote.20230921_174009.001,GET,Row 10,https://api-dev.gnukhata.org/customer?qty=custall,GET,0,200,OK,693,694,1791
+2023-09-21 17:40:12.503,DeliveryNote.20230921_174009.001,GET,Row 14,https://api-dev.gnukhata.org/delchal,POST,1184,200,OK,930,931,15
+2023-09-21 17:40:13.652,DeliveryNote.20230921_174009.001,GET,Row 20,https://api-dev.gnukhata.org/delchal/attachment/,GET,0,404,Not Found,702,703,72
+2023-09-21 17:40:14.499,DeliveryNote.20230921_174009.001,GET,Row 26,https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i,GET,0,200,OK,712,713,31
+2023-09-21 17:40:15.380,DeliveryNote.20230921_174009.001,GET,Row 31,https://api-dev.gnukhata.org/delchal/last?status=9,GET,0,200,OK,714,715,55
+2023-09-21 17:40:16.229,DeliveryNote.20230921_174009.001,GET,Row 36,https://api-dev.gnukhata.org/delchal/next_id?status=9,GET,0,200,OK,701,702,26
+2023-09-21 17:40:17.063,DeliveryNote.20230921_174009.001,GET,Row 41,https://api-dev.gnukhata.org/delchal/,GET,0,404,Not Found,667,668,61
+2023-09-21 17:40:17.882,DeliveryNote.20230921_174009.001,GET,Row 46,https://api-dev.gnukhata.org/delchal/,DELETE,0,404,Not Found,738,739,61
+2023-09-21 17:40:18.764,DeliveryNote.20230921_174009.001,GET,Row 51,https://api-dev.gnukhata.org/delchal/cancel/,GET,0,404,Not Found,695,696,68
+2023-09-21 17:40:19.614,DeliveryNote.20230921_174009.001,GET,Row 56,https://api-dev.gnukhata.org/delchal?inoutflag=9,GET,0,200,OK,669,670,15
+2023-09-21 17:40:20.384,DeliveryNote.20230921_174009.001,GET,Row 60,https://api-dev.gnukhata.org/delchal/attachment/,GET,0,404,Not Found,676,677,72
+2023-09-21 17:40:21.207,DeliveryNote.20230921_174009.001,GET,Row 64,https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i,GET,0,200,OK,674,675,15
+2023-09-21 17:40:22.006,DeliveryNote.20230921_174009.001,GET,Row 68,https://api-dev.gnukhata.org/delchal/last?status=9,GET,0,200,OK,682,683,15
+2023-09-21 17:40:22.810,DeliveryNote.20230921_174009.001,GET,Row 72,https://api-dev.gnukhata.org/delchal/next_id?status=9,GET,0,200,OK,703,704,15
+2023-09-21 17:40:23.624,DeliveryNote.20230921_174009.001,GET,Row 76,https://api-dev.gnukhata.org/delchal/,GET,0,404,Not Found,723,724,61
+2023-09-21 17:40:24.465,DeliveryNote.20230921_174009.001,GET,Row 80,https://api-dev.gnukhata.org/delchal/cancel/,GET,0,404,Not Found,663,664,68
+2023-09-21 17:48:07.217,DeliveryNote.20230921_174806.001,Token,Row 4,https://api-dev.gnukhata.org/login/user,POST,167,200,OK,1199,1200,19148
+2023-09-21 17:48:08.536,DeliveryNote.20230921_174806.001,Token,Row 9,https://api-dev.gnukhata.org/login/org,POST,16,200,OK,934,935,144
+2023-09-21 17:48:21.415,DeliveryNote.20230921_174820.001,GET,Row 6,https://api-dev.gnukhata.org/delchal?inoutflag=9,GET,0,200,OK,701,702,31
+2023-09-21 17:48:22.267,DeliveryNote.20230921_174820.001,GET,Row 10,https://api-dev.gnukhata.org/customer?qty=custall,GET,0,200,OK,699,700,31
+2023-09-21 17:48:22.989,DeliveryNote.20230921_174820.001,GET,Row 14,https://api-dev.gnukhata.org/delchal,POST,1184,200,OK,946,947,15
+2023-09-21 17:48:24.042,DeliveryNote.20230921_174820.001,GET,Row 20,https://api-dev.gnukhata.org/delchal/attachment/,GET,0,404,Not Found,723,723,72
+2023-09-21 17:48:24.922,DeliveryNote.20230921_174820.001,GET,Row 26,https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i,GET,0,200,OK,730,731,31
+2023-09-21 17:48:25.787,DeliveryNote.20230921_174820.001,GET,Row 31,https://api-dev.gnukhata.org/delchal/last?status=9,GET,0,200,OK,713,714,55
+2023-09-21 17:48:26.605,DeliveryNote.20230921_174820.001,GET,Row 36,https://api-dev.gnukhata.org/delchal/next_id?status=9,GET,0,200,OK,667,668,26
+2023-09-21 17:48:27.389,DeliveryNote.20230921_174820.001,GET,Row 41,https://api-dev.gnukhata.org/delchal/,GET,0,404,Not Found,708,710,61
+2023-09-21 17:48:28.224,DeliveryNote.20230921_174820.001,GET,Row 46,https://api-dev.gnukhata.org/delchal/,DELETE,0,404,Not Found,696,697,61
+2023-09-21 17:48:29.026,DeliveryNote.20230921_174820.001,GET,Row 51,https://api-dev.gnukhata.org/delchal/cancel/,GET,0,404,Not Found,720,721,68
+2023-09-21 17:48:29.891,DeliveryNote.20230921_174820.001,GET,Row 56,https://api-dev.gnukhata.org/delchal?inoutflag=9,GET,0,200,OK,707,708,15
+2023-09-21 17:48:30.710,DeliveryNote.20230921_174820.001,GET,Row 60,https://api-dev.gnukhata.org/delchal/attachment/,GET,0,404,Not Found,679,680,72
+2023-09-21 17:48:31.516,DeliveryNote.20230921_174820.001,GET,Row 64,https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i,GET,0,200,OK,708,709,15
+2023-09-21 17:48:32.395,DeliveryNote.20230921_174820.001,GET,Row 68,https://api-dev.gnukhata.org/delchal/last?status=9,GET,0,200,OK,726,727,15
+2023-09-21 17:48:33.245,DeliveryNote.20230921_174820.001,GET,Row 72,https://api-dev.gnukhata.org/delchal/next_id?status=9,GET,0,200,OK,678,678,15
+2023-09-21 17:48:34.031,DeliveryNote.20230921_174820.001,GET,Row 76,https://api-dev.gnukhata.org/delchal/,GET,0,404,Not Found,679,680,61
+2023-09-21 17:48:34.850,DeliveryNote.20230921_174820.001,GET,Row 80,https://api-dev.gnukhata.org/delchal/cancel/,GET,0,404,Not Found,723,724,68
+2023-09-21 18:01:14.163,DeliveryNote.20230921_180113.001,GET,Row 56,https://api-dev.gnukhata.org/delchal?inoutflag=9,GET,0,200,OK,977,987,15
+2023-09-21 18:02:29.419,DeliveryNote.20230921_180113.001,GET,Row 6,https://api-dev.gnukhata.org/delchal?inoutflag=9,GET,0,200,OK,688,689,31
+2023-09-21 18:02:30.189,DeliveryNote.20230921_180113.001,GET,Row 10,https://api-dev.gnukhata.org/customer?qty=custall,GET,0,200,OK,728,729,31
+2023-09-21 18:02:30.946,DeliveryNote.20230921_180113.001,GET,Row 14,https://api-dev.gnukhata.org/delchal,POST,1184,200,OK,942,943,15
+2023-09-21 18:05:51.583,DeliveryNote.20230921_180551.001,GET,Row 6,https://api-dev.gnukhata.org/delchal?inoutflag=9,GET,0,200,OK,671,672,31
+2023-09-21 18:05:52.379,DeliveryNote.20230921_180551.001,GET,Row 10,https://api-dev.gnukhata.org/customer?qty=custall,GET,0,200,OK,699,700,31
+2023-09-21 18:05:53.098,DeliveryNote.20230921_180551.001,GET,Row 14,https://api-dev.gnukhata.org/delchal,POST,1184,200,OK,907,908,15
+2023-09-21 18:26:20.959,DeliveryNote.20230921_182620.001,GET,Row 6,https://api-dev.gnukhata.org/delchal,POST,1184,200,OK,1132,1133,15
+2023-09-21 18:27:21.556,DeliveryNote.20230921_182720.001,GET,Row 6,https://api-dev.gnukhata.org/delchal,POST,1184,200,OK,947,948,15

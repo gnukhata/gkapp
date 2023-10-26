@@ -1,0 +1,63 @@
+2023-09-21 17:19:08.295|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2023-09-21 17:19:08.312|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\QFDgw\CostCenter.data.xlsx
+2023-09-21 17:19:08.312|I|main|(DELAYED) input files and output directory resolved...
+2023-09-21 17:19:08.312|I|main|(DELAYED) cleaning up outdated temp files...
+2023-09-21 17:19:08.312|I|main|(DELAYED) No predefined nexial-setup found
+2023-09-21 17:19:08.312|I|main|[20230921_171857] [C:\projects\GNUAPI\tests\artifact\script\CostCenter.xlsx] resolve RUN ID as 20230921_171857
+2023-09-21 17:19:08.881|I|main|No predefined nexial-setup found
+2023-09-21 17:19:10.472|I|main|outputBase not set; output-to-cloud DISABLED!
+2023-09-21 17:19:10.472|I|main|accessKey not set; output-to-cloud DISABLED!
+2023-09-21 17:19:10.472|I|main|secretKey not set; output-to-cloud DISABLED!
+2023-09-21 17:19:11.296|I|main|missing REQUIRED configuration; sms DISABLED!
+2023-09-21 17:19:13.087|I|main|On-Demand Inspection detection enabled
+2023-09-21 17:19:13.502|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\CostCenter.data.xlsx
+2023-09-21 17:19:18.917|I|main|[20230921_171857] executing C:\projects\GNUAPI\tests\artifact\script\CostCenter.xlsx. [1] total 1
+2023-09-21 17:19:18.956|I|main|[20230921_171857] create directory C:\projects\GNUAPI\tests\output\20230921_171857\captures
+2023-09-21 17:19:18.959|I|main|[20230921_171857] create directory C:\projects\GNUAPI\tests\output\20230921_171857\logs
+2023-09-21 17:19:21.456|I|main|[20230921_171857] merging test data to tmp file C:\projects\GNUAPI\tests\output\20230921_171857\CostCenter.20230921_171918.001.xlsx
+2023-09-21 17:19:21.456|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\CostCenter.data.xlsx
+2023-09-21 17:19:22.606|I|main|[20230921_171857] test script and test data merged to C:\projects\GNUAPI\tests\output\20230921_171857\CostCenter.20230921_171918.001.xlsx
+2023-09-21 17:19:23.663|I|main|STARTS
+2023-09-21 17:19:23.808|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata - executing activity
+2023-09-21 17:19:23.821|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2023-09-21 17:19:24.528|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2023-09-21 17:19:24.528|I|main|[chrome] initializing chrome
+2023-09-21 17:19:24.655|I|main|[chrome] enabling chrome remote port: 35402
+2023-09-21 17:19:27.840|I|main|[chrome] initializing for chrome 116.0.5845.188
+2023-09-21 17:19:28.008|I|main|[DISPLAY] Currently discovered display(s):
+2023-09-21 17:19:28.026|I|main|	1920x1080x32bpp@60Hz
+2023-09-21 17:19:28.026|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2023-09-21 17:19:28.042|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1536,height=864
+2023-09-21 17:19:28.042|I|main|[DISPLAY] position adjusted to (0, 0)
+2023-09-21 17:19:28.173|I|main|[chrome] browser initialization completed for 'chrome'
+2023-09-21 17:19:28.184|I|main|[chrome] setting browser page load timeout to 60000 ms
+2023-09-21 17:19:28.184|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2023-09-21 17:19:32.109|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2023-09-21 17:19:32.116|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2023-09-21 17:19:32.601|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2023-09-21 17:19:32.601|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2023-09-21 17:19:34.237|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//*[span='Continue with Default Server']' is present
+2023-09-21 17:19:34.237|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2023-09-21 17:19:34.459|I|main|clicking '//*[span='Continue with Default Server']'...
+2023-09-21 17:19:34.510|I|main|click target via JS, @id=
+2023-09-21 17:19:34.569|I|main|clicked -> true
+2023-09-21 17:19:34.569|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2023-09-21 17:19:34.569|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2023-09-21 17:19:39.582|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2023-09-21 17:19:39.582|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2023-09-21 17:19:40.027|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2023-09-21 17:19:40.027|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2023-09-21 17:19:40.512|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2023-09-21 17:19:40.512|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2023-09-21 17:19:40.794|I|main|clicking '(//*[@type='submit'])[1]'...
+2023-09-21 17:19:40.843|I|main|click target via JS, @id=
+2023-09-21 17:19:40.913|I|main|clicked -> true
+2023-09-21 17:19:40.913|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2023-09-21 17:19:40.913|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2023-09-21 17:19:40.961|E|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=//*[text()='Welcome Accion']
+actual  =User Login — GNUKhata
+2023-09-21 17:19:41.005|E|main|CostCenter.20230921_171918.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\projects\GNUAPI\tests\output\20230921_171857\logs\CostCenter.20230921_171918.001.xlsx_Login_A5.A24.log
+2023-09-21 17:19:41.010|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-09-21 17:19:41.013|I|main|CostCenter.20230921_171918.001|Login|Login to GNU khata - ending activity

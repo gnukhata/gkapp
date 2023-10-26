@@ -1,0 +1,21 @@
+Test Step       : DeliveryNote.20230921_174820.001|GET|Cancel Delivery Note|# 46|ws.delete(url,body,var)  
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-21 17:48:28.224
+Request URL     : https://api-dev.gnukhata.org/delchal/
+Request Method  : DELETE
+Request Headers : {gkToken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmdjb2RlIjo5ODksInVzZXJpZCI6Mn0.7xalMu23Ly4aMoyxDRfdvpZ99iRJYKIxxSI_Q8wVA8o}
+----------------------------------------------------------------------------------------------------
+Return Code     : 404
+Status Text     : Not Found
+TTFB            : 696
+Elapsed Time    : 697
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 61, Date: Thu, 21 Sep 2023 12:13:49 GMT, Content-Type: text/plain; charset=UTF-8 }
+Response Body   : 61 bytes. 
+404 Not Found
+
+The resource could not be found.
+
+
+/delchal/
+
+

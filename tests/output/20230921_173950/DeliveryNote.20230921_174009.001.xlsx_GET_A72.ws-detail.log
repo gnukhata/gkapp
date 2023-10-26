@@ -1,0 +1,14 @@
+Test Step       : DeliveryNote.20230921_174009.001|GET|Negative-Fetch next delivery note id|# 72|ws.get(url,queryString,va
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-21 17:40:22.810
+Request URL     : https://api-dev.gnukhata.org/delchal/next_id?status=9
+Request Method  : GET
+Request Headers : {}
+----------------------------------------------------------------------------------------------------
+Return Code     : 200
+Status Text     : OK
+TTFB            : 703
+Elapsed Time    : 704
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 15, Date: Thu, 21 Sep 2023 12:05:43 GMT, Content-Type: application/json }
+Response Body   : 15 bytes. 
+{"gkstatus": 2}

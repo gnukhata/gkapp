@@ -1,0 +1,28 @@
+request-time,script,scenario,row-id,url,method,request-body-length,return-code,status-code,ttfb,elapsed-time,response-body-length
+2023-10-20 15:02:27.519,DeliveryNote.20231020_150220.001,Token,Row 4,https://api-dev.gnukhata.org/login/user,POST,167,200,OK,2822,2831,19497
+2023-10-20 15:02:31.136,DeliveryNote.20231020_150220.001,Token,Row 9,https://api-dev.gnukhata.org/login/org,POST,16,200,OK,1146,1147,144
+2023-10-20 15:02:49.498,DeliveryNote.20231020_150247.001,GET,Row 17,https://api-dev.gnukhata.org/customer?qty=custall,GET,0,200,OK,794,796,160
+2023-10-20 15:02:50.328,DeliveryNote.20231020_150247.001,GET,Row 20,https://api-dev.gnukhata.org/delchal,POST,1184,200,OK,1029,1030,33
+2023-10-20 15:02:52.518,DeliveryNote.20231020_150247.001,GET,Row 25,https://api-dev.gnukhata.org/delchal/attachment/1455,GET,0,200,OK,828,829,88
+2023-10-20 15:02:53.702,DeliveryNote.20231020_150247.001,GET,Row 29,https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i,GET,0,200,OK,838,839,31
+2023-10-20 15:02:54.890,DeliveryNote.20231020_150247.001,GET,Row 33,https://api-dev.gnukhata.org/delchal/last?status=9,GET,0,200,OK,789,790,55
+2023-10-20 15:02:56.004,DeliveryNote.20231020_150247.001,GET,Row 37,https://api-dev.gnukhata.org/delchal/next_id?status=9,GET,0,200,OK,875,876,26
+2023-10-20 15:02:57.238,DeliveryNote.20231020_150247.001,GET,Row 41,https://api-dev.gnukhata.org/delchal/1455,GET,0,200,OK,817,818,15
+2023-10-20 15:02:58.370,DeliveryNote.20231020_150247.001,GET,Row 45,https://api-dev.gnukhata.org/delchal/1455,DELETE,0,200,OK,812,813,15
+2023-10-20 15:02:59.536,DeliveryNote.20231020_150247.001,GET,Row 49,https://api-dev.gnukhata.org/delchal/cancel/1455,GET,0,200,OK,907,908,15
+2023-10-20 15:03:00.785,DeliveryNote.20231020_150247.001,GET,Row 54,https://api-dev.gnukhata.org/customer?qty=custall,GET,0,200,OK,804,806,160
+2023-10-20 15:03:01.606,DeliveryNote.20231020_150247.001,GET,Row 57,https://api-dev.gnukhata.org/delchal,POST,1184,200,OK,1037,1038,33
+2023-10-20 15:03:02.988,DeliveryNote.20231020_150247.001,GET,Row 63,https://api-dev.gnukhata.org/delchal?inoutflag=9,GET,0,200,OK,764,765,15
+2023-10-20 15:03:04.044,DeliveryNote.20231020_150247.001,GET,Row 67,https://api-dev.gnukhata.org/delchal/attachment/1456,GET,0,200,OK,960,961,15
+2023-10-20 15:03:05.363,DeliveryNote.20231020_150247.001,GET,Row 71,https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i,GET,0,200,OK,786,787,15
+2023-10-20 15:03:06.466,DeliveryNote.20231020_150247.001,GET,Row 75,https://api-dev.gnukhata.org/delchal/last?status=9,GET,0,200,OK,776,777,15
+2023-10-20 15:03:07.561,DeliveryNote.20231020_150247.001,GET,Row 79,https://api-dev.gnukhata.org/delchal/next_id?status=9,GET,0,200,OK,743,745,15
+2023-10-20 15:03:08.652,DeliveryNote.20231020_150247.001,GET,Row 83,https://api-dev.gnukhata.org/delchal/1456,GET,0,200,OK,953,953,15
+2023-10-20 15:03:09.878,DeliveryNote.20231020_150247.001,GET,Row 87,https://api-dev.gnukhata.org/delchal/cancel/1456,GET,0,200,OK,793,794,15
+2023-10-20 15:03:10.963,DeliveryNote.20231020_150247.001,GET,Row 91,https://api-dev.gnukhata.org/delchal/attachment/1456,POST,0,404,Not Found,1041,1046,119
+2023-10-20 15:03:12.380,DeliveryNote.20231020_150247.001,GET,Row 95,https://api-dev.gnukhata.org/delchal/cancel?inputdate=2023-09-06&del_cancelled_type=0&inout=i,POST,0,404,Not Found,928,929,119
+2023-10-20 15:03:13.665,DeliveryNote.20231020_150247.001,GET,Row 99,https://api-dev.gnukhata.org/delchal/last?status=9,POST,0,404,Not Found,894,895,119
+2023-10-20 15:03:14.924,DeliveryNote.20231020_150247.001,GET,Row 103,https://api-dev.gnukhata.org/delchal/next_id?status=9,POST,0,404,Not Found,890,891,119
+2023-10-20 15:03:16.195,DeliveryNote.20231020_150247.001,GET,Row 107,https://api-dev.gnukhata.org/delchal/1456,POST,0,404,Not Found,988,989,52
+2023-10-20 15:03:17.560,DeliveryNote.20231020_150247.001,GET,Row 111,https://api-dev.gnukhata.org/delchal/1456,POST,0,404,Not Found,1059,1060,52
+2023-10-20 15:03:18.998,DeliveryNote.20231020_150247.001,GET,Row 115,https://api-dev.gnukhata.org/delchal/cancel/1456,POST,0,404,Not Found,747,748,119

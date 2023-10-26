@@ -1,0 +1,21 @@
+Test Step       : DeliveryNote.20230925_173343.001|GET|Fetch delivery note attachment|#100|ws.post(url,body,var)    
+----------------------------------------------------------------------------------------------------
+Request Time    : 2023-09-25 17:33:45.566
+Request URL     : https://api-dev.gnukhata.org/delchal/attachment/
+Request Method  : POST
+Request Headers : {gkusertoken: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFjY2lvbiIsInVzZXJpZCI6Mn0.v5sh31fw7GSrvnZORJjA0PFp_qU1IgXQelWA6fAGILA, Content-Type: application/json}
+----------------------------------------------------------------------------------------------------
+Return Code     : 404
+Status Text     : Not Found
+TTFB            : 1881
+Elapsed Time    : 1883
+Response Headers: {Server: nginx/1.18.0 (Ubuntu), Connection: keep-alive, Content-Length: 72, Date: Mon, 25 Sep 2023 11:59:01 GMT, Content-Type: text/plain; charset=UTF-8 }
+Response Body   : 72 bytes. 
+404 Not Found
+
+The resource could not be found.
+
+
+/delchal/attachment/
+
+
