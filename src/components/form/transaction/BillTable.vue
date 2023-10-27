@@ -868,6 +868,7 @@ export default {
                 qty: 1,
                 discount: {
                   rate: data.discountpercent,
+                  discountamount: self.config.discount ? data.discountamount : 0,
                   amount: self.config.discount ? data.discountamount : 0,
                 },
               });
@@ -1210,21 +1211,22 @@ export default {
             let rate = parseFloat(item.rate);
             let igst = parseFloat(item.igst.rate) || 0;
             let cess = parseFloat(item.cess.rate) || 0;
+            let discountamount = parseFloat(item.discount.discountamount) || 0;
             if (item.rate > 0) {
               let qty = item.qty;
               if (this.config.rejectedQty) {
                 qty = item.rejectedQty;
               }
 
-              const discount = this.config.dcValue ? 0 : item.discount.amount;
-
+              const discount = this.config.dcValue ? 0 : discountamount;
+              item.discount.amount = parseFloat(discount) * qty
               if (inclusiveFlag) {
                 // cess + gst + rate = item rate
                 let inclusiveRate = item.rate;
                 rate = inclusiveRate / (0.01 * igst + 0.01 * cess + 1);
               }
 
-              item.taxable = parseFloat((rate * qty - discount).toFixed(2));
+              item.taxable = parseFloat((rate * qty - discount * qty).toFixed(2));
 
               if (this.config.dcValue) {
                 item.taxable = parseFloat(item.dcValue || 0);
@@ -1248,6 +1250,7 @@ export default {
           } else {
             item.taxable = (0).toFixed(2);
             item.total = (0).toFixed(2);
+            item.discount.amount = (0).toFixed(2);
           }
         } else {
           item.vat =
@@ -1258,21 +1261,22 @@ export default {
           // calculate taxable
           let rate = parseFloat(item.rate);
           let vat = parseFloat(item.vat.rate) || 0;
+          let discountamount = parseFloat(item.discount.discountamount) || 0;
           if (item.rate > 0) {
             let qty = item.qty;
             if (this.config.rejectedQty) {
               qty = item.rejectedQty;
             }
 
-            const discount = this.config.dcValue ? 0 : item.discount.amount;
-
+            const discount = this.config.dcValue ? 0 : discountamount;
+            item.discount.amount = parseFloat(discount) * qty
             if (inclusiveFlag) {
               // vat + rate = item rate
               let inclusiveRate = item.rate;
               rate = inclusiveRate / (0.01 * vat + 1);
             }
 
-            item.taxable = parseFloat((rate * qty - discount).toFixed(2));
+            item.taxable = parseFloat((rate * qty - discount * qty).toFixed(2));
 
             if (this.config.dcValue) {
               item.taxable = parseFloat(item.dcValue || 0);
