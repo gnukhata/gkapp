@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="20231110_144723" timestamp="2023-11-10T14:47:25" time="150.610" tests="36" errors="14">
+  <testsuite id="1" name="ColumnSorting" package="ColumnSorting" hostname="ALIPL5337" timestamp="2023-11-10T14:47:28" time="146.671" tests="36" errors="14">
+    <properties>
+      <property name="Run From" value="ALIPL5337" />
+      <property name="Run OS" value="amd64 Windows 10 10.0" />
+      <property name="Run User" value="RH0083" />
+      <property name="Iteration" value="1 of 1" />
+      <property name="Script" value="ColumnSorting.xlsx" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A10.A25.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A10.A25.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A10.A28.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A10.A28.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A10.A30.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A10.A30.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A11.A25.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A11.A25.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A11.A28.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A11.A28.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A11.A30.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A11.A30.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A12.A25.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A12.A25.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A12.A28.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A12.A28.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A12.A30.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A12.A30.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A6.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A6.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A7.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A7.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A8.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A8.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A9.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Invoice_ColumnSorting_A9.log" />
+      <property name="ColumnSorting.20231110_144728.001.xlsx_Login_A5.A16.log" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\ColumnSorting.20231110_144728.001.xlsx_Login_A5.A16.log" />
+      <property name="Logs" value="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\nexial-20231110_144723.log" />
+      <property name="Data File" value="ColumnSorting.data.xlsx" />
+      <property name="DataSheet(s)" value="#default" />
+      <property name="runtime args" value="-script C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx" />
+    </properties>
+    <testcase id="Navigate to Invoice" name="Navigate to Invoice" classname="Invoice_ColumnSorting" timestamp="2023-11-10T14:47:30" time="144.257">
+      <failure type="failure found in test activity" message="1 of 2 FAILED. Check C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\ColumnSorting.20231110_144728.001.xlsx for execution result, C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\nexial-20231110_144723.log for execution logs" />
+      <system-out>Total : 2
+Passed: 1
+Failed: 1
+Output: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\ColumnSorting.20231110_144728.001.xlsx
+Logs  : C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\nexial-20231110_144723.log</system-out>
+    </testcase>
+    <testcase id="Verify Date Column on Invoice Page" name="Verify Date Column on Invoice Page" classname="Invoice_ColumnSorting" timestamp="2023-11-10T14:47:40" time="134.259">
+      <failure type="failure found in test activity" message="12 of 24 FAILED. Check C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\ColumnSorting.20231110_144728.001.xlsx for execution result, C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\nexial-20231110_144723.log for execution logs" />
+      <system-out>Total : 24
+Passed: 12
+Failed: 12
+Output: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\ColumnSorting.20231110_144728.001.xlsx
+Logs  : C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\nexial-20231110_144723.log</system-out>
+    </testcase>
+    <testcase id="Login to GNU khata" name="Login to GNU khata" classname="Login" timestamp="2023-11-10T14:49:48" time="7.010">
+      <failure type="failure found in test activity" message="1 of 10 FAILED. Check C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\ColumnSorting.20231110_144728.001.xlsx for execution result, C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\nexial-20231110_144723.log for execution logs" />
+      <system-out>Total : 10
+Passed: 1
+Failed: 1
+Output: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\ColumnSorting.20231110_144728.001.xlsx
+Logs  : C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_144723\logs\nexial-20231110_144723.log</system-out>
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,91 @@
+Nexial Version:    nexial-core dev_1539
+Current Timestamp: 2023-11-10 14:34:32.132
+Test Step:         [ColumnSorting.20231110_143412.001.xlsx][Invoice_ColumnSorting][Navigate to Invoice][STEP   6][web][clickAndWait(locator,waitMs)]
+--------------------------------------------------------------------------------
+java.lang.RuntimeException: Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+	at org.nexial.core.plugins.web.Browser.init(Browser.java:400)
+	at org.nexial.core.plugins.web.Browser.ensureWebDriverReady(Browser.java:304)
+	at org.nexial.core.model.PluginManager.initBrowser(PluginManager.java:132)
+	at org.nexial.core.model.PluginManager.getPlugin(PluginManager.java:107)
+	at org.nexial.core.model.ExecutionContext.findPlugin(ExecutionContext.java:399)
+	at org.nexial.core.model.TestStep.invokeCommand(TestStep.java:418)
+	at org.nexial.core.model.TestStep.execute(TestStep.java:248)
+	at org.nexial.core.model.TestCase.execute(TestCase.java:100)
+	at org.nexial.core.model.TestScenario.execute(TestScenario.java:138)
+	at org.nexial.core.model.ExecutionContext.execute(ExecutionContext.java:1378)
+	at org.nexial.core.ExecutionThread.run(ExecutionThread.java:190)
+Caused by: org.openqa.selenium.WebDriverException: java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:2213
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5337', ip: '192.168.0.5', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: ChromeDriver
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:92)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
+	at org.openqa.selenium.remote.RemoteWebDriver.startSession(RemoteWebDriver.java:213)
+	at org.openqa.selenium.remote.RemoteWebDriver.<init>(RemoteWebDriver.java:131)
+	at org.openqa.selenium.chrome.ChromeDriver.<init>(ChromeDriver.java:181)
+	at org.openqa.selenium.chrome.ChromeDriver.<init>(ChromeDriver.java:168)
+	at org.nexial.core.plugins.web.Browser.initChrome(Browser.java:715)
+	at org.nexial.core.plugins.web.Browser.init(Browser.java:378)
+	... 10 more
+Caused by: java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:2213
+	at okhttp3.internal.connection.RealConnection.connectSocket(RealConnection.kt:297)
+	at okhttp3.internal.connection.RealConnection.connect(RealConnection.kt:207)
+	at okhttp3.internal.connection.ExchangeFinder.findConnection(ExchangeFinder.kt:226)
+	at okhttp3.internal.connection.ExchangeFinder.findHealthyConnection(ExchangeFinder.kt:106)
+	at okhttp3.internal.connection.ExchangeFinder.find(ExchangeFinder.kt:74)
+	at okhttp3.internal.connection.RealCall.initExchange$okhttp(RealCall.kt:255)
+	at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.kt:32)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+	at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.kt:95)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+	at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.kt:83)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+	at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.kt:76)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+	at okhttp3.internal.connection.RealCall.getResponseWithInterceptorChain$okhttp(RealCall.kt:201)
+	at okhttp3.internal.connection.RealCall.execute(RealCall.kt:154)
+	at org.openqa.selenium.remote.internal.OkHttpClient.execute(OkHttpClient.java:103)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:105)
+	at org.openqa.selenium.remote.ProtocolHandshake.createSession(ProtocolHandshake.java:74)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:136)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	... 17 more
+	Suppressed: java.net.SocketException: Connection reset by peer
+		at java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:420)
+		at java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:440)
+		at java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:826)
+		at java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1035)
+		at okio.OutputStreamSink.write(JvmOkio.kt:53)
+		at okio.AsyncTimeout$sink$1.write(AsyncTimeout.kt:103)
+		at okio.RealBufferedSink.flush(RealBufferedSink.kt:267)
+		at okhttp3.internal.http1.Http1ExchangeCodec.finishRequest(Http1ExchangeCodec.kt:155)
+		at okhttp3.internal.connection.Exchange.finishRequest(Exchange.kt:91)
+		at okhttp3.internal.http.CallServerInterceptor.intercept(CallServerInterceptor.kt:76)
+		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+		at org.openqa.selenium.remote.internal.OkHttpClient$Factory$1.lambda$createClient$1(OkHttpClient.java:152)
+		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+		at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.kt:34)
+		... 31 more
+	Suppressed: java.net.ConnectException: Failed to connect to localhost/127.0.0.1:2213
+		... 38 more
+	Caused by: java.net.ConnectException: Connection refused: no further information
+		at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+		at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+		at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+		at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+		at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+		at java.base/java.net.Socket.connect(Socket.java:633)
+		at okhttp3.internal.platform.Platform.connectSocket(Platform.kt:128)
+		at okhttp3.internal.connection.RealConnection.connectSocket(RealConnection.kt:295)
+		... 37 more
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at okhttp3.internal.platform.Platform.connectSocket(Platform.kt:128)
+	at okhttp3.internal.connection.RealConnection.connectSocket(RealConnection.kt:295)
+	... 37 more
+

@@ -1,0 +1,594 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <script>
+        var loadErrorFound = false;
+        function externalResourceNotFound() {
+            if (!loadErrorFound) {
+                window.alert("Unable to load one or more external web resources needed to display this page.\n\n" +
+                             "Please check/adjust your Internet access and reload this page again.\n\n" +
+                             "Thank you.");
+                loadErrorFound = true;
+            }
+            return false;
+        }
+    </script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css" onerror="externalResourceNotFound()"/>
+    <link rel="stylesheet" href="https://nexiality.github.io/documentation/assets/report/execution_summary.css" onerror="externalResourceNotFound()"/>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.0.min.js" onerror="externalResourceNotFound()"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" onerror="externalResourceNotFound()"></script>
+    <script src="https://nexiality.github.io/documentation/assets/report/execution_summary.js" onerror="externalResourceNotFound()"></script>
+    <script src="https://nexiality.github.io/documentation/assets/report/execution_output.js" onerror="externalResourceNotFound()"></script>
+</head>
+<body>
+<div class="title">
+    Execution Summary for <span>20231110_143401</span>
+</div>
+
+<div class="result-controls">
+    <i class="fas fa-toggle-on on" id="script-toggle" onclick="toggleScript(this)" title="toggle the display of only scripts"><span>Scripts</span></i>
+    <i class="fas fa-toggle-on on" id="iteration-toggle" onclick="toggleIteration(this)" title="toggle the display of iterations"><span>Iterations</span></i>
+    <i class="fas fa-toggle-on on" id="scenario-toggle" onclick="toggleScenario(this)" title="toggle the display of scenarios"><span>Scenarios</span></i>
+    <i class="fas fa-toggle-on on" id="activity-toggle" onclick="toggleActivity(this)" title="toggle the display of activities"><span>Activities</span></i>
+    <i class="fas fa-toggle-on on" id="reference-toggle" onclick="toggleRefs(this);" title="toggle the display of script/scenario references"><span>References</span></i>
+    <i class="fas fa-toggle-on on" id="timing-toggle" onclick="toggleTimings(this);" title="toggle the display of execution time"><span>Timing</span></i>
+    <i class="fas fa-toggle-on on" id="passfail-toggle" onclick="togglePassFail(this);" title="toggle the display of PASS/FAIL"><span>PASS/FAIL</span></i>
+    &nbsp;|&nbsp;&nbsp;
+    <i class="fas fa-exclamation-circle off" id="failure-toggle" onclick="collapsePassRows(this);"><span>Failures</span></i>
+    <i class="fas fa-check-circle on" id="all-toggle" onclick="showPassRows(this);"><span>All Results</span></i>
+    &nbsp;|&nbsp;&nbsp;
+    <i class="fas fa-compress on" id="collapse-toggle" onclick="toggleExpansion(this)" title="collapse/expand all sections"><span>Collapse/Expand All</span></i>
+</div>
+
+
+
+<div class="execMeta canHide">
+    <div class="showhide" target="execMeta">
+        <i class="fas fa-minus-square" onclick="hideSection(this)" title="minimize this section"></i>
+        <i class="fas fa-plus-square" onclick="showSection(this)" title="restore this section"></i>
+    </div>
+
+    <div id="execMeta" class="parent">
+        <div class="meta">
+            <table class="execMeta" cellpadding="0" cellspacing="0" style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td class="section-header section-env" width="10%"><i class="fas fa-laptop-code"></i></td>
+                        <td class="section-detail detail-env">
+                            <div class="execValue">
+                                <div class="execLabel">run from</div>
+                                <div class="content" style="text-align:left; margin-top:-5px;">ALIPL5337 (amd64 Windows 10 10.0)
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">run user</div>
+                                <div class="content">RH0083
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">nexial version</div>
+                                <div class="content">nexial-core dev_1539</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">java version</div>
+                                <div class="content">17.0.5</div>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" class="section-header section-time"><i class="fas fa-clock"></i></td>
+                        <td class="section-detail detail-time">
+                            <div class="execValue">
+                                <div class="execLabel">starts on</div>
+                                <div class="content">11/10/2023 14:34:08
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">ends on</div>
+                                <div class="content">11/10/2023 14:36:26
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">duration</div>
+                                <div class="content">00:02:18.340
+</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="section-header section-exec"><i class="fas fa-cogs"></i></td>
+                        <td class="section-detail detail-exec">
+                            <div class="execValue">
+                                <div class="execLabel">Scenario Passed</div>
+                                <div class="content">0 / 2
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">Total Steps</div>
+                                <div class="content">   36
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">Executed Steps</div>
+                                <div class="content">28 (77.78%)
+</div>
+                            </div>
+                            <div class="execValue execValuePass">
+                                <div class="execLabel">Passed</div>
+                                <div class="content">14 (38.89%)
+</div>
+                            </div>
+                            <div class="execValue execValueFail">
+                                <div class="execLabel">Failed</div>
+                                <div class="content">14 (38.89%)
+</div>
+                            </div>
+                            <div class="execValue execValueSkipped">
+                                <div class="execLabel">Skipped</div>
+                                <div class="content">0 (0.00%)
+</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="section-header section-ref"><i class="fas fa-file-invoice"></i></td>
+                        <td class="section-detail detail-ref">
+                            <div class="execValue exec-supplemental">
+                                <div class="execLabel">Analysis</div>
+                                <div class="links">
+                                    
+                                    
+                                        Learn more about
+                                        <a href="https://nexiality.github.io/documentation/userguide/ImprovingExecutionReport.html">
+                                            Post-Execution Analysis
+                                        </a>
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="execValue execLog">
+                                <div class="execLabel">Logs</div>
+                                <a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log" target="_nexial_link">ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\nexial-20231110_143401.log" target="_nexial_link">nexial-20231110_143401.log</a><br/>
+                            </div>
+                            <div class="execValue execArgs">
+                                <div class="execLabel">Runtime Args</div>
+                                <pre>-script C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx</pre>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="chart">
+            <div class="chart-container">
+                <table cellspacing="0" cellpadding="5" border="0" width="100%">
+                <tbody>
+                <tr>
+                    <td width="35%"><canvas id="resultsChart"></canvas></td>
+                </tr>
+                </tbody>
+                </table>
+            </div>
+            <div class="reset-buttons">
+                <span id="chartInstruction">click on the chart above to drill down</span>
+                <button id="resetResultsChart">Execution</button>&nbsp;&nbsp;
+                <button id="rollUpResultsChart">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="exec-summary">
+
+    
+
+    <div class="exec-summary-header">
+        <table cellspacing="0" cellpadding="5" border="0" width="100%">
+            <tr>
+                <th class="label label-title">Script</th>
+                <th class="label label-title">Data</th>
+                <th class="label label-iteration">Iterations</th>
+                <th class="label label-scenarioPassed">Scenario Passed</th>
+                <th class="label label-datetime exectime">Start Date/Time</th>
+                <th class="label label-time exectime">Duration</th>
+                <th class="label label-num passfail">Total</th>
+                <th class="label label-num passfail">Pass</th>
+                <th class="label label-num passfail">Fail</th>
+                <th class="label label-percent passfail" width="100%">Success %</th>
+            </tr>
+        </table>
+    </div>
+    <div class="planStep canHide" id="planStep1" >
+        <div class="showhide" target="planStep1details">
+            <i class="fas fa-minus-square" onclick="hideSection(this)" title="minimize this section"></i>
+            <i class="fas fa-plus-square" onclick="showSection(this)" title="restore this section"></i>
+        </div>
+
+        <div class="plan-step-summary">
+            <table cellspacing="0" cellpadding="5" border="0">
+                <tr class="hasFailure">
+                    <td class="value value-title" title="Click to download script">
+                        <a class="fileLink" href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx">ColumnSorting.xlsx</a>
+                        <i class="fas fa-copy" title="copy script location" onclick="copyToClipboard(&#39;C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx&#39;)"></i>
+                    </td>
+                    <td class="value value-title" title="Click to download data">
+                        <a class="fileLink" href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\data\ColumnSorting.data.xlsx">ColumnSorting.data.xlsx</a>
+                        <i class="fas fa-copy" title="copy data file location" onclick="copyToClipboard(&#39;C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\data\\ColumnSorting.data.xlsx&#39;)"></i>
+                    </td>
+                    <td class="value value-iteration">1</td>
+                    <td class="value value-scenarioPassed">0 / 2</td>
+                    <td class="value value-datetime exectime">2023/11/10 14:34:12</td>
+                    <td class="value value-time value-tally exectime">00:02:13</td>
+                    <td class="value value-num value-tally passfail">36</td>
+                    <td class="value value-num value-tally passfail">14</td>
+                    <td class="value value-num value-tally passfail">14</td>
+                    <td class="value value-percent value-tally passfail hasFailure">50.00%</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="iteration canHide" id="planStep1details">
+            <table cellspacing="0" cellpadding="5" border="0">
+                <tr class="record-header">
+                    <th class="label label-title">Iteration</th>
+                    <th class="label label-title">Scenario</th>
+                    <th class="label label-title">Activity</th>
+                    <th class="label label-scenarioPassed"></th>
+                    <th class="label label-datetime exectime">Start Date/Time</th>
+                    <th class="label label-time exectime">Duration</th>
+                    <th class="label label-num passfail">Total</th>
+                    <th class="label label-num passfail">Pass</th>
+                    <th class="label label-num passfail">Fail</th>
+                    <th class="label label-num passfail">Success %</th>
+                    <th class="label">&nbsp;</th>
+                </tr>
+
+                
+                    <tr class="record iter hasFailure">
+                        <td colspan="3" class="value value-title">
+                            <a class="fileLink" title="Click to download result" target="_nexial_link" id="ColumnSorting.20231110_143412.001.xlsx" href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\ColumnSorting.20231110_143412.001.xlsx">Execution Result (1 of 1)</a>
+                            <i class="fas fa-copy" title="copy execution result file location" onclick="copyToClipboard(&#39;C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\ColumnSorting.20231110_143412.001.xlsx&#39;)"></i>
+                            <div class="value-scriptRef">
+                                <i class="fas fa-info-circle info" title="Reference Data labeled as nexial.scriptRef.*"></i>
+                                <table cellspacing="0" cellpadding="0">
+                                    
+                                        
+                                    
+                                        
+                                            <tr>
+                                                <td class="label-ref" title="DataSheet(s)">DataSheet(s)</td>
+                                                <td class="value-ref" title="#default">#default</td>
+                                            </tr>
+                                        
+                                    
+                                        
+                                    
+                                </table>
+                            </div>
+                        </td>
+                        <td class="value value-scenarioPassed">0 / 2</td>
+                        <td class="value value-datetime exectime">2023/11/10 14:34:12</td>
+                        <td class="value value-time value-tally exectime">00:02:12</td>
+                        <td class="value value-num value-tally passfail">28</td>
+                        <td class="value value-num value-tally passfail">14</td>
+                        <td class="value value-num value-tally passfail">14</td>
+                        <td class="value value-percent value-tally passfail hasFailure">50.00%</td>
+                    </tr>
+
+                    
+                        <tr class="record scenario hasFailure">
+                            <td class="value spacer2">&nbsp;</td>
+                            <td colspan="3" class="value value-title" title="Invoice_ColumnSorting">
+                                Invoice_ColumnSorting
+                                
+                            </td>
+                            <td class="value value-datetime exectime">2023/11/10 14:34:15</td>
+                            <td class="value value-time value-tally exectime">00:01:57</td>
+                            <td class="value value-num value-tally passfail">26</td>
+                            <td class="value value-num value-tally passfail">13</td>
+                            <td class="value value-num value-tally passfail">13</td>
+                            <td class="value value-percent value-tally passfail hasFailure">50.00%</td>
+                        </tr>
+
+                        
+                            <tr class="record activity hasFailure">
+                                <td colspan="2" class="value spacer2"></td>
+                                <td colspan="2" class="value value-title">
+                                    <div class="step-icon-grid">
+                                        <div title="Navigate to Invoice">Navigate to Invoice</div>
+                                        <div><i class="fa execution-error-icon" onclick="toggleStepErrors(this)" title="View Errors"></i>&nbsp;</div>
+                                        <div></div>
+                                    </div>
+                                    
+                                </td>
+                                <td class="value value-datetime exectime">2023/11/10 14:34:15</td>
+                                <td class="value value-time exectime">00:00:16</td>
+                                <td class="value value-num passfail">2</td>
+                                <td class="value value-num passfail">1</td>
+                                <td class="value value-num passfail">1</td>
+                                <td class="value value-percent passfail hasFailure">50.00%</td>
+                            </tr>
+                            <tr class="record canHide step-detail-row" >
+                                <td class="spacer2"></td>
+                                <td class="spacer2"></td>
+                                <td colspan="8">
+                                    <table cellspacing="0" cellpadding="5" style="width:100%">
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">6</td>
+                                                <td class="value step-table-col-width-45" title="click on open organization button" rowspan="1">click on open organization button</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                    </table>
+                                </td>
+                            </tr>
+                        
+                            <tr class="record activity hasFailure">
+                                <td colspan="2" class="value spacer2"></td>
+                                <td colspan="2" class="value value-title">
+                                    <div class="step-icon-grid">
+                                        <div title="Verify Date Column on Invoice Page">Verify Date Column on Invoice Page</div>
+                                        <div><i class="fa execution-error-icon" onclick="toggleStepErrors(this)" title="View Errors"></i>&nbsp;</div>
+                                        <div></div>
+                                    </div>
+                                    
+                                </td>
+                                <td class="value value-datetime exectime">2023/11/10 14:34:32</td>
+                                <td class="value value-time exectime">00:01:40</td>
+                                <td class="value value-num passfail">24</td>
+                                <td class="value value-num passfail">12</td>
+                                <td class="value value-num passfail">12</td>
+                                <td class="value value-percent passfail hasFailure">50.00%</td>
+                            </tr>
+                            <tr class="record canHide step-detail-row" >
+                                <td class="spacer2"></td>
+                                <td class="spacer2"></td>
+                                <td colspan="8">
+                                    <table cellspacing="0" cellpadding="5" style="width:100%">
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">7</td>
+                                                <td class="value step-table-col-width-45" title="click on Hamburger menu to open the menu" rowspan="1">click on Hamburger menu to open the menu</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">8</td>
+                                                <td class="value step-table-col-width-45" title="When user click on Help option" rowspan="1">When user click on Help option</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">9</td>
+                                                <td class="value step-table-col-width-45" title="Verify the invoice page displayed" rowspan="1">Verify the invoice page displayed</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">25</td>
+                                                <td class="value step-table-col-width-45" title="Column Sorting
+Input: TableLocator,TableName, ColumnName" rowspan="1">Column Sorting
+Input: TableLocator,TableName, ColumnName</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">28</td>
+                                                <td class="value step-table-col-width-45" title="Click on te column to Sort in Ascending" rowspan="1">Click on te column to Sort in Ascending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">30</td>
+                                                <td class="value step-table-col-width-45" title="Verify the Column sorted from ascending to descending" rowspan="1">Verify the Column sorted from ascending to descending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">25</td>
+                                                <td class="value step-table-col-width-45" title="Column Sorting
+Input: TableLocator,TableName, ColumnName" rowspan="1">Column Sorting
+Input: TableLocator,TableName, ColumnName</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">28</td>
+                                                <td class="value step-table-col-width-45" title="Click on te column to Sort in Ascending" rowspan="1">Click on te column to Sort in Ascending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">30</td>
+                                                <td class="value step-table-col-width-45" title="Verify the Column sorted from ascending to descending" rowspan="1">Verify the Column sorted from ascending to descending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">25</td>
+                                                <td class="value step-table-col-width-45" title="Column Sorting
+Input: TableLocator,TableName, ColumnName" rowspan="1">Column Sorting
+Input: TableLocator,TableName, ColumnName</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">28</td>
+                                                <td class="value step-table-col-width-45" title="Click on te column to Sort in Ascending" rowspan="1">Click on te column to Sort in Ascending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">30</td>
+                                                <td class="value step-table-col-width-45" title="Verify the Column sorted from ascending to descending" rowspan="1">Verify the Column sorted from ascending to descending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                    </table>
+                                </td>
+                            </tr>
+                        
+                    
+                        <tr class="record scenario hasFailure">
+                            <td class="value spacer2">&nbsp;</td>
+                            <td colspan="3" class="value value-title" title="Login">
+                                Login
+                                
+                            </td>
+                            <td class="value value-datetime exectime">2023/11/10 14:36:16</td>
+                            <td class="value value-time value-tally exectime">00:00:08</td>
+                            <td class="value value-num value-tally passfail">2</td>
+                            <td class="value value-num value-tally passfail">1</td>
+                            <td class="value value-num value-tally passfail">1</td>
+                            <td class="value value-percent value-tally passfail hasFailure">50.00%</td>
+                        </tr>
+
+                        
+                            <tr class="record activity hasFailure">
+                                <td colspan="2" class="value spacer2"></td>
+                                <td colspan="2" class="value value-title">
+                                    <div class="step-icon-grid">
+                                        <div title="Login to GNU khata">Login to GNU khata</div>
+                                        <div><i class="fa execution-error-icon" onclick="toggleStepErrors(this)" title="View Errors"></i>&nbsp;</div>
+                                        <div></div>
+                                    </div>
+                                    
+                                </td>
+                                <td class="value value-datetime exectime">2023/11/10 14:36:16</td>
+                                <td class="value value-time exectime">00:00:08</td>
+                                <td class="value value-num passfail">2</td>
+                                <td class="value value-num passfail">1</td>
+                                <td class="value value-num passfail">1</td>
+                                <td class="value value-percent passfail hasFailure">50.00%</td>
+                            </tr>
+                            <tr class="record canHide step-detail-row" >
+                                <td class="spacer2"></td>
+                                <td class="spacer2"></td>
+                                <td colspan="8">
+                                    <table cellspacing="0" cellpadding="5" style="width:100%">
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">16</td>
+                                                <td class="value step-table-col-width-45" title="Login to the GNU website
+Input: username, password" rowspan="1">Login to the GNU website
+Input: username, password</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="Connection refused: no further information">Connection refused: no further information</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                    </table>
+                                </td>
+                            </tr>
+                        
+                    
+                
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="footer">powered by <a href="https://nexiality.github.io">NEXIAL</a></div>
+<br/>
+<br/>
+
+<button id="hideLog" target="" title="click to hide display" onclick="hideLog();">Hide</button>
+
+<div id="loadError" style="display:none;font-weight:bold;font-size:16pt;color:#800;background:rgba(230,200,200,0.9);border:5px solid;padding:25px;margin:auto;position:fixed;width:500px;height:175px;top:0;left:0;right:0;bottom:0;">
+    Unable to load one or more external web resources needed to display this page.<br/><br/>
+    Please check/adjust your Internet access and reload this page again.<br/><br/>
+    Thank you.
+</div>
+
+<script>if (loadErrorFound) { document.getElementById('loadError').style.display = 'block'; }</script>
+<script>
+   const executionChart = new ExecutionChart({"name":"20231110_143401","executionLevel":"EXECUTION","scriptFile":null,"dataFile":null,"testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699607048482,"endTime":1699607186822,"totalLevelPassed":0,"totalSteps":36,"passCount":14,"failCount":14,"warnCount":0,"skippedCount":0,"executed":28,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":null,"logs":{"ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log","ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log","nexial-20231110_143401.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\nexial-20231110_143401.log"},"referenceData":{"Data File":"ColumnSorting.data.xlsx","DataSheet(s)":"#default","runtime args":"-script C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx"},"nestedExecutions":[{"name":"ColumnSorting (1)","executionLevel":"SCRIPT","scriptFile":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx","dataFile":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\data\\ColumnSorting.data.xlsx","testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699607052399,"endTime":1699607185968,"totalLevelPassed":0,"totalSteps":36,"passCount":14,"failCount":14,"warnCount":0,"skippedCount":0,"executed":28,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\nexial-20231110_143401.log","logs":{"ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log","ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log","nexial-20231110_143401.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\nexial-20231110_143401.log"},"referenceData":{},"nestedExecutions":[{"name":"1 of 1","executionLevel":"ITERATION","scriptFile":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx","dataFile":null,"testScript":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\ColumnSorting.20231110_143412.001.xlsx","testScriptLink":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\ColumnSorting.20231110_143412.001.xlsx","runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699607052407,"endTime":1699607185021,"totalLevelPassed":0,"totalSteps":36,"passCount":14,"failCount":14,"warnCount":0,"skippedCount":0,"executed":28,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\nexial-20231110_143401.log","logs":{"ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log","ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log","nexial-20231110_143401.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\nexial-20231110_143401.log"},"referenceData":{"Data File":"ColumnSorting.data.xlsx","DataSheet(s)":"#default","runtime args":"-script C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx"},"nestedExecutions":[{"name":"Invoice_ColumnSorting","executionLevel":"SCENARIO","scriptFile":null,"dataFile":null,"testScript":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\ColumnSorting.20231110_143412.001.xlsx","testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699607055628,"endTime":1699607172911,"totalLevelPassed":0,"totalSteps":26,"passCount":13,"failCount":13,"warnCount":0,"skippedCount":0,"executed":26,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\nexial-20231110_143401.log","logs":{"ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log","nexial-20231110_143401.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\nexial-20231110_143401.log"},"referenceData":{},"nestedExecutions":[{"name":"Navigate to Invoice","executionLevel":"ACTIVITY","scriptFile":null,"dataFile":null,"testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699607055628,"endTime":1699607072228,"totalLevelPassed":0,"totalSteps":2,"passCount":1,"failCount":1,"warnCount":0,"skippedCount":0,"executed":2,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":null,"logs":{},"referenceData":{},"nestedExecutions":[],"nestMessages":{"click on open organization button,web,clickAndWait(locator,waitMs),[${NeworgLoc}, 1500],<null>,false,[ColumnSorting.20231110_143412.001.xlsx][Invoice_ColumnSorting][Navigate to Invoice][STEP   6][web][clickAndWait(locator,waitMs)]":[]},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[{"rowNum":6,"description":"click on open organization button","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false}],"stepDetailsHasError":true,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRateString":"50.00%","successRate":0.5,"elapsedTime":16600},{"name":"Verify Date Column on Invoice Page","executionLevel":"ACTIVITY","scriptFile":null,"dataFile":null,"testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699607072229,"endTime":1699607172911,"totalLevelPassed":0,"totalSteps":24,"passCount":12,"failCount":12,"warnCount":0,"skippedCount":0,"executed":24,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":null,"logs":{},"referenceData":{},"nestedExecutions":[],"nestMessages":{"click on Hamburger menu to open the menu,web,clickAndWait(locator,waitMs),[${org.hamburger}, 2000],<null>,false,[ColumnSorting.20231110_143412.001.xlsx][Invoice_ColumnSorting][Verify Date Column on Invoice Page][STEP   7][web][clickAndWait(locator,waitMs)]":[],"When user click on Help option,web,clickAndWait(locator,waitMs),[${org.invoice}, 1500],<null>,false,[ColumnSorting.20231110_143412.001.xlsx][Invoice_ColumnSorting][Verify Date Column on Invoice Page][STEP   8][web][clickAndWait(locator,waitMs)]":[],"Verify the invoice page displayed,web,assertElementPresent(locator),[${Invoice.Button}],<null>,false,[ColumnSorting.20231110_143412.001.xlsx][Invoice_ColumnSorting][Verify Date Column on Invoice Page][STEP   9][web][assertElementPresent(locator)]":[],"Column Sorting\nInput: TableLocator,TableName, ColumnName,web,wait(waitMs),[2000],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  25][web][wait(waitMs)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}],"Click on te column to Sort in Ascending,web,clickAndWait(locator,waitMs),[${ColumnNameLoc}, 1000],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  28][web][clickAndWait(locator,waitMs)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}],"Verify the Column sorted from ascending to descending,web,assertElementPresent(locator),[${Sortcolumn}],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  30][web][assertElementPresent(locator)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}],"Column Sorting\nInput: TableLocator,TableName, ColumnName,web,wait(waitMs),[2000],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  25][web][wait(waitMs)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}],"Click on te column to Sort in Ascending,web,clickAndWait(locator,waitMs),[${ColumnNameLoc}, 1000],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  28][web][clickAndWait(locator,waitMs)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}],"Verify the Column sorted from ascending to descending,web,assertElementPresent(locator),[${Sortcolumn}],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  30][web][assertElementPresent(locator)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}],"Column Sorting\nInput: TableLocator,TableName, ColumnName,web,wait(waitMs),[2000],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  25][web][wait(waitMs)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}],"Click on te column to Sort in Ascending,web,clickAndWait(locator,waitMs),[${ColumnNameLoc}, 1000],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  28][web][clickAndWait(locator,waitMs)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}],"Verify the Column sorted from ascending to descending,web,assertElementPresent(locator),[${Sortcolumn}],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  30][web][assertElementPresent(locator)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}]},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[{"rowNum":7,"description":"click on Hamburger menu to open the menu","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":8,"description":"When user click on Help option","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":9,"description":"Verify the invoice page displayed","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":25,"description":"Column Sorting\nInput: TableLocator,TableName, ColumnName","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":28,"description":"Click on te column to Sort in Ascending","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":30,"description":"Verify the Column sorted from ascending to descending","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":25,"description":"Column Sorting\nInput: TableLocator,TableName, ColumnName","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":28,"description":"Click on te column to Sort in Ascending","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":30,"description":"Verify the Column sorted from ascending to descending","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":25,"description":"Column Sorting\nInput: TableLocator,TableName, ColumnName","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":28,"description":"Click on te column to Sort in Ascending","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false},{"rowNum":30,"description":"Verify the Column sorted from ascending to descending","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false}],"stepDetailsHasError":true,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRateString":"50.00%","successRate":0.5,"elapsedTime":100682}],"nestMessages":{},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRateString":"50.00%","successRate":0.5,"elapsedTime":117283},{"name":"Login","executionLevel":"SCENARIO","scriptFile":null,"dataFile":null,"testScript":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\ColumnSorting.20231110_143412.001.xlsx","testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699607176437,"endTime":1699607184724,"totalLevelPassed":0,"totalSteps":10,"passCount":1,"failCount":1,"warnCount":0,"skippedCount":0,"executed":2,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\nexial-20231110_143401.log","logs":{"ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log","ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log","nexial-20231110_143401.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_143401\\logs\\nexial-20231110_143401.log"},"referenceData":{},"nestedExecutions":[{"name":"Login to GNU khata","executionLevel":"ACTIVITY","scriptFile":null,"dataFile":null,"testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699607176437,"endTime":1699607184723,"totalLevelPassed":0,"totalSteps":10,"passCount":1,"failCount":1,"warnCount":0,"skippedCount":0,"executed":2,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":null,"logs":{},"referenceData":{},"nestedExecutions":[],"nestMessages":{"Login to the GNU website\nInput: username, password,web,openAndWait(url,waitMs),[${uiurl}, 1500],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Login to GNU khata][STEP  16][web][openAndWait(url,waitMs)]":[{"message":"Connection refused: no further information","resultMessage":null,"pass":false}]},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[{"rowNum":16,"description":"Login to the GNU website\nInput: username, password","nestedMessages":[{"message":"Connection refused: no further information","file":"","fileType":"alt"}],"pass":false}],"stepDetailsHasError":true,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRateString":"50.00%","successRate":0.5,"elapsedTime":8286}],"nestMessages":{},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRateString":"50.00%","successRate":0.5,"elapsedTime":8287}],"nestMessages":{},"planSequence":0,"iterationIndex":1,"iterationTotal":1,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRateString":"50.00%","successRate":0.5,"elapsedTime":132614}],"nestMessages":{},"planSequence":0,"iterationIndex":0,"iterationTotal":1,"planName":null,"planFile":null,"planDescription":"Started on 11\/10\/2023 02:34:02 PM from ALIPL5337 via user RH0083","screenRecordings":null,"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRateString":"50.00%","successRate":0.5,"elapsedTime":133569}],"nestMessages":{},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":{},"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRateString":"50.00%","successRate":0.5,"elapsedTime":138340});
+   executionChart.initializeChart();
+</script>
+
+
+</body>
+</html>

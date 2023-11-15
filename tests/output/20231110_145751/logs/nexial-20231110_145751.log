@@ -1,0 +1,230 @@
+2023-11-10 14:57:51.828|I|Thread-1|(DELAYED) nexial-core dev_1539 starting up...
+2023-11-10 14:57:51.828|I|Thread-1|(DELAYED) data file resolved as C:\Users\RH0083\tmp\tLnmu\ColumnSorting.data.xlsx
+2023-11-10 14:57:51.828|I|Thread-1|(DELAYED) input files and output directory resolved...
+2023-11-10 14:57:51.828|I|Thread-1|(DELAYED) cleaning up outdated temp files...
+2023-11-10 14:57:51.828|I|Thread-1|(DELAYED) No predefined nexial-setup found
+2023-11-10 14:57:51.828|I|Thread-1|(DELAYED) re-fetching data from C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\data\ColumnSorting.data.xlsx
+2023-11-10 14:57:51.828|I|Thread-1|(DELAYED) [20231110_145751] [C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx] resolve RUN ID as 20231110_145751
+2023-11-10 14:57:51.828|I|Thread-1|(DELAYED) [20231110_145751] [C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx] new thread started
+2023-11-10 14:57:51.828|I|Thread-1|No predefined nexial-setup found
+2023-11-10 14:57:52.197|I|Thread-1|outputBase not set; output-to-cloud DISABLED!
+2023-11-10 14:57:52.197|I|Thread-1|accessKey not set; output-to-cloud DISABLED!
+2023-11-10 14:57:52.197|I|Thread-1|secretKey not set; output-to-cloud DISABLED!
+2023-11-10 14:57:52.377|I|Thread-1|missing REQUIRED configuration; sms DISABLED!
+2023-11-10 14:57:52.736|I|Thread-1|On-Demand Inspection detection enabled
+2023-11-10 14:57:52.737|I|Thread-1|[20231110_145751] executing C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx with 1 iteration(s)
+2023-11-10 14:57:52.738|I|Thread-1|[20231110_145751] create directory C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\captures
+2023-11-10 14:57:52.738|I|Thread-1|[20231110_145751] create directory C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs
+2023-11-10 14:57:52.983|I|Thread-1|[20231110_145751] merging test data to tmp file C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\ColumnSorting.20231110_145752.001.xlsx
+2023-11-10 14:57:52.983|I|Thread-1|re-fetching data from C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\data\ColumnSorting.data.xlsx
+2023-11-10 14:57:53.216|I|Thread-1|[20231110_145751] test script and test data merged to C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\ColumnSorting.20231110_145752.001.xlsx
+2023-11-10 14:57:53.557|I|Thread-1|STARTS
+2023-11-10 14:57:53.587|I|Thread-1|ColumnSorting.20231110_145752.001 - executing iteration #1 of 1; Iteration Id 1
+2023-11-10 14:57:53.587|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting - executing test scenario
+2023-11-10 14:57:53.587|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Navigate to Invoice - executing activity
+2023-11-10 14:57:53.587|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Navigate to Invoice|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2023-11-10 14:57:53.777|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Navigate to Invoice|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2023-11-10 14:57:53.777|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Navigate to Invoice|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2023-11-10 14:57:53.777|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:57:53.808|I|Thread-1|[chrome] enabling chrome remote port: 47819
+2023-11-10 14:57:54.937|I|Thread-1|[chrome] initializing for chrome 119.0.6045.124
+2023-11-10 14:57:55.013|I|Thread-1|[DISPLAY] Currently discovered display(s):
+2023-11-10 14:57:55.019|I|Thread-1|	1920x1080x32bpp@60Hz
+2023-11-10 14:57:55.019|I|Thread-1|	2560x1080x32bpp@60Hz
+2023-11-10 14:57:55.026|I|Thread-1|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2023-11-10 14:57:55.037|I|Thread-1|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2023-11-10 14:57:55.037|I|Thread-1|[DISPLAY] position adjusted to (0, 0)
+2023-11-10 14:57:55.150|I|Thread-1|[chrome] browser initialization completed for 'chrome'
+2023-11-10 14:57:55.158|I|Thread-1|[chrome] setting browser page load timeout to 60000 ms
+2023-11-10 14:57:55.158|I|Thread-1|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2023-11-10 14:58:05.199|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Navigate to Invoice|#  6|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'; nexial.pollWaitMs=10000
+2023-11-10 14:58:05.273|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log
+2023-11-10 14:58:05.278|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Navigate to Invoice|#  6|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button', '1500')
+Specified element not found: Timed out while looking for web element(s) that match '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:58:05.279|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Navigate to Invoice|#  6|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log
+2023-11-10 14:58:05.282|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Navigate to Invoice - ending activity
+2023-11-10 14:58:05.283|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page - executing activity
+2023-11-10 14:58:05.284|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2023-11-10 14:58:15.332|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  7|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//button[@title='Open Sidebar']'; nexial.pollWaitMs=10000
+2023-11-10 14:58:15.356|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log
+2023-11-10 14:58:15.357|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  7|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//button[@title='Open Sidebar']', '2000')
+Specified element not found: Timed out while looking for web element(s) that match '//button[@title='Open Sidebar']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:58:15.357|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  7|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log
+2023-11-10 14:58:15.358|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  8|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.invoice}, 1500)
+2023-11-10 14:58:25.394|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  8|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//a[contains(@href,'Invoice')]'; nexial.pollWaitMs=10000
+2023-11-10 14:58:25.418|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log
+2023-11-10 14:58:25.418|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  8|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//a[contains(@href,'Invoice')]', '1500')
+Specified element not found: Timed out while looking for web element(s) that match '//a[contains(@href,'Invoice')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:58:25.418|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  8|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log
+2023-11-10 14:58:25.418|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  9|web.assertElementPresent( - executing assertElementPresent(locator)(${Invoice.Button})
+2023-11-10 14:58:35.448|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  9|web.assertElementPresent( - Timed out while looking for web element(s) that match '//button[@id="main-menu__BV_toggle_"]/div[text()=' Invoice ']'; nexial.pollWaitMs=10000
+2023-11-10 14:58:35.467|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log
+2023-11-10 14:58:35.467|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  9|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//button[@id="main-menu__BV_toggle_"]/div[text()=' Invoice ']')
+Specified element not found: Timed out while looking for web element(s) that match '//button[@id="main-menu__BV_toggle_"]/div[text()=' Invoice ']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:58:35.467|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  9|web.assertElementPresent( - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log
+2023-11-10 14:58:35.467|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 10|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|ColumnSorting), Table_ColumnName_Loc=${Table_ColumnName_Loc}
+TableName=${TableName_Invoice}
+ColumnName=${ColumnName_Date})
+2023-11-10 14:58:35.657|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - executing wait(waitMs)(2000)
+2023-11-10 14:58:37.687|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - PASS waited 2000ms
+2023-11-10 14:58:37.687|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Table_ColumnName_Loc}, \#, ${TableName}, TableNameLoc)
+2023-11-10 14:58:37.747|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - PASS matches replaced and stored to variable TableNameLoc
+2023-11-10 14:58:37.747|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${TableNameLoc}, \%, ${ColumnName}, ColumnNameLoc)
+2023-11-10 14:58:37.798|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - PASS matches replaced and stored to variable ColumnNameLoc
+2023-11-10 14:58:37.798|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${ColumnNameLoc}, 1000)
+2023-11-10 14:58:47.828|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Date']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000
+2023-11-10 14:58:47.851|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log
+2023-11-10 14:58:47.851|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//table[@id="list-Invoice"]//th/div[text()='Date']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']', '1000')
+Specified element not found: Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Date']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:58:47.851|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log
+2023-11-10 14:58:47.851|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${ColumnNameLoc}, ascending, descending, Sortcolumn)
+2023-11-10 14:58:47.877|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - PASS matches replaced and stored to variable Sortcolumn
+2023-11-10 14:58:47.877|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - executing assertElementPresent(locator)(${Sortcolumn})
+2023-11-10 14:58:57.888|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Date']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000
+2023-11-10 14:58:57.908|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log
+2023-11-10 14:58:57.908|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//table[@id="list-Invoice"]//th/div[text()='Date']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']')
+Specified element not found: Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Date']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:58:57.908|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log
+2023-11-10 14:58:57.936|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 10|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-11-10 14:58:57.937|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 11|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|ColumnSorting), Table_ColumnName_Loc=${Table_ColumnName_Loc}
+TableName=${TableName_Invoice}
+ColumnName=${ColumnName_Name})
+2023-11-10 14:58:58.068|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - executing wait(waitMs)(2000)
+2023-11-10 14:59:00.088|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - PASS waited 2000ms
+2023-11-10 14:59:00.088|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Table_ColumnName_Loc}, \#, ${TableName}, TableNameLoc)
+2023-11-10 14:59:00.118|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - PASS matches replaced and stored to variable TableNameLoc
+2023-11-10 14:59:00.118|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${TableNameLoc}, \%, ${ColumnName}, ColumnNameLoc)
+2023-11-10 14:59:00.148|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - PASS matches replaced and stored to variable ColumnNameLoc
+2023-11-10 14:59:00.156|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${ColumnNameLoc}, 1000)
+2023-11-10 14:59:10.169|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Name']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000
+2023-11-10 14:59:10.189|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log
+2023-11-10 14:59:10.189|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//table[@id="list-Invoice"]//th/div[text()='Name']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']', '1000')
+Specified element not found: Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Name']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:59:10.189|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log
+2023-11-10 14:59:10.189|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${ColumnNameLoc}, ascending, descending, Sortcolumn)
+2023-11-10 14:59:10.218|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - PASS matches replaced and stored to variable Sortcolumn
+2023-11-10 14:59:10.218|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - executing assertElementPresent(locator)(${Sortcolumn})
+2023-11-10 14:59:20.218|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Name']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000
+2023-11-10 14:59:20.228|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log
+2023-11-10 14:59:20.228|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//table[@id="list-Invoice"]//th/div[text()='Name']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']')
+Specified element not found: Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Name']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:59:20.236|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log
+2023-11-10 14:59:20.238|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 11|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-11-10 14:59:20.246|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 12|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|ColumnSorting), Table_ColumnName_Loc=${Table_ColumnName_Loc}
+TableName=${TableName_Invoice}
+ColumnName=${ColumnName_Amount})
+2023-11-10 14:59:20.367|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - executing wait(waitMs)(2000)
+2023-11-10 14:59:22.387|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - PASS waited 2000ms
+2023-11-10 14:59:22.396|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Table_ColumnName_Loc}, \#, ${TableName}, TableNameLoc)
+2023-11-10 14:59:22.421|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - PASS matches replaced and stored to variable TableNameLoc
+2023-11-10 14:59:22.421|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${TableNameLoc}, \%, ${ColumnName}, ColumnNameLoc)
+2023-11-10 14:59:22.468|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - PASS matches replaced and stored to variable ColumnNameLoc
+2023-11-10 14:59:22.476|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${ColumnNameLoc}, 1000)
+2023-11-10 14:59:32.487|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Amount']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000
+2023-11-10 14:59:32.498|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log
+2023-11-10 14:59:32.498|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//table[@id="list-Invoice"]//th/div[text()='Amount']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']', '1000')
+Specified element not found: Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Amount']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:59:32.498|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log
+2023-11-10 14:59:32.498|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${ColumnNameLoc}, ascending, descending, Sortcolumn)
+2023-11-10 14:59:32.528|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - PASS matches replaced and stored to variable Sortcolumn
+2023-11-10 14:59:32.528|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - executing assertElementPresent(locator)(${Sortcolumn})
+2023-11-10 14:59:42.528|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Amount']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000
+2023-11-10 14:59:42.556|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log
+2023-11-10 14:59:42.557|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//table[@id="list-Invoice"]//th/div[text()='Amount']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']')
+Specified element not found: Timed out while looking for web element(s) that match '//table[@id="list-Invoice"]//th/div[text()='Amount']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-10 14:59:42.557|E|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log
+2023-11-10 14:59:42.568|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 12|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-11-10 14:59:42.568|I|Thread-1|ColumnSorting.20231110_145752.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page - ending activity
+2023-11-10 14:59:43.818|I|Thread-1|[ColumnSorting.20231110_145752.001|Invoice_ColumnSorting] saving test scenario
+2023-11-10 14:59:43.898|I|Thread-1|ColumnSorting.20231110_145752.001|Login - executing test scenario
+2023-11-10 14:59:43.898|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata - executing activity
+2023-11-10 14:59:43.898|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2023-11-10 14:59:44.038|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2023-11-10 14:59:52.287|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2023-11-10 14:59:52.288|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2023-11-10 14:59:52.407|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2023-11-10 14:59:52.407|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2023-11-10 14:59:52.507|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//*[span='Continue with Default Server']' is present
+2023-11-10 14:59:52.507|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2023-11-10 14:59:52.569|I|Thread-1|clicking '//*[span='Continue with Default Server']'...
+2023-11-10 14:59:52.578|I|Thread-1|click target via JS, @id=
+2023-11-10 14:59:52.597|I|Thread-1|clicked -> true
+2023-11-10 14:59:52.606|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2023-11-10 14:59:52.607|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2023-11-10 14:59:57.627|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2023-11-10 14:59:57.627|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2023-11-10 14:59:57.757|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2023-11-10 14:59:57.757|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2023-11-10 14:59:57.920|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2023-11-10 14:59:57.920|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2023-11-10 14:59:57.977|I|Thread-1|clicking '(//*[@type='submit'])[1]'...
+2023-11-10 14:59:57.991|I|Thread-1|click target via JS, @id=
+2023-11-10 14:59:58.008|I|Thread-1|clicked -> true
+2023-11-10 14:59:58.022|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2023-11-10 14:59:58.022|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 24|web.assertTextContains(lo - executing assertTextContains(locator,text)(${title.locator}, ${title.header})
+2023-11-10 14:59:58.857|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata (login)|# 24|web.assertTextContains(lo - PASS validated text 'Welcome Accion!' contains 'Welcome Accion!'
+2023-11-10 14:59:58.857|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-11-10 14:59:58.857|I|Thread-1|ColumnSorting.20231110_145752.001|Login|Login to GNU khata - ending activity
+2023-11-10 14:59:59.168|I|Thread-1|[ColumnSorting.20231110_145752.001|Login] saving test scenario
+2023-11-10 14:59:59.247|I|Thread-1|[20231110_145751] 
+/-ITERATION COMPLETE------------------------------------------------------------
+| Test Output:    C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\ColumnSorting.20231110_145752.001.xlsx
+| Iteration:      1
+\-------------------------------------------------------------------------------
+» Execution Time: 125660 ms
+» Test Steps:     36
+» Error(s):       10
+
+
+
+2023-11-10 14:59:59.616|I|Thread-1|[20231110_145751] 
+/-SCRIPT COMPLETE---------------------------------------------------------------
+| Test Script:    C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx
+\-------------------------------------------------------------------------------
+» Execution Time: 127914 ms
+» Iterations:     [1] total 1
+» Test Steps:     36
+» Passed:         26
+» Error(s):       10
+» Iteration 1 of 1: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\ColumnSorting.20231110_145752.001.xlsx
+
+
+
+2023-11-10 14:59:59.617|I|Thread-1|nexial mailer not enabled: nexial.enableEmail=false
+2023-11-10 15:00:00.227|I|main|[20231110_145751] [C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx] now completed
+2023-11-10 15:00:00.228|I|main|[20231110_145751] all execution thread(s) have terminated
+2023-11-10 15:00:00.228|I|main|[20231110_145751] test run completed in about 129 seconds
+2023-11-10 15:00:00.288|I|main|No predefined nexial-setup found
+2023-11-10 15:00:00.307|I|main|outputBase not set; output-to-cloud DISABLED!
+2023-11-10 15:00:00.307|I|main|accessKey not set; output-to-cloud DISABLED!
+2023-11-10 15:00:00.307|I|main|secretKey not set; output-to-cloud DISABLED!
+2023-11-10 15:00:00.307|I|main|generating HTML output for this execution to C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\execution-output.html
+2023-11-10 15:00:00.902|I|main|generating JUnit XML output for this execution to C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\junit.xml
+2023-11-10 15:00:00.928|I|main|generated the JUnit report for this execution: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\junit.xml
+2023-11-10 15:00:00.938|I|main|nexial mailer not enabled: nexial.enableEmail=false
+2023-11-10 15:00:00.943|I|main|skipped email notification as configured
+2023-11-10 15:00:00.943|I|main|exiting current script/plan execution
+2023-11-10 15:00:00.943|I|main|exiting Nexial...
+2023-11-10 15:00:00.943|I|main|shutdown starts...
+2023-11-10 15:00:00.943|I|main|[chrome] Shutting down webdriver...
+2023-11-10 15:00:00.946|I|main|[chrome] Close the current window...
+2023-11-10 15:00:01.060|I|main|[chrome] Quit this driver, closing every associated window.
+2023-11-10 15:00:02.226|I|main|shutdown ends...
+2023-11-10 15:00:02.228|I|main|
+
+/-END OF EXECUTION--------------------------------------------------------------
+| » Execution Time: 128 sec.
+| » Test Steps....: 36
+| » Passed........: 26
+| » Failed........: 10
+| » Success Rate..: 72.22%
+\----------------------------------------------------------nexial-core dev_1539-
+
+2023-11-10 15:00:02.228|E|main|failure found; success rate is 72.22%
+2023-11-10 15:00:02.228|I|main|End of Execution:
+NEXIAL_OUTPUT:         C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751
+NEXIAL_EXECUTION_HTML: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\execution-output.html
+NEXIAL_JUNIT_XML:      C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\junit.xml
+NEXIAL_SUCCESS_RATE:   72.22%
+NEXIAL_EXIT_STATUS:    -13

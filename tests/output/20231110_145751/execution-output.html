@@ -1,0 +1,558 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <script>
+        var loadErrorFound = false;
+        function externalResourceNotFound() {
+            if (!loadErrorFound) {
+                window.alert("Unable to load one or more external web resources needed to display this page.\n\n" +
+                             "Please check/adjust your Internet access and reload this page again.\n\n" +
+                             "Thank you.");
+                loadErrorFound = true;
+            }
+            return false;
+        }
+    </script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css" onerror="externalResourceNotFound()"/>
+    <link rel="stylesheet" href="https://nexiality.github.io/documentation/assets/report/execution_summary.css" onerror="externalResourceNotFound()"/>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.0.min.js" onerror="externalResourceNotFound()"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js" onerror="externalResourceNotFound()"></script>
+    <script src="https://nexiality.github.io/documentation/assets/report/execution_summary.js" onerror="externalResourceNotFound()"></script>
+    <script src="https://nexiality.github.io/documentation/assets/report/execution_output.js" onerror="externalResourceNotFound()"></script>
+</head>
+<body>
+<div class="title">
+    Execution Summary for <span>20231110_145751</span>
+</div>
+
+<div class="result-controls">
+    <i class="fas fa-toggle-on on" id="script-toggle" onclick="toggleScript(this)" title="toggle the display of only scripts"><span>Scripts</span></i>
+    <i class="fas fa-toggle-on on" id="iteration-toggle" onclick="toggleIteration(this)" title="toggle the display of iterations"><span>Iterations</span></i>
+    <i class="fas fa-toggle-on on" id="scenario-toggle" onclick="toggleScenario(this)" title="toggle the display of scenarios"><span>Scenarios</span></i>
+    <i class="fas fa-toggle-on on" id="activity-toggle" onclick="toggleActivity(this)" title="toggle the display of activities"><span>Activities</span></i>
+    <i class="fas fa-toggle-on on" id="reference-toggle" onclick="toggleRefs(this);" title="toggle the display of script/scenario references"><span>References</span></i>
+    <i class="fas fa-toggle-on on" id="timing-toggle" onclick="toggleTimings(this);" title="toggle the display of execution time"><span>Timing</span></i>
+    <i class="fas fa-toggle-on on" id="passfail-toggle" onclick="togglePassFail(this);" title="toggle the display of PASS/FAIL"><span>PASS/FAIL</span></i>
+    &nbsp;|&nbsp;&nbsp;
+    <i class="fas fa-exclamation-circle off" id="failure-toggle" onclick="collapsePassRows(this);"><span>Failures</span></i>
+    <i class="fas fa-check-circle on" id="all-toggle" onclick="showPassRows(this);"><span>All Results</span></i>
+    &nbsp;|&nbsp;&nbsp;
+    <i class="fas fa-compress on" id="collapse-toggle" onclick="toggleExpansion(this)" title="collapse/expand all sections"><span>Collapse/Expand All</span></i>
+</div>
+
+
+
+<div class="execMeta canHide">
+    <div class="showhide" target="execMeta">
+        <i class="fas fa-minus-square" onclick="hideSection(this)" title="minimize this section"></i>
+        <i class="fas fa-plus-square" onclick="showSection(this)" title="restore this section"></i>
+    </div>
+
+    <div id="execMeta" class="parent">
+        <div class="meta">
+            <table class="execMeta" cellpadding="0" cellspacing="0" style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td class="section-header section-env" width="10%"><i class="fas fa-laptop-code"></i></td>
+                        <td class="section-detail detail-env">
+                            <div class="execValue">
+                                <div class="execLabel">run from</div>
+                                <div class="content" style="text-align:left; margin-top:-5px;">ALIPL5337 (amd64 Windows 10 10.0)
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">run user</div>
+                                <div class="content">RH0083
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">nexial version</div>
+                                <div class="content">nexial-core dev_1539</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">java version</div>
+                                <div class="content">17.0.5</div>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" class="section-header section-time"><i class="fas fa-clock"></i></td>
+                        <td class="section-detail detail-time">
+                            <div class="execValue">
+                                <div class="execLabel">starts on</div>
+                                <div class="content">11/10/2023 14:57:51
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">ends on</div>
+                                <div class="content">11/10/2023 15:00:00
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">duration</div>
+                                <div class="content">00:02:08.640
+</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="section-header section-exec"><i class="fas fa-cogs"></i></td>
+                        <td class="section-detail detail-exec">
+                            <div class="execValue">
+                                <div class="execLabel">Scenario Passed</div>
+                                <div class="content">1 / 2
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">Total Steps</div>
+                                <div class="content">   36
+</div>
+                            </div>
+                            <div class="execValue">
+                                <div class="execLabel">Executed Steps</div>
+                                <div class="content">36 (100.00%)
+</div>
+                            </div>
+                            <div class="execValue execValuePass">
+                                <div class="execLabel">Passed</div>
+                                <div class="content">26 (72.22%)
+</div>
+                            </div>
+                            <div class="execValue execValueFail">
+                                <div class="execLabel">Failed</div>
+                                <div class="content">10 (27.78%)
+</div>
+                            </div>
+                            <div class="execValue execValueSkipped">
+                                <div class="execLabel">Skipped</div>
+                                <div class="content">0 (0.00%)
+</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="section-header section-ref"><i class="fas fa-file-invoice"></i></td>
+                        <td class="section-detail detail-ref">
+                            <div class="execValue exec-supplemental">
+                                <div class="execLabel">Analysis</div>
+                                <div class="links">
+                                    
+                                    
+                                        Learn more about
+                                        <a href="https://nexiality.github.io/documentation/userguide/ImprovingExecutionReport.html">
+                                            Post-Execution Analysis
+                                        </a>
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="execValue execLog">
+                                <div class="execLabel">Logs</div>
+                                <a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log" target="_nexial_link">ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log</a><br/><a href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\logs\nexial-20231110_145751.log" target="_nexial_link">nexial-20231110_145751.log</a><br/>
+                            </div>
+                            <div class="execValue execArgs">
+                                <div class="execLabel">Runtime Args</div>
+                                <pre>-script C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx</pre>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="chart">
+            <div class="chart-container">
+                <table cellspacing="0" cellpadding="5" border="0" width="100%">
+                <tbody>
+                <tr>
+                    <td width="35%"><canvas id="resultsChart"></canvas></td>
+                </tr>
+                </tbody>
+                </table>
+            </div>
+            <div class="reset-buttons">
+                <span id="chartInstruction">click on the chart above to drill down</span>
+                <button id="resetResultsChart">Execution</button>&nbsp;&nbsp;
+                <button id="rollUpResultsChart">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="exec-summary">
+
+    
+
+    <div class="exec-summary-header">
+        <table cellspacing="0" cellpadding="5" border="0" width="100%">
+            <tr>
+                <th class="label label-title">Script</th>
+                <th class="label label-title">Data</th>
+                <th class="label label-iteration">Iterations</th>
+                <th class="label label-scenarioPassed">Scenario Passed</th>
+                <th class="label label-datetime exectime">Start Date/Time</th>
+                <th class="label label-time exectime">Duration</th>
+                <th class="label label-num passfail">Total</th>
+                <th class="label label-num passfail">Pass</th>
+                <th class="label label-num passfail">Fail</th>
+                <th class="label label-percent passfail" width="100%">Success %</th>
+            </tr>
+        </table>
+    </div>
+    <div class="planStep canHide" id="planStep1" >
+        <div class="showhide" target="planStep1details">
+            <i class="fas fa-minus-square" onclick="hideSection(this)" title="minimize this section"></i>
+            <i class="fas fa-plus-square" onclick="showSection(this)" title="restore this section"></i>
+        </div>
+
+        <div class="plan-step-summary">
+            <table cellspacing="0" cellpadding="5" border="0">
+                <tr class="hasFailure">
+                    <td class="value value-title" title="Click to download script">
+                        <a class="fileLink" href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx">ColumnSorting.xlsx</a>
+                        <i class="fas fa-copy" title="copy script location" onclick="copyToClipboard(&#39;C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx&#39;)"></i>
+                    </td>
+                    <td class="value value-title" title="Click to download data">
+                        <a class="fileLink" href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\data\ColumnSorting.data.xlsx">ColumnSorting.data.xlsx</a>
+                        <i class="fas fa-copy" title="copy data file location" onclick="copyToClipboard(&#39;C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\data\\ColumnSorting.data.xlsx&#39;)"></i>
+                    </td>
+                    <td class="value value-iteration">1</td>
+                    <td class="value value-scenarioPassed">1 / 2</td>
+                    <td class="value value-datetime exectime">2023/11/10 14:57:52</td>
+                    <td class="value value-time value-tally exectime">00:02:06</td>
+                    <td class="value value-num value-tally passfail">36</td>
+                    <td class="value value-num value-tally passfail">26</td>
+                    <td class="value value-num value-tally passfail">10</td>
+                    <td class="value value-percent value-tally passfail hasFailure">72.22%</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="iteration canHide" id="planStep1details">
+            <table cellspacing="0" cellpadding="5" border="0">
+                <tr class="record-header">
+                    <th class="label label-title">Iteration</th>
+                    <th class="label label-title">Scenario</th>
+                    <th class="label label-title">Activity</th>
+                    <th class="label label-scenarioPassed"></th>
+                    <th class="label label-datetime exectime">Start Date/Time</th>
+                    <th class="label label-time exectime">Duration</th>
+                    <th class="label label-num passfail">Total</th>
+                    <th class="label label-num passfail">Pass</th>
+                    <th class="label label-num passfail">Fail</th>
+                    <th class="label label-num passfail">Success %</th>
+                    <th class="label">&nbsp;</th>
+                </tr>
+
+                
+                    <tr class="record iter hasFailure">
+                        <td colspan="3" class="value value-title">
+                            <a class="fileLink" title="Click to download result" target="_nexial_link" id="ColumnSorting.20231110_145752.001.xlsx" href="C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_145751\ColumnSorting.20231110_145752.001.xlsx">Execution Result (1 of 1)</a>
+                            <i class="fas fa-copy" title="copy execution result file location" onclick="copyToClipboard(&#39;C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\ColumnSorting.20231110_145752.001.xlsx&#39;)"></i>
+                            <div class="value-scriptRef">
+                                <i class="fas fa-info-circle info" title="Reference Data labeled as nexial.scriptRef.*"></i>
+                                <table cellspacing="0" cellpadding="0">
+                                    
+                                        
+                                    
+                                        
+                                            <tr>
+                                                <td class="label-ref" title="DataSheet(s)">DataSheet(s)</td>
+                                                <td class="value-ref" title="#default">#default</td>
+                                            </tr>
+                                        
+                                    
+                                        
+                                    
+                                </table>
+                            </div>
+                        </td>
+                        <td class="value value-scenarioPassed">1 / 2</td>
+                        <td class="value value-datetime exectime">2023/11/10 14:57:52</td>
+                        <td class="value value-time value-tally exectime">00:02:06</td>
+                        <td class="value value-num value-tally passfail">36</td>
+                        <td class="value value-num value-tally passfail">26</td>
+                        <td class="value value-num value-tally passfail">10</td>
+                        <td class="value value-percent value-tally passfail hasFailure">72.22%</td>
+                    </tr>
+
+                    
+                        <tr class="record scenario hasFailure">
+                            <td class="value spacer2">&nbsp;</td>
+                            <td colspan="3" class="value value-title" title="Invoice_ColumnSorting">
+                                Invoice_ColumnSorting
+                                
+                            </td>
+                            <td class="value value-datetime exectime">2023/11/10 14:57:53</td>
+                            <td class="value value-time value-tally exectime">00:01:48</td>
+                            <td class="value value-num value-tally passfail">26</td>
+                            <td class="value value-num value-tally passfail">16</td>
+                            <td class="value value-num value-tally passfail">10</td>
+                            <td class="value value-percent value-tally passfail hasFailure">61.54%</td>
+                        </tr>
+
+                        
+                            <tr class="record activity hasFailure">
+                                <td colspan="2" class="value spacer2"></td>
+                                <td colspan="2" class="value value-title">
+                                    <div class="step-icon-grid">
+                                        <div title="Navigate to Invoice">Navigate to Invoice</div>
+                                        <div><i class="fa execution-error-icon" onclick="toggleStepErrors(this)" title="View Errors"></i>&nbsp;</div>
+                                        <div></div>
+                                    </div>
+                                    
+                                </td>
+                                <td class="value value-datetime exectime">2023/11/10 14:57:53</td>
+                                <td class="value value-time exectime">00:00:11</td>
+                                <td class="value value-num passfail">2</td>
+                                <td class="value value-num passfail">1</td>
+                                <td class="value value-num passfail">1</td>
+                                <td class="value value-percent passfail hasFailure">50.00%</td>
+                            </tr>
+                            <tr class="record canHide step-detail-row" >
+                                <td class="spacer2"></td>
+                                <td class="spacer2"></td>
+                                <td colspan="8">
+                                    <table cellspacing="0" cellpadding="5" style="width:100%">
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">6</td>
+                                                <td class="value step-table-col-width-45" title="click on open organization button" rowspan="1">click on open organization button</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.clickAndWait(locator,waitMs)(&#39;//tr/td[text()=&#39;IndianInstitute&#39;]/parent::tr/td[@aria-colindex=&quot;4&quot;]/button&#39;, &#39;1500&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//tr/td[text()=&#39;IndianInstitute&#39;]/parent::tr/td[@aria-colindex=&quot;4&quot;]/button&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button', '1500')
+Specified element not found: Timed out while looking for we...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                    </table>
+                                </td>
+                            </tr>
+                        
+                            <tr class="record activity hasFailure">
+                                <td colspan="2" class="value spacer2"></td>
+                                <td colspan="2" class="value value-title">
+                                    <div class="step-icon-grid">
+                                        <div title="Verify Date Column on Invoice Page">Verify Date Column on Invoice Page</div>
+                                        <div><i class="fa execution-error-icon" onclick="toggleStepErrors(this)" title="View Errors"></i>&nbsp;</div>
+                                        <div></div>
+                                    </div>
+                                    
+                                </td>
+                                <td class="value value-datetime exectime">2023/11/10 14:58:05</td>
+                                <td class="value value-time exectime">00:01:37</td>
+                                <td class="value value-num passfail">24</td>
+                                <td class="value value-num passfail">15</td>
+                                <td class="value value-num passfail">9</td>
+                                <td class="value value-percent passfail hasFailure">62.50%</td>
+                            </tr>
+                            <tr class="record canHide step-detail-row" >
+                                <td class="spacer2"></td>
+                                <td class="spacer2"></td>
+                                <td colspan="8">
+                                    <table cellspacing="0" cellpadding="5" style="width:100%">
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">7</td>
+                                                <td class="value step-table-col-width-45" title="click on Hamburger menu to open the menu" rowspan="1">click on Hamburger menu to open the menu</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.clickAndWait(locator,waitMs)(&#39;//button[@title=&#39;Open Sidebar&#39;]&#39;, &#39;2000&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//button[@title=&#39;Open Sidebar&#39;]&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//button[@title='Open Sidebar']', '2000')
+Specified element not found: Timed out while looking for web element(s) that match '//button[@title='O...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">8</td>
+                                                <td class="value step-table-col-width-45" title="When user click on Help option" rowspan="1">When user click on Help option</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.clickAndWait(locator,waitMs)(&#39;//a[contains(@href,&#39;Invoice&#39;)]&#39;, &#39;1500&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//a[contains(@href,&#39;Invoice&#39;)]&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//a[contains(@href,'Invoice')]', '1500')
+Specified element not found: Timed out while looking for web element(s) that match '//a[contains(@href,...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">9</td>
+                                                <td class="value step-table-col-width-45" title="Verify the invoice page displayed" rowspan="1">Verify the invoice page displayed</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.assertElementPresent(locator)(&#39;//button[@id=&quot;main-menu__BV_toggle_&quot;]/div[text()=&#39; Invoice &#39;]&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//button[@id=&quot;main-menu__BV_toggle_&quot;]/div[text()=&#39; Invoice &#39;]&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.assertElementPresent(locator)('//button[@id="main-menu__BV_toggle_"]/div[text()=' Invoice ']')
+Specified element not found: Timed out while looking for web element(s) that ma...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">28</td>
+                                                <td class="value step-table-col-width-45" title="Click on te column to Sort in Ascending" rowspan="1">Click on te column to Sort in Ascending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.clickAndWait(locator,waitMs)(&#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Date&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort ascending)&#39;]&#39;, &#39;1000&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Date&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort ascending)&#39;]&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//table[@id="list-Invoice"]//th/div[text()='Date']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']', '1000')
+Specified el...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">30</td>
+                                                <td class="value step-table-col-width-45" title="Verify the Column sorted from ascending to descending" rowspan="1">Verify the Column sorted from ascending to descending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.assertElementPresent(locator)(&#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Date&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort descending)&#39;]&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Date&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort descending)&#39;]&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.assertElementPresent(locator)('//table[@id="list-Invoice"]//th/div[text()='Date']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']')
+Specified element ...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">28</td>
+                                                <td class="value step-table-col-width-45" title="Click on te column to Sort in Ascending" rowspan="1">Click on te column to Sort in Ascending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.clickAndWait(locator,waitMs)(&#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Name&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort ascending)&#39;]&#39;, &#39;1000&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Name&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort ascending)&#39;]&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//table[@id="list-Invoice"]//th/div[text()='Name']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']', '1000')
+Specified el...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">30</td>
+                                                <td class="value step-table-col-width-45" title="Verify the Column sorted from ascending to descending" rowspan="1">Verify the Column sorted from ascending to descending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.assertElementPresent(locator)(&#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Name&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort descending)&#39;]&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Name&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort descending)&#39;]&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.assertElementPresent(locator)('//table[@id="list-Invoice"]//th/div[text()='Name']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']')
+Specified element ...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">28</td>
+                                                <td class="value step-table-col-width-45" title="Click on te column to Sort in Ascending" rowspan="1">Click on te column to Sort in Ascending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.clickAndWait(locator,waitMs)(&#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Amount&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort ascending)&#39;]&#39;, &#39;1000&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Amount&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort ascending)&#39;]&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//table[@id="list-Invoice"]//th/div[text()='Amount']/parent::th/span[@class="sr-only"][text()=' (Click to sort ascending)']', '1000')
+Specified ...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                            <tr class="record step-detail-tr" is-step-error="true">
+                                                <td class="value step-table-col-width-5" style="text-align: right"  rowspan="1">30</td>
+                                                <td class="value step-table-col-width-45" title="Verify the Column sorted from ascending to descending" rowspan="1">Verify the Column sorted from ascending to descending</td>
+                                                <td class="value step-table-col-width-45 hasFailure">
+                                                    <span title="EXECUTING COMMAND: web.assertElementPresent(locator)(&#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Amount&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort descending)&#39;]&#39;)
+Specified element not found: Timed out while looking for web element(s) that match &#39;//table[@id=&quot;list-Invoice&quot;]//th/div[text()=&#39;Amount&#39;]/parent::th/span[@class=&quot;sr-only&quot;][text()=&#39; (Click to sort descending)&#39;]&#39;; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...">EXECUTING COMMAND: web.assertElementPresent(locator)('//table[@id="list-Invoice"]//th/div[text()='Amount']/parent::th/span[@class="sr-only"][text()=' (Click to sort descending)']')
+Specified elemen...</span>
+                                                </td>
+                                                <td class="value step-table-col-width-5 hasFailure">
+                                                    
+                                                </td>
+                                            </tr>
+                                        
+                                    </table>
+                                </td>
+                            </tr>
+                        
+                    
+                        <tr class="record scenario noFailure">
+                            <td class="value spacer2">&nbsp;</td>
+                            <td colspan="3" class="value value-title" title="Login">
+                                Login
+                                
+                            </td>
+                            <td class="value value-datetime exectime">2023/11/10 14:59:43</td>
+                            <td class="value value-time value-tally exectime">00:00:14</td>
+                            <td class="value value-num value-tally passfail">10</td>
+                            <td class="value value-num value-tally passfail">10</td>
+                            <td class="value value-num value-tally passfail">0</td>
+                            <td class="value value-percent value-tally passfail allPass">100.00%</td>
+                        </tr>
+
+                        
+                            <tr class="record activity noFailure">
+                                <td colspan="2" class="value spacer2"></td>
+                                <td colspan="2" class="value value-title">
+                                    
+                                    <div><span title="Login to GNU khata">Login to GNU khata</span></div>
+                                </td>
+                                <td class="value value-datetime exectime">2023/11/10 14:59:43</td>
+                                <td class="value value-time exectime">00:00:14</td>
+                                <td class="value value-num passfail">10</td>
+                                <td class="value value-num passfail">10</td>
+                                <td class="value value-num passfail">0</td>
+                                <td class="value value-percent passfail allPass">100.00%</td>
+                            </tr>
+                            <tr class="record canHide step-detail-row" >
+                                <td class="spacer2"></td>
+                                <td class="spacer2"></td>
+                                <td colspan="8">
+                                    <table cellspacing="0" cellpadding="5" style="width:100%">
+                                        
+                                    </table>
+                                </td>
+                            </tr>
+                        
+                    
+                
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="footer">powered by <a href="https://nexiality.github.io">NEXIAL</a></div>
+<br/>
+<br/>
+
+<button id="hideLog" target="" title="click to hide display" onclick="hideLog();">Hide</button>
+
+<div id="loadError" style="display:none;font-weight:bold;font-size:16pt;color:#800;background:rgba(230,200,200,0.9);border:5px solid;padding:25px;margin:auto;position:fixed;width:500px;height:175px;top:0;left:0;right:0;bottom:0;">
+    Unable to load one or more external web resources needed to display this page.<br/><br/>
+    Please check/adjust your Internet access and reload this page again.<br/><br/>
+    Thank you.
+</div>
+
+<script>if (loadErrorFound) { document.getElementById('loadError').style.display = 'block'; }</script>
+<script>
+   const executionChart = new ExecutionChart({"name":"20231110_145751","executionLevel":"EXECUTION","scriptFile":null,"dataFile":null,"testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699608471588,"endTime":1699608600228,"totalLevelPassed":0,"totalSteps":36,"passCount":26,"failCount":10,"warnCount":0,"skippedCount":0,"executed":36,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":null,"logs":{"ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log","nexial-20231110_145751.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\nexial-20231110_145751.log"},"referenceData":{"Data File":"ColumnSorting.data.xlsx","DataSheet(s)":"#default","runtime args":"-script C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx"},"nestedExecutions":[{"name":"ColumnSorting (1)","executionLevel":"SCRIPT","scriptFile":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx","dataFile":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\data\\ColumnSorting.data.xlsx","testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699608472737,"endTime":1699608599608,"totalLevelPassed":0,"totalSteps":36,"passCount":26,"failCount":10,"warnCount":0,"skippedCount":0,"executed":36,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\nexial-20231110_145751.log","logs":{"ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log","nexial-20231110_145751.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\nexial-20231110_145751.log"},"referenceData":{},"nestedExecutions":[{"name":"1 of 1","executionLevel":"ITERATION","scriptFile":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx","dataFile":null,"testScript":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\ColumnSorting.20231110_145752.001.xlsx","testScriptLink":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\ColumnSorting.20231110_145752.001.xlsx","runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699608472738,"endTime":1699608599247,"totalLevelPassed":1,"totalSteps":36,"passCount":26,"failCount":10,"warnCount":0,"skippedCount":0,"executed":36,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\nexial-20231110_145751.log","logs":{"ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log","nexial-20231110_145751.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\nexial-20231110_145751.log"},"referenceData":{"Data File":"ColumnSorting.data.xlsx","DataSheet(s)":"#default","runtime args":"-script C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\artifact\\script\\ColumnSorting.xlsx"},"nestedExecutions":[{"name":"Invoice_ColumnSorting","executionLevel":"SCENARIO","scriptFile":null,"dataFile":null,"testScript":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\ColumnSorting.20231110_145752.001.xlsx","testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699608473587,"endTime":1699608582568,"totalLevelPassed":0,"totalSteps":26,"passCount":16,"failCount":10,"warnCount":0,"skippedCount":0,"executed":26,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\nexial-20231110_145751.log","logs":{"ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log","nexial-20231110_145751.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\nexial-20231110_145751.log"},"referenceData":{},"nestedExecutions":[{"name":"Navigate to Invoice","executionLevel":"ACTIVITY","scriptFile":null,"dataFile":null,"testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699608473587,"endTime":1699608485282,"totalLevelPassed":0,"totalSteps":2,"passCount":1,"failCount":1,"warnCount":0,"skippedCount":0,"executed":2,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":null,"logs":{},"referenceData":{},"nestedExecutions":[],"nestMessages":{"click on open organization button,web,clickAndWait(locator,waitMs),[${NeworgLoc}, 1500],<null>,false,[ColumnSorting.20231110_145752.001.xlsx][Invoice_ColumnSorting][Navigate to Invoice][STEP   6][web][clickAndWait(locator,waitMs)]":[]},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[{"rowNum":6,"description":"click on open organization button","nestedMessages":[{"message":"EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('\/\/tr\/td[text()='IndianInstitute']\/parent::tr\/td[@aria-colindex=\"4\"]\/button', '1500')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/tr\/td[text()='IndianInstitute']\/parent::tr\/td[@aria-colindex=\"4\"]\/button'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false}],"stepDetailsHasError":true,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRate":0.5,"elapsedTime":11695,"successRateString":"50.00%"},{"name":"Verify Date Column on Invoice Page","executionLevel":"ACTIVITY","scriptFile":null,"dataFile":null,"testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699608485283,"endTime":1699608582568,"totalLevelPassed":0,"totalSteps":24,"passCount":15,"failCount":9,"warnCount":0,"skippedCount":0,"executed":24,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":null,"logs":{},"referenceData":{},"nestedExecutions":[],"nestMessages":{"click on Hamburger menu to open the menu,web,clickAndWait(locator,waitMs),[${org.hamburger}, 2000],<null>,false,[ColumnSorting.20231110_145752.001.xlsx][Invoice_ColumnSorting][Verify Date Column on Invoice Page][STEP   7][web][clickAndWait(locator,waitMs)]":[],"When user click on Help option,web,clickAndWait(locator,waitMs),[${org.invoice}, 1500],<null>,false,[ColumnSorting.20231110_145752.001.xlsx][Invoice_ColumnSorting][Verify Date Column on Invoice Page][STEP   8][web][clickAndWait(locator,waitMs)]":[],"Verify the invoice page displayed,web,assertElementPresent(locator),[${Invoice.Button}],<null>,false,[ColumnSorting.20231110_145752.001.xlsx][Invoice_ColumnSorting][Verify Date Column on Invoice Page][STEP   9][web][assertElementPresent(locator)]":[],"Click on te column to Sort in Ascending,web,clickAndWait(locator,waitMs),[${ColumnNameLoc}, 1000],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  28][web][clickAndWait(locator,waitMs)]":[{"message":"EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Date']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']', '1000')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Date']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","resultMessage":null,"pass":false}],"Verify the Column sorted from ascending to descending,web,assertElementPresent(locator),[${Sortcolumn}],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  30][web][assertElementPresent(locator)]":[{"message":"EXECUTING COMMAND: web.assertElementPresent(locator)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Date']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Date']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","resultMessage":null,"pass":false}],"Click on te column to Sort in Ascending,web,clickAndWait(locator,waitMs),[${ColumnNameLoc}, 1000],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  28][web][clickAndWait(locator,waitMs)]":[{"message":"EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Name']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']', '1000')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Name']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","resultMessage":null,"pass":false}],"Verify the Column sorted from ascending to descending,web,assertElementPresent(locator),[${Sortcolumn}],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  30][web][assertElementPresent(locator)]":[{"message":"EXECUTING COMMAND: web.assertElementPresent(locator)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Name']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Name']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","resultMessage":null,"pass":false}],"Click on te column to Sort in Ascending,web,clickAndWait(locator,waitMs),[${ColumnNameLoc}, 1000],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  28][web][clickAndWait(locator,waitMs)]":[{"message":"EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Amount']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']', '1000')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Amount']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","resultMessage":null,"pass":false}],"Verify the Column sorted from ascending to descending,web,assertElementPresent(locator),[${Sortcolumn}],<null>,false,[GNUKhata.macro.xlsx][MacroLibrary][Verify Date Column on Invoice Page][STEP  30][web][assertElementPresent(locator)]":[{"message":"EXECUTING COMMAND: web.assertElementPresent(locator)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Amount']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Amount']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","resultMessage":null,"pass":false}]},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[{"rowNum":7,"description":"click on Hamburger menu to open the menu","nestedMessages":[{"message":"EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('\/\/button[@title='Open Sidebar']', '2000')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/button[@title='Open Sidebar']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false},{"rowNum":8,"description":"When user click on Help option","nestedMessages":[{"message":"EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('\/\/a[contains(@href,'Invoice')]', '1500')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/a[contains(@href,'Invoice')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false},{"rowNum":9,"description":"Verify the invoice page displayed","nestedMessages":[{"message":"EXECUTING COMMAND: web.assertElementPresent(locator)('\/\/button[@id=\"main-menu__BV_toggle_\"]\/div[text()=' Invoice ']')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/button[@id=\"main-menu__BV_toggle_\"]\/div[text()=' Invoice ']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false},{"rowNum":28,"description":"Click on te column to Sort in Ascending","nestedMessages":[{"message":"EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Date']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']', '1000')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Date']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false},{"rowNum":30,"description":"Verify the Column sorted from ascending to descending","nestedMessages":[{"message":"EXECUTING COMMAND: web.assertElementPresent(locator)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Date']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Date']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false},{"rowNum":28,"description":"Click on te column to Sort in Ascending","nestedMessages":[{"message":"EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Name']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']', '1000')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Name']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false},{"rowNum":30,"description":"Verify the Column sorted from ascending to descending","nestedMessages":[{"message":"EXECUTING COMMAND: web.assertElementPresent(locator)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Name']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Name']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false},{"rowNum":28,"description":"Click on te column to Sort in Ascending","nestedMessages":[{"message":"EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Amount']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']', '1000')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Amount']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort ascending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false},{"rowNum":30,"description":"Verify the Column sorted from ascending to descending","nestedMessages":[{"message":"EXECUTING COMMAND: web.assertElementPresent(locator)('\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Amount']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']')\nSpecified element not found: Timed out while looking for web element(s) that match '\/\/table[@id=\"list-Invoice\"]\/\/th\/div[text()='Amount']\/parent::th\/span[@class=\"sr-only\"][text()=' (Click to sort descending)']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https:\/\/www.seleniumhq.org\/exceptions\/no_such_element.html...","file":"","fileType":"alt"}],"pass":false}],"stepDetailsHasError":true,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRate":0.625,"elapsedTime":97285,"successRateString":"62.50%"}],"nestMessages":{},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRate":0.6153846153846154,"elapsedTime":108981,"successRateString":"61.54%"},{"name":"Login","executionLevel":"SCENARIO","scriptFile":null,"dataFile":null,"testScript":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\ColumnSorting.20231110_145752.001.xlsx","testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699608583898,"endTime":1699608598857,"totalLevelPassed":1,"totalSteps":10,"passCount":10,"failCount":0,"warnCount":0,"skippedCount":0,"executed":10,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\nexial-20231110_145751.log","logs":{"ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A10.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A11.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A28.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A12.A30.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A6.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A7.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A8.log","ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\ColumnSorting.20231110_145752.001.xlsx_Invoice_ColumnSorting_A9.log","nexial-20231110_145751.log":"C:\\projects\\GNUKhata-UIAutomation\\gkapp\\tests\\output\\20231110_145751\\logs\\nexial-20231110_145751.log"},"referenceData":{},"nestedExecutions":[{"name":"Login to GNU khata","executionLevel":"ACTIVITY","scriptFile":null,"dataFile":null,"testScript":null,"testScriptLink":null,"runHost":"ALIPL5337","runHostOs":"amd64 Windows 10 10.0","runUser":"RH0083","triggerUser":"","triggerUrl":"","triggerId":"","startTime":1699608583898,"endTime":1699608598857,"totalLevelPassed":0,"totalSteps":10,"passCount":10,"failCount":0,"warnCount":0,"skippedCount":0,"executed":10,"customHeader":null,"customFooter":null,"failedFast":false,"errorStackTrace":null,"error":null,"executionLog":null,"logs":{},"referenceData":{},"nestedExecutions":[],"nestMessages":{},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRate":1.0,"elapsedTime":14959,"successRateString":"100.00%"}],"nestMessages":{},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRate":1.0,"elapsedTime":14959,"successRateString":"100.00%"}],"nestMessages":{},"planSequence":0,"iterationIndex":1,"iterationTotal":1,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":null,"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRate":0.7222222222222222,"elapsedTime":126509,"successRateString":"72.22%"}],"nestMessages":{},"planSequence":0,"iterationIndex":0,"iterationTotal":1,"planName":null,"planFile":null,"planDescription":"Started on 11\/10\/2023 02:57:51 PM from ALIPL5337 via user RH0083","screenRecordings":null,"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRate":0.7222222222222222,"elapsedTime":126871,"successRateString":"72.22%"}],"nestMessages":{},"planSequence":0,"iterationIndex":0,"iterationTotal":0,"planName":null,"planFile":null,"planDescription":null,"screenRecordings":{},"wsLogs":null,"stepDetails":[],"stepDetailsHasError":false,"stepDetailsHasLinks":false,"manifest":"nexial-core dev_1539","successRate":0.7222222222222222,"elapsedTime":128640,"successRateString":"72.22%"});
+   executionChart.initializeChart();
+</script>
+
+
+</body>
+</html>

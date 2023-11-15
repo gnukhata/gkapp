@@ -1,0 +1,27 @@
+Nexial Version:    nexial-core dev_1539
+Current Timestamp: 2023-11-10 14:58:15.332
+Test Step:         [ColumnSorting.20231110_145752.001.xlsx][Invoice_ColumnSorting][Verify Date Column on Invoice Page][STEP   7][web][clickAndWait(locator,waitMs)]
+--------------------------------------------------------------------------------
+org.openqa.selenium.NoSuchElementException: Timed out while looking for web element(s) that match '//button[@title='Open Sidebar']'; nexial.pollWaitMs=10000
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5337', ip: '192.168.0.5', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: unknown
+	at org.nexial.core.plugins.web.LocatorHelper.findElement$nexial_core(LocatorHelper.kt:229)
+	at org.nexial.core.plugins.web.LocatorHelper.findElement(LocatorHelper.kt:205)
+	at org.nexial.core.plugins.web.WebCommand.findElement(WebCommand.java:3236)
+	at org.nexial.core.plugins.web.WebCommand.clickInternal(WebCommand.java:3029)
+	at org.nexial.core.plugins.web.WebCommand.clickAndWait(WebCommand.java:1361)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.nexial.core.plugins.base.BaseCommand.execute(BaseCommand.java:151)
+	at org.nexial.core.plugins.web.WebCommand.execute(WebCommand.java:180)
+	at org.nexial.core.model.TestStep.invokeCommand(TestStep.java:449)
+	at org.nexial.core.model.TestStep.execute(TestStep.java:248)
+	at org.nexial.core.model.TestCase.execute(TestCase.java:100)
+	at org.nexial.core.model.TestScenario.execute(TestScenario.java:138)
+	at org.nexial.core.model.ExecutionContext.execute(ExecutionContext.java:1378)
+	at org.nexial.core.ExecutionThread.run(ExecutionThread.java:190)
+

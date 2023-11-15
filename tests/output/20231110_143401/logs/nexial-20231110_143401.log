@@ -1,0 +1,370 @@
+2023-11-10 14:34:09.164|I|Thread-1|(DELAYED) nexial-core dev_1539 starting up...
+2023-11-10 14:34:09.171|I|Thread-1|(DELAYED) data file resolved as C:\Users\RH0083\tmp\GcnzA\ColumnSorting.data.xlsx
+2023-11-10 14:34:09.171|I|Thread-1|(DELAYED) input files and output directory resolved...
+2023-11-10 14:34:09.171|I|Thread-1|(DELAYED) cleaning up outdated temp files...
+2023-11-10 14:34:09.171|I|Thread-1|(DELAYED) No predefined nexial-setup found
+2023-11-10 14:34:09.171|I|Thread-1|(DELAYED) re-fetching data from C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\data\ColumnSorting.data.xlsx
+2023-11-10 14:34:09.171|I|Thread-1|(DELAYED) [20231110_143401] [C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx] resolve RUN ID as 20231110_143401
+2023-11-10 14:34:09.171|I|Thread-1|(DELAYED) [20231110_143401] [C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx] new thread started
+2023-11-10 14:34:09.172|I|Thread-1|No predefined nexial-setup found
+2023-11-10 14:34:10.539|I|Thread-1|outputBase not set; output-to-cloud DISABLED!
+2023-11-10 14:34:10.541|I|Thread-1|accessKey not set; output-to-cloud DISABLED!
+2023-11-10 14:34:10.541|I|Thread-1|secretKey not set; output-to-cloud DISABLED!
+2023-11-10 14:34:11.165|I|Thread-1|missing REQUIRED configuration; sms DISABLED!
+2023-11-10 14:34:12.396|I|Thread-1|On-Demand Inspection detection enabled
+2023-11-10 14:34:12.398|I|Thread-1|[20231110_143401] executing C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx with 1 iteration(s)
+2023-11-10 14:34:12.408|I|Thread-1|[20231110_143401] create directory C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\captures
+2023-11-10 14:34:12.409|I|Thread-1|[20231110_143401] create directory C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs
+2023-11-10 14:34:13.143|I|Thread-1|[20231110_143401] merging test data to tmp file C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\ColumnSorting.20231110_143412.001.xlsx
+2023-11-10 14:34:13.145|I|Thread-1|re-fetching data from C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\data\ColumnSorting.data.xlsx
+2023-11-10 14:34:14.062|I|Thread-1|[20231110_143401] test script and test data merged to C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\ColumnSorting.20231110_143412.001.xlsx
+2023-11-10 14:34:15.510|I|Thread-1|STARTS
+2023-11-10 14:34:15.620|I|Thread-1|ColumnSorting.20231110_143412.001 - executing iteration #1 of 1; Iteration Id 1
+2023-11-10 14:34:15.627|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting - executing test scenario
+2023-11-10 14:34:15.628|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Navigate to Invoice - executing activity
+2023-11-10 14:34:15.640|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Navigate to Invoice|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2023-11-10 14:34:16.284|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Navigate to Invoice|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2023-11-10 14:34:16.286|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Navigate to Invoice|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2023-11-10 14:34:16.291|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:34:18.813|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_win32.zip
+2023-11-10 14:34:21.323|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:21.586|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\LICENSE.chromedriver
+2023-11-10 14:34:21.592|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:21.616|I|Thread-1|[chrome] enabling chrome remote port: 15667
+2023-11-10 14:34:23.828|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:34:23.835|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:34:24.857|I|Thread-1|SUCCESS: The process with PID 15964 (child process of PID 17700) has been terminated.
+SUCCESS: The process with PID 17700 (child process of PID 440) has been terminated.
+
+2023-11-10 14:34:28.030|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:34:28.443|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:34:28.444|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:34:31.835|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:32.090|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:32.124|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:34:32.220|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log
+2023-11-10 14:34:32.226|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Navigate to Invoice|#  6|web.clickAndWait(locator, - FAIL Connection refused: no further information
+2023-11-10 14:34:32.227|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Navigate to Invoice|#  6|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A6.log
+2023-11-10 14:34:32.228|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Navigate to Invoice - ending activity
+2023-11-10 14:34:32.229|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page - executing activity
+2023-11-10 14:34:32.229|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2023-11-10 14:34:32.235|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:34:32.240|I|Thread-1|[chrome] enabling chrome remote port: 21921
+2023-11-10 14:34:33.001|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:34:33.003|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:34:34.013|I|Thread-1|SUCCESS: The process with PID 22520 (child process of PID 20412) has been terminated.
+SUCCESS: The process with PID 20412 (child process of PID 440) has been terminated.
+
+2023-11-10 14:34:37.163|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:34:37.556|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:34:37.557|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:34:41.151|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:41.700|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:41.727|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:34:41.800|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log
+2023-11-10 14:34:41.801|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  7|web.clickAndWait(locator, - FAIL Connection refused: no further information
+2023-11-10 14:34:41.802|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  7|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A7.log
+2023-11-10 14:34:41.803|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  8|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.invoice}, 1500)
+2023-11-10 14:34:41.808|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:34:41.820|I|Thread-1|[chrome] enabling chrome remote port: 44809
+2023-11-10 14:34:42.588|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:34:42.589|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:34:43.606|I|Thread-1|SUCCESS: The process with PID 7152 (child process of PID 23420) has been terminated.
+SUCCESS: The process with PID 23420 (child process of PID 440) has been terminated.
+
+2023-11-10 14:34:46.758|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:34:47.276|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:34:47.277|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:34:50.573|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:50.799|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:50.817|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:34:50.867|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log
+2023-11-10 14:34:50.868|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  8|web.clickAndWait(locator, - FAIL Connection refused: no further information
+2023-11-10 14:34:50.869|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  8|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A8.log
+2023-11-10 14:34:50.869|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  9|web.assertElementPresent( - executing assertElementPresent(locator)(${Invoice.Button})
+2023-11-10 14:34:50.872|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:34:50.876|I|Thread-1|[chrome] enabling chrome remote port: 31028
+2023-11-10 14:34:51.295|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:34:51.296|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:34:52.316|I|Thread-1|SUCCESS: The process with PID 1712 (child process of PID 9812) has been terminated.
+SUCCESS: The process with PID 9812 (child process of PID 440) has been terminated.
+
+2023-11-10 14:34:55.437|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:34:55.814|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:34:55.815|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:34:57.690|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:57.922|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:34:57.957|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:34:57.978|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log
+2023-11-10 14:34:57.978|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  9|web.assertElementPresent( - FAIL Connection refused: no further information
+2023-11-10 14:34:57.979|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|#  9|web.assertElementPresent( - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A9.log
+2023-11-10 14:34:57.980|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 10|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|ColumnSorting), Table_ColumnName_Loc=${Table_ColumnName_Loc}
+TableName=${TableName_Invoice}
+ColumnName=${ColumnName_Date})
+2023-11-10 14:34:58.305|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - executing wait(waitMs)(2000)
+2023-11-10 14:34:58.309|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:34:58.318|I|Thread-1|[chrome] enabling chrome remote port: 2244
+2023-11-10 14:34:59.070|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:34:59.071|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:35:00.080|I|Thread-1|SUCCESS: The process with PID 23080 (child process of PID 23316) has been terminated.
+SUCCESS: The process with PID 23316 (child process of PID 440) has been terminated.
+
+2023-11-10 14:35:03.216|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:35:03.603|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:35:03.604|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:35:05.660|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:05.886|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:05.901|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:35:05.938|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log
+2023-11-10 14:35:05.938|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - FAIL Connection refused: no further information
+2023-11-10 14:35:05.939|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A25.log
+2023-11-10 14:35:05.940|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Table_ColumnName_Loc}, \#, ${TableName}, TableNameLoc)
+2023-11-10 14:35:06.073|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - PASS matches replaced and stored to variable TableNameLoc
+2023-11-10 14:35:06.074|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${TableNameLoc}, \%, ${ColumnName}, ColumnNameLoc)
+2023-11-10 14:35:06.195|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - PASS matches replaced and stored to variable ColumnNameLoc
+2023-11-10 14:35:06.196|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${ColumnNameLoc}, 1000)
+2023-11-10 14:35:06.200|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:35:06.205|I|Thread-1|[chrome] enabling chrome remote port: 41430
+2023-11-10 14:35:06.946|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:35:06.947|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:35:07.964|I|Thread-1|SUCCESS: The process with PID 24388 (child process of PID 20388) has been terminated.
+SUCCESS: The process with PID 20388 (child process of PID 440) has been terminated.
+
+2023-11-10 14:35:11.095|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:35:11.997|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:35:11.998|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:35:14.131|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:14.503|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:14.548|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:35:14.587|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log
+2023-11-10 14:35:14.588|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - FAIL Connection refused: no further information
+2023-11-10 14:35:14.589|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A28.log
+2023-11-10 14:35:14.590|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${ColumnNameLoc}, ascending, descending, Sortcolumn)
+2023-11-10 14:35:14.670|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - PASS matches replaced and stored to variable Sortcolumn
+2023-11-10 14:35:14.671|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - executing assertElementPresent(locator)(${Sortcolumn})
+2023-11-10 14:35:14.677|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:35:14.683|I|Thread-1|[chrome] enabling chrome remote port: 30778
+2023-11-10 14:35:15.817|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:35:15.819|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:35:16.836|I|Thread-1|SUCCESS: The process with PID 16108 (child process of PID 15292) has been terminated.
+SUCCESS: The process with PID 15292 (child process of PID 440) has been terminated.
+
+2023-11-10 14:35:20.032|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:35:20.609|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:35:20.611|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:35:22.091|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:22.395|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:22.425|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:35:22.446|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log
+2023-11-10 14:35:22.447|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - FAIL Connection refused: no further information
+2023-11-10 14:35:22.448|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A10.A30.log
+2023-11-10 14:35:22.495|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 10|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-11-10 14:35:22.495|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 11|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|ColumnSorting), Table_ColumnName_Loc=${Table_ColumnName_Loc}
+TableName=${TableName_Invoice}
+ColumnName=${ColumnName_Name})
+2023-11-10 14:35:22.784|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - executing wait(waitMs)(2000)
+2023-11-10 14:35:22.793|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:35:22.798|I|Thread-1|[chrome] enabling chrome remote port: 16778
+2023-11-10 14:35:23.555|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:35:23.557|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:35:24.576|I|Thread-1|SUCCESS: The process with PID 5292 (child process of PID 15428) has been terminated.
+SUCCESS: The process with PID 15428 (child process of PID 440) has been terminated.
+
+2023-11-10 14:35:27.738|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:35:28.197|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:35:28.198|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:35:30.524|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:30.847|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:30.879|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:35:30.911|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log
+2023-11-10 14:35:30.911|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - FAIL Connection refused: no further information
+2023-11-10 14:35:30.913|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A25.log
+2023-11-10 14:35:30.913|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Table_ColumnName_Loc}, \#, ${TableName}, TableNameLoc)
+2023-11-10 14:35:30.978|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - PASS matches replaced and stored to variable TableNameLoc
+2023-11-10 14:35:30.978|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${TableNameLoc}, \%, ${ColumnName}, ColumnNameLoc)
+2023-11-10 14:35:31.031|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - PASS matches replaced and stored to variable ColumnNameLoc
+2023-11-10 14:35:31.032|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${ColumnNameLoc}, 1000)
+2023-11-10 14:35:31.036|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:35:31.043|I|Thread-1|[chrome] enabling chrome remote port: 39756
+2023-11-10 14:35:31.776|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:35:31.777|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:35:32.796|I|Thread-1|SUCCESS: The process with PID 18472 (child process of PID 18000) has been terminated.
+SUCCESS: The process with PID 18000 (child process of PID 440) has been terminated.
+
+2023-11-10 14:35:35.948|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:35:36.352|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:35:36.353|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:35:37.892|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:38.175|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:38.192|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:35:38.224|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log
+2023-11-10 14:35:38.224|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - FAIL Connection refused: no further information
+2023-11-10 14:35:38.224|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A28.log
+2023-11-10 14:35:38.226|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${ColumnNameLoc}, ascending, descending, Sortcolumn)
+2023-11-10 14:35:38.283|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - PASS matches replaced and stored to variable Sortcolumn
+2023-11-10 14:35:38.284|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - executing assertElementPresent(locator)(${Sortcolumn})
+2023-11-10 14:35:38.288|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:35:38.294|I|Thread-1|[chrome] enabling chrome remote port: 34411
+2023-11-10 14:35:39.046|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:35:39.047|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:35:40.067|I|Thread-1|SUCCESS: The process with PID 11600 (child process of PID 23228) has been terminated.
+SUCCESS: The process with PID 23228 (child process of PID 440) has been terminated.
+
+2023-11-10 14:35:43.289|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:35:43.674|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:35:43.676|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:35:47.089|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:47.377|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:47.422|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:35:47.441|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log
+2023-11-10 14:35:47.441|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - FAIL Connection refused: no further information
+2023-11-10 14:35:47.441|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A11.A30.log
+2023-11-10 14:35:47.464|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 11|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-11-10 14:35:47.465|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 12|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|ColumnSorting), Table_ColumnName_Loc=${Table_ColumnName_Loc}
+TableName=${TableName_Invoice}
+ColumnName=${ColumnName_Amount})
+2023-11-10 14:35:47.773|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - executing wait(waitMs)(2000)
+2023-11-10 14:35:47.775|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:35:47.781|I|Thread-1|[chrome] enabling chrome remote port: 40485
+2023-11-10 14:35:48.519|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:35:48.521|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:35:49.534|I|Thread-1|SUCCESS: The process with PID 13144 (child process of PID 7496) has been terminated.
+SUCCESS: The process with PID 7496 (child process of PID 440) has been terminated.
+
+2023-11-10 14:35:52.687|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:35:53.079|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:35:53.080|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:35:55.392|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:55.705|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:35:55.751|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:35:55.777|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log
+2023-11-10 14:35:55.777|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - FAIL Connection refused: no further information
+2023-11-10 14:35:55.778|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 25|web.wait(waitMs)          - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A25.log
+2023-11-10 14:35:55.779|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Table_ColumnName_Loc}, \#, ${TableName}, TableNameLoc)
+2023-11-10 14:35:55.846|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 26|base.saveReplace(text,reg - PASS matches replaced and stored to variable TableNameLoc
+2023-11-10 14:35:55.847|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${TableNameLoc}, \%, ${ColumnName}, ColumnNameLoc)
+2023-11-10 14:35:55.909|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 27|base.saveReplace(text,reg - PASS matches replaced and stored to variable ColumnNameLoc
+2023-11-10 14:35:55.910|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${ColumnNameLoc}, 1000)
+2023-11-10 14:35:55.912|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:35:55.917|I|Thread-1|[chrome] enabling chrome remote port: 16674
+2023-11-10 14:35:56.658|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:35:56.659|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:35:57.675|I|Thread-1|SUCCESS: The process with PID 16556 (child process of PID 8340) has been terminated.
+SUCCESS: The process with PID 8340 (child process of PID 440) has been terminated.
+
+2023-11-10 14:36:00.840|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:36:01.271|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:36:01.272|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:36:03.692|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:36:03.981|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:36:04.021|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:36:04.059|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log
+2023-11-10 14:36:04.059|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - FAIL Connection refused: no further information
+2023-11-10 14:36:04.060|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 28|web.clickAndWait(locator, - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A28.log
+2023-11-10 14:36:04.061|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${ColumnNameLoc}, ascending, descending, Sortcolumn)
+2023-11-10 14:36:04.116|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 29|base.saveReplace(text,reg - PASS matches replaced and stored to variable Sortcolumn
+2023-11-10 14:36:04.116|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - executing assertElementPresent(locator)(${Sortcolumn})
+2023-11-10 14:36:04.119|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:36:04.123|I|Thread-1|[chrome] enabling chrome remote port: 16201
+2023-11-10 14:36:04.837|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:36:04.838|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:36:05.854|I|Thread-1|SUCCESS: The process with PID 668 (child process of PID 1588) has been terminated.
+SUCCESS: The process with PID 1588 (child process of PID 440) has been terminated.
+
+2023-11-10 14:36:08.999|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:36:09.708|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:36:09.709|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:36:12.580|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:36:12.847|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:36:12.861|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:36:12.883|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log
+2023-11-10 14:36:12.883|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - FAIL Connection refused: no further information
+2023-11-10 14:36:12.885|E|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page (ColumnSorting)|# 30|web.assertElementPresent( - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Invoice_ColumnSorting_A12.A30.log
+2023-11-10 14:36:12.910|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page|# 12|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-11-10 14:36:12.911|I|Thread-1|ColumnSorting.20231110_143412.001|Invoice_ColumnSorting|Verify Date Column on Invoice Page - ending activity
+2023-11-10 14:36:16.212|I|Thread-1|[ColumnSorting.20231110_143412.001|Invoice_ColumnSorting] saving test scenario
+2023-11-10 14:36:16.436|I|Thread-1|ColumnSorting.20231110_143412.001|Login - executing test scenario
+2023-11-10 14:36:16.438|I|Thread-1|ColumnSorting.20231110_143412.001|Login|Login to GNU khata - executing activity
+2023-11-10 14:36:16.438|I|Thread-1|ColumnSorting.20231110_143412.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2023-11-10 14:36:16.789|I|Thread-1|ColumnSorting.20231110_143412.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2023-11-10 14:36:16.792|I|Thread-1|[chrome] initializing chrome
+2023-11-10 14:36:16.804|I|Thread-1|[chrome] enabling chrome remote port: 43845
+2023-11-10 14:36:17.564|I|Thread-1|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2023-11-10 14:36:17.567|I|Thread-1|terminating any leftover instance of chromedriver.exe
+2023-11-10 14:36:18.611|I|Thread-1|SUCCESS: The process with PID 23964 (child process of PID 20648) has been terminated.
+SUCCESS: The process with PID 20648 (child process of PID 440) has been terminated.
+
+2023-11-10 14:36:21.753|I|Thread-1|required driver version : 119.0.6045.107
+2023-11-10 14:36:22.121|I|Thread-1|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2023-11-10 14:36:22.122|I|Thread-1|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2023-11-10 14:36:24.381|I|Thread-1|[C:\Users\RH0083\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:36:24.678|I|Thread-1|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\RH0083\.nexial\chrome\chromedriver.exe
+2023-11-10 14:36:24.693|E|Thread-1|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2023-11-10 14:36:24.714|E|Thread-1|Check corresponding error log for details: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log
+2023-11-10 14:36:24.714|E|Thread-1|ColumnSorting.20231110_143412.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - FAIL Connection refused: no further information
+2023-11-10 14:36:24.714|E|Thread-1|ColumnSorting.20231110_143412.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - Error log: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\logs\ColumnSorting.20231110_143412.001.xlsx_Login_A5.A16.log
+2023-11-10 14:36:24.717|I|Thread-1|ColumnSorting.20231110_143412.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - [ABORT] due to failure on fail-fast command: web.openAndWait(url,waitMs)
+2023-11-10 14:36:24.723|I|Thread-1|ColumnSorting.20231110_143412.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2023-11-10 14:36:24.723|I|Thread-1|ColumnSorting.20231110_143412.001|Login|Login to GNU khata - ending activity
+2023-11-10 14:36:24.885|I|Thread-1|[ColumnSorting.20231110_143412.001|Login] saving test scenario
+2023-11-10 14:36:25.006|E|Thread-1|ColumnSorting.20231110_143412.001 - [ABORT] fail-immediate in effect - test execution will stop now.
+2023-11-10 14:36:25.020|I|Thread-1|[20231110_143401] 
+/-ITERATION COMPLETE------------------------------------------------------------
+| Test Output:    C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\ColumnSorting.20231110_143412.001.xlsx
+| Iteration:      1
+\-------------------------------------------------------------------------------
+» Execution Time: 129385 ms
+» Test Steps:     36
+» Error(s):       14
+
+
+
+2023-11-10 14:36:25.021|E|Thread-1|ColumnSorting.20231110_143412.001 - [ABORT] fail-immediate in effect - test execution will stop now.
+2023-11-10 14:36:25.987|I|Thread-1|[20231110_143401] 
+/-SCRIPT COMPLETE---------------------------------------------------------------
+| Test Script:    C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx
+\-------------------------------------------------------------------------------
+» Execution Time: 137238 ms
+» Iterations:     [1] total 1
+» Test Steps:     36
+» Passed:         14
+» Error(s):       14
+» Iteration 1 of 1: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\ColumnSorting.20231110_143412.001.xlsx
+
+
+
+2023-11-10 14:36:25.990|I|Thread-1|nexial mailer not enabled: nexial.enableEmail=false
+2023-11-10 14:36:26.821|I|main|[20231110_143401] [C:\projects\GNUKhata-UIAutomation\gkapp\tests\artifact\script\ColumnSorting.xlsx] now completed
+2023-11-10 14:36:26.822|I|main|[20231110_143401] all execution thread(s) have terminated
+2023-11-10 14:36:26.824|I|main|[20231110_143401] test run completed in about 144 seconds
+2023-11-10 14:36:26.956|I|main|No predefined nexial-setup found
+2023-11-10 14:36:27.005|I|main|outputBase not set; output-to-cloud DISABLED!
+2023-11-10 14:36:27.007|I|main|accessKey not set; output-to-cloud DISABLED!
+2023-11-10 14:36:27.008|I|main|secretKey not set; output-to-cloud DISABLED!
+2023-11-10 14:36:27.009|I|main|generating HTML output for this execution to C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\execution-output.html
+2023-11-10 14:36:28.577|I|main|generating JUnit XML output for this execution to C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\junit.xml
+2023-11-10 14:36:28.662|I|main|generated the JUnit report for this execution: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\junit.xml
+2023-11-10 14:36:28.690|I|main|nexial mailer not enabled: nexial.enableEmail=false
+2023-11-10 14:36:28.691|I|main|skipped email notification as configured
+2023-11-10 14:36:28.691|I|main|exiting current script/plan execution
+2023-11-10 14:36:28.692|I|main|exiting Nexial...
+2023-11-10 14:36:28.692|I|main|shutdown starts...
+2023-11-10 14:36:28.693|I|main|shutdown ends...
+2023-11-10 14:36:28.706|I|main|
+
+/-END OF EXECUTION--------------------------------------------------------------
+| » Execution Time: 138 sec.
+| » Test Steps....: 28
+| » Passed........: 14
+| » Failed........: 14
+| » Success Rate..: 50.00%
+\----------------------------------------------------------nexial-core dev_1539-
+
+2023-11-10 14:36:28.706|E|main|failure found; success rate is 50.00%
+2023-11-10 14:36:28.714|I|main|End of Execution:
+NEXIAL_OUTPUT:         C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401
+NEXIAL_EXECUTION_HTML: C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\execution-output.html
+NEXIAL_JUNIT_XML:      C:\projects\GNUKhata-UIAutomation\gkapp\tests\output\20231110_143401\junit.xml
+NEXIAL_SUCCESS_RATE:   50.00%
+NEXIAL_EXIT_STATUS:    -13
