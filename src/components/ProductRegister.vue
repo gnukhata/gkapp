@@ -83,7 +83,6 @@
           </div>
           <b-form-checkbox-group
             @change="applyFilters"
-            @input="applyFilters"
             class=""
             v-model="invoiceFilter"
           >
