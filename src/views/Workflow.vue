@@ -129,7 +129,7 @@
                 <b-button
                   class="px-1"
                   variant="outline-dark"
-                  @click="isFilterOpen = !isFilterOpen"
+                  @click="isFilterOpen = !isFilterOpen; isSettingsOpen = false"
                   title="Filters"
                 >
                   <b-icon
@@ -262,7 +262,7 @@
                 <b-button
                   class="px-1"
                   variant="outline-dark"
-                  @click="isSettingsOpen = !isSettingsOpen"
+                  @click="isSettingsOpen = !isSettingsOpen; isFilterOpen = false"
                   title="Column Settings"
                 >
                   <b-icon
@@ -1016,7 +1016,7 @@ export default {
             : null
         );
         result = this.filterByValue(row, filters);
-      }
+        }
 
       if (this.filters.range.props.key !== undefined) {
         // console.log("date filter")
