@@ -1,0 +1,436 @@
+2023-11-29 15:28:20.655|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2023-11-29 15:28:20.663|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\haQbb\EditProductDetails.data.xlsx
+2023-11-29 15:28:20.663|I|main|(DELAYED) input files and output directory resolved...
+2023-11-29 15:28:20.663|I|main|(DELAYED) cleaning up outdated temp files...
+2023-11-29 15:28:20.663|I|main|(DELAYED) No predefined nexial-setup found
+2023-11-29 15:28:20.663|I|main|[20231129_152804] [C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx] resolve RUN ID as 20231129_152804
+2023-11-29 15:28:20.975|I|main|No predefined nexial-setup found
+2023-11-29 15:28:21.924|I|main|outputBase not set; output-to-cloud DISABLED!
+2023-11-29 15:28:21.924|I|main|accessKey not set; output-to-cloud DISABLED!
+2023-11-29 15:28:21.924|I|main|secretKey not set; output-to-cloud DISABLED!
+2023-11-29 15:28:22.343|I|main|missing REQUIRED configuration; sms DISABLED!
+2023-11-29 15:28:23.518|I|main|On-Demand Inspection detection enabled
+2023-11-29 15:28:23.782|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:28:48.195|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:28:48.203|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:28:48.206|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:28:49.444|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_152848.001.xlsx
+2023-11-29 15:28:49.444|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:28:51.703|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_152848.001.xlsx
+2023-11-29 15:28:52.387|I|main|STARTS
+2023-11-29 15:28:52.448|I|main|skipping test step in ROW 14 since it's disabled
+2023-11-29 15:28:52.495|I|main|EditProductDetails.20231129_152848.001|Login|login - executing activity
+2023-11-29 15:28:52.503|I|main|EditProductDetails.20231129_152848.001|Login|login|#  5|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2023-11-29 15:28:52.515|I|main|[chrome] initializing chrome
+2023-11-29 15:28:52.609|I|main|[chrome] enabling chrome remote port: 34634
+2023-11-29 15:28:54.511|I|main|[chrome] initializing for chrome 119.0.6045.160
+2023-11-29 15:28:54.630|I|main|[DISPLAY] Currently discovered display(s):
+2023-11-29 15:28:54.638|I|main|	1920x1080x32bpp@60Hz
+2023-11-29 15:28:54.638|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2023-11-29 15:28:54.651|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2023-11-29 15:28:54.651|I|main|[DISPLAY] position adjusted to (0, 0)
+2023-11-29 15:28:54.775|I|main|[chrome] browser initialization completed for 'chrome'
+2023-11-29 15:28:54.783|I|main|[chrome] setting browser page load timeout to 60000 ms
+2023-11-29 15:28:54.783|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2023-11-29 15:28:58.268|I|main|EditProductDetails.20231129_152848.001|Login|login|#  5|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2023-11-29 15:28:58.268|I|main|EditProductDetails.20231129_152848.001|Login|login|#  6|web.maximizeWindow()      - executing maximizeWindow()()
+2023-11-29 15:28:59.000|I|main|EditProductDetails.20231129_152848.001|Login|login|#  6|web.maximizeWindow()      - PASS browser window maximized
+2023-11-29 15:28:59.000|I|main|EditProductDetails.20231129_152848.001|Login|login|#  7|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2023-11-29 15:29:00.053|I|main|EditProductDetails.20231129_152848.001|Login|login|#  7|web.waitForElementPresent - PASS Element by locator '//*[span='Continue with Default Server']' is present
+2023-11-29 15:29:00.053|I|main|EditProductDetails.20231129_152848.001|Login|login|#  8|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2023-11-29 15:29:00.836|I|main|clicking '//*[span='Continue with Default Server']'...
+2023-11-29 15:29:00.871|I|main|click target via JS, @id=
+2023-11-29 15:29:00.898|I|main|clicked -> true
+2023-11-29 15:29:00.906|I|main|EditProductDetails.20231129_152848.001|Login|login|#  8|web.click(locator)        - PASS click via JS event
+2023-11-29 15:29:00.906|I|main|EditProductDetails.20231129_152848.001|Login|login|#  9|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2023-11-29 15:29:06.531|I|main|EditProductDetails.20231129_152848.001|Login|login|#  9|web.wait(waitMs)          - PASS waited 5000ms
+2023-11-29 15:29:06.531|I|main|EditProductDetails.20231129_152848.001|Login|login|# 10|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2023-11-29 15:29:07.410|I|main|EditProductDetails.20231129_152848.001|Login|login|# 10|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2023-11-29 15:29:07.410|I|main|EditProductDetails.20231129_152848.001|Login|login|# 11|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2023-11-29 15:29:08.309|I|main|EditProductDetails.20231129_152848.001|Login|login|# 11|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2023-11-29 15:29:08.309|I|main|EditProductDetails.20231129_152848.001|Login|login|# 12|web.click(locator)        - executing click(locator)(${button.submit})
+2023-11-29 15:29:09.085|I|main|clicking '(//*[@type='submit'])[1]'...
+2023-11-29 15:29:09.119|I|main|click target via JS, @id=
+2023-11-29 15:29:09.153|I|main|clicked -> true
+2023-11-29 15:29:09.153|I|main|EditProductDetails.20231129_152848.001|Login|login|# 12|web.click(locator)        - PASS click via JS event
+2023-11-29 15:29:09.153|I|main|EditProductDetails.20231129_152848.001|Login|login|# 13|web.assertTextContains(lo - executing assertTextContains(locator,text)(${title.locator}, ${title.header})
+2023-11-29 15:29:10.035|E|main|EditProductDetails.20231129_152848.001|Login|login|# 13|web.assertTextContains(lo - FAIL 'User Login — GNUKhata' NOT contained in 'Welcome Accion!'
+2023-11-29 15:29:10.043|I|main|EditProductDetails.20231129_152848.001|Login|login - ending activity
+2023-11-29 15:29:10.043|I|main|EditProductDetails.20231129_152848.001|Login|Login to GNU khata - executing activity
+2023-11-29 15:29:10.043|I|main|EditProductDetails.20231129_152848.001|Login|Login to GNU khata|# 14|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2023-11-29 15:29:10.051|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2023-11-29 15:29:10.051|I|main|EditProductDetails.20231129_152848.001|Login|Login to GNU khata|# 14|base.macroFlex(macro,inpu - SKIPPED current step skipped: SkipIf(true)
+2023-11-29 15:29:10.051|I|main|EditProductDetails.20231129_152848.001|Login|Login to GNU khata - ending activity
+2023-11-29 15:29:51.499|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:29:51.499|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:29:51.499|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:29:52.170|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_152951.001.xlsx
+2023-11-29 15:29:52.170|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:29:54.245|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_152951.001.xlsx
+2023-11-29 15:29:54.663|I|main|STARTS
+2023-11-29 15:29:54.680|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page - executing activity
+2023-11-29 15:29:54.680|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2023-11-29 15:29:55.366|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2023-11-29 15:29:55.366|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2023-11-29 15:29:56.160|I|main|clicking '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'...
+2023-11-29 15:29:56.194|I|main|click target via JS, @id=
+2023-11-29 15:29:56.253|I|main|clicked -> true
+2023-11-29 15:29:56.255|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'
+2023-11-29 15:29:56.255|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  7|web.wait(waitMs)          - executing wait(waitMs)(2000)
+2023-11-29 15:29:58.864|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  7|web.wait(waitMs)          - PASS waited 2000ms
+2023-11-29 15:29:58.864|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  8|web.click(locator)        - executing click(locator)(${org.hamburger})
+2023-11-29 15:29:59.653|I|main|clicking '//button[@title='Open Sidebar']'...
+2023-11-29 15:29:59.694|I|main|click target via JS, @id=
+2023-11-29 15:29:59.756|I|main|clicked -> true
+2023-11-29 15:29:59.756|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  8|web.click(locator)        - PASS click via JS event
+2023-11-29 15:29:59.756|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  9|web.click(locator)        - executing click(locator)(${org.workflow})
+2023-11-29 15:30:00.529|I|main|clicking '//*[text()='Workflow']'...
+2023-11-29 15:30:00.567|I|main|click target via JS, @id=
+2023-11-29 15:30:00.629|I|main|clicked -> true
+2023-11-29 15:30:00.629|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|#  9|web.click(locator)        - PASS click via JS event
+2023-11-29 15:30:00.629|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|# 10|web.click(locator)        - executing click(locator)(${click.Business})
+2023-11-29 15:30:01.393|I|main|clicking '//*[text()='Business']'...
+2023-11-29 15:30:01.431|I|main|click target via JS, @id=
+2023-11-29 15:30:01.458|I|main|clicked -> true
+2023-11-29 15:30:01.458|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|# 10|web.click(locator)        - PASS click via JS event
+2023-11-29 15:30:01.458|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|# 11|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BusinessPage})
+2023-11-29 15:30:02.195|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|# 11|web.assertElementPresent( - PASS EXPECTED element '(//*[text()=' Business '])[1]' found
+2023-11-29 15:30:02.195|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|# 12|web.wait(waitMs)          - executing wait(waitMs)(10000)
+2023-11-29 15:30:12.810|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page|# 12|web.wait(waitMs)          - PASS waited 10000ms
+2023-11-29 15:30:12.810|I|main|EditProductDetails.20231129_152951.001|AddProduct|Navigating to Business Page - ending activity
+2023-11-29 15:30:15.777|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:30:15.777|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page - executing activity
+2023-11-29 15:30:15.780|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 13|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${click.addNewProduct}, 3000)
+2023-11-29 15:30:16.566|I|main|clicking '//a[@id="add-item"][@href="#/business-details/create"]'...
+2023-11-29 15:30:16.595|I|main|click target via JS, @id=add-item
+2023-11-29 15:30:16.641|I|main|clicked -> true
+2023-11-29 15:30:16.650|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 13|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@id="add-item"][@href="#/business-details/create"]'
+2023-11-29 15:30:16.652|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 14|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BI.DetailsPage})
+2023-11-29 15:30:17.406|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 14|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Business Item Details']' found
+2023-11-29 15:30:17.406|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 15|web.assertElementPresent( - executing assertElementPresent(locator)(${product.Name})
+2023-11-29 15:30:18.118|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 15|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-1']' found
+2023-11-29 15:30:18.126|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 16|base.save(var,value)      - executing save(var,value)(NewProduct, Milk_Product[NUMBER(${num})=>randomDigits(3)])
+2023-11-29 15:30:18.743|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 16|base.save(var,value)      - PASS stored 'Milk_Product938' as ${NewProduct}
+2023-11-29 15:30:18.751|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 17|web.type(locator,value)   - executing type(locator,value)(${product.Name.value}, ${NewProduct})
+2023-11-29 15:30:19.814|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 17|web.type(locator,value)   - PASS typed text at '//*[@id='bi-input-1']'
+2023-11-29 15:30:19.814|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 18|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.Stock})
+2023-11-29 15:30:20.527|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 18|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Stock']' found
+2023-11-29 15:30:20.530|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 19|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.UnitofMeasure})
+2023-11-29 15:30:21.243|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 19|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-2']' found
+2023-11-29 15:30:21.243|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 20|web.typeKeys(locator,valu - executing typeKeys(locator,value)(${Value.UnitofMeasure}, ${UnitOfMeasure.Values})
+2023-11-29 15:30:22.655|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 20|web.typeKeys(locator,valu - PASS typed text at '(//*[@type='search'])[1]'
+2023-11-29 15:30:22.655|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 21|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(windows, {DOWN}{ENTER})
+2023-11-29 15:30:23.275|I|main|[20231129_152804] simulating keystrokes: {DOWN}{ENTER}
+2023-11-29 15:30:23.308|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 21|desktop.typeKeys(os,keyst - PASS type keys completed for {DOWN}{ENTER}
+2023-11-29 15:30:23.309|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 22|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.OpeningStock})
+2023-11-29 15:30:24.006|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 22|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Opening Stock']' found
+2023-11-29 15:30:24.006|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 23|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.addGodownButton})
+2023-11-29 15:30:24.705|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 23|web.assertElementPresent( - PASS EXPECTED element '//*[text()='+ Godown']' found
+2023-11-29 15:30:24.707|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 24|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.addStockButton})
+2023-11-29 15:30:25.423|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 24|web.assertElementPresent( - PASS EXPECTED element '//*[text()=' + Stock ']' found
+2023-11-29 15:30:25.431|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 25|web.typeKeys(locator,valu - executing typeKeys(locator,value)(${select.Godown}, ${GodownSelection})
+2023-11-29 15:30:26.833|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 25|web.typeKeys(locator,valu - PASS typed text at '(//*[@readonly='readonly'])[1]'
+2023-11-29 15:30:26.833|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 26|web.typeKeys(locator,valu - executing typeKeys(locator,value)(${validate.StockQty}, ${Stock.Quantity})
+2023-11-29 15:30:28.298|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 26|web.typeKeys(locator,valu - PASS typed text at '//*[@placeholder='Stock Qty']'
+2023-11-29 15:30:28.298|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 27|web.typeKeys(locator,valu - executing typeKeys(locator,value)(${validate.StockValue}, ${Stock.Values})
+2023-11-29 15:30:29.735|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 27|web.typeKeys(locator,valu - PASS typed text at '//input[contains(@placeholder,'Stock Value')]'
+2023-11-29 15:30:29.735|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 28|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.disableButton})
+2023-11-29 15:30:30.444|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 28|web.assertElementPresent( - PASS EXPECTED element '(//*[@disabled='disabled'])[1]' found
+2023-11-29 15:30:30.444|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 29|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.PriceSection})
+2023-11-29 15:30:31.168|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 29|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Price']' found
+2023-11-29 15:30:31.168|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 30|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.TaxablePrice})
+2023-11-29 15:30:31.872|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 30|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-5']' found
+2023-11-29 15:30:31.872|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 31|web.typeKeys(locator,valu - executing typeKeys(locator,value)(${enter.TaxableSalePrice}, ${TaxableSalePrice})
+2023-11-29 15:30:33.332|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 31|web.typeKeys(locator,valu - PASS typed text at '//*[@id='bi-input-5']'
+2023-11-29 15:30:33.332|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 32|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.Discount})
+2023-11-29 15:30:34.043|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 32|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Discount']' found
+2023-11-29 15:30:34.043|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 33|web.typeKeys(locator,valu - executing typeKeys(locator,value)(${enter.DiscountValue}, ${DiscountValues})
+2023-11-29 15:30:35.429|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 33|web.typeKeys(locator,valu - PASS typed text at '//*[@id='bi-input-6']'
+2023-11-29 15:30:35.429|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 34|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.PercentageBox})
+2023-11-29 15:30:36.145|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 34|web.assertElementPresent( - PASS EXPECTED element '//*[@id='bi-input-11']' found
+2023-11-29 15:30:36.145|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 35|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.TaxSection})
+2023-11-29 15:30:36.853|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 35|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Tax']' found
+2023-11-29 15:30:36.861|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 36|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.TaxMessage})
+2023-11-29 15:30:37.572|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 36|web.assertElementPresent( - PASS EXPECTED element '//*[@aria-live='polite']' found
+2023-11-29 15:30:37.572|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 37|web.assertElementPresent( - executing assertElementPresent(locator)(${validate.VAT.Section})
+2023-11-29 15:30:38.226|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 37|web.assertElementPresent( - PASS EXPECTED element '(//*[@class='card-body p-2'])[3]' found
+2023-11-29 15:30:38.234|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 38|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.AddVATButton})
+2023-11-29 15:30:38.933|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 38|web.assertElementPresent( - PASS EXPECTED element '//*[text()=' + VAT ']' found
+2023-11-29 15:30:38.933|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 39|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Save.Button}, 5000)
+2023-11-29 15:30:39.722|I|main|clicking '//*[text()='Save']'...
+2023-11-29 15:30:39.749|I|main|click target via JS, @id=
+2023-11-29 15:30:39.798|I|main|clicked -> true
+2023-11-29 15:30:39.798|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 39|web.clickAndWait(locator, - PASS clicked-and-waited '//*[text()='Save']'
+2023-11-29 15:30:39.806|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 40|web.click(locator)        - executing click(locator)(${Ok.Button})
+2023-11-29 15:30:40.563|I|main|clicking '//*[text()='OK']'...
+2023-11-29 15:30:40.600|I|main|click target via JS, @id=
+2023-11-29 15:30:40.653|I|main|clicked -> true
+2023-11-29 15:30:40.653|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 40|web.click(locator)        - PASS click via JS event
+2023-11-29 15:30:40.653|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 41|web.assertElementPresent( - executing assertElementPresent(locator)(${Product.successmsg})
+2023-11-29 15:30:41.348|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page|# 41|web.assertElementPresent( - PASS EXPECTED element '//div[@class='toast-body']' found
+2023-11-29 15:30:41.357|I|main|EditProductDetails.20231129_152951.001|AddProduct|Add Business Item Details for Product Page - ending activity
+2023-11-29 15:34:18.893|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:34:28.848|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:34:28.848|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:34:28.850|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:34:29.400|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153428.001.xlsx
+2023-11-29 15:34:29.400|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:34:31.217|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153428.001.xlsx
+2023-11-29 15:34:31.631|I|main|STARTS
+2023-11-29 15:34:31.639|I|main|EditProductDetails.20231129_153428.001|AddProduct|Validate Back Button - executing activity
+2023-11-29 15:34:31.647|I|main|EditProductDetails.20231129_153428.001|AddProduct|Validate Back Button|# 42|web.assertElementPresent( - executing assertElementPresent(locator)(${Back.Button})
+2023-11-29 15:34:32.370|I|main|EditProductDetails.20231129_153428.001|AddProduct|Validate Back Button|# 42|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Back']' found
+2023-11-29 15:34:32.370|I|main|EditProductDetails.20231129_153428.001|AddProduct|Validate Back Button|# 43|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BusinessPage})
+2023-11-29 15:34:42.624|I|main|EditProductDetails.20231129_153428.001|AddProduct|Validate Back Button|# 43|web.assertElementPresent( - PASS EXPECTED element '(//*[text()=' Business '])[1]' found
+2023-11-29 15:34:42.624|I|main|EditProductDetails.20231129_153428.001|AddProduct|Validate Back Button - ending activity
+2023-11-29 15:36:39.486|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:36:45.380|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:36:45.380|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:36:45.380|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:36:45.943|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153645.001.xlsx
+2023-11-29 15:36:45.943|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:36:47.726|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153645.001.xlsx
+2023-11-29 15:36:48.146|I|main|STARTS
+2023-11-29 15:36:48.164|I|main|EditProductDetails.20231129_153645.001|AddProduct|Validate Back Button - executing activity
+2023-11-29 15:36:48.166|I|main|EditProductDetails.20231129_153645.001|AddProduct|Validate Back Button|# 42|web.assertElementPresent( - executing assertElementPresent(locator)(${Back.Button})
+2023-11-29 15:36:48.886|I|main|EditProductDetails.20231129_153645.001|AddProduct|Validate Back Button|# 42|web.assertElementPresent( - PASS EXPECTED element '//button[@class="btn m-1 btn-danger btn-sm"]' found
+2023-11-29 15:36:48.886|I|main|EditProductDetails.20231129_153645.001|AddProduct|Validate Back Button|# 43|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BusinessPage})
+2023-11-29 15:36:59.524|I|main|EditProductDetails.20231129_153645.001|AddProduct|Validate Back Button|# 43|web.assertElementPresent( - Timed out while looking for web element(s) that match '(//*[text()=' Business '])[1]'; nexial.pollWaitMs=10000
+2023-11-29 15:36:59.533|E|main|EditProductDetails.20231129_153645.001|AddProduct|Validate Back Button|# 43|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('(//*[text()=' Business '])[1]')
+Specified element not found: Timed out while looking for web element(s) that match '(//*[text()=' Business '])[1]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2023-11-29 15:36:59.533|E|main|EditProductDetails.20231129_153645.001|AddProduct|Validate Back Button|# 43|web.assertElementPresent( - Error log: C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs\EditProductDetails.20231129_153645.001.xlsx_AddProduct_A43.log
+2023-11-29 15:36:59.533|I|main|EditProductDetails.20231129_153645.001|AddProduct|Validate Back Button - ending activity
+2023-11-29 15:37:20.294|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:37:23.081|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:37:23.089|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:37:23.090|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:37:23.589|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153723.001.xlsx
+2023-11-29 15:37:23.589|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:37:25.673|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153723.001.xlsx
+2023-11-29 15:37:26.088|I|main|STARTS
+2023-11-29 15:37:26.096|I|main|EditProductDetails.20231129_153723.001|AddProduct|Validate Back Button - executing activity
+2023-11-29 15:37:26.096|I|main|EditProductDetails.20231129_153723.001|AddProduct|Validate Back Button|# 42|web.click(locator)        - executing click(locator)(${Back.Button})
+2023-11-29 15:37:26.889|I|main|clicking '//button[@class="btn m-1 btn-danger btn-sm"]'...
+2023-11-29 15:37:26.922|I|main|click target via JS, @id=
+2023-11-29 15:37:27.100|I|main|clicked -> true
+2023-11-29 15:37:27.100|I|main|EditProductDetails.20231129_153723.001|AddProduct|Validate Back Button|# 42|web.click(locator)        - PASS click via JS event
+2023-11-29 15:37:27.100|I|main|EditProductDetails.20231129_153723.001|AddProduct|Validate Back Button|# 43|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BusinessPage})
+2023-11-29 15:37:27.820|I|main|EditProductDetails.20231129_153723.001|AddProduct|Validate Back Button|# 43|web.assertElementPresent( - PASS EXPECTED element '(//*[text()=' Business '])[1]' found
+2023-11-29 15:37:27.820|I|main|EditProductDetails.20231129_153723.001|AddProduct|Validate Back Button - ending activity
+2023-11-29 15:38:02.627|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:38:06.193|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:38:06.193|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:38:06.194|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:38:06.689|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153806.001.xlsx
+2023-11-29 15:38:06.689|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:38:08.608|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153806.001.xlsx
+2023-11-29 15:38:09.011|I|main|STARTS
+2023-11-29 15:38:09.019|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button - executing activity
+2023-11-29 15:38:09.019|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${click.addNewProduct}, 3000)
+2023-11-29 15:38:09.816|I|main|clicking '//a[@id="add-item"][@href="#/business-details/create"]'...
+2023-11-29 15:38:09.851|I|main|click target via JS, @id=add-item
+2023-11-29 15:38:09.984|I|main|clicked -> true
+2023-11-29 15:38:09.984|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@id="add-item"][@href="#/business-details/create"]'
+2023-11-29 15:38:09.984|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BI.DetailsPage})
+2023-11-29 15:38:10.711|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Business Item Details']' found
+2023-11-29 15:38:10.711|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - executing assertElementPresent(locator)(${product.Name})
+2023-11-29 15:38:11.432|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-1']' found
+2023-11-29 15:38:11.432|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - executing save(var,value)(NewProduct, Milk_Product[NUMBER(${num})=>randomDigits(3)])
+2023-11-29 15:38:12.038|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - PASS stored 'Milk_Product143' as ${NewProduct}
+2023-11-29 15:38:12.039|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - executing type(locator,value)(${product.Name.value}, ${NewProduct})
+2023-11-29 15:38:13.090|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - PASS typed text at '//*[@id='bi-input-1']'
+2023-11-29 15:38:13.098|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - executing click(locator)(${Reset.Button})
+2023-11-29 15:38:13.866|I|main|clicking '//button[@class="btn m-1 btn-warning btn-sm"]'...
+2023-11-29 15:38:13.891|I|main|click target via JS, @id=
+2023-11-29 15:38:13.940|I|main|clicked -> true
+2023-11-29 15:38:13.943|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - PASS click via JS event
+2023-11-29 15:38:13.943|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 50|web.assertElementByText(l - executing assertElementByText(locator,text)(${product.Name.value})
+2023-11-29 15:38:14.545|E|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 50|web.assertElementByText(l - FAIL MISMATCHED parameters - web.assertElementByText EXPECTS 2 but found 1
+2023-11-29 15:38:14.553|E|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button|# 50|web.assertElementByText(l - Error log: C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs\EditProductDetails.20231129_153806.001.xlsx_AddProduct_A50.log
+2023-11-29 15:38:14.554|I|main|EditProductDetails.20231129_153806.001|AddProduct|Validate Reset Button - ending activity
+2023-11-29 15:39:28.631|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:39:39.079|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:39:39.080|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:39:39.080|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:39:39.599|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153939.001.xlsx
+2023-11-29 15:39:39.599|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:39:41.346|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_153939.001.xlsx
+2023-11-29 15:39:41.723|I|main|STARTS
+2023-11-29 15:39:41.740|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button - executing activity
+2023-11-29 15:39:41.740|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${click.addNewProduct}, 3000)
+2023-11-29 15:39:42.494|I|main|clicking '//a[@id="add-item"][@href="#/business-details/create"]'...
+2023-11-29 15:39:42.520|I|main|click target via JS, @id=add-item
+2023-11-29 15:39:42.659|I|main|clicked -> true
+2023-11-29 15:39:42.659|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@id="add-item"][@href="#/business-details/create"]'
+2023-11-29 15:39:42.668|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BI.DetailsPage})
+2023-11-29 15:39:43.384|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Business Item Details']' found
+2023-11-29 15:39:43.384|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - executing assertElementPresent(locator)(${product.Name})
+2023-11-29 15:39:44.069|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-1']' found
+2023-11-29 15:39:44.069|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - executing save(var,value)(NewProduct, Milk_Product[NUMBER(${num})=>randomDigits(3)])
+2023-11-29 15:39:44.672|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - PASS stored 'Milk_Product287' as ${NewProduct}
+2023-11-29 15:39:44.672|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - executing type(locator,value)(${product.Name.value}, ${NewProduct})
+2023-11-29 15:39:45.651|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - PASS typed text at '//*[@id='bi-input-1']'
+2023-11-29 15:39:45.651|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - executing click(locator)(${Reset.Button})
+2023-11-29 15:39:46.404|I|main|clicking '//button[@class="btn m-1 btn-warning btn-sm"]'...
+2023-11-29 15:39:46.432|I|main|click target via JS, @id=
+2023-11-29 15:39:46.476|I|main|clicked -> true
+2023-11-29 15:39:46.477|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - PASS click via JS event
+2023-11-29 15:39:46.477|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - executing assertAttribute(locator,attrName,value)(${product.Name.value}, innertext)
+2023-11-29 15:39:47.085|E|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - FAIL MISMATCHED parameters - web.assertAttribute EXPECTS 3 but found 2
+2023-11-29 15:39:47.085|E|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - Error log: C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs\EditProductDetails.20231129_153939.001.xlsx_AddProduct_A50.log
+2023-11-29 15:39:47.085|I|main|EditProductDetails.20231129_153939.001|AddProduct|Validate Reset Button - ending activity
+2023-11-29 15:40:07.447|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:40:10.496|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:40:10.496|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:40:10.496|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:40:11.066|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154010.001.xlsx
+2023-11-29 15:40:11.067|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:40:12.884|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154010.001.xlsx
+2023-11-29 15:40:13.258|I|main|STARTS
+2023-11-29 15:40:13.266|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button - executing activity
+2023-11-29 15:40:13.266|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${click.addNewProduct}, 3000)
+2023-11-29 15:40:16.452|I|main|clicking '//a[@id="add-item"][@href="#/business-details/create"]'...
+2023-11-29 15:40:16.475|I|main|click target via JS, @id=add-item
+2023-11-29 15:40:16.593|I|main|clicked -> true
+2023-11-29 15:40:16.593|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@id="add-item"][@href="#/business-details/create"]'
+2023-11-29 15:40:16.593|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BI.DetailsPage})
+2023-11-29 15:40:17.365|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Business Item Details']' found
+2023-11-29 15:40:17.365|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - executing assertElementPresent(locator)(${product.Name})
+2023-11-29 15:40:18.061|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-1']' found
+2023-11-29 15:40:18.061|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - executing save(var,value)(NewProduct, Milk_Product[NUMBER(${num})=>randomDigits(3)])
+2023-11-29 15:40:18.666|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - PASS stored 'Milk_Product236' as ${NewProduct}
+2023-11-29 15:40:18.666|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - executing type(locator,value)(${product.Name.value}, ${NewProduct})
+2023-11-29 15:40:19.689|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - PASS typed text at '//*[@id='bi-input-1']'
+2023-11-29 15:40:19.689|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - executing click(locator)(${Reset.Button})
+2023-11-29 15:40:20.451|I|main|clicking '//button[@class="btn m-1 btn-warning btn-sm"]'...
+2023-11-29 15:40:20.480|I|main|click target via JS, @id=
+2023-11-29 15:40:20.516|I|main|clicked -> true
+2023-11-29 15:40:20.516|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - PASS click via JS event
+2023-11-29 15:40:20.516|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - executing assertAttribute(locator,attrName,value)(${product.Name.value}, innertext, "")
+2023-11-29 15:40:21.229|I|main|Element '//*[@id='bi-input-1']' attribute 'innertext' yielded 'null'
+2023-11-29 15:40:21.229|E|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - FAIL Attribute 'innertext' of element '//*[@id='bi-input-1']' is null/missing but EXPECTS ""
+2023-11-29 15:40:21.229|I|main|EditProductDetails.20231129_154010.001|AddProduct|Validate Reset Button - ending activity
+2023-11-29 15:40:39.559|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:40:43.698|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:40:43.698|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:40:43.698|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:40:44.205|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154043.001.xlsx
+2023-11-29 15:40:44.206|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:40:45.927|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154043.001.xlsx
+2023-11-29 15:40:46.297|I|main|STARTS
+2023-11-29 15:40:46.305|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button - executing activity
+2023-11-29 15:40:46.305|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${click.addNewProduct}, 3000)
+2023-11-29 15:40:47.055|I|main|clicking '//a[@id="add-item"][@href="#/business-details/create"]'...
+2023-11-29 15:40:47.081|I|main|click target via JS, @id=add-item
+2023-11-29 15:40:47.202|I|main|clicked -> true
+2023-11-29 15:40:47.204|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@id="add-item"][@href="#/business-details/create"]'
+2023-11-29 15:40:47.204|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BI.DetailsPage})
+2023-11-29 15:40:47.950|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Business Item Details']' found
+2023-11-29 15:40:47.950|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - executing assertElementPresent(locator)(${product.Name})
+2023-11-29 15:40:48.671|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-1']' found
+2023-11-29 15:40:48.671|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - executing save(var,value)(NewProduct, Milk_Product[NUMBER(${num})=>randomDigits(3)])
+2023-11-29 15:40:49.277|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - PASS stored 'Milk_Product928' as ${NewProduct}
+2023-11-29 15:40:49.277|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - executing type(locator,value)(${product.Name.value}, ${NewProduct})
+2023-11-29 15:40:50.255|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - PASS typed text at '//*[@id='bi-input-1']'
+2023-11-29 15:40:50.258|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - executing click(locator)(${Reset.Button})
+2023-11-29 15:40:50.995|I|main|clicking '//button[@class="btn m-1 btn-warning btn-sm"]'...
+2023-11-29 15:40:51.020|I|main|click target via JS, @id=
+2023-11-29 15:40:51.070|I|main|clicked -> true
+2023-11-29 15:40:51.070|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - PASS click via JS event
+2023-11-29 15:40:51.070|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - executing assertAttribute(locator,attrName,value)(${product.Name.value}, innertext, null)
+2023-11-29 15:40:51.777|I|main|Element '//*[@id='bi-input-1']' attribute 'innertext' yielded 'null'
+2023-11-29 15:40:51.777|E|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - FAIL Attribute 'innertext' of element '//*[@id='bi-input-1']' is null/missing but EXPECTS null
+2023-11-29 15:40:51.777|I|main|EditProductDetails.20231129_154043.001|AddProduct|Validate Reset Button - ending activity
+2023-11-29 15:41:07.140|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:41:10.734|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:41:10.742|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:41:10.742|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:41:11.260|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154110.001.xlsx
+2023-11-29 15:41:11.260|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:41:13.321|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154110.001.xlsx
+2023-11-29 15:41:13.697|I|main|STARTS
+2023-11-29 15:41:13.707|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button - executing activity
+2023-11-29 15:41:13.707|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${click.addNewProduct}, 3000)
+2023-11-29 15:41:14.458|I|main|clicking '//a[@id="add-item"][@href="#/business-details/create"]'...
+2023-11-29 15:41:14.486|I|main|click target via JS, @id=add-item
+2023-11-29 15:41:14.622|I|main|clicked -> true
+2023-11-29 15:41:14.631|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@id="add-item"][@href="#/business-details/create"]'
+2023-11-29 15:41:14.631|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BI.DetailsPage})
+2023-11-29 15:41:15.349|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Business Item Details']' found
+2023-11-29 15:41:15.352|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - executing assertElementPresent(locator)(${product.Name})
+2023-11-29 15:41:16.051|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-1']' found
+2023-11-29 15:41:16.051|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - executing save(var,value)(NewProduct, Milk_Product[NUMBER(${num})=>randomDigits(3)])
+2023-11-29 15:41:16.662|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - PASS stored 'Milk_Product608' as ${NewProduct}
+2023-11-29 15:41:16.662|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - executing type(locator,value)(${product.Name.value}, ${NewProduct})
+2023-11-29 15:41:17.675|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - PASS typed text at '//*[@id='bi-input-1']'
+2023-11-29 15:41:17.675|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - executing click(locator)(${Reset.Button})
+2023-11-29 15:41:18.442|I|main|clicking '//button[@class="btn m-1 btn-warning btn-sm"]'...
+2023-11-29 15:41:18.476|I|main|click target via JS, @id=
+2023-11-29 15:41:18.518|I|main|clicked -> true
+2023-11-29 15:41:18.518|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - PASS click via JS event
+2023-11-29 15:41:18.518|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - executing assertAttribute(locator,attrName,value)(${product.Name.value}, innertext, null/missing)
+2023-11-29 15:41:19.258|I|main|Element '//*[@id='bi-input-1']' attribute 'innertext' yielded 'null'
+2023-11-29 15:41:19.258|E|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - FAIL Attribute 'innertext' of element '//*[@id='bi-input-1']' is null/missing but EXPECTS null/missing
+2023-11-29 15:41:19.258|I|main|EditProductDetails.20231129_154110.001|AddProduct|Validate Reset Button - ending activity
+2023-11-29 15:41:40.052|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:41:44.296|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:41:44.296|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:41:44.296|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:41:44.846|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154144.001.xlsx
+2023-11-29 15:41:44.846|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:41:46.613|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154144.001.xlsx
+2023-11-29 15:41:46.997|I|main|STARTS
+2023-11-29 15:41:47.013|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button - executing activity
+2023-11-29 15:41:47.013|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${click.addNewProduct}, 3000)
+2023-11-29 15:41:47.763|I|main|clicking '//a[@id="add-item"][@href="#/business-details/create"]'...
+2023-11-29 15:41:47.792|I|main|click target via JS, @id=add-item
+2023-11-29 15:41:47.903|I|main|clicked -> true
+2023-11-29 15:41:47.912|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@id="add-item"][@href="#/business-details/create"]'
+2023-11-29 15:41:47.912|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BI.DetailsPage})
+2023-11-29 15:41:48.645|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Business Item Details']' found
+2023-11-29 15:41:48.646|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - executing assertElementPresent(locator)(${product.Name})
+2023-11-29 15:41:49.353|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-1']' found
+2023-11-29 15:41:49.353|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - executing save(var,value)(NewProduct, Milk_Product[NUMBER(${num})=>randomDigits(3)])
+2023-11-29 15:41:49.966|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - PASS stored 'Milk_Product521' as ${NewProduct}
+2023-11-29 15:41:49.966|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - executing type(locator,value)(${product.Name.value}, ${NewProduct})
+2023-11-29 15:41:50.977|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - PASS typed text at '//*[@id='bi-input-1']'
+2023-11-29 15:41:50.977|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - executing click(locator)(${Reset.Button})
+2023-11-29 15:41:51.729|I|main|clicking '//button[@class="btn m-1 btn-warning btn-sm"]'...
+2023-11-29 15:41:51.756|I|main|click target via JS, @id=
+2023-11-29 15:41:51.796|I|main|clicked -> true
+2023-11-29 15:41:51.804|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - PASS click via JS event
+2023-11-29 15:41:51.804|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - executing assertAttribute(locator,attrName,value)(${product.Name.value}, innertext, 'null')
+2023-11-29 15:41:52.511|I|main|Element '//*[@id='bi-input-1']' attribute 'innertext' yielded 'null'
+2023-11-29 15:41:52.513|E|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button|# 50|web.assertAttribute(locat - FAIL Attribute 'innertext' of element '//*[@id='bi-input-1']' is null/missing but EXPECTS 'null'
+2023-11-29 15:41:52.513|I|main|EditProductDetails.20231129_154144.001|AddProduct|Validate Reset Button - ending activity
+2023-11-29 15:43:07.283|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:43:11.718|I|main|[20231129_152804] executing C:\Projects\GNUKhata\RetestExecution\tests\artifact\script\EditProductDetails.xlsx. [1] total 1
+2023-11-29 15:43:11.718|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\captures
+2023-11-29 15:43:11.718|I|main|[20231129_152804] create directory C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\logs
+2023-11-29 15:43:12.234|I|main|[20231129_152804] merging test data to tmp file C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154311.001.xlsx
+2023-11-29 15:43:12.234|I|main|re-fetching data from C:\Projects\GNUKhata\RetestExecution\tests\artifact\data\EditProductDetails.data.xlsx
+2023-11-29 15:43:14.100|I|main|[20231129_152804] test script and test data merged to C:\Projects\GNUKhata\RetestExecution\tests\output\20231129_152804\EditProductDetails.20231129_154311.001.xlsx
+2023-11-29 15:43:14.489|I|main|STARTS
+2023-11-29 15:43:14.497|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button - executing activity
+2023-11-29 15:43:14.506|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${click.addNewProduct}, 3000)
+2023-11-29 15:43:15.259|I|main|clicking '//a[@id="add-item"][@href="#/business-details/create"]'...
+2023-11-29 15:43:15.294|I|main|click target via JS, @id=add-item
+2023-11-29 15:43:15.408|I|main|clicked -> true
+2023-11-29 15:43:15.408|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@id="add-item"][@href="#/business-details/create"]'
+2023-11-29 15:43:15.416|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - executing assertElementPresent(locator)(${Validate.BI.DetailsPage})
+2023-11-29 15:43:16.143|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 45|web.assertElementPresent( - PASS EXPECTED element '//*[text()='Business Item Details']' found
+2023-11-29 15:43:16.143|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - executing assertElementPresent(locator)(${product.Name})
+2023-11-29 15:43:16.835|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 46|web.assertElementPresent( - PASS EXPECTED element '//*[@for='bi-input-1']' found
+2023-11-29 15:43:16.835|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - executing save(var,value)(NewProduct, Milk_Product[NUMBER(${num})=>randomDigits(3)])
+2023-11-29 15:43:17.441|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 47|base.save(var,value)      - PASS stored 'Milk_Product666' as ${NewProduct}
+2023-11-29 15:43:17.441|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - executing type(locator,value)(${product.Name.value}, ${NewProduct})
+2023-11-29 15:43:18.444|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 48|web.type(locator,value)   - PASS typed text at '//*[@id='bi-input-1']'
+2023-11-29 15:43:18.445|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - executing click(locator)(${Reset.Button})
+2023-11-29 15:43:19.201|I|main|clicking '//button[@class="btn m-1 btn-warning btn-sm"]'...
+2023-11-29 15:43:19.235|I|main|click target via JS, @id=
+2023-11-29 15:43:19.279|I|main|clicked -> true
+2023-11-29 15:43:19.279|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 49|web.click(locator)        - PASS click via JS event
+2023-11-29 15:43:19.279|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 50|web.assertTextNotContain( - executing assertTextNotContain(locator,text)(${product.Name.value}, ${NewProduct})
+2023-11-29 15:43:19.999|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button|# 50|web.assertTextNotContain( - PASS validated text '' does NOT contain 'Milk_Product666'
+2023-11-29 15:43:19.999|I|main|EditProductDetails.20231129_154311.001|AddProduct|Validate Reset Button - ending activity

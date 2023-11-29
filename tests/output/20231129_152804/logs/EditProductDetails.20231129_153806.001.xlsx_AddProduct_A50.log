@@ -1,0 +1,5 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2023-11-29 15:38:14.545
+Test Step:         [EditProductDetails.20231129_153806.001.xlsx][AddProduct][Validate Reset Button][STEP  50][web][assertElementByText(locator,text)]
+--------------------------------------------------------------------------------
+MISMATCHED parameters - web.assertElementByText EXPECTS 2 but found 1
