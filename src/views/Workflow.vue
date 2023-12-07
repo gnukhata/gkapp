@@ -146,6 +146,7 @@
                   iconName="file-earmark-arrow-down"
                   variant="outline-dark"
                   :fileName="fileName.list"
+                  :toggleFlag="toggleFlag"
                   title="Download Pdf"
                 ></print-helper>
                 <!-- product / service spreadsheet -->
@@ -159,6 +160,7 @@
                     `/spreadsheet?pslist&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
                   "
                   title="Download Product Service List"
+                  :toggleFlag="toggleFlag"
                 ></gk-file-download>
                 <!-- Invoice spreadsheet -->
                 <gk-file-download
@@ -884,6 +886,10 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgCode', 'orgName']),
   },
   methods: {
+    toggleFlag() {
+      this.isFilterOpen = false; 
+      this.isSettingsOpen = false;
+    },
     /**
      * updateListSettings
      *
