@@ -39,6 +39,7 @@
           outlined
           striped
           small
+          :filter="searchText"
           :fields="userFields"
           :items="userList"
         >
