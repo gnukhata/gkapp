@@ -2,6 +2,8 @@
 node_modules
 dist
 
+/tests/output
+
 # local env files
 .env.local
 .env.*.local
