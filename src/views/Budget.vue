@@ -123,6 +123,7 @@
         variant="dark"
         class="ml-1"
         :aria-label="`Download budget ${budgetType} spreadsheet button`"
+        :messageFromParent="parentMessage"
       />
       <GkFileDownload
         v-else
@@ -134,6 +135,7 @@
         :aria-label="`Download budget ${budgetType} spreadsheet button`"
         variant="dark"
         class="ml-1"
+        :messageFromParent="parentMessage"
       />
     </gk-toolbar>
     <!-- Table -->
@@ -247,6 +249,7 @@ export default {
   },
   data() {
     return {
+      parentMessage: '',
       printStyles: `.table .thead-dark th {
               color: #fff !important;
               background-color: #343a40 !important;

@@ -76,6 +76,7 @@
             this.yearStart
           }&calculateto=${this.toDate}`
         "
+        :messageFromParent="parentMessage"
       >
       </gk-file-download>
     </gk-toolbar>
@@ -125,6 +126,7 @@ export default {
   name: 'ProductRegister',
   data() {
     return {
+      parentMessage: '',
       projectList: [],
       loading: false,
       projectId: null,

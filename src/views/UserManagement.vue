@@ -27,6 +27,7 @@
             this.yearStart
           )}&fyend=${dateReverse(this.yearEnd)}&orgname=${this.orgName}`
         "
+        :messageFromParent="parentMessage"
       ></gk-file-download>
     </gk-toolbar>
     <b-row>
@@ -107,6 +108,7 @@ export default {
   name: 'UserManagement',
   data() {
     return {
+      parentMessage: '',
       fields: [
         {
           key: this.$gettext('user'),

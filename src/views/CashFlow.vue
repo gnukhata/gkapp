@@ -49,6 +49,7 @@ All users can view this report`)
             `/spreadsheet?cash-flow&from=${this.fromDate}&to=${this.toDate}&orgtype=${orgType}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
           "
           :commonParams="false"
+          :messageFromParent="parentMessage"
         />
       </gk-toolbar>
       <div class="row" v-if="result1 !== null">
@@ -124,6 +125,7 @@ export default {
   name: 'ProfitLoss',
   data() {
     return {
+      parentMessage: '',
       isLoading: false,
       fromDate: null,
       toDate: null,
