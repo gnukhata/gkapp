@@ -120,6 +120,7 @@
           "
           fileExtn="xlsx"
           :commonParams="false"
+          :messageFromParent="parentMessage"
         ></gk-file-download>
       </gk-toolbar>
       <!-- result table -->
@@ -282,6 +283,7 @@ export default {
   },
   data() {
     return {
+      parentMessage: '',
       productList: [],
       search: '',
       loading: false,

@@ -34,6 +34,7 @@
               :add-date="true"
               :addTimeStamp="true"
               class="mr-1"
+              :messageFromParent="parentMessage"
             ></gk-file-download>
             <gk-file-download
               :url="`/export/json`"
@@ -45,6 +46,7 @@
               fileSuffix="Export"
               :addTimeStamp="true"
 							:commonParams="false"
+              :messageFromParent="parentMessage"
             ></gk-file-download>
           </b-button-group>
           <b-alert class="mt-3" show variant="warning">
@@ -73,6 +75,7 @@ export default {
   components: { GkFileDownload },
   data() {
     return {
+      parentMessage: '',
       fileName: '',
       url: '',
     };

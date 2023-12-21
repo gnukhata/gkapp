@@ -37,6 +37,10 @@ export default {
     };
   },
   props: {
+    messageFromParent: {
+      type: String,
+      required: true,
+    },
     toggleFlag: Function,
     fileName: {
       type: String,
@@ -120,7 +124,9 @@ export default {
   methods: {
     onFileDownload() {
       this.loading = true;
-      this.toggleFlag();
+      if (this.messageFromParent == "toggleFlagTrue") {
+        this.toggleFlag();
+      }
 
       let url = this.url;
 

@@ -93,6 +93,7 @@ Note that this is a consolidated report generated from organizations which are s
           :url="downloadUrl"
           :fileName="downloadFileName"
           fileExtn=".xlsx"
+          :messageFromParent="parentMessage"
         ></gk-file-download>
       </div>
       <b-row class="row text-small">
@@ -305,6 +306,7 @@ export default {
   name: 'BalanceSheet',
   data() {
     return {
+      parentMessage: '',
       isLoading: false,
       fromDate: null,
       toDate: null,

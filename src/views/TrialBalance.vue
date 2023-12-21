@@ -116,6 +116,7 @@
             fileSuffix="NetTrialBalance"
             title="Download Net Trial Balance Spreadsheet"
           >
+          :messageFromParent="parentMessage"
           </gk-file-download>
           <gk-file-download
             v-if="trialBalanceType == 'Gross'"
@@ -125,6 +126,7 @@
             :commonParams="false"
             fileSuffix="NetTrialBalance"
             title="Download Net Trial Balance Spreadsheet"
+            :messageFromParent="parentMessage"
           >
           </gk-file-download>
           <gk-file-download
@@ -135,6 +137,7 @@
             :commonParams="false"
             fileSuffix="ExtendedTrialBalance"
             title="Download Extended Trial Balance Spreadsheet"
+            :messageFromParent="parentMessage"
           >
           </gk-file-download>
         </gk-toolbar>
@@ -240,6 +243,7 @@ export default {
   name: 'TrialBalance',
   data() {
     return {
+      parentMessage: '',
       isLoading: false,
       search: '',
       fromDate: null,

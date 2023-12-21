@@ -28,6 +28,7 @@
           :addTimeStamp="true"
           name="Spreadsheet"
           icon="cloud-download"
+          :messageFromParent="parentMessage"
         ></gk-file-download>
         <b-table
           caption-top
@@ -226,6 +227,7 @@ export default {
   name: 'R1Detailed',
   data() {
     return {
+      parentMessage: '',
       isLoading: false,
       list: { b2b: [], b2cl: [], b2cs: [], cdnr: [], cdnur: [], hsn1: [] },
       search: null,
