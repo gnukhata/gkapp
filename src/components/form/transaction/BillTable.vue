@@ -1211,7 +1211,7 @@ export default {
             let rate = parseFloat(item.rate);
             let igst = parseFloat(item.igst.rate) || 0;
             let cess = parseFloat(item.cess.rate) || 0;
-            let discountamount = parseFloat(item.discount.discountamount) || 0;
+            let discountamount = parseFloat(item.discount.amount) || 0;
             if (item.rate > 0) {
               let qty = item.qty;
               if (this.config.rejectedQty) {
@@ -1261,7 +1261,7 @@ export default {
           // calculate taxable
           let rate = parseFloat(item.rate);
           let vat = parseFloat(item.vat.rate) || 0;
-          let discountamount = parseFloat(item.discount.discountamount) || 0;
+          let discountamount = parseFloat(item.discount.amount) || 0;
           if (item.rate > 0) {
             let qty = item.qty;
             if (this.config.rejectedQty) {
