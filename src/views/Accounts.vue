@@ -22,6 +22,7 @@
         "
         title="Download Account List"
         :commonParams="false"
+        :messageFromParent="parentMessage"
       ></gk-file-download>
     </gk-toolbar>
     <div class="clearfix"></div>
@@ -273,6 +274,7 @@ export default {
   },
   data() {
     return {
+      parentMessage: '',
       searchBy: {
         group: null,
         subGroup: null,

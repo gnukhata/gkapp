@@ -81,6 +81,7 @@
               :pageTitle="triplicateTitle[0].page"
               :printStyles="printStyles"
               :fileName="triplicateTitle[0].file"
+              :messageFromParent="printMessage"
             ></print-helper>
             <print-helper
               class="d-block"
@@ -90,6 +91,7 @@
               :pageTitle="triplicateTitle[1].page"
               :printStyles="printStyles"
               :fileName="triplicateTitle[1].file"
+              :messageFromParent="printMessage"
             ></print-helper>
             <print-helper
               class="d-block"
@@ -99,6 +101,7 @@
               :pageTitle="triplicateTitle[2].page"
               :printStyles="printStyles"
               :fileName="triplicateTitle[2].file"
+              :messageFromParent="printMessage"
             ></print-helper>
           </b-collapse>
         </div>
@@ -109,6 +112,7 @@
           :pageTitle="printPageTitle"
           :printStyles="printStyles"
           :fileName="printFileTitle"
+          :messageFromParent="printMessage"
         ></print-helper>
       </div>
     </div>
@@ -173,6 +177,7 @@ export default {
   },
   data() {
     return {
+      printMessage: 'toggleFlagPrintTrue',
       showTripMenu: false,
       printStyles: `.table .thead-dark th {
           color: #fff !important;

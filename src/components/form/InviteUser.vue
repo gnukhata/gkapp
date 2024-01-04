@@ -323,13 +323,23 @@ export default {
           switch (resp.data.gkstatus) {
             case STATUS_CODES['Success']:
               this.gk_log(`user invited: ${this.form.username}`);
-              this.$bvToast.toast(
-                `${this.form.username} has been invited successfully`,
-                {
-                  variant: 'success',
-                  solid: true,
-                }
-              );
+              if(this.createUser) {
+                this.$bvToast.toast(
+                  `${this.form.username} has been created & Invited successfully.`,
+                  {
+                    variant: 'success',
+                    solid: true,
+                  }
+                );
+              } else {
+                this.$bvToast.toast(
+                  `${this.form.username} has been invited successfully.`,
+                  {
+                    variant: 'success',
+                    solid: true,
+                  }
+                );
+              }
               this.$refs['createUserForm'].reset();
               this.createUser = false;
               this.validUser = null;
@@ -442,7 +452,7 @@ export default {
                 break;
               case STATUS_CODES['BadPrivilege']:
                 this.$bvToast.toast(
-                  this.$gettext(`User deletion unsuccessful`),
+                  this.$gettext(`User creation unsuccessful`),
                   {
                     title: 'error',
                     variant: 'danger',
@@ -452,7 +462,7 @@ export default {
               case STATUS_CODES['ActionDisallowed']:
                 this.$bvToast.toast(
                   this.$gettext(
-                    `User deletion is not allowed. Only a user with admin role can delete another user`
+                    `User creation is not allowed. Only a user with admin role can delete another user`
                   ),
                   {
                     title: 'error',
@@ -461,7 +471,7 @@ export default {
                 );
                 break;
               case STATUS_CODES['ConnectionFailed']:
-                this.$bvToast.toast(this.$gettext(`User deletion failed`), {
+                this.$bvToast.toast(this.$gettext(`User creation failed`), {
                   title: 'error',
                   variant: 'danger',
                 });

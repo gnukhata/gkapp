@@ -498,6 +498,12 @@ export default {
           }
           self.getAllCategories();
           self.initForm();
+        } else if(resp1.data.gkstatus === 1) {
+          this.gk_toast(
+            this.$gettext('Alert'),
+            this.$gettext('Duplicate Category not allowed'),
+            'warning'
+          );
         }
       });
     },

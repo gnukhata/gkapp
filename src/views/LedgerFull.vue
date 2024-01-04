@@ -68,6 +68,7 @@
           :url="
             `/spreadsheet/ledger?accountcode=${this.accountCode}&accountname=${this.ledgerHead.accountname}&from=${this.fromDate}&to=${this.toDate}&orgtype=${this.orgType}&projectcode=${this.projectCode}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
           "
+          :messageFromParent="parentMessage"
         ></gk-file-download>
       </gk-toolbar>
       <!-- result -->
@@ -117,6 +118,7 @@ export default {
   name: 'LedgerMonthly',
   data() {
     return {
+      parentMessage: '',
       loading: false,
       search: '',
       accountCode: null,

@@ -17,6 +17,11 @@ import { mapState } from 'vuex';
 export default {
   name: 'PrintHelper',
   props: {
+    messageFromParent: {
+      type: String,
+      required: true,
+    },
+    toggleFlag: Function,
     contentId: {
       type: String,
       required: true,
@@ -126,6 +131,9 @@ export default {
       return pages;
     },
     onPrint() {
+      if (this.messageFromParent == "toggleFlagTrue") {
+        this.toggleFlag();
+      }
       // const self = this;
       let tableFlag = false;
       this.$emit('before-print');

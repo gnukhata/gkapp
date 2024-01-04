@@ -83,7 +83,6 @@
           </div>
           <b-form-checkbox-group
             @change="applyFilters"
-            @input="applyFilters"
             class=""
             v-model="invoiceFilter"
           >
@@ -121,6 +120,7 @@
           "
           fileExtn="xlsx"
           :commonParams="false"
+          :messageFromParent="parentMessage"
         ></gk-file-download>
       </gk-toolbar>
       <!-- result table -->
@@ -283,6 +283,7 @@ export default {
   },
   data() {
     return {
+      parentMessage: '',
       productList: [],
       search: '',
       loading: false,

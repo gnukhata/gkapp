@@ -69,6 +69,8 @@ export default {
     updateCounter() {
       if (this.parentData) {
         this.form.narration = this.parentData;
+      } else {
+        this.form.narration = '';
       }
     },
   },
