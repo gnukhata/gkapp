@@ -1,0 +1,40 @@
+2024-01-09 15:54:43.292|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-09 15:54:43.307|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\fAsnS\BalanceSheet.data.xlsx
+2024-01-09 15:54:43.307|I|main|(DELAYED) input files and output directory resolved...
+2024-01-09 15:54:43.307|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-09 15:54:43.307|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-09 15:54:43.307|I|main|[20240109_155442] [C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx] resolve RUN ID as 20240109_155442
+2024-01-09 15:54:43.480|I|main|No predefined nexial-setup found
+2024-01-09 15:54:44.039|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-09 15:54:44.039|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-09 15:54:44.039|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-09 15:54:44.354|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-09 15:54:45.033|I|main|On-Demand Inspection detection enabled
+2024-01-09 15:54:45.191|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 15:54:50.965|I|main|[20240109_155442] executing C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx. [1] total 1
+2024-01-09 15:54:50.965|I|main|[20240109_155442] create directory C:\projects\GNUAPI\tests\output\20240109_155442\captures
+2024-01-09 15:54:50.965|I|main|[20240109_155442] create directory C:\projects\GNUAPI\tests\output\20240109_155442\logs
+2024-01-09 15:54:53.279|I|main|[20240109_155442] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_155442\BalanceSheet.20240109_155450.001.xlsx
+2024-01-09 15:54:53.279|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 15:54:54.314|I|main|[20240109_155442] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_155442\BalanceSheet.20240109_155450.001.xlsx
+2024-01-09 15:54:55.342|I|main|STARTS
+2024-01-09 15:54:55.422|I|main|BalanceSheet.20240109_155450.001|Login|Login to GNU khata - executing activity
+2024-01-09 15:54:55.438|I|main|BalanceSheet.20240109_155450.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2024-01-09 15:54:56.041|I|main|BalanceSheet.20240109_155450.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-09 15:54:56.057|I|main|[chrome] initializing chrome
+2024-01-09 15:54:56.184|I|main|[chrome] enabling chrome remote port: 8549
+2024-01-09 15:54:58.923|I|main|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2024-01-09 15:54:58.928|I|main|terminating any leftover instance of chromedriver.exe
+2024-01-09 15:54:59.947|I|main|SUCCESS: The process with PID 28832 (child process of PID 21040) has been terminated.
+SUCCESS: The process with PID 21040 (child process of PID 27872) has been terminated.
+
+2024-01-09 15:55:03.273|I|main|required driver version : 120.0.6099.200
+2024-01-09 15:55:09.699|E|main|UnknownHostException: No such host is known (chromedriver.storage.googleapis.com)
+2024-01-09 15:55:09.701|I|main|Unable to resolve or download webdriver: No such host is known (chromedriver.storage.googleapis.com)
+2024-01-09 15:55:09.773|E|main|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2024-01-09 15:55:09.803|E|main|BalanceSheet.20240109_155450.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - FAIL Connection refused: no further information
+2024-01-09 15:55:09.804|E|main|BalanceSheet.20240109_155450.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - Error log: C:\projects\GNUAPI\tests\output\20240109_155442\logs\BalanceSheet.20240109_155450.001.xlsx_Login_A5.A16.log
+2024-01-09 15:55:09.806|I|main|BalanceSheet.20240109_155450.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - [ABORT] due to failure on fail-fast command: web.openAndWait(url,waitMs)
+2024-01-09 15:55:09.813|I|main|BalanceSheet.20240109_155450.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-09 15:55:09.815|I|main|BalanceSheet.20240109_155450.001|Login|Login to GNU khata - ending activity

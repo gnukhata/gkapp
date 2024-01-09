@@ -1,0 +1,28 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-09 17:38:24.349
+Test Step:         [Godown.20240109_173712.001.xlsx][Godown_TestScenarios][Validate the Godowns elements][STEP  15][web][assertElementPresent(locator)]
+--------------------------------------------------------------------------------
+org.openqa.selenium.NoSuchElementException: Timed out while looking for web element(s) that match '//span[contains(text(),'Address')]'; nexial.pollWaitMs=10000
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: unknown
+	at org.nexial.core.plugins.web.LocatorHelper.findElement$nexial_core(LocatorHelper.kt:225)
+	at org.nexial.core.plugins.web.LocatorHelper.findElement(LocatorHelper.kt:201)
+	at org.nexial.core.plugins.web.WebCommand.findElement(WebCommand.java:3245)
+	at org.nexial.core.plugins.web.WebCommand.isElementPresent(WebCommand.java:3241)
+	at org.nexial.core.plugins.web.WebCommand.assertElementPresent(WebCommand.java:523)
+	at jdk.internal.reflect.GeneratedMethodAccessor20.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.nexial.core.plugins.base.BaseCommand.execute(BaseCommand.java:151)
+	at org.nexial.core.plugins.web.WebCommand.execute(WebCommand.java:180)
+	at org.nexial.core.model.TestStep.invokeCommand(TestStep.java:449)
+	at org.nexial.core.model.TestStep.execute(TestStep.java:247)
+	at org.nexial.core.interactive.NexialInteractive.executeSteps(NexialInteractive.kt:529)
+	at org.nexial.core.interactive.NexialInteractive.execute(NexialInteractive.kt:461)
+	at org.nexial.core.interactive.NexialInteractive.processMenu(NexialInteractive.kt:213)
+	at org.nexial.core.interactive.NexialInteractive.startSession(NexialInteractive.kt:138)
+	at org.nexial.core.Nexial.interact(Nexial.java:751)
+	at org.nexial.core.Nexial.main(Nexial.java:241)
+

@@ -1,0 +1,112 @@
+2024-01-09 16:24:01.653|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-09 16:24:01.661|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\AKzbq\BalanceSheet.data.xlsx
+2024-01-09 16:24:01.661|I|main|(DELAYED) input files and output directory resolved...
+2024-01-09 16:24:01.661|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-09 16:24:01.661|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-09 16:24:01.661|I|main|[20240109_162400] [C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx] resolve RUN ID as 20240109_162400
+2024-01-09 16:24:01.835|I|main|No predefined nexial-setup found
+2024-01-09 16:24:02.403|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-09 16:24:02.403|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-09 16:24:02.403|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-09 16:24:02.671|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-09 16:24:03.239|I|main|On-Demand Inspection detection enabled
+2024-01-09 16:24:03.387|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 16:24:04.913|I|main|[20240109_162400] executing C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx. [1] total 1
+2024-01-09 16:24:04.913|I|main|[20240109_162400] create directory C:\projects\GNUAPI\tests\output\20240109_162400\captures
+2024-01-09 16:24:04.923|I|main|[20240109_162400] create directory C:\projects\GNUAPI\tests\output\20240109_162400\logs
+2024-01-09 16:24:05.807|I|main|[20240109_162400] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_162400\BalanceSheet.20240109_162404.001.xlsx
+2024-01-09 16:24:05.807|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 16:24:06.170|I|main|[20240109_162400] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_162400\BalanceSheet.20240109_162404.001.xlsx
+2024-01-09 16:24:06.596|I|main|STARTS
+2024-01-09 16:24:06.674|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata - executing activity
+2024-01-09 16:24:06.692|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2024-01-09 16:24:07.288|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-09 16:24:07.304|I|main|[chrome] initializing chrome
+2024-01-09 16:24:07.414|I|main|[chrome] enabling chrome remote port: 47404
+2024-01-09 16:24:10.360|I|main|[chrome] initializing for chrome 120.0.6099.200
+2024-01-09 16:24:10.480|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-09 16:24:10.495|I|main|	1920x1080x32bpp@60Hz
+2024-01-09 16:24:10.495|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-09 16:24:10.515|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1536,height=864
+2024-01-09 16:24:10.515|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-09 16:24:10.666|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-09 16:24:10.679|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-09 16:24:10.679|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-09 16:24:41.874|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-09 16:24:41.874|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-09 16:24:42.037|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-09 16:24:42.042|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-09 16:24:42.883|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//*[span='Continue with Default Server']' is present
+2024-01-09 16:24:42.883|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-09 16:24:43.063|I|main|clicking '//*[span='Continue with Default Server']'...
+2024-01-09 16:24:43.099|I|main|click target via JS, @id=
+2024-01-09 16:24:43.153|I|main|clicked -> true
+2024-01-09 16:24:43.153|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-09 16:24:43.156|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-09 16:24:48.172|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-09 16:24:48.172|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-09 16:24:48.638|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-09 16:24:48.638|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-09 16:24:49.074|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-09 16:24:49.074|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-09 16:24:49.268|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-09 16:24:49.306|I|main|click target via JS, @id=
+2024-01-09 16:24:49.371|I|main|clicked -> true
+2024-01-09 16:24:49.372|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-09 16:24:49.373|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-09 16:24:49.419|E|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=//*[text()='User Login to GNUKhata']
+actual  =User Login — GNUKhata
+2024-01-09 16:24:49.422|E|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\projects\GNUAPI\tests\output\20240109_162400\logs\BalanceSheet.20240109_162404.001.xlsx_Login_A5.A24.log
+2024-01-09 16:24:49.422|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-09 16:24:49.422|I|main|BalanceSheet.20240109_162404.001|Login|Login to GNU khata - ending activity
+2024-01-09 16:25:53.128|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 16:25:55.144|I|main|[20240109_162400] executing C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx. [1] total 1
+2024-01-09 16:25:55.144|I|main|[20240109_162400] create directory C:\projects\GNUAPI\tests\output\20240109_162400\captures
+2024-01-09 16:25:55.144|I|main|[20240109_162400] create directory C:\projects\GNUAPI\tests\output\20240109_162400\logs
+2024-01-09 16:25:56.198|I|main|[20240109_162400] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_162400\BalanceSheet.20240109_162555.001.xlsx
+2024-01-09 16:25:56.198|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 16:25:56.639|I|main|[20240109_162400] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_162400\BalanceSheet.20240109_162555.001.xlsx
+2024-01-09 16:25:57.991|I|main|STARTS
+2024-01-09 16:25:58.016|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata - executing activity
+2024-01-09 16:25:58.016|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2024-01-09 16:25:58.870|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-09 16:25:59.059|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-09 16:25:59.062|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-09 16:25:59.107|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-09 16:25:59.107|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-09 16:26:09.183|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - Timed out while looking for web element(s) that match '//*[span='Continue with Default Server']'; nexial.pollWaitMs=10000
+2024-01-09 16:26:09.183|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - Condition not be met on the current browser within specified wait time of 5000 ms
+2024-01-09 16:26:09.183|E|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - FAIL Element by locator '//*[span='Continue with Default Server']' is NOT present within 5000ms
+2024-01-09 16:26:09.183|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-09 16:26:19.199|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - Timed out while looking for web element(s) that match '//*[span='Continue with Default Server']'; nexial.pollWaitMs=10000
+2024-01-09 16:26:19.216|E|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - FAIL EXECUTING COMMAND: web.click(locator)('//*[span='Continue with Default Server']')
+Specified element not found: Timed out while looking for web element(s) that match '//*[span='Continue with Default Server']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:26:19.216|E|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - Error log: C:\projects\GNUAPI\tests\output\20240109_162400\logs\BalanceSheet.20240109_162555.001.xlsx_Login_A5.A19.log
+2024-01-09 16:26:19.222|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-09 16:26:24.235|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-09 16:26:24.235|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-09 16:26:25.010|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-09 16:26:25.010|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-09 16:26:25.681|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-09 16:26:25.681|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-09 16:26:25.893|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-09 16:26:25.940|I|main|click target via JS, @id=
+2024-01-09 16:26:26.003|I|main|clicked -> true
+2024-01-09 16:26:26.003|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-09 16:26:26.003|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-09 16:26:26.035|E|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=//*[text()='User Login to GNUKhata']
+actual  =User Login — GNUKhata
+2024-01-09 16:26:26.035|E|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\projects\GNUAPI\tests\output\20240109_162400\logs\BalanceSheet.20240109_162555.001.xlsx_Login_A5.A24.log
+2024-01-09 16:26:26.035|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-09 16:26:26.035|I|main|BalanceSheet.20240109_162555.001|Login|Login to GNU khata - ending activity
+2024-01-09 16:26:29.492|I|main|[20240109_162400] Ending Nexial Interactive session...
+2024-01-09 16:26:29.492|I|main|exiting Nexial...
+2024-01-09 16:26:29.492|I|main|shutdown starts...
+2024-01-09 16:26:29.492|I|main|[chrome] Shutting down webdriver...
+2024-01-09 16:26:29.492|I|main|[chrome] Close the current window...
+2024-01-09 16:26:29.684|I|main|[chrome] Quit this driver, closing every associated window.
+2024-01-09 16:26:31.067|I|main|shutdown ends...

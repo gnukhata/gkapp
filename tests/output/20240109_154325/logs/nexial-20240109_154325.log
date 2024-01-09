@@ -1,0 +1,50 @@
+2024-01-09 15:43:41.191|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-09 15:43:41.207|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\LeNyJ\Godown.data.xlsx
+2024-01-09 15:43:41.207|I|main|(DELAYED) input files and output directory resolved...
+2024-01-09 15:43:41.207|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-09 15:43:41.207|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-09 15:43:41.207|I|main|[20240109_154325] [C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx] resolve RUN ID as 20240109_154325
+2024-01-09 15:43:41.786|I|main|No predefined nexial-setup found
+2024-01-09 15:43:43.335|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-09 15:43:43.335|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-09 15:43:43.335|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-09 15:43:44.045|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-09 15:43:45.918|I|main|On-Demand Inspection detection enabled
+2024-01-09 15:43:46.343|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 15:44:02.968|I|main|[20240109_154325] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 15:44:03.008|I|main|[20240109_154325] create directory C:\projects\GNUAPI\tests\output\20240109_154325\captures
+2024-01-09 15:44:03.008|I|main|[20240109_154325] create directory C:\projects\GNUAPI\tests\output\20240109_154325\logs
+2024-01-09 15:44:06.079|I|main|[20240109_154325] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_154325\Godown.20240109_154403.001.xlsx
+2024-01-09 15:44:06.079|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 15:44:07.428|I|main|[20240109_154325] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_154325\Godown.20240109_154403.001.xlsx
+2024-01-09 15:44:08.915|I|main|STARTS
+2024-01-09 15:44:09.017|I|main|Godown.20240109_154403.001|Login|Login to GNU khata - executing activity
+2024-01-09 15:44:09.025|I|main|Godown.20240109_154403.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2024-01-09 15:44:10.136|I|main|Godown.20240109_154403.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-09 15:44:10.138|I|main|[chrome] initializing chrome
+2024-01-09 15:44:11.676|I|main|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_win32.zip
+2024-01-09 15:44:12.915|I|main|[C:\Users\rh0751\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\rh0751\.nexial\chrome\chromedriver.exe
+2024-01-09 15:44:13.656|I|main|[C:\Users\rh0751\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\rh0751\.nexial\chrome\LICENSE.chromedriver
+2024-01-09 15:44:13.677|I|main|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\rh0751\.nexial\chrome\chromedriver.exe
+2024-01-09 15:44:13.741|I|main|[chrome] enabling chrome remote port: 15116
+2024-01-09 15:44:16.534|I|main|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2024-01-09 15:44:16.543|I|main|terminating any leftover instance of chromedriver.exe
+2024-01-09 15:44:17.573|I|main|SUCCESS: The process with PID 13452 (child process of PID 24008) has been terminated.
+SUCCESS: The process with PID 24008 (child process of PID 22116) has been terminated.
+
+2024-01-09 15:44:20.980|I|main|required driver version : 120.0.6099.200
+2024-01-09 15:44:21.360|I|main|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2024-01-09 15:44:21.360|I|main|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2024-01-09 15:44:22.137|I|main|[C:\Users\rh0751\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\rh0751\.nexial\chrome\chromedriver.exe
+2024-01-09 15:44:22.623|I|main|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\rh0751\.nexial\chrome\chromedriver.exe
+2024-01-09 15:44:22.704|E|main|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2024-01-09 15:44:22.728|E|main|Godown.20240109_154403.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - FAIL Connection refused: no further information
+2024-01-09 15:44:22.729|E|main|Godown.20240109_154403.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - Error log: C:\projects\GNUAPI\tests\output\20240109_154325\logs\Godown.20240109_154403.001.xlsx_Login_A5.A16.log
+2024-01-09 15:44:22.732|I|main|Godown.20240109_154403.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - [ABORT] due to failure on fail-fast command: web.openAndWait(url,waitMs)
+2024-01-09 15:44:22.742|I|main|Godown.20240109_154403.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-09 15:44:22.745|I|main|Godown.20240109_154403.001|Login|Login to GNU khata - ending activity
+2024-01-09 15:54:24.180|I|main|[20240109_154325] Ending Nexial Interactive session...
+2024-01-09 15:54:24.180|I|main|exiting Nexial...
+2024-01-09 15:54:24.180|I|main|shutdown starts...
+2024-01-09 15:54:24.183|I|main|shutdown ends...

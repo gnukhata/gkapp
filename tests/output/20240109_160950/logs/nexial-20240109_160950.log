@@ -1,0 +1,50 @@
+2024-01-09 16:09:51.411|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-09 16:09:51.411|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\MTjsq\BalanceSheet.data.xlsx
+2024-01-09 16:09:51.411|I|main|(DELAYED) input files and output directory resolved...
+2024-01-09 16:09:51.411|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-09 16:09:51.411|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-09 16:09:51.411|I|main|[20240109_160950] [C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx] resolve RUN ID as 20240109_160950
+2024-01-09 16:09:51.598|I|main|No predefined nexial-setup found
+2024-01-09 16:09:52.194|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-09 16:09:52.194|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-09 16:09:52.194|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-09 16:09:52.447|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-09 16:09:53.219|I|main|On-Demand Inspection detection enabled
+2024-01-09 16:09:53.409|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 16:09:56.706|I|main|[20240109_160950] executing C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx. [1] total 1
+2024-01-09 16:09:56.706|I|main|[20240109_160950] create directory C:\projects\GNUAPI\tests\output\20240109_160950\captures
+2024-01-09 16:09:56.706|I|main|[20240109_160950] create directory C:\projects\GNUAPI\tests\output\20240109_160950\logs
+2024-01-09 16:09:59.235|I|main|[20240109_160950] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_160950\BalanceSheet.20240109_160956.001.xlsx
+2024-01-09 16:09:59.235|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 16:10:00.276|I|main|[20240109_160950] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_160950\BalanceSheet.20240109_160956.001.xlsx
+2024-01-09 16:10:01.378|I|main|STARTS
+2024-01-09 16:10:01.489|I|main|BalanceSheet.20240109_160956.001|Login|Login to GNU khata - executing activity
+2024-01-09 16:10:01.506|I|main|BalanceSheet.20240109_160956.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2024-01-09 16:10:02.150|I|main|BalanceSheet.20240109_160956.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-09 16:10:02.150|I|main|[chrome] initializing chrome
+2024-01-09 16:10:04.092|I|main|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2024-01-09 16:10:04.093|I|main|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2024-01-09 16:10:05.426|I|main|[C:\Users\rh0751\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\rh0751\.nexial\chrome\chromedriver.exe
+2024-01-09 16:10:05.965|I|main|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\rh0751\.nexial\chrome\chromedriver.exe
+2024-01-09 16:10:06.013|I|main|[chrome] enabling chrome remote port: 42476
+2024-01-09 16:10:08.047|I|main|[chrome] Corresponding browser might have been updated recently. Nexial will stop the webdriver in use to update it...
+2024-01-09 16:10:08.047|I|main|terminating any leftover instance of chromedriver.exe
+2024-01-09 16:10:09.089|I|main|SUCCESS: The process with PID 18360 (child process of PID 14816) has been terminated.
+SUCCESS: The process with PID 14816 (child process of PID 27476) has been terminated.
+
+2024-01-09 16:10:12.385|I|main|required driver version : 120.0.6099.200
+2024-01-09 16:10:14.026|I|main|[Chrome] unable to resolve latest version for chrome. Use min. driver version instead...
+2024-01-09 16:10:14.026|I|main|[Chrome] derived download URL as https://chromedriver.storage.googleapis.com/2.46/chromedriver_win32.zip
+2024-01-09 16:10:14.761|I|main|[C:\Users\rh0751\.nexial\chrome\chromedriver.exe.zip]: Unzipping to C:\Users\rh0751\.nexial\chrome\chromedriver.exe
+2024-01-09 16:10:15.310|I|main|[WebDriverHelper] webdriver for chrome downloaded to C:\Users\rh0751\.nexial\chrome\chromedriver.exe
+2024-01-09 16:10:15.389|E|main|[chrome] Error initializing browser 'chrome': ConnectException: Connection refused: no further information
+2024-01-09 16:10:15.406|E|main|BalanceSheet.20240109_160956.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - FAIL Connection refused: no further information
+2024-01-09 16:10:15.406|E|main|BalanceSheet.20240109_160956.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - Error log: C:\projects\GNUAPI\tests\output\20240109_160950\logs\BalanceSheet.20240109_160956.001.xlsx_Login_A5.A16.log
+2024-01-09 16:10:15.406|I|main|BalanceSheet.20240109_160956.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - [ABORT] due to failure on fail-fast command: web.openAndWait(url,waitMs)
+2024-01-09 16:10:15.406|I|main|BalanceSheet.20240109_160956.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-09 16:10:15.421|I|main|BalanceSheet.20240109_160956.001|Login|Login to GNU khata - ending activity
+2024-01-09 16:15:08.169|I|main|[20240109_160950] Ending Nexial Interactive session...
+2024-01-09 16:15:08.169|I|main|exiting Nexial...
+2024-01-09 16:15:08.169|I|main|shutdown starts...
+2024-01-09 16:15:08.169|I|main|shutdown ends...

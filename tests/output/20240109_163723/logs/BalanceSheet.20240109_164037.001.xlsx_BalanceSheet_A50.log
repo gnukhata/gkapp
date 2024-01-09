@@ -1,0 +1,5 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-09 16:42:48.542
+Test Step:         [BalanceSheet.20240109_164037.001.xlsx][BalanceSheet][Validating the Property and Assets section values][STEP  50][web][assertElementByText(locator,text)]
+--------------------------------------------------------------------------------
+invalid text to search by: 

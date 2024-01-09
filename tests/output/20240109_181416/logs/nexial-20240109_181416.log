@@ -1,0 +1,473 @@
+2024-01-09 18:14:17.111|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-09 18:14:17.114|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\TWcwM\Godown.data.xlsx
+2024-01-09 18:14:17.114|I|main|(DELAYED) input files and output directory resolved...
+2024-01-09 18:14:17.114|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-09 18:14:17.114|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-09 18:14:17.114|I|main|[20240109_181416] [C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx] resolve RUN ID as 20240109_181416
+2024-01-09 18:14:17.310|I|main|No predefined nexial-setup found
+2024-01-09 18:14:17.828|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-09 18:14:17.828|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-09 18:14:17.828|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-09 18:14:18.112|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-09 18:14:18.852|I|main|On-Demand Inspection detection enabled
+2024-01-09 18:14:19.026|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 18:14:21.022|I|main|[20240109_181416] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 18:14:21.022|I|main|[20240109_181416] create directory C:\projects\GNUAPI\tests\output\20240109_181416\captures
+2024-01-09 18:14:21.022|I|main|[20240109_181416] create directory C:\projects\GNUAPI\tests\output\20240109_181416\logs
+2024-01-09 18:14:23.022|I|main|[20240109_181416] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_181416\Godown.20240109_181421.001.xlsx
+2024-01-09 18:14:23.022|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 18:14:24.015|I|main|[20240109_181416] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_181416\Godown.20240109_181421.001.xlsx
+2024-01-09 18:14:25.147|I|main|STARTS
+2024-01-09 18:14:25.226|I|main|Godown.20240109_181421.001|Login|Login to GNU khata - executing activity
+2024-01-09 18:14:25.242|I|main|Godown.20240109_181421.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2024-01-09 18:14:25.890|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-09 18:14:25.906|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-09 18:14:25.917|I|main|[chrome] initializing chrome
+2024-01-09 18:14:26.034|I|main|[chrome] enabling chrome remote port: 60424
+2024-01-09 18:14:29.075|I|main|[chrome] initializing for chrome 120.0.6099.200
+2024-01-09 18:14:29.226|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-09 18:14:29.242|I|main|	1920x1080x32bpp@60Hz
+2024-01-09 18:14:29.242|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-09 18:14:29.259|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1536,height=864
+2024-01-09 18:14:29.259|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-09 18:14:29.386|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-09 18:14:29.402|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-09 18:14:29.402|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-09 18:14:59.755|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-09 18:14:59.755|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-09 18:14:59.899|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-09 18:14:59.899|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-09 18:15:03.113|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//*[span='Continue with Default Server']' is present
+2024-01-09 18:15:03.113|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-09 18:15:03.313|I|main|clicking '//*[span='Continue with Default Server']'...
+2024-01-09 18:15:03.346|I|main|click target via JS, @id=
+2024-01-09 18:15:03.412|I|main|clicked -> true
+2024-01-09 18:15:03.412|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-09 18:15:03.416|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-09 18:15:08.424|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-09 18:15:08.425|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-09 18:15:08.899|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-09 18:15:08.899|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-09 18:15:09.349|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-09 18:15:09.349|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-09 18:15:09.570|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-09 18:15:09.622|I|main|click target via JS, @id=
+2024-01-09 18:15:09.684|I|main|clicked -> true
+2024-01-09 18:15:09.684|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-09 18:15:09.684|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-09 18:15:09.701|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-09 18:15:09.710|I|main|Godown.20240109_181421.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - SKIPPED current step skipped: SkipIf(true)
+2024-01-09 18:15:09.710|I|main|Godown.20240109_181421.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-09 18:15:09.718|I|main|Godown.20240109_181421.001|Login|Login to GNU khata - ending activity
+2024-01-09 18:15:46.257|I|main|[20240109_181416] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 18:15:46.257|I|main|[20240109_181416] create directory C:\projects\GNUAPI\tests\output\20240109_181416\captures
+2024-01-09 18:15:46.257|I|main|[20240109_181416] create directory C:\projects\GNUAPI\tests\output\20240109_181416\logs
+2024-01-09 18:15:47.644|I|main|[20240109_181416] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_181416\Godown.20240109_181546.001.xlsx
+2024-01-09 18:15:47.644|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 18:15:48.071|I|main|[20240109_181416] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_181416\Godown.20240109_181546.001.xlsx
+2024-01-09 18:15:49.312|I|main|STARTS
+2024-01-09 18:15:49.375|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.open}, 1500)
+2024-01-09 18:15:49.594|I|main|clicking '//button[text()=' Open ']'...
+2024-01-09 18:15:49.634|I|main|click target via JS, @id=
+2024-01-09 18:15:49.692|I|main|clicked -> true
+2024-01-09 18:15:49.701|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//button[text()=' Open ']'
+2024-01-09 18:15:49.702|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 1000)
+2024-01-09 18:15:50.130|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-09 18:15:50.169|I|main|click target via JS, @id=
+2024-01-09 18:15:50.231|I|main|clicked -> true
+2024-01-09 18:15:50.232|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-09 18:15:50.235|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Inventory}, 1000)
+2024-01-09 18:15:50.378|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 18:15:50.378|I|main|clicking '//*[text()='Inventory']'...
+2024-01-09 18:15:50.412|I|main|click target via JS, @id=
+2024-01-09 18:15:50.479|I|main|clicked -> true
+2024-01-09 18:15:50.483|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//*[text()='Inventory']'
+2024-01-09 18:15:50.483|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - executing click(locator)(${click.Godowns})
+2024-01-09 18:15:50.688|I|main|clicking '//*[text()='Godowns']'...
+2024-01-09 18:15:50.733|I|main|click target via JS, @id=
+2024-01-09 18:15:50.778|I|main|clicked -> true
+2024-01-09 18:15:50.778|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - PASS click via JS event
+2024-01-09 18:15:50.782|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.addgodown}, 1000)
+2024-01-09 18:16:00.828|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'; nexial.pollWaitMs=10000
+2024-01-09 18:16:00.862|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]', '1000')
+Specified element not found: Timed out while looking for web element(s) that match '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:16:00.862|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181546.001.xlsx_Godown_TestScenarios_A9.log
+2024-01-09 18:16:00.862|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${label.creategodown})
+2024-01-09 18:16:10.899|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - Timed out while looking for web element(s) that match '//span[contains(text(),'Create Godown')]'; nexial.pollWaitMs=10000
+2024-01-09 18:16:10.907|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//span[contains(text(),'Create Godown')]')
+Specified element not found: Timed out while looking for web element(s) that match '//span[contains(text(),'Create Godown')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:16:10.907|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181546.001.xlsx_Godown_TestScenarios_A10.log
+2024-01-09 18:16:10.907|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 11|web.assertElementPresent( - executing assertElementPresent(locator)(${lable.name})
+2024-01-09 18:16:20.970|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 11|web.assertElementPresent( - Timed out while looking for web element(s) that match '//span[contains(text(),'Name')]'; nexial.pollWaitMs=10000
+2024-01-09 18:16:20.975|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 11|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//span[contains(text(),'Name')]')
+Specified element not found: Timed out while looking for web element(s) that match '//span[contains(text(),'Name')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:16:20.975|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 11|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181546.001.xlsx_Godown_TestScenarios_A11.log
+2024-01-09 18:16:20.975|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 12|web.assertElementPresent( - executing assertElementPresent(locator)(${label.contactperoson})
+2024-01-09 18:16:31.033|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 12|web.assertElementPresent( - Timed out while looking for web element(s) that match '//span[contains(text(),'Contact Person')]'; nexial.pollWaitMs=10000
+2024-01-09 18:16:31.033|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 12|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//span[contains(text(),'Contact Person')]')
+Specified element not found: Timed out while looking for web element(s) that match '//span[contains(text(),'Contact Person')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:16:31.033|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 12|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181546.001.xlsx_Godown_TestScenarios_A12.log
+2024-01-09 18:16:31.033|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 13|web.assertElementPresent( - executing assertElementPresent(locator)(${label.state})
+2024-01-09 18:16:41.092|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 13|web.assertElementPresent( - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[2]/label[1]/span[1]'; nexial.pollWaitMs=10000
+2024-01-09 18:16:41.092|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 13|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[2]/label[1]/span[1]')
+Specified element not found: Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[2]/label[1]/span[1]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:16:41.092|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 13|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181546.001.xlsx_Godown_TestScenarios_A13.log
+2024-01-09 18:16:41.092|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 14|web.assertElementPresent( - executing assertElementPresent(locator)(${label.concactnumber})
+2024-01-09 18:16:51.094|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 14|web.assertElementPresent( - Timed out while looking for web element(s) that match '//span[contains(text(),'Contact Number')]'; nexial.pollWaitMs=10000
+2024-01-09 18:16:51.106|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 14|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//span[contains(text(),'Contact Number')]')
+Specified element not found: Timed out while looking for web element(s) that match '//span[contains(text(),'Contact Number')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:16:51.106|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 14|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181546.001.xlsx_Godown_TestScenarios_A14.log
+2024-01-09 18:16:51.110|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 15|web.assertElementPresent( - executing assertElementPresent(locator)(${label.address})
+2024-01-09 18:17:01.129|I|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 15|web.assertElementPresent( - Timed out while looking for web element(s) that match '//span[contains(text(),'Address')]'; nexial.pollWaitMs=10000
+2024-01-09 18:17:01.129|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 15|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//span[contains(text(),'Address')]')
+Specified element not found: Timed out while looking for web element(s) that match '//span[contains(text(),'Address')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:17:01.129|E|main|Godown.20240109_181546.001|Godown_TestScenarios|Validate the Godowns elements|# 15|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181546.001.xlsx_Godown_TestScenarios_A15.log
+2024-01-09 18:17:18.391|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 18:17:23.199|I|main|[20240109_181416] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 18:17:23.199|I|main|[20240109_181416] create directory C:\projects\GNUAPI\tests\output\20240109_181416\captures
+2024-01-09 18:17:23.199|I|main|[20240109_181416] create directory C:\projects\GNUAPI\tests\output\20240109_181416\logs
+2024-01-09 18:17:24.048|I|main|[20240109_181416] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_181416\Godown.20240109_181723.001.xlsx
+2024-01-09 18:17:24.052|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 18:17:24.394|I|main|[20240109_181416] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_181416\Godown.20240109_181723.001.xlsx
+2024-01-09 18:17:24.956|I|main|STARTS
+2024-01-09 18:17:24.981|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.open}, 1500)
+2024-01-09 18:17:25.202|I|main|clicking '//button[text()=' Open ']'...
+2024-01-09 18:17:25.246|I|main|click target via JS, @id=
+2024-01-09 18:17:25.327|I|main|clicked -> true
+2024-01-09 18:17:25.334|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//button[text()=' Open ']'
+2024-01-09 18:17:25.334|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 1000)
+2024-01-09 18:17:26.082|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-09 18:17:26.117|I|main|click target via JS, @id=
+2024-01-09 18:17:26.334|I|main|clicked -> true
+2024-01-09 18:17:26.340|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-09 18:17:26.340|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Inventory}, 1000)
+2024-01-09 18:17:26.487|I|main|clicking '//*[text()='Inventory']'...
+2024-01-09 18:17:26.530|I|main|click target via JS, @id=
+2024-01-09 18:17:26.807|E|main|Godown.20240109_181723.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - FAIL Referenced element is unavailable or no longer attached to the specified locator: stale element reference: stale element not found   (Session info: chrome=120.0.6099.200)...
+2024-01-09 18:17:26.808|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - executing click(locator)(${click.Godowns})
+2024-01-09 18:17:26.920|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 18:17:26.920|I|main|clicking '//*[text()='Godowns']'...
+2024-01-09 18:17:26.946|I|main|click target via JS, @id=
+2024-01-09 18:17:27.033|I|main|clicked -> true
+2024-01-09 18:17:27.033|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - PASS click via JS event
+2024-01-09 18:17:27.035|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.addgodown}, 1000)
+2024-01-09 18:17:27.219|I|main|clicking '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'...
+2024-01-09 18:17:27.282|I|main|click target via JS, @id=
+2024-01-09 18:17:27.312|I|main|clicked -> true
+2024-01-09 18:17:27.318|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'
+2024-01-09 18:17:27.319|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${label.creategodown})
+2024-01-09 18:17:28.562|I|main|Godown.20240109_181723.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Create Godown')]' found
+2024-01-09 18:18:13.715|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 18:18:43.225|I|main|[20240109_181416] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 18:18:43.225|I|main|[20240109_181416] create directory C:\projects\GNUAPI\tests\output\20240109_181416\captures
+2024-01-09 18:18:43.230|I|main|[20240109_181416] create directory C:\projects\GNUAPI\tests\output\20240109_181416\logs
+2024-01-09 18:18:44.119|I|main|[20240109_181416] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_181416\Godown.20240109_181843.001.xlsx
+2024-01-09 18:18:44.119|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 18:18:44.355|I|main|[20240109_181416] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_181416\Godown.20240109_181843.001.xlsx
+2024-01-09 18:18:44.909|I|main|STARTS
+2024-01-09 18:18:44.942|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.open}, 1500)
+2024-01-09 18:18:45.141|I|main|clicking '//button[text()=' Open ']'...
+2024-01-09 18:18:45.182|I|main|click target via JS, @id=
+2024-01-09 18:18:45.261|I|main|clicked -> true
+2024-01-09 18:18:45.264|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//button[text()=' Open ']'
+2024-01-09 18:18:45.264|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 1000)
+2024-01-09 18:18:46.077|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-09 18:18:46.137|I|main|click target via JS, @id=
+2024-01-09 18:18:46.293|I|main|clicked -> true
+2024-01-09 18:18:46.295|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-09 18:18:46.295|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Inventory}, 1000)
+2024-01-09 18:18:46.422|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 18:18:46.422|I|main|clicking '//*[text()='Inventory']'...
+2024-01-09 18:18:46.475|I|main|click target via JS, @id=
+2024-01-09 18:18:46.936|I|main|clicked -> true
+2024-01-09 18:18:46.936|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//*[text()='Inventory']'
+2024-01-09 18:18:46.936|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - executing click(locator)(${click.Godowns})
+2024-01-09 18:18:47.167|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 18:18:47.167|I|main|clicking '//*[text()='Godowns']'...
+2024-01-09 18:18:47.200|I|main|click target via JS, @id=
+2024-01-09 18:18:47.297|I|main|clicked -> true
+2024-01-09 18:18:47.297|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - PASS click via JS event
+2024-01-09 18:18:47.297|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.addgodown}, 1000)
+2024-01-09 18:18:47.458|I|main|clicking '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'...
+2024-01-09 18:18:47.483|I|main|click target via JS, @id=
+2024-01-09 18:18:47.618|I|main|clicked -> true
+2024-01-09 18:18:47.624|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'
+2024-01-09 18:18:47.627|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${label.creategodown})
+2024-01-09 18:18:47.765|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Create Godown')]' found
+2024-01-09 18:19:18.779|I|main|[20240109_181416] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 18:19:18.779|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.open}, 1500)
+2024-01-09 18:19:18.932|I|main|clicking '//button[text()=' Open ']'...
+2024-01-09 18:19:18.967|I|main|click target via JS, @id=
+2024-01-09 18:19:19.021|I|main|clicked -> true
+2024-01-09 18:19:19.021|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//button[text()=' Open ']'
+2024-01-09 18:19:19.027|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 1000)
+2024-01-09 18:19:19.822|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-09 18:19:19.848|I|main|click target via JS, @id=
+2024-01-09 18:19:19.948|I|main|clicked -> true
+2024-01-09 18:19:19.951|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-09 18:19:19.953|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Inventory}, 1000)
+2024-01-09 18:19:20.051|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 18:19:20.051|I|main|clicking '//*[text()='Inventory']'...
+2024-01-09 18:19:20.094|I|main|click target via JS, @id=
+2024-01-09 18:19:20.282|I|main|clicked -> true
+2024-01-09 18:19:20.290|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//*[text()='Inventory']'
+2024-01-09 18:19:20.290|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - executing click(locator)(${click.Godowns})
+2024-01-09 18:19:20.464|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 18:19:20.464|I|main|clicking '//*[text()='Godowns']'...
+2024-01-09 18:19:20.497|I|main|click target via JS, @id=
+2024-01-09 18:19:20.562|I|main|clicked -> true
+2024-01-09 18:19:20.562|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - PASS click via JS event
+2024-01-09 18:19:20.562|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.addgodown}, 1000)
+2024-01-09 18:19:20.730|I|main|clicking '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'...
+2024-01-09 18:19:20.763|I|main|click target via JS, @id=
+2024-01-09 18:19:20.895|I|main|clicked -> true
+2024-01-09 18:19:20.899|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'
+2024-01-09 18:19:20.899|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${label.creategodown})
+2024-01-09 18:19:21.012|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Create Godown')]' found
+2024-01-09 18:19:21.012|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 11|web.assertElementPresent( - executing assertElementPresent(locator)(${lable.name})
+2024-01-09 18:19:21.114|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 11|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Name')]' found
+2024-01-09 18:19:21.118|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 12|web.assertElementPresent( - executing assertElementPresent(locator)(${label.contactperoson})
+2024-01-09 18:19:21.233|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 12|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Contact Person')]' found
+2024-01-09 18:19:21.241|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 13|web.assertElementPresent( - executing assertElementPresent(locator)(${label.state})
+2024-01-09 18:19:21.347|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 13|web.assertElementPresent( - PASS EXPECTED element '//body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[2]/label[1]/span[1]' found
+2024-01-09 18:19:21.347|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 14|web.assertElementPresent( - executing assertElementPresent(locator)(${label.concactnumber})
+2024-01-09 18:19:21.468|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 14|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Contact Number')]' found
+2024-01-09 18:19:21.468|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 15|web.assertElementPresent( - executing assertElementPresent(locator)(${label.address})
+2024-01-09 18:19:21.591|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 15|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Address')]' found
+2024-01-09 18:20:11.522|I|main|[20240109_181416] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 18:20:11.522|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 16|web.assertElementPresent( - executing assertElementPresent(locator)(${button.back})
+2024-01-09 18:20:11.695|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 16|web.assertElementPresent( - PASS EXPECTED element '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[1]' found
+2024-01-09 18:20:11.695|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 17|web.assertElementPresent( - executing assertElementPresent(locator)(${button.reset})
+2024-01-09 18:20:11.845|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 17|web.assertElementPresent( - PASS EXPECTED element '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[2]' found
+2024-01-09 18:20:11.845|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 18|web.assertElementPresent( - executing assertElementPresent(locator)(${button.save})
+2024-01-09 18:20:12.001|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 18|web.assertElementPresent( - PASS EXPECTED element '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[3]' found
+2024-01-09 18:20:12.003|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 19|base.save(var,value)      - executing save(var,value)(randomgownName, sample[NUMBER(${num})=>randomDigits(2)])
+2024-01-09 18:20:12.035|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Godowns elements|# 19|base.save(var,value)      - PASS stored 'sample14' as ${randomgownName}
+2024-01-09 18:20:12.038|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 20|web.type(locator,value)   - executing type(locator,value)(${input.godowname}, ${randomgownName})
+2024-01-09 18:20:12.637|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 20|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-1']'
+2024-01-09 18:20:12.637|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 21|web.type(locator,value)   - executing type(locator,value)(${input.godownconctperson}, Sbaburoa)
+2024-01-09 18:20:13.188|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 21|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-4']'
+2024-01-09 18:20:13.188|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 22|web.type(locator,value)   - executing type(locator,value)(${input.state}, maharashtra)
+2024-01-09 18:20:13.630|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 22|web.type(locator,value)   - PASS typed text at '//input[@type='search']'
+2024-01-09 18:20:13.631|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 23|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(windows, {ENTER})
+2024-01-09 18:20:13.640|I|main|[20240109_181416] simulating keystrokes: {ENTER}
+2024-01-09 18:20:13.648|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 23|desktop.typeKeys(os,keyst - PASS type keys completed for {ENTER}
+2024-01-09 18:20:13.651|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 24|web.type(locator,value)   - executing type(locator,value)(${input.concactnumber}, [[NUMBER(${num})=>randomDigits(10)])
+2024-01-09 18:20:14.232|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 24|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-5']'
+2024-01-09 18:20:14.232|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 25|web.type(locator,value)   - executing type(locator,value)(${input.address}, Samples address ZIP[NUMBER(${num})=>randomDigits(5)] ,w,sa,asaqwqww)
+2024-01-09 18:20:15.527|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 25|web.type(locator,value)   - PASS typed text at '//textarea[@id='go-input-3']'
+2024-01-09 18:20:15.527|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 26|web.click(locator)        - executing click(locator)(${button.reset})
+2024-01-09 18:20:15.703|I|main|clicking '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[2]'...
+2024-01-09 18:20:15.735|I|main|click target via JS, @id=
+2024-01-09 18:20:15.816|I|main|clicked -> true
+2024-01-09 18:20:15.817|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 26|web.click(locator)        - PASS click via JS event
+2024-01-09 18:20:15.817|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 27|web.type(locator,value)   - executing type(locator,value)(${input.godowname}, ${randomgownName})
+2024-01-09 18:20:16.327|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 27|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-1']'
+2024-01-09 18:20:16.327|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 28|web.type(locator,value)   - executing type(locator,value)(${input.godownconctperson}, Sbaburoa)
+2024-01-09 18:20:16.819|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 28|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-4']'
+2024-01-09 18:20:16.819|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 29|web.type(locator,value)   - executing type(locator,value)(${input.state}, maharashtra)
+2024-01-09 18:20:17.214|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 29|web.type(locator,value)   - PASS typed text at '//input[@type='search']'
+2024-01-09 18:20:17.214|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 30|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(windows, {ENTER})
+2024-01-09 18:20:17.214|I|main|[20240109_181416] simulating keystrokes: {ENTER}
+2024-01-09 18:20:17.219|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 30|desktop.typeKeys(os,keyst - PASS type keys completed for {ENTER}
+2024-01-09 18:20:17.224|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 31|web.type(locator,value)   - executing type(locator,value)(${input.concactnumber}, [[NUMBER(${num})=>randomDigits(10)])
+2024-01-09 18:20:17.860|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 31|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-5']'
+2024-01-09 18:20:17.860|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 32|web.type(locator,value)   - executing type(locator,value)(${input.address}, Samples address ZIP[NUMBER(${num})=>randomDigits(5)] ,w,sa,asaqwqww)
+2024-01-09 18:20:18.718|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 32|web.type(locator,value)   - PASS typed text at '//textarea[@id='go-input-3']'
+2024-01-09 18:20:18.719|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 33|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.save}, 1000)
+2024-01-09 18:20:18.907|I|main|clicking '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[3]'...
+2024-01-09 18:20:18.948|I|main|click target via JS, @id=
+2024-01-09 18:20:19.010|I|main|clicked -> true
+2024-01-09 18:20:19.010|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Reset Button validation|# 33|web.clickAndWait(locator, - PASS clicked-and-waited '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[3]'
+2024-01-09 18:20:46.124|I|main|[20240109_181416] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 18:20:46.124|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 34|web.assertElementPresent( - executing assertElementPresent(locator)(${alert.title})
+2024-01-09 18:20:46.361|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 34|web.assertElementPresent( - PASS EXPECTED element '(//div)[59]' found
+2024-01-09 18:20:46.361|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 35|web.assertElementPresent( - executing assertElementPresent(locator)(${alert.button.ok})
+2024-01-09 18:20:46.597|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 35|web.assertElementPresent( - PASS EXPECTED element '//button[contains(text(),'OK')]' found
+2024-01-09 18:20:46.597|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 36|web.assertElementPresent( - executing assertElementPresent(locator)(${alert.button.cancel})
+2024-01-09 18:20:46.787|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 36|web.assertElementPresent( - PASS EXPECTED element '//button[contains(text(),'Cancel')]' found
+2024-01-09 18:20:46.787|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 37|web.click(locator)        - executing click(locator)(${alert.button.ok})
+2024-01-09 18:20:46.983|I|main|clicking '//button[contains(text(),'OK')]'...
+2024-01-09 18:20:47.017|I|main|click target via JS, @id=
+2024-01-09 18:20:47.100|I|main|clicked -> true
+2024-01-09 18:20:47.100|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 37|web.click(locator)        - PASS click via JS event
+2024-01-09 18:20:47.100|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 38|web.assertElementPresent( - executing assertElementPresent(locator)(${toast.message})
+2024-01-09 18:20:48.041|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 38|web.assertElementPresent( - PASS EXPECTED element '//div[@class='toast-body']' found
+2024-01-09 18:20:48.041|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 39|web.click(locator)        - executing click(locator)(${button.back})
+2024-01-09 18:20:48.246|I|main|clicking '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[1]'...
+2024-01-09 18:20:48.294|I|main|click target via JS, @id=
+2024-01-09 18:20:48.420|I|main|clicked -> true
+2024-01-09 18:20:48.420|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 39|web.click(locator)        - PASS click via JS event
+2024-01-09 18:20:48.420|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 40|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.name}, Godown Name)
+2024-01-09 18:20:48.530|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 40|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Godown Name')]' by text 'Godown Name' as EXPECTED
+2024-01-09 18:20:48.532|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 41|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.state}, State)
+2024-01-09 18:20:48.602|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 41|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'State')]' by text 'State' as EXPECTED
+2024-01-09 18:20:48.602|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 42|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.address}, Address)
+2024-01-09 18:20:48.665|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 42|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Address')]' by text 'Address' as EXPECTED
+2024-01-09 18:20:48.665|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 43|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.contactperson}, Contact Person)
+2024-01-09 18:20:48.761|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 43|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Contact Person')]' by text 'Contact Person' as EXPECTED
+2024-01-09 18:20:48.761|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.addgodown}, 1000)
+2024-01-09 18:20:49.030|I|main|clicking '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'...
+2024-01-09 18:20:49.072|I|main|click target via JS, @id=
+2024-01-09 18:20:49.232|I|main|clicked -> true
+2024-01-09 18:20:49.249|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'
+2024-01-09 18:20:49.250|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 45|web.click(locator)        - executing click(locator)(${button.back})
+2024-01-09 18:20:49.934|I|main|clicking '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[1]'...
+2024-01-09 18:20:49.981|I|main|click target via JS, @id=
+2024-01-09 18:20:50.087|I|main|clicked -> true
+2024-01-09 18:20:50.087|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 45|web.click(locator)        - PASS click via JS event
+2024-01-09 18:20:50.087|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 46|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.name}, Godown Name)
+2024-01-09 18:20:50.127|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 46|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Godown Name')]' by text 'Godown Name' as EXPECTED
+2024-01-09 18:20:50.135|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 47|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.state}, State)
+2024-01-09 18:20:50.181|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 47|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'State')]' by text 'State' as EXPECTED
+2024-01-09 18:20:50.181|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 48|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.address}, Address)
+2024-01-09 18:20:50.225|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 48|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Address')]' by text 'Address' as EXPECTED
+2024-01-09 18:20:50.225|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 49|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.contactperson}, Contact Person)
+2024-01-09 18:20:50.270|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 49|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Contact Person')]' by text 'Contact Person' as EXPECTED
+2024-01-09 18:20:50.270|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 50|web.assertElementPresent( - executing assertElementPresent(locator)(${button.xldownload})
+2024-01-09 18:20:50.501|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 50|web.assertElementPresent( - PASS EXPECTED element '//button[@title='Download Godown List']' found
+2024-01-09 18:20:50.501|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 51|web.click(locator)        - executing click(locator)(${button.xldownload})
+2024-01-09 18:20:50.752|I|main|clicking '//button[@title='Download Godown List']'...
+2024-01-09 18:20:50.798|I|main|click target via JS, @id=
+2024-01-09 18:20:50.848|I|main|clicked -> true
+2024-01-09 18:20:50.848|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 51|web.click(locator)        - PASS click via JS event
+2024-01-09 18:21:03.656|I|main|[20240109_181416] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 18:21:03.656|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 34|web.assertElementPresent( - executing assertElementPresent(locator)(${alert.title})
+2024-01-09 18:21:03.804|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 34|web.assertElementPresent( - PASS EXPECTED element '(//div)[59]' found
+2024-01-09 18:21:03.804|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 35|web.assertElementPresent( - executing assertElementPresent(locator)(${alert.button.ok})
+2024-01-09 18:21:13.824|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 35|web.assertElementPresent( - Timed out while looking for web element(s) that match '//button[contains(text(),'OK')]'; nexial.pollWaitMs=10000
+2024-01-09 18:21:13.830|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 35|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//button[contains(text(),'OK')]')
+Specified element not found: Timed out while looking for web element(s) that match '//button[contains(text(),'OK')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:21:13.830|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 35|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A35.log
+2024-01-09 18:21:13.838|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 36|web.assertElementPresent( - executing assertElementPresent(locator)(${alert.button.cancel})
+2024-01-09 18:21:23.872|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 36|web.assertElementPresent( - Timed out while looking for web element(s) that match '//button[contains(text(),'Cancel')]'; nexial.pollWaitMs=10000
+2024-01-09 18:21:23.877|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 36|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//button[contains(text(),'Cancel')]')
+Specified element not found: Timed out while looking for web element(s) that match '//button[contains(text(),'Cancel')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:21:23.878|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 36|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A36.log
+2024-01-09 18:21:23.879|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 37|web.click(locator)        - executing click(locator)(${alert.button.ok})
+2024-01-09 18:21:33.901|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 37|web.click(locator)        - Timed out while looking for web element(s) that match '//button[contains(text(),'OK')]'; nexial.pollWaitMs=10000
+2024-01-09 18:21:33.910|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 37|web.click(locator)        - FAIL EXECUTING COMMAND: web.click(locator)('//button[contains(text(),'OK')]')
+Specified element not found: Timed out while looking for web element(s) that match '//button[contains(text(),'OK')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 18:21:33.910|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 37|web.click(locator)        - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A37.log
+2024-01-09 18:21:33.910|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 38|web.assertElementPresent( - executing assertElementPresent(locator)(${toast.message})
+2024-01-09 18:21:38.209|I|Thread-0|shutdown starts...
+2024-01-09 18:21:38.213|I|Thread-0|[chrome] Shutting down webdriver...
+2024-01-09 18:21:38.216|I|Thread-0|[chrome] Close the current window...
+2024-01-09 18:21:38.439|I|Thread-0|[chrome] Quit this driver, closing every associated window.
+2024-01-09 18:21:38.795|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 38|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//div[@class='toast-body']')
+WebDriver session no longer valid: invalid session id Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.795|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 38|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A38.log
+2024-01-09 18:21:38.795|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 39|web.click(locator)        - executing click(locator)(${button.back})
+2024-01-09 18:21:38.841|E|main|[chrome] webdriver readiness check: java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:17460
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.849|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 39|web.click(locator)        - FAIL EXECUTING COMMAND: web.click(locator)('//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[1]')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.849|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Validate the Alert|# 39|web.click(locator)        - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A39.log
+2024-01-09 18:21:38.849|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 40|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.name}, Godown Name)
+2024-01-09 18:21:38.849|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.857|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 40|web.assertElementByText(l - FAIL EXECUTING COMMAND: web.assertElementByText(locator,text)('//div[contains(text(),'Godown Name')]', 'Godown Name')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.857|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 40|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A40.log
+2024-01-09 18:21:38.857|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 41|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.state}, State)
+2024-01-09 18:21:38.857|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.867|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 41|web.assertElementByText(l - FAIL EXECUTING COMMAND: web.assertElementByText(locator,text)('//div[contains(text(),'State')]', 'State')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.867|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 41|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A41.log
+2024-01-09 18:21:38.867|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 42|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.address}, Address)
+2024-01-09 18:21:38.874|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.882|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 42|web.assertElementByText(l - FAIL EXECUTING COMMAND: web.assertElementByText(locator,text)('//div[contains(text(),'Address')]', 'Address')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.882|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 42|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A42.log
+2024-01-09 18:21:38.882|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 43|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.contactperson}, Contact Person)
+2024-01-09 18:21:38.882|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.890|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 43|web.assertElementByText(l - FAIL EXECUTING COMMAND: web.assertElementByText(locator,text)('//div[contains(text(),'Contact Person')]', 'Contact Person')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.890|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details for Back button|# 43|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A43.log
+2024-01-09 18:21:38.890|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.addgodown}, 1000)
+2024-01-09 18:21:38.890|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 44|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]', '1000')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.898|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 44|web.clickAndWait(locator, - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A44.log
+2024-01-09 18:21:38.901|I|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 45|web.click(locator)        - executing click(locator)(${button.back})
+2024-01-09 18:21:38.901|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.906|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 45|web.click(locator)        - FAIL EXECUTING COMMAND: web.click(locator)('//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[1]')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.906|E|main|Godown.20240109_181843.001|Godown_TestScenarios|Back Button validation|# 45|web.click(locator)        - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A45.log
+2024-01-09 18:21:38.906|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 46|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.name}, Godown Name)
+2024-01-09 18:21:38.906|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.915|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 46|web.assertElementByText(l - FAIL EXECUTING COMMAND: web.assertElementByText(locator,text)('//div[contains(text(),'Godown Name')]', 'Godown Name')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.915|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 46|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A46.log
+2024-01-09 18:21:38.915|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 47|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.state}, State)
+2024-01-09 18:21:38.923|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.923|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 47|web.assertElementByText(l - FAIL EXECUTING COMMAND: web.assertElementByText(locator,text)('//div[contains(text(),'State')]', 'State')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.923|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 47|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A47.log
+2024-01-09 18:21:38.923|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 48|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.address}, Address)
+2024-01-09 18:21:38.931|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.971|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 48|web.assertElementByText(l - FAIL EXECUTING COMMAND: web.assertElementByText(locator,text)('//div[contains(text(),'Address')]', 'Address')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.971|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 48|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A48.log
+2024-01-09 18:21:38.971|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 49|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.contactperson}, Contact Person)
+2024-01-09 18:21:38.971|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.979|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 49|web.assertElementByText(l - FAIL EXECUTING COMMAND: web.assertElementByText(locator,text)('//div[contains(text(),'Contact Person')]', 'Contact Person')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.979|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown Page Details|# 49|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A49.log
+2024-01-09 18:21:38.979|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 50|web.assertElementPresent( - executing assertElementPresent(locator)(${button.xldownload})
+2024-01-09 18:21:38.987|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.987|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 50|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//button[@title='Download Godown List']')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:38.987|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 50|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A50.log
+2024-01-09 18:21:38.995|I|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 51|web.click(locator)        - executing click(locator)(${button.xldownload})
+2024-01-09 18:21:38.995|E|main|[chrome] webdriver readiness check: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5459', ip: '192.168.1.4', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-09 18:21:38.995|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 51|web.click(locator)        - FAIL EXECUTING COMMAND: web.click(locator)('//button[@title='Download Godown List']')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-09 18:21:39.003|E|main|Godown.20240109_181843.001|Godown_TestScenarios|validate godown excel sheet|# 51|web.click(locator)        - Error log: C:\projects\GNUAPI\tests\output\20240109_181416\logs\Godown.20240109_181843.001.xlsx_Godown_TestScenarios_A51.log
+2024-01-09 18:21:39.811|I|Thread-0|shutdown ends...

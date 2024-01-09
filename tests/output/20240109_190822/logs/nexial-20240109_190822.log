@@ -1,0 +1,220 @@
+2024-01-09 19:08:23.207|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-09 19:08:23.207|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\ZmZJH\Godown.data.xlsx
+2024-01-09 19:08:23.207|I|main|(DELAYED) input files and output directory resolved...
+2024-01-09 19:08:23.207|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-09 19:08:23.207|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-09 19:08:23.207|I|main|[20240109_190822] [C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx] resolve RUN ID as 20240109_190822
+2024-01-09 19:08:23.397|I|main|No predefined nexial-setup found
+2024-01-09 19:08:23.916|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-09 19:08:23.916|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-09 19:08:23.916|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-09 19:08:24.199|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-09 19:08:24.907|I|main|On-Demand Inspection detection enabled
+2024-01-09 19:08:25.112|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 19:08:26.954|I|main|[20240109_190822] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 19:08:26.954|I|main|[20240109_190822] create directory C:\projects\GNUAPI\tests\output\20240109_190822\captures
+2024-01-09 19:08:26.954|I|main|[20240109_190822] create directory C:\projects\GNUAPI\tests\output\20240109_190822\logs
+2024-01-09 19:08:27.820|I|main|[20240109_190822] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_190822\Godown.20240109_190826.001.xlsx
+2024-01-09 19:08:27.820|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 19:08:28.198|I|main|[20240109_190822] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_190822\Godown.20240109_190826.001.xlsx
+2024-01-09 19:08:29.540|I|main|STARTS
+2024-01-09 19:08:29.634|I|main|Godown.20240109_190826.001|Login|Login to GNU khata - executing activity
+2024-01-09 19:08:29.653|I|main|Godown.20240109_190826.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2024-01-09 19:08:30.327|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-09 19:08:30.342|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-09 19:08:30.355|I|main|[chrome] initializing chrome
+2024-01-09 19:08:30.469|I|main|[chrome] enabling chrome remote port: 27947
+2024-01-09 19:08:33.456|I|main|[chrome] initializing for chrome 120.0.6099.200
+2024-01-09 19:08:33.615|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-09 19:08:33.627|I|main|	1920x1080x32bpp@60Hz
+2024-01-09 19:08:33.629|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-09 19:08:33.646|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1536,height=864
+2024-01-09 19:08:33.648|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-09 19:08:33.798|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-09 19:08:33.810|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-09 19:08:33.812|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-09 19:09:01.378|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-09 19:09:01.378|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-09 19:09:01.520|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-09 19:09:01.520|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-09 19:09:03.238|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//*[span='Continue with Default Server']' is present
+2024-01-09 19:09:03.238|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-09 19:09:03.432|I|main|clicking '//*[span='Continue with Default Server']'...
+2024-01-09 19:09:03.463|I|main|click target via JS, @id=
+2024-01-09 19:09:03.526|I|main|clicked -> true
+2024-01-09 19:09:03.526|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-09 19:09:03.530|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-09 19:09:08.539|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-09 19:09:08.539|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-09 19:09:09.025|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-09 19:09:09.029|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-09 19:09:09.492|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-09 19:09:09.492|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-09 19:09:09.741|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-09 19:09:09.791|I|main|click target via JS, @id=
+2024-01-09 19:09:09.847|I|main|clicked -> true
+2024-01-09 19:09:09.847|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-09 19:09:09.847|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-09 19:09:09.859|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-09 19:09:09.859|I|main|Godown.20240109_190826.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - SKIPPED current step skipped: SkipIf(true)
+2024-01-09 19:09:09.873|I|main|Godown.20240109_190826.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-09 19:09:09.876|I|main|Godown.20240109_190826.001|Login|Login to GNU khata - ending activity
+2024-01-09 19:09:35.795|I|main|[20240109_190822] executing C:\projects\GNUAPI\tests\artifact\script\Godown.xlsx. [1] total 1
+2024-01-09 19:09:35.795|I|main|[20240109_190822] create directory C:\projects\GNUAPI\tests\output\20240109_190822\captures
+2024-01-09 19:09:35.795|I|main|[20240109_190822] create directory C:\projects\GNUAPI\tests\output\20240109_190822\logs
+2024-01-09 19:09:36.977|I|main|[20240109_190822] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_190822\Godown.20240109_190935.001.xlsx
+2024-01-09 19:09:36.982|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\Godown.data.xlsx
+2024-01-09 19:09:37.442|I|main|[20240109_190822] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_190822\Godown.20240109_190935.001.xlsx
+2024-01-09 19:09:38.368|I|main|STARTS
+2024-01-09 19:09:38.447|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page - executing activity
+2024-01-09 19:09:38.447|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.open}, 1500)
+2024-01-09 19:09:38.714|I|main|clicking '//button[text()=' Open ']'...
+2024-01-09 19:09:38.746|I|main|click target via JS, @id=
+2024-01-09 19:09:38.841|I|main|clicked -> true
+2024-01-09 19:09:38.841|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//button[text()=' Open ']'
+2024-01-09 19:09:38.841|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 1000)
+2024-01-09 19:09:39.559|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-09 19:09:39.594|I|main|click target via JS, @id=
+2024-01-09 19:09:39.694|I|main|clicked -> true
+2024-01-09 19:09:39.701|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-09 19:09:39.701|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Inventory}, 1000)
+2024-01-09 19:09:39.875|I|main|clicking '//*[text()='Inventory']'...
+2024-01-09 19:09:39.924|I|main|click target via JS, @id=
+2024-01-09 19:09:40.317|I|main|clicked -> true
+2024-01-09 19:09:40.334|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//*[text()='Inventory']'
+2024-01-09 19:09:40.376|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - executing click(locator)(${click.Godowns})
+2024-01-09 19:09:40.917|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 19:09:40.917|I|main|clicking '//*[text()='Godowns']'...
+2024-01-09 19:09:40.981|I|main|click target via JS, @id=
+2024-01-09 19:09:41.027|I|main|clicked -> true
+2024-01-09 19:09:41.027|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page|#  8|web.click(locator)        - PASS click via JS event
+2024-01-09 19:09:41.027|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Go to Godowns page - ending activity
+2024-01-09 19:09:41.027|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Add new Godowns - executing activity
+2024-01-09 19:09:41.027|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.addgodown}, 1000)
+2024-01-09 19:09:41.398|I|main|clicking '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'...
+2024-01-09 19:09:41.445|I|main|click target via JS, @id=
+2024-01-09 19:09:41.602|I|main|clicked -> true
+2024-01-09 19:09:41.634|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Add new Godowns|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'
+2024-01-09 19:09:41.649|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Add new Godowns - ending activity
+2024-01-09 19:09:41.650|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements - executing activity
+2024-01-09 19:09:41.650|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${label.creategodown})
+2024-01-09 19:09:41.808|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 10|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Create Godown')]' found
+2024-01-09 19:09:41.808|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 11|web.assertElementPresent( - executing assertElementPresent(locator)(${lable.name})
+2024-01-09 19:09:41.983|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 11|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Name')]' found
+2024-01-09 19:09:41.983|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 12|web.assertElementPresent( - executing assertElementPresent(locator)(${label.contactperoson})
+2024-01-09 19:09:42.125|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 12|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Contact Person')]' found
+2024-01-09 19:09:42.125|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 13|web.assertElementPresent( - executing assertElementPresent(locator)(${label.state})
+2024-01-09 19:09:42.298|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 13|web.assertElementPresent( - PASS EXPECTED element '//body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[2]/label[1]/span[1]' found
+2024-01-09 19:09:42.298|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 14|web.assertElementPresent( - executing assertElementPresent(locator)(${label.concactnumber})
+2024-01-09 19:09:42.455|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 14|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Contact Number')]' found
+2024-01-09 19:09:42.455|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 15|web.assertElementPresent( - executing assertElementPresent(locator)(${label.address})
+2024-01-09 19:09:42.629|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 15|web.assertElementPresent( - PASS EXPECTED element '//span[contains(text(),'Address')]' found
+2024-01-09 19:09:42.629|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 16|web.assertElementPresent( - executing assertElementPresent(locator)(${button.back})
+2024-01-09 19:09:42.786|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 16|web.assertElementPresent( - PASS EXPECTED element '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[1]' found
+2024-01-09 19:09:42.786|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 17|web.assertElementPresent( - executing assertElementPresent(locator)(${button.reset})
+2024-01-09 19:09:42.960|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 17|web.assertElementPresent( - PASS EXPECTED element '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[2]' found
+2024-01-09 19:09:42.960|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 18|web.assertElementPresent( - executing assertElementPresent(locator)(${button.save})
+2024-01-09 19:09:43.133|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 18|web.assertElementPresent( - PASS EXPECTED element '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[3]' found
+2024-01-09 19:09:43.133|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 19|base.save(var,value)      - executing save(var,value)(randomgownName, sample[NUMBER(${num})=>randomDigits(2)])
+2024-01-09 19:09:43.148|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements|# 19|base.save(var,value)      - PASS stored 'sample37' as ${randomgownName}
+2024-01-09 19:09:43.164|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Godowns elements - ending activity
+2024-01-09 19:09:43.164|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation - executing activity
+2024-01-09 19:09:43.164|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 20|web.type(locator,value)   - executing type(locator,value)(${input.godowname}, ${randomgownName})
+2024-01-09 19:09:43.762|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 20|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-1']'
+2024-01-09 19:09:43.762|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 21|web.type(locator,value)   - executing type(locator,value)(${input.godownconctperson}, Sbaburoa)
+2024-01-09 19:09:44.302|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 21|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-4']'
+2024-01-09 19:09:44.302|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 22|web.type(locator,value)   - executing type(locator,value)(${input.state}, maharashtra)
+2024-01-09 19:09:44.722|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 22|web.type(locator,value)   - PASS typed text at '//input[@type='search']'
+2024-01-09 19:09:44.722|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 23|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(windows, {ENTER})
+2024-01-09 19:09:44.740|I|main|[20240109_190822] simulating keystrokes: {ENTER}
+2024-01-09 19:09:44.756|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 23|desktop.typeKeys(os,keyst - PASS type keys completed for {ENTER}
+2024-01-09 19:09:44.758|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 24|web.type(locator,value)   - executing type(locator,value)(${input.concactnumber}, [[NUMBER(${num})=>randomDigits(10)])
+2024-01-09 19:09:45.385|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 24|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-5']'
+2024-01-09 19:09:45.385|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 25|web.type(locator,value)   - executing type(locator,value)(${input.address}, Samples address ZIP[NUMBER(${num})=>randomDigits(5)] ,w,sa,asaqwqww)
+2024-01-09 19:09:46.228|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 25|web.type(locator,value)   - PASS typed text at '//textarea[@id='go-input-3']'
+2024-01-09 19:09:46.229|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 26|web.click(locator)        - executing click(locator)(${button.reset})
+2024-01-09 19:09:46.437|I|main|clicking '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[2]'...
+2024-01-09 19:09:46.490|I|main|click target via JS, @id=
+2024-01-09 19:09:46.560|I|main|clicked -> true
+2024-01-09 19:09:46.560|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 26|web.click(locator)        - PASS click via JS event
+2024-01-09 19:09:46.568|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 27|web.type(locator,value)   - executing type(locator,value)(${input.godowname}, ${randomgownName})
+2024-01-09 19:09:47.017|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 27|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-1']'
+2024-01-09 19:09:47.017|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 28|web.type(locator,value)   - executing type(locator,value)(${input.godownconctperson}, Sbaburoa)
+2024-01-09 19:09:47.367|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 28|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-4']'
+2024-01-09 19:09:47.367|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 29|web.type(locator,value)   - executing type(locator,value)(${input.state}, maharashtra)
+2024-01-09 19:09:47.721|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 29|web.type(locator,value)   - PASS typed text at '//input[@type='search']'
+2024-01-09 19:09:47.721|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 30|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(windows, {ENTER})
+2024-01-09 19:09:47.721|I|main|[20240109_190822] simulating keystrokes: {ENTER}
+2024-01-09 19:09:47.738|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 30|desktop.typeKeys(os,keyst - PASS type keys completed for {ENTER}
+2024-01-09 19:09:47.738|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 31|web.type(locator,value)   - executing type(locator,value)(${input.concactnumber}, [[NUMBER(${num})=>randomDigits(10)])
+2024-01-09 19:09:48.140|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 31|web.type(locator,value)   - PASS typed text at '//input[@id='go-input-5']'
+2024-01-09 19:09:48.141|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 32|web.type(locator,value)   - executing type(locator,value)(${input.address}, Samples address ZIP[NUMBER(${num})=>randomDigits(5)] ,w,sa,asaqwqww)
+2024-01-09 19:09:48.868|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 32|web.type(locator,value)   - PASS typed text at '//textarea[@id='go-input-3']'
+2024-01-09 19:09:48.868|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 33|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.save}, 1000)
+2024-01-09 19:09:49.108|I|main|clicking '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[3]'...
+2024-01-09 19:09:49.154|I|main|click target via JS, @id=
+2024-01-09 19:09:49.220|I|main|clicked -> true
+2024-01-09 19:09:49.220|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation|# 33|web.clickAndWait(locator, - PASS clicked-and-waited '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[3]'
+2024-01-09 19:09:49.236|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Reset Button validation - ending activity
+2024-01-09 19:09:49.237|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert - executing activity
+2024-01-09 19:09:49.238|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 34|web.assertElementPresent( - executing assertElementPresent(locator)(${alert.title})
+2024-01-09 19:09:49.440|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 34|web.assertElementPresent( - PASS EXPECTED element '(//div)[59]' found
+2024-01-09 19:09:49.440|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 35|web.assertElementPresent( - executing assertElementPresent(locator)(${alert.button.ok})
+2024-01-09 19:09:49.608|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 35|web.assertElementPresent( - PASS EXPECTED element '//button[contains(text(),'OK')]' found
+2024-01-09 19:09:49.608|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 36|web.assertElementPresent( - executing assertElementPresent(locator)(${alert.button.cancel})
+2024-01-09 19:09:49.786|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 36|web.assertElementPresent( - PASS EXPECTED element '//button[contains(text(),'Cancel')]' found
+2024-01-09 19:09:49.789|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 37|web.click(locator)        - executing click(locator)(${alert.button.ok})
+2024-01-09 19:09:50.039|I|main|clicking '//button[contains(text(),'OK')]'...
+2024-01-09 19:09:50.071|I|main|click target via JS, @id=
+2024-01-09 19:09:50.146|I|main|clicked -> true
+2024-01-09 19:09:50.146|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 37|web.click(locator)        - PASS click via JS event
+2024-01-09 19:09:50.146|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 38|web.assertElementPresent( - executing assertElementPresent(locator)(${toast.message})
+2024-01-09 19:09:50.589|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 38|web.assertElementPresent( - PASS EXPECTED element '//div[@class='toast-body']' found
+2024-01-09 19:09:50.589|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 39|web.click(locator)        - executing click(locator)(${button.back})
+2024-01-09 19:09:50.820|I|main|clicking '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[1]'...
+2024-01-09 19:09:50.887|I|main|click target via JS, @id=
+2024-01-09 19:09:51.007|I|main|clicked -> true
+2024-01-09 19:09:51.007|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert|# 39|web.click(locator)        - PASS click via JS event
+2024-01-09 19:09:51.007|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Validate the Alert - ending activity
+2024-01-09 19:09:51.007|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button - executing activity
+2024-01-09 19:09:51.007|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button|# 40|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.name}, Godown Name)
+2024-01-09 19:09:51.069|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button|# 40|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Godown Name')]' by text 'Godown Name' as EXPECTED
+2024-01-09 19:09:51.069|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button|# 41|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.state}, State)
+2024-01-09 19:09:51.149|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button|# 41|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'State')]' by text 'State' as EXPECTED
+2024-01-09 19:09:51.149|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button|# 42|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.address}, Address)
+2024-01-09 19:09:51.204|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button|# 42|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Address')]' by text 'Address' as EXPECTED
+2024-01-09 19:09:51.204|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button|# 43|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.contactperson}, Contact Person)
+2024-01-09 19:09:51.329|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button|# 43|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Contact Person')]' by text 'Contact Person' as EXPECTED
+2024-01-09 19:09:51.329|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details for Back button - ending activity
+2024-01-09 19:09:51.329|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Back Button validation - executing activity
+2024-01-09 19:09:51.329|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Back Button validation|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${button.addgodown}, 1000)
+2024-01-09 19:09:51.560|I|main|clicking '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'...
+2024-01-09 19:09:51.604|I|main|click target via JS, @id=
+2024-01-09 19:09:51.742|I|main|clicked -> true
+2024-01-09 19:09:51.742|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Back Button validation|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/button[1]'
+2024-01-09 19:09:51.742|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Back Button validation|# 45|web.click(locator)        - executing click(locator)(${button.back})
+2024-01-09 19:09:52.418|I|main|clicking '//body/div[@id='app']/main[1]/div[1]/div[1]/div[2]/form[1]/div[2]/button[1]'...
+2024-01-09 19:09:52.467|I|main|click target via JS, @id=
+2024-01-09 19:09:52.543|I|main|clicked -> true
+2024-01-09 19:09:52.543|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Back Button validation|# 45|web.click(locator)        - PASS click via JS event
+2024-01-09 19:09:52.543|I|main|Godown.20240109_190935.001|Godown_TestScenarios|Back Button validation - ending activity
+2024-01-09 19:09:52.543|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details - executing activity
+2024-01-09 19:09:52.547|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details|# 46|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.name}, Godown Name)
+2024-01-09 19:09:52.600|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details|# 46|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Godown Name')]' by text 'Godown Name' as EXPECTED
+2024-01-09 19:09:52.600|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details|# 47|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.state}, State)
+2024-01-09 19:09:52.655|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details|# 47|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'State')]' by text 'State' as EXPECTED
+2024-01-09 19:09:52.658|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details|# 48|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.address}, Address)
+2024-01-09 19:09:52.697|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details|# 48|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Address')]' by text 'Address' as EXPECTED
+2024-01-09 19:09:52.697|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details|# 49|web.assertElementByText(l - executing assertElementByText(locator,text)(${godown.label.contactperson}, Contact Person)
+2024-01-09 19:09:52.760|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details|# 49|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Contact Person')]' by text 'Contact Person' as EXPECTED
+2024-01-09 19:09:52.760|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown Page Details - ending activity
+2024-01-09 19:09:52.760|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown excel sheet - executing activity
+2024-01-09 19:09:52.760|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown excel sheet|# 50|web.assertElementPresent( - executing assertElementPresent(locator)(${button.xldownload})
+2024-01-09 19:09:52.978|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown excel sheet|# 50|web.assertElementPresent( - PASS EXPECTED element '//button[@title='Download Godown List']' found
+2024-01-09 19:09:52.984|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown excel sheet|# 51|web.click(locator)        - executing click(locator)(${button.xldownload})
+2024-01-09 19:09:53.208|I|main|clicking '//button[@title='Download Godown List']'...
+2024-01-09 19:09:53.253|I|main|click target via JS, @id=
+2024-01-09 19:09:53.309|I|main|clicked -> true
+2024-01-09 19:09:53.309|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown excel sheet|# 51|web.click(locator)        - PASS click via JS event
+2024-01-09 19:09:53.309|I|main|Godown.20240109_190935.001|Godown_TestScenarios|validate godown excel sheet - ending activity

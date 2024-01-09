@@ -1,0 +1,314 @@
+2024-01-09 16:37:24.472|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-09 16:37:24.477|I|main|(DELAYED) data file resolved as C:\Users\rh0751\tmp\FUsZy\BalanceSheet.data.xlsx
+2024-01-09 16:37:24.477|I|main|(DELAYED) input files and output directory resolved...
+2024-01-09 16:37:24.477|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-09 16:37:24.477|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-09 16:37:24.477|I|main|[20240109_163723] [C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx] resolve RUN ID as 20240109_163723
+2024-01-09 16:37:24.667|I|main|No predefined nexial-setup found
+2024-01-09 16:37:25.203|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-09 16:37:25.203|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-09 16:37:25.203|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-09 16:37:25.477|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-09 16:37:26.408|I|main|On-Demand Inspection detection enabled
+2024-01-09 16:37:26.559|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 16:37:28.897|I|main|[20240109_163723] executing C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx. [1] total 1
+2024-01-09 16:37:28.903|I|main|[20240109_163723] create directory C:\projects\GNUAPI\tests\output\20240109_163723\captures
+2024-01-09 16:37:28.905|I|main|[20240109_163723] create directory C:\projects\GNUAPI\tests\output\20240109_163723\logs
+2024-01-09 16:37:31.292|I|main|[20240109_163723] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_163723\BalanceSheet.20240109_163728.001.xlsx
+2024-01-09 16:37:31.292|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 16:37:32.437|I|main|[20240109_163723] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_163723\BalanceSheet.20240109_163728.001.xlsx
+2024-01-09 16:37:33.581|I|main|STARTS
+2024-01-09 16:37:33.660|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata - executing activity
+2024-01-09 16:37:33.676|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${username}
+password=${password})
+2024-01-09 16:37:34.320|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-09 16:37:34.336|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-09 16:37:34.336|I|main|[chrome] initializing chrome
+2024-01-09 16:37:34.462|I|main|[chrome] enabling chrome remote port: 40745
+2024-01-09 16:37:37.337|I|main|[chrome] initializing for chrome 120.0.6099.200
+2024-01-09 16:37:37.458|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-09 16:37:37.478|I|main|	1920x1080x32bpp@60Hz
+2024-01-09 16:37:37.480|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-09 16:37:37.496|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1536,height=864
+2024-01-09 16:37:37.500|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-09 16:37:37.649|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-09 16:37:37.662|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-09 16:37:37.663|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-09 16:38:06.437|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-09 16:38:06.439|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-09 16:38:06.599|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-09 16:38:06.599|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-09 16:38:16.201|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//*[span='Continue with Default Server']' is present
+2024-01-09 16:38:16.208|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-09 16:38:16.385|I|main|clicking '//*[span='Continue with Default Server']'...
+2024-01-09 16:38:16.417|I|main|click target via JS, @id=
+2024-01-09 16:38:16.474|I|main|clicked -> true
+2024-01-09 16:38:16.474|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-09 16:38:16.475|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-09 16:38:21.485|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-09 16:38:21.485|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-09 16:38:21.987|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-09 16:38:21.988|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-09 16:38:22.435|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-09 16:38:22.435|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-09 16:38:22.632|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-09 16:38:22.680|I|main|click target via JS, @id=
+2024-01-09 16:38:22.748|I|main|clicked -> true
+2024-01-09 16:38:22.748|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-09 16:38:22.748|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-09 16:38:22.762|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-09 16:38:22.766|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - SKIPPED current step skipped: SkipIf(true)
+2024-01-09 16:38:22.766|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-09 16:38:22.766|I|main|BalanceSheet.20240109_163728.001|Login|Login to GNU khata - ending activity
+2024-01-09 16:39:53.132|E|main|Invalid scenario specified: Godown_TestScenarios
+2024-01-09 16:40:37.223|I|main|[20240109_163723] executing C:\projects\GNUAPI\tests\artifact\script\BalanceSheet.xlsx. [1] total 1
+2024-01-09 16:40:37.223|I|main|[20240109_163723] create directory C:\projects\GNUAPI\tests\output\20240109_163723\captures
+2024-01-09 16:40:37.223|I|main|[20240109_163723] create directory C:\projects\GNUAPI\tests\output\20240109_163723\logs
+2024-01-09 16:40:38.311|I|main|[20240109_163723] merging test data to tmp file C:\projects\GNUAPI\tests\output\20240109_163723\BalanceSheet.20240109_164037.001.xlsx
+2024-01-09 16:40:38.311|I|main|re-fetching data from C:\projects\GNUAPI\tests\artifact\data\BalanceSheet.data.xlsx
+2024-01-09 16:40:38.815|I|main|[20240109_163723] test script and test data merged to C:\projects\GNUAPI\tests\output\20240109_163723\BalanceSheet.20240109_164037.001.xlsx
+2024-01-09 16:40:39.542|I|main|STARTS
+2024-01-09 16:40:39.620|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page - executing activity
+2024-01-09 16:40:39.620|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.open}, 1500)
+2024-01-09 16:40:39.872|I|main|clicking '//button[text()=' Open ']'...
+2024-01-09 16:40:39.920|I|main|click target via JS, @id=
+2024-01-09 16:40:40.010|I|main|clicked -> true
+2024-01-09 16:40:40.017|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//button[text()=' Open ']'
+2024-01-09 16:40:40.018|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  6|web.click(locator)        - executing click(locator)(${org.hamburger})
+2024-01-09 16:40:41.443|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-09 16:40:41.503|I|main|click target via JS, @id=
+2024-01-09 16:40:41.601|I|main|clicked -> true
+2024-01-09 16:40:41.604|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  6|web.click(locator)        - PASS click via JS event
+2024-01-09 16:40:41.604|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  7|base.waitFor(waitMs)      - executing waitFor(waitMs)(1000)
+2024-01-09 16:40:42.625|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  7|base.waitFor(waitMs)      - PASS 
+2024-01-09 16:40:42.641|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  8|web.click(locator)        - executing click(locator)(${org.Reports})
+2024-01-09 16:40:43.226|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 16:40:43.226|I|main|clicking '//*[text()='Reports']'...
+2024-01-09 16:40:43.274|I|main|click target via JS, @id=
+2024-01-09 16:40:43.415|I|main|clicked -> true
+2024-01-09 16:40:43.415|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  8|web.click(locator)        - PASS click via JS event
+2024-01-09 16:40:43.415|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  9|base.waitFor(waitMs)      - executing waitFor(waitMs)(1000)
+2024-01-09 16:40:44.431|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|#  9|base.waitFor(waitMs)      - PASS 
+2024-01-09 16:40:44.431|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|# 10|web.click(locator)        - executing click(locator)(${org.balancesheet})
+2024-01-09 16:40:44.573|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 16:40:44.573|I|main|clicking '(//*[text()='Balance Sheet'])[1]'...
+2024-01-09 16:40:44.621|I|main|click target via JS, @id=
+2024-01-09 16:40:44.685|I|main|clicked -> true
+2024-01-09 16:40:44.686|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page|# 10|web.click(locator)        - PASS click via JS event
+2024-01-09 16:40:44.686|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Go to BalanceSheet page - ending activity
+2024-01-09 16:40:44.688|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Add new BalanceSheet - executing activity
+2024-01-09 16:40:44.688|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Add new BalanceSheet|# 11|web.wait(waitMs)          - executing wait(waitMs)(2000)
+2024-01-09 16:40:46.696|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Add new BalanceSheet|# 11|web.wait(waitMs)          - PASS waited 2000ms
+2024-01-09 16:40:46.696|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Add new BalanceSheet|# 12|web.assertElementByText(l - executing assertElementByText(locator,text)(${title.balancesheet}, Balance Sheet Statement)
+2024-01-09 16:40:46.838|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Add new BalanceSheet|# 12|web.assertElementByText(l - PASS validated locator '//div[contains(text(),'Balance Sheet Statement')]' by text 'Balance Sheet Statement' as EXPECTED
+2024-01-09 16:40:46.838|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Add new BalanceSheet - ending activity
+2024-01-09 16:40:46.838|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements - executing activity
+2024-01-09 16:40:46.838|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 13|web.assertElementPresent( - executing assertElementPresent(locator)(${desc.balancesheet})
+2024-01-09 16:40:56.871|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 13|web.assertElementPresent( - Timed out while looking for web element(s) that match '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/div[1]/div[1]/div[2]/*[1]'; nexial.pollWaitMs=10000
+2024-01-09 16:40:56.887|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 13|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/div[1]/div[1]/div[2]/*[1]')
+Specified element not found: Timed out while looking for web element(s) that match '//body/div[@id='app']/main[1]/section[1]/div[1]/div[1]/div[1]/div[1]/div[2]/*[1]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:40:56.887|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 13|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A13.log
+2024-01-09 16:40:56.887|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 14|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.from}, From)
+2024-01-09 16:40:56.951|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 14|web.assertElementByText(l - PASS validated locator '//legend[text()='From']' by text 'From' as EXPECTED
+2024-01-09 16:40:56.951|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 15|web.assertElementPresent( - executing assertElementPresent(locator)(${calender.from})
+2024-01-09 16:40:57.110|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 15|web.assertElementPresent( - PASS EXPECTED element '(//button[@aria-haspopup='dialog'])[1]' found
+2024-01-09 16:40:57.113|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 16|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.To}, To)
+2024-01-09 16:40:57.171|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 16|web.assertElementByText(l - PASS validated locator '//legend[text()='To']' by text 'To' as EXPECTED
+2024-01-09 16:40:57.171|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 17|web.assertElementPresent( - executing assertElementPresent(locator)(${calender.To})
+2024-01-09 16:40:57.333|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 17|web.assertElementPresent( - PASS EXPECTED element '(//button[@aria-haspopup='dialog'])[2]' found
+2024-01-09 16:40:57.345|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 18|web.assertElementByText(l - executing assertElementByText(locator,text)(${button.getdetails}, Get Details)
+2024-01-09 16:40:57.410|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 18|web.assertElementByText(l - PASS validated locator '//span[text()='Get Details']' by text 'Get Details' as EXPECTED
+2024-01-09 16:40:57.410|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 19|web.assertElementPresent( - executing assertElementPresent(locator)(${button.xldownload})
+2024-01-09 16:41:07.433|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 19|web.assertElementPresent( - Timed out while looking for web element(s) that match '//button[@title='Download']'; nexial.pollWaitMs=10000
+2024-01-09 16:41:07.449|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 19|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//button[@title='Download']')
+Specified element not found: Timed out while looking for web element(s) that match '//button[@title='Download']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:41:07.449|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 19|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A19.log
+2024-01-09 16:41:07.449|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 20|web.assertElementPresent( - executing assertElementPresent(locator)(${label.hiderow})
+2024-01-09 16:41:17.496|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 20|web.assertElementPresent( - Timed out while looking for web element(s) that match '(//*[text()='Hide ₹0 rows'])[1]'; nexial.pollWaitMs=10000
+2024-01-09 16:41:17.503|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 20|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('(//*[text()='Hide ₹0 rows'])[1]')
+Specified element not found: Timed out while looking for web element(s) that match '(//*[text()='Hide ₹0 rows'])[1]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:41:17.505|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 20|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A20.log
+2024-01-09 16:41:17.507|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 21|web.assertElementPresent( - executing assertElementPresent(locator)(${toggle.checkbox})
+2024-01-09 16:41:27.543|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 21|web.assertElementPresent( - Timed out while looking for web element(s) that match '(//input[@id='checkbox-1'])[1]'; nexial.pollWaitMs=10000
+2024-01-09 16:41:27.543|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 21|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('(//input[@id='checkbox-1'])[1]')
+Specified element not found: Timed out while looking for web element(s) that match '(//input[@id='checkbox-1'])[1]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:41:27.555|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 21|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A21.log
+2024-01-09 16:41:27.555|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 22|web.assertElementPresent( - executing assertElementPresent(locator)(${button.print})
+2024-01-09 16:41:27.634|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements|# 22|web.assertElementPresent( - PASS EXPECTED element '(//button[@type='button'])[5]' found
+2024-01-09 16:41:27.634|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validate the BalanceSheet elements - ending activity
+2024-01-09 16:41:27.634|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values - executing activity
+2024-01-09 16:41:27.634|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 23|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.liab}, Capital and Liabilities)
+2024-01-09 16:41:27.682|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 23|web.assertElementByText(l - FAIL No element found via xpath //span[contains(text(),'Capital and Liabilities')]
+2024-01-09 16:41:27.682|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 24|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.capital}, Capital)
+2024-01-09 16:41:27.713|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 24|web.assertElementByText(l - FAIL No element found via xpath //button[text()=' Capital ']
+2024-01-09 16:41:27.713|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 25|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.loanlib}, Loans(Liability))
+2024-01-09 16:41:27.762|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 25|web.assertElementByText(l - FAIL No element found via xpath //button[text()=' Loans(Liability) ']
+2024-01-09 16:41:27.762|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 26|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.currentlib}, Current Liabilities)
+2024-01-09 16:41:27.792|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 26|web.assertElementByText(l - FAIL No element found via xpath //button[text()=' Current Liabilities ']
+2024-01-09 16:41:27.792|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 27|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.reserves}, Reserves)
+2024-01-09 16:41:27.839|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 27|web.assertElementByText(l - FAIL No element found via xpath //button[text()=' Reserves ']
+2024-01-09 16:41:27.839|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 28|web.saveText(var,locator) - executing saveText(var,locator)(capitalamount, ${capital.amount})
+2024-01-09 16:41:37.875|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 28|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[4]/span[1]'; nexial.pollWaitMs=10000
+2024-01-09 16:41:37.875|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 28|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[4]/span[1]'; nexial.pollWaitMs=10000
+2024-01-09 16:41:37.875|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 28|web.saveText(var,locator) - PASS no content found via locator '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[1]/td[4]/span[1]'
+2024-01-09 16:41:37.875|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 29|base.verbose(text)        - executing verbose(text)(${capitalamount})
+2024-01-09 16:41:37.875|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 29|base.verbose(text)        - 
+
+2024-01-09 16:41:37.875|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 29|base.verbose(text)        - PASS 
+2024-01-09 16:41:37.875|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 30|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.capital.amount}, ${capitalamount})
+2024-01-09 16:41:37.889|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 30|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:41:37.890|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 30|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A30.log
+2024-01-09 16:41:37.890|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 31|web.saveText(var,locator) - executing saveText(var,locator)(Loanliabamount, ${loanlib.amount})
+2024-01-09 16:41:47.926|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 31|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[3]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:41:47.926|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 31|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[3]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:41:47.926|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 31|web.saveText(var,locator) - PASS no content found via locator '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[3]/td[4]'
+2024-01-09 16:41:47.926|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 32|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.loanlib.amount}, ${Loanliabamount})
+2024-01-09 16:41:47.939|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 32|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:41:47.939|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 32|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A32.log
+2024-01-09 16:41:47.942|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 33|web.saveText(var,locator) - executing saveText(var,locator)(currentlib.amount, ${currentlib.amount})
+2024-01-09 16:41:57.980|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 33|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[6]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:41:57.987|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 33|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[6]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:41:57.987|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 33|web.saveText(var,locator) - PASS no content found via locator '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[6]/td[4]'
+2024-01-09 16:41:57.987|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 34|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.currentlib.amount}, ${currentlib.amount})
+2024-01-09 16:41:57.987|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 34|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:41:57.987|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 34|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A34.log
+2024-01-09 16:41:57.995|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 35|web.saveText(var,locator) - executing saveText(var,locator)(reserves.amount, ${reserves.amount})
+2024-01-09 16:42:08.049|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 35|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[11]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:08.049|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 35|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[11]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:08.058|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 35|web.saveText(var,locator) - PASS no content found via locator '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[11]/td[4]'
+2024-01-09 16:42:08.058|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 36|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.reserves.amount}, ${reserves.amount})
+2024-01-09 16:42:08.058|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 36|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:42:08.066|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 36|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A36.log
+2024-01-09 16:42:08.066|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 37|web.saveText(var,locator) - executing saveText(var,locator)(totalliab.amount, ${totalliab.amount})
+2024-01-09 16:42:18.118|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 37|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[15]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:18.118|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 37|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[15]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:18.126|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 37|web.saveText(var,locator) - PASS no content found via locator '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[1]/div[1]/table[1]/tbody[1]/tr[15]/td[4]'
+2024-01-09 16:42:18.126|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 38|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.totalasset.amount}, ${totalliab.amount})
+2024-01-09 16:42:18.126|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 38|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:42:18.126|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values|# 38|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A38.log
+2024-01-09 16:42:18.134|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Capital and Liabilities section values - ending activity
+2024-01-09 16:42:18.134|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values - executing activity
+2024-01-09 16:42:18.134|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 39|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.propnasset}, Property and Assets)
+2024-01-09 16:42:18.167|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 39|web.assertElementByText(l - FAIL No element found via xpath //span[contains(text(),'Property and Assets')]
+2024-01-09 16:42:18.167|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 40|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.fixed}, Fixed Assets)
+2024-01-09 16:42:18.207|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 40|web.assertElementByText(l - FAIL No element found via xpath //button[text()=' Fixed Assets ']
+2024-01-09 16:42:18.207|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 41|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.investments}, Investments)
+2024-01-09 16:42:18.248|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 41|web.assertElementByText(l - FAIL No element found via xpath //button[text()=' Investments ']
+2024-01-09 16:42:18.248|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 42|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.currentassets}, Current Assets)
+2024-01-09 16:42:18.288|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 42|web.assertElementByText(l - FAIL No element found via xpath //button[text()=' Current Assets ']
+2024-01-09 16:42:18.288|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 43|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.loanasset}, Loans(Asset))
+2024-01-09 16:42:18.328|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 43|web.assertElementByText(l - FAIL No element found via xpath //button[text()=' Loans(Asset) ']
+2024-01-09 16:42:18.328|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 44|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.assetmiscellaneous}, Miscellaneous Expenses(Asset))
+2024-01-09 16:42:18.368|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 44|web.assertElementByText(l - FAIL No element found via xpath //span[text()=' Miscellaneous Expenses(Asset) ']
+2024-01-09 16:42:18.370|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 45|web.saveText(var,locator) - executing saveText(var,locator)(fixedamount, ${fixed.amount})
+2024-01-09 16:42:28.392|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 45|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:28.392|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 45|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:28.399|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 45|web.saveText(var,locator) - PASS no content found via locator '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[4]'
+2024-01-09 16:42:28.401|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 46|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.fixed.amount}, ${fixedamount})
+2024-01-09 16:42:28.401|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 46|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:42:28.401|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 46|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A46.log
+2024-01-09 16:42:28.407|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 47|web.saveText(var,locator) - executing saveText(var,locator)(investmentsamount, ${investments.amount})
+2024-01-09 16:42:38.472|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 47|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[2]/div[1]/table[1]/tbody[1]/tr[7]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:38.472|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 47|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[2]/div[1]/table[1]/tbody[1]/tr[7]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:38.472|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 47|web.saveText(var,locator) - PASS no content found via locator '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[2]/div[1]/table[1]/tbody[1]/tr[7]/td[4]'
+2024-01-09 16:42:38.472|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 48|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.investments.amount}, ${investmentsamount})
+2024-01-09 16:42:38.512|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 48|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:42:38.512|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 48|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A48.log
+2024-01-09 16:42:38.512|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 49|web.saveText(var,locator) - executing saveText(var,locator)(currentlibamount, ${currentasst.amount})
+2024-01-09 16:42:48.537|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 49|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[2]/div[1]/table[1]/tbody[1]/tr[10]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:48.537|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 49|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[2]/div[1]/table[1]/tbody[1]/tr[10]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:48.537|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 49|web.saveText(var,locator) - PASS no content found via locator '//body[1]/div[1]/main[1]/section[1]/div[1]/div[3]/div[2]/div[1]/table[1]/tbody[1]/tr[10]/td[4]'
+2024-01-09 16:42:48.542|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 50|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.currentassets.amount}, ${currentlibamount})
+2024-01-09 16:42:48.549|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 50|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:42:48.550|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 50|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A50.log
+2024-01-09 16:42:48.550|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 51|web.saveText(var,locator) - executing saveText(var,locator)(loanassetamount, ${loanasset.amount})
+2024-01-09 16:42:58.570|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 51|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[16]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:58.570|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 51|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[16]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:42:58.570|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 51|web.saveText(var,locator) - PASS no content found via locator '//tbody/tr[16]/td[4]'
+2024-01-09 16:42:58.575|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 52|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.loanasset.amount}, ${loanassetamount})
+2024-01-09 16:42:58.575|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 52|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:42:58.575|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 52|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A52.log
+2024-01-09 16:42:58.583|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 53|web.saveText(var,locator) - executing saveText(var,locator)(assetmiscamount, ${assetmisc.amount})
+2024-01-09 16:43:08.613|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 53|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[18]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:08.619|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 53|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[18]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:08.619|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 53|web.saveText(var,locator) - PASS no content found via locator '//tbody/tr[18]/td[4]'
+2024-01-09 16:43:08.619|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 54|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.assetmisc.amount}, ${assetmiscamount})
+2024-01-09 16:43:08.619|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 54|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:43:08.619|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 54|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A54.log
+2024-01-09 16:43:08.627|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 55|web.saveText(var,locator) - executing saveText(var,locator)(Totalassetamount, ${Totalasset.amount})
+2024-01-09 16:43:18.644|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 55|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[19]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:18.644|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 55|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[19]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:18.644|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 55|web.saveText(var,locator) - PASS no content found via locator '//tbody/tr[19]/td[4]'
+2024-01-09 16:43:18.644|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 56|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.totalliab.amount}, ${Totalassetamount})
+2024-01-09 16:43:18.651|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 56|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:43:18.651|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 56|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A56.log
+2024-01-09 16:43:18.651|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 57|web.saveText(var,locator) - executing saveText(var,locator)(differenceamount, ${difference.amount})
+2024-01-09 16:43:28.664|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 57|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[20]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:28.664|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 57|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[20]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:28.664|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 57|web.saveText(var,locator) - PASS no content found via locator '//tbody/tr[20]/td[4]'
+2024-01-09 16:43:28.664|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 58|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.difference.amount}, ${differenceamount})
+2024-01-09 16:43:28.672|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 58|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:43:28.672|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 58|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A58.log
+2024-01-09 16:43:28.676|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 59|web.saveText(var,locator) - executing saveText(var,locator)(gorsstotalasstamount, ${gorsstotalasst.amount})
+2024-01-09 16:43:38.727|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 59|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[21]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:38.727|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 59|web.saveText(var,locator) - Timed out while looking for web element(s) that match '//tbody/tr[21]/td[4]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:38.727|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 59|web.saveText(var,locator) - PASS no content found via locator '//tbody/tr[21]/td[4]'
+2024-01-09 16:43:38.727|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 60|web.assertElementByText(l - executing assertElementByText(locator,text)(${label.gorsstotalasst.amount}, ${gorsstotalasstamount})
+2024-01-09 16:43:38.735|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 60|web.assertElementByText(l - FAIL invalid text to search by: 
+2024-01-09 16:43:38.735|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 60|web.assertElementByText(l - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A60.log
+2024-01-09 16:43:38.735|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 61|web.assertElementPresent( - executing assertElementPresent(locator)(${label.totalasset})
+2024-01-09 16:43:48.747|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 61|web.assertElementPresent( - Timed out while looking for web element(s) that match '(//span[text()=' Total '])[1]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:48.757|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 61|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('(//span[text()=' Total '])[1]')
+Specified element not found: Timed out while looking for web element(s) that match '(//span[text()=' Total '])[1]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:43:48.757|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 61|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A61.log
+2024-01-09 16:43:48.757|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 62|web.assertElementPresent( - executing assertElementPresent(locator)(${label.totalliab})
+2024-01-09 16:43:58.792|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 62|web.assertElementPresent( - Timed out while looking for web element(s) that match '(//span[text()=' Total '])[2]'; nexial.pollWaitMs=10000
+2024-01-09 16:43:58.800|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 62|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('(//span[text()=' Total '])[2]')
+Specified element not found: Timed out while looking for web element(s) that match '(//span[text()=' Total '])[2]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:43:58.800|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 62|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A62.log
+2024-01-09 16:43:58.806|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 63|web.assertElementPresent( - executing assertElementPresent(locator)(${label.difference})
+2024-01-09 16:44:08.817|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 63|web.assertElementPresent( - Timed out while looking for web element(s) that match '//span[text()=' Difference ']'; nexial.pollWaitMs=10000
+2024-01-09 16:44:08.823|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 63|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//span[text()=' Difference ']')
+Specified element not found: Timed out while looking for web element(s) that match '//span[text()=' Difference ']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:44:08.823|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 63|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A63.log
+2024-01-09 16:44:08.823|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 64|web.assertElementPresent( - executing assertElementPresent(locator)(${label.gorsstotalliab})
+2024-01-09 16:44:18.860|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 64|web.assertElementPresent( - Timed out while looking for web element(s) that match '(//span[text()=' Total '])[3]'; nexial.pollWaitMs=10000
+2024-01-09 16:44:18.868|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 64|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('(//span[text()=' Total '])[3]')
+Specified element not found: Timed out while looking for web element(s) that match '(//span[text()=' Total '])[3]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:44:18.868|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values|# 64|web.assertElementPresent( - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A64.log
+2024-01-09 16:44:18.868|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Validating the Property and Assets section values - ending activity
+2024-01-09 16:44:18.870|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and - executing activity
+2024-01-09 16:44:18.870|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 65|web.click(locator)        - executing click(locator)(${calender.from})
+2024-01-09 16:44:19.118|I|main|clicking '(//button[@aria-haspopup='dialog'])[1]'...
+2024-01-09 16:44:19.151|I|main|click target via JS, @id=__BVID__1035
+2024-01-09 16:44:19.201|I|main|clicked -> true
+2024-01-09 16:44:19.201|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 65|web.click(locator)        - PASS click via JS event
+2024-01-09 16:44:19.201|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 66|web.click(locator)        - executing click(locator)(${select.Fromdate})
+2024-01-09 16:44:19.329|I|main|Target element not visible; clicking on such element might not work...
+2024-01-09 16:44:19.329|I|main|clicking '//span[contains(text(),'1')]'...
+2024-01-09 16:44:19.370|I|main|click target via JS, @id=
+2024-01-09 16:44:19.407|I|main|clicked -> true
+2024-01-09 16:44:19.429|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 66|web.click(locator)        - PASS click via JS event
+2024-01-09 16:44:19.430|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 67|web.click(locator)        - executing click(locator)(${calender.To})
+2024-01-09 16:44:19.630|I|main|clicking '(//button[@aria-haspopup='dialog'])[2]'...
+2024-01-09 16:44:19.662|I|main|click target via JS, @id=__BVID__1041
+2024-01-09 16:44:19.694|I|main|clicked -> true
+2024-01-09 16:44:19.695|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 67|web.click(locator)        - PASS click via JS event
+2024-01-09 16:44:19.695|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 68|web.click(locator)        - executing click(locator)(${select.Todate})
+2024-01-09 16:44:29.735|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 68|web.click(locator)        - Timed out while looking for web element(s) that match '//span[contains(text(),'31')]'; nexial.pollWaitMs=10000
+2024-01-09 16:44:29.743|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 68|web.click(locator)        - FAIL EXECUTING COMMAND: web.click(locator)('//span[contains(text(),'31')]')
+Specified element not found: Timed out while looking for web element(s) that match '//span[contains(text(),'31')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-09 16:44:29.743|E|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 68|web.click(locator)        - Error log: C:\projects\GNUAPI\tests\output\20240109_163723\logs\BalanceSheet.20240109_164037.001.xlsx_BalanceSheet_A68.log
+2024-01-09 16:44:29.743|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 69|web.click(locator)        - executing click(locator)(${button.getdetails})
+2024-01-09 16:44:29.971|I|main|clicking '//span[text()='Get Details']'...
+2024-01-09 16:44:30.004|I|main|click target via JS, @id=
+2024-01-09 16:44:30.085|I|main|clicked -> true
+2024-01-09 16:44:30.085|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and|# 69|web.click(locator)        - PASS click via JS event
+2024-01-09 16:44:30.085|I|main|BalanceSheet.20240109_164037.001|BalanceSheet|Select the Date and - ending activity
+2024-01-09 16:53:27.136|I|main|[20240109_163723] Ending Nexial Interactive session...
+2024-01-09 16:53:27.136|I|main|exiting Nexial...
+2024-01-09 16:53:27.136|I|main|shutdown starts...
+2024-01-09 16:53:27.140|I|main|[chrome] Shutting down webdriver...
+2024-01-09 16:53:27.145|I|main|[chrome] Close the current window...
+2024-01-09 16:53:27.319|I|main|[chrome] Quit this driver, closing every associated window.
+2024-01-09 16:53:28.659|I|main|shutdown ends...
