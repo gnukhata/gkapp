@@ -28,11 +28,12 @@
               <!-- <b-icon class="mr-1" type="submit" icon="search"></b-icon> -->
               <translate>Validate</translate>
             </b-button>
+            <b-form-invalid-feedback id="input-live-feedback">
+              <translate>Recommended uppercase, lowercase, number, _ & minimum 5 characters long,
+              must start with a letter and underscores with at least one character after the underscore.</translate>
+            </b-form-invalid-feedback>
           </b-input-group>
           <small><translate>* Type an existing user's name</translate></small>
-          <b-form-invalid-feedback id="input-live-feedback">
-            <translate>Username must be minimum of 3 characters</translate>
-          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
           :label="$gettext('Role')"
@@ -89,7 +90,7 @@
             </b-tr>
           </b-tbody>
         </b-table-simple>
-        <div v-if="!validUser && validUser !== null" class="mb-2">
+        <div v-if="!existUser && existUser !== null" class="mb-2">
           <b-form-checkbox
             class="float-right"
             v-model="createUser"
@@ -190,6 +191,7 @@ export default {
       allGodowns: [],
       cnfPassword: '',
       validUser: null,
+      existUser: null,
       validating: false,
       createUser: false,
       form: {
@@ -244,7 +246,7 @@ export default {
         return null;
       }
       // username should be atleast three characters
-      if (this.form.username.length < 3) {
+      if (this.form.username.length < 5) {
         return false;
       } else {
         return true;
@@ -255,7 +257,7 @@ export default {
       if (this.createUser) {
         validity = validity && this.pwdMatch && this.validateName;
       } else {
-        validity = validity && this.validUser && this.validateName;
+        validity = validity && this.validUser && this.existUser && this.validateName;
       }
       return validity;
     },
@@ -263,7 +265,7 @@ export default {
   watch: {
     validateName(validity) {
       if (validity === null) {
-        this.validUser = null;
+        this.existUser = null;
       }
     },
   },
@@ -280,10 +282,16 @@ export default {
       axios
         .get(`/gkuser/check/${this.form.username}`)
         .then((resp) => {
-          if (resp.data.gkstatus === STATUS_CODES['Success']) {
-            this.validUser = !resp.data.gkresult;
-          } else {
+          // username should be atleast three characters
+          if (this.form.username.length < 5 || !/^[a-zA-Z][a-zA-Z\d]*(?:_?[a-zA-Z\d]+)?$/.test(this.form.username)) {
             this.validUser = false;
+          } else {
+            this.validUser = true;
+          }
+          if (resp.data.gkstatus === STATUS_CODES['Success']) {
+            this.existUser = !resp.data.gkresult;
+          } else {
+            this.existUser = false;
           }
         })
         .catch(() => {
@@ -343,6 +351,7 @@ export default {
               this.$refs['createUserForm'].reset();
               this.createUser = false;
               this.validUser = null;
+              this.form.username = '';
               break;
             case STATUS_CODES['DuplicateEntry']:
               this.$bvToast.toast(
