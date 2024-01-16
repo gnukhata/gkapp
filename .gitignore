@@ -25,3 +25,4 @@ yarn-error.log*
 # Ignore po files
 *.po~
 GNUKhata.code-workspace
+/tests/output
