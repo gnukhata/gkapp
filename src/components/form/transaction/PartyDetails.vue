@@ -89,28 +89,30 @@
           :label-class="{ required: !(editFlag || isNameDisabled) }"
         >
           <template #label> <translate> Name </translate> </template>
-          <v-select
-            v-if="isCustomer"
+          <b-form-select
+            v-if="isCustomer && options.customers"
             id="ptd-input-10"
             v-model="form.name"
-            :options="options.customers"
+            :options="options.customers || []"
             @input="onPartyNameSelect(form.name)"
-            required
-            label="name"
+            :required="true"
             :disabled="editFlag || isNameDisabled"
             :clearable="false"
-          ></v-select>
-          <v-select
-            v-else
+            value-field="custname"
+            text-field="name"
+          ></b-form-select>
+          <b-form-select
+            v-else-if="options.suppliers || []"
             id="ptd-input-11"
             v-model="form.name"
             :options="options.suppliers"
             @input="onPartyNameSelect(form.name)"
-            required
-            label="name"
             :disabled="editFlag || isNameDisabled"
             :clearable="false"
-          ></v-select>
+            value-field="custname"
+            text-field="name"
+            :required="true"
+          ></b-form-select>
         </b-form-group>
         <b-form-group
           v-if="config.addr"

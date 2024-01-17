@@ -113,15 +113,16 @@
           :label-class="{ required: !disabled.supplySt }"
         >
           <template #label> <translate> Place of Supply </translate> </template>
-          <v-select
+          <b-form-select
             id="ivd-input-11"
             v-model="form.taxState"
             :options="options.states"
             :required="true"
             @input="onUpdateDetails"
             :disabled="disabled.supplySt"
-            label="name"
-          ></v-select>
+            value-field="name" 
+            text-field="name"
+          ></b-form-select>
         </b-form-group>
         <b-form-group
           :label="saleFlag ? 'From Godown' : 'To Godown'"
@@ -135,17 +136,14 @@
             <span v-translate v-if="saleFlag"> From Godown </span>
             <span v-translate v-else> To Godown </span>
           </template>
-          <v-select
+          <b-form-select
             id="ivd-input-21"
             v-model="form.godown"
             :options="options.godowns"
             @input="onUpdateDetails"
             :required="true"
             :disabled="disabled.godown"
-            :reduce="(godown) => godown.value"
-            label="text"
-          >
-          </v-select>
+          ></b-form-select>
         </b-form-group>
         <b-form-group
           v-if="saleFlag && config.ebn"
