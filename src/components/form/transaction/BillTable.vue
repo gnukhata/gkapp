@@ -95,19 +95,21 @@
           <span>{{ data.label }}</span>
         </template>
         <template #cell(product)="data">
-          <v-select
+          <b-form-select
             v-if="form[data.item.index] && !disabled.product"
-            @input="
-              onBillItemSelect(form[data.item.index].product, data.item.index)
-            "
+            @input="onBillItemSelect(form[data.item.index].product, data.item.index)"
             :options="options.products"
-            label="name"
             v-model="form[data.item.index].product"
             placeholder="Select Product/Service"
-            :selectable="checkProductValidity"
             :disabled="disabled.product"
+            value-field="name" 
+            text-field="name"
+            :required="true"
           >
-            <template v-slot:option="option">
+            <template #first>
+              <b-form-select-option :value="null" disabled>Select Product/Service</b-form-select-option>
+            </template>
+            <template v-slot:option="{ option }">
               <div v-if="options.productData[option.id].gsflag !== 19">
                 {{ option.name }}
                 <div class="text-small" v-if="options.stock[option.id] > 0">
@@ -116,11 +118,12 @@
                 <div v-else>({{ options.stock[option.id] || 0 }})</div>
               </div>
             </template>
-          </v-select>
-          <span v-else>{{
-            data.value.name || form[data.item.index]?.product.name || ''
-          }}</span>
+          </b-form-select>
+          <span v-else>
+            {{ data.value.name || (form[data.item.index]?.product?.name || '') }}
+          </span>
         </template>
+
 
         <!-- Qty -->
         <template #head(qty)="">
