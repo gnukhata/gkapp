@@ -753,6 +753,7 @@ export default {
         this.form.no = '';
       }
       this.form.godown = '';
+      this.form.ebn = '';
       this.$nextTick().then(() => {
         if (self.form.godown === '') {
           self.$store.dispatch('global/initDefaultGodown').then((defGodown) => {

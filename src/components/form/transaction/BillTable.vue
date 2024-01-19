@@ -95,31 +95,33 @@
           <span>{{ data.label }}</span>
         </template>
         <template #cell(product)="data">
-        <v-select
-            v-if="form[data.item.index] && !disabled.product"
-            @input="
-              onBillItemSelect(form[data.item.index].product, data.item.index)
-            "
-            :options="options.products"
-            label="name"
-            v-model="form[data.item.index].product"
-            placeholder="Select Product/Service"
-            :selectable="checkProductValidity"
-            :disabled="disabled.product"
+        <b-form-select
+          class="item"
+          v-if="form[data.item.index] && !disabled.product"
+          v-model="form[data.item.index].product"
+          required
+          @change="onBillItemSelect(form[data.item.index].product, data.item.index)"
+          :disabled="disabled.product"
+          :state="!form[data.item.index].product ? false : null"
+          :rules="[v => !!form[data.item.index].product || 'Please select an option']"
+        >
+          <b-form-select-option
+            v-for="option in options.products"
+            :key="option.id"
+            :value="option"
           >
-            <template v-slot:option="option">
-              <div v-if="options.productData[option.id].gsflag !== 19">
-                {{ option.name }}
-                <div class="text-small" v-if="options.stock[option.id] > 0">
-                  ({{ options.stock[option.id] }})
-                </div>
-                <div v-else>({{ options.stock[option.id] || 0 }})</div>
+            <div v-if="options.productData[option.id] && options.productData[option.id]?.gsflag !== 19">
+              {{ option.name }}
+              <div class="text-small" v-if="options.stock[option.id] && options.stock[option.id] > 0">
+                ({{ options.stock[option.id] }})
               </div>
-            </template>
-          </v-select>
-          <span v-else>{{
-            data.value.name || form[data.item.index]?.product.name || ''
-          }}</span>
+              <div v-else>({{ options.stock[option.id] || 0 }})qq</div>
+            </div>
+             <div v-else>{{ option.name }}</div>
+          </b-form-select-option>
+        </b-form-select>
+
+         
         </template>
 
 
@@ -1516,5 +1518,8 @@ export default {
   .bt-cell-qty {
     max-width: 100px;
   }
+}
+.item {
+  height: calc(1.5em + 0.45rem);
 }
 </style>
