@@ -143,6 +143,7 @@
             @input="onUpdateDetails"
             :required="true"
             :disabled="disabled.godown"
+            :reduce="(godown) => godown.value"
           ></b-form-select>
         </b-form-group>
         <b-form-group
@@ -438,7 +439,7 @@ export default {
 
           if (self.parentData.taxState) {
             if (self.parentData.taxState.id) {
-              self.form.taxState = self.parentData.taxState;
+              self.form.taxState = self.parentData.taxState.name;
             }
           }
 

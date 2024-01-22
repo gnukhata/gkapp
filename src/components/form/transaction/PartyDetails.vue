@@ -43,7 +43,7 @@
             size="sm"
             buttons
             v-model="form.type"
-            @input="resetPartyDetails(true)"
+            @change="resetPartyDetails()"
           >
             <b-form-radio value="customer">
               <translate> Customer </translate>
@@ -86,14 +86,16 @@
           label-cols-md="4"
           label-cols-lg="3"
           label-size="sm"
+          :label-class="{ required: !(editFlag || isNameDisabled) }"
         >
           <template #label> <translate> Name </translate> </template>
-          <b-form-select
+          
+            <b-form-select
             v-if="isCustomer && options.customers"
             id="ptd-input-10"
             v-model="form.name"
             @change="onPartyNameSelect(form.name)"
-            required
+            :required="true"
             :disabled="editFlag || isNameDisabled"
             :clearable="true"
           >
@@ -118,13 +120,13 @@
             <b-form-select-option
               v-for="option in options.suppliers"
               :key="option?.id"
-              :value="option?.name"
+              :value="option"
             >
               {{ option.name }}
             </b-form-select-option>
           </b-form-select>
-        </b-form-group>
 
+        </b-form-group>
         <b-form-group
           v-if="config.addr"
           label-cols="3"
@@ -479,8 +481,8 @@ export default {
         })
       );
     },
-    resetPartyDetails(raiseUpdateEvent) {
-       this.form = {
+    resetPartyDetails() {
+      Object.assign(this.form, {
         name: { name: '' },
         addr: null,
         options: {
@@ -492,10 +494,7 @@ export default {
         gstin: '',
         checksum: '',
         editFlag: false,
-      };
-      if (raiseUpdateEvent) {
-        this.onUpdateDetails();
-      }
+      });
       // this.setShippingDetails();
     },
     /**
@@ -541,7 +540,7 @@ export default {
                 self.setCustomerData(resp.data.gkresult);
                 break;
               case 2:
-                self.resetPartyDetails(false); // if there no data, then reset the fields
+                self.resetPartyDetails(); // if there no data, then reset the fields
                 this.displayToast(
                   this.$gettext('Fetch Customer/Supplier Data Error!'),
                   this.$gettext('Unauthorized Access, Please contact Admin'),
@@ -550,7 +549,7 @@ export default {
                 break;
               case 3:
               default:
-                self.resetPartyDetails(false); // if there no data, then reset the fields
+                self.resetPartyDetails(); // if there no data, then reset the fields
                 this.displayToast(
                   this.$gettext('Fetch Customer/Supplier Data Error!'),
                   this.$gettext(
@@ -830,7 +829,7 @@ export default {
           .put(`customer/${payload.custid}`, payload)
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
-              delete this.options.csData[this.form?.name.id];
+              delete this.options.csData[this.form.name?.id];
             }
           })
           .catch((e) => {

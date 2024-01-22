@@ -1280,7 +1280,7 @@ export default {
       }
       this.updateDefaultNarration();
       let delchal = {
-        custid: parseInt(this.form.party.name.id) || '',
+        custid: parseInt(this.form.party.name?.id) || '',
         dcno: this.form.inv.dnNo,
         dcdate: this.form.inv.date,
         dcflag: this.isSale ? 4 : 16,
