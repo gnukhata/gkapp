@@ -7,11 +7,12 @@
         @input="onAttachmentSelect"
         v-model="currentAttachments"
         size="sm"
-        accept="image/jpeg"
+        accept="image/jpeg, image/jpg, image/png"
         placeholder="Choose a file / Drag & drop it here"
         drop-placeholder="Drop file here..."
         multiple
       ></b-form-file>
+      <p><b class="mt-2">Note: Please upload only JPEG, JPG, or PNG images</b></p>
       <div class="clearfix"></div>
       <div class="mt-2">
         <div
@@ -68,6 +69,7 @@ export default {
         attachments: [],
       },
       currentAttachments: [],
+      fileValidationError: null,
       options: {},
     };
   },
@@ -83,6 +85,40 @@ export default {
     },
   },
   methods: {
+    onAttachmentSelect() {
+      // Check each selected file for allowed types
+      for (const file of this.currentAttachments) {
+        if (!this.isFileTypeAllowed(file)) {
+          // Display an error message and prevent further processing
+          this.fileValidationError = 'Invalid file type. Please upload only JPEG, JPG, or PNG images.';
+          // Clear the selected files
+          this.currentAttachments = [];
+          return;
+        } else {
+          const self = this;
+          let attachments = this.currentAttachments;
+          let images = [];
+          let b64Requests = [];
+          b64Requests = attachments.map((att) => getBase64(att));
+            Promise.all(b64Requests).then((b64Images) => {
+              images = b64Images.map((image) => {
+                let imageData = image.split(',')[1];
+                return `data:image/jpg;base64,${imageData}`;
+              });
+              self.form.attachments.push(...images);
+            });
+          this.fileValidationError = '';
+        }
+      }
+
+      // Continue with your normal processing if all files are valid
+      // ...
+    },
+    isFileTypeAllowed(file) {
+      // Add logic here to check if the file type is allowed
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      return allowedTypes.includes(file.type);
+    },
     onAttachmentDelete(index) {
       this.form.attachments.splice(index, 1);
     },
@@ -99,23 +135,7 @@ export default {
           e.target.style.height = '196px';
         }
       }
-    },
-    onAttachmentSelect() {
-      const self = this;
-      let attachments = this.currentAttachments;
-      let images = [];
-      let b64Requests = [];
-      if (attachments.length) {
-        b64Requests = attachments.map((att) => getBase64(att));
-        Promise.all(b64Requests).then((b64Images) => {
-          images = b64Images.map((image) => {
-            let imageData = image.split(',')[1];
-            return `data:image/jpg;base64,${imageData}`;
-          });
-          self.form.attachments.push(...images);
-        });
-      }
-    },
+    }
   },
 };
 </script>
