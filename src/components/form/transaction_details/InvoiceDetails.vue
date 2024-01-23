@@ -113,15 +113,16 @@
           :label-class="{ required: !disabled.supplySt }"
         >
           <template #label> <translate> Place of Supply </translate> </template>
-          <v-select
+          <b-form-select
             id="ivd-input-11"
             v-model="form.taxState"
             :options="options.states"
             :required="true"
             @input="onUpdateDetails"
             :disabled="disabled.supplySt"
-            label="name"
-          ></v-select>
+            value-field="name" 
+            text-field="name"
+          ></b-form-select>
         </b-form-group>
         <b-form-group
           :label="saleFlag ? 'From Godown' : 'To Godown'"
@@ -135,7 +136,7 @@
             <span v-translate v-if="saleFlag"> From Godown </span>
             <span v-translate v-else> To Godown </span>
           </template>
-          <v-select
+          <b-form-select
             id="ivd-input-21"
             v-model="form.godown"
             :options="options.godowns"
@@ -143,9 +144,7 @@
             :required="true"
             :disabled="disabled.godown"
             :reduce="(godown) => godown.value"
-            label="text"
-          >
-          </v-select>
+          ></b-form-select>
         </b-form-group>
         <b-form-group
           v-if="saleFlag && config.ebn"
@@ -440,7 +439,7 @@ export default {
 
           if (self.parentData.taxState) {
             if (self.parentData.taxState.id) {
-              self.form.taxState = self.parentData.taxState;
+              self.form.taxState = self.parentData.taxState.name;
             }
           }
 
@@ -755,6 +754,7 @@ export default {
         this.form.no = '';
       }
       this.form.godown = '';
+      this.form.ebn = '';
       this.$nextTick().then(() => {
         if (self.form.godown === '') {
           self.$store.dispatch('global/initDefaultGodown').then((defGodown) => {
