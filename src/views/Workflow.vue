@@ -110,7 +110,7 @@
             <b-button
               class="px-1 float-right text-dark"
               variant="link"
-              @click="isOptionsOpen = !isOptionsOpen"
+              @click="isOptionsOpen = !isOptionsOpen; isSettingsOpen = false; isFilterOpen = false;"
               size="sm"
               title="Options"
             >
