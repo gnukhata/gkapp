@@ -1,0 +1,110 @@
+2024-01-16 17:07:57.958|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-16 17:07:57.958|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\ftnpP\UI-Settings.data.xlsx
+2024-01-16 17:07:57.958|I|main|(DELAYED) input files and output directory resolved...
+2024-01-16 17:07:57.958|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-16 17:07:57.958|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-16 17:07:57.958|I|main|[20240116_170757] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240116_170757
+2024-01-16 17:07:58.089|I|main|No predefined nexial-setup found
+2024-01-16 17:07:58.389|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-16 17:07:58.389|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-16 17:07:58.389|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-16 17:07:58.567|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-16 17:07:58.974|I|main|On-Demand Inspection detection enabled
+2024-01-16 17:07:59.096|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:08:01.927|I|main|[20240116_170757] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:08:01.928|I|main|[20240116_170757] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\captures
+2024-01-16 17:08:01.928|I|main|[20240116_170757] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\logs
+2024-01-16 17:08:02.606|I|main|[20240116_170757] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\UI-Settings.20240116_170801.001.xlsx
+2024-01-16 17:08:02.606|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:08:02.914|I|main|[20240116_170757] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\UI-Settings.20240116_170801.001.xlsx
+2024-01-16 17:08:03.324|I|main|STARTS
+2024-01-16 17:08:03.366|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata - executing activity
+2024-01-16 17:08:03.374|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${password})
+2024-01-16 17:08:03.617|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-16 17:08:03.623|I|main|[chrome] initializing chrome
+2024-01-16 17:08:03.672|I|main|[chrome] enabling chrome remote port: 35902
+2024-01-16 17:08:04.768|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-16 17:08:04.807|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-16 17:08:04.807|I|main|	1920x1080x32bpp@60Hz
+2024-01-16 17:08:04.807|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-16 17:08:04.807|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-16 17:08:04.807|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-16 17:08:04.942|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-16 17:08:04.944|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-16 17:08:04.945|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-16 17:08:07.894|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-16 17:08:07.895|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-16 17:08:08.013|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-16 17:08:08.014|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-16 17:08:11.223|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-16 17:08:11.223|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-16 17:08:11.276|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-16 17:08:11.288|I|main|click target via JS, @id=
+2024-01-16 17:08:11.307|I|main|clicked -> true
+2024-01-16 17:08:11.307|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-16 17:08:11.307|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-16 17:08:16.321|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-16 17:08:16.322|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-16 17:08:16.459|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-16 17:08:16.459|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-16 17:08:16.621|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-16 17:08:16.621|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-16 17:08:16.692|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-16 17:08:16.707|I|main|click target via JS, @id=
+2024-01-16 17:08:16.723|I|main|clicked -> true
+2024-01-16 17:08:16.723|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-16 17:08:16.723|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-16 17:08:16.741|E|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-16 17:08:16.741|E|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\logs\UI-Settings.20240116_170801.001.xlsx_Login_A5.A24.log
+2024-01-16 17:08:16.741|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-16 17:08:16.741|I|main|UI-Settings.20240116_170801.001|Login|Login to GNU khata - ending activity
+2024-01-16 17:08:20.309|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:08:31.572|I|main|[20240116_170757] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:08:31.572|I|main|[20240116_170757] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\captures
+2024-01-16 17:08:31.572|I|main|[20240116_170757] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\logs
+2024-01-16 17:08:31.823|I|main|[20240116_170757] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\UI-Settings.20240116_170831.001.xlsx
+2024-01-16 17:08:31.823|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:08:31.953|I|main|[20240116_170757] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\UI-Settings.20240116_170831.001.xlsx
+2024-01-16 17:08:32.196|I|main|STARTS
+2024-01-16 17:08:32.196|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:08:32.208|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:08:32.220|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:08:32.220|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:08:32.220|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:08:32.220|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:08:32.220|I|main|UI-Settings.20240116_170831.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 17:08:42.234|I|main|UI-Settings.20240116_170831.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//ul[@role="tablist"]/li/a[text()='Organisation']'; nexial.pollWaitMs=10000
+2024-01-16 17:08:42.243|E|main|UI-Settings.20240116_170831.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//ul[@role="tablist"]/li/a[text()='Organisation']', '2000')
+Specified element not found: Timed out while looking for web element(s) that match '//ul[@role="tablist"]/li/a[text()='Organisation']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 17:08:42.243|E|main|UI-Settings.20240116_170831.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\logs\UI-Settings.20240116_170831.001.xlsx_Settings_A31.log
+2024-01-16 17:08:42.243|I|main|UI-Settings.20240116_170831.001|Settings|Verify Organization tab|# 32|web.click(locator)        - executing click(locator)(${Organization.inputImg})
+2024-01-16 17:08:49.973|I|Thread-0|shutdown starts...
+2024-01-16 17:08:49.974|I|Thread-0|[chrome] Shutting down webdriver...
+2024-01-16 17:08:49.975|I|Thread-0|[chrome] Close the current window...
+2024-01-16 17:08:50.091|I|Thread-0|[chrome] Quit this driver, closing every associated window.
+2024-01-16 17:08:50.117|E|main|UI-Settings.20240116_170831.001|Settings|Verify Organization tab|# 32|web.click(locator)        - FAIL EXECUTING COMMAND: web.click(locator)('//span[@class="d-block form-file-text"][contains(text(),'Choose a file / Drag & drop it here')]')
+WebDriver session no longer valid: invalid session id Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-16 17:08:50.118|E|main|UI-Settings.20240116_170831.001|Settings|Verify Organization tab|# 32|web.click(locator)        - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_170757\logs\UI-Settings.20240116_170831.001.xlsx_Settings_A32.log
+2024-01-16 17:08:50.118|I|main|UI-Settings.20240116_170831.001|Settings|Verify Organization tab|# 33|desktop.typeByLocator(loc - executing typeByLocator(locator,text)(${Windows.filename}, ${data.path}\images.jfif)
+2024-01-16 17:08:50.123|I|main|terminating any leftover instance of Winium.Desktop.Driver.exe
+2024-01-16 17:08:51.141|I|main|ERROR: The process "Winium.Desktop.Driver.exe*" not found.
+
+2024-01-16 17:08:51.141|I|Thread-0|shutdown ends...
+2024-01-16 17:08:51.142|I|main|Assigning to Winium Driver Service port 11630

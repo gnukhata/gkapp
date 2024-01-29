@@ -1,0 +1,311 @@
+2024-01-17 12:08:46.018|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-17 12:08:46.018|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\SAvLd\UI-Settings.data.xlsx
+2024-01-17 12:08:46.018|I|main|(DELAYED) input files and output directory resolved...
+2024-01-17 12:08:46.018|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-17 12:08:46.018|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-17 12:08:46.018|I|main|[20240117_120845] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240117_120845
+2024-01-17 12:08:46.130|I|main|No predefined nexial-setup found
+2024-01-17 12:08:46.481|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-17 12:08:46.481|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-17 12:08:46.481|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-17 12:08:46.665|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-17 12:08:47.247|I|main|On-Demand Inspection detection enabled
+2024-01-17 12:08:47.527|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 12:08:51.624|I|main|[20240117_120845] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 12:08:51.625|I|main|[20240117_120845] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\captures
+2024-01-17 12:08:51.625|I|main|[20240117_120845] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs
+2024-01-17 12:08:52.978|I|main|[20240117_120845] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\UI-Settings.20240117_120851.001.xlsx
+2024-01-17 12:08:52.978|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 12:08:53.522|I|main|[20240117_120845] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\UI-Settings.20240117_120851.001.xlsx
+2024-01-17 12:08:54.252|I|main|STARTS
+2024-01-17 12:08:54.292|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata - executing activity
+2024-01-17 12:08:54.309|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${password})
+2024-01-17 12:08:54.705|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-17 12:08:54.705|I|main|[chrome] initializing chrome
+2024-01-17 12:08:54.790|I|main|[chrome] enabling chrome remote port: 47867
+2024-01-17 12:08:56.401|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-17 12:08:56.469|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-17 12:08:56.483|I|main|	1920x1080x32bpp@60Hz
+2024-01-17 12:08:56.484|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-17 12:08:56.494|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-17 12:08:56.499|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-17 12:08:56.623|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-17 12:08:56.632|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-17 12:08:56.632|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-17 12:09:00.349|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-17 12:09:00.349|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-17 12:09:00.498|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-17 12:09:00.498|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-17 12:09:02.356|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-17 12:09:02.359|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-17 12:09:02.480|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-17 12:09:02.515|I|main|click target via JS, @id=
+2024-01-17 12:09:02.550|I|main|clicked -> true
+2024-01-17 12:09:02.550|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-17 12:09:02.550|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-17 12:09:07.561|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-17 12:09:07.561|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-17 12:09:07.831|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-17 12:09:07.832|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-17 12:09:08.153|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-17 12:09:08.153|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-17 12:09:08.315|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-17 12:09:08.349|I|main|click target via JS, @id=
+2024-01-17 12:09:08.382|I|main|clicked -> true
+2024-01-17 12:09:08.397|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-17 12:09:08.397|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-17 12:09:08.415|E|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-17 12:09:08.415|E|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_120851.001.xlsx_Login_A5.A24.log
+2024-01-17 12:09:08.432|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-17 12:09:08.432|I|main|UI-Settings.20240117_120851.001|Login|Login to GNU khata - ending activity
+2024-01-17 12:10:00.820|I|main|[20240117_120845] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 12:10:00.820|I|main|[20240117_120845] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\captures
+2024-01-17 12:10:00.820|I|main|[20240117_120845] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs
+2024-01-17 12:10:01.485|I|main|[20240117_120845] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\UI-Settings.20240117_121000.001.xlsx
+2024-01-17 12:10:01.485|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 12:10:01.749|I|main|[20240117_120845] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\UI-Settings.20240117_121000.001.xlsx
+2024-01-17 12:10:02.286|I|main|STARTS
+2024-01-17 12:10:02.349|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-17 12:10:02.349|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-17 12:10:02.458|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-17 12:10:02.458|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-17 12:10:02.612|I|main|clicking '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-17 12:10:02.643|I|main|click target via JS, @id=
+2024-01-17 12:10:02.702|I|main|clicked -> true
+2024-01-17 12:10:02.703|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-17 12:10:02.703|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-17 12:10:03.162|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-17 12:10:03.197|I|main|click target via JS, @id=
+2024-01-17 12:10:03.266|I|main|clicked -> true
+2024-01-17 12:10:03.266|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-17 12:10:03.266|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-17 12:10:06.279|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-17 12:10:06.279|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-17 12:10:06.377|I|main|Target element not visible; clicking on such element might not work...
+2024-01-17 12:10:06.377|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-17 12:10:06.401|I|main|click target via JS, @id=
+2024-01-17 12:10:06.428|I|main|clicked -> true
+2024-01-17 12:10:06.430|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-17 12:10:06.430|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-17 12:10:06.608|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-17 12:10:06.609|I|main|UI-Settings.20240117_121000.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-17 12:15:19.372|I|main|[20240117_120845] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 12:15:19.372|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab - executing activity
+2024-01-17 12:15:19.372|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 11|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.General}, 2000)
+2024-01-17 12:15:19.519|I|main|clicking '//ul[@role="tablist"]/li/a[text()='General']'...
+2024-01-17 12:15:19.543|I|main|click target via JS, @id=__BVID__985___BV_tab_button__
+2024-01-17 12:15:19.580|I|main|clicked -> true
+2024-01-17 12:15:19.580|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 11|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='General']'
+2024-01-17 12:15:19.580|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 12|web.select(locator,text)  - executing select(locator,text)(${org.General.DateFormatField}, dd-mm-yyyy)
+2024-01-17 12:15:19.864|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 12|web.select(locator,text)  - PASS selected text 'dd-mm-yyyy' from '//select[@id="gs-t1-select-10"]'
+2024-01-17 12:15:19.864|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 13|web.select(locator,text)  - executing select(locator,text)(${org.General.AppLanguageField}, English)
+2024-01-17 12:15:20.151|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 13|web.select(locator,text)  - PASS selected text 'English' from '//select[@id="gs-t1-select-20"]'
+2024-01-17 12:15:20.151|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 14|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.General.Save}, 2000)
+2024-01-17 12:15:20.296|I|main|clicking '(//button[@class="btn btn-success btn-sm"])[1]'...
+2024-01-17 12:15:20.328|I|main|click target via JS, @id=
+2024-01-17 12:15:20.368|I|main|clicked -> true
+2024-01-17 12:15:20.368|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 14|web.clickAndWait(locator, - PASS clicked-and-waited '(//button[@class="btn btn-success btn-sm"])[1]'
+2024-01-17 12:15:20.368|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 15|web.saveText(var,locator) - executing saveText(var,locator)(Message, ${org.General.Message})
+2024-01-17 12:15:21.110|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 15|web.saveText(var,locator) - PASS stored content of '//div[@class='toast-body']' as ${Message}
+2024-01-17 12:15:21.110|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 16|base.assertEqual(expected - executing assertEqual(expected,actual)(${org.Success.Message}, ${Message})
+2024-01-17 12:15:21.110|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab|# 16|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'Global Config Saved Successfully.' = 'Global Config Saved Successfully.'
+2024-01-17 12:15:21.126|I|main|UI-Settings.20240117_121000.001|Settings|Verify General tab - ending activity
+2024-01-17 12:15:39.770|I|main|[20240117_120845] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 12:15:39.770|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab - executing activity
+2024-01-17 12:15:39.770|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 17|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Transaction}, 2000)
+2024-01-17 12:15:39.941|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Transaction']'...
+2024-01-17 12:15:39.966|I|main|click target via JS, @id=__BVID__994___BV_tab_button__
+2024-01-17 12:15:39.998|I|main|clicked -> true
+2024-01-17 12:15:40.000|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 17|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Transaction']'
+2024-01-17 12:15:40.000|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 18|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.PaymentMode}, credit)
+2024-01-17 12:15:40.272|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 18|web.select(locator,text)  - PASS selected text 'credit' from '//select[@id="gs-t2-select-10"]'
+2024-01-17 12:15:40.272|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 19|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.TaxMode}, VAT)
+2024-01-17 12:15:40.540|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 19|web.select(locator,text)  - PASS selected text 'VAT' from '//select[@id="gs-t2-select-20"]'
+2024-01-17 12:15:40.540|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 20|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.DefaultGoDown}, Primary Godown)
+2024-01-17 12:15:40.709|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 20|web.select(locator,text)  - PASS selected text 'Primary Godown' from '//select[@id="gs-t2-select-30"]'
+2024-01-17 12:15:40.709|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 21|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Transaction.TrackTransaction}, 2000)
+2024-01-17 12:15:40.808|I|main|clicking '//input[@type="checkbox"]'...
+2024-01-17 12:15:40.841|I|main|click target via JS, @id=__BVID__1007
+2024-01-17 12:15:40.870|I|main|clicked -> true
+2024-01-17 12:15:40.877|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 21|web.clickAndWait(locator, - PASS clicked-and-waited '//input[@type="checkbox"]'
+2024-01-17 12:15:40.877|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 22|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.General.Save}, 2000)
+2024-01-17 12:15:40.976|I|main|Target element not visible; clicking on such element might not work...
+2024-01-17 12:15:40.976|I|main|clicking '(//button[@class="btn btn-success btn-sm"])[1]'...
+2024-01-17 12:15:41.009|I|main|click target via JS, @id=
+2024-01-17 12:15:41.042|I|main|clicked -> true
+2024-01-17 12:15:41.042|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 22|web.clickAndWait(locator, - PASS clicked-and-waited '(//button[@class="btn btn-success btn-sm"])[1]'
+2024-01-17 12:15:41.042|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 23|web.saveText(var,locator) - executing saveText(var,locator)(Message, ${org.General.Message})
+2024-01-17 12:15:41.376|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 23|web.saveText(var,locator) - PASS stored content of '//div[@class='toast-body']' as ${Message}
+2024-01-17 12:15:41.376|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 24|base.assertEqual(expected - executing assertEqual(expected,actual)(${org.Success.Message}, ${Message})
+2024-01-17 12:15:41.376|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab|# 24|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'Global Config Saved Successfully.' = 'Global Config Saved Successfully.'
+2024-01-17 12:15:41.376|I|main|UI-Settings.20240117_121000.001|Settings|Verify Transaction tab - ending activity
+2024-01-17 12:15:47.948|I|main|[20240117_120845] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 12:15:47.948|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page - executing activity
+2024-01-17 12:15:47.948|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 25|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-17 12:15:48.039|I|main|Target element not visible; clicking on such element might not work...
+2024-01-17 12:15:48.039|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-17 12:15:48.075|I|main|click target via JS, @id=
+2024-01-17 12:15:48.098|I|main|clicked -> true
+2024-01-17 12:15:48.115|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 25|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-17 12:15:48.115|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 26|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.ManageUser}, 2000)
+2024-01-17 12:15:48.264|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Manage Users']'...
+2024-01-17 12:15:48.291|I|main|click target via JS, @id=__BVID__1011___BV_tab_button__
+2024-01-17 12:15:48.356|I|main|clicked -> true
+2024-01-17 12:15:48.357|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 26|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Manage Users']'
+2024-01-17 12:15:48.362|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 27|web.assertElementPresent( - executing assertElementPresent(locator)(${ManageUser.Users.Label})
+2024-01-17 12:15:48.446|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 27|web.assertElementPresent( - PASS EXPECTED element '//h5[text()='Users']' found
+2024-01-17 12:15:48.446|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 28|web.assertElementPresent( - executing assertElementPresent(locator)(${ManageUser.Invitations.Label})
+2024-01-17 12:15:48.524|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 28|web.assertElementPresent( - PASS EXPECTED element '//h5[text()='Invitations']' found
+2024-01-17 12:15:48.524|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 29|web.assertElementPresent( - executing assertElementPresent(locator)(${Users.Table})
+2024-01-17 12:15:48.669|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 29|web.assertElementPresent( - PASS EXPECTED element '//table[@role="table"]/parent::div/h5[text()='Users']' found
+2024-01-17 12:15:48.669|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 30|web.assertElementPresent( - executing assertElementPresent(locator)(${Invitations.Table})
+2024-01-17 12:15:48.752|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page|# 30|web.assertElementPresent( - PASS EXPECTED element '//table[@role="table"]/parent::div/h5[text()='Invitations']' found
+2024-01-17 12:15:48.752|I|main|UI-Settings.20240117_121000.001|Settings|Verify Manager Users Page - ending activity
+2024-01-17 12:18:37.493|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 12:18:40.153|I|main|[20240117_120845] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 12:18:40.153|I|main|[20240117_120845] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\captures
+2024-01-17 12:18:40.153|I|main|[20240117_120845] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs
+2024-01-17 12:18:40.808|I|main|[20240117_120845] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\UI-Settings.20240117_121840.001.xlsx
+2024-01-17 12:18:40.808|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 12:18:41.033|I|main|[20240117_120845] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\UI-Settings.20240117_121840.001.xlsx
+2024-01-17 12:18:41.484|I|main|STARTS
+2024-01-17 12:18:41.519|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page - executing activity
+2024-01-17 12:18:41.519|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 25|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-17 12:18:41.639|I|main|Target element not visible; clicking on such element might not work...
+2024-01-17 12:18:41.639|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-17 12:18:41.674|I|main|click target via JS, @id=
+2024-01-17 12:18:41.798|I|main|clicked -> true
+2024-01-17 12:18:41.803|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 25|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-17 12:18:41.803|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 26|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.ManageUser}, 2000)
+2024-01-17 12:18:41.959|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Manage Users']'...
+2024-01-17 12:18:41.995|I|main|click target via JS, @id=__BVID__1181___BV_tab_button__
+2024-01-17 12:18:42.068|I|main|clicked -> true
+2024-01-17 12:18:42.068|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 26|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Manage Users']'
+2024-01-17 12:18:42.068|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 27|web.assertElementPresent( - executing assertElementPresent(locator)(${ManageUser.InviteButton})
+2024-01-17 12:18:42.186|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 27|web.assertElementPresent( - PASS EXPECTED element '//button[span='Invite User']' found
+2024-01-17 12:18:42.186|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 28|web.assertElementPresent( - executing assertElementPresent(locator)(${ManageUser.Users.Label})
+2024-01-17 12:18:42.334|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 28|web.assertElementPresent( - PASS EXPECTED element '//h5[text()='Users']' found
+2024-01-17 12:18:42.334|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 29|web.assertElementPresent( - executing assertElementPresent(locator)(${ManageUser.Invitations.Label})
+2024-01-17 12:18:42.444|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 29|web.assertElementPresent( - PASS EXPECTED element '//h5[text()='Invitations']' found
+2024-01-17 12:18:42.444|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 30|web.assertElementPresent( - executing assertElementPresent(locator)(${Users.Table})
+2024-01-17 12:18:42.558|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 30|web.assertElementPresent( - PASS EXPECTED element '//table[@role="table"]/parent::div/h5[text()='Users']' found
+2024-01-17 12:18:42.573|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 31|web.assertElementPresent( - executing assertElementPresent(locator)(${Invitations.Table})
+2024-01-17 12:18:42.846|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page|# 31|web.assertElementPresent( - PASS EXPECTED element '//table[@role="table"]/parent::div/h5[text()='Invitations']' found
+2024-01-17 12:18:42.846|I|main|UI-Settings.20240117_121840.001|Settings|Verify Manager Users Page - ending activity
+2024-01-17 12:26:54.995|I|main|[20240117_120845] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 12:26:54.995|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab - executing activity
+2024-01-17 12:26:54.995|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 32|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-17 12:26:55.018|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 32|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//ul[@role="tablist"]/li/a[text()='Organisation']', '2000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:55.019|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 32|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A32.log
+2024-01-17 12:26:55.019|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 33|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-17 12:26:55.019|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 33|web.upload(fieldLocator,f - FAIL EXECUTING COMMAND: web.upload(fieldLocator,file)('//input[@accept="image/jpeg, image/png"]', 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:55.019|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 33|web.upload(fieldLocator,f - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A33.log
+2024-01-17 12:26:55.019|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-17 12:26:55.035|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='Website']/parent::div/div/input[@type="text"]', 'Org@www.com')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:55.035|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A34.log
+2024-01-17 12:26:55.035|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 35|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-17 12:26:56.546|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 35|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-17 12:26:56.546|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - executing type(locator,value)(${Organization.Email}, Org@gmail.com)
+2024-01-17 12:26:56.555|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='Email']/parent::div/div/input[@type="email"]', 'Org@gmail.com')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.556|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A36.log
+2024-01-17 12:26:56.556|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - executing type(locator,value)(${Organization.Address}, Supplier Floor, Building IT-09 Qubix Business Park - SEZ, Blue Ridge Town Pune, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra 411057)
+2024-01-17 12:26:56.566|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='Address']/parent::div/div/input[@type="text"]', 'Supplier Floor, Building IT-09 Qubix Business Park - SEZ, Blue Ridge Town Pune, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra 411057')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.566|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A37.log
+2024-01-17 12:26:56.567|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - executing type(locator,value)(${Organization.City}, Mumbai)
+2024-01-17 12:26:56.573|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='City']/parent::div/div/input[@type="text"]', 'Mumbai')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.573|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A38.log
+2024-01-17 12:26:56.573|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - executing select(locator,text)(${Organization.State}, Maharashtra)
+2024-01-17 12:26:56.573|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - FAIL EXECUTING COMMAND: web.select(locator,text)('//Select[@class="custom-select custom-select-sm"]', 'Maharashtra')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.589|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A39.log
+2024-01-17 12:26:56.589|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - executing type(locator,value)(${Organization.Country}, India)
+2024-01-17 12:26:56.605|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='Country']/parent::div/div/input[@type="text"]', 'India')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.605|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A40.log
+2024-01-17 12:26:56.605|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - executing type(locator,value)(${Organization.Pincode}, 400070)
+2024-01-17 12:26:56.605|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='Pincode']/parent::div/div/input[@type="text"]', '400070')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.605|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A41.log
+2024-01-17 12:26:56.605|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - executing type(locator,value)(${Organization.Phone}, 1234567890)
+2024-01-17 12:26:56.627|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='Phone']/parent::div/descendant::input[@type="text"]', '1234567890')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.627|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A42.log
+2024-01-17 12:26:56.627|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - executing type(locator,value)(${Organization.Fax}, 1234567890)
+2024-01-17 12:26:56.627|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='Fax']/parent::div/div/input[@type="text"]', '1234567890')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.627|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A43.log
+2024-01-17 12:26:56.627|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - executing type(locator,value)(${Organization.IFSC}, HDFC0000041)
+2024-01-17 12:26:56.643|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='IFSC Code']/parent::div/descendant::input[@type="text"]', 'HDFC0000041')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.643|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A44.log
+2024-01-17 12:26:56.643|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Validate.button}, 1000)
+2024-01-17 12:26:56.643|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//button[@title="validate"]', '1000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.643|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A45.log
+2024-01-17 12:26:56.643|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Autofill.button}, 1000)
+2024-01-17 12:26:56.660|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//button[span='Auto fill']', '1000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.660|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A46.log
+2024-01-17 12:26:56.660|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - executing type(locator,value)(${Organization.AccountNumber}, HDFC98765432024)
+2024-01-17 12:26:56.675|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='Account Number']/parent::div/descendant::input[@type="text"]', 'HDFC98765432024')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.676|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A47.log
+2024-01-17 12:26:56.676|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - executing type(locator,value)(${Organization.GSTIN}, 07AAACC0460H1Z4)
+2024-01-17 12:26:56.687|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='GSTIN']/parent::div/descendant::input[@type="text"]', '07AAACC0460H1Z4')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.687|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A48.log
+2024-01-17 12:26:56.687|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - executing assertValue(locator,value)(${Organization.PAN}, AAACC0460H)
+2024-01-17 12:26:56.699|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - FAIL EXECUTING COMMAND: web.assertValue(locator,value)('//div/legend[text()='PAN']/parent::div/descendant::input[@type="text"]', 'AAACC0460H')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.699|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A49.log
+2024-01-17 12:26:56.699|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - executing type(locator,value)(${Organization.ServiceTax}, 07AAACC0460H1Z4)
+2024-01-17 12:26:56.709|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='ServiceTax Number']/parent::div/descendant::input[@type="text"]', '07AAACC0460H1Z4')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.709|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A50.log
+2024-01-17 12:26:56.709|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessButton}, 1000)
+2024-01-17 12:26:56.709|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//div/legend[text()='CESS']/parent::div/descendant::button', '1000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.709|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A51.log
+2024-01-17 12:26:56.709|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - executing type(locator,value)(${Organization.CessNumber}, 10)
+2024-01-17 12:26:56.725|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]', '10')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.725|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A52.log
+2024-01-17 12:26:56.725|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessAdd}, 1000)
+2024-01-17 12:26:56.742|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']', '1000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.743|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A53.log
+2024-01-17 12:26:56.743|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-17 12:26:56.743|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//button[@type="submit"]', '1000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.743|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A54.log
+2024-01-17 12:26:56.743|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - executing assertElementPresent(locator)(${Confirmation.msg})
+2024-01-17 12:26:56.759|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//div[text()='Confirm update company ? ']')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.759|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A55.log
+2024-01-17 12:26:56.759|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Confirmation.OK}, 3000)
+2024-01-17 12:26:56.779|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//button[@class="btn btn-danger"]', '3000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.779|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A56.log
+2024-01-17 12:26:56.779|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 57|base.save(var,value)      - executing save(var,value)(SuccessMessage, ${Org.Name} Profile Details Updated)
+2024-01-17 12:26:56.779|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 57|base.save(var,value)      - PASS stored 'IndianInstitute Profile Details Updated' as ${SuccessMessage}
+2024-01-17 12:26:56.779|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - executing assertText(locator,text)(${Popup.Message}, ${SuccessMessage})
+2024-01-17 12:26:56.779|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - FAIL EXECUTING COMMAND: web.assertText(locator,text)('//div[@class='toast-body']', 'IndianInstitute Profile Details Updated')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-17 12:26:56.779|E|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_120845\logs\UI-Settings.20240117_121840.001.xlsx_Settings_A58.log
+2024-01-17 12:26:56.779|I|main|UI-Settings.20240117_121840.001|Settings|Verify Organization tab - ending activity
+2024-01-17 12:26:58.143|E|main|Unknown/unexpected error occurred: No line found
+2024-01-17 12:26:58.146|I|Thread-0|shutdown starts...
+2024-01-17 12:26:58.147|I|main|exiting Nexial...
+2024-01-17 12:26:58.147|I|Thread-0|[chrome] Shutting down webdriver...
+2024-01-17 12:26:58.158|I|Thread-0|[chrome] Close the current window...
+2024-01-17 12:26:58.163|I|Thread-0|[chrome] Quit this driver, closing every associated window.
+2024-01-17 12:26:59.337|I|Thread-0|shutdown ends...

@@ -1,0 +1,5 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-17 14:49:09.595
+Test Step:         [UI-Settings.20240117_144908.001.xlsx][Settings][Delete the Files][STEP 117][io][deleteFilesByRegex(sourceDir,regex)]
+--------------------------------------------------------------------------------
+MISMATCHED parameters - io.deleteFilesByRegex EXPECTS 2 but found 1

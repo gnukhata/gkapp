@@ -1,0 +1,7 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-16 17:46:58.162
+Test Step:         [UI-Settings.20240116_174650.001.xlsx][Settings][Verify Organization tab][STEP  49][base][assertEqual(expected,actual)]
+--------------------------------------------------------------------------------
+
+expected=AAACC0460H
+actual  =<empty>

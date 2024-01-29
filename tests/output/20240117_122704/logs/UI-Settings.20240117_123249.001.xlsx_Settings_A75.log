@@ -1,0 +1,5 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-17 12:35:19.089
+Test Step:         [UI-Settings.20240117_123249.001.xlsx][Settings][Verify Export Functionality][STEP  75][desktop][typeKeys(os,keystrokes)]
+--------------------------------------------------------------------------------
+MISMATCHED parameters - desktop.typeKeys EXPECTS 2 but found 1

@@ -1,0 +1,36 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-17 15:17:15.709
+Test Step:         [UI-Settings.20240117_151640.001.xlsx][Settings][Verify Organization tab][STEP  40][web][select(locator,text)]
+--------------------------------------------------------------------------------
+org.openqa.selenium.NoSuchSessionException: Session ID is null. Using WebDriver after calling quit()?
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5334', ip: '192.168.0.5', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:125)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
+	at org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions$RemoteTimeouts.pageLoadTimeout(RemoteWebDriver.java:792)
+	at org.nexial.core.plugins.web.Browser.ensureWebDriverReady(Browser.java:320)
+	at org.nexial.core.plugins.web.WebCommand.initWebDriver(WebCommand.java:3130)
+	at org.nexial.core.plugins.web.WebCommand.ensureReady(WebCommand.java:3169)
+	at org.nexial.core.plugins.web.LocatorHelper.findElement$nexial_core(LocatorHelper.kt:204)
+	at org.nexial.core.plugins.web.LocatorHelper.findElement(LocatorHelper.kt:201)
+	at org.nexial.core.plugins.web.WebCommand.findElement(WebCommand.java:3245)
+	at org.nexial.core.plugins.web.WebCommand.getSelectElement(WebCommand.java:3183)
+	at org.nexial.core.plugins.web.WebCommand.select(WebCommand.java:291)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.nexial.core.plugins.base.BaseCommand.execute(BaseCommand.java:151)
+	at org.nexial.core.plugins.web.WebCommand.execute(WebCommand.java:180)
+	at org.nexial.core.model.TestStep.invokeCommand(TestStep.java:449)
+	at org.nexial.core.model.TestStep.execute(TestStep.java:247)
+	at org.nexial.core.model.TestCase.execute(TestCase.java:100)
+	at org.nexial.core.interactive.NexialInteractive.executeActivities(NexialInteractive.kt:491)
+	at org.nexial.core.interactive.NexialInteractive.execute(NexialInteractive.kt:459)
+	at org.nexial.core.interactive.NexialInteractive.processMenu(NexialInteractive.kt:232)
+	at org.nexial.core.interactive.NexialInteractive.startSession(NexialInteractive.kt:138)
+	at org.nexial.core.Nexial.interact(Nexial.java:751)
+	at org.nexial.core.Nexial.main(Nexial.java:241)
+

@@ -1,0 +1,40 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-16 15:52:39.673
+Test Step:         [UI-Settings.20240116_155238.001.xlsx][Settings][Verify Organization tab][STEP  32][web][type(locator,value)]
+--------------------------------------------------------------------------------
+org.openqa.selenium.ElementNotInteractableException: element not interactable
+  (Session info: chrome=120.0.6099.217)
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5334', ip: '192.168.0.2', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, acceptSslCerts: true, browserName: chrome, browserVersion: 120.0.6099.217, chrome: {chromedriverVersion: 119.0.6045.105 (38c72552c5e..., userDataDir: C:\Users\al4107\AppData\Loc...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:22650}, handlesAlerts: true, honorSystemProxy: false, javascriptEnabled: true, locationContextEnabled: false, nativeEvents: true, networkConnectionEnabled: false, pageLoadStrategy: eager, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unexpectedAlertBehaviour: accept, unhandledPromptBehavior: accept, webStorageEnabled: true, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 45812a822280891dcb1b3bbed6952a9f
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:187)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:122)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:49)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:285)
+	at org.openqa.selenium.remote.RemoteWebElement.sendKeys(RemoteWebElement.java:106)
+	at org.nexial.core.plugins.web.WebCommand.type(WebCommand.java:1927)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.nexial.core.plugins.base.BaseCommand.execute(BaseCommand.java:151)
+	at org.nexial.core.plugins.web.WebCommand.execute(WebCommand.java:180)
+	at org.nexial.core.model.TestStep.invokeCommand(TestStep.java:449)
+	at org.nexial.core.model.TestStep.execute(TestStep.java:247)
+	at org.nexial.core.interactive.NexialInteractive.executeSteps(NexialInteractive.kt:529)
+	at org.nexial.core.interactive.NexialInteractive.execute(NexialInteractive.kt:461)
+	at org.nexial.core.interactive.NexialInteractive.processMenu(NexialInteractive.kt:213)
+	at org.nexial.core.interactive.NexialInteractive.startSession(NexialInteractive.kt:138)
+	at org.nexial.core.Nexial.interact(Nexial.java:751)
+	at org.nexial.core.Nexial.main(Nexial.java:241)
+

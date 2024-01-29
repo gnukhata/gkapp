@@ -1,0 +1,23 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-19 16:47:53.107
+Test Step:         [UI-Settings.20240119_164749.001.xlsx][Negative-Organisation][Verify Organization with blank values for mandatory Fields][STEP   9][web][typeKeys(locator,value)]
+--------------------------------------------------------------------------------
+java.lang.RuntimeException: Unsupported/unknown key {EMPTY}
+	at org.nexial.core.utils.WebDriverUtils.toSendKeyAction(WebDriverUtils.java:88)
+	at org.nexial.core.plugins.web.WebCommand.typeKeys(WebCommand.java:1947)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.nexial.core.plugins.base.BaseCommand.execute(BaseCommand.java:151)
+	at org.nexial.core.plugins.web.WebCommand.execute(WebCommand.java:180)
+	at org.nexial.core.model.TestStep.invokeCommand(TestStep.java:449)
+	at org.nexial.core.model.TestStep.execute(TestStep.java:247)
+	at org.nexial.core.model.TestCase.execute(TestCase.java:100)
+	at org.nexial.core.interactive.NexialInteractive.executeActivities(NexialInteractive.kt:491)
+	at org.nexial.core.interactive.NexialInteractive.execute(NexialInteractive.kt:459)
+	at org.nexial.core.interactive.NexialInteractive.processMenu(NexialInteractive.kt:199)
+	at org.nexial.core.interactive.NexialInteractive.startSession(NexialInteractive.kt:138)
+	at org.nexial.core.Nexial.interact(Nexial.java:751)
+	at org.nexial.core.Nexial.main(Nexial.java:241)
+

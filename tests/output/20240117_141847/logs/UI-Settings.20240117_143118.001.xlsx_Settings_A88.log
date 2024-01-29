@@ -1,0 +1,5 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-17 14:31:19.907
+Test Step:         [UI-Settings.20240117_143118.001.xlsx][Settings][Verify Import Functionality][STEP  88][web][clickAndWait(locator,waitMs)]
+--------------------------------------------------------------------------------
+invalid locator: 

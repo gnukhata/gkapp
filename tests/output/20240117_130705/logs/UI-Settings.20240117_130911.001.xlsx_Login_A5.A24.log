@@ -1,0 +1,7 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-17 13:09:19.801
+Test Step:         [GNUKhata.macro.xlsx][MacroLibrary][Login to GNU khata][STEP  24][web][assertTitle(text)]
+--------------------------------------------------------------------------------
+
+expected=<empty>
+actual  =User Login — GNUKhata

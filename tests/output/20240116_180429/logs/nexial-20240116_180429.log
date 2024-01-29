@@ -1,0 +1,98 @@
+2024-01-16 18:04:30.336|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-16 18:04:30.336|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\OAaex\UI-Settings.data.xlsx
+2024-01-16 18:04:30.336|I|main|(DELAYED) input files and output directory resolved...
+2024-01-16 18:04:30.336|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-16 18:04:30.336|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-16 18:04:30.336|I|main|[20240116_180429] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240116_180429
+2024-01-16 18:04:30.471|I|main|No predefined nexial-setup found
+2024-01-16 18:04:30.788|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-16 18:04:30.788|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-16 18:04:30.788|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-16 18:04:30.962|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-16 18:04:31.372|I|main|On-Demand Inspection detection enabled
+2024-01-16 18:04:31.517|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:04:35.732|I|main|[20240116_180429] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 18:04:35.732|I|main|[20240116_180429] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_180429\captures
+2024-01-16 18:04:35.732|I|main|[20240116_180429] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_180429\logs
+2024-01-16 18:04:36.432|I|main|[20240116_180429] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_180429\UI-Settings.20240116_180435.001.xlsx
+2024-01-16 18:04:36.432|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:04:36.817|I|main|[20240116_180429] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_180429\UI-Settings.20240116_180435.001.xlsx
+2024-01-16 18:04:37.142|I|main|STARTS
+2024-01-16 18:04:37.176|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata - executing activity
+2024-01-16 18:04:37.181|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${password})
+2024-01-16 18:04:37.419|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-16 18:04:37.419|I|main|[chrome] initializing chrome
+2024-01-16 18:04:37.482|I|main|[chrome] enabling chrome remote port: 37265
+2024-01-16 18:04:38.604|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-16 18:04:38.635|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-16 18:04:38.653|I|main|	1920x1080x32bpp@60Hz
+2024-01-16 18:04:38.654|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-16 18:04:38.654|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-16 18:04:38.654|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-16 18:04:38.768|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-16 18:04:38.768|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-16 18:04:38.768|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-16 18:04:41.842|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-16 18:04:41.843|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-16 18:04:41.965|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-16 18:04:41.966|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-16 18:04:43.776|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-16 18:04:43.776|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-16 18:04:43.833|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-16 18:04:43.845|I|main|click target via JS, @id=
+2024-01-16 18:04:43.860|I|main|clicked -> true
+2024-01-16 18:04:43.860|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-16 18:04:43.860|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-16 18:04:48.864|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-16 18:04:48.866|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-16 18:04:49.007|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-16 18:04:49.007|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-16 18:04:49.161|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-16 18:04:49.161|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-16 18:04:49.231|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-16 18:04:49.232|I|main|click target via JS, @id=
+2024-01-16 18:04:49.248|I|main|clicked -> true
+2024-01-16 18:04:49.248|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-16 18:04:49.248|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-16 18:04:49.266|E|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-16 18:04:49.266|E|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_180429\logs\UI-Settings.20240116_180435.001.xlsx_Login_A5.A24.log
+2024-01-16 18:04:49.266|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-16 18:04:49.266|I|main|UI-Settings.20240116_180435.001|Login|Login to GNU khata - ending activity
+2024-01-16 18:05:32.339|I|main|[20240116_180429] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 18:05:32.339|I|main|[20240116_180429] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_180429\captures
+2024-01-16 18:05:32.339|I|main|[20240116_180429] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_180429\logs
+2024-01-16 18:05:32.660|I|main|[20240116_180429] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_180429\UI-Settings.20240116_180532.001.xlsx
+2024-01-16 18:05:32.676|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:05:32.810|I|main|[20240116_180429] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_180429\UI-Settings.20240116_180532.001.xlsx
+2024-01-16 18:05:33.056|I|main|STARTS
+2024-01-16 18:05:33.077|I|main|skipping test step in ROW 33 since it's disabled
+2024-01-16 18:05:33.077|I|main|skipping test step in ROW 34 since it's disabled
+2024-01-16 18:05:33.077|I|main|skipping test step in ROW 35 since it's disabled
+2024-01-16 18:05:33.077|I|main|skipping test step in ROW 36 since it's disabled
+2024-01-16 18:05:33.095|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-16 18:05:33.095|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-16 18:05:33.140|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-16 18:05:33.140|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-16 18:05:33.235|I|main|clicking '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-16 18:05:33.244|I|main|click target via JS, @id=
+2024-01-16 18:05:33.268|I|main|clicked -> true
+2024-01-16 18:05:33.272|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-16 18:05:33.272|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-16 18:05:33.757|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-16 18:05:33.778|I|main|click target via JS, @id=
+2024-01-16 18:05:33.836|I|main|clicked -> true
+2024-01-16 18:05:33.836|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-16 18:05:33.836|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-16 18:05:36.843|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-16 18:05:36.845|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-16 18:05:36.893|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 18:05:36.893|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-16 18:05:36.903|I|main|click target via JS, @id=
+2024-01-16 18:05:36.953|I|main|clicked -> true
+2024-01-16 18:05:36.955|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-16 18:05:36.958|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-16 18:05:37.001|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-16 18:05:37.001|I|main|UI-Settings.20240116_180532.001|Settings|Navigate and Verify Settings Page - ending activity

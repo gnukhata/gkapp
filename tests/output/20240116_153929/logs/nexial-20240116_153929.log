@@ -1,0 +1,212 @@
+2024-01-16 15:39:30.375|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-16 15:39:30.379|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\WOXMc\UI-Settings.data.xlsx
+2024-01-16 15:39:30.379|I|main|(DELAYED) input files and output directory resolved...
+2024-01-16 15:39:30.379|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-16 15:39:30.379|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-16 15:39:30.379|I|main|[20240116_153929] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240116_153929
+2024-01-16 15:39:30.581|I|main|No predefined nexial-setup found
+2024-01-16 15:39:31.350|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-16 15:39:31.351|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-16 15:39:31.351|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-16 15:39:31.765|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-16 15:39:32.816|I|main|On-Demand Inspection detection enabled
+2024-01-16 15:39:33.076|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 15:40:40.849|I|main|[20240116_153929] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 15:40:40.849|I|main|[20240116_153929] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\captures
+2024-01-16 15:40:40.850|I|main|[20240116_153929] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs
+2024-01-16 15:40:41.767|I|main|[20240116_153929] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\UI-Settings.20240116_154040.001.xlsx
+2024-01-16 15:40:41.767|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 15:40:42.214|I|main|[20240116_153929] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\UI-Settings.20240116_154040.001.xlsx
+2024-01-16 15:40:42.588|I|main|STARTS
+2024-01-16 15:40:42.625|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata - executing activity
+2024-01-16 15:40:42.633|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${password})
+2024-01-16 15:40:42.864|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-16 15:40:42.880|I|main|[chrome] initializing chrome
+2024-01-16 15:40:42.996|I|main|[chrome] enabling chrome remote port: 22650
+2024-01-16 15:40:44.708|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-16 15:40:44.804|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-16 15:40:44.815|I|main|	1920x1080x32bpp@60Hz
+2024-01-16 15:40:44.816|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-16 15:40:44.822|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-16 15:40:44.822|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-16 15:40:44.939|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-16 15:40:44.947|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-16 15:40:44.948|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-16 15:40:48.253|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-16 15:40:48.254|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-16 15:40:48.391|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-16 15:40:48.391|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-16 15:40:50.193|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-16 15:40:50.194|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-16 15:40:50.271|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-16 15:40:50.287|I|main|click target via JS, @id=
+2024-01-16 15:40:50.309|I|main|clicked -> true
+2024-01-16 15:40:50.309|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-16 15:40:50.310|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-16 15:40:55.314|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-16 15:40:55.314|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-16 15:40:55.451|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-16 15:40:55.452|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-16 15:40:55.627|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-16 15:40:55.629|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-16 15:40:55.714|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-16 15:40:55.722|I|main|click target via JS, @id=
+2024-01-16 15:40:55.752|I|main|clicked -> true
+2024-01-16 15:40:55.752|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-16 15:40:55.754|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-16 15:40:55.783|E|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-16 15:40:55.784|E|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs\UI-Settings.20240116_154040.001.xlsx_Login_A5.A24.log
+2024-01-16 15:40:55.787|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-16 15:40:55.788|I|main|UI-Settings.20240116_154040.001|Login|Login to GNU khata - ending activity
+2024-01-16 15:51:22.071|I|main|[20240116_153929] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 15:51:22.071|I|main|[20240116_153929] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\captures
+2024-01-16 15:51:22.071|I|main|[20240116_153929] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs
+2024-01-16 15:51:22.512|I|main|[20240116_153929] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\UI-Settings.20240116_155122.001.xlsx
+2024-01-16 15:51:22.513|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 15:51:22.673|I|main|[20240116_153929] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\UI-Settings.20240116_155122.001.xlsx
+2024-01-16 15:51:22.998|I|main|STARTS
+2024-01-16 15:51:23.005|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 15:51:23.008|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 15:51:23.010|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 15:51:23.013|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 15:51:23.014|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 15:51:23.015|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 15:51:23.017|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 15:51:23.018|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 15:51:23.020|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 15:51:23.025|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 15:51:23.029|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 15:51:23.031|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 15:51:23.032|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 15:51:23.034|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 15:51:23.040|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 15:51:23.041|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 15:51:23.042|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 15:51:23.043|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 15:51:23.044|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 15:51:23.045|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 15:51:23.059|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-16 15:51:23.060|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-16 15:51:23.132|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-16 15:51:23.132|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-16 15:51:23.233|I|main|clicking '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-16 15:51:23.250|I|main|click target via JS, @id=
+2024-01-16 15:51:23.270|I|main|clicked -> true
+2024-01-16 15:51:23.276|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-16 15:51:23.277|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-16 15:51:24.024|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-16 15:51:24.040|I|main|click target via JS, @id=
+2024-01-16 15:51:24.076|I|main|clicked -> true
+2024-01-16 15:51:24.079|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-16 15:51:24.082|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-16 15:51:27.097|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-16 15:51:27.098|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-16 15:51:27.172|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 15:51:27.172|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-16 15:51:27.193|I|main|click target via JS, @id=
+2024-01-16 15:51:27.211|I|main|clicked -> true
+2024-01-16 15:51:27.217|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-16 15:51:27.217|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-16 15:51:27.602|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-16 15:51:27.602|I|main|UI-Settings.20240116_155122.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-16 15:51:31.233|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 15:51:45.346|I|main|[20240116_153929] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 15:51:45.347|I|main|[20240116_153929] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\captures
+2024-01-16 15:51:45.348|I|main|[20240116_153929] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs
+2024-01-16 15:51:45.633|I|main|[20240116_153929] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\UI-Settings.20240116_155145.001.xlsx
+2024-01-16 15:51:45.634|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 15:51:45.724|I|main|[20240116_153929] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\UI-Settings.20240116_155145.001.xlsx
+2024-01-16 15:51:45.942|I|main|STARTS
+2024-01-16 15:51:45.947|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 15:51:45.948|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 15:51:45.949|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 15:51:45.949|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 15:51:45.950|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 15:51:45.950|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 15:51:45.951|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 15:51:45.952|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 15:51:45.952|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 15:51:45.952|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 15:51:45.953|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 15:51:45.953|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 15:51:45.954|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 15:51:45.954|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 15:51:45.955|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 15:51:45.956|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 15:51:45.956|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 15:51:45.958|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 15:51:45.958|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 15:51:45.959|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 15:51:45.965|I|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 15:51:55.977|I|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//ul[@role="tablist"]/li/a[text()='Organization']'; nexial.pollWaitMs=10000
+2024-01-16 15:51:55.983|E|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//ul[@role="tablist"]/li/a[text()='Organization']', '2000')
+Specified element not found: Timed out while looking for web element(s) that match '//ul[@role="tablist"]/li/a[text()='Organization']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 15:51:55.983|E|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs\UI-Settings.20240116_155145.001.xlsx_Settings_A31.log
+2024-01-16 15:51:55.984|I|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 32|web.type(locator,value)   - executing type(locator,value)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-16 15:52:05.998|I|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 32|web.type(locator,value)   - Timed out while looking for web element(s) that match '//span[@class="d-block form-file-text"][contains(text(),'Choose a file / Drag & drop it here')]'; nexial.pollWaitMs=10000
+2024-01-16 15:52:06.000|E|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 32|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//span[@class="d-block form-file-text"][contains(text(),'Choose a file / Drag & drop it here')]', 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif')
+Specified element not found: Timed out while looking for web element(s) that match '//span[@class="d-block form-file-text"][contains(text(),'Choose a file / Drag & drop it here')]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 15:52:06.000|E|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 32|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs\UI-Settings.20240116_155145.001.xlsx_Settings_A32.log
+2024-01-16 15:52:06.000|I|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 33|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, Org[NUMBER(${num})=>randomDigits(3)])
+2024-01-16 15:52:16.039|I|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 33|web.type(locator,value)   - Timed out while looking for web element(s) that match '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'; nexial.pollWaitMs=10000
+2024-01-16 15:52:16.041|E|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 33|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]', 'Org662')
+Specified element not found: Timed out while looking for web element(s) that match '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 15:52:16.041|E|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 33|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs\UI-Settings.20240116_155145.001.xlsx_Settings_A33.log
+2024-01-16 15:52:16.041|I|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-16 15:52:26.061|I|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - Timed out while looking for web element(s) that match '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'; nexial.pollWaitMs=10000
+2024-01-16 15:52:26.062|E|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='Website']/parent::div/div/input[@type="text"]', 'Org@www.com')
+Specified element not found: Timed out while looking for web element(s) that match '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 15:52:26.062|E|main|UI-Settings.20240116_155145.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs\UI-Settings.20240116_155145.001.xlsx_Settings_A34.log
+2024-01-16 15:52:27.585|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 15:52:35.195|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 15:52:38.606|I|main|[20240116_153929] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 15:52:38.607|I|main|[20240116_153929] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\captures
+2024-01-16 15:52:38.607|I|main|[20240116_153929] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs
+2024-01-16 15:52:38.916|I|main|[20240116_153929] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\UI-Settings.20240116_155238.001.xlsx
+2024-01-16 15:52:38.916|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 15:52:39.020|I|main|[20240116_153929] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\UI-Settings.20240116_155238.001.xlsx
+2024-01-16 15:52:39.286|I|main|STARTS
+2024-01-16 15:52:39.291|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 15:52:39.292|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 15:52:39.292|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 15:52:39.293|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 15:52:39.293|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 15:52:39.294|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 15:52:39.295|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 15:52:39.295|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 15:52:39.296|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 15:52:39.296|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 15:52:39.296|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 15:52:39.297|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 15:52:39.297|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 15:52:39.298|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 15:52:39.298|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 15:52:39.298|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 15:52:39.299|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 15:52:39.299|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 15:52:39.299|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 15:52:39.300|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 15:52:39.303|I|main|UI-Settings.20240116_155238.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 15:52:39.389|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-16 15:52:39.408|I|main|click target via JS, @id=__BVID__1148___BV_tab_button__
+2024-01-16 15:52:39.516|I|main|clicked -> true
+2024-01-16 15:52:39.517|I|main|UI-Settings.20240116_155238.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-16 15:52:39.518|I|main|UI-Settings.20240116_155238.001|Settings|Verify Organization tab|# 32|web.type(locator,value)   - executing type(locator,value)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-16 15:52:39.674|E|main|UI-Settings.20240116_155238.001|Settings|Verify Organization tab|# 32|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//span[@class="d-block form-file-text"][contains(text(),'Choose a file / Drag & drop it here')]', 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif')
+Specified element disable or not ready: element not interactable   (Session info: chrome=120.0.6099.217)...
+2024-01-16 15:52:39.675|E|main|UI-Settings.20240116_155238.001|Settings|Verify Organization tab|# 32|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_153929\logs\UI-Settings.20240116_155238.001.xlsx_Settings_A32.log
+2024-01-16 15:52:39.675|I|main|UI-Settings.20240116_155238.001|Settings|Verify Organization tab|# 33|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, Org[NUMBER(${num})=>randomDigits(3)])
+2024-01-16 15:52:39.818|I|main|UI-Settings.20240116_155238.001|Settings|Verify Organization tab|# 33|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-16 15:52:39.818|I|main|UI-Settings.20240116_155238.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-16 15:52:40.224|I|main|UI-Settings.20240116_155238.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'
+2024-01-16 16:42:22.502|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 16:42:39.437|E|main|Unknown/unexpected error occurred: No line found
+2024-01-16 16:42:39.437|I|Thread-0|shutdown starts...
+2024-01-16 16:42:39.438|I|main|exiting Nexial...
+2024-01-16 16:42:39.438|I|Thread-0|[chrome] Shutting down webdriver...
+2024-01-16 16:42:39.443|I|Thread-0|[chrome] Close the current window...
+2024-01-16 16:42:39.546|I|Thread-0|[chrome] Quit this driver, closing every associated window.
+2024-01-16 16:42:40.614|I|Thread-0|shutdown ends...

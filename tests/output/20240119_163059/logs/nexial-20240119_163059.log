@@ -1,0 +1,989 @@
+2024-01-19 16:31:01.556|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-19 16:31:01.562|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\IzQWQ\UI-Settings.data.xlsx
+2024-01-19 16:31:01.562|I|main|(DELAYED) input files and output directory resolved...
+2024-01-19 16:31:01.562|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-19 16:31:01.562|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-19 16:31:01.562|I|main|[20240119_163059] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240119_163059
+2024-01-19 16:31:01.850|I|main|No predefined nexial-setup found
+2024-01-19 16:31:02.744|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-19 16:31:02.744|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-19 16:31:02.744|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-19 16:31:03.198|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-19 16:31:04.309|I|main|On-Demand Inspection detection enabled
+2024-01-19 16:31:04.624|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:33:20.073|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:33:20.073|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:33:20.073|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:33:21.606|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163320.001.xlsx
+2024-01-19 16:33:21.606|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:33:22.260|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163320.001.xlsx
+2024-01-19 16:33:22.995|I|main|STARTS
+2024-01-19 16:33:23.040|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata - executing activity
+2024-01-19 16:33:23.057|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${login.password})
+2024-01-19 16:33:23.425|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-19 16:33:23.425|I|main|[chrome] initializing chrome
+2024-01-19 16:33:23.525|I|main|[chrome] enabling chrome remote port: 27532
+2024-01-19 16:33:25.178|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-19 16:33:25.262|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-19 16:33:25.262|I|main|	1920x1080x32bpp@60Hz
+2024-01-19 16:33:25.262|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-19 16:33:25.279|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-19 16:33:25.279|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-19 16:33:25.411|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-19 16:33:25.419|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-19 16:33:25.419|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-19 16:33:28.497|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-19 16:33:28.497|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-19 16:33:28.712|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-19 16:33:28.714|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-19 16:33:29.028|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-19 16:33:29.028|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-19 16:33:29.159|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-19 16:33:29.185|I|main|click target via JS, @id=
+2024-01-19 16:33:29.221|I|main|clicked -> true
+2024-01-19 16:33:29.221|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-19 16:33:29.225|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-19 16:33:34.238|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-19 16:33:34.238|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-19 16:33:34.539|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-19 16:33:34.539|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-19 16:33:34.868|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-19 16:33:34.868|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-19 16:33:35.043|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-19 16:33:35.062|I|main|click target via JS, @id=
+2024-01-19 16:33:35.095|I|main|clicked -> true
+2024-01-19 16:33:35.095|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-19 16:33:35.110|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-19 16:33:35.128|E|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-19 16:33:35.128|E|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs\UI-Settings.20240119_163320.001.xlsx_Login_A5.A24.log
+2024-01-19 16:33:35.145|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-19 16:33:35.145|I|main|UI-Settings.20240119_163320.001|Login|Login to GNU khata - ending activity
+2024-01-19 16:35:29.694|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:35:31.391|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:35:31.391|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:35:31.397|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:35:32.055|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163531.001.xlsx
+2024-01-19 16:35:32.055|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:35:32.321|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163531.001.xlsx
+2024-01-19 16:35:32.866|I|main|STARTS
+2024-01-19 16:35:32.918|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-19 16:35:32.918|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-19 16:35:33.002|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-19 16:35:33.018|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-19 16:35:33.151|I|main|clicking '//tr/td[text()='ReynoldsCompany']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-19 16:35:33.184|I|main|click target via JS, @id=
+2024-01-19 16:35:33.233|I|main|clicked -> true
+2024-01-19 16:35:33.236|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='ReynoldsCompany']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-19 16:35:33.236|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-19 16:35:34.169|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-19 16:35:34.200|I|main|click target via JS, @id=
+2024-01-19 16:35:34.251|I|main|clicked -> true
+2024-01-19 16:35:34.255|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-19 16:35:34.255|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-19 16:35:37.265|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-19 16:35:37.265|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:35:37.361|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:35:37.361|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:35:37.386|I|main|click target via JS, @id=
+2024-01-19 16:35:37.413|I|main|clicked -> true
+2024-01-19 16:35:37.417|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:35:37.418|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-19 16:35:37.617|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-19 16:35:37.617|I|main|UI-Settings.20240119_163531.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-19 16:35:43.037|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:35:53.843|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:35:53.844|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:35:53.844|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:35:54.476|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163553.001.xlsx
+2024-01-19 16:35:54.476|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:35:54.678|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163553.001.xlsx
+2024-01-19 16:35:55.195|I|main|STARTS
+2024-01-19 16:35:55.249|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab - executing activity
+2024-01-19 16:35:55.249|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 43|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:35:55.346|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:35:55.347|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:35:55.365|I|main|click target via JS, @id=
+2024-01-19 16:35:55.399|I|main|clicked -> true
+2024-01-19 16:35:55.399|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 43|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:35:55.399|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:35:55.573|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:35:55.589|I|main|click target via JS, @id=__BVID__805___BV_tab_button__
+2024-01-19 16:35:55.722|I|main|clicked -> true
+2024-01-19 16:35:55.722|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:35:55.722|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 45|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-19 16:35:55.841|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 45|web.upload(fieldLocator,f - PASS adding file 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif' to '//input[@accept="image/jpeg, image/png"]'
+2024-01-19 16:35:55.842|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 46|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-19 16:35:56.240|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 46|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'
+2024-01-19 16:35:56.241|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 47|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-19 16:35:57.755|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 47|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-19 16:35:57.755|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - executing type(locator,value)(${Organization.Email}, Org@gmail.com)
+2024-01-19 16:35:58.150|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Email']/parent::div/div/input[@type="email"]'
+2024-01-19 16:35:58.150|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 49|web.type(locator,value)   - executing type(locator,value)(${Organization.Address}, Supplier Floor, Building IT-09 Qubix Business Park - SEZ, Blue Ridge Town Pune, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra 411057)
+2024-01-19 16:36:00.633|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 49|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Address']/parent::div/div/input[@type="text"]'
+2024-01-19 16:36:00.633|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - executing type(locator,value)(${Organization.City}, Mumbai)
+2024-01-19 16:36:00.933|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - PASS typed text at '//div/legend[text()='City']/parent::div/div/input[@type="text"]'
+2024-01-19 16:36:00.933|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 51|web.select(locator,text)  - executing select(locator,text)(${Organization.State}, Maharashtra)
+2024-01-19 16:36:01.911|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 51|web.select(locator,text)  - PASS selected text 'Maharashtra' from '//Select[@class="custom-select custom-select-sm"]'
+2024-01-19 16:36:01.912|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - executing type(locator,value)(${Organization.Country}, India)
+2024-01-19 16:36:02.229|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Country']/parent::div/div/input[@type="text"]'
+2024-01-19 16:36:02.230|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 53|web.type(locator,value)   - executing type(locator,value)(${Organization.Pincode}, 400070)
+2024-01-19 16:36:02.631|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 53|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Pincode']/parent::div/div/input[@type="text"]'
+2024-01-19 16:36:02.631|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 54|web.type(locator,value)   - executing type(locator,value)(${Organization.Phone}, 1234567890)
+2024-01-19 16:36:03.165|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 54|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Phone']/parent::div/descendant::input[@type="text"]'
+2024-01-19 16:36:03.165|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 55|web.type(locator,value)   - executing type(locator,value)(${Organization.Fax}, 1234567890)
+2024-01-19 16:36:03.714|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 55|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Fax']/parent::div/div/input[@type="text"]'
+2024-01-19 16:36:03.714|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 56|web.type(locator,value)   - executing type(locator,value)(${Organization.IFSC}, HDFC0000041)
+2024-01-19 16:36:03.996|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 56|web.type(locator,value)   - PASS typed text at '//div/legend[text()='IFSC Code']/parent::div/descendant::input[@type="text"]'
+2024-01-19 16:36:03.997|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 57|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Validate.button}, 1000)
+2024-01-19 16:36:04.165|I|main|clicking '//button[@title="validate"]'...
+2024-01-19 16:36:04.198|I|main|click target via JS, @id=
+2024-01-19 16:36:04.247|I|main|clicked -> true
+2024-01-19 16:36:04.247|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 57|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title="validate"]'
+2024-01-19 16:36:04.247|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 58|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Autofill.button}, 1000)
+2024-01-19 16:36:05.952|I|main|clicking '//button[span='Auto fill']'...
+2024-01-19 16:36:05.988|I|main|click target via JS, @id=
+2024-01-19 16:36:06.080|I|main|clicked -> true
+2024-01-19 16:36:06.082|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 58|web.clickAndWait(locator, - PASS clicked-and-waited '//button[span='Auto fill']'
+2024-01-19 16:36:06.082|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 59|web.type(locator,value)   - executing type(locator,value)(${Organization.AccountNumber}, HDFC98765432024)
+2024-01-19 16:36:06.849|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 59|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Account Number']/parent::div/descendant::input[@type="text"]'
+2024-01-19 16:36:06.849|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 60|web.type(locator,value)   - executing type(locator,value)(${Organization.GSTIN}, 07AAACC0460H1Z4)
+2024-01-19 16:36:07.240|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 60|web.type(locator,value)   - PASS typed text at '//div/legend[text()='GSTIN']/parent::div/descendant::input[@type="text"]'
+2024-01-19 16:36:07.240|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 61|web.assertValue(locator,v - executing assertValue(locator,value)(${Organization.PAN}, AAACC0460H)
+2024-01-19 16:36:07.380|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 61|web.assertValue(locator,v - PASS 
+2024-01-19 16:36:07.380|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 62|web.type(locator,value)   - executing type(locator,value)(${Organization.ServiceTax}, 07AAACC0460H1Z4)
+2024-01-19 16:36:07.855|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 62|web.type(locator,value)   - PASS typed text at '//div/legend[text()='ServiceTax Number']/parent::div/descendant::input[@type="text"]'
+2024-01-19 16:36:07.862|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 63|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:36:08.872|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 63|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:36:08.873|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 64|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessButton}, 1000)
+2024-01-19 16:36:09.029|I|main|clicking '//div/legend[text()='CESS']/parent::div/descendant::button[span='CESS']'...
+2024-01-19 16:36:09.065|I|main|click target via JS, @id=
+2024-01-19 16:36:09.104|I|main|clicked -> true
+2024-01-19 16:36:09.104|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 64|web.clickAndWait(locator, - PASS clicked-and-waited '//div/legend[text()='CESS']/parent::div/descendant::button[span='CESS']'
+2024-01-19 16:36:09.104|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 65|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:36:10.112|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 65|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:36:10.112|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 66|web.type(locator,value)   - executing type(locator,value)(${Organization.CessNumber}, 10)
+2024-01-19 16:36:10.500|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 66|web.type(locator,value)   - PASS typed text at '//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]'
+2024-01-19 16:36:10.500|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 67|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessAdd}, 1000)
+2024-01-19 16:36:10.680|I|main|clicking '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'...
+2024-01-19 16:36:10.713|I|main|click target via JS, @id=
+2024-01-19 16:36:10.772|I|main|clicked -> true
+2024-01-19 16:36:10.773|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 67|web.clickAndWait(locator, - PASS clicked-and-waited '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'
+2024-01-19 16:36:10.773|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 68|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:36:10.879|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:36:10.879|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:36:10.904|I|main|click target via JS, @id=
+2024-01-19 16:36:10.953|I|main|clicked -> true
+2024-01-19 16:36:10.953|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 68|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:36:10.953|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 69|web.assertElementPresent( - executing assertElementPresent(locator)(${Confirmation.msg})
+2024-01-19 16:36:11.047|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 69|web.assertElementPresent( - PASS EXPECTED element '//div[text()='Confirm update company ? ']' found
+2024-01-19 16:36:11.062|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 70|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Confirmation.OK}, 3000)
+2024-01-19 16:36:11.279|I|main|clicking '//button[@class="btn btn-danger"]'...
+2024-01-19 16:36:11.301|I|main|click target via JS, @id=
+2024-01-19 16:36:11.354|I|main|clicked -> true
+2024-01-19 16:36:11.354|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 70|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@class="btn btn-danger"]'
+2024-01-19 16:36:11.354|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 71|base.save(var,value)      - executing save(var,value)(SuccessMessage, ${Org.Name} Profile Details Updated)
+2024-01-19 16:36:11.354|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 71|base.save(var,value)      - PASS stored 'ReynoldsCompany Profile Details Updated' as ${SuccessMessage}
+2024-01-19 16:36:11.362|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 72|web.assertText(locator,te - executing assertText(locator,text)(${Popup.Message}, ${SuccessMessage})
+2024-01-19 16:36:11.871|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab|# 72|web.assertText(locator,te - PASS 
+2024-01-19 16:36:11.871|I|main|UI-Settings.20240119_163553.001|Settings|Verify Organization tab - ending activity
+2024-01-19 16:36:17.782|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:36:17.782|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:36:17.782|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:36:18.380|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163617.001.xlsx
+2024-01-19 16:36:18.380|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:36:18.587|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163617.001.xlsx
+2024-01-19 16:36:18.979|I|main|STARTS
+2024-01-19 16:36:18.995|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:36:18.995|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:36:19.088|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:36:19.088|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:36:19.120|I|main|click target via JS, @id=
+2024-01-19 16:36:19.196|I|main|clicked -> true
+2024-01-19 16:36:19.206|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:36:19.206|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:36:19.364|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:36:19.388|I|main|click target via JS, @id=__BVID__1834___BV_tab_button__
+2024-01-19 16:36:19.494|I|main|clicked -> true
+2024-01-19 16:36:19.497|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:36:19.498|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - executing clearTextBox(name)(Name)
+2024-01-19 16:36:19.512|E|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - FAIL No active form found: {}
+2024-01-19 16:36:19.512|E|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs\UI-Settings.20240119_163617.001.xlsx_Negative-Organisation_A7.log
+2024-01-19 16:36:19.512|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-19 16:36:21.023|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-19 16:36:21.023|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - executing clearTextBox(name)(Address)
+2024-01-19 16:36:21.027|E|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - FAIL No active form found: {}
+2024-01-19 16:36:21.027|E|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs\UI-Settings.20240119_163617.001.xlsx_Negative-Organisation_A9.log
+2024-01-19 16:36:21.027|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:36:21.197|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:36:21.229|I|main|click target via JS, @id=
+2024-01-19 16:36:21.286|I|main|clicked -> true
+2024-01-19 16:36:21.289|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:36:21.289|I|main|UI-Settings.20240119_163617.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:38:30.786|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:38:33.187|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:38:33.187|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:38:33.187|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:38:33.701|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163833.001.xlsx
+2024-01-19 16:38:33.701|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:38:33.886|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163833.001.xlsx
+2024-01-19 16:38:34.270|I|main|STARTS
+2024-01-19 16:38:34.270|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:38:34.270|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:38:34.370|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:38:34.370|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:38:34.388|I|main|click target via JS, @id=
+2024-01-19 16:38:34.475|I|main|clicked -> true
+2024-01-19 16:38:34.477|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:38:34.477|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:38:34.618|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:38:34.639|I|main|click target via JS, @id=__BVID__1956___BV_tab_button__
+2024-01-19 16:38:34.732|I|main|clicked -> true
+2024-01-19 16:38:34.739|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:38:34.739|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - executing click(locator)(${Organization.Name})
+2024-01-19 16:38:34.919|I|main|clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:38:34.939|I|main|click target via JS, @id=__BVID__1988
+2024-01-19 16:38:34.967|I|main|clicked -> true
+2024-01-19 16:38:34.967|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - PASS click via JS event
+2024-01-19 16:38:34.967|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:38:35.974|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:38:35.974|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:38:36.351|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:38:36.351|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:38:37.364|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:38:37.365|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:38:37.365|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:38:37.365|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:38:37.365|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:38:37.550|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:38:37.583|I|main|click target via JS, @id=
+2024-01-19 16:38:37.625|I|main|clicked -> true
+2024-01-19 16:38:37.625|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:38:37.625|I|main|UI-Settings.20240119_163833.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:39:12.868|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:39:14.396|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:39:14.396|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:39:14.396|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:39:14.947|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163914.001.xlsx
+2024-01-19 16:39:14.947|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:39:15.128|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_163914.001.xlsx
+2024-01-19 16:39:15.516|I|main|STARTS
+2024-01-19 16:39:15.532|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:39:15.532|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:39:15.603|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:39:15.603|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:39:15.635|I|main|click target via JS, @id=
+2024-01-19 16:39:15.696|I|main|clicked -> true
+2024-01-19 16:39:15.696|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:39:15.696|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:39:15.852|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:39:15.885|I|main|click target via JS, @id=__BVID__2265___BV_tab_button__
+2024-01-19 16:39:15.977|I|main|clicked -> true
+2024-01-19 16:39:15.978|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:39:15.978|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - executing click(locator)(${Organization.Name})
+2024-01-19 16:39:16.194|I|main|clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:39:16.230|I|main|click target via JS, @id=__BVID__2297
+2024-01-19 16:39:16.248|I|main|clicked -> true
+2024-01-19 16:39:16.248|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - PASS click via JS event
+2024-01-19 16:39:16.248|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:39:17.254|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:39:17.254|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name})
+2024-01-19 16:39:17.254|E|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - FAIL MISMATCHED parameters - web.type EXPECTS 2 but found 1
+2024-01-19 16:39:17.254|E|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs\UI-Settings.20240119_163914.001.xlsx_Negative-Organisation_A9.log
+2024-01-19 16:39:17.254|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:39:18.269|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:39:18.269|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:39:18.269|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:39:18.269|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:39:18.269|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:39:18.461|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:39:18.480|I|main|click target via JS, @id=
+2024-01-19 16:39:18.529|I|main|clicked -> true
+2024-01-19 16:39:18.529|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:39:18.529|I|main|UI-Settings.20240119_163914.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:41:11.385|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:41:12.867|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:41:12.867|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:41:12.867|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:41:13.425|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164112.001.xlsx
+2024-01-19 16:41:13.425|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:41:13.616|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164112.001.xlsx
+2024-01-19 16:41:14.070|I|main|STARTS
+2024-01-19 16:41:14.075|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:41:14.075|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:41:14.181|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:41:14.181|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:41:14.207|I|main|click target via JS, @id=
+2024-01-19 16:41:14.286|I|main|clicked -> true
+2024-01-19 16:41:14.288|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:41:14.288|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:41:14.443|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:41:14.467|I|main|click target via JS, @id=__BVID__2387___BV_tab_button__
+2024-01-19 16:41:14.575|I|main|clicked -> true
+2024-01-19 16:41:14.576|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:41:14.576|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:41:14.623|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:41:15.236|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:41:15.238|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:41:16.255|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:41:16.255|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:41:16.731|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:41:16.742|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:41:17.743|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:41:17.743|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:41:17.744|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:41:17.765|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:41:17.766|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:41:17.900|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:41:17.916|I|main|click target via JS, @id=
+2024-01-19 16:41:17.961|I|main|clicked -> true
+2024-01-19 16:41:17.962|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:41:17.962|I|main|UI-Settings.20240119_164112.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:43:02.217|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:43:03.531|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:43:03.531|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:43:03.531|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:43:04.058|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164303.001.xlsx
+2024-01-19 16:43:04.058|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:43:04.211|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164303.001.xlsx
+2024-01-19 16:43:04.580|I|main|STARTS
+2024-01-19 16:43:04.596|I|main|skipping test step in ROW 9 since it's disabled
+2024-01-19 16:43:04.596|I|main|skipping test step in ROW 10 since it's disabled
+2024-01-19 16:43:04.596|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:43:04.596|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:43:04.701|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:43:04.701|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:43:04.718|I|main|click target via JS, @id=
+2024-01-19 16:43:04.804|I|main|clicked -> true
+2024-01-19 16:43:04.808|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:43:04.810|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:43:04.906|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:43:04.930|I|main|click target via JS, @id=__BVID__2616___BV_tab_button__
+2024-01-19 16:43:05.045|I|main|clicked -> true
+2024-01-19 16:43:05.046|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:43:05.046|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:43:05.069|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:43:05.475|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:43:05.477|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:43:06.480|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:43:06.480|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:43:06.483|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:43:06.483|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:43:06.483|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:43:06.483|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:43:06.483|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:43:06.483|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:43:06.483|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:43:06.483|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:43:06.483|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:43:06.643|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:43:06.683|I|main|click target via JS, @id=
+2024-01-19 16:43:06.715|I|main|clicked -> true
+2024-01-19 16:43:06.716|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:43:06.716|I|main|UI-Settings.20240119_164303.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:44:30.583|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:44:32.712|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:44:32.712|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:44:32.712|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:44:33.211|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164432.001.xlsx
+2024-01-19 16:44:33.227|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:44:33.376|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164432.001.xlsx
+2024-01-19 16:44:33.814|I|main|STARTS
+2024-01-19 16:44:33.814|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:44:33.830|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:44:33.914|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:44:33.914|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:44:33.932|I|main|click target via JS, @id=
+2024-01-19 16:44:34.014|I|main|clicked -> true
+2024-01-19 16:44:34.022|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:44:34.022|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:44:34.171|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:44:34.197|I|main|click target via JS, @id=__BVID__2738___BV_tab_button__
+2024-01-19 16:44:34.316|I|main|clicked -> true
+2024-01-19 16:44:34.316|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:44:34.316|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:44:34.332|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:44:34.749|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:44:34.749|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:44:35.757|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:44:35.758|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:44:36.185|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:44:36.185|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:44:37.196|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:44:37.196|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL} A {BACKSPACE})
+2024-01-19 16:44:37.196|I|main|[20240119_163059] simulating keystrokes: {CONTROL} A {BACKSPACE}
+2024-01-19 16:44:37.223|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL} A {BACKSPACE}
+2024-01-19 16:44:37.226|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:44:37.331|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:44:37.351|I|main|click target via JS, @id=
+2024-01-19 16:44:37.390|I|main|clicked -> true
+2024-01-19 16:44:37.390|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:44:37.390|I|main|UI-Settings.20240119_164432.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:46:34.375|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:46:37.685|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:46:37.685|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:46:37.685|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:46:38.284|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164637.001.xlsx
+2024-01-19 16:46:38.284|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:46:38.478|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164637.001.xlsx
+2024-01-19 16:46:38.961|I|main|STARTS
+2024-01-19 16:46:38.976|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:46:38.976|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:46:39.080|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:46:39.080|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:46:39.110|I|main|click target via JS, @id=
+2024-01-19 16:46:39.217|I|main|clicked -> true
+2024-01-19 16:46:39.225|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:46:39.226|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:46:39.335|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:46:39.352|I|main|click target via JS, @id=__BVID__2884___BV_tab_button__
+2024-01-19 16:46:39.448|I|main|clicked -> true
+2024-01-19 16:46:39.449|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:46:39.450|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:46:39.473|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:46:39.919|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:46:39.919|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:46:40.935|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:46:40.935|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:46:41.365|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:46:41.365|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:46:42.371|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:46:42.371|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL} A)
+2024-01-19 16:46:42.371|I|main|[20240119_163059] simulating keystrokes: {CONTROL} A
+2024-01-19 16:46:42.376|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL} A
+2024-01-19 16:46:42.376|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:46:42.376|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:46:42.379|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:46:42.380|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:46:42.559|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:46:42.590|I|main|click target via JS, @id=
+2024-01-19 16:46:42.623|I|main|clicked -> true
+2024-01-19 16:46:42.623|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:46:42.623|I|main|UI-Settings.20240119_164637.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:47:04.634|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:47:06.349|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:47:06.350|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:47:06.351|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:47:06.870|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164706.001.xlsx
+2024-01-19 16:47:06.870|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:47:07.032|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164706.001.xlsx
+2024-01-19 16:47:07.450|I|main|STARTS
+2024-01-19 16:47:07.450|I|main|skipping test step in ROW 9 since it's disabled
+2024-01-19 16:47:07.466|I|main|skipping test step in ROW 10 since it's disabled
+2024-01-19 16:47:07.466|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:47:07.466|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:47:07.559|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:47:07.560|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:47:07.583|I|main|click target via JS, @id=
+2024-01-19 16:47:07.675|I|main|clicked -> true
+2024-01-19 16:47:07.678|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:47:07.678|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:47:07.809|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:47:07.839|I|main|click target via JS, @id=__BVID__3036___BV_tab_button__
+2024-01-19 16:47:07.949|I|main|clicked -> true
+2024-01-19 16:47:07.951|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:47:07.951|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:47:07.969|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:47:08.366|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:47:08.366|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:47:09.380|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:47:09.380|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {EMPTY})
+2024-01-19 16:47:09.380|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:47:09.380|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:47:09.380|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:47:09.380|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:47:09.380|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:47:09.384|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL} A)
+2024-01-19 16:47:09.384|I|main|[20240119_163059] simulating keystrokes: {CONTROL} A
+2024-01-19 16:47:09.388|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL} A
+2024-01-19 16:47:09.388|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:47:09.390|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:47:09.391|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:47:09.391|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:47:09.549|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:47:09.570|I|main|click target via JS, @id=
+2024-01-19 16:47:09.619|I|main|clicked -> true
+2024-01-19 16:47:09.620|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:47:09.621|I|main|UI-Settings.20240119_164706.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:47:48.116|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:47:49.450|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:47:49.450|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:47:49.450|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:47:50.005|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164749.001.xlsx
+2024-01-19 16:47:50.005|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:47:50.195|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164749.001.xlsx
+2024-01-19 16:47:50.577|I|main|STARTS
+2024-01-19 16:47:50.579|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:47:50.579|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:47:50.662|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:47:50.677|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:47:50.716|I|main|click target via JS, @id=
+2024-01-19 16:47:50.819|I|main|clicked -> true
+2024-01-19 16:47:50.819|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:47:50.819|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:47:50.929|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:47:50.946|I|main|click target via JS, @id=__BVID__3158___BV_tab_button__
+2024-01-19 16:47:51.046|I|main|clicked -> true
+2024-01-19 16:47:51.046|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:47:51.046|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:47:51.078|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:47:51.466|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:47:51.478|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:47:52.497|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:47:52.497|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.typeKeys(locator,valu - executing typeKeys(locator,value)(${Organization.Name}, {EMPTY})
+2024-01-19 16:47:53.107|E|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.typeKeys(locator,valu - FAIL Unsupported/unknown key {EMPTY}
+2024-01-19 16:47:53.107|E|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.typeKeys(locator,valu - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs\UI-Settings.20240119_164749.001.xlsx_Negative-Organisation_A9.log
+2024-01-19 16:47:53.107|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:47:54.116|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:47:54.117|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL} A)
+2024-01-19 16:47:54.117|I|main|[20240119_163059] simulating keystrokes: {CONTROL} A
+2024-01-19 16:47:54.120|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL} A
+2024-01-19 16:47:54.120|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:47:54.120|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:47:54.124|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:47:54.125|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:47:54.313|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:47:54.347|I|main|click target via JS, @id=
+2024-01-19 16:47:54.385|I|main|clicked -> true
+2024-01-19 16:47:54.385|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:47:54.385|I|main|UI-Settings.20240119_164749.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:48:45.863|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:49:16.660|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:49:17.955|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:49:17.955|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:49:17.955|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:49:18.525|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164917.001.xlsx
+2024-01-19 16:49:18.525|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:49:18.699|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_164917.001.xlsx
+2024-01-19 16:49:19.145|I|main|STARTS
+2024-01-19 16:49:19.145|I|main|skipping test step in ROW 9 since it's disabled
+2024-01-19 16:49:19.145|I|main|skipping test step in ROW 10 since it's disabled
+2024-01-19 16:49:19.156|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:49:19.156|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:49:19.225|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:49:19.225|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:49:19.265|I|main|click target via JS, @id=
+2024-01-19 16:49:19.295|I|main|clicked -> true
+2024-01-19 16:49:19.306|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:49:19.307|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:49:19.475|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:49:19.501|I|main|click target via JS, @id=__BVID__3289___BV_tab_button__
+2024-01-19 16:49:19.631|I|main|clicked -> true
+2024-01-19 16:49:19.631|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:49:19.631|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:49:19.645|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:49:20.183|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:49:20.183|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:49:21.186|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:49:21.187|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.typeKeys(locator,valu - executing typeKeys(locator,value)(${Organization.Name}, {EMPTY})
+2024-01-19 16:49:21.187|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:49:21.187|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.typeKeys(locator,valu - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:49:21.187|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:49:21.187|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:49:21.187|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:49:21.187|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL} A)
+2024-01-19 16:49:21.187|I|main|[20240119_163059] simulating keystrokes: {CONTROL} A
+2024-01-19 16:49:21.192|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL} A
+2024-01-19 16:49:21.193|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:49:22.204|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:49:22.204|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:49:22.205|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:49:22.205|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:49:22.207|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:49:22.324|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:49:22.343|I|main|click target via JS, @id=
+2024-01-19 16:49:22.362|I|main|clicked -> true
+2024-01-19 16:49:22.365|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:49:22.365|I|main|UI-Settings.20240119_164917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:51:34.744|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:51:36.300|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:51:36.300|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:51:36.300|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:51:36.889|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165136.001.xlsx
+2024-01-19 16:51:36.889|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:51:37.089|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165136.001.xlsx
+2024-01-19 16:51:37.495|I|main|STARTS
+2024-01-19 16:51:37.500|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:51:37.500|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:51:37.624|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:51:37.624|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:51:37.659|I|main|click target via JS, @id=
+2024-01-19 16:51:37.757|I|main|clicked -> true
+2024-01-19 16:51:37.759|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:51:37.759|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:51:37.870|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:51:37.890|I|main|click target via JS, @id=__BVID__3433___BV_tab_button__
+2024-01-19 16:51:37.984|I|main|clicked -> true
+2024-01-19 16:51:37.985|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:51:37.985|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:51:38.002|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:51:38.390|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:51:38.390|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:51:39.400|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:51:39.401|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:51:39.827|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:51:39.829|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:51:40.830|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:51:40.830|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL} A)
+2024-01-19 16:51:40.830|I|main|[20240119_163059] simulating keystrokes: {CONTROL} A
+2024-01-19 16:51:40.837|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL} A
+2024-01-19 16:51:40.840|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:51:41.850|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:51:41.850|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:51:41.850|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:51:41.850|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:51:41.850|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:51:42.040|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:51:42.074|I|main|click target via JS, @id=
+2024-01-19 16:51:42.110|I|main|clicked -> true
+2024-01-19 16:51:42.110|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:51:42.110|I|main|UI-Settings.20240119_165136.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:52:11.804|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:52:13.729|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:52:13.729|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:52:13.731|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:52:14.296|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165213.001.xlsx
+2024-01-19 16:52:14.296|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:52:14.450|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165213.001.xlsx
+2024-01-19 16:52:14.841|I|main|STARTS
+2024-01-19 16:52:14.851|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:52:14.851|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:52:14.953|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:52:14.953|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:52:14.971|I|main|click target via JS, @id=
+2024-01-19 16:52:15.070|I|main|clicked -> true
+2024-01-19 16:52:15.071|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:52:15.071|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:52:15.203|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:52:15.234|I|main|click target via JS, @id=__BVID__3585___BV_tab_button__
+2024-01-19 16:52:15.354|I|main|clicked -> true
+2024-01-19 16:52:15.356|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:52:15.356|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:52:15.387|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:52:15.751|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:52:15.751|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:52:16.754|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:52:16.754|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:52:17.187|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:52:17.187|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:52:18.191|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:52:18.191|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL}A)
+2024-01-19 16:52:18.191|I|main|[20240119_163059] simulating keystrokes: {CONTROL}A
+2024-01-19 16:52:18.195|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL}A
+2024-01-19 16:52:18.196|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:52:19.205|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:52:19.205|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:52:19.206|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:52:19.206|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:52:19.206|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:52:19.308|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:52:19.324|I|main|click target via JS, @id=
+2024-01-19 16:52:19.343|I|main|clicked -> true
+2024-01-19 16:52:19.344|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:52:19.345|I|main|UI-Settings.20240119_165213.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:52:38.512|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:52:40.134|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:52:40.134|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:52:40.134|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:52:40.672|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165240.001.xlsx
+2024-01-19 16:52:40.672|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:52:40.839|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165240.001.xlsx
+2024-01-19 16:52:41.271|I|main|STARTS
+2024-01-19 16:52:41.271|I|main|skipping test step in ROW 9 since it's disabled
+2024-01-19 16:52:41.271|I|main|skipping test step in ROW 10 since it's disabled
+2024-01-19 16:52:41.271|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:52:41.282|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:52:41.392|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:52:41.392|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:52:41.417|I|main|click target via JS, @id=
+2024-01-19 16:52:41.486|I|main|clicked -> true
+2024-01-19 16:52:41.489|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:52:41.490|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:52:41.592|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:52:41.617|I|main|click target via JS, @id=__BVID__3731___BV_tab_button__
+2024-01-19 16:52:41.717|I|main|clicked -> true
+2024-01-19 16:52:41.719|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:52:41.720|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:52:41.744|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:52:42.084|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:52:42.084|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:52:43.092|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:52:43.092|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:52:43.092|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:52:43.092|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:52:43.092|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:52:43.092|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:52:43.092|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:52:43.092|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL}A)
+2024-01-19 16:52:43.092|I|main|[20240119_163059] simulating keystrokes: {CONTROL}A
+2024-01-19 16:52:43.099|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL}A
+2024-01-19 16:52:43.100|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:52:44.102|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:52:44.102|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BACKSPACE})
+2024-01-19 16:52:44.102|I|main|[20240119_163059] simulating keystrokes: {BACKSPACE}
+2024-01-19 16:52:44.102|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - PASS type keys completed for {BACKSPACE}
+2024-01-19 16:52:44.102|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:52:44.252|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:52:44.282|I|main|click target via JS, @id=
+2024-01-19 16:52:44.321|I|main|clicked -> true
+2024-01-19 16:52:44.322|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:52:44.322|I|main|UI-Settings.20240119_165240.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:53:38.062|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:53:39.335|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:53:39.335|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:53:39.335|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:53:39.896|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165339.001.xlsx
+2024-01-19 16:53:39.896|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:53:40.066|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165339.001.xlsx
+2024-01-19 16:53:40.495|I|main|STARTS
+2024-01-19 16:53:40.505|I|main|skipping test step in ROW 9 since it's disabled
+2024-01-19 16:53:40.505|I|main|skipping test step in ROW 10 since it's disabled
+2024-01-19 16:53:40.505|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:53:40.505|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:53:40.584|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:53:40.593|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:53:40.624|I|main|click target via JS, @id=
+2024-01-19 16:53:40.712|I|main|clicked -> true
+2024-01-19 16:53:40.714|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:53:40.714|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:53:40.814|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:53:40.835|I|main|click target via JS, @id=__BVID__3853___BV_tab_button__
+2024-01-19 16:53:40.982|I|main|clicked -> true
+2024-01-19 16:53:40.983|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:53:40.983|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - executing doubleClick(locator)(${Organization.Name})
+2024-01-19 16:53:41.004|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:53:41.348|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClick(locator)  - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:53:41.348|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:53:42.354|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:53:42.354|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:53:42.354|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:53:42.354|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:53:42.354|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:53:42.354|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:53:42.354|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:53:42.354|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL}A)
+2024-01-19 16:53:42.354|I|main|[20240119_163059] simulating keystrokes: {CONTROL}A
+2024-01-19 16:53:42.361|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL}A
+2024-01-19 16:53:42.362|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:53:43.364|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:53:43.364|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {DELETE})
+2024-01-19 16:53:43.366|I|main|[20240119_163059] simulating keystrokes: {DELETE}
+2024-01-19 16:53:43.366|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - PASS type keys completed for {DELETE}
+2024-01-19 16:53:43.366|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:53:43.534|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:53:43.563|I|main|click target via JS, @id=
+2024-01-19 16:53:43.600|I|main|clicked -> true
+2024-01-19 16:53:43.603|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:53:43.603|I|main|UI-Settings.20240119_165339.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:54:08.292|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:54:09.530|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:54:09.530|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:54:09.530|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:54:10.115|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165409.001.xlsx
+2024-01-19 16:54:10.115|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:54:10.305|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165409.001.xlsx
+2024-01-19 16:54:10.726|I|main|STARTS
+2024-01-19 16:54:10.734|I|main|skipping test step in ROW 9 since it's disabled
+2024-01-19 16:54:10.734|I|main|skipping test step in ROW 10 since it's disabled
+2024-01-19 16:54:10.734|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:54:10.734|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:54:10.840|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:54:10.842|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:54:10.867|I|main|click target via JS, @id=
+2024-01-19 16:54:10.938|I|main|clicked -> true
+2024-01-19 16:54:10.939|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:54:10.939|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:54:11.034|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:54:11.047|I|main|click target via JS, @id=__BVID__3975___BV_tab_button__
+2024-01-19 16:54:11.172|I|main|clicked -> true
+2024-01-19 16:54:11.175|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:54:11.176|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClickAndWait(lo - executing doubleClickAndWait(locator,waitMs)(${Organization.Name}, 2000)
+2024-01-19 16:54:11.195|I|main|double-clicking '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'...
+2024-01-19 16:54:11.498|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.doubleClickAndWait(lo - PASS double-clicked on web element '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:54:11.498|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:54:12.505|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:54:12.505|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:54:12.505|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:54:12.505|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:54:12.505|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:54:12.505|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:54:12.505|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:54:12.505|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL}A)
+2024-01-19 16:54:12.505|I|main|[20240119_163059] simulating keystrokes: {CONTROL}A
+2024-01-19 16:54:12.512|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL}A
+2024-01-19 16:54:12.513|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:54:13.515|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:54:13.516|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {DELETE})
+2024-01-19 16:54:13.516|I|main|[20240119_163059] simulating keystrokes: {DELETE}
+2024-01-19 16:54:13.516|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - PASS type keys completed for {DELETE}
+2024-01-19 16:54:13.516|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:54:13.677|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:54:13.715|I|main|click target via JS, @id=
+2024-01-19 16:54:13.745|I|main|clicked -> true
+2024-01-19 16:54:13.745|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:54:13.745|I|main|UI-Settings.20240119_165409.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:54:44.353|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:54:45.368|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:54:45.375|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:54:45.376|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:54:45.905|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165445.001.xlsx
+2024-01-19 16:54:45.905|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:54:46.097|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165445.001.xlsx
+2024-01-19 16:54:46.526|I|main|STARTS
+2024-01-19 16:54:46.527|I|main|skipping test step in ROW 9 since it's disabled
+2024-01-19 16:54:46.527|I|main|skipping test step in ROW 10 since it's disabled
+2024-01-19 16:54:46.535|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:54:46.536|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:54:46.641|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:54:46.641|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:54:46.672|I|main|click target via JS, @id=
+2024-01-19 16:54:46.769|I|main|clicked -> true
+2024-01-19 16:54:46.772|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:54:46.772|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:54:46.886|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:54:46.906|I|main|click target via JS, @id=__BVID__4097___BV_tab_button__
+2024-01-19 16:54:47.027|I|main|clicked -> true
+2024-01-19 16:54:47.027|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:54:47.030|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - executing click(locator)(${Organization.Name}, 2000)
+2024-01-19 16:54:47.032|E|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - FAIL MISMATCHED parameters - web.click EXPECTS 1 but found 2
+2024-01-19 16:54:47.032|E|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs\UI-Settings.20240119_165445.001.xlsx_Negative-Organisation_A7.log
+2024-01-19 16:54:47.032|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:54:48.035|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:54:48.036|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {empty})
+2024-01-19 16:54:48.036|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:54:48.036|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:54:48.036|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:54:48.038|I|main|evaluating flow control:	SkipIf(true = true)		=> MATCHED
+2024-01-19 16:54:48.039|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - SKIPPED current step skipped: SkipIf(true)
+2024-01-19 16:54:48.039|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {CONTROL}A)
+2024-01-19 16:54:48.039|I|main|[20240119_163059] simulating keystrokes: {CONTROL}A
+2024-01-19 16:54:48.042|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {CONTROL}A
+2024-01-19 16:54:48.042|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:54:49.045|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:54:49.046|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {DELETE})
+2024-01-19 16:54:49.046|I|main|[20240119_163059] simulating keystrokes: {DELETE}
+2024-01-19 16:54:49.046|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 13|desktop.typeKeys(os,keyst - PASS type keys completed for {DELETE}
+2024-01-19 16:54:49.048|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:54:49.322|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:54:49.347|I|main|click target via JS, @id=
+2024-01-19 16:54:49.363|I|main|clicked -> true
+2024-01-19 16:54:49.366|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 14|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:54:49.366|I|main|UI-Settings.20240119_165445.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:55:15.815|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:55:17.776|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:55:17.777|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:55:17.777|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:55:18.286|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165517.001.xlsx
+2024-01-19 16:55:18.286|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:55:18.427|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165517.001.xlsx
+2024-01-19 16:55:18.837|I|main|STARTS
+2024-01-19 16:55:18.846|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:55:18.846|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:55:18.937|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:55:18.937|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:55:18.964|I|main|click target via JS, @id=
+2024-01-19 16:55:19.047|I|main|clicked -> true
+2024-01-19 16:55:19.049|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:55:19.049|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:55:19.269|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:55:19.303|I|main|click target via JS, @id=__BVID__4219___BV_tab_button__
+2024-01-19 16:55:19.460|I|main|clicked -> true
+2024-01-19 16:55:19.460|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:55:19.460|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - executing click(locator)(${Organization.Name}, 2000)
+2024-01-19 16:55:19.467|E|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - FAIL MISMATCHED parameters - web.click EXPECTS 1 but found 2
+2024-01-19 16:55:19.467|E|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs\UI-Settings.20240119_165517.001.xlsx_Negative-Organisation_A7.log
+2024-01-19 16:55:19.468|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:55:20.487|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:55:20.487|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, {)
+2024-01-19 16:55:20.824|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:55:20.827|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:55:21.837|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:55:21.837|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BKSP})
+2024-01-19 16:55:21.837|I|main|[20240119_163059] simulating keystrokes: {BKSP}
+2024-01-19 16:55:21.837|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {BKSP}
+2024-01-19 16:55:21.837|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:55:21.977|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:55:22.007|I|main|click target via JS, @id=
+2024-01-19 16:55:22.046|I|main|clicked -> true
+2024-01-19 16:55:22.046|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:55:22.046|I|main|UI-Settings.20240119_165517.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:58:05.371|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:58:51.556|E|main|Invalid activity index or name specified: 1L
+2024-01-19 16:58:51.556|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:58:51.556|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:58:51.556|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:58:52.340|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165851.001.xlsx
+2024-01-19 16:58:52.344|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:58:52.586|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165851.001.xlsx
+2024-01-19 16:58:53.081|I|main|STARTS
+2024-01-19 16:58:53.089|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:58:53.089|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:58:53.239|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:58:53.239|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:58:53.266|I|main|click target via JS, @id=
+2024-01-19 16:58:53.374|I|main|clicked -> true
+2024-01-19 16:58:53.383|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:58:53.383|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:58:53.475|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:58:53.496|I|main|click target via JS, @id=__BVID__4367___BV_tab_button__
+2024-01-19 16:58:53.641|I|main|clicked -> true
+2024-01-19 16:58:53.641|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:58:53.644|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - executing click(locator)(${Organization.Name}, 2000)
+2024-01-19 16:58:53.644|E|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - FAIL MISMATCHED parameters - web.click EXPECTS 1 but found 2
+2024-01-19 16:58:53.645|E|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs\UI-Settings.20240119_165851.001.xlsx_Negative-Organisation_A7.log
+2024-01-19 16:58:53.645|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:58:54.649|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:58:54.649|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, )
+2024-01-19 16:58:54.854|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:58:54.863|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:58:55.865|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:58:55.865|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BKSP})
+2024-01-19 16:58:55.865|I|main|[20240119_163059] simulating keystrokes: {BKSP}
+2024-01-19 16:58:55.865|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {BKSP}
+2024-01-19 16:58:55.865|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:58:56.085|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:58:56.125|I|main|click target via JS, @id=
+2024-01-19 16:58:56.165|I|main|clicked -> true
+2024-01-19 16:58:56.175|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:58:56.175|I|main|UI-Settings.20240119_165851.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:58:58.425|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:59:13.515|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:59:17.730|I|main|[20240119_163059] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:59:17.730|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\captures
+2024-01-19 16:59:17.730|I|main|[20240119_163059] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs
+2024-01-19 16:59:18.324|I|main|[20240119_163059] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165917.001.xlsx
+2024-01-19 16:59:18.324|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:59:18.506|I|main|[20240119_163059] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\UI-Settings.20240119_165917.001.xlsx
+2024-01-19 16:59:18.996|I|main|STARTS
+2024-01-19 16:59:19.005|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:59:19.005|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:59:19.096|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 16:59:19.096|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 16:59:19.134|I|main|click target via JS, @id=
+2024-01-19 16:59:19.249|I|main|clicked -> true
+2024-01-19 16:59:19.251|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 16:59:19.251|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:59:19.364|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 16:59:19.385|I|main|click target via JS, @id=__BVID__4561___BV_tab_button__
+2024-01-19 16:59:19.515|I|main|clicked -> true
+2024-01-19 16:59:19.515|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 16:59:19.515|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - executing click(locator)(${Organization.Name}, 2000)
+2024-01-19 16:59:19.515|E|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - FAIL MISMATCHED parameters - web.click EXPECTS 1 but found 2
+2024-01-19 16:59:19.515|E|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.click(locator)        - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_163059\logs\UI-Settings.20240119_165917.001.xlsx_Negative-Organisation_A7.log
+2024-01-19 16:59:19.515|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:59:20.526|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:59:20.526|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, )
+2024-01-19 16:59:20.797|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 16:59:20.797|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - executing wait(waitMs)(1000)
+2024-01-19 16:59:21.805|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.wait(waitMs)          - PASS waited 1000ms
+2024-01-19 16:59:21.805|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {BKSP})
+2024-01-19 16:59:21.806|I|main|[20240119_163059] simulating keystrokes: {BKSP}
+2024-01-19 16:59:21.806|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 11|desktop.typeKeys(os,keyst - PASS type keys completed for {BKSP}
+2024-01-19 16:59:21.806|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:59:21.996|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 16:59:22.017|I|main|click target via JS, @id=
+2024-01-19 16:59:22.052|I|main|clicked -> true
+2024-01-19 16:59:22.055|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 12|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 16:59:22.055|I|main|UI-Settings.20240119_165917.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity

@@ -1,0 +1,7 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-16 17:58:18.618
+Test Step:         [UI-Settings.20240116_175757.001.xlsx][Settings][Verify Organization tab][STEP  58][web][assertText(locator,text)]
+--------------------------------------------------------------------------------
+
+expected=Org778 Profile Details Updated
+actual  =Success

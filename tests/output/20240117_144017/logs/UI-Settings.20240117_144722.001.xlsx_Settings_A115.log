@@ -1,0 +1,7 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-17 14:47:24.224
+Test Step:         [UI-Settings.20240117_144722.001.xlsx][Settings][Delete the Files][STEP 115][io][deleteFilesByRegex(sourceDir,regex)]
+--------------------------------------------------------------------------------
+Dangling meta character '*' near index 0
+*.xlsx$
+^

@@ -1,0 +1,47 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-16 17:13:26.437
+Test Step:         [UI-Settings.20240116_170956.001.xlsx][Settings][Verify Organization tab][STEP  35][desktop][clickByLocator(locator)]
+--------------------------------------------------------------------------------
+org.openqa.selenium.WebDriverException: The target element corresponds to UI that is no longer available (for example, the parent window has closed).
+   at MS.Internal.AutomationProxies.Misc.ThrowWin32ExceptionsIfError(Int32 errorCode)
+   at MS.Internal.AutomationProxies.WindowsButton.GetRootAncestor()
+   at MS.Internal.AutomationProxies.WindowsButton.InShellTray()
+   at MS.Internal.AutomationProxies.WindowsButton.GetElementProperty(AutomationProperty idProp)
+   at MS.Internal.AutomationProxies.ProxySimple.System.Windows.Automation.Provider.IRawElementProviderSimple.GetPropertyValue(Int32 propertyId) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 0 milliseconds
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5334', ip: '192.168.0.2', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: org.openqa.selenium.winium.WiniumDriver
+Capabilities {app: , args: , debugConnectToRunningApp: true, innerPort: 9998, javascriptEnabled: true, keyboardSimulator: 1, launchDelay: 0, platform: ANY, platformName: ANY}
+Session ID: AwesomeSession
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.openqa.selenium.remote.ErrorHandler.createThrowable(ErrorHandler.java:214)
+	at org.openqa.selenium.remote.ErrorHandler.throwIfResponseFailed(ErrorHandler.java:166)
+	at org.openqa.selenium.remote.http.JsonHttpResponseCodec.reconstructValue(JsonHttpResponseCodec.java:40)
+	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:80)
+	at org.openqa.selenium.remote.http.AbstractHttpResponseCodec.decode(AbstractHttpResponseCodec.java:44)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
+	at org.openqa.selenium.winium.WiniumDriverCommandExecutor.execute(WiniumDriverCommandExecutor.java:78)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
+	at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:285)
+	at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:84)
+	at org.nexial.core.plugins.desktop.DesktopCommand.click(DesktopCommand.java:767)
+	at org.nexial.core.plugins.desktop.DesktopCommand.clickByLocator(DesktopCommand.java:759)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.nexial.core.plugins.base.BaseCommand.execute(BaseCommand.java:151)
+	at org.nexial.core.model.TestStep.invokeCommand(TestStep.java:449)
+	at org.nexial.core.model.TestStep.execute(TestStep.java:247)
+	at org.nexial.core.interactive.NexialInteractive.executeSteps(NexialInteractive.kt:529)
+	at org.nexial.core.interactive.NexialInteractive.execute(NexialInteractive.kt:461)
+	at org.nexial.core.interactive.NexialInteractive.processMenu(NexialInteractive.kt:213)
+	at org.nexial.core.interactive.NexialInteractive.startSession(NexialInteractive.kt:138)
+	at org.nexial.core.Nexial.interact(Nexial.java:751)
+	at org.nexial.core.Nexial.main(Nexial.java:241)
+

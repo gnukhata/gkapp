@@ -1,0 +1,414 @@
+2024-01-19 13:58:40.619|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-19 13:58:40.623|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\nDVRl\UI-Settings.data.xlsx
+2024-01-19 13:58:40.623|I|main|(DELAYED) input files and output directory resolved...
+2024-01-19 13:58:40.623|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-19 13:58:40.623|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-19 13:58:40.623|I|main|[20240119_135839] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240119_135839
+2024-01-19 13:58:40.783|I|main|No predefined nexial-setup found
+2024-01-19 13:58:41.233|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-19 13:58:41.249|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-19 13:58:41.249|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-19 13:58:41.473|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-19 13:58:41.983|I|main|On-Demand Inspection detection enabled
+2024-01-19 13:58:42.133|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 13:58:55.841|I|main|[20240119_135839] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 13:58:55.841|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\captures
+2024-01-19 13:58:55.841|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs
+2024-01-19 13:58:56.592|I|main|[20240119_135839] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_135855.001.xlsx
+2024-01-19 13:58:56.592|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 13:58:56.943|I|main|[20240119_135839] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_135855.001.xlsx
+2024-01-19 13:58:57.328|I|main|STARTS
+2024-01-19 13:58:57.350|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata - executing activity
+2024-01-19 13:58:57.367|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${login.password})
+2024-01-19 13:58:57.561|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-19 13:58:57.577|I|main|[chrome] initializing chrome
+2024-01-19 13:58:57.628|I|main|[chrome] enabling chrome remote port: 33312
+2024-01-19 13:58:58.808|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-19 13:58:58.866|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-19 13:58:58.873|I|main|	1920x1080x32bpp@60Hz
+2024-01-19 13:58:58.874|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-19 13:58:58.879|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-19 13:58:58.880|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-19 13:58:59.000|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-19 13:58:59.009|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-19 13:58:59.009|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-19 13:59:01.666|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-19 13:59:01.666|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-19 13:59:01.801|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-19 13:59:01.801|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-19 13:59:04.473|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-19 13:59:04.473|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-19 13:59:04.599|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-19 13:59:04.641|I|main|click target via JS, @id=
+2024-01-19 13:59:04.675|I|main|clicked -> true
+2024-01-19 13:59:04.676|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-19 13:59:04.677|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-19 13:59:09.695|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-19 13:59:09.695|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-19 13:59:09.985|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-19 13:59:09.985|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-19 13:59:10.285|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-19 13:59:10.285|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-19 13:59:10.415|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-19 13:59:10.448|I|main|click target via JS, @id=
+2024-01-19 13:59:10.482|I|main|clicked -> true
+2024-01-19 13:59:10.482|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-19 13:59:10.482|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-19 13:59:10.516|E|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-19 13:59:10.516|E|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_135855.001.xlsx_Login_A5.A24.log
+2024-01-19 13:59:10.516|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-19 13:59:10.516|I|main|UI-Settings.20240119_135855.001|Login|Login to GNU khata - ending activity
+2024-01-19 13:59:53.819|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 13:59:55.305|I|main|[20240119_135839] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 13:59:55.305|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\captures
+2024-01-19 13:59:55.305|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs
+2024-01-19 13:59:55.621|I|main|[20240119_135839] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_135955.001.xlsx
+2024-01-19 13:59:55.621|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 13:59:55.759|I|main|[20240119_135839] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_135955.001.xlsx
+2024-01-19 13:59:55.984|I|main|STARTS
+2024-01-19 13:59:56.011|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-19 13:59:56.011|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-19 13:59:56.062|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-19 13:59:56.062|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-19 13:59:56.179|I|main|clicking '//tr/td[text()='ReynoldsCompany']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-19 13:59:56.201|I|main|click target via JS, @id=
+2024-01-19 13:59:56.244|I|main|clicked -> true
+2024-01-19 13:59:56.244|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='ReynoldsCompany']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-19 13:59:56.244|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-19 13:59:56.646|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-19 13:59:56.677|I|main|click target via JS, @id=
+2024-01-19 13:59:56.733|I|main|clicked -> true
+2024-01-19 13:59:56.733|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-19 13:59:56.733|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-19 13:59:59.756|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-19 13:59:59.756|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 13:59:59.849|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 13:59:59.849|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 13:59:59.875|I|main|click target via JS, @id=
+2024-01-19 13:59:59.906|I|main|clicked -> true
+2024-01-19 13:59:59.910|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 13:59:59.911|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-19 14:00:00.098|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-19 14:00:00.099|I|main|UI-Settings.20240119_135955.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-19 14:00:03.234|I|main|[20240119_135839] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 14:00:03.234|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab - executing activity
+2024-01-19 14:00:03.234|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 22|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Transaction}, 2000)
+2024-01-19 14:00:03.354|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Transaction']'...
+2024-01-19 14:00:03.376|I|main|click target via JS, @id=__BVID__790___BV_tab_button__
+2024-01-19 14:00:03.422|I|main|clicked -> true
+2024-01-19 14:00:03.425|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 22|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Transaction']'
+2024-01-19 14:00:03.427|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 23|base.save(var,value)      - executing save(var,value)(counter, 0)
+2024-01-19 14:00:03.430|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 23|base.save(var,value)      - PASS stored '0' as ${counter}
+2024-01-19 14:00:03.432|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 24|base.repeatUntil(steps,ma - executing repeatUntil(steps,maxWaitMs)(11, -1)
+2024-01-19 14:00:03.432|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - 
+<[repeat-until] entering loop #1---------------------------------------------->
+2024-01-19 14:00:03.433|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - executing assertEqual(expected,actual)(${counter}, $(array|length|${org.Transaction.TaxModeValue}))
+2024-01-19 14:00:03.435|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 26|base.save(var,value)      - executing save(var,value)(PaymentMode, $(array|item|${org.Transaction.PaymentModeValue}|${counter}))
+2024-01-19 14:00:03.437|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 26|base.save(var,value)      - [repeat-until] PASS stored 'cash' as ${PaymentMode}
+2024-01-19 14:00:03.438|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 27|base.save(var,value)      - executing save(var,value)(TaxMode, $(array|item|${org.Transaction.TaxModeValue}|${counter}))
+2024-01-19 14:00:03.439|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 27|base.save(var,value)      - [repeat-until] PASS stored 'None' as ${TaxMode}
+2024-01-19 14:00:03.440|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 28|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.PaymentMode}, ${PaymentMode})
+2024-01-19 14:00:03.442|I|main|evaluating flow control:	SkipIf(0=3)		=> NOT MATCHED
+2024-01-19 14:00:03.706|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 28|web.select(locator,text)  - [repeat-until] PASS selected text 'cash' from '//select[@id="gs-t2-select-10"]'
+2024-01-19 14:00:03.708|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 29|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.TaxMode}, ${TaxMode})
+2024-01-19 14:00:03.914|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 29|web.select(locator,text)  - [repeat-until] PASS selected text 'None' from '//select[@id="gs-t2-select-20"]'
+2024-01-19 14:00:03.914|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 30|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.DefaultGoDown}, Primary Godown)
+2024-01-19 14:00:04.104|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 30|web.select(locator,text)  - [repeat-until] PASS selected text 'Primary Godown' from '//select[@id="gs-t2-select-30"]'
+2024-01-19 14:00:04.104|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Transaction.TrackTransaction}, 2000)
+2024-01-19 14:00:04.209|I|main|clicking '//input[@type="checkbox"]'...
+2024-01-19 14:00:04.241|I|main|click target via JS, @id=__BVID__803
+2024-01-19 14:00:04.284|I|main|clicked -> true
+2024-01-19 14:00:04.284|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 31|web.clickAndWait(locator, - [repeat-until] PASS clicked-and-waited '//input[@type="checkbox"]'
+2024-01-19 14:00:04.284|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 32|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.General.Save}, 2000)
+2024-01-19 14:00:04.391|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 14:00:04.391|I|main|clicking '(//button[@class="btn btn-success btn-sm"])[1]'...
+2024-01-19 14:00:04.414|I|main|click target via JS, @id=
+2024-01-19 14:00:04.444|I|main|clicked -> true
+2024-01-19 14:00:04.444|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 32|web.clickAndWait(locator, - [repeat-until] PASS clicked-and-waited '(//button[@class="btn btn-success btn-sm"])[1]'
+2024-01-19 14:00:04.454|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 33|web.saveText(var,locator) - executing saveText(var,locator)(Message, ${org.General.Message})
+2024-01-19 14:00:04.744|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 33|web.saveText(var,locator) - [repeat-until] PASS stored content of '//div[@class='toast-body']' as ${Message}
+2024-01-19 14:00:04.744|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 34|base.assertEqual(expected - executing assertEqual(expected,actual)(${org.Success.Message}, ${Message})
+2024-01-19 14:00:04.744|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 34|base.assertEqual(expected - [repeat-until] PASS validated EXPECTED = ACTUAL; 'Global Config Saved Successfully.' = 'Global Config Saved Successfully.'
+2024-01-19 14:00:04.744|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 35|number.increment(var,amou - executing increment(var,amount)(counter, 1)
+2024-01-19 14:00:04.754|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 35|number.increment(var,amou - [repeat-until] PASS incremented ${counter} by 1 to 1
+2024-01-19 14:00:04.754|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - 
+<[repeat-until] entering loop #2---------------------------------------------->
+2024-01-19 14:00:04.754|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - executing assertEqual(expected,actual)(${counter}, $(array|length|${org.Transaction.TaxModeValue}))
+2024-01-19 14:00:04.757|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 26|base.save(var,value)      - executing save(var,value)(PaymentMode, $(array|item|${org.Transaction.PaymentModeValue}|${counter}))
+2024-01-19 14:00:04.758|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 26|base.save(var,value)      - [repeat-until] PASS stored 'bank' as ${PaymentMode}
+2024-01-19 14:00:04.758|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 27|base.save(var,value)      - executing save(var,value)(TaxMode, $(array|item|${org.Transaction.TaxModeValue}|${counter}))
+2024-01-19 14:00:04.759|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 27|base.save(var,value)      - [repeat-until] PASS stored 'GST' as ${TaxMode}
+2024-01-19 14:00:04.759|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 28|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.PaymentMode}, ${PaymentMode})
+2024-01-19 14:00:04.759|I|main|evaluating flow control:	SkipIf(1=3)		=> NOT MATCHED
+2024-01-19 14:00:04.915|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 28|web.select(locator,text)  - [repeat-until] PASS selected text 'bank' from '//select[@id="gs-t2-select-10"]'
+2024-01-19 14:00:04.915|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 29|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.TaxMode}, ${TaxMode})
+2024-01-19 14:00:05.171|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 29|web.select(locator,text)  - [repeat-until] PASS selected text 'GST' from '//select[@id="gs-t2-select-20"]'
+2024-01-19 14:00:05.172|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 30|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.DefaultGoDown}, Primary Godown)
+2024-01-19 14:00:05.354|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 30|web.select(locator,text)  - [repeat-until] PASS selected text 'Primary Godown' from '//select[@id="gs-t2-select-30"]'
+2024-01-19 14:00:05.355|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Transaction.TrackTransaction}, 2000)
+2024-01-19 14:00:05.424|I|main|clicking '//input[@type="checkbox"]'...
+2024-01-19 14:00:05.444|I|main|click target via JS, @id=__BVID__803
+2024-01-19 14:00:05.486|I|main|clicked -> true
+2024-01-19 14:00:05.487|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 31|web.clickAndWait(locator, - [repeat-until] PASS clicked-and-waited '//input[@type="checkbox"]'
+2024-01-19 14:00:05.488|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 32|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.General.Save}, 2000)
+2024-01-19 14:00:05.564|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 14:00:05.564|I|main|clicking '(//button[@class="btn btn-success btn-sm"])[1]'...
+2024-01-19 14:00:05.595|I|main|click target via JS, @id=
+2024-01-19 14:00:05.624|I|main|clicked -> true
+2024-01-19 14:00:05.626|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 32|web.clickAndWait(locator, - [repeat-until] PASS clicked-and-waited '(//button[@class="btn btn-success btn-sm"])[1]'
+2024-01-19 14:00:05.626|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 33|web.saveText(var,locator) - executing saveText(var,locator)(Message, ${org.General.Message})
+2024-01-19 14:00:05.726|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 33|web.saveText(var,locator) - [repeat-until] PASS stored content of '//div[@class='toast-body']' as ${Message}
+2024-01-19 14:00:05.726|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 34|base.assertEqual(expected - executing assertEqual(expected,actual)(${org.Success.Message}, ${Message})
+2024-01-19 14:00:05.727|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 34|base.assertEqual(expected - [repeat-until] PASS validated EXPECTED = ACTUAL; 'Global Config Saved Successfully.' = 'Global Config Saved Successfully.'
+2024-01-19 14:00:05.727|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 35|number.increment(var,amou - executing increment(var,amount)(counter, 1)
+2024-01-19 14:00:05.728|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 35|number.increment(var,amou - [repeat-until] PASS incremented ${counter} by 1 to 2
+2024-01-19 14:00:05.728|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - 
+<[repeat-until] entering loop #3---------------------------------------------->
+2024-01-19 14:00:05.729|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - executing assertEqual(expected,actual)(${counter}, $(array|length|${org.Transaction.TaxModeValue}))
+2024-01-19 14:00:05.729|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 26|base.save(var,value)      - executing save(var,value)(PaymentMode, $(array|item|${org.Transaction.PaymentModeValue}|${counter}))
+2024-01-19 14:00:05.730|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 26|base.save(var,value)      - [repeat-until] PASS stored 'credit' as ${PaymentMode}
+2024-01-19 14:00:05.730|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 27|base.save(var,value)      - executing save(var,value)(TaxMode, $(array|item|${org.Transaction.TaxModeValue}|${counter}))
+2024-01-19 14:00:05.731|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 27|base.save(var,value)      - [repeat-until] PASS stored 'VAT' as ${TaxMode}
+2024-01-19 14:00:05.731|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 28|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.PaymentMode}, ${PaymentMode})
+2024-01-19 14:00:05.732|I|main|evaluating flow control:	SkipIf(2=3)		=> NOT MATCHED
+2024-01-19 14:00:05.949|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 28|web.select(locator,text)  - [repeat-until] PASS selected text 'credit' from '//select[@id="gs-t2-select-10"]'
+2024-01-19 14:00:05.949|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 29|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.TaxMode}, ${TaxMode})
+2024-01-19 14:00:06.220|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 29|web.select(locator,text)  - [repeat-until] PASS selected text 'VAT' from '//select[@id="gs-t2-select-20"]'
+2024-01-19 14:00:06.220|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 30|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.DefaultGoDown}, Primary Godown)
+2024-01-19 14:00:06.364|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 30|web.select(locator,text)  - [repeat-until] PASS selected text 'Primary Godown' from '//select[@id="gs-t2-select-30"]'
+2024-01-19 14:00:06.364|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Transaction.TrackTransaction}, 2000)
+2024-01-19 14:00:06.445|I|main|clicking '//input[@type="checkbox"]'...
+2024-01-19 14:00:06.474|I|main|click target via JS, @id=__BVID__803
+2024-01-19 14:00:06.515|I|main|clicked -> true
+2024-01-19 14:00:06.515|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 31|web.clickAndWait(locator, - [repeat-until] PASS clicked-and-waited '//input[@type="checkbox"]'
+2024-01-19 14:00:06.515|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 32|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.General.Save}, 2000)
+2024-01-19 14:00:06.594|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 14:00:06.594|I|main|clicking '(//button[@class="btn btn-success btn-sm"])[1]'...
+2024-01-19 14:00:06.627|I|main|click target via JS, @id=
+2024-01-19 14:00:06.660|I|main|clicked -> true
+2024-01-19 14:00:06.660|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 32|web.clickAndWait(locator, - [repeat-until] PASS clicked-and-waited '(//button[@class="btn btn-success btn-sm"])[1]'
+2024-01-19 14:00:06.664|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 33|web.saveText(var,locator) - executing saveText(var,locator)(Message, ${org.General.Message})
+2024-01-19 14:00:06.770|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 33|web.saveText(var,locator) - [repeat-until] PASS stored content of '//div[@class='toast-body']' as ${Message}
+2024-01-19 14:00:06.771|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 34|base.assertEqual(expected - executing assertEqual(expected,actual)(${org.Success.Message}, ${Message})
+2024-01-19 14:00:06.772|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 34|base.assertEqual(expected - [repeat-until] PASS validated EXPECTED = ACTUAL; 'Global Config Saved Successfully.' = 'Global Config Saved Successfully.'
+2024-01-19 14:00:06.772|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 35|number.increment(var,amou - executing increment(var,amount)(counter, 1)
+2024-01-19 14:00:06.773|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 35|number.increment(var,amou - [repeat-until] PASS incremented ${counter} by 1 to 3
+2024-01-19 14:00:06.773|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - 
+<[repeat-until] entering loop #4---------------------------------------------->
+2024-01-19 14:00:06.773|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - executing assertEqual(expected,actual)(${counter}, $(array|length|${org.Transaction.TaxModeValue}))
+2024-01-19 14:00:06.775|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 26|base.save(var,value)      - executing save(var,value)(PaymentMode, $(array|item|${org.Transaction.PaymentModeValue}|${counter}))
+2024-01-19 14:00:06.776|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 26|base.save(var,value)      - [repeat-until] PASS stored '' as ${PaymentMode}
+2024-01-19 14:00:06.776|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 27|base.save(var,value)      - executing save(var,value)(TaxMode, $(array|item|${org.Transaction.TaxModeValue}|${counter}))
+2024-01-19 14:00:06.777|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 27|base.save(var,value)      - [repeat-until] PASS stored 'GST & VAT' as ${TaxMode}
+2024-01-19 14:00:06.778|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 28|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.PaymentMode}, ${PaymentMode})
+2024-01-19 14:00:06.779|I|main|evaluating flow control:	SkipIf(3=3)		=> MATCHED
+2024-01-19 14:00:06.780|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 28|web.select(locator,text)  - [repeat-until] SKIPPED current step skipped: SkipIf(${counter} = 3)
+2024-01-19 14:00:06.780|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 29|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.TaxMode}, ${TaxMode})
+2024-01-19 14:00:07.021|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 29|web.select(locator,text)  - [repeat-until] PASS selected text 'GST & VAT' from '//select[@id="gs-t2-select-20"]'
+2024-01-19 14:00:07.022|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 30|web.select(locator,text)  - executing select(locator,text)(${org.Transaction.DefaultGoDown}, Primary Godown)
+2024-01-19 14:00:07.192|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 30|web.select(locator,text)  - [repeat-until] PASS selected text 'Primary Godown' from '//select[@id="gs-t2-select-30"]'
+2024-01-19 14:00:07.193|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Transaction.TrackTransaction}, 2000)
+2024-01-19 14:00:07.265|I|main|clicking '//input[@type="checkbox"]'...
+2024-01-19 14:00:07.292|I|main|click target via JS, @id=__BVID__803
+2024-01-19 14:00:07.327|I|main|clicked -> true
+2024-01-19 14:00:07.327|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 31|web.clickAndWait(locator, - [repeat-until] PASS clicked-and-waited '//input[@type="checkbox"]'
+2024-01-19 14:00:07.327|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 32|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.General.Save}, 2000)
+2024-01-19 14:00:07.409|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 14:00:07.409|I|main|clicking '(//button[@class="btn btn-success btn-sm"])[1]'...
+2024-01-19 14:00:07.445|I|main|click target via JS, @id=
+2024-01-19 14:00:07.478|I|main|clicked -> true
+2024-01-19 14:00:07.481|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 32|web.clickAndWait(locator, - [repeat-until] PASS clicked-and-waited '(//button[@class="btn btn-success btn-sm"])[1]'
+2024-01-19 14:00:07.481|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 33|web.saveText(var,locator) - executing saveText(var,locator)(Message, ${org.General.Message})
+2024-01-19 14:00:07.586|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 33|web.saveText(var,locator) - [repeat-until] PASS stored content of '//div[@class='toast-body']' as ${Message}
+2024-01-19 14:00:07.587|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 34|base.assertEqual(expected - executing assertEqual(expected,actual)(${org.Success.Message}, ${Message})
+2024-01-19 14:00:07.588|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 34|base.assertEqual(expected - [repeat-until] PASS validated EXPECTED = ACTUAL; 'Global Config Saved Successfully.' = 'Global Config Saved Successfully.'
+2024-01-19 14:00:07.588|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 35|number.increment(var,amou - executing increment(var,amount)(counter, 1)
+2024-01-19 14:00:07.589|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 35|number.increment(var,amou - [repeat-until] PASS incremented ${counter} by 1 to 4
+2024-01-19 14:00:07.590|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - 
+<[repeat-until] entering loop #5---------------------------------------------->
+2024-01-19 14:00:07.590|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 25|base.assertEqual(expected - executing assertEqual(expected,actual)(${counter}, $(array|length|${org.Transaction.TaxModeValue}))
+2024-01-19 14:00:07.592|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab|# 24|base.repeatUntil(steps,ma - PASS repeat-until execution completed
+2024-01-19 14:00:07.594|I|main|UI-Settings.20240119_135955.001|Settings|Verify Transaction tab - ending activity
+2024-01-19 14:16:39.680|E|main|Invalid scenario specified: Negative-Organisation
+2024-01-19 14:16:45.317|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 14:16:49.057|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 14:17:01.211|I|main|[20240119_135839] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 14:17:01.211|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\captures
+2024-01-19 14:17:01.211|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs
+2024-01-19 14:17:01.484|I|main|[20240119_135839] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_141701.001.xlsx
+2024-01-19 14:17:01.484|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 14:17:01.682|I|main|[20240119_135839] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_141701.001.xlsx
+2024-01-19 14:17:01.938|I|main|STARTS
+2024-01-19 14:17:01.938|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 14:17:01.938|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 14:17:02.011|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 14:17:02.011|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 14:17:02.028|I|main|click target via JS, @id=
+2024-01-19 14:17:02.084|I|main|clicked -> true
+2024-01-19 14:17:02.086|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 14:17:02.087|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 14:17:02.173|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 14:17:02.180|I|main|click target via JS, @id=__BVID__2497___BV_tab_button__
+2024-01-19 14:17:02.255|I|main|clicked -> true
+2024-01-19 14:17:02.255|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 14:17:02.255|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, ${EmptyVal})
+2024-01-19 14:17:02.419|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-19 14:17:02.420|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-19 14:17:03.941|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-19 14:17:03.941|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - executing type(locator,value)(${Organization.Address}, ${EmptyVal})
+2024-01-19 14:17:04.166|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Address']/parent::div/div/input[@type="text"]'
+2024-01-19 14:17:04.167|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 14:17:04.329|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 14:17:04.348|I|main|click target via JS, @id=
+2024-01-19 14:17:04.395|I|main|clicked -> true
+2024-01-19 14:17:04.397|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 14:17:04.397|I|main|UI-Settings.20240119_141701.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 14:18:52.916|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 14:18:54.219|I|main|[20240119_135839] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 14:18:54.234|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\captures
+2024-01-19 14:18:54.234|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs
+2024-01-19 14:18:54.504|I|main|[20240119_135839] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_141854.001.xlsx
+2024-01-19 14:18:54.504|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 14:18:54.604|I|main|[20240119_135839] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_141854.001.xlsx
+2024-01-19 14:18:54.773|I|main|STARTS
+2024-01-19 14:18:54.773|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 14:18:54.773|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 14:18:54.872|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 14:18:54.872|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 14:18:54.907|I|main|click target via JS, @id=
+2024-01-19 14:18:55.023|I|main|clicked -> true
+2024-01-19 14:18:55.027|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 14:18:55.027|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 14:18:55.132|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 14:18:55.157|I|main|click target via JS, @id=__BVID__2736___BV_tab_button__
+2024-01-19 14:18:55.258|I|main|clicked -> true
+2024-01-19 14:18:55.260|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 14:18:55.260|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clear(locator)    - executing clear(locator)(${Organization.Name})
+2024-01-19 14:18:55.280|I|main|terminating any leftover instance of Winium.Desktop.Driver.exe
+2024-01-19 14:18:56.299|I|main|SUCCESS: The process with PID 13300 (child process of PID 18212) has been terminated.
+SUCCESS: The process with PID 18212 (child process of PID 7460) has been terminated.
+
+2024-01-19 14:18:59.302|I|main|Assigning to Winium Driver Service port 35536
+2024-01-19 14:18:59.307|I|main|Winium Driver Service starting...
+2024-01-19 14:18:59.807|I|main|Winium Driver Service started.
+2024-01-19 14:19:33.650|E|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clear(locator)    - FAIL element NOT found via //div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]
+2024-01-19 14:19:33.650|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-19 14:19:35.152|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-19 14:19:35.152|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clear(locator)    - executing clear(locator)(${Organization.Address})
+2024-01-19 14:20:09.752|E|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clear(locator)    - FAIL element NOT found via //div/legend[text()='Address']/parent::div/div/input[@type="text"]
+2024-01-19 14:20:09.752|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 14:20:09.878|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 14:20:09.915|I|main|click target via JS, @id=
+2024-01-19 14:20:09.958|I|main|clicked -> true
+2024-01-19 14:20:09.960|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 14:20:09.960|I|main|UI-Settings.20240119_141854.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 14:20:24.149|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 14:20:25.383|I|main|[20240119_135839] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 14:20:25.383|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\captures
+2024-01-19 14:20:25.383|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs
+2024-01-19 14:20:25.651|I|main|[20240119_135839] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_142025.001.xlsx
+2024-01-19 14:20:25.651|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 14:20:25.737|I|main|[20240119_135839] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_142025.001.xlsx
+2024-01-19 14:20:25.920|I|main|STARTS
+2024-01-19 14:20:25.936|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 14:20:25.936|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 14:20:26.019|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 14:20:26.019|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 14:20:26.057|I|main|click target via JS, @id=
+2024-01-19 14:20:26.148|I|main|clicked -> true
+2024-01-19 14:20:26.149|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 14:20:26.149|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 14:20:26.236|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 14:20:26.243|I|main|click target via JS, @id=__BVID__2869___BV_tab_button__
+2024-01-19 14:20:26.339|I|main|clicked -> true
+2024-01-19 14:20:26.342|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 14:20:26.343|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - executing clearTextBox(name)(${Organization.Name})
+2024-01-19 14:20:26.346|E|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - FAIL No active form found: {}
+2024-01-19 14:20:26.346|E|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_142025.001.xlsx_Negative-Organisation_A7.log
+2024-01-19 14:20:26.347|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-19 14:20:27.857|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-19 14:20:27.857|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - executing clearTextBox(name)(${Organization.Address})
+2024-01-19 14:20:27.857|E|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - FAIL No active form found: {}
+2024-01-19 14:20:27.857|E|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_142025.001.xlsx_Negative-Organisation_A9.log
+2024-01-19 14:20:27.857|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 14:20:28.026|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 14:20:28.061|I|main|click target via JS, @id=
+2024-01-19 14:20:28.104|I|main|clicked -> true
+2024-01-19 14:20:28.104|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 14:20:28.104|I|main|UI-Settings.20240119_142025.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 14:21:16.883|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 14:21:18.113|I|main|[20240119_135839] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 14:21:18.113|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\captures
+2024-01-19 14:21:18.113|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs
+2024-01-19 14:21:18.365|I|main|[20240119_135839] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_142118.001.xlsx
+2024-01-19 14:21:18.365|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 14:21:18.450|I|main|[20240119_135839] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_142118.001.xlsx
+2024-01-19 14:21:18.628|I|main|STARTS
+2024-01-19 14:21:18.628|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 14:21:18.628|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 14:21:18.706|I|main|Target element not visible; clicking on such element might not work...
+2024-01-19 14:21:18.706|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-19 14:21:18.732|I|main|click target via JS, @id=
+2024-01-19 14:21:18.801|I|main|clicked -> true
+2024-01-19 14:21:18.804|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-19 14:21:18.805|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 14:21:18.932|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-19 14:21:18.940|I|main|click target via JS, @id=__BVID__2994___BV_tab_button__
+2024-01-19 14:21:19.026|I|main|clicked -> true
+2024-01-19 14:21:19.029|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-19 14:21:19.029|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - executing clearTextBox(name)(${Org.Name})
+2024-01-19 14:21:19.031|E|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - FAIL No active form found: {}
+2024-01-19 14:21:19.031|E|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_142118.001.xlsx_Negative-Organisation_A7.log
+2024-01-19 14:21:19.032|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-19 14:21:20.537|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-19 14:21:20.538|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - executing clearTextBox(name)(mumbai)
+2024-01-19 14:21:20.538|E|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - FAIL No active form found: {}
+2024-01-19 14:21:20.538|E|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_142118.001.xlsx_Negative-Organisation_A9.log
+2024-01-19 14:21:20.538|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 14:21:20.707|I|main|clicking '//button[@type="submit"]'...
+2024-01-19 14:21:20.739|I|main|click target via JS, @id=
+2024-01-19 14:21:20.781|I|main|clicked -> true
+2024-01-19 14:21:20.781|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-19 14:21:20.781|I|main|UI-Settings.20240119_142118.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:30:24.596|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:30:30.237|I|main|[20240119_135839] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 16:30:30.237|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\captures
+2024-01-19 16:30:30.237|I|main|[20240119_135839] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs
+2024-01-19 16:30:31.046|I|main|[20240119_135839] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_163030.001.xlsx
+2024-01-19 16:30:31.046|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 16:30:31.267|I|main|[20240119_135839] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\UI-Settings.20240119_163030.001.xlsx
+2024-01-19 16:30:31.711|I|main|STARTS
+2024-01-19 16:30:31.716|I|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - executing activity
+2024-01-19 16:30:31.716|I|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-19 16:30:31.770|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//a[@href="#/settings"]', '2000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-19 16:30:31.770|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  5|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_163030.001.xlsx_Negative-Organisation_A5.log
+2024-01-19 16:30:31.770|I|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-19 16:30:31.775|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//ul[@role="tablist"]/li/a[text()='Organisation']', '2000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-19 16:30:31.775|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  6|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_163030.001.xlsx_Negative-Organisation_A6.log
+2024-01-19 16:30:31.775|I|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - executing clearTextBox(name)(Name)
+2024-01-19 16:30:31.788|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - FAIL No active form found: {}
+2024-01-19 16:30:31.788|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  7|desktop.clearTextBox(name - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_163030.001.xlsx_Negative-Organisation_A7.log
+2024-01-19 16:30:31.788|I|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-19 16:30:33.294|I|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  8|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-19 16:30:33.295|I|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - executing clearTextBox(name)(Address)
+2024-01-19 16:30:33.295|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - FAIL No active form found: {}
+2024-01-19 16:30:33.295|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|#  9|desktop.clearTextBox(name - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_163030.001.xlsx_Negative-Organisation_A9.log
+2024-01-19 16:30:33.295|I|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-19 16:30:33.310|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//button[@type="submit"]', '1000')
+UNKNOWN ERROR: disconnected: not connected to DevTools   (failed to check if window was closed: disconnected: not connected to DevTools)...
+2024-01-19 16:30:33.310|E|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields|# 10|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135839\logs\UI-Settings.20240119_163030.001.xlsx_Negative-Organisation_A10.log
+2024-01-19 16:30:33.311|I|main|UI-Settings.20240119_163030.001|Negative-Organisation|Verify Organization with blank values for mandatory Fields - ending activity
+2024-01-19 16:30:35.642|E|main|Unknown/unexpected error occurred: No line found
+2024-01-19 16:30:35.644|I|Thread-0|shutdown starts...
+2024-01-19 16:30:35.644|I|main|exiting Nexial...
+2024-01-19 16:30:35.644|I|Thread-0|[chrome] Shutting down webdriver...
+2024-01-19 16:30:35.644|I|main|shutdown starts...
+2024-01-19 16:30:35.646|I|Thread-0|[chrome] Close the current window...
+2024-01-19 16:30:35.650|I|Thread-0|[chrome] Quit this driver, closing every associated window.
+2024-01-19 16:30:36.809|I|Thread-0|shutdown Winium...
+2024-01-19 16:30:36.891|I|Thread-0|shutdown ends...

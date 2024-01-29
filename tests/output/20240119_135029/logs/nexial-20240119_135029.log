@@ -1,0 +1,90 @@
+2024-01-19 13:50:30.368|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-19 13:50:30.368|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\foVYN\UI-Settings.data.xlsx
+2024-01-19 13:50:30.368|I|main|(DELAYED) input files and output directory resolved...
+2024-01-19 13:50:30.368|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-19 13:50:30.368|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-19 13:50:30.368|I|main|[20240119_135029] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240119_135029
+2024-01-19 13:50:30.503|I|main|No predefined nexial-setup found
+2024-01-19 13:50:30.847|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-19 13:50:30.863|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-19 13:50:30.863|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-19 13:50:31.022|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-19 13:50:31.444|I|main|On-Demand Inspection detection enabled
+2024-01-19 13:50:31.587|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 13:50:35.222|I|main|[20240119_135029] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 13:50:35.222|I|main|[20240119_135029] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135029\captures
+2024-01-19 13:50:35.222|I|main|[20240119_135029] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135029\logs
+2024-01-19 13:50:35.962|I|main|[20240119_135029] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135029\UI-Settings.20240119_135035.001.xlsx
+2024-01-19 13:50:35.962|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-19 13:50:36.279|I|main|[20240119_135029] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135029\UI-Settings.20240119_135035.001.xlsx
+2024-01-19 13:50:36.663|I|main|STARTS
+2024-01-19 13:50:36.680|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata - executing activity
+2024-01-19 13:50:36.697|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${login.password})
+2024-01-19 13:50:36.881|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-19 13:50:36.881|I|main|[chrome] initializing chrome
+2024-01-19 13:50:36.933|I|main|[chrome] enabling chrome remote port: 26726
+2024-01-19 13:50:38.143|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-19 13:50:38.187|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-19 13:50:38.198|I|main|	1920x1080x32bpp@60Hz
+2024-01-19 13:50:38.198|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-19 13:50:38.198|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-19 13:50:38.198|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-19 13:50:38.315|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-19 13:50:38.315|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-19 13:50:38.329|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-19 13:50:41.342|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-19 13:50:41.343|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-19 13:50:41.484|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-19 13:50:41.485|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-19 13:50:43.179|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-19 13:50:43.180|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-19 13:50:43.330|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-19 13:50:43.356|I|main|click target via JS, @id=
+2024-01-19 13:50:43.395|I|main|clicked -> true
+2024-01-19 13:50:43.396|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-19 13:50:43.397|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-19 13:50:48.403|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-19 13:50:48.403|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-19 13:50:48.715|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-19 13:50:48.715|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-19 13:50:49.019|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-19 13:50:49.019|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-19 13:50:49.163|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-19 13:50:49.196|I|main|click target via JS, @id=
+2024-01-19 13:50:49.245|I|main|clicked -> true
+2024-01-19 13:50:49.245|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-19 13:50:49.246|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-19 13:50:49.263|E|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-19 13:50:49.278|E|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135029\logs\UI-Settings.20240119_135035.001.xlsx_Login_A5.A24.log
+2024-01-19 13:50:49.279|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-19 13:50:49.279|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata - ending activity
+2024-01-19 13:58:13.560|E|main|Invalid activity index or name specified: 3
+2024-01-19 13:58:13.560|I|main|[20240119_135029] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-19 13:58:13.562|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata - executing activity
+2024-01-19 13:58:13.562|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${login.password})
+2024-01-19 13:58:13.769|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-19 13:58:13.842|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-19 13:58:13.845|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-19 13:58:13.854|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-19 13:58:13.855|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-19 13:58:21.355|I|Thread-0|shutdown starts...
+2024-01-19 13:58:21.356|I|Thread-0|[chrome] Shutting down webdriver...
+2024-01-19 13:58:21.358|I|Thread-0|[chrome] Close the current window...
+2024-01-19 13:58:21.460|I|Thread-0|[chrome] Quit this driver, closing every associated window.
+2024-01-19 13:58:21.501|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - Error while waiting for a condition to be met on the current browser: WebDriver session no longer valid: invalid session id Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-19 13:58:21.504|E|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - FAIL Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is NOT present within 5000ms
+2024-01-19 13:58:21.507|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-19 13:58:21.508|E|main|[chrome] webdriver readiness check: java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:4450
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5334', ip: '192.168.0.6', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-19 13:58:21.519|E|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - FAIL EXECUTING COMMAND: web.click(locator)('//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']')
+UNKNOWN ERROR: java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:4450 Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-19 13:58:21.519|E|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240119_135029\logs\UI-Settings.20240119_135035.001.xlsx_Login_A5.A19.log
+2024-01-19 13:58:21.519|I|main|UI-Settings.20240119_135035.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-19 13:58:22.536|I|Thread-0|shutdown ends...

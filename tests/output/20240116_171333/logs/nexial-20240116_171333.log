@@ -1,0 +1,315 @@
+2024-01-16 17:13:33.658|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-16 17:13:33.658|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\ohAqF\UI-Settings.data.xlsx
+2024-01-16 17:13:33.658|I|main|(DELAYED) input files and output directory resolved...
+2024-01-16 17:13:33.658|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-16 17:13:33.658|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-16 17:13:33.658|I|main|[20240116_171333] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240116_171333
+2024-01-16 17:13:33.791|I|main|No predefined nexial-setup found
+2024-01-16 17:13:34.138|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-16 17:13:34.138|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-16 17:13:34.138|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-16 17:13:34.355|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-16 17:13:34.839|I|main|On-Demand Inspection detection enabled
+2024-01-16 17:13:34.976|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:13:39.429|I|main|[20240116_171333] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:13:39.429|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\captures
+2024-01-16 17:13:39.429|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\logs
+2024-01-16 17:13:40.064|I|main|[20240116_171333] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_171339.001.xlsx
+2024-01-16 17:13:40.064|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:13:40.341|I|main|[20240116_171333] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_171339.001.xlsx
+2024-01-16 17:13:40.697|I|main|STARTS
+2024-01-16 17:13:40.724|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata - executing activity
+2024-01-16 17:13:40.724|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${password})
+2024-01-16 17:13:40.940|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-16 17:13:40.940|I|main|[chrome] initializing chrome
+2024-01-16 17:13:40.988|I|main|[chrome] enabling chrome remote port: 40665
+2024-01-16 17:13:42.030|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-16 17:13:42.079|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-16 17:13:42.079|I|main|	1920x1080x32bpp@60Hz
+2024-01-16 17:13:42.079|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-16 17:13:42.093|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-16 17:13:42.093|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-16 17:13:42.210|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-16 17:13:42.216|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-16 17:13:42.216|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-16 17:13:44.800|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-16 17:13:44.801|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-16 17:13:44.926|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-16 17:13:44.927|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-16 17:13:46.595|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-16 17:13:46.595|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-16 17:13:46.640|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-16 17:13:46.657|I|main|click target via JS, @id=
+2024-01-16 17:13:46.675|I|main|clicked -> true
+2024-01-16 17:13:46.675|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-16 17:13:46.675|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-16 17:13:51.693|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-16 17:13:51.693|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-16 17:13:51.831|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-16 17:13:51.831|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-16 17:13:51.983|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-16 17:13:51.983|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-16 17:13:52.058|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-16 17:13:52.060|I|main|click target via JS, @id=
+2024-01-16 17:13:52.081|I|main|clicked -> true
+2024-01-16 17:13:52.082|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-16 17:13:52.082|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-16 17:13:52.091|E|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-16 17:13:52.091|E|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\logs\UI-Settings.20240116_171339.001.xlsx_Login_A5.A24.log
+2024-01-16 17:13:52.091|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-16 17:13:52.091|I|main|UI-Settings.20240116_171339.001|Login|Login to GNU khata - ending activity
+2024-01-16 17:14:08.998|I|main|[20240116_171333] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:14:08.998|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\captures
+2024-01-16 17:14:08.998|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\logs
+2024-01-16 17:14:09.338|I|main|[20240116_171333] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_171408.001.xlsx
+2024-01-16 17:14:09.338|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:14:09.472|I|main|[20240116_171333] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_171408.001.xlsx
+2024-01-16 17:14:09.689|I|main|STARTS
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:14:09.705|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:14:09.721|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:14:09.721|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:14:09.721|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:14:09.721|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-16 17:14:09.721|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-16 17:14:09.771|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-16 17:14:09.771|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-16 17:14:09.863|I|main|clicking '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-16 17:14:09.883|I|main|click target via JS, @id=
+2024-01-16 17:14:09.910|I|main|clicked -> true
+2024-01-16 17:14:09.910|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-16 17:14:09.910|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-16 17:14:10.342|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-16 17:14:10.356|I|main|click target via JS, @id=
+2024-01-16 17:14:10.387|I|main|clicked -> true
+2024-01-16 17:14:10.390|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-16 17:14:10.390|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-16 17:14:13.395|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-16 17:14:13.395|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-16 17:14:13.443|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 17:14:13.443|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-16 17:14:13.455|I|main|click target via JS, @id=
+2024-01-16 17:14:13.469|I|main|clicked -> true
+2024-01-16 17:14:13.471|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-16 17:14:13.471|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-16 17:14:13.571|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-16 17:14:13.571|I|main|UI-Settings.20240116_171408.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-16 17:14:55.909|I|main|[20240116_171333] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:14:55.910|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 17:14:55.991|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-16 17:14:55.999|I|main|click target via JS, @id=__BVID__1148___BV_tab_button__
+2024-01-16 17:14:56.145|I|main|clicked -> true
+2024-01-16 17:14:56.147|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-16 17:14:56.147|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 32|web.click(locator)        - executing click(locator)(${Organization.inputImg})
+2024-01-16 17:14:56.258|I|main|clicking '//span[@class="d-block form-file-text"][contains(text(),'Choose a file / Drag & drop it here')]'...
+2024-01-16 17:14:56.277|I|main|click target via JS, @id=
+2024-01-16 17:14:56.330|I|main|clicked -> true
+2024-01-16 17:14:56.330|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 32|web.click(locator)        - PASS click via JS event
+2024-01-16 17:14:56.330|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 33|desktop.typeByLocator(loc - executing typeByLocator(locator,text)(${Windows.filename}, ${data.path}\images.jfif)
+2024-01-16 17:14:56.336|I|main|terminating any leftover instance of Winium.Desktop.Driver.exe
+2024-01-16 17:14:57.358|I|main|ERROR: The process "Winium.Desktop.Driver.exe*" not found.
+
+2024-01-16 17:14:57.358|I|main|Assigning to Winium Driver Service port 36963
+2024-01-16 17:14:57.365|I|main|Winium Driver Service starting...
+2024-01-16 17:14:57.666|I|main|Winium Driver Service started.
+2024-01-16 17:18:18.339|E|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 33|desktop.typeByLocator(loc - FAIL element NOT found via //*[@ClassName="Edit" and @ControlType="ControlType.Edit" and @Name="File name:"]
+2024-01-16 17:18:18.340|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 34|web.wait(waitMs)          - executing wait(waitMs)(4000)
+2024-01-16 17:18:22.341|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 34|web.wait(waitMs)          - PASS waited 4000ms
+2024-01-16 17:18:22.342|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 35|desktop.clickByLocator(lo - executing clickByLocator(locator)(${Windows.Open})
+2024-01-16 17:21:47.894|E|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 35|desktop.clickByLocator(lo - FAIL element NOT found via //*[@ClassName="Button" and @ControlType="ControlType.Button" and @Name="Open"]
+2024-01-16 17:21:47.895|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 36|web.wait(waitMs)          - executing wait(waitMs)(4000)
+2024-01-16 17:21:51.905|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 36|web.wait(waitMs)          - PASS waited 4000ms
+2024-01-16 17:21:51.905|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, Org[NUMBER(${num})=>randomDigits(3)])
+2024-01-16 17:21:52.161|I|main|UI-Settings.20240116_171408.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-16 17:23:18.117|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:24:05.190|I|main|[20240116_171333] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:24:05.191|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\captures
+2024-01-16 17:24:05.191|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\logs
+2024-01-16 17:24:05.431|I|main|[20240116_171333] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_172405.001.xlsx
+2024-01-16 17:24:05.431|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:24:05.531|I|main|[20240116_171333] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_172405.001.xlsx
+2024-01-16 17:24:05.698|I|main|STARTS
+2024-01-16 17:24:05.714|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:24:05.715|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:24:05.729|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:24:05.729|I|main|UI-Settings.20240116_172405.001|Settings|Verify Organization tab|# 32|web.click(locator)        - executing click(locator)(${Organization.inputImg})
+2024-01-16 17:24:05.845|I|main|clicking '//span[@class="d-block form-file-text"][contains(text(),'Choose a file / Drag & drop it here')]'...
+2024-01-16 17:24:05.862|I|main|click target via JS, @id=
+2024-01-16 17:24:05.878|I|main|clicked -> true
+2024-01-16 17:24:05.878|I|main|UI-Settings.20240116_172405.001|Settings|Verify Organization tab|# 32|web.click(locator)        - PASS click via JS event
+2024-01-16 17:24:29.467|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:24:34.668|I|main|[20240116_171333] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:24:34.668|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\captures
+2024-01-16 17:24:34.668|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\logs
+2024-01-16 17:24:34.927|I|main|[20240116_171333] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_172434.001.xlsx
+2024-01-16 17:24:34.927|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:24:35.028|I|main|[20240116_171333] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_172434.001.xlsx
+2024-01-16 17:24:35.231|I|main|STARTS
+2024-01-16 17:24:35.244|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:24:35.245|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:24:35.251|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:24:35.251|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:24:35.252|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:24:35.252|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:24:35.252|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:24:35.252|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:24:35.252|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:24:35.252|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:24:35.252|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:24:35.252|I|main|UI-Settings.20240116_172434.001|Settings|Verify Organization tab|# 32|web.click(locator)        - executing click(locator)(//input[@accept="image/jpeg, image/png"])
+2024-01-16 17:24:35.319|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 17:24:35.319|I|main|clicking '//input[@accept="image/jpeg, image/png"]'...
+2024-01-16 17:24:35.329|I|main|click target via JS, @id=__BVID__1200
+2024-01-16 17:24:35.338|I|main|clicked -> true
+2024-01-16 17:24:35.338|I|main|UI-Settings.20240116_172434.001|Settings|Verify Organization tab|# 32|web.click(locator)        - PASS click via JS event
+2024-01-16 17:25:11.028|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:25:16.424|I|main|[20240116_171333] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:25:16.424|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\captures
+2024-01-16 17:25:16.424|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\logs
+2024-01-16 17:25:16.692|I|main|[20240116_171333] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_172516.001.xlsx
+2024-01-16 17:25:16.692|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:25:16.776|I|main|[20240116_171333] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_172516.001.xlsx
+2024-01-16 17:25:16.960|I|main|STARTS
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:25:16.964|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:25:16.980|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:25:16.980|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:25:16.980|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:25:16.980|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:25:16.980|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:25:16.980|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:25:16.980|I|main|UI-Settings.20240116_172516.001|Settings|Verify Organization tab|# 32|web.click(locator)        - executing click(locator)(//label[@data-browse="Browse"])
+2024-01-16 17:25:17.062|I|main|clicking '//label[@data-browse="Browse"]'...
+2024-01-16 17:25:17.069|I|main|click target via JS, @id=
+2024-01-16 17:25:17.085|I|main|clicked -> true
+2024-01-16 17:25:17.085|I|main|UI-Settings.20240116_172516.001|Settings|Verify Organization tab|# 32|web.click(locator)        - PASS click via JS event
+2024-01-16 17:26:16.188|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:26:17.766|I|main|[20240116_171333] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:26:17.766|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\captures
+2024-01-16 17:26:17.766|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\logs
+2024-01-16 17:26:18.035|I|main|[20240116_171333] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_172617.001.xlsx
+2024-01-16 17:26:18.035|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:26:18.118|I|main|[20240116_171333] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_172617.001.xlsx
+2024-01-16 17:26:18.320|I|main|STARTS
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:26:18.320|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:26:18.334|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:26:18.335|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:26:18.335|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:26:18.335|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:26:18.335|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:26:18.335|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:26:18.335|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:26:18.335|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:26:18.335|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:26:18.335|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:26:18.335|I|main|UI-Settings.20240116_172617.001|Settings|Verify Organization tab|# 32|web.click(locator)        - executing click(locator)(//div[@class="custom-file b-form-file b-custom-control-sm"])
+2024-01-16 17:26:18.422|I|main|clicking '//div[@class="custom-file b-form-file b-custom-control-sm"]'...
+2024-01-16 17:26:18.433|I|main|click target via JS, @id=__BVID__1200__BV_file_outer_
+2024-01-16 17:26:18.436|I|main|clicked -> true
+2024-01-16 17:26:18.436|I|main|UI-Settings.20240116_172617.001|Settings|Verify Organization tab|# 32|web.click(locator)        - PASS click via JS event
+2024-01-16 17:38:59.555|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:39:07.837|I|main|[20240116_171333] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:39:07.838|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\captures
+2024-01-16 17:39:07.838|I|main|[20240116_171333] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\logs
+2024-01-16 17:39:08.106|I|main|[20240116_171333] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_173907.001.xlsx
+2024-01-16 17:39:08.106|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:39:08.195|I|main|[20240116_171333] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\UI-Settings.20240116_173907.001.xlsx
+2024-01-16 17:39:08.407|I|main|STARTS
+2024-01-16 17:39:08.411|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:39:08.412|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:39:08.412|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:39:08.412|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:39:08.412|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:39:08.413|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:39:08.414|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:39:08.415|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:39:08.415|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:39:08.416|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:39:08.416|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:39:08.416|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:39:08.417|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:39:08.417|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:39:08.418|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:39:08.419|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:39:08.420|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:39:08.420|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:39:08.421|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:39:08.421|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:39:08.425|I|main|UI-Settings.20240116_173907.001|Settings|Verify Organization tab|# 33|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(//div[@class="custom-file b-form-file b-custom-control-sm"], ${data.path}\images.jfif)
+2024-01-16 17:39:08.508|E|main|UI-Settings.20240116_173907.001|Settings|Verify Organization tab|# 33|web.upload(fieldLocator,f - FAIL EXECUTING COMMAND: web.upload(fieldLocator,file)('//div[@class="custom-file b-form-file b-custom-control-sm"]', 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif')
+Specified element disable or not ready: element not interactable   (Session info: chrome=120.0.6099.217)...
+2024-01-16 17:39:08.508|E|main|UI-Settings.20240116_173907.001|Settings|Verify Organization tab|# 33|web.upload(fieldLocator,f - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_171333\logs\UI-Settings.20240116_173907.001.xlsx_Settings_A33.log
+2024-01-16 17:39:17.364|E|main|Unknown/unexpected error occurred: No line found
+2024-01-16 17:39:17.365|I|main|exiting Nexial...
+2024-01-16 17:39:17.365|I|Thread-0|shutdown starts...
+2024-01-16 17:39:17.365|I|main|shutdown starts...
+2024-01-16 17:39:17.366|I|Thread-0|[chrome] Shutting down webdriver...
+2024-01-16 17:39:17.367|I|Thread-0|[chrome] Close the current window...
+2024-01-16 17:39:17.468|I|Thread-0|[chrome] Quit this driver, closing every associated window.
+2024-01-16 17:39:18.525|I|Thread-0|shutdown Winium...
+2024-01-16 17:39:18.583|I|Thread-0|shutdown ends...

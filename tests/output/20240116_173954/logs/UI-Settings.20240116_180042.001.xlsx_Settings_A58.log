@@ -1,0 +1,7 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-16 18:01:15.718
+Test Step:         [UI-Settings.20240116_180042.001.xlsx][Settings][Verify Organization tab][STEP  58][web][assertText(locator,text)]
+--------------------------------------------------------------------------------
+
+expected=Org908 Profile Details Updated
+actual  =IndianInstitute Profile Details Updated

@@ -1,0 +1,959 @@
+2024-01-16 17:39:55.368|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-16 17:39:55.370|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\pWImX\UI-Settings.data.xlsx
+2024-01-16 17:39:55.370|I|main|(DELAYED) input files and output directory resolved...
+2024-01-16 17:39:55.370|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-16 17:39:55.370|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-16 17:39:55.370|I|main|[20240116_173954] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240116_173954
+2024-01-16 17:39:55.503|I|main|No predefined nexial-setup found
+2024-01-16 17:39:55.832|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-16 17:39:55.832|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-16 17:39:55.832|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-16 17:39:56.000|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-16 17:39:56.419|I|main|On-Demand Inspection detection enabled
+2024-01-16 17:39:56.585|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:40:01.060|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:40:01.060|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 17:40:01.062|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 17:40:01.878|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174001.001.xlsx
+2024-01-16 17:40:01.878|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:40:02.179|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174001.001.xlsx
+2024-01-16 17:40:02.570|I|main|STARTS
+2024-01-16 17:40:02.601|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata - executing activity
+2024-01-16 17:40:02.611|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${password})
+2024-01-16 17:40:02.810|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-16 17:40:02.813|I|main|[chrome] initializing chrome
+2024-01-16 17:40:02.861|I|main|[chrome] enabling chrome remote port: 9723
+2024-01-16 17:40:03.939|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-16 17:40:03.985|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-16 17:40:03.990|I|main|	1920x1080x32bpp@60Hz
+2024-01-16 17:40:03.993|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-16 17:40:03.997|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-16 17:40:03.998|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-16 17:40:04.111|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-16 17:40:04.115|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-16 17:40:04.115|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-16 17:40:06.137|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-16 17:40:06.138|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-16 17:40:06.261|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-16 17:40:06.264|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-16 17:40:11.201|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-16 17:40:11.202|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-16 17:40:11.256|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-16 17:40:11.266|I|main|click target via JS, @id=
+2024-01-16 17:40:11.279|I|main|clicked -> true
+2024-01-16 17:40:11.279|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-16 17:40:11.280|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-16 17:40:16.292|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-16 17:40:16.293|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-16 17:40:16.429|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-16 17:40:16.430|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-16 17:40:16.578|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-16 17:40:16.580|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-16 17:40:16.643|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-16 17:40:16.654|I|main|click target via JS, @id=
+2024-01-16 17:40:16.671|I|main|clicked -> true
+2024-01-16 17:40:16.671|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-16 17:40:16.672|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-16 17:40:16.687|E|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-16 17:40:16.688|E|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_174001.001.xlsx_Login_A5.A24.log
+2024-01-16 17:40:16.690|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-16 17:40:16.691|I|main|UI-Settings.20240116_174001.001|Login|Login to GNU khata - ending activity
+2024-01-16 17:42:01.549|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:42:01.549|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 17:42:01.550|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 17:42:01.891|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174201.001.xlsx
+2024-01-16 17:42:01.892|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:42:02.022|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174201.001.xlsx
+2024-01-16 17:42:02.312|I|main|STARTS
+2024-01-16 17:42:02.317|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:42:02.320|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:42:02.322|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:42:02.323|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:42:02.324|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:42:02.325|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:42:02.326|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:42:02.327|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:42:02.327|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:42:02.328|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:42:02.329|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:42:02.330|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:42:02.330|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:42:02.331|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:42:02.332|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:42:02.333|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:42:02.334|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:42:02.335|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:42:02.335|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:42:02.336|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:42:02.343|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-16 17:42:02.344|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-16 17:42:02.376|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-16 17:42:02.377|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-16 17:42:02.447|I|main|clicking '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-16 17:42:02.462|I|main|click target via JS, @id=
+2024-01-16 17:42:02.486|I|main|clicked -> true
+2024-01-16 17:42:02.490|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-16 17:42:02.490|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-16 17:42:03.235|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-16 17:42:03.245|I|main|click target via JS, @id=
+2024-01-16 17:42:03.277|I|main|clicked -> true
+2024-01-16 17:42:03.280|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-16 17:42:03.281|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-16 17:42:06.295|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-16 17:42:06.296|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-16 17:42:06.350|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 17:42:06.350|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-16 17:42:06.363|I|main|click target via JS, @id=
+2024-01-16 17:42:06.373|I|main|clicked -> true
+2024-01-16 17:42:06.376|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-16 17:42:06.377|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-16 17:42:06.480|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-16 17:42:06.481|I|main|UI-Settings.20240116_174201.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-16 17:44:30.759|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:44:47.512|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:44:50.096|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:44:50.096|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 17:44:50.096|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 17:44:50.365|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174450.001.xlsx
+2024-01-16 17:44:50.365|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:44:50.449|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174450.001.xlsx
+2024-01-16 17:44:50.649|I|main|STARTS
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:44:50.649|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:44:50.661|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:44:50.662|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:44:50.662|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:44:50.662|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:44:50.662|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:44:50.662|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:44:50.662|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:44:50.662|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:44:50.662|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:44:50.662|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:44:50.662|I|main|UI-Settings.20240116_174450.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 17:44:50.768|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-16 17:44:50.779|I|main|click target via JS, @id=__BVID__1845___BV_tab_button__
+2024-01-16 17:44:50.970|I|main|clicked -> true
+2024-01-16 17:44:50.970|I|main|UI-Settings.20240116_174450.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-16 17:44:50.970|I|main|UI-Settings.20240116_174450.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-16 17:44:51.147|E|main|UI-Settings.20240116_174450.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - FAIL EXECUTING COMMAND: web.upload(fieldLocator,file)('//span[@class="d-block form-file-text"][contains(text(),'Choose a file / Drag & drop it here')]', 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif')
+Specified element disable or not ready: element not interactable   (Session info: chrome=120.0.6099.217)...
+2024-01-16 17:44:51.147|E|main|UI-Settings.20240116_174450.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_174450.001.xlsx_Settings_A32.log
+2024-01-16 17:45:28.398|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:45:30.082|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:45:30.082|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 17:45:30.082|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 17:45:30.346|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174530.001.xlsx
+2024-01-16 17:45:30.346|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:45:30.446|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174530.001.xlsx
+2024-01-16 17:45:30.608|I|main|STARTS
+2024-01-16 17:45:30.608|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:45:30.608|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:45:30.608|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:45:30.624|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:45:30.625|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:45:30.625|I|main|UI-Settings.20240116_174530.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 17:45:35.038|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-16 17:45:35.048|I|main|click target via JS, @id=__BVID__2032___BV_tab_button__
+2024-01-16 17:45:35.137|I|main|clicked -> true
+2024-01-16 17:45:35.137|I|main|UI-Settings.20240116_174530.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-16 17:45:35.137|I|main|UI-Settings.20240116_174530.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(//input[@accept="image/jpeg, image/png"], ${data.path}\images.jfif)
+2024-01-16 17:45:35.211|I|main|UI-Settings.20240116_174530.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - PASS adding file 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif' to '//input[@accept="image/jpeg, image/png"]'
+2024-01-16 17:46:25.990|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:46:50.675|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:46:50.675|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 17:46:50.675|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 17:46:50.972|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174650.001.xlsx
+2024-01-16 17:46:50.977|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:46:51.074|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_174650.001.xlsx
+2024-01-16 17:46:51.268|I|main|STARTS
+2024-01-16 17:46:51.268|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:46:51.278|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:46:51.278|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:46:51.279|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:46:51.279|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:46:51.280|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:46:51.281|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:46:51.281|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:46:51.282|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:46:51.282|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:46:51.283|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:46:51.284|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:46:51.286|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:46:51.286|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:46:51.286|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:46:51.286|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:46:51.286|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:46:51.286|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:46:51.291|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:46:51.291|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:46:51.295|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 33|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, Org[NUMBER(${num})=>randomDigits(3)])
+2024-01-16 17:46:51.540|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 33|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-16 17:46:51.540|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-16 17:46:51.771|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'
+2024-01-16 17:46:51.771|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - executing type(locator,value)(${Organization.Email}, Org@gmail.com)
+2024-01-16 17:46:52.053|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Email']/parent::div/div/input[@type="email"]'
+2024-01-16 17:46:52.053|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - executing type(locator,value)(${Organization.Address}, Supplier Floor, Building IT-09 Qubix Business Park - SEZ, Blue Ridge Town Pune, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra 411057)
+2024-01-16 17:46:54.093|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Address']/parent::div/div/input[@type="text"]'
+2024-01-16 17:46:54.093|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - executing type(locator,value)(${Organization.City}, Mumbai)
+2024-01-16 17:46:54.254|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - PASS typed text at '//div/legend[text()='City']/parent::div/div/input[@type="text"]'
+2024-01-16 17:46:54.254|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 38|web.select(locator,text)  - executing select(locator,text)(${Organization.State}, Maharashtra)
+2024-01-16 17:46:54.557|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 38|web.select(locator,text)  - PASS selected text 'Maharashtra' from '//Select[@class="custom-select custom-select-sm"]'
+2024-01-16 17:46:54.557|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 39|web.type(locator,value)   - executing type(locator,value)(${Organization.Country}, India)
+2024-01-16 17:46:54.701|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 39|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Country']/parent::div/div/input[@type="text"]'
+2024-01-16 17:46:54.701|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - executing type(locator,value)(${Organization.Pincode}, 400070)
+2024-01-16 17:46:54.855|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Pincode']/parent::div/div/input[@type="text"]'
+2024-01-16 17:46:54.855|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - executing type(locator,value)(${Organization.Phone}, 1234567890)
+2024-01-16 17:46:55.067|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Phone']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:46:55.067|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - executing type(locator,value)(${Organization.Fax}, 1234567890)
+2024-01-16 17:46:55.270|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Fax']/parent::div/div/input[@type="text"]'
+2024-01-16 17:46:55.270|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - executing type(locator,value)(${Organization.IFSC}, HDFC0000041)
+2024-01-16 17:46:55.390|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - PASS typed text at '//div/legend[text()='IFSC Code']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:46:55.390|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 44|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Validate.button}, 1000)
+2024-01-16 17:46:55.450|I|main|clicking '//button[@title="validate"]'...
+2024-01-16 17:46:55.450|I|main|click target via JS, @id=
+2024-01-16 17:46:55.467|I|main|clicked -> true
+2024-01-16 17:46:55.467|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 44|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title="validate"]'
+2024-01-16 17:46:55.467|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Autofill.button}, 1000)
+2024-01-16 17:46:57.500|I|main|clicking '//button[span='Auto fill']'...
+2024-01-16 17:46:57.518|I|main|click target via JS, @id=
+2024-01-16 17:46:57.546|I|main|clicked -> true
+2024-01-16 17:46:57.546|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - PASS clicked-and-waited '//button[span='Auto fill']'
+2024-01-16 17:46:57.546|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 46|web.type(locator,value)   - executing type(locator,value)(${Organization.AccountNumber}, HDFC98765432024)
+2024-01-16 17:46:57.819|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 46|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Account Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:46:57.820|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - executing type(locator,value)(${Organization.GSTIN}, 07AAACC0460H1Z4)
+2024-01-16 17:46:58.093|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - PASS typed text at '//div/legend[text()='GSTIN']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:46:58.093|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 48|web.saveText(var,locator) - executing saveText(var,locator)(PanNumber, ${Organization.PAN})
+2024-01-16 17:46:58.161|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 48|web.saveText(var,locator) - PASS no content found via locator '//div/legend[text()='PAN']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:46:58.161|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 49|base.assertEqual(expected - executing assertEqual(expected,actual)(AAACC0460H, ${PanNumber})
+2024-01-16 17:46:58.162|E|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 49|base.assertEqual(expected - FAIL 
+expected=AAACC0460H
+actual  =<empty>
+2024-01-16 17:46:58.162|E|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 49|base.assertEqual(expected - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_174650.001.xlsx_Settings_A49.log
+2024-01-16 17:46:58.163|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - executing type(locator,value)(${Organization.ServiceTax}, 07AAACC0460H1Z4)
+2024-01-16 17:46:58.427|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - PASS typed text at '//div/legend[text()='ServiceTax Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:46:58.427|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessButton}, 1000)
+2024-01-16 17:46:58.502|I|main|clicking '//div/legend[text()='CESS']/parent::div/descendant::button'...
+2024-01-16 17:46:58.509|I|main|click target via JS, @id=
+2024-01-16 17:46:58.522|I|main|clicked -> true
+2024-01-16 17:46:58.523|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - PASS clicked-and-waited '//div/legend[text()='CESS']/parent::div/descendant::button'
+2024-01-16 17:46:58.523|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - executing type(locator,value)(${Organization.CessNumber}, 10)
+2024-01-16 17:46:58.674|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - PASS typed text at '//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]'
+2024-01-16 17:46:58.674|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessAdd}, 1000)
+2024-01-16 17:46:58.740|I|main|clicking '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'...
+2024-01-16 17:46:58.752|I|main|click target via JS, @id=
+2024-01-16 17:46:58.790|I|main|clicked -> true
+2024-01-16 17:46:58.790|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - PASS clicked-and-waited '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'
+2024-01-16 17:46:58.790|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-16 17:46:58.840|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 17:46:58.840|I|main|clicking '//button[@type="submit"]'...
+2024-01-16 17:46:58.851|I|main|click target via JS, @id=
+2024-01-16 17:46:58.867|I|main|clicked -> true
+2024-01-16 17:46:58.867|I|main|UI-Settings.20240116_174650.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-16 17:55:26.380|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:55:37.168|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:55:37.168|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 17:55:37.168|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 17:55:37.467|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_175537.001.xlsx
+2024-01-16 17:55:37.467|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:55:37.552|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_175537.001.xlsx
+2024-01-16 17:55:37.736|I|main|STARTS
+2024-01-16 17:55:37.736|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:55:37.736|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:55:37.736|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:55:37.736|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:55:37.752|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:55:37.752|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-16 17:55:37.752|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-16 17:55:37.768|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-16 17:55:37.769|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-16 17:55:37.837|I|main|clicking '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-16 17:55:37.843|I|main|click target via JS, @id=
+2024-01-16 17:55:37.853|I|main|clicked -> true
+2024-01-16 17:55:37.853|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-16 17:55:37.866|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-16 17:55:38.268|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-16 17:55:38.268|I|main|click target via JS, @id=
+2024-01-16 17:55:38.307|I|main|clicked -> true
+2024-01-16 17:55:38.307|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-16 17:55:38.307|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-16 17:55:41.310|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-16 17:55:41.310|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-16 17:55:41.364|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 17:55:41.364|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-16 17:55:41.369|I|main|click target via JS, @id=
+2024-01-16 17:55:41.405|I|main|clicked -> true
+2024-01-16 17:55:41.406|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-16 17:55:41.406|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-16 17:55:41.441|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-16 17:55:41.441|I|main|UI-Settings.20240116_175537.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-16 17:55:43.242|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:55:47.600|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:55:47.600|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 17:55:47.600|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 17:55:47.851|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_175547.001.xlsx
+2024-01-16 17:55:47.851|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:55:47.912|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_175547.001.xlsx
+2024-01-16 17:55:48.116|I|main|STARTS
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:55:48.116|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:55:48.133|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab - executing activity
+2024-01-16 17:55:48.133|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 17:55:48.206|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-16 17:55:48.212|I|main|click target via JS, @id=__BVID__3989___BV_tab_button__
+2024-01-16 17:55:48.274|I|main|clicked -> true
+2024-01-16 17:55:48.275|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-16 17:55:48.275|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-16 17:55:48.354|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - PASS adding file 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif' to '//input[@accept="image/jpeg, image/png"]'
+2024-01-16 17:55:48.355|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - executing save(var,value)(OrgName, Org[NUMBER(${num})=>randomDigits(3)])
+2024-01-16 17:55:48.356|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - PASS stored 'Org703' as ${OrgName}
+2024-01-16 17:55:48.356|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, ${OrgName})
+2024-01-16 17:55:48.484|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-16 17:55:48.484|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-16 17:55:48.571|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'
+2024-01-16 17:55:48.571|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - executing type(locator,value)(${Organization.Email}, Org@gmail.com)
+2024-01-16 17:55:48.653|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Email']/parent::div/div/input[@type="email"]'
+2024-01-16 17:55:48.653|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - executing type(locator,value)(${Organization.Address}, Supplier Floor, Building IT-09 Qubix Business Park - SEZ, Blue Ridge Town Pune, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra 411057)
+2024-01-16 17:55:52.750|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Address']/parent::div/div/input[@type="text"]'
+2024-01-16 17:55:52.752|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - executing type(locator,value)(${Organization.City}, Mumbai)
+2024-01-16 17:55:53.019|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - PASS typed text at '//div/legend[text()='City']/parent::div/div/input[@type="text"]'
+2024-01-16 17:55:53.019|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - executing select(locator,text)(${Organization.State}, Maharashtra)
+2024-01-16 17:55:53.495|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - PASS selected text 'Maharashtra' from '//Select[@class="custom-select custom-select-sm"]'
+2024-01-16 17:55:53.495|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - executing type(locator,value)(${Organization.Country}, India)
+2024-01-16 17:55:53.728|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Country']/parent::div/div/input[@type="text"]'
+2024-01-16 17:55:53.728|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - executing type(locator,value)(${Organization.Pincode}, 400070)
+2024-01-16 17:55:53.961|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Pincode']/parent::div/div/input[@type="text"]'
+2024-01-16 17:55:53.961|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - executing type(locator,value)(${Organization.Phone}, 1234567890)
+2024-01-16 17:55:54.357|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Phone']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:55:54.357|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - executing type(locator,value)(${Organization.Fax}, 1234567890)
+2024-01-16 17:55:54.775|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Fax']/parent::div/div/input[@type="text"]'
+2024-01-16 17:55:54.775|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - executing type(locator,value)(${Organization.IFSC}, HDFC0000041)
+2024-01-16 17:55:55.001|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - PASS typed text at '//div/legend[text()='IFSC Code']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:55:55.002|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Validate.button}, 1000)
+2024-01-16 17:55:55.158|I|main|clicking '//button[@title="validate"]'...
+2024-01-16 17:55:55.176|I|main|click target via JS, @id=
+2024-01-16 17:55:55.195|I|main|clicked -> true
+2024-01-16 17:55:55.195|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title="validate"]'
+2024-01-16 17:55:55.196|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Autofill.button}, 1000)
+2024-01-16 17:55:55.679|I|main|clicking '//button[span='Auto fill']'...
+2024-01-16 17:55:55.693|I|main|click target via JS, @id=
+2024-01-16 17:55:55.749|I|main|clicked -> true
+2024-01-16 17:55:55.753|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - PASS clicked-and-waited '//button[span='Auto fill']'
+2024-01-16 17:55:55.754|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - executing type(locator,value)(${Organization.AccountNumber}, HDFC98765432024)
+2024-01-16 17:55:56.259|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Account Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:55:56.259|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - executing type(locator,value)(${Organization.GSTIN}, 07AAACC0460H1Z4)
+2024-01-16 17:55:56.834|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - PASS typed text at '//div/legend[text()='GSTIN']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:55:56.836|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - executing assertValue(locator,value)(${Organization.PAN}, AAACC0460H)
+2024-01-16 17:55:56.926|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - PASS 
+2024-01-16 17:55:56.927|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - executing type(locator,value)(${Organization.ServiceTax}, 07AAACC0460H1Z4)
+2024-01-16 17:55:57.463|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - PASS typed text at '//div/legend[text()='ServiceTax Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:55:57.464|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessButton}, 1000)
+2024-01-16 17:55:57.565|I|main|clicking '//div/legend[text()='CESS']/parent::div/descendant::button'...
+2024-01-16 17:55:57.579|I|main|click target via JS, @id=
+2024-01-16 17:55:57.618|I|main|clicked -> true
+2024-01-16 17:55:57.623|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - PASS clicked-and-waited '//div/legend[text()='CESS']/parent::div/descendant::button'
+2024-01-16 17:55:57.623|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - executing type(locator,value)(${Organization.CessNumber}, 10)
+2024-01-16 17:55:57.940|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - PASS typed text at '//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]'
+2024-01-16 17:55:57.941|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessAdd}, 1000)
+2024-01-16 17:55:58.041|I|main|clicking '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'...
+2024-01-16 17:55:58.058|I|main|click target via JS, @id=
+2024-01-16 17:55:58.116|I|main|clicked -> true
+2024-01-16 17:55:58.117|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - PASS clicked-and-waited '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'
+2024-01-16 17:55:58.117|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-16 17:55:58.188|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 17:55:58.189|I|main|clicking '//button[@type="submit"]'...
+2024-01-16 17:55:58.202|I|main|click target via JS, @id=
+2024-01-16 17:55:58.228|I|main|clicked -> true
+2024-01-16 17:55:58.233|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-16 17:55:58.234|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - executing assertElementPresent(locator)(${Confirmation.msg}, 1000)
+2024-01-16 17:55:58.240|E|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - FAIL MISMATCHED parameters - web.assertElementPresent EXPECTS 1 but found 2
+2024-01-16 17:55:58.240|E|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_175547.001.xlsx_Settings_A55.log
+2024-01-16 17:55:58.240|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Confirmation.OK}, 1000)
+2024-01-16 17:55:58.522|I|main|clicking '//button[@class="btn btn-danger"]'...
+2024-01-16 17:55:58.539|I|main|click target via JS, @id=
+2024-01-16 17:55:58.593|I|main|clicked -> true
+2024-01-16 17:55:58.594|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@class="btn btn-danger"]'
+2024-01-16 17:55:58.594|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 57|web.assertValue(locator,v - executing assertValue(locator,value)(${Popup.Message}, ${OrgName} Profile Details Updated)
+2024-01-16 17:55:58.942|E|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 57|web.assertValue(locator,v - FAIL 
+expected=Org703 Profile Details Updated
+actual  =<null/undefined>
+2024-01-16 17:55:58.942|E|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab|# 57|web.assertValue(locator,v - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_175547.001.xlsx_Settings_A57.log
+2024-01-16 17:55:58.942|I|main|UI-Settings.20240116_175547.001|Settings|Verify Organization tab - ending activity
+2024-01-16 17:57:43.956|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:57:57.395|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:57:57.395|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 17:57:57.395|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 17:57:57.620|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_175757.001.xlsx
+2024-01-16 17:57:57.620|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:57:57.704|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_175757.001.xlsx
+2024-01-16 17:57:57.890|I|main|STARTS
+2024-01-16 17:57:57.890|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:57:57.890|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:57:57.890|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:57:57.890|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:57:57.890|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:57:57.890|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:57:57.890|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:57:57.890|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:57:57.906|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:57:57.906|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab - executing activity
+2024-01-16 17:57:57.906|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 17:57:57.982|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-16 17:57:57.990|I|main|click target via JS, @id=__BVID__4962___BV_tab_button__
+2024-01-16 17:57:58.062|I|main|clicked -> true
+2024-01-16 17:57:58.062|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-16 17:57:58.062|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-16 17:57:58.104|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - PASS adding file 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif' to '//input[@accept="image/jpeg, image/png"]'
+2024-01-16 17:57:58.104|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - executing save(var,value)(OrgName, Org[NUMBER(${num})=>randomDigits(3)])
+2024-01-16 17:57:58.104|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - PASS stored 'Org778' as ${OrgName}
+2024-01-16 17:57:58.104|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, ${OrgName})
+2024-01-16 17:57:58.242|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-16 17:57:58.242|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-16 17:57:58.399|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'
+2024-01-16 17:57:58.400|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - executing type(locator,value)(${Organization.Email}, Org@gmail.com)
+2024-01-16 17:57:58.509|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Email']/parent::div/div/input[@type="email"]'
+2024-01-16 17:57:58.509|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - executing type(locator,value)(${Organization.Address}, Supplier Floor, Building IT-09 Qubix Business Park - SEZ, Blue Ridge Town Pune, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra 411057)
+2024-01-16 17:58:00.612|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Address']/parent::div/div/input[@type="text"]'
+2024-01-16 17:58:00.612|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - executing type(locator,value)(${Organization.City}, Mumbai)
+2024-01-16 17:58:00.803|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - PASS typed text at '//div/legend[text()='City']/parent::div/div/input[@type="text"]'
+2024-01-16 17:58:00.803|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - executing select(locator,text)(${Organization.State}, Maharashtra)
+2024-01-16 17:58:01.106|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - PASS selected text 'Maharashtra' from '//Select[@class="custom-select custom-select-sm"]'
+2024-01-16 17:58:01.106|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - executing type(locator,value)(${Organization.Country}, India)
+2024-01-16 17:58:01.289|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Country']/parent::div/div/input[@type="text"]'
+2024-01-16 17:58:01.289|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - executing type(locator,value)(${Organization.Pincode}, 400070)
+2024-01-16 17:58:01.472|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Pincode']/parent::div/div/input[@type="text"]'
+2024-01-16 17:58:01.472|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - executing type(locator,value)(${Organization.Phone}, 1234567890)
+2024-01-16 17:58:01.729|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Phone']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:58:01.730|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - executing type(locator,value)(${Organization.Fax}, 1234567890)
+2024-01-16 17:58:01.971|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Fax']/parent::div/div/input[@type="text"]'
+2024-01-16 17:58:01.971|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - executing type(locator,value)(${Organization.IFSC}, HDFC0000041)
+2024-01-16 17:58:02.107|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - PASS typed text at '//div/legend[text()='IFSC Code']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:58:02.107|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Validate.button}, 1000)
+2024-01-16 17:58:02.154|I|main|clicking '//button[@title="validate"]'...
+2024-01-16 17:58:02.154|I|main|click target via JS, @id=
+2024-01-16 17:58:02.171|I|main|clicked -> true
+2024-01-16 17:58:02.171|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title="validate"]'
+2024-01-16 17:58:02.171|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Autofill.button}, 1000)
+2024-01-16 17:58:02.521|I|main|clicking '//button[span='Auto fill']'...
+2024-01-16 17:58:02.521|I|main|click target via JS, @id=
+2024-01-16 17:58:02.546|I|main|clicked -> true
+2024-01-16 17:58:02.546|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - PASS clicked-and-waited '//button[span='Auto fill']'
+2024-01-16 17:58:02.546|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - executing type(locator,value)(${Organization.AccountNumber}, HDFC98765432024)
+2024-01-16 17:58:02.847|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Account Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:58:02.847|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - executing type(locator,value)(${Organization.GSTIN}, 07AAACC0460H1Z4)
+2024-01-16 17:58:03.159|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - PASS typed text at '//div/legend[text()='GSTIN']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:58:03.159|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - executing assertValue(locator,value)(${Organization.PAN}, AAACC0460H)
+2024-01-16 17:58:03.205|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - PASS 
+2024-01-16 17:58:03.205|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - executing type(locator,value)(${Organization.ServiceTax}, 07AAACC0460H1Z4)
+2024-01-16 17:58:03.514|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - PASS typed text at '//div/legend[text()='ServiceTax Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:58:03.514|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessButton}, 1000)
+2024-01-16 17:58:03.575|I|main|clicking '//div/legend[text()='CESS']/parent::div/descendant::button'...
+2024-01-16 17:58:03.586|I|main|click target via JS, @id=
+2024-01-16 17:58:03.603|I|main|clicked -> true
+2024-01-16 17:58:03.603|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - PASS clicked-and-waited '//div/legend[text()='CESS']/parent::div/descendant::button'
+2024-01-16 17:58:03.603|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - executing type(locator,value)(${Organization.CessNumber}, 10)
+2024-01-16 17:58:13.637|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - Timed out while looking for web element(s) that match '//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]'; nexial.pollWaitMs=10000
+2024-01-16 17:58:13.640|E|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]', '10')
+Specified element not found: Timed out while looking for web element(s) that match '//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 17:58:13.640|E|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_175757.001.xlsx_Settings_A52.log
+2024-01-16 17:58:13.640|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessAdd}, 1000)
+2024-01-16 17:58:17.886|I|main|clicking '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'...
+2024-01-16 17:58:17.897|I|main|click target via JS, @id=
+2024-01-16 17:58:17.906|I|main|clicked -> true
+2024-01-16 17:58:17.906|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - PASS clicked-and-waited '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'
+2024-01-16 17:58:17.906|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-16 17:58:17.979|I|main|clicking '//button[@type="submit"]'...
+2024-01-16 17:58:17.987|I|main|click target via JS, @id=
+2024-01-16 17:58:17.996|I|main|clicked -> true
+2024-01-16 17:58:17.996|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-16 17:58:17.996|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - executing assertElementPresent(locator)(${Confirmation.msg})
+2024-01-16 17:58:18.022|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - PASS EXPECTED element '//div[text()='Confirm update company ? ']' found
+2024-01-16 17:58:18.022|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Confirmation.OK}, 3000)
+2024-01-16 17:58:18.236|I|main|clicking '//button[@class="btn btn-danger"]'...
+2024-01-16 17:58:18.236|I|main|click target via JS, @id=
+2024-01-16 17:58:18.275|I|main|clicked -> true
+2024-01-16 17:58:18.275|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@class="btn btn-danger"]'
+2024-01-16 17:58:18.275|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 57|base.save(var,value)      - executing save(var,value)(SuccessMessage, ${OrgName} Profile Details Updated)
+2024-01-16 17:58:18.275|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 57|base.save(var,value)      - PASS stored 'Org778 Profile Details Updated' as ${SuccessMessage}
+2024-01-16 17:58:18.275|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - executing assertText(locator,text)(${Popup.Message}, ${SuccessMessage})
+2024-01-16 17:58:18.628|E|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - FAIL 
+expected=Org778 Profile Details Updated
+actual  =Success
+2024-01-16 17:58:18.628|E|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_175757.001.xlsx_Settings_A58.log
+2024-01-16 17:58:18.629|I|main|UI-Settings.20240116_175757.001|Settings|Verify Organization tab - ending activity
+2024-01-16 17:59:18.001|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:59:43.108|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 17:59:43.108|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 17:59:43.108|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 17:59:43.355|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_175943.001.xlsx
+2024-01-16 17:59:43.355|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 17:59:43.436|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_175943.001.xlsx
+2024-01-16 17:59:43.656|I|main|STARTS
+2024-01-16 17:59:43.656|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 17:59:43.656|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 17:59:43.656|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 17:59:43.656|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 17:59:43.656|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 17:59:43.672|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 17:59:43.676|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 17:59:43.677|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab - executing activity
+2024-01-16 17:59:43.677|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 17:59:43.761|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-16 17:59:43.769|I|main|click target via JS, @id=__BVID__5975___BV_tab_button__
+2024-01-16 17:59:43.839|I|main|clicked -> true
+2024-01-16 17:59:43.840|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-16 17:59:43.840|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-16 17:59:43.893|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - PASS adding file 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif' to '//input[@accept="image/jpeg, image/png"]'
+2024-01-16 17:59:43.893|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - executing save(var,value)(OrgName, Org[NUMBER(${num})=>randomDigits(3)])
+2024-01-16 17:59:43.894|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - PASS stored 'Org526' as ${OrgName}
+2024-01-16 17:59:43.895|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, ${OrgName})
+2024-01-16 17:59:44.028|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-16 17:59:44.028|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-16 17:59:44.185|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'
+2024-01-16 17:59:44.185|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - executing type(locator,value)(${Organization.Email}, Org@gmail.com)
+2024-01-16 17:59:44.296|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Email']/parent::div/div/input[@type="email"]'
+2024-01-16 17:59:44.296|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - executing type(locator,value)(${Organization.Address}, Supplier Floor, Building IT-09 Qubix Business Park - SEZ, Blue Ridge Town Pune, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra 411057)
+2024-01-16 17:59:46.454|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Address']/parent::div/div/input[@type="text"]'
+2024-01-16 17:59:46.454|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - executing type(locator,value)(${Organization.City}, Mumbai)
+2024-01-16 17:59:46.638|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - PASS typed text at '//div/legend[text()='City']/parent::div/div/input[@type="text"]'
+2024-01-16 17:59:46.638|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - executing select(locator,text)(${Organization.State}, Maharashtra)
+2024-01-16 17:59:46.921|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - PASS selected text 'Maharashtra' from '//Select[@class="custom-select custom-select-sm"]'
+2024-01-16 17:59:46.921|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - executing type(locator,value)(${Organization.Country}, India)
+2024-01-16 17:59:47.094|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Country']/parent::div/div/input[@type="text"]'
+2024-01-16 17:59:47.094|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - executing type(locator,value)(${Organization.Pincode}, 400070)
+2024-01-16 17:59:47.285|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Pincode']/parent::div/div/input[@type="text"]'
+2024-01-16 17:59:47.285|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - executing type(locator,value)(${Organization.Phone}, 1234567890)
+2024-01-16 17:59:47.519|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Phone']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:59:47.519|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - executing type(locator,value)(${Organization.Fax}, 1234567890)
+2024-01-16 17:59:47.758|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Fax']/parent::div/div/input[@type="text"]'
+2024-01-16 17:59:47.758|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - executing type(locator,value)(${Organization.IFSC}, HDFC0000041)
+2024-01-16 17:59:47.894|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - PASS typed text at '//div/legend[text()='IFSC Code']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:59:47.894|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Validate.button}, 1000)
+2024-01-16 17:59:47.943|I|main|clicking '//button[@title="validate"]'...
+2024-01-16 17:59:47.943|I|main|click target via JS, @id=
+2024-01-16 17:59:47.962|I|main|clicked -> true
+2024-01-16 17:59:47.962|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title="validate"]'
+2024-01-16 17:59:47.962|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Autofill.button}, 1000)
+2024-01-16 17:59:48.297|I|main|clicking '//button[span='Auto fill']'...
+2024-01-16 17:59:48.311|I|main|click target via JS, @id=
+2024-01-16 17:59:48.311|I|main|clicked -> true
+2024-01-16 17:59:48.311|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - PASS clicked-and-waited '//button[span='Auto fill']'
+2024-01-16 17:59:48.311|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - executing type(locator,value)(${Organization.AccountNumber}, HDFC98765432024)
+2024-01-16 17:59:48.626|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Account Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:59:48.626|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - executing type(locator,value)(${Organization.GSTIN}, 07AAACC0460H1Z4)
+2024-01-16 17:59:48.935|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - PASS typed text at '//div/legend[text()='GSTIN']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:59:48.937|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - executing assertValue(locator,value)(${Organization.PAN}, AAACC0460H)
+2024-01-16 17:59:48.978|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - PASS 
+2024-01-16 17:59:48.978|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - executing type(locator,value)(${Organization.ServiceTax}, 07AAACC0460H1Z4)
+2024-01-16 17:59:49.284|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - PASS typed text at '//div/legend[text()='ServiceTax Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 17:59:49.284|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessButton}, 1000)
+2024-01-16 17:59:49.347|I|main|clicking '//div/legend[text()='CESS']/parent::div/descendant::button'...
+2024-01-16 17:59:49.347|I|main|click target via JS, @id=
+2024-01-16 17:59:49.365|I|main|clicked -> true
+2024-01-16 17:59:49.365|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - PASS clicked-and-waited '//div/legend[text()='CESS']/parent::div/descendant::button'
+2024-01-16 17:59:49.365|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - executing type(locator,value)(${Organization.CessNumber}, 10)
+2024-01-16 17:59:49.534|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - PASS typed text at '//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]'
+2024-01-16 17:59:49.534|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessAdd}, 1000)
+2024-01-16 17:59:49.612|I|main|clicking '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'...
+2024-01-16 17:59:49.613|I|main|click target via JS, @id=
+2024-01-16 17:59:49.654|I|main|clicked -> true
+2024-01-16 17:59:49.654|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - PASS clicked-and-waited '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'
+2024-01-16 17:59:49.654|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-16 17:59:49.694|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 17:59:49.694|I|main|clicking '//button[@type="submit"]'...
+2024-01-16 17:59:49.712|I|main|click target via JS, @id=
+2024-01-16 17:59:49.731|I|main|clicked -> true
+2024-01-16 17:59:49.731|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-16 17:59:49.731|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - executing assertElementPresent(locator)(${Confirmation.msg})
+2024-01-16 17:59:49.748|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - PASS EXPECTED element '//div[text()='Confirm update company ? ']' found
+2024-01-16 17:59:49.748|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Confirmation.OK}, 3000)
+2024-01-16 17:59:49.966|I|main|clicking '//button[@class="btn btn-danger"]'...
+2024-01-16 17:59:49.977|I|main|click target via JS, @id=
+2024-01-16 17:59:50.004|I|main|clicked -> true
+2024-01-16 17:59:50.004|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@class="btn btn-danger"]'
+2024-01-16 17:59:50.004|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 57|base.save(var,value)      - executing save(var,value)(SuccessMessage, ${OrgName} Profile Details Updated)
+2024-01-16 17:59:50.004|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 57|base.save(var,value)      - PASS stored 'Org526 Profile Details Updated' as ${SuccessMessage}
+2024-01-16 17:59:50.004|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - executing assertText(locator,text)(${Popup.Message}, ${SuccessMessage})
+2024-01-16 17:59:50.398|E|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - FAIL 
+expected=Org526 Profile Details Updated
+actual  =IndianInstitute Profile Details Updated
+2024-01-16 17:59:50.398|E|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_175943.001.xlsx_Settings_A58.log
+2024-01-16 17:59:50.399|I|main|UI-Settings.20240116_175943.001|Settings|Verify Organization tab - ending activity
+2024-01-16 18:00:40.790|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:00:42.225|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 18:00:42.225|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 18:00:42.225|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 18:00:42.453|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_180042.001.xlsx
+2024-01-16 18:00:42.453|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:00:42.505|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_180042.001.xlsx
+2024-01-16 18:00:42.700|I|main|STARTS
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 18:00:42.700|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 18:00:42.715|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 18:00:42.715|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 18:00:42.715|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 18:00:42.721|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-16 18:00:42.721|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-16 18:00:42.721|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-16 18:00:42.721|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-16 18:00:42.788|I|main|clicking '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-16 18:00:42.789|I|main|click target via JS, @id=
+2024-01-16 18:00:42.809|I|main|clicked -> true
+2024-01-16 18:00:42.809|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-16 18:00:42.809|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-16 18:00:43.141|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-16 18:00:43.141|I|main|click target via JS, @id=
+2024-01-16 18:00:43.178|I|main|clicked -> true
+2024-01-16 18:00:43.178|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-16 18:00:43.178|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-16 18:00:46.191|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-16 18:00:46.191|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-16 18:00:46.213|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 18:00:46.213|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-16 18:00:46.236|I|main|click target via JS, @id=
+2024-01-16 18:00:46.289|I|main|clicked -> true
+2024-01-16 18:00:46.291|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-16 18:00:46.292|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-16 18:00:46.333|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-16 18:00:46.334|I|main|UI-Settings.20240116_180042.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-16 18:00:48.810|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 18:00:48.810|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab - executing activity
+2024-01-16 18:00:48.810|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 18:00:48.888|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-16 18:00:48.895|I|main|click target via JS, @id=__BVID__7768___BV_tab_button__
+2024-01-16 18:00:48.960|I|main|clicked -> true
+2024-01-16 18:00:48.960|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-16 18:00:48.960|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-16 18:00:49.028|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - PASS adding file 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif' to '//input[@accept="image/jpeg, image/png"]'
+2024-01-16 18:00:49.029|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - executing save(var,value)(OrgName, Org[NUMBER(${num})=>randomDigits(3)])
+2024-01-16 18:00:49.030|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - PASS stored 'Org908' as ${OrgName}
+2024-01-16 18:00:49.031|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, ${OrgName})
+2024-01-16 18:00:49.187|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 34|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-16 18:00:49.187|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-16 18:00:49.294|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'
+2024-01-16 18:00:49.294|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - executing type(locator,value)(${Organization.Email}, Org@gmail.com)
+2024-01-16 18:00:49.680|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 36|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Email']/parent::div/div/input[@type="email"]'
+2024-01-16 18:00:49.680|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - executing type(locator,value)(${Organization.Address}, Supplier Floor, Building IT-09 Qubix Business Park - SEZ, Blue Ridge Town Pune, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra 411057)
+2024-01-16 18:00:51.764|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Address']/parent::div/div/input[@type="text"]'
+2024-01-16 18:00:51.764|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - executing type(locator,value)(${Organization.City}, Mumbai)
+2024-01-16 18:00:51.965|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 38|web.type(locator,value)   - PASS typed text at '//div/legend[text()='City']/parent::div/div/input[@type="text"]'
+2024-01-16 18:00:51.965|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - executing select(locator,text)(${Organization.State}, Maharashtra)
+2024-01-16 18:00:52.250|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 39|web.select(locator,text)  - PASS selected text 'Maharashtra' from '//Select[@class="custom-select custom-select-sm"]'
+2024-01-16 18:00:52.250|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - executing type(locator,value)(${Organization.Country}, India)
+2024-01-16 18:00:52.424|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Country']/parent::div/div/input[@type="text"]'
+2024-01-16 18:00:52.424|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - executing type(locator,value)(${Organization.Pincode}, 400070)
+2024-01-16 18:00:52.615|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Pincode']/parent::div/div/input[@type="text"]'
+2024-01-16 18:00:52.620|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - executing type(locator,value)(${Organization.Phone}, 1234567890)
+2024-01-16 18:00:52.854|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 42|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Phone']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:00:52.854|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - executing type(locator,value)(${Organization.Fax}, 1234567890)
+2024-01-16 18:00:53.090|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Fax']/parent::div/div/input[@type="text"]'
+2024-01-16 18:00:53.090|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - executing type(locator,value)(${Organization.IFSC}, HDFC0000041)
+2024-01-16 18:00:53.233|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - PASS typed text at '//div/legend[text()='IFSC Code']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:00:53.233|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Validate.button}, 1000)
+2024-01-16 18:00:53.287|I|main|clicking '//button[@title="validate"]'...
+2024-01-16 18:00:53.288|I|main|click target via JS, @id=
+2024-01-16 18:00:53.288|I|main|clicked -> true
+2024-01-16 18:00:53.288|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 45|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title="validate"]'
+2024-01-16 18:00:53.303|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Autofill.button}, 1000)
+2024-01-16 18:00:53.645|I|main|clicking '//button[span='Auto fill']'...
+2024-01-16 18:00:53.661|I|main|click target via JS, @id=
+2024-01-16 18:00:53.661|I|main|clicked -> true
+2024-01-16 18:00:53.661|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 46|web.clickAndWait(locator, - PASS clicked-and-waited '//button[span='Auto fill']'
+2024-01-16 18:00:53.661|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - executing type(locator,value)(${Organization.AccountNumber}, HDFC98765432024)
+2024-01-16 18:00:53.990|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Account Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:00:53.990|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - executing type(locator,value)(${Organization.GSTIN}, 07AAACC0460H1Z4)
+2024-01-16 18:00:54.322|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 48|web.type(locator,value)   - PASS typed text at '//div/legend[text()='GSTIN']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:00:54.322|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - executing assertValue(locator,value)(${Organization.PAN}, AAACC0460H)
+2024-01-16 18:00:54.376|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 49|web.assertValue(locator,v - PASS 
+2024-01-16 18:00:54.376|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - executing type(locator,value)(${Organization.ServiceTax}, 07AAACC0460H1Z4)
+2024-01-16 18:00:54.721|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - PASS typed text at '//div/legend[text()='ServiceTax Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:00:54.722|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessButton}, 1000)
+2024-01-16 18:00:54.823|I|main|clicking '//div/legend[text()='CESS']/parent::div/descendant::button'...
+2024-01-16 18:00:54.834|I|main|click target via JS, @id=
+2024-01-16 18:00:54.867|I|main|clicked -> true
+2024-01-16 18:00:54.868|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 51|web.clickAndWait(locator, - PASS clicked-and-waited '//div/legend[text()='CESS']/parent::div/descendant::button'
+2024-01-16 18:00:54.868|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - executing type(locator,value)(${Organization.CessNumber}, 10)
+2024-01-16 18:01:04.896|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - Timed out while looking for web element(s) that match '//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]'; nexial.pollWaitMs=10000
+2024-01-16 18:01:04.896|E|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - FAIL EXECUTING COMMAND: web.type(locator,value)('//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]', '10')
+Specified element not found: Timed out while looking for web element(s) that match '//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 18:01:04.896|E|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 52|web.type(locator,value)   - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_180042.001.xlsx_Settings_A52.log
+2024-01-16 18:01:04.896|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessAdd}, 1000)
+2024-01-16 18:01:14.918|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'; nexial.pollWaitMs=10000
+2024-01-16 18:01:14.921|E|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']', '1000')
+Specified element not found: Timed out while looking for web element(s) that match '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 18:01:14.921|E|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 53|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_180042.001.xlsx_Settings_A53.log
+2024-01-16 18:01:14.921|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-16 18:01:15.000|I|main|clicking '//button[@type="submit"]'...
+2024-01-16 18:01:15.002|I|main|click target via JS, @id=
+2024-01-16 18:01:15.049|I|main|clicked -> true
+2024-01-16 18:01:15.050|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-16 18:01:15.050|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - executing assertElementPresent(locator)(${Confirmation.msg})
+2024-01-16 18:01:15.120|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 55|web.assertElementPresent( - PASS EXPECTED element '//div[text()='Confirm update company ? ']' found
+2024-01-16 18:01:15.120|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Confirmation.OK}, 3000)
+2024-01-16 18:01:15.322|I|main|clicking '//button[@class="btn btn-danger"]'...
+2024-01-16 18:01:15.341|I|main|click target via JS, @id=
+2024-01-16 18:01:15.412|I|main|clicked -> true
+2024-01-16 18:01:15.413|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@class="btn btn-danger"]'
+2024-01-16 18:01:15.413|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 57|base.save(var,value)      - executing save(var,value)(SuccessMessage, ${OrgName} Profile Details Updated)
+2024-01-16 18:01:15.413|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 57|base.save(var,value)      - PASS stored 'Org908 Profile Details Updated' as ${SuccessMessage}
+2024-01-16 18:01:15.415|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - executing assertText(locator,text)(${Popup.Message}, ${SuccessMessage})
+2024-01-16 18:01:15.724|E|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - FAIL 
+expected=Org908 Profile Details Updated
+actual  =IndianInstitute Profile Details Updated
+2024-01-16 18:01:15.724|E|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab|# 58|web.assertText(locator,te - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_180042.001.xlsx_Settings_A58.log
+2024-01-16 18:01:15.727|I|main|UI-Settings.20240116_180042.001|Settings|Verify Organization tab - ending activity
+2024-01-16 18:01:22.767|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:01:34.433|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:01:38.696|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 18:01:38.697|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 18:01:38.697|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 18:01:38.918|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_180138.001.xlsx
+2024-01-16 18:01:38.918|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:01:38.983|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_180138.001.xlsx
+2024-01-16 18:01:39.182|I|main|STARTS
+2024-01-16 18:01:39.182|I|main|skipping test step in ROW 11 since it's disabled
+2024-01-16 18:01:39.182|I|main|skipping test step in ROW 12 since it's disabled
+2024-01-16 18:01:39.182|I|main|skipping test step in ROW 13 since it's disabled
+2024-01-16 18:01:39.182|I|main|skipping test step in ROW 14 since it's disabled
+2024-01-16 18:01:39.182|I|main|skipping test step in ROW 15 since it's disabled
+2024-01-16 18:01:39.182|I|main|skipping test step in ROW 16 since it's disabled
+2024-01-16 18:01:39.182|I|main|skipping test step in ROW 17 since it's disabled
+2024-01-16 18:01:39.182|I|main|skipping test step in ROW 18 since it's disabled
+2024-01-16 18:01:39.182|I|main|skipping test step in ROW 19 since it's disabled
+2024-01-16 18:01:39.198|I|main|skipping test step in ROW 20 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 21 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 22 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 23 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 24 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 25 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 26 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 27 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 28 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 29 since it's disabled
+2024-01-16 18:01:39.199|I|main|skipping test step in ROW 30 since it's disabled
+2024-01-16 18:01:39.199|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab - executing activity
+2024-01-16 18:01:39.199|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.Organization}, 2000)
+2024-01-16 18:01:39.270|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Organisation']'...
+2024-01-16 18:01:39.278|I|main|click target via JS, @id=__BVID__8774___BV_tab_button__
+2024-01-16 18:01:39.357|I|main|clicked -> true
+2024-01-16 18:01:39.357|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 31|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Organisation']'
+2024-01-16 18:01:39.357|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Organization.inputImg}, ${data.path}\images.jfif)
+2024-01-16 18:01:39.417|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 32|web.upload(fieldLocator,f - PASS adding file 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\images.jfif' to '//input[@accept="image/jpeg, image/png"]'
+2024-01-16 18:01:39.417|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - executing save(var,value)(OrgName, Org[NUMBER(${num})=>randomDigits(3)])
+2024-01-16 18:01:39.417|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 33|base.save(var,value)      - PASS stored 'Org455' as ${OrgName}
+2024-01-16 18:01:39.417|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 34|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-16 18:01:40.937|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 34|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-16 18:01:40.938|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - executing type(locator,value)(${Organization.Name}, ${OrgName})
+2024-01-16 18:01:41.209|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 35|web.type(locator,value)   - PASS typed text at '//div[@class="card-body"]/img/parent::div/descendant::div/legend[text()='Name']/parent::div/div/input[@type="text"]'
+2024-01-16 18:01:41.210|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 36|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-16 18:01:42.716|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 36|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-16 18:01:42.717|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - executing type(locator,value)(${Organization.Website}, Org@www.com)
+2024-01-16 18:01:42.937|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 37|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Website']/parent::div/div/input[@type="text"]'
+2024-01-16 18:01:42.937|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 38|web.wait(waitMs)          - executing wait(waitMs)(1500)
+2024-01-16 18:01:44.447|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 38|web.wait(waitMs)          - PASS waited 1500ms
+2024-01-16 18:01:44.448|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 39|web.type(locator,value)   - executing type(locator,value)(${Organization.Email}, Org@gmail.com)
+2024-01-16 18:01:44.715|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 39|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Email']/parent::div/div/input[@type="email"]'
+2024-01-16 18:01:44.715|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - executing type(locator,value)(${Organization.Address}, Supplier Floor, Building IT-09 Qubix Business Park - SEZ, Blue Ridge Town Pune, Phase 1, Hinjawadi Rajiv Gandhi Infotech Park, Hinjawadi, Pune, Maharashtra 411057)
+2024-01-16 18:01:46.726|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 40|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Address']/parent::div/div/input[@type="text"]'
+2024-01-16 18:01:46.726|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - executing type(locator,value)(${Organization.City}, Mumbai)
+2024-01-16 18:01:46.920|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 41|web.type(locator,value)   - PASS typed text at '//div/legend[text()='City']/parent::div/div/input[@type="text"]'
+2024-01-16 18:01:46.920|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 42|web.select(locator,text)  - executing select(locator,text)(${Organization.State}, Maharashtra)
+2024-01-16 18:01:47.211|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 42|web.select(locator,text)  - PASS selected text 'Maharashtra' from '//Select[@class="custom-select custom-select-sm"]'
+2024-01-16 18:01:47.211|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - executing type(locator,value)(${Organization.Country}, India)
+2024-01-16 18:01:47.387|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 43|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Country']/parent::div/div/input[@type="text"]'
+2024-01-16 18:01:47.387|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - executing type(locator,value)(${Organization.Pincode}, 400070)
+2024-01-16 18:01:47.581|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 44|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Pincode']/parent::div/div/input[@type="text"]'
+2024-01-16 18:01:47.581|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 45|web.type(locator,value)   - executing type(locator,value)(${Organization.Phone}, 1234567890)
+2024-01-16 18:01:47.818|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 45|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Phone']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:01:47.818|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 46|web.type(locator,value)   - executing type(locator,value)(${Organization.Fax}, 1234567890)
+2024-01-16 18:01:48.056|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 46|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Fax']/parent::div/div/input[@type="text"]'
+2024-01-16 18:01:48.056|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - executing type(locator,value)(${Organization.IFSC}, HDFC0000041)
+2024-01-16 18:01:48.202|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 47|web.type(locator,value)   - PASS typed text at '//div/legend[text()='IFSC Code']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:01:48.202|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 48|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Validate.button}, 1000)
+2024-01-16 18:01:48.250|I|main|clicking '//button[@title="validate"]'...
+2024-01-16 18:01:48.250|I|main|click target via JS, @id=
+2024-01-16 18:01:48.266|I|main|clicked -> true
+2024-01-16 18:01:48.266|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 48|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title="validate"]'
+2024-01-16 18:01:48.266|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 49|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Autofill.button}, 1000)
+2024-01-16 18:01:48.605|I|main|clicking '//button[span='Auto fill']'...
+2024-01-16 18:01:48.617|I|main|click target via JS, @id=
+2024-01-16 18:01:48.636|I|main|clicked -> true
+2024-01-16 18:01:48.637|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 49|web.clickAndWait(locator, - PASS clicked-and-waited '//button[span='Auto fill']'
+2024-01-16 18:01:48.637|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - executing type(locator,value)(${Organization.AccountNumber}, HDFC98765432024)
+2024-01-16 18:01:48.953|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 50|web.type(locator,value)   - PASS typed text at '//div/legend[text()='Account Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:01:48.953|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 51|web.type(locator,value)   - executing type(locator,value)(${Organization.GSTIN}, 07AAACC0460H1Z4)
+2024-01-16 18:01:49.258|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 51|web.type(locator,value)   - PASS typed text at '//div/legend[text()='GSTIN']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:01:49.258|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 52|web.assertValue(locator,v - executing assertValue(locator,value)(${Organization.PAN}, AAACC0460H)
+2024-01-16 18:01:49.317|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 52|web.assertValue(locator,v - PASS 
+2024-01-16 18:01:49.317|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 53|web.type(locator,value)   - executing type(locator,value)(${Organization.ServiceTax}, 07AAACC0460H1Z4)
+2024-01-16 18:01:49.616|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 53|web.type(locator,value)   - PASS typed text at '//div/legend[text()='ServiceTax Number']/parent::div/descendant::input[@type="text"]'
+2024-01-16 18:01:49.616|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessButton}, 1000)
+2024-01-16 18:01:49.666|I|main|clicking '//div/legend[text()='CESS']/parent::div/descendant::button'...
+2024-01-16 18:01:49.681|I|main|click target via JS, @id=
+2024-01-16 18:01:49.684|I|main|clicked -> true
+2024-01-16 18:01:49.684|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 54|web.clickAndWait(locator, - PASS clicked-and-waited '//div/legend[text()='CESS']/parent::div/descendant::button'
+2024-01-16 18:01:49.684|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 55|web.type(locator,value)   - executing type(locator,value)(${Organization.CessNumber}, 10)
+2024-01-16 18:01:49.839|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 55|web.type(locator,value)   - PASS typed text at '//div/legend[text()='CESS']/parent::div/descendant::input[@type="number"]'
+2024-01-16 18:01:49.839|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.CessAdd}, 1000)
+2024-01-16 18:01:49.901|I|main|clicking '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'...
+2024-01-16 18:01:49.902|I|main|click target via JS, @id=
+2024-01-16 18:01:49.936|I|main|clicked -> true
+2024-01-16 18:01:49.938|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 56|web.clickAndWait(locator, - PASS clicked-and-waited '//footer[@id="cess___BV_modal_footer_"]/button[text()='Add']'
+2024-01-16 18:01:49.938|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 57|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Organization.SaveChanges}, 1000)
+2024-01-16 18:01:49.981|I|main|Target element not visible; clicking on such element might not work...
+2024-01-16 18:01:49.981|I|main|clicking '//button[@type="submit"]'...
+2024-01-16 18:01:49.981|I|main|click target via JS, @id=
+2024-01-16 18:01:50.000|I|main|clicked -> true
+2024-01-16 18:01:50.000|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 57|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"]'
+2024-01-16 18:01:50.000|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 58|web.assertElementPresent( - executing assertElementPresent(locator)(${Confirmation.msg})
+2024-01-16 18:01:50.031|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 58|web.assertElementPresent( - PASS EXPECTED element '//div[text()='Confirm update company ? ']' found
+2024-01-16 18:01:50.032|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 59|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Confirmation.OK}, 3000)
+2024-01-16 18:01:50.236|I|main|clicking '//button[@class="btn btn-danger"]'...
+2024-01-16 18:01:50.248|I|main|click target via JS, @id=
+2024-01-16 18:01:50.265|I|main|clicked -> true
+2024-01-16 18:01:50.265|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 59|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@class="btn btn-danger"]'
+2024-01-16 18:01:50.265|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 60|base.save(var,value)      - executing save(var,value)(SuccessMessage, ${OrgName} Profile Details Updated)
+2024-01-16 18:01:50.265|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 60|base.save(var,value)      - PASS stored 'Org455 Profile Details Updated' as ${SuccessMessage}
+2024-01-16 18:01:50.265|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 61|web.assertText(locator,te - executing assertText(locator,text)(${Popup.Message}, ${SuccessMessage})
+2024-01-16 18:01:50.615|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab|# 61|web.assertText(locator,te - PASS 
+2024-01-16 18:01:50.630|I|main|UI-Settings.20240116_180138.001|Settings|Verify Organization tab - ending activity
+2024-01-16 18:02:53.478|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:03:01.724|I|main|[20240116_173954] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-16 18:03:01.724|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\captures
+2024-01-16 18:03:01.724|I|main|[20240116_173954] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs
+2024-01-16 18:03:01.972|I|main|[20240116_173954] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_180301.001.xlsx
+2024-01-16 18:03:01.972|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-16 18:03:02.020|I|main|[20240116_173954] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\UI-Settings.20240116_180301.001.xlsx
+2024-01-16 18:03:02.191|I|main|STARTS
+2024-01-16 18:03:02.208|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-16 18:03:02.208|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-16 18:03:02.208|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-16 18:03:02.208|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-16 18:03:12.242|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'; nexial.pollWaitMs=10000
+2024-01-16 18:03:12.245|E|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button', '1500')
+Specified element not found: Timed out while looking for web element(s) that match '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 18:03:12.246|E|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_180301.001.xlsx_Settings_A6.log
+2024-01-16 18:03:12.246|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-16 18:03:22.283|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - Timed out while looking for web element(s) that match '//button[@title='Open Sidebar']'; nexial.pollWaitMs=10000
+2024-01-16 18:03:22.283|E|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//button[@title='Open Sidebar']', '2000')
+Specified element not found: Timed out while looking for web element(s) that match '//button[@title='Open Sidebar']'; nexial.pollWaitMs=10000 For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html...
+2024-01-16 18:03:22.283|E|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_180301.001.xlsx_Settings_A7.log
+2024-01-16 18:03:22.283|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-16 18:03:25.291|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-16 18:03:25.291|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-16 18:03:27.423|I|Thread-0|shutdown starts...
+2024-01-16 18:03:27.423|I|Thread-0|[chrome] Shutting down webdriver...
+2024-01-16 18:03:27.424|I|Thread-0|[chrome] Close the current window...
+2024-01-16 18:03:27.499|I|Thread-0|[chrome] Quit this driver, closing every associated window.
+2024-01-16 18:03:27.564|E|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - FAIL EXECUTING COMMAND: web.clickAndWait(locator,waitMs)('//a[@href="#/settings"]', '2000')
+WebDriver session no longer valid: invalid session id Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-16 18:03:27.564|E|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_180301.001.xlsx_Settings_A9.log
+2024-01-16 18:03:27.565|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-16 18:03:27.608|E|main|[chrome] webdriver readiness check: java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:40402
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5334', ip: '192.168.0.2', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver 
+BROWSER MIGHT BE TERMINATED; RESTARTING...
+2024-01-16 18:03:27.608|E|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - FAIL EXECUTING COMMAND: web.assertElementPresent(locator)('//ul[@role="tablist"]')
+WebDriver session no longer valid: Session ID is null. Using WebDriver after calling quit()? Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'...
+2024-01-16 18:03:27.608|E|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240116_173954\logs\UI-Settings.20240116_180301.001.xlsx_Settings_A10.log
+2024-01-16 18:03:27.608|I|main|UI-Settings.20240116_180301.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-16 18:03:28.605|I|Thread-0|shutdown ends...

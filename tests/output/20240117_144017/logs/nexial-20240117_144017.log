@@ -1,0 +1,367 @@
+2024-01-17 14:40:18.562|I|main|(DELAYED) nexial-core dev_1535 starting up...
+2024-01-17 14:40:18.562|I|main|(DELAYED) data file resolved as C:\Users\al4107\tmp\vgidU\UI-Settings.data.xlsx
+2024-01-17 14:40:18.562|I|main|(DELAYED) input files and output directory resolved...
+2024-01-17 14:40:18.562|I|main|(DELAYED) cleaning up outdated temp files...
+2024-01-17 14:40:18.562|I|main|(DELAYED) No predefined nexial-setup found
+2024-01-17 14:40:18.562|I|main|[20240117_144017] [C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx] resolve RUN ID as 20240117_144017
+2024-01-17 14:40:18.710|I|main|No predefined nexial-setup found
+2024-01-17 14:40:19.037|I|main|outputBase not set; output-to-cloud DISABLED!
+2024-01-17 14:40:19.037|I|main|accessKey not set; output-to-cloud DISABLED!
+2024-01-17 14:40:19.037|I|main|secretKey not set; output-to-cloud DISABLED!
+2024-01-17 14:40:19.190|I|main|missing REQUIRED configuration; sms DISABLED!
+2024-01-17 14:40:19.683|I|main|On-Demand Inspection detection enabled
+2024-01-17 14:40:19.975|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:40:22.729|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:40:22.729|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\captures
+2024-01-17 14:40:22.729|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs
+2024-01-17 14:40:24.267|I|main|[20240117_144017] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144022.001.xlsx
+2024-01-17 14:40:24.283|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:40:24.882|I|main|[20240117_144017] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144022.001.xlsx
+2024-01-17 14:40:25.671|I|main|STARTS
+2024-01-17 14:40:25.717|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata - executing activity
+2024-01-17 14:40:25.717|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - executing macroFlex(macro,input,output)($(projectfile|macro|${gnukhata.path}|MacroLibrary|login), username=${login.username}
+password=${password})
+2024-01-17 14:40:26.139|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - executing openAndWait(url,waitMs)(${uiurl}, 1500)
+2024-01-17 14:40:26.139|I|main|[chrome] initializing chrome
+2024-01-17 14:40:26.215|I|main|[chrome] enabling chrome remote port: 5923
+2024-01-17 14:40:27.865|I|main|[chrome] initializing for chrome 120.0.6099.217
+2024-01-17 14:40:27.930|I|main|[DISPLAY] Currently discovered display(s):
+2024-01-17 14:40:27.946|I|main|	1920x1080x32bpp@60Hz
+2024-01-17 14:40:27.946|I|main|[DISPLAY] adjust position to display 1920x1080x32bpp@60Hz
+2024-01-17 14:40:27.956|I|main|[DISPLAY] adjusting position within the bounds of target display: x=0,y=0,width=1280,height=720
+2024-01-17 14:40:27.956|I|main|[DISPLAY] position adjusted to (0, 0)
+2024-01-17 14:40:28.078|I|main|[chrome] browser initialization completed for 'chrome'
+2024-01-17 14:40:28.087|I|main|[chrome] setting browser page load timeout to 60000 ms
+2024-01-17 14:40:28.087|I|main|[chrome] detected nexial.web.alwaysWait; use fluent-wait (up to 10000 ms) during web automation
+2024-01-17 14:40:32.617|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 16|web.openAndWait(url,waitM - PASS opened URL https://gnukhata.gitlab.io/gkapp/#/user-login
+2024-01-17 14:40:32.617|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - executing maximizeWindow()()
+2024-01-17 14:40:32.795|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 17|web.maximizeWindow()      - PASS browser window maximized
+2024-01-17 14:40:32.795|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - executing waitForElementPresent(locator,waitMs)(${login.clickDefault}, 5000)
+2024-01-17 14:40:34.344|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 18|web.waitForElementPresent - PASS Element by locator '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']' is present
+2024-01-17 14:40:34.344|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - executing click(locator)(${login.clickDefault})
+2024-01-17 14:40:34.502|I|main|clicking '//button[@class="btn btn-dark btn-sm"]/span[text()='Continue with Default Server']'...
+2024-01-17 14:40:34.533|I|main|click target via JS, @id=
+2024-01-17 14:40:34.573|I|main|clicked -> true
+2024-01-17 14:40:34.573|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 19|web.click(locator)        - PASS click via JS event
+2024-01-17 14:40:34.573|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - executing wait(waitMs)(5000)
+2024-01-17 14:40:39.582|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 20|web.wait(waitMs)          - PASS waited 5000ms
+2024-01-17 14:40:39.582|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - executing type(locator,value)(${input.username}, ${username})
+2024-01-17 14:40:39.861|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 21|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Enter Username']'
+2024-01-17 14:40:39.863|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - executing type(locator,value)(${input.password}, ${password})
+2024-01-17 14:40:40.178|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 22|web.type(locator,value)   - PASS typed text at '//input[@placeholder='Password']'
+2024-01-17 14:40:40.178|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - executing click(locator)(${button.submit})
+2024-01-17 14:40:40.350|I|main|clicking '(//*[@type='submit'])[1]'...
+2024-01-17 14:40:40.379|I|main|click target via JS, @id=
+2024-01-17 14:40:40.418|I|main|clicked -> true
+2024-01-17 14:40:40.418|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 23|web.click(locator)        - PASS click via JS event
+2024-01-17 14:40:40.418|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - executing assertTitle(text)(${title.header})
+2024-01-17 14:40:40.445|E|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - FAIL 
+expected=<empty>
+actual  =User Login — GNUKhata
+2024-01-17 14:40:40.445|E|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata (login)|# 24|web.assertTitle(text)     - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs\UI-Settings.20240117_144022.001.xlsx_Login_A5.A24.log
+2024-01-17 14:40:40.445|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata|#  5|base.macroFlex(macro,inpu - PASS Macro successfully executed
+2024-01-17 14:40:40.445|I|main|UI-Settings.20240117_144022.001|Login|Login to GNU khata - ending activity
+2024-01-17 14:40:54.271|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:40:57.675|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:40:57.675|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\captures
+2024-01-17 14:40:57.675|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs
+2024-01-17 14:40:58.407|I|main|[20240117_144017] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144057.001.xlsx
+2024-01-17 14:40:58.417|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:40:58.690|I|main|[20240117_144017] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144057.001.xlsx
+2024-01-17 14:40:59.192|I|main|STARTS
+2024-01-17 14:40:59.266|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page - executing activity
+2024-01-17 14:40:59.266|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${Org.Name}, NeworgLoc)
+2024-01-17 14:40:59.352|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  5|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-17 14:40:59.352|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-17 14:40:59.512|I|main|clicking '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-17 14:40:59.546|I|main|click target via JS, @id=
+2024-01-17 14:40:59.585|I|main|clicked -> true
+2024-01-17 14:40:59.591|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  6|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='IndianInstitute']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-17 14:40:59.591|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-17 14:41:00.079|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-17 14:41:00.110|I|main|click target via JS, @id=
+2024-01-17 14:41:00.178|I|main|clicked -> true
+2024-01-17 14:41:00.179|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  7|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-17 14:41:00.179|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-17 14:41:03.200|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  8|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-17 14:41:03.200|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-17 14:41:03.291|I|main|Target element not visible; clicking on such element might not work...
+2024-01-17 14:41:03.291|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-17 14:41:03.307|I|main|click target via JS, @id=
+2024-01-17 14:41:03.346|I|main|clicked -> true
+2024-01-17 14:41:03.351|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|#  9|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-17 14:41:03.351|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-17 14:41:03.508|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page|# 10|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-17 14:41:03.508|I|main|UI-Settings.20240117_144057.001|Settings|Navigate and Verify Settings Page - ending activity
+2024-01-17 14:41:05.550|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:41:08.207|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:41:08.207|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\captures
+2024-01-17 14:41:08.207|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs
+2024-01-17 14:41:08.815|I|main|[20240117_144017] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144108.001.xlsx
+2024-01-17 14:41:08.815|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:41:09.047|I|main|[20240117_144017] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144108.001.xlsx
+2024-01-17 14:41:09.547|I|main|STARTS
+2024-01-17 14:41:09.595|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality - executing activity
+2024-01-17 14:41:09.595|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 62|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-17 14:41:09.674|I|main|Target element not visible; clicking on such element might not work...
+2024-01-17 14:41:09.674|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-17 14:41:09.702|I|main|click target via JS, @id=
+2024-01-17 14:41:09.709|I|main|clicked -> true
+2024-01-17 14:41:09.726|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 62|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-17 14:41:09.726|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 63|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.ExportData}, 2000)
+2024-01-17 14:41:09.901|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Export Data']'...
+2024-01-17 14:41:09.924|I|main|click target via JS, @id=__BVID__1018___BV_tab_button__
+2024-01-17 14:41:09.966|I|main|clicked -> true
+2024-01-17 14:41:09.968|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 63|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Export Data']'
+2024-01-17 14:41:09.971|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 64|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Export.Para1})
+2024-01-17 14:41:10.100|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 64|web.assertElementPresent( - PASS EXPECTED element '//div[text()=' This menu will enable you to export organisation data, that is, all its accounts and records in these accounts in two formats: ']' found
+2024-01-17 14:41:10.102|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 65|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Export.Para2})
+2024-01-17 14:41:10.215|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 65|web.assertElementPresent( - PASS EXPECTED element '//div[text()=' Click on any of the available "Export" buttons to start the export. Please do not reload or close the window while the export process is on. A download window will pop up when export is done. You can open or save the file. ']' found
+2024-01-17 14:41:10.215|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 66|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Export.li1})
+2024-01-17 14:41:10.330|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 66|web.assertElementPresent( - PASS EXPECTED element '//ul/li[text()='Microsoft Excel Open XML Spreadsheet (.xslx) [legacy]']' found
+2024-01-17 14:41:10.330|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 67|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Export.li2})
+2024-01-17 14:41:10.425|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 67|web.assertElementPresent( - PASS EXPECTED element '//ul/li[text()='Json (.json)']' found
+2024-01-17 14:41:10.425|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 68|web.click(locator)        - executing click(locator)(${org.Export.LegacyButton})
+2024-01-17 14:41:10.592|I|main|clicking '//button[@label='Export (Legacy)']'...
+2024-01-17 14:41:10.611|I|main|click target via JS, @id=
+2024-01-17 14:41:10.650|I|main|clicked -> true
+2024-01-17 14:41:10.650|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 68|web.click(locator)        - PASS click via JS event
+2024-01-17 14:41:10.650|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 69|base.waitFor(waitMs)      - executing waitFor(waitMs)(2000)
+2024-01-17 14:41:12.663|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 69|base.waitFor(waitMs)      - PASS 
+2024-01-17 14:41:12.663|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 70|desktop.saveTextByLocator - executing saveTextByLocator(var,locator)(xlsxFileName, ${Windows.SavesAs.Edit})
+2024-01-17 14:41:12.665|I|main|terminating any leftover instance of Winium.Desktop.Driver.exe
+2024-01-17 14:41:13.695|I|main|ERROR: The process "Winium.Desktop.Driver.exe*" not found.
+
+2024-01-17 14:41:13.695|I|main|Assigning to Winium Driver Service port 11663
+2024-01-17 14:41:13.695|I|main|Winium Driver Service starting...
+2024-01-17 14:41:14.182|I|main|Winium Driver Service started.
+2024-01-17 14:41:50.590|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 70|desktop.saveTextByLocator - PASS text content saved to 'xlsxFileName'
+2024-01-17 14:41:50.591|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 71|base.verbose(text)        - executing verbose(text)(${xlsxFileName})
+2024-01-17 14:41:50.592|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 71|base.verbose(text)        - 
+GNUKhata-DataExport-IndianInstitute--17-01-2024-09_11_11.241Z
+2024-01-17 14:41:50.593|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 71|base.verbose(text)        - PASS 
+2024-01-17 14:41:50.593|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 72|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {ENTER})
+2024-01-17 14:41:50.596|I|main|[20240117_144017] simulating keystrokes: {ENTER}
+2024-01-17 14:41:50.603|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 72|desktop.typeKeys(os,keyst - PASS type keys completed for {ENTER}
+2024-01-17 14:41:50.604|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 73|web.click(locator)        - executing click(locator)(${org.Export.JsonButton})
+2024-01-17 14:41:50.749|I|main|clicking '//button[@label='Export (Json)']'...
+2024-01-17 14:41:50.780|I|main|click target via JS, @id=
+2024-01-17 14:41:50.806|I|main|clicked -> true
+2024-01-17 14:41:50.808|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 73|web.click(locator)        - PASS click via JS event
+2024-01-17 14:41:50.811|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 74|base.waitFor(waitMs)      - executing waitFor(waitMs)(2000)
+2024-01-17 14:41:52.820|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 74|base.waitFor(waitMs)      - PASS 
+2024-01-17 14:41:52.820|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 75|desktop.saveTextByLocator - executing saveTextByLocator(var,locator)(jsonFileName, ${Windows.SavesAs.Edit})
+2024-01-17 14:42:44.937|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 75|desktop.saveTextByLocator - PASS text content saved to 'jsonFileName'
+2024-01-17 14:42:44.938|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 76|base.verbose(text)        - executing verbose(text)(${jsonFileName})
+2024-01-17 14:42:44.939|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 76|base.verbose(text)        - 
+GNUKhata-IndianInstitute-Export-17-01-2024-09_11_55.379Z
+2024-01-17 14:42:44.940|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 76|base.verbose(text)        - PASS 
+2024-01-17 14:42:44.940|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 77|desktop.typeKeys(os,keyst - executing typeKeys(os,keystrokes)(Windows, {ENTER})
+2024-01-17 14:42:44.941|I|main|[20240117_144017] simulating keystrokes: {ENTER}
+2024-01-17 14:42:44.942|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 77|desktop.typeKeys(os,keyst - PASS type keys completed for {ENTER}
+2024-01-17 14:42:44.943|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 78|base.waitFor(waitMs)      - executing waitFor(waitMs)(2000)
+2024-01-17 14:42:46.945|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 78|base.waitFor(waitMs)      - PASS 
+2024-01-17 14:42:46.945|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 79|io.makeDirectory(source)  - executing makeDirectory(source)(${data.path}\UI-Settings)
+2024-01-17 14:42:46.947|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 79|io.makeDirectory(source)  - PASS make directory complete on 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings'
+2024-01-17 14:42:46.948|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 80|base.waitFor(waitMs)      - executing waitFor(waitMs)(3000)
+2024-01-17 14:42:49.951|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 80|base.waitFor(waitMs)      - PASS 
+2024-01-17 14:42:49.952|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 81|io.copyFiles(source,targe - executing copyFiles(source,target)(${user.home}\Downloads\${xlsxFileName}.xlsx, ${data.path}\UI-Settings)
+2024-01-17 14:42:49.955|I|main|copy C:\Users\al4107\Downloads\GNUKhata-DataExport-IndianInstitute--17-01-2024-09_11_11.241Z.xlsx to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings
+2024-01-17 14:42:49.963|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 81|io.copyFiles(source,targe - PASS copy done [source 'C:\Users\al4107\Downloads\GNUKhata-DataExport-IndianInstitute--17-01-2024-09_11_11.241Z.xlsx', target 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings']
+2024-01-17 14:42:49.964|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 82|io.copyFiles(source,targe - executing copyFiles(source,target)(${user.home}\Downloads\${jsonFileName}.json, ${data.path}\UI-Settings)
+2024-01-17 14:42:49.966|I|main|copy C:\Users\al4107\Downloads\GNUKhata-IndianInstitute-Export-17-01-2024-09_11_55.379Z.json to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings
+2024-01-17 14:42:49.982|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality|# 82|io.copyFiles(source,targe - PASS copy done [source 'C:\Users\al4107\Downloads\GNUKhata-IndianInstitute-Export-17-01-2024-09_11_55.379Z.json', target 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings']
+2024-01-17 14:42:49.983|I|main|UI-Settings.20240117_144108.001|Settings|Verify Export Functionality - ending activity
+2024-01-17 14:43:27.187|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:43:27.187|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality - executing activity
+2024-01-17 14:43:27.188|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 83|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${ChangeOrg}, 1000)
+2024-01-17 14:43:27.276|I|main|Target element not visible; clicking on such element might not work...
+2024-01-17 14:43:27.276|I|main|clicking '//a[@role="menuitem"][text()=' Change Org ']'...
+2024-01-17 14:43:27.312|I|main|click target via JS, @id=
+2024-01-17 14:43:27.615|I|main|clicked -> true
+2024-01-17 14:43:27.617|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 83|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@role="menuitem"][text()=' Change Org ']'
+2024-01-17 14:43:27.617|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 84|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${CreateOrg.Button}, 1000)
+2024-01-17 14:43:27.780|I|main|clicking '//button[text()='Create Org']'...
+2024-01-17 14:43:27.814|I|main|click target via JS, @id=
+2024-01-17 14:43:27.896|I|main|clicked -> true
+2024-01-17 14:43:27.900|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 84|web.clickAndWait(locator, - PASS clicked-and-waited '//button[text()='Create Org']'
+2024-01-17 14:43:27.901|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 85|base.save(var,value)      - executing save(var,value)(NewOrgName, Org[NUMBER(${num})=>randomDigits(5)])
+2024-01-17 14:43:27.918|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 85|base.save(var,value)      - PASS stored 'Org78445' as ${NewOrgName}
+2024-01-17 14:43:27.918|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 86|web.type(locator,value)   - executing type(locator,value)(${CreateOrg.Name}, ${NewOrgName})
+2024-01-17 14:43:28.253|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 86|web.type(locator,value)   - PASS typed text at '//input[@placeholder="Organisation Name"]'
+2024-01-17 14:43:28.253|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 87|web.type(locator,value)   - executing type(locator,value)(${CreateOrg.State}, ${State.Value})
+2024-01-17 14:43:28.936|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 87|web.type(locator,value)   - PASS typed text at '//input[@aria-autocomplete="list"]'
+2024-01-17 14:43:28.936|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 88|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Select.State}, \s, ${State.Value}, SelectStateLoc)
+2024-01-17 14:43:28.936|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 88|base.saveReplace(text,reg - PASS matches replaced and stored to variable SelectStateLoc
+2024-01-17 14:43:28.936|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 89|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${SelectStateLoc}, 2000)
+2024-01-17 14:43:29.194|I|main|clicking '//ul[@role="listbox"][@class="vs__dropdown-menu"]/li[contains(text(),'Maharashtra')]'...
+2024-01-17 14:43:29.212|I|main|click target via JS, @id=vs3__option-0
+2024-01-17 14:43:29.273|I|main|clicked -> true
+2024-01-17 14:43:29.273|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 89|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="listbox"][@class="vs__dropdown-menu"]/li[contains(text(),'Maharashtra')]'
+2024-01-17 14:43:29.273|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 90|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${CreateOrg.LoginButton}, 1000)
+2024-01-17 14:43:29.461|I|main|clicking '//button[span='Create & Login']'...
+2024-01-17 14:43:29.496|I|main|click target via JS, @id=
+2024-01-17 14:43:29.544|I|main|clicked -> true
+2024-01-17 14:43:29.545|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 90|web.clickAndWait(locator, - PASS clicked-and-waited '//button[span='Create & Login']'
+2024-01-17 14:43:29.545|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 91|base.saveReplace(text,reg - executing saveReplace(text,regex,replace,saveVar)(${Org.locator}, \s, ${NewOrgName}, NeworgLoc)
+2024-01-17 14:43:29.545|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 91|base.saveReplace(text,reg - PASS matches replaced and stored to variable NeworgLoc
+2024-01-17 14:43:29.545|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 92|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${NeworgLoc}, 1500)
+2024-01-17 14:43:31.215|I|main|clicking '//tr/td[text()='Org78445']/parent::tr/td[@aria-colindex="4"]/button'...
+2024-01-17 14:43:31.249|I|main|click target via JS, @id=
+2024-01-17 14:43:31.286|I|main|clicked -> true
+2024-01-17 14:43:31.286|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 92|web.clickAndWait(locator, - PASS clicked-and-waited '//tr/td[text()='Org78445']/parent::tr/td[@aria-colindex="4"]/button'
+2024-01-17 14:43:31.294|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 93|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.hamburger}, 2000)
+2024-01-17 14:43:31.764|I|main|clicking '//button[@title='Open Sidebar']'...
+2024-01-17 14:43:31.798|I|main|click target via JS, @id=
+2024-01-17 14:43:31.862|I|main|clicked -> true
+2024-01-17 14:43:31.862|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 93|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@title='Open Sidebar']'
+2024-01-17 14:43:31.862|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 94|web.wait(waitMs)          - executing wait(waitMs)(3000)
+2024-01-17 14:43:34.877|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 94|web.wait(waitMs)          - PASS waited 3000ms
+2024-01-17 14:43:34.877|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 95|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${org.Settings}, 2000)
+2024-01-17 14:43:34.983|I|main|Target element not visible; clicking on such element might not work...
+2024-01-17 14:43:34.983|I|main|clicking '//a[@href="#/settings"]'...
+2024-01-17 14:43:35.012|I|main|click target via JS, @id=
+2024-01-17 14:43:35.088|I|main|clicked -> true
+2024-01-17 14:43:35.095|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 95|web.clickAndWait(locator, - PASS clicked-and-waited '//a[@href="#/settings"]'
+2024-01-17 14:43:35.095|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 96|web.assertElementPresent( - executing assertElementPresent(locator)(${org.Settings.TabList})
+2024-01-17 14:43:35.202|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 96|web.assertElementPresent( - PASS EXPECTED element '//ul[@role="tablist"]' found
+2024-01-17 14:43:35.202|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 97|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.ImportData}, 3000)
+2024-01-17 14:43:35.360|I|main|clicking '//ul[@role="tablist"]/li/a[text()='Import Data']'...
+2024-01-17 14:43:35.407|I|main|click target via JS, @id=__BVID__2421___BV_tab_button__
+2024-01-17 14:43:35.444|I|main|clicked -> true
+2024-01-17 14:43:35.453|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 97|web.clickAndWait(locator, - PASS clicked-and-waited '//ul[@role="tablist"]/li/a[text()='Import Data']'
+2024-01-17 14:43:35.453|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 98|web.assertElementPresent( - executing assertElementPresent(locator)(${Org.ImportData.Page})
+2024-01-17 14:43:35.538|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 98|web.assertElementPresent( - PASS EXPECTED element '//div[text()='Import Company Data']' found
+2024-01-17 14:43:35.538|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 99|web.assertElementPresent( - executing assertElementPresent(locator)(${Org.ImportData.Line1})
+2024-01-17 14:43:35.632|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|# 99|web.assertElementPresent( - PASS EXPECTED element '//div[text()=' This menu will help you to import your data into GNUKhata: ']' found
+2024-01-17 14:43:35.632|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#100|web.assertElementPresent( - executing assertElementPresent(locator)(${Org.ImportData.Line2})
+2024-01-17 14:43:35.748|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#100|web.assertElementPresent( - PASS EXPECTED element '//h4[text()='Supported Imports']' found
+2024-01-17 14:43:35.748|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#101|web.assertElementPresent( - executing assertElementPresent(locator)(${Org.ImportData.Li1})
+2024-01-17 14:43:35.855|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#101|web.assertElementPresent( - PASS EXPECTED element '//li[text()='Tally (.xlsx)']' found
+2024-01-17 14:43:35.856|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#102|web.assertElementPresent( - executing assertElementPresent(locator)(${Org.ImportData.Li2})
+2024-01-17 14:43:35.960|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#102|web.assertElementPresent( - PASS EXPECTED element '//li[text()='GNUKhata Legacy (.xlsx)']' found
+2024-01-17 14:43:35.961|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#103|web.assertElementPresent( - executing assertElementPresent(locator)(${Org.ImportData.Li3})
+2024-01-17 14:43:36.051|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#103|web.assertElementPresent( - PASS EXPECTED element '//li[text()='GNUKhata New (.json)']' found
+2024-01-17 14:43:36.051|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#104|web.assertElementPresent( - executing assertElementPresent(locator)(${Org.ImportData.Line3})
+2024-01-17 14:43:36.140|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#104|web.assertElementPresent( - PASS EXPECTED element '//h4[text()='Import Instructions']' found
+2024-01-17 14:43:36.140|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#105|web.assertElementPresent( - executing assertElementPresent(locator)(${Org.ImportData.Link1})
+2024-01-17 14:43:36.245|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#105|web.assertElementPresent( - PASS EXPECTED element '//a[@href="#/data/import/help/tally"]' found
+2024-01-17 14:43:36.245|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#106|web.assertElementPresent( - executing assertElementPresent(locator)(${Org.ImportData.Link2})
+2024-01-17 14:43:36.336|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#106|web.assertElementPresent( - PASS EXPECTED element '//a[@href="#/data/import/help/json"]' found
+2024-01-17 14:43:36.336|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#107|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Org.ImportData.File}, ${data.path}\UI-Settings\${xlsxFileName}.xlsx)
+2024-01-17 14:43:36.428|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#107|web.upload(fieldLocator,f - PASS adding file 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings\GNUKhata-DataExport-IndianInstitute--17-01-2024-09_11_11.241Z.xlsx' to '//div/input[@class="custom-file-input"]'
+2024-01-17 14:43:36.428|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#108|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.ImportData.Button}, 2000)
+2024-01-17 14:43:36.581|I|main|clicking '//button[@type="submit"][span=' Import Data']'...
+2024-01-17 14:43:36.607|I|main|click target via JS, @id=
+2024-01-17 14:43:36.635|I|main|clicked -> true
+2024-01-17 14:43:36.635|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#108|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"][span=' Import Data']'
+2024-01-17 14:43:36.635|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#109|web.saveText(var,locator) - executing saveText(var,locator)(PopUpMessage, ${Popup.Message})
+2024-01-17 14:43:37.794|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#109|web.saveText(var,locator) - PASS stored content of '//div[@class='toast-body']' as ${PopUpMessage}
+2024-01-17 14:43:37.794|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#110|base.assertEqual(expected - executing assertEqual(expected,actual)(Import Successful, ${PopUpMessage})
+2024-01-17 14:43:37.794|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#110|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'Import Successful' = 'Import Successful'
+2024-01-17 14:43:37.794|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#111|web.upload(fieldLocator,f - executing upload(fieldLocator,file)(${Org.ImportData.File}, ${data.path}\UI-Settings\${jsonFileName}.json)
+2024-01-17 14:43:37.894|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#111|web.upload(fieldLocator,f - PASS adding file 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings\GNUKhata-IndianInstitute-Export-17-01-2024-09_11_55.379Z.json' to '//div/input[@class="custom-file-input"]'
+2024-01-17 14:43:37.894|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#112|web.clickAndWait(locator, - executing clickAndWait(locator,waitMs)(${Org.ImportData.Button}, 2000)
+2024-01-17 14:43:38.022|I|main|clicking '//button[@type="submit"][span=' Import Data']'...
+2024-01-17 14:43:38.047|I|main|click target via JS, @id=
+2024-01-17 14:43:38.078|I|main|clicked -> true
+2024-01-17 14:43:38.078|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#112|web.clickAndWait(locator, - PASS clicked-and-waited '//button[@type="submit"][span=' Import Data']'
+2024-01-17 14:43:38.078|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#113|web.saveText(var,locator) - executing saveText(var,locator)(PopUpMessage2, ${Popup.Message})
+2024-01-17 14:43:38.232|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#113|web.saveText(var,locator) - PASS stored content of '//div[@class='toast-body']' as ${PopUpMessage2}
+2024-01-17 14:43:38.232|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#114|base.assertEqual(expected - executing assertEqual(expected,actual)(Import Successful, ${PopUpMessage2})
+2024-01-17 14:43:38.232|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality|#114|base.assertEqual(expected - PASS validated EXPECTED = ACTUAL; 'Import Successful' = 'Import Successful'
+2024-01-17 14:43:38.232|I|main|UI-Settings.20240117_144108.001|Settings|Verify Import Functionality - ending activity
+2024-01-17 14:43:53.397|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:43:55.342|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:43:55.342|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\captures
+2024-01-17 14:43:55.342|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs
+2024-01-17 14:43:55.938|I|main|[20240117_144017] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144355.001.xlsx
+2024-01-17 14:43:55.938|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:43:56.123|I|main|[20240117_144017] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144355.001.xlsx
+2024-01-17 14:43:56.574|I|main|STARTS
+2024-01-17 14:43:56.624|I|main|UI-Settings.20240117_144355.001|Settings|Delete the Files - executing activity
+2024-01-17 14:43:56.624|I|main|UI-Settings.20240117_144355.001|Settings|Delete the Files|#115|io.deleteFiles(location,r - executing deleteFiles(location,recursive)(${data.path}\UI-Settings, TRUE)
+2024-01-17 14:43:56.660|I|main|deleted directory 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings'
+2024-01-17 14:43:56.660|I|main|UI-Settings.20240117_144355.001|Settings|Delete the Files|#115|io.deleteFiles(location,r - PASS deleteRecursive done [source 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings', ]
+2024-01-17 14:43:56.676|I|main|UI-Settings.20240117_144355.001|Settings|Delete the Files - ending activity
+2024-01-17 14:45:12.781|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:45:21.112|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:45:21.112|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\captures
+2024-01-17 14:45:21.112|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs
+2024-01-17 14:45:21.653|I|main|[20240117_144017] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144521.001.xlsx
+2024-01-17 14:45:21.653|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:45:21.817|I|main|[20240117_144017] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144521.001.xlsx
+2024-01-17 14:45:22.266|I|main|STARTS
+2024-01-17 14:45:22.297|I|main|UI-Settings.20240117_144521.001|Settings|Delete the Files|#115|io.deleteFiles(location,r - executing deleteFiles(location,recursive)(${data.path}\UI-Settings\${xlsxFileName}.xlsx, TRUE)
+2024-01-17 14:45:22.297|I|main|deleteRecursive C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings\GNUKhata-DataExport-IndianInstitute--17-01-2024-09_11_11.241Z.xlsx
+2024-01-17 14:45:22.297|E|main|UI-Settings.20240117_144521.001|Settings|Delete the Files|#115|io.deleteFiles(location,r - FAIL deleteRecursive failed [source 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings\GNUKhata-DataExport-IndianInstitute--17-01-2024-09_11_11.241Z.xlsx', ]: deleteRecursive is not a supported action for multi-file sources
+2024-01-17 14:47:10.373|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:47:21.102|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:47:22.988|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:47:22.988|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\captures
+2024-01-17 14:47:22.988|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs
+2024-01-17 14:47:23.555|I|main|[20240117_144017] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144722.001.xlsx
+2024-01-17 14:47:23.555|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:47:23.723|I|main|[20240117_144017] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144722.001.xlsx
+2024-01-17 14:47:24.158|I|main|STARTS
+2024-01-17 14:47:24.192|I|main|UI-Settings.20240117_144722.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - executing deleteFilesByRegex(sourceDir,regex)(${data.path}\UI-Settings, *.xlsx$)
+2024-01-17 14:47:24.240|E|main|UI-Settings.20240117_144722.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - FAIL Dangling meta character '*' near index 0
+*.xlsx$
+^
+2024-01-17 14:47:24.240|E|main|UI-Settings.20240117_144722.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs\UI-Settings.20240117_144722.001.xlsx_Settings_A115.log
+2024-01-17 14:48:22.166|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:48:23.778|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:48:23.778|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\captures
+2024-01-17 14:48:23.778|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs
+2024-01-17 14:48:24.402|I|main|[20240117_144017] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144823.001.xlsx
+2024-01-17 14:48:24.402|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:48:24.593|I|main|[20240117_144017] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144823.001.xlsx
+2024-01-17 14:48:25.070|I|main|STARTS
+2024-01-17 14:48:25.102|I|main|UI-Settings.20240117_144823.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - executing deleteFilesByRegex(sourceDir,regex)(${data.path}\UI-Settings, ${xlsxFileName}.xlsx)
+2024-01-17 14:48:25.102|I|main|delete C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings\GNUKhata-DataExport-IndianInstitute--17-01-2024-09_11_11.241Z.xlsx
+2024-01-17 14:48:25.102|I|main|UI-Settings.20240117_144823.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - PASS delete done [source: 'C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings']
+2024-01-17 14:48:53.679|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:49:03.471|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:49:08.445|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:49:08.461|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\captures
+2024-01-17 14:49:08.462|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs
+2024-01-17 14:49:09.009|I|main|[20240117_144017] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144908.001.xlsx
+2024-01-17 14:49:09.009|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:49:09.162|I|main|[20240117_144017] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144908.001.xlsx
+2024-01-17 14:49:09.563|I|main|STARTS
+2024-01-17 14:49:09.595|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files - executing activity
+2024-01-17 14:49:09.595|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - executing deleteFilesByRegex(sourceDir,regex)(${data.path}\UI-Settings, ${xlsxFileName}.xlsx)
+2024-01-17 14:49:09.595|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - No files in C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings matched to the specified 'GNUKhata-DataExport-IndianInstitute--17-01-2024-09_11_11.241Z.xlsx'. Hence no operations was performed
+2024-01-17 14:49:09.595|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - PASS There is no files matching criteria
+2024-01-17 14:49:09.595|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#116|io.deleteFilesByRegex(sou - executing deleteFilesByRegex(sourceDir,regex)(${data.path}\UI-Settings, ${jsonFileName}.json)
+2024-01-17 14:49:09.595|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#116|io.deleteFilesByRegex(sou - No files in C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings matched to the specified 'GNUKhata-IndianInstitute-Export-17-01-2024-09_11_55.379Z.json'. Hence no operations was performed
+2024-01-17 14:49:09.595|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#116|io.deleteFilesByRegex(sou - PASS There is no files matching criteria
+2024-01-17 14:49:09.595|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#117|io.deleteFilesByRegex(sou - executing deleteFilesByRegex(sourceDir,regex)(${user.home}\Downloads\${xlsxFileName}.xlsx)
+2024-01-17 14:49:09.595|E|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#117|io.deleteFilesByRegex(sou - FAIL MISMATCHED parameters - io.deleteFilesByRegex EXPECTS 2 but found 1
+2024-01-17 14:49:09.595|E|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#117|io.deleteFilesByRegex(sou - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs\UI-Settings.20240117_144908.001.xlsx_Settings_A117.log
+2024-01-17 14:49:09.595|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#118|io.deleteFilesByRegex(sou - executing deleteFilesByRegex(sourceDir,regex)(${user.home}\Downloads\${jsonFileName}.json)
+2024-01-17 14:49:09.613|E|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#118|io.deleteFilesByRegex(sou - FAIL MISMATCHED parameters - io.deleteFilesByRegex EXPECTS 2 but found 1
+2024-01-17 14:49:09.613|E|main|UI-Settings.20240117_144908.001|Settings|Delete the Files|#118|io.deleteFilesByRegex(sou - Error log: C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs\UI-Settings.20240117_144908.001.xlsx_Settings_A118.log
+2024-01-17 14:49:09.613|I|main|UI-Settings.20240117_144908.001|Settings|Delete the Files - ending activity
+2024-01-17 14:49:41.749|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:49:42.973|I|main|[20240117_144017] executing C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\script\UI-Settings.xlsx. [1] total 1
+2024-01-17 14:49:42.973|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\captures
+2024-01-17 14:49:42.973|I|main|[20240117_144017] create directory C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\logs
+2024-01-17 14:49:43.564|I|main|[20240117_144017] merging test data to tmp file C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144942.001.xlsx
+2024-01-17 14:49:43.564|I|main|re-fetching data from C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings.data.xlsx
+2024-01-17 14:49:43.743|I|main|[20240117_144017] test script and test data merged to C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\output\20240117_144017\UI-Settings.20240117_144942.001.xlsx
+2024-01-17 14:49:44.275|I|main|STARTS
+2024-01-17 14:49:44.302|I|main|UI-Settings.20240117_144942.001|Settings|Delete the Files - executing activity
+2024-01-17 14:49:44.302|I|main|UI-Settings.20240117_144942.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - executing deleteFilesByRegex(sourceDir,regex)(${data.path}\UI-Settings, ${xlsxFileName}.xlsx)
+2024-01-17 14:49:44.302|I|main|UI-Settings.20240117_144942.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - No files in C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings matched to the specified 'GNUKhata-DataExport-IndianInstitute--17-01-2024-09_11_11.241Z.xlsx'. Hence no operations was performed
+2024-01-17 14:49:44.302|I|main|UI-Settings.20240117_144942.001|Settings|Delete the Files|#115|io.deleteFilesByRegex(sou - PASS There is no files matching criteria
+2024-01-17 14:49:44.302|I|main|UI-Settings.20240117_144942.001|Settings|Delete the Files|#116|io.deleteFilesByRegex(sou - executing deleteFilesByRegex(sourceDir,regex)(${data.path}\UI-Settings, ${jsonFileName}.json)
+2024-01-17 14:49:44.302|I|main|UI-Settings.20240117_144942.001|Settings|Delete the Files|#116|io.deleteFilesByRegex(sou - No files in C:\Projects\GNUKhata\gkAPP-UI\Devel\tests\artifact\data\UI-Settings matched to the specified 'GNUKhata-IndianInstitute-Export-17-01-2024-09_11_55.379Z.json'. Hence no operations was performed
+2024-01-17 14:49:44.302|I|main|UI-Settings.20240117_144942.001|Settings|Delete the Files|#116|io.deleteFilesByRegex(sou - PASS There is no files matching criteria
+2024-01-17 14:49:44.302|I|main|UI-Settings.20240117_144942.001|Settings|Delete the Files|#117|io.deleteFilesByRegex(sou - executing deleteFilesByRegex(sourceDir,regex)(${user.home}\Downloads, ${xlsxFileName}.xlsx)
+2024-01-17 14:50:51.495|I|Thread-0|shutdown starts...
+2024-01-17 14:50:51.496|I|Thread-0|[chrome] Shutting down webdriver...
+2024-01-17 14:50:51.498|I|Thread-0|[chrome] Close the current window...
+2024-01-17 14:50:51.659|I|Thread-0|[chrome] Quit this driver, closing every associated window.
+2024-01-17 14:50:52.779|I|Thread-0|shutdown Winium...
+2024-01-17 14:50:52.848|I|Thread-0|shutdown ends...

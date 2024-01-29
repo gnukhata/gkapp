@@ -1,0 +1,81 @@
+Nexial Version:    nexial-core dev_1535
+Current Timestamp: 2024-01-17 15:17:15.674
+Test Step:         [UI-Settings.20240117_151640.001.xlsx][Settings][Verify Organization tab][STEP  38][web][type(locator,value)]
+--------------------------------------------------------------------------------
+org.openqa.selenium.WebDriverException: java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:19967
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'ALIPL5334', ip: '192.168.0.5', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.5'
+Driver info: driver.version: RemoteWebDriver
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:92)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:323)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElementByXPath(RemoteWebDriver.java:428)
+	at org.openqa.selenium.By$ByXPath.findElement(By.java:353)
+	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:315)
+	at org.nexial.core.plugins.web.LocatorHelper.findElement(LocatorHelper.kt:231)
+	at org.nexial.core.plugins.web.LocatorHelper.findElement$lambda-0(LocatorHelper.kt:216)
+	at org.openqa.selenium.support.ui.FluentWait.until(FluentWait.java:249)
+	at org.nexial.core.plugins.web.LocatorHelper.findElement$nexial_core(LocatorHelper.kt:216)
+	at org.nexial.core.plugins.web.LocatorHelper.findElement(LocatorHelper.kt:201)
+	at org.nexial.core.plugins.web.WebCommand.findElement(WebCommand.java:3245)
+	at org.nexial.core.plugins.web.WebCommand.type(WebCommand.java:1892)
+	at jdk.internal.reflect.GeneratedMethodAccessor21.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.nexial.core.plugins.base.BaseCommand.execute(BaseCommand.java:151)
+	at org.nexial.core.plugins.web.WebCommand.execute(WebCommand.java:180)
+	at org.nexial.core.model.TestStep.invokeCommand(TestStep.java:449)
+	at org.nexial.core.model.TestStep.execute(TestStep.java:247)
+	at org.nexial.core.model.TestCase.execute(TestCase.java:100)
+	at org.nexial.core.interactive.NexialInteractive.executeActivities(NexialInteractive.kt:491)
+	at org.nexial.core.interactive.NexialInteractive.execute(NexialInteractive.kt:459)
+	at org.nexial.core.interactive.NexialInteractive.processMenu(NexialInteractive.kt:232)
+	at org.nexial.core.interactive.NexialInteractive.startSession(NexialInteractive.kt:138)
+	at org.nexial.core.Nexial.interact(Nexial.java:751)
+	at org.nexial.core.Nexial.main(Nexial.java:241)
+Caused by: java.net.ConnectException: Failed to connect to localhost/[0:0:0:0:0:0:0:1]:19967
+	at okhttp3.internal.connection.RealConnection.connectSocket(RealConnection.kt:297)
+	at okhttp3.internal.connection.RealConnection.connect(RealConnection.kt:207)
+	at okhttp3.internal.connection.ExchangeFinder.findConnection(ExchangeFinder.kt:226)
+	at okhttp3.internal.connection.ExchangeFinder.findHealthyConnection(ExchangeFinder.kt:106)
+	at okhttp3.internal.connection.ExchangeFinder.find(ExchangeFinder.kt:74)
+	at okhttp3.internal.connection.RealCall.initExchange$okhttp(RealCall.kt:255)
+	at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.kt:32)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+	at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.kt:95)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+	at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.kt:83)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+	at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.kt:76)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+	at okhttp3.internal.connection.RealCall.getResponseWithInterceptorChain$okhttp(RealCall.kt:201)
+	at okhttp3.internal.connection.RealCall.execute(RealCall.kt:154)
+	at org.openqa.selenium.remote.internal.OkHttpClient.execute(OkHttpClient.java:103)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:155)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	... 26 more
+	Suppressed: java.io.IOException: unexpected end of stream on http://localhost:19967/...
+		at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:202)
+		at okhttp3.internal.connection.Exchange.readResponseHeaders(Exchange.kt:106)
+		at okhttp3.internal.http.CallServerInterceptor.intercept(CallServerInterceptor.kt:79)
+		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+		at org.openqa.selenium.remote.internal.OkHttpClient$Factory$1.lambda$createClient$1(OkHttpClient.java:152)
+		at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.kt:109)
+		at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.kt:34)
+		... 38 more
+	Caused by: java.io.EOFException: \n not found: limit=0 content=…
+		at okio.RealBufferedSource.readUtf8LineStrict(RealBufferedSource.kt:332)
+		at okhttp3.internal.http1.HeadersReader.readLine(HeadersReader.kt:29)
+		at okhttp3.internal.http1.Http1ExchangeCodec.readResponseHeaders(Http1ExchangeCodec.kt:178)
+		... 44 more
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at okhttp3.internal.platform.Platform.connectSocket(Platform.kt:128)
+	at okhttp3.internal.connection.RealConnection.connectSocket(RealConnection.kt:295)
+	... 44 more
+
