@@ -358,6 +358,14 @@
                   <b v-translate> Filter By </b>
                   <hr class="mx-0 my-1" />
                   <div class="my-2 ml-1">
+                  <b-form-checkbox
+                    v-model="allSelected"
+                    aria-describedby="flavours"
+                    aria-controls="flavours"
+                    @change="toggleAll"
+                  >
+                    All
+                  </b-form-checkbox>
                     <b-form-checkbox-group
                       id="checkbox-group-2"
                       v-model="filters.active"
@@ -729,6 +737,7 @@ export default {
   },
   data() {
     return {
+      allSelected: false,
       parentMessage: 'toggleFlagTrue',
       printMessage: 'toggleFlagPrintTrue',
       leftHeaderHeight: {
@@ -813,6 +822,12 @@ export default {
     };
   },
   watch: {
+   'filters.active': {
+      handler() {
+        this.updateIndeterminate();
+      },
+      deep: true,
+    },
     wfName: function(wfname) {
       // Run when visiting a workflow page using URL, when already in a workflow page
       if (this.activeWorkflow.name !== wfname) {
@@ -906,6 +921,17 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgCode', 'orgName']),
   },
   methods: {
+    toggleAll() {
+      if (this.allSelected) {
+        this.filters.active = this.activeTabOptions.filterBy.value.map((_, index) => index);
+      } else {
+        this.filters.active = [];
+      }
+    },
+    updateIndeterminate() {
+      const allSelected = this.filters.active.length === this.activeTabOptions.filterBy.value.length;
+      this.allSelected = allSelected;
+    },
     toggleFlag() {
       this.isFilterOpen = false; 
       this.isSettingsOpen = false;

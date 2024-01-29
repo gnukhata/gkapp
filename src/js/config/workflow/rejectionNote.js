@@ -16,10 +16,6 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'All',
-        props: {},
-      },
-      {
         text: 'Sale',
         props: { key: 'inout', value: 15 },
         icon: { name: 'cash-stack' },

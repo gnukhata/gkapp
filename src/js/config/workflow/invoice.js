@@ -16,10 +16,6 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'All',
-        value: 0,
-      },
-      {
         text: 'Sale',
         value: 1,
         props: { key: 'csflag', value: 3 },
