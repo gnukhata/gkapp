@@ -16,10 +16,6 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'All',
-        props: {},
-      },
-      {
         text: 'Product',
         props: { key: 'gsflag', value: 7 },
         icon: { name: 'box' },

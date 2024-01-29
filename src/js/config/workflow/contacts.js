@@ -16,10 +16,6 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'All', // text -> Display text for this filter
-        props: {}, // the properties required to perform the filter
-      },
-      {
         text: 'Customers',
         props: { key: 'csflag', value: true },
         icon: { name: 'person-fill' },

@@ -15,10 +15,6 @@ const config = {
   },
   filterBy: {
     value: [
-      {
-        text: 'All',
-        props: {},
-      },
     ],
     range: [
       {
