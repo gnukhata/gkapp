@@ -438,6 +438,7 @@ export default {
       let stock = {
         inout: this.isSale ? 9 : 15, // for rejection note 9 is used for IN and 15 for OUT
         items: {},
+        goid: this.form.invoice.godown
       };
 
       let products = {};
