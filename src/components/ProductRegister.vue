@@ -133,9 +133,11 @@
         responsive="sm"
         :fields="fields"
         :filter="search"
+        show-empty
       >
         <!-- Transaction type -->
         <template #cell(particulars)="data">
+        {{data.item.trntype }}
           <div v-if="data.item.trntype === 'invoice'">
             <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
             <b-link
@@ -203,7 +205,7 @@
               }"
             >
               <div class="d-inline" @click="updateRoute">
-                {{ data.item.dcrno }}
+                {{ data.item.drcrno }}
               </div>
             </b-link>
           </div>
@@ -228,6 +230,13 @@
             <div class="d-inline" @click="updateRoute">
               {{ data.item.particulars }}
             </div>
+          </div>
+        </template>
+        <template #cell(transactionType)="data">
+          <div class="text-right">
+            <span v-if="data.item.particulars === 'opening stock'"></span>
+            <span v-if="data.item.particulars === 'Total'"></span>
+            <span v-else>{{ data.item.trntype.charAt(0).toUpperCase() + data.item.trntype.slice(1) }}</span>
           </div>
         </template>
         <template #cell(inward)="data">
@@ -258,6 +267,51 @@
           ><div class="text-right">{{ data.item.balance }}</div>
         </template>
       </b-table>
+  </div>
+   <div v-if="report.length == 0">
+      <!-- Toolbar -->
+      <gk-toolbar>
+        <!-- search bar -->
+       
+        <!-- filters -->
+        <gk-hovermenu>
+          <div class="font-weight-bold bg-dark text-light p-1 mb-1">
+            Invoice Type
+          </div>
+          <b-form-checkbox-group
+            @change="applyFilters"
+            class=""
+            v-model="invoiceFilter"
+          >
+            <b-form-checkbox value="invoice"
+              ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
+            >
+            <b-form-checkbox value="Rejection Note"
+              ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
+              Note</b-form-checkbox
+            >
+            <b-form-checkbox value="Debit Note"
+              ><b-icon icon="file-earmark-minus" variant="warning"></b-icon>
+              Debit Note</b-form-checkbox
+            >
+            <b-form-checkbox value="Credit Note"
+              ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
+              Note</b-form-checkbox
+            >
+          </b-form-checkbox-group>
+        </gk-hovermenu>
+        <!-- Report download -->
+      </gk-toolbar>
+    <b-table  small
+        class="table-border-dark"
+        striped
+        head-variant="dark"
+        responsive="sm" :fields="fields" show-empty>
+      <!-- Named slot "empty" for custom rendering when the table is empty -->
+      <template #empty>
+        <h4 style="text-align: center;">No result found.</h4>
+      </template>
+    </b-table>
     </div>
   </section>
 </template>
@@ -295,7 +349,7 @@ export default {
       godowns: [],
       godownId: '',
       godownReport: [],
-      invoiceFilter: [],
+      invoiceFilter: ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note'],
       fields: [
         {
           key: 'date',
@@ -305,6 +359,10 @@ export default {
         {
           key: 'particulars',
           label: 'Particulars',
+        },
+         {
+          key: 'transactionType',
+          label: 'Trntype',
         },
         {
           key: 'inward',
@@ -355,7 +413,7 @@ export default {
           );
         }
       } else {
-        this.report = this.immutableReport;
+        this.report = [];
       }
     },
     getStockReport() {
@@ -436,6 +494,7 @@ export default {
     },
     getGodownStock() {
       this.loading = true;
+      this.invoiceFilter = ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note'],
       axios
         .get(
           `/reports/product-register?goid=${this.godownId}&productcode=${this.productId.id}&startdate=${this.fromDate}&enddate=${this.toDate}`
