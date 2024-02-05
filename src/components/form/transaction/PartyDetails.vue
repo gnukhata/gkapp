@@ -96,7 +96,7 @@
             v-model="form.name"
             @change="onPartyNameSelect(form.name)"
             :required="true"
-            :disabled="editFlag || isNameDisabled"
+            :disabled="editFlag || isNameDisabled || editInvoice"
             :clearable="true"
           >
             <b-form-select-option
@@ -113,7 +113,7 @@
             v-model="form.name"
             @change="onPartyNameSelect(form.name)"
             :required="true"
-            :disabled="editFlag || isNameDisabled"
+            :disabled="editFlag || isNameDisabled|| editInvoice"
             :clearable="false"
             :rules="[v => !!form.name || 'Please select an option']"
           >
@@ -376,6 +376,7 @@ export default {
         };
       },
     },
+    editInvoice: Boolean,
   },
   data() {
     return {
