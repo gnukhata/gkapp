@@ -26,7 +26,7 @@ export default {
         cess: false,
         vat: false,
         total: false,
-        addBtn: true,
+        addBtn: {mobileMode: true},
         attr: {
           responsive: false
         },
