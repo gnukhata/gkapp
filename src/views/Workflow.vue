@@ -887,6 +887,8 @@ export default {
           break;
         case 'RejectionNote':
           break;
+        case 'TransferNote':
+          break;
         case 'Voucher':
           data = self.selectedEntity;
           break;
@@ -1059,21 +1061,20 @@ export default {
     },
     filterTable(row) {
       let result;
-      // console.log(this.filters)
-      const self = this;
-      if (this.filters.active.length) {
-        let filters = this.filters.active.map((filterIndex) =>
-          filterIndex >= 0
-            ? self.activeTabOptions.filterBy.value[filterIndex].props || null
-            : null
-        );
-        result = this.filterByValue(row, filters);
+      if (row.noteName === "Transfer Note") {
+        result = true;
+      } else {
+        const self = this;
+        if (this.filters.active.length) {
+          let filters = this.filters.active.map((filterIndex) =>
+            filterIndex >= 0
+              ? self.activeTabOptions.filterBy.value[filterIndex].props || null
+              : null
+          );
+          result = this.filterByValue(row, filters);
         }
-
+      }
       if (this.filters.range.props.key !== undefined) {
-        // console.log("date filter")
-        // console.log(this.filter.range.from);
-        // console.log(this.filter.range.to);
         result =
           result &&
           this.filterByRange(
@@ -1083,9 +1084,6 @@ export default {
             Date.parse(this.filters.range.to)
           );
       }
-      // if (this.sort.props.key !== undefined) {
-      //   data = this.sortData(data, this.sort.isAscending, this.sort.props.key);
-      // }
       return result;
     },
     /**
