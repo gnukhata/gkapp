@@ -17,12 +17,12 @@ const config = {
     value: [
       {
         text: 'Sale',
-        props: { key: 'inout', value: 15 },
+        props: { key: 'inout', value: 9 },
         icon: { name: 'cash-stack' },
       },
       {
         text: 'Purchase',
-        props: { key: 'inout', value: 9 },
+        props: { key: 'inout', value: 15 },
         icon: { name: 'basket3' },
       },
     ],
