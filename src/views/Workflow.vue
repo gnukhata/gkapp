@@ -1061,7 +1061,7 @@ export default {
     },
     filterTable(row) {
       let result;
-      if (row.noteName === "Transfer Note") {
+      if (row.noteName === "Transfer Note" || row.noteName === "Cash Memo") {
         result = true;
       } else {
         const self = this;
