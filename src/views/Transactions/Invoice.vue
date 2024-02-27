@@ -867,7 +867,6 @@ export default {
       axios
         .post('/invoice', {payload, delchalPayload})
         .then((resp) => {
-          console.log(resp, '!0--------------------------------------')
           self.isLoading = false;
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
@@ -1166,14 +1165,12 @@ export default {
       return { invoice, stock };
     },
     updateInvNoCounter() {
-      console.log( this.config, '!--------')
       if (
         this.config &&
         this.config.inv &&
         this.config.inv.no &&
         this.config.inv.no.counter
       ) {
-        console.log("abcccccccccccccccccccc")
         let counter = {
           sale: this.config.inv.no.counter.sale,
           purchase: this.config.inv.no.counter.purchase,
@@ -1194,7 +1191,6 @@ export default {
             'counter',
           ],
         };
-        console.log(payload, '!------------------')
         return axios.put(
           '/config?conftype=org&update=path&confcategory=transaction',
           payload
