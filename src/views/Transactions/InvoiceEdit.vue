@@ -52,6 +52,7 @@
           :invoiceParty="invoiceParty"
           :config="config.party"
           :saleFlag="isSale"
+          :editInvoice="editInvoice"
           @details-updated="onComponentDataUpdate"
           :updateCounter="updateCounter.party"
           ref="party"
@@ -389,6 +390,7 @@ export default {
         transport: false,
         comments: false,
       },
+      editInvoice: true,
       editFlag: null, // A flag used to skip fetchProductDetails() method call,
       // when the bill table is populated when the page loads in edit mode
     };

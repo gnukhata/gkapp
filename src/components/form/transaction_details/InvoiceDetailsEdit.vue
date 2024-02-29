@@ -43,7 +43,7 @@
             v-model="form.no"
             trim
             required
-            :readonly="disabled.no"
+            readonly
             :tabindex="disabled.no ? -1 : 0"
           ></b-form-input>
         </b-form-group>
@@ -766,8 +766,6 @@ export default {
       this.form.date = !this.disabled.date ? this.getNoteDate() : '';
       if (!this.disabled.no) {
         // requests.push(this.setInvoiceNo(true));
-      } else {
-        this.form.no = '';
       }
       this.form.godown = '';
       this.$nextTick().then(() => {
