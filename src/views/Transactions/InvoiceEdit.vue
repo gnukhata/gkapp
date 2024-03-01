@@ -993,13 +993,13 @@ export default {
                       .updateInvNoCounter()
                       .then(() => {
                         self.resetForm();
-                        self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                        self.showPrintModal = true; // show print screen if sale and not if purchase
                       })
                       .catch(() => {
-                        self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                        self.showPrintModal = true; // show print screen if sale and not if purchase
                       });
                   } else {
-                    self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                    self.showPrintModal = true; // show print screen if sale and not if purchase
                   }
                 }
                 break;

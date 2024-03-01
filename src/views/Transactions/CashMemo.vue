@@ -687,16 +687,14 @@ export default {
     },
     onSubmit() {
       this.isLoading = true;
-      this.createDelNote().then(() => {
-        this.createCashMemo();
-      });
+      this.createCashMemo();
     },
     createCashMemo() {
-      const payload = this.initPayload();
       const self = this;
-      console.log(payload);
+      const payload = this.initPayload();
+      const delchalPayload = this.initDelNotePayload();
       axios
-        .post('/invoice', payload)
+        .post('/invoice', {payload, delchalPayload})
         .then((resp) => {
           self.isLoading = false;
 
