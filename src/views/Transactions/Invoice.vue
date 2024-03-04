@@ -894,10 +894,10 @@ export default {
                     .updateInvNoCounter()
                     .then(() => {
                       self.resetForm();
-                      self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                      self.showPrintModal = true;
                     })
                     .catch(() => {
-                      self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                      self.showPrintModal = true;
                     });
                   // if (self.isCreate) {
                   // }
