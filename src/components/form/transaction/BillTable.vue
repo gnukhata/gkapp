@@ -505,7 +505,7 @@ export default {
       default: function() {
         return [
           {
-            product: { name: '', id: '' },
+            product: { name: '', id: '', productquantity: '' },
             hsn: '',
             qty: 0,
             fqty: 0,
@@ -540,7 +540,7 @@ export default {
       form: [
         {
           index: 0,
-          product: { name: '', id: '' },
+          product: { name: '', id: '', productquantity: '' },
           hsn: '',
           qty: 0,
           fqty: 0,
@@ -747,6 +747,9 @@ export default {
           self.isPreloading = false;
         }
       });
+    },
+    saleFlag() {
+      this.fetchBusinessList();
     },
     godownId() {
       // this.fetchStockOnHandData();
@@ -1397,13 +1400,18 @@ export default {
               self.options.products = [];
               self.options.productData = {};
               resp.data.gkresult.forEach((item) => {
-                self.options.products.push({
-                  id: item.productcode,
-                  name: item.productdesc,
-                });
-                self.options.productData[item.productcode] = {
-                  gsflag: item.gsflag,
-                };
+                console.log((this.saleFlag && parseInt(item.productquantity, 10) > 0), !this.saleFlag, (item.gsflag === 19))
+                if (((this.saleFlag && parseInt(item.productquantity, 10) > 0) || (!this.saleFlag)) || (item.gsflag === 19)) {
+                  console.log(item)
+                  self.options.products.push({
+                    id: item.productcode,
+                    name: item.productdesc,
+                    quantity: item.productquantity,
+                  });
+                  self.options.productData[item.productcode] = {
+                    gsflag: item.gsflag,
+                  };
+                }
               });
               if (self.config.qty.checkStock) {
                 // self.fetchStockOnHandData();
