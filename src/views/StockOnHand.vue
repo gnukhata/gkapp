@@ -82,7 +82,7 @@
         <template #cell(product)="data">
           <router-link
             :to="
-              `/product-register?product_id=${selectedProduct.id}&current_date=${toDate}`
+              `/product-register?product_id=${selectedProduct.id}&current_date=${toDate}&goid=${selectedGodown?.id}`
             "
             >{{ data.item.product }}
           </router-link>
