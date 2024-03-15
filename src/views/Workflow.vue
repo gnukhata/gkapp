@@ -1360,6 +1360,13 @@ export default {
             this.activeTabOptions.data.splice(index, 1);
           }
         }
+        break;
+        case 'Transactions-Invoice': {
+          if (updatedData.gkstatus === 3) {
+              // if the invoice cancel after update, gkstatus will be 3
+              this.selectedEntity.deletedFlag = true;
+          } 
+        }
       }
     },
     displayToast(title, message, variant) {

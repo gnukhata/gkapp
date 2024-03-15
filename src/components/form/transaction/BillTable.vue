@@ -115,7 +115,7 @@
               <div class="text-small" v-if="options.stock[option.id] && options.stock[option.id] > 0">
                 ({{ options.stock[option.id] }})
               </div>
-              <div v-else>({{ options.stock[option.id] || 0 }})qq</div>
+              <div v-else>({{ options.stock[option.id] || 0 }})</div>
             </div>
              <div v-else>{{ option.name }}</div>
           </b-form-select-option>
