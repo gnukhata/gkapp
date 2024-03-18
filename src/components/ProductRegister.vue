@@ -497,6 +497,13 @@ export default {
         });
     },
     getGodownStock() {
+      if (!this.godownId) {
+        const params = this.$route.query;
+        this.fromDate = this.yearStart;
+        this.toDate = params.current_date;
+        this.productId = params.product_id;
+        this.godownId = params.goid;
+      }
       this.loading = true;
       this.invoiceFilter = ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note'],
       axios
