@@ -21,9 +21,6 @@
           <b-form-radio value="sale">
             <translate> Sale </translate>
           </b-form-radio>
-          <b-form-radio value="purchase">
-            <translate> Purchase </translate>
-          </b-form-radio>
         </b-form-radio-group>
         <span class="float-right">
           <config
