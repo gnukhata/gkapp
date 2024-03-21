@@ -16,7 +16,7 @@
           size="sm"
           buttons
           class="mx-1"
-          @input="resetForm(false)"
+          @input="resetForm(true)"
         >
           <b-form-radio value="sale">
             <translate> Sale Rejection </translate>
@@ -26,19 +26,21 @@
           </b-form-radio>
         </b-form-radio-group>
         <span id="edit-invoice-list" class="d-inline-block mt-2 mt-sm-0">
-          <v-select
+          <b-form-select
             id="input-8-2"
             v-model="invIndex"
             :options="invList"
             required
             @input="updateFormData"
-            placeholder="Choose an Invoice"
             label="text"
             :reduce="(invdata) => invdata.value"
             style="min-width: 200px"
             :resetOnOptionsChange="true"
           >
-          </v-select>
+          <template #first>
+              <b-form-select-option value="null">-- Please select an invoice --</b-form-select-option>
+          </template>
+          </b-form-select>
         </span>
         <div class="clearfix"></div>
       </div>
@@ -243,8 +245,8 @@ export default {
         totalTable: 0,
         comments: 0,
       },
-      saleInvIndex: 1,
-      purchaseInvIndex: 1,
+      saleInvIndex: null,
+      purchaseInvIndex: null,
       form: {
         type: 'sale',
         rnote: {},
@@ -438,6 +440,7 @@ export default {
       let stock = {
         inout: this.isSale ? 9 : 15, // for rejection note 9 is used for IN and 15 for OUT
         items: {},
+        goid: this.form.invoice.godown
       };
 
       let products = {};
@@ -698,6 +701,8 @@ export default {
     },
     resetForm(resetNoteDetails) {
       this.showPrintModal = false;
+      this.saleInvIndex = null;
+      this.purchaseInvIndex = null,
       Object.assign(this.form, {
         rnote: {
           no: '',
@@ -745,6 +750,7 @@ export default {
     // Using non props to store these props, as these can be edited in the future
 
     this.initForm();
+    this.resetForm(false);
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page

@@ -79,7 +79,7 @@
           <template #label>
             <translate> Dispatch From </translate>
           </template>
-          <v-select
+          <b-form-select
             id="tnd-input-20"
             v-model="form.godownFrom"
             :options="options.godowns"
@@ -88,7 +88,7 @@
             label="text"
             :reduce="(gdata) => gdata.value"
           >
-          </v-select>
+          </b-form-select>
         </b-form-group>
         <b-form-group
           label="Dispatch To"
@@ -101,7 +101,7 @@
           <template #label>
             <translate> Dispatch To </translate>
           </template>
-          <v-select
+          <b-form-select
             id="tnd-input-30"
             v-model="form.godownTo"
             :options="options.godowns"
@@ -110,7 +110,7 @@
             label="text"
             :reduce="(gdata) => gdata.value"
           >
-          </v-select>
+          </b-form-select>
         </b-form-group>
         <b-form-group
           label="Issuer"

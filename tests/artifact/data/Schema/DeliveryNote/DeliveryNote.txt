@@ -1,0 +1,385 @@
+{
+    "gkstatus": 0,
+    "gkresult": [
+        {
+            "dcid": 227,
+            "dcno": "1/DIN-23",
+            "custname": "CELLO INDUSTRIES PRIVATE LIMITED",
+            "csflag": 19,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 159,
+            "dcno": "1/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 184,
+            "dcno": "10/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 214,
+            "dcno": "11/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 205,
+            "dcno": "12/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 190,
+            "dcno": "13/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 207,
+            "dcno": "14/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 208,
+            "dcno": "15/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 209,
+            "dcno": "16/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 210,
+            "dcno": "17/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 226,
+            "dcno": "18/DOUT-23",
+            "custname": "KAIRA DISTRICT CO-OPERATIVE MILK PRODUCERS UNION LIMITED",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 228,
+            "dcno": "19/DOUT-23",
+            "custname": "CELLO INDUSTRIES PRIVATE LIMITED",
+            "csflag": 19,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 229,
+            "dcno": "2/DIN-23",
+            "custname": "TATA MOTORS LIMITED",
+            "csflag": 19,
+            "dcdate": "06-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 160,
+            "dcno": "2/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 231,
+            "dcno": "20/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 232,
+            "dcno": "21/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 233,
+            "dcno": "22/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 234,
+            "dcno": "23/DOUT-23",
+            "custname": "KAIRA DISTRICT CO-OPERATIVE MILK PRODUCERS UNION LIMITED",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 235,
+            "dcno": "24/DOUT-23",
+            "custname": "KAIRA DISTRICT CO-OPERATIVE MILK PRODUCERS UNION LIMITED",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 237,
+            "dcno": "25/DOUT-23",
+            "custname": "CELLO INDUSTRIES PRIVATE LIMITED",
+            "csflag": 19,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 240,
+            "dcno": "26/DOUT-23",
+            "custname": "KAIRA DISTRICT CO-OPERATIVE MILK PRODUCERS UNION LIMITED",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 261,
+            "dcno": "27/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "15-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 262,
+            "dcno": "28/DOUT-23",
+            "custname": "KAIRA DISTRICT CO-OPERATIVE MILK PRODUCERS UNION LIMITED",
+            "csflag": 3,
+            "dcdate": "14-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 288,
+            "dcno": "29/DOUT-23",
+            "custname": "KAIRA DISTRICT CO-OPERATIVE MILK PRODUCERS UNION LIMITED",
+            "csflag": 3,
+            "dcdate": "17-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 230,
+            "dcno": "3/DIN-23",
+            "custname": "CELLO INDUSTRIES PRIVATE LIMITED",
+            "csflag": 19,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 161,
+            "dcno": "3/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 236,
+            "dcno": "4/DIN-23",
+            "custname": "TATA MOTORS LIMITED",
+            "csflag": 19,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 166,
+            "dcno": "4/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 238,
+            "dcno": "5/DIN-23",
+            "custname": "CELLO INDUSTRIES PRIVATE LIMITED",
+            "csflag": 19,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 176,
+            "dcno": "5/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 239,
+            "dcno": "6/DIN-23",
+            "custname": "CELLO INDUSTRIES PRIVATE LIMITED",
+            "csflag": 19,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 169,
+            "dcno": "6/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 243,
+            "dcno": "7/DIN-23",
+            "custname": "CELLO INDUSTRIES PRIVATE LIMITED",
+            "csflag": 19,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 171,
+            "dcno": "7/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 248,
+            "dcno": "8/DIN-23",
+            "custname": "CELLO INDUSTRIES PRIVATE LIMITED",
+            "csflag": 19,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 180,
+            "dcno": "8/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        },
+        {
+            "dcid": 260,
+            "dcno": "9/DIN-23",
+            "custname": "CELLO INDUSTRIES PRIVATE LIMITED",
+            "csflag": 19,
+            "dcdate": "15-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 0
+        },
+        {
+            "dcid": 167,
+            "dcno": "9/DOUT-23",
+            "custname": "Retail Customer (Default)",
+            "csflag": 3,
+            "dcdate": "01-04-2023",
+            "attachmentcount": 0,
+            "goname": "Primary Godown",
+            "canceldelchal": 1
+        }
+    ]
+}

@@ -102,7 +102,6 @@
               v-model="details.orgcity"
               size="sm"
               type="text"
-              required
             ></b-form-input>
           </b-form-group>
           <b-form-group
@@ -128,7 +127,6 @@
               v-model="details.orgcountry"
               size="sm"
               type="text"
-              required
             ></b-form-input>
           </b-form-group>
           <b-form-group

@@ -27,7 +27,7 @@ https://gnukhata.gitlab.io/gkapp
 
 #### Requirements
 
-- Nodejs `v16.18.0` (use [nvm](https://github.com/nvm-sh/nvm) for managing node versions)
+- Nodejs `v18.x.x` (You could use [nvm](https://github.com/nvm-sh/nvm) for managing node versions)
 
 #### Install
 
@@ -35,9 +35,23 @@ https://gnukhata.gitlab.io/gkapp
 
 #### Development
 
-Development happens on the `devel` branch.
-
 To pre-compile & hot-reload for development run `npm run serve`
+
+If you encounter below error like this, Linux/Mac users can `export NODE_OPTIONS=--openssl-legacy-provider`. [more info](https://stackoverflow.com/questions/74726224/opensslerrorstack-error03000086digital-envelope-routinesinitialization-e)
+
+If you encounter below error like this, for
+Windows cmd prompt use `set NODE_OPTIONS=--openssl-legacy-provider` &
+Windows powershell use `$env:NODE_OPTIONS = "--openssl-legacy-provider`. [more info](https://stackoverflow.com/questions/74726224/opensslerrorstack-error03000086digital-envelope-routinesinitialization-e)
+
+```sh
+  at FSReqCallback.readFileAfterClose [as oncomplete] (node:internal/fs/read_file_context:68:3) {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+```
 
 To generate the translations: `npm run translate-extract` & then run `npm run translate-compile`
 

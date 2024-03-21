@@ -402,7 +402,6 @@ export default {
           if (vat.length) {
             self.form.taxes.pop();
             self.form.taxes.push(...vat);
-            self.addVAT();
             if (vatStates.length) {
               self.$nextTick().then(() => {
                 setTimeout(() => {
@@ -430,8 +429,9 @@ export default {
           });
           if (resp[2].data.gkresult.length) {
             self.specFlag = true;
+          } else {
+            self.addSpec();
           }
-          self.addSpec();
         }
 
         // Edit Flag Check

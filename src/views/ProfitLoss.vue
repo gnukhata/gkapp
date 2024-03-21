@@ -68,6 +68,7 @@
           "
           title="Download Profit & Loss Spreadsheet"
           aria-label="profit & loss Spreadsheet download button"
+          :messageFromParent="parentMessage"
         />
       </gk-toolbar>
       <div class="row mt-4 ml-2 mr-2" v-if="result !== null">
@@ -214,6 +215,7 @@ export default {
   name: 'ProfitLoss',
   data() {
     return {
+      parentMessage: '',
       isLoading: false,
       fromDate: null,
       toDate: null,

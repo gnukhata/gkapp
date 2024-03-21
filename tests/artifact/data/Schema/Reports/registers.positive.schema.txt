@@ -1,0 +1,23 @@
+{
+  "gkstatus": 0,
+  "gkresult": [
+    {
+      "srno": 0,
+      "invid": 0,
+      "invoiceno": "string",
+      "invoicedate": "string",
+      "customername": "string",
+      "customertin": "string",
+      "grossamount": "string",
+      "taxfree": "string",
+      "tax": {},
+      "taxamount": {},
+      "icflag": 0,
+      "custgstin": "string"
+    }
+  ],
+  "totalrow": {},
+  "taxcolumns": [
+    "string"
+  ]
+}

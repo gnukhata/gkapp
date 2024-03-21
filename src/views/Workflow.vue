@@ -110,7 +110,7 @@
             <b-button
               class="px-1 float-right text-dark"
               variant="link"
-              @click="isOptionsOpen = !isOptionsOpen"
+              @click="isOptionsOpen = !isOptionsOpen; isSettingsOpen = false; isFilterOpen = false;"
               size="sm"
               title="Options"
             >
@@ -129,7 +129,7 @@
                 <b-button
                   class="px-1"
                   variant="outline-dark"
-                  @click="isFilterOpen = !isFilterOpen"
+                  @click="isFilterOpen = !isFilterOpen; isSettingsOpen = false"
                   title="Filters"
                 >
                   <b-icon
@@ -146,7 +146,9 @@
                   iconName="file-earmark-arrow-down"
                   variant="outline-dark"
                   :fileName="fileName.list"
+                  :toggleFlag="toggleFlag"
                   title="Download Pdf"
+                  :messageFromParent="parentMessage"
                 ></print-helper>
                 <!-- product / service spreadsheet -->
                 <gk-file-download
@@ -159,6 +161,8 @@
                     `/spreadsheet?pslist&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
                   "
                   title="Download Product Service List"
+                  :toggleFlag="toggleFlag"
+                  :messageFromParent="parentMessage"
                 ></gk-file-download>
                 <!-- Invoice spreadsheet -->
                 <gk-file-download
@@ -175,6 +179,8 @@
                     `/spreadsheet?invoice-list&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
                   "
                   title="Download All Invoice List"
+                  :toggleFlag="toggleFlag"
+                  :messageFromParent="parentMessage"
                 ></gk-file-download>
                 <!-- Cancelled Invoice spreadsheet -->
                 <gk-file-download
@@ -191,6 +197,8 @@
                     `/spreadsheet?invoice-cancelled&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
                   "
                   title="Download Cancelled Invoice Spreadsheet"
+                   :toggleFlag="toggleFlag"
+                  :messageFromParent="parentMessage"
                 ></gk-file-download>
                 <!-- Credit Invoice Spreadsheet -->
                 <gk-file-download
@@ -211,6 +219,8 @@
                       this.filters.range.to
                     )}&inoutflag=15&orderflag=1&typeflag=4`
                   "
+                  :toggleFlag="toggleFlag"
+                  :messageFromParent="parentMessage"
                 ></gk-file-download>
                 <!-- Transfer Note Spreadsheet -->
                 <gk-file-download
@@ -225,6 +235,8 @@
                     )}&enddate=${this.dateReverse(this.filters.range.to)}`
                   "
                   title="Download Transfer Notes Spreadsheet"
+                  :toggleFlag="toggleFlag"
+                  :messageFromParent="parentMessage"
                 ></gk-file-download>
                 <!-- Unbilled Delivery Note Spreadsheet -->
                 <gk-file-download
@@ -241,6 +253,8 @@
                   :url="
                     `/spreadsheet?delivery-challan-unbilled&inputdate=${this.filters.range.to}&inout=9&del_unbilled_type=All`
                   "
+                  :toggleFlag="toggleFlag"
+                  :messageFromParent="parentMessage"
                 ></gk-file-download>
                 <!-- Cancelled Delivery Note Spreadsheet -->
                 <gk-file-download
@@ -257,12 +271,14 @@
                   :url="
                     `/spreadsheet?delivery-challan-cancelled&inputdate=${this.filters.range.to}&inout=15&del_cancelled_type=All`
                   "
+                  :toggleFlag="toggleFlag"
+                  :messageFromParent="parentMessage"
                 ></gk-file-download>
                 <!-- Column settings -->
                 <b-button
                   class="px-1"
                   variant="outline-dark"
-                  @click="isSettingsOpen = !isSettingsOpen"
+                  @click="isSettingsOpen = !isSettingsOpen; isFilterOpen = false"
                   title="Column Settings"
                 >
                   <b-icon
@@ -342,6 +358,14 @@
                   <b v-translate> Filter By </b>
                   <hr class="mx-0 my-1" />
                   <div class="my-2 ml-1">
+                  <b-form-checkbox
+                    v-model="allSelected"
+                    aria-describedby="flavours"
+                    aria-controls="flavours"
+                    @change="toggleAll"
+                  >
+                    All
+                  </b-form-checkbox>
                     <b-form-checkbox-group
                       id="checkbox-group-2"
                       v-model="filters.active"
@@ -600,6 +624,7 @@
                   textMode="Original"
                   pageTitle="<div class='text-center'>Tax Invoice - Original for Recipient</div>"
                   fileName="Tax_Invoice_For_Recipient"
+                  :messageFromParent="printMessage"
                 ></print-helper>
                 <print-helper
                   contentId="transaction-profile-wrapper"
@@ -607,6 +632,7 @@
                   textMode="Duplicate"
                   pageTitle="<div class='text-center'>Tax Invoice - Duplicate for Transporter</div>"
                   fileName="Tax_Invoice_For_Transporter"
+                  :messageFromParent="printMessage"
                 ></print-helper>
                 <print-helper
                   contentId="transaction-profile-wrapper"
@@ -614,6 +640,7 @@
                   textMode="Triplicate"
                   pageTitle="<div class='text-center'>Tax Invoice - Triplicate for Supplier</div>"
                   fileName="Tax_Invoice_For_Supplier"
+                  :messageFromParent="printMessage"
                 ></print-helper>
               </b-collapse>
             </div>
@@ -623,6 +650,7 @@
               variant="link"
               :pageTitle="selectedEntity.noteName"
               :fileName="selectedEntity.noteName"
+              :messageFromParent="printMessage"
             ></print-helper>
           </template>
           <b-card-body
@@ -709,6 +737,9 @@ export default {
   },
   data() {
     return {
+      allSelected: false,
+      parentMessage: 'toggleFlagTrue',
+      printMessage: 'toggleFlagPrintTrue',
       leftHeaderHeight: {
         min: 63,
         max: 0,
@@ -791,6 +822,12 @@ export default {
     };
   },
   watch: {
+   'filters.active': {
+      handler() {
+        this.updateIndeterminate();
+      },
+      deep: true,
+    },
     wfName: function(wfname) {
       // Run when visiting a workflow page using URL, when already in a workflow page
       if (this.activeWorkflow.name !== wfname) {
@@ -850,6 +887,8 @@ export default {
           break;
         case 'RejectionNote':
           break;
+        case 'TransferNote':
+          break;
         case 'Voucher':
           data = self.selectedEntity;
           break;
@@ -884,6 +923,21 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgCode', 'orgName']),
   },
   methods: {
+    toggleAll() {
+      if (this.allSelected) {
+        this.filters.active = this.activeTabOptions.filterBy.value.map((_, index) => index);
+      } else {
+        this.filters.active = [];
+      }
+    },
+    updateIndeterminate() {
+      const allSelected = this.filters.active.length === this.activeTabOptions.filterBy.value.length;
+      this.allSelected = allSelected;
+    },
+    toggleFlag() {
+      this.isFilterOpen = false; 
+      this.isSettingsOpen = false;
+    },
     /**
      * updateListSettings
      *
@@ -1007,21 +1061,20 @@ export default {
     },
     filterTable(row) {
       let result;
-      // console.log(this.filters)
-      const self = this;
-      if (this.filters.active.length) {
-        let filters = this.filters.active.map((filterIndex) =>
-          filterIndex >= 0
-            ? self.activeTabOptions.filterBy.value[filterIndex].props || null
-            : null
-        );
-        result = this.filterByValue(row, filters);
+      if (row.noteName === "Transfer Note" || row.noteName === "Cash Memo") {
+        result = true;
+      } else {
+        const self = this;
+        if (this.filters.active.length) {
+          let filters = this.filters.active.map((filterIndex) =>
+            filterIndex >= 0
+              ? self.activeTabOptions.filterBy.value[filterIndex].props || null
+              : null
+          );
+          result = this.filterByValue(row, filters);
+        }
       }
-
       if (this.filters.range.props.key !== undefined) {
-        // console.log("date filter")
-        // console.log(this.filter.range.from);
-        // console.log(this.filter.range.to);
         result =
           result &&
           this.filterByRange(
@@ -1031,9 +1084,6 @@ export default {
             Date.parse(this.filters.range.to)
           );
       }
-      // if (this.sort.props.key !== undefined) {
-      //   data = this.sortData(data, this.sort.isAscending, this.sort.props.key);
-      // }
       return result;
     },
     /**
@@ -1309,6 +1359,13 @@ export default {
             this.unsetSelectedEntity();
             this.activeTabOptions.data.splice(index, 1);
           }
+        }
+        break;
+        case 'Transactions-Invoice': {
+          if (updatedData.gkstatus === 3) {
+              // if the invoice cancel after update, gkstatus will be 3
+              this.selectedEntity.deletedFlag = true;
+          } 
         }
       }
     },

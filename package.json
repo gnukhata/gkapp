@@ -11,15 +11,16 @@
     "translate-compile": "make translations"
   },
   "dependencies": {
-    "axios": "^1.2.3",
+    "axios": "^1.5.1",
     "bootstrap-vue": "^2.23.1",
     "check-password-strength": "^1.0.15",
-    "core-js": "^3.27.2",
+    "core-js": "^3.33.1",
     "crypto-js": "^4.1.1",
     "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",
     "register-service-worker": "^1.7.2",
-    "vue": "^2.7.14",
+    "vue": "^2.7.15",
     "vue-chartjs": "^4.1.2",
     "vue-gettext": "^2.1.12",
     "vue-router": "^3.6.5",
@@ -42,11 +43,11 @@
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
     "prettier": "^1.19.1",
-    "sass": "^1.57.1",
+    "sass": "^1.69.4",
     "sass-loader": "^10.4.1",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-bootstrap-vue": "^0.7.0",
-    "vue-template-compiler": "^2.7.14"
+    "vue-template-compiler": "^2.7.15"
   },
   "eslintConfig": {
     "root": true,

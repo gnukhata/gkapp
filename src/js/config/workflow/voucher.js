@@ -18,10 +18,6 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'All',
-        props: {},
-      },
-      {
         text: 'Receipt',
         props: { key: 'vouchertype', value: 'receipt' },
       },
@@ -30,11 +26,11 @@ const config = {
         props: { key: 'vouchertype', value: 'payment' },
       },
       {
-        text: 'Purchase',
+        text: 'Supplier',
         props: { key: 'vouchertype', value: 'purchase' },
       },
       {
-        text: 'Sales',
+        text: 'Customer',
         props: { key: 'vouchertype', value: 'sales' },
       },
       {

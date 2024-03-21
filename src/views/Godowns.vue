@@ -24,6 +24,7 @@
             this.yearStart
           )}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}`
         "
+        :messageFromParent="parentMessage"
       ></gk-file-download>
     </gk-toolbar>
     <b-table
@@ -70,6 +71,7 @@ export default {
   components: { GkFileDownload, GkToolbar },
   data() {
     return {
+      parentMessage: '',
       searchText: '',
       fields: [
         { key: 'godown_name', sortable: true },

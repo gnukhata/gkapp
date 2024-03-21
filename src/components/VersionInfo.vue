@@ -40,7 +40,7 @@ export default {
       this.url = url;
     },
   },
-  created() {
+  mounted() {
     axios
       .get('/')
       .then((r) => {

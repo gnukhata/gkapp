@@ -43,7 +43,7 @@
             size="sm"
             buttons
             v-model="form.type"
-            @input="resetPartyDetails()"
+            @change="resetPartyDetails()"
           >
             <b-form-radio value="customer">
               <translate> Customer </translate>
@@ -67,7 +67,7 @@
           >
           <!-- edit contact button. only shown when a contact is selected -->
           <b-button
-            v-if="form.name.name != ''"
+            v-if="form.name?.name != ''"
             class="py-0 ml-2"
             variant="warning"
             size="sm"
@@ -89,28 +89,43 @@
           :label-class="{ required: !(editFlag || isNameDisabled) }"
         >
           <template #label> <translate> Name </translate> </template>
-          <v-select
-            v-if="isCustomer"
+          
+            <b-form-select
+            v-if="isCustomer && options.customers"
             id="ptd-input-10"
             v-model="form.name"
-            :options="options.customers"
-            @input="onPartyNameSelect(form.name)"
-            required
-            label="name"
-            :disabled="editFlag || isNameDisabled"
-            :clearable="false"
-          ></v-select>
-          <v-select
-            v-else
+            @change="onPartyNameSelect(form.name)"
+            :required="true"
+            :disabled="editFlag || isNameDisabled || editInvoice"
+            :clearable="true"
+          >
+            <b-form-select-option
+              v-for="option in options.customers"
+              :key="option?.id"
+              :value="option"
+            >
+              {{ option.name }}
+            </b-form-select-option>
+          </b-form-select>
+          <b-form-select
+            v-else-if="options.suppliers"
             id="ptd-input-11"
             v-model="form.name"
-            :options="options.suppliers"
-            @input="onPartyNameSelect(form.name)"
-            required
-            label="name"
-            :disabled="editFlag || isNameDisabled"
+            @change="onPartyNameSelect(form.name)"
+            :required="true"
+            :disabled="editFlag || isNameDisabled|| editInvoice"
             :clearable="false"
-          ></v-select>
+            :rules="[v => !!form.name || 'Please select an option']"
+          >
+            <b-form-select-option
+              v-for="option in options.suppliers"
+              :key="option?.id"
+              :value="option"
+            >
+              {{ option.name }}
+            </b-form-select-option>
+          </b-form-select>
+
         </b-form-group>
         <b-form-group
           v-if="config.addr"
@@ -361,6 +376,7 @@ export default {
         };
       },
     },
+    editInvoice: Boolean,
   },
   data() {
     return {
@@ -409,7 +425,7 @@ export default {
       }
       return false;
     },
-    isPartySelected: (self) => (self.form.name ? !!self.form.name.name : false),
+    isPartySelected: (self) => (self.form.name ? !!self.form.name?.name : false),
   },
   watch: {
     isPartySelected() {
@@ -800,8 +816,8 @@ export default {
         let payload = {
           csflag: this.form.type === 'customer' ? 3 : 19,
           custaddr: this.form.addr,
-          custid: this.form.name.id,
-          custname: this.form.name.name,
+          custid: this.form.name?.id,
+          custname: this.form.name?.name,
           pincode: this.form.pin,
           state: this.form.state.name,
           custpan: this.form.pan,
@@ -814,7 +830,7 @@ export default {
           .put(`customer/${payload.custid}`, payload)
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
-              delete this.options.csData[this.form.name.id];
+              delete this.options.csData[this.form.name?.id];
             }
           })
           .catch((e) => {
@@ -822,7 +838,7 @@ export default {
           })
           .finally(() => {
             this.form.loading = false;
-            this.onPartyNameSelect(this.form.name);
+            this.onPartyNameSelect(this.form?.name);
           });
       } else {
         this.form.addr = this.editMode.addr;

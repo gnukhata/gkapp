@@ -844,7 +844,7 @@ export default {
                     break;
                   case 5:
                     this.$bvToast.toast(
-                      `Cannot delete ${this.details.productdesc}`,
+                      `Cannot delete ${this.details.productdesc} as there are some existing entries in the software.`,
                       {
                         title: this.$gettext('Action Disallowed'),
                         solid: true,

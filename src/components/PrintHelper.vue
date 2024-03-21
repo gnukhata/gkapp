@@ -1,5 +1,5 @@
 <template>
-  <b-button @click.prevent="onPrint" size="sm" :variant="variant">
+  <b-button @click.prevent="printordownloadaction" size="sm" :variant="variant">
     <b-icon
       aria-hidden="true"
       class="align-middle"
@@ -12,11 +12,16 @@
 </template>
 
 <script>
-// import html2PDF from '../js/html2pdf.js';
+import html2pdf from 'html2pdf.js';
 import { mapState } from 'vuex';
 export default {
   name: 'PrintHelper',
   props: {
+    messageFromParent: {
+      type: String,
+      required: true,
+    },
+    toggleFlag: Function,
     contentId: {
       type: String,
       required: true,
@@ -85,6 +90,13 @@ export default {
   },
   watch: {},
   methods: {
+    printordownloadaction() {
+      if(this.iconName === 'printer') {
+        this.onPrint();
+      } else {
+        this.downloadPdf();
+      }
+    },
     splitTable() {
       // const pdf = new jsPDF({
       //   format: 'a4',
@@ -126,6 +138,9 @@ export default {
       return pages;
     },
     onPrint() {
+      if (this.messageFromParent == "toggleFlagTrue") {
+        this.toggleFlag();
+      }
       // const self = this;
       let tableFlag = false;
       this.$emit('before-print');
@@ -220,9 +235,10 @@ export default {
           printWindow
         );
       }; */
+      printWindow.print();
     },
 
-    /* downloadPdf(element, pwindow) {
+    downloadPdf() {
       let dateString = new Date().toISOString().split('.')[0];
       let date = dateString
         .split('T')[0]
@@ -232,26 +248,16 @@ export default {
       let time = dateString.split('T')[1];
       let timeStamp = `${date}_${time}`;
       let fileName = `${this.orgName}_${this.fileName}_${timeStamp}.pdf`;
-      // see
-      html2PDF(element, {
-        jsPDF: {
-          format: 'a4',
-        },
-        imageType: 'image/png',
-        output: `${fileName}.pdf`,
-        margin: {
-          top: 25,
-          right: 25,
-          bottom: 25,
-          left: 25,
-        },
-        success: (pdf) => {
-          pdf.save(fileName);
-          this.$emit('after-print');
-          pwindow.close();
-        },
-      });
-    }, */
+      const element = document.querySelector('.table');
+      
+      html2pdf()
+        .from(element)
+        .set({
+          filename: fileName + '.pdf',
+          page: { format: 'a4', orientation: 'portrait' } // Set page size and orientation
+        })
+        .save();
+    },
   },
 };
 </script>

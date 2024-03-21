@@ -18,7 +18,7 @@
             size="sm"
             variant="dark"
           >
-            <b-icon icon="card-checklist"></b-icon>
+            <b-icon icon="search"></b-icon>
           </b-button>
         </b-input-group-append>
       </b-input-group>

@@ -1,0 +1,19 @@
+{
+  "gkstatus": 0,
+  "gkresult": [
+    {
+      "date": "string",
+      "particulars": "string",
+      "trntype": "string",
+      "dcid": "string",
+      "dcno": "string",
+      "invid": "string",
+      "invno": "string",
+      "tnid": "string",
+      "tnno": "string",
+      "rnid": "string",
+      "rnno": "string",
+      "inward": "string"
+    }
+  ]
+}

@@ -192,7 +192,7 @@ export default {
       if (!yearData) {
         return;
       }
-      const userAuthToken = localStorage.getItem('userAuthToken');
+      const userAuthToken = sessionStorage.getItem('userAuthToken');
       let selectedYear = yearData;
       let payload = {
         orgcode: selectedYear.code,

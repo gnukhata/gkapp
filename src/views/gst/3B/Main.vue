@@ -45,6 +45,7 @@ License: GPLv3 (https://github.com/frappe/erpnext/blob/develop/license.txt)
           name="Spreadsheet"
           :disabled="!datesValid || isLoading"
           icon="cloud-download"
+          :messageFromParent="parentMessage"
         ></gk-file-download>
       </div>
 
@@ -741,6 +742,7 @@ export default {
   name: 'Main',
   data() {
     return {
+      parentMessage: '',
       gstData: {
         gstin: '',
         ret_period: '',

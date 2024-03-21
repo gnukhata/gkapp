@@ -173,7 +173,7 @@ export default {
       },
       form: {
         no: '',
-        date: new Date().toISOString().slice(0, 10),
+        date: null,
         issuer: null,
         role: null,
       },
