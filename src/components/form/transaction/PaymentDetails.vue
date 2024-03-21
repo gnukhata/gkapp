@@ -65,7 +65,7 @@
             <gk-ifsc
               size="sm"
               @fill="autoFillBankInfo"
-              v-model="form.bank.ifsc"
+              :ifscCode=form.bank.ifsc
             >
             </gk-ifsc>
           </b-form-group>
@@ -184,7 +184,7 @@ export default {
           no: null,
           name: null,
           branch: null,
-          ifsc: null,
+          ifsc: '',
         },
       },
       options: {
@@ -196,14 +196,17 @@ export default {
         ],
       },
       isCollapsed: true,
+      ifscCode: '',
     };
   },
   methods: {
     autoFillBankInfo(bank) {
       this.form.bank.name = bank.BANK;
       this.form.bank.branch = bank.BRANCH;
+      this.form.bank.ifsc = bank.IFSC;
     },
     onUpdateDetails() {
+      this.ifscCode = this.form.bank.ifsc;
       setTimeout(() =>
         this.$emit('details-updated', {
           data: this.form,
