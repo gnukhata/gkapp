@@ -1061,7 +1061,7 @@ export default {
     },
     filterTable(row) {
       let result;
-      if (row.noteName === "Transfer Note") {
+      if (row.noteName === "Transfer Note" || row.noteName === "Cash Memo") {
         result = true;
       } else {
         const self = this;
@@ -1359,6 +1359,13 @@ export default {
             this.unsetSelectedEntity();
             this.activeTabOptions.data.splice(index, 1);
           }
+        }
+        break;
+        case 'Transactions-Invoice': {
+          if (updatedData.gkstatus === 3) {
+              // if the invoice cancel after update, gkstatus will be 3
+              this.selectedEntity.deletedFlag = true;
+          } 
         }
       }
     },

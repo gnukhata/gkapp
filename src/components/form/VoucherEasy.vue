@@ -174,6 +174,10 @@ export default {
       cash: 0,
       bank: 0,
       due: 0,
+      date: {
+        format: 'dd-mm-yyyy',
+        valid: null,
+      },
     };
   },
   computed: {
@@ -249,6 +253,9 @@ export default {
     },
   },
   methods: {
+    setDateValidity(validity) {
+      this.date.valid = validity;
+    },
     confirmOnSubmit() {
       let total = parseFloat(this.cash || 0) + parseFloat(this.bank || 0);
       const text = this.$createElement('div', {

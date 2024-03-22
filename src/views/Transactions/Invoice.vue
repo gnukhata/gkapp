@@ -856,35 +856,16 @@ export default {
 
     onSubmit() {
       this.isLoading = true;
-      this.createDelNote().then((status) => {
-        if (!status) {
-          this.displayToast(
-            this.$gettext(`Create Invoice Failed!`),
-            this.$gettext('Please check your input and try again later'),
-            'danger'
-          );
-          return;
-        }
-        this.createInvoice();
-      });
+      this.createInvoice();
       // console.log(this.initDelNotePayload());
       // console.log(this.initPayload());
     },
     createInvoice() {
       const self = this;
-
+      const delchalPayload = this.initDelNotePayload();
       const payload = this.initPayload();
-      if (!payload) {
-        this.displayToast(
-          this.$gettext(`Create Invoice Failed!`),
-          this.$gettext('Please check your input and try again later'),
-          'danger'
-        );
-        this.deleteDelNote(this.dcId);
-        return;
-      }
       axios
-        .post('/invoice', payload)
+        .post('/invoice', {payload, delchalPayload})
         .then((resp) => {
           self.isLoading = false;
           if (resp.status === 200) {
@@ -893,9 +874,6 @@ export default {
                 {
                   // success
                   self.invoiceId = resp.data.gkresult;
-                  //  self.isCreate
-                  //   ? resp.data.gkresult
-                  //   : self.invoiceId;
                   self.invModalId = self.invoiceId;
                   self.displayToast(
                     self.$gettext(`Create Invoice Successfull!`),
@@ -916,10 +894,10 @@ export default {
                     .updateInvNoCounter()
                     .then(() => {
                       self.resetForm();
-                      self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                      self.showPrintModal = true;
                     })
                     .catch(() => {
-                      self.showPrintModal = self.isSale; // show print screen if sale and not if purchase
+                      self.showPrintModal = true;
                     });
                   // if (self.isCreate) {
                   // }
@@ -1396,10 +1374,6 @@ export default {
           : parseFloat(item.fqty).toFixed(2);
         discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
 
-        // av.product[item.product.name] = parseFloat(taxable).toFixed(2);
-        // av.prodData[item.product.id] = parseFloat(taxable).toFixed(2);
-        // av.totaltaxable += taxable;
-
         pricedetails.push({
           custid: self.form.party.name.id || '',
           productcode: item.product.id,
@@ -1408,8 +1382,6 @@ export default {
         });
       });
 
-      // // av.taxpayment = parseFloat(av.taxpayment).toFixed(2);
-      // // av.totaltaxable = parseFloat(av.totaltaxable).toFixed(2);
 
       Object.assign(delchal, {
         contents,
@@ -1421,16 +1393,6 @@ export default {
         discount,
       });
 
-      // // === payment details, mode = 2 ===
-      // if (this.form.payment.mode === 2) {
-      //   delchal.bankdetails = {
-      //     accountno: this.form.payment.bank.no,
-      //     bankname: this.form.payment.bank.name,
-      //     ifsc: this.form.payment.bank.ifsc,
-      //     branch: this.form.payment.bank.branch,
-      //   };
-      // }
-
       if (this.form.transport.mode === 'Road') {
         delchal.vehicleno = this.form.transport.vno;
       }
@@ -1438,19 +1400,6 @@ export default {
       if (this.form.transport.date) {
         delchal.dateofsupply = this.form.transport.date;
       }
-
-      // if (!this.isCreate) {
-      //   const av = Object.assign({}, invoice.av);
-      //   invoice.invid = parseInt(this.invoiceId);
-
-      //   delete invoice.av;
-      //   delete invoice.pincode;
-      //   delete invoice.discflag;
-
-      //   return { invoice, stock, av };
-      // }
-
-      // console.log({ invoice, stock });
       return { delchaldata: delchal, stockdata: stock };
     },
     resetForm() {

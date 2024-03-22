@@ -11,12 +11,16 @@
         <b-form @submit.prevent="check">
           <b-form-group label="Product" label-align="right" label-cols="auto">
             <!-- select product -->
-            <v-select
-              placeholder="Select Product"
+            <b-form-select
               :options="productList"
               v-model="productId"
+              text-field="label"
+              value-field="id"
               required
-            ></v-select>
+            ><template #first>
+              <b-form-select-option value="null">-- Please select a product --</b-form-select-option>
+            </template>
+            </b-form-select>
           </b-form-group>
           <div class="row">
             <div class="col">
@@ -420,7 +424,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `/report?type=stockreport&productcode=${this.productId.id}&startdate=${this.fromDate}&enddate=${this.toDate}`
+          `/report?type=stockreport&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
         )
         .then((r) => {
           const data = r.data;
@@ -493,11 +497,18 @@ export default {
         });
     },
     getGodownStock() {
+      if (!this.godownId) {
+        const params = this.$route.query;
+        this.fromDate = this.yearStart;
+        this.toDate = params.current_date;
+        this.productId = params.product_id;
+        this.godownId = params.goid;
+      }
       this.loading = true;
       this.invoiceFilter = ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note'],
       axios
         .get(
-          `/reports/product-register?goid=${this.godownId}&productcode=${this.productId.id}&startdate=${this.fromDate}&enddate=${this.toDate}`
+          `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
         )
         .then((r) => {
           if (r.status == 200) {
@@ -569,7 +580,7 @@ export default {
           from: this.fromDate,
           to: this.toDate,
           godown_id: this.godownId,
-          product_id: this.productId.id,
+          product_id: this.productId,
         },
       });
     },

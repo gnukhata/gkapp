@@ -16,13 +16,13 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'Sale',
-        props: { key: 'inout', value: 15 },
+        text: 'Customer',
+        props: { key: 'inout', value: 9 },
         icon: { name: 'cash-stack' },
       },
       {
-        text: 'Purchase',
-        props: { key: 'inout', value: 9 },
+        text: 'Supplier',
+        props: { key: 'inout', value: 15 },
         icon: { name: 'basket3' },
       },
     ],

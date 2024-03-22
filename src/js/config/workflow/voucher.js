@@ -26,11 +26,11 @@ const config = {
         props: { key: 'vouchertype', value: 'payment' },
       },
       {
-        text: 'Purchase',
+        text: 'Supplier',
         props: { key: 'vouchertype', value: 'purchase' },
       },
       {
-        text: 'Sales',
+        text: 'Customer',
         props: { key: 'vouchertype', value: 'sales' },
       },
       {

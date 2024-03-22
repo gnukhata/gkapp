@@ -21,9 +21,6 @@
           <b-form-radio value="sale">
             <translate> Sale </translate>
           </b-form-radio>
-          <b-form-radio value="purchase">
-            <translate> Purchase </translate>
-          </b-form-radio>
         </b-form-radio-group>
         <span class="float-right">
           <config
@@ -687,16 +684,14 @@ export default {
     },
     onSubmit() {
       this.isLoading = true;
-      this.createDelNote().then(() => {
-        this.createCashMemo();
-      });
+      this.createCashMemo();
     },
     createCashMemo() {
-      const payload = this.initPayload();
       const self = this;
-      console.log(payload);
+      const payload = this.initPayload();
+      const delchalPayload = this.initDelNotePayload();
       axios
-        .post('/invoice', payload)
+        .post('/invoice', {payload, delchalPayload})
         .then((resp) => {
           self.isLoading = false;
 
