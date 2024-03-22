@@ -183,9 +183,9 @@
             label-align="right"
           >
             <gk-ifsc
-              v-model="bankDetails.ifsc"
               size="sm"
               @fill="autoFillIfsc"
+              :ifscCode="bankDetails.ifsc"
             ></gk-ifsc>
           </b-form-group>
           <!-- bank name -->
@@ -505,6 +505,7 @@ export default {
     autoFillIfsc(i) {
       this.bankDetails.bankname = i.BANK;
       this.bankDetails.branchname = i.BRANCH;
+      this.bankDetails.ifsc = i.IFSC;
     },
     /**GSTIN methods start*/
     onGstinDataFetched({ addr, name, pincode }) {

@@ -339,6 +339,7 @@
               v-model="godown.id"
               :options="options.godowns"
               required="true"
+              disabled
             >
               <template #first>
                 <b-form-select-option value="" disabled>
@@ -379,22 +380,6 @@
               <B-Icon icon="trash" variant="light" />
             </b-button>
           </div>
-          <!-- add row button -->
-          <b-button
-            size="sm"
-            @click.prevent="addGodown"
-            class="float-right py-0 px-1"
-          >
-            <translate> Add Row </translate>
-          </b-button>
-          <!-- create godown button -->
-          <b-button
-            class="float-right mx-2 py-0 px-1 bg-success"
-            size="sm"
-            @click.prevent="showGodownForm = true"
-          >
-            <translate> Create Godown </translate>
-          </b-button>
         </b-collapse>
       </div>
     </b-card>

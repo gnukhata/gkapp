@@ -154,11 +154,14 @@ export default {
     value: {
       type: String,
     },
+    ifscCode: {
+      type: String,
+    }
+
   },
   data() {
     return {
       loading: false,
-      ifscCode: null,
       ifscData: Object,
     };
   },
