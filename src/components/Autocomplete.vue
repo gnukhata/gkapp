@@ -144,6 +144,9 @@ export default {
       required: false,
       default: 'sm',
       note: 'Bootstrap vue size prop for b-input component'
+    },
+    godownData: {
+      type: [Number, String],
     }
   },
   data() {
@@ -187,6 +190,11 @@ export default {
             };
           }
           options.push(val);
+        });
+        this.options.forEach((option) => {
+          if (parseInt(this.godownData) === option.value) {
+            this.searchFilter = option.text;
+          }
         });
       }
 
@@ -245,8 +253,7 @@ export default {
         // console.log("In select option")
         this.selected = option;
         // this.optionsShown = false;
-        if (this.searchFilter !== this.selected.text) {
-          // console.log(this.selected.text)
+        if ((this.searchFilter !== this.selected.text) && !this.searchFilter) {
           this.searchFilter = this.selected.text;
         }
         // console.log(this.selected.value)

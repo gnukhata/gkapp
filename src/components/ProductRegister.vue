@@ -44,6 +44,7 @@
             <autocomplete
               placeholder="Search / Select a godown"
               v-model="godownId"
+              :godownData="godownId"
               :options="godowns"
               :required="true"
             ></autocomplete>
