@@ -87,6 +87,7 @@
             required
             label="text"
             :reduce="(gdata) => gdata.value"
+            @change="validateSelections"
           >
           </b-form-select>
         </b-form-group>
@@ -109,8 +110,10 @@
             required
             label="text"
             :reduce="(gdata) => gdata.value"
+            @change="validateSelections"
           >
           </b-form-select>
+          <span style="color: #ff0000;">{{validationError}}</span>
         </b-form-group>
         <b-form-group
           label="Issuer"
@@ -179,6 +182,7 @@ export default {
   },
   data() {
     return {
+      validationError: '',
       isCollapsed: false,
       isPreloading: false,
       noteNo: '',
@@ -228,6 +232,13 @@ export default {
     },
   },
   methods: {
+    validateSelections() {
+      if (this.form.godownFrom === this.form.godownTo) {
+        this.validationError = 'Dispatch from and Dispatch to locations cannot be the same';
+      } else {
+        this.validationError = '';
+      }
+    },
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
@@ -273,6 +284,7 @@ export default {
             isDateValid: self.date.valid,
             godownFrom: self.options.godownIdToName[self.form.godownFrom],
             godownTo: self.options.godownIdToName[self.form.godownTo],
+            isLocationValid: self.validationError,
           },
         })
       );
