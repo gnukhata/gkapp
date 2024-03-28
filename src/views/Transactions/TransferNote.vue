@@ -79,7 +79,7 @@
         </b-button>
         <b-button
           id="inv-submit"
-          :disabled="!isInvDateValid"
+          :disabled="!isInvDateValid || !!isLocationValid"
           type="submit"
           size="sm"
           class="m-1"
@@ -147,6 +147,7 @@ export default {
       },
       godownFrom: '',
       godownTo: '',
+      isLocationValid: '',
       form: {
         transferNote: {
           godownFrom: -1,
@@ -197,6 +198,7 @@ export default {
           this.isInvDateValid = payload.options.isDateValid;
           this.godownFrom = payload.options.godownFrom;
           this.godownTo = payload.options.godownTo;
+          this.isLocationValid = payload.options.isLocationValid;
           break;
       }
     },
