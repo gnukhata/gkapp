@@ -324,6 +324,7 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import EasyVoucher from '@/components/form/VoucherEasy.vue';
+import { numberToRupees } from '../../../js/utils.js';
 
 export default {
   name: 'InvoiceProfile',
@@ -535,7 +536,7 @@ export default {
         },
         {
           title: self.$gettext('Invoice Value In Words'),
-          value: self.invoice.total.text,
+          value: numberToRupees(self.invoice.total.amount),
         }
       );
       return total;
