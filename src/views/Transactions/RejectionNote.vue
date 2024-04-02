@@ -100,6 +100,7 @@
             <b-card-group class="d-block d-md-flex" deck>
               <!-- Invoice Comments -->
               <comments
+                :name="`Rejection Note`"
                 ref="narration"
                 :config="config.comments"
                 :updateCounter="updateCounter.comments"
@@ -191,7 +192,11 @@
       name="RejectionNote"
       title="Rejection Note"
       :id="rnoteId"
-      :pdata="{}"
+      :pdata="{
+        printTitle: { page: 'Tax RejectionNote', file: 'tax_rejectionNote' },
+        useTriplicate: false,
+      }"
+      @hidden="showPrintModal = false"
     >
     </print-page>
   </b-container>
@@ -505,7 +510,6 @@ export default {
               case 0:
                 {
                   // success
-                  console.log(resp.data);
                   this.displayToast(
                     this.$gettext(`Create Rejection Note Successfull!`),
                     `Rejection Note #${self.form.rnote.no} was successfully created`,
@@ -516,10 +520,9 @@ export default {
                     activity: `rejection note created: ${self.form.rnote.no}`,
                   };
                   axios.post('/log', log);
-
                   this.resetForm(true);
-                  this.rnoteId = resp.data.gkresult;
                   this.showPrintModal = true;
+                  this.rnoteId = resp.data.gkresult;
                 }
                 break;
               case 1:

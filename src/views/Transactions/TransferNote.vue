@@ -105,6 +105,7 @@
       title="Transfer Note"
       :id="tnoteId"
       :pdata="{}"
+      @hidden="showPrintModal = false"
     >
     </print-page>
   </b-container>
@@ -244,7 +245,6 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-      console.log(payload);
       // return;
       // const method = this.formMode === 'create' ? 'post' : 'put';
       axios
@@ -256,7 +256,6 @@ export default {
               case 0:
                 {
                   // success
-                  console.log(resp.data);
                   this.displayToast(
                     this.$gettext(`Create Transfer Note Successfull!`),
                     `Transfer Note #${self.form.transferNote.no} was successfully created`,
@@ -267,10 +266,9 @@ export default {
                     activity: `transfer note created: ${self.form.transferNote.no}`,
                   };
                   axios.post('/log', log);
-
                   this.resetForm();
-                  this.tnoteId = resp.data.gkresult;
                   this.showPrintModal = true;
+                  this.tnoteId = resp.data.gkresult;
                 }
                 break;
               case 1:

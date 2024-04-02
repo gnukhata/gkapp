@@ -177,9 +177,9 @@ export default {
           title: self.flags.credit
             ? self.$gettext('Credit Note Value')
             : self.$gettext('Debit Note Value'),
-          value: self.total.reduct,
+          value: Math.round(self.total.reduct),
         },
-        { title: self.$gettext('Total In Words'), value: self.total.text }
+        { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(self.total.reduct)) }
       );
       return total;
     },

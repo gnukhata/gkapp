@@ -153,6 +153,7 @@
 
 <script>
 import axios from 'axios';
+import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'CashMemoProfile',
   props: {
@@ -198,9 +199,9 @@ export default {
       details.push(
         {
           title: self.$gettext(`Cash Memo Value`),
-          value: total.amount,
+          value: Math.round(total.amount),
         },
-        { title: self.$gettext('Total In Words'), value: total.text }
+        { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(total.amount)) }
       );
       return details;
     },

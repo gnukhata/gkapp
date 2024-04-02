@@ -117,6 +117,7 @@
         ></transport-details>
         <!-- Invoice Comments -->
         <comments
+          :name="`Delivery Note`"
           ref="narration"
           :config="config.comments"
           :updateCounter="updateCounter.comments"
@@ -206,6 +207,7 @@
         printTitle: { page: 'Delivery Note', file: 'delivery_note' },
         useTriplicate: true,
       }"
+      @hidden="showPrintModal = false"
     >
     </print-page>
   </b-container>
@@ -534,6 +536,7 @@ export default {
       const self = this;
       let text = '';
       if (this.isSale) {
+        console.log(this.form.delNote.no)
         text = this.$gettextInterpolate(
           this.$gettext(`Create Delivery Note (%{delNoteNo}) for Sale?`),
           { delNoteNo: this.form.delNote.no }
@@ -570,21 +573,25 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-      console.log(payload);
+      console.log(payload)
       // return;
       // const method = this.formMode === 'create' ? 'post' : 'put';
       // const actionText = this.formMode === 'create' ? 'Create' : 'Edit';
       let successTitle, successMessage, failTitle;
       if (this.formMode === 'create') {
         successTitle = this.$gettext('Create Delivery Note Successful!');
-        successMessage = this.$gettext(
-          'Delivery Note %{delNoteNo} was successfully created.'
-        );
+        successMessage = this.$gettextInterpolate(
+          `Delivery Note %{delNoteNo} was successfully created.`, {
+        delNoteNo: payload.delchaldata?.dcno,
+        });
         failTitle = this.$gettext('Create Delivery Note Failed!');
+
       } else {
         successTitle = this.$gettext('Edit Delivery Note Successful!');
-        successMessage = this.$gettext(
-          'Delivery Note %{delNoteNo} was successfully edited.'
+        successMessage = this.$gettextInterpolate(
+          `Delivery Note %{delNoteNo} was successfully edited.`, {
+        delNoteNo: payload.delchaldata.dcno,
+        }
         );
         failTitle = this.$gettext('Edit Delivery Note Failed!');
       }
@@ -597,7 +604,6 @@ export default {
               case 0:
                 {
                   // success
-                  console.log(resp.data);
                   this.displayToast(successTitle, successMessage, 'success');
 
                   let log = {

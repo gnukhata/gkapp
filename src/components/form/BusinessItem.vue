@@ -591,6 +591,7 @@ export default {
   },
   data() {
     return {
+      invalidProduct: true,
       showGodownForm: false,
       type: 'product', // product, service
       isLoading: false,
@@ -771,6 +772,7 @@ export default {
           let productCode, taxPayload, taxRequests;
           switch (response.data.gkstatus) {
             case 0:
+            this.$emit('childValueUpdate', !this.invalidProduct);
               {
                 // store the tax when the product has been created successfully
                 productCode = response.data.gkresult;
@@ -832,6 +834,7 @@ export default {
               }
               break;
             case 1:
+            this.$emit('childValueUpdate', this.invalidProduct);
               this.$bvToast.toast(
                 this.$gettextInterpolate(
                   this.$gettext(
@@ -847,8 +850,10 @@ export default {
                   solid: true,
                 }
               );
+              this.resetForm();
               break;
             case 2:
+            this.$emit('childValueUpdate', this.invalidProduct);
               this.$bvToast.toast(
                 this.$gettext(`Unauthorized access, Please contact admin`),
                 {
@@ -876,6 +881,7 @@ export default {
                   solid: true,
                 }
               );
+              this.resetForm();
           } // end switch
           if (this.onSave) {
             this.onSave(response.data);

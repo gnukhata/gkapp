@@ -406,6 +406,7 @@
         :onSave="onBusinessSave"
         mode="create"
         :inOverlay="true"
+        @childValueUpdate="onBusinessSave"
       >
         <template #close-button>
           <b-button
@@ -485,6 +486,13 @@ export default {
       required: false,
       default: false,
       note: 'Flag to block the selection of items with no stock',
+    },
+    vatFlag: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: `true if the org state and party state are the same 
+      (use VAT). If false use IGST.`,
     },
     invDate: {
       type: String,
@@ -625,7 +633,10 @@ export default {
         } else {
           remove(['cgst', 'sgst']);
         }
-      } else {
+      } else if (self.vatFlag) {
+        remove(['cgst', 'sgst', 'igst', 'cess']);
+      } 
+      else {
         remove(['cgst', 'sgst', 'igst', 'cess']);
       }
       if (self.editMode || !self.mobileMode) {
@@ -733,7 +744,6 @@ export default {
 
           Promise.all(requests)
             .then(() => {
-              console.log('Calling refresh');
               self.isPreloading = false;
               self.$forceUpdate();
               self.$nextTick.then(() => {
@@ -1043,37 +1053,39 @@ export default {
         this.updateTaxAndTotal(index);
       }
     },
-    onBusinessSave() {
+    onBusinessSave(invalidProduct) {
       this.showBusinessForm = false;
       let self = this;
 
-      /**
-       * Fetching the business list, clears the options variable and repopulates it.
-       * This action makes the autocomplete component's value null. To counter this
-       * the table data is copied by value before that and pasted afterwards.
-       */
+      if (!invalidProduct) {
+        /**
+        * Fetching the business list, clears the options variable and repopulates it.
+        * This action makes the autocomplete component's value null. To counter this
+        * the table data is copied by value before that and pasted afterwards.
+        */
 
-      let tableData = this.form.map((item) => {
-        return { id: item.product.id, name: item.product.name };
-      });
-      this.fetchBusinessList().then(() => {
-        let billCount = self.form.length;
-        let productCount = self.options.products.length;
-        tableData.forEach((item, i) => {
-          self.form[i].product = item;
+        let tableData = this.form.map((item) => {
+          return { id: item.product.id, name: item.product.name };
         });
-        if (self.form[billCount - 1].product.id) {
-          self.addBillItem();
-          billCount++;
-        }
-        self.form[billCount - 1].product =
-          self.options.products[productCount - 1];
-        self.fetchProductDetails(
-          self.options.products[productCount - 1].id,
-          billCount - 1
-        );
-        self.$forceUpdate();
-      });
+        this.fetchBusinessList().then(() => {
+          let billCount = self.form.length;
+          let productCount = self.options.products.length;
+          tableData.forEach((item, i) => {
+            self.form[i].product = item;
+          });
+          if (self.form[billCount - 1].product.id) {
+            self.addBillItem();
+            billCount++;
+          }
+          self.form[billCount - 1].product =
+            self.options.products[productCount - 1];
+          self.fetchProductDetails(
+            self.options.products[productCount - 1].id,
+            billCount - 1
+          );
+          self.$forceUpdate();
+        });
+      }
     },
     /**
      * getTotal(key)
@@ -1400,9 +1412,7 @@ export default {
               self.options.products = [];
               self.options.productData = {};
               resp.data.gkresult.forEach((item) => {
-                console.log((this.saleFlag && parseInt(item.productquantity, 10) > 0), !this.saleFlag, (item.gsflag === 19))
                 if (((this.saleFlag && parseInt(item.productquantity, 10) > 0) || (!this.saleFlag)) || (item.gsflag === 19)) {
-                  console.log(item)
                   self.options.products.push({
                     id: item.productcode,
                     name: item.productdesc,

@@ -48,10 +48,6 @@
             @input="onUpdateDetails"
           ></b-form-select>
         </b-form-group>
-        <div v-if="form.mode === 3">
-          <b v-if="saleFlag === true" v-translate> CASH RECEIVED </b>
-          <b v-else v-translate> CASH PAID </b>
-        </div>
         <div v-if="form.mode === 2">
           <b v-translate> Bank Details </b>
           <b-form-group

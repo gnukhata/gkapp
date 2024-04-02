@@ -113,6 +113,7 @@
             <b-card-group class="d-block d-md-flex" deck>
               <!-- Invoice Comments -->
               <comments
+                :name="`Credit Note`"
                 ref="narration"
                 :config="config.comments"
                 :updateCounter="updateCounter.comments"
@@ -205,6 +206,7 @@
       :title="isCredit ? 'Credit Note' : 'Debit Note'"
       :id="dcnoteId"
       :pdata="{}"
+      @hidden="showPrintModal = false"
     >
     </print-page>
   </b-container>
@@ -409,7 +411,6 @@ export default {
       // console.log(payload);
       // return;
       const noteType = this.isCredit ? 'Credit' : 'Debit';
-      console.log(payload);
       axios
         .post('/drcrnote', payload)
         .then((resp) => {
@@ -442,11 +443,10 @@ export default {
                     }`,
                   };
                   axios.post('/log', log);
-
                   self.resetForm();
+                  this.showPrintModal = true;
                   self.preloadData();
                   this.dcnoteId = resp.data.gkresult;
-                  this.showPrintModal = true;
                 }
                 break;
               case 1:
