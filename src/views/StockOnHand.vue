@@ -35,7 +35,15 @@
               label-cols="auto"
               label-align="right"
             >
-              <gk-date :required="true" v-model="toDate" id="to"></gk-date>
+              <gk-date
+              v-model="toDate"
+              :format="dateFormat"
+              :min="minimumDate"
+              :max="maxDate"
+              id="to"
+              @validity="setDateValidity"
+              :required="true"
+              ></gk-date>
             </b-form-group>
           </div>
           <b-button
@@ -111,6 +119,10 @@ export default {
   components: { GkDate, ReportHeader },
   data() {
     return {
+      date: {
+        valid: null,
+        format: 'dd-mm-yyyy',
+      },
       productList: [],
       loading: false,
       selectedProduct: {},
@@ -152,6 +164,15 @@ export default {
       ];
       return fields;
     },
+    minimumDate: (self) => {
+      let date = self.reverseDate(self.yearStart);
+      return date;
+    },
+    maxDate: (self) => {
+      let date = self.reverseDate(self.yearEnd);
+      return date;
+    },
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
   },
   methods: {
     getGodownList() {
@@ -283,6 +304,17 @@ export default {
       } else {
         this.selectedGodown = this.godowns[0];
       }
+    },
+    setDateValidity(validity) {
+      this.date.valid = validity;
+    },
+    reverseDate(date) {
+      return date
+        ? date
+            .split('-')
+            .reverse()
+            .join('-')
+        : '';
     },
   },
   mounted() {
