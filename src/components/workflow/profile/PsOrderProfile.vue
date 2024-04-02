@@ -196,9 +196,9 @@ export default {
           title: self.saleFlag
             ? self.$gettext('Sale Order Value')
             : self.$gettext('Purchase Order Value'),
-          value: self.total.amount,
+          value: Math.round(self.total.amount),
         },
-        { title: self.$gettext('Total In Words'), value: self.total.text }
+        { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(self.total.amount))}
       );
       return total;
     },
@@ -232,6 +232,7 @@ export default {
         { key: 'cgst', label: 'CGST (%)' },
         { key: 'sgst', label: 'SGST (%)' },
         { key: 'cess', label: 'CESS (%)' },
+        { key: 'vat', label: 'VAT (%)' },
         {
           key: 'total',
           label: self.$gettext('Total (₹)'),
@@ -240,10 +241,11 @@ export default {
       ];
       if (self.total.isIgst) {
         fields.splice(5, 2);
+      } else if (self.total.isVat) {
+        fields.splice(4, 4);
       } else {
         fields.splice(4, 1);
       }
-
       return fields;
     },
   },
@@ -259,6 +261,7 @@ export default {
         discount: details.totaldiscount,
         taxable: details.totaltaxablevalue,
         text: details.pototalwords || numberToRupees(details.totaltaxablevalue),
+        isVat: details.taxname === 'VAT',
       };
 
       this.payment = {

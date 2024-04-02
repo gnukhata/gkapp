@@ -197,9 +197,9 @@ export default {
       total.push(
         {
           title: self.$gettext('Delivery Note Value'),
-          value: self.total.amount,
+          value: Math.round(self.total.amount),
         },
-        { title: self.$gettext('Total In Words'), value: self.total.text }
+        { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(self.total.amount)) }
       );
       return total;
     },

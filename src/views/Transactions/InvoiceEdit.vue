@@ -147,6 +147,7 @@
         ></transport-details>
         <!-- Invoice Comments -->
         <comments
+          :name="`Invoice`"
           ref="narration"
           :config="config.comments"
           :updateCounter="updateCounter.comments"

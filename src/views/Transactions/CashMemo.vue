@@ -123,6 +123,7 @@
         ></transport-details> -->
       <!-- Invoice Comments -->
       <!-- <comments
+          :name="`Cash Memo`"
           ref="narration"
           :config="config.comments"
           :updateCounter="updateCounter.comments"
@@ -197,10 +198,8 @@
       name="CashMemo"
       title="Cash Memo"
       :id="memoId"
-      :pdata="{
-        printTitle: { page: 'Tax Invoice', file: 'tax_invoice' },
-        useTriplicate: true,
-      }"
+      :pdata="{}"
+      @hidden="showPrintModal = false"
     >
     </print-page>
   </b-container>

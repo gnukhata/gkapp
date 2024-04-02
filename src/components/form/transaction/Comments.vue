@@ -8,7 +8,7 @@
   >
     <div class="p-2 p-md-3">
       <div>
-        <b v-translate> Invoice Comments </b>
+        <b v-translate> {{name}} Comments </b>
         <b-button
           variant="secondary"
           size="sm"
@@ -64,6 +64,11 @@ export default {
       required: false,
       default: '',
     },
+    name: {
+      type: String,
+      required: false,
+      default: 'Invoice',
+    }
   },
   watch: {
     updateCounter() {

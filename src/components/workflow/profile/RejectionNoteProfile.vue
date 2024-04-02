@@ -70,6 +70,7 @@
 
 <script>
 import axios from 'axios';
+import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'RejectionNoteProfile',
   props: {
@@ -159,8 +160,8 @@ export default {
         total.push({ title: 'VAT', value: self.total.tax });
       }
       total.push(
-        { title: self.$gettext('Rejected Value'), value: self.total.amount }
-        // { title: 'Total In Words', value: self.total.text }
+        { title: self.$gettext('Rejected Value'), value: Math.round(self.total.amount)},
+        { title: 'Total In Words', value: numberToRupees(Math.round(self.total.amount)) }
       );
       return total;
     },

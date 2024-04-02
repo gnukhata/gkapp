@@ -532,11 +532,11 @@ export default {
       total.push(
         {
           title: self.$gettext('Invoice Value'),
-          value: self.invoice.total.amount,
+          value: Math.round(self.invoice.total.amount),
         },
         {
           title: self.$gettext('Invoice Value In Words'),
-          value: numberToRupees(self.invoice.total.amount),
+          value: numberToRupees(Math.round(self.invoice.total.amount)),
         }
       );
       return total;

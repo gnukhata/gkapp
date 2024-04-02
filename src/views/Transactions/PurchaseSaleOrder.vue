@@ -95,6 +95,7 @@
         :parentData="form.bill"
         :cgstFlag="isCgst"
         :godownId="goid"
+        :vatFlag="!!form.taxType"
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -141,6 +142,7 @@
         ></transport-details>
         <!-- Invoice Comments -->
         <comments
+          :name="`PurchaseSalesOrder`"
           ref="narration"
           :config="config.comments"
           :updateCounter="updateCounter.comments"
@@ -216,6 +218,7 @@
       :title="isSale ? 'Sale Order' : 'Purchase Order'"
       :id="orderId"
       :pdata="{}"
+      @hidden="showPrintModal = false"
     >
     </print-page>
   </b-container>
@@ -546,7 +549,6 @@ export default {
       this.isLoading = true;
 
       const payload = this.initPayload();
-      console.log(payload);
       // return;
       // const method = this.formMode === 'create' ? 'post' : 'put';
       const orderType = this.isSale ? 'Sale Order' : 'Purchase Order';
@@ -559,7 +561,6 @@ export default {
               case 0:
                 {
                   // success
-                  console.log(resp.data);
                   this.displayToast(
                     `Create ${orderType} Successfull!`,
                     `${orderType} was successfully created`,
@@ -572,10 +573,9 @@ export default {
                     }`,
                   };
                   axios.post('/log', log);
-
                   this.resetForm();
-                  this.orderId = resp.data.gkresult;
                   this.showPrintModal = true;
+                  this.orderId = resp.data.gkresult;
                 }
                 break;
               case 1:
@@ -601,6 +601,15 @@ export default {
                   this.$gettext('Please check your input and try again later'),
                   'danger'
                 );
+                break;
+              default:
+                // Connection failed, Check inputs and try again
+                this.displayToast(
+                  `Create ${orderType} Failed!`,
+                  this.$gettext('Please check your input and try again later'),
+                  'danger'
+                );
+                break;
             }
           }
         })
@@ -632,9 +641,9 @@ export default {
           paymentMode = 3;
         }
       }
-
+      let type = this.form.type;
       this.form = {
-        type: 'sale', // purchase
+        type: type, // purchase
         total: {},
         psOrder: {
           no: null,
