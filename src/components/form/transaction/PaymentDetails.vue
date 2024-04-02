@@ -38,7 +38,7 @@
           label-cols="auto"
           v-if="config.mode"
         >
-          <template #label> <translate> Mode of Payment </translate> </template>
+          <template #label> <translate> {{saleFlag ? 'Mode Of Receipt' : 'Mode of Payment'}} </translate> </template>
           <b-form-select
             size="sm"
             id="pmd-input-10"
