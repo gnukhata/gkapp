@@ -120,8 +120,31 @@
              <div v-else>{{ option.name }}</div>
           </b-form-select-option>
         </b-form-select>
-
-         
+        <b-form-select
+          class="item"
+          v-else-if="form[data.item.index] && form[data.item.index].product"
+          v-model="form[data.item.index].product"
+          required
+          @change="onBillItemSelect(form[data.item.index].product, data.item.index)"
+          :disabled="disabled.product"
+          :state="!form[data.item.index].product ? false : null"
+          :rules="[v => !!form[data.item.index].product || 'Please select an option']"
+        >
+          <b-form-select-option
+            v-for="option in options.products"
+            :key="option.id"
+            :value="option"
+          >
+            <div v-if="options.productData[option.id] && options.productData[option.id]?.gsflag !== 19">
+              {{ option.name }}
+              <div class="text-small" v-if="options.stock[option.id] && options.stock[option.id] > 0">
+                ({{ options.stock[option.id] }})
+              </div>
+              <div v-else>({{ options.stock[option.id] || 0 }})</div>
+            </div>
+             <div v-else>{{ option.name }}</div>
+          </b-form-select-option>
+        </b-form-select>
         </template>
 
 
