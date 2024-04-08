@@ -35,7 +35,7 @@
           </b-button>
           <b-button
             @click="onPayment"
-            v-if="invoice.payment.mode != 5"
+            v-if="invoice.payment.mode != 5 && paymentFlag"
             class="mr-1"
             size="sm"
             variant="success"
@@ -347,6 +347,7 @@ export default {
   },
   data() {
     return {
+      paymentFlag: false,
       isPreloading: false,
       invoice: {
         attachmentCount: 0,
@@ -663,6 +664,16 @@ export default {
           console.log(e);
         });
     },
+    getPaymentData() {
+      axios.get('/billwise?type=all').then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          // let data = transactionTab['Invoice'].data;
+          if (resp.data.gkstatus === 0) {
+            this.paymentFlag = resp.data.invoices.some(inv => inv.invid === this.id);
+          }
+        }
+      });
+    },
     getDetails() {
       // let type = this.deletedFlag ? 'deletedsingle' : 'single';
       let url = this.deletedFlag
@@ -928,7 +939,7 @@ export default {
       this.vouchers = [];
       this.showAttachments = false;
       this.attachments = [];
-      Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
+      Promise.all([this.fetchAndUpdateData(), this.getVouchers(), this.getPaymentData()])
         .then(() => {
           this.isPreloading = false;
         })
