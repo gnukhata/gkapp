@@ -52,18 +52,6 @@
             required
           ></b-form-input>
         </b-form-group>
-        <!-- UOM -->
-        <b-form-group label="Unit of Measure" label-cols="4" label-size="sm">
-          <template #label> <translate> Unit of Measure </translate> </template>
-          <b-input-group size="sm">
-            <b-form-select
-              size="sm"
-              v-model="details.uomid"
-              :options="options.uom"
-            >
-            </b-form-select>
-          </b-input-group>
-        </b-form-group>
       </b-collapse>
     </b-card>
     <b-card
