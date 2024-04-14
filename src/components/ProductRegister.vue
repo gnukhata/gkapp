@@ -91,20 +91,27 @@
             class=""
             v-model="invoiceFilter"
           >
-            <b-form-checkbox value="invoice"
+            <b-form-checkbox class="w-100" value="invoice"
               ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
             >
-            <b-form-checkbox value="Rejection Note"
+            <b-form-checkbox class="w-100" value="Rejection Note"
               ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
               Note</b-form-checkbox
             >
-            <b-form-checkbox value="Debit Note"
+            <b-form-checkbox class="w-100" value="Debit Note"
               ><b-icon icon="file-earmark-minus" variant="warning"></b-icon>
               Debit Note</b-form-checkbox
             >
-            <b-form-checkbox value="Credit Note"
+            <b-form-checkbox class="w-100" value="Credit Note"
               ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
               Note</b-form-checkbox
+            >
+            <b-form-checkbox class="w-100" value="transfer note"
+              ><b-icon icon="file-earmark-font" variant="info"></b-icon> Transfer
+              note</b-form-checkbox
+            >
+            <b-form-checkbox class="w-100" value="delchal"
+              ><b-icon icon="files-alt" variant="info"></b-icon> Delchal</b-form-checkbox
             >
           </b-form-checkbox-group>
         </gk-hovermenu>
@@ -114,7 +121,7 @@
             `/spreadsheet/product-register?calculatefrom=${dateReverse(
               this.fromDate
             )}&calculateto=${dateReverse(this.toDate)}&productcode=${
-              productId.id
+              productId
             }&productdesc=${productId.label}&godownflag=1&goid=${
               this.godownId
             }&goname=${getGodownName(this.godownId).text}&goaddr=${
@@ -142,7 +149,6 @@
       >
         <!-- Transaction type -->
         <template #cell(particulars)="data">
-        {{data.item.trntype }}
           <div v-if="data.item.trntype === 'invoice'">
             <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
             <b-link
@@ -231,6 +237,21 @@
               </div>
             </b-link>
           </div>
+          <div v-else-if="data.item.trntype === 'transfer note'">
+            <b-link
+              :to="{
+                name: 'Workflow',
+                params: {
+                  wfName: 'Transactions-TransferNote',
+                  wfId: data.item.tnid,
+                },
+              }"
+            >
+              <div class="d-inline" @click="updateRoute">
+                {{ data.item.tnno }}
+              </div>
+            </b-link>
+          </div>
           <div v-else class="font-weight-bold">
             <div class="d-inline" @click="updateRoute">
               {{ data.item.particulars }}
@@ -288,20 +309,27 @@
             class=""
             v-model="invoiceFilter"
           >
-            <b-form-checkbox value="invoice"
+            <b-form-checkbox class="w-100" value="invoice"
               ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
             >
-            <b-form-checkbox value="Rejection Note"
+            <b-form-checkbox class="w-100" value="Rejection Note"
               ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
               Note</b-form-checkbox
             >
-            <b-form-checkbox value="Debit Note"
+            <b-form-checkbox class="w-100" value="Debit Note"
               ><b-icon icon="file-earmark-minus" variant="warning"></b-icon>
               Debit Note</b-form-checkbox
             >
-            <b-form-checkbox value="Credit Note"
+            <b-form-checkbox class="w-100" value="Credit Note"
               ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
               Note</b-form-checkbox
+            >
+             <b-form-checkbox class="w-100" value="transfer note"
+              ><b-icon icon="file-earmark-font" variant="info"></b-icon> Transfer
+              Note</b-form-checkbox
+            >
+            <b-form-checkbox class="w-100" value="delchal"
+              ><b-icon icon="files-alt" variant="info"></b-icon> Delchal </b-form-checkbox
             >
           </b-form-checkbox-group>
         </gk-hovermenu>
@@ -354,7 +382,7 @@ export default {
       godowns: [],
       godownId: '',
       godownReport: [],
-      invoiceFilter: ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note'],
+      invoiceFilter: ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
       fields: [
         {
           key: 'date',
@@ -401,6 +429,7 @@ export default {
         let items = [];
         for (let i in this.invoiceFilter) {
           this.immutableReport.forEach((data) => {
+            console.log(data.trntype, this.invoiceFilter[i])
             if (data.trntype == this.invoiceFilter[i]) {
               items.push(data);
             }
@@ -506,7 +535,7 @@ export default {
         this.godownId = params.goid;
       }
       this.loading = true;
-      this.invoiceFilter = ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note'],
+      this.invoiceFilter = ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
       axios
         .get(
           `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
