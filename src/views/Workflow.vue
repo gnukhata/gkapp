@@ -1027,7 +1027,7 @@ export default {
 
       //sets the first filter in the filter array, which should be "all" ( used to display every item )
       if (this.activeTabOptions.filterBy.value.length) {
-        this.filters.active = [0];
+        this.filters.active = this.activeTabOptions.filterBy.value.map((_, index) => index);
       }
 
       //sets the props object, which contains the key's value to perform the range filter
