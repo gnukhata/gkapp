@@ -429,7 +429,6 @@ export default {
         let items = [];
         for (let i in this.invoiceFilter) {
           this.immutableReport.forEach((data) => {
-            console.log(data.trntype, this.invoiceFilter[i])
             if (data.trntype == this.invoiceFilter[i]) {
               items.push(data);
             }
@@ -439,7 +438,7 @@ export default {
           this.report = items;
           // if selected filter has no matching entries show notification
         } else {
-          this.report = this.immutableReport;
+          this.report = [];
           this.gk_toast(
             this.$gettext('Alert'),
             this.$gettext('No data present for selected filter'),
