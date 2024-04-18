@@ -498,14 +498,16 @@
             </b-table>
 
             <!-- Add New Workflow Data Item -->
-            <b-button
+            <span v-if="tab.createNewPath?.name !== 'Delivery_Note'">
+              <b-button
               :to="tab.createNewPath"
               class="btn shadow position-absolute"
               :style="{ bottom: '30px', right: '30px', zIndex: 2 }"
               id="add-item"
-            >
-              <b-icon icon="plus-circle"></b-icon>
-            </b-button>
+              >
+                <b-icon icon="plus-circle"></b-icon>
+              </b-button>
+            </span>
           </div>
           <!-- Workflow Data List End -->
         </b-card>
@@ -912,6 +914,7 @@ export default {
         const name = self.activeWorkflow.name.split('-');
         return self.options.tabs[name[0]].tabs[name[1]];
       }
+      console.log(self.options.tabs[self.activeWorkflow.name])
       return self.options.tabs[self.activeWorkflow.name];
     },
     // headerHeight is the height of the top nav bar
@@ -925,6 +928,7 @@ export default {
   methods: {
     toggleAll() {
       if (this.allSelected) {
+        console.log(this.activeTabOptions)
         this.filters.active = this.activeTabOptions.filterBy.value.map((_, index) => index);
       } else {
         this.filters.active = [];
