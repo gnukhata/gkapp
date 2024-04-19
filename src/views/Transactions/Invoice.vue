@@ -627,6 +627,7 @@ export default {
       let party = this.form.party.name ? this.form.party.name.name || '' : '';
       let invNo = this.form.inv.no || '';
       let type = this.isSale ? 'Sold' : 'Bought';
+      let toOrFrom = this.isSale ? 'to' : 'from';
       let payment = '';
       switch (this.form.payment.mode) {
         case PAYMENT_TYPE['cash']:
@@ -638,7 +639,7 @@ export default {
         case PAYMENT_TYPE['bank']:
           payment = 'by cheque';
       }
-      this.defaultNarration = `${type} goods worth Rupees ${total} to ${party} ${payment}, ref invoice no. ${invNo}`;
+      this.defaultNarration = `${type} goods worth Rupees ${total} ${toOrFrom} ${party} ${payment}, ref invoice no. ${invNo}`;
     },
     fetchDelNoteGodown(dcid) {
       const self = this;
