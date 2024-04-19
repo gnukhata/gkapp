@@ -1007,6 +1007,17 @@ export default {
                 this.$store.dispatch('initGstin');
               }
               break;
+            case 1:
+              this.loading = false;
+              this.$bvToast.toast(
+                `Organisation ${this.details.orgname} already exists`,
+                {
+                  title: 'Duplicate Entry',
+                  variant: 'danger',
+                  solid: true,
+                }
+              );
+              break;
             case 2:
               this.loading = false;
               this.$bvToast.toast('Unauthorised Access', {

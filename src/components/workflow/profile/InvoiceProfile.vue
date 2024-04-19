@@ -255,12 +255,10 @@
         >
           <div class="text-center m-1 mb-2">
             <span class="float-left">
-              <translate
-                translate-comment="%{voucherNo} is a variable, translation is not required for it. Enter it, as it is while translation."
-                :translate-params="{ voucherNo: voucher.no }"
-              >
-                Voucher No: %{voucherNo}
-              </translate>
+              Voucher No:
+              <router-link :to="`/Workflow/Transactions-Voucher/${voucher.id}`">
+                {{voucher.no}}
+              </router-link>
             </span>
             <span> {{ voucher.type }} </span>
             <span class="float-right">
