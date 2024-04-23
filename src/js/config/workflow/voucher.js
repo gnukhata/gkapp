@@ -42,6 +42,22 @@ const config = {
         props: { key: 'vouchertype', value: 'contra' },
       },
       {
+        text: 'Credit Note',
+        props: { key: 'vouchertype', value: 'creditnote' },
+      },
+      {
+        text: 'Debit Note',
+        props: { key: 'vouchertype', value: 'debitnote' },
+      },
+      {
+        text: 'Sales Return',
+        props: { key: 'vouchertype', value: 'salesreturn' },
+      },
+      {
+        text: 'Purchase Return',
+        props: { key: 'vouchertype', value: 'purchasereturn' },
+      },
+      {
         text: 'Cancelled',
         props: { key: 'deletedFlag', value: true },
         icon: { name: 'x-circle', variant: 'danger' },
