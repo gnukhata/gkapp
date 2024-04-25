@@ -881,8 +881,8 @@ msgid "Categorywise Stock On Hand report as on:"
 msgstr "Categorywise Stock On Hand report as on:"
 
 #: src/components/ContactProfile.vue:304
-msgid "Causes Integrity Issues"
-msgstr "Causes Integrity Issues"
+msgid "This contact has existing entries. Cannot delete."
+msgstr "This contact has existing entries. Cannot delete."
 
 #: src/components/GkIfsc.vue:116
 msgid "Center"

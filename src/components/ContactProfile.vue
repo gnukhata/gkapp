@@ -566,7 +566,7 @@ export default {
                   case 5:
                     this.isLoading = false;
                     this.$bvToast.toast(
-                      this.$gettext('Causes Integrity Issues'),
+                      this.$gettext('This contact has existing entries. Cannot delete.'),
                       {
                         title: this.$gettext('Cannot Delete Contact'),
                         variant: 'danger',
