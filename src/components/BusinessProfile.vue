@@ -23,6 +23,19 @@
         <span v-if="details.gsflag == 7" v-translate>Delete Product</span>
         <span v-else v-translate>Delete Service</span>
       </b-button>
+      <b-button
+        size="sm"
+        class="ml-2"
+        variant="success"
+        ><b-icon class="mr-1" icon="box-seam"></b-icon>
+        <span v-if="details.gsflag == 7">
+        <router-link class="custom-link"
+            :to="
+              `/product-register?product_id=${details.productcode}&current_date=${toDate}&goid=${options.godowns[0]?.value}`
+            "
+            >Product Register
+          </router-link></span>
+      </b-button>
     </div>
     <!-- name --->
     <b-card
@@ -443,6 +456,7 @@ export default {
   },
   data() {
     return {
+      toDate: null,
       details: [],
       oldGodowns: [],
       godowns: [],
@@ -1071,6 +1085,8 @@ export default {
         this.getDetails();
       }
     );
+    const today = new Date();
+    this.toDate = today.toISOString().substring(0, 10);
   },
   created() {
     if (window.screen.width > 600) {
@@ -1095,3 +1111,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.custom-link {
+  color: white;
+  text-decoration: none;
+}
+</style>
