@@ -28,7 +28,26 @@
           thead-class="d-none"
           fixed
           class="text-small table-border-dark"
-        ></b-table-lite>
+        >
+          <template #cell(value)="data">
+            <span v-if="data.item.title === 'Inv No.'">
+              <b-link
+                :to="{
+                  name: 'Workflow',
+                  params: {
+                    wfName: 'Transactions-Invoice',
+                    wfId: inv.id,
+                  },
+                }"
+              >
+                {{ data.value }}
+              </b-link>
+            </span>
+            <span v-else>
+              {{ data.value }}
+            </span>
+          </template>
+        </b-table-lite>
       </b-col>
     </b-row>
     <!-- Content Table -->
@@ -287,6 +306,7 @@ export default {
         this.inv = {
           no: details.invdata.invoiceno,
           date: details.invdata.invoicedate,
+          id: details.invdata.invid
         };
         this.total = {
           taxable: details.totaltaxablevalue,
