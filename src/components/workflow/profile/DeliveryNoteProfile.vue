@@ -9,6 +9,28 @@
       <div class="clearfix"></div>
       <br />
     </div>
+    <!-- action buttons -->
+    <div class="mb-3 clearfix d-print-none">
+      <div class="float-right">
+        <span>
+          <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <router-link class="custom-link"
+              :to="
+                `/workflow/Transactions-Invoice/${invid}`
+              "
+              >View Invoice
+            </router-link>
+          </b-button>
+
+        </span>
+      </div>
+    </div>
     <b-row>
       <b-col order="2" order-md="1">
         <b-container fluid class="pl-0">
@@ -132,6 +154,7 @@ export default {
   },
   data() {
     return {
+      invid: null,
       isPreloading: false,
       deleteFlag: false,
       no: '',
@@ -474,6 +497,11 @@ export default {
             this.isPreloading = false;
           });
       }
+      axios.get(`/delchal/invid/${id}`).then((resp) => {
+        if (resp.data.gkstatus === 0) {
+          this.invid = resp.data;
+        }
+      });
     },
   },
   mounted() {
@@ -490,3 +518,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+.custom-link {
+  color: white;
+  text-decoration: none;
+}
+</style>
+
