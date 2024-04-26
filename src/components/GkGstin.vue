@@ -38,6 +38,7 @@
       size="l"
       id="gstin-validation-modal"
       title="GSTIN Validation"
+      @hide="onModalHide"
     >
       <b-container
         v-if="!gstinData.validity"
@@ -279,6 +280,12 @@ export default {
     },
   },
   methods: {
+    onModalHide() {
+      this.input = '';
+      this.$emit('gstin_data', {
+        pan: ''
+      });
+    },
     useGstinData() {
       // console.log(this.gstinData.pan);
       this.$emit('gstin_data', {

@@ -508,10 +508,11 @@ export default {
       this.bankDetails.ifsc = i.IFSC;
     },
     /**GSTIN methods start*/
-    onGstinDataFetched({ addr, name, pincode }) {
+    onGstinDataFetched({ addr, name, pincode, pan }) {
       this.details.orgaddr = addr;
       this.details.orgname = name;
       this.details.orgpincode = pincode;
+      this.details.orgpan = pan;
     },
     onGstinUpdate({ validity, stateCode, pan }) {
       // , checksum
