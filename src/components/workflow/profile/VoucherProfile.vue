@@ -9,6 +9,27 @@
       <div class="clearfix"></div>
       <br />
     </div>
+        <!-- action buttons -->
+    <div class="mb-3 clearfix d-print-none" v-if="voucher?.invid">
+      <div class="float-right">
+        <span>
+          <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <router-link class="custom-link"
+            :to="
+              `/workflow/Transactions-Invoice/${voucher.invid}`
+            "
+            >View Invoice
+          </router-link>
+          </b-button>
+        </span>
+      </div>
+    </div>
     <b-row>
       <b-col order="2" order-md="1"> </b-col>
       <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
@@ -204,6 +225,7 @@ export default {
         this.voucher.narration = details.narration;
         this.voucher.date = details.voucherdate;
         this.voucher.content = [];
+        this.voucher.invid = details?.invid
         for (const dr in details.drs) {
           this.voucher.content.push({
             account: dr,
@@ -312,3 +334,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.custom-link {
+  color: white;
+  text-decoration: none;
+}
+</style>
