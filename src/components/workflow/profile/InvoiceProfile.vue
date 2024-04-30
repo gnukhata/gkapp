@@ -38,7 +38,7 @@
             size="sm"
             variant="primary"
             v-b-toggle.voucher-container
-            v-if="showCreditButton" @click="redirectBasedOnValue(3)"
+            v-if="showButton(3)" @click="redirectBasedOnValue(3)"
           >
             <b-icon class="mr-1" icon="eye"></b-icon>
             <translate>View Credit Note</translate>
@@ -48,7 +48,7 @@
             size="sm"
             variant="primary"
             v-b-toggle.voucher-container
-             v-if="showDebitButton" @click="redirectBasedOnValue(4)"
+            v-if="showButton(4)" @click="redirectBasedOnValue(4)"
           >
             <b-icon class="mr-1" icon="eye"></b-icon>
             <translate>View Debit Note</translate>
@@ -985,7 +985,10 @@ export default {
           this.showDebitButton = values.includes(4);
         }
       });
-    }
+    },
+    showButton(value) {
+      return Object.values(this.data).includes(value);
+    },
   },
   watch: {
     id(newId) {
