@@ -30,6 +30,26 @@
         </span>
       </div>
     </div>
+    <div class="mb-3 clearfix d-print-none" v-if="type === 'creditnote' || type === 'debitnote'">
+      <div class="float-right">
+        <span>
+          <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <router-link class="custom-link"
+            :to="
+              `/workflow/Transactions-DebitCreditNote/${voucher.drcrid}`
+            "
+            >{{ type === 'creditnote' ? 'View Credit Note' : 'View Debit Note' }}
+          </router-link>
+          </b-button>
+        </span>
+      </div>
+    </div>
     <b-row>
       <b-col order="2" order-md="1"> </b-col>
       <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
@@ -225,7 +245,8 @@ export default {
         this.voucher.narration = details.narration;
         this.voucher.date = details.voucherdate;
         this.voucher.content = [];
-        this.voucher.invid = details?.invid
+        this.voucher.invid = details?.invid;
+        this.voucher.drcrid = details?.drcrid;
         for (const dr in details.drs) {
           this.voucher.content.push({
             account: dr,
