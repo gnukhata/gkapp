@@ -34,6 +34,26 @@
             <translate>View Vouchers</translate>
           </b-button>
           <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+            v-if="showButton(3)" @click="redirectBasedOnValue(3)"
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <translate>View Credit Note</translate>
+          </b-button>
+          <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+            v-if="showButton(4)" @click="redirectBasedOnValue(4)"
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <translate>View Debit Note</translate>
+          </b-button>
+          <b-button
             @click="onPayment"
             v-if="invoice.payment.mode != 5 && paymentFlag"
             class="mr-1"
@@ -345,6 +365,9 @@ export default {
   },
   data() {
     return {
+      data: {},
+      showCreditButton: false,
+      showDebitButton: false,
       paymentFlag: false,
       isPreloading: false,
       invoice: {
@@ -945,12 +968,34 @@ export default {
           this.isPreloading = false;
         });
     },
+    redirectBasedOnValue(value) {
+      const selectedKey = Object.keys(this.data).find(key => this.data[key] === value);
+
+      if (selectedKey) {
+        this.$router.push({ path: `/workflow/Transactions-DebitCreditNote/${selectedKey}` });
+      }
+    },
+    checkDcCrValues() {
+      axios.get(`/invoice/drcr/${this.id}`).then((resp) => {
+        if (resp.data.gkstatus === 0 && resp.data?.data) {
+          this.data = resp.data.data;
+          const values = Object.values(this.data);
+
+          this.showCreditButton = values.includes(3);
+          this.showDebitButton = values.includes(4);
+        }
+      });
+    },
+    showButton(value) {
+      return Object.values(this.data).includes(value);
+    },
   },
   watch: {
     id(newId) {
       if (newId && parseInt(newId) > -1) {
         this.refresh();
       }
+      this.checkDcCrValues();
     },
   },
   mounted() {
@@ -979,6 +1024,9 @@ export default {
         });
     }
   },
+  created() {
+    this.checkDcCrValues();
+  }
 };
 </script>
 

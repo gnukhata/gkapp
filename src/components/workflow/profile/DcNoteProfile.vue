@@ -2,6 +2,26 @@
   <b-container fluid>
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
+    <div class="mb-3 clearfix d-print-none">
+      <div class="float-right">
+        <span>
+          <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <router-link class="custom-link"
+              :to="
+                `/workflow/Transactions-Invoice/${inv.id}`
+              "
+              >View Invoice
+            </router-link>
+          </b-button>
+        </span>
+      </div>
+    </div>
     <b-row>
       <b-col cols="12" md="6" class="my-2">
         <b key="dcp-1" v-if="flags.sale" v-translate> Buyer Details </b>
@@ -29,24 +49,6 @@
           fixed
           class="text-small table-border-dark"
         >
-          <template #cell(value)="data">
-            <span v-if="data.item.title === 'Inv No.'">
-              <b-link
-                :to="{
-                  name: 'Workflow',
-                  params: {
-                    wfName: 'Transactions-Invoice',
-                    wfId: inv.id,
-                  },
-                }"
-              >
-                {{ data.value }}
-              </b-link>
-            </span>
-            <span v-else>
-              {{ data.value }}
-            </span>
-          </template>
         </b-table-lite>
       </b-col>
     </b-row>
@@ -399,3 +401,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.custom-link {
+  color: white;
+  text-decoration: none;
+}
+</style>
