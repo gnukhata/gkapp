@@ -217,5 +217,12 @@ export default {
       });
       this.$router.push("/server-setup");
     },
+
+    //This method runs when strings need to be translated
+    textInterpolated(text) {
+      let translated = this.$ngettext('%{ text }', '%{ text }', text)
+      let interpolated = this.$gettextInterpolate(translated, {text: text})
+      return interpolated;
+    }
   },
 };
