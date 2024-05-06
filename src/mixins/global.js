@@ -220,7 +220,7 @@ export default {
 
     //This method runs when strings need to be translated
     textInterpolated(text) {
-      let translated = this.$ngettext('%{ text }', '%{ text } foos', text)
+      let translated = this.$ngettext('%{ text }', '%{ text }', text)
       let interpolated = this.$gettextInterpolate(translated, {text: text})
       return interpolated;
     }
