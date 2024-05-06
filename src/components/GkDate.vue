@@ -233,6 +233,9 @@ export default {
               }
             }
           }
+          if (this.toExternalFormat(this.input) > this.toExternalFormat(this.max)) {
+            this.input = this.max;
+          }
           this.valid = false;
         }
       }
