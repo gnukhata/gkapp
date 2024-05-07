@@ -245,6 +245,7 @@
               @validity="onGstinUpdate"
               @gstin_data="onGstinDataFetched"
               @verified="onGstinVerified"
+              :details="details"
               v-model="gstin"
               :showValidation="2"
               valButtonText="Validate & Autofill"
