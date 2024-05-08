@@ -38,8 +38,14 @@
       size="l"
       id="gstin-validation-modal"
       title="GSTIN Validation"
-      @hide="onModalHide"
+      no-close-on-backdrop
+      @close="onModalHide"
     >
+        <template #modal-header="{ close }">
+        <h5>GSTIN Validation</h5>
+         <b-button size="md" variant="headerTextVariant" @click="close()">
+        x</b-button>
+      </template>
       <b-container
         v-if="!gstinData.validity"
         fluid
@@ -208,6 +214,12 @@ export default {
       default: 'Validate',
       note: 'Text to be displayd on the validate online button',
     },
+    details: {
+      type: Object,
+      required: false,
+      default: null,
+      note: 'Details object to display',
+    },
   },
   data() {
     return {
@@ -236,6 +248,7 @@ export default {
       },
       isCaptchaLoading: false,
       isValidationLoading: false,
+      orgData: {},
     };
   },
   computed: {
@@ -281,9 +294,12 @@ export default {
   },
   methods: {
     onModalHide() {
-      this.input = '';
+      this.input = Object.values(this.details.gstin)[0];
       this.$emit('gstin_data', {
-        pan: ''
+        name: this.details?.orgname,
+        addr: this.details?.orgaddr,
+        pincode: this.details?.orgpincode,
+        pan: this.details?.orgpan,
       });
     },
     useGstinData() {
