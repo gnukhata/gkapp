@@ -688,10 +688,7 @@ export default {
     getPaymentData() {
       axios.get('/billwise?type=all').then((resp) => {
         if (resp.data.gkstatus === 0) {
-          // let data = transactionTab['Invoice'].data;
-          if (resp.data.gkstatus === 0) {
-            this.paymentFlag = resp.data.invoices.some(inv => inv.invid === this.id);
-          }
+          this.paymentFlag = resp.data.invoices.some(inv => inv.invid === this.id);
         }
       });
     },
@@ -1013,6 +1010,7 @@ export default {
         .catch(() => {
           this.isPreloading = false;
         });
+        this.getPaymentData();
     } else {
       this.isPreloading = true;
       this.fetchState()
