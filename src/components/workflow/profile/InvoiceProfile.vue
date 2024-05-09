@@ -827,6 +827,7 @@ export default {
                 `Successfully cancelled Invoice ${this.invoice.number}`,
                 'success'
               );
+              axios.delete(`/delchal/${this.invoice.dcid}`);
               this.getDetails().then((response) => {
                 if (typeof this.onUpdate === 'function') {
                   this.onUpdate(response.data);
