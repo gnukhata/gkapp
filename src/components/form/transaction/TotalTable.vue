@@ -112,7 +112,7 @@ export default {
         vat: this.getTotal('vat', 'amount'),
         discount: this.getTotal('discount', 'amount'),
         amount: this.getTotal('total'),
-        rounded: Math.round(this.getTotal('total')),
+        rounded: Math.round(this.getTotal('total')).toFixed(2),
         text: this.totalText,
         roundFlag: false,
       },
@@ -127,7 +127,7 @@ export default {
         vat: this.getTotal('vat', 'amount'),
         discount: this.getTotal('discount', 'amount'),
         amount: this.getTotal('total'),
-        rounded: Math.round(this.getTotal('total')),
+        rounded: Math.round(this.getTotal('total')).toFixed(2),
         text: this.totalText,
         roundFlag: this.form.roundFlag,
       };
@@ -140,7 +140,7 @@ export default {
       let text = '';
       if (total > 0) {
         if (self.form.roundFlag) {
-          total = Math.round(total);
+          total = Math.round(total).toFixed(2);
         }
         text = numberToRupees(total);
       }

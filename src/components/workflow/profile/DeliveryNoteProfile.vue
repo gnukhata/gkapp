@@ -18,6 +18,7 @@
             size="sm"
             variant="primary"
             v-b-toggle.voucher-container
+            v-if="!pdata.cancelledFlag"
           >
             <b-icon class="mr-1" icon="eye"></b-icon>
             <router-link class="custom-link"
@@ -219,8 +220,8 @@ export default {
       }
       total.push(
         {
-          title: self.$gettext('Delivery Note Value'),
-          value: Math.round(self.total.amount),
+          title: self.$gettext('Total Invoice Value'),
+          value: Math.round(self.total.amount).toFixed(2),
         },
         { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(self.total.amount)) }
       );
@@ -497,11 +498,6 @@ export default {
             this.isPreloading = false;
           });
       }
-      axios.get(`/delchal/invid/${id}`).then((resp) => {
-        if (resp.data.gkstatus === 0) {
-          this.invid = resp.data;
-        }
-      });
     },
   },
   mounted() {
@@ -514,6 +510,12 @@ export default {
         .catch(() => {
           this.isPreloading = false;
         });
+      axios.get(`/delchal/invid/${this.id}`).then((resp) => {
+          console.log("cbdcdcbndc")
+        if (resp.data.gkstatus === 0) {
+          this.invid = resp.data.data;
+        }
+      });
     }
   },
 };

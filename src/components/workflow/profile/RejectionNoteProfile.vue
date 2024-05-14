@@ -2,6 +2,28 @@
   <b-container fluid>
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
+    <!-- action buttons -->
+    <div class="mb-3 clearfix d-print-none">
+      <div class="float-right">
+        <span>
+           <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+            v-if="!pdata.cancelledFlag"
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <router-link class="custom-link"
+              :to="
+                `/workflow/Transactions-Invoice/${rnote.invid}`
+              "
+              >View Invoice
+            </router-link>
+          </b-button>
+        </span>
+      </div>
+    </div>
     <b-row>
       <b-col order="2" order-md="1">
         <b v-translate v-if="party.isCustomer"> Customer Details </b>
@@ -160,7 +182,7 @@ export default {
         total.push({ title: 'VAT', value: self.total.tax });
       }
       total.push(
-        { title: self.$gettext('Rejected Value'), value: Math.round(self.total.amount)},
+        { title: self.$gettext('Rejected Value'), value: Math.round(self.total.amount).toFixed(2)},
         { title: 'Total In Words', value: numberToRupees(Math.round(self.total.amount)) }
       );
       return total;
@@ -187,6 +209,7 @@ export default {
         },
         isGst: details.taxname !== 'VAT',
         no: details.rnno,
+        invid: details.invid,
       };
       let party = details.rejinvdata.custSupDetails;
       this.party = {
@@ -291,3 +314,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.custom-link {
+  color: white;
+  text-decoration: none;
+}
+</style>
