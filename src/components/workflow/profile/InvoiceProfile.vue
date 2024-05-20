@@ -101,7 +101,12 @@
         <b key="2" v-else v-translate> Seller Details </b>
         <br />
         <p class="text-small">
-          <span>{{ invoice.party.name }} </span><br />
+          <template>
+            <div>
+              <router-link v-if="!deletedFlag" :to="`/ledger/${custid}`">{{ invoice.party.name }}</router-link>
+              <span v-else>{{ invoice.party.name }}</span>
+            </div>
+          </template>
           <span>{{ invoice.party.addr }} </span> <br />
           <span>{{ invoice.party.state }} </span> <br />
           <span>{{ invoice.party.pincode }} </span>
@@ -159,6 +164,18 @@
       class="text-small border border-dark"
       tbody-tr-class="gk-vertical-row"
     >
+    <template #cell(name)="data">
+      <template v-if="data.item.gsflag === 7 && !deletedFlag">
+        <router-link
+          :to="`/product-register?product_id=${data.item.id}&current_date=${toDate}&goid=${dnote.goid}`"
+        >
+          {{ data.item.name }}
+        </router-link>
+      </template>
+      <template v-else>
+        <span>{{ data.item.name }}</span>
+      </template>
+    </template>
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
@@ -396,6 +413,7 @@ export default {
         },
         number: '',
       },
+      custid: null,
       dnote: {
         id: '',
         no: '',
@@ -412,6 +430,7 @@ export default {
       voucherInvId: -1,
       showVoucherModal: false,
       states: {},
+      toDate: '',
     };
   },
   computed: {
@@ -770,7 +789,6 @@ export default {
           narration: details.narration,
           attachmentCount: details.attachmentcount,
         };
-
         if (details.inoutflag === 9) {
           Object.assign(this.invoice, {
             supinvno: details.supinvno,
@@ -808,12 +826,19 @@ export default {
                   rate: details.invcontents[key].cessrate,
                   amount: details.invcontents[key].cess,
                 },
+                gsflag: details.invcontents[key].gsflag,
               };
               return product;
             }
           );
         }
-        // console.log(this.invoice.invItems);
+        axios.get(`/accounts?type=getAccCode&accountname=${this.invoice?.party.name}`)
+        .then(response => {
+          this.custid = response.data.accountcode;
+        })
+        .catch(error => {
+          this.error = 'Failed to load data: ' + error.message;
+        });
       }
     },
     cancelInvoice() {
@@ -983,6 +1008,14 @@ export default {
           this.showDebitButton = values.includes(4);
         }
       });
+      axios.get(`/invoice/rnid/${this.id}`).then((resp) => {
+        if (resp.data.gkstatus === 0 && resp.data?.data) {
+          this.rejectionnoteid = resp.data.data;
+          this.showRejectionButton = true;
+        } else {
+          this.showRejectionButton = false;
+        }
+      });
     },
     showButton(value) {
       return Object.values(this.data).includes(value);
@@ -997,6 +1030,7 @@ export default {
     },
   },
   mounted() {
+    this.toDate = this.currentDate();
     // console.log("mounted")
     if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;

@@ -31,6 +31,18 @@
       tbody-tr-class="gk-vertical-row"
       class="text-small table-border-dark"
     >
+      <template #cell(name)="data">
+        <template v-if="data.item.gsflag === 7">
+          <router-link
+            :to="`/product-register?product_id=${data.item.id}&current_date=${toDate}&goid=${dnote.goid}`"
+          >
+            {{ data.item.name }}
+          </router-link>
+        </template>
+        <template v-else>
+          <span>{{ data.item.name }}</span>
+        </template>
+      </template>
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
@@ -277,6 +289,10 @@ export default {
         },
         number: '',
       },
+      toDate: '',
+      dnote: {
+        goid: '',
+      },
     };
   },
   methods: {
@@ -400,6 +416,7 @@ export default {
                   rate: details.invcontents[key].cess,
                   amount: details.invcontents[key].cessrate,
                 },
+                gsflag: details.invcontents[key].gsflag,
               };
               return product;
             }
@@ -421,14 +438,40 @@ export default {
           });
         });
     },
+    getDelNoteDetails(id) {
+      return axios.get(`/delchal/${id}`).catch((error) => {
+        this.$bvToast.toast(`Error: ${error.message}`, {
+          title: this.$gettext(`Fetch Delivery Note Error!`),
+          autoHideDelay: 3000,
+          variant: 'warning',
+          appendToast: true,
+          solid: true,
+        });
+      });
+    },
     fetchAndUpdateData() {
       return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
-          case 0:
-            // this.invoice = response.data.gkresult;
-            this.formatInvoiceDetails(response.data.gkresult);
+          case 0: {
+            let invData = response.data.gkresult;
+            this.formatInvoiceDetails(invData);
+            if (invData.dcid) {
+              this.getDelNoteDetails(invData.dcid).then((dnResponse) => {
+                let dndata = dnResponse.data.gkresult.delchaldata;
+                if (dndata) {
+                  this.dnote = {
+                    goid: dndata.goid,
+                  };
+                }
+              });
+            } else {
+              this.dnote = {
+                goid: '',
+              };
+            }
             // this.output = response.data.gkresult;
             break;
+          }
           case 2:
             this.$bvToast.toast(
               this.$gettext(`Unauthorized access, Please contact admin`),
@@ -475,6 +518,7 @@ export default {
     },
   },
   mounted() {
+    this.toDate = this.currentDate();
     if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;
       Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
