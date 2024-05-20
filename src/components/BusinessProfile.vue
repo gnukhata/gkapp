@@ -27,8 +27,9 @@
         size="sm"
         class="ml-2"
         variant="success"
+        v-if="details.gsflag == 7"
         ><b-icon class="mr-1" icon="box-seam"></b-icon>
-        <span v-if="details.gsflag == 7">
+        <span>
         <router-link class="custom-link"
             :to="
               `/product-register?product_id=${details.productcode}&current_date=${toDate}&goid=${options.godowns[0]?.value}`
