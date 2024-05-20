@@ -54,6 +54,15 @@
             <translate>View Debit Note</translate>
           </b-button>
           <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-if="showRejectionButton" @click="redirectRejectionNote()"
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <translate>View Rejection Note</translate>
+          </b-button>
+          <b-button
             @click="onPayment"
             v-if="invoice.payment.mode != 5 && paymentFlag"
             class="mr-1"
@@ -385,6 +394,8 @@ export default {
       data: {},
       showCreditButton: false,
       showDebitButton: false,
+      showRejectionButton: false,
+      rejectionnoteid: null,
       paymentFlag: false,
       isPreloading: false,
       invoice: {
@@ -523,7 +534,7 @@ export default {
         });
       }
 
-      if (details.dcid) {
+      if (details.dcid && !self.deletedFlag) {
         res.push({
           title: self.$gettext('Delivery Note No.'),
           value: details.dcid
@@ -573,7 +584,7 @@ export default {
       total.push(
         {
           title: self.$gettext('Invoice Value'),
-          value: Math.round(self.invoice.total.amount),
+          value: Math.round(self.invoice.total.amount).toFixed(2),
         },
         {
           title: self.$gettext('Invoice Value In Words'),
@@ -996,6 +1007,11 @@ export default {
 
       if (selectedKey) {
         this.$router.push({ path: `/workflow/Transactions-DebitCreditNote/${selectedKey}` });
+      }
+    },
+    redirectRejectionNote() {
+      if (this.rejectionnoteid) {
+        this.$router.push({ path: `/workflow/Transactions-RejectionNote/${this.rejectionnoteid}`});
       }
     },
     checkDcCrValues() {

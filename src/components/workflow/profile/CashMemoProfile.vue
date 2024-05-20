@@ -208,7 +208,7 @@ export default {
       details.push(
         {
           title: self.$gettext(`Cash Memo Value`),
-          value: Math.round(total.amount),
+          value: Math.round(total.amount).toFixed(2),
         },
         { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(total.amount)) }
       );

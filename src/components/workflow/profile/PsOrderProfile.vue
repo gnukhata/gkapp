@@ -213,7 +213,7 @@ export default {
           title: self.saleFlag
             ? self.$gettext('Sale Order Value')
             : self.$gettext('Purchase Order Value'),
-          value: Math.round(self.total.amount),
+          value: Math.round(self.total.amount).toFixed(2),
         },
         { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(self.total.amount))}
       );
