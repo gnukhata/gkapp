@@ -28,7 +28,9 @@
         <b key="dcp-2" v-else v-translate> Seller Details </b>
         <br />
         <p class="text-small">
-          <span>{{ party.name }} </span><br />
+          <span>
+            <router-link :to="`/ledger/${custid}`">{{ party.name }}</router-link>
+          </span>
           <span>{{ party.addr }} </span> <br />
           <span> <b v-translate> Pin Code: </b> {{ party.pincode }} </span>
           <br />
@@ -64,6 +66,18 @@
       striped
       tbody-tr-class="gk-vertical-row"
     >
+      <template #cell(name)="data">
+        <template v-if="data.item.gsflag === 7">
+          <router-link
+            :to="`/product-register?product_id=${data.item.id}&current_date=${toDate}&goid=${data.item.goid}`"
+          >
+            {{ data.item.name }}
+          </router-link>
+        </template>
+        <template v-else>
+          <span>{{ data.item.name }}</span>
+        </template>
+      </template>
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
@@ -144,6 +158,8 @@ export default {
         badQuality: false,
         sale: true, // sale or purchase
       },
+      custid: null,
+      toDate: '',
     };
   },
   computed: {
@@ -322,6 +338,7 @@ export default {
           for (const id in details.drcrcontents) {
             let item = details.drcrcontents[id];
             this.dcNote.dcItems.push({
+              id: id,
               name: item.proddesc,
               rate: item.priceperunit,
               qty: item.qty,
@@ -333,9 +350,18 @@ export default {
               vat: item.taxrate,
               total: item.totalAmount,
               uom: item.uom,
+              gsflag: item.gsflag,
+              goid: item.goid,
             });
           }
         }
+        axios.get(`/accounts?type=getAccCode&accountname=${this.party.name}`)
+        .then(response => {
+          this.custid = response.data.accountcode;
+        })
+        .catch(error => {
+          this.error = 'Failed to load data: ' + error.message;
+        });
       }
     },
     getDetails() {
@@ -388,6 +414,7 @@ export default {
     },
   },
   mounted() {
+    this.toDate = this.currentDate();
     if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;
       this.fetchAndUpdateData()

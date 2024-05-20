@@ -9,7 +9,9 @@
             <b v-if="party.isCustomer" v-translate> Customer Details </b>
             <b v-else v-translate> Supplier Details </b>
             <p class="text-small">
-              <span> {{ party.name }} </span> <br />
+              <span>
+                <router-link :to="`/ledger/${custid}`">{{ party.name }}</router-link>
+              </span><br />
               <span> {{ party.addr }} </span> <br />
               <span> {{ party.state }} </span> <br />
               <span> <b v-translate> Pin Code: </b> {{ party.pin }} </span>
@@ -57,7 +59,20 @@
       small
       striped
       class="text-small table-border-dark"
-    ></b-table-lite>
+    >
+    <template #cell(name)="data">
+      <template v-if="data.item.gsflag === 7">
+        <router-link
+          :to="`/product-register?product_id=${data.item.productcode}&current_date=${toDate}&goid=${data.item.goid}`"
+        >
+          {{ data.item.name }}
+        </router-link>
+      </template>
+      <template v-else>
+        <span>{{ data.item.name }}</span>
+      </template>
+    </template>
+    </b-table-lite>
     <b-row>
       <b-col class="my-2" order="2" order-md="1"> </b-col>
       <b-col cols="12" md="8" class="my-2" order="1" order-md="2">
@@ -143,6 +158,8 @@ export default {
       party: {},
       shipping: {},
       transport: {},
+      toDate: '',
+      custid: null,
     };
   },
   computed: {
@@ -320,8 +337,18 @@ export default {
           sgst: item.taxrate / 2,
           cess: item.cessrate,
           total: item.totalAmount,
+          productcode: item.productCode,
+          gsflag: item.gsflag,
+          goid: item.goid,
         });
       }
+      axios.get(`/accounts?type=getAccCode&accountname=${this.party.name}`)
+      .then(response => {
+        this.custid = response.data.accountcode;
+      })
+      .catch(error => {
+        this.error = 'Failed to load data: ' + error.message;
+      });
     },
     getDetails() {
       return axios
@@ -395,6 +422,7 @@ export default {
     },
   },
   mounted() {
+    this.toDate = this.currentDate();
     if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;
       this.fetchAndUpdateData()
