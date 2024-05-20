@@ -28,6 +28,19 @@
           </router-link>
           </b-button>
         </span>
+        <span v-if="!deletedFlag">
+          <b-button
+              size="sm"
+              variant="warning"
+              class="mr-1"
+              :to="{ name: 'Edit_Voucher', params: { vid: id } }"
+            >
+              <translate> Edit </translate>
+          </b-button>
+          <b-button @click.prevent="onDelete" size="sm" variant="danger">
+            <translate> Delete </translate>
+          </b-button>
+        </span>
       </div>
     </div>
     <div class="mb-3 clearfix d-print-none" v-if="type === 'creditnote' || type === 'debitnote'">
@@ -90,20 +103,6 @@
       {{ voucher.narration }}
     </p>
     <br /><br />
-    <div class="float-right">
-      <span v-if="!deletedFlag">
-        <b-button @click.prevent="onDelete" size="sm" variant="danger" class="mr-1">
-          <translate> Delete </translate>
-        </b-button>
-        <b-button
-          size="sm"
-          variant="warning"
-          :to="{ name: 'Edit_Voucher', params: { vid: id } }"
-        >
-          <translate> Edit </translate>
-        </b-button>
-      </span>
-    </div>
   </b-container>
 </template>
 
