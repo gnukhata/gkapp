@@ -18,9 +18,16 @@
         small
       >
         <template #cell(productname)="d">
-          <router-link :to="'/workflow/Business/' + d.item.productcode">
-            {{ d.item.productname }}
-          </router-link>
+          <template v-if="d.item.gsflag === 7">
+            <router-link
+              :to="`/product-register?product_id=${d.item.productcode}&current_date=${toDate}&goid=${d.item?.goid}`"
+            >
+              {{ d.item.productname }}
+            </router-link>
+          </template>
+          <template v-else>
+            <span>{{ d.item.productname }}</span>
+          </template>
         </template>
       </b-table>
       <template #footer>
@@ -51,9 +58,16 @@
         small
       >
         <template #cell(proddesc)="d">
-          <router-link :to="'/workflow/Business/' + d.item.prodcode">
-            {{ d.item.proddesc }}
-          </router-link>
+          <template v-if="d.item.gsflag === 7">
+            <router-link
+              :to="`/product-register?product_id=${d.item.prodcode}&current_date=${toDate}&goid=${d.item?.goid}`"
+              >
+              {{ d.item.proddesc }}
+            </router-link>
+          </template>
+          <template v-else>
+            <span>{{ d.item.proddesc }}</span>
+          </template>
         </template>
       </b-table>
       <template #footer>
@@ -98,6 +112,7 @@ export default {
           label: 'Stock On Hand',
         },
       ],
+      toDate: '',
     };
   },
   methods: {
@@ -111,6 +126,9 @@ export default {
       });
       return newNames;
     },
+  },
+  mounted() {
+    this.toDate = this.currentDate();
   },
 };
 </script>
