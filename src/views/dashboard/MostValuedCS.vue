@@ -18,9 +18,9 @@
         small
       >
         <template #cell(custname)="d">
-          <router-link :to="'/workflow/Contacts/' + d.item.custid">
+          <a @click="handleCustNameClick(d.item)" style="cursor: pointer; color: #007bff;">
             {{ d.item.custname }}
-          </router-link>
+          </a>
         </template>
         <template #cell(data)="d">
           {{ gk_currency(d.item.data) }}
@@ -52,9 +52,9 @@
         small
       >
         <template #cell(custname)="d">
-          <router-link :to="'/workflow/Contacts/' + d.item.custid">
+          <a @click="handleCustNameClick(d.item)" style="cursor: pointer; color: #007bff;">
             {{ d.item.custname }}
-          </router-link>
+          </a>
         </template>
         <template #cell(data)="d">
           {{ parseInt(d.item.data) }}
@@ -72,6 +72,7 @@
   </b-card-group>
 </template>
 <script>
+import axios from 'axios';
 export default {
   name: 'MostValuedCS',
   props: {
@@ -115,6 +116,16 @@ export default {
         return newObj;
       });
       return newNames;
+    },
+    handleCustNameClick(customer) {
+      axios.get(`/accounts?type=getAccCode&accountname=${customer.custname}`)
+        .then(response => {
+          this.custid = response.data.accountcode;
+          this.$router.push(`/ledger/${this.custid}`);
+        })
+        .catch(error => {
+          this.error = 'Failed to load data: ' + error.message;
+        });
     },
   },
 };
