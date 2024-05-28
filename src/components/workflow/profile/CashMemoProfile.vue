@@ -2,6 +2,40 @@
   <b-container fluid>
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
+    <div class="mb-3 clearfix d-print-none">
+      <div class="float-right">
+        <span>
+          <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+            v-if="!pdata.cancelledFlag"
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <router-link class="custom-link"
+              :to="{
+                  name: 'Workflow',
+                  params: {
+                    wfName: 'Transactions-DeliveryNote',
+                    wfId: this.dcid,
+                  },
+                }"
+              >View Delivery Note
+            </router-link>
+          </b-button>
+          <b-button
+            class=""
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+          >
+            <b-icon icon="eye" class="mr-1"></b-icon>
+            <translate>View Voucher</translate>
+          </b-button>
+        </span>
+      </div>
+    </div>
     <b-row>
       <b-col cols="12" md="6" class="my-2"> </b-col>
       <b-col cols="12" md="6" class="text-md-right my-2">
@@ -96,17 +130,6 @@
         <b v-translate> Narration: </b> {{ invoice.narration }}
       </b-col>
     </b-row>
-    <div class="float-right my-2 d-print-none">
-      <b-button
-        class=""
-        size="sm"
-        variant="primary"
-        v-b-toggle.voucher-container
-      >
-        <b-icon icon="eye" class="mr-1"></b-icon>
-        <translate>View Voucher</translate>
-      </b-button>
-    </div>
     <div class="clearfix"></div>
     <b-collapse v-model="showVouchers" id="voucher-container">
       <b v-translate>Voucher:</b>
@@ -293,6 +316,7 @@ export default {
       dnote: {
         goid: '',
       },
+      dcid: null,
     };
   },
   methods: {
@@ -455,6 +479,7 @@ export default {
           case 0: {
             let invData = response.data.gkresult;
             this.formatInvoiceDetails(invData);
+            this.dcid = invData.dcid;
             if (invData.dcid) {
               this.getDelNoteDetails(invData.dcid).then((dnResponse) => {
                 let dndata = dnResponse.data.gkresult.delchaldata;
@@ -532,3 +557,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.custom-link {
+  color: white;
+  text-decoration: none;
+}
+</style>
