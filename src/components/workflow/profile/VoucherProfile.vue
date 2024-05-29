@@ -10,9 +10,9 @@
       <br />
     </div>
         <!-- action buttons -->
-    <div class="mb-3 clearfix d-print-none" v-if="voucher?.invid">
+    <div class="mb-3 clearfix d-print-none" v-if="voucher?.invid && !deletedFlag">
       <div class="float-right">
-        <span>
+        <span v-if="voucher?.icflag == 9">
           <b-button
             class="mr-1"
             size="sm"
@@ -25,6 +25,22 @@
               `/workflow/Transactions-Invoice/${voucher.invid}`
             "
             >View Invoice
+          </router-link>
+          </b-button>
+        </span>
+        <span  v-if="voucher?.icflag == 3">
+          <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <router-link class="custom-link"
+            :to="
+              `/workflow/Transactions-CashMemo/${voucher.invid}`
+            "
+            >View Cash Memo
           </router-link>
           </b-button>
         </span>
@@ -88,6 +104,10 @@
       small
       class="text-small table-border-dark"
     >
+      <template #cell(account)="data">
+         <router-link v-if="!deletedFlag" :to="`/ledger/${data.item.accountcode}`">{{ data.item.account }}</router-link>
+          <span v-else>{{ data.item.accountcode }}</span>
+      </template>
       <template #foot(account)="">
         <span v-translate> Total </span>
       </template>
@@ -246,18 +266,24 @@ export default {
         this.voucher.content = [];
         this.voucher.invid = details?.invid;
         this.voucher.drcrid = details?.drcrid;
-        for (const dr in details.drs) {
+        this.voucher.icflag = details?.icflag;
+        for (const code in details.drs) {
+          const record = details.drs[code];
+          
           this.voucher.content.push({
-            account: dr,
-            dr: details.drs[dr],
+            accountcode: code,
+            account: record.accountname,
+            dr: record.amount,
             cr: '',
           });
         }
-        for (const cr in details.crs) {
+        for (const code in details.crs) {
+          const record = details.crs[code];
           this.voucher.content.push({
-            account: cr,
+            accountcode: code,
+            account: record.accountname,
             dr: '',
-            cr: details.crs[cr],
+            cr: record.amount,
           });
         }
       }
