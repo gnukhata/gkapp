@@ -19,6 +19,15 @@
               >View Invoice
             </router-link>
           </b-button>
+          <b-button
+            class=""
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+          >
+            <b-icon icon="eye" class="mr-1"></b-icon>
+            <translate>View Voucher</translate>
+          </b-button>
         </span>
       </div>
     </div>
@@ -107,6 +116,56 @@
         </p>
       </b-col>
     </b-row>
+    <div class="clearfix"></div>
+    <b-collapse v-model="showVouchers" id="voucher-container">
+      <b v-translate>Voucher:</b>
+      <b-card v-if="vouchers.length" body-class="p-1">
+        <div v-for="voucher in vouchers" :key="voucher.id">
+          <div class="text-center m-1 mb-2">
+            <span class="float-left">
+              Voucher No:
+                <router-link :to="`/Workflow/Transactions-Voucher/${voucher.id}`">
+                  {{voucher.no}}</router-link>
+            </span>
+            <span> {{ voucher.type }} </span>
+            <span class="float-right">
+              <translate
+                translate-comment="%{voucherDate} is a variable, translation is not required for it. Enter it, as it is while translation."
+                :translate-params="{ voucherDate: voucher.date }"
+              >
+                Date: %{voucherDate}
+              </translate>
+            </span>
+          </div>
+          <b-table-lite
+            bordered
+            small
+            head-variant="dark"
+            :items="voucher.transactions"
+            :tbody-tr-class="rowClass"
+            fixed
+          >
+          </b-table-lite>
+          <div>
+            <translate
+              translate-comment="%{narration} is a variable, translation is not required for it. Enter it, as it is while translation."
+              :translate-params="{ narration: voucher.narration }"
+            >
+              Narration: %{narration}
+            </translate>
+          </div>
+          <br />
+        </div>
+      </b-card>
+      <div v-else>
+        <translate
+          translate-comment="%{memoNo} is a variable, translation is not required for it. Enter it, as it is while translation."
+          :translate-params="{ memoNo: dcNote.no }"
+        >
+          No vouchers were found for DebitCreditNote: %{memoNo}
+        </translate>
+      </div>
+    </b-collapse>
   </b-container>
 </template>
 
@@ -135,6 +194,8 @@ export default {
   data() {
     return {
       isPreloading: false,
+      showVouchers: false,
+      vouchers: [],
       dcNote: {
         dcItems: [],
         date: '',
@@ -286,7 +347,9 @@ export default {
     id: function(id) {
       if (id && parseInt(id) > -1) {
         this.isPreloading = true;
-        this.fetchAndUpdateData()
+        this.showVouchers = false;
+        this.vouchers = [];
+        Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
           .then(() => {
             this.isPreloading = false;
           })
@@ -297,6 +360,16 @@ export default {
     },
   },
   methods: {
+    rowClass(item, type) {
+      if (!item || type !== 'row') return;
+      let rowClass = 'table-secondary';
+      if (item.cr === '') {
+        rowClass = 'table-success';
+      } else if (item.dr === '') {
+        rowClass = 'table-warning';
+      }
+      return rowClass;
+    },
     formatDetails(details) {
       if (details) {
         // this.output = JSON.stringify(details, null, 4);
@@ -364,6 +437,57 @@ export default {
         });
       }
     },
+    getVouchers() {
+      return axios
+        .get(`/transaction?searchby=drcr&drcrid=${this.id}`)
+        .then((resp) => {
+          // TODO: Add Project support
+          if (resp.data.gkstatus === 0) {
+            this.vouchers = resp.data.gkresult.map((voucher) => {
+              let data = {
+                id: voucher.vouchercode,
+                no: voucher.vouchernumber,
+                date: voucher.voucherdate,
+                type: voucher.vouchertype,
+                transactions: [],
+                narration: voucher.narration,
+                fields: [],
+              };
+              let total = {
+                dr: 0,
+                cr: 0,
+              };
+              for (const drAcc in voucher.drs) {
+                data.transactions.push({
+                  account: drAcc,
+                  dr: voucher.drs[drAcc],
+                  cr: '',
+                });
+                total.dr += parseFloat(voucher.drs[drAcc]);
+              }
+              for (const crAcc in voucher.crs) {
+                data.transactions.push({
+                  account: crAcc,
+                  cr: voucher.crs[crAcc],
+                  dr: '',
+                });
+                total.cr += parseFloat(voucher.crs[crAcc]);
+              }
+
+              data.transactions.push({
+                account: 'Total',
+                dr: total.dr.toFixed(2),
+                cr: total.cr.toFixed(2),
+              });
+
+              return data;
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     getDetails() {
       return axios
         .get(`/drcrnote?drcr=single&drcrid=${this.id}`)
@@ -417,7 +541,7 @@ export default {
     this.toDate = this.currentDate();
     if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;
-      this.fetchAndUpdateData()
+      Promise.all([this.fetchAndUpdateData(), this.getVouchers()])
         .then(() => {
           this.isPreloading = false;
         })
