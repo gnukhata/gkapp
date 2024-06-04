@@ -12,13 +12,28 @@
     <!-- action buttons -->
     <div class="mb-3 clearfix d-print-none">
       <div class="float-right">
-        <span>
+        <span v-if="!pdata.cancelledFlag">
           <b-button
             class="mr-1"
             size="sm"
             variant="primary"
             v-b-toggle.voucher-container
-            v-if="!pdata.cancelledFlag"
+            v-if="delnote.narration?.includes('Cash Memo')"
+          >
+            <b-icon class="mr-1" icon="eye"></b-icon>
+            <router-link class="custom-link"
+              :to="
+                `/workflow/Transactions-CashMemo/${invid}`
+              "
+              >View Cash Memo
+            </router-link>
+          </b-button>
+          <b-button
+            class="mr-1"
+            size="sm"
+            variant="primary"
+            v-b-toggle.voucher-container
+            v-else
           >
             <b-icon class="mr-1" icon="eye"></b-icon>
             <router-link class="custom-link"
@@ -508,6 +523,14 @@ export default {
         solid: true,
       });
     },
+    fetchdId() {
+       axios.get(`/delchal/invid/${this.id}`).then((resp) => {
+          console.log("cbdcdcbndc")
+        if (resp.data.gkstatus === 0) {
+          this.invid = resp.data.data;
+        }
+      });
+    },
   },
   watch: {
     id: function(id) {
@@ -521,6 +544,7 @@ export default {
           .catch(() => {
             this.isPreloading = false;
           });
+        this.fetchdId();
       }
     },
   },
@@ -535,12 +559,7 @@ export default {
         .catch(() => {
           this.isPreloading = false;
         });
-      axios.get(`/delchal/invid/${this.id}`).then((resp) => {
-          console.log("cbdcdcbndc")
-        if (resp.data.gkstatus === 0) {
-          this.invid = resp.data.data;
-        }
-      });
+      this.fetchdId();
     }
   },
 };
