@@ -2,6 +2,18 @@
   <b-container fluid>
     <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
     </b-overlay>
+    <div class="mb-3 clearfix d-print-none">
+      <div class="float-right">
+        <b-button
+          v-if="!tnote.recieved"
+          @click.prevent="onSubmit"
+          size="sm"
+          variant="success"
+        >
+          <translate> Approve </translate>
+        </b-button>
+      </div>
+    </div>
     <b-row>
       <b-col class="pl-0" order="2" order-md="1">
         <b-container fluid>
@@ -78,16 +90,6 @@
         </template>
       </template>
     </b-table-lite>
-    <div class="float-right d-print-none">
-      <b-button
-        v-if="!tnote.recieved"
-        @click.prevent="onSubmit"
-        size="sm"
-        variant="success"
-      >
-        <translate> Approve </translate>
-      </b-button>
-    </div>
   </b-container>
 </template>
 
