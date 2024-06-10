@@ -1270,7 +1270,7 @@ export default {
               item.taxable = parseFloat((rate * qty - discount * qty).toFixed(2));
 
               if (this.config.dcValue) {
-                item.taxable = parseFloat(item.dcValue || 0);
+                item.taxable = parseFloat(item.dcValue || 0) * qty;
               }
             } else {
               item.taxable = 0;
@@ -1320,7 +1320,7 @@ export default {
             item.taxable = parseFloat((rate * qty - discount * qty).toFixed(2));
 
             if (this.config.dcValue) {
-              item.taxable = parseFloat(item.dcValue || 0);
+              item.taxable = parseFloat(item.dcValue || 0) * qty;
             }
           } else {
             item.taxable = 0;
