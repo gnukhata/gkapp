@@ -13,10 +13,17 @@
           >
             <b-icon class="mr-1" icon="eye"></b-icon>
             <router-link class="custom-link"
-              :to="
-                `/workflow/Transactions-Invoice/${inv.id}`
-              "
-              >View Invoice
+              :to="{
+                name: 'Workflow',
+                params: {
+                  wfName:
+                    inv.icflag === 3
+                      ? 'Transactions-CashMemo': 
+                      'Transactions-Invoice',
+                  wfId: inv.invid,
+                },
+              }"
+              >{{inv.icflag === 3 ? 'View Cash Memo' : 'View Invoice'}}
             </router-link>
           </b-button>
           <b-button
@@ -397,7 +404,8 @@ export default {
         this.inv = {
           no: details.invdata.invoiceno,
           date: details.invdata.invoicedate,
-          id: details.invdata.invid
+          id: details.invdata.invid,
+          icflag: details.invdata.icflag,
         };
         this.total = {
           taxable: details.totaltaxablevalue,
