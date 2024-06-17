@@ -113,7 +113,6 @@
                           type="number"
                           no-wheel
                           step="0.01"
-                          @blur="calculateDiscount"
                         ></b-form-input>
                       </b-input-group>
                     </b-col>
@@ -123,7 +122,7 @@
                           size="sm"
                           id="bi-input-11"
                           placeholder=""
-                          v-model="form.discountPercent"
+                          v-model="discountPercentage"
                           type="number"
                           no-wheel
                           step="0.01"
@@ -215,7 +214,7 @@
                     </div>
                     <div v-if="form.stock.godownFlag">
                       <b-input-group
-                        v-for="(godown, index) in form.stock.godowns"
+                        v-for="(godown, index) in godownItems"
                         :key="index"
                         class="mb-1"
                         :id="'vat-inp-' + index"
@@ -224,9 +223,9 @@
                           <b-form-select
                             size="sm"
                             style="max-width: 150px"
-                            v-model="form.stock.godowns[index].id"
+                            v-model="godownItems[index].id"
                             :options="options.godowns"
-                            :required="!!form.stock.godowns[index].qty"
+                            :required="!!godownItems.qty"
                             :readonly="!index"
                           >
                           </b-form-select>
@@ -648,8 +647,29 @@ export default {
     formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
     titleIcon: (self) =>
       self.type === 'product' ? 'cart-variant' : 'face-agent',
+    discountPercentage: {
+      get: function () {
+        return parseFloat(
+          parseFloat(
+            this.form.discountAmount * 100 / this.form.salePrice
+          ).toFixed(2)
+        );
+      },
+      set: function (discount) {
+        this.form.discountAmount = parseFloat(
+          discount * this.form.salePrice / 100
+        ).toFixed(2);
+      }
+    },
     vatLength: (self) => self.form.tax.vat.length,
     godownLength: (self) => self.form.stock.godowns.length,
+    godownItems: (self) => {
+      for (var i = 0; i < self.form.stock.godowns.length; i++) {
+        let godown = self.form.stock.godowns[i];
+        godown.rate = self.form.mrp * godown.qty;
+      }
+      return self.form.stock.godowns
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgGstin']),
   },
   watch: {
@@ -661,11 +681,6 @@ export default {
     },
   },
   methods: {
-    calculateDiscount() {
-      this.form.discountPercent = parseFloat(
-        parseFloat((this.form.discountAmount / this.form.salePrice) * 100)
-      ).toFixed(2);
-    },
     updateGstDateValidity(validity, index) {
       if (index === 0 && validity === null) {
         validity = true;
