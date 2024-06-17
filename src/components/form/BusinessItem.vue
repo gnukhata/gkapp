@@ -214,7 +214,7 @@
                     </div>
                     <div v-if="form.stock.godownFlag">
                       <b-input-group
-                        v-for="(godown, index) in form.stock.godowns"
+                        v-for="(godown, index) in godownItems"
                         :key="index"
                         class="mb-1"
                         :id="'vat-inp-' + index"
@@ -223,9 +223,9 @@
                           <b-form-select
                             size="sm"
                             style="max-width: 150px"
-                            v-model="form.stock.godowns[index].id"
+                            v-model="godownItems[index].id"
                             :options="options.godowns"
-                            :required="!!form.stock.godowns[index].qty"
+                            :required="!!godownItems.qty"
                             :readonly="!index"
                           >
                           </b-form-select>
@@ -663,6 +663,13 @@ export default {
     },
     vatLength: (self) => self.form.tax.vat.length,
     godownLength: (self) => self.form.stock.godowns.length,
+    godownItems: (self) => {
+      for (var i = 0; i < self.form.stock.godowns.length; i++) {
+        let godown = self.form.stock.godowns[i];
+        godown.rate = self.form.mrp * godown.qty;
+      }
+      return self.form.stock.godowns
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgGstin']),
   },
   watch: {
