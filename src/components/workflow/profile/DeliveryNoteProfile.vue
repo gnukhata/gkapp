@@ -525,7 +525,6 @@ export default {
     },
     fetchdId() {
        axios.get(`/delchal/invid/${this.id}`).then((resp) => {
-          console.log("cbdcdcbndc")
         if (resp.data.gkstatus === 0) {
           this.invid = resp.data.data;
         }
