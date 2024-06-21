@@ -14,7 +14,7 @@
         </b-card>
       </b-card-group>
       <!-- Sale/Purchase Invoice Graphs -->
-      <SalePurchaseInvoiceGraph :info="dashboardData" />
+      <SalePurchaseInvoiceGraph :info="dashboardData.monthly_balance" />
       <!-- Make / Recieve Payment -->
       <MakeRecievePayment :info="dashboardData" :onPayment="onPayment" />
       <!-- Most Valued Customers / suppliers -->
