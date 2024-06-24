@@ -538,15 +538,21 @@ export default {
                     }
                   : { id: inv.sourcestatecode, name: inv.sourcestate },
             });
-            this.form.invoice.taxState = {
-              id: `${inv.taxstatecode}`,
-              name: self.options.stateMap.id[inv.taxstatecode],
-            };
-            Object.assign(this.form.party, {
-              name: inv.custSupDetails.custname,
-              type: inv.custSupDetails.csflag === 3 ? 'customer' : 'supplier',
-            });
-
+            if(inv.icflag === 3) {
+              this.form.invoice.taxState = {
+                id: `${inv.sourcestatecode}`,
+                name: self.options.stateMap.id[inv.sourcestatecode],
+              };
+            } else {
+              this.form.invoice.taxState = {
+                id: `${inv.taxstatecode}`,
+                name: self.options.stateMap.id[inv.taxstatecode],
+              };
+              Object.assign(this.form.party, {
+                name: inv.custSupDetails.custname,
+                type: inv.custSupDetails.csflag === 3 ? 'customer' : 'supplier',
+              });
+            }
             let item, billItem;
             self.form.bill = [];
             for (const itemCode in inv.invcontents) {
@@ -574,6 +580,7 @@ export default {
 
             if (inv.dcid) {
               self.form.invoice.dcid = inv.dcid;
+              self.form.invoice.icflag = inv.icflag;
               self.fetchDelNoteGodown(inv.dcid);
             }
 
