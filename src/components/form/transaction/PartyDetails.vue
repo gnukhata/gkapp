@@ -96,7 +96,7 @@
             v-model="form.name"
             @change="onPartyNameSelect(form.name)"
             :required="true"
-            :disabled="editFlag || isNameDisabled || editInvoice"
+            :disabled="(editFlag || isNameDisabled || editInvoice) && !!form.name?.name"
             :clearable="true"
           >
             <b-form-select-option
@@ -113,7 +113,7 @@
             v-model="form.name"
             @change="onPartyNameSelect(form.name)"
             :required="true"
-            :disabled="editFlag || isNameDisabled|| editInvoice"
+            :disabled="(editFlag || isNameDisabled|| editInvoice) && !!form.name?.name"
             :clearable="false"
             :rules="[v => !!form.name || 'Please select an option']"
           >
@@ -266,7 +266,7 @@
             @click.prevent="onPartyEdit(true)"
             variant="success"
             size="sm"
-            :disabled="!isValidGstin"
+            :disabled="!!form.gstin && !isValidGstin"
           >
             <b-icon
               aria-hidden="true"
