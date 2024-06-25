@@ -36,6 +36,14 @@
         ><b-icon class="mr-1" icon="file-earmark-plus"></b-icon>
         <translate>Create Voucher</translate>
       </b-button>
+      <b-button
+        :to="`/ledger/${custid}`"
+        size="sm"
+        class="ml-2"
+        variant="success"
+        ><b-icon class="mr-1" icon="journals"></b-icon>
+        <translate>View Ledger</translate>
+      </b-button>
     </div>
     <b-overlay no-wrap blur :show="isLoading"></b-overlay>
     <b-card
@@ -381,6 +389,13 @@ export default {
           gktoken: this.authToken,
         },
       };
+      axios.get(`/accounts?type=getAccCode&accountname=${this.customer.custname}`)
+        .then(response => {
+          this.custid = response.data.accountcode;
+        })
+        .catch(error => {
+          this.error = 'Failed to load data: ' + error.message;
+        });
       axios
         .get(`/customer/${this.customer.custid}`, config)
         .then((res) => {

@@ -75,6 +75,21 @@
             </translate>
           </b-button>
           <b-button
+            :to="{
+                  name: 'Billwise',
+                  params: { custType: 3, custName: '-1' },
+                }"
+            v-if="invoice.payment.mode != 5 && paymentFlag"
+            class="mr-1"
+            size="sm"
+            variant="success"
+          >
+            <b-icon class="mr-1" icon="clipboard-check"></b-icon>
+            <translate
+              >Adjust
+            </translate>
+          </b-button>
+          <b-button
             v-if="rectifyFlag"
             class="mr-1"
             size="sm"
