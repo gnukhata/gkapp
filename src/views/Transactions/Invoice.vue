@@ -482,22 +482,10 @@ export default {
     isGst: (self) => self.form.taxType === 'gst',
     isCgst: (self) => {
       if (
-        self.form.inv.state &&
-        (self.form.inv.taxState || self.form.party.state)
+        parseInt(self.form.inv.state.id) ===
+        parseInt(self.form.inv.taxState.id)
       ) {
-        if (self.form.inv.taxState) {
-          if (
-            parseInt(self.form.inv.state.id) ===
-            parseInt(self.form.inv.taxState.id)
-          ) {
-            return true;
-          }
-        } else if (
-          parseInt(self.form.inv.state.id) ===
-          parseInt(self.form.party.state.id)
-        ) {
-          return true;
-        }
+        return true;
       }
       return false;
     },
