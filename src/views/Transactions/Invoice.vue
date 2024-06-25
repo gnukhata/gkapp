@@ -314,11 +314,20 @@ export default {
       form: {
         type: 'sale', // purchase
         inv: {
-          state: { id: null },
-          taxState: { id: null },
+          state: {
+            id: null,
+            name: '',
+          },
+          taxState: {
+            id: null,
+            name: '',
+          },
         },
         party: {
-          state: { id: null },
+          state: {
+            id: null,
+            name: '',
+          },
         },
         ship: {},
         taxType: 'gst', // vat
@@ -583,6 +592,7 @@ export default {
 
             this.goid = payload.data.godown || -1;
             Object.assign(this.form.inv, payload.data);
+            this.form.inv.taxState = payload.data.placeOfSupply;
             // if (!this.isCreate) {
             //   this.form.inv.no = oldInvNo;
             // }
@@ -1428,12 +1438,21 @@ export default {
       this.form = {
         type: type,
         inv: {
-          state: { id: null },
-          taxState: { id: null, name: '' },
+          state: {
+            id: null,
+            name: '',
+          },
+          taxState: {
+            id: null,
+            name: '',
+          },
         },
         party: {
           name: false,
-          state: { id: null },
+          state: {
+            id: null,
+            name: '',
+          },
         },
         ship: {},
         taxType: 'gst', // vat
