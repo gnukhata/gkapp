@@ -3,26 +3,20 @@
     <div class="rounded  m-2 p-3 bg-warning">
       <div class="row">
         <div class="col">
-          <b-icon icon="building" class="mr-1"></b-icon>Bank Balance:
-          <b v-if="currentBalance.bankaccdata[0].baltype == 'Cr'">
-            - {{ gk_currency(currentBalance.bankaccdata[0].bankbalance) }}</b
-          >
-          <b v-else>
-            {{ gk_currency(currentBalance.bankaccdata[0].bankbalance) }}</b
-          >
+          <b-icon icon="building" class="mr-1"></b-icon>
+          <b>
+            Bank Balance: {{ gk_currency(bankBalance) }}
+          </b>
         </div>
       </div>
     </div>
     <div class="rounded m-2 p-3 bg-success text-light">
       <div class="row">
         <div class="col">
-          <b-icon icon="cash" class="mr-1"></b-icon>Cash Balance:
-          <b v-if="currentBalance.cashaccdata[0].baltype == 'Cr'"
-            >- {{ gk_currency(currentBalance.cashaccdata[0].cashbalance) }}</b
-          >
-          <b v-else>{{
-            gk_currency(currentBalance.cashaccdata[0].cashbalance)
-          }}</b>
+          <b-icon icon="cash" class="mr-1"></b-icon>
+          <b>
+            Cash Balance: {{ gk_currency(cashBalance) }}
+          </b>
         </div>
       </div>
     </div>
@@ -35,17 +29,23 @@ export default {
   name: 'Balance',
   data() {
     return {
-      currentBalance: [],
+      bankBalance: 0,
+      cashBalance: 0,
       show: false,
     };
   },
-  methods: {
+   methods: {
     getBalances() {
       axios
         .get('/dashboard?type=cashbankaccountdata')
         .then((r) => {
           if (r.status == 200) {
-            this.currentBalance = r.data;
+            this.bankBalance = r.data.bankaccdata.reduce(
+              (sum,item) => sum + item.bankbalance*(item.baltype === "Cr" ? -1 : 1), 0
+            );
+            this.cashBalance = r.data.cashaccdata.reduce(
+              (sum,item) => sum + item.cashbalance*(item.baltype === "Cr" ? -1 : 1), 0
+            );
             this.show = true;
           }
         })
