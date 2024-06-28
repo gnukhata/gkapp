@@ -331,10 +331,11 @@ export default {
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
     isCgst: (self) => {
-      if (self.form.invoice.state && self.form.party.state) {
-        if (self.form.invoice.state.name === self.form.party.state.name) {
+      if (
+        parseInt(self.form.invoice.state.id) ===
+        parseInt(self.form.invoice.taxState.id)
+      ) {
           return true;
-        }
       }
       return false;
     },
@@ -510,7 +511,10 @@ export default {
       if (!isNaN(invoiceId) && !invoiceId) {
         this.form.bill = [{ product: { name: '' } }];
         this.form.party.name = '';
-        this.form.invoice = {};
+        this.form.invoice = {
+          state: { name: '', id: '' },
+          taxState: { name: '', id: '' },
+        };
 
         this.updateCounter.party++;
         this.updateCounter.bill++;
