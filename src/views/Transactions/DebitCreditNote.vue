@@ -203,7 +203,7 @@
     <print-page
       :show="showPrintModal"
       name="DebitCreditNote"
-      :title="isCredit ? 'Credit Note' : 'Debit Note'"
+      :title="titleName"
       :id="dcnoteId"
       :pdata="{}"
       @hidden="showPrintModal = false"
@@ -267,6 +267,7 @@ export default {
         },
         total: {},
       },
+      titleName: '',
       showPrintModal: false,
       dcnoteId: 0,
       vuexNameSpace: '',
@@ -443,6 +444,7 @@ export default {
                     }`,
                   };
                   axios.post('/log', log);
+                  this.titleName = (this.form.dcNote.type === 'credit') ? 'Credit Note' : 'Debit Note';
                   self.resetForm();
                   this.showPrintModal = true;
                   self.preloadData();

@@ -304,6 +304,10 @@ export default {
         });
       } else {
         fields.push({
+          key: 'qty',
+          label: self.flags.qty,
+        });
+        fields.push({
           key: 'dcValue',
           label: self.flags.credited
             ? self.$gettext('Credited Value (₹)')
