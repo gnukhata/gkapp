@@ -159,7 +159,7 @@
         >
           <template #cell(accountname)="data">
             <router-link
-              v-if="data.item.accountname !== 'Total'"
+              v-if="!['Total', 'Difference in Trial balance'].includes(data.item.accountname)"
               :to="`/ledger/${data.item.accountcode}`"
             >
               {{ data.item.accountname }}
@@ -183,7 +183,7 @@
         >
           <template #cell(accountname)="data">
             <router-link
-              v-if="data.item.accountname !== 'Total'"
+              v-if="!['Total', 'Difference in Trial balance'].includes(data.item.accountname)"
               :to="`/ledger/${data.item.accountcode}`"
             >
               {{ data.item.accountname }}
@@ -207,7 +207,7 @@
         >
           <template #cell(accountname)="data">
             <router-link
-              v-if="data.item.accountname !== 'Total'"
+              v-if="!['Total', 'Difference in Trial Balance'].includes(data.item.accountname)"
               :to="`/ledger/${data.item.accountcode}`"
             >
               {{ data.item.accountname }}
