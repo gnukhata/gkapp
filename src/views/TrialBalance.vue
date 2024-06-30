@@ -115,8 +115,8 @@
             :commonParams="false"
             fileSuffix="NetTrialBalance"
             title="Download Net Trial Balance Spreadsheet"
+            :messageFromParent="parentMessage"
           >
-          :messageFromParent="parentMessage"
           </gk-file-download>
           <gk-file-download
             v-if="trialBalanceType == 'Gross'"
