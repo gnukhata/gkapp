@@ -77,6 +77,14 @@ export default {
     },
   },
   methods: {
+    saveUrlAndProceedToLoginPage(url) {
+      this.$store.commit('setGkCoreUrl', {
+        gkCoreUrl: url,
+      });
+      // update the VersionInfo component
+      this.$root.$emit('updateVersionInfo');
+      this.$router.push('/user-login');
+    },
     /*
      * this method is called when user clicks on the "Continue with default server" button
      */
@@ -84,13 +92,12 @@ export default {
       this.isLoading = true;
       const defaultGkCoreUrl = this.gkConfig.gkcore_url;
       axios
-        .get(`${defaultGkCoreUrl}/state`)
+        .get(`${defaultGkCoreUrl}`)
         .then((res) => {
           if (res.status == 200) {
-            this.$store.commit('setGkCoreUrl', {
-              gkCoreUrl: defaultGkCoreUrl,
-            });
-            this.$router.push('/user-login');
+            this.saveUrlAndProceedToLoginPage(defaultGkCoreUrl);
+            // trigger the VersionInfo component to refetch the API
+            this.$root.$emit('updateVersionInfo');
           } else {
             this.$bvToast.toast(
               this.$gettext('Please check your server setup'),
@@ -121,13 +128,10 @@ export default {
     setCustomServerUrl() {
       this.isLoading = true;
       axios
-        .get(`${this.serverUrl}/state`)
+        .get(`${this.serverUrl}`)
         .then((res) => {
           if (res.status == 200 && res.data.gkstatus == 0) {
-            this.$store.commit('setGkCoreUrl', {
-              gkCoreUrl: this.serverUrl,
-            });
-            this.$router.push('/user-login');
+            this.saveUrlAndProceedToLoginPage(this.serverUrl);
           } else {
             this.$bvToast.toast(
               this.$gettext('Please check your server setup'),
@@ -149,6 +153,11 @@ export default {
           this.isLoading = false;
         });
     },
+  },
+  mounted() {
+    if (!this.$route.query.auto_setup) {
+      this.setDefaultServer();
+    }
   },
 };
 </script>

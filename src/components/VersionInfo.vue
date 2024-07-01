@@ -39,21 +39,25 @@ export default {
       }
       this.url = url;
     },
+    fetchVersions() {
+      axios
+        .get('/')
+        .then((r) => {
+          if (r.status == 200) {
+            this.gkcoreVersion = r.data.version;
+          }
+        })
+        .then(() => {
+          this.gitUrl();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
   },
   mounted() {
-    axios
-      .get('/')
-      .then((r) => {
-        if (r.status == 200) {
-          this.gkcoreVersion = r.data.version;
-        }
-      })
-      .then(() => {
-        this.gitUrl();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    this.fetchVersions();
+    this.$root.$on('updateVersionInfo', this.fetchVersions);
   },
 };
 </script>

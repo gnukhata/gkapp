@@ -1,6 +1,6 @@
-import { mapState } from "vuex";
-import axios from "axios";
-import sha512 from "crypto-js/sha512";
+import { mapState } from 'vuex';
+import axios from 'axios';
+import sha512 from 'crypto-js/sha512';
 export default {
   data() {
     return {
@@ -9,13 +9,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["userAuthenticated"]),
+    ...mapState(['userAuthenticated']),
   },
   // Naming convention for mixin methods is `snake_casing`
   // to distinguish b/w component methods & mixin methods
   methods: {
     //wrapper around the bootstrap-vue toast
-    gk_toast(title, message, variant = "danger") {
+    gk_toast(title, message, variant = 'danger') {
       this.$bvToast.toast(message, {
         title: title,
         autoHideDelay: 5000,
@@ -27,14 +27,14 @@ export default {
     // adds a log entry for an org, payload is a string
     gk_log(payload) {
       axios
-        .post("/log", { activity: payload })
+        .post('/log', { activity: payload })
         .then((r) => {
           if (r.data.gkstatus == 0) {
             console.log(payload);
           }
         })
         .catch((e) => {
-          console.log("failed to log: ", e);
+          console.log('failed to log: ', e);
         });
     },
     is_mobile() {
@@ -44,29 +44,29 @@ export default {
      * check for latest news from the gst portal
      */
     check_gst_news() {
-      axios.get("/gst-news").then((r) => {
-        if (localStorage.getItem("gstNewsCount") && this.userAuthenticated) {
+      axios.get('/gst-news').then((r) => {
+        if (localStorage.getItem('gstNewsCount') && this.userAuthenticated) {
           if (
             r.data.gkresult.length >
-              parseInt(localStorage.getItem("gstNewsCount"))
+            parseInt(localStorage.getItem('gstNewsCount'))
           ) {
             const link = this.$createElement;
             const $url = link(
-              "router-link",
+              'router-link',
               {
                 props: {
-                  to: "/gst/news",
+                  to: '/gst/news',
                 },
               },
-              "Check out!",
+              'Check out!'
             );
-            this.$bvToast.toast(["You have unread news, ", $url], {
-              title: "GST News",
-              variant: "info",
+            this.$bvToast.toast(['You have unread news, ', $url], {
+              title: 'GST News',
+              variant: 'info',
               solid: true,
-              toaster: "b-toaster-top-center",
+              toaster: 'b-toaster-top-center',
             });
-            this.$store.commit("gstNews", true);
+            this.$store.commit('gstNews', true);
           }
         }
       });
@@ -78,12 +78,12 @@ export default {
      * @returns {}
      * TODO handle multiple currencies
      */
-    gk_currency(value, format = "en-IN", symbol = "₹ ") {
+    gk_currency(value, format = 'en-IN', symbol = '₹ ') {
       let formattedValue = null;
-      const decimalExists = value.toString().includes(".");
+      const decimalExists = value.toString().includes('.');
       // handle decimal places
       if (decimalExists) {
-        const num = value.toString().split(".");
+        const num = value.toString().split('.');
         // if only one decimal place exist, append 0 after decimal place
         if (num[1].length == 1) {
           // formattedValue = parseFloat(`${num[0]}.${num[1]}`).toFixed(2);
@@ -114,9 +114,9 @@ export default {
       });
     },
     get_org_address() {
-      axios.get("/organisation").then((r) => {
+      axios.get('/organisation').then((r) => {
         if (r.status === 200 && r.data.gkstatus == 0) {
-          this.$store.commit("setOrgAddress", r.data.gkdata);
+          this.$store.commit('setOrgAddress', r.data.gkdata);
         }
       });
     },
@@ -126,14 +126,14 @@ export default {
     },
     currentDate() {
       const dt = new Date();
-      const dd = dt.getDate() < 10 ? "0" + dt.getDate() : dt.getDate();
+      const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate();
       const actualMonth = dt.getMonth() + 1;
       const mm = actualMonth < 10 ? `0${actualMonth}` : actualMonth;
       const yy = dt.getFullYear();
       return `${yy}-${mm}-${dd}`;
     },
     dateReverse(date) {
-      const d = date.split("-").reverse();
+      const d = date.split('-').reverse();
       return `${d[0]}-${d[1]}-${d[2]}`;
     },
     /**
@@ -147,17 +147,17 @@ export default {
           this.user_role = res.data.gkresult?.userrole || null;
         })
         .catch((e) => {
-          console.log("admin fetch", e.message);
+          console.log('admin fetch', e.message);
         });
     },
     /* Get org image from server */
     getOrgImage() {
       axios
-        .get("/organisation/attachment")
+        .get('/organisation/attachment')
         .then((r) => {
           if (r.status === 200 && r.data.logo && r.data.logo !== null) {
             const payload = `data:image/jpg;base64,${r.data.logo}`;
-            this.$store.commit("updateOrgImg", payload);
+            this.$store.commit('updateOrgImg', payload);
           }
         })
         .catch((e) => {
@@ -169,40 +169,40 @@ export default {
      * Logout the user, But preserve the gkcore url
      */
     logOut() {
-      const gkcoreUrl = this.$store.getters["getGkCoreUrl"];
-      const orgcode = sessionStorage.getItem("orgCode");
+      const gkcoreUrl = this.$store.getters['getGkCoreUrl'];
+      const orgcode = sessionStorage.getItem('orgCode');
 
       // reset orgname
-      this.$store.commit("resetOrg");
+      this.$store.commit('resetOrg');
 
       // change auth status
-      this.$store.commit("setUserOrgAuthStatus");
+      this.$store.commit('setUserOrgAuthStatus');
 
       // remove custom states in localhost
-      sessionStorage.removeItem("orgArray");
+      sessionStorage.removeItem('orgArray');
       // sessionStorage.removeItem("orgCodeChoice");
 
       // delete items from localStorage
       const deleteList = [
-        "authToken",
-        "orgCode",
-        "orgName",
-        "orgYears",
-        "orgGstin",
+        'authToken',
+        'orgCode',
+        'orgName',
+        'orgYears',
+        'orgGstin',
         `${orgcode}-globalConf`,
-        "finYears",
+        'finYears',
       ];
       for (const i in deleteList) {
         localStorage.removeItem(deleteList[i]);
       }
 
       // set gkCore url
-      this.$store.commit("setGkCoreUrl", { gkCoreUrl: gkcoreUrl });
+      this.$store.commit('setGkCoreUrl', { gkCoreUrl: gkcoreUrl });
 
       // redirect to login page
-      this.$router.push("/user-login");
+      this.$router.push('/user-login');
       // reset the org image to default
-      this.$store.commit("updateOrgImg", "img/gk.png");
+      this.$store.commit('updateOrgImg', 'img/gk.png');
       // alert the user on logout
       /* this.$bvToast.toast(this.$gettext(`Logged out succesfully`), {
 						title: 'Logout',
@@ -212,17 +212,20 @@ export default {
     },
     //This method runs when switch server button is clicked
     switchServer() {
-      this.$store.commit("setGkCoreUrl", {
+      this.$store.commit('setGkCoreUrl', {
         gkCoreUrl: null,
       });
-      this.$router.push("/server-setup");
+      this.$router.push({
+        path: '/server-setup',
+        query: { auto_setup: false },
+      });
     },
 
     //This method runs when strings need to be translated
     textInterpolated(text) {
-      let translated = this.$ngettext('%{ text }', '%{ text }', text)
-      let interpolated = this.$gettextInterpolate(translated, {text: text})
+      let translated = this.$ngettext('%{ text }', '%{ text }', text);
+      let interpolated = this.$gettextInterpolate(translated, { text: text });
       return interpolated;
-    }
+    },
   },
 };
