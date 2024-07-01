@@ -293,7 +293,7 @@ export default {
       if (self.flags.qty) {
         fields.push({
           key: 'qty',
-          label: self.flags.credited
+          label: self.flags.credit
             ? self.$gettext('Qty Credited')
             : self.$gettext('Qty Debited'),
         });
@@ -309,7 +309,7 @@ export default {
         });
         fields.push({
           key: 'dcValue',
-          label: self.flags.credited
+          label: self.flags.credit
             ? self.$gettext('Credited Value (₹)')
             : self.$gettext('Debited Value (₹)'),
           tdClass: 'gk-currency-sm',
