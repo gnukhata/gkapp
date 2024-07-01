@@ -251,7 +251,7 @@
               no-wheel
               step="0.01"
               min="0"
-              :max="form[data.item.index].qty * form[data.item.index].rate"
+              :max="creditFlag ? form[data.item.index].rate : null"
               @input="updateTaxAndTotal(data.item.index)"
               required
             ></b-input>
