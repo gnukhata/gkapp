@@ -163,6 +163,7 @@
               no-wheel
               step="0.01"
               min="0.01"
+              :max="form[data.item.index].isService ? null : options.stock[data.item.pid]"
               @input="onQtyUpdate(data.item.index, data.item.pid)"
               :readonly="data.item.isService || disabled.qty"
               :tabindex="data.item.isService ? -1 : 0"
