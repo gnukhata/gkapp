@@ -66,11 +66,11 @@ All users can view this report`)
           >
             <template #cell(particulars)="data">
               <router-link
-                v-if="data.item.particulars != 'Total'"
+                v-if="!['Total', 'Opening balance', 'Closing balance'].includes(data.item.particulars)"
                 :to="
                   `/ledger/${data.item.accountcode}&null&${fromDate}&${toDate}`
                 "
-                >{{ data.item.particulars }}
+              >{{ data.item.particulars }}
               </router-link>
               <b v-else>{{ data.item.particulars }}</b>
             </template>
@@ -93,11 +93,11 @@ All users can view this report`)
           >
             <template #cell(particulars)="data">
               <router-link
-                v-if="data.item.particulars != 'Total'"
+                v-if="!['Total', 'Opening balance', 'Closing balance'].includes(data.item.particulars)"
                 :to="
                   `/ledger/${data.item.accountcode}&null&${fromDate}&${toDate}`
                 "
-                >{{ data.item.particulars }}
+              >{{ data.item.particulars }}
               </router-link>
               <b v-else>{{ data.item.particulars }}</b>
             </template>
