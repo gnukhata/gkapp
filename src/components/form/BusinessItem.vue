@@ -18,6 +18,7 @@
                   buttons
                   size="sm"
                   name="filter-form-sort"
+                  @change="resetForm"
                 >
                   <b-form-radio value="product">
                     <translate> Product </translate>

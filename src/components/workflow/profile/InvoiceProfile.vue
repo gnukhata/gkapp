@@ -599,11 +599,11 @@ export default {
       total.push(
         {
           title: self.$gettext('Invoice Value'),
-          value: Math.round(self.invoice.total.amount).toFixed(2),
+          value: self.invoice.total.roundoff ? Math.round(self.invoice.total.amount).toFixed(2) : self.invoice.total.amount,
         },
         {
           title: self.$gettext('Invoice Value In Words'),
-          value: numberToRupees(Math.round(self.invoice.total.amount)),
+          value: self.invoice.total.roundoff ? numberToRupees(Math.round(self.invoice.total.amount)) : numberToRupees(self.invoice.total.amount),
         }
       );
       return total;
@@ -811,6 +811,7 @@ export default {
             cess: details.totalcessamt,
             tax: details.totaltaxamt,
             isIgst: details.taxname === 'IGST',
+            roundoff: details.roundoff,
           },
           narration: details.narration,
           attachmentCount: details.attachmentcount,

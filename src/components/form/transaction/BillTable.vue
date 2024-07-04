@@ -807,7 +807,7 @@ export default {
       let result = [
         {
           rowSelected: false,
-          product: { id: '', name: '' },
+          product: { id: '', name: '',  quantity: ''},
           hsn: '',
           qty: null,
           packageCount: null,
@@ -1054,7 +1054,7 @@ export default {
       } else {
         Object.assign(this.form[index], {
           rowSelected: false,
-          product: { id: '', name: '' },
+          product: { id: '', name: '',  quantity: ''},
           hsn: '',
           qty: null,
           packageCount: null,
@@ -1088,7 +1088,8 @@ export default {
         */
 
         let tableData = this.form.map((item) => {
-          return { id: item.product.id, name: item.product.name };
+          const productData = self.options.products.find(p => p.id === item.product.id);
+          return { id: item.product.id, name: item.product.name, quantity: productData.quantity};
         });
         this.fetchBusinessList().then(() => {
           let billCount = self.form.length;
@@ -1141,7 +1142,7 @@ export default {
     addBillItem() {
       this.form.push({
         rowSelected: false,
-        product: { id: '', name: '' },
+        product: { id: '', name: '',  quantity: ''},
         hsn: '',
         qty: null,
         packageCount: null,
