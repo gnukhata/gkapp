@@ -614,7 +614,7 @@ export default {
         pan: data.custpan,
         checksum: '',
         pin: data.pincode,
-        gstin: '',
+        gstin:  data.gstin ? data.gstin[states[0]?.value.id] : '',
         tin: data.custtan || null,
       });
 
