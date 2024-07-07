@@ -22,19 +22,6 @@
           <b-form-checkbox @input="updateAllTaxAndTotal" v-model="inclusiveFlag" name="check-button" switch>
           Inclusive of tax
         </b-form-checkbox> -->
-        <span class="float-left">
-          <b-form-checkbox
-            id="checkbox-stock"
-            v-model="form.allowNegativeStock"
-            @input="updateCheckStock"
-            name="checkbox-stock"
-            class="mt-1"
-            size="sm"
-            switch
-          >
-            Allow Negative Stock
-          </b-form-checkbox>
-        </span>
         <span class="float-right">
           <b-button
             v-if="showAddProduct"
@@ -599,7 +586,6 @@ export default {
           vat: { rate: 0, amount: 0 },
           total: 0,
           isService: false, // used to make certain fields readonly
-          allowNegativeStock: this.config.qty.checkStock,
         },
       ],
       options: {
@@ -846,9 +832,6 @@ export default {
       }
       // console.log(JSON.stringify(result));
       return result;
-    },
-    updateCheckStock() {
-      this.config.qty.checkStock = !this.form.allowNegativeStock;
     },
     /**
      * checkProductValidity()

@@ -106,6 +106,24 @@
               ></b-form-select>
             </b-form-group>
             <b-form-group
+              label="Allow Negative Stock"
+              label-for="gs-t2-select-40"
+              label-cols-lg="2"
+              label-cols="3"
+              label-size="sm"
+            >
+              <template #label>
+                <translate>
+                  Allow Negative Stock
+                </translate>
+              </template>
+              <b-form-checkbox
+                switch
+                v-model="allowNegativeStock"
+              >
+              </b-form-checkbox>
+            </b-form-group>
+            <b-form-group
               label="Use Customer / Supplier ledgers to track transactions"
               label-for="gs-t2-select-30"
               label-cols-lg="2"
@@ -150,6 +168,7 @@
 // import axios from 'axios';
 import { mapState } from 'vuex';
 import { debounceEvent } from '../js/utils.js';
+import invoiceConfig from '../js/config/transaction/invoiceConfig';
 
 export default {
   name: 'Settings',
@@ -177,8 +196,31 @@ export default {
   watch: {},
   computed: {
     globalConf: (self) => self.$store.getters['global/getGlobalConfig'],
+    invoiceConf: {
+      get() {
+        return this.$store.getters['invoice/getCustomInvoiceConfig'];
+      },
+      set(checkStock) {
+        this.invoiceConf.bill.qty.checkStock = checkStock;
+      },
+    },
     options: (self) => self.$store.getters['global/getGlobalConfigOptions'],
     ...mapState(['yearStart', 'yearEnd', 'orgCode']),
+    allowNegativeStock: {
+      get() {
+        return !this?.invoiceConf?.bill?.qty?.checkStock;
+      },
+      set(isAllowed) {
+        this.invoiceConf = !isAllowed;
+      },
+    },
+  },
+  beforeMount() {
+    this.$store.registerModule('invoice', invoiceConfig);
+    this.$store.dispatch('invoice/initInvoiceConfig');
+  },
+  beforeDestroy() {
+    this.$store.unregisterModule('invoice');
   },
   methods: {
     displayToast(title, message, variant) {
@@ -211,6 +253,7 @@ export default {
             );
           }
         });
+      this.$store.dispatch('invoice/updateInvoiceConfig', this.invoiceConf);
     },
     checkMobileMode() {
       this.mobileMode = this.is_mobile();
