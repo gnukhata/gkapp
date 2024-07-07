@@ -1436,7 +1436,7 @@ export default {
               self.options.products = [];
               self.options.productData = {};
               resp.data.gkresult.forEach((item) => {
-                if (((this.saleFlag && parseInt(item.productquantity, 10) > 0) || (!this.saleFlag)) || (item.gsflag === 19)) {
+                if (((this.saleFlag && (!this.config.qty.checkStock || (parseInt(item.productquantity, 10) > 0))) || (!this.saleFlag)) || (item.gsflag === 19)) {
                   self.options.products.push({
                     id: item.productcode,
                     name: item.productdesc,
