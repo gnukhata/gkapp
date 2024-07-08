@@ -22,6 +22,19 @@
           <b-form-checkbox @input="updateAllTaxAndTotal" v-model="inclusiveFlag" name="check-button" switch>
           Inclusive of tax
         </b-form-checkbox> -->
+        <span class="float-left">
+          <b-form-checkbox
+            id="checkbox-stock"
+            v-model="form.allowNegativeStock"
+            @input="updateCheckStock"
+            name="checkbox-stock"
+            class="mt-1"
+            size="sm"
+            switch
+          >
+            Allow Negative Stock
+          </b-form-checkbox>
+        </span>
         <span class="float-right">
           <b-button
             v-if="showAddProduct"
@@ -163,6 +176,7 @@
               no-wheel
               step="0.01"
               min="0.01"
+              :max="(config.qty.checkStock && !form[data.item.index].isService) ? options.stock[data.item.pid] : null"
               @input="onQtyUpdate(data.item.index, data.item.pid)"
               :readonly="data.item.isService || disabled.qty"
               :tabindex="data.item.isService ? -1 : 0"
@@ -251,7 +265,6 @@
               no-wheel
               step="0.01"
               min="0"
-              :max="form[data.item.index].qty * form[data.item.index].rate"
               @input="updateTaxAndTotal(data.item.index)"
               required
             ></b-input>
@@ -586,6 +599,7 @@ export default {
           vat: { rate: 0, amount: 0 },
           total: 0,
           isService: false, // used to make certain fields readonly
+          allowNegativeStock: this.config.qty.checkStock,
         },
       ],
       options: {
@@ -807,7 +821,7 @@ export default {
       let result = [
         {
           rowSelected: false,
-          product: { id: '', name: '' },
+          product: { id: '', name: '',  quantity: ''},
           hsn: '',
           qty: null,
           packageCount: null,
@@ -832,6 +846,9 @@ export default {
       }
       // console.log(JSON.stringify(result));
       return result;
+    },
+    updateCheckStock() {
+      this.config.qty.checkStock = !this.form.allowNegativeStock;
     },
     /**
      * checkProductValidity()
@@ -1054,7 +1071,7 @@ export default {
       } else {
         Object.assign(this.form[index], {
           rowSelected: false,
-          product: { id: '', name: '' },
+          product: { id: '', name: '',  quantity: ''},
           hsn: '',
           qty: null,
           packageCount: null,
@@ -1088,7 +1105,8 @@ export default {
         */
 
         let tableData = this.form.map((item) => {
-          return { id: item.product.id, name: item.product.name };
+          const productData = self.options.products.find(p => p.id === item.product.id);
+          return { id: item.product.id, name: item.product.name, quantity: productData.quantity};
         });
         this.fetchBusinessList().then(() => {
           let billCount = self.form.length;
@@ -1141,7 +1159,7 @@ export default {
     addBillItem() {
       this.form.push({
         rowSelected: false,
-        product: { id: '', name: '' },
+        product: { id: '', name: '',  quantity: ''},
         hsn: '',
         qty: null,
         packageCount: null,
@@ -1270,7 +1288,7 @@ export default {
               item.taxable = parseFloat((rate * qty - discount * qty).toFixed(2));
 
               if (this.config.dcValue) {
-                item.taxable = parseFloat(item.dcValue || 0);
+                item.taxable = parseFloat(item.dcValue || 0) * qty;
               }
             } else {
               item.taxable = 0;
@@ -1320,7 +1338,7 @@ export default {
             item.taxable = parseFloat((rate * qty - discount * qty).toFixed(2));
 
             if (this.config.dcValue) {
-              item.taxable = parseFloat(item.dcValue || 0);
+              item.taxable = parseFloat(item.dcValue || 0) * qty;
             }
           } else {
             item.taxable = 0;

@@ -93,48 +93,22 @@ export default {
   data() {
     return {
       purchaseChartData: {
-        labels: [
-          'Jan',
-          'Feb',
-          'March',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Mar',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
-        ],
+        labels: this.info.purchase.map(item => item.month),
         datasets: [
           {
             label: 'Purchase Invoices',
             backgroundColor: '#f87979',
-            data: this.info.puchaseinvcount,
+            data: this.info.purchase.map(item => item.balance),
           },
         ],
       },
       saleChartData: {
-        labels: [
-          'Jan',
-          'Feb',
-          'March',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Mar',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
-        ],
+        labels: this.info.sale.map(item => item.month),
         datasets: [
           {
             label: 'Sale Invoices',
             backgroundColor: '#f87979',
-            data: this.info.saleinvcount,
+            data: this.info.sale.map(item => item.balance),
           },
         ],
       },

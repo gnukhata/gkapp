@@ -203,7 +203,7 @@
     <print-page
       :show="showPrintModal"
       name="DebitCreditNote"
-      :title="isCredit ? 'Credit Note' : 'Debit Note'"
+      :title="titleName"
       :id="dcnoteId"
       :pdata="{}"
       @hidden="showPrintModal = false"
@@ -267,6 +267,7 @@ export default {
         },
         total: {},
       },
+      titleName: '',
       showPrintModal: false,
       dcnoteId: 0,
       vuexNameSpace: '',
@@ -443,6 +444,7 @@ export default {
                     }`,
                   };
                   axios.post('/log', log);
+                  this.titleName = (this.form.dcNote.type === 'credit') ? 'Credit Note' : 'Debit Note';
                   self.resetForm();
                   this.showPrintModal = true;
                   self.preloadData();
@@ -538,15 +540,21 @@ export default {
                     }
                   : { id: inv.sourcestatecode, name: inv.sourcestate },
             });
-            this.form.invoice.taxState = {
-              id: `${inv.taxstatecode}`,
-              name: self.options.stateMap.id[inv.taxstatecode],
-            };
-            Object.assign(this.form.party, {
-              name: inv.custSupDetails.custname,
-              type: inv.custSupDetails.csflag === 3 ? 'customer' : 'supplier',
-            });
-
+            if(inv.icflag === 3) {
+              this.form.invoice.taxState = {
+                id: `${inv.sourcestatecode}`,
+                name: self.options.stateMap.id[inv.sourcestatecode],
+              };
+            } else {
+              this.form.invoice.taxState = {
+                id: `${inv.taxstatecode}`,
+                name: self.options.stateMap.id[inv.taxstatecode],
+              };
+              Object.assign(this.form.party, {
+                name: inv.custSupDetails.custname,
+                type: inv.custSupDetails.csflag === 3 ? 'customer' : 'supplier',
+              });
+            }
             let item, billItem;
             self.form.bill = [];
             for (const itemCode in inv.invcontents) {
@@ -574,6 +582,7 @@ export default {
 
             if (inv.dcid) {
               self.form.invoice.dcid = inv.dcid;
+              self.form.invoice.icflag = inv.icflag;
               self.fetchDelNoteGodown(inv.dcid);
             }
 

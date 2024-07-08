@@ -96,7 +96,7 @@
             v-model="form.name"
             @change="onPartyNameSelect(form.name)"
             :required="true"
-            :disabled="editFlag || isNameDisabled || editInvoice"
+            :disabled="(editFlag || isNameDisabled || editInvoice) && !!form.name?.name"
             :clearable="true"
           >
             <b-form-select-option
@@ -113,7 +113,7 @@
             v-model="form.name"
             @change="onPartyNameSelect(form.name)"
             :required="true"
-            :disabled="editFlag || isNameDisabled|| editInvoice"
+            :disabled="(editFlag || isNameDisabled|| editInvoice) && !!form.name?.name"
             :clearable="false"
             :rules="[v => !!form.name || 'Please select an option']"
           >
@@ -266,7 +266,7 @@
             @click.prevent="onPartyEdit(true)"
             variant="success"
             size="sm"
-            :disabled="!isValidGstin"
+            :disabled="!!form.gstin && !isValidGstin"
           >
             <b-icon
               aria-hidden="true"
@@ -367,7 +367,10 @@ export default {
           custid: null,
           name: { name: '' },
           addr: null,
-          state: {},
+          state: {
+            id: null,
+            name: '',
+          },
           gstin: null,
           tin: null,
           pin: null,
@@ -391,7 +394,10 @@ export default {
         custid: null,
         name: { name: '' },
         addr: null,
-        state: {},
+        state: {
+          id: null,
+          name: '',
+        },
         gstin: null,
         tin: null,
         pin: null,
@@ -409,7 +415,10 @@ export default {
       loading: false,
       editMode: {
         addr: null,
-        state: {},
+        state: {
+          id: null,
+          name: '',
+        },
         gstin: null,
         pin: null,
       },
@@ -470,7 +479,7 @@ export default {
         let stateData = this.options.states.find(
           (state) => state.value.id === statecode
         );
-        this.form.state = typeof stateData === 'object' ? stateData.value : {};
+        this.form.state = typeof stateData === 'object' ? stateData.value : this.form.state;
       }
     },
     onUpdateDetails() {
@@ -490,7 +499,10 @@ export default {
           states: [],
           gstin: null,
         },
-        state: {},
+        state: {
+          id: null,
+          name: '',
+        },
         pin: '',
         gstin: '',
         checksum: '',
@@ -598,11 +610,11 @@ export default {
           states,
           gstin: data.gstin,
         },
-        state: typeof states[0] === 'object' ? states[0].value : '',
+        state: typeof states[0]?.value === 'object' ? states[0].value : this.form.state,
         pan: data.custpan,
         checksum: '',
         pin: data.pincode,
-        gstin: '',
+        gstin:  data.gstin ? data.gstin[states[0]?.value.id] : '',
         tin: data.custtan || null,
       });
 
@@ -645,7 +657,10 @@ export default {
             gstin: [],
           },
           addr: null,
-          state: {},
+          state: {
+            id: null,
+            name: '',
+          },
           gstin: null,
           tin: null,
           pin: null,
@@ -658,7 +673,10 @@ export default {
       this.form = {
         name: { name: '' },
         address: null,
-        state: '',
+        state: {
+          id: null,
+          name: '',
+        },
         contactNumber: null,
         contactPerson: null,
       };

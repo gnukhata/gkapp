@@ -31,10 +31,10 @@
         <config
           v-if="user_role === -1"
           title="Invoice Page Configuration"
-          :getDefault="`${this.vuexNameSpace}/getDefaultInvoiceConfig`"
-          :setCustom="`${this.vuexNameSpace}/updateInvoiceConfig`"
-          :getCustom="`${this.vuexNameSpace}/getCustomInvoiceConfig`"
-          confirmMessage="Invoice page config will be applied organisation wide. Do you want to proceed?"
+          :get-default="`${this.vuexNameSpace}/getDefaultInvoiceConfig`"
+          :set-custom="`${this.vuexNameSpace}/updateInvoiceConfig`"
+          :get-custom="`${this.vuexNameSpace}/getCustomInvoiceConfig`"
+          confirm-message="Invoice page config will be applied organisation wide. Do you want to proceed?"
           @update="resetForm"
         >
         </config>
@@ -46,32 +46,32 @@
         <!-- Buyer/Seller Details -->
         <party-details
           :mode="form.type"
-          :parentData="form.party"
-          :gstFlag="isGst"
-          :invoiceParty="invoiceParty"
+          :parent-data="form.party"
+          :gst-flag="isGst"
+          :invoice-party="invoiceParty"
           :config="config.party"
-          :saleFlag="isSale"
+          :sale-flag="isSale"
           @details-updated="onComponentDataUpdate"
-          :updateCounter="updateCounter.party"
+          :update-counter="updateCounter.party"
           ref="party"
         >
         </party-details>
         <!-- Invoice Details -->
         <invoice-details
           :config="config.inv"
-          :saleFlag="isSale"
-          :parentData="form.inv"
+          :sale-flag="isSale"
+          :parent-data="form.inv"
           @details-updated="onComponentDataUpdate"
-          :updateCounter="updateCounter.inv"
+          :update-counter="updateCounter.inv"
           ref="inv"
         ></invoice-details>
         <!-- Shipping Details -->
         <ship-details
-          :gstFlag="isGst"
-          :saleFlag="isSale"
-          :billingDetails="form.party"
-          :organisationDetails="options.orgDetails"
-          :updateCounter="updateCounter.ship"
+          :gst-flag="isGst"
+          :sale-flag="isSale"
+          :billing-details="form.party"
+          :organisation-details="options.orgDetails"
+          :update-counter="updateCounter.ship"
           :config="config.ship"
           ref="ship"
         >
@@ -90,18 +90,18 @@
       </div>
       <!-- Bill Table -->
       <bill-table
-        :gstFlag="isGst"
+        :gst-flag="isGst"
         :config="config.bill"
         @details-updated="onComponentDataUpdate"
-        :updateCounter="updateCounter.bill"
-        :parentData="form.bill"
-        :cgstFlag="isCgst"
+        :update-counter="updateCounter.bill"
+        :parent-data="form.bill"
+        :cgst-flag="isCgst"
         ref="bill"
-        :godownId="goid"
-        :saleFlag="isSale"
-        :blockEmptyStock="isSale"
-        :invDate="form.inv.date"
-        :taxState="taxState"
+        :godown-id="goid"
+        :sale-flag="isSale"
+        :block-empty-stock="isSale"
+        :inv-date="form.inv.date"
+        :tax-state="taxState"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
@@ -111,10 +111,10 @@
           <b-col cols="12" lg="6">
             <total-table
               :config="config.total"
-              :gstFlag="isGst"
-              :billData="form.bill"
-              :updateCounter="updateCounter.totalTable"
-              :cgstFlag="isCgst"
+              :gst-flag="isGst"
+              :bill-data="form.bill"
+              :update-counter="updateCounter.totalTable"
+              :cgst-flag="isCgst"
               ref="totalTable"
             ></total-table>
           </b-col>
@@ -124,11 +124,11 @@
         <!-- Payment Details -->
         <payment-details
           ref="payment"
-          :updateCounter="updateCounter.payment"
+          :update-counter="updateCounter.payment"
           :config="config.payment"
-          :saleFlag="isSale"
-          :parentData="form.payment"
-          :optionsData="{
+          :sale-flag="isSale"
+          :parent-data="form.payment"
+          :options-data="{
             payModes: options.payModes,
           }"
           @details-updated="onComponentDataUpdate"
@@ -137,9 +137,9 @@
         <transport-details
           ref="transport"
           :config="config.transport"
-          :updateCounter="updateCounter.transport"
-          :parentData="form.transport"
-          :invDate="form.inv.date"
+          :update-counter="updateCounter.transport"
+          :parent-data="form.transport"
+          :inv-date="form.inv.date"
           @details-updated="onComponentDataUpdate"
         ></transport-details>
         <!-- Invoice Comments -->
@@ -147,9 +147,9 @@
           :name="`Invoice`"
           ref="narration"
           :config="config.comments"
-          :updateCounter="updateCounter.comments"
-          :parentData="form.comments"
-          :placeHolder="defaultNarration"
+          :update-counter="updateCounter.comments"
+          :parent-data="form.comments"
+          :place-holder="defaultNarration"
         ></comments>
       </b-card-group>
       <b-tooltip
@@ -168,8 +168,8 @@
       <attachments
         class="mt-2"
         ref="attachments"
-        :updateCounter="updateCounter.attachments"
-        :parentData="form.attachments"
+        :update-counter="updateCounter.attachments"
+        :parent-data="form.attachments"
       >
       </attachments>
       <hr />
@@ -314,11 +314,20 @@ export default {
       form: {
         type: 'sale', // purchase
         inv: {
-          state: { id: null },
-          taxState: { id: null },
+          state: {
+            id: null,
+            name: '',
+          },
+          taxState: {
+            id: null,
+            name: '',
+          },
         },
         party: {
-          state: { id: null },
+          state: {
+            id: null,
+            name: '',
+          },
         },
         ship: {},
         taxType: 'gst', // vat
@@ -473,22 +482,10 @@ export default {
     isGst: (self) => self.form.taxType === 'gst',
     isCgst: (self) => {
       if (
-        self.form.inv.state &&
-        (self.form.inv.taxState || self.form.party.state)
+        parseInt(self.form.inv.state.id) ===
+        parseInt(self.form.inv.taxState.id)
       ) {
-        if (self.form.inv.taxState) {
-          if (
-            parseInt(self.form.inv.state.id) ===
-            parseInt(self.form.inv.taxState.id)
-          ) {
-            return true;
-          }
-        } else if (
-          parseInt(self.form.inv.state.id) ===
-          parseInt(self.form.party.state.id)
-        ) {
-          return true;
-        }
+        return true;
       }
       return false;
     },
@@ -583,6 +580,7 @@ export default {
 
             this.goid = payload.data.godown || -1;
             Object.assign(this.form.inv, payload.data);
+            this.form.inv.taxState = payload.data.placeOfSupply;
             // if (!this.isCreate) {
             //   this.form.inv.no = oldInvNo;
             // }
@@ -1428,12 +1426,21 @@ export default {
       this.form = {
         type: type,
         inv: {
-          state: { id: null },
-          taxState: { id: null, name: '' },
+          state: {
+            id: null,
+            name: '',
+          },
+          taxState: {
+            id: null,
+            name: '',
+          },
         },
         party: {
           name: false,
-          state: { id: null },
+          state: {
+            id: null,
+            name: '',
+          },
         },
         ship: {},
         taxType: 'gst', // vat

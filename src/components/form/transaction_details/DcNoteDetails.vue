@@ -254,7 +254,7 @@ export default {
           },
           {
             text: this.$gettext('Correction in Invoice'),
-            value: DR_CR_MODE['inv_correction'],
+            value: DR_CR_MODE['discount'],
           },
           {
             text: this.$gettext('Change in POS'),

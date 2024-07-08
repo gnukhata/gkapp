@@ -124,14 +124,17 @@
           <b-input-group size="sm" prepend="₹">
             <b-form-input
               size="sm"
+              type="number"
+              step="0.01"
               v-model="details.discountamount"
-              @blur="calculateDiscount"
             ></b-form-input>
           </b-input-group>
           <b-input-group label-size="sm" size="sm" class="mt-1" prepend="%">
             <b-form-input
               size="sm"
-              v-model="details.discountpercent"
+              type="number"
+              step="0.01"
+              v-model="discountPercentage"
             ></b-form-input>
           </b-input-group>
         </b-form-group>
@@ -494,7 +497,20 @@ export default {
       self.tax.gst.reduce((acc, gst) => acc && gst.dateValidity, true),
     isProduct: (self) => self.details.gsflag === 7,
     gstRates: (self) => self.$store.getters['global/getGstRates'],
-
+    discountPercentage: {
+      get: function () {
+        return parseFloat(
+          parseFloat(
+            this.details.discountamount * 100 / this.details.prodsp
+          ).toFixed(2)
+        );
+      },
+      set: function (discount) {
+        this.details.discountamount = parseFloat(
+          discount * this.details.prodsp / 100
+        ).toFixed(2);
+      }
+    },
     ...mapState(['orgGstin', 'gkCoreUrl', 'authToken', 'yearStart', 'yearEnd']),
   },
   methods: {
@@ -503,11 +519,6 @@ export default {
         return godown.id === id;
       });
       return found;
-    },
-    calculateDiscount() {
-      this.details.discountpercent = parseFloat(
-        parseFloat((this.details.discountamount / this.details.prodsp) * 100)
-      ).toFixed(2);
     },
     scrollToGodownCard() {
       document

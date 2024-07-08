@@ -115,14 +115,19 @@
           <template #label> <translate> Place of Supply </translate> </template>
           <b-form-select
             id="ivd-input-11"
-            v-model="form.taxState"
-            :options="options.states"
+            v-model="form.placeOfSupply"
             :required="true"
             @input="onUpdateDetails"
             :disabled="disabled.supplySt"
-            value-field="name" 
-            text-field="name"
-          ></b-form-select>
+          >
+            <b-form-select-option
+              v-for="option in options.states"
+              :key="option?.id"
+              :value="option"
+            >
+              {{ option.name }}
+            </b-form-select-option>
+          </b-form-select>
         </b-form-group>
         <b-form-group
           :label="saleFlag ? 'From Godown' : 'To Godown'"
@@ -229,16 +234,21 @@
               label-cols="3"
             >
               <template #label> <translate> State </translate> </template>
-              <v-select
+              <b-form-select
                 id="ivd-input-70"
                 v-model="form.state"
-                :options="options.states"
-                required
+                :required="true"
                 :disabled="true"
-                :tabindex="-1"
-                label="name"
+                :clearable="true"
               >
-              </v-select>
+                <b-form-select-option
+                  v-for="option in options.states"
+                  :key="option?.id"
+                  :value="option"
+                >
+                  {{ option.name }}
+                </b-form-select-option>
+              </b-form-select>
             </b-form-group>
           </b-col>
         </b-row>
@@ -348,10 +358,16 @@ export default {
         addr: null,
         pin: null,
         gstin: null,
-        state: { name: '' },
+        state: {
+          id: null,
+          name: '',
+        },
         issuer: null,
         role: null,
-        taxState: { name: '' },
+        placeOfSupply: {
+          id: null,
+          name: '',
+        },
       },
       dnNo: null, // delivery note number
       options: {
@@ -431,16 +447,12 @@ export default {
             self.form.supinvdate = self.parentData.supinvdate;
           }
 
-          if (self.parentData.state) {
-            if (self.parentData.state.id) {
-              self.form.state = self.parentData.state;
-            }
+          if (self.parentData.state.id) {
+            self.form.state = self.parentData.state;
           }
 
-          if (self.parentData.taxState) {
-            if (self.parentData.taxState.id) {
-              self.form.taxState = self.parentData.taxState.name;
-            }
+          if (self.parentData.taxState.id) {
+            self.form.placeOfSupply = self.parentData.taxState;
           }
 
           if (self.parentData.godown) {
@@ -668,12 +680,11 @@ export default {
           Object.assign(this.form, {
             addr: this.options.orgDetails.orgaddr,
             pin: this.options.orgDetails.orgpincode,
-            state: state || { name: '' },
+            state: state || this.form.state,
             options: {
               gstin: gstin,
             },
             gstin: gstin && state ? gstin[stateCode] : '',
-            taxState: { name: '' },
           });
         }
       }
@@ -745,7 +756,10 @@ export default {
       const self = this;
       this.setOrgDetails();
       if (this.disabled.state) {
-        this.form.state = '';
+        this.form.state = {
+          id: null,
+          name: '',
+        };
       }
       this.form.date = !this.disabled.date ? this.getNoteDate() : '';
       if (!this.disabled.no) {

@@ -14,9 +14,9 @@
               </span><br />
               <span> {{ party.addr }} </span> <br />
               <span> {{ party.state }} </span> <br />
-              <span> <b v-translate> Pin Code: </b> {{ party.pin }} </span>
+              <span v-if="party.pin"> <b v-translate> Pin Code: </b> {{ party.pin }} </span>
               <br />
-              <span> <b> GSTIN: </b> {{ party.gstin }} </span> <br />
+              <span v-if="party.gstin"> <b> GSTIN: </b> {{ party.gstin }} </span> <br />
             </p>
           </b-col>
           <b-col class="px-0">
@@ -25,9 +25,9 @@
               <span> {{ shipping.name }} </span> <br />
               <span> {{ shipping.addr }} </span> <br />
               <span> {{ shipping.state }} </span> <br />
-              <span> <b v-translate> Pin Code: </b> {{ shipping.pin }} </span>
+              <span v-if="shipping.pin"> <b v-translate> Pin Code: </b> {{ shipping.pin }} </span>
               <br />
-              <span> <b> GSTIN: </b> {{ shipping.gstin }} </span> <br />
+              <span v-if="shipping.gstin"> <b> GSTIN: </b> {{ shipping.gstin }} </span> <br />
             </p>
           </b-col>
           <br class="d-none d-md-block" />
@@ -149,6 +149,7 @@ export default {
         godown: '',
         contents: [],
         narration: '',
+        roundoffflag: '',
       },
       payment: {
         mode: 2,
@@ -213,9 +214,11 @@ export default {
           title: self.saleFlag
             ? self.$gettext('Sale Order Value')
             : self.$gettext('Purchase Order Value'),
-          value: Math.round(self.total.amount).toFixed(2),
+          value: self.total.roundoffflag ? Math.round(self.total.amount).toFixed(2) : self.total.amount,
         },
-        { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(self.total.amount))}
+        { title: self.$gettext('Total In Words'),
+         value: self.total.roundoffflag ? numberToRupees(Math.round(self.total.amount)) : numberToRupees(self.total.amount),
+        }
       );
       return total;
     },
@@ -279,6 +282,7 @@ export default {
         taxable: details.totaltaxablevalue,
         text: details.pototalwords || numberToRupees(details.totaltaxablevalue),
         isVat: details.taxname === 'VAT',
+        roundoffflag: details.roundoffflag,
       };
 
       this.payment = {
