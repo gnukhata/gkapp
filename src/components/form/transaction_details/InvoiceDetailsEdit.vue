@@ -119,7 +119,7 @@
             :options="options.states"
             :required="true"
             @input="onUpdateDetails"
-            :disabled="disabled.supplySt"
+            :disabled="disabled.supplySt && (selectedValue !== 12)"
             label="name"
           ></v-select>
         </b-form-group>
@@ -295,6 +295,7 @@ import axios from 'axios';
 // import { mapState } from 'vuex';
 import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
+import { EventBus } from '@/js/eventBus';
 
 export default {
   name: 'InvoiceDetails',
@@ -328,6 +329,7 @@ export default {
   },
   data() {
     return {
+      selectedValue: '',
       isCollapsed: true,
       isPreloading: false,
       invNo: {
@@ -479,7 +481,13 @@ export default {
     //   });
     // },
   },
+  created() {
+    EventBus.$on('dropdown-change', this.handleDropdownChange);
+  },
   methods: {
+    handleDropdownChange(value) {
+      this.selectedValue = value;
+    },
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
@@ -789,5 +797,8 @@ export default {
       self.resetForm(true);
     });
   },
+  beforeDestroy() {
+    EventBus.$off('dropdown-change', this.handleDropdownChange);
+  }
 };
 </script>
