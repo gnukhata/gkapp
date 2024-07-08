@@ -157,7 +157,7 @@
       <b-collapse class="m-3" id="financial">
         <b-form-group label="GSTIN" label-for="nested-state" label-cols="3">
           <template #label> <translate> GSTIN </translate> </template>
-          <gk-gstin @validity="onGstinUpdate" v-model="gstin.gstin"> </gk-gstin>
+          <gk-gstin @validity="onGstinUpdate" @gstin_data="onGstinDataFetched" v-model="gstin.gstin"> </gk-gstin>
         </b-form-group>
         <b-form-group
           label="PAN"
@@ -364,6 +364,13 @@ export default {
     autofillIfsc(data) {
       this.bankDetails.bankname = data.BANK;
       this.bankDetails.branchname = data.BRANCH;
+    },
+    /**GSTIN methods start*/
+    onGstinDataFetched({ addr, name, pincode, pan }) {
+      this.details.custaddr = addr;
+      this.details.custname = name;
+      this.details.pincode = pincode;
+      this.details.custpan = pan;
     },
     onGstinUpdate({ validity, stateCode, pan, checksum }) {
       if (validity.format) {
