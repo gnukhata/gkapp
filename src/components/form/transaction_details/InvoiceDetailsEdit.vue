@@ -119,7 +119,7 @@
             :options="options.states"
             :required="true"
             @input="onUpdateDetails"
-            :disabled="disabled.supplySt && (selectedValue !== 12)"
+            :disabled="disabled.supplySt && (selectedPurpose !== 12)"
             label="name"
           ></v-select>
         </b-form-group>
@@ -329,7 +329,7 @@ export default {
   },
   data() {
     return {
-      selectedValue: '',
+      selectedPurpose: '',
       isCollapsed: true,
       isPreloading: false,
       invNo: {
@@ -486,7 +486,7 @@ export default {
   },
   methods: {
     handleDropdownChange(value) {
-      this.selectedValue = value;
+      this.selectedPurpose = value;
     },
     setDateValidity(validity) {
       this.date.valid = validity;
