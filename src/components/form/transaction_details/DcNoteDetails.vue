@@ -120,6 +120,7 @@
             tabindex="-1"
             @input="onUpdateDetails"
             :options="options.drcrModes"
+            @change="onDropdownChange"
           >
           </b-form-select>
         </b-form-group>
@@ -186,6 +187,7 @@ import axios from 'axios';
 import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 import { DR_CR_MODE } from '@/js/enum.js';
+import { EventBus } from '@/js/eventBus';
 export default {
   name: 'DcNoteDetails',
   components: {
@@ -308,6 +310,9 @@ export default {
     },
   },
   methods: {
+    onDropdownChange(value) {
+      EventBus.$emit('dropdown-change', value);
+    },
     onNoteTypeUpdate() {
       this.setNoteNo();
       this.onUpdateDetails();
