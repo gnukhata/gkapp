@@ -783,6 +783,11 @@ export default {
     },
     saleFlag() {
       this.fetchBusinessList();
+      this.form.forEach((item, index) => {
+        if (item?.product?.id) {
+          this.fetchProductDetails(item.product.id, index);
+        }
+      });
     },
     godownId() {
       // this.fetchStockOnHandData();
@@ -903,7 +908,7 @@ export default {
               Object.assign(self.form[index], {
                 hsn: data.gscode,
                 isService: data.gsflag === 19,
-                rate: data.prodsp,
+                rate: this.saleFlag ? data.prodsp : data.prodmrp,
                 qty: 1,
                 discount: {
                   rate: data.discountpercent,
