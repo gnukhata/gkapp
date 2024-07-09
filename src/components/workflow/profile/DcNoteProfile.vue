@@ -20,7 +20,7 @@
                     inv.icflag === 3
                       ? 'Transactions-CashMemo': 
                       'Transactions-Invoice',
-                  wfId: inv.invid,
+                  wfId: inv.id,
                 },
               }"
               >{{inv.icflag === 3 ? 'View Cash Memo' : 'View Invoice'}}
