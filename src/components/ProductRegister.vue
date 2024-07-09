@@ -124,8 +124,8 @@
               productId
             }&productdesc=${productId.label}&godownflag=1&goid=${
               this.godownId
-            }&goname=${getGodownName(this.godownId).text}&goaddr=${
-              getGodownName(this.godownId).text
+            }&goname=${getGodownName(this.godownId)?.text}&goaddr=${
+              getGodownName(this.godownId)?.text
             }&fystart=${dateReverse(this.yearStart)}&fyend=${dateReverse(
               this.yearEnd
             )}&orgname=${this.orgName}&orgtype=${this.orgType}`
@@ -624,6 +624,7 @@ export default {
         })[0];
         this.toDate = params.to;
         this.godownId = params.godown_id;
+        this.productId = this.productId?.id;
         this.getGodownStock();
       }
     },
