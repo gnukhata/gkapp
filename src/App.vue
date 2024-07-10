@@ -164,7 +164,7 @@ export default {
   },
   methods: {
     /**
-     * fetch latest app changes, only when gkapp-config.json has it enabled
+     * fetch latest app changes if FETCH_LATEST_VERSION is set to true in .env
      */
     upgradeAppToLatestVersion() {
       if (this.gkConfig.fetch_latest_version) {
@@ -184,7 +184,7 @@ export default {
         });
       } else {
         console.warn(
-          'Pulling latest app changes is disabled in the gkapp-config.json'
+          'Pulling latest app changes is disabled in the .env file'
         );
       }
     },

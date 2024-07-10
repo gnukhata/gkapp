@@ -63,8 +63,7 @@ To generate the translations: `npm run translate-extract` & then run `npm run tr
 
 ## Configuration
 
-After building, You can customize gkapp with `gkapp-config.json`. Example config file is located in the `public` dir, It helps customizing some aspects of gkapp. Useful for
-those who self host an instance of gkapp.
+To customize gkapp, create a new file named `.env.local` by copying the `.env` file in this repo and make necessary changes.
 
 ## License
 
