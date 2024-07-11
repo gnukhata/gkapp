@@ -168,7 +168,7 @@ export default {
       this.isLoading = true;
       axios
         .get(
-          `/report?type=cashflow&calculatefrom=${this.fromDate}&calculateto=${this.toDate}&financialstart=${this.yearStart}`
+          `/reports/cash-flow?calculatefrom=${this.fromDate}&calculateto=${this.toDate}&financialstart=${this.yearStart}`
         )
         .then((r) => {
           if (r.status == 200) {

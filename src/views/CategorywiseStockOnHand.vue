@@ -264,7 +264,7 @@ export default {
       if (!this.showGodowns) {
         this.godownId = 'all';
       }
-      let url = `/report?type=categorywisestockonhand&categorycode=${this.categoryID}&subcategorycode=${this.subCategoryID}&enddate=${this.toDate}&goid=${this.godownId}&speccode=all`;
+      let url = `/reports/category-wise-stock-on-hand?categorycode=${this.categoryID}&subcategorycode=${this.subCategoryID}&enddate=${this.toDate}&goid=${this.godownId}&speccode=all`;
       axios
         .get(url)
         .then((r) => {

@@ -453,7 +453,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `/report?type=stockreport&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
+          `/reports/stock-report?productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
         )
         .then((r) => {
           const data = r.data;

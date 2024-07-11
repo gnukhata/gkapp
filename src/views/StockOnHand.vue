@@ -231,8 +231,8 @@ export default {
 
       let requests = [];
 
-      let url = `/report?godownwisestockonhand&type=pg&goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
-      let stockValueUrl = `/report?godownwise_stock_value&goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
+      let url = `/reports/godownwise-stock-on-hand?type=pg&goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
+      let stockValueUrl = `/reports/godownwise-stock-value?goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
       requests = [axios.get(url), axios.get(stockValueUrl)];
 
       Promise.all(requests)
