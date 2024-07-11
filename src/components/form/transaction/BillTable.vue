@@ -1098,7 +1098,7 @@ export default {
 
         let tableData = this.form.map((item) => {
           const productData = self.options.products.find(p => p.id === item.product.id);
-          return { id: item.product.id, name: item.product.name, quantity: productData.quantity};
+          return { id: item.product.id, name: item.product.name, quantity: productData?.quantity};
         });
         this.fetchBusinessList().then(() => {
           let billCount = self.form.length;

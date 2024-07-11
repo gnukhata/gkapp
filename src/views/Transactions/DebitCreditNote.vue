@@ -607,7 +607,13 @@ export default {
     },
     initPayload() {
       this.collectComponentData();
-      const isDiscount = this.form.dcNote.purpose === DR_CR_MODE['discount'];
+      const isDiscount = [
+          DR_CR_MODE['discount'],
+          DR_CR_MODE['pos_change'],
+          DR_CR_MODE['inv_correction'],
+          DR_CR_MODE['prov_assessment'],
+          DR_CR_MODE['pos_change'],
+      ].includes(this.form.dcNote.purpose);
       const isReturn = this.form.dcNote.purpose === DR_CR_MODE['returns'];
       let drcrdata = {
         invid: this.invId,
