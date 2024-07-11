@@ -385,9 +385,13 @@
 
         <!-- +/- Buttons -->
         <template #cell(addBtn)="data">
-          <b-button @click.prevent="deleteBillItem(data.item.index)" size="sm"
-            >-</b-button
+          <b-button
+            @click.prevent="deleteBillItem(data.item.index)"
+            :disabled="form.length < 2"
+            size="sm"
           >
+            -
+          </b-button>
         </template>
 
         <!-- Default fall-back custom formatted footer cell -->
