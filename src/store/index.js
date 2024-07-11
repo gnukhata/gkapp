@@ -271,12 +271,12 @@ export default new Vuex.Store({
       return axios.get("/organisation/gstin").then((resp) => {
         if (resp.data.gkstatus === 0) {
           let result = resp.data.gkresult;
-          let gstin = result.gstin != null && typeof result.gstin === "object"
-            ? result.gstin[result.stateCode]
-            : null;
-          if (gstin != null && result.stateCode < 10) {
-            gstin = result.gstin[`0${result.stateCode}`];
+  
+          if (result?.stateCode < 10) {
+            result.stateCode = `0${result.stateCode}`;
           }
+        
+          let gstin = result?.gstin?.[result.stateCode] ?? null;
           commit("setOrgGstin", gstin || null);
         }
       });
