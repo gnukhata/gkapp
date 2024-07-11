@@ -911,9 +911,9 @@ export default {
                 rate: this.saleFlag ? data.prodsp : data.prodmrp,
                 qty: 1,
                 discount: {
-                  rate: data.discountpercent,
-                  discountamount: self.config.discount ? data.discountamount : 0,
-                  amount: self.config.discount ? data.discountamount : 0,
+                  rate: this.saleFlag ? data.discountpercent : 0,
+                  discountamount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
+                  amount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
                 },
               });
             } else {
