@@ -344,6 +344,7 @@
               no-wheel
               step="0.01"
               min="0.00"
+              :max="Math.abs(form[data.item.index].qty * form[data.item.index].rate)"
               @input="updateTaxAndTotal(data.item.index, true)"
               @click="
                 updateRateField(
