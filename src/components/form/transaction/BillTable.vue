@@ -886,9 +886,9 @@ export default {
       let self = this;
       const stockPath =
         this.godownId === -1
-          ? '/report?stockonhandreport'
-          : '/report?godownwisestockonhand';
-      let stockParams = `&productcode=${id}&enddate=${this.endDate}`;
+        ? '/reports/stock-on-hand'
+        : '/reports/godownwise-stock-on-hand';
+      let stockParams = `?productcode=${id}&enddate=${this.endDate}`;
       if (this.godownId !== -1) {
         stockParams += `&goid=${this.godownId}&type=pg`;
       }
@@ -1369,8 +1369,8 @@ export default {
       // if godown id is -1, uses stockonhand, else uses godownwise stock on hand
       const url =
         this.godownId === -1
-          ? '/report?stockonhandreport'
-          : '/report?godownwisestockonhand';
+        ? '/reports/stock-on-hand'
+        : '/reports/godownwise-stock-on-hand';
       let params;
       if (self.godownId !== -1) {
         if (self.godownId === null) {
@@ -1384,7 +1384,7 @@ export default {
 
       this.isPreloading = true;
 
-      params = `&enddate=${this.endDate}`;
+      params = `?enddate=${this.endDate}`;
       if (self.godownId !== -1) {
         params += `&goid=${self.godownId}&type=apg`;
       } else {

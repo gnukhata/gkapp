@@ -112,7 +112,7 @@ const config = {
       }),
       axios
         .get(
-          `/report?type=del_unbilled&inout=i&inputdate=${date}&del_unbilled_type=0`
+          `/reports/del-unbilled?inout=i&inputdate=${date}&del_unbilled_type=0`
         )
         .catch((error) => {
           return error;
