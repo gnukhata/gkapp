@@ -344,7 +344,7 @@
               no-wheel
               step="0.01"
               min="0.00"
-              @input="updateTaxAndTotal(data.item.index)"
+              @input="updateTaxAndTotal(data.item.index, true)"
               @click="
                 updateRateField(
                   data.item.index,
@@ -1220,7 +1220,7 @@ export default {
      * Invoke it while updating qty, rate and discount fields
      *
      */
-    updateTaxAndTotal(index) {
+    updateTaxAndTotal(index, customDiscount=false) {
       let inclusiveFlag = this.inclusiveFlag; // sale price is inclusive of tax
       let item = this.form[index];
       if (item) {
@@ -1262,22 +1262,24 @@ export default {
             let rate = parseFloat(item.rate);
             let igst = parseFloat(item.igst.rate) || 0;
             let cess = parseFloat(item.cess.rate) || 0;
-            let discountamount = parseFloat(item.discount.amount) || 0;
             if (item.rate > 0) {
               let qty = item.qty;
               if (this.config.rejectedQty) {
                 qty = item.rejectedQty;
               }
 
+              const discountamount = parseFloat(item.discount.discountamount) || 0;
               const discount = this.config.dcValue ? 0 : discountamount;
-              item.discount.amount = parseFloat(discount) * qty
+              if (!customDiscount) {
+                item.discount.amount = (parseFloat(discount) * qty).toFixed(2);
+              }
               if (inclusiveFlag) {
                 // cess + gst + rate = item rate
                 let inclusiveRate = item.rate;
                 rate = inclusiveRate / (0.01 * igst + 0.01 * cess + 1);
               }
 
-              item.taxable = parseFloat((rate * qty - discount * qty).toFixed(2));
+              item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
 
               if (this.config.dcValue) {
                 item.taxable = parseFloat(item.dcValue || 0) * qty;
