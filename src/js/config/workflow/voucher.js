@@ -145,7 +145,7 @@ const config = {
         .catch((error) => {
           return error;
         }),
-      axios.get('/report?type=deletedvoucher').catch((error) => {
+      axios.get('/reports/deleted-voucher').catch((error) => {
         return error;
       }),
     ];

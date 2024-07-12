@@ -146,7 +146,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `/report?type=projectstatement&calculateto=${this.toDate}&financialstart=${this.fromDate}&projectcode=${this.projectId}`
+          `/reports/project-statement?&calculateto=${this.toDate}&financialstart=${this.fromDate}&projectcode=${this.projectId}`
         )
         .then((r) => {
           const data = r.data;

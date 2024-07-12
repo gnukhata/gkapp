@@ -180,7 +180,7 @@ export default {
         this.form[type][index].isLoading = true;
         axios
           .get(
-            `/report?type=closingbalance&accountcode=${accCode}&financialstart=${this.yearStart}&calculateto=${this.form.date}`
+            `/reports/closing-balance?accountcode=${accCode}&financialstart=${this.yearStart}&calculateto=${this.form.date}`
           )
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
