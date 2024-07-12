@@ -385,9 +385,13 @@
 
         <!-- +/- Buttons -->
         <template #cell(addBtn)="data">
-          <b-button @click.prevent="deleteBillItem(data.item.index)" size="sm"
-            >-</b-button
+          <b-button
+            @click.prevent="deleteBillItem(data.item.index)"
+            :disabled="form.length < 2"
+            size="sm"
           >
+            -
+          </b-button>
         </template>
 
         <!-- Default fall-back custom formatted footer cell -->
@@ -783,6 +787,11 @@ export default {
     },
     saleFlag() {
       this.fetchBusinessList();
+      this.form.forEach((item, index) => {
+        if (item?.product?.id) {
+          this.fetchProductDetails(item.product.id, index);
+        }
+      });
     },
     godownId() {
       // this.fetchStockOnHandData();
@@ -903,12 +912,12 @@ export default {
               Object.assign(self.form[index], {
                 hsn: data.gscode,
                 isService: data.gsflag === 19,
-                rate: data.prodsp,
+                rate: this.saleFlag ? data.prodsp : data.prodmrp,
                 qty: 1,
                 discount: {
-                  rate: data.discountpercent,
-                  discountamount: self.config.discount ? data.discountamount : 0,
-                  amount: self.config.discount ? data.discountamount : 0,
+                  rate: this.saleFlag ? data.discountpercent : 0,
+                  discountamount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
+                  amount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
                 },
               });
             } else {
@@ -1089,7 +1098,7 @@ export default {
 
         let tableData = this.form.map((item) => {
           const productData = self.options.products.find(p => p.id === item.product.id);
-          return { id: item.product.id, name: item.product.name, quantity: productData.quantity};
+          return { id: item.product.id, name: item.product.name, quantity: productData?.quantity};
         });
         this.fetchBusinessList().then(() => {
           let billCount = self.form.length;

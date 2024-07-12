@@ -1019,10 +1019,6 @@ export default {
         }
       }
 
-      // if purchase invoice, place of supply is party state
-      if (this.isSale == false) {
-        invoice.taxstate = this.form.inv.state.name;
-      }
       // === GST/ VAT related data ===
       if (this.isGst) {
         invoice.taxflag = 7;
