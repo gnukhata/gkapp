@@ -612,7 +612,7 @@ export default {
           DR_CR_MODE['pos_change'],
           DR_CR_MODE['inv_correction'],
           DR_CR_MODE['prov_assessment'],
-          DR_CR_MODE['pos_change'],
+          DR_CR_MODE['service_deficiency'],
       ].includes(this.form.dcNote.purpose);
       const isReturn = this.form.dcNote.purpose === DR_CR_MODE['returns'];
       let drcrdata = {
