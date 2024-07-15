@@ -14,4 +14,4 @@ What are the steps required to achieve this
 
 Provide any resources to refer
 
-/label ~"Feature Request"
+/label ~"type::feature"
