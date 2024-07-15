@@ -477,7 +477,7 @@ export default {
       this.form.pan = pan;
       if (statecode) {
         let stateData = this.options.states.find(
-          (state) => state.value.id === statecode
+          (state) => state.value.id === parseInt(statecode, 10).toString()
         );
         this.form.state = typeof stateData === 'object' ? stateData.value : this.form.state;
       }
