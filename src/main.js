@@ -13,7 +13,7 @@ import translations from './locales/translations.json';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import globalMixins from '@/mixins/global.js';
-import defaultConfig from '../public/gkapp-config.json';
+import gkConfig from '@/js/config/gkConfig';
 
 Vue.config.productionTip = false;
 Vue.prototype.$workbox = wb;
@@ -34,46 +34,20 @@ Vue.use(GetTextPlugin, {
 });
 
 Vue.component('v-select', vSelect);
-// Vue.mixin(globalMixins);
 
 Vue.prototype.$reload = () => location.reload();
 
-function get_gk_config() {
-  console.log('init call');
-  let configFilePath = 'gkapp-config.json';
-  // if the webapp is hosted on web path instead of root domain, Eg: Gitlab pages,
-  // set file url path accordingly
-  if (window.location.pathname != '/') {
-    configFilePath =
-      window.location.origin + window.location.pathname + configFilePath;
-  } else {
-    configFilePath = '/' + configFilePath;
-  }
-  return fetch(configFilePath)
-    .then((r) => r.json())
-    .then((r) => {
-      console.log('init perform');
-      return r;
-    })
-    .catch(() => {
-      console.log('Using default gkconfig');
-      return defaultConfig;
-    });
-}
-
-get_gk_config().then((gkConfig) => {
-  globalMixins.data = function() {
-    return {
-      sidebarToggle: false,
-      user_role: Number,
-      gkConfig: gkConfig,
-    };
+globalMixins.data = function() {
+  return {
+    sidebarToggle: false,
+    user_role: Number,
+    gkConfig: gkConfig,
   };
-  Vue.mixin(globalMixins);
-  // console.log(gkConfMixin);
-  window.gkVue = new Vue({
-    router,
-    store,
-    render: (h) => h(App),
-  }).$mount('#app');
-});
+};
+Vue.mixin(globalMixins);
+
+window.gkVue = new Vue({
+  router,
+  store,
+  render: (h) => h(App),
+}).$mount('#app');
