@@ -238,6 +238,11 @@ Note that this is a consolidated report generated from organizations which are s
                   ></b-icon>
                   {{ data.value }}
                 </b-button>
+                <span
+                  v-else-if="data.item.isAccount && !data.item.groupAcccode"
+                >
+                  {{ data.value }}
+                </span>
                 <b-button
                   size="sm"
                   variant="link"
