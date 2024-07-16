@@ -469,15 +469,15 @@ export default {
     checkGstinValidity(r) {
       this.isValidGstin = r.validity.format;
     },
-    onGstinDataFetched({ addr, pincode, pan, statecode }) {
-      //      this.form.name = name;
+    onGstinDataFetched({ name, addr, pincode, pan, statecode }) {
+      this.form.name.name = name;
       this.form.addr = addr;
       //       this.form.state= {};
       this.form.pin = pincode;
       this.form.pan = pan;
       if (statecode) {
         let stateData = this.options.states.find(
-          (state) => state.value.id === statecode
+          (state) => state.value.id === parseInt(statecode, 10).toString()
         );
         this.form.state = typeof stateData === 'object' ? stateData.value : this.form.state;
       }
@@ -520,11 +520,6 @@ export default {
        * form.party.options = {'stateid': 'gstin', 'stateid2': 'gstin2}
        */
       if (this.form.options.gstin && this.form.state) {
-        let stateCode =
-          this.form.state.id < 9
-            ? `0${this.form.state.id}`
-            : this.form.state.id;
-        this.form.gstin = this.form.options.gstin[stateCode] || null;
         if (this.form.gstin) {
           this.form.checksum = this.form.gstin.substr(12, 3);
         }
@@ -614,7 +609,7 @@ export default {
         pan: data.custpan,
         checksum: '',
         pin: data.pincode,
-        gstin:  data.gstin ? data.gstin[states[0]?.value.id] : '',
+        gstin:  data.gstin ? Object.values(data.gstin)[0] : '',
         tin: data.custtan || null,
       });
 
