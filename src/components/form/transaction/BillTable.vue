@@ -1271,7 +1271,9 @@ export default {
 
               const discountamount = parseFloat(item.discount.discountamount) || 0;
               const discount = this.config.dcValue ? 0 : discountamount;
-              if (!customDiscount) {
+              if (customDiscount) {
+                item.discount.discountamount = (parseFloat(item.discount.amount) / (qty || 1)).toFixed(2);
+              } else {
                 item.discount.amount = (parseFloat(discount) * qty).toFixed(2);
               }
               if (inclusiveFlag) {
