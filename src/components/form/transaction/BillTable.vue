@@ -910,10 +910,11 @@ export default {
           if (resp1.data.gkstatus === 0) {
             let data = resp1.data.gkresult;
             if (!self.editCounter) {
+              const isService = (data.gsflag === 19);
               Object.assign(self.form[index], {
                 hsn: data.gscode,
-                isService: data.gsflag === 19,
-                rate: this.saleFlag ? data.prodsp : data.prodmrp,
+                isService: isService,
+                rate: (this.saleFlag || isService) ? data.prodsp : data.prodmrp,
                 qty: 1,
                 discount: {
                   rate: this.saleFlag ? data.discountpercent : 0,
