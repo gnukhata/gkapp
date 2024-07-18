@@ -229,7 +229,7 @@
       no-body
     >
       <template #header>
-        <div v-b-toggle.financial class="d-flex">
+        <div v-b-toggle.bank class="d-flex">
           <div class="mr-auto" v-translate>Bank Details</div>
           <div>
             <b-icon variant="light" icon="dash"></b-icon>
@@ -237,7 +237,7 @@
         </div>
       </template>
 
-      <b-collapse class="m-3" id="financial">
+      <b-collapse class="m-3" id="bank">
         <b-form-group label="IFSC" label-for="cp-bank-ifsc" label-cols="3">
           <!-- <b-form-input
                  id="cp-bank-ifsc"
