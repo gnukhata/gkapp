@@ -1301,13 +1301,14 @@ export default {
                 rate = inclusiveRate / (0.01 * igst + 0.01 * cess + 1);
               }
               const rateValue = this.crdrnote ? item.taxableamount : rate;
-              if (this.config.dcValue && this.purposeSelectedValue != 18) {
-                item.taxable = parseFloat(item.dcValue || 0) * qty;
+              if (this.crdrnote) {
+                if(!item.dcValue && (this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
+                  item.taxable = 0;
+                } else {
+                  item.taxable = parseFloat(item.dcValue || 0) * qty;
+                }
               } else {
                 item.taxable = parseFloat((rateValue * qty - item.discount.amount).toFixed(2));
-              }
-              if(!item.dcValue && (this.purposeSelectedValue != 18)) {
-                item.taxable = 0;
               }
             } else {
               item.taxable = 0;
@@ -1355,13 +1356,14 @@ export default {
             }
             const rateValue = this.crdrnote ? item.taxableamount : rate;
            
-            if (this.config.dcValue && this.purposeSelectedValue != 18) {
-              item.taxable = parseFloat(item.dcValue || 0) * qty;
+            if (this.crdrnote) {
+              if(!item.dcValue && (this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
+                item.taxable = 0;
+              } else {
+                item.taxable = parseFloat(item.dcValue || 0) * qty;
+              }
             } else {
-              item.taxable = parseFloat((rateValue * qty - discount * qty).toFixed(2));
-            }
-            if(!item.dcValue && (this.purposeSelectedValue != 18)) {
-              item.taxable = 0;
+              item.taxable = parseFloat((rateValue * qty - item.discount.amount).toFixed(2));
             }
           } else {
             item.taxable = 0;
