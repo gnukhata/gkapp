@@ -343,7 +343,6 @@
               style="max-width: 350px"
               v-model="godown.id"
               :options="options.godowns"
-              required="true"
               :disabled="isDropdownDisabled(godown.id)"
             >
               <template #first>
@@ -361,7 +360,6 @@
               no-wheel
               step="0.01"
               placeholder="Stock Qty"
-              required="true"
             ></b-form-input>
             <!-- godown stock value -->
             <b-form-input
@@ -372,7 +370,6 @@
               no-wheel
               step="0.01"
               placeholder="Stock Value (Cost Price x Stock Qty)"
-              required="true"
             ></b-form-input>
             <!-- delete godown button. only appears when there atleast one active godown -->
             <b-button
