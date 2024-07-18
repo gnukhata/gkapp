@@ -280,7 +280,7 @@
               :readonly="disabled.rate"
               :required="!disabled.rate"
             ></b-input>
-            <span v-else>{{ form[data.item.index].rate }}</span>
+            <span v-else>{{ crdrnote ? form[data.item.index].taxableamount : form[data.item.index].rate }}</span>
           </div>
         </template>
 
@@ -515,6 +515,12 @@ export default {
       default: false,
       note: 'Flag to block the selection of items with no stock',
     },
+    crdrnote: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: 'Flag to check bill table from credit/debit note',
+    },
     vatFlag: {
       type: Boolean,
       required: false,
@@ -599,6 +605,7 @@ export default {
         stock: {}, // stock data based on godown id
         godownStock: {},
       },
+      purposeSelectedValue: null,
     };
   },
   computed: {
@@ -754,6 +761,7 @@ export default {
             fqty: item.fqty,
             rate: item.rate,
             isService: item.isService,
+            taxableamount: item.taxableamount,
           });
         }
       });
@@ -875,6 +883,16 @@ export default {
         this.updateTaxAndTotal(index);
       }
       this.$forceUpdate();
+    },
+    handlePurposeChange(isPurposeChange) {
+      this.purposeSelectedValue = isPurposeChange;
+      this.processedItems = this.formItems().forEach((item, index) => {
+        if (this.purposeSelectedValue != 18) {
+          item.taxable = 0;
+          item.dcValue = '';
+        } 
+        return this.onQtyUpdate(index, item.pid);
+      });
     },
     /**
      * fetchProductDetails(id, index)
@@ -1282,11 +1300,14 @@ export default {
                 let inclusiveRate = item.rate;
                 rate = inclusiveRate / (0.01 * igst + 0.01 * cess + 1);
               }
-
-              item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
-
-              if (this.config.dcValue) {
-                item.taxable = parseFloat(item.dcValue || 0) * qty;
+              if (this.crdrnote) {
+                if(this.purposeSelectedValue && this.purposeSelectedValue != 18) {
+                  item.taxable = parseFloat(item.dcValue || 0) * qty;
+                } else {
+                  item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
+                }
+              } else {
+                item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
               }
             } else {
               item.taxable = 0;
@@ -1332,11 +1353,14 @@ export default {
               let inclusiveRate = item.rate;
               rate = inclusiveRate / (0.01 * vat + 1);
             }
-
-            item.taxable = parseFloat((rate * qty - discount * qty).toFixed(2));
-
-            if (this.config.dcValue) {
-              item.taxable = parseFloat(item.dcValue || 0) * qty;
+            if (this.crdrnote) {
+              if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
+                  item.taxable = parseFloat(item.dcValue || 0) * qty;
+                } else {
+                  item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
+                }
+            } else {
+              item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
             }
           } else {
             item.taxable = 0;

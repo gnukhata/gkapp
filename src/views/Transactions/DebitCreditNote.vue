@@ -97,6 +97,7 @@
         :creditFlag="isCredit"
         :invDate="form.invoice.date"
         :taxState="taxState"
+        :crdrnote=true
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -267,6 +268,7 @@ export default {
         },
         total: {},
       },
+      isPurposeChange: 4,
       titleName: '',
       showPrintModal: false,
       dcnoteId: 0,
@@ -359,6 +361,10 @@ export default {
             Object.assign(this.form.dcNote, payload.data);
             this.isInvDateValid = payload.options.isDateValid;
             if (oldPurpose !== payload.data.purpose) {
+              this.isPurposeChange = payload.data.purpose;
+              if (this.$refs.bill && typeof this.$refs.bill.handlePurposeChange === 'function') {
+                this.$refs.bill.handlePurposeChange(this.isPurposeChange);
+              }
               this.updateConfig(); // updates dcValue and qty field config
             }
           }
@@ -566,7 +572,7 @@ export default {
                 fqty: item.freeqty,
                 rate: parseFloat(item.priceperunit),
                 isService: item.gsflag === 19,
-
+                taxableamount: parseFloat(item.taxableamount),
                 // this will be overwritten with data from DB in the bill-table component
                 igst: { rate: 0 },
                 cgst: { rate: 0 },
