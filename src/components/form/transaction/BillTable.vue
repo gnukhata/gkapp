@@ -1302,10 +1302,10 @@ export default {
               }
               const rateValue = this.crdrnote ? item.taxableamount : rate;
               if (this.crdrnote) {
-                if(!item.dcValue && (this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
-                  item.taxable = 0;
-                } else {
+                if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
                   item.taxable = parseFloat(item.dcValue || 0) * qty;
+                } else {
+                  item.taxable = parseFloat((rateValue * qty).toFixed(2));
                 }
               } else {
                 item.taxable = parseFloat((rateValue * qty - item.discount.amount).toFixed(2));
