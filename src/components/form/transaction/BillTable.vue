@@ -519,7 +519,7 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-      note: 'Flag to block the selection of items with no stock',
+      note: 'Flag to check bill table from credit/debit note',
     },
     vatFlag: {
       type: Boolean,
@@ -1300,15 +1300,14 @@ export default {
                 let inclusiveRate = item.rate;
                 rate = inclusiveRate / (0.01 * igst + 0.01 * cess + 1);
               }
-              const rateValue = this.crdrnote ? item.taxableamount : rate;
               if (this.crdrnote) {
-                if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
+                if(this.purposeSelectedValue && this.purposeSelectedValue != 18) {
                   item.taxable = parseFloat(item.dcValue || 0) * qty;
                 } else {
-                  item.taxable = parseFloat((rateValue * qty).toFixed(2));
+                  item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
                 }
               } else {
-                item.taxable = parseFloat((rateValue * qty - item.discount.amount).toFixed(2));
+                item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
               }
             } else {
               item.taxable = 0;
@@ -1354,16 +1353,14 @@ export default {
               let inclusiveRate = item.rate;
               rate = inclusiveRate / (0.01 * vat + 1);
             }
-            const rateValue = this.crdrnote ? item.taxableamount : rate;
-           
             if (this.crdrnote) {
               if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
                   item.taxable = parseFloat(item.dcValue || 0) * qty;
                 } else {
-                  item.taxable = parseFloat((rateValue * qty).toFixed(2));
+                  item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
                 }
             } else {
-              item.taxable = parseFloat((rateValue * qty - item.discount.amount).toFixed(2));
+              item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
             }
           } else {
             item.taxable = 0;
