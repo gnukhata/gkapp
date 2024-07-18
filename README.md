@@ -21,7 +21,7 @@
 
 #### Demo Instance
 
-https://gnukhata.gitlab.io/gkapp
+https://try.gnukhata.org
 
 ## Quick Start
 
