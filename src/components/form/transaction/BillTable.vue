@@ -877,7 +877,8 @@ export default {
     },
     onQtyUpdate(index, pid) {
       if (
-        parseFloat(this.form[index].qty) <= this.options.stock[pid] ||
+        (parseFloat(this.form[index].qty) <= this.options.stock[pid]) ||
+        !this.config.qty.checkStock ||
         !this.saleFlag
       ) {
         this.updateTaxAndTotal(index);
