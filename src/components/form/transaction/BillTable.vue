@@ -17,7 +17,7 @@
         >
           <translate> Back </translate>
         </b-button>
-        <!-- 
+        <!--
           TODO: Move this option to global settings page
           <b-form-checkbox @input="updateAllTaxAndTotal" v-model="inclusiveFlag" name="check-button" switch>
           Inclusive of tax
@@ -494,7 +494,7 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-      note: `true if the org state and party state are the same 
+      note: `true if the org state and party state are the same
       (use CGST and SGST). If false use IGST.`,
     },
     creditFlag: {
@@ -519,7 +519,7 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-      note: `true if the org state and party state are the same 
+      note: `true if the org state and party state are the same
       (use VAT). If false use IGST.`,
     },
     invDate: {
@@ -663,7 +663,7 @@ export default {
         }
       } else if (self.vatFlag) {
         remove(['cgst', 'sgst', 'igst', 'cess']);
-      } 
+      }
       else {
         remove(['cgst', 'sgst', 'igst', 'cess']);
       }
