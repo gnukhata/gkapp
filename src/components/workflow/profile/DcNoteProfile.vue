@@ -282,9 +282,10 @@ export default {
           title: self.flags.credit
             ? self.$gettext('Credit Note Value')
             : self.$gettext('Debit Note Value'),
-          value: Math.round(self.total.reduct).toFixed(2),
+          value: self.total.roundoffflag ? Math.round(self.total.reduct).toFixed(2) : self.total.reduct,
         },
-        { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(self.total.reduct)) }
+        { title: self.$gettext('Total In Words'),
+          value: self.total.roundoffflag ? numberToRupees(Math.round(self.total.reduct)) : numberToRupees(self.total.reduct), }
       );
       return total;
     },
@@ -390,6 +391,7 @@ export default {
           narration: details.drcrnarration,
           no: details.drcrno,
           drcrmode: details.drcrmode,
+          roundoffflag: details.roundoffflag,
         };
         this.flags = {
           gst: details.taxname !== 'VAT',
@@ -425,7 +427,7 @@ export default {
             this.dcNote.dcItems.push({
               id: id,
               name: item.proddesc,
-              rate: item.priceperunit,
+              rate: item.reductionval,
               qty: item.qty,
               dcValue: item.reductionval,
               igst: item.taxrate,
