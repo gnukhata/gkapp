@@ -1115,6 +1115,8 @@ export default {
           }
           self.form[billCount - 1].product =
             self.options.products[productCount - 1];
+          self.form[billCount - 1].pid =
+            self.options.products[productCount - 1].id;
           self.fetchProductDetails(
             self.options.products[productCount - 1].id,
             billCount - 1
