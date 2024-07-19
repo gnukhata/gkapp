@@ -1092,38 +1092,37 @@ export default {
       this.showBusinessForm = false;
       let self = this;
 
-      if (!invalidProduct) {
-        /**
-        * Fetching the business list, clears the options variable and repopulates it.
-        * This action makes the autocomplete component's value null. To counter this
-        * the table data is copied by value before that and pasted afterwards.
-        */
+      if (invalidProduct) return;
 
-        let tableData = this.form.map((item) => {
-          const productData = self.options.products.find(p => p.id === item.product.id);
-          return { id: item.product.id, name: item.product.name, quantity: productData?.quantity};
+      /**
+      * Fetching the business list, clears the options variable and repopulates it.
+      * This action makes the autocomplete component's value null. To counter this
+      * the table data is copied by value before that and pasted afterwards.
+      */
+      let tableData = this.form.map((item) => {
+        const productData = self.options.products.find(p => p.id === item.product.id);
+        return { id: item.product.id, name: item.product.name, quantity: productData?.quantity};
+      });
+      this.fetchBusinessList().then(() => {
+        let billCount = self.form.length;
+        let productCount = self.options.products.length;
+        tableData.forEach((item, i) => {
+          self.form[i].product = item;
         });
-        this.fetchBusinessList().then(() => {
-          let billCount = self.form.length;
-          let productCount = self.options.products.length;
-          tableData.forEach((item, i) => {
-            self.form[i].product = item;
-          });
-          if (self.form[billCount - 1].product.id) {
-            self.addBillItem();
-            billCount++;
-          }
-          self.form[billCount - 1].product =
-            self.options.products[productCount - 1];
-          self.form[billCount - 1].pid =
-            self.options.products[productCount - 1].id;
-          self.fetchProductDetails(
-            self.options.products[productCount - 1].id,
-            billCount - 1
-          );
-          self.$forceUpdate();
-        });
-      }
+        if (self.form[billCount - 1].product.id) {
+          self.addBillItem();
+          billCount++;
+        }
+        self.form[billCount - 1].product =
+          self.options.products[productCount - 1];
+        self.form[billCount - 1].pid =
+          self.options.products[productCount - 1].id;
+        self.fetchProductDetails(
+          self.options.products[productCount - 1].id,
+          billCount - 1
+        );
+        self.$forceUpdate();
+      });
     },
     /**
      * getTotal(key)
