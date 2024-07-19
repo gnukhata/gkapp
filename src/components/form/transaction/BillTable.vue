@@ -920,6 +920,7 @@ export default {
                   rate: this.saleFlag ? data.discountpercent : 0,
                   discountamount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
                   amount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
+                  customamount: false,
                 },
               });
             } else {
@@ -1270,11 +1271,12 @@ export default {
                 qty = item.rejectedQty;
               }
 
+              if (customDiscount) {
+                item.discount.customamount = true;
+              }
               const discountamount = parseFloat(item.discount.discountamount) || 0;
               const discount = this.config.dcValue ? 0 : discountamount;
-              if (customDiscount) {
-                item.discount.discountamount = (parseFloat(item.discount.amount) / (qty || 1)).toFixed(2);
-              } else {
+              if (!item.discount.customamount) {
                 item.discount.amount = (parseFloat(discount) * qty).toFixed(2);
               }
               if (inclusiveFlag) {
