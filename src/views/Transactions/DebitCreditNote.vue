@@ -676,7 +676,7 @@ export default {
           prodData[item.pid] = rate;
           taxes[item.pid] = this.isGst ? item.igst.rate : item.vat.rate;
           cess[item.pid] = item.cess.rate;
-          reductionval[item.pid] = rate;
+          reductionval[item.pid] = (this.form.dcNote.purpose !== DR_CR_MODE['returns']) ? rate : item.taxableamount;
           quantities[item.pid] = item.qty;
         }
       });

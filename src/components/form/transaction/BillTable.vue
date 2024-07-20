@@ -169,7 +169,7 @@
               :tabindex="data.item.isService ? -1 : 0"
             ></b-input>
             <span v-else>{{
-              form[data.item.index] ? form[data.item.index].qty : ''
+              form[data.item.index] ? form[data.item.index].disabledQty : ''
             }}</span>
             <div>
               <small
@@ -761,7 +761,8 @@ export default {
             fqty: item.fqty,
             rate: item.rate,
             isService: item.isService,
-            taxableamount: item.taxableamount,
+            taxableamount: item.taxableamount / item.qty,
+            disabledQty: item.qty
           });
         }
       });
@@ -1303,7 +1304,7 @@ export default {
               }
               if (this.crdrnote) {
                 if(this.purposeSelectedValue && this.purposeSelectedValue != 18) {
-                  item.taxable = parseFloat(item.dcValue || 0) * qty;
+                  item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
                 } else {
                   item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
                 }
@@ -1356,7 +1357,7 @@ export default {
             }
             if (this.crdrnote) {
               if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
-                  item.taxable = parseFloat(item.dcValue || 0) * qty;
+                  item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
                 } else {
                   item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
                 }
