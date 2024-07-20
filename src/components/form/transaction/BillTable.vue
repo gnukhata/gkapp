@@ -1304,7 +1304,7 @@ export default {
               }
               if (this.crdrnote) {
                 if(this.purposeSelectedValue && this.purposeSelectedValue != 18) {
-                  item.taxable = parseFloat(item.dcValue || 0) * qty;
+                  item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
                 } else {
                   item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
                 }
@@ -1357,7 +1357,7 @@ export default {
             }
             if (this.crdrnote) {
               if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
-                  item.taxable = parseFloat(item.dcValue || 0) * qty;
+                  item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
                 } else {
                   item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
                 }
