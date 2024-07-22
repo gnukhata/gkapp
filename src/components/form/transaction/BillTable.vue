@@ -17,7 +17,7 @@
         >
           <translate> Back </translate>
         </b-button>
-        <!-- 
+        <!--
           TODO: Move this option to global settings page
           <b-form-checkbox @input="updateAllTaxAndTotal" v-model="inclusiveFlag" name="check-button" switch>
           Inclusive of tax
@@ -494,7 +494,7 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-      note: `true if the org state and party state are the same 
+      note: `true if the org state and party state are the same
       (use CGST and SGST). If false use IGST.`,
     },
     creditFlag: {
@@ -525,7 +525,7 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-      note: `true if the org state and party state are the same 
+      note: `true if the org state and party state are the same
       (use VAT). If false use IGST.`,
     },
     invDate: {
@@ -670,7 +670,7 @@ export default {
         }
       } else if (self.vatFlag) {
         remove(['cgst', 'sgst', 'igst', 'cess']);
-      } 
+      }
       else {
         remove(['cgst', 'sgst', 'igst', 'cess']);
       }
@@ -940,6 +940,7 @@ export default {
                   rate: this.saleFlag ? data.discountpercent : 0,
                   discountamount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
                   amount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
+                  customamount: false,
                 },
               });
             } else {
@@ -1111,36 +1112,37 @@ export default {
       this.showBusinessForm = false;
       let self = this;
 
-      if (!invalidProduct) {
-        /**
-        * Fetching the business list, clears the options variable and repopulates it.
-        * This action makes the autocomplete component's value null. To counter this
-        * the table data is copied by value before that and pasted afterwards.
-        */
+      if (invalidProduct) return;
 
-        let tableData = this.form.map((item) => {
-          const productData = self.options.products.find(p => p.id === item.product.id);
-          return { id: item.product.id, name: item.product.name, quantity: productData?.quantity};
+      /**
+      * Fetching the business list, clears the options variable and repopulates it.
+      * This action makes the autocomplete component's value null. To counter this
+      * the table data is copied by value before that and pasted afterwards.
+      */
+      let tableData = this.form.map((item) => {
+        const productData = self.options.products.find(p => p.id === item.product.id);
+        return { id: item.product.id, name: item.product.name, quantity: productData?.quantity};
+      });
+      this.fetchBusinessList().then(() => {
+        let billCount = self.form.length;
+        let productCount = self.options.products.length;
+        tableData.forEach((item, i) => {
+          self.form[i].product = item;
         });
-        this.fetchBusinessList().then(() => {
-          let billCount = self.form.length;
-          let productCount = self.options.products.length;
-          tableData.forEach((item, i) => {
-            self.form[i].product = item;
-          });
-          if (self.form[billCount - 1].product.id) {
-            self.addBillItem();
-            billCount++;
-          }
-          self.form[billCount - 1].product =
-            self.options.products[productCount - 1];
-          self.fetchProductDetails(
-            self.options.products[productCount - 1].id,
-            billCount - 1
-          );
-          self.$forceUpdate();
-        });
-      }
+        if (self.form[billCount - 1].product.id) {
+          self.addBillItem();
+          billCount++;
+        }
+        self.form[billCount - 1].product =
+          self.options.products[productCount - 1];
+        self.form[billCount - 1].pid =
+          self.options.products[productCount - 1].id;
+        self.fetchProductDetails(
+          self.options.products[productCount - 1].id,
+          billCount - 1
+        );
+        self.$forceUpdate();
+      });
     },
     /**
      * getTotal(key)
@@ -1290,11 +1292,12 @@ export default {
                 qty = item.rejectedQty;
               }
 
+              if (customDiscount) {
+                item.discount.customamount = true;
+              }
               const discountamount = parseFloat(item.discount.discountamount) || 0;
               const discount = this.config.dcValue ? 0 : discountamount;
-              if (customDiscount) {
-                item.discount.discountamount = (parseFloat(item.discount.amount) / (qty || 1)).toFixed(2);
-              } else {
+              if (!item.discount.customamount) {
                 item.discount.amount = (parseFloat(discount) * qty).toFixed(2);
               }
               if (inclusiveFlag) {
