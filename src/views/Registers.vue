@@ -186,16 +186,18 @@ export default {
         //   }
         return obj;
       });
-
+      let totalTax = Object.values(data.totalrow.taxamount).reduce(
+        (a, b) => parseFloat(a) + parseFloat(b), 0
+      );
       let totalRow = {
         name: 'Total',
         tax_free: data.totalrow.taxfree,
         gross_amount: data.totalrow.grossamount,
+        taxable: parseFloat(data.totalrow.grossamount) - parseFloat(data.totalrow.taxfree) - totalTax
       };
       data.taxcolumns.forEach((taxCol) => {
         if (data.totalrow.taxamount[taxCol]) {
           totalRow[taxCol] = data.totalrow.taxamount[taxCol];
-          totalRow['taxable'] = data.totalrow.tax[taxCol];
         } else {
           totalRow[taxCol] = 0;
         }
