@@ -82,7 +82,6 @@
             :id="`clearance-date-${data.index}`"
             required
             v-model="activeVouchers[data.index].clearancedate"
-            :min="data.item.date"
             @validity="(isValid) => (data.item.valid = isValid)"
           ></gk-date>
         </template>
