@@ -193,7 +193,10 @@ export default {
         name: 'Total',
         tax_free: data.totalrow.taxfree,
         gross_amount: data.totalrow.grossamount,
-        taxable: parseFloat(data.totalrow.grossamount) - parseFloat(data.totalrow.taxfree) - totalTax
+        taxable:
+          (
+            parseFloat(data.totalrow.grossamount) - parseFloat(data.totalrow.taxfree) - totalTax
+          ).toFixed(2)
       };
       data.taxcolumns.forEach((taxCol) => {
         if (data.totalrow.taxamount[taxCol]) {
