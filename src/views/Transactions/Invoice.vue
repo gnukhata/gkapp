@@ -999,13 +999,11 @@ export default {
         invoice.dcid = this.dcId;
       }
       // === Sale / Purchase related data ===
+      invoice.sourcestate = this.form.inv.state.name || null;
+      invoice.taxstate = this.form.party.state.name || null;
       if (this.isSale) {
-        invoice.sourcestate = this.form.inv.state.name || null;
-        invoice.taxstate = this.form.party.state.name || null;
         invoice.inoutflag = 15; // sale
       } else {
-        invoice.sourcestate = this.form.party.state.name || null;
-        invoice.taxstate = this.form.inv.state.name || null;
         invoice.inoutflag = 9; // purchase
         delete invoice.ewaybillno;
         invoice.supinvno = this.form.inv.supno;
@@ -1273,13 +1271,11 @@ export default {
         noofpackages: this.form.transport.packageCount,
       };
       // === Sale / Purchase related data ===
+      delchal.sourcestate = this.form.inv.state.name || null;
+      delchal.taxstate = this.form.party.state.name || null;
       if (this.isSale) {
-        delchal.sourcestate = this.form.inv.state.name || null;
-        delchal.taxstate = this.form.party.state.name || null;
         delchal.inoutflag = 15; // sale
       } else {
-        delchal.sourcestate = this.form.party.state.name || null;
-        delchal.taxstate = this.form.inv.state.name || null;
         delchal.inoutflag = 9; // purchase
         delete delchal.ewaybillno;
       }
@@ -1291,9 +1287,6 @@ export default {
         }
       }
       // if purchase invoice, place of supply is party state
-      if (this.isSale == false) {
-        delchal.taxstate = this.form.inv.state.name;
-      }
 
       // === GST/ VAT related data ===
       if (this.isGst) {

@@ -259,7 +259,8 @@ export default {
     onSelectState(state) {
       // set DelNote Gstin based on state
       if (state) {
-        this.form.gstin = this.form.options.gstin[this.form.taxState?.id];
+        let statecode = this.form.taxState?.id;
+        this.form.gstin = this.form.options.gstin[statecode && statecode.length === 1 ? '0' + statecode : statecode];
       }
       this.onUpdateDetails();
     },
@@ -272,6 +273,7 @@ export default {
                 (state) => state.name.toLowerCase() === orgstate
               )
             : null;
+          let stateCode = state.id < 9 ? `0${this.form.state.id}` : this.form.state.id;
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             state: state || {name: ''},
@@ -279,7 +281,7 @@ export default {
             options: {
               gstin: gstin || {},
             },
-            gstin: gstin && state ? gstin[state.id] : '',
+            gstin: gstin && state ? gstin[stateCode] : '',
           });
         }
       }
