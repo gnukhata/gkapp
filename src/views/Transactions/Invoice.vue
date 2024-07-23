@@ -597,7 +597,7 @@ export default {
             Object.assign(this.form.party, payload.data);
 
             this.updateCounter.ship++;
-            this.form.inv.taxState = payload.data.state;
+            Object.assign(this.form.inv.taxState, payload.data.state);
             this.updateCounter.inv++;
             // if (this.isCreate) {
             // }
