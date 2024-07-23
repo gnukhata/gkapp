@@ -259,7 +259,7 @@ export default {
     onSelectState(state) {
       // set DelNote Gstin based on state
       if (state) {
-        this.form.gstin = this.form.options.gstin[state.id];
+        this.form.gstin = this.form.options.gstin[this.form.taxState?.id];
       }
       this.onUpdateDetails();
     },

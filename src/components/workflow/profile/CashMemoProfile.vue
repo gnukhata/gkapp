@@ -231,9 +231,9 @@ export default {
       details.push(
         {
           title: self.$gettext(`Cash Memo Value`),
-          value: Math.round(total.amount).toFixed(2),
+          value: total?.roundoffflag ? Math.round(total.amount).toFixed(2) : total.amount,
         },
-        { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(total.amount)) }
+        { title: self.$gettext('Total In Words'), value: total?.roundoffflag ? numberToRupees(Math.round(total.amount)) : numberToRupees(total.amount)}
       );
       return details;
     },
@@ -309,6 +309,11 @@ export default {
         total: {
           amount: 0,
           text: 'Zero Rupee',
+          cess: 0,
+          tax: 0,
+          taxable: 0,
+          isIgst: false,
+          roundoffflag: 0,
         },
         number: '',
       },
@@ -408,6 +413,7 @@ export default {
             cess: details.totalcessamt,
             tax: details.totaltaxamt,
             isIgst: details.taxname === 'IGST',
+            roundoffflag: details.roundoff,
           },
           number: details.invoiceno,
           isGst: details.taxname !== 'VAT',
