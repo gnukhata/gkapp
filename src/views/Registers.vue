@@ -211,8 +211,8 @@ export default {
       if (this.expandedTable) {
         this.fields = [
           { key: 'sr_no', label: 'No.', stickyColumn: true },
-          { key: 'invoice_no', label: 'Inv. No.', stickyColumn: true },
-          { key: 'date', label: 'Inv. Date' },
+          { key: 'invoice_no', label: 'Invoice Number', stickyColumn: true },
+          { key: 'date', label: 'Invoice Date' },
           { key: 'name', label: 'Customer' },
           { key: 'GSTIN', label: 'GSTIN' },
           { key: 'TIN', label: 'TIN' },
@@ -228,8 +228,8 @@ export default {
           })
         );
 
-        this.fields.push({ key: 'taxable', tdClass: 'text-right' });
-        this.fields.push({ key: 'gross_amount', tdClass: 'text-right' });
+        this.fields.push({ key: 'taxable', label: 'Taxable', tdClass: 'text-right' });
+        this.fields.push({ key: 'gross_amount', label: 'Total', tdClass: 'text-right' });
       } else {
         this.conciseTableRows();
       }
@@ -240,14 +240,14 @@ export default {
     conciseTableRows() {
       this.fields = [
         { key: 'sr_no', label: 'No.', stickyColumn: true },
-        { key: 'invoice_no', label: 'Inv. No.', stickyColumn: true },
-        { key: 'date', label: 'Inv. Date' },
+        { key: 'invoice_no', label: 'Invoice Number', stickyColumn: true },
+        { key: 'date', label: 'Invoice Date' },
         { key: 'name', label: 'Customer' },
         { key: 'GSTIN', label: 'GSTIN' },
         { key: 'TIN', label: 'TIN' },
         { key: 'tax_free', label: 'Tax Free', tdClass: 'text-right' },
-        { key: 'taxable', tdClass: 'text-right' },
-        { key: 'gross_amount', tdClass: 'text-right' },
+        { key: 'taxable', label: 'Taxable', tdClass: 'text-right' },
+        { key: 'gross_amount', label: 'Total', tdClass: 'text-right' },
       ];
     },
     getRegisters() {
