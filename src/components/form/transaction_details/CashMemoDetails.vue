@@ -257,11 +257,6 @@ export default {
       );
     },
     onSelectState(state) {
-      // set DelNote Gstin based on state
-      if (state) {
-        let statecode = this.form.taxState?.id;
-        this.form.gstin = this.form.options.gstin[statecode && statecode.length === 1 ? '0' + statecode : statecode];
-      }
       this.onUpdateDetails();
     },
     setOrgDetails() {
