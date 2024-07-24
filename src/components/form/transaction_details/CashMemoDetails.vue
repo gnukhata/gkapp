@@ -77,7 +77,6 @@
             v-model="form.state"
             :options="options.states"
             label="name"
-            @input="onSelectState(form.state)"
             required
           ></v-select>
         </b-form-group>
@@ -256,13 +255,6 @@ export default {
         })
       );
     },
-    onSelectState(state) {
-      // set DelNote Gstin based on state
-      if (state) {
-        this.form.gstin = this.form.options.gstin[state.id];
-      }
-      this.onUpdateDetails();
-    },
     setOrgDetails() {
       if (this.options.orgDetails !== null) {
         if (this.options.orgDetails.orgname) {
@@ -272,6 +264,7 @@ export default {
                 (state) => state.name.toLowerCase() === orgstate
               )
             : null;
+          let stateCode = state.id < 9 ? `0${this.form.state.id}` : this.form.state.id;
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             state: state || {name: ''},
@@ -279,7 +272,7 @@ export default {
             options: {
               gstin: gstin || {},
             },
-            gstin: gstin && state ? gstin[state.id] : '',
+            gstin: gstin && state ? gstin[stateCode] : '',
           });
         }
       }

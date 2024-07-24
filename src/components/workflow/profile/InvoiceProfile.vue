@@ -436,6 +436,11 @@ export default {
         total: {
           amount: 0,
           text: 'Zero Rupee',
+          taxable: 0,
+          cess: 0,
+          tax: 0,
+          isIgst: false,
+          roundoff: 0,
         },
         number: '',
       },

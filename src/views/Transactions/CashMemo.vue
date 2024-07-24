@@ -456,7 +456,7 @@ export default {
 
         // === Sale / Purchase related data ===
         sourcestate: this.form.memo.state.name || null,
-        taxstate: this.form.memo.state.name || null,
+        taxstate: this.form.memo.taxState.name || null,
 
         // === GST/ VAT related data ===
         inoutflag: this.isSale ? 15 : 9,
