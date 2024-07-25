@@ -605,7 +605,7 @@ export default {
           }
           break;
         case 'bill-table':
-          Object.assign(this.form.bill, payload.data);
+          this.form.bill = payload.data;
           this.updateCounter.totalTable++;
           this.updateDefaultNarration();
           break;

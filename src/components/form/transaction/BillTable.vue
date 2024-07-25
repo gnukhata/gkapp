@@ -1198,6 +1198,7 @@ export default {
     deleteBillItem(index) {
       this.form.splice(index, 1);
       this.indexBillItems();
+      this.$emit('details-updated', { data: this.form, name: 'bill-table' });
     },
     updateRateField(index, path, flag) {
       let item = this.form[index];
