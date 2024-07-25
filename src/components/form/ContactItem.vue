@@ -400,6 +400,10 @@ export default {
       showOptional: false,
       showBankDetails: false,
       options: {
+        orgDetails: {
+          country: '',
+          gstin: '',
+        },
         states: [],
         regTypes: [
           {
@@ -469,6 +473,16 @@ export default {
     };
   },
   computed: {
+    defaultState: (self) => {
+      const { country, state, gstin } = self.options.orgDetails;
+      const orgCountry = country.trim().toLowerCase();
+      // Use organisation state as default state if organisation country is
+      // India and has a valid GSTIN. If organisation has no country set, it is
+      // assumed as India by default.
+      if ((!orgCountry || orgCountry === 'india') && gstin) {
+        return state;
+      }
+    },
     isGstValid: (self) => self.form.gstin.valid,
     isGstReg: (self) =>
       self.form.gstin.regType === GST_REG_TYPE['regular'] ||
@@ -497,6 +511,9 @@ export default {
         this.form.state = newValue.name;
         this.form.gstin.stateCode = newValue.code;
       }
+    },
+    defaultState(state) {
+      this.state = state;
     },
   },
   methods: {
@@ -757,6 +774,35 @@ export default {
     },
     preloadData() {
       this.isPreloading = true;
+      axios
+        .get(`/organisation`)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+          const data = resp.data.gkdata;
+            Object.assign(this.options.orgDetails, {
+              country: data.orgcountry,
+              state: data.orgstate,
+              gstin: Object.values(data.gstin ?? {})?.[0] ?? '',
+            });
+          } else {
+            this.displayToast(
+              this.$gettext('Preload Data Failed!'),
+              this.$gettext(
+                'Error fetching State List, please try again after sometime.'
+              ),
+              'warning'
+            );
+          }
+        })
+        .catch((error) => {
+          this.displayToast(
+            this.$gettext('Fetch Organisation Profile Data Failed!'),
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
+
       axios
         .get('/state')
         .then((resp) => {
