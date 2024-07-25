@@ -78,7 +78,6 @@
               label="State"
               label-for="ci-input-20"
               label-cols="3"
-              label-class="required"
             >
               <template #label> <translate> State </translate> </template>
               <v-select
@@ -87,7 +86,6 @@
                 v-model="state"
                 label="name"
                 placeholder="Select a State"
-                :required="true"
               ></v-select>
             </b-form-group>
             <b-form-group
@@ -554,10 +552,6 @@ export default {
         : GST_REG_TYPE['unregistered'];
     },
     confirmOnSubmit() {
-      if (this.state == null) {
-        this.gk_toast('State Not Set', 'Please select a State');
-        return;
-      }
       const self = this;
       let party = this.isSupplier ? 'Supplier' : 'Customer';
       let text = `Create ${party} <b>${this.form.name}</b>?`;

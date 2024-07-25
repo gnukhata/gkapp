@@ -114,7 +114,6 @@
 
         <b-form-group
           label="State"
-          label-class="required"
           label-for="state"
           label-cols="3"
         >
@@ -123,7 +122,6 @@
             :options="options.states"
             v-model="details.state"
             @change="gstin.stateCode = options.stateMap[details.state]"
-            :required="true"
           ></b-form-select>
         </b-form-group>
 
