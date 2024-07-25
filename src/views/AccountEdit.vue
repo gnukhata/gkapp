@@ -481,17 +481,6 @@ export default {
       };
 
       let crdr = this.form.crdr;
-      if (
-        [
-          'Corpus',
-          'Capital',
-          'Current Liabilities',
-          'Loans(Liability)',
-          'Reserves',
-        ].indexOf(groupName) > -1
-      ) {
-        crdr *= -1; // if opening balance is < 0 its dr and if > 0 its cr for the above group names and its reverse for others
-      }
 
       let openingBal = !isNaN(this.form.openingBalance)
         ? Math.abs(this.form.openingBalance) * crdr
@@ -582,17 +571,6 @@ export default {
                     self.flags.setSubGroup = group.subgroupcode;
                     self.options.accDetails.subGroup = group.subgroupcode;
                     self.fetchSubGroups(true);
-                  }
-                  if (
-                    [
-                      'Corpus',
-                      'Capital',
-                      'Current Liabilities',
-                      'Loans(Liability)',
-                      'Reserves',
-                    ].indexOf(group.groupname) > -1
-                  ) {
-                    self.form.crdr *= -1; // if opening balance is < 0 its dr and if > 0 its cr for the above group names and its reverse for others
                   }
                 }
               })
