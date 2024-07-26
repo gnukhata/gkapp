@@ -481,7 +481,6 @@ export default {
       };
 
       let crdr = this.form.crdr;
-
       let openingBal = !isNaN(this.form.openingBalance)
         ? Math.abs(this.form.openingBalance) * crdr
         : 0;
