@@ -77,6 +77,7 @@
             v-model="form.state"
             :options="options.states"
             label="name"
+            @input="onSelectState()"
             required
           ></v-select>
         </b-form-group>
@@ -254,6 +255,9 @@ export default {
           options: payload,
         })
       );
+    },
+    onSelectState() {
+      this.onUpdateDetails();
     },
     setOrgDetails() {
       if (this.options.orgDetails !== null) {
