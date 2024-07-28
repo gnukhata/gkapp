@@ -105,6 +105,20 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group
+            :label="$gettext('Country')"
+            label-size="sm"
+            label-align="right"
+            label-cols="4"
+          >
+            <v-select
+              v-model="details.orgcountry"
+              :options="options.countries"
+              id="select-1"
+              :required="true"
+            />
+          </b-form-group>
+          <b-form-group
+            v-if="isIndia"
             :label="$gettext('State')"
             label-size="sm"
             label-align="right"
@@ -114,22 +128,10 @@
               v-model="stateCode"
               size="sm"
               :options="states"
-              required
             ></b-form-select>
           </b-form-group>
           <b-form-group
-            :label="$gettext('Country')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <b-form-input
-              v-model="details.orgcountry"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
+            v-if="isIndia"
             :label="$gettext('Pincode')"
             label-size="sm"
             label-align="right"
@@ -177,6 +179,7 @@
           header-text-variant="light"
         >
           <b-form-group
+            v-if="isIndia"
             :label="$gettext('IFSC Code')"
             label-cols="4"
             label-size="sm"
@@ -436,6 +439,7 @@
 <script>
 import { mapState } from 'vuex';
 import axios from 'axios';
+import countries from '@/js/countries';
 import GkIfsc from '../components/GkIfsc.vue';
 import GkGstin from '@/components/GkGstin.vue';
 
@@ -483,12 +487,16 @@ export default {
         edited: {}, // edited: {edit: source}
       },
       options: {
+        countries,
         gstAccounts: [],
       },
     };
   },
   computed: {
     ...mapState(['gkCoreUrl', 'orgImg', 'orgGstin']),
+    isIndia: function() {
+      return this.details.orgcountry === 'India';
+    },
     isGstinValid: function() {
       if (
         this.gstinModal.stateCode !== null &&
@@ -501,6 +509,15 @@ export default {
     },
     isPanValid: (self) =>
       self.details.orgpan ? self.regex.pan.test(self.details.orgpan) : null,
+  },
+  watch: {
+    'details.orgcountry': function() {
+      if (!this.isIndia) {
+        this.stateCode = '';
+        this.details.orgpincode = null;
+        this.bankDetails.ifsc = null;
+      }
+    },
   },
   methods: {
     autoFillIfsc(i) {
@@ -980,7 +997,7 @@ export default {
       }
 
       Object.assign(this.details, {
-        orgstate: state,
+        orgstate: state ?? '',
         gstin: gstin,
         bankdetails: this.bankDetails,
       });
