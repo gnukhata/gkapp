@@ -33,7 +33,7 @@
           ></b-icon>
         </b-button>
       </div>
-      <b-form
+      <div
         class="mt-3 px-2"
         :class="{ 'd-md-block': true, 'd-none': !isCollapsed }"
       >
@@ -276,7 +276,7 @@
             <span v-translate class="align-middle">Save Changes</span>
           </b-button>
         </div>
-      </b-form>
+      </div>
     </div>
 
     <!-- Create Contact Item modal -->
