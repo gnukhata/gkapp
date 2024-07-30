@@ -151,7 +151,7 @@
           ref="narration"
           :config="config.comments"
           :updateCounter="updateCounter.comments"
-          :parentData="form.narration"
+          :parentData="form.comments"
           :placeHolder="defaultNarration"
         ></comments>
       </b-card-group>
