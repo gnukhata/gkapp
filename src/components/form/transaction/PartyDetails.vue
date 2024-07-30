@@ -605,7 +605,7 @@ export default {
           states,
           gstin: data.gstin,
         },
-        state: typeof states[0]?.value === 'object' ? states[0].value : this.form.state,
+        state: states?.[0]?.value ?? { id: null, name: ''},
         pan: data.custpan,
         checksum: '',
         pin: data.pincode,
