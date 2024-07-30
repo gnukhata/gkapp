@@ -110,13 +110,13 @@
           label-cols="3"
           label-cols-md="4"
           label-size="sm"
-          :label-class="{ required: !disabled.supplySt }"
+          :label-class="{ required: !disabled.supplySt && parentData.gstin }"
         >
           <template #label> <translate> Place of Supply </translate> </template>
           <b-form-select
             id="ivd-input-11"
             v-model="form.placeOfSupply"
-            :required="true"
+            :required="!!parentData.gstin"
             @input="onUpdateDetails"
             :disabled="disabled.supplySt"
           >

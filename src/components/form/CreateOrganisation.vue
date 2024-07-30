@@ -17,6 +17,7 @@
             label="Name"
             label-for="input-1"
             label-cols="3"
+            label-class="required"
             :state="orgNameValidity"
             :invalid-feedback="orgNameFeedback"
           >
@@ -36,8 +37,27 @@
             >
             </b-form-input>
           </b-form-group>
+          <b-form-group
+            label-size="md"
+            id="input-group-12"
+            label="Country"
+            label-for="select-1"
+            label-cols="3"
+            label-class="required"
+          >
+            <template #label>
+              <translate>Country</translate>
+            </template>
+            <v-select
+              :options="options.countries"
+              v-model="orgCountry"
+              id="select-1"
+              :required="true"
+            />
+          </b-form-group>
           <!-- state -->
           <b-form-group
+            v-if="orgCountry === 'India'"
             label-size="md"
             id="input-group-12"
             label="State"
@@ -51,7 +71,6 @@
               :options="states"
               v-model="orgState"
               id="select-1"
-              :required="true"
             >
             </v-select>
           </b-form-group>
@@ -75,7 +94,12 @@
             >
             </b-form-input>
           </b-form-group> -->
-          <b-form-group label-size="md" label="Type" label-cols="3">
+          <b-form-group
+            label-size="md"
+            label="Type"
+            label-cols="3"
+            label-class="required"
+          >
             <template #label>
               <translate> Type </translate>
             </template>
@@ -93,7 +117,7 @@
             id="input-group-2"
             label="Financial Year"
             label-size="md"
-            label-class="mb-2"
+            label-class="mb-2 required"
             class="mb-0 mt-4"
             label-cols="3"
           >
@@ -139,9 +163,6 @@
               </div>
             </div>
           </b-form-group>
-          <small class="text-danger">
-            <translate> * All fields are required </translate>
-          </small>
           <!-- <hr /> -->
           <div class="float-right">
             <!-- <b-button
@@ -185,6 +206,7 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import passwordStrength from 'check-password-strength';
+import countries from '@/js/countries';
 import GkDate from '@/components/GkDate.vue';
 import { STATUS_CODES } from '@/js/enum.js';
 
@@ -207,6 +229,7 @@ export default {
       // gkCoreUrl: 'https://satheerthan.site:6543', // 'http://localhost:6543',
       isLoading: false,
       options: {
+        countries,
         orgType: [
           { text: 'Profit Making', value: 0 },
           { text: 'Not For Profit', value: 1 },
@@ -215,6 +238,7 @@ export default {
       },
       orgName: '',
       orgType: 0,
+      orgCountry: '',
       orgState: '',
       orgAddr: '',
       yearStart: null,
@@ -275,6 +299,13 @@ export default {
       return feedback;
     },
   },
+  watch: {
+    orgCountry(country) {
+      if (country !== 'India') {
+        this.orgState = '';
+      }
+    },
+  },
   methods: {
     checkOrgName(query) {
       if (!query) {
@@ -326,10 +357,10 @@ export default {
       this.isLoading = true;
       const payload = this.initPayload();
       const userAuthToken = sessionStorage.getItem('userAuthToken');
-      //state is mandatory to create org
-      if (this.orgState.length == 0) {
-        this.$bvToast.toast(this.$gettext(`State is required`), {
-          title: this.$gettext('Organisation create Error!'),
+      // Country is mandatory to create org
+      if (!this.orgCountry) {
+        this.$bvToast.toast(this.$gettext(`Country is required`), {
+          title: this.$gettext('Error in creating organisation!'),
           autoHideDelay: 3000,
           variant: 'danger',
           appendToast: true,
@@ -417,7 +448,7 @@ export default {
           orgcity: null,
           orgaddr: this.orgAddr,
           orgpincode: null,
-          orgcountry: null,
+          orgcountry: this.orgCountry,
           orgtelno: null,
           orgfax: null,
           orgwebsite: null,
