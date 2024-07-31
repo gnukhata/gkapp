@@ -677,9 +677,7 @@ export default {
           quantities[item.pid] = item.qty;
         }
       });
-      if (isReturn) {
-        reductionval.quantities = quantities;
-      }
+      reductionval.quantities = quantities;
       drcrdata.reductionval = reductionval;
       Object.assign(vdataset, {
         product,
