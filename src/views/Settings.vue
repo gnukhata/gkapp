@@ -119,7 +119,7 @@
               </template>
               <b-form-checkbox
                 switch
-                v-model="allowNegativeStock"
+                v-model="conf.transaction.default.allowNegativeStock"
               >
               </b-form-checkbox>
             </b-form-group>
@@ -168,7 +168,6 @@
 // import axios from 'axios';
 import { mapState } from 'vuex';
 import { debounceEvent } from '../js/utils.js';
-import invoiceConfig from '../js/config/transaction/invoiceConfig';
 
 export default {
   name: 'Settings',
@@ -196,31 +195,8 @@ export default {
   watch: {},
   computed: {
     globalConf: (self) => self.$store.getters['global/getGlobalConfig'],
-    invoiceConf: {
-      get() {
-        return this.$store.getters['invoice/getCustomInvoiceConfig'];
-      },
-      set(checkStock) {
-        this.invoiceConf.bill.qty.checkStock = checkStock;
-      },
-    },
     options: (self) => self.$store.getters['global/getGlobalConfigOptions'],
     ...mapState(['yearStart', 'yearEnd', 'orgCode']),
-    allowNegativeStock: {
-      get() {
-        return !this?.invoiceConf?.bill?.qty?.checkStock;
-      },
-      set(isAllowed) {
-        this.invoiceConf = !isAllowed;
-      },
-    },
-  },
-  beforeMount() {
-    this.$store.registerModule('invoice', invoiceConfig);
-    this.$store.dispatch('invoice/initInvoiceConfig');
-  },
-  beforeDestroy() {
-    this.$store.unregisterModule('invoice');
   },
   methods: {
     displayToast(title, message, variant) {
@@ -253,7 +229,6 @@ export default {
             );
           }
         });
-      this.$store.dispatch('invoice/updateInvoiceConfig', this.invoiceConf);
     },
     checkMobileMode() {
       this.mobileMode = this.is_mobile();
