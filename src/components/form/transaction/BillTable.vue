@@ -163,7 +163,7 @@
               no-wheel
               step="0.01"
               min="0.01"
-              :max="(saleFlag && config.qty.checkStock && !form[data.item.index].isService) ? options.stock[data.item.pid] : null"
+              :max="form[data.item.index].maxQty"
               @input="onQtyUpdate(data.item.index, data.item.pid)"
               :readonly="data.item.isService || disabled.qty"
               :tabindex="data.item.isService ? -1 : 0"
@@ -592,6 +592,7 @@ export default {
           product: { name: '', id: '', productquantity: '' },
           hsn: '',
           qty: 0,
+          maxQty: null,
           fqty: 0,
           packageCount: 0,
           rejectedQty: 0,
@@ -728,6 +729,9 @@ export default {
       }
       return true; // by default show addProductBtn
     },
+    allowNegativeStock: (self) => (
+      self.$store.getters['global/getAllowNegativeStock']
+    ),
     ...mapState(['yearEnd']),
   },
   watch: {
@@ -886,7 +890,7 @@ export default {
     onQtyUpdate(index, pid) {
       if (
         (parseFloat(this.form[index].qty) <= this.options.stock[pid]) ||
-        !this.config.qty.checkStock ||
+        this.allowNegativeStock ||
         !this.saleFlag
       ) {
         this.updateTaxAndTotal(index);
@@ -943,6 +947,18 @@ export default {
                 isService: isService,
                 rate: (this.saleFlag || isService) ? data.prodsp : data.prodmrp,
                 qty: 1,
+                // If sales invoice and negative stock is not allowed and the
+                // selected item is not a service, then set maximum value for
+                // quantity as in the available stock.
+                maxQty: (
+                  this.saleFlag
+                    && !this.allowNegativeStock
+                    && !isService
+                ) ? (
+                  this.options.stock[data.productcode]
+                ) : (
+                  null
+                ),
                 discount: {
                   rate: this.saleFlag ? data.discountpercent : 0,
                   discountamount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
@@ -1096,6 +1112,7 @@ export default {
           product: { id: '', name: '',  quantity: ''},
           hsn: '',
           qty: null,
+          maxQty: null,
           packageCount: null,
           rejectedQty: null,
           dcValue: null,
@@ -1185,6 +1202,7 @@ export default {
         product: { id: '', name: '',  quantity: ''},
         hsn: '',
         qty: null,
+        maxQty: null,
         packageCount: null,
         rejectedQty: null,
         dcValue: null,
@@ -1489,7 +1507,19 @@ export default {
               self.options.products = [];
               self.options.productData = {};
               resp.data.gkresult.forEach((item) => {
-                if (((this.saleFlag && (!this.config.qty.checkStock || (parseInt(item.productquantity, 10) > 0))) || (!this.saleFlag)) || (item.gsflag === 19)) {
+                // Checks to determine if item should be shown for users to select:
+                // Show if purchase invoice or item is service (gsflag = 19)
+                // If sales invoice, show if negative stock is allowed.
+                // Otherwise show only if product quantity is greater than 0.
+                if (
+                  (
+                    (
+                      this.saleFlag &&
+                        (this.allowNegativeStock || parseInt(item.productquantity) > 0)
+                    )
+                      || !this.saleFlag
+                  ) || item.gsflag === 19
+                ) {
                   self.options.products.push({
                     id: item.productcode,
                     name: item.productdesc,
@@ -1500,7 +1530,7 @@ export default {
                   };
                 }
               });
-              if (self.config.qty.checkStock) {
+              if (!self.allowNegativeStock) {
                 // self.fetchStockOnHandData();
                 self.fetchAllStockOnHand(true);
               }
