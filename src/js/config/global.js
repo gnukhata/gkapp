@@ -35,6 +35,7 @@ export default {
           payment: 'cash', // bank, cash, credit
           tax: 'GST', // GST, VAT
           godown: '',
+          allowNegativeStock: false,
           contacts: { customer: -1, supplier: -1 },
           partyVoucherFlag: true, // use customer/supplier ledgers for tracking transaction
         },
@@ -98,6 +99,11 @@ export default {
       return state.customConf.transaction
         ? state.customConf.transaction.default.godown
         : state.defConf.transaction.default.godown;
+    },
+    getAllowNegativeStock(state) {
+      return state.customConf.transaction
+        ? state.customConf.transaction.default.allowNegativeStock
+        : state.defConf.transaction.default.allowNegativeStock;
     },
     getDefaultContacts(state) {
       return state.customConf.transaction
