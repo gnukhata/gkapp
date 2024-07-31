@@ -268,6 +268,7 @@ export default {
         },
         total: {},
       },
+      isCgst: false,
       isPurposeChange: 4,
       titleName: '',
       showPrintModal: false,
@@ -333,14 +334,6 @@ export default {
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
-    isCgst: (self) => {
-      if (self.form.invoice.state && self.form.party.state) {
-        if (self.form.invoice.state.name === self.form.party.state.name) {
-          return true;
-        }
-      }
-      return false;
-    },
 
     isCredit: (self) => self.form.dcNote.type === 'credit',
     showErrorToolTip: (self) =>
@@ -378,6 +371,10 @@ export default {
           break;
         case 'total-table':
           Object.assign(this.form.total, payload.data);
+          break;
+        case 'invoice-details':
+          Object.assign(this.form.invoice, payload.data);
+          this.isCgst = (this.form.invoice.state.name === this.form.invoice.taxState.name)
           break;
       }
     },
@@ -620,7 +617,7 @@ export default {
           DR_CR_MODE['prov_assessment'],
           DR_CR_MODE['service_deficiency'],
       ].includes(this.form.dcNote.purpose);
-      const isReturn = this.form.dcNote.purpose === DR_CR_MODE['returns'];
+
       let drcrdata = {
         invid: this.invId,
         drcrdate: this.form.dcNote.date,
@@ -680,9 +677,7 @@ export default {
           quantities[item.pid] = item.qty;
         }
       });
-      if (isReturn) {
-        reductionval.quantities = quantities;
-      }
+      reductionval.quantities = quantities;
       drcrdata.reductionval = reductionval;
       Object.assign(vdataset, {
         product,
