@@ -18,7 +18,7 @@
               value-field="id"
               required
             ><template #first>
-              <b-form-select-option value="null">-- Please select a product --</b-form-select-option>
+              <b-form-select-option :value="null">-- Please select a product --</b-form-select-option>
             </template>
             </b-form-select>
           </b-form-group>
