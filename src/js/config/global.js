@@ -59,6 +59,7 @@ export default {
         },
       },
     },
+    orgDetails: {},
   },
   getters: {
     getGlobalConfig: (state) => {
@@ -67,6 +68,7 @@ export default {
     getGlobalConfigOptions: (state) => {
       return state.options;
     },
+    getOrgDetails: (state) => state.orgDetails,
     getDateFormat: (state) => {
       return state.customConf.general
         ? state.customConf.general.format.date
@@ -139,6 +141,10 @@ export default {
       }
     },
 
+    setOrgDetails(state, payload) {
+      state.orgDetails = payload;
+    },
+
     setGodownList(state, payload) {
       state.options.transaction.godowns = payload;
     },
@@ -206,7 +212,7 @@ export default {
         });
       });
     },
-    initDefaultContacts: ({ state }) => {
+    initDefaultContacts: ({ state, commit }) => {
       function createContact(name, orgState, csflag) {
         let payload = {
           custname: name,
@@ -242,7 +248,9 @@ export default {
 
       return axios.get('organisation').then((orgResp) => {
         if (orgResp.data.gkstatus === 0) {
-          const orgState = orgResp.data.gkdata['orgstate'];
+          const orgDetails = orgResp.data.gkdata;
+          commit('setOrgDetails', orgDetails);
+          const orgState = orgDetails['orgstate'];
           let requests = [];
 
           let custList = state.options.transaction.contacts.customers || [];
