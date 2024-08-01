@@ -105,7 +105,7 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col cols="12" v-if="config.state">
+          <b-col cols="12" v-if="isIndia && config.state">
             <b-form-group
               label="State"
               label-for="spd-input-40"
@@ -128,7 +128,7 @@
               </v-select>
             </b-form-group>
           </b-col>
-          <b-col v-if="gstFlag && config.gstin" cols="12">
+          <b-col v-if="isIndia && gstFlag && config.gstin" cols="12">
             <b-form-group
               label-cols="3"
               label-cols-md="4"
@@ -147,7 +147,7 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col v-else-if="config.tin" cols="12">
+          <b-col v-else-if="isIndia && config.tin" cols="12">
             <b-form-group
               label-cols="3"
               label-cols-md="4"
@@ -160,6 +160,7 @@
                 size="sm"
                 id="spd-input-60"
                 v-model="form.tin"
+                :readonly="copyFlag"
                 trim
               ></b-form-input>
             </b-form-group>
@@ -228,6 +229,9 @@ export default {
       default: null,
       note: 'Custom Details, used for edit Invoices',
     },
+  },
+  computed: {
+    isIndia: (self) => self.$store.getters['global/getIsIndia'],
   },
   watch: {
     copyFlag() {
