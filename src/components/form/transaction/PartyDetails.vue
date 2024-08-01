@@ -184,7 +184,7 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          v-if="config.state"
+          v-if="isIndia && config.state"
           label="State"
           label-for="ptd-input-50"
           label-size="sm"
@@ -205,7 +205,7 @@
         </b-form-group>
 
         <b-form-group
-          v-if="gstFlag && config.gstin"
+          v-if="isIndia && gstFlag && config.gstin"
           label-cols="3"
           label-cols-md="4"
           label-cols-lg="3"
@@ -231,7 +231,7 @@
           </gk-gstin>
         </b-form-group>
         <b-form-group
-          v-else-if="config.tin"
+          v-else-if="isIndia && config.tin"
           label-cols="3"
           label-cols-md="4"
           label-cols-lg="3"
@@ -427,6 +427,7 @@ export default {
     };
   },
   computed: {
+    isIndia: (self) => self.$store.getters['global/getIsIndia'],
     isCustomer: (self) => self.form.type === 'customer',
     isNameDisabled: (self) => {
       if (typeof self.config['name'] === 'object') {
