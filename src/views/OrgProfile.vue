@@ -1033,6 +1033,7 @@ export default {
               if (!this.orgGstin) {
                 this.$store.dispatch('initGstin');
               }
+              this.$store.commit('global/setOrgDetails', this.details);
               break;
             case 1:
               this.loading = false;
