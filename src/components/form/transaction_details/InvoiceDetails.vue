@@ -700,14 +700,6 @@ export default {
           );
           return error;
         }),
-        axios.get(`/organisation`).catch((error) => {
-          this.displayToast(
-            this.$gettext('Fetch Organisation Profile Data Failed!'),
-            error.message,
-            'danger'
-          );
-          return error;
-        }),
         axios.get(`/godown`).catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Godowns Failed!'),
@@ -721,7 +713,7 @@ export default {
       ];
       const self = this;
       return Promise.all(requests)
-        .then(([resp1, resp2, resp3]) => {
+        .then(([resp1, resp2]) => {
           this.isPreloading = false;
           if (resp1.data.gkstatus === 0) {
             self.options.states = resp1.data.gkresult.map((item) => {
@@ -731,13 +723,7 @@ export default {
               };
             });
             if (resp2.data.gkstatus === 0) {
-              self.options.orgDetails = resp2.data.gkdata;
-              setTimeout(() => {
-                self.setOrgDetails();
-              }, 1);
-            }
-            if (resp3.data.gkstatus === 0) {
-              self.options.godowns = resp3.data.gkresult.map((godown) => {
+              self.options.godowns = resp2.data.gkresult.map((godown) => {
                 return {
                   text: `${godown.goname} (${godown.goaddr})`,
                   value: godown.goid,
@@ -785,6 +771,7 @@ export default {
   },
   mounted() {
     const self = this;
+    this.options.orgDetails = this.$store.getters['global/getOrgDetails'];
     this.preloadData().then(() => {
       self.resetForm(true);
     });
