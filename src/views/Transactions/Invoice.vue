@@ -1035,8 +1035,8 @@ export default {
           tinconsignee: this.form.ship.tin || '',
           gstinconsignee: this.form.ship.gstin || '',
           consigneeaddress: this.form.ship.addr || '',
-          consigneestate: this.form.ship.state.name || null,
-          consigneestatecode: this.form.ship.state.id || null,
+          consigneestate: this.form.ship.state?.name || null,
+          consigneestatecode: this.form.ship.state?.id || null,
           consigneepincode: this.form.ship.pin || '',
         };
       }
