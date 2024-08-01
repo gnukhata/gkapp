@@ -69,6 +69,16 @@ export default {
       return state.options;
     },
     getOrgDetails: (state) => state.orgDetails,
+    isIndia: (state) => {
+      // Returns a boolean denoting if organisation country is India.
+      // If country is not entered, for backwards compatibility, country will be
+      // assumed as India.
+      const { orgcountry } = state.orgDetails;
+      if (orgcountry) {
+        return orgcountry.trim().toLowerCase() === 'india';
+      }
+      return true;
+    },
     getDateFormat: (state) => {
       return state.customConf.general
         ? state.customConf.general.format.date
