@@ -451,14 +451,11 @@ export default {
             self.form.state = self.parentData.state;
           }
 
-          if (self.parentData.taxState.id) {
-            self.form.placeOfSupply = self.parentData.taxState;
-          }
-
           if (self.parentData.godown) {
             self.form.godown = self.parentData.godown;
           }
 
+          self.form.placeOfSupply = self.parentData.taxState;
           self.onUpdateDetails();
           self.isPreloading = false;
         })
