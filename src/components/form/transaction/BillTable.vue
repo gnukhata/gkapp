@@ -238,8 +238,8 @@
 
         <!-- Debit Credit Value (Debit Credit Note) -->
         <template #head(dcValue)="">
-          <span v-if="creditFlag" v-translate> Credited Value </span>
-          <span v-else v-translate> Debited Value </span>
+          <span v-if="creditFlag" v-translate> Credited Rate </span>
+          <span v-else v-translate> Debited Rate </span>
         </template>
         <template #cell(dcValue)="data">
           <div v-if="form[data.item.index]">
@@ -280,7 +280,7 @@
               :readonly="disabled.rate"
               :required="!disabled.rate"
             ></b-input>
-            <span v-else>{{ crdrnote ? form[data.item.index].taxableamount : form[data.item.index].rate }}</span>
+            <span v-else>{{ crdrnote ? form[data.item.index].drcrrate : form[data.item.index].rate }}</span>
           </div>
         </template>
 
@@ -761,7 +761,7 @@ export default {
             fqty: item.fqty,
             rate: item.rate,
             isService: item.isService,
-            taxableamount: item.taxableamount / item.qty,
+            drcrrate: parseFloat((item.taxableamount / item.qty).toFixed(2)),
             disabledQty: item.qty
           });
         }
@@ -1310,7 +1310,7 @@ export default {
                 if(this.purposeSelectedValue && this.purposeSelectedValue != 18) {
                   item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
                 } else {
-                  item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
+                  item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
                 }
               } else {
                 item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
@@ -1363,7 +1363,7 @@ export default {
               if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
                   item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
                 } else {
-                  item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
+                  item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
                 }
             } else {
               item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
