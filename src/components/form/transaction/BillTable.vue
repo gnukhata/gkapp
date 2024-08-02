@@ -238,8 +238,8 @@
 
         <!-- Debit Credit Value (Debit Credit Note) -->
         <template #head(dcValue)="">
-          <span v-if="creditFlag" v-translate> Credited Value </span>
-          <span v-else v-translate> Debited Value </span>
+          <span v-if="creditFlag" v-translate> Credited Rate </span>
+          <span v-else v-translate> Debited Rate </span>
         </template>
         <template #cell(dcValue)="data">
           <div v-if="form[data.item.index]">
@@ -761,7 +761,7 @@ export default {
             fqty: item.fqty,
             rate: item.rate,
             isService: item.isService,
-            taxableamount: item.taxableamount / item.qty,
+            taxableamount: parseFloat((item.taxableamount / item.qty).toFixed(2)),
             disabledQty: item.qty
           });
         }
