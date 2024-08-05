@@ -1477,8 +1477,9 @@ export default {
     fetchBusinessList() {
       let self = this;
       this.isPreloading = true;
+      let itemListAPI = (self?.billType === "transfernote") ? '/product?invdc=4' : '/product';
       return axios
-        .get('/product')
+        .get(itemListAPI)
         .then((resp) => {
           self.isPreloading = false;
           if (resp.status === 200) {
