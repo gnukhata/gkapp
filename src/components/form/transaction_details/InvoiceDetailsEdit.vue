@@ -105,12 +105,13 @@
           </gk-date>
         </b-form-group>
         <b-form-group
+          v-if="isIndia"
           label="Place of Supply"
           label-for="ivd-input-11"
           label-cols="3"
           label-cols-md="4"
           label-size="sm"
-          :label-class="{ required: !disabled.supplySt }"
+          :label-class="{ required: !disabled.supplySt && parentData.gstin }"
         >
           <template #label> <translate> Place of Supply </translate> </template>
           <v-select
@@ -164,7 +165,7 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          v-if="config.gstin"
+          v-if="isIndia && config.gstin"
           label="GSTIN"
           label-for="ivd-input-40"
           label-cols="3"
@@ -221,7 +222,7 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col v-if="config.state">
+          <b-col v-if="isIndia && config.state">
             <b-form-group
               label="State"
               label-for="ivd-input-70"
@@ -371,6 +372,7 @@ export default {
     };
   },
   computed: {
+    isIndia: (self) => self.$store.getters['global/getIsIndia'],
     delNoteOptions: (self) =>
       self.saleFlag
         ? self.options.delNotes.sale
