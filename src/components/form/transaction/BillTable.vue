@@ -521,6 +521,12 @@ export default {
       default: false,
       note: 'Flag to check bill table from credit/debit note',
     },
+    billType: {
+      type: String,
+      required: false,
+      default: "invoice",
+      note: 'Used to specify bill type',
+    },
     vatFlag: {
       type: Boolean,
       required: false,
