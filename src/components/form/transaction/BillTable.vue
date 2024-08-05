@@ -560,6 +560,7 @@ export default {
             vat: { rate: 0, amount: 0 },
             total: 0,
             isService: false, // used to make certain fields readonly
+            taxableamount: 0,
           },
         ];
       },
