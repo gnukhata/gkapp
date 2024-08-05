@@ -56,7 +56,7 @@
             label-cols="3"
             label-size="sm"
             label-cols-lg="autauto"
-            v-if="config.bank.ifsc"
+            v-if="isIndia && config.bank.ifsc"
           >
             <gk-ifsc
               size="sm"
@@ -165,6 +165,9 @@ export default {
         return {};
       },
     },
+  },
+  computed: {
+    isIndia: (self) => self.$store.getters['global/getIsIndia'],
   },
   watch: {
     updateCounter() {
