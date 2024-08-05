@@ -34,6 +34,7 @@
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
         :godownId="form.transferNote.godownFrom"
+        billType="transfernote"
         ref="bill"
       ></bill-table>
       <b-tooltip

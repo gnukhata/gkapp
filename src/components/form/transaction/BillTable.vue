@@ -521,6 +521,12 @@ export default {
       default: false,
       note: 'Flag to check bill table from credit/debit note',
     },
+    billType: {
+      type: String,
+      required: false,
+      default: "invoice",
+      note: 'Used to specify bill type',
+    },
     vatFlag: {
       type: Boolean,
       required: false,
@@ -1472,8 +1478,9 @@ export default {
     fetchBusinessList() {
       let self = this;
       this.isPreloading = true;
+      let itemListAPI = (self?.billType === "transfernote") ? '/product?invdc=4' : '/product';
       return axios
-        .get('/product')
+        .get(itemListAPI)
         .then((resp) => {
           self.isPreloading = false;
           if (resp.status === 200) {
