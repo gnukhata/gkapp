@@ -56,7 +56,7 @@
             label-cols="3"
             label-size="sm"
             label-cols-lg="autauto"
-            v-if="config.bank.ifsc"
+            v-if="config.bank.ifsc && isIndia"
           >
             <gk-ifsc
               size="sm"
@@ -124,6 +124,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import GkIfsc from '../../GkIfsc.vue';
 import GkTooltip from '@/components/GkTooltip.vue';
 export default {
@@ -165,6 +166,9 @@ export default {
         return {};
       },
     },
+  },
+  computed: {
+    ...mapGetters('global', ['isIndia']),
   },
   watch: {
     updateCounter() {
