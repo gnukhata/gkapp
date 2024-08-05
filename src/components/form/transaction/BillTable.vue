@@ -762,7 +762,7 @@ export default {
             fqty: item.fqty,
             rate: item.rate,
             isService: item.isService,
-            drcrrate: parseFloat((item.taxableamount / item.qty).toFixed(2)),
+            drcrrate: item.drcrrate ? item.drcrrate : parseFloat((item.taxableamount / item.qty).toFixed(2)),
             disabledQty: item.qty
           });
         }
