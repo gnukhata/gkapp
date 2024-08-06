@@ -27,7 +27,13 @@
                 </b-form-radio>
               </b-form-radio-group>
             </b-form-group>
-            <b-form-group label-size="sm" label="GSTIN" label-cols="3" inline>
+            <b-form-group
+              v-if="isGstEnabled"
+              label-size="sm"
+              label="GSTIN"
+              label-cols="3"
+              inline
+            >
               <gk-gstin
                 @validity="onGstinUpdate"
                 @gstin_data="onGstinDataFetched"
@@ -128,6 +134,7 @@
               </b-form-input>
             </b-form-group>
             <b-form-group
+              v-if="isGstEnabled"
               label-size="sm"
               label="GST Registration Type"
               label-for="ci-input-11"
@@ -483,6 +490,7 @@ export default {
         return state;
       }
     },
+    isGstEnabled: (self) => self.$store.getters['global/getIsGstEnabled'],
     isGstValid: (self) => self.form.gstin.valid,
     isGstReg: (self) =>
       self.form.gstin.regType === GST_REG_TYPE['regular'] ||
