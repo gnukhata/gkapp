@@ -163,28 +163,28 @@ export default {
           name: voucher.custname,
           GSTIN: voucher.gstin,
           TIN: voucher.custtin,
-          v_amount: voucher.amount,
-          taxed_amount: voucher.taxed,
+          v_amount: parseFloat(voucher.amount).toFixed(2),
+          taxed_amount: parseFloat(voucher.taxed).toFixed(2),
         };
         voucher.tax_data.forEach((taxItem) => {
           if (taxItem) {
-            obj[taxItem.tax_str] = taxItem.tax_amount;
+            obj[taxItem.tax_str] = parseFloat(taxItem.tax_amount).toFixed(2);
           } else {
-            obj[taxItem.tax_str] = 0;
+            obj[taxItem.tax_str] = "0.00";
           }
         });
         return obj;
       });
       let totalRow = {
         name: 'Total',
-        v_amount: data.voucher_total,
-        taxed_amount: data.taxed_total,
+        v_amount: parseFloat(data.voucher_total).toFixed(2),
+        taxed_amount: parseFloat(data.taxed_total).toFixed(2),
       };
       data.tax_strings.forEach((taxCol) => {
         if (data.tax_totals[taxCol]) {
-          totalRow[taxCol] = data.tax_totals[taxCol];
+          totalRow[taxCol] = parseFloat(data.tax_totals[taxCol]).toFixed(2);
         } else {
-          totalRow[taxCol] = 0;
+          totalRow[taxCol] = "0.00";
         }
       });
       newdata.push(totalRow);
