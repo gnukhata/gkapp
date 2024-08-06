@@ -107,20 +107,17 @@
         :fields="fields"
         sticky-header="500px"
       >
-        <template #cell(invoice_no)="d">
+        <template #cell(v_no)="voucher">
           <b-link
             :to="{
               name: 'Workflow',
               params: {
-                wfName:
-                  d.item.icflag === 9
-                    ? 'Transactions-Invoice'
-                    : 'Transactions-CashMemo',
-                wfId: d.item.invoice_id,
+                wfName: 'Transactions-Voucher',
+                wfId: voucher.item.v_id,
               },
             }"
           >
-            {{ d.item.invoice_no }}
+            {{ voucher.item.v_no }} {{ voucher.item.doc_no }}
           </b-link>
         </template>
       </b-table>
@@ -150,59 +147,44 @@ export default {
     };
   },
   watch: {
-    expandedTable(v) {
-      console.info(v);
+    expandedTable() {
       this.getRegisters();
     },
   },
   methods: {
     formatTable(data) {
-      const newdata = data.gkresult.map((d) => {
+      const newdata = data.vouchers.map((voucher) => {
         let obj = {
-          sr_no: d.srno,
-          invoice_id: d.invid,
-          invoice_no: d.invoiceno,
-          date: d.invoicedate,
-          name: d.customername,
-          GSTIN: d.custgstin,
-          TIN: d.customertin,
-          gross_amount: d.grossamount,
-          tax_free: d.taxfree,
-          // tax: d.tax,
-          // tax_amount: d.taxamount,
-          icflag: d.icflag,
+          v_no: voucher.vouchernumber,
+          v_id: voucher.vouchercode,
+          doc_no: voucher.document_no,
+          narration: voucher.narration,
+          date: voucher.voucherdate,
+          name: voucher.custname,
+          GSTIN: voucher.gstin,
+          TIN: voucher.custtin,
+          v_amount: parseFloat(voucher.amount).toFixed(2),
+          taxed_amount: parseFloat(voucher.taxed).toFixed(2),
         };
-        data.taxcolumns.forEach((taxCol) => {
-          if (d.taxamount[taxCol]) {
-            obj[taxCol] = d.taxamount[taxCol];
-            obj['taxable'] = d.tax[taxCol];
+        voucher.tax_data.forEach((taxItem) => {
+          if (taxItem) {
+            obj[taxItem.tax_str] = parseFloat(taxItem.tax_amount).toFixed(2);
           } else {
-            obj[taxCol] = 0;
+            obj[taxItem.tax_str] = "0.00";
           }
         });
-        // let netTax = obj.tax
-        //   for (const i in data.taxcolumns) {
-        //       obj["taxable_amount"] =
-        //   }
         return obj;
       });
-      let totalTax = Object.values(data.totalrow.taxamount).reduce(
-        (a, b) => parseFloat(a) + parseFloat(b), 0
-      );
       let totalRow = {
         name: 'Total',
-        tax_free: data.totalrow.taxfree,
-        gross_amount: data.totalrow.grossamount,
-        taxable:
-          (
-            parseFloat(data.totalrow.grossamount) - parseFloat(data.totalrow.taxfree) - totalTax
-          ).toFixed(2)
+        v_amount: parseFloat(data.voucher_total).toFixed(2),
+        taxed_amount: parseFloat(data.taxed_total).toFixed(2),
       };
-      data.taxcolumns.forEach((taxCol) => {
-        if (data.totalrow.taxamount[taxCol]) {
-          totalRow[taxCol] = data.totalrow.taxamount[taxCol];
+      data.tax_strings.forEach((taxCol) => {
+        if (data.tax_totals[taxCol]) {
+          totalRow[taxCol] = parseFloat(data.tax_totals[taxCol]).toFixed(2);
         } else {
-          totalRow[taxCol] = 0;
+          totalRow[taxCol] = "0.00";
         }
       });
       newdata.push(totalRow);
@@ -210,17 +192,17 @@ export default {
       this.tmp_report = newdata;
       if (this.expandedTable) {
         this.fields = [
-          { key: 'sr_no', label: 'No.', stickyColumn: true },
-          { key: 'invoice_no', label: 'Invoice Number', stickyColumn: true },
-          { key: 'date', label: 'Invoice Date' },
+          { key: 'v_no', label: 'Voucher No.', stickyColumn: true },
           { key: 'name', label: 'Customer' },
+          { key: 'narration', label: 'Narration', stickyColumn: true },
+          { key: 'date', label: 'Voucher Date' },
           { key: 'GSTIN', label: 'GSTIN' },
           { key: 'TIN', label: 'TIN' },
-          { key: 'tax_free', label: 'Tax Free', tdClass: 'text-right' },
+          { key: 'v_amount', label: 'Voucher Amount', tdClass: 'text-right' },
         ];
 
         this.fields.push(
-          ...data.taxcolumns.map((taxCol) => {
+          ...data.tax_strings.map((taxCol) => {
             return {
               key: taxCol,
               tdClass: 'text-right',
@@ -228,8 +210,7 @@ export default {
           })
         );
 
-        this.fields.push({ key: 'taxable', label: 'Taxable', tdClass: 'text-right' });
-        this.fields.push({ key: 'gross_amount', label: 'Total', tdClass: 'text-right' });
+        this.fields.push({ key: 'taxed_amount', label: 'Total', tdClass: 'text-right' });
       } else {
         this.conciseTableRows();
       }
@@ -239,15 +220,11 @@ export default {
     // this method get's triggered when the user toggles the table view switch
     conciseTableRows() {
       this.fields = [
-        { key: 'sr_no', label: 'No.', stickyColumn: true },
-        { key: 'invoice_no', label: 'Invoice Number', stickyColumn: true },
-        { key: 'date', label: 'Invoice Date' },
+        { key: 'v_no', label: 'Voucher No.', stickyColumn: true },
         { key: 'name', label: 'Customer' },
-        { key: 'GSTIN', label: 'GSTIN' },
-        { key: 'TIN', label: 'TIN' },
-        { key: 'tax_free', label: 'Tax Free', tdClass: 'text-right' },
-        { key: 'taxable', label: 'Taxable', tdClass: 'text-right' },
-        { key: 'gross_amount', label: 'Total', tdClass: 'text-right' },
+        { key: 'date', label: 'Voucher Date' },
+        { key: 'v_amount', label: 'Voucher Amount', tdClass: 'text-right' },
+        { key: 'taxed_amount', label: 'Total', tdClass: 'text-right' },
       ];
     },
     getRegisters() {
