@@ -267,6 +267,7 @@ export default {
     // initialize the required vuex states from local storage
     this.$store.dispatch('initLocalStates').then(() => {
       // init global config of an org
+      this.$store.dispatch('global/initGlobalConfig');
       this.$store.dispatch('global/initGlobalState', { lang: this.$language });
     });
   },
