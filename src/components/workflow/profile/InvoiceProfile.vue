@@ -134,7 +134,9 @@
           <span>{{ invoice.party.addr }} </span> <br />
           <span>{{ invoice.party.state }} </span> <br />
           <span>{{ invoice.party.pincode }} </span>
-          <span> <b> GSTIN: </b> {{ invoice.party.gstin || '-' }} </span>
+          <span v-if="isIndia">
+            <b> GSTIN: </b> {{ invoice.party.gstin || '-' }}
+          </span>
         </p>
       </b-card>
 
@@ -431,7 +433,8 @@ export default {
           pincodce: '',
         },
         isSale: '',
-        isGst: true,
+        isGst: false,
+        isVat: false,
         invItems: [],
         total: {
           amount: 0,
@@ -465,6 +468,7 @@ export default {
     };
   },
   computed: {
+    isIndia: (self) => self.$store.getters['global/getIsIndia'],
     tableFields: (self) => {
       // let designation = self.invoice.designation
       //   ? `(${self.invoice.designation})`
@@ -496,22 +500,25 @@ export default {
         },
       ];
 
-      if (self.invoice.isGst) {
-        if (self.invoice.total.isIgst) {
-          fields.push({
-            key: 'igst',
-            label: 'IGST',
-            tdClass: 'gk-currency-sm',
-          });
-        } else {
-          fields.push(
-            { key: 'cgst', label: 'CGST', tdClass: 'gk-currency-sm' },
-            { key: 'sgst', label: 'SGST', tdClass: 'gk-currency-sm' }
-          );
+      if (self.isIndia) {
+        if (self.invoice.isGst) {
+          if (self.invoice.total.isIgst) {
+            fields.push({
+              key: 'igst',
+              label: 'IGST',
+              tdClass: 'gk-currency-sm',
+            });
+          } else {
+            fields.push(
+              { key: 'cgst', label: 'CGST', tdClass: 'gk-currency-sm' },
+              { key: 'sgst', label: 'SGST', tdClass: 'gk-currency-sm' }
+            );
+          }
+          fields.push({ key: 'cess', label: 'CESS', tdClass: 'gk-currency-sm' });
         }
-        fields.push({ key: 'cess', label: 'CESS', tdClass: 'gk-currency-sm' });
-      } else {
-        fields.push({ key: 'vat', label: 'VAT', tdClass: 'gk-currency-sm' });
+        if (self.invoice.isVat) {
+          fields.push({ key: 'vat', label: 'VAT', tdClass: 'gk-currency-sm' });
+        }
       }
       fields.push({
         key: 'total',
@@ -588,18 +595,21 @@ export default {
     },
     totalDetails: (self) => {
       let total = [{ title: 'Taxable', value: self.invoice.total.taxable }];
-      if (self.invoice.isGst) {
-        if (self.invoice.total.isIgst) {
-          total.push({ title: 'IGST', value: self.invoice.total.tax });
-        } else {
-          total.push(
-            { title: 'CGST', value: self.invoice.total.tax },
-            { title: 'SGST', value: self.invoice.total.tax }
-          );
+      if (self.isIndia) {
+        if (self.invoice.isGst) {
+          if (self.invoice.total.isIgst) {
+            total.push({ title: 'IGST', value: self.invoice.total.tax });
+          } else {
+            total.push(
+              { title: 'CGST', value: self.invoice.total.tax },
+              { title: 'SGST', value: self.invoice.total.tax }
+            );
+          }
+          total.push({ title: 'CESS', value: self.invoice.total.cess });
         }
-        total.push({ title: 'CESS', value: self.invoice.total.cess });
-      } else {
-        total.push({ title: 'VAT', value: self.invoice.total.tax });
+        if (self.invoice.isVat) {
+          total.push({ title: 'VAT', value: self.invoice.total.tax });
+        }
       }
       total.push(
         {
@@ -807,7 +817,8 @@ export default {
             gstin: gstin,
           },
           isSale: details.inoutflag === 15,
-          isGst: details.taxname !== 'VAT',
+          isGst: ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+          isVat: details.taxname === 'VAT',
           invItems: [],
           total: {
             amount: details.invoicetotal,
