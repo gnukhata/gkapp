@@ -79,7 +79,7 @@
       </b-card-group>
       <div
         class="my-2"
-        v-if="config.taxType && isIndia"
+        v-if="config.taxType && isIndia && isGstEnabled && isVatEnabled"
       >
         <b-form-radio-group
           button-variant="outline-secondary"
@@ -484,6 +484,8 @@ export default {
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
     isIndia: (self) => self.$store.getters['global/getIsIndia'],
+    isVatEnabled: (self) => self.$store.getters['global/getIsVatEnabled'],
+    isGstEnabled: (self) => self.$store.getters['global/getIsGstEnabled'],
     isCgst: (self) => {
       if (
         parseInt(self.form.inv.state.id) ===
