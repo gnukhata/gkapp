@@ -89,21 +89,11 @@ export default {
     },
     getIsGstEnabled(state) {
       const defaultTaxMode = state.customConf.transaction?.default?.tax;
-      if (
-        !defaultTaxMode
-          || defaultTaxMode === 'GST'
-          || defaultTaxMode === 'GST & VAT'
-      ) {
-        return true;
-      }
-      return false;
+      return ['GST', 'GST & VAT'].includes(defaultTaxMode);
     },
     getIsVatEnabled(state) {
       const defaultTaxMode = state.customConf.transaction?.default?.tax;
-      if (defaultTaxMode === 'VAT' || defaultTaxMode === 'GST & VAT') {
-        return true;
-      }
-      return false;
+      return ['VAT', 'GST & VAT'].includes(defaultTaxMode);
     },
     getGstRates(state) {
       return state.constant.gstRates;
