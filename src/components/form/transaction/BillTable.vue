@@ -399,12 +399,6 @@
         <template #foot()="">
           {{ '' }}
         </template>
-
-        <template #table-caption>
-          <small v-if="!gstFlag">
-            {{ taxState ? '' : '* Need Place of Supply to implment taxes' }}
-          </small>
-        </template>
       </b-table>
       <b-pagination
         v-if="editMode || form.length > 10"
@@ -456,7 +450,7 @@
 <script>
 import axios from 'axios';
 import BusinessItem from '../BusinessItem.vue';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import { debounceEvent } from '../../../js/utils';
 
 export default {
@@ -617,6 +611,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia']),
     fields: (self) => {
       function remove(names) {
         if (!Array.isArray(names)) {
@@ -669,18 +664,22 @@ export default {
           : self.$gettext('Debited Value')
       );
       // debugger;
-      if (self.gstFlag) {
-        remove('vat');
-        if (self.cgstFlag) {
-          remove('igst');
-        } else {
-          remove(['cgst', 'sgst']);
+      if (self.isIndia) {
+        if (self.gstFlag) {
+          remove('vat');
+          if (self.cgstFlag) {
+            remove('igst');
+          } else {
+            remove(['cgst', 'sgst']);
+          }
         }
-      } else if (self.vatFlag) {
-        remove(['cgst', 'sgst', 'igst', 'cess']);
-      }
-      else {
-        remove(['cgst', 'sgst', 'igst', 'cess']);
+        else if (self.vatFlag) {
+          remove(['cgst', 'sgst', 'igst', 'cess']);
+        } else {
+          remove(['cgst', 'sgst', 'igst', 'cess', 'vat']);
+        }
+      } else {
+        remove(['cgst', 'sgst', 'igst', 'cess', 'vat']);
       }
       if (self.editMode || !self.mobileMode) {
         remove('editBtn');
