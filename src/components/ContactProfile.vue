@@ -153,9 +153,32 @@
       </template>
 
       <b-collapse class="m-3" id="financial">
-        <b-form-group label="GSTIN" label-for="nested-state" label-cols="3">
+        <b-form-group
+          v-if="isGstEnabled"
+          label="GSTIN"
+          label-for="nested-state"
+          label-cols="3"
+        >
           <template #label> <translate> GSTIN </translate> </template>
           <gk-gstin @validity="onGstinUpdate" @gstin_data="onGstinDataFetched" v-model="gstin.gstin"> </gk-gstin>
+        </b-form-group>
+        <b-form-group
+          v-if="isGstEnabled"
+          label="GST Registration Type"
+          label-for="nested-gst-reg"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> GST Registration Type </translate>
+          </template>
+          <b-form-select
+            label-cols="3"
+            id="nested-gst-reg"
+            v-model="details.gst_reg_type"
+            :options="options.regTypes"
+            :disabled="!isGstValid"
+          >
+          </b-form-select>
         </b-form-group>
         <b-form-group
           label="PAN"
@@ -174,23 +197,6 @@
             @change="gstin.pan = details.custpan"
             :required="!!details.custpan"
           ></b-form-input>
-        </b-form-group>
-        <b-form-group
-          label="Registration Type"
-          label-for="nested-gst-reg"
-          label-cols="3"
-        >
-          <template #label>
-            <translate> Registration Type </translate>
-          </template>
-          <b-form-select
-            label-cols="3"
-            id="nested-gst-reg"
-            v-model="details.gst_reg_type"
-            :options="options.regTypes"
-            :disabled="!isGstValid"
-          >
-          </b-form-select>
         </b-form-group>
         <b-form-group
           label="Party Type"
@@ -346,6 +352,7 @@ export default {
     };
   },
   computed: {
+    isGstEnabled: (self) => self.$store.getters['global/getIsGstEnabled'],
     isGstValid: (self) => self.gstin.validity,
     isGstReg: (self) =>
       self.details.gst_reg_type === GST_REG_TYPE['regular'] ||
