@@ -231,7 +231,7 @@
         <b-tr>
           <b-th
             v-translate
-            :colspan="invoice.isGst ? (invoice.total.isIgst ? 7 : 8) : 5"
+            :colspan="invoice.isGst ? (invoice.total.isIgst ? 7 : 8) : 6"
           >
             Total
           </b-th>

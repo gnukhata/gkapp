@@ -104,7 +104,7 @@
         :saleFlag="isSale"
         :blockEmptyStock="isSale"
         :invDate="form.inv.date"
-        :taxState="taxState"
+        :taxState="form.inv?.taxState?.name"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
@@ -657,7 +657,7 @@ export default {
         case PAYMENT_TYPE['bank']:
           payment = 'by cheque';
       }
-      this.defaultNarration = `${type} goods worth Rupees ${total} ${toOrFrom} ${party} ${payment}, ref invoice no. ${invNo}`;
+      this.defaultNarration = `${type} goods worth Rupees ${total.toFixed(2)} ${toOrFrom} ${party} ${payment}, ref invoice no. ${invNo}`;
     },
     fetchDelNoteGodown(dcid) {
       const self = this;
