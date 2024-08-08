@@ -399,12 +399,6 @@
         <template #foot()="">
           {{ '' }}
         </template>
-
-        <template #table-caption>
-          <small v-if="!gstFlag">
-            {{ taxState ? '' : '* Need Place of Supply to implment taxes' }}
-          </small>
-        </template>
       </b-table>
       <b-pagination
         v-if="editMode || form.length > 10"
@@ -617,6 +611,7 @@ export default {
     };
   },
   computed: {
+    isIndia: (self) => self.$store.getters['global/getIsIndia'],
     fields: (self) => {
       function remove(names) {
         if (!Array.isArray(names)) {
@@ -669,18 +664,22 @@ export default {
           : self.$gettext('Debited Value')
       );
       // debugger;
-      if (self.gstFlag) {
-        remove('vat');
-        if (self.cgstFlag) {
-          remove('igst');
-        } else {
-          remove(['cgst', 'sgst']);
+      if (self.isIndia) {
+        if (self.gstFlag) {
+          remove('vat');
+          if (self.cgstFlag) {
+            remove('igst');
+          } else {
+            remove(['cgst', 'sgst']);
+          }
         }
-      } else if (self.vatFlag) {
-        remove(['cgst', 'sgst', 'igst', 'cess']);
-      }
-      else {
-        remove(['cgst', 'sgst', 'igst', 'cess']);
+        else if (self.vatFlag) {
+          remove(['cgst', 'sgst', 'igst', 'cess']);
+        } else {
+          remove(['cgst', 'sgst', 'igst', 'cess', 'vat']);
+        }
+      } else {
+        remove(['cgst', 'sgst', 'igst', 'cess', 'vat']);
       }
       if (self.editMode || !self.mobileMode) {
         remove('editBtn');
