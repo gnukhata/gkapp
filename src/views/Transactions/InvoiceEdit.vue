@@ -1211,7 +1211,7 @@ export default {
           };
         } else {
           let vat = { rate: 0, amount: 0 };
-          if (self.taxState && item.vatMap[self.taxState]) {
+          if (self.taxState && item.vatMap && item.vatMap[self.taxState]) {
             vat = item.vatMap[self.taxState];
           }
           tax[item.product.id] = parseFloat(vat.rate).toFixed(2);
@@ -1476,7 +1476,7 @@ export default {
           // // av.avtax = { GSTName: 'IGST', CESSName: 'CESS' };
         } else {
           let vat = { rate: 0, amount: 0 };
-          if (self.taxState && item.vatMap[self.taxState]) {
+          if (self.taxState && item.vatMap && item.vatMap[self.taxState]) {
             vat = item.vatMap[self.taxState];
           }
           tax[item.product.id] = parseFloat(vat.rate).toFixed(2);
