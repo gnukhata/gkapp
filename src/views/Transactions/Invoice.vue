@@ -94,11 +94,12 @@
       <!-- Bill Table -->
       <bill-table
         :gst-flag="isGst"
+        :cgst-flag="isCgst"
+        :vat-flag="isVat"
         :config="config.bill"
         @details-updated="onComponentDataUpdate"
         :update-counter="updateCounter.bill"
         :parent-data="form.bill"
-        :cgst-flag="isCgst"
         ref="bill"
         :godown-id="goid"
         :sale-flag="isSale"
@@ -333,7 +334,7 @@ export default {
           },
         },
         ship: {},
-        taxType: 'gst', // vat
+        taxType: null,
         bill: [],
         payment: {},
         transport: {},
@@ -482,14 +483,25 @@ export default {
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     // isCreate: (self) => self.formMode === 'create',
     isSale: (self) => self.form.type === 'sale',
-    isGst: (self) => self.form.taxType === 'gst',
     isIndia: (self) => self.$store.getters['global/getIsIndia'],
+    defaultTaxMode: (self) => {
+      const taxMode = self.$store.getters['global/getDefaultTaxMode'];
+      // If both GST & VAT are enabled, GST options will be shown first.
+      if (taxMode === 'GST & VAT') {
+        return 'gst';
+      }
+      return taxMode.toLowerCase();
+    },
     isVatEnabled: (self) => self.$store.getters['global/getIsVatEnabled'],
     isGstEnabled: (self) => self.$store.getters['global/getIsGstEnabled'],
+    isVat: (self) => self.isIndia && self.form.taxType === 'vat',
+    isGst: (self) => self.isIndia && self.form.taxType === 'gst',
     isCgst: (self) => {
       if (
-        parseInt(self.form.inv.state.id) ===
-        parseInt(self.form.inv.taxState.id)
+        self.isIndia && (
+          parseInt(self.form.inv.state.id) ===
+          parseInt(self.form.inv.taxState.id)
+        )
       ) {
         return true;
       }
@@ -1438,7 +1450,7 @@ export default {
           },
         },
         ship: {},
-        taxType: 'gst', // vat
+        taxType: null,
         bill: [
           {
             product: { name: '', id: '' },
@@ -1583,6 +1595,7 @@ export default {
     if (isNaN(this.user_role)) {
       this.get_user_role();
     }
+    this.form.taxType = this.defaultTaxMode;
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
