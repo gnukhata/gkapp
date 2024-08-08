@@ -33,7 +33,7 @@ export default {
         },
         default: {
           payment: 'cash', // bank, cash, credit
-          tax: 'GST', // GST, VAT
+          tax: 'none', // GST, VAT
           godown: '',
           allowNegativeStock: false,
           contacts: { customer: -1, supplier: -1 },
