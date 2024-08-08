@@ -116,9 +116,10 @@
             <total-table
               :config="config.total"
               :gst-flag="isGst"
+              :cgst-flag="isCgst"
+              :vat-flag="isVat"
               :bill-data="form.bill"
               :update-counter="updateCounter.totalTable"
-              :cgst-flag="isCgst"
               ref="totalTable"
             ></total-table>
           </b-col>
