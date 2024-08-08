@@ -77,7 +77,10 @@
         >
         </ship-details>
       </b-card-group>
-      <div class="my-2" v-if="config.taxType">
+      <div
+        class="my-2"
+        v-if="config.taxType && isIndia"
+      >
         <b-form-radio-group
           button-variant="outline-secondary"
           size="sm"
@@ -480,6 +483,7 @@ export default {
     // isCreate: (self) => self.formMode === 'create',
     isSale: (self) => self.form.type === 'sale',
     isGst: (self) => self.form.taxType === 'gst',
+    isIndia: (self) => self.$store.getters['global/getIsIndia'],
     isCgst: (self) => {
       if (
         parseInt(self.form.inv.state.id) ===
