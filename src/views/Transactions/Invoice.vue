@@ -999,7 +999,7 @@ export default {
         // invtotal: this.getTotal('total'),
         // invtotalword: null,
 
-        taxflag: null,
+        taxflag: 0,
         taxstate: null,
 
         pricedetails: [],
@@ -1039,7 +1039,8 @@ export default {
       // === GST/ VAT related data ===
       if (this.isGst) {
         invoice.taxflag = 7;
-      } else {
+      }
+      if (this.isVat) {
         invoice.taxflag = 22;
       }
 
@@ -1278,6 +1279,7 @@ export default {
         taxstate: this.form.party.state.name,
         orgstategstin: this.form.inv.gstin || '',
         discflag: 1,
+        taxflag: 0,
         dcnarration: this.form.narration || this.defaultNarration,
         roundoffflag: this.form.total.roundFlag ? 1 : 0,
         consignee: {},
@@ -1310,7 +1312,8 @@ export default {
       // === GST/ VAT related data ===
       if (this.isGst) {
         delchal.taxflag = 7;
-      } else {
+      }
+      if (this.isVat) {
         delchal.taxflag = 22;
       }
 
