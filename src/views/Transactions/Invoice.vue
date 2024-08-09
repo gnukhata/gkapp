@@ -1039,7 +1039,8 @@ export default {
       // === GST/ VAT related data ===
       if (this.isGst) {
         invoice.taxflag = 7;
-      } else {
+      }
+      if (this.isVat) {
         invoice.taxflag = 22;
       }
 
@@ -1310,7 +1311,8 @@ export default {
       // === GST/ VAT related data ===
       if (this.isGst) {
         delchal.taxflag = 7;
-      } else {
+      }
+      if (this.isVat) {
         delchal.taxflag = 22;
       }
 
