@@ -185,6 +185,7 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'CashMemoProfile',
@@ -205,28 +206,42 @@ export default {
     },
   },
   computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
     memoData: (self) => {
-      return [
+      const fields =  [
         { title: self.$gettext('No.'), value: self.invoice.number },
         { title: self.$gettext('Date'), value: self.invoice.date },
-        { title: self.$gettext('GSTIN'), value: self.invoice.gstin },
       ];
+      if (self.invoice.isGst) {
+        fields.push(
+          { title: self.$gettext('GSTIN'), value: self.invoice.gstin },
+        );
+      }
+      if (self.invoice.isVat) {
+        fields.push(
+          { title: self.$gettext('TIN'), value: self.invoice.tin },
+        );
+      }
+      return fields;
     },
     totalDetails: (self) => {
       let total = self.invoice.total;
       let details = [{ title: self.$gettext('Taxable'), value: total.taxable }];
-      if (self.invoice.isGst) {
-        if (total.isIgst) {
-          details.push({ title: 'IGST', value: total.tax });
-        } else {
-          details.push(
-            { title: 'CGST', value: total.tax },
-            { title: 'SGST', value: total.tax }
-          );
+      if (self.isIndia) {
+        if (self.invoice.isGst) {
+          if (total.isIgst) {
+            details.push({ title: 'IGST', value: total.tax });
+          } else {
+            details.push(
+              { title: 'CGST', value: total.tax },
+              { title: 'SGST', value: total.tax }
+            );
+          }
+          details.push({ title: 'CESS', value: total.cess });
         }
-        details.push({ title: 'CESS', value: total.cess });
-      } else {
-        details.push({ title: 'VAT', value: total.tax });
+        if (self.invoice.isVat) {
+          details.push({ title: 'VAT', value: total.tax });
+        }
       }
       details.push(
         {
@@ -264,16 +279,19 @@ export default {
           tdClass: 'gk-currency-sm',
         },
       ];
-      if (self.invoice.isGst) {
-        if (self.invoice.total.isIgst) {
-          fields.push({ key: 'igst', label: 'IGST (%)', tdClass: 'gk-currency-sm', });
-        } else {
-          fields.push({ key: 'cgst', label: 'CGST (%)', tdClass: 'gk-currency-sm', });
-          fields.push({ key: 'sgst', label: 'SGST (%)', tdClass: 'gk-currency-sm', });
+      if (self.isIndia) {
+        if (self.invoice.isGst) {
+          if (self.invoice.total.isIgst) {
+            fields.push({ key: 'igst', label: 'IGST (%)', tdClass: 'gk-currency-sm', });
+          } else {
+            fields.push({ key: 'cgst', label: 'CGST (%)', tdClass: 'gk-currency-sm', });
+            fields.push({ key: 'sgst', label: 'SGST (%)', tdClass: 'gk-currency-sm', });
+          }
+          fields.push({ key: 'cess', label: 'CESS (%)', tdClass: 'gk-currency-sm', });
         }
-        fields.push({ key: 'cess', label: 'CESS (%)', tdClass: 'gk-currency-sm', });
-      } else {
-        fields.push({ key: 'vat', label: 'VAT (%)', tdClass: 'gk-currency-sm', });
+        if (self.invoice.isVat) {
+          fields.push({ key: 'vat', label: 'VAT (%)', tdClass: 'gk-currency-sm', });
+        }
       }
 
       fields.push({
@@ -304,7 +322,8 @@ export default {
           pincodce: '',
         },
         isSale: true,
-        isGst: true,
+        isGst: false,
+        isVat: false,
         invItems: [],
         total: {
           amount: 0,
@@ -416,7 +435,8 @@ export default {
             roundoffflag: details.roundoff,
           },
           number: details.invoiceno,
-          isGst: details.taxname !== 'VAT',
+          isGst: self.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+          isVat: self.isVatEnabled && details.taxname === 'VAT',
           gstin: details.orgstategstin,
           payment: {
             mode: details.paymentmode,
