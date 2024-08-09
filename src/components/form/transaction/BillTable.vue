@@ -1369,7 +1369,7 @@ export default {
 
           // calculate taxable
           let rate = parseFloat(item.rate);
-          let vat = parseFloat(item.vat.rate) || 0;
+          let vat = parseFloat(item.vat?.rate) || 0;
           let discountamount = parseFloat(item.discount.amount) || 0;
           if (item.rate > 0) {
             let qty = item.qty;
@@ -1396,9 +1396,10 @@ export default {
           } else {
             item.taxable = 0;
           }
-
-          item.vat.amount = item.taxable * (vat * 0.01);
-          item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
+          if (item.vat) {
+            item.vat.amount = item.taxable * (vat * 0.01);
+            item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
+          }
         }
       } else {
         item.taxable = (0).toFixed(2);

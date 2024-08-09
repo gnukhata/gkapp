@@ -101,7 +101,7 @@
         :sale-flag="isSale"
         :block-empty-stock="isSale"
         :inv-date="form.inv.date"
-        :tax-state="taxState"
+        :tax-state="form.inv?.taxState?.name"
       ></bill-table>
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
@@ -637,7 +637,7 @@ export default {
         case PAYMENT_TYPE['bank']:
           payment = 'by cheque';
       }
-      this.defaultNarration = `${type} goods worth Rupees ${total} ${toOrFrom} ${party} ${payment}, ref invoice no. ${invNo}`;
+      this.defaultNarration = `${type} goods worth Rupees ${total.toFixed(2)} ${toOrFrom} ${party} ${payment}, ref invoice no. ${invNo}`;
     },
     fetchDelNoteGodown(dcid) {
       const self = this;
@@ -1084,7 +1084,7 @@ export default {
           };
         } else {
           let vat = { rate: 0, amount: 0 };
-          if (self.taxState && item.vatMap[self.taxState]) {
+          if (self.taxState && item.vatMap && item.vatMap[self.taxState]) {
             vat = item.vatMap[self.taxState];
           }
           tax[item.product.id] = parseFloat(vat.rate).toFixed(2);
@@ -1351,7 +1351,7 @@ export default {
           // // av.avtax = { GSTName: 'IGST', CESSName: 'CESS' };
         } else {
           let vat = { rate: 0, amount: 0 };
-          if (self.taxState && item.vatMap[self.taxState]) {
+          if (self.taxState && item.vatMap && item.vatMap[self.taxState]) {
             vat = item.vatMap[self.taxState];
           }
           tax[item.product.id] = parseFloat(vat.rate).toFixed(2);
