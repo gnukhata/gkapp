@@ -75,7 +75,10 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col cols="12" v-if="config.gstin">
+          <b-col
+            cols="12"
+            v-if="config.gstin && isGstEnabled"
+          >
             <b-form-group
               label="GSTIN"
               label-for="pod-input-20"
@@ -133,7 +136,9 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col v-if="config.state">
+          <b-col
+            v-if="config.state && isIndia"
+          >
             <b-form-group
               label="State"
               label-for="pod-input-50"
@@ -267,7 +272,7 @@
 </template>
 <script>
 import axios from 'axios';
-// import { mapState } from 'vuex';
+import { mapGetters} from 'vuex';
 
 import GkDate from '../../GkDate.vue';
 
@@ -326,7 +331,9 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled']),
+  },
   watch: {
     saleFlag() {
       this.setNoteNo();
