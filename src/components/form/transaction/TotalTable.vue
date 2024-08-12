@@ -9,30 +9,32 @@
       </b-tr>
     </b-thead>
     <b-tbody>
-      <b-tr v-if="config.taxable">
-        <b-td v-translate>Taxable Amount</b-td>
-        <b-td class="text-right">{{ form.taxable || '-' }}</b-td>
-      </b-tr>
-      <b-tr v-if="gstFlag && cgstFlag && config.igst">
-        <b-td>CGST</b-td>
-        <b-td class="text-right">{{ form.igst / 2 || '-' }}</b-td>
-      </b-tr>
-      <b-tr v-if="gstFlag && cgstFlag && config.igst">
-        <b-td>SGST</b-td>
-        <b-td class="text-right">{{ form.igst / 2 || '-' }}</b-td>
-      </b-tr>
-      <b-tr v-if="gstFlag && !cgstFlag && config.igst">
-        <b-td>IGST</b-td>
-        <b-td class="text-right">{{ form.igst || '-' }}</b-td>
-      </b-tr>
-      <b-tr v-if="gstFlag && config.cess">
-        <b-td>CESS</b-td>
-        <b-td class="text-right">{{ form.cess || '-' }}</b-td>
-      </b-tr>
-      <b-tr v-if="!gstFlag && config.vat">
-        <b-td>VAT</b-td>
-        <b-td class="text-right">{{ form.vat || '-' }}</b-td>
-      </b-tr>
+      <template v-if="isIndia">
+        <b-tr v-if="(gstFlag || vatFlag) && config.taxable">
+          <b-td v-translate>Taxable Amount</b-td>
+          <b-td class="text-right">{{ form.taxable || '-' }}</b-td>
+        </b-tr>
+        <b-tr v-if="gstFlag && cgstFlag && config.igst">
+          <b-td>CGST</b-td>
+          <b-td class="text-right">{{ form.igst / 2 || '-' }}</b-td>
+        </b-tr>
+        <b-tr v-if="gstFlag && cgstFlag && config.igst">
+          <b-td>SGST</b-td>
+          <b-td class="text-right">{{ form.igst / 2 || '-' }}</b-td>
+        </b-tr>
+        <b-tr v-if="gstFlag && !cgstFlag && config.igst">
+          <b-td>IGST</b-td>
+          <b-td class="text-right">{{ form.igst || '-' }}</b-td>
+        </b-tr>
+        <b-tr v-if="gstFlag && config.cess">
+          <b-td>CESS</b-td>
+          <b-td class="text-right">{{ form.cess || '-' }}</b-td>
+        </b-tr>
+        <b-tr v-if="vatFlag && config.vat">
+          <b-td>VAT</b-td>
+          <b-td class="text-right">{{ form.vat || '-' }}</b-td>
+        </b-tr>
+      </template>
       <b-tr v-if="config.discount">
         <b-td v-translate>Discount</b-td>
         <b-td class="text-right">{{ form.discount || '-' }}</b-td>
@@ -75,6 +77,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { numberToRupees } from '../../../js/utils';
 
 export default {
@@ -92,15 +95,20 @@ export default {
       type: Boolean,
       required: true,
     },
-    updateCounter: {
-      type: Number,
-      required: false,
-      default: 0,
-    },
     cgstFlag: {
       type: Boolean,
       required: false,
       default: false,
+    },
+    vatFlag: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    updateCounter: {
+      type: Number,
+      required: false,
+      default: 0,
     },
   },
   data() {
@@ -151,6 +159,7 @@ export default {
         ? self.config.value.text
         : self.$gettext('Grand Total');
     },
+    ...mapGetters('global', ['isIndia']),
   },
   methods: {
     onUpdateDetails() {
