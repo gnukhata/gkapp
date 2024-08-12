@@ -535,13 +535,7 @@ export default {
               date: reverseDate(inv.invoicedate),
               supno: inv.supinvno || '',
               supdate: inv.supinvdate || '',
-              state:
-                inv.inoutflag === 9
-                  ? {
-                      id: self.options.stateMap.name[inv.destinationstate],
-                      name: inv.destinationstate,
-                    }
-                  : { id: inv.sourcestatecode, name: inv.sourcestate },
+              state: { id: inv.sourcestatecode, name: inv.sourcestate },
             });
             if(inv.icflag === 3) {
               this.form.invoice.taxState = {
