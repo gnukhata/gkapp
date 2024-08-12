@@ -234,6 +234,7 @@
           </b-card>
           <!-- Tax card-->
           <b-card
+            v-if="isIndia"
             :header="$gettext('Tax Details')"
             class="gkcard"
             header-bg-variant="dark"
@@ -244,7 +245,6 @@
               label-size="sm"
               label-cols="4"
               label-align="right"
-              :disabled="!isIndia"
             >
               <gk-gstin
                 @validity="onGstinUpdate"
@@ -263,7 +263,6 @@
               label-size="sm"
               :state="isPanValid"
               invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
-              :disabled="!isIndia"
             >
               <b-input-group size="sm">
                 <b-form-input
@@ -281,7 +280,6 @@
               label-size="sm"
               label-align="right"
               label-cols="4"
-              :disabled="!isIndia"
             >
               <b-form-input
                 v-model="details.orgstax"
@@ -295,7 +293,6 @@
               label-size="sm"
               label-cols="4"
               label-align="right"
-              :disabled="!isIndia"
             >
               <div
                 v-for="(value, cessAmount, index) in cess"
