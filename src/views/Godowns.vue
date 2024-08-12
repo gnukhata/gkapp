@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import axios from 'axios';
 import GkFileDownload from '@/components/GkFileDownload.vue';
 import GkToolbar from '../components/GkToolbar.vue';
@@ -73,19 +73,25 @@ export default {
     return {
       parentMessage: '',
       searchText: '',
-      fields: [
-        { key: 'godown_name', sortable: true },
-        { key: 'state', sortable: true },
-        { key: 'address', sortable: true },
-        { key: 'contact_person', sortable: true },
-        { key: 'contact_number', sortable: true },
-      ],
       loading: false,
       allGodowns: [],
       godownId: Number,
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia']),
+    fields:  (self) => {
+      const tableFields = [
+        { key: 'godown_name', sortable: true },
+        { key: 'address', sortable: true },
+        { key: 'contact_person', sortable: true },
+        { key: 'contact_number', sortable: true },
+      ];
+      if (self.isIndia) {
+        tableFields.splice(1, 0 , { key: 'state', sortable: true });
+      }
+      return tableFields;
+    },
     ...mapState(['gkCoreUrl', 'authToken', 'yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
