@@ -8,334 +8,336 @@
       <!-- {{ details }} -->
       <b-overlay :show="loading" blur no-wrap></b-overlay>
 
-      <b-card-group deck>
-        <!-- general Card -->
-        <b-card
-          header="General"
-          header-bg-variant="dark"
-          header-text-variant="light"
-        >
-          <b-img
-            rounded
-            center
-            height="150"
-            width="150"
-            class="mx-auto m-2 border border-dark"
-            :src="orgImg"
-          ></b-img>
-          <b-form-group
-            :label="$gettext('Image')"
-            label-size="sm"
-            label-align="right"
-            lable-cols="4"
-            content-cols="8"
-            description="Image size should be less than 1 MB. jpeg & png images are only supported"
+      <b-container fluid="xl">
+        <b-card-group deck>
+          <!-- general Card -->
+          <b-card
+            header="General"
+            header-bg-variant="dark"
+            header-text-variant="light"
           >
-            <b-form-file
-              @input="prepareImg"
-              v-model="details.logo"
-              size="sm"
-              accept="image/jpeg, image/png"
-              placeholder="Choose a file / Drag & drop it here"
-              drop-placeholder="Drop file here..."
-            ></b-form-file>
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('Name')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <b-form-input
-              v-model="details.orgname"
-              size="sm"
-              type="text"
-              required
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('Website')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <b-form-input
-              v-model="details.orgwebsite"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('Email')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <b-form-input
-              v-model="details.orgemail"
-              size="sm"
-              type="email"
-            ></b-form-input>
-          </b-form-group>
-        </b-card>
-        <!-- Contact Card -->
-        <b-card
-          :header="$gettext('Contact Details')"
-          header-bg-variant="dark"
-          header-text-variant="light"
-        >
-          <b-form-group label="Address" label-cols="4" label-align="right">
-            <b-form-input
-              v-model="details.orgaddr"
-              size="sm"
-              type="text"
-              required
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('City')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <b-form-input
-              v-model="details.orgcity"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('Country')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <v-select
-              v-model="details.orgcountry"
-              :options="options.countries"
-              id="select-1"
-              :required="true"
-            />
-          </b-form-group>
-          <b-form-group
-            v-if="isIndia"
-            :label="$gettext('State')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <b-form-select
-              v-model="stateCode"
-              size="sm"
-              :options="states"
-            ></b-form-select>
-          </b-form-group>
-          <b-form-group
-            v-if="isIndia"
-            :label="$gettext('Pincode')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <b-form-input
-              v-model="details.orgpincode"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('Phone')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <b-input-group>
+            <b-img
+              rounded
+              center
+              height="150"
+              width="150"
+              class="mx-auto m-2 border border-dark"
+              :src="orgImg"
+            ></b-img>
+            <b-form-group
+              :label="$gettext('Image')"
+              label-size="sm"
+              label-align="right"
+              lable-cols="4"
+              content-cols="8"
+              description="Image size should be less than 1 MB. jpeg & png images are only supported"
+            >
+              <b-form-file
+                @input="prepareImg"
+                v-model="details.logo"
+                size="sm"
+                accept="image/jpeg, image/png"
+                placeholder="Choose a file / Drag & drop it here"
+                drop-placeholder="Drop file here..."
+              ></b-form-file>
+            </b-form-group>
+            <b-form-group
+              :label="$gettext('Name')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+            >
               <b-form-input
-                v-model="details.orgtelno"
+                v-model="details.orgname"
+                size="sm"
+                type="text"
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              :label="$gettext('Website')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+            >
+              <b-form-input
+                v-model="details.orgwebsite"
                 size="sm"
                 type="text"
               ></b-form-input>
-            </b-input-group>
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('Fax')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-          >
-            <b-form-input
-              v-model="details.orgfax"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
-        </b-card>
-      </b-card-group>
-      <!-- Bank card --->
-      <b-card-group deck class="mt-4">
-        <b-card
-          :header="$gettext('Bank Details')"
-          header-bg-variant="dark"
-          header-text-variant="light"
-        >
-          <b-form-group
-            v-if="isIndia"
-            :label="$gettext('IFSC Code')"
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-          >
-            <gk-ifsc
-              size="sm"
-              @fill="autoFillIfsc"
-              :ifscCode="bankDetails.ifsc"
-            ></gk-ifsc>
-          </b-form-group>
-          <!-- bank name -->
-          <b-form-group
-            :label="$gettext('Name')"
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-          >
-            <b-form-input
-              v-model="bankDetails.bankname"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
-          <!-- Branch -->
-          <b-form-group
-            :label="$gettext('Branch')"
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-          >
-            <b-form-input
-              v-model="bankDetails.branchname"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
-          <!-- account number -->
-          <b-form-group
-            :label="$gettext('Account Number')"
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-          >
-            <b-form-input
-              v-model="bankDetails.accountno"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
-        </b-card>
-        <!-- Tax card-->
-        <b-card
-          :header="$gettext('Tax Details')"
-          class="gkcard"
-          header-bg-variant="dark"
-          header-text-variant="light"
-        >
-          <b-form-group
-            :label="$gettext('GSTIN')"
-            label-size="sm"
-            label-cols="4"
-            label-align="right"
-            :disabled="!isIndia"
-          >
-            <gk-gstin
-              @validity="onGstinUpdate"
-              @gstin_data="onGstinDataFetched"
-              @verified="onGstinVerified"
-              :details="details"
-              v-model="gstin"
-              :showValidation="2"
-              valButtonText="Validate & Autofill"
-            ></gk-gstin>
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('PAN')"
-            label-align="right"
-            label-cols="4"
-            label-size="sm"
-            :state="isPanValid"
-            invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
-            :disabled="!isIndia"
-          >
-            <b-input-group size="sm">
+            </b-form-group>
+            <b-form-group
+              :label="$gettext('Email')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+            >
               <b-form-input
-                v-model="details.orgpan"
-                type="text"
-                :state="isPanValid"
-                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                @change="gstin.pan = details.orgpan"
-                :required="!!details.orgpan"
+                v-model="details.orgemail"
+                size="sm"
+                type="email"
               ></b-form-input>
-            </b-input-group>
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('ServiceTax Number')"
-            label-size="sm"
-            label-align="right"
-            label-cols="4"
-            :disabled="!isIndia"
+            </b-form-group>
+          </b-card>
+          <!-- Contact Card -->
+          <b-card
+            :header="$gettext('Contact Details')"
+            header-bg-variant="dark"
+            header-text-variant="light"
           >
-            <b-form-input
-              v-model="details.orgstax"
-              size="sm"
-              type="text"
-            ></b-form-input>
-          </b-form-group>
+            <b-form-group label="Address" label-cols="4" label-align="right">
+              <b-form-input
+                v-model="details.orgaddr"
+                size="sm"
+                type="text"
+                required
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              :label="$gettext('City')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+            >
+              <b-form-input
+                v-model="details.orgcity"
+                size="sm"
+                type="text"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              :label="$gettext('Country')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+            >
+              <v-select
+                v-model="details.orgcountry"
+                :options="options.countries"
+                id="select-1"
+                :required="true"
+              />
+            </b-form-group>
+            <b-form-group
+              v-if="isIndia"
+              :label="$gettext('State')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+            >
+              <b-form-select
+                v-model="stateCode"
+                size="sm"
+                :options="states"
+              ></b-form-select>
+            </b-form-group>
+            <b-form-group
+              v-if="isIndia"
+              :label="$gettext('Pincode')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+            >
+              <b-form-input
+                v-model="details.orgpincode"
+                size="sm"
+                type="text"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group
+              :label="$gettext('Phone')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+            >
+              <b-input-group>
+                <b-form-input
+                  v-model="details.orgtelno"
+                  size="sm"
+                  type="text"
+                ></b-form-input>
+              </b-input-group>
+            </b-form-group>
+            <b-form-group
+              :label="$gettext('Fax')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+            >
+              <b-form-input
+                v-model="details.orgfax"
+                size="sm"
+                type="text"
+              ></b-form-input>
+            </b-form-group>
+          </b-card>
+        </b-card-group>
+        <!-- Bank card --->
+        <b-card-group deck class="mt-4">
+          <b-card
+            :header="$gettext('Bank Details')"
+            header-bg-variant="dark"
+            header-text-variant="light"
+          >
+            <b-form-group
+              v-if="isIndia"
+              :label="$gettext('IFSC Code')"
+              label-cols="4"
+              label-size="sm"
+              label-align="right"
+            >
+              <gk-ifsc
+                size="sm"
+                @fill="autoFillIfsc"
+                :ifscCode="bankDetails.ifsc"
+              ></gk-ifsc>
+            </b-form-group>
+            <!-- bank name -->
+            <b-form-group
+              :label="$gettext('Name')"
+              label-cols="4"
+              label-size="sm"
+              label-align="right"
+            >
+              <b-form-input
+                v-model="bankDetails.bankname"
+                size="sm"
+                type="text"
+              ></b-form-input>
+            </b-form-group>
+            <!-- Branch -->
+            <b-form-group
+              :label="$gettext('Branch')"
+              label-cols="4"
+              label-size="sm"
+              label-align="right"
+            >
+              <b-form-input
+                v-model="bankDetails.branchname"
+                size="sm"
+                type="text"
+              ></b-form-input>
+            </b-form-group>
+            <!-- account number -->
+            <b-form-group
+              :label="$gettext('Account Number')"
+              label-cols="4"
+              label-size="sm"
+              label-align="right"
+            >
+              <b-form-input
+                v-model="bankDetails.accountno"
+                size="sm"
+                type="text"
+              ></b-form-input>
+            </b-form-group>
+          </b-card>
+          <!-- Tax card-->
+          <b-card
+            :header="$gettext('Tax Details')"
+            class="gkcard"
+            header-bg-variant="dark"
+            header-text-variant="light"
+          >
+            <b-form-group
+              :label="$gettext('GSTIN')"
+              label-size="sm"
+              label-cols="4"
+              label-align="right"
+              :disabled="!isIndia"
+            >
+              <gk-gstin
+                @validity="onGstinUpdate"
+                @gstin_data="onGstinDataFetched"
+                @verified="onGstinVerified"
+                :details="details"
+                v-model="gstin"
+                :showValidation="2"
+                valButtonText="Validate & Autofill"
+              ></gk-gstin>
+            </b-form-group>
+            <b-form-group
+              :label="$gettext('PAN')"
+              label-align="right"
+              label-cols="4"
+              label-size="sm"
+              :state="isPanValid"
+              invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
+              :disabled="!isIndia"
+            >
+              <b-input-group size="sm">
+                <b-form-input
+                  v-model="details.orgpan"
+                  type="text"
+                  :state="isPanValid"
+                  pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                  @change="gstin.pan = details.orgpan"
+                  :required="!!details.orgpan"
+                ></b-form-input>
+              </b-input-group>
+            </b-form-group>
+            <b-form-group
+              :label="$gettext('ServiceTax Number')"
+              label-size="sm"
+              label-align="right"
+              label-cols="4"
+              :disabled="!isIndia"
+            >
+              <b-form-input
+                v-model="details.orgstax"
+                size="sm"
+                type="text"
+              ></b-form-input>
+            </b-form-group>
 
-          <b-form-group
-            :label="$gettext('CESS')"
-            label-size="sm"
-            label-cols="4"
-            label-align="right"
-            :disabled="!isIndia"
-          >
-            <div
-              v-for="(value, cessAmount, index) in cess"
-              :key="index"
-              class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
+            <b-form-group
+              :label="$gettext('CESS')"
+              label-size="sm"
+              label-cols="4"
+              label-align="right"
+              :disabled="!isIndia"
             >
-              <b :style="{ width: '25px' }">{{ cessAmount }}</b>
-              <b-button
-                class
-                size="sm"
-                variant="danger"
-                @click="deleteCess(cessAmount)"
+              <div
+                v-for="(value, cessAmount, index) in cess"
+                :key="index"
+                class="mb-2 d-flex align-items-center justify-content-end justify-content-sm-start"
               >
-                <b-icon font-scale="0.95" icon="trash"></b-icon>
+                <b :style="{ width: '25px' }">{{ cessAmount }}</b>
+                <b-button
+                  class
+                  size="sm"
+                  variant="danger"
+                  @click="deleteCess(cessAmount)"
+                >
+                  <b-icon font-scale="0.95" icon="trash"></b-icon>
+                </b-button>
+              </div>
+              <b-button
+                v-b-modal.cess
+                variant="dark"
+                class="p-0 px-1 float-right float-sm-left"
+                @click="onCessAdd"
+                size="sm"
+              >
+                <b-icon class="align-middle" icon="plus"></b-icon
+                ><translate>CESS</translate>
               </b-button>
-            </div>
-            <b-button
-              v-b-modal.cess
-              variant="dark"
-              class="p-0 px-1 float-right float-sm-left"
-              @click="onCessAdd"
-              size="sm"
-            >
-              <b-icon class="align-middle" icon="plus"></b-icon
-              ><translate>CESS</translate>
-            </b-button>
-          </b-form-group>
-          <!-- {{ details }} -->
-        </b-card>
-      </b-card-group>
-      <!-- Submit & cancel buttons -->
-      <div class="mt-2 mb-3 d-flex flex-row-reverse">
-        <b-button type="submit" size="sm" class="ml-2" variant="success">
-          <b-icon class="mr-1" icon="arrow-up-circle"></b-icon
-          ><translate>Save Changes</translate>
-        </b-button>
-        <b-button variant="danger" size="sm" @click="confirm('delete')">
-          <b-icon class="mr-1" icon="building"></b-icon
-          ><translate>Delete Organisation</translate>
-        </b-button>
-      </div>
+            </b-form-group>
+            <!-- {{ details }} -->
+          </b-card>
+        </b-card-group>
+        <!-- Submit & cancel buttons -->
+        <div class="mt-2 mb-3 d-flex flex-row-reverse">
+          <b-button type="submit" size="sm" class="ml-2" variant="success">
+            <b-icon class="mr-1" icon="arrow-up-circle"></b-icon
+            ><translate>Save Changes</translate>
+          </b-button>
+          <b-button variant="danger" size="sm" @click="confirm('delete')">
+            <b-icon class="mr-1" icon="building"></b-icon
+            ><translate>Delete Organisation</translate>
+          </b-button>
+        </div>
+      </b-container>
     </b-form>
     <!--
       Tax Creation Window
