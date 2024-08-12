@@ -16,7 +16,13 @@
               <span> {{ party.state }} </span> <br />
               <span v-if="party.pin"> <b v-translate> Pin Code: </b> {{ party.pin }} </span>
               <br />
-              <span v-if="party.gstin"> <b> GSTIN: </b> {{ party.gstin }} </span> <br />
+              <span v-if="psorder.isGst">
+                <b>GSTIN: </b>{{ party.gstin }}
+              </span>
+              <span v-if="psorder.isVat">
+                <b>TIN: </b>{{ party.tin }}
+              </span>
+              <br />
             </p>
           </b-col>
           <b-col class="px-0">
@@ -27,7 +33,10 @@
               <span> {{ shipping.state }} </span> <br />
               <span v-if="shipping.pin"> <b v-translate> Pin Code: </b> {{ shipping.pin }} </span>
               <br />
-              <span v-if="shipping.gstin"> <b> GSTIN: </b> {{ shipping.gstin }} </span> <br />
+              <span v-if="shipping.gstin && psorder.isGst">
+                <b>GSTIN: </b>{{ shipping.gstin }}
+              </span>
+              <br />
             </p>
           </b-col>
           <br class="d-none d-md-block" />
@@ -119,6 +128,7 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'PsOrderProfile',
@@ -164,6 +174,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
     psorderData: (self) => {
       let dispatchTitle = self.saleFlag
         ? self.$gettext('Dispatch From')
@@ -196,18 +207,21 @@ export default {
       let total = [
         { title: self.$gettext('Taxable'), value: self.total.taxable },
       ];
-      if (self.psorder.isGst) {
-        if (self.total.isIgst) {
-          total.push({ title: 'IGST', value: self.total.tax });
-        } else {
-          total.push(
-            { title: 'CGST', value: self.total.tax },
-            { title: 'SGST', value: self.total.tax }
-          );
+      if (self.isIndia) {
+        if (self.psorder.isGst) {
+          if (self.total.isIgst) {
+            total.push({ title: 'IGST', value: self.total.tax });
+          } else {
+            total.push(
+              { title: 'CGST', value: self.total.tax },
+              { title: 'SGST', value: self.total.tax }
+            );
+          }
+          total.push({ title: 'CESS', value: self.total.cess });
         }
-        total.push({ title: 'CESS', value: self.total.cess });
-      } else {
-        total.push({ title: 'VAT', value: self.total.tax });
+        if (self.isVat) {
+          total.push({ title: 'VAT', value: self.total.tax });
+        }
       }
       total.push(
         {
@@ -248,24 +262,32 @@ export default {
           label: self.$gettext('Discount (₹)'),
           tdClass: 'gk-currency-sm',
         },
-        { key: 'igst', label: 'IGST (%)' },
-        { key: 'cgst', label: 'CGST (%)' },
-        { key: 'sgst', label: 'SGST (%)' },
-        { key: 'cess', label: 'CESS (%)' },
-        { key: 'vat', label: 'VAT (%)' },
+      ];
+      if (self.isIndia) {
+        if (self.total.isGst) {
+          if (self.total.isIgst) {
+            fields.push(
+              { key: 'igst', label: 'IGST (%)' },
+            );
+          } else {
+            fields.push(
+              { key: 'cgst', label: 'CGST (%)' },
+              { key: 'sgst', label: 'SGST (%)' },
+            );
+          }
+          fields.push({ key: 'cess', label: 'CESS (%)' });
+        }
+        if (self.total.isVat) {
+          fields.push({ key: 'vat', label: 'VAT (%)' });
+        }
+      }
+      fields.push(
         {
           key: 'total',
           label: self.$gettext('Total (₹)'),
           tdClass: 'gk-currency-sm',
         },
-      ];
-      if (self.total.isIgst) {
-        fields.splice(5, 2);
-      } else if (self.total.isVat) {
-        fields.splice(4, 4);
-      } else {
-        fields.splice(4, 1);
-      }
+      );
       return fields;
     },
   },
@@ -275,13 +297,14 @@ export default {
 
       this.total = {
         amount: details.purchaseordertotal,
-        isIgst: details.taxname === 'IGST',
+        isGst: this.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+        isIgst: this.isGstEnabled && details.taxname === 'IGST',
+        isVat: this.isVatEnabled && details.taxname === 'VAT',
         cess: details.totalcessamt,
         tax: details.totaltaxamt,
         discount: details.totaldiscount,
         taxable: details.totaltaxablevalue,
         text: details.pototalwords || numberToRupees(details.totaltaxablevalue),
-        isVat: details.taxname === 'VAT',
         roundoffflag: details.roundoffflag,
       };
 
@@ -295,7 +318,8 @@ export default {
           ? `${details.goname} (${details.goaddr})`
           : '';
       this.psorder = {
-        isGst: details.taxname !== 'VAT',
+        isGst: this.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+        isVat: this.isVatEnabled && details.taxname === 'VAT',
         contents: [],
         date: details.orderdate,
         no: details.orderno,
