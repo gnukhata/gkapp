@@ -85,6 +85,22 @@
               label-for="ci-input-20"
               label-cols="3"
             >
+              <template #label> <translate> Country </translate> </template>
+              <v-select
+                id="ci-input-20"
+                :options="options.countries"
+                v-model="contactCountry"
+                label="name"
+                placeholder="Select a Country"
+              ></v-select>
+            </b-form-group>
+            <b-form-group
+              v-if="contactCountry === 'India'"
+              label-size="sm"
+              label="State"
+              label-for="ci-input-20"
+              label-cols="3"
+            >
               <template #label> <translate> State </translate> </template>
               <v-select
                 id="ci-input-20"
@@ -114,6 +130,7 @@
               </b-form-input>
             </b-form-group>
             <b-form-group
+              v-if="contactCountry === 'India'"
               label-size="sm"
               label="PAN"
               label-for="ci-input-80"
@@ -245,6 +262,7 @@
             <b-collapse v-model="showBankDetails">
               <!-- IFSC -->
               <b-form-group
+                v-if="contactCountry === 'India'"
                 label-size="sm"
                 label="IFSC"
                 label-for="ci-input-150"
@@ -359,6 +377,7 @@ import axios from 'axios';
 import { mapGetters, mapState } from 'vuex';
 import GkGstin from '../GkGstin';
 import GkIfsc from '../GkIfsc.vue';
+import countries from '@/js/countries';
 import { GST_REG_TYPE, GST_PARTY_TYPE } from '../../js/enum.js';
 export default {
   name: 'ContactItem',
@@ -412,6 +431,7 @@ export default {
           gstin: '',
         },
         states: [],
+        countries,
         regTypes: [
           {
             text: this.$gettext('Registered Regular'),
@@ -477,6 +497,7 @@ export default {
         },
       },
       state: null,
+      contactCountry: null,
     };
   },
   computed: {
@@ -604,6 +625,11 @@ export default {
     onSubmit() {
       // console.log('in submit')
       this.isLoading = true;
+      if (this.contactCountry !== 'India') {
+        this.state = '';
+        this.form.pan = null;
+        this.form.bank.ifsc = null;
+      }
       const payload = this.initPayload();
       axios
         .post('/customer', payload)
@@ -717,6 +743,7 @@ export default {
         custname: this.form.name,
         custaddr: this.form.address,
         state: this.form.state,
+        country: this.contactCountry,
         pincode: this.form.pin,
         csflag: this.contactType === 'customer' ? 3 : 19,
         custtan: null, // have to check
@@ -779,6 +806,7 @@ export default {
           ifsc: null,
         },
       };
+      this.contactCountry = null;
     },
     preloadData() {
       this.isPreloading = true;
@@ -787,6 +815,7 @@ export default {
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
           const data = resp.data.gkdata;
+            this.contactCountry = data.orgcountry;
             Object.assign(this.options.orgDetails, {
               country: data.orgcountry,
               state: data.orgstate,
