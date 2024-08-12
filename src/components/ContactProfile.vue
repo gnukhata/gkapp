@@ -113,6 +113,20 @@
         </b-form-group>
 
         <b-form-group
+          label="Country"
+          label-for="country"
+          label-cols="3"
+        >
+          <template #label>
+            <translate>Country</translate>
+          </template>
+          <b-form-select
+            :options="options.countries"
+            v-model="contactCountry"
+          />
+        </b-form-group>
+        <b-form-group
+          v-if="contactCountry === 'India'"
           label="State"
           label-for="state"
           label-cols="3"
@@ -138,6 +152,7 @@
     </b-card>
     <!-- Contact Financial details -->
     <b-card
+      v-if="contactCountry === 'India'"
       header-bg-variant="dark"
       header-text-variant="light"
       class="mt-2"
@@ -242,7 +257,12 @@
       </template>
 
       <b-collapse class="m-3" id="bank">
-        <b-form-group label="IFSC" label-for="cp-bank-ifsc" label-cols="3">
+        <b-form-group
+          v-if="contactCountry === 'India'"
+          label="IFSC"
+          label-for="cp-bank-ifsc"
+          label-cols="3"
+        >
           <!-- <b-form-input
                  id="cp-bank-ifsc"
                  v-model="bankDetails.ifsc"
@@ -279,6 +299,7 @@ import axios from 'axios';
 import { mapGetters, mapState } from 'vuex';
 import GkGstin from '../components/GkGstin';
 import GkIfsc from './GkIfsc.vue';
+import countries from '@/js/countries';
 import { GST_REG_TYPE, GST_PARTY_TYPE } from '@/js/enum.js';
 
 export default {
@@ -301,6 +322,7 @@ export default {
       isLoading: true,
       options: {
         states: [],
+        countries,
         selectedState: {},
         stateMap: {},
         regTypes: [
@@ -338,6 +360,7 @@ export default {
           },
         ],
       },
+      contactCountry: null,
       gstin: {
         gstin: '',
         stateCode: '',
@@ -379,7 +402,7 @@ export default {
     },
     onGstinUpdate({ validity, stateCode, pan, checksum }) {
       if (validity.format) {
-        Object.assign(this.gstin, {
+        this.gstin = Object.assign({}, this.gstin, {
           stateCode: stateCode,
           pan: pan,
           checksum: checksum,
@@ -430,6 +453,7 @@ export default {
                 };
 
                 this.oldContactName = this.details.custname;
+                this.contactCountry = this.details.country;
                 this.isLoading = false;
                 this.states().then(() => {
                   this.gstin.gstin = this.details.gstin
@@ -473,6 +497,15 @@ export default {
           if (val) {
             delete this.details.statelist;
             this.isLoading = true;
+            if (this.contactCountry !== 'India') {
+              this.details.state = '';
+              this.details.gst_reg_type = 0;
+              this.details.gst_party_type = null;
+              this.details.custpan = null;
+              this.details.custtan = null;
+              this.gstin = {};
+              this.bankDetails.ifsc = '';
+            }
             if (this.gstin.validity) {
               this.details.gstin = {};
               this.details.gstin[this.gstin.stateCode] = this.gstin.gstin;
@@ -705,11 +738,11 @@ export default {
       if (gstin) {
         if (gstin.length === 15) {
           gstinUpdated = true;
-          this.gstin = {
+          this.gstin = Object.assign({}, this.gstin, {
             stateCode: gstin.substring(0, 2),
             pan: gstin.substring(2, 12),
             checksum: gstin.substring(12, 15),
-          };
+          });
         }
       }
       if (!gstinUpdated) {
