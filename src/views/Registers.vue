@@ -125,7 +125,7 @@
   </section>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import axios from 'axios';
 import ReportHeader from '../components/ReportHeader.vue';
@@ -196,19 +196,29 @@ export default {
           { key: 'name', label: 'Customer' },
           { key: 'narration', label: 'Narration', stickyColumn: true },
           { key: 'date', label: 'Voucher Date' },
-          { key: 'GSTIN', label: 'GSTIN' },
-          { key: 'TIN', label: 'TIN' },
-          { key: 'v_amount', label: 'Voucher Amount', tdClass: 'text-right' },
         ];
 
+        if (this.isGstEnabled) {
+          this.fields.push({ key: 'GSTIN', label: 'GSTIN' });
+        }
+        if (this.isVatEnabled) {
+          this.fields.push({ key: 'TIN', label: 'TIN' });
+        }
+
         this.fields.push(
-          ...data.tax_strings.map((taxCol) => {
-            return {
-              key: taxCol,
-              tdClass: 'text-right',
-            };
-          })
+          { key: 'v_amount', label: 'Voucher Amount', tdClass: 'text-right' },
         );
+
+        if (this.isIndia)  {
+          this.fields.push(
+            ...data.tax_strings.map((taxCol) => {
+              return {
+                key: taxCol,
+                tdClass: 'text-right',
+              };
+            })
+          );
+        }
 
         this.fields.push({ key: 'taxed_amount', label: 'Total', tdClass: 'text-right' });
       } else {
@@ -315,6 +325,7 @@ export default {
   },
   computed: {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
   },
   mounted() {
     this.parseParams();
