@@ -430,6 +430,9 @@ export default {
     },
   },
   watch: {
+    'parentData.taxState': function(state) {
+      this.form.placeOfSupply = state;
+    },
     updateCounter() {
       const self = this;
       this.isPreloading = true;
@@ -455,7 +458,6 @@ export default {
             self.form.godown = self.parentData.godown;
           }
 
-          self.form.placeOfSupply = self.parentData.taxState;
           self.onUpdateDetails();
           self.isPreloading = false;
         })
