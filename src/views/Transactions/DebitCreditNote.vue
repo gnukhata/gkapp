@@ -96,7 +96,7 @@
         :cgstFlag="isCgst"
         :creditFlag="isCredit"
         :invDate="form.invoice.date"
-        :taxState="taxState"
+        :taxState="form.invoice?.state?.name"
         :crdrnote=true
         ref="bill"
       ></bill-table>
@@ -322,8 +322,6 @@ export default {
     };
   },
   computed: {
-    taxState: (self) =>
-      self.form.invoice.taxState ? self.form.invoice.taxState.name : '',
     isFormValid: (self) => self.form.total.amount > 0,
     invList: (self) => {
       const noteType = self.isCredit ? 'crInvoices' : 'drInvoices';
