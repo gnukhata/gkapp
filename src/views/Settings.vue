@@ -72,22 +72,6 @@
               ></b-form-select>
             </b-form-group>
             <b-form-group
-              label="Tax Mode"
-              label-for="gs-t2-select-20"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
-            >
-              <template #label> <translate> Tax Mode </translate> </template>
-              <b-form-select
-                size="sm"
-                id="gs-t2-select-20"
-                v-model="conf.transaction.default.tax"
-                :options="options.transaction.taxMode"
-                :style="{ 'max-width': '200px' }"
-              ></b-form-select>
-            </b-form-group>
-            <b-form-group
               label="Default Godown"
               label-for="gs-t2-select-30"
               label-cols-lg="2"

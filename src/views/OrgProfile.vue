@@ -241,6 +241,19 @@
             header-text-variant="light"
           >
             <b-form-group
+              label="Tax Mode"
+              label-size="sm"
+              label-cols="4"
+              label-align="right"
+            >
+              <b-form-select
+                size="sm"
+                id="gs-t2-select-20"
+                v-model="taxMode"
+                :options="globalConfOptions.transaction.taxMode"
+              ></b-form-select>
+            </b-form-group>
+            <b-form-group
               :label="$gettext('GSTIN')"
               label-size="sm"
               label-cols="4"
@@ -440,7 +453,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import axios from 'axios';
 import countries from '@/js/countries';
 import GkIfsc from '../components/GkIfsc.vue';
@@ -497,6 +510,20 @@ export default {
   },
   computed: {
     ...mapState(['gkCoreUrl', 'orgImg', 'orgGstin']),
+    ...mapGetters('global', {
+      globalConf: 'getGlobalConfig',
+      globalConfOptions: 'getGlobalConfigOptions',
+    }),
+    taxMode: {
+      get() {
+        return this.globalConf?.transaction?.default?.tax;
+      },
+      set(newTaxMode) {
+        const conf = { ...this.globalConf };
+        conf.transaction.default.tax = newTaxMode;
+        this.$store.commit('global/setGlobalConfig', { conf });
+      },
+    },
     isIndia: function() {
       return this.details.orgcountry === 'India';
     },
@@ -991,6 +1018,23 @@ export default {
     updateOrg() {
       this.loading = true;
       delete this.details.statelist;
+
+      // update tax mode
+      this.$store
+        .dispatch('global/updateGlobalConfig', this.globalConf)
+        .then((resp) => {
+          if (resp.gkstatus === 0) {
+            this.$store.dispatch('global/initGlobalConfig', {
+              lang: this.$language,
+            });
+          } else {
+            this.displayToast(
+              this.$gettext(`Error`),
+              this.$gettext('Failed to update tax mode'),
+              'failure'
+            );
+          }
+        });
 
       // update state
       let state = this.states.find((state) => state.value === this.stateCode);
