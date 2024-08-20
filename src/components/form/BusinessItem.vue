@@ -971,8 +971,15 @@ export default {
           // format and store godetails, format -> {godownId : stockCount}
           product.godetails = this.form.stock.godowns.reduce((acc, godown) => {
             if (godown.qty >= 0 && godown.id) {
-              // TODO: add godown open stock value
-              acc[godown.id] = { qty: godown.qty, rate: godown.rate };
+              if (!Object.hasOwn(acc, godown.id)) {
+                acc[godown.id] = {
+                  qty: parseFloat(godown.qty),
+                  rate: parseFloat(godown.rate),
+                };
+              } else {
+                acc[godown.id]["qty"] += parseFloat(godown.qty);
+                acc[godown.id]["rate"] += parseFloat(godown.rate);
+              }
             }
             return acc;
           }, {});
