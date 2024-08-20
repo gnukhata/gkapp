@@ -254,6 +254,7 @@
               ></b-form-select>
             </b-form-group>
             <b-form-group
+              v-if="['GST', 'GST & VAT'].includes(taxMode)"
               :label="$gettext('GSTIN')"
               label-size="sm"
               label-cols="4"
@@ -270,6 +271,7 @@
               ></gk-gstin>
             </b-form-group>
             <b-form-group
+              v-if="taxMode && taxMode !== 'None'"
               :label="$gettext('PAN')"
               label-align="right"
               label-cols="4"
@@ -289,6 +291,7 @@
               </b-input-group>
             </b-form-group>
             <b-form-group
+              v-if="['VAT', 'GST & VAT'].includes(taxMode)"
               :label="$gettext('ServiceTax Number')"
               label-size="sm"
               label-align="right"
@@ -302,6 +305,7 @@
             </b-form-group>
 
             <b-form-group
+              v-if="taxMode && taxMode !== 'None'"
               :label="$gettext('CESS')"
               label-size="sm"
               label-cols="4"
@@ -539,19 +543,6 @@ export default {
     },
     isPanValid: (self) =>
       self.details.orgpan ? self.regex.pan.test(self.details.orgpan) : null,
-  },
-  watch: {
-    'details.orgcountry': function() {
-      if (!this.isIndia) {
-        this.stateCode = '';
-        this.details.orgpincode = null;
-        this.bankDetails.ifsc = null;
-        this.gstin = null;
-        this.details.orgpan = null;
-        this.details.orgstax = null;
-        this.cess = {};
-      }
-    },
   },
   methods: {
     autoFillIfsc(i) {
@@ -1039,6 +1030,29 @@ export default {
       // update state
       let state = this.states.find((state) => state.value === this.stateCode);
       state = state ? state.text : null;
+
+
+      // Clear tax related fields when country is not India or tax mode is none
+      if (!this.isIndia || this.taxMode === 'None' || !this.taxMode) {
+        this.gstin = null;
+        this.details.orgpan = null;
+        this.details.orgstax = null;
+        this.cess = {};
+      }
+
+      if (this.isIndia) {
+        if (this.taxMode === 'VAT') {
+          this.gstin = null;
+        }
+        if (this.taxMode === 'GST') {
+          // TODO: uncomment the following line when TIN field is added
+          // this.tin = null;
+        }
+      } else {
+        this.stateCode = '';
+        this.details.orgpincode = null;
+        this.bankDetails.ifsc = null;
+      }
 
       let gstin = {};
       if (this.stateCode && this.gstin) {
