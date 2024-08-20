@@ -135,9 +135,8 @@ export default {
     // note that this mutation, directly stores whatever data is being sent, so
     // config must be validated before commit
     setGlobalConfig(state, payload) {
-      let conf = payload.conf;
-      state.customConf.general = conf.general;
-      state.customConf.transaction = conf.transaction;
+      const { general, transaction } = payload.conf;
+      state.customConf = Object.assign({}, { general }, { transaction })
       if (payload.lang && state.customConf.general) {
         if (state.customConf.general.default) {
           payload.lang.current = state.customConf.general.default.locale;
@@ -152,18 +151,24 @@ export default {
     },
 
     setOrgDetails(state, payload) {
-      state.orgDetails = payload;
+      state.orgDetails = Object.assign({}, payload);
     },
 
     setGodownList(state, payload) {
-      state.options.transaction.godowns = payload;
+      const godowns = payload;
+      state.options.transaction = Object.assign(
+        {}, state.options.transaction, { godowns }
+      );
     },
 
     setContactList(state, payload) {
-      state.options.transaction.contacts = {
+      const contacts = {
         customers: payload.customers || [],
         suppliers: payload.suppliers || [],
       };
+      state.options.transaction = Object.assign(
+        {}, state.options.transaction, { contacts }
+      )
     },
   },
   actions: {
