@@ -259,6 +259,7 @@
               label-size="sm"
               label-cols="4"
               label-align="right"
+              label-class="required"
             >
               <gk-gstin
                 @validity="onGstinUpdate"
@@ -268,6 +269,7 @@
                 v-model="gstin"
                 :showValidation="2"
                 valButtonText="Validate & Autofill"
+                required
               ></gk-gstin>
             </b-form-group>
             <b-form-group
