@@ -442,15 +442,12 @@ export default {
       this.form.cr = [];
       this.form.inv = null;
       this.form.narration = '';
-      this.options.creditInv = {
-        sale: [],
-        purchase: [],
-        map: {},
-      };
+      
       this.customerName = '-1';
       this.addRow('cr');
       this.addRow('dr');
       this.updateDate();
+      this.preloadData(true);
       return this.updateAccounts(skipVtype, !!refreshFlag);
     },
     updateDate() {
