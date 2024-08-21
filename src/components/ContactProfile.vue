@@ -196,6 +196,20 @@
           </b-form-select>
         </b-form-group>
         <b-form-group
+          v-if="isVatEnabled"
+          label="TIN"
+          label-for="TIN"
+          label-cols="3"
+        >
+          <template #label>
+            <translate>TIN</translate>
+          </template>
+          <b-form-input
+            id="tin"
+            v-model.trim="details.tin"
+          />
+        </b-form-group>
+        <b-form-group
           label="PAN"
           label-for="nested-pan"
           label-cols="3"
@@ -386,7 +400,7 @@ export default {
     isPanValid: (self) =>
       self.details.custpan ? self.regex.pan.test(self.details.custpan) : null,
     ...mapState(['gkCoreUrl', 'authToken']),
-    ...mapGetters('global', ['isGstEnabled']),
+    ...mapGetters('global', ['isGstEnabled', 'isVatEnabled']),
   },
   methods: {
     autofillIfsc(data) {
@@ -503,6 +517,7 @@ export default {
               this.details.gst_party_type = null;
               this.details.custpan = null;
               this.details.custtan = null;
+              this.details.tin = null;
               this.gstin = {};
               this.bankDetails.ifsc = '';
             }
