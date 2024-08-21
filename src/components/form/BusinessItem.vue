@@ -228,6 +228,7 @@
                             :options="options.godowns"
                             :required="!!godownItems.qty"
                             :readonly="!index"
+                            @change="warnDuplicateGodown()"
                           >
                           </b-form-select>
                         </b-input-group-prepend>
@@ -745,6 +746,29 @@ export default {
     deleteGst(index) {
       this.form.tax.gsts.splice(index, 1);
     },
+    warnDuplicateGodown() {
+      let selectedGodowns = []
+      this.godownItems.forEach((obj) => {
+        if (selectedGodowns.includes(obj.id)) {
+          let godown = this.options.godowns.find(item => item.value === obj.id);
+          this.$bvToast.toast(
+            this.$gettext(
+              `Multiple entries found for godown "${godown.text}",
+               sum of all entries will be submitted.`
+            ),
+            {
+              title: `Duplication Error!`,
+              autoHideDelay: 3000,
+              variant: 'warning',
+              appendToast: true,
+              solid: true,
+            }
+          );
+        } else {
+          selectedGodowns.push(obj.id)
+        }
+      })
+    },
     addGodown() {
       this.form.stock.godowns.push({ id: '', qty: null, rate: null });
     },
@@ -947,8 +971,15 @@ export default {
           // format and store godetails, format -> {godownId : stockCount}
           product.godetails = this.form.stock.godowns.reduce((acc, godown) => {
             if (godown.qty >= 0 && godown.id) {
-              // TODO: add godown open stock value
-              acc[godown.id] = { qty: godown.qty, rate: godown.rate };
+              if (!Object.hasOwn(acc, godown.id)) {
+                acc[godown.id] = {
+                  qty: parseFloat(godown.qty),
+                  rate: parseFloat(godown.rate),
+                };
+              } else {
+                acc[godown.id]["qty"] += parseFloat(godown.qty);
+                acc[godown.id]["rate"] += parseFloat(godown.rate);
+              }
             }
             return acc;
           }, {});
