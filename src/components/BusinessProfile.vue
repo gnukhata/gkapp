@@ -608,6 +608,14 @@ export default {
               .put(`/product/${this.details.productcode}`, payload, config)
               .then((res) => {
                 switch (res.data.gkstatus) {
+                  case 7:
+                    res.data?.error.forEach((field_err) => {
+                      let location = field_err.loc.join(" at ");
+                      let message = (location ? location+": " : "") + field_err.msg;
+                      this.displayToast("Validation Error", message, "warning");
+                    });
+                    break;
+
                   case 0:
                     {
                       this.$bvToast.toast(
@@ -1085,6 +1093,15 @@ export default {
           );
           return error;
         });
+    },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
     },
   },
   mounted() {
