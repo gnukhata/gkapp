@@ -763,11 +763,8 @@ export default {
         country: this.contactCountry,
         pincode: this.form.pin,
         csflag: this.contactType === 'customer' ? 3 : 19,
-        custtan: null, // have to check
-        custphone: null,
-        custemail: null,
-        custfax: null,
-        custpan: null,
+        custpan: this.form.pan,
+        gstin,
         gst_reg_type: this.form.gstin.regType,
         tin: this.form.tin,
       };
@@ -776,16 +773,10 @@ export default {
         payload.gst_party_type = this.form.gstin.partyType;
       }
 
-      if (gstin !== null) {
-        payload.gstin = gstin;
-      }
-
       if (this.showOptional) {
         payload.custphone = this.form.contact;
         payload.custemail = this.form.email;
         payload.custfax = this.form.fax;
-        payload.custpan = this.form.pan;
-        payload.csflag = this.contactType === 'customer' ? 3 : 19;
       }
 
       if (this.showBankDetails && bankDetails.length === 4) {
