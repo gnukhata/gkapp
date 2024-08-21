@@ -566,7 +566,7 @@ export default {
         })
         .then((val) => {
           if (val) {
-            this.loading = true;
+            this.isLoading = true;
             const config = {
               headers: {
                 gktoken: this.authToken,
@@ -607,6 +607,7 @@ export default {
             axios
               .put(`/product/${this.details.productcode}`, payload, config)
               .then((res) => {
+                this.isLoading = false;
                 switch (res.data.gkstatus) {
                   case 7:
                     res.data?.error.forEach((field_err) => {
@@ -667,6 +668,9 @@ export default {
               })
               .catch((e) => {
                 console.log('update details ', e.message);
+              })
+              .then(() => {
+                this.isLoading = false;
               });
           }
         });
