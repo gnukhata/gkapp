@@ -273,6 +273,21 @@
               ></gk-gstin>
             </b-form-group>
             <b-form-group
+              v-if="['VAT', 'GST & VAT'].includes(taxMode)"
+              :label="$gettext('TIN')"
+              label-size="sm"
+              label-cols="4"
+              label-align="right"
+              label-class="required"
+            >
+              <b-form-input
+                size="sm"
+                id="ci-input-13"
+                v-model="details.tin"
+                required
+              />
+            </b-form-group>
+            <b-form-group
               v-if="taxMode && taxMode !== 'None'"
               :label="$gettext('PAN')"
               label-align="right"
@@ -1037,6 +1052,7 @@ export default {
       // Clear tax related fields when country is not India or tax mode is none
       if (!this.isIndia || this.taxMode === 'None' || !this.taxMode) {
         this.gstin = null;
+        this.details.tin = null;
         this.details.orgpan = null;
         this.details.orgstax = null;
         this.cess = {};
@@ -1047,8 +1063,7 @@ export default {
           this.gstin = null;
         }
         if (this.taxMode === 'GST') {
-          // TODO: uncomment the following line when TIN field is added
-          // this.tin = null;
+          this.details.tin = null;
         }
       } else {
         this.stateCode = '';
@@ -1066,6 +1081,7 @@ export default {
       Object.assign(this.details, {
         orgstate: state ?? '',
         gstin: gstin,
+        tin: this.details.tin,
         bankdetails: this.bankDetails,
       });
 
