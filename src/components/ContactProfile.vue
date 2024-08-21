@@ -126,7 +126,7 @@
           />
         </b-form-group>
         <b-form-group
-          v-if="contactCountry === 'India'"
+          v-if="isIndianContact"
           label="State"
           label-for="state"
           label-cols="3"
@@ -152,7 +152,7 @@
     </b-card>
     <!-- Contact Financial details -->
     <b-card
-      v-if="contactCountry === 'India'"
+      v-if="isIndianContact"
       header-bg-variant="dark"
       header-text-variant="light"
       class="mt-2"
@@ -168,33 +168,55 @@
       </template>
 
       <b-collapse class="m-3" id="financial">
-        <b-form-group
-          v-if="isGstEnabled"
-          label="GSTIN"
-          label-for="nested-state"
-          label-cols="3"
-        >
-          <template #label> <translate> GSTIN </translate> </template>
-          <gk-gstin @validity="onGstinUpdate" @gstin_data="onGstinDataFetched" v-model="gstin.gstin"> </gk-gstin>
-        </b-form-group>
-        <b-form-group
-          v-if="isGstEnabled"
-          label="GST Registration Type"
-          label-for="nested-gst-reg"
-          label-cols="3"
-        >
-          <template #label>
-            <translate> GST Registration Type </translate>
-          </template>
-          <b-form-select
+        <template v-if="isGstEnabled">
+          <b-form-group
+            label="GSTIN"
+            label-for="nested-state"
             label-cols="3"
-            id="nested-gst-reg"
-            v-model="details.gst_reg_type"
-            :options="options.regTypes"
-            :disabled="!isGstValid"
           >
-          </b-form-select>
-        </b-form-group>
+            <template #label> <translate> GSTIN </translate> </template>
+            <gk-gstin
+              @validity="onGstinUpdate"
+              @gstin_data="onGstinDataFetched"
+              v-model="gstin.gstin"
+            />
+          </b-form-group>
+          <b-form-group
+            v-if="isGstValid"
+            label="GST Registration Type"
+            label-for="nested-gst-reg"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> GST Registration Type </translate>
+            </template>
+            <b-form-select
+              label-cols="3"
+              id="nested-gst-reg"
+              v-model="details.gst_reg_type"
+              :options="options.regTypes"
+              :disabled="!isGstValid"
+            >
+            </b-form-select>
+          </b-form-group>
+          <b-form-group
+            v-if="isGstValid && isGstReg"
+            label="GST Party Type"
+            label-for="nested-gst-party"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> Party Type </translate>
+            </template>
+            <b-form-select
+              label-cols="3"
+              id="nested-gst-party"
+              v-model="details.gst_party_type"
+              :options="options.partyTypes"
+            >
+            </b-form-select>
+          </b-form-group>
+        </template>
         <b-form-group
           v-if="isVatEnabled"
           label="TIN"
@@ -227,23 +249,6 @@
             :required="!!details.custpan"
           ></b-form-input>
         </b-form-group>
-        <b-form-group
-          label="Party Type"
-          label-for="nested-gst-party"
-          label-cols="3"
-          v-if="isGstReg"
-        >
-          <template #label>
-            <translate> Party Type </translate>
-          </template>
-          <b-form-select
-            label-cols="3"
-            id="nested-gst-party"
-            v-model="details.gst_party_type"
-            :options="options.partyTypes"
-          >
-          </b-form-select>
-        </b-form-group>
         <b-form-group label="TAN" label-for="nested-tan" label-cols="3">
           <template #label> <translate> TAN </translate> </template>
           <b-form-input
@@ -272,7 +277,7 @@
 
       <b-collapse class="m-3" id="bank">
         <b-form-group
-          v-if="contactCountry === 'India'"
+          v-if="isIndianContact"
           label="IFSC"
           label-for="cp-bank-ifsc"
           label-cols="3"
@@ -389,6 +394,7 @@ export default {
     };
   },
   computed: {
+    isIndianContact: (self) => self.contactCountry === 'India',
     isGstValid: (self) => self.gstin.validity,
     isGstReg: (self) =>
       self.details.gst_reg_type === GST_REG_TYPE['regular'] ||
@@ -511,7 +517,7 @@ export default {
           if (val) {
             delete this.details.statelist;
             this.isLoading = true;
-            if (this.contactCountry !== 'India') {
+            if (!this.isIndianContact) {
               this.details.state = '';
               this.details.gst_reg_type = 0;
               this.details.gst_party_type = null;
