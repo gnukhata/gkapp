@@ -28,24 +28,83 @@
               </b-form-radio-group>
             </b-form-group>
             <b-form-group
-              v-if="isGstEnabled"
               label-size="sm"
-              label="GSTIN"
+              label="Country"
+              label-for="ci-input-20"
               label-cols="3"
-              inline
             >
-              <gk-gstin
-                @validity="onGstinUpdate"
-                @gstin_data="onGstinDataFetched"
-                @verified="onGstinVerified"
-                v-model="form.gstin.gstin"
-                :showValidation="2"
-                valButtonText="Validate & Autofill"
-              ></gk-gstin>
+              <template #label>
+                <translate>Country</translate>
+              </template>
+              <v-select
+                id="ci-input-20"
+                :options="options.countries"
+                v-model="contactCountry"
+                label="name"
+                placeholder="Select a Country"
+              />
             </b-form-group>
-            <div class="text-center text-small text-secondary mb-2">
-              (or)
-            </div>
+            <template v-if="isIndianContact && isGstEnabled">
+              <b-form-group
+                label-size="sm"
+                label="GSTIN"
+                label-cols="3"
+                inline
+              >
+                <gk-gstin
+                  @validity="onGstinUpdate"
+                  @gstin_data="onGstinDataFetched"
+                  @verified="onGstinVerified"
+                  v-model="form.gstin.gstin"
+                  :showValidation="2"
+                  valButtonText="Validate & Autofill"
+                ></gk-gstin>
+              </b-form-group>
+              <b-form-group
+                v-if="isGstValid"
+                label-size="sm"
+                label="GST Registration Type"
+                label-for="ci-input-11"
+                :state="validatePan"
+                label-cols="3"
+              >
+                <template #label>
+                  <translate> GST Registration Type </translate>
+                </template>
+                <b-form-select
+                  label-cols="3"
+                  id="ci-input-11"
+                  size="sm"
+                  v-model="form.gstin.regType"
+                  :options="options.regTypes"
+                  :disabled="!isGstValid"
+                >
+                </b-form-select>
+              </b-form-group>
+              <b-form-group
+                v-if="isGstValid && isGstReg"
+                label-size="sm"
+                label="GST Party Type"
+                label-for="ci-input-12"
+                :state="validatePan"
+                label-cols="3"
+              >
+                <template #label>
+                  <translate> GST Party Type </translate>
+                </template>
+                <b-form-select
+                  label-cols="3"
+                  id="ci-input-12"
+                  size="sm"
+                  v-model="form.gstin.partyType"
+                  :options="options.partyTypes"
+                >
+                </b-form-select>
+              </b-form-group>
+              <div class="text-center text-small text-secondary mb-2">
+                (or)
+              </div>
+            </template>
             <b-form-group
               label-size="sm"
               label="Name"
@@ -80,22 +139,7 @@
               </b-form-textarea>
             </b-form-group>
             <b-form-group
-              label-size="sm"
-              label="State"
-              label-for="ci-input-20"
-              label-cols="3"
-            >
-              <template #label> <translate> Country </translate> </template>
-              <v-select
-                id="ci-input-20"
-                :options="options.countries"
-                v-model="contactCountry"
-                label="name"
-                placeholder="Select a Country"
-              ></v-select>
-            </b-form-group>
-            <b-form-group
-              v-if="contactCountry === 'India'"
+              v-if="isIndianContact"
               label-size="sm"
               label="State"
               label-for="ci-input-20"
@@ -130,7 +174,7 @@
               </b-form-input>
             </b-form-group>
             <b-form-group
-              v-if="contactCountry === 'India'"
+              v-if="isIndianContact"
               label-size="sm"
               label="PAN"
               label-for="ci-input-80"
@@ -151,48 +195,7 @@
               </b-form-input>
             </b-form-group>
             <b-form-group
-              v-if="isGstEnabled"
-              label-size="sm"
-              label="GST Registration Type"
-              label-for="ci-input-11"
-              :state="validatePan"
-              label-cols="3"
-            >
-              <template #label>
-                <translate> GST Registration Type </translate>
-              </template>
-              <b-form-select
-                label-cols="3"
-                id="ci-input-11"
-                size="sm"
-                v-model="form.gstin.regType"
-                :options="options.regTypes"
-                :disabled="!isGstValid"
-              >
-              </b-form-select>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="GST Party Type"
-              label-for="ci-input-12"
-              :state="validatePan"
-              label-cols="3"
-              v-if="isGstReg"
-            >
-              <template #label>
-                <translate> GST Party Type </translate>
-              </template>
-              <b-form-select
-                label-cols="3"
-                id="ci-input-12"
-                size="sm"
-                v-model="form.gstin.partyType"
-                :options="options.partyTypes"
-              >
-              </b-form-select>
-            </b-form-group>
-            <b-form-group
-              v-if="isVatEnabled"
+              v-if="isIndianContact && isVatEnabled"
               label-size="sm"
               label="TIN"
               label-for="ci-input-13"
@@ -279,7 +282,7 @@
             <b-collapse v-model="showBankDetails">
               <!-- IFSC -->
               <b-form-group
-                v-if="contactCountry === 'India'"
+                v-if="isIndianContact"
                 label-size="sm"
                 label="IFSC"
                 label-for="ci-input-150"
@@ -518,6 +521,7 @@ export default {
     };
   },
   computed: {
+    isIndianContact: (self) => self.contactCountry === 'India',
     defaultState: (self) => {
       const { country, state, gstin } = self.options.orgDetails;
       const orgCountry = country.trim().toLowerCase();
