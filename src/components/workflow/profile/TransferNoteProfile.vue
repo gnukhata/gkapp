@@ -209,6 +209,11 @@ export default {
       };
       axios.put('/transfernote?received=true', payload).then((resp) => {
         if (resp.data.gkstatus === 0) {
+          let log = {
+            activity: `transfer note updated; #${this.tnote.no}`,
+          };
+          axios.post('/log', log);
+
           this.displayToast(
             this.$gettext(`Success`),
             this.$gettextInterpolate(
