@@ -191,6 +191,23 @@
               >
               </b-form-select>
             </b-form-group>
+            <b-form-group
+              v-if="isVatEnabled"
+              label-size="sm"
+              label="TIN"
+              label-for="ci-input-13"
+              label-cols="3"
+            >
+              <template #label>
+                <translate>TIN</translate>
+              </template>
+              <b-form-input
+                size="sm"
+                id="ci-input-13"
+                v-model="form.tin"
+                trim
+              />
+            </b-form-group>
           </b-col>
           <b-col cols="12">
             <b-form-checkbox
@@ -527,7 +544,7 @@ export default {
     validatePan: (self) =>
       self.form.pan ? self.regex.pan.test(self.form.pan) : null,
     ...mapState(['gkCoreUrl', 'gkCoreTestUrl', 'authToken']),
-    ...mapGetters('global', ['isGstEnabled']),
+    ...mapGetters('global', ['isGstEnabled', 'isVatEnabled']),
   },
   watch: {
     type(type) {
@@ -752,6 +769,7 @@ export default {
         custfax: null,
         custpan: null,
         gst_reg_type: this.form.gstin.regType,
+        tin: this.form.tin,
       };
 
       if (this.isGstReg) {
@@ -791,6 +809,7 @@ export default {
         contact: null,
         fax: null,
         pan: null,
+        tin: null,
         gstin: {
           gstin: null,
           stateCode: null,
