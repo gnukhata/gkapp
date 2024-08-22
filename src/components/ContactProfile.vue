@@ -423,10 +423,10 @@ export default {
                 // update bank details
                 let bdetails = this.details.bankdetails || {};
                 this.bankDetails = {
-                  accountno: bdetails.accountno || '',
-                  bankname: bdetails.bankname || '',
-                  branchname: bdetails.branchname || '',
-                  ifsc: bdetails.ifsc || '',
+                  accountno: bdetails.accountno,
+                  bankname: bdetails.bankname,
+                  branchname: bdetails.branchname,
+                  ifsc: bdetails.ifsc,
                 };
 
                 this.oldContactName = this.details.custname;
