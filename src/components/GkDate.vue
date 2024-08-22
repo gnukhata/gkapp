@@ -234,7 +234,7 @@ export default {
             }
           }
           if (this.toExternalFormat(this.input) > this.toExternalFormat(this.max)) {
-            this.input = this.max;
+            this.date = this.max.split('-').reverse().join('-');
           }
           this.valid = false;
         }
