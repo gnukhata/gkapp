@@ -612,6 +612,13 @@ export default {
           this.isLoading = false;
 
           switch (response.data.gkstatus) {
+            case 7:
+              response.data?.error.forEach((field_err) => {
+                let location = field_err.loc.join(" at ");
+                let message = (location ? location+": " : "") + field_err.msg;
+                this.displayToast("Validation Error", message, "warning");
+              });
+              break;
             case 0:
               {
                 this.$bvToast.toast(
@@ -642,25 +649,6 @@ export default {
                 // only reset form on success, otherwise leave it as is so that user may edit their input and try again
                 this.resetForm();
               }
-              break;
-            case 1:
-              this.$bvToast.toast(
-                this.$gettextInterpolate(
-                  this.$gettext(
-                    `%{formType} entry already exists! (Please check Name, FAX or PAN)`
-                  ),
-                  {
-                    formType: this.formType,
-                  }
-                ),
-                {
-                  title: this.$gettext('Create Customer Error!'),
-                  autoHideDelay: 3000,
-                  variant: 'warning',
-                  appendToast: true,
-                  solid: true,
-                }
-              );
               break;
             case 2:
               this.$bvToast.toast(
@@ -845,6 +833,15 @@ export default {
           );
           return error;
         });
+    },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
     },
   },
   mounted() {
