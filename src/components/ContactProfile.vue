@@ -276,7 +276,7 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import GkGstin from '../components/GkGstin';
 import GkIfsc from './GkIfsc.vue';
 import { GST_REG_TYPE, GST_PARTY_TYPE } from '@/js/enum.js';
@@ -352,7 +352,6 @@ export default {
     };
   },
   computed: {
-    isGstEnabled: (self) => self.$store.getters['global/getIsGstEnabled'],
     isGstValid: (self) => self.gstin.validity,
     isGstReg: (self) =>
       self.details.gst_reg_type === GST_REG_TYPE['regular'] ||
@@ -364,6 +363,7 @@ export default {
     isPanValid: (self) =>
       self.details.custpan ? self.regex.pan.test(self.details.custpan) : null,
     ...mapState(['gkCoreUrl', 'authToken']),
+    ...mapGetters('global', ['isGstEnabled']),
   },
   methods: {
     autofillIfsc(data) {

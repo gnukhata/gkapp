@@ -99,13 +99,21 @@ export default {
         ? state.customConf.transaction.default.tax
         : state.defConf.transaction.default.tax;
     },
-    getIsGstEnabled(state) {
+    isGstEnabled(state, getters) {
       const defaultTaxMode = state.customConf.transaction?.default?.tax;
-      return ['GST', 'GST & VAT'].includes(defaultTaxMode);
+      const isGstInTaxMode = ['GST', 'GST & VAT'].includes(defaultTaxMode);
+      // As an additional precaution, also check country and GSTIN
+      const { isIndia } = getters;
+      const hasGstin = Object.keys(state.orgDetails.gstin ?? {}).length > 0;
+      return isIndia && isGstInTaxMode && hasGstin;
     },
-    getIsVatEnabled(state) {
+    isVatEnabled(state, getters) {
       const defaultTaxMode = state.customConf.transaction?.default?.tax;
-      return ['VAT', 'GST & VAT'].includes(defaultTaxMode);
+      const isVatInTaxMode = ['VAT', 'GST & VAT'].includes(defaultTaxMode);
+      // As an additional precaution, also check country and TIN
+      const { isIndia } = getters;
+      const hasTin = !!state.orgDetails.tin;
+      return isIndia && isVatInTaxMode && hasTin;
     },
     getGstRates(state) {
       return state.constant.gstRates;
