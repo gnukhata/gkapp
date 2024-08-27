@@ -69,6 +69,15 @@
                 responsive="sm"
                 table-class="text-center"
               >
+                <template #cell(invoiceno)="data">
+                  <b-link :to="{
+                    name: 'Workflow',
+                    params: { wfName: 'Transactions-Invoice' },
+                    wfId: data.item.invid,
+                  }">
+                    {{ data.value }}
+                  </b-link>
+                </template>
                 <template #cell(balanceamount)="data">
                   <small class="text-secondary" v-if="data.item.adjusted"
                     >( {{ data.value }} - {{ data.item.adjusted }} = )</small
