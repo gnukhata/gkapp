@@ -33,7 +33,7 @@
                 label="custname"
                 :reduce="(cust) => cust.custid"
                 style="min-width: 200px"
-                :placeholder="isCustomer? 'Choose Customer': 'Choose Supplier'"
+                :placeholder="isSupplier? 'Choose Supplier': 'Choose Customer'"
               >
               </v-select>
             </b-form-group>
@@ -184,7 +184,7 @@
           :hideBackButton="true"
           :inOverlay="true"
           :onSave="onVoucherSave"
-          :type="csflag === '3' ? 'receipt' : 'payment'"
+          :type="csflag === '19' ? 'payment' : 'receipt'"
           :customer="custname"
           :isOpen="showVoucherForm"
           mode="create"
@@ -266,9 +266,9 @@ export default {
     };
   },
   computed: {
-    isCustomer: (self) => self.csflag === '3',
+    isSupplier: (self) => self.csflag === '19',
     currentPartyOptions: (self) =>
-      self.csflag === '3' ? self.options.customers : self.options.suppliers,
+      self.csflag === '19' ? self.options.suppliers : self.options.customers,
     totalAdjusted: (self) => {
       let total = 0;
       if (self.options.invoices !== null) {
@@ -320,7 +320,7 @@ export default {
             this.totalAdjusted
           } </b> against <b>${invCount}</b> ${
             invCount > 1 ? 'Invoices' : 'Invoice'
-          } for ${this.isCustomer ? 'Customer' : 'Supplier'} ${this.custname}?`,
+          } for ${this.isSupplier ? 'Supplier' : 'Customer'} ${this.custname}?`,
         },
       });
       this.$bvModal
