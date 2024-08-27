@@ -73,7 +73,7 @@
                   <small class="text-secondary" v-if="data.item.adjusted"
                     >( {{ data.value }} - {{ data.item.adjusted }} = )</small
                   >
-                  {{ data.value - data.item.adjusted }}
+                  {{ parseFloat(data.value - data.item.adjusted).toFixed(2) }}
                 </template>
 
                 <!-- Adjusted -->
