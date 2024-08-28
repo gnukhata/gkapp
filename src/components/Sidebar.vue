@@ -91,10 +91,6 @@
                     <b-icon icon="receipt"></b-icon
                     ><translate> Purchase/Sales Order</translate>
                   </b-nav-item>
-                  <b-nav-item to="/workflow/Transactions-RejectionNote/-1">
-                    <b-icon icon="receipt"></b-icon
-                    ><translate> Rejection Note</translate>
-                  </b-nav-item>
                   <b-nav-item to="/workflow/Transactions-TransferNote/-1">
                     <b-icon icon="receipt"></b-icon
                     ><translate> Transfer Note</translate>
