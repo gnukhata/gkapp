@@ -788,7 +788,7 @@ export default {
           let productCode, taxPayload, taxRequests;
           switch (response.data.gkstatus) {
             case 7:
-              response.data?.error.forEach((field_err) => {
+              response.data?.error?.forEach?.((field_err) => {
                 let location = field_err.loc.join(" at ");
                 let message = (location ? location+": " : "") + field_err.msg;
                 this.displayToast("Validation Error", message, "warning");

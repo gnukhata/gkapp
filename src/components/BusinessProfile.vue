@@ -610,7 +610,7 @@ export default {
                 this.isLoading = false;
                 switch (res.data.gkstatus) {
                   case 7:
-                    res.data?.error.forEach((field_err) => {
+                    res.data?.error?.forEach?.((field_err) => {
                       let location = field_err.loc.join(" at ");
                       let message = (location ? location+": " : "") + field_err.msg;
                       this.displayToast("Validation Error", message, "warning");
