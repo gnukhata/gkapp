@@ -89,14 +89,14 @@
           :label-class="{ required: !(editFlag || isNameDisabled) }"
         >
           <template #label> <translate> Name </translate> </template>
-          
+
             <b-form-select
             v-if="isCustomer && options.customers"
             id="ptd-input-10"
             v-model="form.name"
             @change="onPartyNameSelect(form.name)"
-            :required="true"
-            :disabled="(editFlag || isNameDisabled || editInvoice) && !!form.name?.name"
+            :required="icflag !== 3"
+            :disabled="icflag === 3 || ((editFlag || isNameDisabled || editInvoice) && !!form.name?.name)"
             :clearable="true"
           >
             <b-form-select-option
@@ -385,6 +385,11 @@ export default {
       },
     },
     editInvoice: Boolean,
+    icflag: {
+      type: Number,
+      required: false,
+      default: 9, // 3 - cash memo, 9 - invoice
+    },
   },
   data() {
     return {
@@ -468,6 +473,12 @@ export default {
         // this.isPreloading = true;
         this.form.name = party;
         this.onPartyNameSelect(this.form.name);
+      }
+    },
+    icflag(flag) {
+      // Reset party details for cash memos (flag 3) since they aren't valid
+      if (flag === 3) {
+        this.resetPartyDetails();
       }
     },
   },
