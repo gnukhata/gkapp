@@ -66,6 +66,7 @@
           :mode="form.type"
           :parentData="form.party"
           :gstFlag="isGst"
+          :icflag="form.invoice.icflag"
           :invoiceParty="invoiceParty"
           :config="config.party"
           :saleFlag="isSale"
