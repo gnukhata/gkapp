@@ -546,7 +546,9 @@ export default {
       },
     },
     isIndia: function() {
-      return this.details.orgcountry === 'India';
+      const { orgcountry } = this.details;
+      // Return true even if country field is empty, for backwards compatibility
+      return (!orgcountry || orgcountry === 'India');
     },
     isGstinValid: function() {
       if (
