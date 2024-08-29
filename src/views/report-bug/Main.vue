@@ -60,7 +60,7 @@
       <!-- Submit button -->
       <b-button
         :disabled="
-          !selectedModule.name ||
+          !selectedModule?.name ||
             bugTitle.length == 0 ||
             bugDescription.length == 0
         "
@@ -69,7 +69,7 @@
         size="sm"
         class="float-right"
         :href="
-          `mailto:incoming+gnukhata-issue-tracker-40456223-8s695fsvkl2uw7wjim3xsmk0r-issue@incoming.gitlab.com?subject=[${this.selectedModule.name}] ${this.bugTitle}&body=${this.bugDescription}`
+          `mailto:incoming+gnukhata-issue-tracker-40456223-8s695fsvkl2uw7wjim3xsmk0r-issue@incoming.gitlab.com?subject=[${this.selectedModule?.name}] ${this.bugTitle}&body=${this.bugDescription}`
         "
       >
         <b-icon class="mr-1" icon="envelope"></b-icon
