@@ -34,9 +34,18 @@
 // @ is an alias to /src
 export default {
   name: 'Tiles',
-  data() {
-    return {
-      cards: [
+  computed: {
+    isGstEnabled: (self) => self.$store.getters['global/isGstEnabled'],
+    cards: (self) => {
+      let report = {
+        name: 'Balance Sheet',
+        url: '/balance-sheet',
+      };
+      if (self.isGstEnabled) {
+        report.name = 'GSTR-1';
+        report.url = '/gst/r1';
+      }
+      const tiles = [
         {
           name: 'Go To Workflow',
           icon: 'tools',
@@ -54,10 +63,10 @@ export default {
           textColor: 'light',
         },
         {
-          name: 'GSTR-1',
+          name: report.name,
           icon: 'file',
-          text: 'GST',
-          url: '/gst/r1',
+          text: report.name,
+          url: report.url,
           color: 'dark',
           textColor: 'light',
         },
@@ -69,8 +78,9 @@ export default {
           color: 'dark',
           textColor: 'light',
         },
-      ],
-    };
+      ];
+      return tiles;
+    },
   },
 };
 </script>

@@ -19,6 +19,7 @@
           </b-form-input>
         </b-form-group>
         <b-form-group
+          v-if="isIndia"
           size="sm"
           label="State"
           label-align="right"
@@ -82,7 +83,7 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 export default {
   name: 'GodownEdit',
   data() {
@@ -95,6 +96,7 @@ export default {
   },
   computed: {
     ...mapState(['gkCoreUrl', 'authToken']),
+    ...mapGetters('global', ['isIndia']),
   },
   methods: {
     confirm() {

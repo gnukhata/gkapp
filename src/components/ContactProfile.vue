@@ -113,6 +113,20 @@
         </b-form-group>
 
         <b-form-group
+          label="Country"
+          label-for="country"
+          label-cols="3"
+        >
+          <template #label>
+            <translate>Country</translate>
+          </template>
+          <b-form-select
+            :options="options.countries"
+            v-model="contactCountry"
+          />
+        </b-form-group>
+        <b-form-group
+          v-if="isIndianContact"
           label="State"
           label-for="state"
           label-cols="3"
@@ -138,6 +152,7 @@
     </b-card>
     <!-- Contact Financial details -->
     <b-card
+      v-if="isIndianContact"
       header-bg-variant="dark"
       header-text-variant="light"
       class="mt-2"
@@ -153,32 +168,68 @@
       </template>
 
       <b-collapse class="m-3" id="financial">
+        <template v-if="isGstEnabled">
+          <b-form-group
+            label="GSTIN"
+            label-for="nested-state"
+            label-cols="3"
+          >
+            <template #label> <translate> GSTIN </translate> </template>
+            <gk-gstin
+              @validity="onGstinUpdate"
+              @gstin_data="onGstinDataFetched"
+              v-model="gstin.gstin"
+            />
+          </b-form-group>
+          <b-form-group
+            v-if="isGstValid"
+            label="GST Registration Type"
+            label-for="nested-gst-reg"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> GST Registration Type </translate>
+            </template>
+            <b-form-select
+              label-cols="3"
+              id="nested-gst-reg"
+              v-model="details.gst_reg_type"
+              :options="options.regTypes"
+              :disabled="!isGstValid"
+            >
+            </b-form-select>
+          </b-form-group>
+          <b-form-group
+            v-if="isGstValid && isGstReg"
+            label="GST Party Type"
+            label-for="nested-gst-party"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> Party Type </translate>
+            </template>
+            <b-form-select
+              label-cols="3"
+              id="nested-gst-party"
+              v-model="details.gst_party_type"
+              :options="options.partyTypes"
+            >
+            </b-form-select>
+          </b-form-group>
+        </template>
         <b-form-group
-          v-if="isGstEnabled"
-          label="GSTIN"
-          label-for="nested-state"
-          label-cols="3"
-        >
-          <template #label> <translate> GSTIN </translate> </template>
-          <gk-gstin @validity="onGstinUpdate" @gstin_data="onGstinDataFetched" v-model="gstin.gstin"> </gk-gstin>
-        </b-form-group>
-        <b-form-group
-          v-if="isGstEnabled"
-          label="GST Registration Type"
-          label-for="nested-gst-reg"
+          v-if="isVatEnabled"
+          label="TIN"
+          label-for="TIN"
           label-cols="3"
         >
           <template #label>
-            <translate> GST Registration Type </translate>
+            <translate>TIN</translate>
           </template>
-          <b-form-select
-            label-cols="3"
-            id="nested-gst-reg"
-            v-model="details.gst_reg_type"
-            :options="options.regTypes"
-            :disabled="!isGstValid"
-          >
-          </b-form-select>
+          <b-form-input
+            id="tin"
+            v-model.trim="details.tin"
+          />
         </b-form-group>
         <b-form-group
           label="PAN"
@@ -197,23 +248,6 @@
             @change="gstin.pan = details.custpan"
             :required="!!details.custpan"
           ></b-form-input>
-        </b-form-group>
-        <b-form-group
-          label="Party Type"
-          label-for="nested-gst-party"
-          label-cols="3"
-          v-if="isGstReg"
-        >
-          <template #label>
-            <translate> Party Type </translate>
-          </template>
-          <b-form-select
-            label-cols="3"
-            id="nested-gst-party"
-            v-model="details.gst_party_type"
-            :options="options.partyTypes"
-          >
-          </b-form-select>
         </b-form-group>
         <b-form-group label="TAN" label-for="nested-tan" label-cols="3">
           <template #label> <translate> TAN </translate> </template>
@@ -242,7 +276,12 @@
       </template>
 
       <b-collapse class="m-3" id="bank">
-        <b-form-group label="IFSC" label-for="cp-bank-ifsc" label-cols="3">
+        <b-form-group
+          v-if="isIndianContact"
+          label="IFSC"
+          label-for="cp-bank-ifsc"
+          label-cols="3"
+        >
           <!-- <b-form-input
                  id="cp-bank-ifsc"
                  v-model="bankDetails.ifsc"
@@ -276,9 +315,10 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import GkGstin from '../components/GkGstin';
 import GkIfsc from './GkIfsc.vue';
+import countries from '@/js/countries';
 import { GST_REG_TYPE, GST_PARTY_TYPE } from '@/js/enum.js';
 
 export default {
@@ -301,6 +341,7 @@ export default {
       isLoading: true,
       options: {
         states: [],
+        countries,
         selectedState: {},
         stateMap: {},
         regTypes: [
@@ -338,6 +379,7 @@ export default {
           },
         ],
       },
+      contactCountry: null,
       gstin: {
         gstin: '',
         stateCode: '',
@@ -352,7 +394,7 @@ export default {
     };
   },
   computed: {
-    isGstEnabled: (self) => self.$store.getters['global/getIsGstEnabled'],
+    isIndianContact: (self) => self.contactCountry === 'India',
     isGstValid: (self) => self.gstin.validity,
     isGstReg: (self) =>
       self.details.gst_reg_type === GST_REG_TYPE['regular'] ||
@@ -364,6 +406,7 @@ export default {
     isPanValid: (self) =>
       self.details.custpan ? self.regex.pan.test(self.details.custpan) : null,
     ...mapState(['gkCoreUrl', 'authToken']),
+    ...mapGetters('global', ['isGstEnabled', 'isVatEnabled']),
   },
   methods: {
     autofillIfsc(data) {
@@ -379,7 +422,7 @@ export default {
     },
     onGstinUpdate({ validity, stateCode, pan, checksum }) {
       if (validity.format) {
-        Object.assign(this.gstin, {
+        this.gstin = Object.assign({}, this.gstin, {
           stateCode: stateCode,
           pan: pan,
           checksum: checksum,
@@ -430,6 +473,7 @@ export default {
                 };
 
                 this.oldContactName = this.details.custname;
+                this.contactCountry = this.details.country;
                 this.isLoading = false;
                 this.states().then(() => {
                   this.gstin.gstin = this.details.gstin
@@ -473,6 +517,16 @@ export default {
           if (val) {
             delete this.details.statelist;
             this.isLoading = true;
+            if (!this.isIndianContact) {
+              this.details.state = '';
+              this.details.gst_reg_type = 0;
+              this.details.gst_party_type = null;
+              this.details.custpan = null;
+              this.details.custtan = null;
+              this.details.tin = null;
+              this.gstin = {};
+              this.bankDetails.ifsc = '';
+            }
             if (this.gstin.validity) {
               this.details.gstin = {};
               this.details.gstin[this.gstin.stateCode] = this.gstin.gstin;
@@ -705,11 +759,11 @@ export default {
       if (gstin) {
         if (gstin.length === 15) {
           gstinUpdated = true;
-          this.gstin = {
+          this.gstin = Object.assign({}, this.gstin, {
             stateCode: gstin.substring(0, 2),
             pan: gstin.substring(2, 12),
             checksum: gstin.substring(12, 15),
-          };
+          });
         }
       }
       if (!gstinUpdated) {

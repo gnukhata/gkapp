@@ -184,7 +184,7 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          v-if="config.state"
+          v-if="config.state && isIndia"
           label="State"
           label-for="ptd-input-50"
           label-size="sm"
@@ -205,7 +205,7 @@
         </b-form-group>
 
         <b-form-group
-          v-if="gstFlag && config.gstin"
+          v-if="config.gstin && gstFlag"
           label-cols="3"
           label-cols-md="4"
           label-cols-lg="3"
@@ -231,7 +231,7 @@
           </gk-gstin>
         </b-form-group>
         <b-form-group
-          v-else-if="config.tin"
+          v-else-if="config.tin && vatFlag"
           label-cols="3"
           label-cols-md="4"
           label-cols-lg="3"
@@ -308,6 +308,7 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import GkGstin from '../../GkGstin.vue';
 // import ContactItem from '../ContactItem.vue';
 export default {
@@ -334,6 +335,10 @@ export default {
       required: false,
     },
     gstFlag: {
+      type: Boolean,
+      required: true,
+    },
+    vatFlag: {
       type: Boolean,
       required: true,
     },
@@ -435,6 +440,7 @@ export default {
       return false;
     },
     isPartySelected: (self) => (self.form.name ? !!self.form.name?.name : false),
+    ...mapGetters('global', ['isIndia']),
   },
   watch: {
     isPartySelected() {

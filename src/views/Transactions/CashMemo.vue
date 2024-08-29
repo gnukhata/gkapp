@@ -68,7 +68,10 @@
           }"
         ></payment-details>
       </b-card-group>
-      <div class="my-2" v-if="config.taxType">
+      <div
+        class="my-2"
+        v-if="config.taxType && isGstEnabled && isVatEnabled"
+      >
         <b-form-radio-group
           button-variant="outline-secondary"
           size="sm"
@@ -82,11 +85,12 @@
       <!-- Bill Table -->
       <bill-table
         :gstFlag="isGst"
+        :cgstFlag="isCgst"
+        :vatFlag="isVat"
         :config="config.bill"
         @details-updated="onComponentDataUpdate"
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
-        :cgstFlag="isCgst"
         ref="bill"
         :godownId="goid"
         :saleFlag="isSale"
@@ -106,6 +110,7 @@
               :billData="form.bill"
               :gstFlag="isGst"
               :cgstFlag="isCgst"
+              :isVat="isVat"
               :updateCounter="updateCounter.totalTable"
             ></total-table>
           </b-col>
@@ -207,7 +212,7 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import { PAYMENT_TYPE } from '@/js/enum.js';
 
 import Config from '@/components/Config.vue';
@@ -250,7 +255,7 @@ export default {
         payment: {},
         total: {},
         type: 'sale',
-        taxType: 'gst',
+        taxType: null,
         memo: {
           state: { id: null },
           taxState: { id: null },
@@ -286,29 +291,14 @@ export default {
         { text: self.$gettext('Bank'), value: PAYMENT_TYPE['bank'] },
       ];
     },
-    isGst: (self) => self.form.taxType === 'gst',
     isSale: (self) => self.form.type === 'sale',
-    isCgst: (self) => {
-      // debugger;
-      if (
-        self.form.memo.state &&
-        (self.form.memo.taxState || self.form.party.state)
-      ) {
-        if (self.form.memo.taxState) {
-          if (
-            parseInt(self.form.memo.state.id) ===
-            parseInt(self.form.memo.taxState.id)
-          ) {
-            return true;
-          }
-        } else if (
-          parseInt(self.form.memo.state.id) ===
-          parseInt(self.form.party.state.id)
-        ) {
-          return true;
-        }
+    defaultTaxMode: (self) => {
+      const taxMode = self.$store.getters['global/getDefaultTaxMode'];
+      // If both GST & VAT are enabled, GST options will be shown first.
+      if (taxMode === 'GST & VAT') {
+        return 'gst';
       }
-      return false;
+      return taxMode.toLowerCase();
     },
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
@@ -361,6 +351,32 @@ export default {
     defaultPaymentMode: (self) =>
       self.$store.getters['global/getDefaultPaymentMode'],
     ...mapState(['yearStart', 'yearEnd', 'orgCode', 'invoiceParty']),
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
+    isVat: (self) => self.isVatEnabled && self.form.taxType === 'vat',
+    isGst: (self) => self.isGstEnabled && self.form.taxType === 'gst',
+    isCgst: (self) => {
+      // debugger;
+      if (
+        self.isIndia &&
+          self.form.memo.state &&
+          (self.form.memo.taxState || self.form.party?.state)
+      ) {
+        if (self.form.memo.taxState) {
+          if (
+            parseInt(self.form.memo.state.id) ===
+              parseInt(self.form.memo.taxState.id)
+          ) {
+            return true;
+          }
+        } else if (
+          parseInt(self.form.memo.state.id) ===
+            parseInt(self.form.party?.state.id)
+        ) {
+          return true;
+        }
+      }
+      return false;
+    },
   },
   methods: {
     collectComponentData() {
@@ -438,6 +454,13 @@ export default {
           : this.defaultContacts['supplier']) || {};
 
       this.collectComponentData();
+      let taxflag = 0;
+      if (this.isGst) {
+        taxflag = 7;
+      }
+      if (this.isVat) {
+        taxflag = 22;
+      }
       let invoice = {
         // dcid: null, // Has to be filled when Delivery Note is implemented. If no Deliver Note is available skip this property
         invoiceno: this.form.memo.no,
@@ -456,11 +479,11 @@ export default {
 
         // === Sale / Purchase related data ===
         sourcestate: this.form.memo.state.name || null,
-        taxstate: this.form.memo.taxState.name || null,
+        taxstate: this.form.memo.taxState?.name || null,
 
         // === GST/ VAT related data ===
         inoutflag: this.isSale ? 15 : 9,
-        taxflag: this.isGst ? 7 : 22,
+        taxflag, // 7 - GST, 22 - VAT, else null
 
         discflag: 1, // discount flag, 1 - amount, 16 - percent
         icflag: 3, // 3 - cash memo, 9 - invoice
@@ -558,6 +581,13 @@ export default {
 
       this.collectComponentData();
 
+      let taxflag = 0;
+      if (this.isGst) {
+        taxflag = 7;
+      }
+      if (this.isVat) {
+        taxflag = 22;
+      }
       let delchal = {
         custid: parseInt(contact.value) || '',
         dcno: this.form.memo.delNoteNo,
@@ -572,7 +602,7 @@ export default {
         consignee: {},
 
         inoutflag: this.isSale ? 15 : 9, // 15- sale, 9 - purchase
-        taxFlag: this.isGst ? 7 : 22,
+        taxflag, // 7 - GST, 22 - VAT, else null
 
         issuername: this.issuer,
         designation: this.role,
@@ -822,7 +852,7 @@ export default {
           },
         },
         narration: null,
-        taxType: 'gst', // vat
+        taxType: null,
         bill: [
           {
             product: { name: '', id: '' },
@@ -900,6 +930,7 @@ export default {
     // this.initForm();
     this.fetchUserData();
     this.resetForm();
+    this.form.taxType = this.defaultTaxMode;
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page

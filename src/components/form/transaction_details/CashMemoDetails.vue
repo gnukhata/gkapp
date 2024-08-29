@@ -64,6 +64,7 @@
           </gk-date>
         </b-form-group>
         <b-form-group
+          v-if="isIndia"
           label="State"
           label-for="cmd-input-20"
           label-size="sm"
@@ -82,6 +83,7 @@
           ></v-select>
         </b-form-group>
         <b-form-group
+          v-if="isGstEnabled"
           label="GSTIN"
           label-for="cmd-input-30"
           label-cols-md="4"
@@ -123,7 +125,7 @@
 
 <script>
 import axios from 'axios';
-// import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import GkDate from '../../GkDate.vue';
 
@@ -186,7 +188,9 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled']),
+  },
   watch: {
     saleFlag() {
       this.setNoteNo();
@@ -265,10 +269,13 @@ export default {
           let orgstate = (this.options.orgDetails.orgstate || '').toLowerCase();
           let state = orgstate
             ? this.options.states.find(
-                (state) => state.name.toLowerCase() === orgstate
-              )
+              (state) => state.name.toLowerCase() === orgstate
+            )
             : null;
-          let stateCode = state.id < 9 ? `0${this.form.state.id}` : this.form.state.id;
+          let stateCode = state ? state.id : '';
+          if (stateCode && stateCode < 9) {
+            stateCode = `0${stateCode}`;
+          }
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             state: state || {name: ''},

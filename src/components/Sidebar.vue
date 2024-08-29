@@ -254,7 +254,7 @@
             </b-collapse>
           </div>
           <!-- GST -->
-          <div v-if="userRole == -1 || 0">
+          <div v-if="isGstEnabled && (userRole == -1 || userRole == 0)">
             <h6 v-b-toggle.gst class="ml-3 mr-5 mt-2">
               <b-icon
                 :icon="collapsed.gst ? 'caret-down-fill' : 'caret-right-fill'"
@@ -342,7 +342,7 @@
   </section>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 export default {
   name: 'Sidebar',
   data() {
@@ -352,6 +352,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('global', ['isGstEnabled']),
     ...mapState([
       'searchMenu',
       'newGstNews',

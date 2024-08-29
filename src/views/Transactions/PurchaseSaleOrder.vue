@@ -72,7 +72,9 @@
         >
         </ship-details>
       </b-card-group>
-      <div class="my-2" v-if="config.taxType">
+      <div class="my-2"
+        v-if="config.taxType && isGstEnabled && isVatEnabled"
+      >
         <b-form-radio-group
           button-variant="outline-secondary"
           size="sm"
@@ -86,16 +88,16 @@
       <!-- Bill Table -->
       <bill-table
         :invDate="form.psOrder.date"
+        :gstFlag="isGst"
+        :cgstFlag="isCgst"
+        :vatFlag="isVat"
         :saleFlag="isSale"
         :blockEmptyStock="isSale"
-        :gstFlag="isGst"
         :config="config.bill"
         @details-updated="onComponentDataUpdate"
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
-        :cgstFlag="isCgst"
         :godownId="goid"
-        :vatFlag="!!form.taxType"
         ref="bill"
       ></bill-table>
       <div class="px-2">
@@ -107,9 +109,10 @@
             <total-table
               :config="config.total"
               :gstFlag="isGst"
+              :cgstFlag="isCgst"
+              :vatFlag="isVat"
               :billData="form.bill"
               :updateCounter="updateCounter.totalTable"
-              :cgstFlag="isCgst"
               ref="totalTable"
             ></total-table>
           </b-col>
@@ -226,7 +229,7 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 import Config from '../../components/Config.vue';
 
@@ -307,7 +310,7 @@ export default {
         psOrder: {},
         party: {},
         ship: {},
-        taxType: 'gst', // vat
+        taxType: null,
         bill: [],
         transport: {},
         narration: null,
@@ -328,18 +331,28 @@ export default {
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isSale: (self) => self.form.type === 'sale',
-    isGst: (self) => self.form.taxType === 'gst',
+    defaultTaxMode: (self) => {
+      const taxMode = self.$store.getters['global/getDefaultTaxMode'];
+      // If both GST & VAT are enabled, GST options will be shown first.
+      if (taxMode === 'GST & VAT') {
+        return 'gst';
+      }
+      return taxMode.toLowerCase();
+    },
+    showErrorToolTip: (self) =>
+      self.isInvDateValid === null ? false : !self.isInvDateValid,
+    ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
+    isVat: (self) => self.isVatEnabled && self.form.taxType === 'vat',
+    isGst: (self) => self.isGstEnabled && self.form.taxType === 'gst',
     isCgst: (self) => {
-      if (self.form.psOrder.state && self.form.party.state) {
+      if (self.isIndia && self.form.psOrder.state && self.form.party.state) {
         if (self.form.psOrder.state.name === self.form.party.state.name) {
           return true;
         }
       }
       return false;
     },
-    showErrorToolTip: (self) =>
-      self.isInvDateValid === null ? false : !self.isInvDateValid,
-    ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
   },
   methods: {
     onComponentDataUpdate(payload) {
@@ -394,6 +407,13 @@ export default {
     },
     initPayload() {
       this.collectComponentData();
+      let taxflag = 0;
+      if (this.isGst) {
+        taxflag = 7;
+      }
+      if (this.isVat) {
+        taxflag = 22;
+      }
       let orderData = {
         // dcid: null, // Has to be filled when Delivery Note is implemented. If no Deliver Note is available skip this property
         orderno: this.form.psOrder.no,
@@ -417,7 +437,7 @@ export default {
         reversecharge: this.form.transport.reverseCharge ? 1 : 0,
 
         // === GST/ VAT related data ===
-        taxflag: this.isGst ? 7 : 22,
+        taxflag, // 7 - GST, 22 - VAT, else null
 
         // === Total orderData price data ===
         purchaseordertotal: this.form.total.amount,
@@ -455,8 +475,8 @@ export default {
           tinconsignee: this.form.ship.tin || '',
           gstinconsignee: this.form.ship.gstin || '',
           consigneeaddress: this.form.ship.addr || '',
-          consigneestate: this.form.ship.state.name || null,
-          consigneestatecode: this.form.ship.state.id || null,
+          consigneestate: this.form.ship.state?.name || null,
+          consigneestatecode: this.form.ship.state?.id || null,
           consigneepincode: this.form.ship.pin || '',
         };
       }
@@ -682,7 +702,7 @@ export default {
           tin: null,
           pin: null,
         },
-        taxType: 'gst', // vat
+        taxType: null,
         bill: [
           {
             product: { name: '', id: '' },
@@ -898,6 +918,7 @@ export default {
     this.updateConfig();
     this.initForm();
     this.preloadData();
+    this.form.taxType = this.defaultTaxMode;
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page

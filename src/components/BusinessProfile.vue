@@ -142,6 +142,7 @@
     </b-card>
     <!-- {{ options.tax }} -->
     <b-card
+      v-if="isIndia"
       no-body
       class="mt-2"
       header-bg-variant="dark"
@@ -156,56 +157,133 @@
         </div>
       </template>
       <b-collapse class="p-3" id="collapse-tax">
+        <template v-if="isGstEnabled">
+          <b-form-group
+            label-size="sm"
+            :label="details.gsflag == 7 ? 'HSN' : 'SAC'"
+            label-cols="4"
+          >
+            <!-- hsn /sac input -->
+            <gk-hsn
+              :required="orgGstin != null"
+              v-model="details.gscode"
+            ></gk-hsn>
+          </b-form-group>
+
+          <b-form-group
+            class="mb-0"
+            label-size="sm"
+            label="GST"
+            label-cols="4"
+          >
+            <b-input-group size="sm" append="%">
+              <b-form-select
+                size="sm"
+                :options="gstRates"
+                v-model="tax.gst[0].taxrate"
+                :disabled="multiGstFlag"
+              >
+              </b-form-select>
+            </b-input-group>
+          </b-form-group>
+
+          <b-form-checkbox
+            size="sm"
+            v-model="multiGstFlag"
+            class="d-inline-block float-right mb-2"
+            switch
+          >
+            <small>
+              <translate>
+                Add GST rates based on date of applicability
+              </translate>
+            </small>
+          </b-form-checkbox>
+          <div class="clearfix"></div>
+          <b-form-group
+            label-size="sm"
+            label="CESS"
+            label-cols="4"
+          >
+            <b-input-group size="sm" append="%">
+              <b-form-input
+                size="sm"
+                type="number"
+                step="0.01"
+                no-wheel
+                v-model="tax.cess.taxrate"
+              ></b-form-input>
+            </b-input-group>
+          </b-form-group>
+
+          <b-collapse v-model="multiGstFlag">
+            <b-card no-body>
+              <b-card-body class="p-2" style="min-height: 50px">
+                <div class="mb-2">
+                  <b>GST</b>
+                  <b-button
+                    size="sm"
+                    @click.prevent="addGstEntry"
+                    class="px-1 py-0 float-right"
+                  >
+                    + GST
+                  </b-button>
+                </div>
+                <b-table-lite
+                  bordered
+                  head-variant="dark"
+                  striped
+                  small
+                  class="text-small table-border-dark"
+                  tbody-tr-class="gk-vertical-row"
+                  :items="tax.gst"
+                  :fields="[
+                    { key: 'taxrate', label: 'Rate %' },
+                    { key: 'taxfromdate', label: 'Applicable From' },
+                    { key: 'edit', label: '' },
+                  ]"
+                >
+                  <template #cell(taxrate)="data">
+                    <b-form-select
+                      size="sm"
+                      id="bi-input-7"
+                      v-model="tax.gst[data.index].taxrate"
+                      :options="gstRates"
+                    ></b-form-select>
+                  </template>
+                  <template #cell(taxfromdate)="data">
+                    <gk-date
+                      v-model="tax.gst[data.index].taxfromdate"
+                      :id="`gst-from-${data.index}`"
+                      :inputStyle="{ 'max-width': '120px' }"
+                      :min="tax.gst[data.index].min"
+                      @validity="updateGstDateValidity($event, data.index)"
+                      @input="updateGst"
+                      :readonly="!data.index"
+                    ></gk-date>
+                  </template>
+                  <template #cell(edit)="data">
+                    <b-button
+                      variant="secondary"
+                      size="sm"
+                      @click.prevent="removeGstEntry(data.index)"
+                      :disabled="!data.index"
+                    >
+                      -
+                    </b-button>
+                  </template>
+                </b-table-lite>
+              </b-card-body>
+            </b-card>
+          </b-collapse>
+        </template>
+
         <b-form-group
+          v-if="isVatEnabled"
           label-size="sm"
-          :label="details.gsflag == 7 ? 'HSN' : 'SAC'"
+          label="CVAT"
           label-cols="4"
         >
-          <!-- hsn /sac input -->
-          <gk-hsn
-            :required="orgGstin != null"
-            v-model="details.gscode"
-          ></gk-hsn>
-        </b-form-group>
-
-        <b-form-group class="mb-0" label-size="sm" label="GST" label-cols="4">
-          <b-input-group size="sm" append="%">
-            <b-form-select
-              size="sm"
-              :options="gstRates"
-              v-model="tax.gst[0].taxrate"
-              :disabled="multiGstFlag"
-            >
-            </b-form-select>
-          </b-input-group>
-        </b-form-group>
-
-        <b-form-checkbox
-          size="sm"
-          v-model="multiGstFlag"
-          class="d-inline-block float-right mb-2"
-          switch
-        >
-          <small>
-            <translate>
-              Add GST rates based on date of applicability
-            </translate>
-          </small>
-        </b-form-checkbox>
-        <div class="clearfix"></div>
-        <b-form-group label-size="sm" label="CESS" label-cols="4">
-          <b-input-group size="sm" append="%">
-            <b-form-input
-              size="sm"
-              type="number"
-              step="0.01"
-              no-wheel
-              v-model="tax.cess.taxrate"
-            ></b-form-input>
-          </b-input-group>
-        </b-form-group>
-
-        <b-form-group label-size="sm" label="CVAT" label-cols="4">
           <b-input-group size="sm" append="%">
             <b-form-input
               size="sm"
@@ -217,7 +295,12 @@
           </b-input-group>
         </b-form-group>
 
-        <b-form-group label-size="sm" label="VAT" label-cols="4">
+        <b-form-group
+          v-if="isVatEnabled"
+          label-size="sm"
+          label="VAT"
+          label-cols="4"
+        >
           <div v-for="(item, index) in tax.vat" :key="index">
             <b-input-group v-if="item.taxname === 'VAT'" class="mb-2">
               <b-form-input
@@ -235,80 +318,30 @@
                   v-model="item.state"
                   :style="{ 'border-radius': 0, 'max-width': '200px' }"
                   :required="!!item.taxrate"
-                ></b-form-select>
-                <b-button size="sm" @click.prevent="removeVatEntry(index)"
-                  >-</b-button
-                >
+                />
+                <b-button size="sm" @click.prevent="removeVatEntry(index)">
+                  -
+                </b-button>
               </b-input-group-append>
             </b-input-group>
           </div>
           <b-button
             size="sm"
             @click.prevent="addVatEntry"
-            class="float-right p-0 px-1"
-            >+ VAT</b-button
-          >
+            class="float-right px-1 py-0 my-1"
+            >
+            + VAT
+          </b-button>
         </b-form-group>
-        <b-collapse v-model="multiGstFlag">
-          <b-card no-body>
-            <b-card-body class="p-2" style="min-height: 50px">
-              <div class="mb-2">
-                <b>GST</b>
-                <b-button
-                  size="sm"
-                  @click.prevent="addGstEntry"
-                  class="px-1 py-0 float-right"
-                >
-                  + GST
-                </b-button>
-              </div>
-              <b-table-lite
-                bordered
-                head-variant="dark"
-                striped
-                small
-                class="text-small table-border-dark"
-                tbody-tr-class="gk-vertical-row"
-                :items="tax.gst"
-                :fields="[
-                  { key: 'taxrate', label: 'Rate %' },
-                  { key: 'taxfromdate', label: 'Applicable From' },
-                  { key: 'edit', label: '' },
-                ]"
-              >
-                <template #cell(taxrate)="data">
-                  <b-form-select
-                    size="sm"
-                    id="bi-input-7"
-                    v-model="tax.gst[data.index].taxrate"
-                    :options="gstRates"
-                  ></b-form-select>
-                </template>
-                <template #cell(taxfromdate)="data">
-                  <gk-date
-                    v-model="tax.gst[data.index].taxfromdate"
-                    :id="`gst-from-${data.index}`"
-                    :inputStyle="{ 'max-width': '120px' }"
-                    :min="tax.gst[data.index].min"
-                    @validity="updateGstDateValidity($event, data.index)"
-                    @input="updateGst"
-                    :readonly="!data.index"
-                  ></gk-date>
-                </template>
-                <template #cell(edit)="data">
-                  <b-button
-                    variant="secondary"
-                    size="sm"
-                    @click.prevent="removeGstEntry(data.index)"
-                    :disabled="!data.index"
-                  >
-                    -
-                  </b-button>
-                </template>
-              </b-table-lite>
-            </b-card-body>
-          </b-card>
-        </b-collapse>
+        <b-alert
+          v-if="!isGstEnabled && !isVatEnabled"
+          show
+          variant="warning"
+          class="mt-2"
+        >
+          Please add a valid GSTIN/TIN in organisation settings to
+          enable GST/VAT options
+        </b-alert>
       </b-collapse>
     </b-card>
     <!-- opening stock, Only visible for products-->
@@ -438,7 +471,7 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import Godown from '../components/form/Godown.vue';
 import GkDate from '../components/GkDate.vue';
 import GkHsn from './GkHsn.vue';
@@ -509,6 +542,7 @@ export default {
       }
     },
     ...mapState(['orgGstin', 'gkCoreUrl', 'authToken', 'yearStart', 'yearEnd']),
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
   },
   methods: {
     isDropdownDisabled(id) {

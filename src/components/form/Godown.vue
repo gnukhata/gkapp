@@ -38,6 +38,7 @@
               ></b-form-input>
             </b-form-group>
             <b-form-group
+              v-if="isIndia"
               label-size="sm"
               label="State"
               label-for="go-input-2"
@@ -156,6 +157,7 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 export default {
   name: 'Godown',
   data() {
@@ -174,7 +176,9 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters('global', ['isIndia']),
+  },
   props: {
     onSave: {
       type: Function,

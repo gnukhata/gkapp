@@ -49,6 +49,7 @@
           :mode="form.type"
           :parentData="form.party"
           :gstFlag="isGst"
+          :vatFlag="isVat"
           :invoiceParty="invoiceParty"
           :config="config.party"
           :saleFlag="isSale"
@@ -70,6 +71,7 @@
         <!-- Shipping Details -->
         <ship-details
           :gstFlag="isGst"
+          :vatFlag="isVat"
           :saleFlag="isSale"
           :billingDetails="form.party"
           :organisationDetails="options.orgDetails"
@@ -80,7 +82,10 @@
         >
         </ship-details>
       </b-card-group>
-      <div class="my-2" v-if="config.taxType">
+      <div
+        class="my-2"
+        v-if="config.taxType && isGstEnabled && isVatEnabled"
+      >
         <b-form-radio-group
           button-variant="outline-secondary"
           size="sm"
@@ -94,11 +99,12 @@
       <!-- Bill Table -->
       <bill-table
         :gstFlag="isGst"
+        :cgstFlag="isCgst"
+        :vatFlag="isVat"
         :config="config.bill"
         @details-updated="onComponentDataUpdate"
         :updateCounter="updateCounter.bill"
         :parentData="form.bill"
-        :cgstFlag="isCgst"
         ref="bill"
         :godownId="goid"
         :saleFlag="isSale"
@@ -115,9 +121,10 @@
             <total-table
               :config="config.total"
               :gstFlag="isGst"
+              :cgstFlag="isCgst"
+              :vatFlag="isVat"
               :billData="form.bill"
               :updateCounter="updateCounter.totalTable"
-              :cgstFlag="isCgst"
               ref="totalTable"
             ></total-table>
           </b-col>
@@ -253,7 +260,7 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 import { PAGES, CONFIGS, PAYMENT_TYPE } from '@/js/enum.js';
 
@@ -337,7 +344,7 @@ export default {
           state: { id: null },
         },
         ship: {},
-        taxType: 'gst', // vat
+        taxType: null,
         bill: [],
         payment: {},
         transport: {},
@@ -488,28 +495,6 @@ export default {
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isCreate: (self) => self.formMode === 'create',
     isSale: (self) => self.form.type === 'sale',
-    isGst: (self) => self.form.taxType === 'gst',
-    isCgst: (self) => {
-      if (
-        self.form.inv.state &&
-        (self.form.inv.taxState || self.form.party.state)
-      ) {
-        if (self.form.inv.taxState) {
-          if (
-            parseInt(self.form.inv.state.id) ===
-            parseInt(self.form.inv.taxState.id)
-          ) {
-            return true;
-          }
-        } else if (
-          parseInt(self.form.inv.state.id) ===
-          parseInt(self.form.party.state.id)
-        ) {
-          return true;
-        }
-      }
-      return false;
-    },
     useBillAddress: {
       get: function() {
         return this.form.ship.copyFlag;
@@ -535,6 +520,20 @@ export default {
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
+    isVat: (self) => self.isVatEnabled && self.form.taxType === 'vat',
+    isGst: (self) => self.isGstEnabled && self.form.taxType === 'gst',
+    isCgst: (self) => {
+      if (
+        self.isIndia && (
+          parseInt(self.form.inv.state.id) ===
+            parseInt(self.form.inv.taxState.id)
+        )
+      ) {
+        return true;
+      }
+      return false;
+    },
   },
   methods: {
     confirmOnSubmit() {
@@ -1577,7 +1576,7 @@ export default {
           state: { id: null },
         },
         ship: {},
-        taxType: 'gst', // vat
+        taxType: null,
         bill: [
           {
             product: { name: '', id: '' },

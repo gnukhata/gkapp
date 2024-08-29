@@ -51,6 +51,7 @@
           <span> <b v-translate> Pin Code: </b> {{ party.pincode }} </span>
           <br />
           <span v-if="party.gstin"><b> GSTIN: </b> {{ party.gstin }} </span>
+          <span v-if="party.tin"><b> TIN: </b> {{ party.tin }} </span>
         </p>
       </b-col>
       <b-col cols="12" md="6" class="text-md-right my-2">
@@ -178,6 +179,7 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { numberToRupees } from '../../../js/utils.js';
 import { DR_CR_MODE } from '@/js/enum.js';
 export default {
@@ -216,11 +218,13 @@ export default {
         addr: '',
         pincode: '',
         gstin: '',
+        tin: '',
       },
       total: {},
       flags: {
-        gst: true,
-        igst: true, // igst or cgst+sgst
+        gst: false,
+        igst: false, // igst or cgst+sgst
+        vat: false,
         credit: true, // debit or credit
         qty: false, // qty or price
         badQuality: false,
@@ -231,6 +235,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
     dcNoteData: (self) => {
       let modeNameMap = {};
       modeNameMap[DR_CR_MODE['discount']] = self.$gettext(
@@ -264,18 +269,21 @@ export default {
       let total = [
         { title: self.$gettext('Taxable'), value: self.total.taxable },
       ];
-      if (self.flags.gst) {
-        if (self.flags.igst) {
-          total.push({ title: 'IGST', value: self.total.tax });
-        } else {
-          total.push(
-            { title: 'CGST', value: self.total.tax },
-            { title: 'SGST', value: self.total.tax }
-          );
+      if (self.isIndia) {
+        if (self.flags.gst) {
+          if (self.flags.igst) {
+            total.push({ title: 'IGST', value: self.total.tax });
+          } else {
+            total.push(
+              { title: 'CGST', value: self.total.tax },
+              { title: 'SGST', value: self.total.tax }
+            );
+          }
+          total.push({ title: 'CESS', value: self.total.cess });
         }
-        total.push({ title: 'CESS', value: self.total.cess });
-      } else {
-        total.push({ title: 'VAT', value: self.total.tax });
+        if (self.flags.vat) {
+          total.push({ title: 'VAT', value: self.total.tax });
+        }
       }
       total.push(
         {
@@ -316,36 +324,39 @@ export default {
           tdClass: 'gk-currency-sm',
         });
       }
-      if (self.flags.gst) {
-        if (self.flags.igst) {
+      if (self.isIndia) {
+        if (self.flags.gst) {
+          if (self.flags.igst) {
+            fields.push({
+              key: 'igst',
+              label: 'IGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+          } else {
+            fields.push({
+              key: 'cgst',
+              label: 'CGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+            fields.push({
+              key: 'sgst',
+              label: 'SGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+          }
           fields.push({
-            key: 'igst',
-            label: 'IGST (%)',
-            tdClass: 'gk-currency-sm',
-          });
-        } else {
-          fields.push({
-            key: 'cgst',
-            label: 'CGST (%)',
-            tdClass: 'gk-currency-sm',
-          });
-          fields.push({
-            key: 'sgst',
-            label: 'SGST (%)',
+            key: 'cess',
+            label: 'CESS (%)',
             tdClass: 'gk-currency-sm',
           });
         }
-        fields.push({
-          key: 'cess',
-          label: 'CESS (%)',
-          tdClass: 'gk-currency-sm',
-        });
-      } else {
-        fields.push({
-          key: 'vat',
-          label: 'VAT (%)',
-          tdClass: 'gk-currency-sm',
-        });
+        if (self.flags.vat) {
+          fields.push({
+            key: 'vat',
+            label: 'VAT (%)',
+            tdClass: 'gk-currency-sm',
+          });
+        }
       }
       fields.push({
         key: 'total',
@@ -394,8 +405,9 @@ export default {
           roundoffflag: details.roundoffflag,
         };
         this.flags = {
-          gst: details.taxname !== 'VAT',
-          igst: details.taxname === 'IGST',
+          gst: this.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+          igst: this.isGstEnabled && details.taxname === 'IGST',
+          vat: this.isVatEnabled && details.taxname === 'VAT',
           credit: details.dctypeflag === 3,
           qty: details.drcrmode === 18,
           badQuality: details.badquality === 1,
@@ -405,7 +417,8 @@ export default {
           name: details.custSupDetails.custname,
           addr: details.custSupDetails.custaddr,
           pincode: details.custSupDetails.pincode,
-          gstin: details.custSupDetails.custgstin,
+          gstin: details.custSupDetails.gstin,
+          tin: details.custSupDetails.tin,
         };
         this.inv = {
           no: details.invdata.invoiceno,

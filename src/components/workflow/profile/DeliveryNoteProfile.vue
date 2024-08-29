@@ -73,7 +73,13 @@
                   <b v-translate> Pin Code: </b> {{ delnote.to.pin }}
                 </span>
                 <br />
-                <span> <b> GSTIN: </b> {{ delnote.to.gstin }} </span> <br />
+                <span v-if="isGst">
+                  <b>GSTIN: </b>{{ delnote.to.gstin }}
+                </span>
+                <span v-if="isVat">
+                  <b>TIN: </b>{{ delnote.to.tin }}
+                </span>
+                <br />
               </span>
             </p>
           </b-col>
@@ -161,6 +167,7 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'DeliveryNoteProfile',
@@ -187,6 +194,8 @@ export default {
       deleteFlag: false,
       no: '',
       isSale: false,
+      isGst: false,
+      isVat: false,
       delnote: {
         contents: [],
         date: '',
@@ -200,13 +209,14 @@ export default {
       },
       party: {},
       total: {
-        isIgst: true,
+        isIgst: false,
       },
       custid: null,
       toDate: '',
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
     dnoteData: (self) => {
       let noteData = self.delnote;
       let transport = noteData.transport;
@@ -234,18 +244,21 @@ export default {
       let total = [
         { title: self.$gettext('Taxable'), value: self.total.taxable },
       ];
-      if (self.delnote.isGst) {
-        if (self.total.isIgst) {
-          total.push({ title: 'IGST', value: self.total.tax });
-        } else {
-          total.push(
-            { title: 'CGST', value: self.total.tax },
-            { title: 'SGST', value: self.total.tax }
-          );
+      if (self.isIndia) {
+        if (self.delnote.isGst) {
+          if (self.total.isIgst) {
+            total.push({ title: 'IGST', value: self.total.tax });
+          } else {
+            total.push(
+              { title: 'CGST', value: self.total.tax },
+              { title: 'SGST', value: self.total.tax }
+            );
+          }
+          total.push({ title: 'CESS', value: self.total.cess });
         }
-        total.push({ title: 'CESS', value: self.total.cess });
-      } else {
-        total.push({ title: 'VAT', value: self.total.tax });
+        if (self.delnote.isVat) {
+          total.push({ title: 'VAT', value: self.total.tax });
+        }
       }
       total.push(
         {
@@ -274,36 +287,39 @@ export default {
           tdClass: 'gk-currency-sm',
         },
       ];
-      if (self.delnote.isGst) {
-        if (self.total.isIgst) {
+      if (self.isIndia) {
+        if (self.delnote.isGst) {
+          if (self.total.isIgst) {
+            fields.push({
+              key: 'igst',
+              label: 'IGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+          } else {
+            fields.push({
+              key: 'cgst',
+              label: 'CGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+            fields.push({
+              key: 'sgst',
+              label: 'SGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+          }
           fields.push({
-            key: 'igst',
-            label: 'IGST (%)',
-            tdClass: 'gk-currency-sm',
-          });
-        } else {
-          fields.push({
-            key: 'cgst',
-            label: 'CGST (%)',
-            tdClass: 'gk-currency-sm',
-          });
-          fields.push({
-            key: 'sgst',
-            label: 'SGST (%)',
+            key: 'cess',
+            label: 'CESS (%)',
             tdClass: 'gk-currency-sm',
           });
         }
-        fields.push({
-          key: 'cess',
-          label: 'CESS (%)',
-          tdClass: 'gk-currency-sm',
-        });
-      } else {
-        fields.push({
-          key: 'vat',
-          label: 'VAT (%)',
-          tdClass: 'gk-currency-sm',
-        });
+        if (self.delnote.isVat) {
+          fields.push({
+            key: 'vat',
+            label: 'VAT (%)',
+            tdClass: 'gk-currency-sm',
+          });
+        }
       }
       fields.push({
         key: 'total',
@@ -389,8 +405,8 @@ export default {
         text: numberToRupees(noteData.delchaltotal),
       };
       this.delnote = {
-        isGst: details.taxname !== 'VAT',
-        isIgst: details.taxname === 'IGST',
+        isGst: self.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+        isVat: self.isVatEnabled && details.taxname === 'VAT',
         contents: [],
         no: noteData.dcno,
         date: noteData.dcdate,

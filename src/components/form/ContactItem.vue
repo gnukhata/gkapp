@@ -28,24 +28,83 @@
               </b-form-radio-group>
             </b-form-group>
             <b-form-group
-              v-if="isGstEnabled"
               label-size="sm"
-              label="GSTIN"
+              label="Country"
+              label-for="ci-input-20"
               label-cols="3"
-              inline
             >
-              <gk-gstin
-                @validity="onGstinUpdate"
-                @gstin_data="onGstinDataFetched"
-                @verified="onGstinVerified"
-                v-model="form.gstin.gstin"
-                :showValidation="2"
-                valButtonText="Validate & Autofill"
-              ></gk-gstin>
+              <template #label>
+                <translate>Country</translate>
+              </template>
+              <v-select
+                id="ci-input-20"
+                :options="options.countries"
+                v-model="contactCountry"
+                label="name"
+                placeholder="Select a Country"
+              />
             </b-form-group>
-            <div class="text-center text-small text-secondary mb-2">
-              (or)
-            </div>
+            <template v-if="isIndianContact && isGstEnabled">
+              <b-form-group
+                label-size="sm"
+                label="GSTIN"
+                label-cols="3"
+                inline
+              >
+                <gk-gstin
+                  @validity="onGstinUpdate"
+                  @gstin_data="onGstinDataFetched"
+                  @verified="onGstinVerified"
+                  v-model="form.gstin.gstin"
+                  :showValidation="2"
+                  valButtonText="Validate & Autofill"
+                ></gk-gstin>
+              </b-form-group>
+              <b-form-group
+                v-if="isGstValid"
+                label-size="sm"
+                label="GST Registration Type"
+                label-for="ci-input-11"
+                :state="validatePan"
+                label-cols="3"
+              >
+                <template #label>
+                  <translate> GST Registration Type </translate>
+                </template>
+                <b-form-select
+                  label-cols="3"
+                  id="ci-input-11"
+                  size="sm"
+                  v-model="form.gstin.regType"
+                  :options="options.regTypes"
+                  :disabled="!isGstValid"
+                >
+                </b-form-select>
+              </b-form-group>
+              <b-form-group
+                v-if="isGstValid && isGstReg"
+                label-size="sm"
+                label="GST Party Type"
+                label-for="ci-input-12"
+                :state="validatePan"
+                label-cols="3"
+              >
+                <template #label>
+                  <translate> GST Party Type </translate>
+                </template>
+                <b-form-select
+                  label-cols="3"
+                  id="ci-input-12"
+                  size="sm"
+                  v-model="form.gstin.partyType"
+                  :options="options.partyTypes"
+                >
+                </b-form-select>
+              </b-form-group>
+              <div class="text-center text-small text-secondary mb-2">
+                (or)
+              </div>
+            </template>
             <b-form-group
               label-size="sm"
               label="Name"
@@ -80,6 +139,7 @@
               </b-form-textarea>
             </b-form-group>
             <b-form-group
+              v-if="isIndianContact"
               label-size="sm"
               label="State"
               label-for="ci-input-20"
@@ -114,6 +174,7 @@
               </b-form-input>
             </b-form-group>
             <b-form-group
+              v-if="isIndianContact"
               label-size="sm"
               label="PAN"
               label-for="ci-input-80"
@@ -134,45 +195,21 @@
               </b-form-input>
             </b-form-group>
             <b-form-group
-              v-if="isGstEnabled"
+              v-if="isIndianContact && isVatEnabled"
               label-size="sm"
-              label="GST Registration Type"
-              label-for="ci-input-11"
-              :state="validatePan"
+              label="TIN"
+              label-for="ci-input-13"
               label-cols="3"
             >
               <template #label>
-                <translate> GST Registration Type </translate>
+                <translate>TIN</translate>
               </template>
-              <b-form-select
-                label-cols="3"
-                id="ci-input-11"
+              <b-form-input
                 size="sm"
-                v-model="form.gstin.regType"
-                :options="options.regTypes"
-                :disabled="!isGstValid"
-              >
-              </b-form-select>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="GST Party Type"
-              label-for="ci-input-12"
-              :state="validatePan"
-              label-cols="3"
-              v-if="isGstReg"
-            >
-              <template #label>
-                <translate> GST Party Type </translate>
-              </template>
-              <b-form-select
-                label-cols="3"
-                id="ci-input-12"
-                size="sm"
-                v-model="form.gstin.partyType"
-                :options="options.partyTypes"
-              >
-              </b-form-select>
+                id="ci-input-13"
+                v-model="form.tin"
+                trim
+              />
             </b-form-group>
           </b-col>
           <b-col cols="12">
@@ -245,6 +282,7 @@
             <b-collapse v-model="showBankDetails">
               <!-- IFSC -->
               <b-form-group
+                v-if="isIndianContact"
                 label-size="sm"
                 label="IFSC"
                 label-for="ci-input-150"
@@ -356,9 +394,10 @@
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import GkGstin from '../GkGstin';
 import GkIfsc from '../GkIfsc.vue';
+import countries from '@/js/countries';
 import { GST_REG_TYPE, GST_PARTY_TYPE } from '../../js/enum.js';
 export default {
   name: 'ContactItem',
@@ -412,6 +451,7 @@ export default {
           gstin: '',
         },
         states: [],
+        countries,
         regTypes: [
           {
             text: this.$gettext('Registered Regular'),
@@ -477,9 +517,11 @@ export default {
         },
       },
       state: null,
+      contactCountry: null,
     };
   },
   computed: {
+    isIndianContact: (self) => self.contactCountry === 'India',
     defaultState: (self) => {
       const { country, state, gstin } = self.options.orgDetails;
       const orgCountry = country.trim().toLowerCase();
@@ -490,7 +532,6 @@ export default {
         return state;
       }
     },
-    isGstEnabled: (self) => self.$store.getters['global/getIsGstEnabled'],
     isGstValid: (self) => self.form.gstin.valid,
     isGstReg: (self) =>
       self.form.gstin.regType === GST_REG_TYPE['regular'] ||
@@ -507,6 +548,7 @@ export default {
     validatePan: (self) =>
       self.form.pan ? self.regex.pan.test(self.form.pan) : null,
     ...mapState(['gkCoreUrl', 'gkCoreTestUrl', 'authToken']),
+    ...mapGetters('global', ['isGstEnabled', 'isVatEnabled']),
   },
   watch: {
     type(type) {
@@ -604,6 +646,11 @@ export default {
     onSubmit() {
       // console.log('in submit')
       this.isLoading = true;
+      if (this.contactCountry !== 'India') {
+        this.state = '';
+        this.form.pan = null;
+        this.form.bank.ifsc = null;
+      }
       const payload = this.initPayload();
       axios
         .post('/customer', payload)
@@ -717,30 +764,23 @@ export default {
         custname: this.form.name,
         custaddr: this.form.address,
         state: this.form.state,
+        country: this.contactCountry,
         pincode: this.form.pin,
         csflag: this.contactType === 'customer' ? 3 : 19,
-        custtan: null, // have to check
-        custphone: null,
-        custemail: null,
-        custfax: null,
-        custpan: null,
+        custpan: this.form.pan,
+        gstin,
         gst_reg_type: this.form.gstin.regType,
+        tin: this.form.tin,
       };
 
       if (this.isGstReg) {
         payload.gst_party_type = this.form.gstin.partyType;
       }
 
-      if (gstin !== null) {
-        payload.gstin = gstin;
-      }
-
       if (this.showOptional) {
         payload.custphone = this.form.contact;
         payload.custemail = this.form.email;
         payload.custfax = this.form.fax;
-        payload.custpan = this.form.pan;
-        payload.csflag = this.contactType === 'customer' ? 3 : 19;
       }
 
       if (this.showBankDetails && bankDetails.length === 4) {
@@ -764,6 +804,7 @@ export default {
         contact: null,
         fax: null,
         pan: null,
+        tin: null,
         gstin: {
           gstin: null,
           stateCode: null,
@@ -779,6 +820,7 @@ export default {
           ifsc: null,
         },
       };
+      this.contactCountry = null;
     },
     preloadData() {
       this.isPreloading = true;
@@ -787,6 +829,7 @@ export default {
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
           const data = resp.data.gkdata;
+            this.contactCountry = data.orgcountry;
             Object.assign(this.options.orgDetails, {
               country: data.orgcountry,
               state: data.orgstate,
