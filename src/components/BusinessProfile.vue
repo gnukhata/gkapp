@@ -642,7 +642,7 @@ export default {
                         },
                       });
 
-                      this.loading = false;
+                      this.isLoading = false;
                       this.updateTaxDetails().then(() => {
                         this.getDetails();
                       });
