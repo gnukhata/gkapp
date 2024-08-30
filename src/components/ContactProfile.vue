@@ -140,9 +140,8 @@
         </b-form-group>
 
         <b-form-group label="Pincode" label-for="nested-country" label-cols="3">
-          <template #label> <translate> Pincode </translate> </template>
+          <template #label> <translate> Postal Code </translate> </template>
           <b-form-input
-            type="number"
             no-wheel
             v-model="details.pincode"
             id="nested-country"

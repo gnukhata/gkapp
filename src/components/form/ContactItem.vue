@@ -161,12 +161,11 @@
               label-for="ci-input-30"
               label-cols="3"
             >
-              <template #label> <translate> Pin Code </translate> </template>
+              <template #label> <translate> Postal Code </translate> </template>
               <b-form-input
                 size="sm"
                 id="ci-input-30"
                 v-model="form.pin"
-                type="number"
                 no-wheel
                 :state="validatePin"
                 debounce="500"
