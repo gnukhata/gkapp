@@ -17,17 +17,12 @@
         striped
         small
       >
-        <template #cell(productname)="d">
-          <template v-if="d.item.gsflag === 7">
-            <router-link
-              :to="`/product-register?product_id=${d.item.productcode}&current_date=${toDate}&goid=${d.item?.goid}`"
-            >
-              {{ d.item.productname }}
-            </router-link>
-          </template>
-          <template v-else>
-            <span>{{ d.item.productname }}</span>
-          </template>
+        <template #cell(proddesc)="d">
+          <router-link
+            :to="`/workflow/Business/${d.item.prodcode}`"
+          >
+            {{ d.item.proddesc }}
+          </router-link>
         </template>
       </b-table>
       <template #footer>
@@ -104,12 +99,12 @@ export default {
       ],
       supFields: [
         {
-          key: 'productname',
+          key: 'proddesc',
           label: 'Name',
         },
         {
-          key: 'balance',
-          label: 'Stock On Hand',
+          key: 'sale',
+          label: 'Sale Value',
         },
       ],
       toDate: '',
