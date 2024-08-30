@@ -466,10 +466,10 @@ export default {
                 // update bank details
                 let bdetails = this.details.bankdetails || {};
                 this.bankDetails = {
-                  accountno: bdetails.accountno || '',
-                  bankname: bdetails.bankname || '',
-                  branchname: bdetails.branchname || '',
-                  ifsc: bdetails.ifsc || '',
+                  accountno: bdetails.accountno,
+                  bankname: bdetails.bankname,
+                  branchname: bdetails.branchname,
+                  ifsc: bdetails.ifsc,
                 };
 
                 this.oldContactName = this.details.custname;
@@ -536,6 +536,15 @@ export default {
               .put(`/customer/${this.details.custid}`, this.details)
               .then((res) => {
                 switch (res.data.gkstatus) {
+                  case 7:
+                    this.isLoading = false;
+                    res.data?.error.forEach((field_err) => {
+                      let location = field_err.loc.join(" at ");
+                      let message = (location ? location+": " : "") + field_err.msg;
+                      this.displayToast("Validation Error", message, "warning");
+                    });
+                    break;
+
                   case 0:
                     {
                       this.isLoading = false;
@@ -798,6 +807,15 @@ export default {
             variant: 'danger',
           });
         });
+    },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
     },
   },
   created() {
