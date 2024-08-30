@@ -53,16 +53,11 @@
         small
       >
         <template #cell(proddesc)="d">
-          <template v-if="d.item.gsflag === 7">
-            <router-link
-              :to="`/product-register?product_id=${d.item.prodcode}&current_date=${toDate}&goid=${d.item?.goid}`"
-              >
-              {{ d.item.proddesc }}
-            </router-link>
-          </template>
-          <template v-else>
-            <span>{{ d.item.proddesc }}</span>
-          </template>
+          <router-link
+            :to="`/workflow/Business/${d.item.prodcode}`"
+          >
+            {{ d.item.proddesc }}
+          </router-link>
         </template>
       </b-table>
       <template #footer>
@@ -93,8 +88,8 @@ export default {
           label: 'Name',
         },
         {
-          key: 'count',
-          label: 'Invoice Count',
+          key: 'purchase',
+          label: 'Purchase Value',
         },
       ],
       supFields: [
