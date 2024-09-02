@@ -139,7 +139,7 @@
           ></b-form-select>
         </b-form-group>
 
-        <b-form-group label="Pincode" label-for="nested-country" label-cols="3">
+        <b-form-group label="Postal Code" label-for="nested-country" label-cols="3">
           <template #label> <translate> Postal Code </translate> </template>
           <b-form-input
             no-wheel

@@ -156,8 +156,8 @@
             </b-form-group>
             <b-form-group
               label-size="sm"
-              invalid-feedback="Pincode must be 6 digits long"
-              label="Pin Code"
+              invalid-feedback="Postal Code must be 6 digits long"
+              label="Postal Code"
               label-for="ci-input-30"
               label-cols="3"
             >

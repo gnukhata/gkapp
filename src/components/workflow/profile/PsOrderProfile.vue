@@ -14,7 +14,7 @@
               </span><br />
               <span> {{ party.addr }} </span> <br />
               <span> {{ party.state }} </span> <br />
-              <span v-if="party.pin"> <b v-translate> Pin Code: </b> {{ party.pin }} </span>
+              <span v-if="party.pin"> <b v-translate> Postal Code: </b> {{ party.pin }} </span>
               <br />
               <span v-if="psorder.isGst">
                 <b>GSTIN: </b>{{ party.gstin }}
@@ -31,7 +31,7 @@
               <span> {{ shipping.name }} </span> <br />
               <span> {{ shipping.addr }} </span> <br />
               <span> {{ shipping.state }} </span> <br />
-              <span v-if="shipping.pin"> <b v-translate> Pin Code: </b> {{ shipping.pin }} </span>
+              <span v-if="shipping.pin"> <b v-translate> Postal Code: </b> {{ shipping.pin }} </span>
               <br />
               <span v-if="shipping.gstin && psorder.isGst">
                 <b>GSTIN: </b>{{ shipping.gstin }}

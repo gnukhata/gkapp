@@ -48,7 +48,7 @@
             <router-link :to="`/ledger/${custid}`">{{ party.name }}</router-link>
           </span>
           <span>{{ party.addr }} </span> <br />
-          <span> <b v-translate> Pin Code: </b> {{ party.pincode }} </span>
+          <span> <b v-translate> Postal Code: </b> {{ party.pincode }} </span>
           <br />
           <span v-if="party.gstin"><b> GSTIN: </b> {{ party.gstin }} </span>
           <span v-if="party.tin"><b> TIN: </b> {{ party.tin }} </span>
