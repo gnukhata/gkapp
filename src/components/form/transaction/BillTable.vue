@@ -1273,8 +1273,11 @@ export default {
       let inclusiveFlag = this.inclusiveFlag; // sale price is inclusive of tax
       let item = this.form[index];
       if (item) {
-        if (this.gstFlag) {
-          if (item.taxes) {
+        item.taxable = (0).toFixed(2);
+        item.total = (0).toFixed(2);
+        item.discount.amount = (0).toFixed(2);
+        if (item.taxes) {
+          if (this.gstFlag) {
             // find the appropriate tax based on the date of the invoice
             let taxDates = Object.keys(item.taxes);
             if (taxDates.length && this.invDate) {
@@ -1355,54 +1358,47 @@ export default {
               item.igst.amount +
               item.cess.amount
             ).toFixed(2);
-          } else {
-            item.taxable = (0).toFixed(2);
-            item.total = (0).toFixed(2);
-            item.discount.amount = (0).toFixed(2);
-          }
-        } else {
-          item.vat =
-            this.taxState && item.vatMap
-              ? item.vatMap[this.taxState]
-              : { rate: 0, amount: 0 };
+          } else if (this.vatFlag) {
+            item.vat =
+              this.taxState && item.vatMap
+                ? item.vatMap[this.taxState]
+                : { rate: 0, amount: 0 };
 
-          // calculate taxable
-          let rate = parseFloat(item.rate);
-          let vat = parseFloat(item.vat?.rate) || 0;
-          let discountamount = parseFloat(item.discount.amount) || 0;
-          if (item.rate > 0) {
-            let qty = item.qty;
-            if (this.config.rejectedQty) {
-              qty = item.rejectedQty;
-            }
+            // calculate taxable
+            let rate = parseFloat(item.rate);
+            let vat = parseFloat(item.vat?.rate) || 0;
+            let discountamount = parseFloat(item.discount.amount) || 0;
+            if (item.rate > 0) {
+              let qty = item.qty;
+              if (this.config.rejectedQty) {
+                qty = item.rejectedQty;
+              }
 
-            const discount = this.config.dcValue ? 0 : discountamount;
-            item.discount.amount = parseFloat(discount) * qty
-            if (inclusiveFlag) {
-              // vat + rate = item rate
-              let inclusiveRate = item.rate;
-              rate = inclusiveRate / (0.01 * vat + 1);
-            }
-            if (this.crdrnote) {
-              if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
-                  item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
-                } else {
-                  item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
-                }
+              const discount = this.config.dcValue ? 0 : discountamount;
+              item.discount.amount = parseFloat(discount) * qty
+              if (inclusiveFlag) {
+                // vat + rate = item rate
+                let inclusiveRate = item.rate;
+                rate = inclusiveRate / (0.01 * vat + 1);
+              }
+              if (this.crdrnote) {
+                if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
+                    item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
+                  } else {
+                    item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
+                  }
+              } else {
+                item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
+              }
             } else {
-              item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
+              item.taxable = 0;
             }
-          } else {
-            item.taxable = 0;
-          }
-          if (item.vat) {
-            item.vat.amount = item.taxable * (vat * 0.01);
-            item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
+            if (item.vat) {
+              item.vat.amount = item.taxable * (vat * 0.01);
+              item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
+            }
           }
         }
-      } else {
-        item.taxable = (0).toFixed(2);
-        item.total = (0).toFixed(2);
       }
       if (isNaN(item.taxable) || isNaN(item.total)) {
         item.total = '';
