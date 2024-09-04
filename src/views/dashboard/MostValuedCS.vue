@@ -88,7 +88,7 @@ export default {
           label: 'Name',
         },
         {
-          key: 'data',
+          key: 'invoice_total',
           label: 'Amount',
           sortable: true,
           class: 'gk-currency',
@@ -100,13 +100,15 @@ export default {
           label: 'Name',
         },
         {
-          key: 'data',
-          label: 'Invoice Count',
+          key: 'invoice_total',
+          label: 'Amount',
+          sortable: true,
+          class: 'gk-currency',
         },
       ],
     };
   },
-  methods: {
+   methods: {
     /*Let's Rename the columns with one's specified via prop `columns`*/
     renameColumns() {
       const newNames = this.info.map((obj) => {
