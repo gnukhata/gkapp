@@ -156,19 +156,16 @@
             </b-form-group>
             <b-form-group
               label-size="sm"
-              invalid-feedback="Pincode must be 6 digits long"
-              label="Pin Code"
+              label="Postal Code"
               label-for="ci-input-30"
               label-cols="3"
             >
-              <template #label> <translate> Pin Code </translate> </template>
+              <template #label> <translate> Postal Code </translate> </template>
               <b-form-input
                 size="sm"
                 id="ci-input-30"
                 v-model="form.pin"
-                type="number"
                 no-wheel
-                :state="validatePin"
                 debounce="500"
               >
               </b-form-input>
@@ -543,8 +540,6 @@ export default {
     formType: (self) =>
       self.contactType === 'customer' ? 'Customer' : 'Supplier',
     formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
-    validatePin: (self) =>
-      self.form.pin ? self.form.pin > 100000 && self.form.pin < 999999 : null,
     validatePan: (self) =>
       self.form.pan ? self.regex.pan.test(self.form.pan) : null,
     ...mapState(['gkCoreUrl', 'gkCoreTestUrl', 'authToken']),

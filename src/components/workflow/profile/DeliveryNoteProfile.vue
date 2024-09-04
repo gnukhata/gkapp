@@ -57,7 +57,7 @@
               <span> {{ delnote.from.addr }} </span> <br />
               <span> {{ delnote.from.state }} </span> <br />
               <span v-if="delnote.from.pin">
-                <b v-translate> Pin Code: </b> {{ delnote.from.pin }}
+                <b v-translate> Postal Code: </b> {{ delnote.from.pin }}
               </span>
               <br />
             </p>
@@ -70,7 +70,7 @@
               <span> {{ delnote.to.state }} </span> <br />
               <span v-if="delnote.to.pin || delnote.to.gstin">
                 <span>
-                  <b v-translate> Pin Code: </b> {{ delnote.to.pin }}
+                  <b v-translate> Postal Code: </b> {{ delnote.to.pin }}
                 </span>
                 <br />
                 <span v-if="isGst">

@@ -133,7 +133,7 @@
             </b-form-group>
             <b-form-group
               v-if="isIndia"
-              :label="$gettext('Pincode')"
+              :label="$gettext('Postal code')"
               label-size="sm"
               label-align="right"
               label-cols="4"
