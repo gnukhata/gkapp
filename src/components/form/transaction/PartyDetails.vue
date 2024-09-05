@@ -522,6 +522,7 @@ export default {
         },
         pin: '',
         gstin: '',
+        tin: '',
         checksum: '',
         editFlag: false,
       });
@@ -627,7 +628,7 @@ export default {
         checksum: '',
         pin: data.pincode,
         gstin:  data.gstin ? Object.values(data.gstin)[0] : '',
-        tin: data.custtan || null,
+        tin: data.tin,
       });
 
       this.bankDetails = data.bankdetails
@@ -836,6 +837,7 @@ export default {
         addr: this.form.addr,
         state: this.form.state,
         gstin: this.form.gstin,
+        tin: this.form.tin,
         pin: this.form.pin,
         pan: this.form.pan,
       };
@@ -851,6 +853,7 @@ export default {
           pincode: this.form.pin,
           state: this.form.state.name,
           custpan: this.form.pan,
+          tin: this.form.tin,
         };
         if (this.form.gstin) {
           payload.gstin = {};
@@ -874,6 +877,7 @@ export default {
         this.form.addr = this.editMode.addr;
         this.form.state = this.editMode.state;
         this.form.gstin = this.editMode.gstin;
+        this.form.tin = this.editMode.tin;
         this.form.pin = this.editMode.pin;
         this.form.pan = this.editMode.pan;
       }
