@@ -206,6 +206,9 @@
                 id="ci-input-13"
                 v-model="form.tin"
                 trim
+                pattern="[A-Z0-9]+"
+                minlength="11"
+                maxlength="11"
               />
             </b-form-group>
           </b-col>
@@ -244,7 +247,8 @@
                 <b-form-input
                   size="sm"
                   id="ci-input-60"
-                  type="number"
+                  type="tel"
+                  pattern="^\+?\d{0,13}"
                   no-wheel
                   v-model="form.contact"
                   trim
@@ -339,6 +343,7 @@
                   v-model="form.bank.accNo"
                   trim
                   :required="showBankDetails"
+                  pattern="[A-Z0-9]+"
                 ></b-form-input>
               </b-form-group>
             </b-collapse>
