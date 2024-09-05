@@ -74,12 +74,19 @@
           <b-form-input
             v-model="details.custphone"
             id="nested-city"
+            type="tel"
+            pattern="^\+?\d{0,13}"
           ></b-form-input>
         </b-form-group>
 
         <b-form-group label="Email" label-for="nested-state" label-cols="3">
-          <template #label> <translate> Email </translate> </template>
-          <b-form-input v-model="details.custemail"></b-form-input>
+          <template #label>
+            <translate>Email</translate>
+          </template>
+          <b-form-input
+            v-model="details.custemail"
+            type="email"
+          />
         </b-form-group>
 
         <b-form-group label="Fax" label-for="nested-country" label-cols="3">
@@ -228,6 +235,9 @@
           <b-form-input
             id="tin"
             v-model.trim="details.tin"
+            pattern="[A-Z0-9]+"
+            minlength="11"
+            maxlength="11"
           />
         </b-form-group>
         <b-form-group
@@ -248,13 +258,20 @@
             :required="!!details.custpan"
           ></b-form-input>
         </b-form-group>
-        <b-form-group label="TAN" label-for="nested-tan" label-cols="3">
-          <template #label> <translate> TAN </translate> </template>
+        <b-form-group
+          label="TAN"
+          label-for="nested-tan"
+          label-cols="3"
+        >
+          <template #label>
+            <translate>TAN</translate>
+          </template>
           <b-form-input
             v-model="details.custtan"
             :value="details.custtan"
             id="nested-tan"
-          ></b-form-input>
+            pattern="[A-Z]{4}[0-9]{5}[A-Z]{1}"
+          />
         </b-form-group>
       </b-collapse>
     </b-card>
@@ -288,9 +305,14 @@
           <gk-ifsc v-model="bankDetails.ifsc" @fill="autofillIfsc"></gk-ifsc>
         </b-form-group>
         <b-form-group label="Acc. No." label-for="cp-bank-ano" label-cols="3">
-          <template #label> <translate> Acc. No. </translate> </template>
-          <b-form-input id="cp-bank-ano" v-model="bankDetails.accountno">
-          </b-form-input>
+          <template #label>
+            <translate> Acc. No. </translate>
+          </template>
+          <b-form-input
+            id="cp-bank-ano"
+            v-model="bankDetails.accountno"
+            pattern="[A-Z0-9]+"
+          />
         </b-form-group>
         <b-form-group label="Bank Name" label-for="cp-bank-name" label-cols="3">
           <template #label> <translate> Bank Name </translate> </template>
