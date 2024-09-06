@@ -108,7 +108,7 @@
               </b-form-checkbox>
             </b-form-group>
             <b-form-group
-              label="Use Customer / Supplier ledgers to track transactions"
+              label="Use contact ledgers to track transactions"
               label-for="gs-t2-select-30"
               label-cols-lg="2"
               label-cols="3"
@@ -116,8 +116,28 @@
             >
               <template #label>
                 <translate>
-                  Use Customer / Supplier ledgers to track transactions
+                  Use contact ledgers to track transactions
                 </translate>
+                <div v-b-modal.m1>
+                  <b-icon icon="question-circle"></b-icon>
+                </div>
+                <b-modal
+                  id="m1"
+                  size="md"
+                  ok-variant="dark"
+                  title="Help"
+                  hide-footer
+                  no-stacking
+                  scrollable
+                >
+                  <p>
+                    Enabling contact ledgers will make use of separate accounts
+                    per contact (Customer/Supplier) for cash and bank
+                    transactions. Otherwise generic sales/purchase accounts
+                    will be used. Credit transactions will always use contact
+                    accounts regardless of this setting.
+                  </p>
+                </b-modal>
               </template>
               <b-form-checkbox
                 switch
