@@ -228,6 +228,9 @@
             trim
             :readonly="!editFlag"
             tabindex="-1"
+            pattern="[A-Z0-9]+"
+            minlength="10"
+            maxlength="11"
           ></b-form-input>
         </b-form-group>
         <div v-if="editFlag">
