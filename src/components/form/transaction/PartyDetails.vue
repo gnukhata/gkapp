@@ -165,24 +165,6 @@
             tabindex="-1"
           ></b-form-input>
         </b-form-group>
-
-        <b-form-group
-          v-if="editFlag"
-          label="PAN"
-          label-for="ptd-input-40"
-          label-size="sm"
-          label-cols="3"
-          label-cols-md="4"
-          label-cols-lg="3"
-        >
-          <b-form-input
-            size="sm"
-            id="ptd-input-40"
-            v-model="form.pan"
-            trim
-            :disabled="!editFlag"
-          ></b-form-input>
-        </b-form-group>
         <b-form-group
           v-if="config.state && isIndia"
           label="State"
