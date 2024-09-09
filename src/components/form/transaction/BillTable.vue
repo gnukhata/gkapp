@@ -608,6 +608,7 @@ export default {
         godownStock: {},
       },
       purposeSelectedValue: null,
+      productTaxes: [],
     };
   },
   computed: {
@@ -823,6 +824,13 @@ export default {
         this.updateTaxAndTotal(length);
       }
     },
+    taxState() {
+      let length = this.form.length;
+      while (length--) {
+        this.updateTaxDetails(length);
+        this.updateTaxAndTotal(length);
+      }
+    },
   },
   methods: {
     /**
@@ -906,6 +914,102 @@ export default {
         return this.onQtyUpdate(index, item.pid);
       });
     },
+    updateTaxDetails(index) {
+      let tax = {
+        taxes: {},
+        igst: { rate: 0, amount: 0 },
+        cgst: { rate: 0, amount: 0 },
+        sgst: { rate: 0, amount: 0 },
+        cess: { rate: 0, amount: 0 },
+        vat: { rate: 0, amount: 0 },
+      },
+      igst = this.config.igst
+        ? this.productTaxes.filter((item) => item.taxname === 'IGST')
+        : 0,
+      cgst = this.config.igst
+        ? this.productTaxes.filter((item) => item.taxname === 'CGST')
+        : 0,
+      cess = this.config.cess
+        ? this.productTaxes.filter((item) => item.taxname === 'CESS')
+        : 0,
+      vat = this.config.vat
+        ? this.productTaxes.filter((item) => item.taxname === 'VAT')
+        : 0;
+
+      if (igst.length) {
+        igst.forEach((igst2) => {
+          tax['taxes'][igst2.taxfromdate] = {
+            igst: {
+              rate: igst2.taxrate,
+              amount: 0,
+            },
+            cgst: {
+              rate: igst2.taxrate / 2,
+              amount: 0,
+            },
+            sgst: {
+              rate: igst2.taxrate / 2,
+              amount: 0,
+            },
+          };
+        });
+        // old tax rates without applicability date, legacy code
+        tax['igst'] = {
+          rate: igst[0].taxrate,
+          amount: 0,
+        };
+        tax['cgst'] = {
+          rate: igst[0].taxrate / 2,
+          amount: 0,
+        };
+        tax['sgst'] = {
+          rate: igst[0].taxrate / 2,
+          amount: 0,
+        };
+      }
+      if (cgst.length) {
+        cgst.forEach((cgst2) => {
+          tax['taxes'][cgst2.taxfromdate] = {
+            cgst: {
+              rate: cgst2.taxrate,
+              amount: 0,
+            },
+            sgst: {
+              rate: cgst2.taxrate,
+              amount: 0,
+            },
+          };
+        });
+        // old tax rates without applicability date, legacy code
+        tax['cgst'] = {
+          rate: cgst[0].taxrate,
+          amount: 0,
+        };
+        tax['sgst'] = {
+          rate: cgst[0].taxrate,
+          amount: 0,
+        };
+      }
+      if (cess.length) {
+        tax['cess'] = {
+          rate: cess[0].taxrate,
+          amount: 0,
+        };
+      }
+      if (vat.length) {
+        tax['vatMap'] = {};
+        vat.forEach((vatItem) => {
+          tax['vatMap'][vatItem.state] = {
+            rate: parseFloat(vatItem.taxrate),
+            amount: 0,
+          };
+        });
+        if (this.taxState) {
+          tax['vat'] = tax['vatMap'][this.taxState];
+        }
+      }
+      Object.assign(this.form[index], tax);
+    },
     /**
      * fetchProductDetails(id, index)
      *
@@ -976,101 +1080,8 @@ export default {
         // Tax details
         if (resp2.status === 200) {
           if (resp2.data.gkstatus === 0) {
-            let data = resp2.data.gkresult,
-              tax = {
-                taxes: {},
-                igst: { rate: 0, amount: 0 },
-                cgst: { rate: 0, amount: 0 },
-                sgst: { rate: 0, amount: 0 },
-                cess: { rate: 0, amount: 0 },
-                vat: { rate: 0, amount: 0 },
-              },
-              igst = self.config.igst
-                ? data.filter((item) => item.taxname === 'IGST')
-                : 0,
-              cgst = self.config.igst
-                ? data.filter((item) => item.taxname === 'CGST')
-                : 0,
-              cess = self.config.cess
-                ? data.filter((item) => item.taxname === 'CESS')
-                : 0,
-              vat = self.config.vat
-                ? data.filter((item) => item.taxname === 'VAT')
-                : 0;
-
-            if (igst.length) {
-              igst.forEach((igst2) => {
-                tax['taxes'][igst2.taxfromdate] = {
-                  igst: {
-                    rate: igst2.taxrate,
-                    amount: 0,
-                  },
-                  cgst: {
-                    rate: igst2.taxrate / 2,
-                    amount: 0,
-                  },
-                  sgst: {
-                    rate: igst2.taxrate / 2,
-                    amount: 0,
-                  },
-                };
-              });
-              // old tax rates without applicability date, legacy code
-              tax['igst'] = {
-                rate: igst[0].taxrate,
-                amount: 0,
-              };
-              tax['cgst'] = {
-                rate: igst[0].taxrate / 2,
-                amount: 0,
-              };
-              tax['sgst'] = {
-                rate: igst[0].taxrate / 2,
-                amount: 0,
-              };
-            }
-            if (cgst.length) {
-              cgst.forEach((cgst2) => {
-                tax['taxes'][cgst2.taxfromdate] = {
-                  cgst: {
-                    rate: cgst2.taxrate,
-                    amount: 0,
-                  },
-                  sgst: {
-                    rate: cgst2.taxrate,
-                    amount: 0,
-                  },
-                };
-              });
-              // old tax rates without applicability date, legacy code
-              tax['cgst'] = {
-                rate: cgst[0].taxrate,
-                amount: 0,
-              };
-              tax['sgst'] = {
-                rate: cgst[0].taxrate,
-                amount: 0,
-              };
-            }
-            if (cess.length) {
-              tax['cess'] = {
-                rate: cess[0].taxrate,
-                amount: 0,
-              };
-            }
-            if (vat.length) {
-              tax['vatMap'] = {};
-              vat.forEach((vatItem) => {
-                tax['vatMap'][vatItem.state] = {
-                  rate: parseFloat(vatItem.taxrate),
-                  amount: 0,
-                };
-              });
-              if (this.taxState) {
-                tax['vat'] = tax['vatMap'][this.taxState];
-              }
-            }
-            Object.assign(self.form[index], tax);
+            this.productTaxes = resp2.data.gkresult;
+            this.updateTaxDetails(index);
           }
         } else {
           console.log(resp2.message);
@@ -1273,8 +1284,11 @@ export default {
       let inclusiveFlag = this.inclusiveFlag; // sale price is inclusive of tax
       let item = this.form[index];
       if (item) {
-        if (this.gstFlag) {
-          if (item.taxes) {
+        item.taxable = (0).toFixed(2);
+        item.total = (0).toFixed(2);
+        item.discount.amount = (0).toFixed(2);
+        if (item.taxes) {
+          if (this.gstFlag) {
             // find the appropriate tax based on the date of the invoice
             let taxDates = Object.keys(item.taxes);
             if (taxDates.length && this.invDate) {
@@ -1355,54 +1369,47 @@ export default {
               item.igst.amount +
               item.cess.amount
             ).toFixed(2);
-          } else {
-            item.taxable = (0).toFixed(2);
-            item.total = (0).toFixed(2);
-            item.discount.amount = (0).toFixed(2);
-          }
-        } else {
-          item.vat =
-            this.taxState && item.vatMap
-              ? item.vatMap[this.taxState]
-              : { rate: 0, amount: 0 };
+          } else if (this.vatFlag) {
+            item.vat =
+              this.taxState && item.vatMap && item.vatMap[this.taxState]
+                ? item.vatMap[this.taxState]
+                : { rate: 0, amount: 0 };
 
-          // calculate taxable
-          let rate = parseFloat(item.rate);
-          let vat = parseFloat(item.vat?.rate) || 0;
-          let discountamount = parseFloat(item.discount.amount) || 0;
-          if (item.rate > 0) {
-            let qty = item.qty;
-            if (this.config.rejectedQty) {
-              qty = item.rejectedQty;
-            }
+            // calculate taxable
+            let rate = parseFloat(item.rate);
+            let vat = parseFloat(item.vat?.rate) || 0;
+            let discountamount = parseFloat(item.discount.amount) || 0;
+            if (item.rate > 0) {
+              let qty = item.qty;
+              if (this.config.rejectedQty) {
+                qty = item.rejectedQty;
+              }
 
-            const discount = this.config.dcValue ? 0 : discountamount;
-            item.discount.amount = parseFloat(discount) * qty
-            if (inclusiveFlag) {
-              // vat + rate = item rate
-              let inclusiveRate = item.rate;
-              rate = inclusiveRate / (0.01 * vat + 1);
-            }
-            if (this.crdrnote) {
-              if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
-                  item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
-                } else {
-                  item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
-                }
+              const discount = this.config.dcValue ? 0 : discountamount;
+              item.discount.amount = parseFloat(discount) * qty
+              if (inclusiveFlag) {
+                // vat + rate = item rate
+                let inclusiveRate = item.rate;
+                rate = inclusiveRate / (0.01 * vat + 1);
+              }
+              if (this.crdrnote) {
+                if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
+                    item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
+                  } else {
+                    item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
+                  }
+              } else {
+                item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
+              }
             } else {
-              item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
+              item.taxable = 0;
             }
-          } else {
-            item.taxable = 0;
-          }
-          if (item.vat) {
-            item.vat.amount = item.taxable * (vat * 0.01);
-            item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
+            if (item.vat) {
+              item.vat.amount = item.taxable * (vat * 0.01);
+              item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
+            }
           }
         }
-      } else {
-        item.taxable = (0).toFixed(2);
-        item.total = (0).toFixed(2);
       }
       if (isNaN(item.taxable) || isNaN(item.total)) {
         item.total = '';

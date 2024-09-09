@@ -1454,7 +1454,7 @@ export default {
           },
         },
         ship: {},
-        taxType: null,
+        taxType: this.form.taxType,
         bill: [
           {
             product: { name: '', id: '' },
@@ -1582,6 +1582,9 @@ export default {
     },
   },
   watch: {
+    defaultTaxMode(newMode) {
+      this.form.taxType = newMode;
+    },
     isSale() {
       this.setBankDetails();
     },
