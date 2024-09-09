@@ -162,6 +162,9 @@
                 v-model="form.tin"
                 :readonly="copyFlag"
                 trim
+                pattern="[A-Z0-9]+"
+                minlength="10"
+                maxlength="11"
               ></b-form-input>
             </b-form-group>
           </b-col>
