@@ -138,6 +138,7 @@
               label-size="sm"
             >
               <b-form-input
+                v-if="copyFlag"
                 size="sm"
                 id="spd-input-50"
                 v-model="form.gstin"
@@ -145,6 +146,12 @@
                 :readonly="copyFlag"
                 tabindex="-1"
               ></b-form-input>
+              <gk-gstin
+                v-else
+                v-model="form.gstin"
+                @gstin_data="onGstinDataFetched"
+                @validity="checkGstinValidity"
+              />
             </b-form-group>
           </b-col>
           <b-col v-else-if="config.tin && vatFlag" cols="12">
@@ -177,9 +184,11 @@
 <script>
 import axios from 'axios';
 import { mapGetters } from 'vuex';
+import GkGstin from '../../GkGstin.vue';
 export default {
   name: 'ShipDetails',
   components: {
+    GkGstin,
   },
   data() {
     return {
@@ -260,6 +269,21 @@ export default {
     },
   },
   methods: {
+    checkGstinValidity(r) {
+      this.isValidGstin = r.validity.format;
+    },
+    onGstinDataFetched({ name, addr, pincode, pan, statecode }) {
+      this.form.name = name;
+      this.form.addr = addr;
+      this.form.pin = pincode;
+      this.form.pan = pan;
+      if (statecode) {
+        let stateData = this.options.states.find(
+          (state) => state.id === parseInt(statecode, 10).toString()
+        );
+        this.form.state = typeof stateData === 'object' ? stateData : this.form.state;
+      }
+    },
     preloadData() {
       let self = this;
       this.isPreloading = true;
