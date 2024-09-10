@@ -166,7 +166,7 @@
           ></b-form-input>
         </b-form-group>
         <b-form-group
-          v-if="config.state && isIndia"
+          v-if="config.state && isIndia && isIndianParty"
           label="State"
           label-for="ptd-input-50"
           label-size="sm"
@@ -430,6 +430,7 @@ export default {
       return false;
     },
     isPartySelected: (self) => (self.form.name ? !!self.form.name?.name : false),
+    isIndianParty: (self) => !self.form.country || self.form.country === 'India',
     ...mapGetters('global', ['isIndia']),
   },
   watch: {
