@@ -494,7 +494,7 @@ export default {
       );
     },
     resetPartyDetails() {
-      Object.assign(this.form, {
+      this.form = Object.assign({}, this.form, {
         name: { name: '' },
         addr: null,
         options: {
@@ -602,7 +602,7 @@ export default {
           value: { id: key, name: stateList[key] },
         };
       });
-      Object.assign(this.form, {
+      this.form = Object.assign({}, this.form, {
         addr: data.custaddr,
         options: {
           states,
@@ -650,7 +650,7 @@ export default {
 
       // if the name is invalid, empty the BilledTo & Shipping Details if it exists
       if (this.form.addr || this.form.options.states.length) {
-        Object.assign(this.form, {
+        this.form = Object.assign({}, this.form, {
           options: {
             states: [],
             gstin: [],
@@ -787,7 +787,7 @@ export default {
           if (self.invoiceParty.id !== null) {
             // self.form.inv.type =
             //   self.invoiceParty.type === 'customer' ? 'sale' : 'purchase';
-            Object.assign(self.form, {
+            self.form = Object.assign({}, self.form, {
               type: self.invoiceParty.type,
               name: {
                 id: self.invoiceParty.id,
