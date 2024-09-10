@@ -64,6 +64,7 @@
           :parent-data="form.inv"
           @details-updated="onComponentDataUpdate"
           :update-counter="updateCounter.inv"
+          :party-country="form.party.country"
           ref="inv"
         ></invoice-details>
         <!-- Shipping Details -->

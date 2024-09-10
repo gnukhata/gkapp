@@ -609,6 +609,7 @@ export default {
           gstin: data.gstin,
         },
         state: states?.[0]?.value ?? { id: null, name: ''},
+        country: data.country,
         pan: data.custpan,
         checksum: '',
         pin: data.pincode,

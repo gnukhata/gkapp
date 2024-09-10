@@ -105,7 +105,7 @@
           </gk-date>
         </b-form-group>
         <b-form-group
-          v-if="isIndia"
+          v-if="isIndia && isIndianParty"
           label="Place of Supply"
           label-for="ivd-input-11"
           label-cols="3"
@@ -327,6 +327,11 @@ export default {
       required: false,
       default: 0,
     },
+    partyCountry: {
+      type: String,
+      required: false,
+      default: '',
+    },
     parentData: {
       type: Object,
       required: false,
@@ -429,6 +434,7 @@ export default {
 
       return disabled;
     },
+    isIndianParty: (self) => !self.partyCountry || self.partyCountry === 'India',
     ...mapGetters('global', ['isIndia', 'isGstEnabled']),
   },
   watch: {
