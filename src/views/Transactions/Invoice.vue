@@ -81,7 +81,7 @@
       </b-card-group>
       <div
         class="my-2"
-        v-if="config.taxType && isGstEnabled && isVatEnabled"
+        v-if="config.taxType && isGstEnabled && isVatEnabled && isIndianParty"
       >
         <b-form-radio-group
           button-variant="outline-secondary"
@@ -518,10 +518,14 @@ export default {
     },
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
+    isIndianParty: (self) =>
+      !self.form.party.country || self.form.party.country === 'India',
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
     ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
-    isVat: (self) => self.isVatEnabled && self.form.taxType === 'vat',
-    isGst: (self) => self.isGstEnabled && self.form.taxType === 'gst',
+    isVat: (self) =>
+      self.isVatEnabled && self.isIndianParty && self.form.taxType === 'vat',
+    isGst: (self) =>
+      self.isGstEnabled && self.isIndianParty && self.form.taxType === 'gst',
     isCgst: (self) => {
       if (
         self.isIndia && (
