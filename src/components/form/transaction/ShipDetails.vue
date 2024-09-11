@@ -105,7 +105,10 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col cols="12" v-if="config.state && isIndia">
+          <b-col
+            v-if="config.state && isIndia && isIndianParty"
+            cols="12"
+          >
             <b-form-group
               label="State"
               label-for="spd-input-40"
@@ -128,7 +131,10 @@
               </v-select>
             </b-form-group>
           </b-col>
-          <b-col v-if="config.gstin && gstFlag" cols="12">
+          <b-col
+            v-if="config.gstin && gstFlag"
+            cols="12"
+          >
             <b-form-group
               label-cols="3"
               label-cols-md="4"
@@ -154,7 +160,10 @@
               />
             </b-form-group>
           </b-col>
-          <b-col v-else-if="config.tin && vatFlag" cols="12">
+          <b-col
+            v-else-if="config.tin && vatFlag"
+            cols="12"
+          >
             <b-form-group
               label-cols="3"
               label-cols-md="4"
@@ -248,6 +257,7 @@ export default {
     },
   },
   computed: {
+    isIndianParty: (self) => !self.form.country || self.form.country === 'India',
     ...mapGetters('global', ['isIndia']),
   },
   watch: {
@@ -335,6 +345,7 @@ export default {
         name: null,
         addr: null,
         state: {name: ''},
+        country: this.form.country,
         gstin: null,
         tin: null,
         pin: null,
