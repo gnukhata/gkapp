@@ -256,7 +256,7 @@ export default {
     },
     updateCounter() {
       if (this.customDetails) {
-        Object.assign(this.form, this.customDetails);
+        this.form = Object.assign({}, this.form, this.customDetails);
         if (typeof this.customDetails.copyFlag === 'boolean') {
           this.copyFlag = this.customDetails.copyFlag;
         }
@@ -314,19 +314,19 @@ export default {
       if (this.copyFlag) {
         if (this.saleFlag) {
           if (this.billingDetails.name) {
-            Object.assign(this.form, this.billingDetails);
+            this.form = Object.assign({}, this.form, this.billingDetails);
             this.form.name = this.billingDetails.name.name;
             delete this.form.type;
           } else {
             this.resetForm();
           }
         } else {
-          Object.assign(this.form, this.organisationDetails);
+          this.form = Object.assign({}, this.form, this.organisationDetails);
         }
       } else {
         this.resetForm();
         if (this.customDetails) {
-          Object.assign(this.form, this.customDetails);
+          this.form = Object.assign({}, this.form, this.customDetails);
         }
       }
     },
