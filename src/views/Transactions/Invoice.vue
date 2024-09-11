@@ -613,7 +613,7 @@ export default {
             this.options.partyDetails = payload;
 
             this.setBankDetails();
-            Object.assign(this.form.party, payload.data);
+            this.form.party = Object.assign({}, this.form.party, payload.data);
 
             this.updateCounter.ship++;
             Object.assign(this.form.inv.taxState, payload.data.state);
