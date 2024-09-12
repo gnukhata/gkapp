@@ -252,6 +252,7 @@
               no-wheel
               step="0.01"
               min="0"
+              :max="creditFlag ? (form[data.item.index]?.drcrrate ?? null) : null"
               @input="updateTaxAndTotal(data.item.index)"
               required
             ></b-input>
