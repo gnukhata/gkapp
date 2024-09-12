@@ -163,7 +163,7 @@
               no-wheel
               step="0.01"
               min="0.01"
-              :max="form[data.item.index].maxQty"
+              :max="creditFlag ? (form[data.item.index].originalQty ?? null) : form[data.item.index].maxQty"
               @input="onQtyUpdate(data.item.index, data.item.pid)"
               :readonly="data.item.isService || disabled.qty"
               :tabindex="data.item.isService ? -1 : 0"
@@ -586,6 +586,7 @@ export default {
           index: 0,
           product: { name: '', id: '', productquantity: '' },
           hsn: '',
+          originalQty: 0,
           qty: 0,
           maxQty: null,
           fqty: 0,
@@ -769,6 +770,7 @@ export default {
             pid: product.id,
             product: product,
             discount: item.discount,
+            originalQty: item.qty,
             qty: item.qty,
             fqty: item.fqty,
             rate: item.rate,
@@ -847,6 +849,7 @@ export default {
           rowSelected: false,
           product: { id: '', name: '',  quantity: ''},
           hsn: '',
+          originalQty: null,
           qty: null,
           packageCount: null,
           rejectedQty: null,
@@ -1120,6 +1123,7 @@ export default {
           rowSelected: false,
           product: { id: '', name: '',  quantity: ''},
           hsn: '',
+          originalQty: null,
           qty: null,
           maxQty: null,
           packageCount: null,
@@ -1210,6 +1214,7 @@ export default {
         rowSelected: false,
         product: { id: '', name: '',  quantity: ''},
         hsn: '',
+        originalQty: null,
         qty: null,
         maxQty: null,
         packageCount: null,
