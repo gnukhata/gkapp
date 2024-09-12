@@ -482,11 +482,6 @@ export default {
           label: self.$gettext('Item'),
         },
         {
-          key: 'hsn',
-          label: self.$gettext('HSN / SAC'),
-          tdClass: 'gk-currency-sm',
-        },
-        {
           key: 'qty',
           label: self.$gettext('Qty'),
           tdClass: 'gk-currency-sm',
@@ -517,6 +512,11 @@ export default {
               { key: 'sgst', label: 'SGST', tdClass: 'gk-currency-sm' }
             );
           }
+          fields.splice(1, 0, {
+            key: 'hsn',
+            label: self.$gettext('HSN / SAC'),
+            tdClass: 'gk-currency-sm',
+          });
           fields.push({ key: 'cess', label: 'CESS', tdClass: 'gk-currency-sm' });
         }
         if (self.invoice.isVat) {
