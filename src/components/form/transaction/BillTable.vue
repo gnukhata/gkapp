@@ -1286,7 +1286,7 @@ export default {
       if (item) {
         item.taxable = (0).toFixed(2);
         item.total = (0).toFixed(2);
-        item.discount.amount = (0).toFixed(2);
+        item.discount.amount = parseFloat(item.discount.amount || 0).toFixed(2);
         if (item.taxes) {
           if (this.gstFlag) {
             // find the appropriate tax based on the date of the invoice
