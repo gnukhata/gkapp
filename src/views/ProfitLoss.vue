@@ -1,11 +1,6 @@
 <template>
   <section class="m-2">
     <b-overlay :show="isLoading">
-      <!-- TODO: rm this alert when fixed -->
-      <b-alert show variant="warning" class="container mt-2"
-        ><b>NOTE:</b> Some data presented in this report is incorrect. We are
-        working on fixing the issue.</b-alert
-      >
       <b-card
         class="gkcard mx-auto"
         header-bg-variant="dark"
@@ -15,189 +10,216 @@
           <gk-cardheader
             v-if="orgType == 'Profit Making'"
             :name="$gettext('Profit & Loss Statement')"
-            :help-body="
-              $gettext(
-                `Profit & Loss Account. This report can be viewed for any period`
-              )
-            "
           ></gk-cardheader>
           <gk-cardheader
             v-else
-            :name="$gettext('Income & Expenditure')"
-            :help-body="
-              $gettext(
-                `Income & Expenditure Account. This report can be viewed for any period`
-              )
-            "
+            name="Income & Expenditure"
           ></gk-cardheader>
         </template>
-        <b-form @submit.prevent="getProfitLossData">
-          <b-form-group
-            :label="$gettext('From')"
-            label-align="right"
-            content-cols="8"
-          >
+        <b-form @submit.prevent="getReport">
+          <b-form-group label="From" label-align="right" content-cols="8">
             <gk-date id="fromdate" v-model="fromDate"></gk-date>
           </b-form-group>
-          <b-form-group
-            :label="$gettext('To')"
-            label-align="right"
-            content-cols="8"
-          >
+          <b-form-group label="To" label-align="right" content-cols="8">
             <gk-date id="todate" v-model="toDate"></gk-date>
           </b-form-group>
           <b-button variant="success" class="float-right" type="submit"
-            ><b-icon class="mr-1" icon="cloud-arrow-down"></b-icon
-            ><translate> Get Details</translate></b-button
-          >
+            ><b-icon class="mr-1" icon="cloud-arrow-up"></b-icon>
+            <translate>Get Details</translate>
+          </b-button>
         </b-form>
       </b-card>
+      <!--     {{ result }} -->
       <report-header>
         <div class="text-center">
-          <b v-if="orgtype == 'Profit Making'">profit & loss account</b
-          ><b v-else>Income & Expenditure</b> for the period {{ fromDate }} to
+          <b v-if="orgType == 'Profit Making'" v-translate>Profit & Loss</b>
+          <b v-else v-translate>Income & Expenditure</b>for the period
+          {{ fromDate }} to
           {{ toDate }}
+          <br />
         </div>
       </report-header>
-      <!-- Tool bar -->
-      <gk-toolbar class="mt-2">
-        <GkFileDownload
-          v-if="result !== null"
-          :url="
-            `/spreadsheet/profit-loss?from=${this.fromDate}&to=${this.toDate}`
-          "
-          title="Download Profit & Loss Spreadsheet"
-          aria-label="profit & loss Spreadsheet download button"
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end my-2"
+      >
+        <b-form-checkbox
+          id="checkbox-1"
+          v-model="hideZero"
+          name="checkbox-1"
+          class="d-inline-block mx-2"
+          size="sm"
+          switch
+        >
+          <translate> Hide ₹0 rows </translate>
+        </b-form-checkbox>
+        <b-button
+          class="px-1 d-none d-lg-inline-block"
+          variant="link"
+          @click="printPage"
+        >
+          <b-icon class="align-middle" icon="printer"></b-icon>
+        </b-button>
+        <gk-file-download
+          :url="downloadUrl"
+          :fileName="downloadFileName"
+          fileExtn=".xlsx"
           :messageFromParent="parentMessage"
-        />
-      </gk-toolbar>
-      <div class="row mt-4 ml-2 mr-2" v-if="result !== null">
-        <div class="col">
-          <b-table-simple striped small bordered hover>
-            <b-thead head-variant="dark">
-              <b-tr>
-                <b-th v-translate>Particulars</b-th>
-                <b-th v-translate>Dr Amount</b-th>
-              </b-tr>
-            </b-thead>
-            <b-tbody>
-              <b-tr>
-                <b-th v-translate>Opening Stock Value</b-th>
-                <b-th class="text-right">{{
-                  result['Opening Stock']['total']
-                }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th v-translate>DIRECT EXPENSE</b-th>
-                <b-th class="text-right">{{
-                  result['Direct Expense']['direxpbal']
-                }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th class="pl-5 font-weight-normal"
-                  ><i v-translate>Purchase</i></b-th
-                >
-                <b-th class="text-right">{{
-                  result['Direct Expense']['Purchase']['balance']
-                }}</b-th>
-              </b-tr>
-              <b-tr v-if="result['grossprofitcf'] != undefined">
-                <b-th class="pl-5 font-weight-normal text-danger"
-                  ><i v-translate>Gross Profit C/F</i></b-th
-                >
-                <b-th class="text-right">{{ result['grossprofitcf'] }}</b-th>
-              </b-tr>
-              <b-tr v-else>
-                <b-th class="pl-5 font-weight-normal text-danger"
-                  ><i v-translate>Gross Loss C/F</i></b-th
-                >
-                <b-th class="text-right">{{ result['grosslosscf'] }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th v-translate>INDIRECT EXPENSE</b-th>
-                <b-th class="text-right">{{
-                  result['Indirect Expense']['indirexpbal']
-                }}</b-th>
-              </b-tr>
-              <b-tr v-if="result['netprofit'] != undefined">
-                <b-th v-translate>Net Profit</b-th>
-                <b-th class="text-right">{{ result['netprofit'] }}</b-th>
-              </b-tr>
-              <b-tr v-else>
-                <b-th v-translate>Net Loss</b-th>
-                <b-th class="text-right">{{ result['netloss'] }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th><b v-translate>Total</b></b-th>
-                <b-th class="text-right"
-                  ><b>{{ result['Total'] }}</b></b-th
-                >
-              </b-tr>
-            </b-tbody>
-          </b-table-simple>
-        </div>
-        <div class="col">
-          <b-table-simple class="mb-1" striped small bordered hover>
-            <b-thead head-variant="dark">
-              <b-tr>
-                <b-th v-translate>Particulars</b-th>
-                <b-th v-translate>Cr Amount</b-th>
-              </b-tr>
-            </b-thead>
-            <b-tbody>
-              <b-tr>
-                <b-th v-translate>DIRECT INCOME</b-th>
-                <b-th class="text-right">{{
-                  result['Direct Income']['dirincmbal']
-                }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th class="pl-4 font-weight-normal" v-translate>SALES</b-th>
-                <b-th class="text-right">{{
-                  result['Direct Income']['Sales']['balance']
-                }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th class="pl-5 font-weight-normal" v-translate
-                  >Sales A/C</b-th
-                >
-                <b-th class="text-right">{{
-                  result['Direct Income']['Sales']['Sale A/C']
-                }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th v-translate>Closing Stock Value</b-th>
-                <b-th class="text-right">
-                  {{ result['Closing Stock']['total'] }}
-                </b-th>
-              </b-tr>
-              <b-tr>
-                <b-th v-translate>INDIRECT INCOME</b-th>
-                <b-th class="text-right">{{
-                  result['Indirect Income']['indirincmbal']
-                }}</b-th>
-              </b-tr>
-              <b-tr v-if="result['grossprofitcf'] != undefined">
-                <b-th v-translate>Gross Profit B/F</b-th>
-                <b-th class="text-right">{{ result['grossprofitcf'] }}</b-th>
-              </b-tr>
-              <b-tr v-else>
-                <b-th v-translate>Gross Loss B/F</b-th>
-                <b-th class="text-right">{{ result['grosslosscf'] }}</b-th>
-              </b-tr>
-              <b-tr>
-                <b-th><b v-translate>Total</b></b-th>
-                <b-th class="text-right"
-                  ><b>{{ result['Total'] }}</b></b-th
-                >
-              </b-tr>
-            </b-tbody>
-          </b-table-simple>
-          <small>
-            <b> * (Closing Stock is calculated using FIFO algorithm) </b>
-          </small>
-        </div>
+        ></gk-file-download>
       </div>
+      <b-row class="row text-small">
+        <b-col cols="6" class="pr-0">
+          <ReportTableThreeCol
+            :items="tradingLeft"
+            :fields="reportFields"
+            :filterTable="filterTable"
+            :tableName="'trading'"
+          >
+          </ReportTableThreeCol>
+        </b-col>
+        <b-col cols="6" class="pl-0">
+          <ReportTableThreeCol
+            :items="tradingRight"
+            :fields="reportFields"
+            :filterTable="filterTable"
+            :tableName="'trading'"
+          >
+          </ReportTableThreeCol>
+        </b-col>
+      </b-row>
+
+      <b-row class="row text-small">
+        <b-col cols="6" class="pr-0">
+          <b-table
+            borderless
+            small
+            :items="totals.trading_left"
+            :fields="reportFields"
+            head-variant="dark"
+            class="mb-0"
+            thead-class="d-none"
+            tbody-tr-class="bs-row"
+            responsive=""
+            filter="a"
+          >
+            <template #cell(name)="data">
+              <div class="font-weight-bold">
+                {{ data.value }}
+              </div>
+            </template>
+            <template #cell(colOne)="">
+            </template>
+            <template #cell(colTwo)="data">
+              <div class="border-dark border-2 border-top border-bottom font-weight-bold">
+                {{ data.item.amount }}
+              </div>
+            </template>
+          </b-table>
+        </b-col>
+        <b-col cols="6" class="pl-0">
+          <b-table
+            borderless
+            small
+            :items="totals.trading_right"
+            :fields="reportFields"
+            head-variant="dark"
+            class="mb-0"
+            thead-class="d-none"
+            tbody-tr-class="bs-row"
+            responsive=""
+            filter="a"
+          >
+            <template #cell(name)="data">
+              <div class="font-weight-bold">
+                {{ data.value }}
+              </div>
+            </template>
+            <template #cell(colOne)="">
+            </template>
+            <template #cell(colTwo)="data">
+              <div class="border-dark border-2 border-top border-bottom font-weight-bold">
+                {{ data.item.amount }}
+              </div>
+            </template>
+          </b-table>
+        </b-col>
+      </b-row>
+      <b-row class="row text-small">
+        <b-col cols="6" class="pr-0">
+          <ReportTableThreeCol
+            :items="pnlLeft"
+            :fields="reportFields"
+            :filterTable="filterTable"
+            :tableName="'pnl'"
+          >
+          </ReportTableThreeCol>
+        </b-col>
+        <b-col cols="6" class="pl-0">
+          <ReportTableThreeCol
+            :items="pnlRight"
+            :fields="reportFields"
+            :filterTable="filterTable"
+            :tableName="'pnl'"
+          >
+          </ReportTableThreeCol>
+        </b-col>
+      </b-row>
+
+      <b-row class="row text-small">
+        <b-col cols="6" class="pr-0">
+          <b-table
+            borderless
+            small
+            :items="totals.pnl_left"
+            :fields="reportFields"
+            head-variant="dark"
+            class="mb-0"
+            thead-class="d-none"
+            tbody-tr-class="bs-row"
+            responsive=""
+            filter="a"
+          >
+            <template #cell(name)="data">
+              <div class="font-weight-bold">
+                {{ data.value }}
+              </div>
+            </template>
+            <template #cell(colOne)="">
+            </template>
+            <template #cell(colTwo)="data">
+              <div class="border-dark border-2 border-top border-bottom font-weight-bold">
+                {{ data.item.amount }}
+              </div>
+            </template>
+          </b-table>
+        </b-col>
+        <b-col cols="6" class="pl-0">
+          <b-table
+            borderless
+            small
+            :items="totals.pnl_right"
+            :fields="reportFields"
+            head-variant="dark"
+            class="mb-0"
+            thead-class="d-none"
+            tbody-tr-class="bs-row"
+            responsive=""
+            filter="a"
+          >
+            <template #cell(name)="data">
+              <div class="font-weight-bold">
+                {{ data.value }}
+              </div>
+            </template>
+            <template #cell(colOne)="">
+            </template>
+            <template #cell(colTwo)="data">
+              <div class="border-dark border-2 border-top border-bottom font-weight-bold">
+                {{ data.item.amount }}
+              </div>
+            </template>
+          </b-table>
+        </b-col>
+      </b-row>
     </b-overlay>
   </section>
 </template>
@@ -208,53 +230,187 @@ import { mapState } from 'vuex';
 import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
-import GkToolbar from '../components/GkToolbar.vue';
-import GkFileDownload from '../components/GkFileDownload.vue';
+import ReportTableThreeCol from '../components/reports/ReportTableThreeCol.vue';
+import GkFileDownload from '@/components/GkFileDownload.vue';
 export default {
-  components: { GkCardheader, GkDate, ReportHeader, GkToolbar, GkFileDownload },
-  name: 'ProfitLoss',
-  data() {
-    return {
+   components: { GkCardheader, GkDate, ReportHeader, GkFileDownload, ReportTableThreeCol },
+   name: 'BalanceSheet',
+   data() {
+     return {
       parentMessage: '',
       isLoading: false,
       fromDate: null,
       toDate: null,
-      result: null,
+      hideZero: false,
+      orgType: '',
+
+      // set level based fields
+      reportFields: [
+        {
+          key: 'name',
+          label: 'Particulars',
+          class: 'text-break col-6',
+        },
+        {
+          key: 'colOne',
+          label: '',
+          class: 'text-break text-right col-3',
+        },
+        {
+          key: 'colTwo',
+          label: 'Amount',
+          class: 'text-break text-right col-3',
+        },
+      ],
+      tradingLeft: [],
+      tradingRight: [],
+      pnlLeft: [],
+      pnlRight: [],
+      totals: {
+        trading_left: [],
+        trading_right: [],
+        pnl_left: [],
+        pnl_right: [],
+      },
     };
   },
-  methods: {
-    // change url query params when date is changed by user
-    updateRoute() {
-      this.$router.replace({
-        query: {
-          from: this.fromDate,
-          to: this.toDate,
-        },
-      });
-    },
-    // check if user changed the date range, then applied them to the url
-    parseParams() {
-      const params = this.$route.query;
-      if (Object.keys(params).length > 0) {
-        this.fromDate = params.from;
-        this.toDate = params.to;
+  computed: {
+    downloadUrl: (self) => {
+      let orgChoice = (localStorage.getItem('orgChoice') || '').split(' (');
+      let orgType = '';
+      if (orgChoice.length) {
+        orgType = orgChoice[orgChoice.length - 1].split(')')[0];
       } else {
-        this.fromDate = this.yearStart;
-        this.toDate = this.yearEnd;
+        orgType = 'Organisation';
       }
-      this.getProfitLossData();
+      return `/spreadsheet/balance-sheet?calculateto=${self.toDate}&calculatefrom=${self.fromDate}&fystart=${self.yearStart}&orgname=${self.orgName}&fyend=${self.yearEnd}&orgtype=${orgType}&baltype=1`;
     },
-    getProfitLossData() {
+    downloadFileName: (self) =>
+      `Balance_Sheet_${self.fromDate}_to_${self.toDate}`,
+    hideZeroFilter: (self) => (self.hideZero ? 'a' : null),
+    ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
+  },
+  methods: {
+    printPage() {
+      window.print();
+    },
+    filterTable(item) {
+      if (this.hideZeroFilter && item.amount == 0.00) {
+        return false
+      }
+      return item.isShown;
+    },
+    prepareReport(report, reportName) {
+      report.forEach((item, index) => {
+        let isStock, isGroup, isSubGroup, isAccount, isPNL, isTotal, isParentSubgroup;
+        let amount = parseFloat(item?.amount || 0).toFixed(2);
+        switch (item.type) {
+          case "stock":
+            isStock = true;
+            break;
+          case "group":
+            isGroup = true;
+            break;
+          case "subgroup":
+            isSubGroup = true;
+            break;
+          case "account":
+            isAccount = true;
+            break;
+          case "pnl_str":
+            isPNL = true;
+            break;
+          case "total":
+            isTotal = true;
+            this.totals[reportName] = [{...item, "colOne": false, "colTwo": true, amount}];
+            break;
+        }
+        if (item?.subgroupcode) {
+          isParentSubgroup = true;
+        }
+        report[index] = {
+          ...item,
+          ...{isStock, isGroup, isSubGroup, isAccount, isPNL, isTotal, isParentSubgroup},
+          amount,
+        };
+      });
+      return report;
+    },
+    formatTrading(tradingData) {
+      tradingData.forEach((item, index) => {
+        let isShown, colOne, colTwo ;
+        let children = [];
+        isShown = (item?.isParentSubgroup || item?.isGroup || item?.isTotal) ? false : true;
+        colOne = false;
+        colTwo = true;
+        if (item?.isSubGroup) {
+          tradingData.forEach((tradingItem) => {
+            if (tradingItem?.isAccount && item.id === tradingItem?.parent_group) {
+              tradingItem["isShown"] = true;
+              tradingItem["colTwo"] = false;
+              tradingItem["colOne"] = true;
+              children.push(tradingItem);
+            }
+          });
+        }
+        tradingData[index] = {...item, isShown, children, colOne, colTwo};
+      });
+      return tradingData;
+    },
+    formatPNL(pnlData) {
+      pnlData.forEach((item, index) => {
+        let isShown, colOne, colTwo;
+        let children = [];
+        isShown = (item?.isGroup || item?.isPNL) ? true : false;
+        colOne = false;
+        colTwo = true;
+        if (item?.isGroup) {
+          pnlData.forEach((pnlItem) => {
+            if (item.id === pnlItem?.groupcode) {
+              if (pnlItem?.isAccount) {
+                pnlItem["isShown"] = true;
+                pnlItem["colTwo"] = false;
+                pnlItem["colOne"] = true;
+                children.push(pnlItem);
+              }
+            }
+          });
+        }
+        pnlData[index] = {...item, isShown, children, colOne, colTwo};
+      });
+      return pnlData;
+    },
+    formatResponse(response) {
+      for (let report_name of ["trading_left", "trading_right", "pnl_left", "pnl_right"]) {
+        response[report_name] = this.prepareReport(response[report_name], report_name);
+        if (["trading_left", "trading_right"].includes(report_name)) {
+          response[report_name] = this.formatTrading(response[report_name]);
+        }
+        if (["pnl_left", "pnl_right"].includes(report_name)) {
+          response[report_name] = this.formatPNL(response[report_name]);
+        }
+      }
+      this.tradingLeft = response["trading_left"];
+      this.pnlLeft = response["pnl_left"];
+      this.tradingRight = response["trading_right"];
+      this.pnlRight = response["pnl_right"];
+      return response;
+    },
+    getReport() {
+      const self = this;
       this.isLoading = true;
       axios
         .get(
-          `/reports/profit-loss?calculatefrom=${this.fromDate}&calculateto=${this.toDate}`
+          `/reports/profit-loss?calculateto=${this.toDate}&calculatefrom=${this.fromDate}`
         )
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
               case 0:
-                this.result = r.data.gkresult;
+                {
+                  self.orgType = r.data.gkresult.org_type;
+                  self.formatResponse(r.data.gkresult);
+                }
                 break;
               case 1:
                 this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
@@ -296,18 +452,25 @@ export default {
         });
     },
   },
-  computed: {
-    ...mapState(['yearStart', 'yearEnd', 'orgType', 'orgType']),
-  },
   mounted() {
     this.fromDate = this.yearStart;
     this.toDate = this.yearEnd;
-    this.getProfitLossData();
+    this.getReport();
   },
 };
 </script>
 <style scoped>
-th {
-  font-weight: normal;
+.text-small {
+  font-size: 0.9rem;
+}
+.bs-row {
+  height: 21px;
+}
+.bs-col-name {
+  width: 190px;
+}
+.bs-col-amount {
+  width: 50px;
+  color: blue;
 }
 </style>
