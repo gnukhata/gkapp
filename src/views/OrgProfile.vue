@@ -194,7 +194,7 @@
             </b-form-group>
             <!-- bank name -->
             <b-form-group
-              :label="$gettext('Name')"
+              :label="$gettext('Bank Name')"
               label-cols="4"
               label-size="sm"
               label-align="right"

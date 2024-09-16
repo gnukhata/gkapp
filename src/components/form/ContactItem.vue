@@ -303,11 +303,10 @@
                 label-for="ci-input-120"
                 label-cols="3"
               >
-                <template #label> <translate> Name </translate> </template>
+                <template #label> <translate> Bank Name </translate> </template>
                 <b-form-input
                   size="sm"
                   id="ci-input-120"
-                  placeholder="Bank Name"
                   v-model="form.bank.name"
                   trim
                   :required="showBankDetails"
