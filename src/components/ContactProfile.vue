@@ -304,9 +304,9 @@
                  ></b-form-input> -->
           <gk-ifsc v-model="bankDetails.ifsc" @fill="autofillIfsc"></gk-ifsc>
         </b-form-group>
-        <b-form-group label="Acc. No." label-for="cp-bank-ano" label-cols="3">
+        <b-form-group label="Account Number" label-for="cp-bank-ano" label-cols="3">
           <template #label>
-            <translate> Acc. No. </translate>
+            <translate> Account Number </translate>
           </template>
           <b-form-input
             id="cp-bank-ano"

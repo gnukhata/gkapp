@@ -239,7 +239,7 @@ export default {
     bankDetails: (self) => {
       let details = self.payment.bankDetails;
       return [
-        { title: self.$gettext('Acc No'), value: details.accountno || '' },
+        { title: self.$gettext('Account Number'), value: details.accountno || '' },
         { title: self.$gettext('Bank'), value: details.bankname || '' },
         { title: self.$gettext('Branch'), value: details.branch || '' },
         { title: self.$gettext('IFSC'), value: details.ifsc || '' },

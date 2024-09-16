@@ -332,11 +332,11 @@
               <!-- account name -->
               <b-form-group
                 label-size="sm"
-                label="Acc. No."
+                label="Account Number"
                 label-for="ci-input-140"
                 label-cols="3"
               >
-                <template #label> <translate> Acc. No. </translate> </template>
+                <template #label> <translate> Account Number </translate> </template>
                 <b-form-input
                   size="sm"
                   id="ci-input-140"

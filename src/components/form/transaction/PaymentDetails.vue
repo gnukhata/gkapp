@@ -66,14 +66,14 @@
             </gk-ifsc>
           </b-form-group>
           <b-form-group
-            label="Acc. No."
+            label="Account Number"
             label-for="pmd-input-20"
             label-cols="3"
             label-size="sm"
             label-cols-lg="autauto"
             v-if="config.bank.no"
           >
-            <template #label> <translate> Acc. No. </translate> </template>
+            <template #label> <translate> Account Number </translate> </template>
             <b-form-input
               size="sm"
               id="pmd-input-20"
