@@ -103,7 +103,8 @@
               <b-form-input
                 size="sm"
                 id="go-input-5"
-                type="number"
+                type="tel"
+                pattern="^\+?\d{0,13}"
                 no-wheel
                 v-model="form.contactNumber"
               ></b-form-input>
