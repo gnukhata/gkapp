@@ -93,7 +93,7 @@
               'd-none': !data.item.colOne,
             }"
           >
-            {{ data.item.amount }}
+            {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
           </span>
         </template>
         <template #cell(colTwo)="data">
@@ -104,7 +104,7 @@
               'd-none': !data.item.colTwo,
             }"
           >
-            {{ data.item.amount }}
+            {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
           </span>
         </template>
       </b-table>
@@ -117,7 +117,7 @@
           'd-none': !data.item.colOne,
         }"
       >
-        {{ data.item.amount }}
+        {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
       </span>
     </template>
     <template #cell(colTwo)="data">
@@ -128,7 +128,7 @@
           'd-none': !data.item.colTwo,
         }"
       >
-        {{ data.item.amount }}
+        {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
       </span>
     </template>
   </b-table>
@@ -140,6 +140,7 @@
      items: [], // Vue bootstrap table items
      fields: [], // Vue bootstrap table fields
      tableName: String, // Table name (used to show/hide table head)
+     divideThousand: Boolean,
      filterTable: { // Vue bootstrap filter-function
        type: Object,
        default: function () {

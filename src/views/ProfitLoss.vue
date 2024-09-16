@@ -52,6 +52,16 @@
         >
           <translate> Hide ₹0 rows </translate>
         </b-form-checkbox>
+        <b-form-checkbox
+          id="checkbox-2"
+          v-model="divideThousand"
+          name="checkbox-2"
+          class="d-inline-block mx-2"
+          size="sm"
+          switch
+        >
+          <translate> Divide by 1000 </translate>
+        </b-form-checkbox>
         <b-button
           class="px-1 d-none d-lg-inline-block"
           variant="link"
@@ -73,6 +83,7 @@
             :fields="reportFields"
             :filterTable="filterTable"
             :tableName="'trading'"
+            :divideThousand=divideThousand
           >
           </ReportTableThreeCol>
         </b-col>
@@ -82,6 +93,7 @@
             :fields="reportFields"
             :filterTable="filterTable"
             :tableName="'trading'"
+            :divideThousand=divideThousand
           >
           </ReportTableThreeCol>
         </b-col>
@@ -110,7 +122,7 @@
             </template>
             <template #cell(colTwo)="data">
               <div class="border-dark border-2 border-top border-bottom font-weight-bold">
-                {{ data.item.amount }}
+                {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
               </div>
             </template>
           </b-table>
@@ -137,7 +149,7 @@
             </template>
             <template #cell(colTwo)="data">
               <div class="border-dark border-2 border-top border-bottom font-weight-bold">
-                {{ data.item.amount }}
+                {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
               </div>
             </template>
           </b-table>
@@ -150,6 +162,7 @@
             :fields="reportFields"
             :filterTable="filterTable"
             :tableName="'pnl'"
+            :divideThousand=divideThousand
           >
           </ReportTableThreeCol>
         </b-col>
@@ -159,6 +172,7 @@
             :fields="reportFields"
             :filterTable="filterTable"
             :tableName="'pnl'"
+            :divideThousand=divideThousand
           >
           </ReportTableThreeCol>
         </b-col>
@@ -187,7 +201,7 @@
             </template>
             <template #cell(colTwo)="data">
               <div class="border-dark border-2 border-top border-bottom font-weight-bold">
-                {{ data.item.amount }}
+                {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
               </div>
             </template>
           </b-table>
@@ -214,7 +228,7 @@
             </template>
             <template #cell(colTwo)="data">
               <div class="border-dark border-2 border-top border-bottom font-weight-bold">
-                {{ data.item.amount }}
+                {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
               </div>
             </template>
           </b-table>
@@ -237,21 +251,22 @@ export default {
    name: 'BalanceSheet',
    data() {
      return {
-      parentMessage: '',
-      isLoading: false,
-      fromDate: null,
-      toDate: null,
-      hideZero: false,
-      orgType: '',
+       parentMessage: '',
+       isLoading: false,
+       fromDate: null,
+       toDate: null,
+       hideZero: false,
+       divideThousand: false,
+       orgType: '',
 
-      // set level based fields
-      reportFields: [
-        {
-          key: 'name',
-          label: 'Particulars',
-          class: 'text-break col-6',
-        },
-        {
+       // set level based fields
+       reportFields: [
+         {
+           key: 'name',
+           label: 'Particulars',
+           class: 'text-break col-6',
+         },
+         {
           key: 'colOne',
           label: '',
           class: 'text-break text-right col-3',
