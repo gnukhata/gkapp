@@ -55,7 +55,9 @@
       "node": true
     },
     "extends": [
+      "plugin:vue/base",
       "plugin:vue/essential",
+      "plugin:vue/strongly-recommended",
       "eslint:recommended"
     ],
     "parserOptions": {
