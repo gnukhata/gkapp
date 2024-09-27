@@ -7,7 +7,7 @@
           :required="required"
           placeholder="eg: KARB0000001"
           :size="size"
-          v-model="ifscCode"
+          v-model="bankIfsCode"
           trim
         ></b-form-input>
         <!-- Validate button -->
@@ -157,17 +157,17 @@ export default {
     ifscCode: {
       type: String,
     }
-
   },
   data() {
     return {
       loading: false,
       ifscData: Object,
+      bankIfsCode: this.ifscCode,
     };
   },
   watch: {
     value(c) {
-      this.ifscCode = c;
+      this.bankIfsCode = c;
     },
   },
   methods: {
@@ -185,12 +185,12 @@ export default {
     validateIfsc() {
       this.loading = true;
       axios
-        .get(`/ifsc?check=${this.ifscCode}`)
+        .get(`/ifsc?check=${this.bankIfsCode}`)
         .then((r) => {
           switch (r.data.gkstatus) {
             case 0:
               this.ifscData = r.data.gkresult;
-              this.$emit('change', this.ifscCode);
+              this.$emit('change', this.bankIfsCode);
               this.$bvModal.show('ifsc-info');
               break;
             case 1:
