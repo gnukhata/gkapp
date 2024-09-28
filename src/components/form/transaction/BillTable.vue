@@ -163,7 +163,7 @@
               no-wheel
               step="0.01"
               min="0.01"
-              :max="form[data.item.index].maxQty"
+              :max="creditFlag ? (form[data.item.index].originalQty ?? null) : form[data.item.index].maxQty"
               @input="onQtyUpdate(data.item.index, data.item.pid)"
               :readonly="data.item.isService || disabled.qty"
               :tabindex="data.item.isService ? -1 : 0"
@@ -252,6 +252,7 @@
               no-wheel
               step="0.01"
               min="0"
+              :max="creditFlag ? (form[data.item.index]?.drcrrate ?? null) : null"
               @input="updateTaxAndTotal(data.item.index)"
               required
             ></b-input>
@@ -585,6 +586,7 @@ export default {
           index: 0,
           product: { name: '', id: '', productquantity: '' },
           hsn: '',
+          originalQty: 0,
           qty: 0,
           maxQty: null,
           fqty: 0,
@@ -768,6 +770,7 @@ export default {
             pid: product.id,
             product: product,
             discount: item.discount,
+            originalQty: item.qty,
             qty: item.qty,
             fqty: item.fqty,
             rate: item.rate,
@@ -846,6 +849,7 @@ export default {
           rowSelected: false,
           product: { id: '', name: '',  quantity: ''},
           hsn: '',
+          originalQty: null,
           qty: null,
           packageCount: null,
           rejectedQty: null,
@@ -1063,10 +1067,8 @@ export default {
                   null
                 ),
                 discount: {
-                  rate: this.saleFlag ? data.discountpercent : 0,
-                  discountamount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
+                  percent: this.saleFlag ? data.discountpercent : 0,
                   amount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
-                  customamount: false,
                 },
               });
             } else {
@@ -1121,6 +1123,7 @@ export default {
           rowSelected: false,
           product: { id: '', name: '',  quantity: ''},
           hsn: '',
+          originalQty: null,
           qty: null,
           maxQty: null,
           packageCount: null,
@@ -1211,6 +1214,7 @@ export default {
         rowSelected: false,
         product: { id: '', name: '',  quantity: ''},
         hsn: '',
+        originalQty: null,
         qty: null,
         maxQty: null,
         packageCount: null,
@@ -1285,8 +1289,29 @@ export default {
       let item = this.form[index];
       if (item) {
         item.taxable = (0).toFixed(2);
-        item.total = (0).toFixed(2);
-        item.discount.amount = (0).toFixed(2);
+        let discountAmount = parseFloat(item?.discount?.amount || 0).toFixed(2);
+
+        // Ignore discount if debit/credit note
+        if (this.crdrnote) {
+          discountAmount = 0;
+        }
+        item.discount.amount = item.discount.total = discountAmount;
+
+        let qty = 0;
+        let rate = parseFloat(item.rate);
+        if (rate > 0) {
+          qty = item.qty;
+          if (this.config.rejectedQty) {
+            qty = item.rejectedQty;
+          }
+          // When customDiscount is false, total discount is calculated based on quantity
+          if (!customDiscount) {
+            item.discount.total = (parseFloat(discountAmount) * qty).toFixed(2);
+          }
+          item.taxable = parseFloat((rate * qty - item.discount.total).toFixed(2));
+        }
+        item.total = item.taxable;
+
         if (item.taxes) {
           if (this.gstFlag) {
             // find the appropriate tax based on the date of the invoice
@@ -1322,23 +1347,9 @@ export default {
             }
 
             // calculate taxable
-            let rate = parseFloat(item.rate);
             let igst = parseFloat(item.igst.rate) || 0;
             let cess = parseFloat(item.cess.rate) || 0;
             if (item.rate > 0) {
-              let qty = item.qty;
-              if (this.config.rejectedQty) {
-                qty = item.rejectedQty;
-              }
-
-              if (customDiscount) {
-                item.discount.customamount = true;
-              }
-              const discountamount = parseFloat(item.discount.discountamount) || 0;
-              const discount = this.config.dcValue ? 0 : discountamount;
-              if (!item.discount.customamount) {
-                item.discount.amount = (parseFloat(discount) * qty).toFixed(2);
-              }
               if (inclusiveFlag) {
                 // cess + gst + rate = item rate
                 let inclusiveRate = item.rate;
@@ -1351,10 +1362,8 @@ export default {
                   item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
                 }
               } else {
-                item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
+                item.taxable = parseFloat((rate * qty - item.discount.total).toFixed(2));
               }
-            } else {
-              item.taxable = 0;
             }
 
             item.igst.amount = parseFloat(
@@ -1378,15 +1387,7 @@ export default {
             // calculate taxable
             let rate = parseFloat(item.rate);
             let vat = parseFloat(item.vat?.rate) || 0;
-            let discountamount = parseFloat(item.discount.amount) || 0;
             if (item.rate > 0) {
-              let qty = item.qty;
-              if (this.config.rejectedQty) {
-                qty = item.rejectedQty;
-              }
-
-              const discount = this.config.dcValue ? 0 : discountamount;
-              item.discount.amount = parseFloat(discount) * qty
               if (inclusiveFlag) {
                 // vat + rate = item rate
                 let inclusiveRate = item.rate;
@@ -1399,10 +1400,8 @@ export default {
                     item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
                   }
               } else {
-                item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
+                item.taxable = parseFloat((rate * qty - item.discount.total).toFixed(2));
               }
-            } else {
-              item.taxable = 0;
             }
             if (item.vat) {
               item.vat.amount = item.taxable * (vat * 0.01);
