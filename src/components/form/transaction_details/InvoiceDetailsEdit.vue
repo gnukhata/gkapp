@@ -208,7 +208,7 @@
             <b-form-group
               label-cols-md="4"
               label-cols="3"
-              label="PIN"
+              label="Postal Code"
               label-for="ivd-input-60"
               label-size="sm"
             >

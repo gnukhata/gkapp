@@ -122,7 +122,7 @@
             <b-form-group
               label-cols="3"
               label-cols-md="4"
-              label="PIN"
+              label="Postal Code"
               label-for="pod-input-40"
               label-size="sm"
             >

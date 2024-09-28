@@ -152,7 +152,7 @@
           label-cols="3"
           label-cols-md="4"
           label-cols-lg="3"
-          label="PIN"
+          label="Postal Code"
           label-for="ptd-input-30"
           label-size="sm"
         >
