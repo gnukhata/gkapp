@@ -80,6 +80,7 @@
               v-model="form.bank.no"
               trim
               required
+              pattern="[A-Z0-9]+"
             ></b-form-input>
           </b-form-group>
           <b-form-group

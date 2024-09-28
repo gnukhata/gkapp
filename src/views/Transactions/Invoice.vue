@@ -64,6 +64,7 @@
           :parent-data="form.inv"
           @details-updated="onComponentDataUpdate"
           :update-counter="updateCounter.inv"
+          :party-country="form.party.country"
           ref="inv"
         ></invoice-details>
         <!-- Shipping Details -->
@@ -81,7 +82,7 @@
       </b-card-group>
       <div
         class="my-2"
-        v-if="config.taxType && isGstEnabled && isVatEnabled"
+        v-if="config.taxType && isGstEnabled && isVatEnabled && isIndianParty"
       >
         <b-form-radio-group
           button-variant="outline-secondary"
@@ -518,10 +519,14 @@ export default {
     },
     showErrorToolTip: (self) =>
       self.isInvDateValid === null ? false : !self.isInvDateValid,
+    isIndianParty: (self) =>
+      !self.form.party.country || self.form.party.country === 'India',
     ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
     ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
-    isVat: (self) => self.isVatEnabled && self.form.taxType === 'vat',
-    isGst: (self) => self.isGstEnabled && self.form.taxType === 'gst',
+    isVat: (self) =>
+      self.isVatEnabled && self.isIndianParty && self.form.taxType === 'vat',
+    isGst: (self) =>
+      self.isGstEnabled && self.isIndianParty && self.form.taxType === 'gst',
     isCgst: (self) => {
       if (
         self.isIndia && (
@@ -613,7 +618,7 @@ export default {
             this.options.partyDetails = payload;
 
             this.setBankDetails();
-            Object.assign(this.form.party, payload.data);
+            this.form.party = Object.assign({}, this.form.party, payload.data);
 
             this.updateCounter.ship++;
             Object.assign(this.form.inv.taxState, payload.data.state);

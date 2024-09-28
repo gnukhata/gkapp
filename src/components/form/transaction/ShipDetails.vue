@@ -105,7 +105,10 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col cols="12" v-if="config.state && isIndia">
+          <b-col
+            v-if="config.state && isIndia && isIndianParty"
+            cols="12"
+          >
             <b-form-group
               label="State"
               label-for="spd-input-40"
@@ -128,7 +131,10 @@
               </v-select>
             </b-form-group>
           </b-col>
-          <b-col v-if="config.gstin && gstFlag" cols="12">
+          <b-col
+            v-if="config.gstin && gstFlag"
+            cols="12"
+          >
             <b-form-group
               label-cols="3"
               label-cols-md="4"
@@ -138,6 +144,7 @@
               label-size="sm"
             >
               <b-form-input
+                v-if="copyFlag"
                 size="sm"
                 id="spd-input-50"
                 v-model="form.gstin"
@@ -145,9 +152,18 @@
                 :readonly="copyFlag"
                 tabindex="-1"
               ></b-form-input>
+              <gk-gstin
+                v-else
+                v-model="form.gstin"
+                @gstin_data="onGstinDataFetched"
+                @validity="checkGstinValidity"
+              />
             </b-form-group>
           </b-col>
-          <b-col v-else-if="config.tin && vatFlag" cols="12">
+          <b-col
+            v-else-if="config.tin && vatFlag"
+            cols="12"
+          >
             <b-form-group
               label-cols="3"
               label-cols-md="4"
@@ -162,6 +178,9 @@
                 v-model="form.tin"
                 :readonly="copyFlag"
                 trim
+                pattern="[A-Z0-9]+"
+                minlength="10"
+                maxlength="11"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -174,9 +193,11 @@
 <script>
 import axios from 'axios';
 import { mapGetters } from 'vuex';
+import GkGstin from '../../GkGstin.vue';
 export default {
   name: 'ShipDetails',
   components: {
+    GkGstin,
   },
   data() {
     return {
@@ -236,6 +257,7 @@ export default {
     },
   },
   computed: {
+    isIndianParty: (self) => !self.form.country || self.form.country === 'India',
     ...mapGetters('global', ['isIndia']),
   },
   watch: {
@@ -244,7 +266,7 @@ export default {
     },
     updateCounter() {
       if (this.customDetails) {
-        Object.assign(this.form, this.customDetails);
+        this.form = Object.assign({}, this.form, this.customDetails);
         if (typeof this.customDetails.copyFlag === 'boolean') {
           this.copyFlag = this.customDetails.copyFlag;
         }
@@ -257,6 +279,21 @@ export default {
     },
   },
   methods: {
+    checkGstinValidity(r) {
+      this.isValidGstin = r.validity.format;
+    },
+    onGstinDataFetched({ name, addr, pincode, pan, statecode }) {
+      this.form.name = name;
+      this.form.addr = addr;
+      this.form.pin = pincode;
+      this.form.pan = pan;
+      if (statecode) {
+        let stateData = this.options.states.find(
+          (state) => state.id === parseInt(statecode, 10).toString()
+        );
+        this.form.state = typeof stateData === 'object' ? stateData : this.form.state;
+      }
+    },
     preloadData() {
       let self = this;
       this.isPreloading = true;
@@ -287,19 +324,19 @@ export default {
       if (this.copyFlag) {
         if (this.saleFlag) {
           if (this.billingDetails.name) {
-            Object.assign(this.form, this.billingDetails);
+            this.form = Object.assign({}, this.form, this.billingDetails);
             this.form.name = this.billingDetails.name.name;
             delete this.form.type;
           } else {
             this.resetForm();
           }
         } else {
-          Object.assign(this.form, this.organisationDetails);
+          this.form = Object.assign({}, this.form, this.organisationDetails);
         }
       } else {
         this.resetForm();
         if (this.customDetails) {
-          Object.assign(this.form, this.customDetails);
+          this.form = Object.assign({}, this.form, this.customDetails);
         }
       }
     },
@@ -308,6 +345,7 @@ export default {
         name: null,
         addr: null,
         state: {name: ''},
+        country: this.form.country,
         gstin: null,
         tin: null,
         pin: null,

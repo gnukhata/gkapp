@@ -165,26 +165,8 @@
             tabindex="-1"
           ></b-form-input>
         </b-form-group>
-
         <b-form-group
-          v-if="editFlag"
-          label="PAN"
-          label-for="ptd-input-40"
-          label-size="sm"
-          label-cols="3"
-          label-cols-md="4"
-          label-cols-lg="3"
-        >
-          <b-form-input
-            size="sm"
-            id="ptd-input-40"
-            v-model="form.pan"
-            trim
-            :disabled="!editFlag"
-          ></b-form-input>
-        </b-form-group>
-        <b-form-group
-          v-if="config.state && isIndia"
+          v-if="config.state && isIndia && isIndianParty"
           label="State"
           label-for="ptd-input-50"
           label-size="sm"
@@ -246,6 +228,9 @@
             trim
             :readonly="!editFlag"
             tabindex="-1"
+            pattern="[A-Z0-9]+"
+            minlength="10"
+            maxlength="11"
           ></b-form-input>
         </b-form-group>
         <div v-if="editFlag">
@@ -445,6 +430,7 @@ export default {
       return false;
     },
     isPartySelected: (self) => (self.form.name ? !!self.form.name?.name : false),
+    isIndianParty: (self) => !self.form.country || self.form.country === 'India',
     ...mapGetters('global', ['isIndia']),
   },
   watch: {
@@ -509,7 +495,7 @@ export default {
       );
     },
     resetPartyDetails() {
-      Object.assign(this.form, {
+      this.form = Object.assign({}, this.form, {
         name: { name: '' },
         addr: null,
         options: {
@@ -617,13 +603,14 @@ export default {
           value: { id: key, name: stateList[key] },
         };
       });
-      Object.assign(this.form, {
+      this.form = Object.assign({}, this.form, {
         addr: data.custaddr,
         options: {
           states,
           gstin: data.gstin,
         },
         state: states?.[0]?.value ?? { id: null, name: ''},
+        country: data.country,
         pan: data.custpan,
         checksum: '',
         pin: data.pincode,
@@ -664,7 +651,7 @@ export default {
 
       // if the name is invalid, empty the BilledTo & Shipping Details if it exists
       if (this.form.addr || this.form.options.states.length) {
-        Object.assign(this.form, {
+        this.form = Object.assign({}, this.form, {
           options: {
             states: [],
             gstin: [],
@@ -801,7 +788,7 @@ export default {
           if (self.invoiceParty.id !== null) {
             // self.form.inv.type =
             //   self.invoiceParty.type === 'customer' ? 'sale' : 'purchase';
-            Object.assign(self.form, {
+            self.form = Object.assign({}, self.form, {
               type: self.invoiceParty.type,
               name: {
                 id: self.invoiceParty.id,
