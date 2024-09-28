@@ -154,7 +154,8 @@
                 <b-form-input
                   v-model="details.orgtelno"
                   size="sm"
-                  type="text"
+                  type="tel"
+                  pattern="^\+?\d{0,13}"
                 ></b-form-input>
               </b-input-group>
             </b-form-group>

@@ -53,7 +53,12 @@
           label-cols="4"
         >
           <template #label> <translate> Contact Number </translate> </template>
-          <b-form-input size="sm" v-model="form.gocontact"> </b-form-input>
+          <b-form-input
+            size="sm"
+            v-model="form.gocontact"
+            type="tel"
+            pattern="^\+?\d{0,13}"
+          />
         </b-form-group>
         <b-form-group
           size="sm"
