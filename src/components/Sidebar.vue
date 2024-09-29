@@ -127,7 +127,7 @@
                 ><b-icon icon="server"></b-icon
                 ><translate> Audit Logs</translate></b-nav-item
               >
-              <b-nav-item to="/accounts/-1/-1/-1">
+              <b-nav-item to="/accounts">
                 <b-icon icon="files-alt"></b-icon
                 ><translate> Accounts</translate>
               </b-nav-item>
