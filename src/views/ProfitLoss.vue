@@ -245,7 +245,7 @@ import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import ReportTableThreeCol from '../components/reports/ReportTableThreeCol.vue';
-import GkFileDownload from '@/components/GkFileDownload.vue';
+import GkFileDownload from '../components/GkFileDownload.vue';
 export default {
    components: { GkCardheader, GkDate, ReportHeader, GkFileDownload, ReportTableThreeCol },
    name: 'BalanceSheet',
