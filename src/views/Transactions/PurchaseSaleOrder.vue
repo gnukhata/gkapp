@@ -509,7 +509,7 @@ export default {
         freeqty[item.product.id] = isNaN(parseFloat(item.fqty))
           ? 0
           : parseFloat(item.fqty).toFixed(2);
-        discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
+        discount[item.product.id] = parseFloat(item.discount.total).toFixed(2);
       });
 
       Object.assign(orderData, {

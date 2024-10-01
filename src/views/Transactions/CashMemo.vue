@@ -509,7 +509,7 @@ export default {
       let freeqty = {};
       let discount = {};
       this.form.bill.forEach((item) => {
-        let taxable = item.rate * item.qty - item.discount.amount;
+        let taxable = item.rate * item.qty - item.discount.total;
 
         if (contents[item.product.id] === undefined) {
           contents[item.product.id] = {};
@@ -533,7 +533,7 @@ export default {
         freeqty[item.product.id] = isNaN(parseFloat(item.fqty))
           ? 0
           : parseFloat(item.fqty).toFixed(2);
-        discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
+        discount[item.product.id] = parseFloat(item.discount.total).toFixed(2);
 
         av.product[item.product.name] = parseFloat(taxable).toFixed(2);
         av.prodData[item.product.id] = parseFloat(taxable).toFixed(2);
@@ -662,7 +662,7 @@ export default {
         freeqty[item.product.id] = isNaN(parseFloat(item.fqty))
           ? 0
           : parseFloat(item.fqty).toFixed(2);
-        discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
+        discount[item.product.id] = parseFloat(item.discount.total).toFixed(2);
 
         pricedetails.push({
           custid: parseInt(contact.value) || '',
