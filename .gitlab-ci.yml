@@ -39,8 +39,8 @@ docker-devel:
     - docker login -u digitalfreedom -p $DOCKERHUB_PWD
     - docker build -t digitalfreedom/gkapp:devel --build-arg VERSION=$CI_COMMIT_SHORT_SHA .
     - docker push digitalfreedom/gkapp:devel
-  only:
-    - devel
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'devel'
 
 # build gkapp docker image on a release & push it to the docker hub
 docker-prod:
@@ -54,8 +54,8 @@ docker-prod:
     # create alias for the latest tag
     - docker tag digitalfreedom/gkapp:$CI_COMMIT_TAG digitalfreedom/gkapp:latest
     - docker push digitalfreedom/gkapp:latest
-  only:
-    - tags
+  rules:
+    - if: $CI_COMMIT_TAG
 
 # SAST Tests
 sast:
@@ -73,15 +73,16 @@ ui_tests:
   stage: test
   # this job runs with a delay to make sure the dev server
   # is updated to latest commit
-  when: delayed
-  start_in: 2 minutes
   script: |
     cd tests/artifact
     nexial.sh -plan plan/GNUKhata-plan.xlsx || true
     cd -
   # this job runs only on the master branch
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'master'
+      when: delayed
+      start_in: 2 minutes
+
   artifacts:
     paths:
       - tests/output/
@@ -92,5 +93,5 @@ update_test_server:
   image: curlimages/curl:latest
   script:
     - curl -f $TEST_SERVER_HOOK
-  only:
-    - devel
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'devel'
