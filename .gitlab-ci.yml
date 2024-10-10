@@ -12,6 +12,13 @@ stages:
 variables:
   DOCKER_TLS_CERTDIR: '/certs'
 
+workflow:
+  # run pipeline only on creating merge requests, tags or pushing to default branch
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
 # build gkapp
 build_gkapp:
   stage: build
