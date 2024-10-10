@@ -133,13 +133,14 @@ export default {
       godowns: [],
       selectedGodown: {},
       godownReport: [],
+      fields: [],
       showCard: true,
       search: '',
     };
   },
   computed: {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
-    fields: function() {
+    defaultFields: function() {
       let fields = [
         {
           key: 'product',
@@ -156,10 +157,6 @@ export default {
         {
           key: 'balance',
           label: this.$gettext('Balance'),
-        },
-        {
-          key: 'value',
-          label: this.$gettext('Value'),
         },
       ];
       return fields;
@@ -209,6 +206,13 @@ export default {
                 id: data.productcode,
               };
             });
+            this.productList = [
+              {
+                name: 'All',
+                id: 0,
+              },
+              ...this.productList,
+            ];
             //prefill a product if user did not specify any
             if (Object.keys(this.$route.query).length == 0) {
               this.selectedProduct = this.productList[0];
@@ -231,7 +235,20 @@ export default {
 
       let requests = [];
 
-      let url = `/reports/godownwise-stock-on-hand?type=pg&goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
+      let _type = 'pg';
+      if (Number(this.selectedProduct.id) === 0) {
+        _type = 'apg';
+        this.fields = this.defaultFields;
+      } else {
+        this.fields = [
+          ...this.defaultFields,
+          {
+            key: 'value',
+            label: this.$gettext('Value'),
+          }
+        ];
+      }
+      let url = `/reports/godownwise-stock-on-hand?type=${_type}&goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
       let stockValueUrl = `/reports/godownwise-stock-value?goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
       requests = [axios.get(url), axios.get(stockValueUrl)];
 
@@ -263,8 +280,14 @@ export default {
               });
           }
 
-          if (resp2.data.gkstatus === 0) {
+          if (resp2.data.gkstatus === 0 && this.report?.[0]) {
             this.report[0].value = resp2.data.gkresult;
+          } else {
+            this.$bvToast.toast('No data found', {
+              title: 'Error',
+              variant: 'danger',
+              solid: true,
+            });
           }
           this.loading = false;
         })
