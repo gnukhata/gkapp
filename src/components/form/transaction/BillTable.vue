@@ -339,7 +339,7 @@
             <b-input
               v-if="!disabled.discount"
               size="sm"
-              v-model="form[data.item.index].discount.amount"
+              v-model="form[data.item.index].discount.total"
               class="hide-spin-button text-right px-1"
               type="number"
               no-wheel
@@ -350,26 +350,26 @@
               @click="
                 updateRateField(
                   data.item.index,
-                  ['discount', 'amount'],
+                  ['discount', 'total'],
                   'clickin'
                 )
               "
               @blur="
                 updateRateField(
                   data.item.index,
-                  ['discount', 'amount'],
+                  ['discount', 'total'],
                   'clickout'
                 )
               "
               :readonly="disabled.discount"
             ></b-input>
-            <span v-else>{{ form[data.item.index].discount.amount }}</span>
+            <span v-else>{{ form[data.item.index].discount.total }}</span>
           </div>
         </template>
 
         <template #foot(discount)="">
           <div class="text-right" v-if="config.footer.discount">
-            {{ getTotal('discount', 'amount') }}
+            {{ getTotal('discount', 'total') }}
           </div>
         </template>
 
@@ -1295,7 +1295,6 @@ export default {
         if (this.crdrnote) {
           discountAmount = 0;
         }
-        item.discount.amount = item.discount.total = discountAmount;
 
         let qty = 0;
         let rate = parseFloat(item.rate);
