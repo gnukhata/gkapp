@@ -67,7 +67,7 @@
             size="sm"
             required
             v-model="form.name"
-            :readonly="disableFields.name"
+            :readonly="accountDetails?.sysaccount ? true : false"
           ></b-form-input>
         </b-form-group>
         <b-form-group
@@ -155,24 +155,6 @@
        return Object.values(
          self.groupsSubgroups[self.form.group]?.childGroups ?? []
        );
-     },
-     disableFields: (self) => {
-       let fields = {
-         group: false,
-         subGroup: false,
-         default: false,
-         name: false,
-       };
-       if (self.isSysAccount) {
-         fields = {
-           group: true,
-           subGroup: true,
-           default: true,
-           name: true,
-         };
-       }
-
-       return fields;
      },
    },
    methods: {
