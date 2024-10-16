@@ -93,6 +93,12 @@
             <span class="mr-1" v-translate>Expanded Table</span>
           </div>
         </template>
+        <gk-file-download
+          :url="downloadUrl"
+          :fileName="downloadFileName"
+          fileExtn=".xlsx"
+          :messageFromParent="parentMessage"
+        ></gk-file-download>
       </gk-toolbar>
       <b-table
         caption-top
@@ -130,9 +136,11 @@ import GkDate from '../components/GkDate.vue';
 import axios from 'axios';
 import ReportHeader from '../components/ReportHeader.vue';
 import GkToolbar from '@/components/GkToolbar.vue';
+import GkFileDownload from '../components/GkFileDownload.vue';
+
 export default {
   name: 'Registers',
-  components: { GkDate, ReportHeader, GkToolbar },
+  components: { GkDate, ReportHeader, GkToolbar, GkFileDownload },
   data() {
     return {
       loading: false,
@@ -324,6 +332,11 @@ export default {
     },
   },
   computed: {
+    downloadUrl: (self) => {
+      return `/spreadsheet/view-register?title=Register as&from=${self.fromDate}&to=${self.toDate}`
+    },
+    downloadFileName: (self) =>
+      `Profit_Loss_${self.fromDate}_to_${self.toDate}`,
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
     ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
   },
