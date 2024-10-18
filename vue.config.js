@@ -1,7 +1,7 @@
 module.exports = {
   publicPath: process.env.GKAPP_URL !== undefined ? process.env.GKAPP_URL : '/',
   // use strict lint
-  lintOnSave: 'error', // use 'warning' for a lenient setting
+  lintOnSave: 'warning',
 
   // Disable js source maps for production build
   productionSourceMap: false,

@@ -278,7 +278,7 @@ export default {
 
           let custList = state.options.transaction.contacts.customers || [];
           let custName = 'Retail Customer (Default)';
-          const defaults = state.customConf.transaction.default;
+          const defaults = state.customConf.transaction?.default;
           let rCust = custList.find((cust) => cust.text === custName);
           if (
             (!defaults.contacts ||
@@ -328,12 +328,12 @@ export default {
       let pGodown = goList.find((go) => go.text === goName);
 
       if (
-        !state.customConf.transaction.default.godown ||
-        state.customConf.transaction.default.godown === -1
+        !state.customConf.transaction?.default.godown ||
+        state.customConf.transaction?.default.godown === -1
       ) {
         if (!pGodown) {
           let orgAddress = rootGetters.getOrgAddress;
-          let orgState = orgAddress.orgstate || '';
+          let orgState = orgAddress?.orgstate || '';
           let payload = {
             goname: goName,
             goaddr: `${goName}'s address`,
@@ -353,7 +353,7 @@ export default {
         }
       }
       return new Promise((resolve) => {
-        resolve(state.customConf.transaction.default.godown);
+        resolve(state.customConf.transaction?.default.godown);
       });
     },
     // must be invoked after successful login

@@ -294,7 +294,7 @@ export default {
       } else {
         // === Dr Accounts ===
         this.options.dr = [];
-        drData.data.gkresult.forEach((item) => {
+        drData.data?.gkresult.forEach((item) => {
           this.options.dr.push(Object.assign(item, { disabled: false }));
           this.options.acc[item.accountcode] = item.accountname;
           this.options.nameToId[item.accountname] = item.accountcode;
@@ -302,7 +302,7 @@ export default {
 
         // === Cr Accounts ===
         this.options.cr = [];
-        crData.data.gkresult.forEach((item) => {
+        crData.data?.gkresult.forEach((item) => {
           this.options.cr.push(Object.assign(item, { disabled: false }));
           this.options.acc[item.accountcode] = item.accountname;
           this.options.nameToId[item.accountname] = item.accountcode;
@@ -318,7 +318,7 @@ export default {
             purchase: [],
             map: {},
           };
-          onCreditData.data.invoices.forEach((item) => {
+          onCreditData?.data.invoices.forEach((item) => {
             let option = {
               id: item.invid,
               label: `${item.invoiceno}, ${item.custname}, ${item.invoicedate}`,

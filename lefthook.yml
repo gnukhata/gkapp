@@ -1,0 +1,6 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.{js,vue}"
+      run: npm run lint {staged_files} --fix
