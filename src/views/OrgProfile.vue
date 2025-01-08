@@ -1035,7 +1035,7 @@ export default {
       }
 
       Object.assign(this.details, {
-        orgstate: state ?? '',
+        orgstate: this.isIndia ? (state ?? '') : '',
         gstin: gstin,
         tin: this.details.tin,
         bankdetails: this.bankDetails,
