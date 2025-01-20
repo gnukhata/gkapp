@@ -1,9 +1,12 @@
 <template>
   <pie
-    v-if="loaded"
+    v-if="accountsCount"
     :chart-data="accountsPieData"
     :chart-options="chartOptions"
   />
+  <p v-else>
+    There are no records to show.
+  </p>
 </template>
 
 <script>
@@ -25,7 +28,7 @@ export default {
   },
   data() {
     return {
-      loaded: false,
+      accountsCount: 0,
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false
@@ -56,13 +59,12 @@ export default {
               }
             ]
           };
-          this.loaded = true;
-          console.log(this.accountsPieData);
+          this.accountsCount = resp["account_balances"].length;
+          console.log(this.accountsCount);
         })
     },
   },
   mounted() {
-    this.loaded = false;
     this.getAccountsData();
   },
 };

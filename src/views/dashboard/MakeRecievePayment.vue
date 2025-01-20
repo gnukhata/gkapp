@@ -7,7 +7,7 @@
     >
       <!-- Make Payment -->
       <b-card
-        header="Make Payment"
+        header="Receive Payment"
         header-class="font-weight-bold"
         no-body
         class="mb-4"
@@ -15,14 +15,12 @@
         <b-table
           :items="invoice.sale.data"
           :fields="saleFields"
+          v-if="invoice.sale.data.length"
           borderless
           hover
           responsive
           show-empty
         >
-          <template #empty>
-            <h4>No invoices fore receipt!!!</h4>
-          </template>
           <template #cell(invoiceno)="d">
             <router-link :to="'/workflow/Transactions-Invoice/' + d.item.invid">
               {{ d.item.invoiceno }}
@@ -41,6 +39,12 @@
             </b-button>
           </template>
         </b-table>
+        <p
+          v-else
+          class="text-center my-2"
+        >
+          There are no invoices to receive payment!
+        </p>
       </b-card>
     </b-col>
     <b-col
@@ -50,7 +54,7 @@
     >
       <!-- Receive Payment -->
       <b-card
-        header="Receive Payment"
+        header="Make Payment"
         header-class="font-weight-bold"
         no-body
         class="mb-4"
@@ -58,6 +62,7 @@
         <b-table
           :items="invoice.purchase.data"
           :fields="purFields"
+          v-if="invoice.purchase.data.length"
           borderless
           hover
           responsive
@@ -84,6 +89,12 @@
             </b-button>
           </template>
         </b-table>
+        <p
+          v-else
+          class="text-center my-2"
+        >
+          There are no invoices to make payment!
+        </p>
       </b-card>
     </b-col>
   </b-row>

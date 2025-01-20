@@ -10,7 +10,7 @@
       {{ yearEnd.split('-')[0].slice(2, 4) }}
     </p>
     <p class="h1 text-dark">
-      $  {{ gross_value }}
+      ₹ {{ gross_value }}
     </p>
     ***
     <br>
@@ -23,7 +23,7 @@
       {{ yearEnd.split('-')[0].slice(2, 4) }}
     </p>
     <p class="h1 text-dark">
-      $  {{ net_value }}
+      ₹ {{ net_value }}
     </p>
     ***
   </b-card>
@@ -52,9 +52,9 @@ export default {
       )
         .then((resp) => {
           this.net_label = resp.summary.net.label;
-          this.net_value = resp.summary.net.value;
+          this.net_value = parseFloat(resp.summary.net.value).toFixed(2);
           this.gross_label =  resp.summary.gross.label;
-          this.gross_value = resp.summary.gross.value;
+          this.gross_value = parseFloat(resp.summary.gross.value).toFixed(2);
         })
     },
   },

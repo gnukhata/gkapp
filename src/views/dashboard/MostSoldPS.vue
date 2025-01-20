@@ -28,9 +28,12 @@
               {{ d.item.proddesc }}
             </router-link>
           </template>
+          <template #cell(sale)="data">
+            ₹ {{ data.value }}
+          </template>
         </b-table>
         <template #footer>
-          <router-link to="business-details/create">
+          <router-link to="/invoice?type=sales">
             <b-button
               size="sm"
               variant="dark float-right"
@@ -39,7 +42,7 @@
                 icon="box"
                 class="mr-1"
               /><translate>
-                Add Product / Service
+                New Sale
               </translate>
             </b-button>
           </router-link>
@@ -73,9 +76,12 @@
               {{ d.item.proddesc }}
             </router-link>
           </template>
+          <template #cell(purchase)="data">
+            ₹ {{ data.value }}
+          </template>
         </b-table>
         <template #footer>
-          <router-link to="business-details/create">
+          <router-link to="/invoice?type=purchase">
             <b-button
               size="sm"
               variant="dark float-right"
@@ -84,7 +90,7 @@
                 icon="box"
                 class="mr-1"
               /><translate>
-                Add Product / Service
+                New Purchase
               </translate>
             </b-button>
           </router-link>

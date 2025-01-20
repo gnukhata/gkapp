@@ -15,7 +15,7 @@
         {{ data.value }}
       </p>
       <p class="text-right text-dark font-weight-light h3 m-0">
-        {{ data.item.account_balance }} ₹
+        ₹ {{ data.item.account_balance }}
       </p>
     </template>
   </b-table>
