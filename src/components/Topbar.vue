@@ -53,8 +53,44 @@
     <!-- user menu -->
     <b-navbar-nav class="ml-auto">
       <b-nav-item-dropdown
-        id="usermenu"
         v-if="userOrgAuthenticated"
+        id="quick-actions"
+        class="mt-2"
+        right
+      >
+        <template #button-content>
+          <b-icon icon="plus-lg" /> Add
+        </template>
+        <b-dropdown-item to="/invoice">
+          Invoice
+        </b-dropdown-item>
+        <b-dropdown-item to="/dc-note">
+          Debit/Credit Note
+        </b-dropdown-item>
+        <b-dropdown-item to="/cash-memo">
+          Cash Memo
+        </b-dropdown-item>
+        <b-dropdown-item to="/ps-order">
+          Purchase/Sales Order
+        </b-dropdown-item>
+        <b-dropdown-item to="/transfer-note">
+          Transfer Note
+        </b-dropdown-item>
+        <b-dropdown-item to="/voucher/create/receipt/-1">
+          Voucher
+        </b-dropdown-item>
+        <b-dropdown-divider />
+        <b-dropdown-item to="/business-details/create">
+          Business Items
+        </b-dropdown-item>
+        <b-dropdown-item to="/contact-details/create/customer">
+          Contacts
+        </b-dropdown-item>
+      </b-nav-item-dropdown>
+      <b-nav-item-dropdown
+        v-if="userAuthenticated"
+        id="usermenu"
+        toggle-class="nav-link-custom"
         right
       >
         <template #button-content>
@@ -67,6 +103,7 @@
         </template>
         <!-- logout button -->
         <b-dropdown-item
+          v-if="userOrgAuthenticated"
           @click="logOut"
           href="#"
         >
