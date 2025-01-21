@@ -18,10 +18,16 @@
         buttons
         class="mx-1"
       >
-        <b-form-radio value="sale">
+        <b-form-radio
+          v-if="type !== 'purchase'"
+          value="sale"
+        >
           Sale
         </b-form-radio>
-        <b-form-radio value="purchase">
+        <b-form-radio
+          v-if="type !== 'sale'"
+          value="purchase"
+        >
           Purchase
         </b-form-radio>
       </b-form-radio-group>
@@ -310,6 +316,13 @@ export default {
     Attachments,
 
     PrintPage,
+  },
+  props: {
+    type: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -1478,6 +1491,9 @@ export default {
     isSale() {
       this.setBankDetails();
     },
+    type(newType) {
+      this.form.type = newType === 'purchase' ? 'purchase' : 'sale';
+    },
   },
   beforeMount() {
     this.vuexNameSpace = 'invoiceConfig_' + Date.now();
@@ -1491,6 +1507,7 @@ export default {
       this.get_user_role();
     }
     this.form.taxType = this.defaultTaxMode;
+    this.form.type = this.type === 'purchase' ? 'purchase' : 'sale';
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page
