@@ -1,140 +1,150 @@
 <template>
   <section class="m-2">
     <!-- User Login -->
-    <b-card
+
+    <b-row
       v-if="!userAuthToken"
-      class="mx-auto shadow"
-      style="max-width: 35em"
-      header-bg-variant="dark"
-      header-text-variant="light"
+      align-h="center"
     >
-      <template #header>
-        Login
-      </template>
-      <!-- login banner -->
-      <b-alert
-        :show="gkConfig.login_banner.show"
-        :variant="gkConfig.login_banner.variant"
-        class="mb-2 mx-auto"
-        style="max-width:35em"
-        v-html="gkConfig.login_banner.content"
-      />
-      <b-form @submit.prevent="preUserLogin">
-        <!--Username area-->
-        <b-form-group
-          :label="$gettext('Username')"
-          label-cols="4"
-          label-size="sm"
-          label-align="right"
+      <b-col
+        cols
+        lg="5"
+      >
+        <b-card
+          class="shadow"
+          header-bg-variant="light"
+          header-class="p-0"
+          body-class="mr-3  "
         >
-          <b-form-input
-            v-model.trim="form.name"
-            type="text"
-            size="sm"
-            :placeholder="$gettext('Enter Username')"
-            required
+          <template #header>
+            <svg version="1.1" viewBox="0 0 118.7 41.38" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="a" x1="89.703" x2="120.53" y1="-66.581" y2="-57.054" gradientTransform="matrix(1.4363 0 0 1.2115 -36.593 193.54)" gradientUnits="userSpaceOnUse"><stop stop-color="#69f" offset="0"/><stop stop-color="#00ffe7" offset="1"/></linearGradient><filter id="b" x="-.16162" y="-.15774" width="1.3232" height="1.3178" color-interpolation-filters="sRGB"><feFlood flood-color="rgb(255,255,255)" in="SourceGraphic" result="flood"/><feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="3.000000"/><feOffset dx="0.000000" dy="0.000000" in="blur" result="offset"/><feComposite in="flood" in2="offset" operator="in" result="comp1"/><feComposite in="SourceGraphic" in2="comp1" result="comp2"/></filter></defs><g transform="matrix(3.1505 0 0 3.1505 -328.72 -363.41)"><g><rect x="104.34" y="115.35" width="37.676" height="13.134" ry="0" fill="url(#a)" style="paint-order:markers stroke fill"/><g transform="matrix(.2088 0 0 .2088 118.13 -92.84)" filter="url(#b)"><path d="m24 1005.5c-9.806 0-17.75 7.9753-17.75 17.781s7.944 17.75 17.75 17.75c8.6891 0 15.903-6.2558 17.438-14.5h-19.531v4.1562h12.531c-2.324 3.2653-6.1212 5.4063-10.438 5.4063-7.0879 0-12.844-5.7246-12.844-12.812 0-7.088 5.7558-12.844 12.844-12.844 4.6014 0 8.6409 2.4243 10.906 6.0625h5.4688c-2.6656-6.4427-8.9751-11-16.375-11zm-2.0938 14.438v4.2188h19.781c0.14391-1.4074-0.04454-2.968-0.28125-4.2188z" fill="#ff7f2a"/><g fill="#000080" stroke="#fff"><g stroke-width=".21049"><rect x="1.4006" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="1.4006" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="1.4006" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="1.4006" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-7.2026" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="7.2026" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="7.2026" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-13.552" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-13.552" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-13.552" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="13.552" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-19.354" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-19.354" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/></g><rect transform="scale(-1,1)" x="-19.354" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009" stroke-width=".21"/><g stroke-width=".21049"><rect x="19.98" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="19.98" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-25.782" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-25.782" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="25.782" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="25.782" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-31.8" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="31.8" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="31.8" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="31.8" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-37.602" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="37.896" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="37.896" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-43.698" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-43.698" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="43.698" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="43.698" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/></g></g></g></g></g></svg>
+          </template>
+          <!-- login banner -->
+          <b-alert
+            :show="gkConfig.login_banner.show"
+            :variant="gkConfig.login_banner.variant"
+            class="mb-2 mx-auto"
+            v-html="gkConfig.login_banner.content"
           />
-        </b-form-group>
-        <!-- Password area -->
-        <b-form-group
-          :label="$gettext('Password')"
-          label-cols="4"
-          label-align="right"
-          label-size="sm"
-        >
-          <password
-            v-model="form.pwd"
-            :password-hint="false"
-            :placeholder="$gettext('Password')"
-            size="sm"
-          />
-          <b-button
-            variant="link"
-            class="float-right p-0"
-            @click="showForm.resetPwd = true"
-          >
-            <small><translate>Forgot Password?</translate></small>
-          </b-button>
-        </b-form-group>
+          <b-form @submit.prevent="preUserLogin">
+            <!--Username area-->
+            <b-form-group
+              :label="$gettext('Username')"
+              label-cols="3"
+              label-align="right"
+              label-size="sm"
+            >
+              <b-form-input
+                v-model.trim="form.name"
+                size="sm"
+                type="text"
+                :placeholder="$gettext('Enter Username')"
+                required
+              />
+            </b-form-group>
+            <!-- Password area -->
+            <b-form-group
+              :label="$gettext('Password')"
+              label-cols="3"
+              label-align="right"
+              label-size="sm"
+            >
+              <password
+                v-model="form.pwd"
+                :password-hint="false"
+                :placeholder="$gettext('Password')"
+                size="sm"
+                class="mb-0"
+              />
+              <b-button
+                variant="link"
+                class="float-right p-0"
+                @click="showForm.resetPwd = true"
+              >
+                <small><translate>Forgot Password?</translate></small>
+              </b-button>
+            </b-form-group>
 
-        <!--Captcha question -->
-        <!-- only shown if captcha is enabled in gkapp config -->
-        <div v-if="gkConfig.login_captcha">
-          <b-form-group
-            :label="$gettext('Question')"
-            label-align="right"
-            label-cols="4"
-            label-size="sm"
-          >
-            <captcha v-model="captcha.answer" />
-          </b-form-group>
+            <!--Captcha question -->
+            <!-- only shown if captcha is enabled in gkapp config -->
+            <div v-if="gkConfig.login_captcha">
+              <b-form-group
+                :label="$gettext('Question')"
+                label-cols="3"
+                label-size="sm"
+                label-align="right"
+              >
+                <captcha v-model="captcha.answer" />
+              </b-form-group>
 
-          <!-- captcha answer -->
-          <b-form-group
-            :label="$gettext('Answer')"
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-          >
-            <b-form-input
-              v-model="captcha.userAnswer"
-              type="number"
-              no-wheel
-              :placeholder="$gettext('Enter the Answer')"
-              required
+              <!-- captcha answer -->
+              <b-form-group
+                :label="$gettext('Answer')"
+                label-cols="3"
+                label-size="sm"
+                label-align="right"
+              >
+                <b-form-input
+                  v-model="captcha.userAnswer"
+                  type="number"
+                  no-wheel
+                  :placeholder="$gettext('Enter the Answer')"
+                  required
+                  size="sm"
+                />
+              </b-form-group>
+            </div>
+            <b-button-group
               size="sm"
-            />
-          </b-form-group>
-        </div>
-        <b-button-group
-          size="sm"
-          class="row float-right"
-        >
-          <b-button
-            variant="dark"
-            class="m-1"
-            @click="switchServer"
-            :disabled="isOrgLoading"
-          >
-            <b-icon
-              class="mr-1"
-              icon="cloud"
-            />
-            <translate> Change Server</translate>
-          </b-button>
-          <b-button
-            @click="showForm.createUser = true"
-            variant="dark"
-            class="m-1"
-            :disabled="isOrgLoading"
-          >
-            <b-icon
-              class="mr-1"
-              icon="person-plus"
-            />
-            <translate> Create User</translate>
-          </b-button>
-          <b-button
-            :disabled="isOrgLoading"
-            class="m-1"
-            variant="success"
-            type="submit"
-          >
-            <b-spinner
-              class="mr-1"
-              v-if="isOrgLoading"
-              small
-            />
-            <b-icon
-              class="mr-1"
-              v-else
-              icon="box-arrow-in-right"
-            />
-            <translate> Login</translate>
-          </b-button>
-        </b-button-group>
-      </b-form>
-    </b-card>
+              class="row float-right"
+            >
+              <b-button
+                variant="dark"
+                class="m-1"
+                @click="switchServer"
+                :disabled="isOrgLoading"
+              >
+                <b-icon
+                  class="mr-1"
+                  icon="cloud"
+                />
+                <translate> Change Server</translate>
+              </b-button>
+              <b-button
+                @click="showForm.createUser = true"
+                variant="dark"
+                class="m-1"
+                :disabled="isOrgLoading"
+              >
+                <b-icon
+                  class="mr-1"
+                  icon="person-plus"
+                />
+                <translate> Create User</translate>
+              </b-button>
+              <b-button
+                :disabled="isOrgLoading"
+                class="m-1"
+                variant="success"
+                type="submit"
+              >
+                <b-spinner
+                  class="mr-1"
+                  v-if="isOrgLoading"
+                  small
+                />
+                <b-icon
+                  class="mr-1"
+                  v-else
+                  icon="box-arrow-in-right"
+                />
+                <translate> Login</translate>
+              </b-button>
+            </b-button-group>
+          </b-form>
+        </b-card>
+      </b-col>
+    </b-row>
     <!-- Org selection -->
     <b-card
       v-else
