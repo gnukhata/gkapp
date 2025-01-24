@@ -88,7 +88,8 @@ const config = {
               id: item.invid,
               no: item.invoiceno,
               noteName: `Cash Memo`,
-              text1: item.invoiceno,
+              text1: '',
+              text2: `₹ ${item.invoicetotal}`,
               icon: 'cash-stack',
               // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
               date: item.invoicedate,
@@ -112,7 +113,8 @@ const config = {
               id: item.invid,
               no: item.invoiceno,
               noteName: `Cash Memo`,
-              text1: item.invoiceno,
+              text1: '',
+              text2: `₹ ${item.invoicetotal}`,
               icon: 'basket3',
               // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
               date: item.invoicedate,
@@ -151,14 +153,8 @@ function initColumns() {
     if (!columns || !columns.length) {
       columns = [
         {
-          label: 'Date',
+          label: '',
           key: 'dateObj',
-          sortable: true,
-        },
-        {
-          label: 'No.',
-          key: 'invoiceno',
-          sortable: true,
         },
       ];
     }

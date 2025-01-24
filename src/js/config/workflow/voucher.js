@@ -158,15 +158,14 @@ const config = {
           let drAmount = parseFloat(item.drs[drAccount]).toFixed(2);
           let crAccount = Object.keys(item.crs)[0];
           let crAmount = parseFloat(item.crs[crAccount]).toFixed(2);
+          const voucherLabel = getVoucherLabel(item.vouchertype);
           return Object.assign(
             {
               id: item.vouchercode,
               no: item.vouchernumber,
-              noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(
-                1
-              )} Voucher`,
-              text1: `${drAmount} (${drAccount})`,
-              text2: `${crAmount} (${crAccount})`,
+              noteName: `${voucherLabel} Voucher`,
+              text1: voucherLabel,
+              text2: `₹ ${drAmount}`,
               drAmount: drAmount,
               crAmount: crAmount,
               icon: 'cash-stack',
@@ -191,15 +190,14 @@ const config = {
           let drAmount = parseFloat(item.drs[drAccount]).toFixed(2);
           let crAccount = Object.keys(item.crs)[0];
           let crAmount = parseFloat(item.crs[crAccount]).toFixed(2);
+          const voucherLabel = getVoucherLabel(item.vouchertype);
           return Object.assign(
             {
               id: item.vouchercode,
               no: item.vouchernumber,
-              noteName: `${item.vouchertype[0].toUpperCase()}${item.vouchertype.slice(
-                1
-              )} Voucher`,
-              text1: `${drAmount} (${drAccount})`,
-              text2: `${crAmount} (${crAccount})`,
+              noteName: `${voucherLabel} Voucher`,
+              text1: voucherLabel,
+              text2: `₹ ${drAmount}`,
               drAmount: drAmount,
               crAmount: crAmount,
               icon: 'cash-stack',
@@ -225,6 +223,27 @@ const config = {
   setListColumns: setColumns,
 };
 
+function getVoucherLabel(voucherType) {
+  let voucherLabel;
+  switch(voucherType) {
+    case 'debitnote':
+      voucherLabel = 'Debit Note';
+      break;
+    case 'creditnote':
+      voucherLabel = 'Credit Note';
+      break;
+    case 'salesreturn':
+      voucherLabel = 'Sales Return';
+      break;
+    case 'purchasereturn':
+      voucherLabel = 'Purchase Return';
+      break;
+    default:
+      voucherLabel = `${voucherType[0].toUpperCase()}${voucherType.slice(1)}`;
+  }
+  return voucherLabel;
+}
+
 function initColumns() {
   let columns = [];
   axios.get('/config?conftype=user').then((resp) => {
@@ -238,21 +257,8 @@ function initColumns() {
     if (!columns || !columns.length) {
       columns = [
         {
-          label: 'Date',
+          label: '',
           key: 'dateObj',
-          sortable: true,
-        },
-        {
-          label: 'Dr',
-          key: 'drAmount',
-          sortable: true,
-          tdClass: 'gk-currency'
-        },
-        {
-          label: 'Cr',
-          key: 'crAmount',
-          sortable: true,
-          tdClass: 'gk-currency'
         },
       ];
     }

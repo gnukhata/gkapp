@@ -66,417 +66,371 @@
             ref="leftHeader"
             class="px-2"
           >
-            <!-- Drop down 1: Worflow selection -->
-            <b-dropdown
-              :variant="activeWorkflow.color"
-              class="mr-3"
-              dropright
-              @hide="onDropdownHide"
-              id="main-menu"
-              ref="mainMenu"
+            <div
+              class="d-flex justify-content-between align-items-center"
             >
-              <template #button-content>
-                <div
-                  class="d-inline-block text-truncate float-left mr-1"
-                  style="max-width: 150px"
-                >
-                  <b-icon :icon="activeWorkflow.icon" />
-                  {{
-                    activeWorkflow.name.includes('-')
-                      ? activeWorkflow.tabName
-                      : activeWorkflow.name
-                  }}
-                </div>
-              </template>
-              <b-dropdown-item
-                v-for="(tab, tabName, index1) in options.tabs"
-                :key="index1"
-                @click.prevent="setActiveWorkflow(index1, tabName, tab.icon)"
-                :link-class="{'p-0': tab.tabs}"
+              <b-form-input
+                size="sm"
+                v-model="search"
+                placeholder="Search"
+              />
+              <b-dropdown
+                split
+                :split-to="getFormPath()"
+                size="sm"
+                class="ml-2"
+                variant="success"
               >
-                <!-- Option with Sub Menu -->
-                <b-dropdown
-                  v-if="tab.tabs"
-                  id="sub-menu"
-                  @show="onDropdownShow"
-                  @hide="onDropdownHide"
-                  variant="outline"
-                  :toggle-class="['border-0', 'p-0']"
-                  style="width: 100%"
-                  class=""
-                  dropleft
-                  no-flip
+                <template #button-content>
+                  <b-icon icon="plus" />
+                </template>
+                <b-dropdown-item-button
+                  v-if="activeWorkflow.tabName !== 'Contacts' && activeWorkflow.tabName !== 'Business'"
+                  @click="toggleFlag(); isSortingOpen = !isSortingOpen"
                 >
-                  <template #button-content>
-                    <b-icon :icon="tab.icon" /> {{ tabName }}
-                  </template>
-                  <b-dropdown-item
-                    v-for="(tab2, tabName2, index2) in tab.tabs"
-                    :key="index2"
-                    @click.prevent="
-                      setActiveWorkflow(
-                        index2,
-                        {parent: tabName, child: tabName2},
-                        tab2.icon,
-                      )
+                  <b-icon icon="sort-down" /> Sort
+                </b-dropdown-item-button>
+                <b-dropdown-item-button
+                  v-if="activeWorkflow.tabName !== 'Contacts'"
+                  @click="toggleFlag(); isFilterOpen = !isFilterOpen"
+                >
+                  <b-icon icon="funnel" /> Filter
+                </b-dropdown-item-button>
+                <b-dropdown-item-button
+                  @click="printPage(`list-${activeWorkflow.tabName}`, fileName.list)"
+                >
+                  <b-icon icon="printer" /> Print
+                </b-dropdown-item-button>
+                <b-dropdown-item-button
+                  v-if="
+                    activeWorkflow.name === 'Business'
+                      || activeWorkflow.name === 'Transactions-Invoice'
+                      || activeWorkflow.name === 'Transactions-TransferNote'
+                  "
+                  @click="exportAsSpreadsheet"
+                >
+                  <b-icon icon="file-earmark-spreadsheet" /> Export
+                </b-dropdown-item-button>
+              </b-dropdown>
+            </div>
+            <div class="d-block w-100">
+              <div class="d-none">
+                <b-button-group
+                  class="float-right"
+                  :class="{'mt-2': isSortingOpen}"
+                >
+                  <print-helper
+                    class="px-md-1 px-2"
+                    :content-id="`list-${activeWorkflow.tabName}`"
+                    :font-scale="1"
+                    icon-name="file-earmark-arrow-down"
+                    variant="outline-dark"
+                    :file-name="fileName.list"
+                    :toggle-flag="toggleFlag"
+                    title="Download Pdf"
+                    :message-from-parent="parentMessage"
+                  />
+                  <!-- product / service spreadsheet -->
+                  <gk-file-download
+                    variant="outline-dark"
+                    v-if="activeWorkflow.name === 'Business'"
+                    file-suffix="ProductServiceList"
+                    class="px-1"
+                    :font-scale="1"
+                    :url="
+                      `/spreadsheet?pslist&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
                     "
-                  >
-                    <b-icon :icon="tab2.icon" /> {{ tabName2 }}
-                  </b-dropdown-item>
-                </b-dropdown>
-                <!-- Option without Sub Menu -->
-                <span v-else>
-                  <b-icon :icon="tab.icon" /> {{ tabName }}
-                </span>
-              </b-dropdown-item>
-            </b-dropdown>
-            <!-- Drop down 2: Filter -->
-            <b-button
-              class="px-1 float-right text-dark"
-              variant="link"
-              @click="isOptionsOpen = !isOptionsOpen; isSettingsOpen = false; isFilterOpen = false;"
-              size="sm"
-              title="Options"
-            >
-              <b-icon
-                class="align-middle"
-                :font-scale="1"
-                icon="three-dots-vertical"
-              /><span class="sr-only">Options</span>
-            </b-button>
-            <b-collapse v-model="isOptionsOpen">
-              <b-button-group
-                class="float-right"
-                :class="{'mt-2': isOptionsOpen}"
-              >
-                <b-button
-                  class="px-1"
-                  variant="outline-dark"
-                  @click="isFilterOpen = !isFilterOpen; isSettingsOpen = false"
-                  title="Filters"
-                >
-                  <b-icon
-                    class="align-middle"
+                    title="Download Product Service List"
+                    :toggle-flag="toggleFlag"
+                    :message-from-parent="parentMessage"
+                  />
+                  <!-- Invoice spreadsheet -->
+                  <gk-file-download
+                    variant="outline-dark"
+                    v-if="
+                      activeWorkflow.name == 'Transactions-Invoice' &&
+                        filters.active.length == 1 &&
+                        filters.active[0] == 0
+                    "
+                    file-suffix="InvoiceList"
+                    class="px-1"
                     :font-scale="1"
-                    icon="funnel"
-                  /><span class="sr-only">Filter</span>
-                </b-button>
-                <print-helper
-                  class="px-md-1 px-2"
-                  :content-id="`list-${activeWorkflow.tabName}`"
-                  :font-scale="1"
-                  icon-name="file-earmark-arrow-down"
-                  variant="outline-dark"
-                  :file-name="fileName.list"
-                  :toggle-flag="toggleFlag"
-                  title="Download Pdf"
-                  :message-from-parent="parentMessage"
-                />
-                <!-- product / service spreadsheet -->
-                <gk-file-download
-                  variant="outline-dark"
-                  v-if="activeWorkflow.name === 'Business'"
-                  file-suffix="ProductServiceList"
-                  class="px-1"
-                  :font-scale="1"
-                  :url="
-                    `/spreadsheet?pslist&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
-                  "
-                  title="Download Product Service List"
-                  :toggle-flag="toggleFlag"
-                  :message-from-parent="parentMessage"
-                />
-                <!-- Invoice spreadsheet -->
-                <gk-file-download
-                  variant="outline-dark"
-                  v-if="
-                    activeWorkflow.name == 'Transactions-Invoice' &&
-                      filters.active.length == 1 &&
-                      filters.active[0] == 0
-                  "
-                  file-suffix="InvoiceList"
-                  class="px-1"
-                  :font-scale="1"
-                  :url="
-                    `/spreadsheet?invoice-list&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
-                  "
-                  title="Download All Invoice List"
-                  :toggle-flag="toggleFlag"
-                  :message-from-parent="parentMessage"
-                />
-                <!-- Cancelled Invoice spreadsheet -->
-                <gk-file-download
-                  variant="outline-dark"
-                  v-if="
-                    activeWorkflow.name == 'Transactions-Invoice' &&
-                      filters.active.length == 1 &&
-                      filters.active[0] == 3
-                  "
-                  file-suffix="CancelledInvoiceList"
-                  class="px-1"
-                  :font-scale="1"
-                  :url="
-                    `/spreadsheet?invoice-cancelled&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
-                  "
-                  title="Download Cancelled Invoice Spreadsheet"
-                  :toggle-flag="toggleFlag"
-                  :message-from-parent="parentMessage"
-                />
-                <!-- Credit Invoice Spreadsheet -->
-                <gk-file-download
-                  variant="outline-dark"
-                  v-if="
-                    activeWorkflow.name == 'Transactions-Invoice' &&
-                      filters.active.length == 1 &&
-                      filters.active[0] == 4
-                  "
-                  file-suffix="CreditInvoiceList"
-                  class="px-1"
-                  title="Download Credit Invoice Spreadsheet"
-                  :font-scale="1"
-                  :url="
-                    `/spreadsheet?invoice-outstanding&fromdate=${dateReverse(
-                      this.filters.range.from,
-                    )}&todate=${dateReverse(
-                      this.filters.range.to,
-                    )}&inoutflag=15&orderflag=1&typeflag=4`
-                  "
-                  :toggle-flag="toggleFlag"
-                  :message-from-parent="parentMessage"
-                />
-                <!-- Transfer Note Spreadsheet -->
-                <gk-file-download
-                  variant="outline-dark"
-                  v-if="activeWorkflow.name == 'Transactions-TransferNote'"
-                  file-suffix="TransferNoteList"
-                  class="px-1"
-                  :font-scale="1"
-                  :url="
-                    `/spreadsheet?transfer-notes&startdate=${this.dateReverse(
-                      this.filters.range.from,
-                    )}&enddate=${this.dateReverse(this.filters.range.to)}`
-                  "
-                  title="Download Transfer Notes Spreadsheet"
-                  :toggle-flag="toggleFlag"
-                  :message-from-parent="parentMessage"
-                />
-                <!-- Unbilled Delivery Note Spreadsheet -->
-                <gk-file-download
-                  variant="outline-dark"
-                  v-if="
-                    activeWorkflow.name == 'Transactions-DeliveryNote' &&
-                      filters.active.length == 1 &&
-                      filters.active[0] == 4
-                  "
-                  file-suffix="UnbilledDeliveryNote"
-                  class="px-1"
-                  title="Download Unbilled Delivery Note Spreadsheet"
-                  :font-scale="1"
-                  :url="
-                    `/spreadsheet?delivery-challan-unbilled&inputdate=${this.filters.range.to}&inout=9&del_unbilled_type=All`
-                  "
-                  :toggle-flag="toggleFlag"
-                  :message-from-parent="parentMessage"
-                />
-                <!-- Cancelled Delivery Note Spreadsheet -->
-                <gk-file-download
-                  variant="outline-dark"
-                  v-if="
-                    activeWorkflow.name == 'Transactions-DeliveryNote' &&
-                      filters.active.length == 1 &&
-                      filters.active[0] == 3
-                  "
-                  file-suffix="CancelledDeliveryNote"
-                  class="px-1"
-                  title="Download Cancelled Delivery Note Spreadsheet"
-                  :font-scale="1"
-                  :url="
-                    `/spreadsheet?delivery-challan-cancelled&inputdate=${this.filters.range.to}&inout=15&del_cancelled_type=All`
-                  "
-                  :toggle-flag="toggleFlag"
-                  :message-from-parent="parentMessage"
-                />
-                <!-- Column settings -->
-                <b-button
-                  class="px-1"
-                  variant="outline-dark"
-                  @click="isSettingsOpen = !isSettingsOpen; isFilterOpen = false"
-                  title="Column Settings"
-                >
-                  <b-icon
-                    class="align-middle"
+                    :url="
+                      `/spreadsheet?invoice-list&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
+                    "
+                    title="Download All Invoice List"
+                    :toggle-flag="toggleFlag"
+                    :message-from-parent="parentMessage"
+                  />
+                  <!-- Cancelled Invoice spreadsheet -->
+                  <gk-file-download
+                    variant="outline-dark"
+                    v-if="
+                      activeWorkflow.name == 'Transactions-Invoice' &&
+                        filters.active.length == 1 &&
+                        filters.active[0] == 3
+                    "
+                    file-suffix="CancelledInvoiceList"
+                    class="px-1"
                     :font-scale="1"
-                    icon="gear"
-                  /><span class="sr-only">Column Settings</span>
-                </b-button>
-              </b-button-group>
-            </b-collapse>
-            <!-- Table Column Chooser -->
-            <b-collapse v-model="isSettingsOpen">
-              <b-card
-                no-body
-                class="float-right w-100 mt-2"
-                :style="{
-                  'max-width': '450px',
-                }"
-                id="list-settings"
-              >
-                <b-card-body class="p-2">
-                  <b v-translate> List Settings </b>
-                  <hr class="mx-0 my-1">
-                  <div class="container">
-                    <b-row>
-                      <b-col class="px-1">
-                        <b-form-select
-                          v-model="listSettings.columns[0]"
-                          text-field="label"
-                          :options="activeTabOptions.options.columns"
-                          placeholder="Column 1"
-                        />
-                      </b-col>
-                      <b-col class="px-0">
-                        <b-form-select
-                          v-model="listSettings.columns[1]"
-                          text-field="label"
-                          :options="activeTabOptions.options.columns"
-                          placeholder="Column 2"
-                        />
-                      </b-col>
-                      <b-col class="px-1">
-                        <b-form-select
-                          v-model="listSettings.columns[2]"
-                          text-field="label"
-                          :options="activeTabOptions.options.columns"
-                          placeholder="Column 3"
-                        />
-                      </b-col>
-                    </b-row>
-                  </div>
-                  <b-button
-                    class="float-right px-1 mt-2"
-                    size="sm"
-                    variant="success"
-                    @click.prevent="updateListSettings"
-                  >
-                    <translate> Save </translate>
-                  </b-button>
-                </b-card-body>
-              </b-card>
-            </b-collapse>
-            <!-- Filter menu Collapsable card -->
-            <b-collapse v-model="isFilterOpen">
-              <b-card
-                no-body
-                class="float-right w-100 mt-2"
-                :style="{
-                  'max-width': '450px',
-                }"
-                id="list-filter"
-              >
-                <b-card-body class="p-2">
-                  <b v-translate> Filter By </b>
-                  <hr class="mx-0 my-1">
-                  <div class="my-2 ml-1">
-                    <b-form-checkbox
-                      v-model="allSelected"
-                      aria-describedby="flavours"
-                      aria-controls="flavours"
-                      @change="toggleAll"
-                    >
-                      All
-                    </b-form-checkbox>
-                    <b-form-checkbox-group
-                      id="checkbox-group-2"
-                      v-model="filters.active"
-                      name="flavour-2"
-                    >
-                      <b-form-checkbox
-                        v-for="(filter, findex) in activeTabOptions.filterBy
-                          .value"
-                        :key="findex"
-                        :value="findex"
-                      >
-                        <b-icon
-                          v-if="filter.icon"
-                          font-scale="0.75"
-                          :variant="
-                            filter.icon.variant ? filter.icon.variant : ''
-                          "
-                          :icon="filter.icon.name"
-                          class="mr-1"
-                        />
-                        {{ filter.text }}
-                      </b-form-checkbox>
-                    </b-form-checkbox-group>
-                    <b-button
-                      @click="resetFilter"
-                      title="Reset Filter"
-                      class="py-0 px-1"
-                      size="sm"
-                      variant="primary"
-                    >
-                      <b-icon icon="arrow-clockwise" />
-                    </b-button>
-                  </div>
-                  <b-form-group
-                    label="Date Range"
-                    label-size="sm"
-                    v-if="activeTabOptions.filterBy.range.length"
-                  >
-                    <div class="px-3">
+                    :url="
+                      `/spreadsheet?invoice-cancelled&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`
+                    "
+                    title="Download Cancelled Invoice Spreadsheet"
+                    :toggle-flag="toggleFlag"
+                    :message-from-parent="parentMessage"
+                  />
+                  <!-- Credit Invoice Spreadsheet -->
+                  <gk-file-download
+                    variant="outline-dark"
+                    v-if="
+                      activeWorkflow.name == 'Transactions-Invoice' &&
+                        filters.active.length == 1 &&
+                        filters.active[0] == 4
+                    "
+                    file-suffix="CreditInvoiceList"
+                    class="px-1"
+                    title="Download Credit Invoice Spreadsheet"
+                    :font-scale="1"
+                    :url="
+                      `/spreadsheet?invoice-outstanding&fromdate=${dateReverse(
+                        this.filters.range.from,
+                      )}&todate=${dateReverse(
+                        this.filters.range.to,
+                      )}&inoutflag=15&orderflag=1&typeflag=4`
+                    "
+                    :toggle-flag="toggleFlag"
+                    :message-from-parent="parentMessage"
+                  />
+                  <!-- Transfer Note Spreadsheet -->
+                  <gk-file-download
+                    variant="outline-dark"
+                    v-if="activeWorkflow.name == 'Transactions-TransferNote'"
+                    file-suffix="TransferNoteList"
+                    class="px-1"
+                    :font-scale="1"
+                    :url="
+                      `/spreadsheet?transfer-notes&startdate=${this.dateReverse(
+                        this.filters.range.from,
+                      )}&enddate=${this.dateReverse(this.filters.range.to)}`
+                    "
+                    title="Download Transfer Notes Spreadsheet"
+                    :toggle-flag="toggleFlag"
+                    :message-from-parent="parentMessage"
+                  />
+                  <!-- Unbilled Delivery Note Spreadsheet -->
+                  <gk-file-download
+                    variant="outline-dark"
+                    v-if="
+                      activeWorkflow.name == 'Transactions-DeliveryNote' &&
+                        filters.active.length == 1 &&
+                        filters.active[0] == 4
+                    "
+                    file-suffix="UnbilledDeliveryNote"
+                    class="px-1"
+                    title="Download Unbilled Delivery Note Spreadsheet"
+                    :font-scale="1"
+                    :url="
+                      `/spreadsheet?delivery-challan-unbilled&inputdate=${this.filters.range.to}&inout=9&del_unbilled_type=All`
+                    "
+                    :toggle-flag="toggleFlag"
+                    :message-from-parent="parentMessage"
+                  />
+                  <!-- Cancelled Delivery Note Spreadsheet -->
+                  <gk-file-download
+                    variant="outline-dark"
+                    v-if="
+                      activeWorkflow.name == 'Transactions-DeliveryNote' &&
+                        filters.active.length == 1 &&
+                        filters.active[0] == 3
+                    "
+                    file-suffix="CancelledDeliveryNote"
+                    class="px-1"
+                    title="Download Cancelled Delivery Note Spreadsheet"
+                    :font-scale="1"
+                    :url="
+                      `/spreadsheet?delivery-challan-cancelled&inputdate=${this.filters.range.to}&inout=15&del_cancelled_type=All`
+                    "
+                    :toggle-flag="toggleFlag"
+                    :message-from-parent="parentMessage"
+                  />
+                </b-button-group>
+              </div>
+              <!-- Table Column Chooser -->
+              <b-collapse v-model="isSortingOpen">
+                <b-card
+                  no-body
+                  class="float-right w-100 mt-2"
+                  :style="{
+                    'max-width': '450px',
+                  }"
+                  id="list-sort"
+                >
+                  <b-card-body class="p-2">
+                    <b v-translate>Sorting Options</b>
+                    <hr class="mx-0 mt-0 mb-2">
+                    <div class="container">
                       <b-row>
                         <b-col class="px-1">
-                          <b-input-group>
-                            <b-form-input
-                              class="px-1"
-                              size="sm"
-                              v-model="filters.range.from"
-                              type="text"
-                              placeholder="YYYY-MM-DD"
-                              autocomplete="off"
-                            />
-                            <b-input-group-append>
-                              <b-form-datepicker
-                                button-only
-                                v-model="filters.range.from"
-                                size="sm"
-                                right
-                                :min="yearStart"
-                                :max="yearEnd"
-                                locale="en-IN"
-                              />
-                            </b-input-group-append>
-                          </b-input-group>
+                          <b-form-select
+                            v-model="sortByColumn"
+                            text-field="label"
+                            :options="[
+                              {label: 'Default', value: 'id'},
+                              ...activeTabOptions.options.columns,
+                            ]"
+                            placeholder="Field"
+                          />
                         </b-col>
-                        <b-col class="px-1">
-                          <b-input-group>
-                            <b-form-input
-                              class="px-1"
-                              size="sm"
-                              v-model="filters.range.to"
-                              type="text"
-                              placeholder="YYYY-MM-DD"
-                              autocomplete="off"
-                            />
-                            <b-input-group-append>
-                              <b-form-datepicker
-                                button-only
-                                v-model="filters.range.to"
-                                size="sm"
-                                right
-                                :min="filters.range.from"
-                                :max="yearEnd"
-                                locale="en-IN"
-                              />
-                            </b-input-group-append>
-                          </b-input-group>
+                        <b-col class="px-0">
+                          <b-form-select
+                            v-model="sortDesc"
+                            :options="[
+                              {text: 'Ascending', value: false},
+                              {text: 'Descending', value: true},
+                            ]"
+                            placeholder="Order"
+                          />
                         </b-col>
                       </b-row>
                     </div>
-                  </b-form-group>
-                </b-card-body>
-              </b-card>
-            </b-collapse>
+                    <hr class="mx-0 my-2">
+                    <b-button
+                      @click="resetSorting"
+                      class="mx-1 pr-3"
+                      size="sm"
+                      variant="secondary"
+                    >
+                      <b-icon icon="arrow-clockwise" />
+                      Reset
+                    </b-button>
+                    <b-button
+                      class="mx-1 pr-3"
+                      size="sm"
+                      variant="danger"
+                      @click="isSortingOpen = false"
+                    >
+                      <b-icon icon="x" />
+                      Close
+                    </b-button>
+                  </b-card-body>
+                </b-card>
+              </b-collapse>
+              <!-- Filter menu Collapsable card -->
+              <b-collapse v-model="isFilterOpen">
+                <b-card
+                  no-body
+                  class="w-100 mt-2"
+                  id="list-filter"
+                >
+                  <b-card-body class="p-2">
+                    <b v-translate> Filter By </b>
+                    <hr class="mx-0 my-1">
+                    <div class="my-2 ml-1">
+                      <b-form-checkbox-group
+                        id="checkbox-group-2"
+                        v-model="filters.active"
+                        name="flavour-2"
+                      >
+                        <b-form-checkbox
+                          v-for="(filter, findex) in activeTabOptions.filterBy.value"
+                          :key="findex"
+                          :value="findex"
+                        >
+                          {{ filter.text }}
+                        </b-form-checkbox>
+                      </b-form-checkbox-group>
+                      <b-form-checkbox
+                        v-if="activeWorkflow.tabName === 'Voucher'"
+                        v-model="allSelected"
+                        aria-describedby="flavours"
+                        aria-controls="flavours"
+                        @change="toggleAll"
+                      >
+                        All
+                      </b-form-checkbox>
+                    </div>
+                    <b-form-group
+                      label="Date Range"
+                      label-size="sm"
+                      v-if="activeTabOptions.filterBy.range.length"
+                    >
+                      <div class="px-3">
+                        <b-row>
+                          <b-col class="px-1">
+                            <b-input-group>
+                              <b-form-input
+                                class="px-1"
+                                size="sm"
+                                v-model="filters.range.from"
+                                type="text"
+                                placeholder="YYYY-MM-DD"
+                                autocomplete="off"
+                              />
+                              <b-input-group-append>
+                                <b-form-datepicker
+                                  button-only
+                                  v-model="filters.range.from"
+                                  size="sm"
+                                  right
+                                  :min="yearStart"
+                                  :max="yearEnd"
+                                  locale="en-IN"
+                                />
+                              </b-input-group-append>
+                            </b-input-group>
+                          </b-col>
+                          <b-col class="px-1">
+                            <b-input-group>
+                              <b-form-input
+                                class="px-1"
+                                size="sm"
+                                v-model="filters.range.to"
+                                type="text"
+                                placeholder="YYYY-MM-DD"
+                                autocomplete="off"
+                              />
+                              <b-input-group-append>
+                                <b-form-datepicker
+                                  button-only
+                                  v-model="filters.range.to"
+                                  size="sm"
+                                  right
+                                  :min="filters.range.from"
+                                  :max="yearEnd"
+                                  locale="en-IN"
+                                />
+                              </b-input-group-append>
+                            </b-input-group>
+                          </b-col>
+                        </b-row>
+                      </div>
+                    </b-form-group>
+                    <hr class="mx-0 mb-2">
+                    <div>
+                      <b-button
+                        @click="resetFilter"
+                        class="mx-1 pr-3"
+                        size="sm"
+                        variant="secondary"
+                      >
+                        <b-icon icon="arrow-clockwise" />
+                        Reset
+                      </b-button>
+                      <b-button
+                        @click="(isFilterOpen = false) && resetFilter"
+                        class="mx-1 pr-3"
+                        size="sm"
+                        variant="danger"
+                      >
+                        <b-icon icon="x" />
+                        Close
+                      </b-button>
+                    </div>
+                  </b-card-body>
+                </b-card>
+              </b-collapse>
+            </div>
           </b-card-header>
           <!-- Worflow Data List -->
 
@@ -487,13 +441,10 @@
             :class="{'d-none': activeWorkflow.tabName !== tabName}"
           >
             <b-table
-              striped
-              small
-              head-variant="dark"
               class="text-small print-table-border-dark"
+              thead-class="d-none"
               tbody-tr-class="bs-row"
               responsive=""
-              fixed
               :sticky-header="`${listHeight}px`"
               :fields="activeTabOptions.fields"
               :items="activeTabOptions.data"
@@ -506,29 +457,41 @@
               :filter="
                 activeTabOptions.data.length &&
                   activeWorkflow.tabName === tabName
-                  ? 'a'
+                  ? (search || ' ')
                   : null
               "
-              :filter-function="filterTable"
-              sort-by="dateObj"
-              :sort-desc="true"
+              :filter-function="customFilter"
+              :sort-by="sortByColumn"
+              :sort-desc="sortDesc"
             >
               <template #cell(dateObj)="data">
-                {{ data.item.date }}
+                <div class="clearfix">
+                  <div class="w-50 float-left">
+                    <span v-if="data.item.text1">
+                      {{ data.item.text1 }}
+                      <br>
+                    </span>
+                    <h6>
+                      <b-badge
+                        pill
+                        variant="info"
+                      >
+                        {{ data.item.no }}
+                      </b-badge>
+                    </h6>
+                  </div>
+                  <div class="w-50 float-right text-right text-muted ">
+                    {{ data.item.date }}
+                  </div>
+                  <br>
+                  <div class="w-50 float-right text-right">
+                    <h5 class="mt-1">
+                      {{ data.item.text2?.toString().replace(/\s/g, "") }}
+                    </h5>
+                  </div>
+                </div>
               </template>
             </b-table>
-
-            <!-- Add New Workflow Data Item -->
-            <span v-if="tab.createNewPath?.name !== 'Delivery_Note'">
-              <b-button
-                :to="tab.createNewPath"
-                class="btn shadow position-absolute"
-                :style="{bottom: '30px', right: '30px', zIndex: 2}"
-                id="add-item"
-              >
-                <b-icon icon="plus-circle" />
-              </b-button>
-            </span>
           </div>
           <!-- Workflow Data List End -->
         </b-card>
@@ -746,6 +709,9 @@ import PrintHelper from '@/components/PrintHelper.vue';
 
 import GkFileDownload from '@/components/GkFileDownload.vue';
 
+import printMixin from '@/mixins/print.js';
+import exportMixin from '@/mixins/export.js';
+
 export default {
   name: 'Workflow',
   components: {
@@ -756,6 +722,7 @@ export default {
     PrintHelper,
     GkFileDownload,
   },
+  mixins: [printMixin, exportMixin],
   props: {
     wfName: {
       type: String,
@@ -805,7 +772,7 @@ export default {
       isPreloading: false,
       isLoading: false,
       isSubMenuOpen: false,
-      isOptionsOpen: false,
+      isSortingOpen: false,
       activeWorkflow: {
         index: null,
         icon: '',
@@ -837,6 +804,9 @@ export default {
         props: {},
         isAscending: true,
       },
+      search: '',
+      sortByColumn: 'id',
+      sortDesc: true,
       options: {
         /**
          * tabs: Contains the meta data based on which the left and right pane are rendered.
@@ -965,6 +935,13 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgCode', 'orgName']),
   },
   methods: {
+    getFormPath() {
+      const formPath = this.activeTabOptions.createNewPath;
+      if (this.wfType) {
+        formPath.query = { type: this.wfType };
+      }
+      return formPath;
+    },
     getInvoiceTitle(invoiceType) {
       const _invoiceType = invoiceType.charAt(0).toUpperCase() + invoiceType.slice(1);
       return (
@@ -985,38 +962,8 @@ export default {
       this.allSelected = allSelected;
     },
     toggleFlag() {
-      this.isFilterOpen = false; 
-      this.isSettingsOpen = false;
-    },
-    /**
-     * updateListSettings
-     *
-     * Description: Updates the left pane column config to localhost for persistence
-     */
-    updateListSettings() {
-      let colMap = this.activeTabOptions.options.columnMap;
-      let sortBy = this.listSettings.columns
-        .filter((column) => {
-          return column;
-        })
-        .map((column) => {
-          return colMap[column];
-        });
-      if (sortBy.length) {
-        this.activeTabOptions.setListColumns(sortBy).then((resp) => {
-          if (resp.gkstatus === 0) {
-            this.$bvToast.toast('Update column config success!', {
-              variant: 'success',
-              solid: true,
-            });
-          } else {
-            this.$bvToast.toast('Update column config failure!', {
-              variant: 'danger',
-              solid: true,
-            });
-          }
-        });
-      }
+      this.isFilterOpen = false;
+      this.isSortingOpen = false;
     },
     updateListHeight() {
       // listHeight is the height that the left pane data list should be, (Total screen height - (top nav bar height - leftpane top bar height))
@@ -1061,6 +1008,10 @@ export default {
       }
       return sorted;
     },
+    resetSorting() {
+      this.sortByColumn = 'id',
+      this.sortDesc = true;
+    },
     resetFilter() {
       this.filters = {
         active: [],
@@ -1071,11 +1022,6 @@ export default {
         },
         isActive: false,
       };
-
-      //sets the first filter in the filter array, which should be "all" ( used to display every item )
-      if (this.activeTabOptions.filterBy.value.length) {
-        this.filters.active = this.activeTabOptions.filterBy.value.map((_, index) => index);
-      }
 
       //sets the props object, which contains the key's value to perform the range filter
       if (this.activeTabOptions.filterBy.range.length) {
@@ -1095,11 +1041,16 @@ export default {
     filterByRange(data, key, from, to) {
       return data[key] >= from && data[key] <= to;
     },
-    filterTable(row) {
-      let result;
-      if (row.noteName === "Transfer Note" || row.noteName === "Cash Memo") {
-        result = true;
-      } else {
+    customFilter(row, filter) {
+      let hasSearchTerm = true;
+      let withinDateRange = true;
+      let hasSelectedItem = true;
+      if (filter && filter !== ' ') {
+        const rowString = Object.values(row).join('').toLowerCase();
+        const filterString = filter.toLowerCase();
+        hasSearchTerm = rowString.includes(filterString);
+      }
+      if (row.noteName !== 'Transfer Note' && row.noteName !== 'Cash Memo') {
         const self = this;
         if (this.filters.active.length) {
           let filters = this.filters.active.map((filterIndex) =>
@@ -1107,20 +1058,20 @@ export default {
               ? self.activeTabOptions.filterBy.value[filterIndex].props || null
               : null
           );
-          result = this.filterByValue(row, filters);
+          hasSelectedItem = this.filterByValue(row, filters);
         }
       }
       if (this.filters.range.props.key !== undefined) {
-        result =
-          result &&
-          this.filterByRange(
-            row,
-            this.filters.range.props.key,
-            Date.parse(this.filters.range.from), // converting date "yyyy-mm-dd" into a format that can be compared with logical operators
-            Date.parse(this.filters.range.to)
-          );
+        withinDateRange = this.filterByRange(
+          row,
+          this.filters.range.props.key,
+          // Convert "yyyy-mm-dd" to a format that can be compared with logical operators
+          Date.parse(this.filters.range.from),
+          Date.parse(this.filters.range.to)
+        );
       }
-      return result;
+      const includeRow = hasSearchTerm && hasSelectedItem && withinDateRange;
+      return includeRow;
     },
     /**
      * setActiveWorkflow(index, name, icon)
@@ -1455,7 +1406,7 @@ export default {
         // table.sortedItems will have the filtered and sorted items
         let entityIndex =
           parseInt(self.wfId) >= 0
-            ? table.sortedItems.findIndex((item) => item[key] === wfId)
+            ? table?.sortedItems.findIndex((item) => item[key] === wfId)
             : 0;
         if (entityIndex >= 0) {
           self.selectedEntityIndex = entityIndex;
@@ -1463,6 +1414,27 @@ export default {
           table.selectRow(entityIndex);
         }
       });
+    },
+    exportAsSpreadsheet() {
+      let url = '/spreadsheet';
+      const wfName = this.activeWorkflow.name;
+      if (wfName === 'Business') {
+        url += `?pslist&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`;
+      } else if (wfName === 'Transactions-Invoice') {
+        if (this.filters.active.length == 1) {
+          if (this.filters.active[0] == 1) {
+            url += `?invoice-outstanding&fromdate=${this.dateReverse(this.filters.range.from,)}&todate=${this.dateReverse(this.filters.range.to,)}&inoutflag=15&orderflag=1&typeflag=4`;
+          }
+          if (this.filters.active[0] == 2) {
+            url += `?invoice-cancelled&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`;
+          }
+        } else {
+          url += `?invoice-list&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}&fromdate=${this.filters.range.from}&todate=${this.filters.range.to}&flag=0&type=invoice_list`;
+        }
+      } else if (wfName === 'Transactions-TransferNote') {
+        url += `?transfer-notes&startdate=${this.dateReverse(this.filters.range.from,)}&enddate=${this.dateReverse(this.filters.range.to)}`;
+      }
+      this.exportFile(url);
     },
   },
   mounted() {
@@ -1497,14 +1469,6 @@ export default {
 .text-overline-danger {
   text-decoration: overline;
   text-decoration-color: #dc3545;
-}
-
-#add-item {
-  opacity: 0.55;
-}
-
-#add-item:hover {
-  opacity: 1;
 }
 
 .selected-data-list {

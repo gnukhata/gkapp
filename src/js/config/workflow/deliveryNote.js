@@ -19,24 +19,14 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'Customer',
-        props: { key: 'csflag', value: 3 },
-        icon: { name: 'cash-stack' },
-      },
-      {
-        text: 'Supplier',
-        props: { key: 'csflag', value: 19 },
-        icon: { name: 'basket3' },
+        text: 'Unbilled',
+        props: { key: 'unbilledFlag', value: true },
+        icon: { name: 'dash', variant: 'danger' },
       },
       {
         text: 'Cancelled',
         props: { key: 'cancelledFlag', value: true },
         icon: { name: 'x-circle', variant: 'danger' },
-      },
-      {
-        text: 'Unbilled',
-        props: { key: 'unbilledFlag', value: true },
-        icon: { name: 'dash', variant: 'danger' },
       },
     ],
     range: [
@@ -166,7 +156,7 @@ const config = {
                       no: note.dcno,
                       noteName: `Delivery Note`,
                       text1: note.custname,
-                      text2: note.dcno,
+                      text2: `₹ ${note.total}`,
                       icon: note.csflag === 3 ? 'cash-stack' : 'basket3',
                       // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                       date: note.dcdate,
@@ -212,19 +202,8 @@ function initColumns() {
     if (!columns || !columns.length) {
       columns = [
         {
-          label: 'Date',
+          label: '',
           key: 'dateObj',
-          sortable: true,
-        },
-        {
-          label: 'Name',
-          key: 'custname',
-          sortable: true,
-        },
-        {
-          label: 'No.',
-          key: 'dcno',
-          sortable: true,
         },
       ];
     }
