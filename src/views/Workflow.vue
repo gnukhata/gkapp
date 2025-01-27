@@ -544,9 +544,8 @@
         <!-- Customer / Supplier profile -->
         <b-card
           no-body
-          border-variant="dark"
           :style="{height: '100%', overflowY: 'auto'}"
-          class="ml-md-2 border-0"
+          class="ml-md-2"
           v-if="
             selectedEntity &&
               !selectedEntity.gsflag &&
