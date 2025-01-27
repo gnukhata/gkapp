@@ -89,7 +89,12 @@
       role="main"
       class="mb-5"
     >
-      <router-view />
+      <b-container
+        class="mt-4"
+        fluid="xl"
+      >
+        <router-view />
+      </b-container>
     </main>
     <go-to v-if="userOrgAuthenticated" />
     <title-bar />
