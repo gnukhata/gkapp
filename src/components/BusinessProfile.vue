@@ -1,6 +1,5 @@
 <template>
   <b-form
-    class="align-form-label-right"
     id="prod"
     @submit.prevent="updateProfile"
   >
@@ -9,298 +8,179 @@
       blur
       no-wrap
     />
-    <!-- Submit & delete buttons -->
-    <div class="mt-4 pb-4 d-flex flex-row-reverse">
-      <b-button
-        type="submit"
-        size="sm"
-        class="ml-2"
-        variant="success"
-      >
-        <b-icon
-          class="mr-1"
-          icon="cloud-arrow-up"
-        />
-        <translate>Save Changes</translate>
-      </b-button>
-      <b-button
-        @click.prevent="delProfile"
-        size="sm"
-        class="ml-2"
-        variant="danger"
-      >
-        <b-icon
-          class="mr-1"
-          :icon="details.gsflag == 7 ? 'box' : 'headset'"
-        />
-        <span
+    <div class="mt-4 mr-4 clearfix d-print-none">
+      <div class="float-right">
+        <b-button
+          size="sm"
+          class="ml-2"
+          variant="dark"
           v-if="details.gsflag == 7"
-          v-translate
-        >Delete Product</span>
-        <span
-          v-else
-          v-translate
-        >Delete Service</span>
-      </b-button>
-      <b-button
-        size="sm"
-        class="ml-2"
-        variant="success"
-        v-if="details.gsflag == 7"
-      >
-        <b-icon
-          class="mr-1"
-          icon="box-seam"
-        />
-        <span>
-          <router-link
-            class="custom-link"
-            :to="
-              `/product-register?product_id=${details.productcode}&current_date=${toDate}&goid=${options.godowns[0]?.value}`
-            "
-          >Product Register
-          </router-link></span>
-      </b-button>
+        >
+          <b-icon
+            class="mr-1"
+            icon="box-seam"
+          />
+          <span>
+            <router-link
+              class="custom-link"
+              :to="
+                `/product-register?product_id=${details.productcode}&current_date=${toDate}&goid=${options.godowns[0]?.value}`
+              "
+            >Product Register
+            </router-link></span>
+        </b-button>
+      </div>
     </div>
-    <!-- name --->
-    <b-card
-      class="mt-2"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      no-body
-    >
-      <template #header>
-        <div
-          class="d-flex"
-          v-b-toggle.collapse-info
-        >
-          <div
-            class="mr-auto"
-            v-translate
-          >
-            Info
-          </div>
-          <div>
-            <b-icon icon="dash" />
-          </div>
-        </div>
-      </template>
-      <b-collapse
-        class="p-3"
-        id="collapse-info"
-      >
-        <b-form-group
-          label-size="sm"
-          :label="this.$gettext('Name')"
-          label-cols="4"
-        >
-          <b-form-input
-            size="sm"
-            v-model.trim="details.productdesc"
-            type="text"
-            required
-          />
-        </b-form-group>
-      </b-collapse>
-    </b-card>
-    <b-card
-      class="mt-2"
-      no-body
-      header-bg-variant="dark"
-      header-text-variant="light"
-    >
-      <template #header>
-        <div
-          class="d-flex"
-          v-b-toggle.collapse-price
-        >
-          <div
-            class="mr-auto"
-            v-translate
-          >
-            Price
-          </div>
-          <div>
-            <b-icon icon="dash" />
-          </div>
-        </div>
-      </template>
-      <b-collapse
-        class="p-3"
-        id="collapse-price"
-      >
-        <!--  Cost price. only shown for product -->
-        <b-form-group
-          label-size="sm"
-          id="input-group-2"
-          :label="$gettext('Cost Price')"
-          label-cols="4"
-          v-if="details.gsflag == 7"
-        >
-          <b-form-input
-            size="sm"
-            v-model="details.prodmrp"
-          />
-        </b-form-group>
-        <!-- Selling Price -->
-        <b-form-group
-          v-if="details.gsflag == 7"
-          label-size="sm"
-          id="input-group-2"
-          :label="$gettext('Selling Price')"
-          label-cols="4"
-        >
-          <b-form-input
-            size="sm"
-            v-model="details.prodsp"
-          />
-        </b-form-group>
-        <!-- Taxable Sale Price, Incase of a service -->
-        <b-form-group
-          v-else
-          label-size="sm"
-          id="input-group-2"
-          :label="$gettext('Taxable Sale Price')"
-          label-cols="4"
-        >
-          <b-form-input
-            size="sm"
-            v-model="details.prodsp"
-          />
-        </b-form-group>
-        <!-- discount -->
-        <b-form-group
-          label-size="sm"
-          label-cols="4"
-          :label="$gettext('Discount')"
-          label-for="input-3"
-        >
-          <template #label>
-            <translate> Discount </translate>
-          </template>
-          <b-input-group
-            size="sm"
-            prepend="₹"
-          >
-            <b-form-input
-              size="sm"
-              type="number"
-              step="0.01"
-              v-model="details.discountamount"
-            />
-          </b-input-group>
-          <b-input-group
-            label-size="sm"
-            size="sm"
-            class="mt-1"
-            prepend="%"
-          >
-            <b-form-input
-              size="sm"
-              type="number"
-              step="0.01"
-              v-model="discountPercentage"
-            />
-          </b-input-group>
-        </b-form-group>
-      </b-collapse>
-    </b-card>
-    <!-- {{ options.tax }} -->
-    <b-card
-      v-if="isIndia"
-      no-body
-      class="mt-2"
-      header-bg-variant="dark"
-      header-text-variant="light"
-    >
-      <template #header>
-        <div
-          class="d-flex"
-          v-b-toggle.collapse-tax
-        >
-          <div
-            class="mr-auto"
-            v-translate
-          >
-            Taxes
-          </div>
-          <div>
-            <b-icon icon="dash" />
-          </div>
-        </div>
-      </template>
-      <b-collapse
-        class="p-3"
-        id="collapse-tax"
-      >
-        <template v-if="isGstEnabled">
+    <div>
+      <!-- name --->
+      <div class="m-4">
+        <h5 class="mb-3">
+          Basic Details
+        </h5>
+        <div class="my-2">
           <b-form-group
-            label-size="sm"
-            :label="details.gsflag == 7 ? 'HSN' : 'SAC'"
-            label-cols="4"
+            label-cols-md="3"
+            content-cols-md="9"
+            :label="this.$gettext('Name')"
           >
-            <!-- hsn /sac input -->
-            <gk-hsn
-              :required="orgGstin != null"
-              v-model="details.gscode"
+            <b-form-input
+              v-model.trim="details.productdesc"
+              type="text"
+              required
             />
           </b-form-group>
-
+        </div>
+      </div>
+      <div class="m-4">
+        <h5 class="mt-5 mb-3">
+          Price
+        </h5>
+        <div class="my-2">
+          <!--  Cost price. only shown for product -->
           <b-form-group
-            class="mb-0"
-            label-size="sm"
-            label="GST"
-            label-cols="4"
+            id="input-group-2"
+            :label="$gettext('Cost Price')"
+            label-cols-md="3"
+            content-cols-md="9"
+            v-if="details.gsflag == 7"
           >
+            <b-form-input
+              v-model="details.prodmrp"
+            />
+          </b-form-group>
+          <!-- Selling Price -->
+          <b-form-group
+            v-if="details.gsflag == 7"
+            id="input-group-2"
+            :label="$gettext('Selling Price')"
+            label-cols-md="3"
+            content-cols-md="9"
+          >
+            <b-form-input
+              v-model="details.prodsp"
+            />
+          </b-form-group>
+          <!-- Taxable Sale Price, Incase of a service -->
+          <b-form-group
+            v-else
+            id="input-group-2"
+            :label="$gettext('Taxable Sale Price')"
+            label-cols-md="3"
+            content-cols-md="9"
+          >
+            <b-form-input
+              v-model="details.prodsp"
+            />
+          </b-form-group>
+          <!-- discount -->
+          <b-form-group
+            :label="$gettext('Discount')"
+            label-for="input-3"
+            label-cols-md="3"
+            content-cols-md="9"
+          >
+            <template #label>
+              <translate> Discount </translate>
+            </template>
             <b-input-group
-              size="sm"
-              append="%"
+              prepend="₹"
             >
-              <b-form-select
-                size="sm"
-                :options="gstRates"
-                v-model="tax.gst[0].taxrate"
-                :disabled="multiGstFlag"
+              <b-form-input
+                type="number"
+                step="0.01"
+                v-model="details.discountamount"
+              />
+            </b-input-group>
+            <b-input-group
+              class="mt-1"
+              prepend="%"
+            >
+              <b-form-input
+                type="number"
+                step="0.01"
+                v-model="discountPercentage"
               />
             </b-input-group>
           </b-form-group>
+        </div>
+      </div>
+      <!-- {{ options.tax }} -->
+      <div
+        v-if="isIndia"
+        class="m-4"
+      >
+        <h5 class="mt-5 mb-3">
+          Tax Details
+        </h5>
+        <div class="my-3">
+          <template v-if="isGstEnabled">
+            <b-form-group
+              :label="details.gsflag == 7 ? 'HSN' : 'SAC'"
+              label-cols-md="3"
+              content-cols-md="9"
+            >
+              <!-- hsn /sac input -->
+              <gk-hsn
+                :required="orgGstin != null"
+                v-model="details.gscode"
+              />
+            </b-form-group>
 
-          <b-form-checkbox
-            size="sm"
-            v-model="multiGstFlag"
-            class="d-inline-block float-right mb-2"
-            switch
-          >
-            <small>
-              <translate>
-                Add GST rates based on date of applicability
-              </translate>
-            </small>
-          </b-form-checkbox>
-          <div class="clearfix" />
-
-          <b-collapse v-model="multiGstFlag">
-            <b-card no-body>
-              <b-card-body
-                class="p-2"
-                style="min-height: 50px"
+            <b-form-group
+              class="mb-0"
+              label="GST"
+              label-cols-md="3"
+              content-cols-md="9"
+            >
+              <b-input-group
+                append="%"
               >
-                <div class="mb-2">
-                  <b>GST</b>
-                  <b-button
-                    size="sm"
-                    @click.prevent="addGstEntry"
-                    class="px-1 py-0 float-right"
-                  >
-                    + GST
-                  </b-button>
-                </div>
+                <b-form-select
+                  :options="gstRates"
+                  v-model="tax.gst[0].taxrate"
+                  :disabled="multiGstFlag"
+                />
+              </b-input-group>
+
+              <b-form-checkbox
+                v-model="multiGstFlag"
+                class="d-inline-block mb-2"
+                switch
+              >
+                <small>
+                  <translate>
+                    Add GST rates based on date of applicability
+                  </translate>
+                </small>
+              </b-form-checkbox>
+            </b-form-group>
+            <div class="clearfix" />
+
+            <b-collapse v-model="multiGstFlag">
+              <b-card class="mb-4">
                 <b-table-lite
-                  bordered
-                  head-variant="dark"
-                  striped
                   small
-                  class="text-small table-border-dark"
+                  class="text-small"
                   tbody-tr-class="gk-vertical-row"
                   :items="tax.gst"
                   :fields="[
@@ -311,7 +191,6 @@
                 >
                   <template #cell(taxrate)="data">
                     <b-form-select
-                      size="sm"
                       id="bi-input-7"
                       v-model="tax.gst[data.index].taxrate"
                       :options="gstRates"
@@ -331,7 +210,6 @@
                   <template #cell(edit)="data">
                     <b-button
                       variant="secondary"
-                      size="sm"
                       @click.prevent="removeGstEntry(data.index)"
                       :disabled="!data.index"
                     >
@@ -339,119 +217,100 @@
                     </b-button>
                   </template>
                 </b-table-lite>
-              </b-card-body>
-            </b-card>
-          </b-collapse>
-        </template>
+                <b-button
+                  size="sm"
+                  @click.prevent="addGstEntry"
+                  class="px-1 py-0"
+                >
+                  + GST
+                </b-button>
+              </b-card>
+            </b-collapse>
+          </template>
 
-        <b-form-group
-          v-if="isVatEnabled"
-          label-size="sm"
-          label="CVAT"
-          label-cols="4"
-        >
-          <b-input-group
-            size="sm"
-            append="%"
-          >
-            <b-form-input
-              size="sm"
-              type="number"
-              step="0.01"
-              no-wheel
-              v-model="tax.cvat.taxrate"
-            />
-          </b-input-group>
-        </b-form-group>
-
-        <b-form-group
-          v-if="isVatEnabled"
-          label-size="sm"
-          label="VAT"
-          label-cols="4"
-        >
-          <div
-            v-for="(item, index) in tax.vat"
-            :key="index"
+          <b-form-group
+            v-if="isVatEnabled"
+            label="CVAT"
+            label-cols-md="3"
+            content-cols-md="9"
           >
             <b-input-group
-              v-if="item.taxname === 'VAT'"
-              class="mb-2"
+              append="%"
             >
               <b-form-input
-                size="sm"
                 type="number"
                 step="0.01"
                 no-wheel
-                v-model="item.taxrate"
-                :required="!!item.state"
+                v-model="tax.cvat.taxrate"
               />
-              <b-input-group-append>
-                <b-form-select
-                  size="sm"
-                  :options="options.states"
-                  v-model="item.state"
-                  :style="{'border-radius': 0, 'max-width': '200px'}"
-                  :required="!!item.taxrate"
-                />
-                <b-button
-                  size="sm"
-                  @click.prevent="removeVatEntry(index)"
-                >
-                  -
-                </b-button>
-              </b-input-group-append>
             </b-input-group>
-          </div>
-          <b-button
-            size="sm"
-            @click.prevent="addVatEntry"
-            class="float-right px-1 py-0 my-1"
+          </b-form-group>
+
+          <b-form-group
+            v-if="isVatEnabled"
+            label="VAT"
+            label-cols-md="3"
+            content-cols-md="9"
           >
-            + VAT
-          </b-button>
-        </b-form-group>
-        <b-alert
-          v-if="!isGstEnabled && !isVatEnabled"
-          show
-          variant="warning"
-          class="mt-2"
-        >
-          Please add a valid GSTIN/TIN in organisation settings to
-          enable GST/VAT options
-        </b-alert>
-      </b-collapse>
-    </b-card>
-    <!-- opening stock, Only visible for products-->
-    <b-card
-      no-body
-      class="mt-2"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      id="godown-card"
-      v-if="details.gsflag == 7"
-    >
-      <template #header>
-        <div
-          class="d-flex"
-          v-b-toggle.collapse-godown
-        >
-          <div
-            class="mr-auto"
-            v-translate
+            <div
+              v-for="(item, index) in tax.vat"
+              :key="index"
+            >
+              <b-input-group
+                v-if="item.taxname === 'VAT'"
+                class="mb-2"
+              >
+                <b-form-input
+                  type="number"
+                  step="0.01"
+                  no-wheel
+                  v-model="item.taxrate"
+                  :required="!!item.state"
+                />
+                <b-input-group-append>
+                  <b-form-select
+                    :options="options.states"
+                    v-model="item.state"
+                    :style="{'border-radius': 0, 'max-width': '200px'}"
+                    :required="!!item.taxrate"
+                  />
+                  <b-button
+                    size="sm"
+                    @click.prevent="removeVatEntry(index)"
+                  >
+                    -
+                  </b-button>
+                </b-input-group-append>
+              </b-input-group>
+            </div>
+            <b-button
+              size="sm"
+              @click.prevent="addVatEntry"
+              class="px-1 py-0 my-1"
+            >
+              + VAT
+            </b-button>
+          </b-form-group>
+          <b-alert
+            v-if="!isGstEnabled && !isVatEnabled"
+            show
+            variant="warning"
+            class="mt-2"
           >
-            Godownwise Opening Stock
-          </div>
-          <div>
-            <b-icon icon="dash" />
-          </div>
+            Please add a valid GSTIN/TIN in organisation settings to
+            enable GST/VAT options
+          </b-alert>
         </div>
-      </template>
-      <div class="p-2">
-        <b-collapse
-          class="p-3"
-          id="collapse-godown"
-        >
+      </div>
+      <!-- opening stock, Only visible for products-->
+      <div
+        v-if="details.gsflag == 7"
+        class="m-4"
+      >
+        <h5 class="mt-5 mb-3">
+          Godownwise Opening Stock
+        </h5>
+        <div class="my-2">
           <div
             v-for="(godown, index) in godowns"
             :key="index"
@@ -463,7 +322,6 @@
             </div>
             <!-- godown select -->
             <b-form-select
-              size="sm"
               style="max-width: 350px"
               v-model="godown.id"
               :options="options.godowns"
@@ -481,7 +339,6 @@
             <!-- godown stock quantity -->
             <b-form-input
               class="mx-2"
-              size="sm"
               v-model="godown.qty"
               type="number"
               no-wheel
@@ -491,7 +348,6 @@
             <!-- godown stock value -->
             <b-form-input
               class="mx-2"
-              size="sm"
               v-model="godown.rate"
               type="number"
               no-wheel
@@ -512,58 +368,89 @@
               />
             </b-button>
           </div>
-          <!-- add row button -->
-          <b-button
-            size="sm"
-            @click.prevent="addGodown"
-            class="float-right py-0 px-1"
-            v-if="options.godowns.length !== godowns.length"
-          >
-            <translate> Add Row </translate>
-          </b-button>
-          <!-- create godown button -->
-          <b-button
-            class="float-right mx-2 py-0 px-1 bg-success"
-            size="sm"
-            @click.prevent="showGodownForm = true"
-          >
-            <translate> Create Godown </translate>
-          </b-button>
-        </b-collapse>
+          <div class="ml-4">
+            <!-- add row button -->
+            <b-button
+              size="sm"
+              @click.prevent="addGodown"
+              class="mr-2 px-1 py-0"
+              v-if="options.godowns.length !== godowns.length"
+            >
+              <translate> Add Row </translate>
+            </b-button>
+            <!-- create godown button -->
+            <b-button
+              class="px-1 py-0 bg-success"
+              size="sm"
+              @click.prevent="showGodownForm = true"
+            >
+              <translate> Create Godown </translate>
+            </b-button>
+          </div>
+        </div>
       </div>
-    </b-card>
 
-    <b-modal
-      size="lg"
-      v-model="showGodownForm"
-      centered
-      static
-      body-class="p-0"
-      id="contact-item-modal"
-      hide-footer
-      hide-header
-    >
-      <godown
-        :hide-back-button="true"
-        mode="create"
-        :in-overlay="true"
-        :on-save="onGodownSave"
+      <b-modal
+        size="lg"
+        v-model="showGodownForm"
+        centered
+        static
+        body-class="p-0"
+        id="contact-item-modal"
+        hide-footer
+        hide-header
       >
-        <template #close-button>
-          <b-button
-            size="sm"
-            class="float-right py-0"
-            @click.prevent="
-              () => {
-                showGodownForm = false;
-              }
-            "
-          >
-            x
-          </b-button>
-        </template>
-      </godown>
-    </b-modal>
+        <godown
+          :hide-back-button="true"
+          mode="create"
+          :in-overlay="true"
+          :on-save="onGodownSave"
+        >
+          <template #close-button>
+            <b-button
+              size="sm"
+              class="float-right py-0"
+              @click.prevent="
+                () => {
+                  showGodownForm = false;
+                }
+              "
+            >
+              x
+            </b-button>
+          </template>
+        </godown>
+      </b-modal>
+    </div>
+    <div class="mt-5 mb-4 ml-4">
+      <b-button
+        type="submit"
+        size="sm"
+        class="ml-2"
+        variant="dark"
+      >
+        <translate>Save</translate>
+      </b-button>
+      <b-button
+        @click.prevent="delProfile"
+        size="sm"
+        class="ml-2"
+        variant="danger"
+      >
+        <span
+          v-if="details.gsflag == 7"
+          v-translate
+        >
+          Delete Product
+        </span>
+        <span
+          v-else
+          v-translate
+        >
+          Delete Service
+        </span>
+      </b-button>
+    </div>
   </b-form>
 </template>
 
