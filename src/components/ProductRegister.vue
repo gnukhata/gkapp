@@ -94,7 +94,7 @@
             class="float-right"
           >
             <b-button
-              @click="$router.go()"
+              @click="clear"
               variant="dark"
             >
               <translate>Clear</translate>
@@ -400,6 +400,15 @@ export default {
     };
   },
   methods: {
+    clear() {
+      this.godownId = null;
+      this.productId = null;
+      this.fromDate = this.dateReverse(this.yearStart);
+      this.toDate = this.dateReverse(this.yearEnd);
+      this.$router.replace({});
+      this.report = [];
+      this.selected = {};
+    },
     getGodownName(id) {
       return this.godowns.filter((go) => {
         return go.value == id;
