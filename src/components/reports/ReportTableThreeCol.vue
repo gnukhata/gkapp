@@ -4,11 +4,11 @@
     borderless
     :items="items"
     :fields="fields"
-    head-variant="dark"
+    head-variant="light"
+    hover
     class="mb-0"
-    :thead-class="tHeadClass"
     tbody-tr-class="bs-row"
-    responsive=""
+    responsive="sm"
     filter="a"
     :filter-function="filterTable"
   >
@@ -60,51 +60,51 @@
         filter="a"
         :filter-function="filterTable"
       >
-        <template #cell(name)="data">
+        <template #cell(name)="data_sub">
           <div
             :class="{
-              'ml-1': data.item.isSubGroup,
-              'ml-5': data.item.isAccount,
-              'font-italic': data.item.isAccount,
-              'font-weight-bold': data.item.isStock,
+              'ml-1': data_sub.item.isSubGroup,
+              'ml-5': data_sub.item.isAccount,
+              'font-italic': data_sub.item.isAccount,
+              'font-weight-bold': data_sub.item.isStock,
             }"
           >
             <b-button
               size="sm"
               variant="link"
               class="p-0"
-              :to="{path: `/ledger/${data.item.id}`}"
+              :to="{path: `/ledger/${data_sub.item.id}`}"
               v-if="data.item.isAccount"
             >
-              {{ data.value }}
+              {{ data_sub.value }}
             </b-button>
             <span
               v-else
             >
-              {{ data.value }}
+              {{ data_sub.value }}
             </span>
           </div>
         </template>
-        <template #cell(colOne)="data">
+        <template #cell(colOne)="data_sub">
           <span
             :class="{
-              'font-weight-bold': data.item.isGroup,
-              'font-italic': data.item.isAccount,
-              'd-none': !data.item.colOne,
+              'font-weight-bold': data_sub.item.isGroup,
+              'font-italic': data_sub.item.isAccount,
+              'd-none': !data_sub.item.colOne,
             }"
           >
-            {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
+            {{ parseFloat(data_sub.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
           </span>
         </template>
-        <template #cell(colTwo)="data">
+        <template #cell(colTwo)="data_sub">
           <span
             :class="{
-              'font-weight-bold': data.item.isMain,
-              'font-italic': data.item.isAccount,
-              'd-none': !data.item.colTwo,
+              'font-weight-bold': data_sub.item.isMain,
+              'font-italic': data_sub.item.isAccount,
+              'd-none': !data_sub.item.colTwo,
             }"
           >
-            {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
+            {{ parseFloat(data_sub.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
           </span>
         </template>
       </b-table>

@@ -1,53 +1,113 @@
 <template>
-  <section class="m-2">
+  <section>
+    <h2 class="mb-5 text-muted display-5">
+      {{ reportName().toUpperCase() }}
+    </h2>
     <b-overlay :show="isLoading">
       <b-card
-        class="gkcard mx-auto"
-        header-bg-variant="dark"
-        header-text-variant="light"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
-        <template #header>
-          <gk-card-header
-            v-if="orgType == 'Profit Making'"
-            :name="$gettext('Profit & Loss Statement')"
-          />
-          <gk-card-header
-            v-else
-            name="Income & Expenditure"
-          />
-        </template>
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          {{ reportName() }}: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+          {{ dateReverse(selected?.toDate || toDate) }}
+        </b-alert>
         <b-form @submit.prevent="getReport">
-          <b-form-group
-            label="From"
-            label-align="right"
-            content-cols="8"
-          >
-            <gk-date
-              id="fromdate"
-              v-model="fromDate"
-            />
-          </b-form-group>
-          <b-form-group
-            label="To"
-            label-align="right"
-            content-cols="8"
-          >
-            <gk-date
-              id="todate"
-              v-model="toDate"
-            />
-          </b-form-group>
-          <b-button
-            variant="success"
+          <b-row>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="From :"
+                label-align="right"
+                label-cols="3"
+              >
+                <gk-date
+                  id="fromdate"
+                  v-model="fromDate"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="To :"
+                label-align="right"
+                label-cols="3"
+              >
+                <gk-date
+                  id="todate"
+                  v-model="toDate"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="Hide ₹0 rows :"
+                label-align="right"
+                label-cols="8"
+              >
+                <b-form-checkbox
+                  id="checkbox-1"
+                  v-model="hideZero"
+                  name="checkbox-1"
+                  class="d-inline-block mt-1"
+                  size="lg"
+                  switch
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="Divide by 1000 :"
+                label-align="right"
+                label-cols="8"
+              >
+                <b-form-checkbox
+                  id="checkbox-2"
+                  v-model="divideThousand"
+                  name="checkbox-2"
+                  class="d-inline-block mt-1"
+                  size="lg"
+                  switch
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-button-group
+            size="sm"
             class="float-right"
-            type="submit"
           >
-            <b-icon
-              class="mr-1"
-              icon="cloud-arrow-up"
-            />
-            <translate>Get Details</translate>
-          </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              <translate>Clear</translate>
+            </b-button>
+            <b-button
+              variant="success"
+              type="submit"
+              class="ml-1"
+            >
+              <b-icon
+                class="mr-1"
+                icon="cloud-download"
+              />
+              <translate>Get Details</translate>
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card>
       <!--     {{ result }} -->
@@ -67,44 +127,33 @@
         </div>
       </report-header>
       <div
-        class="d-print-none d-flex align-items-center justify-content-end my-2"
+        class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
       >
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="hideZero"
-          name="checkbox-1"
-          class="d-inline-block mx-2"
+        <b-button-group
           size="sm"
-          switch
         >
-          <translate> Hide ₹0 rows </translate>
-        </b-form-checkbox>
-        <b-form-checkbox
-          id="checkbox-2"
-          v-model="divideThousand"
-          name="checkbox-2"
-          class="d-inline-block mx-2"
-          size="sm"
-          switch
-        >
-          <translate> Divide by 1000 </translate>
-        </b-form-checkbox>
-        <b-button
-          class="px-1 d-none d-lg-inline-block"
-          variant="link"
-          @click="printPage"
-        >
-          <b-icon
-            class="align-middle"
-            icon="printer"
+          <b-button
+            class="px-1 d-none d-lg-inline-block mr-1"
+            variant="dark"
+            size="sm"
+            @click="printPage"
+          >
+            <b-icon
+              class="align-middle"
+              icon="printer"
+            />
+            Print
+          </b-button>
+          <gk-file-download
+            :url="downloadUrl"
+            :file-name="downloadFileName"
+            variant="dark"
+            title="Export XLSX"
+            name="Export XLSX"
+            file-extn=".xlsx"
+            :message-from-parent="parentMessage"
           />
-        </b-button>
-        <gk-file-download
-          :url="downloadUrl"
-          :file-name="downloadFileName"
-          file-extn=".xlsx"
-          :message-from-parent="parentMessage"
-        />
+        </b-button-group>
       </div>
       <b-row class="row text-small">
         <b-col
@@ -285,15 +334,13 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { mapState } from 'vuex';
-import GkCardHeader from '../components/GkCardHeader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import ReportTableThreeCol from '../components/reports/ReportTableThreeCol.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
 export default {
-  components: { GkCardHeader, GkDate, ReportHeader, GkFileDownload, ReportTableThreeCol },
+  components: { GkDate, ReportHeader, GkFileDownload, ReportTableThreeCol },
   name: 'ProfitLoss',
   data() {
     return {
@@ -344,6 +391,17 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   methods: {
+    clear() {
+      this.fromDate = this.yearStart;
+      this.toDate = this.yearEnd;
+      this.hideZero = false;
+      this.divideThousand = false;
+      this.selected = {};
+      this.getReport();
+    },
+    reportName() {
+      return this.orgType == "Profit Making" ? "Profit & Loss Statement" : "Income & Expenditure"
+    },
     printPage() {
       window.print();
     },
@@ -450,58 +508,19 @@ export default {
       return response;
     },
     getReport() {
-      const self = this;
       this.isLoading = true;
-      axios
+      this.$axios
         .get(
           `/reports/profit-loss?calculateto=${this.toDate}&calculatefrom=${this.fromDate}`
         )
-        .then((r) => {
-          if (r.status == 200) {
-            switch (r.data.gkstatus) {
-            case 0:
-              {
-                self.formatResponse(r.data.gkresult);
-              }
-              break;
-            case 1:
-              this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
-                variant: 'warning',
-                solid: true,
-              });
-              break;
-            case 2:
-              this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 3:
-              this.$bvToast.toast(this.$gettext('Data error'), {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 4:
-              this.$bvToast.toast(this.$gettext('No Privilege'), {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 5:
-              this.$bvToast.toast(this.$gettext('Integrity error'), {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            }
+        .then((resp) => {
+          this.formatResponse(resp);
+          this.selected = {
+            fromDate: this.fromDate,
+            toDate: this.toDate,
           }
-          this.isLoading = false;
         })
-        .catch((e) => {
-          console.error(e);
-          this.isLoading = false;
-        });
+      this.isLoading = false;
     },
   },
   mounted() {
