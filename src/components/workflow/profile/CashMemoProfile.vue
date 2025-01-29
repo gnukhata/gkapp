@@ -37,7 +37,7 @@
             class=""
             size="sm"
             variant="primary"
-            v-b-toggle.voucher-container
+            v-b-modal.voucher-container
           >
             <b-icon
               icon="eye"
@@ -173,14 +173,17 @@
       </b-col>
     </b-row>
     <div class="clearfix" />
-    <b-collapse
-      v-model="showVouchers"
+    <b-modal
       id="voucher-container"
+      size="xl"
+      title="Vouchers"
+      hide-footer
+      centered
     >
-      <b v-translate>Voucher:</b>
       <b-card
         v-if="vouchers.length"
         body-class="p-1"
+        class="border-0"
       >
         <div
           v-for="voucher in vouchers"
@@ -192,7 +195,9 @@
               <router-link :to="`/Workflow/Transactions-Voucher/${voucher.id}`">
                 {{ voucher.no }}</router-link>
             </span>
-            <span> {{ voucher.type }} </span>
+            <span class="text-capitalize">
+              {{ voucher.type }}
+            </span>
             <span class="float-right">
               <translate
                 translate-comment="%{voucherDate} is a variable, translation is not required for it. Enter it, as it is while translation."
@@ -229,7 +234,7 @@
           No vouchers were found for Cash Memo: %{memoNo}
         </translate>
       </div>
-    </b-collapse>
+    </b-modal>
   </b-container>
 </template>
 
