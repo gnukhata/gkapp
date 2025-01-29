@@ -1,52 +1,65 @@
 <template>
-  <section class="m-2">
+  <section>
+    <h2 class="mb-5 text-muted display-5">
+      PRODUCT REGISTER
+    </h2>
     <b-overlay :show="loading">
       <b-card
-        header="Product Register"
-        header-bg-variant="dark"
-        header-text-variant="light"
-        style="max-width: 40em"
-        class="mx-auto d-print-none"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          Product Register: From {{ dateReverse(fromDate) }} to
+          {{ dateReverse(toDate) }}
+        </b-alert>
         <b-form @submit.prevent="check">
-          <b-form-group
-            label="Product"
-            label-align="right"
-            label-cols="auto"
-          >
-            <!-- select product -->
-            <b-form-select
-              :options="productList"
-              v-model="productId"
-              text-field="label"
-              value-field="id"
-              required
+          <b-row>
+            <b-col
+              cols
+              lg="6"
             >
-              <template #first>
-                <b-form-select-option :value="null">
-                  -- Please select a product --
-                </b-form-select-option>
-              </template>
-            </b-form-select>
-          </b-form-group>
-          <div class="row">
-            <div class="col">
               <b-form-group
-                label="From"
-                label-align="left"
+                label="Product :"
+                label-align="right"
+                label-cols="auto"
+              >
+                <!-- select product -->
+                <v-select
+                  :options="productList"
+                  v-model="productId"
+                  placeholder="Select Product"
+                  :reduce="product => product.id"
+                  :required="true"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="From :"
+                label-align="right"
+                label-cols="auto"
               >
                 <gk-date
                   :required="true"
                   v-model="fromDate"
                   id="from"
-                  class="mr-4"
                 />
               </b-form-group>
-            </div>
-            <div class="col">
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
               <b-form-group
-                label="To"
-                label-align="left"
+                label="To :"
+                label-align="right"
+                label-cols="auto"
               >
                 <gk-date
                   :required="true"
@@ -54,28 +67,51 @@
                   id="to"
                 />
               </b-form-group>
-            </div>
-          </div>
-          <!-- Godown select -->
-          <b-form-group
-            label="Godown"
-            label-cols="auto"
-          >
-            <autocomplete
-              placeholder="Search / Select a godown"
-              v-model="godownId"
-              :godown-data="godownId"
-              :options="godowns"
-              :required="true"
-            />
-          </b-form-group>
-          <b-button
-            type="submit"
-            variant="success"
+            </b-col>
+            <b-col
+              cols
+              lg="6"
+            >
+              <!-- Godown select -->
+              <b-form-group
+                label="Godown :"
+                label-align="right"
+                label-cols="auto"
+              >
+                <v-select
+                  :options="godowns"
+                  v-model="godownId"
+                  placeholder="Select Godown"
+                  label="text"
+                  :reduce="godown => godown.value"
+                  :required="true"
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-button-group
+            size="sm"
             class="float-right"
           >
-            <b-icon icon="eye-fill" /> View
-          </b-button>
+            <b-button
+              @click="$router.go()"
+              variant="dark"
+            >
+              <translate>Clear</translate>
+            </b-button>
+            <b-button
+              type="submit"
+              variant="success"
+              class="ml-1"
+              :disabled="(productId == null) || (godownId == null)"
+            >
+              <b-icon
+                class="mr-1"
+                icon="cloud-download"
+              />
+              <translate>Get Details</translate>
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card>
     </b-overlay>
@@ -84,113 +120,52 @@
       v-if="report.length > 0"
       class="mt-2"
     >
-      <report-header>
-        <template>
-          <div class="text-center">
-            Product Register:
-            <b>{{ productName }}</b>
-            | From
-            <b>{{ dateReverse(fromDate) }}</b>
-            to
-            <b>{{ dateReverse(toDate) }}</b>
-          </div>
-        </template>
-      </report-header>
-      <!-- Toolbar -->
-      <gk-toolbar>
-        <!-- search bar -->
-        <template #left>
-          <b-form-input
-            size="sm"
-            v-model="search"
-            class="border-dark"
-            style="align-self: center"
-            placeholder="search invoices"
-          />
-        </template>
-        <!-- filters -->
-        <gk-hovermenu>
-          <div class="font-weight-bold bg-dark text-light p-1 mb-1">
-            Invoice Type
-          </div>
-          <b-form-checkbox-group
-            @change="applyFilters"
-            class=""
-            v-model="invoiceFilter"
-          >
-            <b-form-checkbox
-              class="w-100"
-              value="invoice"
-            >
-              <b-icon icon="receipt" /> Invoice
-            </b-form-checkbox>
-            <b-form-checkbox
-              class="w-100"
-              value="Debit Note"
-            >
-              <b-icon
-                icon="file-earmark-minus"
-                variant="warning"
+      <div class="mt-4">
+        <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
+          <!-- Search Field -->
+          <div>
+            <b-input-group size="sm">
+              <b-form-input
+                size="sm"
+                v-model="search"
+                placeholder="Search Table"
+                style="align-self:center"
               />
-              Debit Note
-            </b-form-checkbox>
-            <b-form-checkbox
-              class="w-100"
-              value="Credit Note"
-            >
-              <b-icon
-                icon="file-earmark-plus"
-                variant="info"
-              /> Credit
-              Note
-            </b-form-checkbox>
-            <b-form-checkbox
-              class="w-100"
-              value="transfer note"
-            >
-              <b-icon
-                icon="file-earmark-font"
-                variant="info"
-              /> Transfer
-              note
-            </b-form-checkbox>
-            <b-form-checkbox
-              class="w-100"
-              value="delchal"
-            >
-              <b-icon
-                icon="files-alt"
-                variant="info"
-              /> Delchal
-            </b-form-checkbox>
-          </b-form-checkbox-group>
-        </gk-hovermenu>
-        <!-- Report download -->
-        <gk-file-download
-          :url="
-            `/spreadsheet/product-register?calculatefrom=${dateReverse(
-              this.fromDate,
-            )}&calculateto=${dateReverse(this.toDate)}&productcode=${
-              productId
-            }&productdesc=${this.productName}&godownflag=1&goid=${
-              this.godownId
-            }&goname=${getGodownName(this.godownId)?.text}&goaddr=${
-              getGodownName(this.godownId)?.text
-            }&fystart=${dateReverse(this.yearStart)}&fyend=${dateReverse(
-              this.yearEnd,
-            )}&orgname=${this.orgName}&orgtype=${this.orgType}`
-          "
-          file-extn="xlsx"
-          :common-params="false"
-          :message-from-parent="parentMessage"
-        />
-      </gk-toolbar>
-      <!-- result table -->
+            </b-input-group>
+          </div>
+
+          <!-- Export and Print Buttons -->
+          <div>
+            <!-- Report download -->
+            <gk-file-download
+              :url="
+                `/spreadsheet/product-register?calculatefrom=${dateReverse(
+                  this.fromDate,
+                )}&calculateto=${dateReverse(this.toDate)}&productcode=${
+                  productId
+                }&productdesc=${this.productName}&godownflag=1&goid=${
+                  this.godownId
+                }&goname=${getGodownName(this.godownId)?.text}&goaddr=${
+                  getGodownName(this.godownId)?.text
+                }&fystart=${dateReverse(this.yearStart)}&fyend=${dateReverse(
+                  this.yearEnd,
+                )}&orgname=${this.orgName}&orgtype=${this.orgType}`
+              "
+              file-extn="xlsx"
+              :common-params="false"
+              :message-from-parent="parentMessage"
+              variant="dark"
+              title="Export XLSX"
+              name="Export XLSX"
+            />
+          </div>
+        </div>
+      </div>
       <b-table
         small
-        class="table-border-dark"
-        striped
-        head-variant="dark"
+        outlined
+        hover
+        head-variant="light"
         :items="report"
         responsive="sm"
         :fields="fields"
@@ -202,7 +177,6 @@
           <div v-if="data.item.trntype === 'invoice'">
             <b-icon icon="receipt" /> {{ data.item.particulars }} :
             <b-link
-              @click="updateRoute"
               :to="{
                 name: 'Workflow',
                 params: {
@@ -216,7 +190,6 @@
             >
               <div
                 class="d-inline"
-                @click="updateRoute"
               >
                 {{ data.item.invno }}
               </div>
@@ -225,7 +198,6 @@
           <div v-else-if="data.item.trntype === 'delchal'">
             {{ data.item.particulars }} :
             <b-link
-              @click="updateRoute"
               :to="{
                 name: 'Workflow',
                 params: {
@@ -236,7 +208,6 @@
             >
               <div
                 class="d-inline"
-                @click="updateRoute"
               >
                 {{ data.item.dcno }}
               </div>
@@ -259,7 +230,6 @@
             >
               <div
                 class="d-inline"
-                @click="updateRoute"
               >
                 {{ data.item.drcrno }}
               </div>
@@ -282,7 +252,6 @@
             >
               <div
                 class="d-inline"
-                @click="updateRoute"
               >
                 {{ data.item.drcrno }}
               </div>
@@ -300,7 +269,6 @@
             >
               <div
                 class="d-inline"
-                @click="updateRoute"
               >
                 {{ data.item.tnno }}
               </div>
@@ -312,7 +280,6 @@
           >
             <div
               class="d-inline"
-              @click="updateRoute"
             >
               {{ data.item.particulars }}
             </div>
@@ -359,85 +326,13 @@
       </b-table>
     </div>
     <div v-if="report.length == 0">
-      <!-- Toolbar -->
-      <gk-toolbar>
-        <!-- search bar -->
-       
-        <!-- filters -->
-        <gk-hovermenu>
-          <div class="font-weight-bold bg-dark text-light p-1 mb-1">
-            Invoice Type
-          </div>
-          <b-form-checkbox-group
-            @change="applyFilters"
-            class=""
-            v-model="invoiceFilter"
-          >
-            <b-form-checkbox
-              class="w-100"
-              value="invoice"
-            >
-              <b-icon icon="receipt" /> Invoice
-            </b-form-checkbox>
-            <b-form-checkbox
-              class="w-100"
-              value="Debit Note"
-            >
-              <b-icon
-                icon="file-earmark-minus"
-                variant="warning"
-              />
-              Debit Note
-            </b-form-checkbox>
-            <b-form-checkbox
-              class="w-100"
-              value="Credit Note"
-            >
-              <b-icon
-                icon="file-earmark-plus"
-                variant="info"
-              /> Credit
-              Note
-            </b-form-checkbox>
-            <b-form-checkbox
-              class="w-100"
-              value="transfer note"
-            >
-              <b-icon
-                icon="file-earmark-font"
-                variant="info"
-              /> Transfer
-              Note
-            </b-form-checkbox>
-            <b-form-checkbox
-              class="w-100"
-              value="delchal"
-            >
-              <b-icon
-                icon="files-alt"
-                variant="info"
-              /> Delchal
-            </b-form-checkbox>
-          </b-form-checkbox-group>
-        </gk-hovermenu>
-        <!-- Report download -->
-      </gk-toolbar>
-      <b-table
-        small
-        class="table-border-dark"
-        striped
-        head-variant="dark"
-        responsive="sm"
-        :fields="fields"
-        show-empty
+      <b-alert
+        show
+        class="text-center mx-auto d-print-none"
+        variant="primary"
       >
-        <!-- Named slot "empty" for custom rendering when the table is empty -->
-        <template #empty>
-          <h4 style="text-align: center;">
-            No result found.
-          </h4>
-        </template>
-      </b-table>
+        Select a product to load table.
+      </b-alert>
     </div>
   </section>
 </template>
@@ -445,22 +340,14 @@
 <script>
 import axios from 'axios';
 import GkDate from './GkDate.vue';
-import ReportHeader from './ReportHeader.vue';
 import { mapState } from 'vuex';
 import GkFileDownload from '@/components/GkFileDownload.vue';
-import GkToolbar from './GkToolbar.vue';
-import autocomplete from '@/components/Autocomplete.vue';
-import GkHovermenu from '@/components/GkHovermenu.vue';
 
 export default {
   name: 'ProductRegister',
   components: {
     GkDate,
-    ReportHeader,
     GkFileDownload,
-    GkToolbar,
-    autocomplete,
-    GkHovermenu,
   },
   data() {
     return {
@@ -474,7 +361,7 @@ export default {
       report: [],
       immutableReport: [],
       godowns: [],
-      godownId: '',
+      godownId: null,
       godownReport: [],
       invoiceFilter: ['invoice', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
       fields: [
@@ -517,6 +404,7 @@ export default {
     },
     check() {
       this.getGodownStock();
+      this.updateRoute();
     },
     applyFilters() {
       if (this.invoiceFilter.length > 0) {
@@ -624,8 +512,8 @@ export default {
         const params = this.$route.query;
         this.fromDate = this.yearStart;
         this.toDate = params.current_date;
-        this.productId = params.product_id;
-        this.godownId = (params.goid != 0) ? params.goid : this.godowns[0].value;
+        this.productId = Number(params.product_id);
+        this.godownId = Number((params.goid != 0) ? params.goid : this.godowns[0].value);
       }
       this.loading = true;
       this.invoiceFilter = ['invoice', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
@@ -658,7 +546,7 @@ export default {
     },
     getProductList() {
       this.loading = true;
-      axios
+      return axios
         .get('/product?invdc=4')
         .then((r) => {
           if (r.status == 200) {
@@ -671,12 +559,10 @@ export default {
           }
           this.loading = false;
         })
-        .then(() => this.parseParams())
         .catch((e) => {
           this.gk_toast(this.$gettext('Error'), e.message);
           this.loading = false;
         });
-      this.loading = true;
     },
     getGodownList() {
       return axios
@@ -713,12 +599,12 @@ export default {
       this.fromDate = this.yearStart;
       this.toDate = this.yearEnd;
       if (Object.keys(params).length > 0) {
-        this.productId = this.productList.filter((product) => {
+        let productId = this.productList.filter((product) => {
           return parseInt(params.product_id) == product.id;
         })[0];
         this.toDate = params.to;
-        this.godownId = params.godown_id;
-        this.productId = this.productId?.id;
+        this.godownId = Number(params.godown_id);
+        this.productId = Number(productId?.id ? productId?.id : productId );
         this.getGodownStock();
       }
     },
@@ -746,12 +632,9 @@ export default {
       return product.label;
     },
   },
-  created() {
-    this.getProductList();
-    this.getGodownList()
-      .then(() => {
-        this.godownId = this.$store.getters['global/getDefaultGodown'];
-      })
+  mounted() {
+    this.getProductList()
+      .then(() => this.getGodownList())
       .then(() => this.parseParams());
   },
 };
