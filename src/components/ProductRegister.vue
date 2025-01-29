@@ -12,10 +12,10 @@
           show
           class="text-center mx-auto d-print-none"
         >
-          Product Register: From {{ dateReverse(fromDate) }} to
-          {{ dateReverse(toDate) }}
+          Product Register: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+          {{ dateReverse(selected?.toDate || toDate) }}
         </b-alert>
-        <b-form @submit.prevent="check">
+        <b-form @submit.prevent="getStock">
           <b-row>
             <b-col
               cols
@@ -103,7 +103,7 @@
               type="submit"
               variant="success"
               class="ml-1"
-              :disabled="(productId == null) || (godownId == null)"
+              :disabled="(productId == null)"
             >
               <b-icon
                 class="mr-1"
@@ -138,18 +138,19 @@
           <div>
             <!-- Report download -->
             <gk-file-download
+              v-if="selected.godownId"
               :url="
                 `/spreadsheet/product-register?calculatefrom=${dateReverse(
-                  this.fromDate,
-                )}&calculateto=${dateReverse(this.toDate)}&productcode=${
-                  productId
-                }&productdesc=${this.productName}&godownflag=1&goid=${
-                  this.godownId
-                }&goname=${getGodownName(this.godownId)?.text}&goaddr=${
-                  getGodownName(this.godownId)?.text
-                }&fystart=${dateReverse(this.yearStart)}&fyend=${dateReverse(
-                  this.yearEnd,
-                )}&orgname=${this.orgName}&orgtype=${this.orgType}`
+                  selected.fromDate,
+                )}&calculateto=${dateReverse(selected.toDate)}&productcode=${
+                  selected.productId
+                }&productdesc=${productName}&godownflag=1&goid=${
+                  selected.godownId
+                }&goname=${getGodownName(selected.godownId)?.text}&goaddr=${
+                  getGodownName(selected.godownId)?.text
+                }&fystart=${dateReverse(yearStart)}&fyend=${dateReverse(
+                  yearEnd,
+                )}&orgname=${orgName}&orgtype=${orgType}`
               "
               file-extn="xlsx"
               :common-params="false"
@@ -358,6 +359,8 @@ export default {
       productId: null,
       fromDate: '',
       toDate: '',
+      selected: {},
+      currentToDate: '',
       report: [],
       immutableReport: [],
       godowns: [],
@@ -402,10 +405,6 @@ export default {
         return go.value == id;
       })[0];
     },
-    check() {
-      this.getGodownStock();
-      this.updateRoute();
-    },
     applyFilters() {
       if (this.invoiceFilter.length > 0) {
         let items = [];
@@ -431,118 +430,38 @@ export default {
         this.report = [];
       }
     },
-    getStockReport() {
-      this.loading = true;
-      axios
-        .get(
-          `/reports/stock-report?productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
-        )
-        .then((r) => {
-          const data = r.data;
-          if (r.status == 200) {
-            switch (data.gkstatus) {
-            case 0:
-              {
-                const r = data.gkresult.map((item) => {
-                  if (item.trntype === 'delchal&invoice') {
-                    item.trntype = 'invoice';
-                  }
-                  return item;
-                });
-                this.report = r;
-                this.immutableReport = r;
-              }
-              break;
-            case 1:
-              this.gk_toast(
-                this.$gettext('Alert'),
-                this.$gettext('Duplicate Entry'),
-                'warning'
-              );
-              break;
-            case 2:
-              this.gk_toast(
-                this.$gettext('Unauthorised Access'),
-                this.$gettext('Invalid user'),
-                'danger'
-              );
-              break;
-            case 3:
-              this.gk_toast(
-                this.$gettext('Data Error'),
-                this.$gettext('Error in fetching the data'),
-                'danger'
-              );
-              break;
-            case 4:
-              this.gk_toast(
-                this.$gettext('Privilege Error'),
-                this.$gettext('Your role does not have access to this data'),
-                'danger'
-              );
-              break;
-            case 5:
-              this.gk_toast(
-                this.$gettext('Integrity error'),
-                this.$gettext('Something unexpected has happened'),
-                'danger'
-              );
-              break;
-            }
-          } else {
-            this.gk_toast(
-              this.$gettext('Error'),
-              this.$gettext('Failed to get the stock report'),
-              'danger'
-            );
-          }
-          this.loading = false;
-        })
-        .catch(() => {
-          this.loading = false;
-          this.gk_toast(
-            this.$gettext('Error'),
-            this.$gettext('Failed to get the stock report'),
-            'danger'
-          );
-        });
+    getStock() {
+      this.getStockReport();
+      this.updateRoute();
     },
-    getGodownStock() {
-      if (!this.godownId) {
-        const params = this.$route.query;
-        this.fromDate = this.yearStart;
-        this.toDate = params.current_date;
-        this.productId = Number(params.product_id);
-        this.godownId = Number((params.goid != 0) ? params.goid : this.godowns[0].value);
+    getStockReport() {
+      let url = '';
+      if (this.godownId) {
+        url = `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`;
+      } else {
+        url = `/reports/stock-report?productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`;
       }
-      this.loading = true;
-      this.invoiceFilter = ['invoice', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
-      axios
-        .get(
-          `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
-        )
-        .then((r) => {
-          if (r.status == 200) {
-            const report = r.data.gkresult.map((item) => {
-              if (item.trntype === 'delchal&invoice') {
-                item.trntype = 'invoice';
-              }
-              return item;
-            });
-            this.report = report;
-            this.immutableReport = report;
+      this.$axios
+        .get(url)
+        .then((resp) => {
+          const report = resp.map((item) => {
+            if (item.trntype === 'delchal&invoice') {
+              item.trntype = 'invoice';
+            }
+            return item;
+          });
+          this.report = report;
+          this.immutableReport = report;
+          let selected = {
+            "productId": this.productId,
+            "fromDate": this.fromDate,
+            "toDate": this.toDate,
           }
-          this.loading = false;
-        })
-        .catch(() => {
-          this.loading = false;
-          this.gk_toast(
-            this.$gettext('Error'),
-            this.$gettext('Failed to get the stock report'),
-            'danger'
-          );
-        })
-        .finally(() => (this.loading = false));
+          if (this.godownId) {
+            selected["godownId"] = this.godownId;
+          }
+          this.selected = selected;
+        });
     },
     getProductList() {
       this.loading = true;
@@ -596,16 +515,17 @@ export default {
     // parse params and assign them to variables
     parseParams() {
       const params = this.$route.query;
-      this.fromDate = this.yearStart;
-      this.toDate = this.yearEnd;
+      this.fromDate = params?.from || this.yearStart;
+      this.toDate = params?.to || this.yearEnd;
       if (Object.keys(params).length > 0) {
         let productId = this.productList.filter((product) => {
           return parseInt(params.product_id) == product.id;
         })[0];
-        this.toDate = params.to;
-        this.godownId = Number(params.godown_id);
+        this.fromDate = params?.from || this.yearStart;
+        this.toDate = params?.to || this.yearEnd;
+        this.godownId = params?.goid ? Number(params.goid) : null;
         this.productId = Number(productId?.id ? productId?.id : productId );
-        this.getGodownStock();
+        this.getStockReport();
       }
     },
   },
