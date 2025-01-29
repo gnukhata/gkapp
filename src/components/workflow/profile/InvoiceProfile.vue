@@ -38,7 +38,7 @@
             class="mr-1"
             size="sm"
             variant="primary"
-            v-b-toggle.voucher-container
+            v-b-modal.voucher-container
           >
             <b-icon
               class="mr-1"
@@ -382,15 +382,17 @@
       </div>
     </b-collapse>
     <br>
-    <b-collapse
-      v-model="showVouchers"
+    <b-modal
       id="voucher-container"
+      size="xl"
+      title="Vouchers"
+      hide-footer
+      centered
     >
       <div class="clearfix" />
-      <b v-translate> Vouchers: </b>
       <div v-if="vouchers.length">
         <b-card
-          class="mb-2"
+          class="mb-2 border-0"
           v-for="voucher in vouchers"
           :key="voucher.id"
           body-class="p-1"
@@ -402,7 +404,9 @@
                 {{ voucher.no }}
               </router-link>
             </span>
-            <span> {{ voucher.type }} </span>
+            <span class="text-capitalize">
+              {{ voucher.type }}
+            </span>
             <span class="float-right">
               <translate
                 translate-comment="%{voucherDate} is a variable, translation is not required for it. Enter it, as it is while translation."
@@ -439,7 +443,7 @@
           No vouchers were found for Invoice: %{invNo}
         </translate>
       </div>
-    </b-collapse>
+    </b-modal>
     <b-modal
       size="lg"
       v-model="showVoucherModal"
