@@ -1,110 +1,109 @@
 <template>
-  <section class="container-fluid">
-    <!-- heading -->
-    <b-alert
-      show
-      class="bg-dark text-center text-light mx-auto d-print-none mt-2"
+  <section>
+    <h2 class="mb-5 text-muted display-5">
+      AUDIT LOGS
+    </h2>
+    <b-card
+      bg-variant="light"
     >
-      <div v-if="dateRange.isActive">
-        Audit Logs: From {{ dateReverse(dateRange.from) }} to
-        {{ dateReverse(dateRange.to) }}
-      </div>
-      <div v-else>
-        Audit Logs: From {{ dateReverse(yearStart) }} to
-        {{ dateReverse(yearEnd) }}
-      </div>
-    </b-alert>
-    <!-- toolbar -->
-    <gk-toolbar class="d-print-none mt-5">
-      <template #left>
+      <!-- <p><b class="text-muted">SEARCH</b></p> -->
+      <!-- Get logs by date range -->
+      <b-alert
+        show
+        class="text-center mx-auto d-print-none"
+      >
+        <div v-if="dateRange.isActive">
+          Audit Logs: From {{ dateReverse(dateRange.from) }} to
+          {{ dateReverse(dateRange.to) }}
+        </div>
+        <div v-else>
+          Audit Logs: From {{ dateReverse(yearStart) }} to
+          {{ dateReverse(yearEnd) }}
+        </div>
+      </b-alert>
+      <b-form @submit.prevent="logsByDateRange">
+        <b-row>
+          <b-col
+            cols
+            lg="3"
+            class="pl-0"
+          >
+            <!-- date start -->
+            <b-form-group
+              label="From:"
+              label-cols="3"
+              label-align="right"
+            >
+              <gk-date
+                id="fd"
+                format="dd-mm-yyyy"
+                v-model="dateRange.from"
+                :min="dateReverse(yearStart)"
+                :max="dateReverse(yearEnd)"
+                :required="true"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col
+            cols
+            lg="3"
+            class="pl-0"
+          >
+            <!-- date end -->
+            <b-form-group
+              label="To:"
+              label-cols="3"
+              label-align="right"
+            >
+              <gk-date
+                id="td"
+                format="dd-mm-yyyy"
+                v-model="dateRange.to"
+                :min="dateReverse(yearStart)"
+                :max="dateReverse(yearEnd)"
+                :required="true"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-button-group
+          size="sm"
+          class="float-right"
+        >
+          <b-button
+            @click="$router.go()"
+            variant="dark"
+          >
+            <translate>Clear</translate>
+          </b-button>
+          <b-button
+            variant="success"
+            type="submit"
+            class="ml-1"
+          >
+            <translate>Submit</translate>
+          </b-button>
+        </b-button-group>
+      </b-form>
+    </b-card>
+
+    <b-row>
+      <b-col
+        cols
+        lg="3"
+        class="mb-2 mt-4"
+      >
         <!-- search bar -->
         <b-form-input
-          class="m-1 border border-secondary container-sm gksearch"
           type="text"
           :placeholder="$gettext('Search Logs')"
           v-model="searchText"
           size="sm"
           style="align-self:center"
         />
-      </template>
-      <div>
-        <b-button
-          variant="link"
-          id="date-select"
-        >
-          <b-icon icon="funnel" />
-        </b-button>
-        <!-- Filters -->
-        <b-popover
-          class="bg-secondary"
-          target="date-select"
-          triggers="click"
-          placement="bottom"
-        >
-          <!-- Get logs by date range -->
-          <b-form @submit.prevent="logsByDateRange">
-            <h6
-              class="bg-dark text-light p-1"
-              v-text="'Date Range'"
-            />
-            <!-- date start -->
-            <gk-date
-              id="fd"
-              format="dd-mm-yyyy"
-              v-model="dateRange.from"
-              :min="dateReverse(yearStart)"
-              :max="dateReverse(yearEnd)"
-              :required="true"
-            />
+      </b-col>
+    </b-row>
 
-            <!-- date end -->
-            <gk-date
-              id="td"
-              format="dd-mm-yyyy"
-              v-model="dateRange.to"
-              :min="dateReverse(yearStart)"
-              :max="dateReverse(yearEnd)"
-              :required="true"
-              class="mb-2 mt-2"
-            />
-            <b-button-group size="sm">
-              <b-button
-                variant="dark"
-                type="submit"
-              >
-                <translate>Submit</translate>
-              </b-button>
-
-              <b-button
-                @click="$router.go()"
-                variant="danger"
-                class="ml-1"
-              >
-                <translate>Clear</translate>
-              </b-button>
-            </b-button-group>
-          </b-form>
-        </b-popover>
-      </div>
-    </gk-toolbar>
-    <report-header>
-      <div class="mx-auto text-center">
-        <div v-if="dateRange.isActive">
-          Audit Logs: From {{ dateReverse(dateRange.from) }} to
-          {{ dateReverse(dateRange.to) }}
-        </div>
-        <div
-          v-else
-          class="text-center"
-        >
-          Audit Logs: From {{ dateReverse(yearStart) }} to
-          {{ dateReverse(yearEnd) }}
-        </div>
-        <div v-if="searchText.length > 0">
-          Search Terms: <b>{{ searchText }}</b>
-        </div>
-      </div>
-    </report-header>
     <b-alert
       class="text-center mt-5 mx-auto"
       style="width: 20em"
@@ -123,10 +122,8 @@
       responsive="sm"
       small
       hover
-      striped
-      fixed
-      head-variant="dark"
-      bordered
+      head-variant="light"
+      outlined
       :items="log"
       :busy="isLoading"
       :filter="searchText"
@@ -164,11 +161,9 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-import GkToolbar from '@/components/GkToolbar.vue';
 import GkDate from '@/components/GkDate.vue';
-import ReportHeader from '@/components/ReportHeader.vue';
 export default {
-  components: { GkToolbar, GkDate, ReportHeader },
+  components: { GkDate },
   name: 'Logs',
   data() {
     return {
