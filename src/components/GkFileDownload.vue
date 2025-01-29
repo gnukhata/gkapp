@@ -17,7 +17,6 @@
     >
       <b-icon
         aria-hidden="true"
-        class="align-middle"
         :icon="icon"
         :font-scale="fontScale"
       />
