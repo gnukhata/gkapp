@@ -6,18 +6,6 @@
       no-wrap
       blur
     />
-    <div class="mb-3 clearfix d-print-none">
-      <div class="float-right">
-        <b-button
-          v-if="!tnote.recieved"
-          @click.prevent="onSubmit"
-          size="sm"
-          variant="success"
-        >
-          <translate> Approve </translate>
-        </b-button>
-      </div>
-    </div>
     <b-row>
       <b-col
         class="pl-0"
@@ -65,17 +53,30 @@
         >
           <template #cell(value)="data">
             <div v-if="data.item.type === 'receipt'">
-              <gk-date
-                id="cmd-date-1"
-                :format="dateFormat"
-                v-model="tnote.rdate"
-                :min="minDate"
-                :required="true"
-                v-if="!data.item.status"
-                :input-style="{'max-width': '150px'}"
-                class="d-inline-block d-print-none"
-              />
-              <span v-else>{{ data.value }}</span>
+              <div v-if="data.item.status">
+                <span>{{ data.value }}</span>
+              </div>
+              <div v-else>
+                <gk-date
+                  id="cmd-date-1"
+                  :format="dateFormat"
+                  v-model="tnote.rdate"
+                  :min="minDate"
+                  :required="true"
+                  :input-style="{'max-width': '150px'}"
+                  class="d-inline-block d-print-none"
+                />
+                <br>
+                <b-button
+                  v-if="!tnote.recieved"
+                  size="sm"
+                  class="mt-1"
+                  variant="success"
+                  @click.prevent="onSubmit"
+                >
+                  <b-icon icon="check" /><translate>Update</translate>
+                </b-button>
+              </div>
             </div>
             <span v-else>{{ data.value }}</span>
           </template>
