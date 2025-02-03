@@ -120,28 +120,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Unit Add",
-      requiresOrgAuth: true,
-    },
-    path: "/uom/add",
-    name: "Unit Add",
-    component: () =>
-      import(/* webpackChunkName: "uomadd" */ "../components/form/AddUOM.vue"),
-  },
-  {
-    meta: {
-      title: "Unit Edit",
-      requiresOrgAuth: true,
-    },
-    path: "/uom/:id",
-    name: "Unit Edit",
-    component: () =>
-      import(
-        /* webpackChunkName: "uomedit" */ "../components/form/EditUOM.vue"
-      ),
-  },
-  {
-    meta: {
       title: "Stock On Hand",
       requiresOrgAuth: true,
     },
