@@ -9,20 +9,22 @@
     <div class="mb-3 clearfix d-print-none">
       <div class="float-right">
         <span>
-          <b-button
-            class="mr-1"
+          <b-dropdown
+            split
             size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
-            v-if="!pdata.cancelledFlag"
+            variant="dark"
+            v-b-modal.voucher-container
           >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
-            <router-link
-              v-if="dcid"
-              class="custom-link"
+            <template #button-content>
+              <b-icon
+                icon="eye"
+                class="mr-1"
+              />
+              <translate>View Voucher</translate>
+            </template>
+            <b-dropdown-item
+              v-if="!pdata.cancelledFlag && dcid"
+              v-b-toggle.voucher-container
               :to="{
                 name: 'Workflow',
                 params: {
@@ -30,21 +32,14 @@
                   wfId: dcid,
                 },
               }"
-            >View Delivery Note
-            </router-link>
-          </b-button>
-          <b-button
-            class=""
-            size="sm"
-            variant="primary"
-            v-b-modal.voucher-container
-          >
-            <b-icon
-              icon="eye"
-              class="mr-1"
-            />
-            <translate>View Voucher</translate>
-          </b-button>
+            >
+              <b-icon
+                class="mr-1"
+                icon="eye"
+              />
+              View Delivery Note
+            </b-dropdown-item>
+          </b-dropdown>
         </span>
       </div>
     </div>

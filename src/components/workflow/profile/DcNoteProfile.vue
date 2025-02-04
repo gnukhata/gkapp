@@ -9,44 +9,40 @@
     <div class="clearfix d-print-none mb-3">
       <div class="float-right">
         <span>
-          <b-button
-            class="mr-1"
+          <b-dropdown
+            v-if="inv.id"
+            split
             size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
+            variant="dark"
+            v-b-modal.voucher-container
           >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
-            <router-link
-              v-if="inv.id"
-              class="custom-link"
+            <template #button-content>
+              <b-icon
+                icon="eye"
+                class="mr-1"
+              />
+              <translate>View Voucher</translate>
+            </template>
+            <b-dropdown-item
+              v-b-toggle.voucher-container
               :to="{
                 name: 'Workflow',
                 params: {
                   wfName:
                     inv.icflag === 3
-                      ? 'Transactions-CashMemo' : 
+                      ? 'Transactions-CashMemo' :
                         'Transactions-Invoice',
                   wfId: inv.id,
                 },
               }"
-            >{{ inv.icflag === 3 ? 'View Cash Memo' : 'View Invoice' }}
-            </router-link>
-          </b-button>
-          <b-button
-            class=""
-            size="sm"
-            variant="primary"
-            v-b-modal.voucher-container
-          >
-            <b-icon
-              icon="eye"
-              class="mr-1"
-            />
-            <translate>View Voucher</translate>
-          </b-button>
+            >
+              <b-icon
+                class="mr-1"
+                icon="eye"
+              />
+              {{ inv.icflag === 3 ? 'View Cash Memo' : 'View Invoice' }}
+            </b-dropdown-item>
+          </b-dropdown>
         </span>
       </div>
     </div>
