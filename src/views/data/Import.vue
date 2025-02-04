@@ -1,63 +1,60 @@
 <template>
-  <div class="m-2">
-    <b-card
-      class="gkcard mx-auto"
-      :header="this.$gettext('Import Company Data')"
-      header-bg-variant="dark"
-      header-text-variant="light"
-    >
-      <b-card-body>
-        <b-form @submit.prevent="check">
-          <div v-translate>
-            This menu will help you to import your data into GNUKhata:
-
-            <h4 class="mt-4">
-              Supported Imports
-            </h4>
-            <ul>
-              <li>Tally (.xlsx)</li>
-              <li>GNUKhata Legacy (.xlsx)</li>
-              <li>GNUKhata New (.json)</li>
-            </ul>
-            <h4 class="mt-4">
-              Import Instructions
-            </h4>
-            <ul>
-              <li>
-                <router-link to="/data/import/help/tally">
-                  Tally & GNUKhata
-                </router-link>
-              </li>
-              <li>
-                <router-link to="/data/import/help/json">
-                  JSON
-                </router-link>
-              </li>
-            </ul>
-          </div>
-          <br>
+  <section class="container-fluid mt-2">
+    <b-form @submit.prevent="check">
+      <b-card no-body>
+        <template #header>
+          <h5 class="my-2">
+            Import Data
+          </h5>
+        </template>
+        <b-card-body v-translate>
+          <h4>
+            Supported Imports
+          </h4>
+          <ul>
+            <li>Tally (.xlsx)</li>
+            <li>GNUKhata Legacy (.xlsx)</li>
+            <li>GNUKhata New (.json)</li>
+          </ul>
+          <h4 class="mt-4">
+            Import Instructions
+          </h4>
+          <ul>
+            <li>
+              <router-link to="/data/import/help/tally">
+                Tally & GNUKhata
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/data/import/help/json">
+                JSON
+              </router-link>
+            </li>
+          </ul>
+          <hr class="mx-2 my-4">
           <!-- Export buttons -->
           <b-form-file
             required
             v-model="file"
             accept=".json, .xlsx"
             size="sm"
+            class="col-5"
           />
-          <div class="text-center">
+          <div>
             <b-button
               type="submit"
-              variant="dark"
-              class="mt-3 text-center"
+              variant="success"
+              class="mt-2"
               size="sm"
             >
-              <b-icon icon="file" />
-              <translate> Import Data</translate>
+              <b-icon icon="download" />&nbsp;
+              <translate>Import Data</translate>
             </b-button>
           </div>
-        </b-form>
-      </b-card-body>
-    </b-card>
-  </div>
+        </b-card-body>
+      </b-card>
+    </b-form>
+  </section>
 </template>
 
 <script>
