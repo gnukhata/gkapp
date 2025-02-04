@@ -1,22 +1,21 @@
 <template>
   <section class="container-fluid mt-2">
-    <b-card no-body>
-      <b-tabs
-        pills
-        card
-        :vertical="!mobileMode"
-      >
-        <b-tab
-          title="General"
-          active
-        >
-          <b-form @submit.prevent="saveConfig">
+    <b-form @submit.prevent="saveConfig">
+      <b-card no-body>
+        <template #header>
+          <h5 class="my-2">
+            Settings
+          </h5>
+        </template>
+        <b-card-body>
+          <div>
+            <h5 class="mb-3">
+              General
+            </h5>
             <b-form-group
               label="Date Format"
               label-for="gs-t1-select-10"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
+              label-cols-md="3"
             >
               <template #label>
                 <translate> Date Format </translate>
@@ -32,9 +31,7 @@
             <b-form-group
               label="App Language"
               label-for="gs-t1-select-20"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
+              label-cols-md="3"
             >
               <template #label>
                 <translate> App Language </translate>
@@ -54,23 +51,16 @@
                 </b-form-select-option>
               </b-form-select>
             </b-form-group>
-            <b-button
-              type="submit"
-              size="sm"
-              variant="success"
-            >
-              <translate> save </translate>
-            </b-button>
-          </b-form>
-        </b-tab>
-        <b-tab :title="$gettext('Transaction')">
-          <b-form @submit.prevent="saveConfig">
+          </div>
+          <div>
+            <hr class="mx-1 my-4">
+            <h5 class="mb-3">
+              Payment
+            </h5>
             <b-form-group
               label="Payment Mode"
               label-for="gs-t2-select-10"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
+              label-cols-md="3"
             >
               <template #label>
                 <translate> Payment Mode </translate>
@@ -86,9 +76,7 @@
             <b-form-group
               label="Default Godown"
               label-for="gs-t2-select-30"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
+              label-cols-md="3"
             >
               <template #label>
                 <translate> Default Godown </translate>
@@ -104,9 +92,7 @@
             <b-form-group
               label="Allow Negative Stock"
               label-for="gs-t2-select-40"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
+              label-cols-md="3"
             >
               <template #label>
                 <translate>
@@ -121,9 +107,7 @@
             <b-form-group
               label="Use contact ledgers to track transactions"
               label-for="gs-t2-select-30"
-              label-cols-lg="2"
-              label-cols="3"
-              label-size="sm"
+              label-cols-md="3"
             >
               <template #label>
                 <translate>
@@ -155,33 +139,20 @@
                 v-model="conf.transaction.default.partyVoucherFlag"
               />
             </b-form-group>
+          </div>
+          <div>
+            <hr class="mx-1 my-4">
             <b-button
               type="submit"
-              size="sm"
               variant="success"
+              size="sm"
             >
-              <translate> save </translate>
+              <translate>Save</translate>
             </b-button>
-          </b-form>
-        </b-tab>
-        <b-tab
-          :title="$gettext('Organisation')"
-          @click="$router.push('/orgprofile')"
-        />
-        <b-tab
-          title="Manage Users"
-          @click="$router.push('/users')"
-        />
-        <b-tab
-          :title="$gettext('Import Data')"
-          @click="$router.push('/data/import')"
-        />
-        <b-tab
-          :title="$gettext('Export Data')"
-          @click="$router.push('/data/export')"
-        />
-      </b-tabs>
-    </b-card>
+          </div>
+        </b-card-body>
+      </b-card>
+    </b-form>
   </section>
 </template>
 
