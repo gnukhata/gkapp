@@ -189,19 +189,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Edit Godown",
-      requiresOrgAuth: true,
-    },
-    path: "/godowns/:id",
-    name: "Edit Godown",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "editgodown" */ "../views/GodownEdit.vue"),
-  },
-  {
-    meta: {
       title: "About",
       requiresOrgAuth: true,
     },
