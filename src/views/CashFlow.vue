@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="mb-5 text-muted display-5">
+    <h2 class="my-4 text-muted display-5">
       CASH FLOW STATEMENT
     </h2>
     <b-overlay :show="isLoading">
@@ -23,8 +23,7 @@
               lg="3"
             >
               <b-form-group
-                label="From :"
-                label-align="right"
+                label="From"
                 label-cols="auto"
               >
                 <gk-date
@@ -38,8 +37,7 @@
               lg="3"
             >
               <b-form-group
-                label="To :"
-                label-align="right"
+                label="To"
                 label-cols="auto"
               >
                 <gk-date
@@ -51,25 +49,20 @@
           </b-row>
           <b-button-group
             size="sm"
-            class="float-right"
           >
-            <b-button
-              @click="clear"
-              variant="dark"
-            >
-              <translate>Clear</translate>
-            </b-button>
             <b-button
               variant="success"
               @click="updateRoute"
               type="submit"
-              class="ml-1"
+              class="mr-2"
             >
-              <b-icon
-                class="mr-1"
-                icon="cloud-download"
-              />
-              <translate>Get Details</translate>
+              Submit
+            </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              Clear
             </b-button>
           </b-button-group>
         </b-form>

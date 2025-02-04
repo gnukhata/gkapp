@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="mb-5 text-muted display-5">
+    <h2 class="my-4 text-muted display-5">
       STOCK ON HAND
     </h2>
     <b-overlay :show="loading">
@@ -22,8 +22,7 @@
             >
               <!-- product select -->
               <b-form-group
-                label="Product :"
-                label-align="right"
+                label="Product"
                 label-cols="auto"
               >
                 <v-select
@@ -42,8 +41,7 @@
             >
               <!-- Godown select -->
               <b-form-group
-                label="Godown :"
-                label-align="right"
+                label="Godown"
                 label-cols="auto"
               >
                 <v-select
@@ -60,9 +58,8 @@
               lg="3"
             >
               <b-form-group
-                label="As on :"
+                label="As on"
                 label-cols="auto"
-                label-align="right"
               >
                 <gk-date
                   v-model="toDate"
@@ -78,25 +75,20 @@
           </b-row>
           <b-button-group
             size="sm"
-            class="float-right"
           >
-            <b-button
-              @click="clear"
-              variant="dark"
-            >
-              <translate>Clear</translate>
-            </b-button>
             <b-button
               @click="updateRoute"
               type="submit"
               variant="success"
-              class="ml-1"
+              class="mr-2"
             >
-              <b-icon
-                class="mr-1"
-                icon="cloud-download"
-              />
-              <translate>Get Details</translate>
+              Submit
+            </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              Clear
             </b-button>
           </b-button-group>
         </b-form>

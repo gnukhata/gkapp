@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="mb-5 text-muted display-5">
+    <h2 class="my-4 text-muted display-5">
       PRODUCT REGISTER
     </h2>
     <b-overlay :show="loading">
@@ -22,8 +22,7 @@
               lg="6"
             >
               <b-form-group
-                label="Product :"
-                label-align="right"
+                label="Product"
                 label-cols="auto"
               >
                 <!-- select product -->
@@ -41,8 +40,7 @@
               lg="3"
             >
               <b-form-group
-                label="From :"
-                label-align="right"
+                label="From"
                 label-cols="auto"
               >
                 <gk-date
@@ -57,8 +55,7 @@
               lg="3"
             >
               <b-form-group
-                label="To :"
-                label-align="right"
+                label="To"
                 label-cols="auto"
               >
                 <gk-date
@@ -74,8 +71,7 @@
             >
               <!-- Godown select -->
               <b-form-group
-                label="Godown :"
-                label-align="right"
+                label="Godown"
                 label-cols="auto"
               >
                 <v-select
@@ -91,25 +87,20 @@
           </b-row>
           <b-button-group
             size="sm"
-            class="float-right"
           >
+            <b-button
+              type="submit"
+              variant="success"
+              class="mr-2"
+              :disabled="(productId == null)"
+            >
+              Submit
+            </b-button>
             <b-button
               @click="clear"
               variant="dark"
             >
               <translate>Clear</translate>
-            </b-button>
-            <b-button
-              type="submit"
-              variant="success"
-              class="ml-1"
-              :disabled="(productId == null)"
-            >
-              <b-icon
-                class="mr-1"
-                icon="cloud-download"
-              />
-              <translate>Get Details</translate>
             </b-button>
           </b-button-group>
         </b-form>

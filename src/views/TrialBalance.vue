@@ -1,7 +1,7 @@
 <template>
   <section>
     <b-overlay :show="isLoading">
-      <h2 class="mb-5 text-muted display-5">
+      <h2 class="my-4 text-muted display-5">
         TRIAL BALANCE
       </h2>
       <!-- Card -->
@@ -23,9 +23,8 @@
               lg="3"
             >
               <b-form-group
-                label="From :"
-                label-align="right"
-                label-cols="3"
+                label="From"
+                label-cols="auto"
               >
                 <gk-date
                   id="fromdate"
@@ -38,9 +37,8 @@
               lg="3"
             >
               <b-form-group
-                label="To :"
-                label-align="right"
-                label-cols="3"
+                label="To"
+                label-cols="auto"
               >
                 <gk-date
                   id="todate"
@@ -53,9 +51,8 @@
               lg="3"
             >
               <b-form-group
-                label="Type :"
+                label="Type"
                 label-cols="auto"
-                label-align="right"
               >
                 <v-select
                   :options="trialBalanceOptions"
@@ -67,24 +64,19 @@
           </b-row>
           <b-button-group
             size="sm"
-            class="float-right"
           >
+            <b-button
+              variant="success"
+              type="submit"
+              class="mr-2"
+            >
+              Submit
+            </b-button>
             <b-button
               @click="clear"
               variant="dark"
             >
-              <translate>Clear</translate>
-            </b-button>
-            <b-button
-              variant="success"
-              type="submit"
-              class="ml-1"
-            >
-              <b-icon
-                class="mr-1"
-                icon="cloud-download"
-              />
-              <translate>Get Details</translate>
+              Clear
             </b-button>
           </b-button-group>
         </b-form>

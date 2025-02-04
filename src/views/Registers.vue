@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="mb-5 text-muted display-5">
+    <h2 class="my-4 text-muted display-5">
       VIEW REGISTERS
     </h2>
     <b-overlay
@@ -26,9 +26,8 @@
               lg="3"
             >
               <b-form-group
-                label="Type :"
+                label="Type"
                 label-cols="auto"
-                label-align="right"
               >
                 <v-select
                   :options="[{label: 'Sale', code: 0}, {label: 'Purchase', code: 1}]"
@@ -44,9 +43,8 @@
             >
               <!-- Date -->
               <b-form-group
-                label="From :"
+                label="From"
                 label-cols="auto"
-                label-align="right"
               >
                 <gk-date
                   :format-output="true"
@@ -61,9 +59,8 @@
               lg="3"
             >
               <b-form-group
-                label="To :"
+                label="To"
                 label-cols="auto"
-                label-align="right"
               >
                 <gk-date
                   :format-output="true"
@@ -78,9 +75,8 @@
               lg="3"
             >
               <b-form-group
-                label="Expanded Table :"
-                label-align="right"
-                label-cols="8"
+                label="Expanded Table"
+                label-cols="auto"
               >
                 <b-form-checkbox
                   switch
@@ -93,26 +89,21 @@
           </b-row>
           <b-button-group
             size="sm"
-            class="float-right"
           >
+            <b-button
+              @click="updateRoute"
+              variant="success"
+              type="submit"
+              class="mr-2"
+              :disabled="registerType == null"
+            >
+              Submit
+            </b-button>
             <b-button
               @click="clear"
               variant="dark"
             >
               <translate>Clear</translate>
-            </b-button>
-            <b-button
-              @click="updateRoute"
-              variant="success"
-              type="submit"
-              class="ml-1"
-              :disabled="registerType == null"
-            >
-              <b-icon
-                class="mr-1"
-                icon="cloud-download"
-              />
-              <translate>Get Details</translate>
             </b-button>
           </b-button-group>
         </b-form>

@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="mb-5 text-muted display-5">
+    <h2 class="my-4 text-muted display-5">
       {{ reportName().toUpperCase() }}
     </h2>
     <b-overlay :show="isLoading">
@@ -22,9 +22,8 @@
               lg="3"
             >
               <b-form-group
-                label="From :"
-                label-align="right"
-                label-cols="3"
+                label="From"
+                label-cols="auto"
               >
                 <gk-date
                   id="fromdate"
@@ -37,9 +36,8 @@
               lg="3"
             >
               <b-form-group
-                label="To :"
-                label-align="right"
-                label-cols="3"
+                label="To"
+                label-cols="auto"
               >
                 <gk-date
                   id="todate"
@@ -49,12 +47,11 @@
             </b-col>
             <b-col
               cols
-              lg="3"
+              lg="2"
             >
               <b-form-group
-                label="Hide ₹0 rows :"
-                label-align="right"
-                label-cols="8"
+                label="Hide ₹0 rows"
+                label-cols="auto"
               >
                 <b-form-checkbox
                   id="checkbox-1"
@@ -71,9 +68,8 @@
               lg="3"
             >
               <b-form-group
-                label="Divide by 1000 :"
-                label-align="right"
-                label-cols="8"
+                label="Divide by 1000"
+                label-cols="auto"
               >
                 <b-form-checkbox
                   id="checkbox-2"
@@ -88,24 +84,19 @@
           </b-row>
           <b-button-group
             size="sm"
-            class="float-right"
           >
+            <b-button
+              variant="success"
+              type="submit"
+              class="mr-2"
+            >
+              Submit
+            </b-button>
             <b-button
               @click="clear"
               variant="dark"
             >
-              <translate>Clear</translate>
-            </b-button>
-            <b-button
-              variant="success"
-              type="submit"
-              class="ml-1"
-            >
-              <b-icon
-                class="mr-1"
-                icon="cloud-download"
-              />
-              <translate>Get Details</translate>
+              Clear
             </b-button>
           </b-button-group>
         </b-form>

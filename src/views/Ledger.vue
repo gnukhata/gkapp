@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="mb-5 text-muted display-5">
+    <h2 class="my-4 text-muted display-5">
       LEDGER
     </h2>
     <b-card
@@ -21,7 +21,7 @@
         >
           <!-- Account name -->
           <b-form-group
-            label="Account :"
+            label="Account"
             label-cols="auto"
           >
             <v-select
@@ -40,8 +40,7 @@
           lg="3"
         >
           <b-form-group
-            label="From :"
-            label-align="right"
+            label="From"
             label-cols="auto"
           >
             <gk-date
@@ -56,9 +55,7 @@
           lg="3"
         >
           <b-form-group
-            label="To :"
-            class="ml-3"
-            label-align="right"
+            label="To"
             label-cols="auto"
           >
             <gk-date
@@ -73,9 +70,8 @@
           lg="2"
         >
           <b-form-group
-            label="Monthwise :"
-            label-align="right"
-            content-cols="3"
+            label="Monthwise"
+            label-cols="auto"
           >
             <!-- monthly ledger checkbox -->
             <b-form-checkbox
@@ -92,9 +88,8 @@
           v-if="!showMonthlyLedger"
         >
           <b-form-group
-            label="Type :"
+            label="Type"
             label-cols="auto"
-            label-align="right"
           >
             <v-select
               :options="transactionOptions"
@@ -107,25 +102,20 @@
       </b-row>
       <b-button-group
         size="sm"
-        class="float-right"
       >
+        <b-button
+          variant="success"
+          @click="loadTable"
+          :disabled="(accountCode == null) || (transactionType == null)"
+          class="mr-2"
+        >
+          Submit
+        </b-button>
         <b-button
           @click="clear"
           variant="dark"
         >
           <translate>Clear</translate>
-        </b-button>
-        <b-button
-          variant="success"
-          @click="loadTable"
-          :disabled="(accountCode == null) || (transactionType == null)"
-          class="ml-1"
-        >
-          <b-icon
-            class="mr-1"
-            icon="cloud-download"
-          />
-          <translate>Get Details</translate>
         </b-button>
       </b-button-group>
     </b-card>

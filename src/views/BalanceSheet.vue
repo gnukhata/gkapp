@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h2 class="mb-5 text-muted display-5">
+    <h2 class="my-4 text-muted display-5">
       {{ reportName().toUpperCase() }}
     </h2>
     <b-overlay :show="isLoading">
@@ -22,8 +22,7 @@
               lg="3"
             >
               <b-form-group
-                label="From :"
-                label-align="right"
+                label="From"
                 label-cols="auto"
               >
                 <gk-date
@@ -37,8 +36,7 @@
               lg="3"
             >
               <b-form-group
-                label="To :"
-                label-align="right"
+                label="To"
                 label-cols="auto"
               >
                 <gk-date
@@ -52,8 +50,7 @@
               lg="3"
             >
               <b-form-group
-                label="Hide ₹0 rows :"
-                label-align="right"
+                label="Hide ₹0 rows"
                 label-cols="auto"
               >
                 <b-form-checkbox
@@ -69,24 +66,19 @@
           </b-row>
           <b-button-group
             size="sm"
-            class="float-right"
           >
+            <b-button
+              variant="success"
+              type="submit"
+              class="mr-2"
+            >
+              Submit
+            </b-button>
             <b-button
               @click="clear"
               variant="dark"
             >
-              <translate>Clear</translate>
-            </b-button>
-            <b-button
-              variant="success"
-              type="submit"
-              class="ml-1"
-            >
-              <b-icon
-                class="mr-1"
-                icon="cloud-download"
-              />
-              <translate>Get Details</translate>
+              Clear
             </b-button>
           </b-button-group>
         </b-form>
