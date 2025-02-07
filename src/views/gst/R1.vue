@@ -1,13 +1,25 @@
 <template>
-  <section class="m-1">
+  <section>
     <b-overlay :show="loading">
+      <h2 class="my-4 text-muted display-5">
+        GST-R1 Report
+      </h2>
       <b-card
-        style="min-width: 300px"
-        header="GSTR-1 Report"
-        header-bg-variant="dark"
-        header-text-variant="light"
-        class="mx-auto gkcard d-print-none"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          GST-R1 Report for <b>{{ orgName }}</b> ({{ Object.values(orgAddress.gstin)[0] || 'N/A' }})
+          <span
+            v-if="selected?.fromDate && selected?.toDate"
+          >
+            : From {{ dateReverse(selected?.fromDate) }} to
+            {{ dateReverse(selected?.toDate) }}
+          </span>
+        </b-alert>
         <b-form @submit.prevent="showSummary">
           <gk-period
             @update="onPeriodUpdate"
@@ -18,20 +30,26 @@
             type="submit"
             size="sm"
             variant="success"
-            class="float-right"
           >
-            <b-icon icon="eye-fill" /> Show
+            Submit
           </b-button>
         </b-form>
       </b-card>
     </b-overlay>
+    <r1-summary
+      v-if="selected?.fromDate && selected?.toDate"
+      :td="selected.toDate"
+      :fd="selected.fromDate"
+    />
   </section>
 </template>
 
 <script>
 import GkPeriod from '@/components/GkPeriod.vue';
+import { mapState } from 'vuex';
+import R1Summary from './R1Summary.vue';
 export default {
-  components: { GkPeriod },
+  components: { GkPeriod, R1Summary },
   name: 'R1',
   data() {
     return {
@@ -40,6 +58,7 @@ export default {
       periodValidity: false,
       loading: false,
       search: '',
+      selected: {},
       report: {
         data: null,
         selected: '',
@@ -47,7 +66,9 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(['orgName', 'orgAddress']),
+  },
   methods: {
     updateValidity(validity) {
       this.periodValidity = validity;
@@ -58,9 +79,10 @@ export default {
     },
     showSummary() {
       if (this.fromDate && this.toDate) {
-        this.$router.push(
-          `/gst/r1/summary/from=${this.fromDate}&to=${this.toDate}`
-        );
+        this.selected = {
+          fromDate: this.fromDate,
+          toDate:this.toDate,
+        }
       } else {
         this.$bvToast.toast(
           this.$gettext(`Please select a valid time period.`),
