@@ -3,95 +3,107 @@
     class="align-form-label-right"
     ref="period"
   >
-    <b-form-group
-      label="Period Type"
-      label-for="gkp-select-10"
-      label-cols="3"
-      label-cols-md="2"
-      label-size="sm"
-    >
-      <template #label>
-        <translate> Period Type </translate>
-      </template>
-      <b-form-select
-        id="gkp-select-10"
-        size="sm"
-        :options="options.periodTypes"
-        v-model="periodType"
-      />
-    </b-form-group>
-    <b-form-group
-      label="Period"
-      label-for="gkp-select-20"
-      label-cols="3"
-      label-cols-md="2"
-      label-size="sm"
-    >
-      <template #label>
-        <translate> Period </translate>
-      </template>
-      <b-form-select
-        v-if="isMonthly"
-        id="gkp-select-20"
-        size="sm"
-        @change="onPeriodUpdate"
-        v-model="period"
-        :options="periods"
-      />
-
-      <div
-        v-if="isCustom"
-        id="gkp-select-20"
-        class="row"
+    <b-row>
+      <b-col
+        cols
+        lg="6"
       >
-        <div class="col-sm-6 pr-sm-1">
-          <b-form-group
-            label-size="md"
-            id="input-group-3"
-            label="From"
-            label-for="date-1"
-            label-class="label-on-input"
+        <b-form-group
+          label="Period Type"
+          label-for="gkp-select-10"
+          label-cols="3"
+          label-cols-md="2"
+          label-size="sm"
+        >
+          <template #label>
+            <translate> Period Type </translate>
+          </template>
+          <b-form-select
+            id="gkp-select-10"
+            size="sm"
+            :options="options.periodTypes"
+            v-model="periodType"
+          />
+        </b-form-group>
+      </b-col>
+      <b-col
+        cols
+        lg="6"
+      >
+        <b-form-group
+          label="Period"
+          label-for="gkp-select-20"
+          label-cols="3"
+          label-cols-md="2"
+          label-size="sm"
+        >
+          <template #label>
+            <translate> Period </translate>
+          </template>
+          <b-form-select
+            v-if="isMonthly"
+            id="gkp-select-20"
+            size="sm"
+            @change="onPeriodUpdate"
+            v-model="period"
+            :options="periods"
+          />
+
+          <div
+            v-if="isCustom"
+            id="gkp-select-20"
+            class="row"
           >
-            <template #label>
-              <translate> From </translate>
-            </template>
-            <b-input-group class="mb-3">
-              <gk-date
-                @validity="updateValidity($event, 'from')"
-                @input="onPeriodUpdate"
-                v-model="custom.from"
-                id="yst"
-                :min="minDate.from"
-                :max="maxDate.from"
-              />
-            </b-input-group>
-          </b-form-group>
-        </div>
-        <div class="col-sm-6 pl-sm-1">
-          <b-form-group
-            label-size="md"
-            id="input-group-4"
-            label="To"
-            label-for="date-2"
-            label-class="label-on-input"
-          >
-            <template #label>
-              <translate> To </translate>
-            </template>
-            <b-input-group class="mb-3">
-              <gk-date
-                @validity="updateValidity($event, 'to')"
-                @input="onPeriodUpdate"
-                v-model="custom.to"
-                id="ynd"
-                :min="minDate.to"
-                :max="maxDate.to"
-              />
-            </b-input-group>
-          </b-form-group>
-        </div>
-      </div>
-    </b-form-group>
+            <div class="col-sm-6 pr-sm-1">
+              <b-form-group
+                label-size="md"
+                id="input-group-3"
+                label="From"
+                label-for="date-1"
+                label-class="label-on-input"
+              >
+                <template #label>
+                  <translate> From </translate>
+                </template>
+                <b-input-group class="mb-3">
+                  <gk-date
+                    @validity="updateValidity($event, 'from')"
+                    @input="onPeriodUpdate"
+                    v-model="custom.from"
+                    id="yst"
+                    :min="minDate.from"
+                    :max="maxDate.from"
+                  />
+                </b-input-group>
+              </b-form-group>
+            </div>
+            <div class="col-sm-6 pl-sm-1">
+              <b-form-group
+                label-size="md"
+                id="input-group-4"
+                label="To"
+                label-for="date-2"
+                label-class="label-on-input"
+              >
+                <template #label>
+                  <translate> To </translate>
+                </template>
+                <b-input-group class="mb-3">
+                  <gk-date
+                    @validity="updateValidity($event, 'to')"
+                    @input="onPeriodUpdate"
+                    v-model="custom.to"
+                    id="ynd"
+                    :min="minDate.to"
+                    :max="maxDate.to"
+                  />
+                </b-input-group>
+              </b-form-group>
+            </div>
+          </div>
+        </b-form-group>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
