@@ -408,19 +408,23 @@ export default {
     },
   },
   mounted() {
-    this.getAccounts();
-    const params = this.$route.params;
-    if (params.pc !== 'null') {
-      this.projectCode = params.pc || '';
-    }
-    this.accountCode = params?.ac ? Number(params?.ac) : null;
-    this.fromDate = params.fd || this.yearStart;
-    this.toDate = params.td || this.yearEnd;
-    this.transactionType = "all";
-    if (this.accountCode) {
-      this.isLoaded = true;
-      this.getLedger();
-    }
+    this.getAccounts()
+      .then(
+        () => {
+          const params = this.$route.params;
+          if (params.pc !== 'null') {
+            this.projectCode = params.pc || '';
+          }
+          this.accountCode = params?.ac ? Number(params?.ac) : null;
+          this.fromDate = params.fd || this.yearStart;
+          this.toDate = params.td || this.yearEnd;
+          this.transactionType = "all";
+          if (this.accountCode) {
+            this.isLoaded = true;
+            this.getLedger();
+          }
+        }
+      )
   },
 };
 </script>
