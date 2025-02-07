@@ -87,6 +87,13 @@
         class="row"
         v-if="result1 !== null"
       >
+        <report-header>
+          <div class="text-center">
+            <b>Cash Flow Account</b>
+            for the period {{ dateReverse(selected.fromDate) }} to
+            {{ dateReverse(selected.toDate) }}
+          </div>
+        </report-header>
         <div class="col-lg-6">
           <b-table
             :fields="fields1"
@@ -152,8 +159,9 @@
 import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
+import ReportHeader from '../components/ReportHeader.vue';
 export default {
-  components: { GkDate, GkFileDownload },
+  components: { GkDate, GkFileDownload, ReportHeader },
   name: 'CashFlow',
   data() {
     return {

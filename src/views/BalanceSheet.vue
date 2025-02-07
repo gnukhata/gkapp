@@ -83,6 +83,20 @@
           </b-button-group>
         </b-form>
       </b-card>
+      <report-header>
+        <div class="text-center">
+          <b>{{ reportName() }}</b>
+          {{ selected.fromDate }} to
+          {{ selected.toDate }}
+          <br>
+          <small
+            v-if="hideZeroFilter"
+            v-translate
+          >
+            "Hide Zero Value Rows" Filter has been applied
+          </small>
+        </div>
+      </report-header>
       <div
         v-if="bsheet.left.length && bsheet.right.length"
         class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
@@ -329,9 +343,10 @@
 <script>
 import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
+import ReportHeader from '../components/ReportHeader.vue';
 import GkFileDownload from '@/components/GkFileDownload.vue';
 export default {
-  components: { GkDate, GkFileDownload },
+  components: { GkDate, GkFileDownload, ReportHeader },
   name: 'BalanceSheet',
   data() {
     return {
@@ -340,6 +355,7 @@ export default {
       fromDate: null,
       toDate: null,
       hideZero: false,
+      selected: {},
       tableFields: [
         {
           key: 'groupAccname',

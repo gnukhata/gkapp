@@ -11,7 +11,7 @@
         show
         class="text-center mx-auto d-print-none"
       >
-        Ledger: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+        {{ selected?.accountName }} Ledger: From {{ dateReverse(selected?.fromDate || fromDate) }} to
         {{ dateReverse(selected?.toDate || toDate) }}
       </b-alert>
       <b-row>
@@ -120,6 +120,16 @@
       </b-button-group>
     </b-card>
     <div v-if="isLoaded">
+      <report-header>
+        <div class="text-center">
+          <span>
+            Monthly ledger of account:
+            <b>{{ selected.accountName }}</b> from
+            {{ selected.fromDate }} to
+            {{ selected.toDate }}
+          </span>
+        </div>
+      </report-header>
       <b-overlay :show="loading">
         <div
           class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
@@ -212,10 +222,11 @@
 
 <script>
 import GkFileDownload from '../components/GkFileDownload.vue';
+import ReportHeader from '../components/ReportHeader.vue';
 import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 export default {
-  components: { GkDate, GkFileDownload },
+  components: { GkDate, GkFileDownload, ReportHeader },
   name: 'Ledger',
   data() {
     return {
@@ -264,7 +275,7 @@ export default {
       this.getLedger();
     },
     getAccounts() {
-      this.$axios.get('/accounts').then((resp) => {
+      return this.$axios.get('/accounts').then((resp) => {
         this.accountsList = resp;
       });
     },
@@ -392,6 +403,10 @@ export default {
             this.$router.push(`/ledger/monthly/${this.accountCode}`);
             this.selected = {
               accountCode: this.accountCode,
+              accountName: this.accountName,
+              projectCode: this.projectCode,
+              fromDate: this.yearStart,
+              toDate: this.yearEnd,
             }
           } else {
             this.$router.push(`/ledger/${this.accountCode}&${this.projectCode || null}&${this.fromDate}&${this.toDate}`);

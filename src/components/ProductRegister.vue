@@ -111,6 +111,18 @@
       v-if="report.length > 0"
       class="mt-2"
     >
+      <report-header>
+        <template>
+          <div class="text-center">
+            Product Register:
+            <b>{{ productName }}</b>
+            | From
+            <b>{{ dateReverse(selected.fromDate) }}</b>
+            to
+            <b>{{ dateReverse(selected.toDate) }}</b>
+          </div>
+        </template>
+      </report-header>
       <div class="mt-4">
         <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
           <!-- Search Field -->
@@ -334,12 +346,14 @@ import axios from 'axios';
 import GkDate from './GkDate.vue';
 import { mapState } from 'vuex';
 import GkFileDownload from '@/components/GkFileDownload.vue';
+import ReportHeader from '@/components/ReportHeader.vue';
 
 export default {
   name: 'ProductRegister',
   components: {
     GkDate,
     GkFileDownload,
+    ReportHeader,
   },
   data() {
     return {

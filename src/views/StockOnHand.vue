@@ -99,6 +99,13 @@
       class="mt-2"
       v-if="report.length > 0"
     >
+      <report-header>
+        <div class="text-center">
+          <i>Stock report of {{ selectedProduct.name }} in Godown:
+            {{ selectedGodown.name }} as on: {{ dateReverse(selected.toDate) }}
+          </i>
+        </div>
+      </report-header>
       <div
         class="d-print-none d-flex align-items-center justify-content-start mb-2 mt-4"
       >
@@ -163,10 +170,11 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
 import GkDate from '../components/GkDate.vue';
+import ReportHeader from '@/components/ReportHeader.vue';
 import { mapState } from 'vuex';
 export default {
   name: 'StockOnHand',
-  components: { GkDate },
+  components: { GkDate, ReportHeader },
   data() {
     return {
       date: {

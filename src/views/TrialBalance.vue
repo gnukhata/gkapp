@@ -86,6 +86,13 @@
         class="mt-3"
         v-if="tableItems !== null"
       >
+        <report-header>
+          <div class="text-center">
+            <b>{{ trialBalanceType }} Trial Balance</b>
+            for the period {{ dateReverse(selected.fromDate) }} to
+            {{ dateReverse(selected.toDate) }}
+          </div>
+        </report-header>
         <!-- Toolbar -->
         <div class="mt-4">
           <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
@@ -188,10 +195,12 @@
 import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
+import ReportHeader from '../components/ReportHeader.vue';
 export default {
   components: {
     GkDate,
     GkFileDownload,
+    ReportHeader,
   },
   name: 'TrialBalance',
   data() {

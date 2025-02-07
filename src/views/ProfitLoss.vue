@@ -112,8 +112,8 @@
             v-else
             v-translate
           >Income & Expenditure</b>for the period
-          {{ fromDate }} to
-          {{ toDate }}
+          {{ dateReverse(selected.fromDate) }} to
+          {{ dateReverse(selected.toDate) }}
           <br>
         </div>
       </report-header>
@@ -340,6 +340,7 @@ export default {
       fromDate: null,
       toDate: null,
       hideZero: false,
+      selected: {},
       divideThousand: false,
 
       // set level based fields

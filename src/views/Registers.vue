@@ -111,6 +111,18 @@
     </b-overlay>
     <!-- Table -->
     <div v-if="report.length > 0">
+      <report-header>
+        <div class="text-center">
+          <b>{{
+            registerType == 0 ? 'Sale' : 'Purchase'
+          }}
+            Register</b>
+          | <translate>From</translate>
+          <b class="ml-1 mr-1">{{ selected.fromDate }}</b>
+          <translate>to</translate>
+          <b class="mr-1 ml-2">{{ selected.toDate }}</b>
+        </div>
+      </report-header>
       <div class="mt-4">
         <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
           <!-- Search Field -->
@@ -185,10 +197,11 @@
 import { mapGetters, mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
+import ReportHeader from '../components/ReportHeader.vue';
 
 export default {
   name: 'Registers',
-  components: { GkDate, GkFileDownload },
+  components: { GkDate, GkFileDownload, ReportHeader },
   data() {
     return {
       loading: false,
