@@ -1,7 +1,7 @@
 <template>
-  <section class="m-2">
+  <section>
     <!-- Headings -->
-    <report-header :show="true">
+    <report-header>
       <div class="text-center">
         GST R1 Summary
         <div>
@@ -16,194 +16,85 @@
       :show="isLoading"
       spinner-type="grow"
     >
-      <!-- B2B -->
-      <div>
-        <gk-file-download
-          class="float-right"
-          :url="spreadSheetUrl"
-          file-name="GSTR1"
-          file-extn="xlsx"
-          :add-date="true"
-          :add-time-stamp="true"
-          name="Spreadsheet"
-          icon="cloud-download"
-          :message-from-parent="parentMessage"
-        />
-        <b-table
-          caption-top
-          class="mt-3"
-          head-variant="dark"
-          small
-          bordered
-          :items="summary.b2b"
-          responsive
-        >
-          <template
-            #table-caption
-          >
-            <h3 class="ml-4">
-              B2B Invoices:
-            </h3>
-          </template>
-        </b-table>
-        <b-button
-          size="sm"
-          v-if="summary.b2b[0].invoice_count"
-          @click="go('b2b')"
-          class="float-right"
-        >
-          Details <b-icon
-            icon="chevron-right"
-            class="ml-1"
-          />
-        </b-button>
-      </div>
-      <!-- B2CL -->
       <div>
         <b-table
           caption-top
           class="mt-3"
-          head-variant="dark"
+          head-variant="light"
           small
-          bordered
-          :items="summary.b2cl"
+          hover
+          outlined
+          :fields="summaryTableFields"
+          :items="summary.consolidated"
           responsive="sm"
         >
-          <template #table-caption>
-            <h3 class="ml-4">
-              B2CL:
-            </h3>
+          <template #cell(summary_label)="data">
+            {{ data.value }}
+            <b-badge
+              class="ml-2"
+              variant="info"
+              pill
+              :to="`/gst/r1/${data.item.summary_type}/${fd}&${td}`"
+              v-if="data.item.invoice_count > 0"
+            >
+              Details
+              <b-icon
+                icon="chevron-right"
+              />
+            </b-badge>
           </template>
         </b-table>
-        <b-button
-          size="sm"
-          v-if="summary.b2cl[0].invoice_count"
-          class="float-right"
-          @click="go('b2cl')"
-        >
-          Details <b-icon
-            class="mx-1"
-            icon="chevron-right"
-          />
-        </b-button>
-      </div>
-      <!-- B2CS -->
-      <div>
-        <b-table
-          caption-top
-          class="mt-3"
-          head-variant="dark"
-          small
-          bordered
-          :items="summary.b2cs"
-          responsive="sm"
-        >
-          <template #table-caption>
-            <h3 class="ml-4">
-              B2CS:
-            </h3>
-          </template>
-        </b-table>
-        <b-button
-          size="sm"
-          v-if="summary.b2cs[0].invoice_count"
-          class="float-right"
-          @click="go('b2cs')"
-        >
-          Details <b-icon
-            class="ml-1"
-            icon="chevron-right"
-          />
-        </b-button>
-      </div>
-      <!-- CDNR -->
-      <div>
-        <b-table
-          caption-top
-          class="mt-3"
-          head-variant="dark"
-          small
-          bordered
-          :items="summary.cdnr"
-          responsive="sm"
-        >
-          <template #table-caption>
-            <h3 class="ml-4">
-              CDNR:
-            </h3>
-          </template>
-        </b-table>
-        <b-button
-          size="sm"
-          v-if="summary.cdnr[0].invoice_count"
-          class="float-right"
-          @click="go('cdnr')"
-        >
-          Details <b-icon
-            icon="chevron-right"
-            class="ml-1"
-          />
-        </b-button>
-      </div>
-      <!-- CDNUR -->
-      <div>
-        <b-table
-          caption-top
-          class="mt-3"
-          head-variant="dark"
-          small
-          bordered
-          :items="summary.cdnur"
-          responsive="sm"
-        >
-          <template #table-caption>
-            <h3 class="ml-4">
-              CDNUR:
-            </h3>
-          </template>
-        </b-table>
-        <b-button
-          size="sm"
-          v-if="summary.cdnur[0].invoice_count"
-          class="float-right"
-          @click="go('cdnur')"
-        >
-          Details <b-icon
-            icon="chevron-right"
-            class="ml-1"
-          />
-        </b-button>
       </div>
       <!-- HSN -->
-      <div>
-        <b-table
-          caption-top
-          class="mt-3"
-          head-variant="dark"
-          small
-          bordered
-          :items="summary.hsn"
-          responsive="sm"
+      <b-card
+        bg-variant="light"
+        class="mb-3 d-print-none"
+        header="HSN Summary"
+        header-class="font-weight-bold"
+        v-if="summary.hsn.product_entries"
+      >
+        <dl
+          class="row"
         >
-          <template #table-caption>
-            <h3 class="ml-4">
-              HSN:
-            </h3>
-          </template>
-        </b-table>
-        <b-button
-          size="sm"
-          v-if="summary.hsn[0].product_entries"
-          class="float-right"
-          @click="go('hsn1')"
-        >
-          Details <b-icon
-            icon="chevron-right"
-            class="ml-1"
-          />
-        </b-button>
-        <div class="clearfix" />
-      </div>
+          <dt class="col-sm-3">
+            Product Entries:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.product_entries }}
+          </dd>
+          <dt class="col-sm-3">
+            Taxable Value:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.taxable_value }}
+          </dd>
+          <dt class="col-sm-3">
+            IGST:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.igst || '0.00' }}
+          </dd>
+          <dt class="col-sm-3">
+            CGST:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.cgst || '0.00' }}
+          </dd>
+          <dt class="col-sm-3">
+            SGST:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.sgst || '0.00' }}
+          </dd>
+          <dt class="col-sm-3">
+            Total Value:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.total_value }}
+          </dd>
+        </dl>
+      </b-card>
+      <div class="clearfix" />
       <!-- JSON -->
       <div class="mt-4">
         <h3 class="d-inline-block text-secondary ml-3">
@@ -261,9 +152,8 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import ReportHeader from '@/components/ReportHeader.vue';
-import GkFileDownload from '@/components/GkFileDownload.vue';
 export default {
-  components: { ReportHeader, GkFileDownload },
+  components: { ReportHeader },
   name: 'R1Summary',
   data() {
     return {
@@ -273,13 +163,36 @@ export default {
       search: null,
       params: null,
       gstData: {},
+      summaryTableFields: [
+        {
+          key: 'summary_label',
+          label: 'Particulars',
+        },
+        {
+          key: 'invoice_count',
+          label: 'Count',
+        },
+        {
+          key: 'taxable_value',
+          label: 'Taxable',
+        },
+        {
+          key: 'tax',
+          label: 'Tax',
+        },
+        {
+          key: 'total_value',
+          label: 'Total Value',
+        },
+      ],
       summary: {
+        consolidated: [],
         b2b: [{}],
         b2cs: [{}],
         b2cl: [{}],
         cdnr: [{}],
         cdnur: [{}],
-        hsn: [{}],
+        hsn: {},
       },
     };
   },
@@ -317,6 +230,14 @@ export default {
     },
     ...mapState(['orgName', 'orgAddress']),
   },
+  watch: {
+    fd: function() {
+      return this.getGstR1List();
+    },
+    td: function() {
+      return this.getGstR1List();
+    },
+  },
   methods: {
     copyJsonToClipboard() {
       navigator.clipboard.writeText(this.jsonStr);
@@ -326,196 +247,42 @@ export default {
       this.$router.push(`/gst/r1/${report}/${this.fd}&${this.td}`);
     },
     generateSummary() {
-      this.b2bSummary();
-      this.cdnrSummary();
-      this.cdnurSummary();
-      this.b2csSummary();
-      this.b2clSummary();
+      this.summary.consolidated = [];
+      const summaryTypes = ["b2b", "b2cs", "b2cl", "cdnr", "cdnur"];
+      summaryTypes.forEach(this.generateConsolidatedSummary);
       this.hsnSummary();
     },
     /**
-     * Generates B2B summary
+     * Generates consolidated summary
      */
-    b2bSummary() {
-      const b2b = this.list.b2b;
+    generateConsolidatedSummary(summaryType) {
+      let documentList = this.list[summaryType] || []
+      let summary = {}
 
-      if (b2b.length) {
-        let o = {
-          invoice_count: b2b.length,
-        };
-        let [invVal, taxVal, cessVal] = [0, 0, 0];
-        for (let i in b2b) {
-          // add invoice values
-          invVal += parseFloat(b2b[i].taxable_value);
-
-          // add tax values
-          taxVal +=
-            parseFloat(b2b[i].taxable_value) * (parseFloat(b2b[i].rate) * 0.01);
-          // add cess values
-          cessVal +=
-            parseFloat(b2b[i].taxable_value) * (parseFloat(b2b[i].cess) * 0.01);
+      summary = documentList.reduce(
+        (acc, item) => {
+          acc.invoice_count++;
+          acc.taxable_value += parseFloat(item.taxable_value);
+          acc.tax +=
+            parseFloat(item.taxable_value) * (parseFloat(item.rate) * 0.01);
+          return acc;
+        },
+        {
+          invoice_count: 0,
+          taxable_value: 0,
+          tax: 0,
         }
-        o['taxable_value'] = invVal.toFixed(2);
-        o['tax'] = taxVal.toFixed(2);
-        o['cess'] = cessVal.toFixed(2);
-
-        this.summary['b2b'] = [o];
-      } else {
-        this.summary['b2b'] = [
-          {
-            invoice_count: 0,
-            taxable_value: 0,
-            tax: 0,
-            cess: 0,
-          },
-        ];
-      }
+      );
+      this.summary.consolidated.push({
+        summary_type: summaryType,
+        summary_label: summaryType.toUpperCase(),
+        invoice_count: summary.invoice_count,
+        taxable_value: summary.taxable_value.toFixed(2),
+        tax: summary.tax.toFixed(2),
+        total_value: (summary.tax + summary.taxable_value).toFixed(2),
+      });
     },
-    b2csSummary() {
-      const b2cs = this.list.b2cs;
 
-      if (b2cs.length) {
-        let summary = b2cs.reduce(
-          (acc, item) => {
-            let tax =
-              parseFloat(item.taxable_value) * (parseFloat(item.rate) * 0.01);
-            let cess =
-              parseFloat(item.taxable_value) * (parseFloat(item.cess) * 0.01);
-            acc.invoice_count++;
-            acc.taxable_value += parseFloat(item.taxable_value) + tax + cess;
-            acc.tax += tax;
-            acc.cess += cess;
-            return acc;
-          },
-          { invoice_count: 0, taxable_value: 0, tax: 0, cess: 0 }
-        );
-        this.summary['b2cs'] = [
-          {
-            invoice_count: summary.invoice_count,
-            taxable_value: summary.taxable_value.toFixed(2),
-            tax: summary.tax.toFixed(2),
-            cess: summary.cess.toFixed(2),
-          },
-        ];
-      } else {
-        this.summary['b2cs'] = [
-          {
-            invoice_count: 0,
-            taxable_value: 0,
-            tax: 0,
-            cess: 0,
-          },
-        ];
-      }
-    },
-    b2clSummary() {
-      const b2cl = this.list.b2cl;
-
-      let summary = { invoice_count: 0, taxable_value: 0, tax: 0, cess: 0 };
-
-      if (b2cl.length) {
-        summary = b2cl.reduce(
-          (acc, item) => {
-            acc.invoice_count++;
-            acc.taxable_value += parseFloat(item.taxable_value);
-            acc.tax +=
-              parseFloat(item.taxable_value) * (parseFloat(item.rate) * 0.01);
-            acc.cess +=
-              parseFloat(item.taxable_value) * (parseFloat(item.cess) * 0.01);
-            return acc;
-          },
-          {
-            invoice_count: 0,
-            taxable_value: 0,
-            tax: 0,
-            cess: 0,
-          }
-        );
-        summary = {
-          invoice_count: summary.invoice_count,
-          taxable_value: summary.taxable_value.toFixed(2),
-          tax: summary.tax.toFixed(2),
-          cess: summary.cess.toFixed(2),
-        };
-      }
-
-      this.summary['b2cl'] = [summary];
-    },
-    cdnrSummary() {
-      const cdnr = this.list.cdnr;
-
-      if (cdnr.length) {
-        let o = {
-          invoice_count: cdnr.length,
-        };
-        let [rvVal, taxVal, cessVal] = [0, 0, 0];
-        for (let i in cdnr) {
-          // add refund voucher taxable values
-          rvVal += parseFloat(cdnr[i].taxable_value);
-
-          // add taxable values
-          taxVal +=
-            parseFloat(cdnr[i].taxable_value) *
-            (parseFloat(cdnr[i].rate) * 0.01);
-          // add cess values
-          cessVal +=
-            parseFloat(cdnr[i].taxable_value) *
-            (parseFloat(cdnr[i].cess) * 0.01);
-        }
-        o['taxable_value'] = parseFloat(rvVal).toFixed(2);
-        o['tax'] = taxVal.toFixed(2);
-        o['CESS'] = cessVal.toFixed(2);
-
-        this.summary['cdnr'] = [o];
-      } else {
-        this.summary['cdnr'] = [
-          {
-            invoice_count: 0,
-            taxable_value: 0,
-            tax: 0,
-            cess: 0,
-          },
-        ];
-      }
-    },
-    cdnurSummary() {
-      const cdnur = this.list.cdnur;
-
-      let summary = {
-        invoice_count: 0,
-        taxable_value: 0,
-        tax: 0,
-        cess: 0,
-      };
-
-      if (cdnur.length) {
-        summary = cdnur.reduce(
-          (acc, item) => {
-            acc.invoice_count++;
-            acc.refund_voucher_value += parseFloat(item.taxable_value);
-            acc.tax +=
-              parseFloat(item.taxable_value) * (parseFloat(item.rate) * 0.01);
-            acc.cess +=
-              parseFloat(item.taxable_value) * (parseFloat(item.cess) * 0.01);
-            return acc;
-          },
-          {
-            invoice_count: 0,
-            taxable_value: 0,
-            tax: 0,
-            cess: 0,
-          }
-        );
-        summary = {
-          invoice_count: summary.invoice_count,
-          taxable_value: summary.refund_voucher_value.toFixed(2),
-          tax: summary.tax.toFixed(2),
-          cess: summary.cess.toFixed(2),
-        };
-      }
-
-      this.summary['cdnur'] = [summary];
-    },
     hsnSummary() {
       const hsn = this.list.hsn1;
 
@@ -523,7 +290,7 @@ export default {
         let o = {
           product_entries: hsn.length,
         };
-        let [totVal, sgstVal, igstVal, cessVal] = [0, 0, 0, 0];
+        let [totVal, sgstVal, igstVal] = [0, 0, 0, 0];
         for (let i in hsn) {
           // add total values
           totVal += parseFloat(hsn[i].taxableamt);
@@ -531,25 +298,21 @@ export default {
           sgstVal += parseFloat(hsn[i].SGSTamt);
           // IGST values
           igstVal += parseFloat(hsn[i].IGSTamt);
-          // add cess values
-          cessVal += parseFloat(hsn[i].CESSamt);
         }
         o['taxable_value'] = totVal.toFixed(2);
         o['SGST'] = sgstVal.toFixed(2);
         o['IGST'] = igstVal.toFixed(2);
-        o['CESS'] = cessVal.toFixed(2);
+        o['total_value'] = (totVal+sgstVal*2+igstVal).toFixed(2);
 
-        this.summary['hsn'] = [o];
+        this.summary['hsn'] = o;
       } else {
-        this.summary['hsn'] = [
-          {
-            product_entries: 0,
-            taxable_value: 0,
-            SGST: 0,
-            IGST: 0,
-            cess: 0,
-          },
-        ];
+        this.summary['hsn'] = {
+          product_entries: 0,
+          taxable_value: 0,
+          total_value: 0,
+          igst: 0,
+          sgst: 0,
+        };
       }
     },
     /**
