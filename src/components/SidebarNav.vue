@@ -594,7 +594,7 @@ export default {
 <style>
 #main-nav {
   height: 100%;
-  min-height: 100vw;
+  min-height: 100vh;
   border-right: 1px solid #d8d8d8;
 }
 .nav-link {

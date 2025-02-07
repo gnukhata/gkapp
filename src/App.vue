@@ -11,8 +11,8 @@
         >
           <router-view />
         </b-container>
-        <version-info />
       </main>
+      <version-info />
     </template>
     <template v-else>
       <b-row no-gutters>
@@ -30,8 +30,8 @@
             >
               <router-view />
             </b-container>
-            <version-info />
           </main>
+          <version-info />
         </b-col>
       </b-row>
     </template>
