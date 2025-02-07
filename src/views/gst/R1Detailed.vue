@@ -1,35 +1,44 @@
 <template>
-  <section class="m-2">
+  <section>
     <!-- Headings -->
-    <div class="text-center">
-      <h4>{{ orgName }}</h4>
-      <h5 class="text-muted text-center text-uppercase">
-        GST R1 {{ params.type }} ({{ dateReverse(params.fd) }} to
-        {{ dateReverse(params.td) }})
-      </h5>
-    </div>
-    <div class="gkcard mx-auto">
-      <b-form-input
-        type="text"
-        v-model="search"
-        placeholder="Search"
-      />
-    </div>
+    <h2 class="mt-4 text-muted  text-uppercase display-5">
+      GST R1 {{ params.type }}
+    </h2>
+    <h6 class="text-muted text-uppercase">
+      {{ dateReverse(params.fd) }} to
+      {{ dateReverse(params.td) }}
+    </h6>
     <!-- report  -->
+    <div class="d-flex d-print-none justify-content-between align-items-center mb-2 mt-4">
+      <!-- Search Field -->
+      <div>
+        <b-input-group size="sm">
+          <b-form-input
+            size="sm"
+            v-model="search"
+            placeholder="Search Table"
+            style="align-self:center"
+          />
+        </b-input-group>
+      </div>
+    </div>
     <b-table
+      v-if="items.length"
       class="mt-3"
-      head-variant="dark"
+      head-variant="light"
       small
-      bordered
-      striped
-      :items="tableItems"
+      outlined
+      :current-page="currentPage"
       :filter="search"
       :busy="loading"
+      :per-page="perPage"
+      :items="items"
       :fields="fields"
       :sort-desc="true"
       sort-by="invoice_date"
-      sticky-header="400px"
       no-border-collapse
+      @filtered="onFiltered"
+      responsive
     >
       <template #table-busy>
         <div class="text-center">
@@ -62,6 +71,13 @@
         </router-link>
       </template>
     </b-table>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="perPage"
+      align="right"
+      class="my-0"
+    />
   </section>
 </template>
 
@@ -70,20 +86,39 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 export default {
   name: 'R1Detailed',
+  props: {
+    td: {
+      type: String,
+    },
+    fd: {
+      type: String,
+    },
+    type:{
+      type: String,
+    },
+  },
   data() {
     return {
+      currentPage: 1,
+      totalRows: 1,
+      perPage: 3,
       fields: [],
+      items: [],
       list: [],
-      search: null,
+      search: "",
       params: null,
       loading: false,
     };
   },
   computed: {
-    tableItems: (self) => self.list[self.params.type],
     ...mapState(['orgName']),
   },
   methods: {
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
+    },
     getGstR1Report() {
       this.loading = true;
       axios
@@ -96,7 +131,11 @@ export default {
 
               // remove drilldown id columns
               if (this.list[this.params.type].length) {
-                this.fields = Object.keys(this.list[this.params.type][0]);
+                let fields = Object.keys(this.list[this.params.type][0]);
+                fields = fields.filter(item => item !== "cess");
+                this.fields = fields;
+                this.items = this.list[this.params.type];
+                this.totalRows = this.items.length
 
                 let rightAlignFields = {
                   rate: true,
@@ -109,7 +148,6 @@ export default {
                   taxableamt: true,
                   SGSTamt: true,
                   IGSTamt: true,
-                  CESSamt: true,
                 };
 
                 // remove ids from display as they will be used for drop down purposes with respective document no.
@@ -158,9 +196,6 @@ export default {
                     break;
                   case 'IGSTamt':
                     label = 'Integrated Tax';
-                    break;
-                  case 'CESSamt':
-                    label = 'Cess';
                     break;
                   case 'uqc':
                     label = 'UQC';
