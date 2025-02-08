@@ -36,6 +36,7 @@
         id="sales"
       >
         <b-nav-item
+          :active="isActiveWorkflow('Transactions-Invoice', 'sales')"
           :to="{
             name: 'Workflow',
             params: {
@@ -50,23 +51,38 @@
           <b-icon icon="receipt" />
           <translate>Sales Invoices</translate>
         </b-nav-item>
-        <b-nav-item to="/workflow/Transactions-PurchaseSalesOrder/-1?type=sales">
+        <b-nav-item
+          :active="isActiveWorkflow('Transactions-PurchaseSalesOrder', 'sales')"
+          to="/workflow/Transactions-PurchaseSalesOrder/-1?type=sales"
+        >
           <b-icon icon="receipt" />
           <translate>Sales Order</translate>
         </b-nav-item>
-        <b-nav-item to="/workflow/Contacts/-1?type=customer">
+        <b-nav-item
+          :active="isActiveWorkflow('Contacts', 'customer')"
+          to="/workflow/Contacts/-1?type=customer"
+        >
           <b-icon icon="person-lines-fill" />
           <translate>Customers</translate>
         </b-nav-item>
-        <b-nav-item to="/workflow/Transactions-CashMemo/-1">
+        <b-nav-item
+          :active="isActiveWorkflow('Transactions-CashMemo')"
+          to="/workflow/Transactions-CashMemo/-1"
+        >
           <b-icon icon="receipt" />
           <translate>Point of Sales</translate>
         </b-nav-item>
-        <b-nav-item to="/workflow/Transactions-DebitCreditNote/-1?type=sales">
+        <b-nav-item
+          :active="isActiveWorkflow('Transactions-DebitCreditNote', 'sales')"
+          to="/workflow/Transactions-DebitCreditNote/-1?type=sales"
+        >
           <b-icon icon="receipt" />
           <translate>Debit/Credit Note</translate>
         </b-nav-item>
-        <b-nav-item to="/product-register?type=sales">
+        <b-nav-item
+          :active="isActive('/product-register?type=sales')"
+          to="/product-register?type=sales"
+        >
           <b-icon icon="box-seam" />
           <translate>Sales Register</translate>
         </b-nav-item>
@@ -92,6 +108,7 @@
         id="purchases"
       >
         <b-nav-item
+          :active="isActiveWorkflow('Transactions-Invoice', 'purchase')"
           :to="{
             name: 'Workflow',
             params: {
@@ -106,19 +123,31 @@
           <b-icon icon="receipt" />
           <translate>Purchase Invoices</translate>
         </b-nav-item>
-        <b-nav-item to="/workflow/Transactions-PurchaseSalesOrder/-1?type=purchase">
+        <b-nav-item
+          :active="isActiveWorkflow('Transactions-PurchaseSalesOrder', 'purchase')"
+          to="/workflow/Transactions-PurchaseSalesOrder/-1?type=purchase"
+        >
           <b-icon icon="receipt" />
           <translate>Purchase Orders</translate>
         </b-nav-item>
-        <b-nav-item to="/workflow/Contacts/-1?type=supplier">
+        <b-nav-item
+          :active="isActiveWorkflow('Contacts', 'supplier')"
+          to="/workflow/Contacts/-1?type=supplier"
+        >
           <b-icon icon="person-lines-fill" />
           <translate>Suppliers</translate>
         </b-nav-item>
-        <b-nav-item to="/workflow/Transactions-DebitCreditNote/-1?type=purchase">
+        <b-nav-item
+          :active="isActiveWorkflow('Transactions-DebitCreditNote', 'purchase')"
+          to="/workflow/Transactions-DebitCreditNote/-1?type=purchase"
+        >
           <b-icon icon="receipt" />
           <translate>Debit/Credit Note</translate>
         </b-nav-item>
-        <b-nav-item to="/product-register?type=purchase">
+        <b-nav-item
+          :active="isActive('/product-register?type=purchase')"
+          to="/product-register?type=purchase"
+        >
           <b-icon icon="box-seam" />
           <translate>Purchase Register</translate>
         </b-nav-item>
@@ -143,11 +172,17 @@
         v-model="collapsed.banking"
         id="banking"
       >
-        <b-nav-item to="/accounts">
+        <b-nav-item
+          :active="isActive('/accounts')"
+          to="/accounts"
+        >
           <b-icon icon="people" />
           <translate>Accounts</translate>
         </b-nav-item>
-        <b-nav-item to="/bank-recon">
+        <b-nav-item
+          :active="isActive('/bank-recon')"
+          to="/bank-recon"
+        >
           <b-icon icon="journals" />
           <translate>Reconciliation</translate>
         </b-nav-item>
@@ -172,23 +207,36 @@
         v-model="collapsed.accounting"
         id="accounting"
       >
-        <b-nav-item to="/workflow/Transactions-DeliveryNote/-1">
+        <b-nav-item
+          :active="isActiveWorkflow('Transactions-DeliveryNote')"
+          to="/workflow/Transactions-DeliveryNote/-1"
+        >
           <b-icon icon="receipt" />
           <translate>Delivery Note</translate>
         </b-nav-item>
-        <b-nav-item to="/workflow/Transactions-Voucher/-1">
+        <b-nav-item
+          :active="isActiveWorkflow('Transactions-Voucher')"
+          to="/workflow/Transactions-Voucher/-1"
+        >
           <b-icon icon="receipt" />
           <translate>Manual Voucers</translate>
         </b-nav-item>
-        <b-nav-item to="/accounts">
+        <b-nav-item
+          :active="isActive('/accounts')"
+          to="/accounts"
+        >
           <b-icon icon="files-alt" />
           <translate>Chart of Accounts</translate>
         </b-nav-item>
-        <b-nav-item to="/budgets/cash/-1">
+        <b-nav-item
+          :active="isActive('/budgets/cash/-1')"
+          to="/budgets/cash/-1"
+        >
           <b-icon icon="file-ruled" />
           <translate>Budget</translate>
         </b-nav-item>
         <b-nav-item
+          :active="isActive('/billwise/3/-1')"
           :to="{
             name: 'Billwise',
             params: {custType: 3, custName: '-1'},
@@ -197,7 +245,10 @@
           <b-icon icon="clipboard" />
           <translate>Adjust Bills</translate>
         </b-nav-item>
-        <b-nav-item to="/closebooks">
+        <b-nav-item
+          :active="isActive('/closebooks')"
+          to="/closebooks"
+        >
           <b-icon icon="journals" />
           <translate>Close Books</translate>
         </b-nav-item>
@@ -222,20 +273,30 @@
         v-model="collapsed.business"
         id="business"
       >
-        <b-nav-item to="/workflow/Business/-1">
+        <b-nav-item
+          :active="isActiveWorkflow('Business')"
+          to="/workflow/Business/-1"
+        >
           <b-icon icon="box" />
           <translate>Products and Services</translate>
         </b-nav-item>
-        <b-nav-item to="/workflow/Transactions-TransferNote/-1">
+        <b-nav-item
+          :active="isActiveWorkflow('Transactions-TransferNote')"
+          to="/workflow/Transactions-TransferNote/-1"
+        >
           <b-icon icon="receipt" />
           <translate>Transfer Notes</translate>
         </b-nav-item>
-        <b-nav-item to="/godowns">
+        <b-nav-item
+          :active="isActive('/godowns')"
+          to="/godowns"
+        >
           <b-icon icon="building" />
           <translate>Godowns</translate>
         </b-nav-item>
         <b-nav-item
           v-if="userRole == -1 || 0"
+          :active="isActive('/uom')"
           to="/uom"
         >
           <b-icon icon="thermometer" />
@@ -260,15 +321,24 @@
         v-model="collapsed.admin"
         id="admin"
       >
-        <b-nav-item to="/users">
+        <b-nav-item
+          :active="isActive('/users')"
+          to="/users"
+        >
           <b-icon icon="people" />
           <translate>Manage Users</translate>
         </b-nav-item>
-        <b-nav-item to="/settings">
+        <b-nav-item
+          :active="isActive('/settings')"
+          to="/settings"
+        >
           <b-icon icon="gear" />
           <translate>Settings</translate>
         </b-nav-item>
-        <b-nav-item to="/logs">
+        <b-nav-item
+          :active="isActive('/logs')"
+          to="/logs"
+        >
           <b-icon icon="server" />
           <translate>Audit Logs</translate>
         </b-nav-item>
@@ -294,19 +364,31 @@
         v-model="collapsed.reports"
         id="reports"
       >
-        <b-nav-item to="/product-register">
+        <b-nav-item
+          :active="isActive('/product-register')"
+          to="/product-register"
+        >
           <b-icon icon="box-seam" />
           <translate>Product Register</translate>
         </b-nav-item>
-        <b-nav-item to="/registers">
+        <b-nav-item
+          :active="isActive('/registers')"
+          to="/registers"
+        >
           <b-icon icon="receipt" />
           <translate>View Registers</translate>
         </b-nav-item>
-        <b-nav-item to="/stock-on-hand">
+        <b-nav-item
+          :active="isActive('/stock-on-hand')"
+          to="/stock-on-hand"
+        >
           <b-icon icon="receipt" />
           <translate>Stock On Hand</translate>
         </b-nav-item>
-        <b-nav-item to="/profit-loss">
+        <b-nav-item
+          :active="isActive('/profit-loss')"
+          to="/profit-loss"
+        >
           <b-icon icon="graph-up" />
           <translate v-if="orgType == 'Profit Making'">
             Profit & Loss
@@ -315,19 +397,31 @@
             Income & Expenditure
           </translate>
         </b-nav-item>
-        <b-nav-item to="/cash-flow">
+        <b-nav-item
+          :active="isActive('/cash-flow')"
+          to="/cash-flow"
+        >
           <b-icon icon="wallet" />
           <translate>Cash Flow</translate>
         </b-nav-item>
-        <b-nav-item to="/trial-balance">
+        <b-nav-item
+          :active="isActive('/trial-balance')"
+          to="/trial-balance"
+        >
           <b-icon icon="wallet" />
           <translate>Trial Balance</translate>
         </b-nav-item>
-        <b-nav-item to="/ledger">
+        <b-nav-item
+          :active="isActive('/ledger')"
+          to="/ledger"
+        >
           <b-icon icon="journals" />
           <translate>Ledger</translate>
         </b-nav-item>
-        <b-nav-item to="/balance-sheet">
+        <b-nav-item
+          :active="isActive('/balance-sheet')"
+          to="/balance-sheet"
+        >
           <b-icon icon="journals" />
           <translate v-if="orgType == 'Profit Making'">
             Balance Sheet
@@ -364,6 +458,7 @@
         </div>
         <b-nav-item
           :disabled="!gstinValid"
+          :active="isActive('/gst/r1')"
           to="/gst/r1"
         >
           <b-icon icon="file-earmark" />
@@ -371,12 +466,16 @@
         </b-nav-item>
         <b-nav-item
           :disabled="!gstinValid"
+          :active="isActive('/gst/3b')"
           to="/gst/3b"
         >
           <b-icon icon="file-earmark" />
           <translate>3B Report</translate>
         </b-nav-item>
-        <b-nav-item to="/gst/news">
+        <b-nav-item
+          :active="isActive('/gst/news')"
+          to="/gst/news"
+        >
           <b-icon icon="newspaper" />
           <translate>GST News</translate>
           <b-icon
@@ -407,6 +506,7 @@
         id="help"
       >
         <b-nav-item
+          :active="isActive('/about')"
           to="/about"
           class="mr-3"
         >
@@ -431,6 +531,7 @@
         </b-nav-item>
         <b-nav-item
           class="mr-3"
+          :active="isActive('/report-bug')"
           to="/report-bug"
         >
           <b-icon icon="bug" />
@@ -469,6 +570,23 @@ export default {
       'userRole',
     ]),
     gstinValid: (self) => !!self.orgGstin,
+  },
+  methods: {
+    isActive(url, exactMatch=true) {
+      const { path, fullPath } = this.$route;
+      if (exactMatch) {
+        return url === fullPath;
+      }
+      return url === path;
+    },
+    isActiveWorkflow(slug, type) {
+      const { params, query } = this.$route;
+      let isActiveRoute = slug === params.wfName;
+      if (type) {
+        isActiveRoute &&= query.type === type;
+      }
+      return isActiveRoute;
+    },
   },
 };
 </script>
