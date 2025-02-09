@@ -1,0 +1,111 @@
+<template>
+  <b-navbar
+    size="sm"
+    variant="light"
+  >
+    <sidebar v-if="userOrgAuthenticated" />
+    <b-navbar-brand class="d-flex flex-row">
+      <router-link
+        style="border-bottom: 0px; align-self: center"
+        to="/dashboard"
+        class="flex-column"
+      >
+        <img
+          :src="orgImg"
+          width="40"
+          height="40"
+          class="d-inline-block align-top"
+          alt="logo"
+        >
+      </router-link>
+      <div class="ml-2 d-inline-block">
+        <!-- truncate org name in mobile view -->
+        <div>
+          <div
+            v-b-tooltip.click
+            class="text-sm"
+            :class="{'text-truncate': is_mobile()}"
+            :style="{'max-width': is_mobile() ? '6.5em' : ''}"
+          >
+            <span v-if="this.orgName">
+              {{ this.orgName }}
+            </span>
+            <span v-else>
+              <translate>
+                GNUKhata
+              </translate>
+            </span>
+          </div>
+          <div
+            style="font-size: 0.6em"
+            class="font-italic"
+            v-if="userOrgAuthenticated"
+          >
+            <!-- WARN: beware of Y3K Bug ;-)  -->
+            FY {{ yearStart.split('-')[0] }} -
+            {{ yearEnd.split('-')[0].slice(2, 4) }}
+          </div>
+        </div>
+      </div>
+    </b-navbar-brand>
+    <!-- user menu -->
+    <b-navbar-nav class="ml-auto">
+      <b-nav-item-dropdown
+        id="usermenu"
+        v-if="userOrgAuthenticated"
+        right
+      >
+        <template #button-content>
+          <b-avatar
+            variant="dark"
+            icon="person"
+            :title="userName"
+          />
+          <span class="d-none d-md-inline"> {{ userName }} </span>
+        </template>
+        <!-- logout button -->
+        <b-dropdown-item
+          @click="logOut"
+          href="#"
+        >
+          <b-icon icon="box-arrow-in-left" /> Change Org
+        </b-dropdown-item>
+        <!-- fy switch button, only shown when org has more than one financial year -->
+        <b-dropdown-item
+          v-if="finYears.length > 1"
+          v-b-modal.fy-modal
+          href="#"
+        >
+          <b-icon icon="toggles" /> Switch FY
+        </b-dropdown-item>
+      </b-nav-item-dropdown>
+    </b-navbar-nav>
+  </b-navbar>
+</template>
+
+<script>
+import { mapState } from 'vuex';
+import Sidebar from './Sidebar.vue';
+
+export default {
+  name: 'Topbar',
+  props: {
+    screenWidth: {
+      type: Number,
+      required: true,
+    },
+  },
+  components: { Sidebar },
+  computed: {
+    ...mapState([
+      'userName',
+      'orgName',
+      'orgImg',
+      'userOrgAuthenticated',
+      'yearStart',
+      'yearEnd',
+      'finYears',
+    ]),
+  },
+}
+</script>
