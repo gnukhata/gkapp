@@ -1,19 +1,40 @@
 <template>
   <div id="app">
-    <header id="app-header">
-      <topbar />
-    </header>
-    <main
-      role="main"
-      class="mb-5"
-    >
-      <b-container
-        class="mt-4"
-        fluid="xl"
-      >
-        <router-view />
-      </b-container>
-    </main>
+    <template v-if="screenWidth < 1200 || !userOrgAuthenticated">
+      <header id="app-header">
+        <topbar :screen-width="screenWidth" />
+      </header>
+      <main role="main">
+        <b-container
+          class="ml-0 mt-4"
+          fluid
+        >
+          <router-view />
+        </b-container>
+        <version-info />
+      </main>
+    </template>
+    <template v-else>
+      <b-row no-gutters>
+        <b-col cols="2">
+          <sidebar-nav :screen-width="screenWidth" />
+        </b-col>
+        <b-col cols="10">
+          <header id="app-header">
+            <topbar :screen-width="screenWidth" />
+          </header>
+          <main role="main">
+            <b-container
+              class="ml-0 mt-4"
+              fluid
+            >
+              <router-view />
+            </b-container>
+            <version-info />
+          </main>
+        </b-col>
+      </b-row>
+    </template>
     <go-to v-if="userOrgAuthenticated" />
     <title-bar />
     <b-modal
@@ -38,7 +59,6 @@
         </template>
       </v-select>
     </b-modal>
-    <version-info />
   </div>
 </template>
 
@@ -46,14 +66,16 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import Topbar from './components/Topbar.vue';
+import SidebarNav from './components/SidebarNav.vue';
 import TitleBar from './components/TitleBar.vue';
 import GoTo from './components/GoTo.vue';
 import VersionInfo from './components/VersionInfo.vue';
 export default {
   name: 'App',
-  components: { Topbar, TitleBar, GoTo, VersionInfo },
+  components: { Topbar, SidebarNav, TitleBar, GoTo, VersionInfo },
   data() {
     return {
+      screenWidth: window.innerWidth,
       currentFinYear: null,
     };
   },
@@ -204,6 +226,11 @@ export default {
     });
   },
   mounted() {
+    // Attach listener to detect screen width resizing
+    // https://stackoverflow.com/a/51566337
+    window.onresize = () => {
+      this.screenWidth = window.innerWidth;
+    }
     this.upgradeAppToLatestVersion();
     this.check_gst_news();
     document.querySelector('title').textContent = `GNUKhata ${

@@ -3,7 +3,9 @@
     size="sm"
     variant="light"
   >
-    <sidebar v-if="userOrgAuthenticated" />
+    <template v-if="screenWidth < 1200">
+      <sidebar v-if="userOrgAuthenticated" />
+    </template>
     <b-navbar-brand class="d-flex flex-row">
       <router-link
         style="border-bottom: 0px; align-self: center"
