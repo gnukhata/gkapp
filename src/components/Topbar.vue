@@ -101,22 +101,19 @@
           />
           <span class="d-none d-md-inline"> {{ userName }} </span>
         </template>
-        <!-- logout button -->
-        <b-dropdown-item
+        <b-dropdown-item-button
           v-if="userOrgAuthenticated"
           @click="logOut"
-          href="#"
         >
           <b-icon icon="box-arrow-in-left" /> Change Org
-        </b-dropdown-item>
+        </b-dropdown-item-button>
         <!-- fy switch button, only shown when org has more than one financial year -->
-        <b-dropdown-item
+        <b-dropdown-item-button
           v-if="finYears.length > 1"
           v-b-modal.fy-modal
-          href="#"
         >
           <b-icon icon="toggles" /> Switch FY
-        </b-dropdown-item>
+        </b-dropdown-item-button>
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-navbar>
