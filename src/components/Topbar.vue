@@ -120,13 +120,45 @@
             class="mr-1"
           /> Switch FY
         </b-dropdown-item-button>
+        <b-dropdown-divider v-if="userOrgAuthenticated" />
+        <b-dropdown-item-button v-b-modal.change-pwd>
+          <b-icon
+            icon="key"
+            class="mr-1"
+          />
+          <translate>Change Password</translate>
+          <b-modal
+            ref="change-pwd-close"
+            id="change-pwd"
+            size="md"
+            :title="'Change Password for ' + userName"
+            header-bg-variant="dark"
+            header-text-variant="light"
+            hide-footer
+          >
+            <change-pwd @close-pwd="closePasswordModal" />
+          </b-modal>
+        </b-dropdown-item-button>
+        <b-dropdown-item-button @click="deleteUser">
+          <b-icon
+            icon="person-x"
+            class="mr-1"
+          />
+          <translate>Delete Account</translate>
+        </b-dropdown-item-button>
+        <b-dropdown-divider v-if="userOrgAuthenticated" />
+        <b-dropdown-item-button @click="onLogout">
+          <b-icon icon="box-arrow-in-left" /> Logout
+        </b-dropdown-item-button>
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-navbar>
 </template>
 
 <script>
+import axios from 'axios';
 import { mapState } from 'vuex';
+import ChangePwd from './form/ChangePwd.vue';
 import Sidebar from './Sidebar.vue';
 
 export default {
@@ -137,7 +169,7 @@ export default {
       required: true,
     },
   },
-  components: { Sidebar },
+  components: { ChangePwd, Sidebar },
   computed: {
     ...mapState([
       'userName',
@@ -148,6 +180,75 @@ export default {
       'yearEnd',
       'finYears',
     ]),
+  },
+  methods: {
+    closePasswordModal() {
+      setTimeout(() => {
+        this.$refs['change-pwd-close'].hide();
+      }, 1500);
+    },
+    deleteUser() {
+      // confirm before sending the delete api request
+      this.$bvModal
+        .msgBoxConfirm(`Are you sure you want to delete your account? Note that this action cannot be reversed.`, {
+          centered: true,
+          size: 'md',
+          okVariant: 'danger',
+
+          headerBgVariant: 'danger',
+          headerTextVariant: 'light',
+        })
+        // send the api request if the user confirmed
+        .then((r) => {
+          if (r) {
+            axios.delete('/gkuser').then((r) => {
+              if (r.status === 200) {
+                if (r.data.gkstatus == 0) {
+                  this.$bvToast.toast(`Account Deletion Successful`, {
+                    autoHideDelay: 3000,
+                    variant: 'success',
+                  });
+                  this.onLogout();
+                } else {
+                  this.$bvToast.toast(
+                    `Delete all the organisations which you created first, or leave the organisations which you are already part of, where you have admin role`,
+                    {
+                      title: 'Account Deletion Unsuccessful',
+                      autoHideDelay: 5000,
+                      variant: 'danger',
+                      solid: true,
+                    }
+                  );
+                }
+              } else {
+                this.$bvToast.toast(
+                  `Request failed with status code ${r.status}`,
+                  {
+                    autoHideDelay: 3000,
+                    variant: 'danger',
+                  }
+                );
+              }
+            });
+          }
+        });
+    },
+    onLogout() {
+      if (this.userOrgAuthenticated) {
+        this.logOut();
+      }
+      this.$store.dispatch('setSessionStates', {
+        userAuth: false,
+        userAuthToken: null,
+        authToken: null,
+        finYears: [],
+        orgName: null,
+        orgYears: null,
+      });
+      this.orgs = [];
+      this.invitedOrgs = [];
+      localStorage.removeItem('userName');
+    },
   },
 }
 </script>
