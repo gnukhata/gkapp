@@ -109,7 +109,7 @@
         </b-dropdown-item-button>
         <!-- fy switch button, only shown when org has more than one financial year -->
         <b-dropdown-item-button
-          v-if="finYears.length > 1"
+          v-if="userOrgAuthenticated && finYears.length > 1"
           v-b-modal.fy-modal
         >
           <b-icon icon="toggles" /> Switch FY
