@@ -258,9 +258,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#usermenu > ul > li {
-  width: max-content;
-}
-</style>
