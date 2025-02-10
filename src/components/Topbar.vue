@@ -105,14 +105,20 @@
           v-if="userOrgAuthenticated"
           @click="logOut"
         >
-          <b-icon icon="box-arrow-in-left" /> Change Org
+          <b-icon
+            icon="arrow-counterclockwise"
+            class="mr-1"
+          /> Change Org
         </b-dropdown-item-button>
         <!-- fy switch button, only shown when org has more than one financial year -->
         <b-dropdown-item-button
           v-if="userOrgAuthenticated && finYears.length > 1"
           v-b-modal.fy-modal
         >
-          <b-icon icon="toggles" /> Switch FY
+          <b-icon
+            icon="toggles"
+            class="mr-1"
+          /> Switch FY
         </b-dropdown-item-button>
       </b-nav-item-dropdown>
     </b-navbar-nav>
