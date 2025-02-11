@@ -149,246 +149,248 @@
     <div
       v-else
     >
-      <b-overlay
-        :show="isLoading"
-        variant="secondary"
-        no-wrap
-        blur
-      />
-      <div class="d-flex justify-content-between">
-        <h1 class="display-4">
-          Welcome {{ form.name || userName || '' }}!
-        </h1>
-      </div>
-      <div class="clearfix" />
-      <b-row
-        v-if="invitedOrgs.length"
-      >
-        <b-col
-          cols
-          sm="12"
+      <b-container>
+        <b-overlay
+          :show="isLoading"
+          variant="secondary"
+          no-wrap
+          blur
+        />
+        <div class="d-flex justify-content-between">
+          <h1 class="display-4">
+            Welcome {{ form.name || userName || '' }}!
+          </h1>
+        </div>
+        <div class="clearfix" />
+        <b-row
+          v-if="invitedOrgs.length"
         >
-          <b-card
-            class="my-2"
+          <b-col
+            cols
+            sm="12"
           >
-            <h5 class="mb-3">
-              You have pending invitations,
-            </h5>
-            <b-row>
-              <b-col
-                cols
-                sm="12"
-                lg="8"
-              >
-                <b-table
-                  small
-                  borderless
-                  :items="invitedOrgs"
-                  :fields="invOrgFields"
-                  responsive
-                  :busy="isOrgLoading"
-                  thead-class="d-none"
-                  class="ml-3 mb-0"
+            <b-card
+              class="my-2"
+            >
+              <h5 class="mb-3">
+                You have pending invitations,
+              </h5>
+              <b-row>
+                <b-col
+                  cols
+                  sm="12"
+                  lg="8"
                 >
-                  <template #table-busy>
-                    <div class="text-center">
-                      <b-spinner
-                        class="align-middle"
-                        type="grow"
-                      />
-                      <strong> <translate>Fetching List...</translate> </strong>
-                    </div>
-                  </template>
-                  <template #cell(index)="data">
-                    {{ data.index + 1 }}.
-                  </template>
-                  <template #cell(name)="data">
-                    <b class="text-info">{{ data.value }}</b> as <b>{{ userRoles[data.item.role] }}</b>.
-                    <b-button
-                      @click="onAcceptInvite(data.index, data.item.name)"
-                      size="sm"
-                      class="mx-1 p-1 ml-2"
-                      variant="light"
-                    >
-                      <b-icon
-                        scale="0.9"
-                        icon="check-circle"
-                      />
-                    </b-button>
-                    <b-button
-                      @click="onRejectInvite(data.index, data.item.name)"
-                      size="sm"
-                      class="p-1"
-                      variant="light"
-                    >
-                      <b-icon
-                        scale="0.9"
-                        icon="trash"
-                      />
-                    </b-button>
-                  </template>
-                </b-table>
-              </b-col>
-            </b-row>
-          </b-card>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col
-          cols
-          sm="12"
-        >
-          <div class="my-3">
-            <b-row>
-              <b-col
-                cols
-                sm="8"
-                class="pl-0"
-              >
-                <b-form-group
-                  v-if="orgs.length > 10"
-                  class="col-lg-4 col-lg-offset-4 mb-0"
-                >
-                  <b-input-group>
-                    <b-form-input
-                      class="rounded"
-                      id="filter-input"
-                      v-model="filter"
-                      type="search"
-                      placeholder="Type to Search"
-                      size="sm"
-                    />
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-
-              <b-col
-                cols
-                sm="4"
-              >
-                <b-dropdown
-                  split
-                  text="Create Org"
-                  size="sm"
-                  variant="success"
-                  :disabled="showForm.createOrg"
-                  @click="showForm.createOrg = true"
-                  class="float-right"
-                >
-                  <b-dropdown-item
-                    v-b-toggle.collapse-1
+                  <b-table
+                    small
+                    borderless
+                    :items="invitedOrgs"
+                    :fields="invOrgFields"
+                    responsive
+                    :busy="isOrgLoading"
+                    thead-class="d-none"
+                    class="ml-3 mb-0"
                   >
-                    Import Organisation
-                  </b-dropdown-item>
-                </b-dropdown>
-              </b-col>
-            </b-row>
-            <div class="my-2">
-              <b-form @submit.prevent="upload">
-                <b-collapse id="collapse-1">
-                  <div class="row justify-content-center">
-                    <div class="col-sm-9 col-lg-6">
-                      <!-- Export buttons -->
-                      <b-form-file
-                        required
-                        v-model="file"
-                        accept=".json"
-                        size="sm"
-                      />
-                    </div>
-                    <div class="col-sm-3 col-lg-2">
+                    <template #table-busy>
+                      <div class="text-center">
+                        <b-spinner
+                          class="align-middle"
+                          type="grow"
+                        />
+                        <strong> <translate>Fetching List...</translate> </strong>
+                      </div>
+                    </template>
+                    <template #cell(index)="data">
+                      {{ data.index + 1 }}.
+                    </template>
+                    <template #cell(name)="data">
+                      <b class="text-info">{{ data.value }}</b> as <b>{{ userRoles[data.item.role] }}</b>.
                       <b-button
-                        type="submit"
-                        variant="dark"
-                        class="text-center"
+                        @click="onAcceptInvite(data.index, data.item.name)"
                         size="sm"
+                        class="mx-1 p-1 ml-2"
+                        variant="light"
                       >
                         <b-icon
-                          icon="upload"
-                          class="mr-2"
+                          scale="0.9"
+                          icon="check-circle"
                         />
-                        <translate>Import</translate>
                       </b-button>
+                      <b-button
+                        @click="onRejectInvite(data.index, data.item.name)"
+                        size="sm"
+                        class="p-1"
+                        variant="light"
+                      >
+                        <b-icon
+                          scale="0.9"
+                          icon="trash"
+                        />
+                      </b-button>
+                    </template>
+                  </b-table>
+                </b-col>
+              </b-row>
+            </b-card>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col
+            cols
+            sm="12"
+          >
+            <div class="my-3">
+              <b-row>
+                <b-col
+                  cols
+                  sm="8"
+                  class="pl-0"
+                >
+                  <b-form-group
+                    v-if="orgs.length > 10"
+                    class="col-lg-4 col-lg-offset-4 mb-0"
+                  >
+                    <b-input-group>
+                      <b-form-input
+                        class="rounded"
+                        id="filter-input"
+                        v-model="filter"
+                        type="search"
+                        placeholder="Type to Search"
+                        size="sm"
+                      />
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+
+                <b-col
+                  cols
+                  sm="4"
+                >
+                  <b-dropdown
+                    split
+                    text="Create Org"
+                    size="sm"
+                    variant="success"
+                    :disabled="showForm.createOrg"
+                    @click="showForm.createOrg = true"
+                    class="float-right"
+                  >
+                    <b-dropdown-item
+                      v-b-toggle.collapse-1
+                    >
+                      Import Organisation
+                    </b-dropdown-item>
+                  </b-dropdown>
+                </b-col>
+              </b-row>
+              <div class="my-2">
+                <b-form @submit.prevent="upload">
+                  <b-collapse id="collapse-1">
+                    <div class="row justify-content-center">
+                      <div class="col-sm-9 col-lg-6">
+                        <!-- Export buttons -->
+                        <b-form-file
+                          required
+                          v-model="file"
+                          accept=".json"
+                          size="sm"
+                        />
+                      </div>
+                      <div class="col-sm-3 col-lg-2">
+                        <b-button
+                          type="submit"
+                          variant="dark"
+                          class="text-center"
+                          size="sm"
+                        >
+                          <b-icon
+                            icon="upload"
+                            class="mr-2"
+                          />
+                          <translate>Import</translate>
+                        </b-button>
+                      </div>
                     </div>
-                  </div>
-                </b-collapse>
-              </b-form>
-            </div>
-          </div>
-          <b-table
-            head-variant="light"
-            :items="orgs"
-            :fields="orgFields"
-            :filter="filter"
-            :per-page="orgCount"
-            responsive
-            outlined
-            hover
-            sort-icon-left
-            v-if="isOrgLoading || orgs.length"
-            :busy="isOrgLoading"
-            id="org-table"
-          >
-            <template #table-busy>
-              <div class="text-center">
-                <b-spinner
-                  class="align-middle"
-                  type="grow"
-                />
-                <strong> <translate>Fetching List...</translate> </strong>
+                  </b-collapse>
+                </b-form>
               </div>
-            </template>
-            <template #cell(year)="data">
-              <v-select
-                :reduce="(option) => option.index"
-                :options="data.item.yearData"
-                v-model="data.item.selected"
-              >
-                <template #selected-option="{yend, ystart}">
-                  <div class="text-truncate">
-                    {{ ystart }}
-                  </div>
-                  <div>to</div>
-                  <div class="text-truncate">
-                    {{ yend }}
-                  </div>
-                </template>
-              </v-select>
-            </template>
-            <template #cell(action)="data">
-              <b-button
-                size="sm"
-                variant="dark"
-                @click="orgLogin(data.item)"
-              >
-                Open
-              </b-button>
-            </template>
-            <template #cell(role)="data">
-              {{ userRoles[data.value] }}
-            </template>
-          </b-table>
-          <b v-else>You are not part of any organisations yet</b>
-          <div
-            v-if="orgs.length > 10"
-            class="col text-center"
-          >
-            <b-button
-              pill
-              variant="outline-secondary"
-              size="sm"
-              @click="orgCount = orgCount ? '' : 10"
+            </div>
+            <b-table
+              head-variant="light"
+              :items="orgs"
+              :fields="orgFields"
+              :filter="filter"
+              :per-page="orgCount"
+              responsive
+              outlined
+              hover
+              sort-icon-left
+              v-if="isOrgLoading || orgs.length"
+              :busy="isOrgLoading"
+              id="org-table"
             >
-              <span v-if="orgCount">
-                Show all ({{ orgs.length }})
-              </span>
-              <span v-else>
-                Show less
-              </span>
-            </b-button>
-          </div>
-        </b-col>
-      </b-row>
+              <template #table-busy>
+                <div class="text-center">
+                  <b-spinner
+                    class="align-middle"
+                    type="grow"
+                  />
+                  <strong> <translate>Fetching List...</translate> </strong>
+                </div>
+              </template>
+              <template #cell(year)="data">
+                <v-select
+                  :reduce="(option) => option.index"
+                  :options="data.item.yearData"
+                  v-model="data.item.selected"
+                >
+                  <template #selected-option="{yend, ystart}">
+                    <div class="text-truncate">
+                      {{ ystart }}
+                    </div>
+                    <div>to</div>
+                    <div class="text-truncate">
+                      {{ yend }}
+                    </div>
+                  </template>
+                </v-select>
+              </template>
+              <template #cell(action)="data">
+                <b-button
+                  size="sm"
+                  variant="dark"
+                  @click="orgLogin(data.item)"
+                >
+                  Open
+                </b-button>
+              </template>
+              <template #cell(role)="data">
+                {{ userRoles[data.value] }}
+              </template>
+            </b-table>
+            <b v-else>You are not part of any organisations yet</b>
+            <div
+              v-if="orgs.length > 10"
+              class="col text-center"
+            >
+              <b-button
+                pill
+                variant="outline-secondary"
+                size="sm"
+                @click="orgCount = orgCount ? '' : 10"
+              >
+                <span v-if="orgCount">
+                  Show all ({{ orgs.length }})
+                </span>
+                <span v-else>
+                  Show less
+                </span>
+              </b-button>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
     </div>
     <!-- create org modal -->
     <b-modal
