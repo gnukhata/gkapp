@@ -79,13 +79,6 @@
           <b-icon icon="receipt" />
           <translate>Debit/Credit Note</translate>
         </b-nav-item>
-        <b-nav-item
-          :active="isActive('/product-register?type=sales')"
-          to="/product-register?type=sales"
-        >
-          <b-icon icon="box-seam" />
-          <translate>Sales Register</translate>
-        </b-nav-item>
       </b-collapse>
     </template>
 
@@ -143,13 +136,6 @@
         >
           <b-icon icon="receipt" />
           <translate>Debit/Credit Note</translate>
-        </b-nav-item>
-        <b-nav-item
-          :active="isActive('/product-register?type=purchase')"
-          to="/product-register?type=purchase"
-        >
-          <b-icon icon="box-seam" />
-          <translate>Purchase Register</translate>
         </b-nav-item>
       </b-collapse>
     </template>
