@@ -462,13 +462,6 @@ export default {
     autocomplete,
     GkHovermenu,
   },
-  props: {
-    wfType: {
-      type: String,
-      required: false,
-      default: null,
-    },
-  },
   data() {
     return {
       parentMessage: '',
@@ -635,17 +628,10 @@ export default {
         this.godownId = (params.goid != 0) ? params.goid : this.godowns[0].value;
       }
       this.loading = true;
-      this.invoiceFilter = ['invoice', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'];
-      let inoutflag = 0;
-      if (this.wfType === 'sales') {
-        inoutflag = 15;
-      }
-      if (this.wfType === 'purchase') {
-        inoutflag = 9;
-      }
+      this.invoiceFilter = ['invoice', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
       axios
         .get(
-          `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}&inoutflag=${inoutflag}`
+          `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
         )
         .then((r) => {
           if (r.status == 200) {
@@ -727,9 +713,6 @@ export default {
       this.fromDate = this.yearStart;
       this.toDate = this.yearEnd;
       if (Object.keys(params).length > 0) {
-        if (Object.keys(params).length === 1 && params.type) {
-          return;
-        }
         this.productId = this.productList.filter((product) => {
           return parseInt(params.product_id) == product.id;
         })[0];
