@@ -1,335 +1,397 @@
 <template>
   <section class="m-2">
     <!-- User Login -->
-    <b-card
+
+    <b-row
       v-if="!userAuthToken"
-      class="mx-auto shadow"
-      style="max-width: 35em"
-      header-bg-variant="dark"
-      header-text-variant="light"
+      align-h="center"
     >
-      <template #header>
-        Login
-      </template>
-      <!-- login banner -->
-      <b-alert
-        :show="gkConfig.login_banner.show"
-        :variant="gkConfig.login_banner.variant"
-        class="mb-2 mx-auto"
-        style="max-width:35em"
-        v-html="gkConfig.login_banner.content"
-      />
-      <b-form @submit.prevent="preUserLogin">
-        <!--Username area-->
-        <b-form-group
-          :label="$gettext('Username')"
-          label-cols="4"
-          label-size="sm"
-          label-align="right"
+      <b-col
+        cols
+        lg="5"
+      >
+        <b-card
+          class="shadow"
+          header-bg-variant="light"
+          header-class="p-0"
+          body-class="mr-3  "
         >
-          <b-form-input
-            v-model.trim="form.name"
-            type="text"
-            size="sm"
-            :placeholder="$gettext('Enter Username')"
-            required
+          <template #header>
+            <svg version="1.1" viewBox="0 0 118.7 41.38" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="a" x1="89.703" x2="120.53" y1="-66.581" y2="-57.054" gradientTransform="matrix(1.4363 0 0 1.2115 -36.593 193.54)" gradientUnits="userSpaceOnUse"><stop stop-color="#69f" offset="0"/><stop stop-color="#00ffe7" offset="1"/></linearGradient><filter id="b" x="-.16162" y="-.15774" width="1.3232" height="1.3178" color-interpolation-filters="sRGB"><feFlood flood-color="rgb(255,255,255)" in="SourceGraphic" result="flood"/><feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="3.000000"/><feOffset dx="0.000000" dy="0.000000" in="blur" result="offset"/><feComposite in="flood" in2="offset" operator="in" result="comp1"/><feComposite in="SourceGraphic" in2="comp1" result="comp2"/></filter></defs><g transform="matrix(3.1505 0 0 3.1505 -328.72 -363.41)"><g><rect x="104.34" y="115.35" width="37.676" height="13.134" ry="0" fill="url(#a)" style="paint-order:markers stroke fill"/><g transform="matrix(.2088 0 0 .2088 118.13 -92.84)" filter="url(#b)"><path d="m24 1005.5c-9.806 0-17.75 7.9753-17.75 17.781s7.944 17.75 17.75 17.75c8.6891 0 15.903-6.2558 17.438-14.5h-19.531v4.1562h12.531c-2.324 3.2653-6.1212 5.4063-10.438 5.4063-7.0879 0-12.844-5.7246-12.844-12.812 0-7.088 5.7558-12.844 12.844-12.844 4.6014 0 8.6409 2.4243 10.906 6.0625h5.4688c-2.6656-6.4427-8.9751-11-16.375-11zm-2.0938 14.438v4.2188h19.781c0.14391-1.4074-0.04454-2.968-0.28125-4.2188z" fill="#ff7f2a"/><g fill="#000080" stroke="#fff"><g stroke-width=".21049"><rect x="1.4006" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="1.4006" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="1.4006" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="1.4006" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-7.2026" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="7.2026" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="7.2026" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-13.552" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-13.552" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-13.552" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="13.552" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-19.354" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-19.354" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/></g><rect transform="scale(-1,1)" x="-19.354" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009" stroke-width=".21"/><g stroke-width=".21049"><rect x="19.98" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="19.98" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-25.782" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-25.782" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="25.782" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="25.782" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-31.8" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="31.8" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="31.8" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="31.8" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-37.602" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="37.896" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="37.896" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-43.698" y="1042.4" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect transform="scale(-1,1)" x="-43.698" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="43.698" y="1045.3" width="2.901" height="2.901" rx=".94598" ry="1.009"/><rect x="43.698" y="1048.2" width="2.901" height="2.901" rx=".94598" ry="1.009"/></g></g></g></g></g></svg>
+          </template>
+          <!-- login banner -->
+          <b-alert
+            :show="gkConfig.login_banner.show"
+            :variant="gkConfig.login_banner.variant"
+            class="mb-2 mx-auto"
+            v-html="gkConfig.login_banner.content"
           />
-        </b-form-group>
-        <!-- Password area -->
-        <b-form-group
-          :label="$gettext('Password')"
-          label-cols="4"
-          label-align="right"
-          label-size="sm"
-        >
-          <password
-            v-model="form.pwd"
-            :password-hint="false"
-            :placeholder="$gettext('Password')"
-            size="sm"
-          />
-          <b-button
-            variant="link"
-            class="float-right p-0"
-            @click="showForm.resetPwd = true"
-          >
-            <small><translate>Forgot Password?</translate></small>
-          </b-button>
-        </b-form-group>
-
-        <!--Captcha question -->
-        <!-- only shown if captcha is enabled in gkapp config -->
-        <div v-if="gkConfig.login_captcha">
-          <b-form-group
-            :label="$gettext('Question')"
-            label-align="right"
-            label-cols="4"
-            label-size="sm"
-          >
-            <captcha v-model="captcha.answer" />
-          </b-form-group>
-
-          <!-- captcha answer -->
-          <b-form-group
-            :label="$gettext('Answer')"
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-          >
-            <b-form-input
-              v-model="captcha.userAnswer"
-              type="number"
-              no-wheel
-              :placeholder="$gettext('Enter the Answer')"
-              required
-              size="sm"
-            />
-          </b-form-group>
-        </div>
-        <b-button-group
-          size="sm"
-          class="row float-right"
-        >
-          <b-button
-            variant="dark"
-            class="m-1"
-            @click="switchServer"
-            :disabled="isOrgLoading"
-          >
-            <b-icon
-              class="mr-1"
-              icon="cloud"
-            />
-            <translate> Change Server</translate>
-          </b-button>
-          <b-button
-            @click="showForm.createUser = true"
-            variant="dark"
-            class="m-1"
-            :disabled="isOrgLoading"
-          >
-            <b-icon
-              class="mr-1"
-              icon="person-plus"
-            />
-            <translate> Create User</translate>
-          </b-button>
-          <b-button
-            :disabled="isOrgLoading"
-            class="m-1"
-            variant="success"
-            type="submit"
-          >
-            <b-spinner
-              class="mr-1"
-              v-if="isOrgLoading"
-              small
-            />
-            <b-icon
-              class="mr-1"
-              v-else
-              icon="box-arrow-in-right"
-            />
-            <translate> Login</translate>
-          </b-button>
-        </b-button-group>
-      </b-form>
-    </b-card>
-    <!-- Org selection -->
-    <b-card
-      v-else
-      class="mt-3"
-    >
-      <b-overlay
-        :show="isLoading"
-        variant="secondary"
-        no-wrap
-        blur
-      />
-      <div class="d-flex justify-content-between">
-        <span class="">Welcome {{ form.name || userName || '' }}!</span>
-      </div>
-      <div class="clearfix" />
-      <hr>
-      <b-row>
-        <b-col>
-          <div class="mb-2">
-            <h5 class="d-inline-block">
-              Organisations <span> ({{ orgs.length }}) </span>
-            </h5>
-
-            <b-dropdown
-              split
-              text="Create Org"
-              size="sm"
-              variant="success"
-              :disabled="showForm.createOrg"
-              @click="showForm.createOrg = true"
-              class="float-right"
+          <b-form @submit.prevent="preUserLogin">
+            <!--Username area-->
+            <b-form-group
+              :label="$gettext('Username')"
+              label-cols="3"
+              label-align="right"
+              label-size="sm"
             >
-              <b-dropdown-item
-                v-b-toggle.collapse-1
+              <b-form-input
+                v-model.trim="form.name"
+                size="sm"
+                type="text"
+                :placeholder="$gettext('Enter Username')"
+                required
+              />
+            </b-form-group>
+            <!-- Password area -->
+            <b-form-group
+              :label="$gettext('Password')"
+              label-cols="3"
+              label-align="right"
+              label-size="sm"
+            >
+              <password
+                v-model="form.pwd"
+                :password-hint="false"
+                :placeholder="$gettext('Password')"
+                size="sm"
+                class="mb-0"
+              />
+              <b-button
+                variant="link"
+                class="float-right p-0"
+                @click="showForm.resetPwd = true"
               >
-                Import Organisation
-              </b-dropdown-item>
-            </b-dropdown>
-            <div class="my-2">
-              <b-form @submit.prevent="upload">
-                <b-collapse id="collapse-1">
-                  <div class="row">
-                    <div class="col-9">
-                      <!-- Export buttons -->
-                      <b-form-file
-                        required
-                        v-model="file"
-                        accept=".json"
-                        size="sm"
-                      />
-                    </div>
-                    <div class="col-3 text-center">
+                <small><translate>Forgot Password?</translate></small>
+              </b-button>
+            </b-form-group>
+
+            <!--Captcha question -->
+            <!-- only shown if captcha is enabled in gkapp config -->
+            <div v-if="gkConfig.login_captcha">
+              <b-form-group
+                :label="$gettext('Question')"
+                label-cols="3"
+                label-size="sm"
+                label-align="right"
+              >
+                <captcha v-model="captcha.answer" />
+              </b-form-group>
+
+              <!-- captcha answer -->
+              <b-form-group
+                :label="$gettext('Answer')"
+                label-cols="3"
+                label-size="sm"
+                label-align="right"
+              >
+                <b-form-input
+                  v-model="captcha.userAnswer"
+                  type="number"
+                  no-wheel
+                  :placeholder="$gettext('Enter the Answer')"
+                  required
+                  size="sm"
+                />
+              </b-form-group>
+            </div>
+            <b-button-group
+              size="sm"
+              class="row float-right"
+            >
+              <b-button
+                variant="dark"
+                class="m-1"
+                @click="switchServer"
+                :disabled="isOrgLoading"
+              >
+                <b-icon
+                  class="mr-1"
+                  icon="cloud"
+                />
+                <translate> Change Server</translate>
+              </b-button>
+              <b-button
+                @click="showForm.createUser = true"
+                variant="dark"
+                class="m-1"
+                :disabled="isOrgLoading"
+              >
+                <b-icon
+                  class="mr-1"
+                  icon="person-plus"
+                />
+                <translate> Create User</translate>
+              </b-button>
+              <b-button
+                :disabled="isOrgLoading"
+                class="m-1"
+                variant="success"
+                type="submit"
+              >
+                <b-spinner
+                  class="mr-1"
+                  v-if="isOrgLoading"
+                  small
+                />
+                <b-icon
+                  class="mr-1"
+                  v-else
+                  icon="box-arrow-in-right"
+                />
+                <translate> Login</translate>
+              </b-button>
+            </b-button-group>
+          </b-form>
+        </b-card>
+      </b-col>
+    </b-row>
+    <!-- Org selection -->
+    <div
+      v-else
+    >
+      <b-container>
+        <b-overlay
+          :show="isLoading"
+          variant="secondary"
+          no-wrap
+          blur
+        />
+        <div class="d-flex justify-content-between">
+          <h1 class="display-4">
+            Welcome {{ form.name || userName || '' }}!
+          </h1>
+        </div>
+        <div class="clearfix" />
+        <b-row
+          v-if="invitedOrgs.length"
+        >
+          <b-col
+            cols
+            sm="12"
+          >
+            <b-card
+              class="my-2"
+            >
+              <h5 class="mb-3">
+                You have pending invitations,
+              </h5>
+              <b-row>
+                <b-col
+                  cols
+                  sm="12"
+                  lg="8"
+                >
+                  <b-table
+                    small
+                    borderless
+                    :items="invitedOrgs"
+                    :fields="invOrgFields"
+                    responsive
+                    :busy="isOrgLoading"
+                    thead-class="d-none"
+                    class="ml-3 mb-0"
+                  >
+                    <template #table-busy>
+                      <div class="text-center">
+                        <b-spinner
+                          class="align-middle"
+                          type="grow"
+                        />
+                        <strong> <translate>Fetching List...</translate> </strong>
+                      </div>
+                    </template>
+                    <template #cell(index)="data">
+                      {{ data.index + 1 }}.
+                    </template>
+                    <template #cell(name)="data">
+                      <b class="text-info">{{ data.value }}</b> as <b>{{ userRoles[data.item.role] }}</b>.
                       <b-button
-                        type="submit"
-                        variant="dark"
-                        class="text-center"
+                        @click="onAcceptInvite(data.index, data.item.name)"
                         size="sm"
+                        class="mx-1 p-1 ml-2"
+                        variant="light"
                       >
                         <b-icon
-                          icon="upload"
-                          class="mr-2"
+                          scale="0.9"
+                          icon="check-circle"
                         />
-                        <translate>Import Data</translate>
                       </b-button>
+                      <b-button
+                        @click="onRejectInvite(data.index, data.item.name)"
+                        size="sm"
+                        class="p-1"
+                        variant="light"
+                      >
+                        <b-icon
+                          scale="0.9"
+                          icon="trash"
+                        />
+                      </b-button>
+                    </template>
+                  </b-table>
+                </b-col>
+              </b-row>
+            </b-card>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col
+            cols
+            sm="12"
+          >
+            <div class="my-3">
+              <b-row>
+                <b-col
+                  cols
+                  sm="8"
+                  class="pl-0"
+                >
+                  <b-form-group
+                    v-if="orgs.length > 10"
+                    class="col-lg-4 col-lg-offset-4 mb-0"
+                  >
+                    <b-input-group>
+                      <b-form-input
+                        class="rounded"
+                        id="filter-input"
+                        v-model="filter"
+                        type="search"
+                        placeholder="Type to Search"
+                        size="sm"
+                      />
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+
+                <b-col
+                  cols
+                  sm="4"
+                >
+                  <b-dropdown
+                    split
+                    text="Create Org"
+                    size="sm"
+                    variant="success"
+                    :disabled="showForm.createOrg"
+                    @click="showForm.createOrg = true"
+                    class="float-right"
+                  >
+                    <b-dropdown-item
+                      v-b-toggle.collapse-1
+                    >
+                      Import Organisation
+                    </b-dropdown-item>
+                  </b-dropdown>
+                </b-col>
+              </b-row>
+              <div class="my-2">
+                <b-form @submit.prevent="upload">
+                  <b-collapse id="collapse-1">
+                    <div class="row justify-content-center">
+                      <div class="col-sm-9 col-lg-6">
+                        <!-- Export buttons -->
+                        <b-form-file
+                          required
+                          v-model="file"
+                          accept=".json"
+                          size="sm"
+                        />
+                      </div>
+                      <div class="col-sm-3 col-lg-2">
+                        <b-button
+                          type="submit"
+                          variant="dark"
+                          class="text-center"
+                          size="sm"
+                        >
+                          <b-icon
+                            icon="upload"
+                            class="mr-2"
+                          />
+                          <translate>Import</translate>
+                        </b-button>
+                      </div>
                     </div>
-                  </div>
-                </b-collapse>
-              </b-form>
+                  </b-collapse>
+                </b-form>
+              </div>
             </div>
-          </div>
-          <b-table
-            head-variant="dark"
-            small
-            bordered
-            striped
-            :items="orgs"
-            :fields="orgFields"
-            responsive
-            :sticky-header="true"
-            v-if="isOrgLoading || orgs.length"
-            :busy="isOrgLoading"
-            id="org-table"
-          >
-            <template #table-busy>
-              <div class="text-center">
-                <b-spinner
-                  class="align-middle"
-                  type="grow"
-                />
-                <strong> <translate>Fetching List...</translate> </strong>
-              </div>
-            </template>
-            <template #cell(index)="data">
-              {{ data.index + 1 }}
-            </template>
-            <template #cell(year)="data">
-              <v-select
-                :reduce="(option) => option.index"
-                :options="data.item.yearData"
-                v-model="data.item.selected"
-              >
-                <template #selected-option="{yend, ystart}">
-                  <div class="text-truncate">
-                    {{ ystart }}
-                  </div>
-                  <div>to</div>
-                  <div class="text-truncate">
-                    {{ yend }}
-                  </div>
-                </template>
-              </v-select>
-            </template>
-            <template #cell(action)="data">
+            <b-table
+              head-variant="light"
+              :items="orgs"
+              :fields="orgFields"
+              :filter="filter"
+              :per-page="orgCount"
+              responsive
+              outlined
+              hover
+              sort-icon-left
+              v-if="isOrgLoading || orgs.length"
+              :busy="isOrgLoading"
+              id="org-table"
+            >
+              <template #table-busy>
+                <div class="text-center">
+                  <b-spinner
+                    class="align-middle"
+                    type="grow"
+                  />
+                  <strong> <translate>Fetching List...</translate> </strong>
+                </div>
+              </template>
+              <template #cell(year)="data">
+                <v-select
+                  :reduce="(option) => option.index"
+                  :options="data.item.yearData"
+                  v-model="data.item.selected"
+                >
+                  <template #selected-option="{yend, ystart}">
+                    <div class="text-truncate">
+                      {{ ystart }}
+                    </div>
+                    <div>to</div>
+                    <div class="text-truncate">
+                      {{ yend }}
+                    </div>
+                  </template>
+                </v-select>
+              </template>
+              <template #cell(action)="data">
+                <b-button
+                  size="sm"
+                  variant="dark"
+                  @click="orgLogin(data.item)"
+                >
+                  Open
+                </b-button>
+              </template>
+              <template #cell(role)="data">
+                {{ userRoles[data.value] }}
+              </template>
+            </b-table>
+            <b v-else>You are not part of any organisations yet</b>
+            <div
+              v-if="orgs.length > 10"
+              class="col text-center"
+            >
               <b-button
+                pill
+                variant="outline-secondary"
                 size="sm"
-                variant="dark"
-                @click="orgLogin(data.item)"
+                @click="orgCount = orgCount ? '' : 10"
               >
-                Open
+                <span v-if="orgCount">
+                  Show all ({{ orgs.length }})
+                </span>
+                <span v-else>
+                  Show less
+                </span>
               </b-button>
-            </template>
-            <template #cell(role)="data">
-              {{ userRoles[data.value] }}
-            </template>
-          </b-table>
-          <b v-else>You are not part of any organisations yet</b>
-        </b-col>
-        <b-col>
-          <h5 class="mb-3">
-            Invitations <span> ({{ invitedOrgs.length }}) </span>
-          </h5>
-          <b-table
-            head-variant="dark"
-            small
-            bordered
-            striped
-            :items="invitedOrgs"
-            :fields="invOrgFields"
-            responsive
-            v-if="isOrgLoading || invitedOrgs.length"
-            :busy="isOrgLoading"
-          >
-            <template #table-busy>
-              <div class="text-center">
-                <b-spinner
-                  class="align-middle"
-                  type="grow"
-                />
-                <strong> <translate>Fetching List...</translate> </strong>
-              </div>
-            </template>
-            <template #cell(index)="data">
-              {{ data.index + 1 }}
-            </template>
-            <template #cell(role)="data">
-              {{ userRoles[data.value] }}
-            </template>
-            <template #cell(action)="data">
-              <div class="d-flex">
-                <b-button
-                  @click="onAcceptInvite(data.index, data.item.name)"
-                  size="sm"
-                  class="mx-1 p-1"
-                  variant="success"
-                >
-                  <b-icon
-                    scale="0.9"
-                    icon="check-circle"
-                  />
-                </b-button>
-                <b-button
-                  @click="onRejectInvite(data.index, data.item.name)"
-                  size="sm"
-                  class="p-1"
-                  variant="danger"
-                >
-                  <b-icon
-                    scale="0.9"
-                    icon="trash"
-                  />
-                </b-button>
-              </div>
-            </template>
-          </b-table>
-          <b-alert
-            class="text-center"
-            variant="success"
-            show
-            v-else
-          >
-            No invitations pending!
-          </b-alert>
-        </b-col>
-      </b-row>
-    </b-card>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
     <!-- create org modal -->
     <b-modal
       size="lg"
@@ -406,15 +468,15 @@ export default {
         name: '',
         pwd: '',
       },
-
+      orgCount: 10,
       captcha: {
         answer: null,
         userAnswer: null,
       },
+      filter: null,
       orgs: [],
       invitedOrgs: [],
       orgFields: [
-        { label: 'No.', key: 'index', stickyColumn: true },
         { label: 'Name', key: 'name', stickyColumn: true },
         'role',
         'action',
@@ -422,8 +484,6 @@ export default {
       invOrgFields: [
         { label: 'No.', key: 'index', stickyColumn: true },
         { label: 'Name', key: 'name', stickyColumn: true },
-        'role',
-        'action',
       ],
       selectedOrg: null,
       userRoles: {
@@ -495,6 +555,7 @@ export default {
           this.invitedOrgs.push(orgData);
         }
       }
+      console.log(">>", this.orgs.length);
     },
     onRejectInvite(index, name) {
       this.$bvModal
