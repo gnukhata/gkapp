@@ -37,6 +37,25 @@
             </b-col>
             <b-col
               cols
+              lg="6"
+            >
+              <!-- Godown select -->
+              <b-form-group
+                label="Godown"
+                label-cols="auto"
+              >
+                <v-select
+                  :options="godowns"
+                  v-model="godownId"
+                  placeholder="Select Godown"
+                  label="text"
+                  :reduce="godown => godown.value"
+                  :required="true"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
               lg="3"
             >
               <b-form-group
@@ -62,25 +81,6 @@
                   :required="true"
                   v-model="toDate"
                   id="to"
-                />
-              </b-form-group>
-            </b-col>
-            <b-col
-              cols
-              lg="6"
-            >
-              <!-- Godown select -->
-              <b-form-group
-                label="Godown"
-                label-cols="auto"
-              >
-                <v-select
-                  :options="godowns"
-                  v-model="godownId"
-                  placeholder="Select Godown"
-                  label="text"
-                  :reduce="godown => godown.value"
-                  :required="true"
                 />
               </b-form-group>
             </b-col>
