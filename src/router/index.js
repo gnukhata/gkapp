@@ -180,6 +180,10 @@ const routes = [
       import(
         /* webpackChunkName: "productregister" */ "../components/ProductRegister.vue"
       ),
+    props: route => ({
+      ...route.params,
+      wfType: route.query.type,
+    }),
   },
   {
     meta: {
@@ -257,7 +261,10 @@ const routes = [
     name: "Workflow",
     component: () =>
       import(/* webpackChunkName: "workflow" */ "../views/Workflow.vue"),
-    props: true,
+    props: route => ({
+      ...route.params,
+      wfType: route.query.type,
+    }),
   },
   {
     meta: {

@@ -1,6 +1,6 @@
 <template>
   <!-- app version info -->
-  <div class="mt-3 mb-5 text-center">
+  <footer class="col-12 my-4 footer text-center">
     Frontend (gkapp):
     <b-link
       target="_blank"
@@ -15,7 +15,7 @@
     >
       <code>{{ gkcoreVersion }}</code>
     </b-link>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -72,3 +72,12 @@ export default {
   },
 };
 </script>
+
+<style>
+@media only screen and (max-width: 991px) {
+  .footer {
+    position: absolute;
+    bottom: 60px;
+  }
+}
+</style>

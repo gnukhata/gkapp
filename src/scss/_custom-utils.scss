@@ -3,8 +3,15 @@ html {
   position: relative;
   min-height: 100%;
 }
-body {
-  margin-bottom: $footer-height; /* Margin bottom by footer height */
+
+main {
+  min-height: 82vh;
+}
+
+@media only screen and (max-width: 991px) {
+  main {
+    margin-bottom: 150px;
+  }
 }
 
 /* Sticky footer styles End */
