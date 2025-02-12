@@ -66,6 +66,38 @@
         header-class="font-weight-bold"
         v-if="summary.hsn.product_entries"
       >
+        <template #header>
+          <div>
+            <h5 class="float-left my-1">
+              Unit of Measurement
+            </h5>
+            <b-button-group
+              size="sm"
+              class="float-right"
+            >
+              <b-button
+                class="ml-3"
+                variant="dark"
+                sm
+                @click="$bvModal.show('hsn')"
+              >
+                Details
+              </b-button>
+              <b-modal
+                hide-footer
+                size="xl"
+                id="hsn"
+                :title="'GST R1 - Detailed Report'"
+              >
+                <r1-detailed
+                  :fd="fd"
+                  :td="td"
+                  type="hsn1"
+                />
+              </b-modal>
+            </b-button-group>
+          </div>
+        </template>
         <dl
           class="row"
         >
