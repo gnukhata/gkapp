@@ -1,12 +1,12 @@
 <template>
   <section>
     <!-- Headings -->
-    <h2 class="mt-4 text-muted  text-uppercase display-5">
-      GST R1 {{ params.type }}
+    <h2 class="text-muted  text-uppercase display-5">
+      GST R1 {{ tableInfo.type }}
     </h2>
     <h6 class="text-muted text-uppercase">
-      {{ dateReverse(params.fd) }} to
-      {{ dateReverse(params.td) }}
+      {{ dateReverse(tableInfo.fd) }} to
+      {{ dateReverse(tableInfo.td) }}
     </h6>
     <!-- report  -->
     <div class="d-flex d-print-none justify-content-between align-items-center mb-2 mt-4">
@@ -101,12 +101,12 @@ export default {
     return {
       currentPage: 1,
       totalRows: 1,
-      perPage: 3,
+      perPage: 15,
       fields: [],
       items: [],
       list: [],
       search: "",
-      params: null,
+      tableInfo: null,
       loading: false,
     };
   },
@@ -122,7 +122,7 @@ export default {
     getGstR1Report() {
       this.loading = true;
       axios
-        .get(`/gst/returns/r1?start=${this.params.fd}&end=${this.params.td}`)
+        .get(`/gst/returns/r1?start=${this.tableInfo.fd}&end=${this.tableInfo.td}`)
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
@@ -130,11 +130,11 @@ export default {
               this.list = r.data.gkdata;
 
               // remove drilldown id columns
-              if (this.list[this.params.type].length) {
-                let fields = Object.keys(this.list[this.params.type][0]);
+              if (this.list[this.tableInfo.type].length) {
+                let fields = Object.keys(this.list[this.tableInfo.type][0]);
                 fields = fields.filter(item => item !== "cess");
                 this.fields = fields;
-                this.items = this.list[this.params.type];
+                this.items = this.list[this.tableInfo.type];
                 this.totalRows = this.items.length
 
                 let rightAlignFields = {
@@ -251,7 +251,7 @@ export default {
                   }
                 }
 
-                if (this.params.type === 'hsn1') {
+                if (this.tableInfo.type === 'hsn1') {
                   this.list['hsn1'].forEach((item) => {
                     if (item.hsnsac && typeof item.hsnsac === 'object') {
                       let hsn = JSON.parse(item.hsnsac || '{}');
@@ -306,9 +306,20 @@ export default {
           this.loading = false;
         });
     },
+    getTableInfo() {
+      if (this.$route.params.lenth > 0) {
+        this.tableInfo = this.$route.params;
+      } else {
+        this.tableInfo = {
+          td: this.td,
+          fd: this.fd,
+          type: this.type,
+        }
+      }
+    },
   },
-  created() {
-    this.params = this.$route.params;
+  mounted() {
+    this.getTableInfo();
     this.getGstR1Report();
   },
 };
