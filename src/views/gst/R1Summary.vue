@@ -30,18 +30,31 @@
         >
           <template #cell(summary_label)="data">
             {{ data.value }}
-            <b-badge
-              class="ml-2"
-              variant="info"
-              pill
-              :to="`/gst/r1/${data.item.summary_type}/${fd}&${td}`"
+            <b-button
+              class="ml-3"
+              variant="link"
+              sm
+              @click="$bvModal.show(data.item.summary_type)"
               v-if="data.item.invoice_count > 0"
             >
               Details
               <b-icon
                 icon="chevron-right"
               />
-            </b-badge>
+            </b-button>
+            <b-modal
+              hide-footer
+              size="xl"
+              v-if="data.item.invoice_count > 0"
+              :id="data.item.summary_type"
+              :title="'GST R1 - Detailed Report'"
+            >
+              <r1-detailed
+                :fd="fd"
+                :td="td"
+                :type="data.item.summary_type"
+              />
+            </b-modal>
           </template>
         </b-table>
       </div>
@@ -152,8 +165,9 @@
 import axios from 'axios';
 import { mapState } from 'vuex';
 import ReportHeader from '@/components/ReportHeader.vue';
+import R1Detailed from './R1Detailed.vue';
 export default {
-  components: { ReportHeader },
+  components: { ReportHeader, R1Detailed },
   name: 'R1Summary',
   data() {
     return {
