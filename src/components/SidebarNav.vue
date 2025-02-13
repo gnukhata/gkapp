@@ -558,7 +558,7 @@ export default {
     gstinValid: (self) => !!self.orgGstin,
   },
   methods: {
-    isActive(url, exactMatch=true) {
+    isActive(url, exactMatch=false) {
       const { path, fullPath } = this.$route;
       if (exactMatch) {
         return url === fullPath;
