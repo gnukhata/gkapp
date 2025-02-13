@@ -84,7 +84,7 @@ const config = {
   },
   loadList: function(wfType) {
     let inoutflag = 0;
-    if (wfType === 'sales') {
+    if (wfType === 'sale') {
       inoutflag = 15;
     }
     if (wfType === 'purchase') {

@@ -116,7 +116,7 @@ const config = {
   },
   loadList: function(wfType, yearStart, yearEnd) {
     let invoiceFlag = 0;
-    if (wfType === 'sales') {
+    if (wfType === 'sale') {
       invoiceFlag = 1;
     }
     if (wfType === 'purchase') {

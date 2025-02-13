@@ -36,7 +36,7 @@
         id="sales"
       >
         <b-nav-item
-          :active="isActiveWorkflow('Transactions-Invoice', 'sales')"
+          :active="isActiveWorkflow('Transactions-Invoice', 'sale')"
           :to="{
             name: 'Workflow',
             params: {
@@ -44,7 +44,7 @@
               wfId: -1,
             },
             query: {
-              type: 'sales',
+              type: 'sale',
             },
           }"
         >
@@ -52,8 +52,8 @@
           <translate>Sales Invoices</translate>
         </b-nav-item>
         <b-nav-item
-          :active="isActiveWorkflow('Transactions-PurchaseSalesOrder', 'sales')"
-          to="/workflow/Transactions-PurchaseSalesOrder/-1?type=sales"
+          :active="isActiveWorkflow('Transactions-PurchaseSalesOrder', 'sale')"
+          to="/workflow/Transactions-PurchaseSalesOrder/-1?type=sale"
         >
           <b-icon icon="receipt" />
           <translate>Sales Order</translate>
@@ -73,8 +73,8 @@
           <translate>Point of Sales</translate>
         </b-nav-item>
         <b-nav-item
-          :active="isActiveWorkflow('Transactions-DebitCreditNote', 'sales')"
-          to="/workflow/Transactions-DebitCreditNote/-1?type=sales"
+          :active="isActiveWorkflow('Transactions-DebitCreditNote', 'sale')"
+          to="/workflow/Transactions-DebitCreditNote/-1?type=sale"
         >
           <b-icon icon="receipt" />
           <translate>Debit/Credit Note</translate>
