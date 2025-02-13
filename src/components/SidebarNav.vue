@@ -198,7 +198,7 @@
           to="/workflow/Transactions-Voucher/-1"
         >
           <b-icon icon="receipt" />
-          <translate>Manual Voucers</translate>
+          <translate>Vouchers</translate>
         </b-nav-item>
         <b-nav-item
           :active="isActive('/accounts')"
