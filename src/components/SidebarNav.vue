@@ -159,13 +159,6 @@
         id="banking"
       >
         <b-nav-item
-          :active="isActive('/accounts')"
-          to="/accounts"
-        >
-          <b-icon icon="people" />
-          <translate>Accounts</translate>
-        </b-nav-item>
-        <b-nav-item
           :active="isActive('/bank-recon')"
           to="/bank-recon"
         >
@@ -213,13 +206,6 @@
         >
           <b-icon icon="files-alt" />
           <translate>Chart of Accounts</translate>
-        </b-nav-item>
-        <b-nav-item
-          :active="isActive('/budgets/cash/-1')"
-          to="/budgets/cash/-1"
-        >
-          <b-icon icon="file-ruled" />
-          <translate>Budget</translate>
         </b-nav-item>
         <b-nav-item
           :active="isActive('/billwise/3/-1')"
@@ -449,14 +435,6 @@
         >
           <b-icon icon="file-earmark" />
           <translate>R1 Report</translate>
-        </b-nav-item>
-        <b-nav-item
-          :disabled="!gstinValid"
-          :active="isActive('/gst/3b')"
-          to="/gst/3b"
-        >
-          <b-icon icon="file-earmark" />
-          <translate>3B Report</translate>
         </b-nav-item>
         <b-nav-item
           :active="isActive('/gst/news')"
