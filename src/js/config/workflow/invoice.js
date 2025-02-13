@@ -99,7 +99,7 @@ const config = {
       taxamt: { label: 'Tax', key: 'taxamt', sortable: true },
     },
   },
-  loadList: function(wfType, yearStart, yearEnd) {
+  loadList: function({ wfType, yearStart, yearEnd }) {
     let invoiceFlag = 0;
     if (wfType === 'sale') {
       invoiceFlag = 1;

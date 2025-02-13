@@ -72,7 +72,7 @@ const config = {
       orderno: { label: 'No', key: 'orderno', sortable: true },
     },
   },
-  loadList: function(wfType) {
+  loadList: function({ wfType }) {
     let orderUrl = '/purchaseorder';
     if (wfType === 'sale') {
       orderUrl += '?psflag=19';

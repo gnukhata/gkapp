@@ -1120,7 +1120,11 @@ export default {
           });
         });
         return activeWorkflow
-          .loadList(this.wfType, this.yearStart, this.yearEnd)
+          .loadList({
+            wfType: this.wfType,
+            yearStart: this.yearStart,
+            yearEnd: this.yearEnd
+          })
           .then((resp) => {
             activeWorkflow.data = resp;
             self.isLoading = false;

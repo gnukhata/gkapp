@@ -82,7 +82,7 @@ const config = {
       drcrno: { label: 'No', key: 'drcrno', sortable: true },
     },
   },
-  loadList: function(wfType) {
+  loadList: function({ wfType }) {
     let inoutflag = 0;
     if (wfType === 'sale') {
       inoutflag = 15;

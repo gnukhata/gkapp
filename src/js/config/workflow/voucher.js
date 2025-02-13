@@ -138,7 +138,7 @@ const config = {
       },
     },
   },
-  loadList: function(yearStart, yearEnd) {
+  loadList: function({ yearStart, yearEnd }) {
     const requests = [
       axios
         .get(`/transaction?searchby=date&from=${yearStart}&to=${yearEnd}`)

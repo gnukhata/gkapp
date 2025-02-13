@@ -91,7 +91,7 @@ const config = {
       dcflag: { label: 'Delivery Type', key: 'dcflag', sortable: true },
     },
   },
-  loadList: function(fromDate, toDate) {
+  loadList: function({ yearEnd: toDate }) {
     let toTime = new Date(toDate).getTime();
     let nowTime = new Date().getTime();
     let date =
