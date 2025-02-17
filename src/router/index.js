@@ -571,23 +571,23 @@ const routes = [
       title: "Monthly Ledger",
       requiresOrgAuth: true,
     },
-    path: "/ledger/monthly/:id",
+    path: "/ledger/monthly/:ac",
     name: "Monthly Ledger",
     component: () =>
       import(
-        /* webpackChunkName: "ledger-monthly" */ "../views/LedgerMonthly.vue"
+        /* webpackChunkName: "ledger-monthly" */ "../views/Ledger.vue"
       ),
   },
   {
     // ac=accountcode, pc=productcode, fs=financialstart, fd=fromdate, td=todate,
     meta: {
-      title: "Ledger Full",
+      title: "Ledger Single",
       requiresOrgAuth: true,
     },
     path: "/ledger/:ac&:pc&:fd&:td",
     name: "Ledger Full",
     component: () =>
-      import(/* webpackChunkName: "ledger-full" */ "../views/LedgerFull.vue"),
+      import(/* webpackChunkName: "ledger-full" */ "../views/Ledger.vue"),
   },
   {
     // ac=accountcode
@@ -598,7 +598,7 @@ const routes = [
     path: "/ledger/:ac",
     name: "Ledger Single",
     component: () =>
-      import(/* webpackChunkName: "ledger-ac" */ "../views/LedgerFull.vue"),
+      import(/* webpackChunkName: "ledger-ac" */ "../views/Ledger.vue"),
   },
   {
     // ac=accountcode

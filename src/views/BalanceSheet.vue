@@ -1,98 +1,93 @@
 <template>
-  <section class="m-2">
+  <section>
+    <h2 class="my-4 text-muted display-5">
+      {{ reportName().toUpperCase() }}
+    </h2>
     <b-overlay :show="isLoading">
-      <!-- TODO: rm this alert when fixed -->
-      <b-alert
-        show
-        variant="warning"
-        class="container mt-2"
-      >
-        <b>NOTE:</b> Some data presented in this report is incorrect. We are
-        working on fixing the issue.
-      </b-alert>
       <b-card
-        class="gkcard mx-auto"
-        header-bg-variant="dark"
-        header-text-variant="light"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
-        <template #header>
-          <gk-card-header
-            v-if="orgType == 'Profit Making'"
-            :name="$gettext('Balance Sheet Statement')"
-            help-body="Statement of Affairs / Balance Sheet
-This report can be seen in two formats, namely, Conventional and Vertical.
-The Vertical format is also called Sources and Application of Funds. The period for this report must begin with the first date of the Financial Year and can end on any date.
-In the Conventional format assets are shown on right side and capital and liabilities on the left side. In the Vertical format capital & liabilities are shown in the upper part and assets are shown in the lower part. Operators cannot view this report. Besides this report you can also see a Consolidated Balance Sheet of holding and subsidiary organizations. For this select Consolidated Final Accounts from the drop down of the report menu.
-Final Accounts means the Balance Sheet and Profit & Loss Account.
-Where in a business house has a number of different organizations, it may want to view a combined view of its profitability and State of Affairs.
-GNUKhata provides an easy and quick way of doing this.
-The user will be asked to select a Holding Company and its subsidiary company(s).
-All these organizations must be of the same Type and must have the same Financial Year.
-Note that this is a consolidated report generated from organizations which are separately created in GNUKhata and no changes in the accounts of these organizations will take place. Operators cannot view this report."
-          />
-
-          <gk-card-header
-            v-else
-            name="Statement Of Affairs"
-            help-body="Statement of Affairs / Balance Sheet
-This report can be seen in two formats, namely, Conventional and Vertical.
-The Vertical format is also called Sources and Application of Funds. The period for this report must begin with the first date of the Financial Year and can end on any date.
-In the Conventional format assets are shown on right side and capital and liabilities on the left side. In the Vertical format capital & liabilities are shown in the upper part and assets are shown in the lower part. Operators cannot view this report. Besides this report you can also see a Consolidated Balance Sheet of holding and subsidiary organizations. For this select Consolidated Final Accounts from the drop down of the report menu.
-Final Accounts means the Balance Sheet and Profit & Loss Account.
-Where in a business house has a number of different organizations, it may want to view a combined view of its profitability and State of Affairs.
-GNUKhata provides an easy and quick way of doing this.
-The user will be asked to select a Holding Company and its subsidiary company(s).
-All these organizations must be of the same Type and must have the same Financial Year.
-Note that this is a consolidated report generated from organizations which are separately created in GNUKhata and no changes in the accounts of these organizations will take place. Operators cannot view this report."
-          />
-        </template>
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          {{ reportName() }}: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+          {{ dateReverse(selected?.toDate || toDate) }}
+        </b-alert>
         <b-form @submit.prevent="getReport">
-          <b-form-group
-            label="From"
-            label-align="right"
-            content-cols="8"
+          <b-row>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="From"
+                label-cols="auto"
+              >
+                <gk-date
+                  id="fromdate"
+                  v-model="fromDate"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="To"
+                label-cols="auto"
+              >
+                <gk-date
+                  id="todate"
+                  v-model="toDate"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="Hide ₹0 rows"
+                label-cols="auto"
+              >
+                <b-form-checkbox
+                  id="checkbox-1"
+                  v-model="hideZero"
+                  name="checkbox-1"
+                  class="d-inline-block mt-1"
+                  size="lg"
+                  switch
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-button-group
+            size="sm"
           >
-            <gk-date
-              id="fromdate"
-              v-model="fromDate"
-            />
-          </b-form-group>
-          <b-form-group
-            label="To"
-            label-align="right"
-            content-cols="8"
-          >
-            <gk-date
-              id="todate"
-              v-model="toDate"
-            />
-          </b-form-group>
-          <b-button
-            variant="success"
-            class="float-right"
-            type="submit"
-          >
-            <b-icon
-              class="mr-1"
-              icon="cloud-arrow-up"
-            />
-            <translate>Get Details</translate>
-          </b-button>
+            <b-button
+              variant="success"
+              type="submit"
+              class="mr-2"
+            >
+              Submit
+            </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              Clear
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card>
-      <!--     {{ result }} -->
       <report-header>
         <div class="text-center">
-          <b
-            v-if="orgType == 'Profit Making'"
-            v-translate
-          >Balance Sheet</b>
-          <b
-            v-else
-            v-translate
-          >Statement Of Affairs</b>for the period
-          {{ fromDate }} to
-          {{ toDate }}
+          <b>{{ reportName() }}</b>
+          {{ selected.fromDate }} to
+          {{ selected.toDate }}
           <br>
           <small
             v-if="hideZeroFilter"
@@ -104,52 +99,49 @@ Note that this is a consolidated report generated from organizations which are s
       </report-header>
       <div
         v-if="bsheet.left.length && bsheet.right.length"
-        class="d-print-none d-flex align-items-center justify-content-end my-2"
+        class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
       >
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="hideZero"
-          name="checkbox-1"
-          class="d-inline-block mx-2"
+        <b-button-group
           size="sm"
-          switch
         >
-          <translate> Hide ₹0 rows </translate>
-        </b-form-checkbox>
-        <b-button
-          class="px-1 d-none d-lg-inline-block"
-          variant="link"
-          @click="printPage"
-        >
-          <b-icon
-            class="align-middle"
-            icon="printer"
+          <b-button
+            class="px-1 mr-1 d-none d-lg-inline-block"
+            @click="printPage"
+            variant="dark"
+          >
+            <b-icon
+              class="align-middle"
+              icon="printer"
+            />
+            Print
+          </b-button>
+          <gk-file-download
+            :url="
+              `/spreadsheet/balance-sheet?calculateto=${selected.toDate}&calculatefrom=${selected.fromDate}&fystart=${yearStart}&orgname=${orgName}&fyend=${yearEnd}&orgtype=${orgType}&baltype=1`
+            "
+            :file-name="downloadFileName"
+            title="Export XLSX"
+            name="Export XLSX"
+            file-extn=".xlsx"
+            variant="dark"
+            :message-from-parent="parentMessage"
           />
-        </b-button>
-        <gk-file-download
-          :url="downloadUrl"
-          :file-name="downloadFileName"
-          file-extn=".xlsx"
-          :message-from-parent="parentMessage"
-        />
+        </b-button-group>
       </div>
       <b-row class="row text-small">
         <b-col
-          cols="12"
+          cols
           md="6"
         >
           <b-table
-            striped
             small
-            bordered
+            outlined
             :items="bsheet.left"
             :fields="tableFields"
-            head-variant="dark"
+            head-variant="light"
             v-if="bsheet.left.length"
-            class="text-small table-border-dark"
             tbody-tr-class="bs-row"
             responsive=""
-            :sticky-header="`${minTableHeight}px`"
             filter="a"
             :filter-function="filterLeftTable"
           >
@@ -249,15 +241,12 @@ Note that this is a consolidated report generated from organizations which are s
           <b-table
             :items="bsheet.right"
             :fields="tableFields"
-            striped
             small
-            bordered
-            head-variant="dark"
+            outlined
+            head-variant="light"
             v-if="bsheet.right.length"
-            class="text-small table-border-dark"
             tbody-tr-class="bs-row"
             responsive=""
-            :sticky-header="`${minTableHeight}px`"
             filter="a"
             :filter-function="filterRightTable"
           >
@@ -352,14 +341,12 @@ Note that this is a consolidated report generated from organizations which are s
 </template>
 
 <script>
-import axios from 'axios';
 import { mapState } from 'vuex';
-import GkCardHeader from '../components/GkCardHeader.vue';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import GkFileDownload from '@/components/GkFileDownload.vue';
 export default {
-  components: { GkCardHeader, GkDate, ReportHeader, GkFileDownload },
+  components: { GkDate, GkFileDownload, ReportHeader },
   name: 'BalanceSheet',
   data() {
     return {
@@ -368,6 +355,7 @@ export default {
       fromDate: null,
       toDate: null,
       hideZero: false,
+      selected: {},
       tableFields: [
         {
           key: 'groupAccname',
@@ -427,7 +415,7 @@ export default {
       } else {
         orgType = 'Organisation';
       }
-      return `/spreadsheet/balance-sheet?calculateto=${self.toDate}&calculatefrom=${self.fromDate}&fystart=${self.yearStart}&orgname=${self.orgName}&fyend=${self.yearEnd}&orgtype=${orgType}&baltype=1`;
+      return `/spreadsheet/balance-sheet?calculateto=${self.selected.toDate}&calculatefrom=${self.selected.fromDate}&fystart=${self.yearStart}&orgname=${self.orgName}&fyend=${self.yearEnd}&orgtype=${orgType}&baltype=1`;
     },
     downloadFileName: (self) =>
       `Balance_Sheet_${self.fromDate}_to_${self.toDate}`,
@@ -435,6 +423,15 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   methods: {
+    clear() {
+      this.fromDate = this.yearStart;
+      this.toDate = this.yearEnd;
+      this.hideZero = false;
+      this.getReport();
+    },
+    reportName() {
+      return this.orgType == "Profit Making" ? "Balance Sheet Statement" : "Statement of Affairs"
+    },
     filterTable(list, item) {
       let show = true;
       if (this.hideZeroFilter) {
@@ -501,64 +498,24 @@ export default {
       return result;
     },
     getReport() {
-      const self = this;
       this.isLoading = true;
-      axios
+      this.$axios
         .get(
           `/reports/balance-sheet?calculateto=${this.toDate}&baltype=1&calculatefrom=${this.fromDate}`
         )
-        .then((r) => {
-          if (r.status == 200) {
-            switch (r.data.gkstatus) {
-            case 0:
-              {
-                let report = r.data.gkresult;
-                report.leftlist.shift();
-                report.rightlist.shift();
-                self.bsheet = {
-                  left: self.formatReport(report.leftlist),
-                  right: self.formatReport(report.rightlist),
-                };
-              }
-              break;
-            case 1:
-              this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
-                variant: 'warning',
-                solid: true,
-              });
-              break;
-            case 2:
-              this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 3:
-              this.$bvToast.toast(this.$gettext('Data error'), {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 4:
-              this.$bvToast.toast(this.$gettext('No Privilege'), {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 5:
-              this.$bvToast.toast(this.$gettext('Integrity error'), {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            }
-          }
+        .then((resp) => {
+          resp.leftlist.shift();
+          resp.rightlist.shift();
+          this.bsheet = {
+            left: this.formatReport(resp.leftlist),
+            right: this.formatReport(resp.rightlist),
+          };
           this.isLoading = false;
+          this.selected = {
+            fromDate: this.fromDate,
+            toDate: this.toDate,
+          };
         })
-        .catch((e) => {
-          console.error(e);
-          this.isLoading = false;
-        });
     },
   },
   mounted() {

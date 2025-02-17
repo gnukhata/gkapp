@@ -1,67 +1,110 @@
 <template>
-  <section class="m-1">
+  <section>
     <b-overlay
       :show="loading"
       blur
     >
+      <h2 class="mb-5 text-muted display-5">
+        BANK RECONCILIATION STATEMENT
+      </h2>
       <b-card
-        header="Bank Reconciliation"
-        header-bg-variant="dark"
-        header-text-variant="light"
-        class="mx-auto gkcard d-print-none"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          Bank Reconciliation Statement: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+          {{ dateReverse(selected?.toDate || toDate) }}
+        </b-alert>
         <b-form class="text-small">
-          <!-- Select Register -->
-          <b-form-group
-            label="Account Name"
-            label-cols="auto"
-          >
-            <template #label>
-              <translate> Account Name </translate>
-            </template>
-            <b-form-select
-              ref="bankAcc"
-              v-model="accId"
-              :options="bankAccs"
-              value-field="accountcode"
-              text-field="accountname"
-              required
-              size="sm"
-            />
-          </b-form-group>
-          <!-- Date -->
-          <div class="row">
-            <div class="col">
-              <b-form-group label="From">
+          <b-row>
+            <b-col
+              cols
+              lg="6"
+            >
+              <!-- Select Register -->
+              <b-form-group
+                label="Account Name :"
+                label-cols="auto"
+              >
+                <v-select
+                  :options="bankAccs"
+                  v-model="accId"
+                  placeholder="Select Account"
+                  label="accountname"
+                  :reduce="account => account.accountcode"
+                  :required="true"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <!-- Date -->
+              <b-form-group
+                label="From :"
+                label-cols="auto"
+              >
                 <gk-date
                   id="date-from"
                   required
                   v-model="fromDate"
                 />
               </b-form-group>
-            </div>
-            <div class="col">
-              <b-form-group label="To">
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="To :"
+                label-cols="auto"
+              >
                 <gk-date
                   id="date-to"
                   required
                   v-model="toDate"
                 />
               </b-form-group>
-            </div>
-          </div>
-          <b-button
+            </b-col>
+            <b-col
+              cols
+              lg="12"
+            >
+              <b-form-radio-group
+                v-model="tableType"
+                :options="tableTypeOptions"
+                name="table-options"
+                class="d-print-none"
+              />
+            </b-col>
+          </b-row>
+          <b-button-group
             size="sm"
-            variant="success"
             class="float-right"
-            @click.prevent="getVouchers"
           >
-            <b-icon
-              class="mr-1"
-              icon="cloud-download"
-            />
-            <translate>Get Details</translate>
-          </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              <translate>Clear</translate>
+            </b-button>
+            <b-button
+              size="sm"
+              variant="success"
+              class="ml-1"
+              @click.prevent="getVouchers"
+            >
+              <b-icon
+                class="mr-1"
+                icon="cloud-download"
+              />
+              <translate>Get Details</translate>
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card>
     </b-overlay>
@@ -70,12 +113,6 @@
       class="mt-3"
       v-if="dataFetched"
     >
-      <b-form-radio-group
-        v-model="tableType"
-        :options="tableTypeOptions"
-        name="table-options"
-        class="mx-auto text-center d-print-none mb-3"
-      />
       <report-header>
         <div class="text-center">
           <b> Register</b>
@@ -87,10 +124,10 @@
       </report-header>
       <b-table
         class="mt-3 text-small"
-        head-variant="dark"
+        head-variant="light"
         small
-        bordered
-        striped
+        outlined
+        hover
         stacked="sm"
         v-if="tableType < 2 && activeVouchers.length"
         :items="activeVouchers"
@@ -131,10 +168,10 @@
       </b-table>
       <b-table
         class="mt-3 text-small"
-        head-variant="dark"
+        head-variant="light"
         small
-        bordered
-        striped
+        outlined
+        hover
         v-if="tableType === 2"
         :items="statements"
         :fields="[
@@ -172,6 +209,7 @@ export default {
         cleared: [],
         uncleared: [],
       },
+      selected: {},
       unclearedVouchers: [],
       clearedVouchers: [],
       statements: [],
@@ -223,15 +261,22 @@ export default {
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
+    clear() {
+      this.accId = null;
+      this.tableType = 0;
+      this.dataFetched = false;
+      this.fromDate = this.yearStart;
+      this.toDate = this.yearEnd;
+      this.selected = {};
+      this.unclearedVouchers = [];
+      this.clearedVouchers = [];
+      this.statements = [];
+    },
     getBankAccounts() {
-      axios.get(`/bankrecon`).then((resp) => {
-        if (resp.data.gkstatus === 0) {
-          this.bankAccs = [
-            { accountname: '--- Select Account ---', accountcode: null },
-          ];
-          this.bankAccs.push(...resp.data.gkresult);
-        }
-      });
+      this.$axios
+        .get(`/bankrecon`).then((resp) => {
+          this.bankAccs.push(...resp);
+        });
     },
     updateVoucher(voucher) {
       let payload = {

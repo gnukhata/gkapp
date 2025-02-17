@@ -1,69 +1,96 @@
 <template>
-  <section class="m-1">
+  <section>
+    <h2 class="my-4 text-muted display-5">
+      STOCK ON HAND
+    </h2>
     <b-overlay :show="loading">
       <b-card
-        :header="$gettext('Stock On Hand')"
-        header-bg-variant="dark"
-        header-text-variant="light"
-        class="mx-auto gkcard d-print-none"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          Stock on Hand as on {{ dateReverse(selected?.toDate || toDate) }}
+        </b-alert>
         <b-form @submit.prevent="stockOnHand">
-          <!-- product select -->
-          <b-form-group
-            :label="$gettext('Product')"
-            label-cols="auto"
-          >
-            <v-select
-              :options="productList"
-              v-model="selectedProduct"
-              :placeholder="this.$gettext('Search Products')"
-              label="name"
-              :required="true"
-            />
-            <div class="text-left" />
-          </b-form-group>
-          <!-- Godown select -->
-          <b-form-group
-            :label="$gettext('Godown')"
-            label-cols="auto"
-          >
-            <v-select
-              v-model="selectedGodown"
-              :options="godowns"
-              :placeholder="this.$gettext('Search / Select a godown')"
-              label="name"
-              :required="true"
-            />
-          </b-form-group>
-          <div class="col">
-            <b-form-group
-              :label="$gettext('As on')"
-              label-cols="auto"
-              label-align="right"
+          <b-row>
+            <b-col
+              cols
+              lg="6"
             >
-              <gk-date
-                v-model="toDate"
-                :format="dateFormat"
-                :min="minimumDate"
-                :max="maxDate"
-                id="to"
-                @validity="setDateValidity"
-                :required="true"
-              />
-            </b-form-group>
-          </div>
-          <b-button
-            @click="updateRoute"
-            type="submit"
-            variant="success"
-            class="float-right"
+              <!-- product select -->
+              <b-form-group
+                label="Product"
+                label-cols="auto"
+              >
+                <v-select
+                  :options="productList"
+                  v-model="selectedProduct"
+                  :placeholder="this.$gettext('Search Products')"
+                  label="name"
+                  :required="true"
+                />
+                <div class="text-left" />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="6"
+            >
+              <!-- Godown select -->
+              <b-form-group
+                label="Godown"
+                label-cols="auto"
+              >
+                <v-select
+                  v-model="selectedGodown"
+                  :options="godowns"
+                  :placeholder="this.$gettext('Search / Select a godown')"
+                  label="name"
+                  :required="true"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="As on"
+                label-cols="auto"
+              >
+                <gk-date
+                  v-model="toDate"
+                  :format="dateFormat"
+                  :min="minimumDate"
+                  :max="maxDate"
+                  id="to"
+                  @validity="setDateValidity"
+                  :required="true"
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-button-group
+            size="sm"
           >
-            <b-icon
-              class="mr-1"
-              icon="cloud-download"
-            />
-            <translate>Get Details</translate>
-          </b-button>
+            <b-button
+              @click="updateRoute"
+              type="submit"
+              variant="success"
+              class="mr-2"
+            >
+              Submit
+            </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              Clear
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card>
     </b-overlay>
@@ -75,24 +102,29 @@
       <report-header>
         <div class="text-center">
           <i>Stock report of {{ selectedProduct.name }} in Godown:
-            {{ selectedGodown.name }} as on: {{ dateReverse(toDate) }}
+            {{ selectedGodown.name }} as on: {{ dateReverse(selected.toDate) }}
           </i>
         </div>
       </report-header>
-      <b-form-input
-        v-model="search"
-        :placeholder="$gettext('Search Products')"
-        class="gkcard mx-auto d-print-none"
-      />
+      <div
+        class="d-print-none d-flex align-items-center justify-content-start mb-2 mt-4"
+      >
+        <div>
+          <b-form-input
+            size="sm"
+            v-model="search"
+            :placeholder="$gettext('Search Products')"
+            class="gkcard mx-auto d-print-none"
+          />
+        </div>
+      </div>
       <!-- results -->
       <b-table
         caption-top
-        class="mt-3"
-        head-variant="dark"
+        head-variant="light"
         small
-        bordered
-        striped
-        responsive
+        outlined
+        responsive="sm"
         :filter="search"
         v-if="report.length > 0"
         :items="report"
@@ -101,7 +133,7 @@
         <template #cell(product)="data">
           <router-link
             :to="
-              `/product-register?product_id=${data.item?.productcode}&current_date=${toDate}&goid=${selectedGodown?.id}`
+              `/product-register?product_id=${data.item?.productcode}&current_date=${toDate}&goid=${selectedGodown?.id == 0 ? '' : selectedGodown.id}`
             "
           >
             {{ data.item.product }}
@@ -122,6 +154,15 @@
         </template>
       </b-table>
     </section>
+    <div v-else>
+      <b-alert
+        show
+        class="text-center mx-auto d-print-none"
+        variant="primary"
+      >
+        No data available.
+      </b-alert>
+    </div>
   </section>
 </template>
 
@@ -129,8 +170,8 @@
 import axios from 'axios';
 import dayjs from 'dayjs';
 import GkDate from '../components/GkDate.vue';
-import { mapState } from 'vuex';
 import ReportHeader from '@/components/ReportHeader.vue';
+import { mapState } from 'vuex';
 export default {
   name: 'StockOnHand',
   components: { GkDate, ReportHeader },
@@ -143,8 +184,8 @@ export default {
       productList: [],
       loading: false,
       selectedProduct: {
-        id: null,
-        name: '',
+        id: 0,
+        name: 'All',
       },
       allProducts: false,
       fromDate: '',
@@ -152,9 +193,10 @@ export default {
       report: [],
       godowns: [],
       selectedGodown: {
-        id: null,
-        name: '',
+        id: 0,
+        name: 'All',
       },
+      selected: {},
       godownReport: [],
       fields: [],
       showCard: true,
@@ -195,6 +237,20 @@ export default {
     dateFormat: (self) => self.$store.getters['global/getDateFormat'],
   },
   methods: {
+    clear() {
+      this.selectedProduct = {
+        id: 0,
+        name: 'All',
+      };
+      this.selectedGodown = {
+        id: 0,
+        name: 'All',
+      };
+      this.toDate = this.dateReverse(this.yearEnd);
+      this.$router.replace({});
+      this.report = [];
+      this.selected = {};
+    },
     getGodownList() {
       axios
         .get('/godown')
@@ -300,6 +356,9 @@ export default {
                 productcode: data.productcode,
               };
             }) ?? [];
+            this.selected = {
+              toDate: this.toDate,
+            }
             break;
           case 2:
             this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
@@ -375,8 +434,6 @@ export default {
         this.selectedGodown.id = params.goid;
         this.selectedGodown.name = params.goname;
         this.stockOnHand();
-      } else {
-        this.selectedGodown = this.godowns[0];
       }
     },
     setDateValidity(validity) {
@@ -393,6 +450,7 @@ export default {
   },
   mounted() {
     this.parseParams();
+    this.stockOnHand();
   },
 };
 </script>
