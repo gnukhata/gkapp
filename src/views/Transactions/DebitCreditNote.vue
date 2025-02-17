@@ -28,10 +28,16 @@
           buttons
           class="mx-1"
         >
-          <b-form-radio value="sale">
+          <b-form-radio
+            v-if="type !== 'purchase'"
+            value="sale"
+          >
             <translate> Sale </translate>
           </b-form-radio>
-          <b-form-radio value="purchase">
+          <b-form-radio
+            v-if="type !== 'sale'"
+            value="purchase"
+          >
             <translate> Purchase </translate>
           </b-form-radio>
         </b-form-radio-group>
@@ -270,6 +276,13 @@ export default {
     InvoiceDetails,
     PrintPage,
   },
+  props: {
+    type: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
   data() {
     return {
       config: {
@@ -364,6 +377,9 @@ export default {
   watch: {
     isCredit() {
       this.updateConfig();
+    },
+    type(newType) {
+      this.form.type = newType === 'purchase' ? 'purchase' : 'sale';
     },
   },
   methods: {
@@ -931,6 +947,7 @@ export default {
     this.updateConfig();
     // Using non props to store these props, as these can be edited in the future
     this.initForm();
+    this.form.type = this.type === 'purchase' ? 'purchase' : 'sale';
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page

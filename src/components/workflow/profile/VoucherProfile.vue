@@ -22,9 +22,8 @@
       <div class="float-right">
         <span v-if="voucher?.icflag == 9">
           <b-button
-            class="mr-1"
             size="sm"
-            variant="primary"
+            variant="dark"
             v-b-toggle.voucher-container
           >
             <b-icon
@@ -36,15 +35,15 @@
               :to="
                 `/workflow/Transactions-Invoice/${voucher.invid}`
               "
-            >View Invoice
+            >
+              View Invoice
             </router-link>
           </b-button>
         </span>
         <span v-if="voucher?.icflag == 3">
           <b-button
-            class="mr-1"
             size="sm"
-            variant="primary"
+            variant="dark"
             v-b-toggle.voucher-container
           >
             <b-icon
@@ -56,26 +55,35 @@
               :to="
                 `/workflow/Transactions-CashMemo/${voucher.invid}`
               "
-            >View Cash Memo
+            >
+              View Cash Memo
             </router-link>
           </b-button>
         </span>
         <span v-if="!voucher?.invid && !voucher?.drcrid ">
-          <b-button
+          <b-dropdown
+            split
             size="sm"
-            variant="warning"
-            class="mr-1"
-            :to="{name: 'Edit_Voucher', params: {vid: id}}"
+            variant="dark"
+            :split-to="{name: 'Edit_Voucher', params: {vid: id}}"
           >
-            <translate> Edit </translate>
-          </b-button>
-          <b-button
-            @click.prevent="onDelete"
-            size="sm"
-            variant="danger"
-          >
-            <translate> Delete </translate>
-          </b-button>
+            <template #button-content>
+              <b-icon
+                class="mr-1"
+                icon="pencil"
+              />
+              <translate>Edit</translate>
+            </template>
+            <b-dropdown-item-button
+              @click.prevent="onDelete"
+            >
+              <b-icon
+                class="mr-1"
+                icon="trash"
+              />
+              <translate>Delete</translate>
+            </b-dropdown-item-button>
+          </b-dropdown>
         </span>
       </div>
     </div>
@@ -86,9 +94,8 @@
       <div class="float-right">
         <span>
           <b-button
-            class="mr-1"
             size="sm"
-            variant="primary"
+            variant="dark"
             v-b-toggle.voucher-container
           >
             <b-icon
@@ -100,7 +107,8 @@
               :to="
                 `/workflow/Transactions-DebitCreditNote/${voucher.drcrid}`
               "
-            >{{ type === 'creditnote' ? 'View Credit Note' : 'View Debit Note' }}
+            >
+              {{ type === 'creditnote' ? 'View Credit Note' : 'View Debit Note' }}
             </router-link>
           </b-button>
         </span>

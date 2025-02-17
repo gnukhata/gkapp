@@ -15,13 +15,13 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'Customer',
-        props: { key: 'csflag', value: 3 },
+        text: 'Credit Note',
+        props: { key: 'dctypeflag', value: 3 },
         icon: { name: 'cash-stack' },
       },
       {
-        text: 'Supplier',
-        props: { key: 'csflag', value: 19 },
+        text: 'Debit Note',
+        props: { key: 'dctypeflag', value: 4 },
         icon: { name: 'basket3' },
       },
     ],
@@ -82,7 +82,7 @@ const config = {
       drcrno: { label: 'No', key: 'drcrno', sortable: true },
     },
   },
-  loadList: function(wfType) {
+  loadList: function({ wfType }) {
     let inoutflag = 0;
     if (wfType === 'sale') {
       inoutflag = 15;
@@ -143,20 +143,8 @@ function initColumns() {
     if (!columns || !columns.length) {
       columns = [
         {
-          label: 'Date',
+          label: '',
           key: 'dateObj',
-          sortable: true,
-        },
-        {
-          label: 'Name',
-          key: 'custname',
-          sortable: true,
-        },
-        {
-          label: 'Amount',
-          key: 'totreduct',
-          sortable: true,
-          tdClass: 'gk-currency'
         },
       ];
     }

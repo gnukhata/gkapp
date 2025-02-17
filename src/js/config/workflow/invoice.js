@@ -16,34 +16,19 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'Customer',
-        value: 1,
-        props: { key: 'csflag', value: 3 },
-        icon: { name: 'cash-stack' },
-      },
-      {
-        text: 'Supplier',
-        value: 2,
-        props: { key: 'csflag', value: 19 },
-        icon: { name: 'basket3' },
-      },
-      {
-        text: 'Cancelled',
-        value: 3,
-        props: { key: 'deletedFlag', value: true },
-        icon: { name: 'x-circle', variant: 'danger' },
+        text: 'Editable',
+        props: { key: 'rectifyFlag', value: true },
+        icon: { name: '' },
       },
       {
         text: 'On Credit',
-        value: 4,
         props: { key: 'onCreditFlag', value: true },
         icon: { name: 'dash', variant: 'danger' },
       },
       {
-        text: 'Editable',
-        value: 5,
-        props: { key: 'rectifyFlag', value: true },
-        icon: { name: '' },
+        text: 'Cancelled',
+        props: { key: 'deletedFlag', value: true },
+        icon: { name: 'x-circle', variant: 'danger' },
       },
     ],
     range: [
@@ -114,7 +99,7 @@ const config = {
       taxamt: { label: 'Tax', key: 'taxamt', sortable: true },
     },
   },
-  loadList: function(wfType, yearStart, yearEnd) {
+  loadList: function({ wfType, yearStart, yearEnd }) {
     let invoiceFlag = 0;
     if (wfType === 'sale') {
       invoiceFlag = 1;
@@ -158,7 +143,7 @@ const config = {
                 } Invoice`,
                 date: item.invoicedate,
                 text1: item.custname,
-                text2: `₹ ${item.netamt}`,
+                text2: `₹ ${item.grossamt}`,
                 icon: item.inoutflag === 15 ? 'cash-stack' : 'basket3',
                 onCreditFlag: false,
                 rectifyFlag: false, // can be rectified or not
@@ -244,20 +229,8 @@ function initColumns() {
     if (!columns || !columns.length) {
       columns = [
         {
-          label: 'Date',
+          label: '',
           key: 'dateObj',
-          sortable: true,
-        },
-        {
-          label: 'Name',
-          key: 'custname',
-          sortable: true,
-        },
-        {
-          label: 'Amount',
-          key: 'netamt',
-          sortable: true,
-          tdClass: 'gk-currency',
         },
       ];
     }

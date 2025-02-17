@@ -20,112 +20,100 @@
     <div class="mb-3 clearfix d-print-none">
       <div class="float-right">
         <span v-if="!deletedFlag">
-          <b-button
-            v-if="invoice.attachmentCount"
-            class="mr-1"
+          <b-dropdown
+            split
             size="sm"
-            variant="primary"
-            v-b-toggle.attachment-container
-            @click="fetchAttachments"
+            variant="dark"
+            @click="showVoucherModal = !showVoucherModal"
           >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
-            <translate>View Attachments</translate>
-          </b-button>
-          <b-button
-            class="mr-1"
-            size="sm"
-            variant="primary"
-            v-b-modal.voucher-container
-          >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
-            <translate>View Vouchers</translate>
-          </b-button>
-          <b-button
-            class="mr-1"
-            size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
-            v-if="showButton(3)"
-            @click="redirectBasedOnValue(3)"
-          >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
-            <translate>View Credit Note</translate>
-          </b-button>
-          <b-button
-            class="mr-1"
-            size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
-            v-if="showButton(4)"
-            @click="redirectBasedOnValue(4)"
-          >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
-            <translate>View Debit Note</translate>
-          </b-button>
-          <b-button
-            @click="onPayment"
-            v-if="invoice.payment.mode != 5 && paymentFlag"
-            class="mr-1"
-            size="sm"
-            variant="success"
-          >
-            <translate>{{ invoice.isSale ? 'Receive Payment' : 'Make Payment' }}
-            </translate>
-          </b-button>
-          <b-button
-            :to="{
-              name: 'Billwise',
-              params: {custType: 3, custName: '-1'},
-            }"
-            v-if="invoice.payment.mode != 5 && paymentFlag"
-            class="mr-1"
-            size="sm"
-            variant="success"
-          >
-            <b-icon
-              class="mr-1"
-              icon="clipboard-check"
-            />
-            <translate>Adjust
-            </translate>
-          </b-button>
-          <b-button
-            v-if="rectifyFlag"
-            class="mr-1"
-            size="sm"
-            variant="warning"
-            :to="{name: 'Invoice_Edit', params: {invid: id}}"
-          >
-            <b-icon
-              class="mr-1"
-              icon="pencil"
-            />
-            <translate>Rectify</translate>
-          </b-button>
-          <b-button
-            v-if="cancelFlag"
-            size="sm"
-            variant="danger"
-            @click="confirmOnCancel"
-          >
-            <b-icon
-              class="mr-1"
-              icon="x-octagon"
-            />
-            <translate>Cancel</translate>
-          </b-button>
+            <template #button-content>
+              <b-icon
+                class="mr-1"
+                icon="eye"
+              />
+              <translate>View Vouchers</translate>
+            </template>
+            <b-dropdown-item-button
+              v-if="invoice.attachmentCount"
+              v-b-toggle.attachment-container
+              @click="fetchAttachments"
+            >
+              <b-icon
+                class="mr-1"
+                icon="paperclip"
+              />
+              <translate>View Attachments</translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item-button
+              v-b-toggle.voucher-container
+              v-if="showButton(3)"
+              @click="redirectBasedOnValue(3)"
+            >
+              <b-icon
+                class="mr-1"
+                icon="eye"
+              />
+              <translate>View Credit Note</translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item-button
+              v-b-toggle.voucher-container
+              v-if="showButton(4)"
+              @click="redirectBasedOnValue(4)"
+            >
+              <b-icon
+                class="mr-1"
+                icon="eye"
+              />
+              <translate>View Debit Note</translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item-button
+              @click="onPayment"
+              v-if="invoice.payment.mode != 5 && paymentFlag"
+            >
+              <b-icon
+                class="mr-1"
+                icon="cash"
+              />
+              <translate>
+                {{ invoice.isSale ? 'Receive Payment' : 'Make Payment' }}
+              </translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item
+              :to="{
+                name: 'Billwise',
+                params: {custType: 3, custName: '-1'},
+              }"
+              v-if="invoice.payment.mode != 5 && paymentFlag"
+            >
+              <b-icon
+                class="mr-1"
+                icon="clipboard-check"
+              />
+              <translate>
+                Adjust Bill
+              </translate>
+            </b-dropdown-item>
+            <b-dropdown-item
+              v-if="rectifyFlag"
+              :to="{name: 'Invoice_Edit', params: {invid: id}}"
+            >
+              <b-icon
+                class="mr-1"
+                icon="pencil"
+              />
+              <translate>Rectify</translate>
+            </b-dropdown-item>
+            <b-dropdown-item-button
+              v-if="cancelFlag"
+              @click="confirmOnCancel"
+            >
+              <b-icon
+                class="mr-1"
+                icon="x-octagon"
+              />
+              <translate>Cancel Invoice</translate>
+            </b-dropdown-item-button>
+          </b-dropdown>
         </span>
       </div>
     </div>
@@ -384,6 +372,7 @@
     <br>
     <b-modal
       id="voucher-container"
+      v-model="showVoucherModal"
       size="xl"
       title="Vouchers"
       hide-footer
@@ -446,7 +435,7 @@
     </b-modal>
     <b-modal
       size="lg"
-      v-model="showVoucherModal"
+      v-model="showPaymentModal"
       centered
       static
       body-class="p-0"
@@ -541,11 +530,11 @@ export default {
       vouchers: [],
       attachments: [],
       showAttachments: false,
-      showVouchers: false,
+      showVoucherModal: false,
       isAttachmentLoading: false,
       voucherType: 'receipt',
       voucherInvId: -1,
-      showVoucherModal: false,
+      showPaymentModal: false,
       states: {},
       toDate: '',
     };
@@ -754,10 +743,10 @@ export default {
     onPayment() {
       this.voucherType = this.invoice.isSale ? 'receipt' : 'payment';
       this.voucherInvId = this.id;
-      this.showVoucherModal = true;
+      this.showPaymentModal = true;
     },
     onPaymentComplete() {
-      this.showVoucherModal = false;
+      this.showPaymentModal = false;
       this.voucherInvId = -1;
       this.refresh();
     },
@@ -1121,7 +1110,7 @@ export default {
     },
     refresh() {
       this.isPreloading = true;
-      this.showVouchers = false;
+      this.showVoucherModal = false;
       this.vouchers = [];
       this.showAttachments = false;
       this.attachments = [];

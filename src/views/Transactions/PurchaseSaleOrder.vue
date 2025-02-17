@@ -29,10 +29,16 @@
           class="mx-1"
           @input="updateConfig"
         >
-          <b-form-radio value="sale">
+          <b-form-radio
+            v-if="type !== 'purchase'"
+            value="sale"
+          >
             <translate> Sale </translate>
           </b-form-radio>
-          <b-form-radio value="purchase">
+          <b-form-radio
+            v-if="type !== 'sale'"
+            value="purchase"
+          >
             <translate> Purchase </translate>
           </b-form-radio>
         </b-form-radio-group>
@@ -303,6 +309,13 @@ export default {
     PsOrderDetails,
     PaymentDetails,
     PrintPage,
+  },
+  props: {
+    type: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -942,6 +955,9 @@ export default {
     defaultTaxMode(newMode) {
       this.form.taxType = newMode;
     },
+    type(newType) {
+      this.form.type = newType === 'purchase' ? 'purchase' : 'sale';
+    },
   },
   beforeMount() {
     this.vuexNameSpace = 'psOrderConfig_' + Date.now();
@@ -955,6 +971,7 @@ export default {
     this.initForm();
     this.preloadData();
     this.form.taxType = this.defaultTaxMode;
+    this.form.type = this.type === 'purchase' ? 'purchase' : 'sale';
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page

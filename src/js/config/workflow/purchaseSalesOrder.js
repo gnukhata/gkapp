@@ -14,18 +14,7 @@ const config = {
     name: 'Ps_Order_List',
   },
   filterBy: {
-    value: [
-      {
-        text: 'Customer',
-        props: { key: 'csflag', value: 3 },
-        icon: { name: 'cash-stack' },
-      },
-      {
-        text: 'Supplier',
-        props: { key: 'csflag', value: 19 },
-        icon: { name: 'basket3' },
-      },
-    ],
+    value: [],
     range: [
       {
         from: {
@@ -83,7 +72,7 @@ const config = {
       orderno: { label: 'No', key: 'orderno', sortable: true },
     },
   },
-  loadList: function(wfType) {
+  loadList: function({ wfType }) {
     let orderUrl = '/purchaseorder';
     if (wfType === 'sale') {
       orderUrl += '?psflag=19';
@@ -103,9 +92,10 @@ const config = {
               {
                 id: item.orderid,
                 no: item.orderno,
-                noteName: `Order`,
+                noteName: `${wfType === 'purchase' ? 'Purchase' : 'Sales'} Order`,
                 text1: item.customer,
-                text2: item.orderno,
+                text2: `₹ ${item.ordertotal}`,
+                icon: wfType === 'sale' ? 'cash-stack' : 'basket3',
                 // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                 date: item.orderdate,
                 dateObj: Date.parse(
@@ -142,19 +132,8 @@ function initColumns() {
     if (!columns || !columns.length) {
       columns = [
         {
-          label: 'Date',
+          label: '',
           key: 'dateObj',
-          sortable: true,
-        },
-        {
-          label: 'Customer',
-          key: 'customer',
-          sortable: true,
-        },
-        {
-          label: 'No.',
-          key: 'orderno',
-          sortable: true,
         },
       ];
     }

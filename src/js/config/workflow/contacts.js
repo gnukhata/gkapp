@@ -46,7 +46,7 @@ const config = {
       custname: { label: 'Name', key: 'custname', sortable: true },
     },
   },
-  loadList: function(wfType) {
+  loadList: function({ wfType }) {
     const requests = [];
     const customers = axios.get('/customer?qty=custall').catch((error) => {
       return error;

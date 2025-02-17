@@ -21,11 +21,10 @@
       <div class="float-right">
         <span v-if="!pdata.cancelledFlag">
           <b-button
-            class="mr-1"
-            size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
             v-if="delnote.narration?.includes('Cash Memo')"
+            size="sm"
+            variant="dark"
+            v-b-toggle.voucher-container
           >
             <b-icon
               class="mr-1"
@@ -36,15 +35,16 @@
               :to="
                 `/workflow/Transactions-CashMemo/${invid}`
               "
-            >View Cash Memo
+            >
+              View Cash Memo
             </router-link>
           </b-button>
           <b-button
+            v-else
             class="mr-1"
             size="sm"
-            variant="primary"
+            variant="dark"
             v-b-toggle.voucher-container
-            v-else
           >
             <b-icon
               class="mr-1"
@@ -55,10 +55,10 @@
               :to="
                 `/workflow/Transactions-Invoice/${invid}`
               "
-            >View Invoice
+            >
+              View Invoice
             </router-link>
           </b-button>
-
         </span>
       </div>
     </div>

@@ -299,7 +299,10 @@ const routes = [
       import(
         /* webpackChunkName: "invoice" */ "../views/Transactions/Invoice.vue"
       ),
-    props: true,
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
   },
   {
     meta: {
@@ -385,6 +388,10 @@ const routes = [
       import(
         /* webpackChunkName: "ps_order" */ "../views/Transactions/PurchaseSaleOrder.vue"
       ),
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
   },
   {
     meta: {
@@ -397,6 +404,10 @@ const routes = [
       import(
         /* webpackChunkName: "dc_note" */ "../views/Transactions/DebitCreditNote.vue"
       ),
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
   },
   {
     meta: {
