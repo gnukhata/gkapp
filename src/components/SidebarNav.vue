@@ -293,26 +293,23 @@
         v-model="collapsed.admin"
         id="admin"
       >
-        <b-nav-item
-          :active="isActive('/users')"
-          to="/users"
-        >
-          <b-icon icon="people" />
-          <translate>Manage Users</translate>
+        <b-nav-item to="/orgprofile">
+          <b-icon icon="building" /> <translate>Organisation Profile</translate>
         </b-nav-item>
-        <b-nav-item
-          :active="isActive('/settings')"
-          to="/settings"
-        >
-          <b-icon icon="gear" />
-          <translate>Settings</translate>
+        <b-nav-item to="/users">
+          <b-icon icon="people" /><translate>Manage Users</translate>
         </b-nav-item>
-        <b-nav-item
-          :active="isActive('/logs')"
-          to="/logs"
-        >
-          <b-icon icon="server" />
-          <translate>Audit Logs</translate>
+        <b-nav-item to="/logs">
+          <b-icon icon="card-checklist" /><translate>Audit Logs</translate>
+        </b-nav-item>
+        <b-nav-item to="/data/import">
+          <b-icon icon="download" /><translate>Import Data</translate>
+        </b-nav-item>
+        <b-nav-item to="/data/export">
+          <b-icon icon="upload" /><translate>Export Data</translate>
+        </b-nav-item>
+        <b-nav-item to="/settings">
+          <b-icon icon="gear" /> <translate>Settings</translate>
         </b-nav-item>
       </b-collapse>
     </template>

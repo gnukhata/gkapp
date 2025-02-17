@@ -7,30 +7,23 @@
         blur
         no-wrap
       />
-
-      <b-container fluid="xl">
-        <b-card-group deck>
-          <!-- general Card -->
-          <b-card
-            header="General"
-            header-bg-variant="dark"
-            header-text-variant="light"
-          >
-            <b-img
-              rounded
-              center
-              height="150"
-              width="150"
-              class="mx-auto m-2 border border-dark"
-              :src="orgImg"
-            />
+      <b-card no-body>
+        <template #header>
+          <h5 class="my-2">
+            Organisation Profile
+          </h5>
+        </template>
+        <b-card-body>
+          <div>
+            <h5 class="mb-3">
+              Basic Details
+            </h5>
             <b-form-group
               :label="$gettext('Image')"
-              label-size="sm"
-              label-align="right"
-              lable-cols="4"
-              content-cols="8"
-              description="Image size should be less than 1 MB. jpeg & png images are only supported"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
+              description="Image size should be less than 1 MB. Only JPEG & PNG images are supported."
             >
               <b-form-file
                 @input="prepareImg"
@@ -40,12 +33,20 @@
                 placeholder="Choose a file / Drag & drop it here"
                 drop-placeholder="Drop file here..."
               />
+              <b-img
+                rounded
+                center
+                height="150"
+                width="150"
+                class="my-4"
+                :src="orgImg"
+              />
             </b-form-group>
             <b-form-group
               :label="$gettext('Name')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="details.orgname"
@@ -56,9 +57,9 @@
             </b-form-group>
             <b-form-group
               :label="$gettext('Website')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="details.orgwebsite"
@@ -68,9 +69,9 @@
             </b-form-group>
             <b-form-group
               :label="$gettext('Email')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="details.orgemail"
@@ -78,17 +79,17 @@
                 type="email"
               />
             </b-form-group>
-          </b-card>
-          <!-- Contact Card -->
-          <b-card
-            :header="$gettext('Contact Details')"
-            header-bg-variant="dark"
-            header-text-variant="light"
-          >
+          </div>
+          <div>
+            <hr class="mx-1 my-4">
+            <h5 class="mb-3">
+              Contact Details
+            </h5>
             <b-form-group
               label="Address"
-              label-cols="4"
-              label-align="right"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="details.orgaddr"
@@ -99,9 +100,9 @@
             </b-form-group>
             <b-form-group
               :label="$gettext('City')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="details.orgcity"
@@ -111,9 +112,9 @@
             </b-form-group>
             <b-form-group
               :label="$gettext('Country')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <v-select
                 v-model="details.orgcountry"
@@ -125,9 +126,9 @@
             <b-form-group
               v-if="isIndia"
               :label="$gettext('State')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-select
                 v-model="stateCode"
@@ -138,9 +139,9 @@
             <b-form-group
               v-if="isIndia"
               :label="$gettext('Postal code')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="details.orgpincode"
@@ -150,9 +151,9 @@
             </b-form-group>
             <b-form-group
               :label="$gettext('Phone')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-input-group>
                 <b-form-input
@@ -165,9 +166,9 @@
             </b-form-group>
             <b-form-group
               :label="$gettext('Fax')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="details.orgfax"
@@ -175,24 +176,18 @@
                 type="text"
               />
             </b-form-group>
-          </b-card>
-        </b-card-group>
-        <!-- Bank card --->
-        <b-card-group
-          deck
-          class="mt-4"
-        >
-          <b-card
-            :header="$gettext('Bank Details')"
-            header-bg-variant="dark"
-            header-text-variant="light"
-          >
+          </div>
+          <div>
+            <hr class="mx-1 my-4">
+            <h5 class="mb-3">
+              Bank Details
+            </h5>
             <b-form-group
               v-if="isIndia"
               :label="$gettext('IFSC Code')"
-              label-cols="4"
-              label-size="sm"
-              label-align="right"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <gk-ifsc
                 size="sm"
@@ -200,12 +195,11 @@
                 :ifsc-code="bankDetails.ifsc"
               />
             </b-form-group>
-            <!-- bank name -->
             <b-form-group
               :label="$gettext('Bank Name')"
-              label-cols="4"
-              label-size="sm"
-              label-align="right"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="bankDetails.bankname"
@@ -213,12 +207,11 @@
                 type="text"
               />
             </b-form-group>
-            <!-- Branch -->
             <b-form-group
               :label="$gettext('Branch')"
-              label-cols="4"
-              label-size="sm"
-              label-align="right"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="bankDetails.branchname"
@@ -226,12 +219,11 @@
                 type="text"
               />
             </b-form-group>
-            <!-- account number -->
             <b-form-group
               :label="$gettext('Account Number')"
-              label-cols="4"
-              label-size="sm"
-              label-align="right"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="bankDetails.accountno"
@@ -239,20 +231,17 @@
                 type="text"
               />
             </b-form-group>
-          </b-card>
-          <!-- Tax card-->
-          <b-card
-            v-if="isIndia"
-            :header="$gettext('Tax Details')"
-            class="gkcard"
-            header-bg-variant="dark"
-            header-text-variant="light"
-          >
+          </div>
+          <div v-if="isIndia">
+            <hr class="mx-1 my-4">
+            <h5 class="mb-3">
+              Tax Details
+            </h5>
             <b-form-group
               label="Tax Mode"
-              label-size="sm"
-              label-cols="4"
-              label-align="right"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-select
                 size="sm"
@@ -264,9 +253,9 @@
             <b-form-group
               v-if="['GST', 'GST & VAT'].includes(taxMode)"
               :label="$gettext('GSTIN')"
-              label-size="sm"
-              label-cols="4"
-              label-align="right"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
               label-class="required"
             >
               <gk-gstin
@@ -282,9 +271,9 @@
             <b-form-group
               v-if="['VAT', 'GST & VAT'].includes(taxMode)"
               :label="$gettext('TIN')"
-              label-size="sm"
-              label-cols="4"
-              label-align="right"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
               label-class="required"
             >
               <b-form-input
@@ -297,8 +286,9 @@
             <b-form-group
               v-if="taxMode && taxMode !== 'None'"
               :label="$gettext('PAN')"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
               label-size="sm"
               :state="isPanValid"
               invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
@@ -317,9 +307,9 @@
             <b-form-group
               v-if="['VAT', 'GST & VAT'].includes(taxMode)"
               :label="$gettext('ServiceTax Number')"
-              label-size="sm"
-              label-align="right"
-              label-cols="4"
+              label-cols-md="3"
+              content-cols-md="9"
+              content-cols-lg="5"
             >
               <b-form-input
                 v-model="details.orgstax"
@@ -327,34 +317,27 @@
                 type="text"
               />
             </b-form-group>
-            <!-- {{ details }} -->
-          </b-card>
-        </b-card-group>
-        <!-- Submit & cancel buttons -->
-        <div class="mt-2 mb-3 d-flex flex-row-reverse">
-          <b-button
-            type="submit"
-            size="sm"
-            class="ml-2"
-            variant="success"
-          >
-            <b-icon
-              class="mr-1"
-              icon="arrow-up-circle"
-            /><translate>Save Changes</translate>
-          </b-button>
-          <b-button
-            variant="danger"
-            size="sm"
-            @click="confirm('delete')"
-          >
-            <b-icon
-              class="mr-1"
-              icon="building"
-            /><translate>Delete Organisation</translate>
-          </b-button>
-        </div>
-      </b-container>
+          </div>
+          <hr class="mx-1 my-4">
+          <div class="mt-2 mb-3">
+            <b-button-group size="sm">
+              <b-button
+                type="submit"
+                variant="success"
+              >
+                <translate>Save</translate>
+              </b-button>
+              <b-button
+                variant="danger"
+                class="ml-1"
+                @click="confirm('delete')"
+              >
+                <translate>Delete Organisation</translate>
+              </b-button>
+            </b-button-group>
+          </div>
+        </b-card-body>
+      </b-card>
     </b-form>
     <!--
       Tax Creation Window
@@ -439,8 +422,9 @@
       <b-form>
         <b-form-group
           :label="$gettext('CESS')"
-          label-cols="4"
-          label-align="right"
+          label-cols-md="3"
+          content-cols-md="9"
+          content-cols-lg="5"
         >
           <b-input-group append="%">
             <b-form-input
