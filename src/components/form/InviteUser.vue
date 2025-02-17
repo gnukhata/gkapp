@@ -532,6 +532,17 @@ export default {
                   }
                 );
                 break;
+              case STATUS_CODES['DuplicateEntry']:
+                this.$bvToast.toast(
+                  this.$gettext(
+                    'User already exists.'
+                  ),
+                  {
+                    variant: 'warning',
+                    solid: true,
+                  }
+                );
+                break;
               case STATUS_CODES['ActionDisallowed']:
                 this.$bvToast.toast(
                   this.$gettext(
