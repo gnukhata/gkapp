@@ -116,7 +116,7 @@ const config = {
   },
   loadList: function(wfType, yearStart, yearEnd) {
     let invoiceFlag = 0;
-    if (wfType === 'sales') {
+    if (wfType === 'sale') {
       invoiceFlag = 1;
     }
     if (wfType === 'purchase') {
@@ -135,7 +135,7 @@ const config = {
       }),
       axios
         .get(
-          `/invoice/list?type=listdeleted&flag=0&fromdate=${yearStart}&todate=${yearEnd}`
+          `/invoice/list?type=listdeleted&flag=${invoiceFlag}&fromdate=${yearStart}&todate=${yearEnd}`
         )
         .catch((error) => {
           return error;

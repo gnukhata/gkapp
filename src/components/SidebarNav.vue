@@ -36,7 +36,7 @@
         id="sales"
       >
         <b-nav-item
-          :active="isActiveWorkflow('Transactions-Invoice', 'sales')"
+          :active="isActiveWorkflow('Transactions-Invoice', 'sale')"
           :to="{
             name: 'Workflow',
             params: {
@@ -44,7 +44,7 @@
               wfId: -1,
             },
             query: {
-              type: 'sales',
+              type: 'sale',
             },
           }"
         >
@@ -52,8 +52,8 @@
           <translate>Sales Invoices</translate>
         </b-nav-item>
         <b-nav-item
-          :active="isActiveWorkflow('Transactions-PurchaseSalesOrder', 'sales')"
-          to="/workflow/Transactions-PurchaseSalesOrder/-1?type=sales"
+          :active="isActiveWorkflow('Transactions-PurchaseSalesOrder', 'sale')"
+          to="/workflow/Transactions-PurchaseSalesOrder/-1?type=sale"
         >
           <b-icon icon="receipt" />
           <translate>Sales Order</translate>
@@ -73,8 +73,8 @@
           <translate>Point of Sales</translate>
         </b-nav-item>
         <b-nav-item
-          :active="isActiveWorkflow('Transactions-DebitCreditNote', 'sales')"
-          to="/workflow/Transactions-DebitCreditNote/-1?type=sales"
+          :active="isActiveWorkflow('Transactions-DebitCreditNote', 'sale')"
+          to="/workflow/Transactions-DebitCreditNote/-1?type=sale"
         >
           <b-icon icon="receipt" />
           <translate>Debit/Credit Note</translate>
@@ -159,13 +159,6 @@
         id="banking"
       >
         <b-nav-item
-          :active="isActive('/accounts')"
-          to="/accounts"
-        >
-          <b-icon icon="people" />
-          <translate>Accounts</translate>
-        </b-nav-item>
-        <b-nav-item
           :active="isActive('/bank-recon')"
           to="/bank-recon"
         >
@@ -213,13 +206,6 @@
         >
           <b-icon icon="files-alt" />
           <translate>Chart of Accounts</translate>
-        </b-nav-item>
-        <b-nav-item
-          :active="isActive('/budgets/cash/-1')"
-          to="/budgets/cash/-1"
-        >
-          <b-icon icon="file-ruled" />
-          <translate>Budget</translate>
         </b-nav-item>
         <b-nav-item
           :active="isActive('/billwise/3/-1')"
@@ -451,14 +437,6 @@
           <translate>R1 Report</translate>
         </b-nav-item>
         <b-nav-item
-          :disabled="!gstinValid"
-          :active="isActive('/gst/3b')"
-          to="/gst/3b"
-        >
-          <b-icon icon="file-earmark" />
-          <translate>3B Report</translate>
-        </b-nav-item>
-        <b-nav-item
           :active="isActive('/gst/news')"
           to="/gst/news"
         >
@@ -558,7 +536,7 @@ export default {
     gstinValid: (self) => !!self.orgGstin,
   },
   methods: {
-    isActive(url, exactMatch=true) {
+    isActive(url, exactMatch=false) {
       const { path, fullPath } = this.$route;
       if (exactMatch) {
         return url === fullPath;

@@ -85,7 +85,7 @@ const config = {
   },
   loadList: function(wfType) {
     let orderUrl = '/purchaseorder';
-    if (wfType === 'sales') {
+    if (wfType === 'sale') {
       orderUrl += '?psflag=19';
     }
     if (wfType === 'purchase') {
