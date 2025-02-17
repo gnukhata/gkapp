@@ -2,112 +2,64 @@
   <b-form
     id="contactinfo"
     @submit.prevent="updateContact"
-    class="align-form-label-right"
   >
     <!-- Action Buttons -->
-    <div class="pt-2 pb-3 d-flex flex-row-reverse">
-      <b-button
-        @click.prevent="deleteContact"
-        size="sm"
-        class="ml-2"
-        variant="danger"
-      >
-        <b-icon
-          class="mr-1"
-          icon="person-dash"
-        />
-        <translate>Delete Contact</translate>
-      </b-button>
-      <b-button
-        type="submit"
-        size="sm"
-        class="ml-2"
-        variant="success"
-      >
-        <b-icon
-          class="mr-1"
-          icon="cloud-arrow-up"
-        />
-        <translate>Save Changes</translate>
-      </b-button>
-      <b-button
-        to="/invoice"
-        size="sm"
-        class="ml-2"
-        variant="dark"
-      >
-        <b-icon
-          class="mr-1"
-          icon="receipt"
-        />
-        <translate>Add Transaction</translate>
-      </b-button>
-      <b-button
-        :to="{
-          name: 'Create_Voucher',
-          params: {
-            type: customer.csflag ? 'receipt' : 'payment',
-            customer: customer.custname || '',
-          },
-        }"
-        size="sm"
-        class="ml-2"
-        variant="warning"
-      >
-        <b-icon
-          class="mr-1"
-          icon="file-earmark-plus"
-        />
-        <translate>Create Voucher</translate>
-      </b-button>
-      <b-button
-        :to="`/ledger/${custid}`"
-        size="sm"
-        class="ml-2"
-        variant="success"
-      >
-        <b-icon
-          class="mr-1"
-          icon="journals"
-        />
-        <translate>View Ledger</translate>
-      </b-button>
+    <div class="mb-3 clearfix d-print-none">
+      <div class="float-right">
+        <b-dropdown
+          split
+          :split-to="`/ledger/${custid}`"
+          size="sm"
+          class="mt-4 mr-4"
+          variant="dark"
+        >
+          <template #button-content>
+            <b-icon
+              icon="eye"
+              class="mr-1"
+            />
+            <translate>View Ledger</translate>
+          </template>
+          <b-dropdown-item
+            :to="{
+              name: 'Create_Voucher',
+              params: {
+                type: customer.csflag ? 'receipt' : 'payment',
+                customer: customer.custname || '',
+              },
+            }"
+          >
+            <b-icon
+              icon="file-earmark-plus"
+              class="mr-1"
+            />
+            <translate>Create Voucher</translate>
+          </b-dropdown-item>
+          <b-dropdown-item to="/invoice">
+            <b-icon
+              class="mr-1"
+              icon="receipt"
+            />
+            <translate>Add Transaction</translate>
+          </b-dropdown-item>
+        </b-dropdown>
+      </div>
     </div>
     <b-overlay
       no-wrap
       blur
       :show="isLoading"
     />
-    <b-card
-      class="mt-2"
-      header-text-variant="light"
-      header-bg-variant="dark"
-      no-body
-    >
-      <template #header>
-        <div
-          class="d-flex"
-          v-b-toggle.collapse-info
-        >
-          <div
-            class="mr-auto"
-            v-translate
-          >
-            Info
-          </div>
-          <div>
-            <b-icon icon="dash" />
-          </div>
-        </div>
-      </template>
-      <b-collapse
-        class="m-3"
-        id="collapse-info"
-      >
+    <div class="m-4">
+      <h5 class="mb-3">
+        Basic Details
+      </h5>
+      <div class="my-2">
         <b-form-group
           label="Name"
           label-for="Name"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate> Name </translate>
@@ -121,7 +73,8 @@
         <b-form-group
           label="Phone"
           label-for="Phone Number"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate> Phone </translate>
@@ -137,7 +90,8 @@
         <b-form-group
           label="Email"
           label-for="nested-state"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate>Email</translate>
@@ -151,46 +105,27 @@
         <b-form-group
           label="Fax"
           label-for="nested-country"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate> Fax </translate>
           </template>
           <b-form-input v-model="details.custfax" />
         </b-form-group>
-      </b-collapse>
-    </b-card>
+      </div>
+    </div>
     <!-- Contact Address -->
-    <b-card
-      header-text-variant="light"
-      header-bg-variant="dark"
-      class="mt-2"
-      no-body
-    >
-      <template #header>
-        <div
-          v-b-toggle.address
-          class="d-flex"
-        >
-          <div
-            class="mr-auto"
-            v-translate
-          >
-            Address
-          </div>
-          <div>
-            <b-icon icon="dash" />
-          </div>
-        </div>
-      </template>
-      <b-collapse
-        class="m-3"
-        id="address"
-      >
+    <div class="m-4">
+      <h5 class="mt-5 mb-3">
+        Address
+      </h5>
+      <div class="my-2">
         <b-form-group
           label="Street"
           label-for="nested-street"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate> Street </translate>
@@ -204,7 +139,8 @@
         <b-form-group
           label="Country"
           label-for="country"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate>Country</translate>
@@ -218,7 +154,8 @@
           v-if="isIndianContact"
           label="State"
           label-for="state"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate> State </translate>
@@ -233,7 +170,8 @@
         <b-form-group
           label="Postal Code"
           label-for="nested-country"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate> Postal Code </translate>
@@ -244,45 +182,23 @@
             id="nested-country"
           />
         </b-form-group>
-      </b-collapse>
-    </b-card>
+      </div>
+    </div>
     <!-- Contact Financial details -->
-    <b-card
+    <div
       v-if="isIndianContact"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      class="mt-2"
-      no-body
+      class="m-4"
     >
-      <template #header>
-        <div
-          v-b-toggle.financial
-          class="d-flex"
-        >
-          <div
-            class="mr-auto"
-            v-translate
-          >
-            Financial Details
-          </div>
-          <div>
-            <b-icon
-              variant="light"
-              icon="dash"
-            />
-          </div>
-        </div>
-      </template>
-
-      <b-collapse
-        class="m-3"
-        id="financial"
-      >
+      <h5 class="mt-5 mb-3">
+        Statutory Details
+      </h5>
+      <div class="my-2">
         <template v-if="isGstEnabled">
           <b-form-group
             label="GSTIN"
             label-for="nested-state"
-            label-cols="3"
+            label-cols-md="3"
+            content-cols-md="9"
           >
             <template #label>
               <translate> GSTIN </translate>
@@ -297,7 +213,8 @@
             v-if="isGstValid"
             label="GST Registration Type"
             label-for="nested-gst-reg"
-            label-cols="3"
+            label-cols-md="3"
+            content-cols-md="9"
           >
             <template #label>
               <translate> GST Registration Type </translate>
@@ -314,7 +231,8 @@
             v-if="isGstValid && isGstReg"
             label="GST Party Type"
             label-for="nested-gst-party"
-            label-cols="3"
+            label-cols-md="3"
+            content-cols-md="9"
           >
             <template #label>
               <translate> Party Type </translate>
@@ -331,7 +249,8 @@
           v-if="isVatEnabled"
           label="TIN"
           label-for="TIN"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate>TIN</translate>
@@ -347,7 +266,8 @@
         <b-form-group
           label="PAN"
           label-for="nested-pan"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
           :state="isPanValid"
           invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
         >
@@ -367,7 +287,8 @@
         <b-form-group
           label="TAN"
           label-for="nested-tan"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate>TAN</translate>
@@ -379,44 +300,20 @@
             pattern="[A-Z]{4}[0-9]{5}[A-Z]{1}"
           />
         </b-form-group>
-      </b-collapse>
-    </b-card>
+      </div>
+    </div>
     <!-- Contact Bank details -->
-    <b-card
-      header-bg-variant="dark"
-      header-text-variant="light"
-      class="mt-2"
-      no-body
-    >
-      <template #header>
-        <div
-          v-b-toggle.bank
-          class="d-flex"
-        >
-          <div
-            class="mr-auto"
-            v-translate
-          >
-            Bank Details
-          </div>
-          <div>
-            <b-icon
-              variant="light"
-              icon="dash"
-            />
-          </div>
-        </div>
-      </template>
-
-      <b-collapse
-        class="m-3"
-        id="bank"
-      >
+    <div class="m-4">
+      <h5 class="mt-5 mb-3">
+        Bank Details
+      </h5>
+      <div class="my-2">
         <b-form-group
           v-if="isIndianContact"
           label="IFSC"
           label-for="cp-bank-ifsc"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <gk-ifsc
             v-model="bankDetails.ifsc"
@@ -426,7 +323,8 @@
         <b-form-group
           label="Account Number"
           label-for="cp-bank-ano"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate> Account Number </translate>
@@ -440,7 +338,8 @@
         <b-form-group
           label="Bank Name"
           label-for="cp-bank-name"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate> Bank Name </translate>
@@ -454,7 +353,8 @@
         <b-form-group
           label="Branch"
           label-for="cp-bank-branch"
-          label-cols="3"
+          label-cols-md="3"
+          content-cols-md="9"
         >
           <template #label>
             <translate> Branch </translate>
@@ -464,8 +364,26 @@
             v-model="bankDetails.branchname"
           />
         </b-form-group>
-      </b-collapse>
-    </b-card>
+      </div>
+    </div>
+    <div class="m-4">
+      <b-button
+        type="submit"
+        size="sm"
+        class="mr-2"
+        variant="dark"
+      >
+        <translate>Save</translate>
+      </b-button>
+      <b-button
+        @click.prevent="deleteContact"
+        size="sm"
+        class="mr-2"
+        variant="danger"
+      >
+        <translate>Delete Contact</translate>
+      </b-button>
+    </div>
   </b-form>
 </template>
 
