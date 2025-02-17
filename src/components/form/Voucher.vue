@@ -328,86 +328,46 @@
         </b-row>
 
         <hr class="my-2 mx-0">
-        <div class="float-right">
-          <b-button
-            size="sm"
-            class="mr-1"
-            variant="secondary"
-            @click.prevent="$router.go(-1)"
-            v-if="!hideBackButton"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="arrow-left"
-            />
-            <span
-              class="align-middle"
-              v-translate
-            >Back</span>
-          </b-button>
-          <b-button
-            size="sm"
-            class="mx-1"
-            variant="secondary"
-            @click.prevent="_resetForm(true)"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="arrow-repeat"
-            />
-            <span
-              class="align-middle"
-              v-translate
-            >Reset</span>
-          </b-button>
-          <b-button
-            size="sm"
-            class="mx-1"
-            variant="danger"
-            @click.prevent="confirmOnDelete"
-            v-if="!isCreateMode"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="trash"
-            />
-            <span
-              class="align-middle"
-              v-translate
-            >Delete</span>
-          </b-button>
+        <div>
           <b-button
             size="sm"
             type="submit"
-            class="ml-1"
+            class="mr-1"
             variant="success"
             :disabled="!isDateValid || !isVoucherTotalValid"
           >
             <b-spinner
               v-if="isLoading"
+              class="mr-1"
               small
             />
-            <b-icon
-              v-else
-              aria-hidden="true"
-              class="align-middle mr-1"
-              :icon="isCreateMode ? 'plus-square' : 'cloud-arrow-up'"
-            />
-            <span
-              class="align-middle"
-              v-if="isCreateMode"
-              v-translate
-            >
-              Save
-            </span>
-            <span
-              v-else
-              class="align-middle"
-              v-translate
-            >Update</span>
+            Save
+          </b-button>
+          <b-button
+            size="sm"
+            class="mr-1"
+            variant="dark"
+            @click.prevent="_resetForm(true)"
+          >
+            Reset
+          </b-button>
+          <b-button
+            size="sm"
+            class="mr-1"
+            variant="dark"
+            @click.prevent="$router.go(-1)"
+            v-if="!hideBackButton"
+          >
+            Cancel
+          </b-button>
+          <b-button
+            size="sm"
+            class="mr-1"
+            variant="danger"
+            @click.prevent="confirmOnDelete"
+            v-if="!isCreateMode"
+          >
+            Delete
           </b-button>
         </div>
         <div class="clearfix" />
