@@ -141,7 +141,7 @@
       </b-card>
       <div class="clearfix" />
       <!-- JSON -->
-      <div class="mt-4">
+      <div class="mt-4 d-print-none">
         <h3 class="d-inline-block text-secondary ml-3">
           GSTR-1 JSON:
         </h3>
@@ -165,7 +165,7 @@
         </div>
       </div>
       <b-overlay :show="isLoading">
-        <div class="position-relative">
+        <div class="position-relative d-print-none">
           <b-toast
             no-close-button
             variant="success"
