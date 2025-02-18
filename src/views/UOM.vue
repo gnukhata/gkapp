@@ -453,7 +453,7 @@ export default {
     },
     editItem() {
       this.viewMode = "edit";
-      this.form = this.selectedItem;
+      this.form = {...this.selectedItem};
     },
     showAddForm() {
       this.viewMode = "add";

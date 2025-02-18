@@ -401,7 +401,7 @@ export default {
       let selectedItems = this.selectedItem;
       delete selectedItems.srno;
       delete selectedItems.godownstatus;
-      this.form = selectedItems;
+      this.form = {...selectedItems};
     },
     showAddForm() {
       this.viewMode = "add";
