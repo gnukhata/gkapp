@@ -1,209 +1,232 @@
 <template>
-  <section class="m-2">
+  <section>
     <!-- Create user -->
-    <b-card
-      :header="$gettext('Invite User')"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      class="gkcard mx-auto"
+    <b-form-radio-group
+      class="my-4"
+      :checked="false"
     >
-      <b-form
-        ref="createUserForm"
-        @submit.prevent="check"
+      <b-form-radio
+        v-model="createUser"
+        name="some-radios"
+        :value="false"
       >
-        <b-overlay
-          :show="isLoading"
-          blur
-          no-wrap
-        />
-        <b-form-group
-          :label="$gettext('Name')"
-          label-align="right"
-          label-cols="4"
-          label-size="sm"
-        >
-          <b-input-group>
-            <b-form-input
-              :state="validUser"
-              v-model="form.username"
-              required
-              type="text"
-              trim
-              size="sm"
-            />
-            <b-button
-              :disabled="validating"
-              @click="validateUser"
-              size="sm"
-            >
-              <translate>Validate</translate>
-            </b-button>
-            <b-form-invalid-feedback id="input-live-feedback">
-              <translate>
-                Recommended uppercase, lowercase, number, _ & minimum 5 characters long,
-                must start with a letter and underscores with at least one character after the underscore.
-              </translate>
-            </b-form-invalid-feedback>
-          </b-input-group>
-          <small><translate>* Type an existing user's name</translate></small>
-        </b-form-group>
-        <b-form-group
-          :label="$gettext('Role')"
-          label-size="sm"
-          label-align="right"
-          label-cols="4"
-        >
-          <b-form-select
-            v-model="form.userrole"
-            :options="roles"
+        Search Existing User
+      </b-form-radio>
+      <b-form-radio
+        v-model="createUser"
+        name="some-radios"
+        :value="true"
+      >
+        Add User
+      </b-form-radio>
+    </b-form-radio-group>
+    <b-form
+      ref="createUserForm"
+      @submit.prevent="check"
+    >
+      <b-overlay
+        :show="isLoading"
+        blur
+        no-wrap
+      />
+      <b-form-group
+        :label="$gettext('Name')"
+        label-cols="4"
+        v-if="!createUser"
+      >
+        <b-input-group>
+          <b-form-input
+            :state="validUser"
+            v-model="form.username"
             required
+            type="text"
+            trim
             size="sm"
-            @change="getGodowns"
-          >
-            <b-form-select-option
-              disabled
-              value="null"
-            >
-              -- Select Role --
-            </b-form-select-option>
-          </b-form-select>
-        </b-form-group>
-        <b-table-simple
-          v-if="form.userrole === 3"
-          hover
-          small
-          caption-top
-          responsive
-          striped
-        >
-          <caption>
-            <translate>Select Godowns</translate>
-          </caption>
-          <b-thead head-variant="dark">
-            <b-tr>
-              <b-th v-translate>
-                Select
-              </b-th>
-              <b-th v-translate>
-                Name
-              </b-th>
-              <b-th v-translate>
-                State
-              </b-th>
-              <b-th v-translate>
-                Address
-              </b-th>
-            </b-tr>
-          </b-thead>
-          <b-tbody>
-            <b-tr
-              v-for="godown in allGodowns"
-              :key="godown.goid"
-            >
-              <b-td>
-                <b-form-checkbox
-                  value="accepted"
-                  unchecked-value="not_accepted"
-                  v-model="godown.checked"
-                  switch
-                />
-              </b-td>
-              <b-td>{{ godown.goname }}</b-td>
-              <b-td>{{ godown.state }}</b-td>
-              <b-td>{{ godown.goaddr }}</b-td>
-            </b-tr>
-          </b-tbody>
-        </b-table-simple>
-        <div
-          v-if="!existUser && existUser !== null"
-          class="mb-2"
-        >
-          <b-form-checkbox
-            class="float-right"
-            v-model="createUser"
-            name="check-button"
-          >
-            <span> User not present, Do you want to create a new user? </span>
-          </b-form-checkbox>
-          <div class="clearfix" />
-        </div>
-        <!-- create new user -->
-        <div v-if="createUser">
-          <b-form-group
-            :label="$gettext('Password')"
-            label-align="right"
-            label-cols="4"
-            label-size="sm"
-          >
-            <password
-              size="sm"
-              v-model="form.userpassword"
-            />
-          </b-form-group>
-          <b-form-group
-            :label="$gettext('Confirm Password')"
-            label-align="right"
-            label-cols="4"
-            label-size="sm"
-          >
-            <b-form-input
-              :state="pwdMatch"
-              type="password"
-              v-model="cnfPassword"
-              size="sm"
-            />
-            <b-form-invalid-feedback>
-              <translate>
-                Passwords do not match
-              </translate>
-            </b-form-invalid-feedback>
-          </b-form-group>
-          <b-form-group
-            label-size="sm"
-            label-cols="4"
-            label-align="right"
-            :label="$gettext('Question')"
-          >
-            <security-questions
-              size="sm"
-              v-model="form.userquestion"
-            />
-          </b-form-group>
-          <b-form-group
-            label-cols="4"
-            label-size="sm"
-            label-align="right"
-            :label="$gettext('Answer')"
-          >
-            <b-form-input
-              v-model="form.useranswer"
-              required
-              type="text"
-              size="sm"
-            />
-          </b-form-group>
-        </div>
-        <slot name="modal-footer">
+          />
           <b-button
-            :disabled="!allValid"
+            :disabled="validating"
+            @click="validateUser"
             size="sm"
-            type="submit"
-            class="float-right"
-            variant="success"
           >
             <b-icon
-              class="mr-1"
-              type="submit"
-              icon="person-plus"
+              icon="search"
             />
-            <span
-              v-if="createUser"
-            ><translate>Create & Invite User</translate></span>
-            <span v-else><translate> Invite User </translate></span>
           </b-button>
-        </slot>
-      </b-form>
-    </b-card>
+          <b-form-invalid-feedback id="input-live-feedback">
+            <translate>
+              Recommended uppercase, lowercase, number, _ & minimum 5 characters long,
+              must start with a letter and underscores with at least one character after the underscore.
+            </translate>
+          </b-form-invalid-feedback>
+        </b-input-group>
+        <small><translate>* Type an existing user's name</translate></small>
+      </b-form-group>
+      <b-form-group
+        :label="$gettext('Name')"
+        label-cols="4"
+        v-if="createUser"
+      >
+        <b-form-input
+          :state="validUser"
+          v-model="form.username"
+          required
+          type="text"
+          trim
+          size="sm"
+        />
+      </b-form-group>
+      <b-form-group
+        :label="$gettext('Role')"
+        label-cols="4"
+      >
+        <b-form-select
+          v-model="form.userrole"
+          :options="roles"
+          required
+          size="sm"
+          @change="getGodowns"
+        >
+          <b-form-select-option
+            disabled
+            value="null"
+          >
+            -- Select Role --
+          </b-form-select-option>
+        </b-form-select>
+      </b-form-group>
+      <b-table-simple
+        v-if="form.userrole === 3"
+        hover
+        small
+        caption-top
+        responsive
+        striped
+      >
+        <caption>
+          <translate>Select Godowns</translate>
+        </caption>
+        <b-thead head-variant="dark">
+          <b-tr>
+            <b-th v-translate>
+              Select
+            </b-th>
+            <b-th v-translate>
+              Name
+            </b-th>
+            <b-th v-translate>
+              State
+            </b-th>
+            <b-th v-translate>
+              Address
+            </b-th>
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr
+            v-for="godown in allGodowns"
+            :key="godown.goid"
+          >
+            <b-td>
+              <b-form-checkbox
+                value="accepted"
+                unchecked-value="not_accepted"
+                v-model="godown.checked"
+                switch
+              />
+            </b-td>
+            <b-td>{{ godown.goname }}</b-td>
+            <b-td>{{ godown.state }}</b-td>
+            <b-td>{{ godown.goaddr }}</b-td>
+          </b-tr>
+        </b-tbody>
+      </b-table-simple>
+      <div
+        v-if="!existUser && existUser !== null"
+        class="mb-2"
+      >
+        <b-form-checkbox
+          class="float-right"
+          v-model="createUser"
+          name="check-button"
+        >
+          <span> User not present, Do you want to create a new user? </span>
+        </b-form-checkbox>
+        <div class="clearfix" />
+      </div>
+      <!-- create new user -->
+      <div
+        v-if="createUser"
+      >
+        <b-form-group
+          :label="$gettext('Password')"
+          label-cols="4"
+        >
+          <password
+            size="sm"
+            v-model="form.userpassword"
+          />
+        </b-form-group>
+        <b-form-group
+          :label="$gettext('Confirm Password')"
+          label-cols="4"
+        >
+          <b-form-input
+            :state="pwdMatch"
+            type="password"
+            v-model="cnfPassword"
+            size="sm"
+          />
+          <b-form-invalid-feedback>
+            <translate>
+              Passwords do not match
+            </translate>
+          </b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group
+          label-cols="4"
+          :label="$gettext('Question')"
+        >
+          <security-questions
+            size="sm"
+            v-model="form.userquestion"
+          />
+        </b-form-group>
+        <b-form-group
+          label-cols="4"
+          :label="$gettext('Answer')"
+        >
+          <b-form-input
+            v-model="form.useranswer"
+            required
+            type="text"
+            size="sm"
+          />
+        </b-form-group>
+      </div>
+      <slot name="modal-footer">
+        <b-button
+          :disabled="!allValid"
+          size="sm"
+          type="submit"
+          class="float-right"
+          variant="success"
+        >
+          <b-icon
+            class="mr-1"
+            type="submit"
+            icon="person-plus"
+          />
+          <span
+            v-if="createUser"
+          >
+            Create & Invite User
+          </span>
+          <span v-else>
+            Invite User
+          </span>
+        </b-button>
+      </slot>
+    </b-form>
   </section>
 </template>
 
@@ -383,6 +406,7 @@ export default {
               this.createUser = false;
               this.validUser = null;
               this.cnfPassword = '';
+              this.createUser = false;
               this.form = {
                 username: '',
                 userpassword: '',
@@ -391,6 +415,7 @@ export default {
                 useranswer: '',
                 golist: [],
               };
+              this.$emit("user-invited");
               break;
             case STATUS_CODES['DuplicateEntry']:
               this.$bvToast.toast(
@@ -504,6 +529,17 @@ export default {
                   {
                     title: 'error',
                     variant: 'danger',
+                  }
+                );
+                break;
+              case STATUS_CODES['DuplicateEntry']:
+                this.$bvToast.toast(
+                  this.$gettext(
+                    'User already exists.'
+                  ),
+                  {
+                    variant: 'warning',
+                    solid: true,
                   }
                 );
                 break;

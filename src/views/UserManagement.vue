@@ -1,144 +1,142 @@
 <template>
-  <section class="mt-2 mr-3 ml-3">
-    <b-input-group class="mb-3 container-sm gksearch d-print-none">
-      <template #prepend>
-        <b-button
-          translate
-          @click="$router.push('/users/invite')"
-          variant="outline-primary"
-          v-b-modal.create-user
-        >
-          <b-icon
-            class="mr-1"
-            icon="person-plus"
+  <section>
+    <h2 class="my-4 text-muted display-5">
+      USER MANAGEMENT
+    </h2>
+    <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
+      <!-- Search Field -->
+      <div>
+        <b-input-group size="sm">
+          <b-form-input
+            size="sm"
+            v-model="search"
+            placeholder="Search Table"
+            style="align-self:center"
           />
-          <translate>Invite User</translate>
-        </b-button>
-      </template>
-      <b-form-input
-        type="text"
-        :placeholder="$gettext('Search Users')"
-        v-model="searchText"
-      />
-    </b-input-group>
-    <!-- Toolbar -->
-    <gk-toolbar>
-      <gk-file-download
-        file-suffix="UserList"
-        :url="
-          `/spreadsheet?user-list&fystart=${dateReverse(
-            this.yearStart,
-          )}&fyend=${dateReverse(this.yearEnd)}&orgname=${this.orgName}`
-        "
-        :message-from-parent="parentMessage"
-      />
-    </gk-toolbar>
-    <b-row>
-      <b-col>
-        <h5 class="mb-3">
-          Users
-        </h5>
-        <b-table
-          head-variant="dark"
-          class="table-border-dark"
-          hover
-          outlined
-          striped
-          small
-          :filter="searchText"
-          :fields="userFields"
-          :items="userList"
+        </b-input-group>
+      </div>
+      <!-- Export and Print Buttons -->
+      <div>
+        <b-button-group
+          size="sm"
         >
-          <template #cell(action)="data">
-            <b-button
-              @click="confirmRemoveUser(data.item)"
-              variant="danger"
-              size="sm"
+          <gk-file-download
+            file-suffix="UserList"
+            :url="
+              `/spreadsheet?user-list&fystart=${dateReverse(
+                this.yearStart,
+              )}&fyend=${dateReverse(this.yearEnd)}&orgname=${this.orgName}`
+            "
+            :message-from-parent="parentMessage"
+            file-extn="xlsx"
+            variant="dark"
+            title="Export XLSX"
+            name="Export XLSX"
+          />
+          <b-button
+            v-b-modal="'invite'"
+            class="ml-2"
+            variant="success"
+          >
+            Invite User
+            <b-modal
+              id="invite"
+              hide-footer
             >
-              <B-Icon
-                role="button"
-                icon="person-x"
-                v-b-tooltip.focus
-                title="remove user"
+              <invite-user
+                @user-invited="userInvited"
               />
-            </b-button>
-          </template>
-        </b-table>
-      </b-col>
-      <b-col>
-        <h5 class="mb-3">
-          Invitations
-        </h5>
-        <b-table-lite
-          head-variant="dark"
-          class="table-border-dark"
-          hover
-          outlined
-          striped
-          small
-          :fields="invitedUserFields"
-          :items="invitedUsers"
-          v-if="invitedUsers.length"
-        >
-          <template #cell(action)="data">
-            <b-icon
-              v-if="data.item.status === true"
-              icon="pencil-square"
-              class="mr-1"
-              role="button"
-            />
-            <b-icon
-              v-if="data.item.roleid !== -1"
-              icon="trash"
-              variant="danger"
-              class="ml-1"
-              role="button"
-              @click="onCancelInvite(data.item)"
-            />
-          </template>
-        </b-table-lite>
-        <b v-else>No pending invitations</b>
-      </b-col>
-    </b-row>
+            </b-modal>
+          </b-button>
+        </b-button-group>
+      </div>
+    </div>
+    <b-table
+      head-variant="light"
+      hover
+      outlined
+      small
+      responsive="sm"
+      :filter="search"
+      :fields="fields"
+      :items="userList"
+    >
+      <template #cell(status)="data">
+        <div class="text-center">
+          <b-badge
+            pill
+            v-if="data.value"
+            variant="primary"
+          >
+            Accepted
+          </b-badge>
+          <b-badge
+            pill
+            v-else
+            variant="secondary"
+          >
+            Pending
+          </b-badge>
+        </div>
+      </template>
+      <template #cell(action)="data">
+        <div class="text-center">
+          <b-button
+            @click="confirmRemoveUser(data.item)"
+            variant="danger"
+            v-if="data.item.status"
+            size="sm"
+          >
+            Remove User
+          </b-button>
+          <b-button
+            @click="onCancelInvite(data.item)"
+            variant="dark"
+            size="sm"
+            v-else
+          >
+            Delete Invitation
+          </b-button>
+        </div>
+      </template>
+    </b-table>
   </section>
 </template>
 
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-import GkToolbar from '../components/GkToolbar.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
+import InviteUser from '../components/form/InviteUser.vue';
 import { STATUS_CODES } from '@/js/enum';
 
 export default {
-  components: { GkToolbar, GkFileDownload },
+  components: { GkFileDownload, InviteUser },
   name: 'UserManagement',
   data() {
     return {
       parentMessage: '',
       fields: [
         {
-          key: this.$gettext('user'),
+          key: "name",
+          label: 'User',
           sortable: true,
         },
         {
-          key: this.$gettext('role'),
+          key: "role",
           sortable: true,
         },
         {
-          key: this.$gettext('action'),
+          key: "status",
+          label: "Invitation Status",
+          sortable: true,
+        },
+        {
+          key: "action",
         },
       ],
       userList: [],
-      invitedUsers: [],
-      userFields: [{ key: 'name', label: 'User' }, 'role', 'action'],
-      invitedUserFields: [
-        { key: 'name', label: 'User' },
-        'role',
-        'status',
-        'action',
-      ],
-      searchText: '',
+      search: '',
       isLoading: false,
       selectedUserId: '',
     };
@@ -147,6 +145,10 @@ export default {
     ...mapState(['authToken', 'gkCoreUrl', 'orgName', 'yearStart', 'yearEnd']),
   },
   methods: {
+    userInvited() {
+      this.$bvModal.hide('invite');
+      this.getUsers();
+    },
     // remove a user from organisation
     removeUser(userID, userName) {
       this.isLoading = true;
@@ -245,36 +247,20 @@ export default {
     // get users who are part of the org
     getUsers() {
       this.isLoading = true;
-      axios
+      this.$axios
         .get('/organisation/gkusers')
         .then((resp) => {
-          if (resp.status == 200 && resp.data.gkstatus == 0) {
-            this.userList = [];
-            this.invitedUsers = [];
-            resp.data.gkresult.forEach((item) => {
-              if (item.invitestatus === true) {
-                this.userList.push({
-                  name: item.username,
-                  role: item.userrolename,
-                  userid: item.userid,
-                });
-              } else {
-                this.invitedUsers.push({
-                  name: item.username,
-                  role: item.userrolename,
-                  userid: item.userid,
-                  status: item.invitestatus,
-                });
-              }
+          this.userList = [];
+          resp.forEach((item) => {
+            this.userList.push({
+              name: item.username,
+              role: item.userrolename,
+              userid: item.userid,
+              status: item.invitestatus,
             });
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-        })
-        .finally(() => {
-          this.isLoading = false;
+          });
         });
+      this.isLoading = false;
     },
     cancelInvite(name, id) {
       const config = {
