@@ -273,6 +273,7 @@ export default {
     loadTable() {
       this.isLoaded = true;
       this.getLedger();
+      this.updateRoute();
     },
     getAccounts() {
       return this.$axios.get('/accounts').then((resp) => {
@@ -374,6 +375,13 @@ export default {
       }
       this.fields = fields;
     },
+    updateRoute() {
+      if (this.showMonthlyLedger) {
+        this.$router.push(`/ledger/monthly/${this.accountCode}`);
+      } else {
+        this.$router.push(`/ledger/${this.accountCode}&${this.projectCode || null}&${this.fromDate}&${this.toDate}&${this.transactionType || null}`);
+      }
+    },
     getLedger() {
       let url = null;
       if (this.showMonthlyLedger) {
@@ -399,7 +407,6 @@ export default {
           this.setFields(this.showMonthlyLedger);
           this.result = resp;
           if (this.showMonthlyLedger) {
-            this.$router.push(`/ledger/monthly/${this.accountCode}`);
             this.selected = {
               accountCode: this.accountCode,
               accountName: this.accountName,
@@ -408,7 +415,6 @@ export default {
               toDate: this.yearEnd,
             }
           } else {
-            this.$router.push(`/ledger/${this.accountCode}&${this.projectCode || null}&${this.fromDate}&${this.toDate}`);
             this.selected = {
               accountCode: this.accountCode,
               accountName: this.accountName,
@@ -435,7 +441,7 @@ export default {
           this.accountCode = params?.ac ? Number(params?.ac) : null;
           this.fromDate = params.fd || this.yearStart;
           this.toDate = params.td || this.yearEnd;
-          this.transactionType = "all";
+          this.transactionType = params.tt || "all";
           if (this.accountCode) {
             this.isLoaded = true;
             this.getLedger();
