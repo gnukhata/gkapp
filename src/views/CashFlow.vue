@@ -16,7 +16,7 @@
           {{ dateReverse(selected?.toDate || toDate) }}
         </b-alert>
 
-        <b-form @submit.prevent="getProfitLossData">
+        <b-form @submit.prevent="getCashFlowData">
           <b-row>
             <b-col
               cols
@@ -214,7 +214,7 @@ export default {
       this.result2 = null;
       this.parseParams();
     },
-    getProfitLossData() {
+    getCashFlowData() {
       this.isLoading = true;
       this.$axios
         .get(
@@ -249,7 +249,7 @@ export default {
         this.fromDate = this.yearStart;
         this.toDate = this.yearEnd;
       }
-      this.getProfitLossData();
+      this.getCashFlowData();
     },
   },
   computed: {
