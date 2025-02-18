@@ -3,7 +3,7 @@
     <b-row>
       <!-- List Section -->
       <b-col
-        md="3"
+        md="4"
         class="mb-4 mb-md-0 pr-md-0"
         v-if="!showDetail"
       >
@@ -53,11 +53,12 @@
           </b-table>
           <b-pagination
             class="mt-3"
+            v-if="items.length > perPage"
             v-model="currentPage"
             :total-rows="items.length"
             :per-page="perPage"
             align="center"
-            limit="2"
+            limit="4"
           />
         </b-card>
       </b-col>
