@@ -525,7 +525,7 @@ export default {
         query: {
           from: this.fromDate,
           to: this.toDate,
-          godown_id: this.godownId,
+          goid: this.godownId,
           product_id: this.productId,
         },
       });
