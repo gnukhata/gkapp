@@ -62,7 +62,7 @@
       :items="userList"
     >
       <template #cell(status)="data">
-        <div class="text-center">
+        <div>
           <b-badge
             pill
             v-if="data.value"
@@ -80,7 +80,7 @@
         </div>
       </template>
       <template #cell(action)="data">
-        <div class="text-center">
+        <div>
           <b-button
             @click="confirmRemoveUser(data.item)"
             variant="danger"
@@ -121,17 +121,21 @@ export default {
           key: "name",
           label: 'User',
           sortable: true,
+          class: 'col-5',
         },
         {
           key: "role",
           sortable: true,
+          class: 'col-3',
         },
         {
           key: "status",
           label: "Invitation Status",
+          class: 'col-2',
           sortable: true,
         },
         {
+          class: 'col-2',
           key: "action",
         },
       ],
