@@ -377,8 +377,8 @@ export default {
             this.report[0].value = resp2.data.gkresult;
           } else {
             this.$bvToast.toast('No data found', {
-              title: 'Error',
-              variant: 'danger',
+              title: 'Info',
+              variant: 'Info',
               solid: true,
             });
           }
