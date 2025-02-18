@@ -17,7 +17,7 @@
         name="some-radios"
         :value="true"
       >
-        Add User
+        Create New User
       </b-form-radio>
     </b-form-radio-group>
     <b-form
