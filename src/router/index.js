@@ -120,28 +120,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Unit Add",
-      requiresOrgAuth: true,
-    },
-    path: "/uom/add",
-    name: "Unit Add",
-    component: () =>
-      import(/* webpackChunkName: "uomadd" */ "../components/form/AddUOM.vue"),
-  },
-  {
-    meta: {
-      title: "Unit Edit",
-      requiresOrgAuth: true,
-    },
-    path: "/uom/:id",
-    name: "Unit Edit",
-    component: () =>
-      import(
-        /* webpackChunkName: "uomedit" */ "../components/form/EditUOM.vue"
-      ),
-  },
-  {
-    meta: {
       title: "Stock On Hand",
       requiresOrgAuth: true,
     },
@@ -208,19 +186,6 @@ const routes = [
       import(
         /* webpackChunkName: "addgodown" */ "../components/form/Godown.vue"
       ),
-  },
-  {
-    meta: {
-      title: "Edit Godown",
-      requiresOrgAuth: true,
-    },
-    path: "/godowns/:id",
-    name: "Edit Godown",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "editgodown" */ "../views/GodownEdit.vue"),
   },
   {
     meta: {
