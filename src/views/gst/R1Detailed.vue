@@ -1,35 +1,44 @@
 <template>
-  <section class="m-2">
+  <section>
     <!-- Headings -->
-    <div class="text-center">
-      <h4>{{ orgName }}</h4>
-      <h5 class="text-muted text-center text-uppercase">
-        GST R1 {{ params.type }} ({{ dateReverse(params.fd) }} to
-        {{ dateReverse(params.td) }})
-      </h5>
-    </div>
-    <div class="gkcard mx-auto">
-      <b-form-input
-        type="text"
-        v-model="search"
-        placeholder="Search"
-      />
-    </div>
+    <h2 class="text-muted  text-uppercase display-5">
+      GST R1 {{ tableInfo.type }}
+    </h2>
+    <h6 class="text-muted text-uppercase">
+      {{ dateReverse(tableInfo.fd) }} to
+      {{ dateReverse(tableInfo.td) }}
+    </h6>
     <!-- report  -->
+    <div class="d-flex d-print-none justify-content-between align-items-center mb-2 mt-4">
+      <!-- Search Field -->
+      <div>
+        <b-input-group size="sm">
+          <b-form-input
+            size="sm"
+            v-model="search"
+            placeholder="Search Table"
+            style="align-self:center"
+          />
+        </b-input-group>
+      </div>
+    </div>
     <b-table
+      v-if="items.length"
       class="mt-3"
-      head-variant="dark"
+      head-variant="light"
       small
-      bordered
-      striped
-      :items="tableItems"
+      outlined
+      :current-page="currentPage"
       :filter="search"
       :busy="loading"
+      :per-page="perPage"
+      :items="items"
       :fields="fields"
       :sort-desc="true"
       sort-by="invoice_date"
-      sticky-header="400px"
       no-border-collapse
+      @filtered="onFiltered"
+      responsive
     >
       <template #table-busy>
         <div class="text-center">
@@ -62,6 +71,13 @@
         </router-link>
       </template>
     </b-table>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="perPage"
+      align="right"
+      class="my-0"
+    />
   </section>
 </template>
 
@@ -70,24 +86,43 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 export default {
   name: 'R1Detailed',
+  props: {
+    td: {
+      type: String,
+    },
+    fd: {
+      type: String,
+    },
+    type:{
+      type: String,
+    },
+  },
   data() {
     return {
+      currentPage: 1,
+      totalRows: 1,
+      perPage: 15,
       fields: [],
+      items: [],
       list: [],
-      search: null,
-      params: null,
+      search: "",
+      tableInfo: null,
       loading: false,
     };
   },
   computed: {
-    tableItems: (self) => self.list[self.params.type],
     ...mapState(['orgName']),
   },
   methods: {
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
+    },
     getGstR1Report() {
       this.loading = true;
       axios
-        .get(`/gst/returns/r1?start=${this.params.fd}&end=${this.params.td}`)
+        .get(`/gst/returns/r1?start=${this.tableInfo.fd}&end=${this.tableInfo.td}`)
         .then((r) => {
           if (r.status == 200) {
             switch (r.data.gkstatus) {
@@ -95,8 +130,12 @@ export default {
               this.list = r.data.gkdata;
 
               // remove drilldown id columns
-              if (this.list[this.params.type].length) {
-                this.fields = Object.keys(this.list[this.params.type][0]);
+              if (this.list[this.tableInfo.type].length) {
+                let fields = Object.keys(this.list[this.tableInfo.type][0]);
+                fields = fields.filter(item => item !== "cess");
+                this.fields = fields;
+                this.items = this.list[this.tableInfo.type];
+                this.totalRows = this.items.length
 
                 let rightAlignFields = {
                   rate: true,
@@ -109,7 +148,6 @@ export default {
                   taxableamt: true,
                   SGSTamt: true,
                   IGSTamt: true,
-                  CESSamt: true,
                 };
 
                 // remove ids from display as they will be used for drop down purposes with respective document no.
@@ -158,9 +196,6 @@ export default {
                     break;
                   case 'IGSTamt':
                     label = 'Integrated Tax';
-                    break;
-                  case 'CESSamt':
-                    label = 'Cess';
                     break;
                   case 'uqc':
                     label = 'UQC';
@@ -216,7 +251,7 @@ export default {
                   }
                 }
 
-                if (this.params.type === 'hsn1') {
+                if (this.tableInfo.type === 'hsn1') {
                   this.list['hsn1'].forEach((item) => {
                     if (item.hsnsac && typeof item.hsnsac === 'object') {
                       let hsn = JSON.parse(item.hsnsac || '{}');
@@ -271,9 +306,20 @@ export default {
           this.loading = false;
         });
     },
+    getTableInfo() {
+      if (this.$route.params.lenth > 0) {
+        this.tableInfo = this.$route.params;
+      } else {
+        this.tableInfo = {
+          td: this.td,
+          fd: this.fd,
+          type: this.type,
+        }
+      }
+    },
   },
-  created() {
-    this.params = this.$route.params;
+  mounted() {
+    this.getTableInfo();
     this.getGstR1Report();
   },
 };
