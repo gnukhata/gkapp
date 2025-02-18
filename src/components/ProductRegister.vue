@@ -449,6 +449,7 @@ export default {
       this.updateRoute();
     },
     getStockReport() {
+      this.loading = true;
       let url = '';
       if (this.godownId) {
         url = `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`;
@@ -475,6 +476,9 @@ export default {
             selected["godownId"] = this.godownId;
           }
           this.selected = selected;
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     getProductList() {

@@ -3,122 +3,124 @@
     <h2 class="my-4 text-muted display-5">
       LEDGER
     </h2>
-    <b-card
-      bg-variant="light"
-      class="mb-3 d-print-none"
-    >
-      <b-alert
-        show
-        class="text-center mx-auto d-print-none"
+    <b-overlay :show="loading">
+      <b-card
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
-        {{ selected?.accountName }} Ledger: From {{ dateReverse(selected?.fromDate || fromDate) }} to
-        {{ dateReverse(selected?.toDate || toDate) }}
-      </b-alert>
-      <b-row>
-        <b-col
-          cols
-          lg="6"
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
         >
-          <!-- Account name -->
-          <b-form-group
-            label="Account"
-            label-cols="auto"
+          {{ selected?.accountName }} Ledger: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+          {{ dateReverse(selected?.toDate || toDate) }}
+        </b-alert>
+        <b-row>
+          <b-col
+            cols
+            lg="6"
           >
-            <v-select
-              :options="accountsList"
-              v-model="accountCode"
-              placeholder="Select Account"
-              label="accountname"
-              :reduce="account => account.accountcode"
-              :required="true"
-            />
-          </b-form-group>
-        </b-col>
-        <!-- Date fields -->
-        <b-col
-          cols
-          lg="3"
-        >
-          <b-form-group
-            label="From"
-            label-cols="auto"
+            <!-- Account name -->
+            <b-form-group
+              label="Account"
+              label-cols="auto"
+            >
+              <v-select
+                :options="accountsList"
+                v-model="accountCode"
+                placeholder="Select Account"
+                label="accountname"
+                :reduce="account => account.accountcode"
+                :required="true"
+              />
+            </b-form-group>
+          </b-col>
+          <!-- Date fields -->
+          <b-col
+            cols
+            lg="3"
           >
-            <gk-date
-              id="from"
-              v-model="fromDate"
-              :readonly="showMonthlyLedger"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col
-          cols
-          lg="3"
-        >
-          <b-form-group
-            label="To"
-            label-cols="auto"
+            <b-form-group
+              label="From"
+              label-cols="auto"
+            >
+              <gk-date
+                id="from"
+                v-model="fromDate"
+                :readonly="showMonthlyLedger"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col
+            cols
+            lg="3"
           >
-            <gk-date
-              id="to"
-              v-model="toDate"
-              :readonly="showMonthlyLedger"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col
-          cols
-          lg="2"
-        >
-          <b-form-group
-            label="Monthwise"
-            label-cols="auto"
+            <b-form-group
+              label="To"
+              label-cols="auto"
+            >
+              <gk-date
+                id="to"
+                v-model="toDate"
+                :readonly="showMonthlyLedger"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col
+            cols
+            lg="2"
           >
-            <!-- monthly ledger checkbox -->
-            <b-form-checkbox
-              switch
-              size="lg"
-              class="mt-1"
-              v-model="showMonthlyLedger"
-            />
-          </b-form-group>
-        </b-col>
-        <b-col
-          cols
-          lg="3"
-          v-if="!showMonthlyLedger"
-        >
-          <b-form-group
-            label="Type"
-            label-cols="auto"
+            <b-form-group
+              label="Monthwise"
+              label-cols="auto"
+            >
+              <!-- monthly ledger checkbox -->
+              <b-form-checkbox
+                switch
+                size="lg"
+                class="mt-1"
+                v-model="showMonthlyLedger"
+              />
+            </b-form-group>
+          </b-col>
+          <b-col
+            cols
+            lg="3"
+            v-if="!showMonthlyLedger"
           >
-            <v-select
-              :options="transactionOptions"
-              v-model="transactionType"
-              placeholder="Select Register Type"
-              :reduce="register => register.code"
-            />
-          </b-form-group>
-        </b-col>
-      </b-row>
-      <b-button-group
-        size="sm"
-      >
-        <b-button
-          variant="success"
-          @click="loadTable"
-          :disabled="(accountCode == null) || (transactionType == null)"
-          class="mr-2"
+            <b-form-group
+              label="Type"
+              label-cols="auto"
+            >
+              <v-select
+                :options="transactionOptions"
+                v-model="transactionType"
+                placeholder="Select Register Type"
+                :reduce="register => register.code"
+              />
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-button-group
+          size="sm"
         >
-          Submit
-        </b-button>
-        <b-button
-          @click="clear"
-          variant="dark"
-        >
-          <translate>Clear</translate>
-        </b-button>
-      </b-button-group>
-    </b-card>
+          <b-button
+            variant="success"
+            @click="loadTable"
+            :disabled="(accountCode == null) || (transactionType == null)"
+            class="mr-2"
+          >
+            Submit
+          </b-button>
+          <b-button
+            @click="clear"
+            variant="dark"
+          >
+            <translate>Clear</translate>
+          </b-button>
+        </b-button-group>
+      </b-card>
+    </b-overlay>
     <div v-if="isLoaded">
       <report-header>
         <div class="text-center">
@@ -130,83 +132,81 @@
           </span>
         </div>
       </report-header>
-      <b-overlay :show="loading">
-        <div
-          class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
-        >
-          <div>
-            <b-button-group
-              size="sm"
-            >
-              <gk-file-download
-                v-if="isMonthlyLedger"
-                :common-params="false"
-                :url="
-                  `/spreadsheet/ledger/monthly?accountcode=${this.selected.accountCode}&accname=${this.selected.accountName}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
-                "
-                variant="dark"
-                title="Export XLSX"
-                name="Export XLSX"
-                file-extn=".xlsx"
-                :message-from-parent="parentMessage"
-              />
-              <gk-file-download
-                v-else-if="transactionType == 'all'"
-                :common-params="false"
-                :url="
-                  `/spreadsheet/ledger?accountcode=${this.selected.accountCode}&accountname=${this.selected.accountname}&from=${this.selected.fromDate}&to=${this.selected.toDate}&orgtype=${this.orgType}&projectcode=&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
-                "
-                :message-from-parent="parentMessage"
-                variant="dark"
-                title="Export XLSX"
-                name="Export XLSX"
-                file-extn=".xlsx"
-              />
-            </b-button-group>
-          </div>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
+      >
+        <div>
+          <b-button-group
+            size="sm"
+          >
+            <gk-file-download
+              v-if="isMonthlyLedger"
+              :common-params="false"
+              :url="
+              `/spreadsheet/ledger/monthly?accountcode=${this.selected.accountCode}&accname=${this.selected.accountName}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+              "
+              variant="dark"
+              title="Export XLSX"
+              name="Export XLSX"
+              file-extn=".xlsx"
+              :message-from-parent="parentMessage"
+            />
+            <gk-file-download
+              v-else-if="transactionType == 'all'"
+              :common-params="false"
+              :url="
+              `/spreadsheet/ledger?accountcode=${this.selected.accountCode}&accountname=${this.selected.accountname}&from=${this.selected.fromDate}&to=${this.selected.toDate}&orgtype=${this.orgType}&projectcode=&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+              "
+              :message-from-parent="parentMessage"
+              variant="dark"
+              title="Export XLSX"
+              name="Export XLSX"
+              file-extn=".xlsx"
+            />
+          </b-button-group>
         </div>
-        <b-table
-          :items="result"
-          small
-          outlined
-          stacked="sm"
-          hover
-          head-variant="light"
-          responsive="sm"
-          :busy="loading"
-          :fields="fields"
+      </div>
+      <b-table
+        :items="result"
+        small
+        outlined
+        stacked="sm"
+        hover
+        head-variant="light"
+        responsive="sm"
+        :busy="loading"
+        :fields="fields"
+      >
+        <template
+          #cell(status)="data"
+          v-if="!isMonthlyLedger"
         >
-          <template
-            #cell(status)="data"
-            v-if="!isMonthlyLedger"
+          <div v-if="data.item.status">
+            {{ data.item.status }}
+          </div>
+        </template>
+        <template
+          #cell(vouchernumber)="data"
+          v-if="!isMonthlyLedger"
+        >
+          <router-link
+            :to="`/Workflow/Transactions-Voucher/${data.item.vouchercode}`"
           >
-            <div v-if="data.item.status">
-              {{ data.item.status }}
-            </div>
-          </template>
-          <template
-            #cell(vouchernumber)="data"
-            v-if="!isMonthlyLedger"
+            {{ data.item.vouchernumber }}
+          </router-link>
+        </template>
+        <template
+          #cell(particulars)="data"
+          v-if="!isMonthlyLedger"
+        >
+          <div
+            v-for="item in data.item.particulars"
+            :key="item.accountname"
           >
-            <router-link
-              :to="`/Workflow/Transactions-Voucher/${data.item.vouchercode}`"
-            >
-              {{ data.item.vouchernumber }}
-            </router-link>
-          </template>
-          <template
-            #cell(particulars)="data"
-            v-if="!isMonthlyLedger"
-          >
-            <div
-              v-for="item in data.item.particulars"
-              :key="item.accountname"
-            >
-              {{ item.accountname }}
-            </div>
-          </template>
-        </b-table>
-      </b-overlay>
+            {{ item.accountname }}
+          </div>
+        </template>
+      </b-table>
     </div>
     <div v-else>
       <b-alert
@@ -398,7 +398,6 @@ export default {
           this.isMonthlyLedger = this.showMonthlyLedger;
           this.setFields(this.showMonthlyLedger);
           this.result = resp;
-          this.loading = false;
           if (this.showMonthlyLedger) {
             this.$router.push(`/ledger/monthly/${this.accountCode}`);
             this.selected = {
@@ -419,6 +418,9 @@ export default {
               transactionType: this.transactionType,
             };
           }
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
   },

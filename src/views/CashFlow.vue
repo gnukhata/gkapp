@@ -228,7 +228,9 @@ export default {
             toDate: this.toDate,
           }
         })
-      this.isLoading = false;
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
     // change url query params when date is changed by user
     updateRoute() {

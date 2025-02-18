@@ -83,260 +83,260 @@
           </b-button-group>
         </b-form>
       </b-card>
-      <report-header>
-        <div class="text-center">
-          <b>{{ reportName() }}</b>
-          {{ selected.fromDate }} to
-          {{ selected.toDate }}
-          <br>
-          <small
-            v-if="hideZeroFilter"
-            v-translate
-          >
-            "Hide Zero Value Rows" Filter has been applied
-          </small>
-        </div>
-      </report-header>
-      <div
-        v-if="bsheet.left.length && bsheet.right.length"
-        class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
-      >
-        <b-button-group
-          size="sm"
-        >
-          <b-button
-            class="px-1 mr-1 d-none d-lg-inline-block"
-            @click="printPage"
-            variant="dark"
-          >
-            <b-icon
-              class="align-middle"
-              icon="printer"
-            />
-            Print
-          </b-button>
-          <gk-file-download
-            :url="
-              `/spreadsheet/balance-sheet?calculateto=${selected.toDate}&calculatefrom=${selected.fromDate}&fystart=${yearStart}&orgname=${orgName}&fyend=${yearEnd}&orgtype=${orgType}&baltype=1`
-            "
-            :file-name="downloadFileName"
-            title="Export XLSX"
-            name="Export XLSX"
-            file-extn=".xlsx"
-            variant="dark"
-            :message-from-parent="parentMessage"
-          />
-        </b-button-group>
-      </div>
-      <b-row class="row text-small">
-        <b-col
-          cols
-          md="6"
-        >
-          <b-table
-            small
-            outlined
-            :items="bsheet.left"
-            :fields="tableFields"
-            head-variant="light"
-            v-if="bsheet.left.length"
-            tbody-tr-class="bs-row"
-            responsive=""
-            filter="a"
-            :filter-function="filterLeftTable"
-          >
-            <template #head(groupAccname)="">
-              <translate> Capital and Liabilities </translate>
-            </template>
-            <template #cell(groupAccname)="data">
-              <div
-                :class="{
-                  'ml-1': data.item.isSubGroup,
-                  'ml-5': data.item.isAccount,
-                  'font-weight-bold': data.item.isGroup,
-                  'font-italic': data.item.isAccount,
-                }"
-              >
-                <b-button
-                  @click="data.item.isOpen = !data.item.isOpen"
-                  class="p-0 text-dark"
-                  :class="{
-                    'font-weight-bold': data.item.isGroup,
-                  }"
-                  v-if="data.item.hasChildren"
-                  variant="link"
-                >
-                  <b-icon
-                    class="d-print-none"
-                    font-scale="0.7"
-                    :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
-                    v-if="!data.item.isAccount && data.item.hasChildren"
-                  />
-                  {{ data.value }}
-                </b-button>
-                <b-button
-                  size="sm"
-                  variant="link"
-                  class="p-0"
-                  :to="{path: `/ledger/${data.item.groupAcccode}`}"
-                  v-else-if="data.item.isAccount"
-                >
-                  {{ data.value }}
-                </b-button>
-                <b-button
-                  size="sm"
-                  variant="link"
-                  class="p-0"
-                  :to="{path: `/profit-loss`}"
-                  v-else-if="data.item?.type === 'pnl'"
-                >
-                  {{ data.value }}
-                </b-button>
-                <span
-                  :class="{
-                    'font-weight-bold': data.item.isGroup,
-                  }"
-                  v-else
-                >
-                  {{ data.value }}
-                </span>
-              </div>
-            </template>
-            <template #cell(isGroup)="data">
-              <span
-                :class="{
-                  'font-weight-bold': data.item.isGroup,
-                  'font-italic': data.item.isAccount,
-                }"
-              >
-                {{ data.value ? data.item.amount : '' }}
-              </span>
-            </template>
-            <template #cell(isSubGroup)="data">
-              <span
-                :class="{
-                  'font-weight-bold': data.item.isGroup,
-                  'font-italic': data.item.isAccount,
-                }"
-              >
-                {{ data.value ? data.item.amount : '' }}
-              </span>
-            </template>
-            <template #cell(isAccount)="data">
-              <span
-                :class="{
-                  'font-weight-bold': data.item.isGroup,
-                  'font-italic': data.item.isAccount,
-                }"
-              >
-                {{ data.value ? data.item.amount : '' }}
-              </span>
-            </template>
-          </b-table>
-        </b-col>
-        <b-col
-          cols="12"
-          md="6"
-        >
-          <b-table
-            :items="bsheet.right"
-            :fields="tableFields"
-            small
-            outlined
-            head-variant="light"
-            v-if="bsheet.right.length"
-            tbody-tr-class="bs-row"
-            responsive=""
-            filter="a"
-            :filter-function="filterRightTable"
-          >
-            <template #head(groupAccname)="">
-              <translate> Property and Assets </translate>
-            </template>
-            <template #cell(groupAccname)="data">
-              <div
-                :class="{
-                  'ml-1': data.item.isSubGroup,
-                  'ml-5': data.item.isAccount,
-                  'font-weight-bold': data.item.isGroup,
-                  'font-italic': data.item.isAccount,
-                }"
-              >
-                <b-button
-                  @click="data.item.isOpen = !data.item.isOpen"
-                  class="p-0 text-dark"
-                  :class="{
-                    'font-weight-bold': data.item.isGroup,
-                  }"
-                  v-if="data.item.hasChildren"
-                  variant="link"
-                >
-                  <b-icon
-                    class="d-print-none"
-                    font-scale="0.7"
-                    :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
-                    v-if="!data.item.isAccount && data.item.hasChildren"
-                  />
-                  {{ data.value }}
-                </b-button>
-                <span
-                  v-else-if="data.item.isAccount && !data.item.groupAcccode"
-                >
-                  {{ data.value }}
-                </span>
-                <b-button
-                  size="sm"
-                  variant="link"
-                  class="p-0"
-                  :to="{path: `/ledger/${data.item.groupAcccode}`}"
-                  v-else-if="data.item.isAccount"
-                >
-                  {{ data.value }}
-                </b-button>
-                <span
-                  :class="{
-                    'font-weight-bold': data.item.isGroup,
-                  }"
-                  v-else
-                >
-                  {{ data.value }}
-                </span>
-              </div>
-            </template>
-            <template #cell(isGroup)="data">
-              <span
-                :class="{
-                  'font-weight-bold': data.item.isGroup,
-                  'font-italic': data.item.isAccount,
-                }"
-              >
-                {{ data.value ? data.item.amount : '' }}
-              </span>
-            </template>
-            <template #cell(isSubGroup)="data">
-              <span
-                :class="{
-                  'font-weight-bold': data.item.isGroup,
-                  'font-italic': data.item.isAccount,
-                }"
-              >
-                {{ data.value ? data.item.amount : '' }}
-              </span>
-            </template>
-            <template #cell(isAccount)="data">
-              <span
-                :class="{
-                  'font-weight-bold': data.item.isGroup,
-                  'font-italic': data.item.isAccount,
-                }"
-              >
-                {{ data.value ? data.item.amount : '' }}
-              </span>
-            </template>
-          </b-table>
-        </b-col>
-      </b-row>
     </b-overlay>
+    <report-header>
+      <div class="text-center">
+        <b>{{ reportName() }}</b>
+        {{ selected.fromDate }} to
+        {{ selected.toDate }}
+        <br>
+        <small
+          v-if="hideZeroFilter"
+          v-translate
+        >
+          "Hide Zero Value Rows" Filter has been applied
+        </small>
+      </div>
+    </report-header>
+    <div
+      v-if="bsheet.left.length && bsheet.right.length"
+      class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
+    >
+      <b-button-group
+        size="sm"
+      >
+        <b-button
+          class="px-1 mr-1 d-none d-lg-inline-block"
+          @click="printPage"
+          variant="dark"
+        >
+          <b-icon
+            class="align-middle"
+            icon="printer"
+          />
+          Print
+        </b-button>
+        <gk-file-download
+          :url="
+          `/spreadsheet/balance-sheet?calculateto=${selected.toDate}&calculatefrom=${selected.fromDate}&fystart=${yearStart}&orgname=${orgName}&fyend=${yearEnd}&orgtype=${orgType}&baltype=1`
+          "
+          :file-name="downloadFileName"
+          title="Export XLSX"
+          name="Export XLSX"
+          file-extn=".xlsx"
+          variant="dark"
+          :message-from-parent="parentMessage"
+        />
+      </b-button-group>
+    </div>
+    <b-row class="row text-small">
+      <b-col
+        cols
+        md="6"
+      >
+        <b-table
+          small
+          outlined
+          :items="bsheet.left"
+          :fields="tableFields"
+          head-variant="light"
+          v-if="bsheet.left.length"
+          tbody-tr-class="bs-row"
+          responsive=""
+          filter="a"
+          :filter-function="filterLeftTable"
+        >
+          <template #head(groupAccname)="">
+            <translate> Capital and Liabilities </translate>
+          </template>
+          <template #cell(groupAccname)="data">
+            <div
+              :class="{
+                'ml-1': data.item.isSubGroup,
+                'ml-5': data.item.isAccount,
+                'font-weight-bold': data.item.isGroup,
+                'font-italic': data.item.isAccount,
+              }"
+            >
+              <b-button
+                @click="data.item.isOpen = !data.item.isOpen"
+                class="p-0 text-dark"
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                }"
+                v-if="data.item.hasChildren"
+                variant="link"
+              >
+                <b-icon
+                  class="d-print-none"
+                  font-scale="0.7"
+                  :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
+                  v-if="!data.item.isAccount && data.item.hasChildren"
+                />
+                {{ data.value }}
+              </b-button>
+              <b-button
+                size="sm"
+                variant="link"
+                class="p-0"
+                :to="{path: `/ledger/${data.item.groupAcccode}`}"
+                v-else-if="data.item.isAccount"
+              >
+                {{ data.value }}
+              </b-button>
+              <b-button
+                size="sm"
+                variant="link"
+                class="p-0"
+                :to="{path: `/profit-loss`}"
+                v-else-if="data.item?.type === 'pnl'"
+              >
+                {{ data.value }}
+              </b-button>
+              <span
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                }"
+                v-else
+              >
+                {{ data.value }}
+              </span>
+            </div>
+          </template>
+          <template #cell(isGroup)="data">
+            <span
+              :class="{
+                'font-weight-bold': data.item.isGroup,
+                'font-italic': data.item.isAccount,
+              }"
+            >
+              {{ data.value ? data.item.amount : '' }}
+            </span>
+          </template>
+          <template #cell(isSubGroup)="data">
+            <span
+              :class="{
+                'font-weight-bold': data.item.isGroup,
+                'font-italic': data.item.isAccount,
+              }"
+            >
+              {{ data.value ? data.item.amount : '' }}
+            </span>
+          </template>
+          <template #cell(isAccount)="data">
+            <span
+              :class="{
+                'font-weight-bold': data.item.isGroup,
+                'font-italic': data.item.isAccount,
+              }"
+            >
+              {{ data.value ? data.item.amount : '' }}
+            </span>
+          </template>
+        </b-table>
+      </b-col>
+      <b-col
+        cols="12"
+        md="6"
+      >
+        <b-table
+          :items="bsheet.right"
+          :fields="tableFields"
+          small
+          outlined
+          head-variant="light"
+          v-if="bsheet.right.length"
+          tbody-tr-class="bs-row"
+          responsive=""
+          filter="a"
+          :filter-function="filterRightTable"
+        >
+          <template #head(groupAccname)="">
+            <translate> Property and Assets </translate>
+          </template>
+          <template #cell(groupAccname)="data">
+            <div
+              :class="{
+                'ml-1': data.item.isSubGroup,
+                'ml-5': data.item.isAccount,
+                'font-weight-bold': data.item.isGroup,
+                'font-italic': data.item.isAccount,
+              }"
+            >
+              <b-button
+                @click="data.item.isOpen = !data.item.isOpen"
+                class="p-0 text-dark"
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                }"
+                v-if="data.item.hasChildren"
+                variant="link"
+              >
+                <b-icon
+                  class="d-print-none"
+                  font-scale="0.7"
+                  :icon="data.item.isOpen ? 'dash' : 'arrows-fullscreen'"
+                  v-if="!data.item.isAccount && data.item.hasChildren"
+                />
+                {{ data.value }}
+              </b-button>
+              <span
+                v-else-if="data.item.isAccount && !data.item.groupAcccode"
+              >
+                {{ data.value }}
+              </span>
+              <b-button
+                size="sm"
+                variant="link"
+                class="p-0"
+                :to="{path: `/ledger/${data.item.groupAcccode}`}"
+                v-else-if="data.item.isAccount"
+              >
+                {{ data.value }}
+              </b-button>
+              <span
+                :class="{
+                  'font-weight-bold': data.item.isGroup,
+                }"
+                v-else
+              >
+                {{ data.value }}
+              </span>
+            </div>
+          </template>
+          <template #cell(isGroup)="data">
+            <span
+              :class="{
+                'font-weight-bold': data.item.isGroup,
+                'font-italic': data.item.isAccount,
+              }"
+            >
+              {{ data.value ? data.item.amount : '' }}
+            </span>
+          </template>
+          <template #cell(isSubGroup)="data">
+            <span
+              :class="{
+                'font-weight-bold': data.item.isGroup,
+                'font-italic': data.item.isAccount,
+              }"
+            >
+              {{ data.value ? data.item.amount : '' }}
+            </span>
+          </template>
+          <template #cell(isAccount)="data">
+            <span
+              :class="{
+                'font-weight-bold': data.item.isGroup,
+                'font-italic': data.item.isAccount,
+              }"
+            >
+              {{ data.value ? data.item.amount : '' }}
+            </span>
+          </template>
+        </b-table>
+      </b-col>
+    </b-row>
   </section>
 </template>
 
