@@ -232,13 +232,16 @@ const routes = [
       title: "Contact_Details",
       requiresOrgAuth: true,
     },
-    path: "/contact-details/:mode/:type", // mode = create/edit, type = customer/supplier
+    path: "/contact-details/:mode", // mode = create/edit
     name: "Contact_Details",
     component: () =>
       import(
         /* webpackChunkName: "contact_details" */ "../views/ContactDetails.vue"
       ),
-    props: true,
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
   },
   {
     meta: {
@@ -251,7 +254,10 @@ const routes = [
       import(
         /* webpackChunkName: "business_details" */ "../views/BusinessDetails.vue"
       ),
-    props: true,
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
   },
   {
     meta: {

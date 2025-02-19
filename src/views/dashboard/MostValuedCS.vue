@@ -33,7 +33,7 @@
         </template>
       </b-table>
       <template #footer>
-        <router-link to="/contact-details/create/customer">
+        <router-link to="/contact-details/create?type=customer">
           <b-button
             size="sm"
             variant="dark float-right"
@@ -73,7 +73,7 @@
         </template>
       </b-table>
       <template #footer>
-        <router-link to="/contact-details/create/supplier">
+        <router-link to="/contact-details/create?type=supplier">
           <b-button
             size="sm"
             variant="dark float-right"

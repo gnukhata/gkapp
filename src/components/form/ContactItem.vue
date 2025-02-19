@@ -591,10 +591,8 @@ export default {
     ...mapGetters('global', ['isGstEnabled', 'isVatEnabled']),
   },
   watch: {
-    type(type) {
-      if (type !== this.contactType) {
-        this.contactType = type;
-      }
+    type(newType) {
+      this.contactType = newType === 'supplier' ? 'supplier' : 'customer';
     },
     state(newValue) {
       if (newValue) {
@@ -927,6 +925,7 @@ export default {
   },
   mounted() {
     this.preloadData();
+    this.contactType = this.type === 'supplier' ? 'supplier' : 'customer';
   },
 };
 </script>
