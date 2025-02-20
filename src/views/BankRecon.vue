@@ -122,8 +122,24 @@
           <b>{{ toDate }}</b>
         </div>
       </report-header>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
+      >
+        <b-button-group
+          size="sm"
+        >
+          <b-button
+            v-if="tableType < 2 && activeVouchers.length"
+            size="sm"
+            variant="dark"
+            @click="showVoucherForm = !showVoucherForm"
+          >
+            Add Voucher
+          </b-button>
+        </b-button-group>
+      </div>
       <b-table
-        class="mt-3 text-small"
+        class="text-small"
         head-variant="light"
         small
         outlined
@@ -180,6 +196,34 @@
         ]"
       />
     </div>
+    <b-modal
+      size="lg"
+      v-model="showVoucherForm"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-footer
+      hide-header
+    >
+      <voucher
+        :hide-back-button="true"
+        :in-overlay="true"
+        :on-save="postVoucherSave"
+        :is-open="showVoucherForm"
+        mode="create"
+      >
+        <template #close-button>
+          <b-button
+            size="sm"
+            class="float-right py-0"
+            @click="showVoucherForm = !showVoucherForm"
+          >
+            x
+          </b-button>
+        </template>
+      </voucher>
+    </b-modal>
   </section>
 </template>
 
@@ -193,10 +237,11 @@ import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import axios from 'axios';
 import ReportHeader from '../components/ReportHeader.vue';
+import Voucher from '../components/form/Voucher.vue';
 import { reverseDate } from '../js/utils';
 export default {
   name: 'BankRecon',
-  components: { GkDate, ReportHeader },
+  components: { GkDate, ReportHeader, Voucher },
   data() {
     return {
       loading: false,
@@ -212,6 +257,7 @@ export default {
       selected: {},
       unclearedVouchers: [],
       clearedVouchers: [],
+      showVoucherForm: false,
       statements: [],
       bankAccs: [],
       tableType: 0,
@@ -271,6 +317,10 @@ export default {
       this.unclearedVouchers = [];
       this.clearedVouchers = [];
       this.statements = [];
+    },
+    postVoucherSave() {
+      this.getVouchers();
+      this.showVoucherForm = false;
     },
     getBankAccounts() {
       this.$axios
