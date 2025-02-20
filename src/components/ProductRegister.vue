@@ -292,7 +292,10 @@
         <template #cell(transactionType)="data">
           <div class="text-right">
             <span v-if="data.item.particulars === 'opening stock'" />
-            <span v-if="data.item.particulars === 'Total'" />
+            <span v-else-if="data.item.particulars === 'Total'" />
+            <span v-else-if="data.item?.invno && data.item.invno.includes('SL')"> Sales Invoice </span>
+            <span v-else-if="data.item?.invno && data.item.invno.includes('PU')"> Purchase Invoice </span>
+            <span v-else-if="data.item?.invno && data.item.invno.includes('CMS')"> Sales Invoice </span>
             <span v-else>{{ data.item.trntype.charAt(0).toUpperCase() + data.item.trntype.slice(1) }}</span>
           </div>
         </template>
