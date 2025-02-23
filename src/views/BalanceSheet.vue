@@ -280,6 +280,15 @@
                 />
                 {{ data.value }}
               </b-button>
+              <b-button
+                size="sm"
+                variant="link"
+                class="p-0"
+                :to="{path: `/stock-on-hand?to=${toDate}`}"
+                v-else-if="data.value == 'Closing Stock'"
+              >
+                {{ data.value }}
+              </b-button>
               <span
                 v-else-if="data.item.isAccount && !data.item.groupAcccode"
               >

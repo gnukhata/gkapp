@@ -429,10 +429,10 @@ export default {
       const params = this.$route.query;
       if (Object.keys(params).length > 0) {
         this.toDate = params.to;
-        this.selectedProduct['id'] = params.prodcode;
-        this.selectedProduct['name'] = params.prodname;
-        this.selectedGodown.id = params.goid;
-        this.selectedGodown.name = params.goname;
+        this.selectedProduct['id'] = params.prodcode || 0;
+        this.selectedProduct['name'] = params.prodname || "All";
+        this.selectedGodown.id = params.goid || 0;
+        this.selectedGodown.name = params.goname || "All";
         this.stockOnHand();
       }
     },
