@@ -1284,6 +1284,7 @@ export default {
         invoice.attachmentcount = this.form.attachments.length;
       }
 
+      stock.goid = this.form.inv.godown;
       if (!this.isCreate) {
         const av = Object.assign({}, invoice.av);
         invoice.invid = parseInt(this.invoiceId);
