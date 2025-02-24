@@ -703,6 +703,7 @@ export default {
             });
             break;
           case 0:
+            this.$emit('childValueUpdate');
             {
               this.$bvToast.toast(
                 this.$gettextInterpolate(
