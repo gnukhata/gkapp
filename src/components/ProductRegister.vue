@@ -262,6 +262,11 @@
             </b-link>
           </div>
           <div v-else-if="data.item.trntype === 'transfer note'">
+            <b-icon
+              variant="dark"
+              icon="truck"
+            />
+            {{ data.item.particulars }} :
             <b-link
               :to="{
                 name: 'Workflow',
