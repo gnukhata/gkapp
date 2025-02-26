@@ -1,8 +1,7 @@
 <template>
-  <section class="m-2 mx-auto">
+  <section class="container-fluid mt-2">
     <!-- alerts which show the status of closebooks and rollover -->
     <b-alert
-      class="mt-5 container"
       show
       v-if="details.booksclosedflag == 1"
       variant="success"
@@ -12,7 +11,6 @@
       </translate>
     </b-alert>
     <b-alert
-      class="mt-5 container"
       show
       v-if="details.roflag == 1"
       variant="success"
@@ -21,11 +19,7 @@
     </b-alert>
     <!-- Close Books -->
     <b-card
-      v-if="details.booksclosedflag == 0"
-      header-bg-variant="dark"
-      header-text-variant="light"
       class="mt-4"
-      style="max-width: 40em; margin: auto"
     >
       <b-overlay
         :show="isLoading"
@@ -33,9 +27,9 @@
       />
       <template #header>
         <div class="d-flex">
-          <div class="mr-auto">
+          <h5 class="mr-auto">
             <translate>Close Books</translate>
-          </div>
+          </h5>
           <div>
             <b-icon
               icon="question-circle"
@@ -49,42 +43,27 @@
           </div>
         </div>
       </template>
+      <h5>
+        Close Books
+      </h5>
+      <p class="font-weight-light mb-4">
+        Current Financial Year: <b>{{ details.yearstart }}</b> to <b>{{ details.yearend }}</b>
+      </p>
+
       <b-form-group
-        id="input-group-2"
-        label-class="font-weight-bold"
-        :label="$gettext('Current Financial Year:')"
+        label="Closing date"
+        label-cols-md="3"
+        label-for="cb-to"
       >
-        <div class="row">
-          <div class="col-md-6">
-            <b-form-group
-              id="input-group-3"
-              :label="$gettext('From')"
-              label-for="cb-from"
-            >
-              <gk-date
-                :readonly="true"
-                id="cb-from"
-                v-model="details.yearstart"
-              />
-            </b-form-group>
-          </div>
-          <div class="col-md-6">
-            <b-form-group
-              id="input-group-4"
-              :label="$gettext('To')"
-              label-for="cb-to"
-            >
-              <gk-date
-                id="cb-to"
-                v-model="details.yearend"
-              />
-            </b-form-group>
-          </div>
-        </div>
+        <gk-date
+          id="cb-to"
+          :readonly="details.booksclosedflag == 1"
+          v-model="details.yearend"
+          :style="{'max-width': '200px'}"
+        />
       </b-form-group>
       <b-button
         :disabled="details.booksclosedflag == 1"
-        class="float-right"
         @click="
           confirm(
             'close',
@@ -94,44 +73,12 @@
         variant="dark"
         size="sm"
       >
-        <b-icon
-          class="mr-1"
-          icon="journal"
-        /><translate>Close Books</translate>
+        Close Books
       </b-button>
-    </b-card>
-    <!-- Roll Over -->
-    <b-card
-      header-bg-variant="dark"
-      header-text-variant="light"
-      class="mt-4 gkcard mx-auto"
-      v-if="details.roflag == 0"
-    >
-      <b-overlay
-        :show="isLoading"
-        no-wrap
-      />
-
-      <template #header>
-        <div class="d-flex">
-          <div class="mr-auto">
-            <translate>Roll Over</translate>
-          </div>
-          <div>
-            <b-icon
-              icon="question-circle"
-              v-b-popover.click.blur="{
-                variant: 'info',
-                title: 'Roll Over',
-                content:
-                  '<ul><li>A new organization with the same name and type is created forthe next accounting year,</li><li>Every existing asset and liability account is automatically opened under its respective Group and Sub-Group and correct opening balance is brought down, in case of expense and income accounts these are also opened under their respective Groups and Sub-Groups, of course, without opening balances, </li><li>The Closing Stock of the earlier year gets transferred to thenext year as Opening Stock. This module can only be activated after CLOSE BOOKS is done.</li></ul>',
-                html: true,
-              }"
-            />
-          </div>
-        </div>
-      </template>
-      <!-- Set New Financial Year -->
+      <hr class="mx-1 my-4">
+      <h5>
+        Roll Over
+      </h5>
       <b-form
         @submit.prevent="
           confirm(
@@ -141,36 +88,23 @@
         "
       >
         <b-form-group
-          id="input-group-2"
-          label-class="font-weight-bold"
-          :label="$gettext('New Financial Year:')"
+          label="New financial year end date"
+          label-for="ro-to"
+          label-cols-md="3"
         >
-          <div class="row">
-            <div class="col-md-6">
-              <b-form-group
-                id="input-group-4"
-                :label="$gettext('To')"
-                label-for="ro-to"
-              >
-                <gk-date
-                  id="ro-to"
-                  v-model="newYearEnd"
-                />
-              </b-form-group>
-            </div>
-          </div>
+          <gk-date
+            v-model="newYearEnd"
+            id="ro-to"
+            :readonly="details.booksclosedflag == 0 || details.roflag == 1"
+            :style="{'max-width': '200px'}"
+          />
         </b-form-group>
         <b-button
-          :disabled="details.booksclosedflag == 0"
+          :disabled="details.booksclosedflag == 0 || details.roflag == 1"
           type="submit"
-          class="float-right"
           variant="dark"
           size="sm"
         >
-          <b-icon
-            class="mr-1"
-            icon="calendar-check"
-          />
           <translate>Roll Over</translate>
         </b-button>
       </b-form>
