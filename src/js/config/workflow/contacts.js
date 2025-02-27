@@ -48,17 +48,26 @@ const config = {
   },
   loadList: function({ wfType }) {
     const requests = [];
-    const customers = axios.get('/customer?qty=custall').catch((error) => {
-      return error;
-    });
-    const suppliers = axios.get('/customer?qty=supall').catch((error) => {
-      return error;
-    });
+    const customer_url = '/customer?qty=custall';
+    const supplier_url = '/customer?qty=supall';
+    let customers, suppliers;
     if (wfType === 'customer') {
+      customers = axios.get(customer_url).catch((error) => {
+        return error;
+      });
       requests.push(customers);
     } else if (wfType === 'supplier') {
+      suppliers = axios.get(supplier_url).catch((error) => {
+        return error;
+      });
       requests.push(suppliers);
     } else {
+      customers = axios.get(customer_url).catch((error) => {
+        return error;
+      });
+      suppliers = axios.get(supplier_url).catch((error) => {
+        return error;
+      });
       requests.push(customers, suppliers);
     }
     return Promise.all(requests).then((resp) => {
