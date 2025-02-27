@@ -546,7 +546,8 @@
                 class="mr-1"
                 :icon="selectedEntity.icon"
               />
-              {{ selectedEntity.custname }}'s Profile
+              {{ `${selectedEntity.custname}'s Profile` }}
+              <span class="ml-2"> {{ `₹${selectedEntity.balance}` }}</span>
             </h5>
           </template>
           <b-card-body
