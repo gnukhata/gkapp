@@ -464,6 +464,22 @@
               :sort-by="sortByColumn"
               :sort-desc="sortDesc"
             >
+              <!-- Contact list -->
+              <template #cell(custname)="data">
+                <div class="clearfix">
+                  <div class="w-50 float-left">
+                    <span v-if="data.item.custname">
+                      {{ data.item.custname }}
+                      <br>
+                    </span>
+                  </div>
+                  <div class="w-50 float-right text-right">
+                    <h5 class="mt-1">
+                      {{ `₹${data.item.balance}` }}
+                    </h5>
+                  </div>
+                </div>
+              </template>
               <template #cell(dateObj)="data">
                 <div class="clearfix">
                   <div class="w-50 float-left">
