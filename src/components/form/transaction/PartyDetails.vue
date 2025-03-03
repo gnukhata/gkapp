@@ -65,7 +65,7 @@
 
           <b-button
             class="py-0 ml-3"
-            variant="success"
+            variant="dark"
             size="sm"
             :title="$gettext('Add Contact')"
             @click="$router.push('/contact-details/create/customer')"
@@ -76,7 +76,7 @@
           <b-button
             v-if="form.name?.name != ''"
             class="py-0 ml-2"
-            variant="warning"
+            variant="dark"
             size="sm"
             @click.prevent="initPartyEdit"
             :disabled="editFlag"

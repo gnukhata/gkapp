@@ -34,7 +34,7 @@
             v-if="showAddProduct"
             @click.prevent="showBusinessForm = true"
             class="py-0 mx-1"
-            variant="success"
+            variant="dark"
             size="sm"
           >
             <translate>
@@ -45,7 +45,7 @@
             v-if="config.addBtn"
             @click.prevent="addBillItem"
             class="py-0 mx-1"
-            variant="success"
+            variant="dark"
             size="sm"
           >
             <translate> Add Item </translate>
