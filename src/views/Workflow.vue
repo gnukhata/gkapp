@@ -464,6 +464,56 @@
               :sort-by="sortByColumn"
               :sort-desc="sortDesc"
             >
+              <!-- Contact list -->
+              <template #cell(custname)="data">
+                <div class="clearfix">
+                  <div class="w-50 float-left">
+                    <span v-if="data.item.custname">
+                      {{ data.item.custname }}
+                      <br>
+                    </span>
+                  </div>
+                  <div class="w-50 float-right text-right">
+                    <h5 class="mt-1">
+                      {{ `₹${data.item.balance}` }}
+                    </h5>
+                  </div>
+                </div>
+              </template>
+              <!-- Product/Service list -->
+              <template #cell(productdesc)="data">
+                <div class="clearfix">
+                  <div class="w-50 float-left">
+                    <span v-if="data.item.productdesc">
+                      {{ data.item.productdesc }}
+                      <br>
+                    </span>
+                    <h6>
+                      <b-badge
+                        pill
+                        variant="info"
+                      >
+                        {{ data.item.gsflag === 7 ? 'product' : 'service' }}
+                      </b-badge>
+                    </h6>
+                  </div>
+                  <div
+                    v-if="data.item.gsflag === 7 && data.item.productquantity"
+                    class="w-50 float-right text-right text-muted"
+                  >
+                    {{ `${data.item.productquantity} ${data.item?.unitname ?? ''}` }}
+                  </div>
+                  <div
+                    v-if="data.item.gsflag === 7 && data.item.productmrp"
+                    class="w-50 float-right text-right"
+                  >
+                    <h5 class="mt-1">
+                      {{ `₹${data.item.productmrp}` }}
+                    </h5>
+                  </div>
+                </div>
+              </template>
+              <!-- Transaction list -->
               <template #cell(dateObj)="data">
                 <div class="clearfix">
                   <div class="w-50 float-left">
@@ -530,7 +580,8 @@
                 class="mr-1"
                 :icon="selectedEntity.icon"
               />
-              {{ selectedEntity.custname }}'s Profile
+              {{ `${selectedEntity.custname}'s Profile` }}
+              <span class="ml-2"> {{ `₹${selectedEntity.balance}` }}</span>
             </h5>
           </template>
           <b-card-body
