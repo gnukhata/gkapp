@@ -60,16 +60,12 @@
             </b-form-radio>
           </b-form-radio-group>
           <!-- add contact button -->
-          <!-- NOTE: disabled this modal, because it freezes the page after closing 
-					Adding link to create contact as workarond
-					-->
-
           <b-button
+            @click.prevent="showContactForm = true"
             class="py-0 ml-3"
             variant="success"
             size="sm"
             :title="$gettext('Add Contact')"
-            @click="$router.push('/contact-details/create/customer')"
           >
             +
           </b-button>
@@ -104,41 +100,28 @@
             <translate> Name </translate>
           </template>
 
-          <b-form-select
+          <v-select
             v-if="isCustomer && options.customers"
             id="ptd-input-10"
             v-model="form.name"
-            @change="onPartyNameSelect(form.name)"
+            :options="options.customers"
+            @input="onPartyNameSelect(form.name)"
             :required="icflag !== 3"
             :disabled="icflag === 3 || ((editFlag || isNameDisabled || editInvoice) && !!form.name?.name)"
             :clearable="true"
-          >
-            <b-form-select-option
-              v-for="option in options.customers"
-              :key="option?.id"
-              :value="option"
-            >
-              {{ option.name }}
-            </b-form-select-option>
-          </b-form-select>
-          <b-form-select
-            v-else-if="options.suppliers"
+            label="name"
+          />
+          <v-select
+            v-else
             id="ptd-input-11"
             v-model="form.name"
-            @change="onPartyNameSelect(form.name)"
+            :options="options.suppliers"
+            @input="onPartyNameSelect(form.name)"
             :required="true"
             :disabled="(editFlag || isNameDisabled || editInvoice) && !!form.name?.name"
-            :clearable="false"
             :rules="[v => !!form.name || 'Please select an option']"
-          >
-            <b-form-select-option
-              v-for="option in options.suppliers"
-              :key="option?.id"
-              :value="option"
-            >
-              {{ option.name }}
-            </b-form-select-option>
-          </b-form-select>
+            label="name"
+          />
         </b-form-group>
         <b-form-group
           v-if="config.addr"
@@ -284,16 +267,54 @@
         </div>
       </div>
     </div>
+    <!-- Create Contact Item -->
+    <b-modal
+      v-if="config"
+      v-model="showContactForm"
+      size="lg"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-header
+      hide-footer
+    >
+      <contact-item
+        :hide-back-button="true"
+        :on-save="onContactSave"
+        mode="create"
+        :type="form.type"
+        :in-overlay="true"
+        :show-header="false"
+        @childValueUpdate="onContactSave"
+      >
+        <template #close-button>
+          <b-button
+            size="sm"
+            class="float-right py-0"
+            @click.prevent="
+              () => {
+                showContactForm = false;
+              }
+            "
+          >
+            x
+          </b-button>
+        </template>
+      </contact-item>
+    </b-modal>
   </b-card>
 </template>
 
 <script>
 import axios from 'axios';
 import { mapGetters } from 'vuex';
+import ContactItem from '../ContactItem.vue';
 import GkGstin from '../../GkGstin.vue';
 export default {
   name: 'PartyDetails',
   components: {
+    ContactItem,
     GkGstin,
   },
   props: {
@@ -373,6 +394,7 @@ export default {
   data() {
     return {
       isValidGstin: false,
+      showContactForm: false,
       form: {
         loading: false,
         options: {
@@ -792,13 +814,14 @@ export default {
         });
     },
     onContactSave() {
+      this.showContactForm = false;
       const self = this;
       this.fetchContactList().then(() => {
         if (self.options.customers.length) {
           self.form.name =
             self.form.type === 'customer'
-              ? self.options.customers[self.options.customers.length - 1].value
-              : self.options.suppliers[self.options.suppliers.length - 1].value;
+              ? self.options.customers[self.options.customers.length - 1]
+              : self.options.suppliers[self.options.suppliers.length - 1];
         }
       });
     },
