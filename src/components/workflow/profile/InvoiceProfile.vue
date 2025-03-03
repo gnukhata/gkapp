@@ -27,10 +27,6 @@
             @click="showVoucherModal = !showVoucherModal"
           >
             <template #button-content>
-              <b-icon
-                class="mr-1"
-                icon="eye"
-              />
               <translate>View Vouchers</translate>
             </template>
             <b-dropdown-item-button
@@ -38,10 +34,6 @@
               v-b-toggle.attachment-container
               @click="fetchAttachments"
             >
-              <b-icon
-                class="mr-1"
-                icon="paperclip"
-              />
               <translate>View Attachments</translate>
             </b-dropdown-item-button>
             <b-dropdown-item-button
@@ -49,10 +41,6 @@
               v-if="showButton(3)"
               @click="redirectBasedOnValue(3)"
             >
-              <b-icon
-                class="mr-1"
-                icon="eye"
-              />
               <translate>View Credit Note</translate>
             </b-dropdown-item-button>
             <b-dropdown-item-button
@@ -60,20 +48,12 @@
               v-if="showButton(4)"
               @click="redirectBasedOnValue(4)"
             >
-              <b-icon
-                class="mr-1"
-                icon="eye"
-              />
               <translate>View Debit Note</translate>
             </b-dropdown-item-button>
             <b-dropdown-item-button
               @click="onPayment"
               v-if="invoice.payment.mode != 5 && paymentFlag"
             >
-              <b-icon
-                class="mr-1"
-                icon="cash"
-              />
               <translate>
                 {{ invoice.isSale ? 'Receive Payment' : 'Make Payment' }}
               </translate>
@@ -85,10 +65,6 @@
               }"
               v-if="invoice.payment.mode != 5 && paymentFlag"
             >
-              <b-icon
-                class="mr-1"
-                icon="clipboard-check"
-              />
               <translate>
                 Adjust Bill
               </translate>
@@ -97,20 +73,12 @@
               v-if="rectifyFlag"
               :to="{name: 'Invoice_Edit', params: {invid: id}}"
             >
-              <b-icon
-                class="mr-1"
-                icon="pencil"
-              />
               <translate>Rectify</translate>
             </b-dropdown-item>
             <b-dropdown-item-button
               v-if="cancelFlag"
               @click="confirmOnCancel"
             >
-              <b-icon
-                class="mr-1"
-                icon="x-octagon"
-              />
               <translate>Cancel Invoice</translate>
             </b-dropdown-item-button>
           </b-dropdown>

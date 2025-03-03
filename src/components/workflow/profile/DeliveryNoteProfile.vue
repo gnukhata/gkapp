@@ -26,10 +26,6 @@
             variant="dark"
             v-b-toggle.voucher-container
           >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
             <router-link
               class="custom-link"
               :to="
@@ -46,10 +42,6 @@
             variant="dark"
             v-b-toggle.voucher-container
           >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
             <router-link
               class="custom-link"
               :to="

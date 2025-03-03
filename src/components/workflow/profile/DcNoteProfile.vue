@@ -17,10 +17,6 @@
             v-b-modal.voucher-container
           >
             <template #button-content>
-              <b-icon
-                icon="eye"
-                class="mr-1"
-              />
               <translate>View Voucher</translate>
             </template>
             <b-dropdown-item
@@ -36,10 +32,6 @@
                 },
               }"
             >
-              <b-icon
-                class="mr-1"
-                icon="eye"
-              />
               {{ inv.icflag === 3 ? 'View Cash Memo' : 'View Invoice' }}
             </b-dropdown-item>
           </b-dropdown>
