@@ -98,10 +98,6 @@
               class="ml-1"
               @click.prevent="getVouchers"
             >
-              <b-icon
-                class="mr-1"
-                icon="cloud-download"
-              />
               <translate>Get Details</translate>
             </b-button>
           </b-button-group>
