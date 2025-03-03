@@ -56,7 +56,6 @@
         hover
         small
         bordered
-        striped
         :items="formItems()"
         :fields="fields"
         :primary-key="`tbl_${Date.now()}`"
@@ -64,7 +63,7 @@
         :stacked="editMode"
         :per-page="editMode ? 1 : 10"
         :current-page="currentPage"
-        head-variant="dark"
+        header-variant="light"
         ref="billTable"
       >
         <!-- Index -->
