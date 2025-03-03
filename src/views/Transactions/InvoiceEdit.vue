@@ -110,6 +110,7 @@
       </div>
       <!-- Bill Table -->
       <bill-table
+        :edit-invoice="editInvoice"
         :gst-flag="isGst"
         :cgst-flag="isCgst"
         :vat-flag="isVat"

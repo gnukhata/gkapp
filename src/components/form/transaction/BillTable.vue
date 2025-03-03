@@ -542,6 +542,12 @@ export default {
       default: false,
       note: 'Flag to check bill table from credit/debit note',
     },
+    editInvoice: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: 'Flag to check if bill table is for rectifying invoice',
+    },
     billType: {
       type: String,
       required: false,
@@ -1315,7 +1321,12 @@ export default {
         if (rate > 0) {
           qty = item.qty;
           // When customDiscount is false, total discount is calculated based on quantity
-          if (!customDiscount) {
+          if (this.editInvoice) {
+            customDiscount = true;
+          }
+          if (customDiscount) {
+            item.discount.total = parseFloat(discountAmount).toFixed(2);
+          } else {
             item.discount.total = (parseFloat(discountAmount) * qty).toFixed(2);
           }
           item.taxable = parseFloat((rate * qty - item.discount.total).toFixed(2));
