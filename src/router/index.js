@@ -392,6 +392,8 @@ const routes = [
     props: route => ({
       ...route.params,
       type: route.query.type,
+      invoiceId: route.query['invoice-id'] ? Number(route.query['invoice-id']) : null,
+      transaction: route.query['transaction'],
     }),
   },
   {

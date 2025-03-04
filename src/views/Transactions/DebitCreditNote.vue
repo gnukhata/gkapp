@@ -47,15 +47,16 @@
         >
           <v-select
             id="input-8-2"
-            v-model="invId"
+            :value="invId"
             :options="invList"
-            @input="updateInvoiceData(invId)"
+            @input="updateInvoiceData"
             :required="true"
             placeholder="Choose an Invoice"
             label="text"
             :reduce="(invdata) => invdata.value"
             style="min-width: 200px"
             :reset-on-options-change="true"
+            :disabled="isInvoiceSelectionDisabled"
           />
         </span>
       </div>
@@ -67,6 +68,7 @@
         <dc-note-details
           :config="config.dcNote"
           :sale-flag="isSale"
+          :note-type="transaction"
           @details-updated="onComponentDataUpdate"
           :update-counter="updateCounter.dcNote"
           :inv-date="form.invoice.date"
@@ -256,6 +258,16 @@ export default {
       required: false,
       default: null,
     },
+    invoiceId: {
+      type: Number,
+      required: false,
+      default: null,
+    },
+    transaction: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -301,7 +313,7 @@ export default {
           taxState: { name: '', id: '' },
         },
         dcNote: {
-          type: 'debit',
+          type: this.transaction,
           purpose: 'price',
         },
         party: {
@@ -315,7 +327,8 @@ export default {
           amount: 0,
         },
       },
-      invId: null,
+      invId: this.invoiceId,
+      isInvoiceSelectionDisabled: !!this.invoiceId,
       options: {
         stateMap: {}, // name to id map
         dnData: {},
@@ -353,8 +366,17 @@ export default {
       this.updateConfig();
     },
     type(newType) {
-      this.form.type = newType === 'purchase' ? 'purchase' : 'sale';
+      this.form.type = newType;
     },
+    invoiceId(newId) {
+      if (newId) {
+        this.invId = newId;
+        this.isInvoiceSelectionDisabled = true;
+      }
+    },
+    transaction(newType) {
+      this.form.dcNote.type = newType;
+    }
   },
   methods: {
     onComponentDataUpdate(payload) {
@@ -522,7 +544,10 @@ export default {
      * Given an invoice id, updates the products in the bill table
      */
     updateInvoiceData(invoiceId) {
-      if (!isNaN(invoiceId) && !invoiceId) {
+      if (!this.isInvoiceSelectionDisabled) {
+        this.invId = invoiceId;
+      }
+      if (!isNaN(invoiceId) && !invoiceId && !this.invoiceId) {
         this.form.bill = [{ product: { name: '' } }];
         this.form.party.name = '';
         this.form.invoice = {};
@@ -534,7 +559,7 @@ export default {
       }
       let self = this;
       axios
-        .get(`/invoice/${invoiceId}`)
+        .get(`/invoice/${this.invId}`)
         .then((resp) => {
           if (resp.data.gkstatus === 0) {
             const inv = resp.data.gkresult;
@@ -704,8 +729,8 @@ export default {
     resetForm() {
       this.showPrintModal = false;
       this.invId = null;
+      this.isInvoiceSelectionDisabled = false;
       Object.assign(this.form, {
-        type: 'sale', // purchase
         dcNote: {
           type: 'debit',
           no: null,
@@ -922,6 +947,11 @@ export default {
     // Using non props to store these props, as these can be edited in the future
     this.initForm();
     this.form.type = this.type === 'purchase' ? 'purchase' : 'sale';
+    if (this.invoiceId) {
+      this.invId = this.invoiceId;
+      this.isInvoiceSelectionDisabled = true;
+    }
+    this.form.dcNote.type = this.transaction ?? 'credit';
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page

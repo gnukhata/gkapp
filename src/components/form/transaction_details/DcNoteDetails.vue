@@ -45,11 +45,17 @@
             v-model="form.type"
             @input="onNoteTypeUpdate"
           >
-            <b-form-radio value="debit">
-              <translate> Debit Note </translate>
-            </b-form-radio>
-            <b-form-radio value="credit">
+            <b-form-radio
+              v-if="noteType !== 'debit'"
+              value="credit"
+            >
               <translate> Credit Note </translate>
+            </b-form-radio>
+            <b-form-radio
+              v-if="noteType !== 'credit'"
+              value="debit"
+            >
+              <translate> Debit Note </translate>
             </b-form-radio>
           </b-form-radio-group>
         </b-form-group>
@@ -220,6 +226,11 @@ export default {
       type: Boolean,
       required: true,
     },
+    noteType: {
+      type: String,
+      required: false,
+      default: null,
+    },
     config: {
       type: Object,
       required: true,
@@ -245,7 +256,7 @@ export default {
       drNo: '',
       crNo: '',
       form: {
-        type: 'credit', // debit, credit
+        type: this.noteType, // debit, credit
         no: null,
         date: new Date().toISOString().slice(0, 10),
         gstin: null,
@@ -322,13 +333,6 @@ export default {
     invDate() {
       this.form.ref.date = this.invDate;
     },
-    saleFlag(isSale) {
-      if (isSale) {
-        this.form.type = 'credit';
-      } else {
-        this.form.type = 'debit';
-      }
-    },
   },
   methods: {
     onDropdownChange(value) {
@@ -402,6 +406,7 @@ export default {
   },
   mounted() {
     this.resetForm(true);
+    this.form.type = this.noteType ?? 'credit';
   },
 };
 </script>

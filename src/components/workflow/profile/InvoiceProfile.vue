@@ -43,6 +43,19 @@
             >
               <translate>View Credit Note</translate>
             </b-dropdown-item-button>
+            <b-dropdown-item
+              v-else
+              :to="{
+                name: 'Debit_Credit_Note',
+                query: {
+                  type: invoice.isSale ? 'sale' : 'purchase',
+                  'invoice-id': id,
+                  transaction: 'credit',
+                },
+              }"
+            >
+              <translate>Create Credit Note</translate>
+            </b-dropdown-item>
             <b-dropdown-item-button
               v-b-toggle.voucher-container
               v-if="showButton(4)"
@@ -50,6 +63,19 @@
             >
               <translate>View Debit Note</translate>
             </b-dropdown-item-button>
+            <b-dropdown-item
+              v-else
+              :to="{
+                name: 'Debit_Credit_Note',
+                query: {
+                  type: invoice.isSale ? 'sale' : 'purchase',
+                  'invoice-id': id,
+                  transaction: 'debit',
+                },
+              }"
+            >
+              <translate>Create Debit Note</translate>
+            </b-dropdown-item>
             <b-dropdown-item-button
               @click="onPayment"
               v-if="invoice.payment.mode != 5 && paymentFlag"
