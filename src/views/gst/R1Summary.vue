@@ -123,7 +123,7 @@
             CGST:
           </dt>
           <dd class="col-sm-3">
-            {{ summary.hsn.cgst || '0.00' }}
+            {{ summary.hsn.sgst || '0.00' }}
           </dd>
           <dt class="col-sm-3">
             SGST:
@@ -346,8 +346,8 @@ export default {
           igstVal += parseFloat(hsn[i].IGSTamt);
         }
         o['taxable_value'] = totVal.toFixed(2);
-        o['SGST'] = sgstVal.toFixed(2);
-        o['IGST'] = igstVal.toFixed(2);
+        o['sgst'] = sgstVal.toFixed(2);
+        o['igst'] = igstVal.toFixed(2);
         o['total_value'] = (totVal+sgstVal*2+igstVal).toFixed(2);
 
         this.summary['hsn'] = o;
