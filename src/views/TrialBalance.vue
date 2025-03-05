@@ -16,7 +16,7 @@
           Trial Balance: From {{ dateReverse(selected?.fromDate || fromDate) }} to
           {{ dateReverse(selected?.toDate || toDate) }}
         </b-alert>
-        <b-form @submit.prevent="getTrialBalance">
+        <b-form @submit.prevent="updateTrialBalance">
           <b-row>
             <b-col
               cols
@@ -334,6 +334,10 @@ export default {
         this.tableFields = this.extendedFields
       }
     },
+    updateTrialBalance() {
+      this.getTrialBalance();
+      this.updateRoute();
+    },
     getTrialBalance() {
       this.isLoading = true;
       let url = '';
@@ -348,14 +352,15 @@ export default {
         .then((resp) => {
           this.tableItems = resp;
           this.setTableFields();
-          this.updateRoute();
           this.currentTrialBalanceType = this.trialBalanceType;
           this.selected = {
             fromDate: this.fromDate,
             toDate: this.toDate,
           };
-          this.isLoading = false;
         })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
     // change url query params when date is changed by user
     updateRoute() {

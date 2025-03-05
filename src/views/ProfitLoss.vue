@@ -101,226 +101,226 @@
           </b-button-group>
         </b-form>
       </b-card>
-      <!--     {{ result }} -->
-      <report-header>
-        <div class="text-center">
-          <b
-            v-if="orgType == 'Profit Making'"
-            v-translate
-          >Profit & Loss</b>
-          <b
-            v-else
-            v-translate
-          >Income & Expenditure</b>for the period
-          {{ dateReverse(selected.fromDate) }} to
-          {{ dateReverse(selected.toDate) }}
-          <br>
-        </div>
-      </report-header>
-      <div
-        class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
-      >
-        <b-button-group
-          size="sm"
-        >
-          <b-button
-            class="px-1 d-none d-lg-inline-block mr-1"
-            variant="dark"
-            size="sm"
-            @click="printPage"
-          >
-            <b-icon
-              class="align-middle"
-              icon="printer"
-            />
-            Print
-          </b-button>
-          <gk-file-download
-            :url="downloadUrl"
-            :file-name="downloadFileName"
-            variant="dark"
-            title="Export XLSX"
-            name="Export XLSX"
-            file-extn=".xlsx"
-            :message-from-parent="parentMessage"
-          />
-        </b-button-group>
-      </div>
-      <b-row class="row text-small">
-        <b-col
-          cols="6"
-          class="pr-0"
-        >
-          <report-table-three-col
-            :items="tradingLeft"
-            :fields="reportFields"
-            :filter-table="filterTable"
-            :table-name="'trading'"
-            :divide-thousand="divideThousand"
-          />
-        </b-col>
-        <b-col
-          cols="6"
-          class="pl-0"
-        >
-          <report-table-three-col
-            :items="tradingRight"
-            :fields="reportFields"
-            :filter-table="filterTable"
-            :table-name="'trading'"
-            :divide-thousand="divideThousand"
-          />
-        </b-col>
-      </b-row>
-
-      <b-row class="row text-small">
-        <b-col
-          cols="6"
-          class="pr-0"
-        >
-          <b-table
-            borderless
-            small
-            :items="totals.trading_left"
-            :fields="reportFields"
-            head-variant="dark"
-            class="mb-0"
-            thead-class="d-none"
-            tbody-tr-class="bs-row"
-            responsive=""
-            filter="a"
-          >
-            <template #cell(name)="data">
-              <div class="font-weight-bold">
-                {{ data.value }}
-              </div>
-            </template>
-            <template #cell(colOne)="" />
-            <template #cell(colTwo)="data">
-              <div class="border-dark border-2 border-top border-bottom font-weight-bold">
-                {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
-              </div>
-            </template>
-          </b-table>
-        </b-col>
-        <b-col
-          cols="6"
-          class="pl-0"
-        >
-          <b-table
-            borderless
-            small
-            :items="totals.trading_right"
-            :fields="reportFields"
-            head-variant="dark"
-            class="mb-0"
-            thead-class="d-none"
-            tbody-tr-class="bs-row"
-            responsive=""
-            filter="a"
-          >
-            <template #cell(name)="data">
-              <div class="font-weight-bold">
-                {{ data.value }}
-              </div>
-            </template>
-            <template #cell(colOne)="" />
-            <template #cell(colTwo)="data">
-              <div class="border-dark border-2 border-top border-bottom font-weight-bold">
-                {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
-              </div>
-            </template>
-          </b-table>
-        </b-col>
-      </b-row>
-      <b-row class="row text-small">
-        <b-col
-          cols="6"
-          class="pr-0"
-        >
-          <report-table-three-col
-            :items="pnlLeft"
-            :fields="reportFields"
-            :filter-table="filterTable"
-            :table-name="'pnl'"
-            :divide-thousand="divideThousand"
-          />
-        </b-col>
-        <b-col
-          cols="6"
-          class="pl-0"
-        >
-          <report-table-three-col
-            :items="pnlRight"
-            :fields="reportFields"
-            :filter-table="filterTable"
-            :table-name="'pnl'"
-            :divide-thousand="divideThousand"
-          />
-        </b-col>
-      </b-row>
-
-      <b-row class="row text-small">
-        <b-col
-          cols="6"
-          class="pr-0"
-        >
-          <b-table
-            borderless
-            small
-            :items="totals.pnl_left"
-            :fields="reportFields"
-            head-variant="dark"
-            class="mb-0"
-            thead-class="d-none"
-            tbody-tr-class="bs-row"
-            responsive=""
-            filter="a"
-          >
-            <template #cell(name)="data">
-              <div class="font-weight-bold">
-                {{ data.value }}
-              </div>
-            </template>
-            <template #cell(colOne)="" />
-            <template #cell(colTwo)="data">
-              <div class="border-dark border-2 border-top border-bottom font-weight-bold">
-                {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
-              </div>
-            </template>
-          </b-table>
-        </b-col>
-        <b-col
-          cols="6"
-          class="pl-0"
-        >
-          <b-table
-            borderless
-            small
-            :items="totals.pnl_right"
-            :fields="reportFields"
-            head-variant="dark"
-            class="mb-0"
-            thead-class="d-none"
-            tbody-tr-class="bs-row"
-            responsive=""
-            filter="a"
-          >
-            <template #cell(name)="data">
-              <div class="font-weight-bold">
-                {{ data.value }}
-              </div>
-            </template>
-            <template #cell(colOne)="" />
-            <template #cell(colTwo)="data">
-              <div class="border-dark border-2 border-top border-bottom font-weight-bold">
-                {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
-              </div>
-            </template>
-          </b-table>
-        </b-col>
-      </b-row>
     </b-overlay>
+    <!--     {{ result }} -->
+    <report-header>
+      <div class="text-center">
+        <b
+          v-if="orgType == 'Profit Making'"
+          v-translate
+        >Profit & Loss</b>
+        <b
+          v-else
+          v-translate
+        >Income & Expenditure</b>for the period
+        {{ dateReverse(selected.fromDate) }} to
+        {{ dateReverse(selected.toDate) }}
+        <br>
+      </div>
+    </report-header>
+    <div
+      class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
+    >
+      <b-button-group
+        size="sm"
+      >
+        <b-button
+          class="px-1 d-none d-lg-inline-block mr-1"
+          variant="dark"
+          size="sm"
+          @click="printPage"
+        >
+          <b-icon
+            class="align-middle"
+            icon="printer"
+          />
+          Print
+        </b-button>
+        <gk-file-download
+          :url="downloadUrl"
+          :file-name="downloadFileName"
+          variant="dark"
+          title="Export XLSX"
+          name="Export XLSX"
+          file-extn=".xlsx"
+          :message-from-parent="parentMessage"
+        />
+      </b-button-group>
+    </div>
+    <b-row class="row text-small">
+      <b-col
+        cols="6"
+        class="pr-0"
+      >
+        <report-table-three-col
+          :items="tradingLeft"
+          :fields="reportFields"
+          :filter-table="filterTable"
+          :table-name="'trading'"
+          :divide-thousand="divideThousand"
+        />
+      </b-col>
+      <b-col
+        cols="6"
+        class="pl-0"
+      >
+        <report-table-three-col
+          :items="tradingRight"
+          :fields="reportFields"
+          :filter-table="filterTable"
+          :table-name="'trading'"
+          :divide-thousand="divideThousand"
+        />
+      </b-col>
+    </b-row>
+
+    <b-row class="row text-small">
+      <b-col
+        cols="6"
+        class="pr-0"
+      >
+        <b-table
+          borderless
+          small
+          :items="totals.trading_left"
+          :fields="reportFields"
+          head-variant="dark"
+          class="mb-0"
+          thead-class="d-none"
+          tbody-tr-class="bs-row"
+          responsive=""
+          filter="a"
+        >
+          <template #cell(name)="data">
+            <div class="font-weight-bold">
+              {{ data.value }}
+            </div>
+          </template>
+          <template #cell(colOne)="" />
+          <template #cell(colTwo)="data">
+            <div class="border-dark border-2 border-top border-bottom font-weight-bold">
+              {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
+            </div>
+          </template>
+        </b-table>
+      </b-col>
+      <b-col
+        cols="6"
+        class="pl-0"
+      >
+        <b-table
+          borderless
+          small
+          :items="totals.trading_right"
+          :fields="reportFields"
+          head-variant="dark"
+          class="mb-0"
+          thead-class="d-none"
+          tbody-tr-class="bs-row"
+          responsive=""
+          filter="a"
+        >
+          <template #cell(name)="data">
+            <div class="font-weight-bold">
+              {{ data.value }}
+            </div>
+          </template>
+          <template #cell(colOne)="" />
+          <template #cell(colTwo)="data">
+            <div class="border-dark border-2 border-top border-bottom font-weight-bold">
+              {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
+            </div>
+          </template>
+        </b-table>
+      </b-col>
+    </b-row>
+    <b-row class="row text-small">
+      <b-col
+        cols="6"
+        class="pr-0"
+      >
+        <report-table-three-col
+          :items="pnlLeft"
+          :fields="reportFields"
+          :filter-table="filterTable"
+          :table-name="'pnl'"
+          :divide-thousand="divideThousand"
+        />
+      </b-col>
+      <b-col
+        cols="6"
+        class="pl-0"
+      >
+        <report-table-three-col
+          :items="pnlRight"
+          :fields="reportFields"
+          :filter-table="filterTable"
+          :table-name="'pnl'"
+          :divide-thousand="divideThousand"
+        />
+      </b-col>
+    </b-row>
+
+    <b-row class="row text-small">
+      <b-col
+        cols="6"
+        class="pr-0"
+      >
+        <b-table
+          borderless
+          small
+          :items="totals.pnl_left"
+          :fields="reportFields"
+          head-variant="dark"
+          class="mb-0"
+          thead-class="d-none"
+          tbody-tr-class="bs-row"
+          responsive=""
+          filter="a"
+        >
+          <template #cell(name)="data">
+            <div class="font-weight-bold">
+              {{ data.value }}
+            </div>
+          </template>
+          <template #cell(colOne)="" />
+          <template #cell(colTwo)="data">
+            <div class="border-dark border-2 border-top border-bottom font-weight-bold">
+              {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
+            </div>
+          </template>
+        </b-table>
+      </b-col>
+      <b-col
+        cols="6"
+        class="pl-0"
+      >
+        <b-table
+          borderless
+          small
+          :items="totals.pnl_right"
+          :fields="reportFields"
+          head-variant="dark"
+          class="mb-0"
+          thead-class="d-none"
+          tbody-tr-class="bs-row"
+          responsive=""
+          filter="a"
+        >
+          <template #cell(name)="data">
+            <div class="font-weight-bold">
+              {{ data.value }}
+            </div>
+          </template>
+          <template #cell(colOne)="" />
+          <template #cell(colTwo)="data">
+            <div class="border-dark border-2 border-top border-bottom font-weight-bold">
+              {{ parseFloat(data.item.amount / (divideThousand ? 1000 : 1)).toFixed(2) }}
+            </div>
+          </template>
+        </b-table>
+      </b-col>
+    </b-row>
   </section>
 </template>
 

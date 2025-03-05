@@ -262,6 +262,11 @@
             </b-link>
           </div>
           <div v-else-if="data.item.trntype === 'transfer note'">
+            <b-icon
+              variant="dark"
+              icon="truck"
+            />
+            {{ data.item.particulars }} :
             <b-link
               :to="{
                 name: 'Workflow',
@@ -292,7 +297,10 @@
         <template #cell(transactionType)="data">
           <div class="text-right">
             <span v-if="data.item.particulars === 'opening stock'" />
-            <span v-if="data.item.particulars === 'Total'" />
+            <span v-else-if="data.item.particulars === 'Total'" />
+            <span v-else-if="data.item?.invno && data.item.invno.includes('SL')"> Sales Invoice </span>
+            <span v-else-if="data.item?.invno && data.item.invno.includes('PU')"> Purchase Invoice </span>
+            <span v-else-if="data.item?.invno && data.item.invno.includes('CMS')"> Sales Invoice </span>
             <span v-else>{{ data.item.trntype.charAt(0).toUpperCase() + data.item.trntype.slice(1) }}</span>
           </div>
         </template>
@@ -449,6 +457,7 @@ export default {
       this.updateRoute();
     },
     getStockReport() {
+      this.loading = true;
       let url = '';
       if (this.godownId) {
         url = `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`;
@@ -475,6 +484,9 @@ export default {
             selected["godownId"] = this.godownId;
           }
           this.selected = selected;
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     getProductList() {
@@ -521,7 +533,7 @@ export default {
         query: {
           from: this.fromDate,
           to: this.toDate,
-          godown_id: this.godownId,
+          goid: this.godownId,
           product_id: this.productId,
         },
       });

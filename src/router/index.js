@@ -560,7 +560,7 @@ const routes = [
       title: "Ledger Single",
       requiresOrgAuth: true,
     },
-    path: "/ledger/:ac&:pc&:fd&:td",
+    path: "/ledger/:ac&:pc&:fd&:td&:tt",
     name: "Ledger Full",
     component: () =>
       import(/* webpackChunkName: "ledger-full" */ "../views/Ledger.vue"),
