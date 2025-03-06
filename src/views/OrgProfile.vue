@@ -305,14 +305,14 @@
               </b-input-group>
             </b-form-group>
             <b-form-group
-              v-if="['VAT', 'GST & VAT'].includes(taxMode)"
-              :label="$gettext('ServiceTax Number')"
+              v-if="isIndia && taxMode && taxMode !== 'None'"
+              :label="$gettext('CIN')"
               label-cols-md="3"
               content-cols-md="9"
               content-cols-lg="5"
             >
               <b-form-input
-                v-model="details.orgstax"
+                v-model="details.cin"
                 size="sm"
                 type="text"
               />
@@ -1010,7 +1010,7 @@ export default {
         this.gstin = null;
         this.details.tin = null;
         this.details.orgpan = null;
-        this.details.orgstax = null;
+        this.details.cin = null;
         this.cess = {};
       }
 
