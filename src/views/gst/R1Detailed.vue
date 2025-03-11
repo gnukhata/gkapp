@@ -128,14 +128,19 @@ export default {
             switch (r.data.gkstatus) {
             case 0:
               this.list = r.data.gkdata;
-
+              if (this.type === "hsn_b2b") {
+                this.items = this.list?.hsn1?.b2b || [];
+              } else if (this.type === "hsn_b2c") {
+                this.items = this.list?.hsn1?.b2c || [];
+              } else {
+                this.items = this.list[this.tableInfo.type];
+              }
               // remove drilldown id columns
-              if (this.list[this.tableInfo.type].length) {
-                let fields = Object.keys(this.list[this.tableInfo.type][0]);
+              if (this.items.length) {
+                let fields = Object.keys(this.items[0]);
+                this.totalRows = this.items.length
                 fields = fields.filter(item => item !== "cess");
                 this.fields = fields;
-                this.items = this.list[this.tableInfo.type];
-                this.totalRows = this.items.length
 
                 let rightAlignFields = {
                   rate: true,
@@ -251,8 +256,8 @@ export default {
                   }
                 }
 
-                if (this.tableInfo.type === 'hsn1') {
-                  this.list['hsn1'].forEach((item) => {
+                if (this.type === 'hsn_b2b' || this.type === 'hsn_b2c' ) {
+                  this.items.forEach((item) => {
                     if (item.hsnsac && typeof item.hsnsac === 'object') {
                       let hsn = JSON.parse(item.hsnsac || '{}');
                       if (typeof hsn === 'object') {
