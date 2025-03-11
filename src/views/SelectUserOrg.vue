@@ -111,6 +111,7 @@
                 <translate> Change Server</translate>
               </b-button>
               <b-button
+                v-if="isUserRegistrationEnabled"
                 @click="showForm.createUser = true"
                 variant="dark"
                 class="m-1"
@@ -459,6 +460,7 @@ export default {
     return {
       isLoading: false,
       isOrgLoading: false,
+      isUserRegistrationEnabled: false,
       showForm: {
         createOrg: false,
         resetPwd: false,
@@ -507,6 +509,14 @@ export default {
     ]),
   },
   methods: {
+    checkRegistrationStatus() {
+      if (!axios.defaults.baseURL) return;
+      axios.get('/gkuser/check_registration').then((r) => {
+        if (r.status === 200 && r.data.gkstatus === 0) {
+          this.isUserRegistrationEnabled = true;
+        }
+      });
+    },
     /*
      * Close Change password window on successful password change
      */
@@ -941,6 +951,7 @@ export default {
     } else {
       this.fetchUserOrgs();
     }
+    this.checkRegistrationStatus();
   },
 };
 </script>
