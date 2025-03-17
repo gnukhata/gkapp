@@ -390,7 +390,7 @@
 <script>
 import axios from 'axios';
 import { mapGetters, mapState } from 'vuex';
-import GkGstin from '../components/GkGstin';
+import GkGstin from '../components/GkGstin.vue';
 import GkIfsc from './GkIfsc.vue';
 import countries from '@/js/countries';
 import { GST_REG_TYPE, GST_PARTY_TYPE } from '@/js/enum.js';

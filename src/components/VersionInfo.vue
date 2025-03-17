@@ -25,7 +25,7 @@ export default {
   name: 'VersionInfo',
   data() {
     return {
-      gkappVersion: process.env.VUE_APP_GKAPP_VERSION || version,
+      gkappVersion: import.meta.env.VITE_GKAPP_VERSION || version,
       gkcoreVersion: null,
       url: {},
     };

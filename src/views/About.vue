@@ -5,7 +5,7 @@
       fluid
       center
       width="90"
-      src="img/icons/manifest-icon-192.png"
+      src="/img/icons/manifest-icon-192.png"
     />
     <!-- about -->
     <div class="text-center mt-4">
@@ -59,7 +59,7 @@
             <img
               class="mt-3 img-fluid"
               width="100px"
-              src="img/agpl3.png"
+              src="/img/agpl3.png"
               alt="AGPLv3 License"
             >
           </a>
@@ -70,7 +70,7 @@
             <img
               width="200px"
               class="mt-3 img-fluid"
-              src="img/accionlabs.png"
+              src="/img/accionlabs.png"
               alt="accion labs logo"
             >
           </a>

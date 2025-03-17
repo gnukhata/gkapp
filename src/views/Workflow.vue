@@ -750,7 +750,7 @@ import ContactConf from '../js/config/workflow/contacts.js';
 import BusinessConf from '../js/config/workflow/business.js';
 import TransactionConf from '../js/config/workflow/transactions.js';
 
-import ContactProfile from '@/components/ContactProfile';
+import ContactProfile from '@/components/ContactProfile.vue';
 import BusinessProfile from '@/components/BusinessProfile.vue';
 import TransactionProfile from '@/components/workflow/profile/Transaction.vue';
 import ReportHeader from '@/components/ReportHeader.vue';

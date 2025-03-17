@@ -3,10 +3,10 @@
   "version": "8.0.0-b",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "build-dev": "vue-cli-service build --mode development",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint",
     "translate-extract": "make makemessages && rm src/locales/locale/*/*/app.po~",
     "translate-compile": "make translations"
   },
@@ -32,13 +32,6 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",
     "@babel/polyfill": "^7.12.1",
-    "@vue/cli": "^5.0.0",
-    "@vue/cli-plugin-babel": "^5.0.0",
-    "@vue/cli-plugin-eslint": "^5.0.0",
-    "@vue/cli-plugin-pwa": "^5.0.0",
-    "@vue/cli-plugin-router": "^5.0.0",
-    "@vue/cli-plugin-vuex": "^5.0.0",
-    "@vue/cli-service": "^5.0.0",
     "easygettext": "^2.17.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^7.20.0",
@@ -47,9 +40,7 @@
     "popper.js": "^1.16.1",
     "portal-vue": "^2.1.7",
     "sass": "^1.69.4",
-    "sass-loader": "^16.0.2",
-    "vue-cli-plugin-axios": "0.0.4",
-    "vue-template-compiler": "^2.7.15"
+    "vite-plugin-vue2": "^2.0.3"
   },
   "eslintConfig": {
     "root": true,
