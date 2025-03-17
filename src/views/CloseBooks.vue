@@ -1,23 +1,5 @@
 <template>
   <section class="container-fluid mt-2">
-    <!-- alerts which show the status of closebooks and rollover -->
-    <b-alert
-      show
-      v-if="details.booksclosedflag == 1"
-      variant="success"
-    >
-      <translate>
-        Close Books is Done for this financial year
-      </translate>
-    </b-alert>
-    <b-alert
-      show
-      v-if="details.roflag == 1"
-      variant="success"
-    >
-      <translate>Rollover is Done for this financial year</translate>
-    </b-alert>
-    <!-- Close Books -->
     <b-card
       class="mt-4"
     >
@@ -30,17 +12,6 @@
           <h5 class="mr-auto">
             <translate>Close Books</translate>
           </h5>
-          <div>
-            <b-icon
-              icon="question-circle"
-              v-b-popover.click.blur="{
-                variant: 'dark',
-                title: 'Close Books',
-                content:
-                  'On activating this option, balances in all expense and income accounts will be transferred to Profit & Loss or Income & Expenditure Account and these accounts will be closed. No transactions can be recorded in these accounts but Ledger accounts can be viewed, printed. To <b>ROLL OVER</b> the company to new financial year, You have to close books first',
-              }"
-            />
-          </div>
         </div>
       </template>
       <h5>
@@ -49,21 +20,17 @@
       <p class="font-weight-light mb-4">
         Current Financial Year: <b>{{ details.yearstart }}</b> to <b>{{ details.yearend }}</b>
       </p>
-
-      <b-form-group
-        label="Closing date"
-        label-cols-md="3"
-        label-for="cb-to"
+      <b-alert
+        show
+        v-if="details.booksclosedflag == 1"
+        variant="success"
       >
-        <gk-date
-          id="cb-to"
-          :readonly="details.booksclosedflag == 1"
-          v-model="details.yearend"
-          :style="{'max-width': '200px'}"
-        />
-      </b-form-group>
+        <translate>
+          Close Books is done for this financial year
+        </translate>
+      </b-alert>
       <b-button
-        :disabled="details.booksclosedflag == 1"
+        v-else
         @click="
           confirm(
             'close',
@@ -79,7 +46,16 @@
       <h5>
         Roll Over
       </h5>
+      <b-alert
+        show
+        v-if="details.roflag == 1"
+        variant="success"
+        class="mt-3"
+      >
+        <translate>Rollover is done for this financial year</translate>
+      </b-alert>
       <b-form
+        v-else
         @submit.prevent="
           confirm(
             'rollover',
@@ -213,7 +189,7 @@ export default {
     closeBooks() {
       this.isLoading = true;
       axios
-        .get(`/closebooks?financialend=${this.details.yearend}`)
+        .get(`/closebooks`)
         .then((r) => {
           if (r.status == 200 && r.data.gkstatus == 0) {
             switch (r.data.gkstatus) {
