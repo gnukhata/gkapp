@@ -1,3 +1,5 @@
+@use "variables";
+
 /* Sticky footer styles Start */
 html {
   position: relative;
@@ -37,8 +39,8 @@ main {
 
 .card-body {
   hr {
-    margin-left: $card-spacer-x;
-    margin-right: $card-spacer-x;
+    margin-left: variables.$card-spacer-x;
+    margin-right: variables.$card-spacer-x;
   }
 }
 
