@@ -71,9 +71,10 @@
           label-align="right"
           :label="$gettext('Question')"
         >
-          <security-questions
-            size="sm"
+          <v-select
+            placeholder="Select a security question"
             v-model="form.userquestion"
+            :options="questions"
           />
         </b-form-group>
         <b-form-group
@@ -143,11 +144,10 @@
 import { mapState } from 'vuex';
 import axios from 'axios';
 import Password from '@/components/Password.vue';
-import SecurityQuestions from '@/components/SecurityQuestions.vue';
 import { STATUS_CODES } from '@/js/enum.js';
 import Captcha from '@/components/Captcha.vue';
 export default {
-  components: { SecurityQuestions, Password, Captcha },
+  components: { Password, Captcha },
   name: 'CreateUser',
   data() {
     return {
@@ -156,6 +156,15 @@ export default {
       answer: null,
       userAnswer: null,
       resetCaptcha: false,
+      questions: [
+        'Your Favourite Place ?',
+        'Your Lucky number ?',
+        'Your Favourite Color ?',
+        "Your Mother's Maiden name",
+        'Your Favourite Ice Cream flavour ?',
+        'Your Favourite Bike ?',
+        'Your First School Name ?',
+      ],
       form: {
         username: '',
         userpassword: '',
