@@ -98,7 +98,11 @@
           label-cols="3"
         >
           <template #label>
-            <captcha v-model="answer" />
+            <captcha
+              v-model="answer"
+              :reset="resetCaptcha"
+              @change="resetCaptcha = false"
+            />
           </template>
           <!-- user answer -->
           <b-form-input
@@ -151,6 +155,7 @@ export default {
       cnfPassword: '',
       answer: null,
       userAnswer: null,
+      resetCaptcha: false,
       form: {
         username: '',
         userpassword: '',
@@ -207,12 +212,17 @@ export default {
       }
     },
     resetForm() {
+      this.cnfPassword = '';
+      this.answer = null;
+      this.userAnswer = null;
       this.form = {
         username: '',
         userpassword: '',
         userquestion: '',
         useranswer: '',
       };
+      this.resetCaptcha = true;
+      this.$refs['createForm'].reset();
     },
     checkUserName(query) {
       const self = this;
