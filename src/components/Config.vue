@@ -267,7 +267,7 @@ export default {
       } catch (error) {
         this.isFormatError = true;
         this.isFormatSuccess = false;
-        console.error('JSON format is not correct');
+        console.error('JSON format is not correct', error);
         custom = {};
         this.formattedConfig = JSON.stringify({}, undefined, 2);
       }

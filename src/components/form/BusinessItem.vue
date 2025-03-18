@@ -626,7 +626,7 @@
 <script>
 import axios from 'axios';
 import { mapGetters, mapState } from 'vuex';
-import Godown from './Godown';
+import Godown from './Godown.vue';
 import GkDate from '../GkDate.vue';
 import GkHsn from '../GkHsn.vue';
 

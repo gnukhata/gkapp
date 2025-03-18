@@ -118,7 +118,7 @@
         </b-button>
         <gk-file-download
           :url="
-          `/spreadsheet/balance-sheet?calculateto=${selected.toDate}&calculatefrom=${selected.fromDate}&fystart=${yearStart}&orgname=${orgName}&fyend=${yearEnd}&orgtype=${orgType}&baltype=1`
+            `/spreadsheet/balance-sheet?calculateto=${selected.toDate}&calculatefrom=${selected.fromDate}&fystart=${yearStart}&orgname=${orgName}&fyend=${yearEnd}&orgtype=${orgType}&baltype=1`
           "
           :file-name="downloadFileName"
           title="Export XLSX"

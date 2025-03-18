@@ -147,7 +147,7 @@ export default {
         discount: this.getTotal('discount', 'total'),
         amount: this.getTotal('total'),
         rounded: Math.round(this.getTotal('total')).toFixed(2),
-        text: this.totalText,
+        text: '',
         roundFlag: false,
       },
     };

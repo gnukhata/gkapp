@@ -98,6 +98,7 @@ export default {
           localStorage.getItem(`${payload.orgCode}-cashMemoConfig`)
         );
       } catch (error) {
+        console.error(error);
         conf = null;
       }
       if (conf !== null) {

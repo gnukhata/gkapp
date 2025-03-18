@@ -113,7 +113,7 @@ export default {
     }
   },
   mutations: {
-    // note that this mutation, directly stores whatever data is being sent, so 
+    // note that this mutation, directly stores whatever data is being sent, so
     // config must be validated before commit
     setPSOrderConfig(state, payload) {
       state.custom = payload
@@ -125,6 +125,7 @@ export default {
       try { // if the PSOrderConfig isn't a valid JSON, catch the error and  use null to get the default config
         conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-psOrderConfig`))
       } catch (error) {
+        console.error(error);
         conf = null
       }
       if (conf !== null) {

@@ -143,7 +143,7 @@
               v-if="isMonthlyLedger"
               :common-params="false"
               :url="
-              `/spreadsheet/ledger/monthly?accountcode=${this.selected.accountCode}&accname=${this.selected.accountName}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+                `/spreadsheet/ledger/monthly?accountcode=${this.selected.accountCode}&accname=${this.selected.accountName}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
               "
               variant="dark"
               title="Export XLSX"
@@ -155,7 +155,7 @@
               v-else-if="transactionType == 'all'"
               :common-params="false"
               :url="
-              `/spreadsheet/ledger?accountcode=${this.selected.accountCode}&accountname=${this.selected.accountname}&from=${this.selected.fromDate}&to=${this.selected.toDate}&orgtype=${this.orgType}&projectcode=&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+                `/spreadsheet/ledger?accountcode=${this.selected.accountCode}&accountname=${this.selected.accountname}&from=${this.selected.fromDate}&to=${this.selected.toDate}&orgtype=${this.orgType}&projectcode=&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
               "
               :message-from-parent="parentMessage"
               variant="dark"
