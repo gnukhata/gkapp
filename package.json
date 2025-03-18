@@ -16,7 +16,6 @@
     "axios": "^1.5.1",
     "bootstrap-vue": "^2.23.1",
     "check-password-strength": "^2.0.10",
-    "core-js": "^3.33.1",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.13",
     "globals": "^16.0.0",
@@ -33,14 +32,10 @@
     "workbox-window": "^7.3.0"
   },
   "devDependencies": {
-    "@babel/polyfill": "^7.12.1",
     "easygettext": "^2.17.0",
     "eslint": "^9.22.0",
     "eslint-plugin-vue": "^10.0.0",
     "lefthook": "^1.7.16",
-    "mutationobserver-shim": "^0.3.7",
-    "popper.js": "^1.16.1",
-    "portal-vue": "^2.1.7",
     "sass": "^1.69.4",
     "vite-plugin-vue2": "^2.0.3"
   },
