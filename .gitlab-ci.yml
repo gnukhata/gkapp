@@ -22,7 +22,7 @@ workflow:
 # build gkapp
 build_gkapp:
   stage: build
-  image: node:gallium-alpine
+  image: node:20-alpine
   script:
     # install dependencies & build
     - npm install -g @vue/cli && npm install
