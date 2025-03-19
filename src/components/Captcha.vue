@@ -54,11 +54,21 @@ export default {
       default: 30,
       note: 'Canvas height (optional), Default is 30',
     },
+    reset: {
+      type: Boolean,
+    },
   },
   data() {
     return {
       text: '',
     };
+  },
+  watch: {
+    reset(status) {
+      if (status) {
+        this.newCaptcha();
+      }
+    },
   },
   methods: {
     /*
