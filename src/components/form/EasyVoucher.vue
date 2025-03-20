@@ -379,13 +379,13 @@ export default {
 
       if (this.cash && parseFloat(this.cash) > 0) {
         this.form[cashAccType].push({
-          account: cashAcc.accountcode,
+          account: cashAcc,
           amount: parseFloat(this.cash),
         });
       }
       if (this.bank && parseFloat(this.bank) > 0) {
         this.form[cashAccType].push({
-          account: bankAcc.accountcode,
+          account: bankAcc,
           amount: parseFloat(this.bank),
         });
       }
@@ -393,7 +393,7 @@ export default {
       const total = parseFloat(this.cash || 0) + parseFloat(this.bank || 0);
 
       this.form[custAccType].push({
-        account: custAcc.accountcode,
+        account: custAcc,
         amount: total,
       });
 
