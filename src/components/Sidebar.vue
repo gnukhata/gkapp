@@ -20,7 +20,7 @@
       <template #title>
         <div class="d-flex">
           <img
-            src="../../public/img/gk.svg"
+            src="/img/gk.svg"
             width="30px"
             height="30px"
             class="ml-4 mt-1"
@@ -44,8 +44,8 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import SidebarNav from './SidebarNav';
-import SidebarAlert from './SidebarAlert';
+import SidebarNav from './SidebarNav.vue';
+import SidebarAlert from './SidebarAlert.vue';
 export default {
   name: 'Sidebar',
   components: { SidebarNav, SidebarAlert },

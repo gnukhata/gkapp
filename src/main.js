@@ -1,5 +1,3 @@
-import '@babel/polyfill';
-import 'mutationobserver-shim';
 import Vue from 'vue';
 import './plugins/axios';
 import './plugins/bootstrap-vue';
@@ -43,7 +41,7 @@ globalMixins.data = function() {
 };
 Vue.mixin(globalMixins);
 
-/* eslint-disable vue/require-name-property */
+ 
 window.gkVue = new Vue({
   router,
   store,

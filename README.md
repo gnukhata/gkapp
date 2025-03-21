@@ -31,11 +31,13 @@ https://try.gnukhata.org
 
 #### Install
 
-`cd` to project's dir and run `npm install` which installs the required dependencies
+`cd` to project's dir and run `npm install` which installs the required
+dependencies. Create .env file by copying the env.sample file and make necessary
+changes if needed.
 
 #### Development
 
-To pre-compile & hot-reload for development run `npm run serve`
+To pre-compile & hot-reload for development run `npm run dev`
 
 If you encounter below error like this, Linux/Mac users can `export NODE_OPTIONS=--openssl-legacy-provider`. [more info](https://stackoverflow.com/questions/74726224/opensslerrorstack-error03000086digital-envelope-routinesinitialization-e)
 

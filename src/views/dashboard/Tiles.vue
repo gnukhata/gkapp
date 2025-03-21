@@ -17,7 +17,7 @@
       >
         <img
           v-if="card.name == 'Go To Workflow'"
-          src="img/workflow.svg"
+          src="/img/workflow.svg"
           width="100"
           style="position: relative; bottom: 20px"
         >

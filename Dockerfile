@@ -4,7 +4,7 @@ FROM node:hydrogen-alpine as build
 COPY . /gkapp
 
 ARG VERSION="dev"
-ENV VUE_APP_GKAPP_VERSION=${VERSION} \
+ENV VITE_GKAPP_VERSION=${VERSION} \
 		NODE_OPTIONS=--openssl-legacy-provider
 
 WORKDIR /gkapp
