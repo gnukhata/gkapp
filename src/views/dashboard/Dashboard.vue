@@ -1,5 +1,11 @@
 <template>
   <section class="m-2">
+    <b-overlay
+      :show="isLoading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <b-row class="text-wrap mb-5">
       <b-col
         cols
@@ -160,6 +166,7 @@ export default {
   name: 'Dashboard',
   data() {
     return {
+      isLoading: false,
       dashboardData: {},
       dataIsFetched: false,
       showVoucherModal: false,
@@ -183,6 +190,7 @@ export default {
 
     },
     getDashboardData() {
+      this.isLoading = true;
       axios
         .get('/dashboard?type=dashboarddata')
         .then((r) => {
@@ -194,6 +202,9 @@ export default {
         })
         .catch((e) => {
           console.error(e);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
   },

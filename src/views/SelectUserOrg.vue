@@ -445,7 +445,7 @@
     </b-row>
     <!-- Org selection -->
     <div
-      v-else
+      v-else-if="!userOrgAuthenticated"
     >
       <b-container>
         <b-overlay
@@ -802,6 +802,7 @@ export default {
       'gkCoreUrl',
       'userAuthToken',
       'userAuthenticated',
+      'userOrgAuthenticated',
       'userName',
     ]),
   },
