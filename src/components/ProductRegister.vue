@@ -123,6 +123,47 @@
           </div>
         </template>
       </report-header>
+      <b-card
+        class="mb-3 d-print-none"
+      >
+        <b-card-title class="h5">
+          Summary
+        </b-card-title>
+        <b-row>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Total Inward Quantity:</b> {{ report?.at(-1)?.totalinwardqty }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Total Outward Quantity:</b> {{ report?.at(-1)?.totaloutwardqty }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="3"
+            sm="6"
+          >
+            <b>Opening Balance:</b> {{ report?.at(0)?.balance || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="3"
+            sm="6"
+          >
+            <b>Closing Balance:</b> {{ report?.at(-2)?.balance || "0.00" }}
+          </b-col>
+        </b-row>
+      </b-card>
       <div class="mt-4">
         <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
           <!-- Search Field -->
