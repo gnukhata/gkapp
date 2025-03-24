@@ -125,10 +125,10 @@
         small
         outlined
         responsive="sm"
-        :filter="search"
         v-if="report.length > 0"
-        :items="report"
+        :items="paginatedItems"
         :fields="fields"
+        :per-page="perPage"
       >
         <template #cell(product)="data">
           <router-link
@@ -153,6 +153,18 @@
           </div>
         </template>
       </b-table>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end"
+      >
+        <b-pagination
+          v-if="report.length > perPage"
+          v-model="currentPage"
+          :total-rows="report.length"
+          :per-page="perPage"
+          align="center"
+          limit="4"
+        />
+      </div>
     </section>
     <div v-else>
       <b-alert
@@ -192,6 +204,8 @@ export default {
       toDate: '',
       report: [],
       godowns: [],
+      currentPage: 1,
+      perPage: 10,
       selectedGodown: {
         id: 0,
         name: 'All',
@@ -204,6 +218,13 @@ export default {
     };
   },
   computed: {
+    filteredItems() {
+      return this.report.filter(item =>  item.product.toLowerCase().includes(this.search.toLowerCase()));
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
     defaultFields: function() {
       let fields = [
