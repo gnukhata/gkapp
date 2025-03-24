@@ -98,6 +98,8 @@
           <b-table
             :fields="fields1"
             :items="result1"
+            :per-page="perPage"
+            :current-page="currentPageLeft"
             primary-key="particulars"
             small
             outlined
@@ -124,8 +126,11 @@
         </div>
         <div class="col-lg-6">
           <b-table
+            id="right-table"
             :fields="fields2"
             :items="result2"
+            :per-page="perPage"
+            :current-page="currentPageRight"
             primary-key="particulars"
             small
             outlined
@@ -150,6 +155,34 @@
             </template>
           </b-table>
         </div>
+        <div class="col-12">
+          <div class="row">
+            <div
+              class="d-print-none d-flex align-items-center justify-content-end col-md-6"
+            >
+              <b-pagination
+                v-if="result1.length > perPage"
+                v-model="currentPageLeft"
+                :total-rows="result1.length"
+                :per-page="perPage"
+                align="center"
+                limit="4"
+              />
+            </div>
+            <div
+              class="d-print-none d-flex align-items-center justify-content-end col-md-6"
+            >
+              <b-pagination
+                v-if="result2.length > perPage"
+                v-model="currentPageRight"
+                :total-rows="result2.length"
+                :per-page="perPage"
+                align="center"
+                limit="4"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </b-overlay>
   </section>
@@ -171,6 +204,9 @@ export default {
       toDate: null,
       result1: null,
       result2: null,
+      currentPageLeft: 1,
+      currentPageRight: 1,
+      perPage: 10,
       selected: {},
       fields1: [
         {
