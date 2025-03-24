@@ -821,9 +821,6 @@ export default {
             .then(() => {
               self.isPreloading = false;
               self.$forceUpdate();
-              self.$nextTick().then(() => {
-                self.$refs.billTable.refresh();
-              });
             })
             .catch(() => {
               self.isPreloading = false;
