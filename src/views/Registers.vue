@@ -153,7 +153,6 @@
       </div>
       <b-table
         caption-top
-        :filter="search"
         class="mt-2"
         head-variant="light"
         small
@@ -161,8 +160,9 @@
         hover
         responsive="sm"
         v-if="report.length > 0"
-        :items="report"
+        :items="paginatedItems"
         :fields="fields"
+        :per-page="perPage"
         sticky-header="500px"
       >
         <template #cell(document_no)="voucher">
@@ -180,6 +180,18 @@
           </b-link>
         </template>
       </b-table>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end"
+      >
+        <b-pagination
+          v-if="report.length > perPage"
+          v-model="currentPage"
+          :total-rows="report.length"
+          :per-page="perPage"
+          align="center"
+          limit="4"
+        />
+      </div>
     </div>
     <div v-else>
       <b-alert
@@ -213,6 +225,8 @@ export default {
       tmp_report: [],
       fields: [],
       selected: {},
+      currentPage: 1,
+      perPage: 10,
       expandedTable: false,
       parentMessage: '',
     };
@@ -362,6 +376,18 @@ export default {
     },
   },
   computed: {
+    filteredItems() {
+      return this.report.filter(
+        item =>  (
+          item.narration?.toLowerCase().includes(this.search.toLowerCase())
+          || item.custname?.toLowerCase().includes(this.search.toLowerCase())
+        )
+      );
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
+    },
     downloadUrl: (self) => {
       return `/spreadsheet/view-register?title=Register as&from=${self.selected.fromDate}&to=${self.selected.toDate}&fields=${JSON.stringify(self.fields)}`
     },
