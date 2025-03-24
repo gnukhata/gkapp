@@ -134,6 +134,7 @@
       </report-header>
       <b-card
         class="mb-3 d-print-none"
+        v-if="selected.transactionType=='all'"
       >
         <b-card-title class="h5">
           Summary
@@ -204,7 +205,7 @@
               :message-from-parent="parentMessage"
             />
             <gk-file-download
-              v-else-if="transactionType == 'all'"
+              v-if="selected.transactionType=='all'"
               :common-params="false"
               :url="
                 `/spreadsheet/ledger?accountcode=${this.selected.accountCode}&accountname=${this.selected.accountname}&from=${this.selected.fromDate}&to=${this.selected.toDate}&orgtype=${this.orgType}&projectcode=&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
