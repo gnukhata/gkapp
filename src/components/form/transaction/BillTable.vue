@@ -821,9 +821,6 @@ export default {
             .then(() => {
               self.isPreloading = false;
               self.$forceUpdate();
-              self.$nextTick().then(() => {
-                self.$refs.billTable.refresh();
-              });
             })
             .catch(() => {
               self.isPreloading = false;
@@ -1089,6 +1086,7 @@ export default {
                 discount: {
                   percent: this.saleFlag ? data.discountpercent : 0,
                   amount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
+                  custom: false,
                 },
               });
             } else {
@@ -1307,6 +1305,7 @@ export default {
       let item = this.form[index];
       if (item) {
         item.taxable = (0).toFixed(2);
+        item.discount.custom = item.discount.custom || customDiscount;
         let discountAmount = parseFloat(item?.discount?.amount || 0).toFixed(2);
         let rate = parseFloat(item.rate);
         let qty = 0;
@@ -1322,11 +1321,10 @@ export default {
           qty = item.qty;
           // When customDiscount is false, total discount is calculated based on quantity
           if (this.editInvoice) {
-            customDiscount = true;
+            item.discount.custom = true;
+            item.discount.total = item.discount.total ?? discountAmount;
           }
-          if (customDiscount) {
-            item.discount.total = parseFloat(discountAmount).toFixed(2);
-          } else {
+          if (!item.discount.custom) {
             item.discount.total = (parseFloat(discountAmount) * qty).toFixed(2);
           }
           item.taxable = parseFloat((rate * qty - item.discount.total).toFixed(2));
