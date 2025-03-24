@@ -155,9 +155,9 @@
         </div>
         <!-- Table -->
         <b-table
-          :items="tableItems"
+          :items="paginatedItems"
           :fields="tableFields"
-          :filter="search"
+          :per-page="perPage"
           small
           primary-key="accountname"
           outlined
@@ -177,6 +177,18 @@
             </div>
           </template>
         </b-table>
+        <div
+          class="d-print-none d-flex align-items-center justify-content-end"
+        >
+          <b-pagination
+            v-if="tableItems.length > perPage"
+            v-model="currentPage"
+            :total-rows="tableItems.length"
+            :per-page="perPage"
+            align="center"
+            limit="4"
+          />
+        </div>
       </div>
       <div v-else>
         <b-alert
@@ -211,6 +223,8 @@ export default {
       fromDate: null,
       selected: {},
       toDate: null,
+      currentPage: 1,
+      perPage: 10,
       tableFields: [],
       tableItems: [],
       trialBalanceType: 'Net',
@@ -386,6 +400,18 @@ export default {
     },
   },
   computed: {
+    filteredItems() {
+      return this.tableItems.filter(
+        item =>  (
+          item.accountname.toLowerCase().includes(this.search.toLowerCase())
+          || item.groupname?.toLowerCase().includes(this.search.toLowerCase())
+        )
+      );
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   mounted() {
