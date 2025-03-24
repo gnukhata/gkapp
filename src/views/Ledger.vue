@@ -167,7 +167,8 @@
         </div>
       </div>
       <b-table
-        :items="result"
+        :items="paginatedItems"
+        :per-page="perPage"
         small
         outlined
         stacked="sm"
@@ -207,6 +208,18 @@
           </div>
         </template>
       </b-table>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end"
+      >
+        <b-pagination
+          v-if="result.length > perPage"
+          v-model="currentPage"
+          :total-rows="result.length"
+          :per-page="perPage"
+          align="center"
+          limit="4"
+        />
+      </div>
     </div>
     <div v-else>
       <b-alert
@@ -236,6 +249,8 @@ export default {
       result: [],
       showMonthlyLedger: false, // to change the monthly ledger status
       isMonthlyLedger: false, // current monthly ledget status
+      currentPage: 1,
+      perPage: 10,
       selected: {},
       accountCode: null,
       accountName: null,
@@ -252,7 +267,11 @@ export default {
       parentMessage: '',
     };
   },
-  computed: {
+   computed: {
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.result.slice(start, start + this.perPage);
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   methods: {
