@@ -132,6 +132,58 @@
           </span>
         </div>
       </report-header>
+      <b-card
+        class="mb-3 d-print-none"
+      >
+        <b-card-title class="h5">
+          Summary
+        </b-card-title>
+        <b-row>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Total of Transactions (Dr):</b> {{ result?.at(-3)?.Dr || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Total of Transactions (Cr):</b> {{ result?.at(-3)?.Cr || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Closing Balance C/F (
+              <span v-if="result?.at(-2)?.Dr">Dr</span>
+              <span v-else>Cr</span>
+              ):</b> {{ result?.at(-2)?.Dr || result?.at(-2)?.Cr || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Grand Total (Dr):</b> {{ result?.at(-1)?.Dr || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Grand Total (Cr):</b> {{ result?.at(-1)?.Cr || "0.00" }}
+          </b-col>
+        </b-row>
+      </b-card>
       <div
         class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
       >
