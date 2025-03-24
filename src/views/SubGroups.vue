@@ -1,15 +1,20 @@
 <template>
-  <GenericList
-    api-url="/groups-subgroups"
-    title="Sub Group"
-    id-field="groupcode"
-    v-model="items"
-    :items="items"
-    :fields="fields"
-    :options="options"
-    :form-component="formComponent"
-    @list-updated="getSubGroups"
-  />
+  <b-overlay
+    :show="isLoading"
+    spinner-type="grow"
+  >
+    <GenericList
+      api-url="/groups-subgroups"
+      title="Sub Group"
+      id-field="groupcode"
+      v-model="items"
+      :items="items"
+      :fields="fields"
+      :options="options"
+      :form-component="formComponent"
+      @list-updated="getSubGroups"
+    />
+  </b-overlay>
 </template>
 
 <script>
@@ -22,6 +27,7 @@ export default {
   data() {
     return {
       downloadables: [],
+      isLoading: false,
       fields: [
         {
           key: 'groupname',
@@ -59,6 +65,7 @@ export default {
       this.options.groups = groups;
     },
     getGroups() {
+      this.isLoading = true;
       axios
         .get("/groups-subgroups?group_type=group")
         .then((resp) => {
@@ -71,9 +78,13 @@ export default {
             variant: 'danger',
             solid: true,
           });
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     },
     getSubGroups() {
+      this.isLoading = true;
       axios
         .get("/groups-subgroups?group_type=subgroup")
         .then((resp) => {
@@ -86,6 +97,9 @@ export default {
             variant: 'danger',
             solid: true,
           });
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
     }
   },
