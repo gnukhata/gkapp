@@ -29,17 +29,6 @@
         >
           + Add Account
         </b-button>
-        <router-link
-          class="btn btn-outline-info btn-sm ml-2"
-          :to="`/sub-groups`"
-        >
-          <b-icon
-            aria-hidden="true"
-            class="align-middle mr-1"
-            icon="grid"
-          />
-          Subgroups
-        </router-link>
       </gk-toolbar>
       <div class="clearfix" />
       <b-overlay :show="isLoading">
