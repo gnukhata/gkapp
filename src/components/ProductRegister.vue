@@ -170,10 +170,10 @@
         outlined
         hover
         head-variant="light"
-        :items="report"
+        :items="paginatedItems"
         responsive="sm"
+        :per-page="perPage"
         :fields="fields"
-        :filter="search"
         show-empty
       >
         <!-- Transaction type -->
@@ -336,6 +336,18 @@
           </div>
         </template>
       </b-table>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end"
+      >
+        <b-pagination
+          v-if="report.length > perPage"
+          v-model="currentPage"
+          :total-rows="report.length"
+          :per-page="perPage"
+          align="center"
+          limit="4"
+        />
+      </div>
     </div>
     <div v-if="report.length == 0">
       <b-alert
@@ -376,6 +388,8 @@ export default {
       currentToDate: '',
       report: [],
       immutableReport: [],
+      currentPage: 1,
+      perPage: 10,
       godowns: [],
       godownId: null,
       godownReport: [],
@@ -556,6 +570,13 @@ export default {
     },
   },
   computed: {
+    filteredItems() {
+      return this.report.filter(item =>  item.particulars.toLowerCase().includes(this.search.toLowerCase()));
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
     /**
      * Return godown object for given godown id
