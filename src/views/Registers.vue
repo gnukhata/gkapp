@@ -123,6 +123,31 @@
           <b class="mr-1 ml-2">{{ selected.toDate }}</b>
         </div>
       </report-header>
+      <b-card
+        class="mb-3 d-print-none"
+      >
+        <b-card-title class="h5">
+          Summary
+        </b-card-title>
+        <b-row>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Voucher Total:</b> {{ report?.at(-1)?.amount }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Invoice Total:</b> {{ report?.at(-1)?.taxed }}
+          </b-col>
+        </b-row>
+      </b-card>
       <div class="mt-4">
         <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
           <!-- Search Field -->
