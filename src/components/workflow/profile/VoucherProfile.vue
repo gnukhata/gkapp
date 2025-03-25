@@ -119,7 +119,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
+          class="text-small"
         />
       </b-col>
     </b-row>
@@ -127,10 +127,11 @@
       :items="voucher.content"
       :fields="tableFields"
       bordered
-      head-variant="dark"
       foot-clone
       small
-      class="text-small table-border-dark"
+      hover
+      class="text-small"
+      head-variant="light"
     >
       <template #cell(account)="data">
         <router-link

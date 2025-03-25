@@ -114,7 +114,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
+          class="text-small"
         />
       </b-col>
     </b-row>
@@ -123,13 +123,13 @@
       :items="delnote.contents"
       :fields="tableFields"
       bordered
-      head-variant="dark"
       stacked="sm"
       :responsive="true"
       small
-      striped
-      class="text-small table-border-dark"
+      hover
+      class="text-small"
       tbody-tr-class="gk-vertical-row"
+      head-variant="light"
     >
       <template #cell(name)="data">
         <template v-if="data.item.gsflag === 7">
