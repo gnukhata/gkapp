@@ -28,10 +28,16 @@
                 buttons
                 size="sm"
               >
-                <b-form-radio value="customer">
+                <b-form-radio
+                  v-if="type !== 'supplier'"
+                  value="customer"
+                >
                   <translate> Customer </translate>
                 </b-form-radio>
-                <b-form-radio value="supplier">
+                <b-form-radio
+                  v-if="type !== 'customer'"
+                  value="supplier"
+                >
                   <translate> Supplier </translate>
                 </b-form-radio>
               </b-form-radio-group>
