@@ -64,40 +64,38 @@
         class="mb-3 d-print-none"
         header="HSN Summary"
         header-class="font-weight-bold"
-        v-if="summary.hsn.product_entries"
+        v-if="summary.hsn?.b2b?.product_entries || summary.hsn?.b2c?.product_entries"
       >
-        <template #header>
-          <div>
-            <h5 class="float-left my-1">
-              Unit of Measurement
-            </h5>
-            <b-button-group
-              size="sm"
-              class="float-right"
+        <h5 class="my-1">
+          B2B Summary
+          <b-button-group
+            size="sm"
+          >
+            <b-button
+              class="ml-3"
+              variant="link"
+              sm
+              @click="$bvModal.show('hsn_b2b')"
             >
-              <b-button
-                class="ml-3"
-                variant="dark"
-                sm
-                @click="$bvModal.show('hsn')"
-              >
-                Details
-              </b-button>
-              <b-modal
-                hide-footer
-                size="xl"
-                id="hsn"
-                :title="'GST R1 - Detailed Report'"
-              >
-                <r1-detailed
-                  :fd="fd"
-                  :td="td"
-                  type="hsn1"
-                />
-              </b-modal>
-            </b-button-group>
-          </div>
-        </template>
+              Details
+              <b-icon
+                icon="chevron-right"
+              />
+            </b-button>
+            <b-modal
+              hide-footer
+              size="xl"
+              id="hsn_b2b"
+              :title="'GST R1 - Detailed Report'"
+            >
+              <r1-detailed
+                :fd="fd"
+                :td="td"
+                type="hsn_b2b"
+              />
+            </b-modal>
+          </b-button-group>
+        </h5>
         <dl
           class="row"
         >
@@ -105,37 +103,108 @@
             Product Entries:
           </dt>
           <dd class="col-sm-3">
-            {{ summary.hsn.product_entries }}
+            {{ summary.hsn.b2b.product_entries }}
           </dd>
           <dt class="col-sm-3">
             Taxable Value:
           </dt>
           <dd class="col-sm-3">
-            {{ summary.hsn.taxable_value }}
+            {{ summary.hsn.b2b.taxable_value }}
           </dd>
           <dt class="col-sm-3">
             IGST:
           </dt>
           <dd class="col-sm-3">
-            {{ summary.hsn.igst || '0.00' }}
+            {{ summary.hsn.b2b.igst || '0.00' }}
           </dd>
           <dt class="col-sm-3">
             CGST:
           </dt>
           <dd class="col-sm-3">
-            {{ summary.hsn.cgst || '0.00' }}
+            {{ summary.hsn.b2b.sgst || '0.00' }}
           </dd>
           <dt class="col-sm-3">
             SGST:
           </dt>
           <dd class="col-sm-3">
-            {{ summary.hsn.sgst || '0.00' }}
+            {{ summary.hsn.b2b.sgst || '0.00' }}
           </dd>
           <dt class="col-sm-3">
             Total Value:
           </dt>
           <dd class="col-sm-3">
-            {{ summary.hsn.total_value }}
+            {{ summary.hsn.b2b.total_value }}
+          </dd>
+        </dl>
+        <hr class="mx-1 my-4">
+        <h5 class="my-1">
+          B2C Summary
+          <b-button-group
+            size="sm"
+          >
+            <b-button
+              class="ml-3"
+              variant="link"
+              sm
+              @click="$bvModal.show('hsn_b2c')"
+            >
+              Details
+              <b-icon
+                icon="chevron-right"
+              />
+            </b-button>
+            <b-modal
+              hide-footer
+              size="xl"
+              id="hsn_b2c"
+              :title="'GST R1 - Detailed Report'"
+            >
+              <r1-detailed
+                :fd="fd"
+                :td="td"
+                type="hsn_b2c"
+              />
+            </b-modal>
+          </b-button-group>
+        </h5>
+        <dl
+          class="row"
+        >
+          <dt class="col-sm-3">
+            Product Entries:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.b2c.product_entries }}
+          </dd>
+          <dt class="col-sm-3">
+            Taxable Value:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.b2c.taxable_value }}
+          </dd>
+          <dt class="col-sm-3">
+            IGST:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.b2c.igst || '0.00' }}
+          </dd>
+          <dt class="col-sm-3">
+            CGST:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.b2c.sgst || '0.00' }}
+          </dd>
+          <dt class="col-sm-3">
+            SGST:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.b2c.sgst || '0.00' }}
+          </dd>
+          <dt class="col-sm-3">
+            Total Value:
+          </dt>
+          <dd class="col-sm-3">
+            {{ summary.hsn.b2c.total_value }}
           </dd>
         </dl>
       </b-card>
@@ -194,7 +263,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { mapState } from 'vuex';
 import ReportHeader from '@/components/ReportHeader.vue';
 import R1Detailed from './R1Detailed.vue';
@@ -296,7 +364,8 @@ export default {
       this.summary.consolidated = [];
       const summaryTypes = ["b2b", "b2cs", "b2cl", "cdnr", "cdnur"];
       summaryTypes.forEach(this.generateConsolidatedSummary);
-      this.hsnSummary();
+      this.hsnSummary("b2b");
+      this.hsnSummary("b2c");
     },
     /**
      * Generates consolidated summary
@@ -329,10 +398,10 @@ export default {
       });
     },
 
-    hsnSummary() {
-      const hsn = this.list.hsn1;
+    hsnSummary(transaction_type) {
+      const hsn = this.list.hsn1[transaction_type];
 
-      if (hsn.length) {
+      if (hsn?.length) {
         let o = {
           product_entries: hsn.length,
         };
@@ -346,13 +415,13 @@ export default {
           igstVal += parseFloat(hsn[i].IGSTamt);
         }
         o['taxable_value'] = totVal.toFixed(2);
-        o['SGST'] = sgstVal.toFixed(2);
-        o['IGST'] = igstVal.toFixed(2);
+        o['sgst'] = sgstVal.toFixed(2);
+        o['igst'] = igstVal.toFixed(2);
         o['total_value'] = (totVal+sgstVal*2+igstVal).toFixed(2);
 
-        this.summary['hsn'] = o;
+        this.summary['hsn'][transaction_type] = o;
       } else {
-        this.summary['hsn'] = {
+        this.summary['hsn'][transaction_type] = {
           product_entries: 0,
           taxable_value: 0,
           total_value: 0,
@@ -366,57 +435,12 @@ export default {
      */
     getGstR1List() {
       this.isLoading = true;
-      axios
+      this.$axios
         .get(`/gst/returns/r1?start=${this.fd}&end=${this.td}`)
-        .then((r) => {
-          if (r.status == 200) {
-            switch (r.data.gkstatus) {
-            case 0:
-              this.list = r.data.gkdata;
-              this.gstData = r.data.json;
-              this.generateSummary();
-              break;
-            case 1:
-              this.$bvToast.toast('Duplicate Entry', {
-                variant: 'warning',
-                solid: true,
-              });
-              break;
-            case 2:
-              this.$bvToast.toast('Unauthorised Access', {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 3:
-              this.$bvToast.toast('Data error', {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 4:
-              this.$bvToast.toast('No Privilege', {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 5:
-              this.$bvToast.toast('Integrity error', {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            }
-          } else {
-            console.error(r);
-          }
-          this.isLoading = false;
-        })
-        .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            variant: 'danger',
-            solid: true,
-          });
+        .then((resp) => {
+          this.list = resp.data.gkdata;
+          this.gstData = resp.data.json;
+          this.generateSummary();
           this.isLoading = false;
         });
     },
