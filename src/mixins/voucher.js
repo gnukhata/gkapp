@@ -178,12 +178,7 @@ export default {
         this.form[type][index].balance = this.options.balances[accCode];
       } else {
         this.form[type][index].isLoading = true;
-        const url = `
-          /reports/closing-balance
-          ?accountcode=${encodeURIComponent(accCode)}
-          &financialstart=${encodeURIComponent(this.yearStart)}
-          &calculateto=${encodeURIComponent(this.form.date)}
-        `;
+        const url = `/reports/closing-balance?accountcode=${encodeURIComponent(accCode)}&financialstart=${encodeURIComponent(this.yearStart)}&calculateto=${encodeURIComponent(this.form.date)}`;
         axios.get(url)
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
