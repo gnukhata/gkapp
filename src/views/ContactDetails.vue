@@ -32,7 +32,8 @@ export default {
       validator: function (value) {
         return ["customer", "supplier"].indexOf(value) !== -1;
       },
-      required: true,
+      required: false,
+      default: null,
     },
   },
   data() {

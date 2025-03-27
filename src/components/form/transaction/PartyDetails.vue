@@ -368,7 +368,7 @@ export default {
             states: [],
             gstin: [],
           },
-          type: 'customer', // supplier
+          type: null,
           custid: null,
           name: { name: '' },
           addr: null,
@@ -401,7 +401,7 @@ export default {
           states: [],
           gstin: [],
         },
-        type: 'customer', // supplier
+        type: this.saleFlag ? 'customer' : 'supplier',
         custid: null,
         name: { name: '' },
         addr: null,
@@ -880,6 +880,7 @@ export default {
   },
   mounted() {
     this.preloadData();
+    this.form.type = this.saleFlag ? 'customer' : 'supplier';
   },
 };
 </script>
