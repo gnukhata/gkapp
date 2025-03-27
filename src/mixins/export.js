@@ -18,13 +18,7 @@ export default {
         commonParams = true,
       } = metadata ?? {};
       if (commonParams) {
-        fullUrl = `
-          ${url}
-          &fystart=${encodeURIComponent(this.dateReverse(this.yearStart))}
-          &fyend=${encodeURIComponent(this.dateReverse(this.yearEnd))}
-          &orgname=${encodeURIComponent(this.orgName)}
-          &orgtype=${encodeURIComponent(this.orgType)}
-        `;
+        fullUrl = `${url}&fystart=${encodeURIComponent(this.dateReverse(this.yearStart))}&fyend=${encodeURIComponent(this.dateReverse(this.yearEnd))}&orgname=${encodeURIComponent(this.orgName)}&orgtype=${encodeURIComponent(this.orgType)}`;
       }
       const self = this;
       return axios
