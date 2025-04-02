@@ -1,5 +1,0 @@
-{
-  "gkstatus": 0,
-  "token": "string",
-  "orgcode": 0
-}
