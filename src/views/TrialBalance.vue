@@ -258,9 +258,9 @@
           class="d-print-none d-flex align-items-center justify-content-end"
         >
           <b-pagination
-            v-if="tableItems.length > perPage"
+            v-if="filteredItems.length > perPage"
             v-model="currentPage"
-            :total-rows="tableItems.length"
+            :total-rows="filteredItems.length"
             :per-page="perPage"
             align="center"
             limit="4"
@@ -474,6 +474,11 @@ export default {
         this.fromDate = this.yearStart;
         this.toDate = this.yearEnd;
       }
+    },
+  },
+  watch: {
+    search() {
+      this.currentPage = 1;
     },
   },
   computed: {

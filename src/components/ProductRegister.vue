@@ -381,9 +381,9 @@
         class="d-print-none d-flex align-items-center justify-content-end"
       >
         <b-pagination
-          v-if="report.length > perPage"
+          v-if="filteredItems.length > perPage"
           v-model="currentPage"
-          :total-rows="report.length"
+          :total-rows="filteredItems.length"
           :per-page="perPage"
           align="center"
           limit="4"
@@ -608,6 +608,11 @@ export default {
         this.productId = Number(productId?.id ? productId?.id : productId );
         this.getStockReport();
       }
+    },
+  },
+  watch: {
+    search() {
+      this.currentPage = 1;
     },
   },
   computed: {
