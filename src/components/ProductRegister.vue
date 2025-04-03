@@ -123,6 +123,47 @@
           </div>
         </template>
       </report-header>
+      <b-card
+        class="mb-3 d-print-none"
+      >
+        <b-card-title class="h5">
+          Summary
+        </b-card-title>
+        <b-row>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Total Inward Quantity:</b> {{ report?.at(-1)?.totalinwardqty }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Total Outward Quantity:</b> {{ report?.at(-1)?.totaloutwardqty }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="3"
+            sm="6"
+          >
+            <b>Opening Balance:</b> {{ report?.at(0)?.balance || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="3"
+            sm="6"
+          >
+            <b>Closing Balance:</b> {{ report?.at(-2)?.balance || "0.00" }}
+          </b-col>
+        </b-row>
+      </b-card>
       <div class="mt-4">
         <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
           <!-- Search Field -->
@@ -170,10 +211,10 @@
         outlined
         hover
         head-variant="light"
-        :items="report"
+        :items="paginatedItems"
         responsive="sm"
+        :per-page="perPage"
         :fields="fields"
-        :filter="search"
         show-empty
       >
         <!-- Transaction type -->
@@ -336,6 +377,18 @@
           </div>
         </template>
       </b-table>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end"
+      >
+        <b-pagination
+          v-if="filteredItems.length > perPage"
+          v-model="currentPage"
+          :total-rows="filteredItems.length"
+          :per-page="perPage"
+          align="center"
+          limit="4"
+        />
+      </div>
     </div>
     <div v-if="report.length == 0">
       <b-alert
@@ -376,6 +429,8 @@ export default {
       currentToDate: '',
       report: [],
       immutableReport: [],
+      currentPage: 1,
+      perPage: 10,
       godowns: [],
       godownId: null,
       godownReport: [],
@@ -555,7 +610,19 @@ export default {
       }
     },
   },
+  watch: {
+    search() {
+      this.currentPage = 1;
+    },
+  },
   computed: {
+    filteredItems() {
+      return this.report.filter(item =>  item.particulars.toLowerCase().includes(this.search.toLowerCase()));
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
     /**
      * Return godown object for given godown id

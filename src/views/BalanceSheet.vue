@@ -363,7 +363,7 @@ export default {
       isLoading: false,
       fromDate: null,
       toDate: null,
-      hideZero: false,
+      hideZero: true,
       selected: {},
       tableFields: [
         {

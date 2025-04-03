@@ -132,6 +132,59 @@
           </span>
         </div>
       </report-header>
+      <b-card
+        class="mb-3 d-print-none"
+        v-if="selected.transactionType=='all'"
+      >
+        <b-card-title class="h5">
+          Summary
+        </b-card-title>
+        <b-row>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Total of Transactions (Dr):</b> {{ result?.at(-3)?.Dr || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Total of Transactions (Cr):</b> {{ result?.at(-3)?.Cr || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Closing Balance C/F (
+              <span v-if="result?.at(-2)?.Dr">Dr</span>
+              <span v-else>Cr</span>
+              ):</b> {{ result?.at(-2)?.Dr || result?.at(-2)?.Cr || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Grand Total (Dr):</b> {{ result?.at(-1)?.Dr || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Grand Total (Cr):</b> {{ result?.at(-1)?.Cr || "0.00" }}
+          </b-col>
+        </b-row>
+      </b-card>
       <div
         class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
       >
@@ -152,7 +205,7 @@
               :message-from-parent="parentMessage"
             />
             <gk-file-download
-              v-else-if="transactionType == 'all'"
+              v-if="selected.transactionType=='all'"
               :common-params="false"
               :url="
                 `/spreadsheet/ledger?accountcode=${this.selected.accountCode}&accountname=${this.selected.accountname}&from=${this.selected.fromDate}&to=${this.selected.toDate}&orgtype=${this.orgType}&projectcode=&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
@@ -167,7 +220,8 @@
         </div>
       </div>
       <b-table
-        :items="result"
+        :items="paginatedItems"
+        :per-page="perPage"
         small
         outlined
         stacked="sm"
@@ -207,6 +261,18 @@
           </div>
         </template>
       </b-table>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end"
+      >
+        <b-pagination
+          v-if="result.length > perPage"
+          v-model="currentPage"
+          :total-rows="result.length"
+          :per-page="perPage"
+          align="center"
+          limit="4"
+        />
+      </div>
     </div>
     <div v-else>
       <b-alert
@@ -236,6 +302,8 @@ export default {
       result: [],
       showMonthlyLedger: false, // to change the monthly ledger status
       isMonthlyLedger: false, // current monthly ledget status
+      currentPage: 1,
+      perPage: 10,
       selected: {},
       accountCode: null,
       accountName: null,
@@ -252,7 +320,11 @@ export default {
       parentMessage: '',
     };
   },
-  computed: {
+   computed: {
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.result.slice(start, start + this.perPage);
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   methods: {

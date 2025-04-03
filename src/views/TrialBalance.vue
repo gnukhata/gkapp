@@ -93,6 +93,83 @@
             {{ dateReverse(selected.toDate) }}
           </div>
         </report-header>
+        <b-card
+          class="mb-3 d-print-none"
+        >
+          <b-card-title class="h5">
+            Summary
+          </b-card-title>
+          <b-row v-if="currentTrialBalanceType == 'Net'">
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Credit Balance:</b> {{ tableItems?.at(-1)?.Cr }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Debit Balance:</b> {{ tableItems?.at(-1)?.Dr }}
+            </b-col>
+          </b-row>
+          <b-row v-if="currentTrialBalanceType == 'Gross'">
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Credit Balance:</b> {{ tableItems?.at(-1)?.["Cr balance"] }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Debit Balance:</b> {{ tableItems?.at(-1)?.["Dr balance"] }}
+            </b-col>
+          </b-row>
+          <b-row v-if="currentTrialBalanceType == 'Extended'">
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Credit Balance:</b> {{ tableItems?.at(-1)?.curbalcr }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Debit Balance:</b> {{ tableItems?.at(-1)?.curbaldr }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Total Crs:</b> {{ tableItems?.at(-1)?.totalcr }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Total Drs:</b> {{ tableItems?.at(-1)?.totaldr }}
+            </b-col>
+          </b-row>
+        </b-card>
         <!-- Toolbar -->
         <div class="mt-4">
           <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
@@ -155,9 +232,9 @@
         </div>
         <!-- Table -->
         <b-table
-          :items="tableItems"
+          :items="paginatedItems"
           :fields="tableFields"
-          :filter="search"
+          :per-page="perPage"
           small
           primary-key="accountname"
           outlined
@@ -177,6 +254,18 @@
             </div>
           </template>
         </b-table>
+        <div
+          class="d-print-none d-flex align-items-center justify-content-end"
+        >
+          <b-pagination
+            v-if="filteredItems.length > perPage"
+            v-model="currentPage"
+            :total-rows="filteredItems.length"
+            :per-page="perPage"
+            align="center"
+            limit="4"
+          />
+        </div>
       </div>
       <div v-else>
         <b-alert
@@ -211,6 +300,8 @@ export default {
       fromDate: null,
       selected: {},
       toDate: null,
+      currentPage: 1,
+      perPage: 10,
       tableFields: [],
       tableItems: [],
       trialBalanceType: 'Net',
@@ -385,7 +476,24 @@ export default {
       }
     },
   },
+  watch: {
+    search() {
+      this.currentPage = 1;
+    },
+  },
   computed: {
+    filteredItems() {
+      return this.tableItems.filter(
+        item =>  (
+          item.accountname.toLowerCase().includes(this.search.toLowerCase())
+          || item.groupname?.toLowerCase().includes(this.search.toLowerCase())
+        )
+      );
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   mounted() {
