@@ -73,9 +73,6 @@
         <b-dropdown-item to="/ps-order">
           Purchase/Sales Order
         </b-dropdown-item>
-        <b-dropdown-item to="/transfer-note">
-          Transfer Note
-        </b-dropdown-item>
         <b-dropdown-item to="/voucher/create/receipt/-1">
           Voucher
         </b-dropdown-item>
