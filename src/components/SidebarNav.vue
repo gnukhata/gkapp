@@ -253,13 +253,6 @@
           <translate>Products and Services</translate>
         </b-nav-item>
         <b-nav-item
-          :active="isActiveWorkflow('Transactions-TransferNote')"
-          to="/workflow/Transactions-TransferNote/-1"
-        >
-          <b-icon icon="receipt" />
-          <translate>Transfer Notes</translate>
-        </b-nav-item>
-        <b-nav-item
           :active="isActive('/godowns')"
           to="/godowns"
         >
