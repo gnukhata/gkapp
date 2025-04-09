@@ -12,6 +12,7 @@
     <div id="transaction-print-page">
       <report-header
         class="mb-4"
+        :org-data="orgAddress"
         :show="true"
       />
       <br>
@@ -106,7 +107,7 @@
 
 <script>
 import axios from 'axios';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import TransactionProfile from '../workflow/profile/Transaction.vue';
 import PrintHelper from '../PrintHelper.vue';
 import ReportHeader from '@/components/ReportHeader.vue';
@@ -218,6 +219,7 @@ export default {
       ];
     },
     ...mapGetters('global', ['isGstEnabled']),
+    ...mapState(['orgAddress']),
   },
   watch: {
     show() {

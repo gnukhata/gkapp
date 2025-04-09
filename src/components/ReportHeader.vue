@@ -49,9 +49,14 @@
           <b>Email: </b> {{ orgAddress.orgemail }}
           <br>
         </small>
-        <small v-if="orgAddress?.gstin">
+        <small v-if="typeof orgDetails?.gstin === 'string' || orgDetails?.gstin instanceof String">
           <b>GSTIN: </b>
-          {{ Object.values(orgAddress.gstin)[0] || '' }}
+          {{ orgDetails.gstin }}
+          <br>
+        </small>
+        <small v-else-if="Object.keys(orgDetails?.gstin ?? {}).length">
+          <b>GSTIN: </b>
+          {{ Object.values(orgDetails.gstin)?.[0] || '' }}
           <br>
         </small>
         <small v-if="orgAddress?.tin">
@@ -90,16 +95,33 @@
 <script>
 import { mapState } from 'vuex';
 export default {
+  name: 'ReportHeader',
   props: {
     show: {
       type: [String, Boolean],
       default: false,
     },
+    orgData: {
+      type: Object,
+    },
   },
-  name: 'ReportHeader',
+  data() {
+    return {
+      orgDetails: {},
+    };
+  },
   computed: {
-    ...mapState(['orgName', 'orgImg', 'userName', 'orgAddress']),
-    gstin: (self) => (self.orgAddress?.gstin ? self.orgAddress.gstin[0] : ''),
+    ...mapState(['orgImg', 'userName', 'orgAddress']),
+  },
+  watch: {
+    orgData(newData) {
+      this.orgDetails = newData;
+    },
+  },
+  mounted() {
+    if (this.orgData) {
+      this.orgDetails = this.orgData;
+    }
   },
 };
 </script>
