@@ -28,3 +28,9 @@ yarn-error.log*
 *.po~
 GNUKhata.code-workspace
 /tests/output
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
