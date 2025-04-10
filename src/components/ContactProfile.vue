@@ -1,4 +1,5 @@
 <template>
+  <div>
   <b-form
     id="contactinfo"
     @submit.prevent="updateContact"
@@ -8,7 +9,7 @@
       <div class="float-right">
         <b-dropdown
           split
-          :split-to="`/ledger/${custid}`"
+          :split-to="`/ledger/${customer.custid}`"
           size="sm"
           class="mt-4 mr-4"
           variant="dark"
@@ -366,6 +367,51 @@
         </b-form-group>
       </div>
     </div>
+    <!-- Account Details -->
+    <div class="m-4">
+      <h5 class="mt-5 mb-3">
+        Account Details
+      </h5>
+      <div class="my-2">
+        <b-form-group
+          label="Opening Balance"
+          label-for="cp-opening-bal"
+          label-cols-md="3"
+          content-cols-md="9"
+        >
+          <b-input-group>
+            <b-form-input
+              id="cp-opening-bal"
+              v-model="accountDetails.openingbal"
+              disabled
+            />
+            <b-input-group-append>
+              <b-button
+                :title="'Edit Opening Balance'"
+                @click="$bvModal.show('edit-opening-balance')"
+                size="sm"
+                variant="dark"
+              >
+                <b-icon icon="pencil"/>
+              </b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+        <b-form-group
+          label="Current Balance"
+          label-for="cp-current-bal"
+          label-cols-md="3"
+          content-cols-md="9"
+        >
+          <b-form-input
+            id="cp-current-bal"
+            v-model="accountDetails.currentbal"
+            disabled
+          />
+        </b-form-group>
+      </div>
+    </div>
+
     <div class="m-4">
       <b-button
         type="submit"
@@ -385,6 +431,45 @@
       </b-button>
     </div>
   </b-form>
+  <b-modal
+    centered
+    static
+    v-model="showOpeningBalancePopup"
+    title="Edit Opening Balance"
+    header-class="p-2"
+    body-class="p-0"
+    hide-footer
+    :id="'edit-opening-balance'"
+  >
+    <b-form
+      id="accountDetails"
+      class="p-2"
+      @submit.prevent="updateOpeningBalance"
+    >
+      <b-form-group
+        label-size="sm"
+        label-cols="3"
+        label="Opening Balance"
+      >
+        <b-form-input v-model="openingBalance" />
+      </b-form-group>
+      <b-button
+        type="submit"
+        size="sm"
+        class="m-1"
+        variant="success"
+      >
+        <b-spinner
+          v-if="isLoading"
+          small
+        />
+        <span class="align-middle">
+          Save
+        </span>
+      </b-button>
+    </b-form>
+  </b-modal>
+  </div>
 </template>
 
 <script>
@@ -465,7 +550,9 @@ export default {
         checksum: new RegExp('[0-9]{1}[A-Z]{1}[0-9A-Z]{1}'),
         pan: new RegExp('[A-Z]{5}[0-9]{4}[A-Z]{1}'),
       },
-      custid: null,
+      accountDetails: {},
+      openingBalance: null,
+      showOpeningBalancePopup: false,
     };
   },
   computed: {
@@ -519,9 +606,10 @@ export default {
           gktoken: this.authToken,
         },
       };
-      axios.get(`/accounts?type=getAccCode&accountname=${this.customer.custname}`)
+      axios.get(`/account-details?accountname=${this.customer.custname}`)
         .then(response => {
-          this.custid = response.data.accountcode;
+          this.accountDetails = response.data.gkresult;
+          this.openingBalance = this.accountDetails.openingbal;
         })
         .catch(error => {
           this.error = 'Failed to load data: ' + error.message;
@@ -814,6 +902,25 @@ export default {
         }
         this.oldContactName = this.details.custname;
       });
+    },
+    updateOpeningBalance() {
+      this.isLoading = true;
+      const payload = {
+        custsupflag: 1,
+        oldcustname: this.customer.custname,
+        gkdata: {
+          ...this.accountDetails,
+          openingbal: this.openingBalance,
+        },
+      };
+      delete payload.gkdata.currentbal;
+      this.$axios.put('accounts', payload)
+        .then(() => {
+          this.showOpeningBalancePopup = false;
+          this.getDetails();
+        }).finally(() => {
+          this.isLoading = false;
+        });
     },
     /**Add a record of contact delete action */
     addLog() {
