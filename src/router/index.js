@@ -376,18 +376,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Transfer_Note",
-      requiresOrgAuth: true,
-    },
-    path: "/transfer-note",
-    name: "Transfer_Note",
-    component: () =>
-      import(
-        /* webpackChunkName: "transfer_note" */ "../views/Transactions/TransferNote.vue"
-      ),
-  },
-  {
-    meta: {
       title: "Accounts",
       requiresOrgAuth: true,
     },
