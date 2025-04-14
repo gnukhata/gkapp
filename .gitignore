@@ -2,6 +2,7 @@
 node_modules
 dist
 /tests/output/
+/tests/data/auth.json
 
 # local env files
 .env

@@ -1,9 +1,11 @@
 export default class Organisation {
-  constructor(page) {
+  constructor(page, baseURL) {
     this.page = page;
+    this.baseURL = baseURL;
   }
 
-  async create(name, country, state, orgType) {
+  async create({ name, country, state, orgType }) {
+    await this.page.goto(`${this.baseURL}/#/user-login`);
     await this.page.getByRole('button', { name: 'Create Org' }).click();
     await this.page.getByRole('textbox', { name: 'Name *' }).fill(name);
     await this.page.getByRole('group').filter({ hasText: 'Country' }).getByRole('combobox').click();
@@ -14,7 +16,7 @@ export default class Organisation {
     await this.page.getByRole('button', { name: 'Create & Login' }).click();
   }
 
-  async update(address, pin, gstin, pan) {
+  async update({ address, pin, gstin, pan }) {
     await this.page.getByRole('button', { name: 'caret right fill Administration' }).click();
     await this.page.getByRole('link', { name: 'building Organisation Profile' }).click();
     let orgAddr = this.page.getByRole('group').filter({ hasText: 'Address' }).getByRole('textbox').first();
@@ -35,7 +37,7 @@ export default class Organisation {
   }
 
   async delete() {
-    await this.page.goto('http://localhost:8080/#/orgprofile');
+    await this.page.goto(`${this.baseURL}/#/orgprofile`);
     await this.page.waitForLoadState('domcontentloaded');
     await this.page.getByRole('button', { name: 'Delete Organisation' }).click();
     await this.page.getByRole('button', { name: 'OK' }).click();
