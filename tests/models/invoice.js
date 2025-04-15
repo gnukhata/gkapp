@@ -40,5 +40,7 @@ export default class Invoice {
     }
     await this.page.getByRole('button', { name: 'Create', exact: true }).click();
     await this.page.getByRole('button', { name: 'OK' }).click();
+    await this.page.getByRole('button', { name: 'Close' }).click();
+    await this.page.locator('#button-wrapper > .btn-danger').click();
   }
 }
