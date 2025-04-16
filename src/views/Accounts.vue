@@ -29,58 +29,47 @@
         >
           + Add Account
         </b-button>
-        <router-link
-          class="btn btn-outline-info btn-sm ml-2"
-          :to="`/sub-groups`"
-        >
-          <b-icon
-            aria-hidden="true"
-            class="align-middle mr-1"
-            icon="grid"
-          />
-          Subgroups
-        </router-link>
       </gk-toolbar>
       <div class="clearfix" />
-      <div>
-        <b-tabs content-class="mt-3">
-          <b-tab
-            v-for="group in groups"
-            :title="group.groupname"
-            :key="group.groupcode"
-          >
-            <div class="row">
-              <div class="col">
-                <h3>{{ group.groupname }}</h3>
-              </div>
-              <div>
-                <b-form-group
-                  class="mb-0"
-                >
-                  <b-input-group
-                    size="sm"
-                    class="col-auto"
+      <b-overlay :show="isLoading">
+        <div>
+          <b-tabs content-class="mt-3">
+            <b-tab
+              v-for="group in groups"
+              :title="group.groupname"
+              :key="group.groupcode"
+            >
+              <div class="row">
+                <div class="col">
+                  <h3>{{ group.groupname }}</h3>
+                </div>
+                <div>
+                  <b-form-group
+                    class="mb-0"
                   >
-                    <b-form-input
-                      id="filter-input"
-                      v-model="filter"
-                      type="search"
-                      placeholder="Type to Search"
-                    />
+                    <b-input-group
+                      size="sm"
+                      class="col-auto"
+                    >
+                      <b-form-input
+                        id="filter-input"
+                        v-model="filter"
+                        type="search"
+                        placeholder="Type to Search"
+                      />
 
-                    <b-input-group-append>
-                      <b-button
-                        :disabled="!filter"
-                        @click="filter = ''"
-                      >
-                        Clear
-                      </b-button>
-                    </b-input-group-append>
-                  </b-input-group>
-                </b-form-group>
+                      <b-input-group-append>
+                        <b-button
+                          :disabled="!filter"
+                          @click="filter = ''"
+                        >
+                          Clear
+                        </b-button>
+                      </b-input-group-append>
+                    </b-input-group>
+                  </b-form-group>
+                </div>
               </div>
-            </div>
-            <b-overlay :show="isLoading">
               <b-table
                 borderless
                 hover
@@ -154,10 +143,10 @@
                   </b-modal>
                 </template>
               </b-table>
-            </b-overlay>
-          </b-tab>
-        </b-tabs>
-      </div>
+            </b-tab>
+          </b-tabs>
+        </div>
+      </b-overlay>
     </section>
     <b-modal
       centered
@@ -440,13 +429,13 @@ export default {
      * Actions: Fetch groups and send to prepare the data.
      */
     getGroupsSubgroups() {
-      this.isLoading = true;
-      return axios.get('/groups-subgroups').then((resp) => {
-        if (resp.data.gkstatus === 0) {
-          this.prepareGroupsSubgroups(resp.data.gkresult);
-        }
-        this.isLoading = false;
-      });
+      return axios
+        .get('/groups-subgroups')
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            this.prepareGroupsSubgroups(resp.data.gkresult);
+          }
+        });
     },
     /**
      * getAccountsList
@@ -461,13 +450,14 @@ export default {
           if (resp.data.gkstatus === 0) {
             this.prepareGroups(resp.data.gkresult);
           }
-          this.isLoading = false;
         })
         .catch((e) => {
           this.$bvToast.toast(e.message, {
             variant: 'danger',
             solid: true,
           });
+        })
+        .finally(() => {
           this.isLoading = false;
         });
     },

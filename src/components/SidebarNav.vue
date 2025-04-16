@@ -208,6 +208,13 @@
           <translate>Chart of Accounts</translate>
         </b-nav-item>
         <b-nav-item
+          :active="isActive('/sub-groups')"
+          to="/sub-groups"
+        >
+          <b-icon icon="files-alt" />
+          <translate>Account Groups</translate>
+        </b-nav-item>
+        <b-nav-item
           :active="isActive('/billwise/3/-1')"
           :to="{
             name: 'Billwise',
