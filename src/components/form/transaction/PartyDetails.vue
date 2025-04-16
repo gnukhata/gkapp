@@ -256,12 +256,11 @@
     <b-modal
       v-if="config"
       v-model="showContactForm"
+      title="Create Contact"
       size="lg"
       centered
       static
-      body-class="p-0"
       id="contact-item-modal"
-      hide-header
       hide-footer
     >
       <contact-item

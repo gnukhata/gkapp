@@ -1,15 +1,17 @@
 <template>
-  <div class="d-flex justify-content-center mt-4 mx-2 align-form-label-right">
-    <div
-      class="d-inline-block"
-      style="min-width: 300px"
-    >
+  <b-card no-body>
+    <template #header>
+      <h5 class="my-2">
+        Contact Person Details
+      </h5>
+    </template>
+    <b-card-body>
       <contact-item
         :mode="mode"
         :type="type"
       />
-    </div>
-  </div>
+    </b-card-body>
+  </b-card>
 </template>
 
 <script>
