@@ -443,10 +443,10 @@
       v-if="config"
       centered
       static
-      body-class="p-0"
+      body-class="p-4"
       id="business-item-modal"
+      title="Create Business Item"
       hide-footer
-      hide-header
     >
       <business-item
         :hide-back-button="true"
