@@ -233,35 +233,21 @@
         </b-form-group>
         <div v-if="editFlag">
           <b-button
-            @click.prevent="onPartyEdit(false)"
-            variant="danger"
-            size="sm"
-            class="mr-1"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="x-circle"
-            /><span
-              v-translate
-              class="align-middle"
-            >Cancel</span>
-          </b-button>
-          <b-button
             @click.prevent="onPartyEdit(true)"
             variant="success"
             size="sm"
+            class="mr-1"
             :disabled="!!form.gstin && !isValidGstin"
           >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="cloud-arrow-up"
-            />
-            <span
-              v-translate
-              class="align-middle"
-            >Save Changes</span>
+            Save
+          </b-button>
+          <b-button
+            @click.prevent="onPartyEdit(false)"
+            variant="dark"
+            size="sm"
+            class="mr-1"
+          >
+            Cancel
           </b-button>
         </div>
       </div>
