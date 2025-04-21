@@ -232,7 +232,6 @@ export default {
       this.screenWidth = window.innerWidth;
     }
     this.upgradeAppToLatestVersion();
-    this.check_gst_news();
     document.querySelector('title').textContent = `GNUKhata ${
       this.orgName !== null ? '| ' + this.orgName : ''
     }`;
