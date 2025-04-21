@@ -337,7 +337,7 @@ export default {
     setYearEnd() {
       if (this.yearStart !== null && this.yearStart) {
         const ONE_DAY = 86400000;
-        let startDate = new Date(this.yearStart.split('-').join('/'));
+        let startDate = new Date(this.yearStart);
         let endYear = startDate.getFullYear() + 1;
         let endDate = '';
         if (endYear % 4 === 0) {
@@ -438,8 +438,8 @@ export default {
         orgdetails: {
           orgname: this.orgName,
           orgtype: this.options.orgType[this.orgType].text,
-          yearstart: this.yearStart.split('-').join('/'),
-          yearend: this.yearEnd.split('-').join('/'),
+          yearstart: this.yearStart,
+          yearend: this.yearEnd,
           orgstate: this.orgState,
           orgcity: null,
           orgaddr: this.orgAddr,
