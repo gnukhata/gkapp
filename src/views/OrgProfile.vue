@@ -193,6 +193,7 @@
                 size="sm"
                 @fill="autoFillIfsc"
                 :ifsc-code="bankDetails.ifsc"
+                :value="bankDetails.ifsc"
               />
             </b-form-group>
             <b-form-group
