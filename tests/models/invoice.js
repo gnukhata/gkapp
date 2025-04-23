@@ -38,9 +38,11 @@ export default class Invoice {
       await this.page.getByRole('textbox', { name: 'Bank Name' }).fill(bank);
       await this.page.getByRole('textbox', { name: 'Branch' }).fill(branch);
     }
+    const invoiceNumber = await this.page.getByRole('textbox', { name: 'Inv. #' }).inputValue();
     await this.page.getByRole('button', { name: 'Create', exact: true }).click();
     await this.page.getByRole('button', { name: 'OK' }).click();
     await this.page.getByRole('button', { name: 'Close' }).click();
     await this.page.locator('#button-wrapper > .btn-danger').click();
+    return invoiceNumber;
   }
 }
