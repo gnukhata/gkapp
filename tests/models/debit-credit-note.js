@@ -35,9 +35,11 @@ export default class DebitCreditNote {
       .nth(inputColumnIndex)
       .locator('div > input[type="number"]')
       .fill(value);
+    const noteNumber = await this.page.getByRole('textbox', { name: `${noteType === 'debit' ? 'Dr' : 'Cr'} Note No.` }).inputValue();
     await this.page.getByRole('button', { name: 'Create' }).click();
     await this.page.getByRole('button', { name: 'OK' }).click();
     await this.page.getByRole('button', { name: 'Close' }).click();
     await this.page.locator('#button-wrapper > .btn-danger').click();
+    return noteNumber;
   }
 }
