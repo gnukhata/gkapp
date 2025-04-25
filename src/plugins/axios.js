@@ -17,6 +17,10 @@ const Axios = {
         // Handle custom error represented by non-zero gkstatus
         if (gkstatus > 0) {
           handleCustomError(gkstatus, error);
+          return Promise.reject({
+            status: 500,
+            data: response.data,
+          });
         }
         // The config option returnFullResponse is used to determine whether to
         // return gkresult (if applicable) or to return the full response.
