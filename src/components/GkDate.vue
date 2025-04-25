@@ -228,8 +228,11 @@ export default {
           }
           if (this.toExternalFormat(this.input) > this.toExternalFormat(this.max)) {
             this.input = this.max;
+            this.notValidText = '';
+            this.valid = true;
+          } else {
+            this.valid = false;
           }
-          this.valid = false;
         }
       }
       this.$emit('validity', this.valid);
