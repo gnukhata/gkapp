@@ -64,16 +64,16 @@
             label-size="md"
             id="input-group-12"
             label="State"
-            label-for="select-1"
+            label-for="select-2"
             label-cols="3"
           >
             <template #label>
-              <translate> State </translate>
+              <translate>State</translate>
             </template>
             <v-select
               :options="states"
               v-model="orgState"
-              id="select-1"
+              id="select-2"
             />
           </b-form-group>
           <b-form-group
