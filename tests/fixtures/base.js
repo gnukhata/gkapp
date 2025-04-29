@@ -9,6 +9,12 @@ const test = base.extend({
         window.sessionStorage.setItem(key, value);
       }
     }, sessionStorage);
+    const localStorage = JSON.parse(fs.readFileSync('./tests/data/local-storage.json', 'utf-8'));
+    await context.addInitScript((storage) => {
+      for (const [key, value] of Object.entries(storage)) {
+        window.localStorage.setItem(key, value);
+      }
+    }, localStorage);
     await use();
   },
 });

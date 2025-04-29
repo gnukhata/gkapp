@@ -16,6 +16,7 @@ dotenv.config();
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
+  timeout: 0,
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -38,6 +39,9 @@ export default defineConfig({
 
     /* Filename used to store data from localStorage, sessionStorage, etc. */
     storageState: './tests/data/auth.json',
+
+    actionTimeout: 15_000,
+    navigationTimeout: 15_000,
   },
 
   /* Configure projects for major browsers */
