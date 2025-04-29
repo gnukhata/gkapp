@@ -64,16 +64,16 @@
             label-size="md"
             id="input-group-12"
             label="State"
-            label-for="select-1"
+            label-for="select-2"
             label-cols="3"
           >
             <template #label>
-              <translate> State </translate>
+              <translate>State</translate>
             </template>
             <v-select
               :options="states"
               v-model="orgState"
-              id="select-1"
+              id="select-2"
             />
           </b-form-group>
           <b-form-group
@@ -316,15 +316,15 @@ export default {
       }
       this.valid.nameFormat = true;
       const self = this;
-      axios.get(`/organisation/check/${query}`).then((resp) => {
-        if (query === self.orgName) {
+      if (query === self.orgName) {
+        this.$axios.get(`/organisation/check/${query}`).then((resp) => {
           if (resp.data.gkstatus === STATUS_CODES['Success']) {
             self.valid.nameUnique = true;
-          } else {
+          } else if (resp.data.gkstatus === STATUS_CODES['DuplicateEntry']) {
             self.valid.nameUnique = false;
           }
-        }
-      });
+        });
+      }
     },
     checkRegistrationStatus() {
       if (!axios.defaults.baseURL) return;

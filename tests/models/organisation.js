@@ -8,9 +8,9 @@ export default class Organisation {
     await this.page.goto(`${this.baseURL}/#/user-login`);
     await this.page.getByRole('button', { name: 'Create Org' }).click();
     await this.page.getByRole('textbox', { name: 'Name *' }).fill(name);
-    await this.page.getByRole('group').filter({ hasText: 'Country' }).getByRole('combobox').click();
+    await this.page.locator('#select-1').click();
     await this.page.getByRole('option', { name: country, exact: true }).click();
-    await this.page.getByRole('group').filter({ hasText: 'State' }).locator('#vs5__combobox').getByLabel('Loading...').click();
+    await this.page.locator('#select-2').click();
     await this.page.getByRole('option', { name: state }).click();
     await this.page.getByText(orgType).click();
     await this.page.getByRole('button', { name: 'Create & Login' }).click();
