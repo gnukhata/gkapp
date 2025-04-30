@@ -1,21 +1,13 @@
 import { expect } from '@playwright/test';
-import test from '../fixtures/organisation';
+import test from '../fixtures/business-item';
 import Invoice from '../models/invoice';
-import BusinessItem from '../models/business-item';
 import invoiceTestData from '../data/invoice';
-import businessTestData from '../data/business-item';
 
 test(
   'should allow to create invoices',
-  // eslint-disable-next-line no-unused-vars
-  async ({ organisation, page, baseURL }) => {
+  async ({ businessItem, baseURL }) => {
 
-    const businessItem = new BusinessItem(page, baseURL);
-
-    for (const item of businessTestData) {
-      await businessItem.create(item);
-    }
-
+    const page = await businessItem.page;
     const invoice = new Invoice(page, baseURL);
 
     for (const item of invoiceTestData) {

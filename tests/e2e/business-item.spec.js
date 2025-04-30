@@ -1,18 +1,14 @@
 import { expect } from '@playwright/test';
-import test from '../fixtures/organisation';
-import BusinessItem from '../models/business-item';
+import test from '../fixtures/business-item';
 import testData from '../data/business-item';
 
 
 test(
   'should allow to create business items',
-  // eslint-disable-next-line no-unused-vars
-  async ({ organisation, page, baseURL }) => {
+  async ({ businessItem, baseURL }) => {
 
-    const businessItem = new BusinessItem(page, baseURL);
-
+    const page = await businessItem.page;
     for (const item of testData) {
-      await businessItem.create(item);
       await page.goto(`${baseURL}#/workflow/Business/-1`);
       await expect(
         page.locator('#list-Business')
