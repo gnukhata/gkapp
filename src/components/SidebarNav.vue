@@ -5,7 +5,7 @@
     pills
     vertical
   >
-    <div id="nav-body-wrapper" class="p-2">
+    <div id="nav-body-wrapper" class="pl-2">
       <div
         v-if="userRole == -1"
         role="button"
@@ -22,15 +22,21 @@
         <!-- Sales -->
         <div
           v-b-toggle.sales
-          class="my-3 mx-2"
+          class="my-3 mx-2 d-flex justify-content-between"
         >
+          <div>
+            <b-icon
+              class="mr-1"
+              icon="basket"
+            />
+            <translate>Sales</translate>
+          </div>
           <b-icon
-            class="mr-1"
+            class="ml-1"
             :icon="
-              collapsed.sales ? 'caret-down-fill' : 'caret-right-fill'
+              collapsed.sales ? 'chevron-compact-down' : 'chevron-compact-right'
             "
           />
-          <translate>Sales</translate>
         </div>
         <b-collapse
           v-model="collapsed.sales"
@@ -87,15 +93,21 @@
         <!-- Purchase -->
         <div
           v-b-toggle.purchases
-          class="my-3 mx-2"
+          class="my-3 mx-2 d-flex justify-content-between"
         >
+          <div>
+            <b-icon
+              class="mr-1"
+              icon="basket2"
+            />
+            <translate>Purchases</translate>
+          </div>
           <b-icon
-            class="mr-1"
+            class="ml-1"
             :icon="
-              collapsed.purchases ? 'caret-down-fill' : 'caret-right-fill'
+              collapsed.purchases ? 'chevron-compact-down' : 'chevron-compact-right'
             "
           />
-          <translate>Purchases</translate>
         </div>
         <b-collapse
           v-model="collapsed.purchases"
@@ -145,15 +157,21 @@
         <!-- Banking -->
         <div
           v-b-toggle.banking
-          class="my-3 mx-2"
+          class="my-3 mx-2 d-flex justify-content-between"
         >
+          <div>
+            <b-icon
+              class="mr-1"
+              icon="bank"
+            />
+            <translate>Banking</translate>
+          </div>
           <b-icon
-            class="mr-1"
+            class="ml-1"
             :icon="
-              collapsed.banking ? 'caret-down-fill' : 'caret-right-fill'
+              collapsed.banking ? 'chevron-compact-down' : 'chevron-compact-right'
             "
           />
-          <translate>Banking</translate>
         </div>
         <b-collapse
           v-model="collapsed.banking"
@@ -173,15 +191,21 @@
         <!-- Accounting -->
         <div
           v-b-toggle.accounting
-          class="my-3 mx-2"
+          class="my-3 mx-2 d-flex justify-content-between"
         >
+          <div>
+            <b-icon
+              class="mr-1"
+              icon="journal-text"
+            />
+            <translate>Accounting</translate>
+          </div>
           <b-icon
-            class="mr-1"
+            class="ml-1"
             :icon="
-              collapsed.accounting ? 'caret-down-fill' : 'caret-right-fill'
+              collapsed.accounting ? 'chevron-compact-down' : 'chevron-compact-right'
             "
           />
-          <translate>Accounting</translate>
         </div>
         <b-collapse
           v-model="collapsed.accounting"
@@ -239,15 +263,21 @@
         <!-- Products and Services -->
         <div
           v-b-toggle.business
-          class="my-3 mx-2"
+          class="my-3 mx-2 d-flex justify-content-between"
         >
+          <div>
+            <b-icon
+              class="mr-1"
+              icon="box"
+            />
+            <translate>Products and Services</translate>
+          </div>
           <b-icon
-            class="mr-1"
+            class="ml-1"
             :icon="
-              collapsed.business ? 'caret-down-fill' : 'caret-right-fill'
+              collapsed.business ? 'chevron-compact-down' : 'chevron-compact-right'
             "
           />
-          <translate>Products and Services</translate>
         </div>
         <b-collapse
           v-model="collapsed.business"
@@ -282,13 +312,19 @@
         <!-- Admin -->
         <div
           v-b-toggle.admin
-          class="m-2 "
+          class="my-3 mx-2 d-flex justify-content-between"
         >
+          <div>
+            <b-icon
+              class="mr-1"
+              icon="gear"
+            />
+            <translate>Administration</translate>
+          </div>
           <b-icon
-            class="mr-1"
-            :icon="collapsed.admin ? 'caret-down-fill' : 'caret-right-fill'"
+            class="ml-1"
+            :icon="collapsed.admin ? 'chevron-compact-down' : 'chevron-compact-right'"
           />
-          <translate>Administration</translate>
         </div>
         <b-collapse
           v-model="collapsed.admin"
@@ -320,15 +356,21 @@
         <!-- only admin role can access reports -->
         <div
           v-b-toggle.reports
-          class="my-3 mx-2"
+          class="my-3 mx-2 d-flex justify-content-between"
         >
+          <div>
+            <b-icon
+              class="mr-1"
+              icon="file-bar-graph"
+            />
+            <translate>Reports</translate>
+          </div>
           <b-icon
-            class="mr-1"
+            class="ml-1"
             :icon="
-              collapsed.reports ? 'caret-down-fill' : 'caret-right-fill'
+              collapsed.reports ? 'chevron-compact-down' : 'chevron-compact-right'
             "
           />
-          <translate>Reports</translate>
         </div>
         <b-collapse
           v-model="collapsed.reports"
@@ -407,13 +449,19 @@
         <!-- GST -->
         <div
           v-b-toggle.gst
-          class="my-3 mx-2"
+          class="my-3 mx-2 d-flex justify-content-between"
         >
+          <div>
+            <b-icon
+              class="mr-1"
+              icon="cash-stack"
+            />
+            <span>GST<b-badge pill>WIP</b-badge></span>
+          </div>
           <b-icon
-            class="mr-1"
-            :icon="collapsed.gst ? 'caret-down-fill' : 'caret-right-fill'"
+            class="ml-1"
+            :icon="collapsed.gst ? 'chevron-compact-down' : 'chevron-compact-right'"
           />
-          <span>GST<b-badge pill>WIP</b-badge></span>
         </div>
         <b-collapse
           v-model="collapsed.gst"
@@ -455,13 +503,19 @@
         <!-- Help -->
         <div
           v-b-toggle.help
-          class="my-3 mx-2"
+          class="my-3 mx-2 d-flex justify-content-between"
         >
+          <div>
+            <b-icon
+              class="mr-1"
+              icon="exclamation-circle"
+            />
+            <translate>Help</translate>
+          </div>
           <b-icon
-            class="mr-1"
-            :icon="collapsed.help ? 'caret-down-fill' : 'caret-right-fill'"
+            class="ml-1"
+            :icon="collapsed.help ? 'chevron-compact-down' : 'chevron-compact-right'"
           />
-          <translate>Help</translate>
         </div>
         <b-collapse
           v-model="collapsed.help"
