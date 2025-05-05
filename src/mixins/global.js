@@ -124,6 +124,7 @@ export default {
       return `${yy}-${mm}-${dd}`;
     },
     dateReverse(date) {
+      if (!date) return;
       const d = date.split('-').reverse();
       return `${d[0]}-${d[1]}-${d[2]}`;
     },
