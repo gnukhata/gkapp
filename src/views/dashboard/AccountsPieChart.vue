@@ -60,7 +60,6 @@ export default {
             ]
           };
           this.accountsCount = resp["account_balances"].length;
-          console.log(this.accountsCount);
         })
     },
   },
