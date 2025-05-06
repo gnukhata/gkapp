@@ -309,11 +309,11 @@
                       :label="isService ? 'SAC' : 'HSN'"
                       label-for="bi-input-10"
                       label-cols="3"
-                      :label-class="isHsnRequired ? 'required' : ''"
+                      :label-class="isGstEnabled ? 'required' : ''"
                     >
                       <gk-hsn
                         v-model="form.hsn"
-                        :required="isHsnRequired"
+                        :required="isGstEnabled"
                       />
                     </b-form-group>
 
@@ -650,7 +650,6 @@ export default {
     gstDateValidity: (self) =>
       self.form.tax.gsts.reduce((acc, gst) => acc && gst.dateValidity, true),
     gstRates: (self) => self.$store.getters['global/getGstRates'],
-    isHsnRequired: (self) => self.form.tax.gst > 0 || self.form.tax.cess > 0,
     isService: (self) => self.type === 'service',
     formType: (self) => (self.type === 'product' ? 'Product' : 'Service'),
     formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
