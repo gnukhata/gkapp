@@ -15,25 +15,23 @@
       <version-info />
     </template>
     <template v-else>
-      <b-row no-gutters>
-        <b-col cols="2">
-          <sidebar-nav :screen-width="screenWidth" />
-        </b-col>
-        <b-col cols="10">
-          <header id="app-header">
-            <topbar :screen-width="screenWidth" />
-          </header>
-          <main role="main">
-            <b-container
-              class="ml-0 mt-4"
-              fluid
-            >
-              <router-view />
-            </b-container>
-          </main>
-          <version-info />
-        </b-col>
-      </b-row>
+      <div id="sidebar">
+        <sidebar-nav :screen-width="screenWidth" />
+      </div>
+      <div id="content">
+        <header id="app-header">
+          <topbar :screen-width="screenWidth" />
+        </header>
+        <main role="main">
+          <b-container
+            class="ml-0 mt-4"
+            fluid
+          >
+            <router-view />
+          </b-container>
+        </main>
+        <version-info />
+      </div>
     </template>
     <go-to v-if="userOrgAuthenticated" />
     <title-bar />
@@ -257,3 +255,15 @@ export default {
   },
 };
 </script>
+
+<style>
+  #sidebar {
+    width: 250px;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+  }
+  #content {
+    margin-left: 250px;
+  }
+</style>
