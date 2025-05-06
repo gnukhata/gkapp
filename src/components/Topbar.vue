@@ -80,7 +80,7 @@
         <b-dropdown-item to="/business-details/create">
           Business Items
         </b-dropdown-item>
-        <b-dropdown-item to="/contact-details/create/customer">
+        <b-dropdown-item to="/contact-details/create">
           Contacts
         </b-dropdown-item>
       </b-nav-item-dropdown>

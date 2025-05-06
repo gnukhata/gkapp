@@ -28,10 +28,16 @@
                 buttons
                 size="sm"
               >
-                <b-form-radio value="customer">
+                <b-form-radio
+                  v-if="type !== 'supplier'"
+                  value="customer"
+                >
                   <translate> Customer </translate>
                 </b-form-radio>
-                <b-form-radio value="supplier">
+                <b-form-radio
+                  v-if="type !== 'customer'"
+                  value="supplier"
+                >
                   <translate> Supplier </translate>
                 </b-form-radio>
               </b-form-radio-group>
@@ -591,10 +597,8 @@ export default {
     ...mapGetters('global', ['isGstEnabled', 'isVatEnabled']),
   },
   watch: {
-    type(type) {
-      if (type !== this.contactType) {
-        this.contactType = type;
-      }
+    type(newType) {
+      this.contactType = newType === 'supplier' ? 'supplier' : 'customer';
     },
     state(newValue) {
       if (newValue) {
@@ -927,6 +931,7 @@ export default {
   },
   mounted() {
     this.preloadData();
+    this.contactType = this.type === 'supplier' ? 'supplier' : 'customer';
   },
 };
 </script>
