@@ -17,10 +17,6 @@
             v-b-modal.voucher-container
           >
             <template #button-content>
-              <b-icon
-                icon="eye"
-                class="mr-1"
-              />
               <translate>View Voucher</translate>
             </template>
             <b-dropdown-item
@@ -36,10 +32,6 @@
                 },
               }"
             >
-              <b-icon
-                class="mr-1"
-                icon="eye"
-              />
               {{ inv.icflag === 3 ? 'View Cash Memo' : 'View Invoice' }}
             </b-dropdown-item>
           </b-dropdown>
@@ -97,7 +89,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="table-border-dark text-small"
+          class="text-small"
         />
       </b-col>
     </b-row>
@@ -106,12 +98,12 @@
       :items="dcNote.dcItems"
       :fields="tableFields"
       bordered
-      head-variant="dark"
       stacked="sm"
       small
-      class="table-border-dark text-small"
-      striped
+      hover
+      class="text-small"
       tbody-tr-class="gk-vertical-row"
+      head-variant="light"
     >
       <template #cell(name)="data">
         <template v-if="data.item.gsflag === 7">
@@ -199,7 +191,6 @@
           <b-table-lite
             bordered
             small
-            head-variant="dark"
             :items="voucher.transactions"
             :tbody-tr-class="rowClass"
             fixed

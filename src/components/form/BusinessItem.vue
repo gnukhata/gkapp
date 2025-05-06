@@ -1,626 +1,567 @@
 <template>
-  <div
-    class="card"
-    :style="{minWidth: '300px'}"
-  >
+  <section class="container-fluid mt-2">
     <b-overlay
       :show="isPreloading"
       variant="secondary"
       no-wrap
       blur
     />
-    <div class="card-header bg-dark text-left text-light py-2">
-      <b v-translate>Business Item Details</b>
-      <slot name="close-button" />
-    </div>
-    <div class="card-body pb-2 px-1 px-md-3">
-      <b-form
-        class="text-left px-2"
-        @submit.prevent="confirmOnSubmit"
-      >
-        <b-row>
-          <b-col class="mb-3 px-3">
-            <b-row>
-              <b-col
-                cols="5"
-                class="mb-3"
+    <b-form @submit.prevent="confirmOnSubmit">
+      <b-row>
+        <b-col class="mb-3 px-3">
+          <b-row>
+            <b-col
+              cols="5"
+              class="mb-3"
+            >
+              <b-form-radio-group
+                button-variant="outline-secondary"
+                v-model="type"
+                buttons
+                size="sm"
+                name="filter-form-sort"
+                @change="resetForm"
               >
-                <b-form-radio-group
-                  button-variant="outline-dark"
-                  v-model="type"
-                  buttons
+                <b-form-radio value="product">
+                  <translate> Product </translate>
+                </b-form-radio>
+                <b-form-radio value="service">
+                  <translate> Service </translate>
+                </b-form-radio>
+              </b-form-radio-group>
+            </b-col>
+            <b-col
+              cols="12"
+              sm="7"
+            >
+              <b-form-group
+                label-size="sm"
+                label="Name"
+                label-for="bi-input-1"
+                label-cols="auto"
+                label-class="required"
+              >
+                <template #label>
+                  <translate> Name </translate>
+                </template>
+                <b-form-input
                   size="sm"
-                  name="filter-form-sort"
-                  @change="resetForm"
-                >
-                  <b-form-radio value="product">
-                    <translate> Product </translate>
-                  </b-form-radio>
-                  <b-form-radio value="service">
-                    <translate> Service </translate>
-                  </b-form-radio>
-                </b-form-radio-group>
-              </b-col>
-              <b-col
-                cols="12"
-                sm="7"
+                  id="bi-input-1"
+                  placeholder=""
+                  v-model="form.name"
+                  trim
+                  required
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <!-- price card -->
+          <b-card no-body >
+            <b-card-body class="p-2 mb-2">
+              <b b-translate>Price</b>
+              <b-form-group
+                label-size="sm"
+                label="Cost Price"
+                label-for="bi-input-4"
+                label-cols="3"
+                v-if="!isService"
               >
-                <b-form-group
-                  label-size="sm"
-                  label="Name"
-                  label-for="bi-input-1"
-                  label-cols="auto"
-                  label-class="required"
+                <template #label>
+                  <translate> Cost Price </translate>
+                </template>
+                <b-input-group
+                  size="sm"
+                  append="₹"
                 >
-                  <template #label>
-                    <translate> Name </translate>
-                  </template>
+                  <b-form-input
+                    id="bi-input-4"
+                    placeholder=""
+                    v-model="form.mrp"
+                    type="number"
+                    no-wheel
+                    step="0.01"
+                  />
+                </b-input-group>
+              </b-form-group>
+              <b-form-group
+                label-size="sm"
+                label="Sale Price"
+                label-for="bi-input-5"
+                label-cols="3"
+              >
+                <template #label>
+                  <span v-if="isGstEnabled || isVatEnabled">
+                    Taxable
+                  </span>
+                  Sale Price
+                </template>
+                <b-input-group
+                  append="₹"
+                  size="sm"
+                >
                   <b-form-input
                     size="sm"
-                    id="bi-input-1"
+                    id="bi-input-5"
                     placeholder=""
-                    v-model="form.name"
-                    trim
-                    required
+                    v-model="form.salePrice"
+                    type="number"
+                    no-wheel
+                    step="0.01"
                   />
-                </b-form-group>
-              </b-col>
-            </b-row>
-            <!-- price card -->
-            <b-card
-              border-variant="dark"
-              no-body
-            >
-              <b-card-body class="p-2 mb-2">
-                <b b-translate>Price</b>
-                <b-form-group
-                  label-size="sm"
-                  label="Cost Price"
-                  label-for="bi-input-4"
-                  label-cols="3"
-                  v-if="!isService"
-                >
-                  <template #label>
-                    <translate> Cost Price </translate>
-                  </template>
-                  <b-input-group
-                    size="sm"
-                    append="₹"
-                  >
-                    <b-form-input
-                      id="bi-input-4"
-                      placeholder=""
-                      v-model="form.mrp"
-                      type="number"
-                      no-wheel
-                      step="0.01"
-                    />
-                  </b-input-group>
-                </b-form-group>
-                <b-form-group
-                  label-size="sm"
-                  label="Sale Price"
-                  label-for="bi-input-5"
-                  label-cols="3"
-                >
-                  <template #label>
-                    <span v-if="isGstEnabled || isVatEnabled">
-                      Taxable
-                    </span>
-                    Sale Price
-                  </template>
-                  <b-input-group
-                    append="₹"
-                    size="sm"
-                  >
-                    <b-form-input
+                </b-input-group>
+              </b-form-group>
+              <b-form-group
+                label-size="sm"
+                label="Discount"
+                label-for="bi-input-6"
+                label-cols="3"
+              >
+                <template #label>
+                  <translate> Discount </translate>
+                </template>
+                <b-row>
+                  <b-col class="pr-1">
+                    <b-input-group
+                      append="₹"
                       size="sm"
-                      id="bi-input-5"
-                      placeholder=""
-                      v-model="form.salePrice"
-                      type="number"
-                      no-wheel
-                      step="0.01"
-                    />
-                  </b-input-group>
-                </b-form-group>
-                <b-form-group
-                  label-size="sm"
-                  label="Discount"
-                  label-for="bi-input-6"
-                  label-cols="3"
-                >
-                  <template #label>
-                    <translate> Discount </translate>
-                  </template>
-                  <b-row>
-                    <b-col class="pr-1">
-                      <b-input-group
-                        append="₹"
+                    >
+                      <b-form-input
                         size="sm"
-                      >
-                        <b-form-input
+                        id="bi-input-6"
+                        placeholder=""
+                        v-model="form.discountAmount"
+                        type="number"
+                        no-wheel
+                        step="0.01"
+                      />
+                    </b-input-group>
+                  </b-col>
+                  <b-col class="pl-1">
+                    <b-input-group
+                      append="%"
+                      size="sm"
+                    >
+                      <b-form-input
+                        size="sm"
+                        id="bi-input-11"
+                        placeholder=""
+                        v-model="discountPercentage"
+                        type="number"
+                        no-wheel
+                        step="0.01"
+                      />
+                    </b-input-group>
+                  </b-col>
+                </b-row>
+              </b-form-group>
+            </b-card-body>
+          </b-card>
+          <!-- Stock -->
+          <b-card
+            class="mt-2"
+            v-if="!isService"
+            no-body
+          >
+            <b-card-body class="p-2">
+              <b>Stock</b>
+              <b-form-group
+                label-size="sm"
+                label="Unit of Measure"
+                label-for="bi-input-2"
+                label-cols="3"
+                label-class="required"
+              >
+                <template #label>
+                  <translate> Unit of Measure </translate>
+                </template>
+                <v-select
+                  id="bi-input-2"
+                  v-model="uom"
+                  :options="options.uom"
+                  label="name"
+                >
+                  <template #search="{attributes, events}">
+                    <input
+                      class="vs__search"
+                      :required="!uom"
+                      v-bind="attributes"
+                      v-on="events"
+                    >
+                  </template>
+                </v-select>
+              </b-form-group>
+              <b-form-group
+                label-size="sm"
+                label="Opening Stock"
+                label-for="bi-input-3"
+                label-cols="3"
+                v-if="!form.stock.godownFlag"
+              >
+                <template #label>
+                  <translate> Opening Stock </translate>
+                </template>
+                <b-input-group
+                  :append="form.uomCode"
+                  size="sm"
+                >
+                  <b-form-input
+                    size="sm"
+                    id="bi-input-3"
+                    placeholder=""
+                    v-model="form.stock.value"
+                    type="number"
+                    no-wheel
+                    step="0.01"
+                  />
+                </b-input-group>
+              </b-form-group>
+              <b-card no-body>
+                <div class="p-2">
+                  <div class="mb-2">
+                    <b v-translate>Opening Stock</b>
+                    <b-button
+                      size="sm"
+                      class="mx-1 py-0 px-1 float-right"
+                      @click.prevent="addGodown"
+                      variant="dark"
+                    >
+                      <translate> + Stock </translate>
+                    </b-button>
+                    <b-button
+                      class="mx-1 py-0 px-1 float-right"
+                      size="sm"
+                      variant="dark"
+                      @click.prevent="showGodownForm = true"
+                    >
+                      <translate> + Godown </translate>
+                    </b-button>
+                    <div class="clearfix" />
+                  </div>
+                  <div v-if="form.stock.godownFlag">
+                    <b-input-group
+                      v-for="(godown, index) in godownItems"
+                      :key="index"
+                      class="mb-1"
+                      :id="'vat-inp-' + index"
+                    >
+                      <b-input-group-prepend>
+                        <b-form-select
                           size="sm"
-                          id="bi-input-6"
-                          placeholder=""
-                          v-model="form.discountAmount"
-                          type="number"
-                          no-wheel
-                          step="0.01"
+                          style="max-width: 150px"
+                          v-model="godownItems[index].id"
+                          :options="options.godowns"
+                          :required="!!godownItems.qty"
+                          :readonly="!index"
+                          @change="warnDuplicateGodown"
                         />
-                      </b-input-group>
-                    </b-col>
-                    <b-col class="pl-1">
+                      </b-input-group-prepend>
+                      <b-form-input
+                        size="sm"
+                        v-model="godown.qty"
+                        type="number"
+                        no-wheel
+                        step="0.01"
+                        placeholder="Stock Qty"
+                      />
+                      <b-form-input
+                        size="sm"
+                        v-model="godown.rate"
+                        type="number"
+                        no-wheel
+                        step="0.01"
+                        placeholder="Stock Value (Cost Price x Stock Qty)"
+                      />
+                      <b-input-group-append>
+                        <b-button
+                          size="sm"
+                          @click.prevent="deleteGodown(index)"
+                          :disabled="!index"
+                          variant="danger"
+                        >
+                          <B-Icon
+                            icon="trash"
+                            variant="light"
+                          />
+                        </b-button>
+                      </b-input-group-append>
+                    </b-input-group>
+                  </div>
+                </div>
+              </b-card>
+            </b-card-body>
+          </b-card>
+        </b-col>
+        <b-col
+          v-if="isIndia"
+          cols="12"
+          :md="inOverlay ? 12 : 6"
+          lg="6"
+          class="mb-3"
+        >
+          <b-card no-body >
+            <b-card-body cla="p-2">
+              <b>Tax</b>
+              <b-row>
+                <b-col cols="12">
+                  <div v-if="isGstEnabled">
+                    <b-form-group
+                      label-size="sm"
+                      :label="isService ? 'SAC' : 'HSN'"
+                      label-for="bi-input-10"
+                      label-cols="3"
+                      :label-class="isHsnRequired ? 'required' : ''"
+                    >
+                      <gk-hsn
+                        v-model="form.hsn"
+                        :required="isHsnRequired"
+                      />
+                    </b-form-group>
+
+                    <!-- GST -->
+                    <b-form-group
+                      label-size="sm"
+                      label="GST"
+                      label-for="bi-input-7"
+                      label-cols="3"
+                      class="mb-0"
+                    >
                       <b-input-group
                         append="%"
                         size="sm"
                       >
-                        <b-form-input
+                        <b-form-select
                           size="sm"
-                          id="bi-input-11"
-                          placeholder=""
-                          v-model="discountPercentage"
-                          type="number"
-                          no-wheel
-                          step="0.01"
+                          id="bi-input-7"
+                          v-model="form.tax.gsts[0].rate"
+                          :options="gstRates"
+                          :disabled="form.tax.gstFlag"
                         />
                       </b-input-group>
-                    </b-col>
-                  </b-row>
-                </b-form-group>
-              </b-card-body>
-            </b-card>
-            <!-- Stock -->
-            <b-card
-              border-variant="dark"
-              class="mt-2"
-              v-if="!isService"
-              no-body
-            >
-              <b-card-body class="p-2">
-                <b>Stock</b>
-                <b-form-group
-                  label-size="sm"
-                  label="Unit of Measure"
-                  label-for="bi-input-2"
-                  label-cols="3"
-                  label-class="required"
-                >
-                  <template #label>
-                    <translate> Unit of Measure </translate>
-                  </template>
-                  <v-select
-                    id="bi-input-2"
-                    v-model="uom"
-                    :options="options.uom"
-                    label="name"
-                  >
-                    <template #search="{attributes, events}">
-                      <input
-                        class="vs__search"
-                        :required="!uom"
-                        v-bind="attributes"
-                        v-on="events"
-                      >
-                    </template>
-                  </v-select>
-                </b-form-group>
-                <b-form-group
-                  label-size="sm"
-                  label="Opening Stock"
-                  label-for="bi-input-3"
-                  label-cols="3"
-                  v-if="!form.stock.godownFlag"
-                >
-                  <template #label>
-                    <translate> Opening Stock </translate>
-                  </template>
-                  <b-input-group
-                    :append="form.uomCode"
-                    size="sm"
-                  >
-                    <b-form-input
+                    </b-form-group>
+                    <b-form-checkbox
                       size="sm"
-                      id="bi-input-3"
-                      placeholder=""
-                      v-model="form.stock.value"
-                      type="number"
-                      no-wheel
-                      step="0.01"
-                    />
-                  </b-input-group>
-                </b-form-group>
-                <b-card no-body>
-                  <div class="p-2">
-                    <div class="mb-2">
-                      <b v-translate>Opening Stock</b>
-                      <b-button
+                      v-model="form.tax.gstFlag"
+                      class="d-inline-block float-right mb-2"
+                      switch
+                    >
+                      <small>
+                        <translate>
+                          Add GST rates based on date of applicability
+                        </translate>
+                      </small>
+                    </b-form-checkbox>
+                    <div class="clearfix" />
+                    <b-collapse v-model="form.tax.gstFlag">
+                      <b-card no-body>
+                        <b-card-body
+                          class="p-2"
+                          style="min-height: 50px"
+                        >
+                          <div class="mb-2">
+                            <b>GST</b>
+                            <b-button
+                              size="sm"
+                              @click.prevent="addGst"
+                              class="px-1 py-0 float-right"
+                            >
+                              + GST
+                            </b-button>
+                          </div>
+                          <b-table-lite
+                            bordered
+                            head-variant="light"
+                            striped
+                            small
+                            class="text-small"
+                            tbody-tr-class="gk-vertical-row"
+                            :items="form.tax.gsts"
+                            :fields="[
+                              {key: 'rate', label: 'Rate %'},
+                              {key: 'from', label: 'Applicable From'},
+                              {key: 'edit', label: ''},
+                            ]"
+                          >
+                            <template #cell(rate)="data">
+                              <b-form-select
+                                size="sm"
+                                id="bi-input-7"
+                                v-model="form.tax.gsts[data.index].rate"
+                                :options="gstRates"
+                              />
+                            </template>
+                            <template #cell(from)="data">
+                              <gk-date
+                                v-model="form.tax.gsts[data.index].from"
+                                :id="`gst-from-${data.index}`"
+                                :input-style="{'max-width': '120px'}"
+                                :min="form.tax.gsts[data.index].min"
+                                @validity="
+                                  updateGstDateValidity($event, data.index)
+                                "
+                                @input="updateGst"
+                                :readonly="!data.index"
+                              />
+                            </template>
+                            <template #cell(edit)="data">
+                              <b-button
+                                variant="secondary"
+                                size="sm"
+                                @click.prevent="deleteGst(data.index)"
+                                :disabled="!data.index"
+                              >
+                                -
+                              </b-button>
+                            </template>
+                          </b-table-lite>
+                        </b-card-body>
+                      </b-card>
+                    </b-collapse>
+                  </div>
+                  <b-form-group
+                    v-if="isVatEnabled"
+                    label-size="sm"
+                    label="CVAT"
+                    label-for="bi-input-9"
+                    label-cols="3"
+                  >
+                    <b-input-group
+                      append="%"
+                      size="sm"
+                    >
+                      <b-form-input
                         size="sm"
-                        class="mx-1 py-0 px-1 float-right"
-                        @click.prevent="addGodown"
-                        variant="success"
-                      >
-                        <translate> + Stock </translate>
-                      </b-button>
-                      <b-button
-                        class="mx-1 py-0 px-1 float-right"
-                        size="sm"
-                        variant="success"
-                        @click.prevent="showGodownForm = true"
-                      >
-                        <translate> + Godown </translate>
-                      </b-button>
-                      <div class="clearfix" />
-                    </div>
-                    <div v-if="form.stock.godownFlag">
+                        id="bi-input-9"
+                        placeholder=""
+                        v-model="form.tax.cvat"
+                        type="number"
+                        no-wheel
+                        step="0.01"
+                      />
+                    </b-input-group>
+                  </b-form-group>
+                  <b-card
+                    v-if="isVatEnabled"
+                    no-body
+                    class="mt-2 mb-2"
+                  >
+                    <b-card-body
+                      class="px-2 pb-3"
+                      style="min-height: 50px"
+                    >
+                      <div class="mb-2">
+                        <b>VAT</b>
+                        <b-button
+                          size="sm"
+                          @click.prevent="addVat"
+                          class="px-1 py-0 float-right"
+                        >
+                          + VAT
+                        </b-button>
+                      </div>
                       <b-input-group
-                        v-for="(godown, index) in godownItems"
+                        v-for="(vat, index) in form.tax.vat"
                         :key="index"
-                        class="mb-1"
+                        class="mb-2"
                         :id="'vat-inp-' + index"
+                        size="sm"
                       >
                         <b-input-group-prepend>
                           <b-form-select
                             size="sm"
                             style="max-width: 150px"
-                            v-model="godownItems[index].id"
-                            :options="options.godowns"
-                            :required="!!godownItems.qty"
-                            :readonly="!index"
-                            @change="warnDuplicateGodown"
+                            v-model="vat.state"
+                            :options="options.states"
+                            :required="!!vat.rate"
                           />
                         </b-input-group-prepend>
                         <b-form-input
                           size="sm"
-                          v-model="godown.qty"
+                          v-model="vat.rate"
                           type="number"
                           no-wheel
                           step="0.01"
-                          placeholder="Stock Qty"
-                        />
-                        <b-form-input
-                          size="sm"
-                          v-model="godown.rate"
-                          type="number"
-                          no-wheel
-                          step="0.01"
-                          placeholder="Stock Value (Cost Price x Stock Qty)"
+                          placeholder="VAT %"
                         />
                         <b-input-group-append>
                           <b-button
                             size="sm"
-                            @click.prevent="deleteGodown(index)"
-                            :disabled="!index"
-                            variant="danger"
+                            @click.prevent="deleteVat(index)"
                           >
-                            <B-Icon
-                              icon="trash"
-                              variant="light"
-                            />
+                            -
                           </b-button>
                         </b-input-group-append>
                       </b-input-group>
-                    </div>
-                  </div>
-                </b-card>
-              </b-card-body>
-            </b-card>
-          </b-col>
-          <b-col
-            v-if="isIndia"
-            cols="12"
-            :md="inOverlay ? 12 : 6"
-            lg="6"
-            class="mb-3"
-          >
-            <b-card
-              no-body
-              border-variant="dark"
-            >
-              <b-card-body cla="p-2">
-                <b>Tax</b>
-                <b-row>
-                  <b-col cols="12">
-                    <div v-if="isGstEnabled">
-                      <b-form-group
-                        label-size="sm"
-                        :label="isService ? 'SAC' : 'HSN'"
-                        label-for="bi-input-10"
-                        label-cols="3"
-                        :label-class="isHsnRequired ? 'required' : ''"
-                      >
-                        <gk-hsn
-                          v-model="form.hsn"
-                          :required="isHsnRequired"
-                        />
-                      </b-form-group>
-
-                      <!-- GST -->
-                      <b-form-group
-                        label-size="sm"
-                        label="GST"
-                        label-for="bi-input-7"
-                        label-cols="3"
-                        class="mb-0"
-                      >
-                        <b-input-group
-                          append="%"
-                          size="sm"
-                        >
-                          <b-form-select
-                            size="sm"
-                            id="bi-input-7"
-                            v-model="form.tax.gsts[0].rate"
-                            :options="gstRates"
-                            :disabled="form.tax.gstFlag"
-                          />
-                        </b-input-group>
-                      </b-form-group>
-                      <b-form-checkbox
-                        size="sm"
-                        v-model="form.tax.gstFlag"
-                        class="d-inline-block float-right mb-2"
-                        switch
-                      >
-                        <small>
-                          <translate>
-                            Add GST rates based on date of applicability
-                          </translate>
-                        </small>
-                      </b-form-checkbox>
-                      <div class="clearfix" />
-                      <b-collapse v-model="form.tax.gstFlag">
-                        <b-card no-body>
-                          <b-card-body
-                            class="p-2"
-                            style="min-height: 50px"
-                          >
-                            <div class="mb-2">
-                              <b>GST</b>
-                              <b-button
-                                size="sm"
-                                @click.prevent="addGst"
-                                class="px-1 py-0 float-right"
-                              >
-                                + GST
-                              </b-button>
-                            </div>
-                            <b-table-lite
-                              bordered
-                              head-variant="dark"
-                              striped
-                              small
-                              class="text-small table-border-dark"
-                              tbody-tr-class="gk-vertical-row"
-                              :items="form.tax.gsts"
-                              :fields="[
-                                {key: 'rate', label: 'Rate %'},
-                                {key: 'from', label: 'Applicable From'},
-                                {key: 'edit', label: ''},
-                              ]"
-                            >
-                              <template #cell(rate)="data">
-                                <b-form-select
-                                  size="sm"
-                                  id="bi-input-7"
-                                  v-model="form.tax.gsts[data.index].rate"
-                                  :options="gstRates"
-                                />
-                              </template>
-                              <template #cell(from)="data">
-                                <gk-date
-                                  v-model="form.tax.gsts[data.index].from"
-                                  :id="`gst-from-${data.index}`"
-                                  :input-style="{'max-width': '120px'}"
-                                  :min="form.tax.gsts[data.index].min"
-                                  @validity="
-                                    updateGstDateValidity($event, data.index)
-                                  "
-                                  @input="updateGst"
-                                  :readonly="!data.index"
-                                />
-                              </template>
-                              <template #cell(edit)="data">
-                                <b-button
-                                  variant="secondary"
-                                  size="sm"
-                                  @click.prevent="deleteGst(data.index)"
-                                  :disabled="!data.index"
-                                >
-                                  -
-                                </b-button>
-                              </template>
-                            </b-table-lite>
-                          </b-card-body>
-                        </b-card>
-                      </b-collapse>
-                    </div>
-                    <b-form-group
-                      v-if="isVatEnabled"
-                      label-size="sm"
-                      label="CVAT"
-                      label-for="bi-input-9"
-                      label-cols="3"
-                    >
-                      <b-input-group
-                        append="%"
-                        size="sm"
-                      >
-                        <b-form-input
-                          size="sm"
-                          id="bi-input-9"
-                          placeholder=""
-                          v-model="form.tax.cvat"
-                          type="number"
-                          no-wheel
-                          step="0.01"
-                        />
-                      </b-input-group>
-                    </b-form-group>
-                    <b-card
-                      v-if="isVatEnabled"
-                      no-body
-                      class="mt-2 mb-2"
-                    >
-                      <b-card-body
-                        class="px-2 pb-3"
-                        style="min-height: 50px"
-                      >
-                        <div class="mb-2">
-                          <b>VAT</b>
-                          <b-button
-                            size="sm"
-                            @click.prevent="addVat"
-                            class="px-1 py-0 float-right"
-                          >
-                            + VAT
-                          </b-button>
-                        </div>
-                        <b-input-group
-                          v-for="(vat, index) in form.tax.vat"
-                          :key="index"
-                          class="mb-2"
-                          :id="'vat-inp-' + index"
-                          size="sm"
-                        >
-                          <b-input-group-prepend>
-                            <b-form-select
-                              size="sm"
-                              style="max-width: 150px"
-                              v-model="vat.state"
-                              :options="options.states"
-                              :required="!!vat.rate"
-                            />
-                          </b-input-group-prepend>
-                          <b-form-input
-                            size="sm"
-                            v-model="vat.rate"
-                            type="number"
-                            no-wheel
-                            step="0.01"
-                            placeholder="VAT %"
-                          />
-                          <b-input-group-append>
-                            <b-button
-                              size="sm"
-                              @click.prevent="deleteVat(index)"
-                            >
-                              -
-                            </b-button>
-                          </b-input-group-append>
-                        </b-input-group>
-                      </b-card-body>
-                    </b-card>
-                    <b-alert
-                      v-if="!isGstEnabled && !isVatEnabled"
-                      show
-                      variant="warning"
-                      class="mt-2"
-                    >
-                      Please add a valid GSTIN/TIN in organisation settings to
-                      enable GST/VAT options
-                    </b-alert>
-                  </b-col>
-                </b-row>
-              </b-card-body>
-            </b-card>
-          </b-col>
-        </b-row>
-        <hr class="my-2">
+                    </b-card-body>
+                  </b-card>
+                  <b-alert
+                    v-if="!isGstEnabled && !isVatEnabled"
+                    show
+                    variant="warning"
+                    class="mt-2"
+                  >
+                    Please add a valid GSTIN/TIN in organisation settings to
+                    enable GST/VAT options
+                  </b-alert>
+                </b-col>
+              </b-row>
+            </b-card-body>
+          </b-card>
+        </b-col>
+      </b-row>
+      <hr class="my-2">
+      <div>
         <div>
-          <div class="float-right">
-            <b-button
-              v-if="!hideBackButton"
-              size="sm"
-              class="m-1"
-              variant="danger"
-              @click.prevent="$router.go(-1)"
-            >
-              <b-icon
-                aria-hidden="true"
-                class="align-middle mr-1"
-                icon="arrow-left"
-              />
-              <span
-                class="align-middle"
-                v-translate
-              >Back</span>
-            </b-button>
-            <b-button
-              size="sm"
-              class="m-1"
-              variant="warning"
-              @click.prevent="resetForm"
-            >
-              <b-icon
-                aria-hidden="true"
-                class="align-middle mr-1"
-                icon="arrow-repeat"
-              />
-              <span
-                class="align-middle"
-                v-translate
-              >Reset</span>
-            </b-button>
-            <b-button
-              size="sm"
-              type="submit"
-              class="m-1"
-              variant="success"
-              :disabled="gstDateValidity === false"
-            >
-              <b-spinner
-                v-if="isLoading"
-                small
-              />
-              <b-icon
-                v-else
-                aria-hidden="true"
-                class="align-middle mr-1"
-                icon="plus-square"
-              />
-              <span
-                class="align-middle"
-                v-translate
-              >Save</span>
-            </b-button>
-          </div>
+          <b-button
+            size="sm"
+            type="submit"
+            class="m-1"
+            variant="success"
+            :disabled="gstDateValidity === false"
+          >
+            <b-spinner
+              v-if="isLoading"
+              small
+            />
+            Save
+          </b-button>
+          <b-button
+            size="sm"
+            class="m-1"
+            variant="dark"
+            @click.prevent="resetForm"
+          >
+            Reset
+          </b-button>
+          <b-button
+            v-if="!hideBackButton"
+            size="sm"
+            class="m-1"
+            variant="dark"
+            @click.prevent="$router.go(-1)"
+          >
+            Back
+          </b-button>
         </div>
-      </b-form>
-    </div>
+      </div>
+    </b-form>
     <b-modal
       size="lg"
       v-model="showGodownForm"
       centered
       static
-      body-class="p-0"
+      body-class="p-4"
       id="contact-item-modal"
+      title="Create Godown"
       hide-footer
-      hide-header
     >
       <godown
         :hide-back-button="true"
         mode="create"
         :in-overlay="true"
         :on-save="onGodownSave"
-      >
-        <template #close-button>
-          <b-button
-            size="sm"
-            class="float-right py-0 p-0"
-            variant="dark"
-            @click.prevent="
-              () => {
-                showGodownForm = false;
-              }
-            "
-          >
-            <b-icon icon="x-circle" />
-          </b-button>
-        </template>
-      </godown>
+      />
     </b-modal>
-  </div>
+  </section>
 </template>
 
 <script>

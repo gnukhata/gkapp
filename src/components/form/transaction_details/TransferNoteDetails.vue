@@ -2,7 +2,6 @@
   <b-card
     class="mb-2 mb-md-0"
     :class="config.class"
-    border-variant="secondary"
     no-body
   >
     <b-overlay

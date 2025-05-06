@@ -26,10 +26,6 @@
             variant="dark"
             v-b-toggle.voucher-container
           >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
             <router-link
               class="custom-link"
               :to="
@@ -46,10 +42,6 @@
             variant="dark"
             v-b-toggle.voucher-container
           >
-            <b-icon
-              class="mr-1"
-              icon="eye"
-            />
             <router-link
               class="custom-link"
               :to="
@@ -68,19 +60,11 @@
             :split-to="{name: 'Edit_Voucher', params: {vid: id}}"
           >
             <template #button-content>
-              <b-icon
-                class="mr-1"
-                icon="pencil"
-              />
               <translate>Edit</translate>
             </template>
             <b-dropdown-item-button
               @click.prevent="onDelete"
             >
-              <b-icon
-                class="mr-1"
-                icon="trash"
-              />
               <translate>Delete</translate>
             </b-dropdown-item-button>
           </b-dropdown>
@@ -135,7 +119,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
+          class="text-small"
         />
       </b-col>
     </b-row>
@@ -143,10 +127,11 @@
       :items="voucher.content"
       :fields="tableFields"
       bordered
-      head-variant="dark"
       foot-clone
       small
-      class="text-small table-border-dark"
+      hover
+      class="text-small"
+      head-variant="light"
     >
       <template #cell(account)="data">
         <router-link

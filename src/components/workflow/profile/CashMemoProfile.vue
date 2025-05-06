@@ -16,10 +16,6 @@
             v-b-modal.voucher-container
           >
             <template #button-content>
-              <b-icon
-                icon="eye"
-                class="mr-1"
-              />
               <translate>View Voucher</translate>
             </template>
             <b-dropdown-item
@@ -33,10 +29,6 @@
                 },
               }"
             >
-              <b-icon
-                class="mr-1"
-                icon="eye"
-              />
               View Delivery Note
             </b-dropdown-item>
           </b-dropdown>
@@ -64,7 +56,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
+          class="text-small"
         />
       </b-col>
     </b-row>
@@ -73,12 +65,12 @@
       :items="invoice.invItems"
       :fields="tableFields"
       bordered
-      head-variant="dark"
       stacked="sm"
       small
-      striped
+      hover
       tbody-tr-class="gk-vertical-row"
-      class="text-small table-border-dark"
+      class="text-small"
+      head-variant="light"
     >
       <template #cell(name)="data">
         <template v-if="data.item.gsflag === 7">
@@ -205,7 +197,6 @@
           <b-table-lite
             bordered
             small
-            head-variant="dark"
             :items="voucher.transactions"
             :tbody-tr-class="rowClass"
             fixed

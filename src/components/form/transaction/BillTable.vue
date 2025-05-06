@@ -34,7 +34,7 @@
             v-if="showAddProduct"
             @click.prevent="showBusinessForm = true"
             class="py-0 mx-1"
-            variant="success"
+            variant="dark"
             size="sm"
           >
             <translate>
@@ -45,7 +45,7 @@
             v-if="config.addBtn"
             @click.prevent="addBillItem"
             class="py-0 mx-1"
-            variant="success"
+            variant="dark"
             size="sm"
           >
             <translate> Add Item </translate>
@@ -55,8 +55,7 @@
       <b-table
         hover
         small
-        bordered
-        striped
+        outlined
         :items="formItems()"
         :fields="fields"
         :primary-key="`tbl_${Date.now()}`"
@@ -64,7 +63,7 @@
         :stacked="editMode"
         :per-page="editMode ? 1 : 10"
         :current-page="currentPage"
-        head-variant="dark"
+        head-variant="light"
         ref="billTable"
       >
         <!-- Index -->
@@ -444,10 +443,10 @@
       v-if="config"
       centered
       static
-      body-class="p-0"
+      body-class="p-4"
       id="business-item-modal"
+      title="Create Business Item"
       hide-footer
-      hide-header
     >
       <business-item
         :hide-back-button="true"

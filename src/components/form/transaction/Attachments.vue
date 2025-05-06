@@ -1,8 +1,5 @@
 <template>
-  <b-card
-    border-variant="secondary"
-    no-body
-  >
+  <b-card no-body>
     <div class="p-2 p-md-3">
       <b v-translate> Attachments </b>
       <b-form-file

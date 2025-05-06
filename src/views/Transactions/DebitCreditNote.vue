@@ -177,39 +177,7 @@
         </translate>
       </b-tooltip>
       <hr>
-      <div class="float-right">
-        <b-button
-          class="m-1"
-          size="sm"
-          variant="danger"
-          @click.prevent="$router.go(-1)"
-        >
-          <b-icon
-            aria-hidden="true"
-            class="align-middle mr-1"
-            icon="arrow-left"
-          />
-          <span
-            class="align-middle"
-            v-translate
-          >Back</span>
-        </b-button>
-        <b-button
-          class="m-1"
-          size="sm"
-          variant="warning"
-          @click.prevent="resetForm"
-        >
-          <b-icon
-            aria-hidden="true"
-            class="align-middle mr-1"
-            icon="arrow-repeat"
-          />
-          <span
-            class="align-middle"
-            v-translate
-          >Reset</span>
-        </b-button>
+      <div>
         <b-button
           id="inv-submit"
           :disabled="isInvDateValid === false"
@@ -218,22 +186,28 @@
           class="m-1"
           variant="success"
         >
-          <span>
-            <b-spinner
-              v-if="isLoading"
-              small
-            />
-            <b-icon
-              v-else
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="plus-square"
-            />
-            <span
-              class="align-middle"
-              v-translate
-            >Create</span>
-          </span>
+          <b-spinner
+            v-if="isLoading"
+            class="mr-1"
+            small
+          />
+          Save
+        </b-button>
+        <b-button
+          class="m-1"
+          size="sm"
+          variant="dark"
+          @click.prevent="resetForm"
+        >
+          Reset
+        </b-button>
+        <b-button
+          class="m-1"
+          size="sm"
+          variant="dark"
+          @click.prevent="$router.go(-1)"
+        >
+          Back
         </b-button>
       </div>
       <div class="clearfix" />

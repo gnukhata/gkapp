@@ -3,7 +3,6 @@
     v-if="config"
     class="mb-2 mb-md-0"
     :class="config.class"
-    border-variant="secondary"
     no-body
   >
     <b-overlay
@@ -63,7 +62,7 @@
           <b-button
             @click.prevent="showContactForm = true"
             class="py-0 ml-3"
-            variant="success"
+            variant="dark"
             size="sm"
             :title="$gettext('Add Contact')"
           >
@@ -73,7 +72,7 @@
           <b-button
             v-if="form.name?.name != ''"
             class="py-0 ml-2"
-            variant="warning"
+            variant="dark"
             size="sm"
             @click.prevent="initPartyEdit"
             :disabled="editFlag"
@@ -234,35 +233,21 @@
         </b-form-group>
         <div v-if="editFlag">
           <b-button
-            @click.prevent="onPartyEdit(false)"
-            variant="danger"
-            size="sm"
-            class="mr-1"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="x-circle"
-            /><span
-              v-translate
-              class="align-middle"
-            >Cancel</span>
-          </b-button>
-          <b-button
             @click.prevent="onPartyEdit(true)"
             variant="success"
             size="sm"
+            class="mr-1"
             :disabled="!!form.gstin && !isValidGstin"
           >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="cloud-arrow-up"
-            />
-            <span
-              v-translate
-              class="align-middle"
-            >Save Changes</span>
+            Save
+          </b-button>
+          <b-button
+            @click.prevent="onPartyEdit(false)"
+            variant="dark"
+            size="sm"
+            class="mr-1"
+          >
+            Cancel
           </b-button>
         </div>
       </div>
@@ -271,12 +256,11 @@
     <b-modal
       v-if="config"
       v-model="showContactForm"
+      title="Create Contact"
       size="lg"
       centered
       static
-      body-class="p-0"
       id="contact-item-modal"
-      hide-header
       hide-footer
     >
       <contact-item

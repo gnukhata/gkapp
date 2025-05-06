@@ -395,10 +395,10 @@
         v-model="showGodownForm"
         centered
         static
-        body-class="p-0"
+        body-class="p-4"
         id="contact-item-modal"
+        title="Create Godown"
         hide-footer
-        hide-header
       >
         <godown
           :hide-back-button="true"

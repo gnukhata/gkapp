@@ -1,7 +1,6 @@
 <template>
   <b-card
     class="mb-2 mb-md-0 mr-md-1 ml-md-1"
-    border-variant="secondary"
     no-body
   >
     <b-overlay

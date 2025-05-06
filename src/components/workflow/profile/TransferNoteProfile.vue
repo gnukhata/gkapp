@@ -49,7 +49,7 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
+          class="text-small"
         >
           <template #cell(value)="data">
             <div v-if="data.item.type === 'receipt'">
@@ -88,9 +88,10 @@
       :items="tnote.products"
       :fields="tableFields"
       bordered
-      head-variant="dark"
       small
-      class="text-small table-border-dark"
+      hover
+      class="text-small"
+      head-variant="light"
     >
       <template #cell(name)="data">
         <template v-if="data.item.gsflag === 7">

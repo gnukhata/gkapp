@@ -27,10 +27,6 @@
             @click="showVoucherModal = !showVoucherModal"
           >
             <template #button-content>
-              <b-icon
-                class="mr-1"
-                icon="eye"
-              />
               <translate>View Vouchers</translate>
             </template>
             <b-dropdown-item-button
@@ -38,10 +34,6 @@
               v-b-toggle.attachment-container
               @click="fetchAttachments"
             >
-              <b-icon
-                class="mr-1"
-                icon="paperclip"
-              />
               <translate>View Attachments</translate>
             </b-dropdown-item-button>
             <b-dropdown-item-button
@@ -49,10 +41,6 @@
               v-if="showButton(3)"
               @click="redirectBasedOnValue(3)"
             >
-              <b-icon
-                class="mr-1"
-                icon="eye"
-              />
               <translate>View Credit Note</translate>
             </b-dropdown-item-button>
             <b-dropdown-item-button
@@ -60,20 +48,12 @@
               v-if="showButton(4)"
               @click="redirectBasedOnValue(4)"
             >
-              <b-icon
-                class="mr-1"
-                icon="eye"
-              />
               <translate>View Debit Note</translate>
             </b-dropdown-item-button>
             <b-dropdown-item-button
               @click="onPayment"
               v-if="invoice.payment.mode != 5 && paymentFlag"
             >
-              <b-icon
-                class="mr-1"
-                icon="cash"
-              />
               <translate>
                 {{ invoice.isSale ? 'Receive Payment' : 'Make Payment' }}
               </translate>
@@ -85,10 +65,6 @@
               }"
               v-if="invoice.payment.mode != 5 && paymentFlag"
             >
-              <b-icon
-                class="mr-1"
-                icon="clipboard-check"
-              />
               <translate>
                 Adjust Bill
               </translate>
@@ -97,20 +73,12 @@
               v-if="rectifyFlag"
               :to="{name: 'Invoice_Edit', params: {invid: id}}"
             >
-              <b-icon
-                class="mr-1"
-                icon="pencil"
-              />
               <translate>Rectify</translate>
             </b-dropdown-item>
             <b-dropdown-item-button
               v-if="cancelFlag"
               @click="confirmOnCancel"
             >
-              <b-icon
-                class="mr-1"
-                icon="x-octagon"
-              />
               <translate>Cancel Invoice</translate>
             </b-dropdown-item-button>
           </b-dropdown>
@@ -131,7 +99,7 @@
       class="mb-2"
     >
       <!-- buyer/seller details -->
-      <b-card class="border-dark">
+      <b-card>
         <b
           key="1"
           v-if="invoice.isSale"
@@ -177,10 +145,7 @@
       </b-card>
 
       <!-- invoice details -->
-      <b-card
-        class="border-dark"
-        order="1"
-      >
+      <b-card order="1">
         <b
           key="3"
           v-if="invoice.isSale"
@@ -202,7 +167,7 @@
           small
           thead-class="d-none"
           fixed
-          class="text-small border-dark"
+          class="text-small"
         >
           <template #cell(value)="data">
             <span v-if="typeof data.value === 'object'">
@@ -232,9 +197,10 @@
       bordered
       responsive
       stacked="sm"
-      striped
       small
-      class="text-small border border-dark"
+      hover
+      class="text-small border"
+      head-variant="light"
       tbody-tr-class="gk-vertical-row"
     >
       <template #cell(name)="data">
@@ -295,7 +261,7 @@
     </b-table-lite>
     <b-card-group deck>
       <!-- payment details -->
-      <b-card class="border-dark">
+      <b-card>
         <b v-translate> Payment Details </b>
         <div
           v-if="bankMode"
@@ -321,7 +287,7 @@
         <b v-translate> Narration: </b> {{ invoice.narration }}
       </b-card>
       <!-- Total Table -->
-      <b-card class="border-dark">
+      <b-card>
         <b-table-lite
           :items="totalDetails"
           :fields="[
@@ -408,7 +374,6 @@
           <b-table-lite
             bordered
             small
-            head-variant="dark"
             :items="voucher.transactions"
             :tbody-tr-class="rowClass"
             fixed

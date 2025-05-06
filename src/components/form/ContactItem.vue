@@ -1,443 +1,392 @@
 <template>
-  <div class="card mx-0">
-    <div
-      v-if="showHeader"
-      class="card-header text-left py-2 bg-dark text-light"
-    >
-      <b v-translate>Contact Person Details</b>
-      <slot name="close-button" />
-    </div>
-    <div class="card-body pb-2">
-      <b-form
-        class="text-left"
-        @submit.prevent="confirmOnSubmit"
+  <section class="container-fluid mt-2">
+    <b-form @submit.prevent="confirmOnSubmit">
+      <b-form-group
+        label-size="sm"
+        label-cols="3"
+        label="Type"
       >
-        <b-row>
-          <b-col cols="12">
-            <b-form-group
-              label-size="sm"
-              label-cols="3"
-              label="Type"
-            >
-              <template #label>
-                <translate> Type </translate>
-              </template>
-              <b-form-radio-group
-                button-variant="outline-primary"
-                v-model="contactType"
-                buttons
-                size="sm"
-              >
-                <b-form-radio
-                  v-if="type !== 'supplier'"
-                  value="customer"
-                >
-                  <translate> Customer </translate>
-                </b-form-radio>
-                <b-form-radio
-                  v-if="type !== 'customer'"
-                  value="supplier"
-                >
-                  <translate> Supplier </translate>
-                </b-form-radio>
-              </b-form-radio-group>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="Country"
-              label-for="ci-input-20"
-              label-cols="3"
-            >
-              <template #label>
-                <translate>Country</translate>
-              </template>
-              <v-select
-                id="ci-input-20"
-                :options="options.countries"
-                v-model="contactCountry"
-                label="name"
-                placeholder="Select a Country"
-              />
-            </b-form-group>
-            <template v-if="isIndianContact && isGstEnabled">
-              <b-form-group
-                label-size="sm"
-                label="GSTIN"
-                label-cols="3"
-                inline
-              >
-                <gk-gstin
-                  @validity="onGstinUpdate"
-                  @gstin_data="onGstinDataFetched"
-                  @verified="onGstinVerified"
-                  v-model="form.gstin.gstin"
-                  :show-validation="2"
-                  val-button-text="Validate & Autofill"
-                />
-              </b-form-group>
-              <b-form-group
-                v-if="isGstValid"
-                label-size="sm"
-                label="GST Registration Type"
-                label-for="ci-input-11"
-                :state="validatePan"
-                label-cols="3"
-              >
-                <template #label>
-                  <translate> GST Registration Type </translate>
-                </template>
-                <b-form-select
-                  label-cols="3"
-                  id="ci-input-11"
-                  size="sm"
-                  v-model="form.gstin.regType"
-                  :options="options.regTypes"
-                  :disabled="!isGstValid"
-                />
-              </b-form-group>
-              <b-form-group
-                v-if="isGstValid && isGstReg"
-                label-size="sm"
-                label="GST Party Type"
-                label-for="ci-input-12"
-                :state="validatePan"
-                label-cols="3"
-              >
-                <template #label>
-                  <translate> GST Party Type </translate>
-                </template>
-                <b-form-select
-                  label-cols="3"
-                  id="ci-input-12"
-                  size="sm"
-                  v-model="form.gstin.partyType"
-                  :options="options.partyTypes"
-                />
-              </b-form-group>
-              <div class="text-center text-small text-secondary mb-2">
-                (or)
-              </div>
-            </template>
-            <b-form-group
-              label-size="sm"
-              label="Name"
-              label-for="ci-input-10"
-              label-cols="3"
-              label-class="required"
-            >
-              <template #label>
-                <translate> Name </translate>
-              </template>
-              <b-form-input
-                size="sm"
-                id="ci-input-10"
-                :placeholder="formType + ' Name'"
-                v-model="form.name"
-                trim
-                required
-              />
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="Address"
-              label-for="ci-input-40"
-              label-cols="3"
-            >
-              <template #label>
-                <translate> Address </translate>
-              </template>
-              <b-form-textarea
-                id="ci-input-40"
-                v-model="form.address"
-                size="sm"
-                rows="2"
-                max-rows="3"
-              />
-            </b-form-group>
-            <b-form-group
-              v-if="isIndianContact"
-              label-size="sm"
-              label="State"
-              label-for="ci-input-20"
-              label-cols="3"
-            >
-              <template #label>
-                <translate> State </translate>
-              </template>
-              <v-select
-                id="ci-input-20"
-                :options="options.states"
-                v-model="state"
-                label="name"
-                placeholder="Select a State"
-              />
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="Postal Code"
-              label-for="ci-input-30"
-              label-cols="3"
-            >
-              <template #label>
-                <translate> Postal Code </translate>
-              </template>
-              <b-form-input
-                size="sm"
-                id="ci-input-30"
-                v-model="form.pin"
-                no-wheel
-                debounce="500"
-              />
-            </b-form-group>
-            <b-form-group
-              v-if="isIndianContact"
-              label-size="sm"
-              label="PAN"
-              label-for="ci-input-80"
-              :state="validatePan"
-              invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
-              label-cols="3"
-            >
-              <b-form-input
-                size="sm"
-                id="ci-input-80"
-                :state="validatePan"
-                v-model="form.pan"
-                trim
-                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                title="Format: A B C D E 1 2 3 4 A"
-                debounce="500"
-              />
-            </b-form-group>
-            <b-form-group
-              v-if="isIndianContact && isVatEnabled"
-              label-size="sm"
-              label="TIN"
-              label-for="ci-input-13"
-              label-cols="3"
-            >
-              <template #label>
-                <translate>TIN</translate>
-              </template>
-              <b-form-input
-                size="sm"
-                id="ci-input-13"
-                v-model="form.tin"
-                trim
-                pattern="[A-Z0-9]+"
-                minlength="11"
-                maxlength="11"
-              />
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-checkbox
-              size="sm"
-              v-model="showOptional"
-              class="mb-3"
-              switch
-            >
-              <translate> Contact Details </translate>
-            </b-form-checkbox>
-            <b-collapse v-model="showOptional">
-              <b-form-group
-                label-size="sm"
-                label="Email"
-                label-for="ci-input-50"
-                label-cols="3"
-              >
-                <template #label>
-                  <translate> Email </translate>
-                </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-50"
-                  v-model="form.email"
-                  type="email"
-                  trim
-                />
-              </b-form-group>
-              <b-form-group
-                label-size="sm"
-                label="Phone"
-                label-for="ci-input-60"
-                label-cols="3"
-              >
-                <template #label>
-                  <translate> Phone </translate>
-                </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-60"
-                  type="tel"
-                  pattern="^\+?\d{0,13}"
-                  no-wheel
-                  v-model="form.contact"
-                  trim
-                />
-              </b-form-group>
-              <b-form-group
-                label-size="sm"
-                label="Fax"
-                label-for="ci-input-70"
-                label-cols="3"
-              >
-                <template #label>
-                  <translate> Fax </translate>
-                </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-70"
-                  v-model="form.fax"
-                  trim
-                />
-              </b-form-group>
-            </b-collapse>
-          </b-col>
-          <!-- Bank details -->
-          <b-col>
-            <b-form-checkbox
-              size="sm"
-              v-model="showBankDetails"
-              class="mb-3"
-              switch
-            >
-              <translate> Bank Details </translate>
-            </b-form-checkbox>
-            <b-collapse v-model="showBankDetails">
-              <!-- IFSC -->
-              <b-form-group
-                v-if="isIndianContact"
-                label-size="sm"
-                label="IFSC"
-                label-for="ci-input-150"
-                label-cols="3"
-              >
-                <gk-ifsc
-                  :required="showBankDetails"
-                  size="sm"
-                  v-model="form.bank.ifsc"
-                  @fill="ifscFill"
-                />
-              </b-form-group>
-              <!-- bank name -->
-              <b-form-group
-                label-size="sm"
-                label="Name"
-                label-for="ci-input-120"
-                label-cols="3"
-              >
-                <template #label>
-                  <translate> Bank Name </translate>
-                </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-120"
-                  v-model="form.bank.name"
-                  trim
-                  :required="showBankDetails"
-                />
-              </b-form-group>
-              <!-- branch -->
-              <b-form-group
-                label-size="sm"
-                label="Branch"
-                label-for="ci-input-130"
-                label-cols="3"
-              >
-                <template #label>
-                  <translate> Branch </translate>
-                </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-130"
-                  v-model="form.bank.branch"
-                  trim
-                  :required="showBankDetails"
-                />
-              </b-form-group>
-              <!-- account name -->
-              <b-form-group
-                label-size="sm"
-                label="Account Number"
-                label-for="ci-input-140"
-                label-cols="3"
-              >
-                <template #label>
-                  <translate> Account Number </translate>
-                </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-140"
-                  v-model="form.bank.accNo"
-                  trim
-                  :required="showBankDetails"
-                  pattern="[A-Z0-9]+"
-                />
-              </b-form-group>
-            </b-collapse>
-          </b-col>
-        </b-row>
-        <hr class="my-2">
-        <div class="float-right">
-          <b-button
-            v-if="!hideBackButton"
+        <template #label>
+          <translate> Type </translate>
+        </template>
+        <b-form-radio-group
+          button-variant="outline-secondary"
+          v-model="contactType"
+          buttons
+          size="sm"
+        >
+          <b-form-radio value="customer">
+            <translate> Customer </translate>
+          </b-form-radio>
+          <b-form-radio value="supplier">
+            <translate> Supplier </translate>
+          </b-form-radio>
+        </b-form-radio-group>
+      </b-form-group>
+      <b-form-group
+        label-size="sm"
+        label="Country"
+        label-for="ci-input-20"
+        label-cols="3"
+      >
+        <template #label>
+          <translate>Country</translate>
+        </template>
+        <v-select
+          id="ci-input-20"
+          :options="options.countries"
+          v-model="contactCountry"
+          label="name"
+          placeholder="Select a Country"
+        />
+      </b-form-group>
+      <template v-if="isIndianContact && isGstEnabled">
+        <b-form-group
+          label-size="sm"
+          label="GSTIN"
+          label-cols="3"
+          inline
+        >
+          <gk-gstin
+            @validity="onGstinUpdate"
+            @gstin_data="onGstinDataFetched"
+            @verified="onGstinVerified"
+            v-model="form.gstin.gstin"
+            :show-validation="2"
+            val-button-text="Validate & Autofill"
+          />
+        </b-form-group>
+        <b-form-group
+          v-if="isGstValid"
+          label-size="sm"
+          label="GST Registration Type"
+          label-for="ci-input-11"
+          :state="validatePan"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> GST Registration Type </translate>
+          </template>
+          <b-form-select
+            label-cols="3"
+            id="ci-input-11"
             size="sm"
-            class="m-1"
-            variant="danger"
-            @click.prevent="$router.go(-1)"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="arrow-left"
-            />
-            <span
-              class="align-middle"
-              v-translate
-            >Back</span>
-          </b-button>
-          <b-button
+            v-model="form.gstin.regType"
+            :options="options.regTypes"
+            :disabled="!isGstValid"
+          />
+        </b-form-group>
+        <b-form-group
+          v-if="isGstValid && isGstReg"
+          label-size="sm"
+          label="GST Party Type"
+          label-for="ci-input-12"
+          :state="validatePan"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> GST Party Type </translate>
+          </template>
+          <b-form-select
+            label-cols="3"
+            id="ci-input-12"
             size="sm"
-            class="m-1"
-            variant="warning"
-            @click.prevent="resetForm"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="arrow-repeat"
-            />
-            <span
-              class="align-middle"
-              v-translate
-            >Reset</span>
-          </b-button>
-          <b-button
-            type="submit"
-            size="sm"
-            class="m-1"
-            variant="success"
-          >
-            <b-spinner
-              v-if="isLoading"
-              small
-            />
-            <b-icon
-              v-else
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="plus-square"
-            />
-            <span
-              class="align-middle"
-              v-translate
-            >Save</span>
-          </b-button>
+            v-model="form.gstin.partyType"
+            :options="options.partyTypes"
+          />
+        </b-form-group>
+        <div class="text-center text-small text-secondary mb-2">
+          (or)
         </div>
-      </b-form>
-    </div>
-  </div>
+      </template>
+      <b-form-group
+        label-size="sm"
+        label="Name"
+        label-for="ci-input-10"
+        label-cols="3"
+        label-class="required"
+      >
+        <template #label>
+          <translate> Name </translate>
+        </template>
+        <b-form-input
+          size="sm"
+          id="ci-input-10"
+          :placeholder="formType + ' Name'"
+          v-model="form.name"
+          trim
+          required
+        />
+      </b-form-group>
+      <b-form-group
+        label-size="sm"
+        label="Address"
+        label-for="ci-input-40"
+        label-cols="3"
+      >
+        <template #label>
+          <translate> Address </translate>
+        </template>
+        <b-form-textarea
+          id="ci-input-40"
+          v-model="form.address"
+          size="sm"
+          rows="2"
+          max-rows="3"
+        />
+      </b-form-group>
+      <b-form-group
+        v-if="isIndianContact"
+        label-size="sm"
+        label="State"
+        label-for="ci-input-20"
+        label-cols="3"
+      >
+        <template #label>
+          <translate> State </translate>
+        </template>
+        <v-select
+          id="ci-input-20"
+          :options="options.states"
+          v-model="state"
+          label="name"
+          placeholder="Select a State"
+        />
+      </b-form-group>
+      <b-form-group
+        label-size="sm"
+        label="Postal Code"
+        label-for="ci-input-30"
+        label-cols="3"
+      >
+        <template #label>
+          <translate> Postal Code </translate>
+        </template>
+        <b-form-input
+          size="sm"
+          id="ci-input-30"
+          v-model="form.pin"
+          no-wheel
+          debounce="500"
+        />
+      </b-form-group>
+      <b-form-group
+        v-if="isIndianContact"
+        label-size="sm"
+        label="PAN"
+        label-for="ci-input-80"
+        :state="validatePan"
+        invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
+        label-cols="3"
+      >
+        <b-form-input
+          size="sm"
+          id="ci-input-80"
+          :state="validatePan"
+          v-model="form.pan"
+          trim
+          pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+          title="Format: A B C D E 1 2 3 4 A"
+          debounce="500"
+        />
+      </b-form-group>
+      <b-form-group
+        v-if="isIndianContact && isVatEnabled"
+        label-size="sm"
+        label="TIN"
+        label-for="ci-input-13"
+        label-cols="3"
+      >
+        <template #label>
+          <translate>TIN</translate>
+        </template>
+        <b-form-input
+          size="sm"
+          id="ci-input-13"
+          v-model="form.tin"
+          trim
+          pattern="[A-Z0-9]+"
+          minlength="11"
+          maxlength="11"
+        />
+      </b-form-group>
+      <b-form-checkbox
+        size="sm"
+        v-model="showOptional"
+        class="mb-3"
+        switch
+      >
+        <translate> Contact Details </translate>
+      </b-form-checkbox>
+      <b-collapse v-model="showOptional">
+        <b-form-group
+          label-size="sm"
+          label="Email"
+          label-for="ci-input-50"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Email </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-50"
+            v-model="form.email"
+            type="email"
+            trim
+          />
+        </b-form-group>
+        <b-form-group
+          label-size="sm"
+          label="Phone"
+          label-for="ci-input-60"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Phone </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-60"
+            type="tel"
+            pattern="^\+?\d{0,13}"
+            no-wheel
+            v-model="form.contact"
+            trim
+          />
+        </b-form-group>
+        <b-form-group
+          label-size="sm"
+          label="Fax"
+          label-for="ci-input-70"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Fax </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-70"
+            v-model="form.fax"
+            trim
+          />
+        </b-form-group>
+      </b-collapse>
+      <!-- Bank details -->
+      <b-form-checkbox
+        size="sm"
+        v-model="showBankDetails"
+        class="mb-3"
+        switch
+      >
+        <translate> Bank Details </translate>
+      </b-form-checkbox>
+      <b-collapse v-model="showBankDetails">
+        <!-- IFSC -->
+        <b-form-group
+          v-if="isIndianContact"
+          label-size="sm"
+          label="IFSC"
+          label-for="ci-input-150"
+          label-cols="3"
+        >
+          <gk-ifsc
+            :required="showBankDetails"
+            size="sm"
+            v-model="form.bank.ifsc"
+            @fill="ifscFill"
+          />
+        </b-form-group>
+        <!-- bank name -->
+        <b-form-group
+          label-size="sm"
+          label="Name"
+          label-for="ci-input-120"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Bank Name </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-120"
+            v-model="form.bank.name"
+            trim
+            :required="showBankDetails"
+          />
+        </b-form-group>
+        <!-- branch -->
+        <b-form-group
+          label-size="sm"
+          label="Branch"
+          label-for="ci-input-130"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Branch </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-130"
+            v-model="form.bank.branch"
+            trim
+            :required="showBankDetails"
+          />
+        </b-form-group>
+        <!-- account name -->
+        <b-form-group
+          label-size="sm"
+          label="Account Number"
+          label-for="ci-input-140"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Account Number </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-140"
+            v-model="form.bank.accNo"
+            trim
+            :required="showBankDetails"
+            pattern="[A-Z0-9]+"
+          />
+        </b-form-group>
+      </b-collapse>
+      <hr class="my-2">
+      <div>
+        <b-button
+          type="submit"
+          size="sm"
+          class="m-1"
+          variant="success"
+        >
+          <b-spinner
+            v-if="isLoading"
+            small
+          />
+          Save
+        </b-button>
+        <b-button
+          size="sm"
+          class="m-1"
+          variant="dark"
+          @click.prevent="resetForm"
+        >
+          Reset
+        </b-button>
+        <b-button
+          v-if="!hideBackButton"
+          size="sm"
+          class="m-1"
+          variant="dark"
+          @click.prevent="$router.go(-1)"
+        >
+          Back
+        </b-button>
+      </div>
+    </b-form>
+  </section>
 </template>
 
 <script>
@@ -597,8 +546,10 @@ export default {
     ...mapGetters('global', ['isGstEnabled', 'isVatEnabled']),
   },
   watch: {
-    type(newType) {
-      this.contactType = newType === 'supplier' ? 'supplier' : 'customer';
+    type(type) {
+      if (type !== this.contactType) {
+        this.contactType = type;
+      }
     },
     state(newValue) {
       if (newValue) {
@@ -931,7 +882,6 @@ export default {
   },
   mounted() {
     this.preloadData();
-    this.contactType = this.type === 'supplier' ? 'supplier' : 'customer';
   },
 };
 </script>

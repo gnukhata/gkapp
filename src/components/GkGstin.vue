@@ -20,7 +20,7 @@
     <b-button
       v-if="showValidityButton"
       size="sm"
-      variant="success"
+      :variant="!(validity.checksum && validity.format) || isCaptchaLoading ? 'secondary' : 'dark'"
       class="px-1 py-0 mt-1"
       @click.prevent="getGstinCaptcha"
       :disabled="!(validity.checksum && validity.format) || isCaptchaLoading"

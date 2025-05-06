@@ -1,176 +1,156 @@
-<!-- Note: Uses Mixin located at /src/mixins/voucher.js, please refer there for 
+<!-- Note: Uses Mixin located at /src/mixins/voucher.js, please refer there for
 list of all the props, methods, computed and data items not defined in this file  -->
 <template>
-  <div class="card mx-0">
-    <div class="card-header text-left py-2 bg-dark text-light">
-      <b v-translate>{{ vtitle }}</b>
-      <slot name="close-button" />
-    </div>
-    <div class="card-body pb-2 align-form-label-right">
-      <b-overlay
-        :show="isLoading"
-        variant="secondary"
-        no-wrap
-        blur
-      />
-      <b-form
-        class="text-left"
-        @submit.prevent="confirmOnSubmit"
-      >
-        <b-card
-          bg-variant="light"
-          class="text-left mb-3"
-        >
-          <b-card-text>
-            <h5 class="text-center">
-              Invoice Details
-            </h5>
-            No : {{ creditInvData?.invoiceno }} <br class="d-sm-none">
-            <span class="float-sm-right">
-              Date: {{ creditInvData?.invoicedate }}
-            </span>
-            <br>
-            Invoice Amount : {{ creditInvData?.invoicetotal || '' }} <br>
-            Balance Amount : {{ creditInvData?.balanceamount || '' }} <br>
-          </b-card-text>
-        </b-card>
-        <b-form-group
-          label="Date"
-          label-cols="3"
-          label-size="sm"
-          id="ci-input-group-1"
-        >
-          <template #label>
-            <translate> Date </translate>
-          </template>
-          <gk-date
-            id="ci-date-1"
-            :format="dateFormat"
-            v-model="form.date"
-            :min="minDate"
-            :max="_maxDate"
-            @validity="setDateValidity"
-            :required="true"
+  <section class="container-fluid p-0">
+    <b-form @submit.prevent="confirmOnSubmit">
+      <b-card no-body>
+        <template #header>
+          <h5 class="my-2">
+            <b v-translate>{{ vtitle }}</b>
+          </h5>
+        </template>
+        <b-card-body>
+          <b-overlay
+            :show="isLoading"
+            variant="secondary"
+            no-wrap
+            blur
           />
-        </b-form-group>
-        <b-form-group
-          label-size="sm"
-          label="Bank Transfer Amount"
-          label-for="ci-input-20"
-          label-cols="3"
-        >
-          <template #label>
-            <translate> Bank Transfer Amount </translate>
-          </template>
-
-          <b-form-input
-            size="sm"
-            id="ci-input-20"
-            type="number"
-            class="gk-currency"
-            no-wheel
-            min="0"
-            v-model="bank"
-            step="0.1"
-          />
-        </b-form-group>
-        <b-form-group
-          label-size="sm"
-          label="Cash Transfer Amount"
-          label-for="ci-input-10"
-          label-cols="3"
-        >
-          <template #label>
-            <translate> Cash Transfer Amount </translate>
-          </template>
-
-          <b-form-input
-            size="sm"
-            id="ci-input-10"
-            type="number"
-            step="0.1"
-            class="gk-currency"
-            no-wheel
-            v-model="cash"
-            min="0"
-          />
-        </b-form-group>
-        <b-form-group
-          label-size="sm"
-          label="Balance Due"
-          label-for="ci-input-10"
-          label-cols="3"
-        >
-          <template #label>
-            <translate> Balance Due </translate>
-          </template>
-
-          <b-form-input
-            size="sm"
-            id="ci-input-10"
-            type="number"
-            class="gk-currency"
-            step="0.1"
-            no-wheel
-            v-model="due"
-            disabled
-            :class="{'text-danger': !isDueValid}"
-          />
-        </b-form-group>
-        <b-form-group
-          label-size="sm"
-          label="Narration"
-          label-for="ci-input-30"
-          label-cols="3"
-        >
-          <b-form-textarea
-            :placeholder="defComment"
-            id="ci-input-30"
-            size="sm"
-            rows="2"
-            max-rows="3"
-          />
-        </b-form-group>
-
-        <hr class="my-2">
-        <div class="float-right">
-          <b-button
-            size="sm"
-            class="m-1"
-            variant="warning"
+          <b-card class="mb-4">
+            <b-card-text>
+              <h5 class="text-center">
+                Invoice Details
+              </h5>
+              No : {{ creditInvData?.invoiceno }} <br class="d-sm-none">
+              <span class="float-sm-right">
+                Date: {{ creditInvData?.invoicedate }}
+              </span>
+              <br>
+              Invoice Amount : {{ creditInvData?.invoicetotal || '' }} <br>
+              Balance Amount : {{ creditInvData?.balanceamount || '' }} <br>
+            </b-card-text>
+          </b-card>
+          <b-form-group
+            label="Date"
+            label-cols="3"
+            label-size="sm"
+            id="ci-input-group-1"
           >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="arrow-repeat"
+            <template #label>
+              <translate> Date </translate>
+            </template>
+            <gk-date
+              id="ci-date-1"
+              :format="dateFormat"
+              v-model="form.date"
+              :min="minDate"
+              :max="_maxDate"
+              @validity="setDateValidity"
+              :required="true"
+            />
+          </b-form-group>
+          <b-form-group
+            label-size="sm"
+            label="Bank Transfer Amount"
+            label-for="ci-input-20"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> Bank Transfer Amount </translate>
+            </template>
+
+            <b-form-input
+              size="sm"
+              id="ci-input-20"
+              type="number"
+              class="gk-currency"
+              no-wheel
+              min="0"
+              v-model="bank"
+              step="0.1"
+            />
+          </b-form-group>
+          <b-form-group
+            label-size="sm"
+            label="Cash Transfer Amount"
+            label-for="ci-input-10"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> Cash Transfer Amount </translate>
+            </template>
+
+            <b-form-input
+              size="sm"
+              id="ci-input-10"
+              type="number"
+              step="0.1"
+              class="gk-currency"
+              no-wheel
+              v-model="cash"
+              min="0"
+            />
+          </b-form-group>
+          <b-form-group
+            label-size="sm"
+            label="Balance Due"
+            label-for="ci-input-10"
+            label-cols="3"
+          >
+            <template #label>
+              <translate> Balance Due </translate>
+            </template>
+
+            <b-form-input
+              size="sm"
+              id="ci-input-10"
+              type="number"
+              class="gk-currency"
+              step="0.1"
+              no-wheel
+              v-model="due"
+              disabled
+              :class="{'text-danger': !isDueValid}"
+            />
+          </b-form-group>
+          <b-form-group
+            label-size="sm"
+            label="Narration"
+            label-for="ci-input-30"
+            label-cols="3"
+          >
+            <b-form-textarea
+              :placeholder="defComment"
+              id="ci-input-30"
+              size="sm"
+              rows="2"
+              max-rows="3"
+            />
+          </b-form-group>
+          <hr class="my-2">
+          <div>
+            <b-button
+              :disabled="!allValid"
+              type="submit"
+              size="sm"
+              class="m-1"
+              variant="success"
+            >
+              Save
+            </b-button>
+            <b-button
+              size="sm"
+              class="m-1"
+              variant="dark"
               @click.prevent="resetForm"
-            />
-            <span
-              class="align-middle"
-              v-translate
-            >Reset</span>
-          </b-button>
-          <b-button
-            :disabled="!allValid"
-            type="submit"
-            size="sm"
-            class="m-1"
-            variant="success"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="plus-square"
-            />
-            <span
-              class="align-middle"
-              v-translate
-            >Save</span>
-          </b-button>
-        </div>
-      </b-form>
-    </div>
-  </div>
+            >
+              Reset
+            </b-button>
+          </div>
+        </b-card-body>
+      </b-card>
+    </b-form>
+  </section>
 </template>
 
 <script>
