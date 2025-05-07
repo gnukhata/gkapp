@@ -193,6 +193,7 @@
                 size="sm"
                 @fill="autoFillIfsc"
                 :ifsc-code="bankDetails.ifsc"
+                :value="bankDetails.ifsc"
               />
             </b-form-group>
             <b-form-group
@@ -1029,9 +1030,7 @@ export default {
 
       let gstin = {};
       if (this.stateCode && this.gstin) {
-        if (this.gstinValid) {
-          gstin[this.stateCode] = this.gstin;
-        }
+        gstin[this.stateCode] = this.gstin;
       }
 
       Object.assign(this.details, {
