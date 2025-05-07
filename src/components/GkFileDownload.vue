@@ -138,8 +138,7 @@ export default {
         commonParams: this.commonParams,
       }
       this.exportFile(this.url, metadata)
-        .then(function() { this.loading = false })
-        .catch(function() { this.loading = false });
+        .finally(() => { this.loading = false });
     },
   },
 };
