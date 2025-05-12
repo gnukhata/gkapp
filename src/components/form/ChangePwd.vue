@@ -116,7 +116,7 @@ export default {
       if (this.confirmPwd === '') {
         return null;
       }
-      if (this.form.userpassword === this.hashedPassword(this.confirmPwd)) {
+      if (this.form.userpassword === this.confirmPwd) {
         return true;
       } else {
         return false;
@@ -132,7 +132,7 @@ export default {
           `${this.gkCoreUrl}/gkuser/pwd/validate`,
           {
             username: this.userName,
-            userpassword: this.hashedPassword(this.currentPwd),
+            userpassword: this.currentPwd,
           },
           { headers: { gktoken: this.authToken } }
         )

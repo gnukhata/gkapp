@@ -251,7 +251,7 @@ export default {
         : self.pwdStrength.value === 'Strong',
     arePasswordsSame() {
       if (this.confirmPassword !== '') {
-        return this.userPassword === this.hashedPassword(this.confirmPassword)
+        return this.userPassword === this.confirmPassword
           ? true
           : false;
       }
