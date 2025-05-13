@@ -319,10 +319,11 @@ export default {
       this.showVoucherForm = false;
     },
     getBankAccounts() {
+      this.loading = true;
       this.$axios
-        .get(`/bankrecon`).then((resp) => {
-          this.bankAccs.push(...resp);
-        });
+        .get(`/bankrecon`)
+        .then((resp) => { this.bankAccs.push(...resp); })
+        .finally(this.loading = false);
     },
     updateVoucher(voucher) {
       let payload = {
