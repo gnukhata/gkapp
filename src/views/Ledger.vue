@@ -506,7 +506,7 @@ export default {
     this.getAccounts()
       .then(
         () => {
-          const params = this.$route.params;
+          const params = this.$route.query;
           if (params.pc !== 'null') {
             this.projectCode = params.pc || '';
           }

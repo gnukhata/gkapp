@@ -111,7 +111,7 @@
               <router-link
                 v-if="!['Total', 'Opening balance', 'Closing balance'].includes(data.item.particulars)"
                 :to="
-                  `/ledger/${data.item.accountcode}&null&${fromDate}&${toDate}`
+                  `/ledger?ac=${data.item.accountcode}&pc=null&fd=${fromDate}&td=${toDate}`
                 "
               >
                 {{ data.item.particulars }}
