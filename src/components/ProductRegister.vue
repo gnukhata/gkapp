@@ -471,8 +471,8 @@ export default {
     clear() {
       this.godownId = null;
       this.productId = null;
-      this.fromDate = this.dateReverse(this.yearStart);
-      this.toDate = this.dateReverse(this.yearEnd);
+      this.fromDate = this.yearStart;
+      this.toDate = this.yearEnd;
       this.$router.replace({});
       this.report = [];
       this.selected = {};
