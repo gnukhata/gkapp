@@ -392,11 +392,6 @@ export default {
             label: this.$gettext('No. Of Credit Records'),
             class: 'text-right',
           },
-          {
-            key: 'vcountLock',
-            label: this.$gettext('No. of Unlocked Transactions'),
-            class: 'text-right',
-          },
         ];
       } else {
         fields = [
