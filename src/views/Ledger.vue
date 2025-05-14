@@ -260,6 +260,18 @@
             {{ item.accountname }}
           </div>
         </template>
+        <template
+          #cell(Dr)="data"
+          v-if="isMonthlyLedger"
+        >
+          {{ data.value || "0.00" }}
+        </template>
+        <template
+          #cell(Cr)="data"
+          v-if="isMonthlyLedger"
+        >
+          {{ data.value || "0.00" }}
+        </template>
       </b-table>
       <div
         class="d-print-none d-flex align-items-center justify-content-end"
@@ -378,11 +390,6 @@ export default {
           {
             key: 'vcountCr',
             label: this.$gettext('No. Of Credit Records'),
-            class: 'text-right',
-          },
-          {
-            key: 'vcountLock',
-            label: this.$gettext('No. of Unlocked Transactions'),
             class: 'text-right',
           },
         ];
