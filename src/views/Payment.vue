@@ -14,6 +14,14 @@
           style="align-self:center"
         />
       </b-input-group>
+      <b-button
+        variant="success"
+        size="sm"
+        style="min-width: 128px"
+        @click="showPaymentModal = true"
+      >
+        {{ `${type === 'cr' ? 'Make' : 'Receive'} Payment` }}
+      </b-button>
     </div>
     <b-table
       head-variant="light"
@@ -31,12 +39,29 @@
         </router-link>
       </template>
     </b-table>
+    <b-modal
+      size="lg"
+      v-model="showPaymentModal"
+      centered
+      static
+      id="contact-item-modal"
+      :title="`${type === 'cr' ? 'Make' : 'Receive' } Payment`"
+      hide-footer
+    >
+      <voucher
+        :type="type === 'cr' ? 'payment' : 'receipt'"
+        mode="create"
+      />
+    </b-modal>
   </section>
 </template>
 
 <script>
+import Voucher from "../components/form/Voucher.vue";
+
 export default {
   name: 'Payment',
+  components: { Voucher },
   props: {
     type: {
       type: String,
@@ -53,6 +78,7 @@ export default {
       transactions: [],
       search: '',
       isLoading: false,
+      showPaymentModal: false,
       fields: [
         {
           key: "voucherNumber",
