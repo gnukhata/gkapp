@@ -1,0 +1,127 @@
+<template>
+  <section>
+    <h2 class="my-4 text-muted display-5">
+      {{ `Payments ${type === 'dr' ? 'Received' : 'Made'}` }}
+    </h2>
+    <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
+      <!-- Search Field -->
+      <b-input-group size="sm">
+        <b-form-input
+          class="col-2"
+          size="sm"
+          v-model="search"
+          placeholder="Search Table"
+          style="align-self:center"
+        />
+      </b-input-group>
+    </div>
+    <b-table
+      head-variant="light"
+      hover
+      outlined
+      small
+      responsive="sm"
+      :filter="search"
+      :fields="fields"
+      :items="transactions"
+    >
+      <template #cell(voucherNumber)="data">
+        <router-link :to="`/Workflow/Transactions-Voucher/${data.item.voucherId}`">
+          {{ data.value }}
+        </router-link>
+      </template>
+    </b-table>
+  </section>
+</template>
+
+<script>
+export default {
+  name: 'Payment',
+  props: {
+    type: {
+      type: String,
+      validator: function (value) {
+        return ["dr", "cr"].indexOf(value) !== -1;
+      },
+      required: true,
+      default: null,
+    },
+  },
+  data() {
+    return {
+      parentMessage: '',
+      transactions: [],
+      search: '',
+      isLoading: false,
+      fields: [
+        {
+          key: "voucherNumber",
+          label: "Voucher No.",
+          sortable: true,
+          class: 'col-2',
+        },
+        {
+          key: "voucherDate",
+          label: "Date",
+          sortable: true,
+          class: 'col-2',
+        },
+        {
+          key: "account",
+          label: "Account",
+          class: 'col-5',
+          sortable: true,
+        },
+        {
+          key: "amount",
+          label: "Amount",
+          class: 'col-3',
+          sortable: true,
+        },
+      ],
+    };
+  },
+  methods: {
+    // get users who are part of the org
+    getTransactions() {
+      this.isLoading = true;
+      const paymentType = this.type === 'cr' ? 'payment' : 'receipt';
+      this.$axios
+        .get(`/transaction?searchby=type&vouchertype=${paymentType}`)
+        .then((resp) => {
+          this.transactions = [];
+          resp.forEach((item) => {
+            this.transactions.push({
+              voucherId: item.vouchercode,
+              voucherNumber: item.vouchernumber,
+              voucherDate: item.voucherdate,
+              account: this.type === 'cr' ? (
+                Object.keys(item.crs ?? {}).join(', ')
+              ) : (
+                Object.keys(item.drs ?? {}).join(', ')
+              ),
+              amount: this.type === 'cr' ? (
+                Object.values(item.crs ?? {})
+                  .reduce((acc, val) => parseFloat(acc) + parseFloat(val), 0)
+                  .toFixed(2)
+              ) : (
+                Object.values(item.drs ?? {})
+                  .reduce((acc, val) => parseFloat(acc) + parseFloat(val), 0)
+                  .toFixed(2)
+              ),
+            });
+          });
+        });
+      this.isLoading = false;
+    },
+  },
+  watch: {
+    type() {
+      this.getTransactions();
+    },
+  },
+  mounted() {
+    this.getTransactions();
+  },
+};
+</script>
