@@ -116,6 +116,7 @@
               v-for="option in options.products"
               :key="option.id"
               :value="option"
+              :disabled="isProductSelected(option.id)"
             >
               <div v-if="options.productData[option.id] && options.productData[option.id]?.gsflag !== 19">
                 {{ option.name }}
@@ -1160,6 +1161,9 @@ export default {
         });
         this.updateTaxAndTotal(index);
       }
+    },
+    isProductSelected(id) {
+      return this.form.some((item) => (item.product.id === id));
     },
     onBusinessSave(invalidProduct) {
       this.showBusinessForm = false;
