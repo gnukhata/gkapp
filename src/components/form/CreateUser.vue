@@ -207,7 +207,7 @@ export default {
     validateName() {
       // remove spaces in username
       this.form.username = this.form.username.split(' ').join('');
-      if (this.form.username === '') {
+      if (!this.form.username) {
         this.valid.username = null;
         return;
       }
@@ -217,7 +217,7 @@ export default {
         return;
       } else {
         this.valid.username = true;
-        this.checkUserName();
+        this.checkUserName(this.form.username);
       }
     },
     resetForm() {
