@@ -86,6 +86,13 @@
             <b-icon icon="receipt" />
             <translate>Debit/Credit Note</translate>
           </b-nav-item>
+          <b-nav-item
+            :active="isActive('/payment?type=dr', true)"
+            to="/payment?type=dr"
+          >
+            <b-icon icon="receipt" />
+            <translate>Paymens Received</translate>
+          </b-nav-item>
         </b-collapse>
       </template>
 
@@ -149,6 +156,13 @@
           >
             <b-icon icon="receipt" />
             <translate>Debit/Credit Note</translate>
+          </b-nav-item>
+          <b-nav-item
+            :active="isActive('/payment?type=cr', true)"
+            to="/payment?type=cr"
+          >
+            <b-icon icon="receipt" />
+            <translate>Payments Made</translate>
           </b-nav-item>
         </b-collapse>
       </template>
