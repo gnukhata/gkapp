@@ -617,7 +617,6 @@ export default {
       return axios
         .get(`/organisation`)
         .then((res) => {
-          this.loading = false;
           switch (res.data.gkstatus) {
           case 0:
             {
@@ -654,6 +653,8 @@ export default {
         })
         .catch((e) => {
           alert(e);
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
@@ -1040,58 +1041,19 @@ export default {
         bankdetails: this.bankDetails,
       });
 
-      axios
+      this.$axios
         .put(`/organisation`, this.details)
         .then((res) => {
-          switch (res.data.gkstatus) {
-          case 0:
-            this.loading = false;
+          if (res.data.gkstatus === 0) {
             this.updateCessAccounts().then(() => {
               this.init();
             });
-            this.$bvToast.toast(
-              `${this.details.orgname} Profile Details Updated`,
-              {
-                title: 'Success',
-                variant: 'success',
-                solid: true,
-              }
-            );
             this.$store.dispatch('initOrgAddress');
             this.$store.dispatch('initOrgImg');
             if (!this.orgGstin) {
               this.$store.dispatch('initGstin');
             }
             this.$store.commit('global/setOrgDetails', this.details);
-            break;
-          case 1:
-            this.loading = false;
-            this.$bvToast.toast(
-              `Organisation ${this.details.orgname} already exists`,
-              {
-                title: 'Duplicate Entry',
-                variant: 'danger',
-                solid: true,
-              }
-            );
-            break;
-          case 2:
-            this.loading = false;
-            this.$bvToast.toast('Unauthorised Access', {
-              variant: 'danger',
-              solid: true,
-            });
-            break;
-          case 4:
-            this.loading = false;
-            this.$bvToast.toast(
-              'You are not authorised to delete the Organisation Details. Please contact the admin',
-              {
-                variant: 'danger',
-                solid: true,
-              }
-            );
-            break;
           }
         })
         .catch((e) => {
@@ -1099,6 +1061,8 @@ export default {
             variant: 'danger',
             solid: true,
           });
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
