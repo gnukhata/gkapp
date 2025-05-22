@@ -113,8 +113,7 @@ export default {
           text = this.getPasswordHint(this.pwdStrength);
           break;
         }
-        // v-model will emit hashed password digest
-        this.$emit('change', this.hashedPassword(this.userPassword));
+        this.$emit('change', this.userPassword);
       }
       return text;
     },

@@ -289,7 +289,7 @@ export default {
         return null;
       }
 
-      if (this.form.userpassword === this.hashedPassword(this.cnfPassword)) {
+      if (this.form.userpassword === this.cnfPassword) {
         return true;
       } else {
         return false;

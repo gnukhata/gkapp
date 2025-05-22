@@ -1,6 +1,5 @@
 import { mapState } from 'vuex';
 import axios from 'axios';
-import sha512 from 'crypto-js/sha512';
 export default {
   data() {
     return {
@@ -115,10 +114,6 @@ export default {
           this.$store.commit('setOrgAddress', r.data.gkdata);
         }
       });
-    },
-    hashedPassword(text) {
-      let hash = sha512(text).toString();
-      return hash;
     },
     currentDate() {
       const dt = new Date();
