@@ -176,6 +176,48 @@
         <b v-translate> Narration: </b> {{ psorder.narration }}
       </b-col>
     </b-row>
+    <div class="hsn-details mt-4">
+      <h6>HSN / SAC Summary</h6>
+      <b-table-lite
+        v-if="isGstEnabled"
+        :items="psorder.contents"
+        :fields="hsnFields"
+        bordered
+        responsive
+        stacked="sm"
+        small
+        hover
+        class="text-small border"
+        tbody-tr-class="gk-vertical-row"
+      >
+        <template #cell(igst)="data">
+          {{ `${data.item.igst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(cgst)="data">
+          {{ `${data.item.cgst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(sgst)="data">
+          {{ `${data.item.sgst_amount} (${data.value}%)` }}
+        </template>
+        <template #custom-foot>
+          <b-tr>
+            <b-th
+              v-translate
+              :colspan="hsnFields.length - 1"
+            >
+              Total
+            </b-th>
+            <b-th class="text-right">
+              {{ Object.values(psorder.contents)
+                .map((item) => item.total_tax)
+                .reduce((acc, val) => (Number(acc) + Number(val)), 0)
+                .toFixed(2)
+              }}
+            </b-th>
+          </b-tr>
+        </template>
+      </b-table-lite>
+    </div>
   </b-container>
 </template>
 
@@ -360,6 +402,57 @@ export default {
       );
       return fields;
     },
+    hsnFields: (self) => {
+      let fields = [
+        {
+          key: 'hsn.hsn_code',
+          label: 'HSN / SAC',
+        },
+        {
+          key: 'qty',
+          label: 'Qty',
+          class: 'gk-currency-sm',
+        },
+        {
+          key: 'taxable',
+          label: 'Taxable (₹)',
+          class: 'gk-currency-sm',
+        },
+      ];
+
+      if (self.isIndia) {
+        if (self.psorder.isGst) {
+          if (self.total.isIgst) {
+            fields.push(
+              {
+                key: 'igst',
+                label: 'IGST (₹)',
+                class: 'gk-currency-sm',
+              },
+            );
+          } else {
+            fields.push(
+              {
+                key: 'cgst',
+                label: 'CGST (₹)',
+                class: 'gk-currency-sm',
+              },
+              {
+                key: 'sgst',
+                label: 'SGST (₹)',
+                class: 'gk-currency-sm',
+              },
+            );
+          }
+        }
+      }
+      fields.push({
+        key: 'total_tax',
+        label: 'Total Tax Amount (₹)',
+        class: 'gk-currency-sm',
+      });
+      return fields;
+    },
   },
   methods: {
     formatDetails(details) {
@@ -425,19 +518,42 @@ export default {
 
       for (const name in details.schedule) {
         const item = details.schedule[name];
+        const taxrate = (
+          parseFloat(item.taxrate) || 0
+        ).toFixed(2);
+        const igst = taxrate;
+        const cgst = taxrate;
+        const sgst = taxrate;
+        const taxamount = (
+          taxrate / 100 * parseFloat(item.taxableamount)
+        ).toFixed(2);
+        const igst_amount = taxamount;
+        const cgst_amount = taxamount;
+        const sgst_amount = taxamount;
+        const total_tax = item.taxname === 'IGST' ? (
+          parseFloat(item.taxamount).toFixed(2)
+        ) : (
+          parseFloat(item.taxamount * 2).toFixed(2)
+        );
         this.psorder.contents.push({
           name: details.immutable_data?.products[item.productCode].productdesc,
           qty: item.qty,
           rate: item.priceperunit,
           discount: item.discount,
-          igst: item.taxrate,
-          cgst: item.taxrate / 2,
-          sgst: item.taxrate / 2,
+          taxable: item.taxableamount,
+          igst,
+          igst_amount,
+          cgst,
+          cgst_amount,
+          sgst,
+          sgst_amount,
+          total_tax,
           cess: item.cessrate,
           total: item.totalAmount,
           productcode: item.productCode,
           gsflag: item.gsflag,
           goid: item.goid,
+          hsn: JSON.parse(details.immutable_data?.products[name].gscode) || 'N/A',
         });
       }
       axios.get(`/accounts?type=getAccCode&accountname=${this.party.name}`)
