@@ -435,7 +435,7 @@ export default {
       godownId: null,
       godownReport: [],
       invoiceFilter: ['invoice', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
-      fields: [
+      defaultFields: [
         {
           key: 'date',
           label: 'Date',
@@ -465,6 +465,7 @@ export default {
           class: 'text-center',
         },
       ],
+      fields: [],
     };
   },
   methods: {
@@ -516,8 +517,16 @@ export default {
       let url = '';
       if (this.godownId) {
         url = `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`;
+        this.fields = [
+          ...this.defaultFields,
+          {
+            key: 'balance_value',
+            label: this.$gettext('Value'),
+          }
+        ];
       } else {
         url = `/reports/stock-report?productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`;
+        this.fields = this.defaultFields
       }
       this.$axios
         .get(url)
