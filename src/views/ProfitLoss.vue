@@ -81,6 +81,21 @@
                 />
               </b-form-group>
             </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="Type"
+                label-cols="auto"
+              >
+                <v-select
+                  :options="pnlTypeOptions"
+                  v-model="pnlType"
+                  placeholder="Profit and Loss Type"
+                />
+              </b-form-group>
+            </b-col>
           </b-row>
           <b-button-group
             size="sm"
@@ -147,7 +162,86 @@
         />
       </b-button-group>
     </div>
-    <b-row class="row text-small">
+    <b-row
+      class="row text-small"
+      v-if="pnlType == 'Vertical'"
+    >
+      <b-col
+        cols="12"
+      >
+        <b-table
+          :items="visibleRows"
+          :fields="fields"
+          responsive
+          head-variant="light"
+          small
+          outlined
+        >
+          <template #cell(particulars)="data">
+            <span
+              :style="{
+                paddingLeft: data.item.level * 20 + 'px',
+              }"
+              :class="{
+                'font-weight-bold': data.item.type === 'total' || data.item.type === 'pnl_str',
+                'font-italic': data.item.type === 'pnl_str',
+              }"
+            >
+              <span
+                v-if="hasChildren(data.item)"
+                @click="toggle(data.item)"
+                style="cursor: pointer;"
+              >
+                <b-icon
+                  :icon="isExpanded(data.item) ? 'chevron-down' : 'chevron-right'"
+                  class="mr-1"
+                />
+                {{ data.item.name }}
+              </span>
+              <b-button
+                size="sm"
+                variant="link"
+                class="p-0"
+                :to="{path: `/ledger/?ac=${data.item.id}`}"
+                v-else-if="data.item.type === 'account'"
+              >
+                {{ data.item.name }}
+              </b-button>
+              <b-button
+                size="sm"
+                variant="link"
+                class="p-0"
+                :to="{path: `/stock-on-hand?to=${toDate}`}"
+                v-else-if="data.item.type == 'stock'"
+              >
+                {{ data.item.name }}
+              </b-button>
+              <span v-else>
+                {{ data.item.name }}
+              </span>
+            </span>
+          </template>
+          <template #cell(amount)="data">
+            <span
+              class="float-right"
+              :class="{
+                'font-weight-bold': data.item.type === 'total' || data.item.type === 'pnl_str',
+                'pnl-str': data.item.type === 'pnl_str',
+                'font-italic': data.item.type === 'pnl_str',
+                'pr-2': data.item.level == 1,
+                'pr-4': data.item.level == 2
+              }"
+            >
+              {{ formatAmount(data.item.amount / (divideThousand ? 1000 : 1)) }}
+            </span>
+          </template>
+        </b-table>
+      </b-col>
+    </b-row>
+    <b-row
+      class="row text-small"
+      v-if="pnlType == 'Horizontal'"
+    >
       <b-col
         cols="6"
         class="pr-0"
@@ -174,7 +268,10 @@
       </b-col>
     </b-row>
 
-    <b-row class="row text-small">
+    <b-row
+      class="row text-small"
+      v-if="pnlType == 'Horizontal'"
+    >
       <b-col
         cols="6"
         class="pr-0"
@@ -234,7 +331,10 @@
         </b-table>
       </b-col>
     </b-row>
-    <b-row class="row text-small">
+    <b-row
+      class="row text-small"
+      v-if="pnlType == 'Horizontal'"
+    >
       <b-col
         cols="6"
         class="pr-0"
@@ -261,7 +361,10 @@
       </b-col>
     </b-row>
 
-    <b-row class="row text-small">
+    <b-row
+      class="row text-small"
+      v-if="pnlType == 'Horizontal'"
+    >
       <b-col
         cols="6"
         class="pr-0"
@@ -342,6 +445,15 @@ export default {
       hideZero: false,
       selected: {},
       divideThousand: false,
+      pnlType: 'Vertical',
+      pnlTypeOptions: ["Vertical", "Horizontal"],
+
+      fields: [
+        { key: 'particulars', label: 'Name' },
+        { key: 'amount', label: 'Amount', class: 'text-right' }
+      ],
+      rows: [], // preprocessed data will go here
+      expanded: {}, // track which parent IDs are expanded
 
       // set level based fields
       reportFields: [
@@ -380,6 +492,38 @@ export default {
     downloadFileName: (self) =>
       `Profit_Loss_${self.fromDate}_to_${self.toDate}`,
     hideZeroFilter: (self) => (self.hideZero ? 'a' : null),
+    visibleRows: (self) => {
+      const result = [];
+      const parentVisible = {};
+
+      self.rows.forEach(row => {
+        const parentId = row.parentId;
+        const isZeroAmountRow = row.amount === 0;
+
+        const isSpecial = (
+          self.hideZero
+          && isZeroAmountRow
+          && !(row.type === 'total' || row.type === 'pnl_str')
+        )
+
+        if ((!parentId || parentVisible[parentId]) && !isSpecial) {
+          result.push(row);
+          parentVisible[row.id] = self.isExpanded(row);
+        }
+      });
+
+      // console.log(self.rows)
+      // self.rows.forEach(row => {
+      //   const parentId = row.parentId;
+      //
+      //   if (!parentId || parentVisible[parentId]) {
+      //     result.push(row);
+      //     parentVisible[row.id] = self.isExpanded(row);
+      //   }
+      // });
+
+      return result;
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   methods: {
@@ -402,6 +546,75 @@ export default {
         return false
       }
       return item.isShown;
+    },
+    preprocessVerticalData(vertical) {
+      const flatRows = [];
+
+      vertical.forEach(item => {
+        const amount = typeof item.amount === 'object' ? item.amount.parsedValue : item.amount;
+
+        switch (item.type) {
+          case 'stock':
+          case 'total':
+          case 'pnl_str':
+            flatRows.push({
+              id: item.name,
+              name: item.name,
+              amount,
+              type: item.type,
+              level: 0,
+              parentId: null
+            });
+            break;
+
+          case 'group':
+            flatRows.push({
+              id: item.id,
+              name: item.name,
+              amount,
+              type: 'group',
+              level: 0,
+              parentId: null
+            });
+            break;
+
+          case 'subgroup':
+            flatRows.push({
+              id: item.id,
+              name: item.name,
+              amount,
+              type: 'subgroup',
+              level: 1,
+              parentId: item.parent_group
+            });
+            break;
+
+          case 'account':
+            flatRows.push({
+              id: item.id,
+              name: item.name,
+              amount,
+              type: 'account',
+              level: item.subgroupcode ? 2 : 1,
+              parentId: item.parent_group,
+            });
+            break;
+        }
+      });
+
+      return flatRows;
+    },
+    formatAmount(amount) {
+      return typeof amount === 'number' ? amount.toFixed(2) : amount;
+    },
+    hasChildren(row) {
+      return this.rows.some(r => r.parentId === row.id);
+    },
+    isExpanded(row) {
+      return this.expanded[row.id];
+    },
+    toggle(row) {
+      this.$set(this.expanded, row.id, !this.isExpanded(row));
     },
     prepareReport(report, reportName) {
       report.forEach((item, index) => {
@@ -493,10 +706,12 @@ export default {
           response[report_name] = this.formatPNL(response[report_name]);
         }
       }
+      this.rows = this.preprocessVerticalData(response["vertical"]);
       this.tradingLeft = response["trading_left"];
       this.pnlLeft = response["pnl_left"];
       this.tradingRight = response["trading_right"];
       this.pnlRight = response["pnl_right"];
+      this.vertical = response["vertical"]
       return response;
     },
     getReport() {
@@ -536,5 +751,8 @@ export default {
 .bs-col-amount {
   width: 50px;
   color: blue;
+}
+.pnl-str {
+  text-decoration-line: underline;
 }
 </style>
