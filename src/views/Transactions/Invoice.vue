@@ -180,7 +180,7 @@
         />
       </b-card-group>
       <b-tooltip
-        target="inv-submit"
+        target="invoice-submit"
         :show="showErrorToolTip"
         placement="top"
         triggers="manual"
@@ -201,7 +201,7 @@
       <hr>
       <div>
         <b-button
-          id="inv-submit"
+          id="invoice-submit"
           :disabled="isDisabled"
           type="submit"
           size="sm"
@@ -248,6 +248,13 @@
       }"
       @hidden="showPrintModal = false"
     />
+    <gk-tour
+      target="invoice-submit"
+      title="Save"
+      placement="topright"
+    >
+      Once all necessary details are filled click on save to create invoice. You can continue exploring GNUKhata on your own now. For example, check <b>Reports</b> menu in sidebar to access different financial reports like <b>Cash Flow</b> and <b>Profit and Loss</b> statements. To create new accounts, go to <b>Chart of Accounts</b> under <b>Accounting</b> menu in sidebar.
+    </gk-tour>
   </b-container>
 </template>
 
@@ -266,7 +273,7 @@ import Comments from '../../components/form/transaction/Comments.vue';
 import PaymentDetails from '../../components/form/transaction/PaymentDetails.vue';
 import InvoiceDetails from '../../components/form/transaction_details/InvoiceDetails.vue';
 import Attachments from '../../components/form/transaction/Attachments.vue';
-
+import GkTour from '../../components/GkTour.vue';
 import PrintPage from '../../components/workflow/PrintPage.vue';
 
 import Config from '../../components/Config.vue';
@@ -287,7 +294,7 @@ export default {
     TransportDetails,
     Comments,
     Attachments,
-
+    GkTour,
     PrintPage,
   },
   props: {
