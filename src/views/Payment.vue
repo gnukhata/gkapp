@@ -31,7 +31,9 @@
       responsive="sm"
       :filter="search"
       :fields="fields"
-      :items="transactions"
+      :items="paginatedItems"
+      :per-page="perPage"
+      show-empty
     >
       <template #cell(voucherNumber)="data">
         <router-link :to="`/Workflow/Transactions-Voucher/${data.item.voucherId}`">
@@ -39,6 +41,18 @@
         </router-link>
       </template>
     </b-table>
+    <div
+        class="d-print-none d-flex align-items-center justify-content-end"
+      >
+        <b-pagination
+          v-if="filteredItems.length > perPage"
+          v-model="currentPage"
+          :total-rows="filteredItems.length"
+          :per-page="perPage"
+          align="center"
+          limit="4"
+        />
+      </div>
     <b-modal
       size="lg"
       v-model="showPaymentModal"
@@ -79,6 +93,8 @@ export default {
       search: '',
       isLoading: false,
       showPaymentModal: false,
+      currentPage: 1,
+      perPage: 15,
       fields: [
         {
           key: "voucherNumber",
@@ -139,6 +155,15 @@ export default {
           });
         });
       this.isLoading = false;
+    },
+  },
+  computed:{
+    filteredItems() {
+      return this.transactions;
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
     },
   },
   watch: {
