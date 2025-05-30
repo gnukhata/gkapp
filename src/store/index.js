@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import axios from "axios";
 
 import global from "../js/config/global.js";
+import tour from "../js/config/tour.js";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ const AppStorage = sessionStorage;
 export default new Vuex.Store({
   modules: {
     global,
+    tour,
   },
   state: {
     /* User */
