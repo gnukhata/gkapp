@@ -87,6 +87,7 @@
 
         <b-form-group
           v-if="config.name"
+          id="transaction-party"
           label="Name"
           label-for="ptd-input-10"
           label-cols="3"
@@ -287,19 +288,29 @@
         </template>
       </contact-item>
     </b-modal>
+    <gk-tour
+      v-if="config.name"
+      target="transaction-party"
+      title="Select Type"
+      placement="topright"
+    >
+      Select invoice party from here based on the customer/supplier toggle button above. To create a new party, click on the plus (<b>+</b>) button.
+    </gk-tour>
   </b-card>
 </template>
 
 <script>
 import axios from 'axios';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 import ContactItem from '../ContactItem.vue';
 import GkGstin from '../../GkGstin.vue';
+import GkTour from '../../GkTour.vue';
 export default {
   name: 'PartyDetails',
   components: {
     ContactItem,
     GkGstin,
+    GkTour,
   },
   props: {
     mode: {
@@ -432,6 +443,7 @@ export default {
     isPartySelected: (self) => (self.form.name ? !!self.form.name?.name : false),
     isIndianParty: (self) => !self.form.country || self.form.country === 'India',
     ...mapGetters('global', ['isIndia']),
+    ...mapState('tour', ['currentStep']),
   },
   watch: {
     isPartySelected() {
@@ -861,6 +873,7 @@ export default {
       }
       this.editFlag = false;
     },
+    ...mapMutations('tour', ['goToNextStep', 'skipTour']),
   },
   mounted() {
     this.preloadData();
