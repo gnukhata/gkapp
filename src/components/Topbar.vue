@@ -149,6 +149,13 @@
         </b-dropdown-item-button>
       </b-nav-item-dropdown>
     </b-navbar-nav>
+    <gk-tour
+      target="quick-actions"
+      title="Quick Actions"
+      placement="bottom"
+    >
+      You can use this <b>Add</b> menu to create new transactions (invoices, debit/credit notes, etc.), contacts and business items (products and services) directly from here or you can also go to the <b>Sales</b> and <b>Purchases</b> menu options.
+    </gk-tour>
   </b-navbar>
 </template>
 
@@ -157,6 +164,7 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 import ChangePwd from './form/ChangePwd.vue';
 import Sidebar from './Sidebar.vue';
+import GkTour from '../components/GkTour.vue';
 
 export default {
   name: 'Topbar',
@@ -166,7 +174,7 @@ export default {
       required: true,
     },
   },
-  components: { ChangePwd, Sidebar },
+  components: { ChangePwd, Sidebar, GkTour },
   computed: {
     ...mapState([
       'userName',
@@ -177,6 +185,7 @@ export default {
       'yearEnd',
       'finYears',
     ]),
+    ...mapState('tour', ['showTour', 'currentStep']),
   },
   methods: {
     closePasswordModal() {
@@ -245,6 +254,13 @@ export default {
       this.orgs = [];
       this.invitedOrgs = [];
       localStorage.removeItem('userName');
+    },
+  },
+  watch: {
+    currentStep(newStep) {
+      if (newStep === 'orgLogo') {
+        this.$router.push('/orgprofile');
+      }
     },
   },
 }
