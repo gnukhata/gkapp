@@ -31,6 +31,7 @@
         </b-form-checkbox> -->
         <span class="float-right">
           <b-button
+            id="transaction-business-item"
             v-if="showAddProduct"
             @click.prevent="showBusinessForm = true"
             class="py-0 mx-1"
@@ -471,12 +472,20 @@
         </template>
       </business-item>
     </b-modal>
+    <gk-tour
+      target="transaction-business-item"
+      title="Create Business Item"
+      placement="topleft"
+    >
+      You can create a new product/service directly from here and add it to the invoice. To add an existing item, click on the <b>Add Item</b> button. You can also manage them from the <b>Products & Services</b> menu option in the sidebar.
+    </gk-tour>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import BusinessItem from '../BusinessItem.vue';
+import GkTour from '../../GkTour.vue';
 import { mapGetters, mapState } from 'vuex';
 import { debounceEvent } from '../../../js/utils';
 
@@ -484,6 +493,7 @@ export default {
   name: 'BillTable',
   components: {
     BusinessItem,
+    GkTour,
   },
   props: {
     config: {
@@ -763,6 +773,7 @@ export default {
     ),
     businessFormModalSize: (self) => self.isIndia ? "xl"  : "lg",
     ...mapState(['yearEnd']),
+    ...mapState('tour', ['currentState']),
   },
   watch: {
     updateCounter() {
