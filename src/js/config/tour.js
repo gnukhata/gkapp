@@ -3,7 +3,6 @@ const tourSteps = [
   'quickActions',
   'orgLogo',
   'orgAddress',
-  'orgBankIfsc',
   'orgTaxMode',
   'orgProfileSubmit',
   'businessItemType',
