@@ -11,7 +11,7 @@ const tourSteps = [
   'businessItemSubmit',
   'transactionParty',
   'transactionBusinessItem',
-  'transactionMode',
+  'transactionCash',
   'invoiceSubmit',
 ];
 
