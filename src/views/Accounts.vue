@@ -178,6 +178,27 @@
         </template>
       </account>
     </b-modal>
+    <b-modal
+      id="welcome-modal"
+      v-model="showTour"
+      title="Welcome to Chart of Accounts"
+      placement="left"
+      centered
+      static
+      hide-footer
+    >
+      You can manage all accounts from here. For example, to create a new bank account click on the <b>Add Account</b> option on top right and select <b>Group</b> as <b>Current Assets</b> and <b>Sub Group</b> as <b>Bank</b>.
+      <div class="mt-4 float-right">
+        <b-button
+          size="sm"
+          class="mt-2 ml-2"
+          variant="success"
+          @click="showTour = false"
+        >
+          Got it!
+        </b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -219,6 +240,7 @@ export default {
       groupsSubgroups: {},
       filter: null,
       parentMessage: '',
+      showTour: true,
     };
   },
   computed: {
