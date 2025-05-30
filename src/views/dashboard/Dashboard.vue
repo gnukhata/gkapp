@@ -137,6 +137,34 @@
         />
       </b-modal>
     </div>
+    <b-modal
+      id="welcome-modal"
+      title="Welcome"
+      placement="left"
+      centered
+      static
+      hide-footer
+    >
+      Learn how to get started with a new organisation in GNUKhata by clicking on the Next button. You can also skip this tour by clicking on Skip button. Once you start using GNUKhata and add transactions, the dashboard will get populated with relevant data.
+      <div class="mt-4 float-right">
+        <b-button
+          size="sm"
+          class="mt-2"
+          variant="dark"
+          @click="skipTour"
+        >
+          Skip Tour
+        </b-button>
+        <b-button
+          size="sm"
+          class="mt-2 ml-2"
+          variant="success"
+          @click="goToNextStep"
+        >
+          Next
+        </b-button>
+      </div>
+    </b-modal>
   </section>
 </template>
 
@@ -150,7 +178,7 @@ import MostSoldPS from './MostSoldPS.vue';
 import SalePurchaseInvoiceGraph from './SalePurchaseInvoiceGraph.vue';
 import MakeRecievePayment from './MakeRecievePayment.vue';
 import EasyVoucher from '@/components/form/EasyVoucher.vue';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   components: {
@@ -176,6 +204,7 @@ export default {
   },
   computed: {
     ...mapState(['userName', 'orgName']),
+    ...mapState('tour', ['showTour', 'currentStep']),
   },
   methods: {
     onPayment(type, id) {
@@ -207,9 +236,24 @@ export default {
           this.isLoading = false;
         });
     },
+    ...mapMutations('tour', ['goToNextStep', 'skipTour']),
+  },
+  watch: {
+    currentStep(newStep) {
+      if (this.showTour && newStep !== 'welcomeToDashboard') {
+        this.$bvModal.hide('welcome-modal');
+      }
+    },
   },
   created() {
     this.getDashboardData();
+  },
+  mounted() {
+    if (this.showTour && this.currentStep === 'welcomeToDashboard') {
+      this.$bvModal.show('welcome-modal');
+    } else {
+      this.$bvModal.hide('welcome-modal');
+    }
   },
 };
 </script>
