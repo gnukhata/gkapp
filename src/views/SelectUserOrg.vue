@@ -566,6 +566,7 @@
                   sm="4"
                 >
                   <b-dropdown
+                    id="new-org"
                     split
                     text="Create Org"
                     size="sm"
@@ -732,12 +733,29 @@
     >
       <create-user :on-success="onUserCreate" />
     </b-modal>
+    <b-popover
+      :show="showTour"
+      target="new-org"
+      title="Welcome"
+      placement="bottom"
+      variant="warning"
+      triggers="manual"
+    >
+      You can create a new organisation from here. Or click on the dropdown icon to import an organisation from file.
+      <b-button
+        size="sm"
+        class="mt-2"
+        @click="showTour = false"
+      >
+        Got it!
+      </b-button>
+    </b-popover>
   </section>
 </template>
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 import Captcha from '@/components/Captcha.vue';
 import Password from '@/components/Password.vue';
 import CreateOrganisation from '@/components/form/CreateOrganisation.vue';
@@ -795,6 +813,7 @@ export default {
       file: [],
       file_str: null,
       json_info: null,
+      showTour: false,
     };
   },
   computed: {
@@ -1240,6 +1259,16 @@ export default {
             break;
           }
         });
+    },
+    ...mapMutations('tour', ['enableTour']),
+  },
+  watch: {
+    orgs(newOrgs) {
+      if (!newOrgs) return;
+      if (newOrgs.length === 0) {
+        this.showTour = true;
+        this.enableTour();
+      }
     },
   },
   mounted() {
