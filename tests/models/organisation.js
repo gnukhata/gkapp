@@ -17,7 +17,7 @@ export default class Organisation {
   }
 
   async update({ address, pin, gstin, pan }) {
-    await this.page.getByRole('button', { name: 'caret right fill Administration' }).click();
+    await this.page.getByRole('button', { name: 'gear Administration chevron' }).click();
     await this.page.getByRole('link', { name: 'building Organisation Profile' }).click();
     let orgAddr = this.page.getByRole('group').filter({ hasText: 'Address' }).getByRole('textbox').first();
     let orgPostal = this.page.getByRole('group').filter({ hasText: 'Postal code' }).getByRole('textbox').first();
