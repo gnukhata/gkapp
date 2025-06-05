@@ -96,6 +96,7 @@
         </report-header>
         <div class="col-lg-6">
           <b-table
+            id="inflows-table"
             :fields="fields1"
             :items="result1"
             :per-page="perPage"
@@ -126,7 +127,7 @@
         </div>
         <div class="col-lg-6">
           <b-table
-            id="right-table"
+            id="outflows-table"
             :fields="fields2"
             :items="result2"
             :per-page="perPage"
