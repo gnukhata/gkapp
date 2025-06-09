@@ -264,25 +264,17 @@
       <b-card>
         <b v-translate> Payment Details </b>
         <div
-          v-if="bankMode"
           class="mb-3"
         >
-          {{ paymentMode }}
           <b-table-lite
             :items="bankDetails"
-            :fields="['title', 'value']"
+            :fields="['key', 'value']"
             small
             bordered
             fixed
             thead-class="d-none"
             class="mt-1 text-small"
           />
-        </div>
-        <div
-          class="text-small"
-          v-else
-        >
-          {{ paymentMode }}
         </div>
         <b v-translate> Narration: </b> {{ invoice.narration }}
       </b-card>
@@ -620,13 +612,11 @@ export default {
       return res;
     },
     bankDetails: (self) => {
-      let details = self.invoice.payment.bankDetails;
-      return [
-        { title: self.$gettext('Account Number'), value: details.accountno || '' },
-        { title: self.$gettext('Bank'), value: details.bankname || '' },
-        { title: self.$gettext('Branch'), value: details.branch || '' },
-        { title: self.$gettext('IFSC'), value: details.ifsc || '' },
-      ];
+      console.log(self.invoice.payment);
+      return Object
+        .entries(self.invoice.payment?.bankDetails || {})
+        .filter(([key, value]) => value !== undefined && value !== null && value !== "")
+        .map(([key, value]) => ({ key, value }));
     },
     totalDetails: (self) => {
       const totalAmount = self.invoice.invItems.reduce((_totalAmount, item) => (
