@@ -124,7 +124,7 @@
         md="8"
         class="my-2"
       >
-        <div>
+        <div v-if="bankDetails.length">
           <b v-translate>Payment Details</b>
           <div
             class="mb-3"
@@ -140,7 +140,9 @@
             />
           </div>
         </div>
-        <b v-translate> Narration: </b> {{ invoice.narration }}
+        <div v-if="invoice.narration">
+          <b v-translate> Narration: </b> {{ invoice.narration }}
+        </div>
       </b-col>
     </b-row>
     <div class="clearfix" />
@@ -302,7 +304,7 @@ export default {
       return Object
         .entries(self.invoice.payment?.bankDetails || {})
         .filter(([key, value]) => value !== undefined && value !== null && value !== "")
-        .map(([key, value]) => ({ key, value }));
+        .map(([key, value]) => ({ key: self.bankDetailsMapping[key] || key, value }));
     },
     tableFields: (self) => {
       let fields = [
@@ -347,6 +349,13 @@ export default {
   },
   data() {
     return {
+      bankDetailsMapping: {
+        "transaction_details": "Transaction Details",
+        "ifsc": "IFSC",
+        "branch": "Branch",
+        "bankname": "Bank Name",
+        "accountno": "Account No."
+      },
       isPreloading: false,
       vouchers: [],
       showVouchers: false,
