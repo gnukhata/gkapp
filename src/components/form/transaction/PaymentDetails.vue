@@ -51,7 +51,7 @@
             size="sm"
             id="ci-input-10"
             type="number"
-            step="0.1"
+            step="0.01"
             class="gk-currency"
             no-wheel
             v-model="cash"
