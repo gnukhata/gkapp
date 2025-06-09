@@ -140,6 +140,7 @@
               :vat-flag="isVat"
               :bill-data="form.bill"
               :update-counter="updateCounter.totalTable"
+              @details-updated="onComponentDataUpdate"
               ref="totalTable"
             />
           </b-col>
@@ -156,9 +157,8 @@
           :config="config.payment"
           :sale-flag="isSale"
           :parent-data="form.payment"
-          :options-data="{
-            payModes: options.payModes,
-          }"
+          :options-data="options.partyDetails"
+          :total-payable="amountPayable"
           @details-updated="onComponentDataUpdate"
         />
         <!-- Transport Details -->
@@ -203,7 +203,7 @@
       <div>
         <b-button
           id="inv-submit"
-          :disabled="isInvDateValid === false"
+          :disabled="isDisabled"
           type="submit"
           size="sm"
           class="m-1"
@@ -304,10 +304,12 @@ export default {
       showPrintModal: false,
       vuexNameSpace: '',
       formMode: '',
+      isDisabled: true,
       invoiceId: 0,
       invModalId: 0,
       goid: -1,
       dcId: '',
+      amountPayable: null,
       updateCounter: {
         party: 0,
         ship: 0,
@@ -360,12 +362,6 @@ export default {
         products: [],
         services: [],
         states: [],
-        payModes: [
-          { text: '-- Payment Mode --', value: null },
-          { text: 'Cash', value: 3 },
-          { text: 'Bank', value: 2 },
-          { text: 'On Credit', value: 15 },
-        ],
         transportModes: [
           { text: '-- Transport Mode --', value: null },
           'Road',
@@ -395,6 +391,9 @@ export default {
     };
   },
   computed: {
+    amount: function() {
+      return this.options.partyDetails.data?.name?.name;
+    },
     taxState: (self) =>
       self.form.inv.taxState ? self.form.inv.taxState.name : '',
     // config : Gets the custom config from the invoiceConfig Vuex module and
@@ -616,11 +615,18 @@ export default {
         this.updateCounter.totalTable++;
         this.updateDefaultNarration();
         break;
+      case 'total-table':
+        this.amountPayable = parseFloat(
+          payload.data.roundFlag ? payload.data.rounded : payload.data.amount
+        );
+        this.updateCounter.payment++;
+        break
       case 'transport-details':
         Object.assign(this.form.transport, payload.data);
         break;
       case 'payment-details':
         Object.assign(this.form.payment, payload.data);
+        this.isDisabled = !this.form.payment.isValid || !this.isInvDateValid;
         this.updateDefaultNarration();
         break;
       }
@@ -966,6 +972,7 @@ export default {
         designation: this.form.inv.role,
         address: this.form.inv.addr,
         pincode: this.form.inv.pin,
+        icflag: 9,
 
         custid: this.form.party.name.id || '',
         consignee: {},
@@ -1033,6 +1040,7 @@ export default {
         };
       }
 
+      invoice.payment_vouchers = this.form.payment.vouchers;
       // === Bill data ===
       let contents = {};
       let stock = { items: {}, inout: invoice.inoutflag };
@@ -1114,14 +1122,7 @@ export default {
       });
 
       // === payment details, mode = 2 ===
-      if (this.form.payment.mode === 2) {
-        invoice.bankdetails = {
-          accountno: this.form.payment.bank.no,
-          bankname: this.form.payment.bank.name,
-          ifsc: this.form.payment.bank.ifsc,
-          branch: this.form.payment.bank.branch,
-        };
-      }
+      invoice.bankdetails = this.form.payment?.bank || null;
 
       if (this.form.transport.mode === 'Road') {
         invoice.vehicleno = this.form.transport.vno;
@@ -1459,6 +1460,9 @@ export default {
     },
   },
   watch: {
+    isInvDateValid() {
+      this.isDisabled = !this.isInvDateValid;
+    },
     defaultTaxMode(newMode) {
       this.form.taxType = newMode;
     },

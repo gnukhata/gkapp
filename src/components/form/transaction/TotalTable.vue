@@ -5,6 +5,7 @@
       inline
       size="sm"
       v-model="form.roundFlag"
+      @change="onUpdateDetails"
       v-if="config.roundOff"
       class="mb-3 float-right"
     >
