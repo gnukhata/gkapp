@@ -863,7 +863,6 @@ export default {
           this.invitedOrgs.push(orgData);
         }
       }
-      console.log(">>", this.orgs.length);
     },
     onRejectInvite(index, name) {
       this.$bvModal
