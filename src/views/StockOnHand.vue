@@ -345,8 +345,6 @@ export default {
       this.report = [];
       this.loading = true;
 
-      let requests = [];
-
       let _type = 'pg';
       this.fields = this.defaultFields;
       if (Number(this.selectedProduct.id) === 0 && Number(this.selectedGodown.id) === 0) {
@@ -355,7 +353,9 @@ export default {
         _type = 'apg';
       } else if (Number(this.selectedProduct.id) !== 0 && Number(this.selectedGodown.id) === 0) {
         _type = 'pag';
-      } else {
+      }
+
+      if ( _type == 'pg' || _type == 'apg' ) {
         this.fields = [
           ...this.defaultFields,
           {
@@ -365,14 +365,10 @@ export default {
         ];
       }
       let url = `/reports/godownwise-stock-on-hand?type=${_type}&goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
-      let stockValueUrl = `/reports/godownwise-stock-value?goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
-      requests = [axios.get(url), axios.get(stockValueUrl)];
-
-      Promise.all(requests)
-        .then(([resp1, resp2]) => {
-          switch (resp1.data.gkstatus) {
-          case 0:
-            this.report = resp1.data.gkresult?.map((data) => {
+      this.$axios
+          .get(url)
+          .then(resp => {
+            this.report = resp.map((data) => {
               return {
                 no: data.srno,
                 product: data.productname || this.selectedProduct.name,
@@ -380,43 +376,14 @@ export default {
                 total_outward_qty: data.totaloutwardqty,
                 balance: data.balance,
                 productcode: data.productcode,
+                value: data.value,
               };
             }) ?? [];
             this.selected = {
               toDate: this.toDate,
             }
-            break;
-          case 2:
-            this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
-              variant: 'danger',
-              solid: true,
-            });
-            break;
-          default:
-            this.$bvToast.toast(this.$gettext('Data error'), {
-              variant: 'danger',
-              solid: true,
-            });
-          }
-
-          if (resp2.data.gkstatus === 0 && this.report?.[0]) {
-            this.report[0].value = resp2.data.gkresult;
-          } else {
-            this.$bvToast.toast('No data found', {
-              title: 'Info',
-              variant: 'Info',
-              solid: true,
-            });
-          }
-          this.loading = false;
-        })
-        .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            variant: 'danger',
-            solid: true,
-          });
-          this.loading = false;
-        });
+          })
+      .finally(this.loading = false);
     },
     // change url query params when date is changed by user
     updateRoute() {
