@@ -154,6 +154,48 @@
         </p>
       </b-col>
     </b-row>
+    <div class="hsn-details mt-4">
+      <h6>HSN / SAC Summary</h6>
+      <b-table-lite
+        v-if="isGstEnabled"
+        :items="dcNote.dcItems"
+        :fields="hsnFields"
+        bordered
+        responsive
+        stacked="sm"
+        small
+        hover
+        class="text-small border"
+        tbody-tr-class="gk-vertical-row"
+      >
+        <template #cell(igst)="data">
+          {{ `${data.item.igst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(cgst)="data">
+          {{ `${data.item.cgst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(sgst)="data">
+          {{ `${data.item.sgst_amount} (${data.value}%)` }}
+        </template>
+        <template #custom-foot>
+          <b-tr>
+            <b-th
+              v-translate
+              :colspan="hsnFields.length - 1"
+            >
+              Total
+            </b-th>
+            <b-th class="text-right">
+              {{ Object.values(dcNote.dcItems)
+                .map((item) => item.total_tax)
+                .reduce((acc, val) => (Number(acc) + Number(val)), 0)
+                .toFixed(2)
+              }}
+            </b-th>
+          </b-tr>
+        </template>
+      </b-table-lite>
+    </div>
     <div class="clearfix" />
     <b-modal
       id="voucher-container"
@@ -404,6 +446,55 @@ export default {
       });
       return fields;
     },
+    hsnFields: (self) => {
+      let fields = [
+        {
+          key: 'hsn.hsn_code',
+          label: 'HSN / SAC',
+        },
+        {
+          key: 'qty',
+          label: 'Qty',
+          class: 'gk-currency-sm',
+        },
+        {
+          key: 'taxable',
+          label: 'Taxable (₹)',
+          class: 'gk-currency-sm',
+        },
+      ];
+
+      if (self.flags.gst) {
+        if (self.flags.igst) {
+          fields.push(
+            {
+              key: 'igst',
+              label: 'IGST (₹)',
+              class: 'gk-currency-sm',
+            },
+          );
+        } else {
+          fields.push(
+            {
+              key: 'cgst',
+              label: 'CGST (₹)',
+              class: 'gk-currency-sm',
+            },
+            {
+              key: 'sgst',
+              label: 'SGST (₹)',
+              class: 'gk-currency-sm',
+            },
+          );
+        }
+      }
+      fields.push({
+        key: 'total_tax',
+        label: 'Total Tax Amount (₹)',
+        class: 'gk-currency-sm',
+      });
+      return fields;
+    },
   },
   watch: {
     id: function(id) {
@@ -474,20 +565,48 @@ export default {
         };
         if (details.drcrcontents) {
           for (const id in details.drcrcontents) {
-            let item = details.drcrcontents[id];
+            const item = details.drcrcontents[id];
+            const taxrate = (
+              parseFloat(item.taxrate) || 0
+            ).toFixed(2);
+            const igst = taxrate;
+            const cgst = (taxrate / 2).toFixed(2);
+            const sgst = (taxrate / 2).toFixed(2);
+            const taxable = parseFloat(item.reductionval * item.qty).toFixed(2);
+            const taxamount = (taxrate / 100 * taxable).toFixed(2);
+            const igst_amount = taxamount;
+            const cgst_amount = (taxamount / 2).toFixed(2);
+            const sgst_amount = (taxamount / 2).toFixed(2);
+            const total_tax = item.taxname === 'IGST' ? (
+              parseFloat(item.taxamount).toFixed(2)
+            ) : (
+              parseFloat(item.taxamount * 2).toFixed(2)
+            );
             this.dcNote.dcItems.push({
               id: id,
               name: details.immutable_data?.products[id].productdesc,
               rate: item.reductionval,
               qty: item.qty,
               dcValue: item.reductionval,
-              igst: item.taxrate,
-              cgst: item.taxrate / 2,
-              sgst: item.taxrate / 2,
-              cess: item.cessrate,
-              vat: item.taxrate,
               total: item.totalAmount,
               uom: item.uom,
+              price: item.priceperunit,
+              hsn: JSON.parse(details.immutable_data?.products[id].gscode) || 'N/A',
+              tax: {
+                name: item.taxname,
+                rate: item.taxrate,
+                amount: item.taxamount,
+              },
+              taxable,
+              igst,
+              igst_amount,
+              cgst,
+              cgst_amount,
+              sgst,
+              sgst_amount,
+              total_tax,
+              vat: taxrate,
+              cess: item.cessrate,
               gsflag: item.gsflag,
               goid: item.goid,
             });
