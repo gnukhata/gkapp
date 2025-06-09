@@ -127,32 +127,16 @@
         <div>
           <b v-translate>Payment Details</b>
           <div
-            v-if="invoice.payment.mode > 2"
             class="mb-3"
           >
-            <span
-              v-if="invoice.payment.mode === 3"
-              v-translate
-            >
-              Paid By Cash
-            </span>
-            <span
-              v-else
-              v-translate
-            > On Credit </span>
-          </div>
-          <div
-            class="text-small"
-            v-else
-          >
-            <translate> Paid By Bank Transfer </translate>
             <b-table-lite
               :items="bankDetails"
-              :fields="['title', 'value']"
+              :fields="['key', 'value']"
               small
               bordered
               fixed
               thead-class="d-none"
+              class="mt-1 text-small"
             />
           </div>
         </div>
@@ -315,13 +299,11 @@ export default {
       return details;
     },
     bankDetails: (self) => {
-      let details = self.invoice.payment.bankDetails;
-      return [
-        { title: self.$gettext('Account Number'), value: details.accountno || '' },
-        { title: self.$gettext('Bank'), value: details.bankname || '' },
-        { title: self.$gettext('Branch'), value: details.branch || '' },
-        { title: self.$gettext('IFSC'), value: details.ifsc || '' },
-      ];
+      console.log(self.invoice.payment);
+      return Object
+        .entries(self.invoice.payment?.bankDetails || {})
+        .filter(([key, value]) => value !== undefined && value !== null && value !== "")
+        .map(([key, value]) => ({ key, value }));
     },
     tableFields: (self) => {
       let fields = [
