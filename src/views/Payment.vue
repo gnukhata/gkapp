@@ -7,7 +7,7 @@
       <!-- Search Field -->
       <b-input-group size="sm">
         <b-form-input
-          class="col-2"
+          class="col-4"
           size="sm"
           v-model="search"
           placeholder="Search Table"
@@ -42,17 +42,17 @@
       </template>
     </b-table>
     <div
-        class="d-print-none d-flex align-items-center justify-content-end"
-      >
-        <b-pagination
-          v-if="filteredItems.length > perPage"
-          v-model="currentPage"
-          :total-rows="filteredItems.length"
-          :per-page="perPage"
-          align="center"
-          limit="4"
-        />
-      </div>
+      class="d-print-none d-flex align-items-center justify-content-end"
+    >
+      <b-pagination
+        v-if="filteredItems?.length > perPage"
+        v-model="currentPage"
+        :total-rows="filteredItems?.length"
+        :per-page="perPage"
+        align="center"
+        limit="4"
+      />
+    </div>
     <b-modal
       size="lg"
       v-model="showPaymentModal"
@@ -173,7 +173,13 @@ export default {
   },
   computed:{
     filteredItems() {
-      return this.transactions;
+      return this.transactions.filter(item => (
+        item.voucherNumber.toLowerCase().includes(this.search.toLowerCase())
+          || item.voucherDate.toLowerCase().includes(this.search.toLowerCase())
+          || item.fromAccount.toLowerCase().includes(this.search.toLowerCase())
+          || item.toAccount.toLowerCase().includes(this.search.toLowerCase())
+          || item.amount.toLowerCase().includes(this.search.toLowerCase())
+      ));
     },
     paginatedItems() {
       const start = (this.currentPage - 1) * this.perPage;
