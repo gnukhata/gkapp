@@ -169,6 +169,14 @@ export default {
     ...mapGetters('global', ['isIndia']),
   },
    watch: {
+    total() {
+      if (
+        !this.form.bank.transaction_details && this.total
+        - (parseFloat(this.cash) || 0) > 0
+      ) {
+        this.form.bank.transaction_details = this.bankDetails
+      }
+    },
     due() {
       this.form.isValid = true;
       if (this.due < 0.00 || (!this.customerName && this.due > 0.00)) {
@@ -183,7 +191,7 @@ export default {
       this.fetchAccounts();
       Object.assign(this.form, this.parentData);
       if (this.optionsData?.bankDetails) {
-        this.form.bank.transaction_details = Object
+        this.bankDetails = Object
           .entries(this.optionsData.bankDetails)
           .filter(([ key, value]) => value !== undefined && value !== null && value !== "")
           .map(([key, value]) => {
@@ -203,6 +211,7 @@ export default {
           transaction_details: '',
         },
       },
+      bankDetails: null,
       cash: null,
       accounts: [],
       bankAccounts: [],

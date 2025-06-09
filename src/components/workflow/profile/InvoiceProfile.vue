@@ -612,7 +612,6 @@ export default {
       return res;
     },
     bankDetails: (self) => {
-      console.log(self.invoice.payment);
       return Object
         .entries(self.invoice.payment?.bankDetails || {})
         .filter(([key, value]) => value !== undefined && value !== null && value !== "")
