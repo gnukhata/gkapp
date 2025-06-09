@@ -30,7 +30,7 @@
       small
       responsive="sm"
       :filter="search"
-      :fields="fields"
+      :fields="getFields()"
       :items="paginatedItems"
       :per-page="perPage"
       show-empty
@@ -95,32 +95,6 @@ export default {
       showPaymentModal: false,
       currentPage: 1,
       perPage: 15,
-      fields: [
-        {
-          key: "voucherNumber",
-          label: "Voucher No.",
-          sortable: true,
-          class: 'col-2',
-        },
-        {
-          key: "voucherDate",
-          label: "Date",
-          sortable: true,
-          class: 'col-2',
-        },
-        {
-          key: "account",
-          label: "Account",
-          class: 'col-5',
-          sortable: true,
-        },
-        {
-          key: "amount",
-          label: "Amount",
-          class: 'col-3',
-          sortable: true,
-        },
-      ],
     };
   },
   methods: {
@@ -137,7 +111,12 @@ export default {
               voucherId: item.vouchercode,
               voucherNumber: item.vouchernumber,
               voucherDate: item.voucherdate,
-              account: this.type === 'cr' ? (
+              fromAccount: this.type === 'cr' ? (
+                Object.keys(item.drs ?? {}).join(', ')
+              ) : (
+                Object.keys(item.crs ?? {}).join(', ')
+              ),
+              toAccount: this.type === 'cr' ? (
                 Object.keys(item.crs ?? {}).join(', ')
               ) : (
                 Object.keys(item.drs ?? {}).join(', ')
@@ -155,6 +134,41 @@ export default {
           });
         });
       this.isLoading = false;
+    },
+    getFields() {
+      const fields = [
+        {
+          key: "voucherNumber",
+          label: "Voucher No.",
+          sortable: true,
+          class: 'col-2',
+        },
+        {
+          key: "voucherDate",
+          label: "Date",
+          sortable: true,
+          class: 'col-2',
+        },
+        {
+          key: "fromAccount",
+          label: "From Account",
+          class: 'col-5',
+          sortable: true,
+        },
+        {
+          key: "toAccount",
+          label: "To Account",
+          class: 'col-5',
+          sortable: true,
+        },
+        {
+          key: "amount",
+          label: "Amount",
+          class: 'col-3',
+          sortable: true,
+        },
+      ];
+      return fields;
     },
   },
   computed:{
