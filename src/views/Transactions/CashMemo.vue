@@ -54,9 +54,9 @@
           :config="config.payment"
           :sale-flag="isSale"
           :parent-data="form.payment"
-          :options-data="{
-            payModes,
-          }"
+          :options-data="options.partyDetails"
+          :total-payable="amountPayable"
+          @details-updated="onComponentDataUpdate"
         />
       </b-card-group>
       <div
@@ -116,6 +116,7 @@
               :cgst-flag="isCgst"
               :is-vat="isVat"
               :update-counter="updateCounter.totalTable"
+              @details-updated="onComponentDataUpdate"
             />
           </b-col>
         </b-row>
@@ -137,7 +138,7 @@
       <div>
         <b-button
           id="inv-submit"
-          :disabled="!isInvDateValid"
+          :disabled="isDisabled"
           type="submit"
           size="sm"
           class="m-1"
@@ -205,12 +206,14 @@ export default {
   },
   data() {
     return {
+      isDisabled: true,
       showPrintModal: false,
       memoId: 0,
       goid: -1,
       delNote: { no: '', id: -1 },
       issuer: '',
       role: '',
+      amountPayable: null,
       isInvDateValid: false,
       vuexNameSpace: '',
       isLoading: false,
@@ -361,10 +364,20 @@ export default {
           this.$forceUpdate();
         }
         break;
-      case 'bill-table': {
+      case 'total-table':
+        this.amountPayable = parseFloat(
+          payload.data.roundFlag ? payload.data.rounded : payload.data.amount
+        );
+        this.updateCounter.payment++;
+        break;
+      case 'bill-table':
         Object.assign(this.form.bill, payload.data);
         this.updateCounter.totalTable++;
-      }
+        break;
+     case  'payment-details':
+        Object.assign(this.form.payment, payload.data);
+        this.isDisabled = !this.form.payment.isValid || !this.isInvDateValid;
+        break;
       }
     },
     setBankDetails() {
@@ -419,6 +432,9 @@ export default {
 
         discflag: 1, // discount flag, 1 - amount, 16 - percent
         icflag: 3, // 3 - cash memo, 9 - invoice
+
+        // === Payment/Receipt Vouchers ===
+        payment_vouchers: this.form.payment.vouchers,
       };
 
       // === Delivery Note ===
@@ -817,6 +833,9 @@ export default {
     },
   },
   watch: {
+    isInvDateValid() {
+      this.isDisabled = !this.isInvDateValid;
+    },
     defaultTaxMode(newMode) {
       this.form.taxType = newMode;
     },
