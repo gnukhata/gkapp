@@ -64,6 +64,7 @@
     >
       <voucher
         :type="type === 'cr' ? 'payment' : 'receipt'"
+        hideBackButton
         mode="create"
       />
     </b-modal>
