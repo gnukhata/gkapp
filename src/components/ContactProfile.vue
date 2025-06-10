@@ -9,7 +9,7 @@
       <div class="float-right">
         <b-dropdown
           split
-          :split-to="`/ledger/${customer.custid}`"
+          :split-to="`/ledger?ac=${accountDetails.accountcode}`"
           size="sm"
           class="mt-4 mr-4"
           variant="dark"
@@ -606,14 +606,11 @@ export default {
           gktoken: this.authToken,
         },
       };
-      axios.get(`/account-details?accountname=${this.customer.custname}`)
-        .then(response => {
-          this.accountDetails = response.data.gkresult;
+      this.$axios.get(`/account-details?accountname=${this.customer.custname}`)
+        .then((response) => {
+          this.accountDetails = response;
           this.openingBalance = this.accountDetails.openingbal;
         })
-        .catch(error => {
-          this.error = 'Failed to load data: ' + error.message;
-        });
       axios
         .get(`/customer/${this.customer.custid}`, config)
         .then((res) => {
