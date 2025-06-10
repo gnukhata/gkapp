@@ -191,6 +191,9 @@ export default {
     type() {
       this.getTransactions();
     },
+    showPaymentModal() {
+      this.getTransactions();
+    },
   },
   mounted() {
     this.getTransactions();
