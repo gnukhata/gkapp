@@ -37,8 +37,8 @@ export default class Organisation {
   }
 
   async delete() {
-    await this.page.goto(`${this.baseURL}/#/orgprofile`);
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.getByRole('button', { name: 'gear Administration chevron' }).click();
+    await this.page.getByRole('link', { name: 'building Organisation Profile' }).click();
     await this.page.getByRole('button', { name: 'Delete Organisation' }).click();
     await this.page.getByRole('button', { name: 'OK' }).click();
   }
