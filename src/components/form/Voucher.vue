@@ -11,16 +11,17 @@
           <b> {{ form.vtype.text }} Voucher </b>
         </template>
         <b-dropdown-item
-          v-for="(type, index) in options.vtype"
+          v-for="(voucherType, index) in options.vtype"
           :key="index"
           @click.prevent="
             () => {
-              form.vtype = type;
+              form.vtype = voucherType;
+              _resetForm(true);
               preloadData();
             }
           "
         >
-          {{ type.text }}
+          {{ voucherType.text }}
         </b-dropdown-item>
       </b-dropdown>
       <slot name="close-button" />
@@ -387,6 +388,23 @@ export default {
   components: { GkDate },
   mixins: [voucherMixin],
   props: {
+    type: {
+      type: String,
+      required: false,
+      default: 'receipt',
+      validator: function (value) {
+        return (
+          [
+            "receipt",
+            "payment",
+            "purchase",
+            "sales",
+            "journal",
+            "contra",
+          ].indexOf(value) !== -1
+        );
+      },
+    },
     customer: {
       type: String,
       required: false,
@@ -429,6 +447,12 @@ export default {
     isCreateMode: (self) => self.mode === 'create',
   },
   watch: {
+    type(newType) {
+      this._resetForm();
+      this.form.vtype = this.options.vtype.find(
+        (vtype) => vtype.value === newType
+      );
+    },
     customer(name) {
       if (name) this.customerName = name;
     },

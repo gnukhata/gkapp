@@ -4,6 +4,7 @@ import OrgProfile from "@/views/OrgProfile.vue";
 import Logs from "@/views/Logs.vue";
 import CloseBooks from "@/views/CloseBooks.vue";
 import UserManagement from "@/views/UserManagement.vue";
+import Payment from "@/views/Payment.vue";
 import UOM from "@/views/UOM.vue";
 
 Vue.use(VueRouter);
@@ -225,6 +226,19 @@ const routes = [
     props: route => ({
       ...route.params,
       wfType: route.query.type,
+    }),
+  },
+  {
+    meta: {
+      title: "Payment",
+      requiresOrgAuth: true,
+    },
+    path: "/payment",
+    name: "Payment",
+    component: Payment,
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
     }),
   },
   {
