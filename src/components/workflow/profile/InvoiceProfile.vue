@@ -300,10 +300,12 @@
         />
       </b-card>
     </b-card-group>
-    <div class="hsn-details mt-4">
+    <div
+      class="hsn-details mt-4"
+      v-if="isGstEnabled"
+    >
       <h6>HSN / SAC Summary</h6>
       <b-table-lite
-        v-if="isGstEnabled"
         :items="invoice.invItems"
         :fields="hsnFields"
         bordered
