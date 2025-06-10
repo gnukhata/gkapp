@@ -341,9 +341,9 @@ export default {
         let endYear = startDate.getFullYear() + 1;
         let endDate = '';
         if (endYear % 4 === 0) {
-          endDate = new Date(startDate.getTime() + ONE_DAY * 366);
-        } else {
           endDate = new Date(startDate.getTime() + ONE_DAY * 365);
+        } else {
+          endDate = new Date(startDate.getTime() + ONE_DAY * 364);
         }
         this.yearEnd = endDate.toISOString().substr(0, 10);
       } else {
