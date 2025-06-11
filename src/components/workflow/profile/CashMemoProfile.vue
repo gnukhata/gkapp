@@ -159,10 +159,12 @@
         <b v-translate> Narration: </b> {{ invoice.narration }}
       </b-col>
     </b-row>
-    <div class="hsn-details mt-4">
+    <div
+      v-if="isGstEnabled"
+      class="hsn-details mt-4"
+    >
       <h6>HSN / SAC Summary</h6>
       <b-table-lite
-        v-if="isGstEnabled"
         :items="invoice.invItems"
         :fields="hsnFields"
         bordered
