@@ -18,6 +18,18 @@
         />
         Search Menu
       </div>
+      <div
+        class="my-1 mx-2 d-flex justify-content-between clickable-tile"
+        @click.prevent="$router.push('/dashboard')"
+      >
+        <div>
+          <b-icon
+            class="mr-1"
+            icon="house"
+          />
+          <translate>Home</translate>
+        </div>
+      </div>
       <template v-if="userRole == -1">
         <!-- Sales -->
         <div
@@ -641,6 +653,12 @@ export default {
   text-decoration: none;
 }
 .nav-link:hover {
+  color: #000000;
+}
+.clickable-tile {
+  cursor: pointer;
+}
+.clickable-tile:hover {
   color: #000000;
 }
 </style>
