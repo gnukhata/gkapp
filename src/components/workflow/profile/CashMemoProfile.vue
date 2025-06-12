@@ -303,6 +303,7 @@ export default {
     bankDetails: (self) => {
       return Object
         .entries(self.invoice.payment?.bankDetails || {})
+        // eslint-disable-next-line no-unused-vars
         .filter(([key, value]) => value !== undefined && value !== null && value !== "")
         .map(([key, value]) => ({ key: self.bankDetailsMapping[key] || key, value }));
     },

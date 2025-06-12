@@ -193,6 +193,7 @@ export default {
       if (this.optionsData?.bankDetails) {
         this.bankDetails = Object
           .entries(this.optionsData.bankDetails)
+          // eslint-disable-next-line no-unused-vars
           .filter(([ key, value]) => value !== undefined && value !== null && value !== "")
           .map(([key, value]) => {
             const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
