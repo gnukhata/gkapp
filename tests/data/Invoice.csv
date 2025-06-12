@@ -1,0 +1,200 @@
+invoiceType,contactName,items,paymentMode,bankDetails
+sale,Contact104,"['TestProduct', 'TestProduct2']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact200,"['Prod82','Prod108']",Cash,
+sale,Contact87,"['Prod30','Prod177']",Cash,
+sale,Contact6,"['Prod132','Prod68']",Cash,
+sale,Contact121,"['Prod112','Prod150']",Cash,
+sale,Contact93,"['Prod193','Prod7']",Cash,
+sale,Contact95,"['Prod68','Prod191']",Cash,
+sale,Contact101,"['Prod50','Prod170']",Cash,
+sale,Contact17,"['Prod41','Prod200']",Cash,
+sale,Contact87,"['Prod12','Prod105']",Cash,
+sale,Contact66,"['Prod168','Prod46']",Cash,
+sale,Contact160,"['Prod38','Prod96']",Cash,
+sale,Contact41,"['Prod62','Prod67']",Cash,
+sale,Contact111,"['Prod92','Prod187']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact15,"['Prod17','Prod160']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact30,"['Prod126','Prod2']",On Credit,
+sale,Contact130,"['Prod190','Prod86','Prod34','Prod52','Prod111','Prod149','Prod178','Prod79','Prod184']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact16,"['Prod112','Prod189','Prod196','Prod125','Prod93','Prod177','Prod146','Prod137','Prod53']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact98,"['Prod14','Prod63','Prod12','Prod40','Prod76','Prod165','Prod52','Prod144','Prod11']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact81,"['Prod175','Prod115','Prod63','Prod109','Prod186','Prod66','Prod169','Prod131','Prod92']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact128,"['Prod174','Prod159','Prod113','Prod95','Prod39','Prod116','Prod59','Prod138','Prod21']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact38,"['Prod83','Prod20','Prod7','Prod11','Prod113','Prod106','Prod131','Prod140','Prod136']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact37,"['Prod143','Prod117','Prod181','Prod4','Prod145','Prod137','Prod115','Prod25','Prod23']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact5,"['Prod193','Prod25','Prod88','Prod182','Prod193','Prod150','Prod114','Prod127','Prod182']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact34,"['Prod160','Prod59','Prod186','Prod32','Prod105','Prod77','Prod165','Prod120','Prod172']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact26,"['Prod124','Prod172','Prod171','Prod56','Prod173','Prod25','Prod106','Prod31','Prod115']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact148,"['Prod150','Prod45','Prod149','Prod169','Prod47','Prod120','Prod132','Prod193','Prod57']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact134,"['Prod83','Prod112','Prod56','Prod45','Prod186','Prod91','Prod27','Prod186','Prod94']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact100,"['Prod56','Prod74','Prod117','Prod63','Prod40','Prod100','Prod8','Prod44','Prod137']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact183,"['Prod60','Prod19','Prod88','Prod146','Prod135','Prod108','Prod68','Prod7','Prod60']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact46,"['Prod79','Prod156','Prod151','Prod190','Prod152','Prod65','Prod68','Prod126','Prod100']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact128,"['Prod155','Prod26','Prod149','Prod145','Prod12','Prod152','Prod105','Prod116','Prod44']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact118,"['Prod113','Prod111','Prod173','Prod198','Prod15','Prod53','Prod7','Prod180','Prod113']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact183,"['Prod108','Prod184','Prod142','Prod3','Prod22','Prod26','Prod118','Prod30','Prod135']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact38,"['Prod174','Prod196','Prod54','Prod106','Prod20','Prod72','Prod55','Prod84','Prod179']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact77,"['Prod24','Prod145','Prod104','Prod157','Prod48','Prod177','Prod137','Prod11','Prod45']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact65,"['Prod39','Prod94','Prod166','Prod77','Prod137','Prod190','Prod198','Prod122','Prod78']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact149,"['Prod100','Prod72','Prod61','Prod109','Prod74','Prod19','Prod172','Prod66','Prod93']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact121,"['Prod188','Prod45','Prod164','Prod195','Prod120','Prod152','Prod44','Prod189','Prod85']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact44,"['Prod142','Prod159','Prod65','Prod137','Prod169','Prod20','Prod90','Prod92','Prod195']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact90,"['Prod181','Prod171','Prod100','Prod158','Prod189','Prod40','Prod78','Prod109','Prod78']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact4,"['Prod2','Prod52','Prod72','Prod170','Prod102','Prod83','Prod79','Prod68','Prod194']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact41,"['Prod127','Prod176','Prod73','Prod127','Prod182','Prod113','Prod128','Prod168','Prod153']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact59,"['Prod32','Prod150','Prod115','Prod111','Prod47','Prod192','Prod200','Prod171','Prod46']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact107,"['Prod16','Prod74','Prod93','Prod160','Prod92','Prod165','Prod66','Prod14','Prod110']",Cash,
+sale,Contact53,"['Prod143','Prod163','Prod153']",Cash,
+sale,Contact83,"['Prod76','Prod14','Prod65']",Cash,
+sale,Contact165,"['Prod93','Prod72','Prod154']",Cash,
+sale,Contact169,"['Prod18','Prod105','Prod42']",Cash,
+sale,Contact77,"['Prod12','Prod186','Prod28']",Cash,
+sale,Contact192,"['Prod156','Prod135','Prod142']",Cash,
+sale,Contact35,"['Prod92','Prod27','Prod198']",Cash,
+sale,Contact191,"['Prod14','Prod121','Prod156']",Cash,
+sale,Contact58,"['Prod115','Prod194','Prod199']",Cash,
+sale,Contact47,"['Prod193','Prod177','Prod67']",Cash,
+sale,Contact102,"['Prod114','Prod46']",Cash,
+sale,Contact17,"['Prod77','Prod8']",Cash,
+sale,Contact4,"['Prod118','Prod173']",Cash,
+sale,Contact197,"['Prod105','Prod52']",Cash,
+sale,Contact160,"['Prod68','Prod77']",Cash,
+sale,Contact92,"['Prod50','Prod123']",Cash,
+sale,Contact180,"['Prod2','Prod17']",Cash,
+sale,Contact130,"['Prod112','Prod24']",Cash,
+sale,Contact148,"['Prod90','Prod53']",Cash,
+sale,Contact112,"['Prod163','Prod151']",Cash,
+sale,Contact36,"['Prod149','Prod32']",Cash,
+sale,Contact33,"['Prod75','Prod97']",On Credit,
+sale,Contact143,"['Prod67','Prod182']",On Credit,
+sale,Contact32,"['Prod77','Prod10']",On Credit,
+sale,Contact45,"['Prod58','Prod56']",On Credit,
+sale,Contact27,"['Prod188','Prod79']",On Credit,
+sale,Contact6,"['Prod103','Prod16']",On Credit,
+sale,Contact175,"['Prod6','Prod24']",On Credit,
+sale,Contact145,['Prod118'],On Credit,
+sale,Contact44,['Prod173'],On Credit,
+sale,Contact171,['Prod110'],On Credit,
+sale,Contact153,['Prod115'],On Credit,
+sale,Contact34,['Prod152'],On Credit,
+sale,Contact50,['Prod74'],On Credit,
+sale,Contact151,['Prod53'],On Credit,
+sale,Contact176,['Prod160'],On Credit,
+sale,Contact70,['Prod167'],On Credit,
+sale,Contact82,['Prod35'],On Credit,
+sale,Contact154,['Prod144'],On Credit,
+sale,Contact122,['Prod200'],On Credit,
+sale,Contact173,['Prod68'],On Credit,
+sale,Contact138,['Prod192'],On Credit,
+sale,Contact150,['Prod90'],On Credit,
+sale,Contact200,['Prod195'],On Credit,
+sale,Contact52,['Prod33'],On Credit,
+sale,Contact97,['Prod54'],On Credit,
+sale,Contact179,['Prod39'],On Credit,
+sale,Contact147,['Prod21'],Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact195,['Prod19'],Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact135,['Prod29'],Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact110,"['Prod167','Prod48']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact187,"['Prod185','Prod37']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact57,"['Prod75','Prod190']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact21,"['Prod126','Prod3']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact27,"['Prod18','Prod96']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact26,"['Prod194','Prod189']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact64,"['Prod112','Prod94']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact100,"['Prod3','Prod26']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact55,"['Prod182','Prod190']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact196,"['Prod136','Prod109']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact198,"['Prod18','Prod198']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact136,"['Prod106','Prod103']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact185,"['Prod38','Prod61']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact39,"['Prod19','Prod60','Prod115','Prod27','Prod48']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact193,"['Prod57','Prod51','Prod40','Prod24','Prod159']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact116,"['Prod194','Prod53','Prod78','Prod154','Prod170']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact175,"['Prod148','Prod190','Prod178','Prod22','Prod189']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact138,"['Prod41','Prod181','Prod144','Prod38','Prod180']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact193,"['Prod73','Prod84','Prod186','Prod153','Prod194']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact139,"['Prod17','Prod134','Prod70','Prod196','Prod70']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact92,"['Prod49','Prod82','Prod77','Prod48','Prod111']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact119,"['Prod21','Prod86','Prod160','Prod71','Prod107']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact35,"['Prod25','Prod17','Prod101','Prod9','Prod22']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact119,"['Prod90','Prod84','Prod27','Prod166','Prod139']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact44,"['Prod6','Prod15','Prod43','Prod132','Prod164']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact56,"['Prod67','Prod151','Prod76','Prod185','Prod78']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact58,"['Prod18','Prod167','Prod161','Prod129','Prod160']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact15,"['Prod104','Prod87','Prod70','Prod181','Prod175']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact133,"['Prod132','Prod94','Prod148','Prod155','Prod173']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact46,"['Prod154','Prod123','Prod99','Prod82','Prod125']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact151,"['Prod193','Prod54','Prod129','Prod54','Prod151']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact135,"['Prod147','Prod66','Prod153','Prod149','Prod143']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact27,"['Prod174','Prod163','Prod5','Prod155','Prod145']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact118,"['Prod7','Prod61','Prod39','Prod45','Prod148']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact24,"['Prod170','Prod67','Prod70','Prod25','Prod10']",Cash,
+sale,Contact59,"['Prod47','Prod16','Prod46','Prod193','Prod32']",Cash,
+sale,Contact41,"['Prod19','Prod147','Prod34','Prod91','Prod21']",Cash,
+sale,Contact48,"['Prod114','Prod122','Prod61','Prod150','Prod50']",Cash,
+sale,Contact163,"['Prod165','Prod121','Prod77','Prod55','Prod107']",Cash,
+sale,Contact192,"['Prod171','Prod125','Prod68','Prod17','Prod43']",Cash,
+sale,Contact125,"['Prod121','Prod36','Prod71','Prod116','Prod11']",Cash,
+sale,Contact51,"['Prod39','Prod74','Prod84','Prod131','Prod168']",Cash,
+sale,Contact68,"['Prod144','Prod12','Prod135','Prod128','Prod111']",Cash,
+sale,Contact117,"['Prod21','Prod7','Prod70','Prod116','Prod100']",Cash,
+sale,Contact75,"['Prod186','Prod190','Prod196','Prod62','Prod91']",Cash,
+sale,Contact41,"['Prod135','Prod14','Prod65','Prod26','Prod29']",Cash,
+sale,Contact152,"['Prod165','Prod170','Prod199','Prod96','Prod138']",Cash,
+sale,Contact161,"['Prod174','Prod23','Prod149','Prod189','Prod121']",Cash,
+sale,Contact163,"['Prod17','Prod20']",Cash,
+sale,Contact75,"['Prod103','Prod100']",Cash,
+sale,Contact66,"['Prod22','Prod119']",Cash,
+sale,Contact169,"['Prod57','Prod200']",Cash,
+sale,Contact57,"['Prod13','Prod24']",Cash,
+sale,Contact32,"['Prod65','Prod95']",Cash,
+sale,Contact26,"['Prod125','Prod33']",Cash,
+sale,Contact128,"['Prod152','Prod167']",Cash,
+sale,Contact33,"['Prod33','Prod141']",Cash,
+sale,Contact41,"['Prod186','Prod106']",Cash,
+sale,Contact88,"['Prod70','Prod25']",Cash,
+sale,Contact3,"['Prod131','Prod141']",Cash,
+sale,Contact14,"['Prod42','Prod37']",Cash,
+sale,Contact156,"['Prod51','Prod28']",Cash,
+sale,Contact113,"['Prod101','Prod20']",Cash,
+sale,Contact44,"['Prod177','Prod44']",On Credit,
+sale,Contact7,"['Prod73','Prod20']",On Credit,
+sale,Contact10,"['Prod124','Prod177']",On Credit,
+sale,Contact56,"['Prod73','Prod111']",On Credit,
+sale,Contact165,"['Prod34','Prod186','Prod111','Prod186','Prod75']",On Credit,
+sale,Contact164,"['Prod64','Prod177','Prod186','Prod175','Prod168']",On Credit,
+sale,Contact105,"['Prod167','Prod114','Prod71','Prod178','Prod151']",On Credit,
+sale,Contact194,"['Prod43','Prod68','Prod179','Prod109','Prod9']",On Credit,
+sale,Contact57,"['Prod7','Prod148','Prod150','Prod200','Prod89']",On Credit,
+sale,Contact5,"['Prod166','Prod162','Prod24','Prod181','Prod67']",On Credit,
+sale,Contact165,"['Prod143','Prod57','Prod185','Prod114','Prod104']",On Credit,
+sale,Contact4,"['Prod115','Prod135','Prod167','Prod91','Prod125']",On Credit,
+sale,Contact28,"['Prod110','Prod167','Prod131','Prod157','Prod81']",On Credit,
+sale,Contact84,"['Prod169','Prod118','Prod122','Prod143','Prod197']",On Credit,
+sale,Contact109,"['Prod188','Prod58','Prod27','Prod59','Prod93']",On Credit,
+sale,Contact47,"['Prod31','Prod159','Prod101','Prod181','Prod23']",On Credit,
+sale,Contact58,"['Prod30','Prod174','Prod68','Prod139','Prod60']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact123,"['Prod190','Prod184','Prod131','Prod51','Prod196']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact89,"['Prod24','Prod131','Prod43','Prod84','Prod167']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact117,"['Prod100','Prod117','Prod10','Prod81','Prod161']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact169,"['Prod17','Prod190','Prod153','Prod8','Prod126']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact129,"['Prod153','Prod183','Prod50','Prod200','Prod103']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact94,"['Prod135','Prod102','Prod2','Prod107','Prod150']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact10,"['Prod71','Prod48','Prod99','Prod50','Prod167']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact33,"['Prod147','Prod48','Prod110','Prod45','Prod160']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact89,"['Prod181','Prod27','Prod161','Prod147','Prod130']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact82,"['Prod31','Prod198','Prod65','Prod8','Prod183']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact119,"['Prod75','Prod77']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact143,"['Prod57','Prod128']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact171,"['Prod26','Prod77']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact41,"['Prod28','Prod61']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact63,"['Prod36','Prod45']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact181,"['Prod184','Prod184']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact120,"['Prod24','Prod153']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact84,"['Prod123','Prod103']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact7,"['Prod41','Prod27']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact37,"['Prod57','Prod100','Prod70','Prod159','Prod113','Prod147','Prod50','Prod59','Prod122']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact173,"['Prod36','Prod114']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact142,"['Prod186','Prod15']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact88,"['Prod130','Prod157']",Bank,"{ifsc: 'SBIN012345',accountNumber: '1234567890',bank: 'SBI',branch: 'Bangalore',}"
+sale,Contact184,"['Prod13','Prod33']",Cash,
