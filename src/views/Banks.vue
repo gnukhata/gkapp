@@ -164,6 +164,17 @@
                 {{ selectedItem.ifsc }}
               </dd>
             </dl>
+            <dl
+              class="row"
+              v-if="selectedItem?.opening_balance"
+            >
+              <dt class="col-sm-3">
+                Opening Balance
+              </dt>
+              <dd class="col-sm-9">
+                {{ selectedItem.opening_balance }}
+              </dd>
+            </dl>
           </template>
           <template v-else-if="viewMode === 'edit'">
             <b-form @submit.prevent="saveEdit">
@@ -229,6 +240,18 @@
                   v-model="form.account_number"
                   trim
                   required
+                />
+              </b-form-group>
+              <b-form-group
+                label-cols-md="4"
+                label="Opening Balance"
+              >
+                <b-form-input
+                  v-model="form.opening_balance"
+                  type="number"
+                  step="0.01"
+                  placeholder="0.00"
+                  size="sm"
                 />
               </b-form-group>
               <b-button-group size="sm">
@@ -315,6 +338,18 @@
                   v-model="form.account_number"
                   trim
                   required
+                />
+              </b-form-group>
+              <b-form-group
+                label-cols-md="4"
+                label="Opening Balance"
+              >
+                <b-form-input
+                  v-model="form.opening_balance"
+                  type="number"
+                  step="0.01"
+                  placeholder="0.00"
+                  size="sm"
                 />
               </b-form-group>
               <b-button-group size="sm">
