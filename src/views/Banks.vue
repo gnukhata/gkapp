@@ -410,13 +410,6 @@ import { mapGetters, mapState } from 'vuex';
        this.$axios
            .post(`/bank`, this.form)
            .then(() => {
-             this.$bvToast.toast(
-               `Bank ${this.form.account_name} Created Successfully`,
-               {
-                 variant: 'success',
-                 solid: true,
-               }
-             );
              this.isLoading = false;
              // Create log
              this.$axios.post(
@@ -455,13 +448,6 @@ import { mapGetters, mapState } from 'vuex';
        this.$axios
            .put("/bank", this.form)
            .then(() => {
-             this.$bvToast.toast(
-               `${this.form.account_name} updated successfully`,
-               {
-                 variant: 'success',
-                 solid: true,
-               }
-             );
              this.clearForm();
              this.getItems().then( () => {
                this.selectedItem = this.items.find(item => item.id === this.selectedItem.id);
@@ -507,11 +493,6 @@ import { mapGetters, mapState } from 'vuex';
                {
                  activity: `bank deleted: ${this.selectedItem.account_name}`,
                },
-             );
-             this.gk_toast(
-               'Success',
-               `${this.selectedItem.account_name} deleted`,
-               'success'
              );
              this.getItems().then( () => {
                this.selectedItem = this.items[0] || null;
