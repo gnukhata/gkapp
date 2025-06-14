@@ -202,7 +202,7 @@
                 size="sm"
                 variant="link"
                 class="p-0"
-                :to="{path: `/ledger/?ac=${data.item.id}`}"
+                :to="{path: `/ledger/${data.item.id}`}"
                 v-else-if="data.item.type === 'account'"
               >
                 {{ data.item.name }}

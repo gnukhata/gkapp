@@ -73,7 +73,7 @@
               size="sm"
               variant="link"
               class="p-0"
-              :to="{path: `/ledger/?ac=${data_sub.item.id}`}"
+              :to="{path: `/ledger/${data_sub.item.id}`}"
               v-if="data_sub.item.isAccount"
             >
               {{ data_sub.value }}
