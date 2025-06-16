@@ -458,7 +458,7 @@ export default {
       if (this.showMonthlyLedger) {
         this.$router.push(`/ledger/monthly/${this.accountCode}`);
       } else {
-        this.$router.push(`/ledger/${this.accountCode}&${this.projectCode || null}&${this.fromDate}&${this.toDate}&${this.transactionType || null}`);
+        this.$router.push(`/ledger/${this.accountCode}?pc=${this.projectCode || null}&fd=${this.fromDate}&td=${this.toDate}&tt=${this.transactionType || null}`);
       }
     },
     getLedger() {
@@ -513,14 +513,15 @@ export default {
     this.getAccounts()
       .then(
         () => {
-          const params = this.$route.query;
-          if (params.pc !== 'null') {
-            this.projectCode = params.pc || '';
-          }
+          const params = this.$route.params;
           this.accountCode = params?.ac ? Number(params?.ac) : null;
-          this.fromDate = params.fd || this.yearStart;
-          this.toDate = params.td || this.yearEnd;
-          this.transactionType = params.tt || "all";
+          const query = this.$route.query;
+          if (query.pc !== 'null') {
+            this.projectCode = query.pc || '';
+          }
+          this.fromDate = query.fd || this.yearStart;
+          this.toDate = query.td || this.yearEnd;
+          this.transactionType = query.tt || "all";
           if (this.accountCode) {
             this.isLoaded = true;
             this.getLedger();

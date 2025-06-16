@@ -118,7 +118,7 @@
             <div>
               <router-link
                 v-if="!deletedFlag"
-                :to="`/ledger/?ac=${custid}`"
+                :to="`/ledger/${custid}`"
               >
                 {{ invoice.party.name }}
               </router-link>

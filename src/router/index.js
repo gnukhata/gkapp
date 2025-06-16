@@ -563,17 +563,6 @@ const routes = [
       ),
   },
   {
-    // ac=accountcode, pc=productcode, fs=financialstart, fd=fromdate, td=todate,
-    meta: {
-      title: "Ledger Single",
-      requiresOrgAuth: true,
-    },
-    path: "/ledger/:ac&:pc&:fd&:td&:tt",
-    name: "Ledger Full",
-    component: () =>
-      import(/* webpackChunkName: "ledger-full" */ "../views/Ledger.vue"),
-  },
-  {
     // ac=accountcode
     meta: {
       title: "Ledger Single",

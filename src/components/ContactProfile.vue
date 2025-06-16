@@ -9,7 +9,7 @@
       <div class="float-right">
         <b-dropdown
           split
-          :split-to="`/ledger?ac=${accountDetails.accountcode}`"
+          :split-to="`/ledger/${accountDetails.accountcode}`"
           size="sm"
           class="mt-4 mr-4"
           variant="dark"
