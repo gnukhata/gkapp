@@ -226,6 +226,7 @@
                 <gk-ifsc
                   size="sm"
                   v-model="form.ifsc"
+                  :ifsc-code="form.ifsc"
                   @fill="ifscFill"
                 />
               </b-form-group>
@@ -534,10 +535,9 @@ import { mapGetters, mapState } from 'vuex';
              })
            });
      },
-    ifscFill(data) {
-      console.log(this.form)
-      this.form = {...this.form, ...{bank_name: data.BANK, branch_name: data.BRANCH}}
-    },
+     ifscFill(data) {
+       this.form = {...this.form, ...{bank_name: data.BANK, branch_name: data.BRANCH}}
+     },
    },
    mounted() {
      this.getItems().then( () => {
