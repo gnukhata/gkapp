@@ -68,7 +68,7 @@
           Debit/Credit Note
         </b-dropdown-item>
         <b-dropdown-item to="/cash-memo">
-          Cash Memo
+          Point of Sales
         </b-dropdown-item>
         <b-dropdown-item to="/ps-order">
           Purchase/Sales Order
