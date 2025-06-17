@@ -103,7 +103,7 @@
             to="/payment?type=dr"
           >
             <b-icon icon="receipt" />
-            <translate>Paymens Received</translate>
+            <translate>Payments Received</translate>
           </b-nav-item>
         </b-collapse>
       </template>
