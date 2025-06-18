@@ -103,7 +103,7 @@
                       class="ml-2 py-0 px-1"
                       variant="success"
                       size="sm"
-                      @click.prevent="onCreateAccount(1,2)"
+                      @click.prevent="createAccount"
                     >
                       +
                     </b-button>
@@ -387,6 +387,30 @@
         <div class="clearfix" />
       </b-form>
     </div>
+    <b-modal
+      centered
+      static
+      body-class="p-0"
+      id="account-create"
+      hide-footer
+      hide-header
+    >
+      <account
+        v-if="Object.values(groupsSubgroups).length"
+        @account-created="onModalSubmit('account-create')"
+        :groups-subgroups="groupsSubgroups"
+      >
+        <template #close-button>
+          <b-button
+            size="sm"
+            class="float-right py-0"
+            @click="hideModal('account-create')"
+          >
+            x
+          </b-button>
+        </template>
+      </account>
+    </b-modal>
   </div>
 </template>
 
@@ -395,10 +419,11 @@ import axios from 'axios';
 import { numberToRupees } from '../../js/utils';
 import GkDate from '../GkDate.vue';
 import voucherMixin from '@/mixins/voucher.js';
+import Account from '../form/Account.vue';
 
 export default {
   name: 'Voucher',
-  components: { GkDate },
+  components: { GkDate, Account },
   mixins: [voucherMixin],
   props: {
     type: {
@@ -454,7 +479,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      groupsSubgroups: {},
+    };
   },
   computed: {
     isCreateMode: (self) => self.mode === 'create',
@@ -481,6 +508,29 @@ export default {
     },
   },
   methods: {
+    /**
+     * hideModal
+     *
+     * Actions: Hides modal form.
+     */
+    hideModal(modalId) {
+      this.$bvModal.hide(modalId);
+    },
+    /**
+     * onModalSubmit
+     *
+     * Actions: Hides modal form and updates the list.
+     */
+    onModalSubmit(modalId) {
+      this.hideModal(modalId);
+      this.preloadData(true);
+      this.form.dr.forEach((_, index) => {
+        this.form.dr[index].amount = null;
+      });
+      this.form.cr.forEach((_, index) => {
+        this.form.cr[index].amount = null;
+      });
+    },
     updateCreditInvoiceBalance() {
       axios.get(`/billwise?type=all`).then((resp) => {
         this.options.creditInv.sale = []
@@ -499,18 +549,10 @@ export default {
         });
       });
     },
-    onCreateAccount(gid, sgid) {
-      this.updateUrl();
-      this.$router.push({
-        name: 'Create_Account',
-        params: { group: gid, subGroup: sgid },
+    createAccount() {
+      this.prepareGroupsSubgroups().then(() => {
+        this.$bvModal.show("account-create");
       });
-    },
-    updateUrl() {
-      let url = window.location.href.split('#')[0];
-      url+="#/voucher/create/receipt/-1";
-      history.replaceState(null, '', url); // replace state method allows us to update the last history instance inplace,
-      // instead of creating a new history instances for every entity selected
     },
     confirmOnDelete() {
       const self = this;
@@ -684,6 +726,36 @@ export default {
           self.isLoading = false;
           self.displayToast(failTitle, error.message, 'danger');
         });
+    },
+    /**
+     * prepareGroupsSubgroups
+     *
+     * Actions: Groupwise organize subgroups and update groupsSubgroups.
+     */
+    prepareGroupsSubgroups() { // To convert list to key value object
+      let groupsSubgroupsArray = [];
+      let groupSubgroupsObj = {};
+      return this.$axios
+          .get('/groups-subgroups')
+          .then((resp) => {
+            groupsSubgroupsArray = resp;
+            groupsSubgroupsArray.forEach((group) => {
+              let parentGroup = group?.subgroupof;
+              if (parentGroup) {
+                if (!groupSubgroupsObj?.[parentGroup]) {
+                  groupSubgroupsObj = Object.assign(
+                    {}, groupSubgroupsObj, {[parentGroup]: {"childGroups": {}}}
+                  );
+                }
+                groupSubgroupsObj[parentGroup]["childGroups"][group.groupcode] = group;
+              } else {
+                groupSubgroupsObj[group.groupcode] = {...group, "childGroups": {}};
+              }
+            });
+            this.groupsSubgroups = Object.assign(
+              {}, this.groupsSubgroups, groupSubgroupsObj
+            );
+          });
     },
     initPayload() {
       let payload = this._initPayload();
