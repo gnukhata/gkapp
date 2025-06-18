@@ -430,6 +430,7 @@ export default {
       this.updateRoute();
     },
     getTrialBalance() {
+      this.currentPage = 1;
       this.isLoading = true;
       let url = '';
       if (this.trialBalanceType == 'Net') {

@@ -477,6 +477,7 @@ export default {
       this.$router.replace({});
       this.report = [];
       this.selected = {};
+      this.currentPage = 1;
     },
     getGodownName(id) {
       return this.godowns.filter((go) => {
@@ -513,6 +514,7 @@ export default {
       this.updateRoute();
     },
     getStockReport() {
+      this.currentPage = 1;
       this.loading = true;
       let url = '';
       if (this.godownId) {

@@ -353,6 +353,7 @@ export default {
       this.result = [];
       this.isLoaded = false;
       this.$router.push(`/ledger/`);
+      this.currentPage = 1;
     },
     loadTable() {
       this.isLoaded = true;
@@ -462,6 +463,7 @@ export default {
       }
     },
     getLedger() {
+      this.currentPage = 1;
       let url = null;
       if (this.showMonthlyLedger) {
         this.fromDate = this.yearStart;
