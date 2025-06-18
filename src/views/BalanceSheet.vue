@@ -135,6 +135,7 @@
         md="6"
       >
         <b-table
+          id="capital-and-liabilities-table"
           small
           outlined
           :items="bsheet.left"
@@ -240,6 +241,7 @@
         md="6"
       >
         <b-table
+          id="property-and-assets-table"
           :items="bsheet.right"
           :fields="tableFields"
           small

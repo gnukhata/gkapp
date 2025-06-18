@@ -277,6 +277,7 @@
         class="pr-0"
       >
         <b-table
+          id="trading-left"
           borderless
           small
           :items="totals.trading_left"
@@ -306,6 +307,7 @@
         class="pl-0"
       >
         <b-table
+          id="trading-right"
           borderless
           small
           :items="totals.trading_right"
@@ -370,6 +372,7 @@
         class="pr-0"
       >
         <b-table
+          id="pnl-left"
           borderless
           small
           :items="totals.pnl_left"
@@ -399,6 +402,7 @@
         class="pl-0"
       >
         <b-table
+          id="pnl-right"
           borderless
           small
           :items="totals.pnl_right"
