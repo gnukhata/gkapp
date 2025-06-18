@@ -82,7 +82,13 @@
                 :filter="filter"
               >
                 <template #cell(accountname)="data">
-                  {{ data.value }}
+                  <router-link
+                    :to="
+                      `/ledger/${data.item.accountcode}`
+                    "
+                  >
+                    {{ data.value }}
+                  </router-link>
                   <p class="text-muted">
                     {{ data.item?.subgroupname }}
                   </p>
