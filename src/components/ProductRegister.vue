@@ -217,6 +217,13 @@
         :fields="fields"
         show-empty
       >
+        <template #head(balance_value)="data">
+          {{ data.label }}
+          <gk-tooltip
+            help-title="Product Value"
+            help-body="Calculated product value will be inclusive of the gross profit(loss)."
+          />
+        </template>
         <!-- Transaction type -->
         <template #cell(particulars)="data">
           <div v-if="data.item.trntype === 'invoice'">
@@ -408,10 +415,12 @@ import GkDate from './GkDate.vue';
 import { mapState } from 'vuex';
 import GkFileDownload from '@/components/GkFileDownload.vue';
 import ReportHeader from '@/components/ReportHeader.vue';
+import GkTooltip from '@/components/GkTooltip.vue';
 
 export default {
   name: 'ProductRegister',
   components: {
+    GkTooltip,
     GkDate,
     GkFileDownload,
     ReportHeader,
