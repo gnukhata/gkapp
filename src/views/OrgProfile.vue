@@ -177,62 +177,6 @@
               />
             </b-form-group>
           </div>
-          <div>
-            <hr class="mx-1 my-4">
-            <h5 class="mb-3">
-              Bank Details
-            </h5>
-            <b-form-group
-              v-if="isIndia"
-              :label="$gettext('IFSC Code')"
-              label-cols-md="3"
-              content-cols-md="9"
-              content-cols-lg="5"
-            >
-              <gk-ifsc
-                size="sm"
-                @fill="autoFillIfsc"
-                :ifsc-code="bankDetails.ifsc"
-                :value="bankDetails.ifsc"
-              />
-            </b-form-group>
-            <b-form-group
-              :label="$gettext('Bank Name')"
-              label-cols-md="3"
-              content-cols-md="9"
-              content-cols-lg="5"
-            >
-              <b-form-input
-                v-model="bankDetails.bankname"
-                size="sm"
-                type="text"
-              />
-            </b-form-group>
-            <b-form-group
-              :label="$gettext('Branch')"
-              label-cols-md="3"
-              content-cols-md="9"
-              content-cols-lg="5"
-            >
-              <b-form-input
-                v-model="bankDetails.branchname"
-                size="sm"
-                type="text"
-              />
-            </b-form-group>
-            <b-form-group
-              :label="$gettext('Account Number')"
-              label-cols-md="3"
-              content-cols-md="9"
-              content-cols-lg="5"
-            >
-              <b-form-input
-                v-model="bankDetails.accountno"
-                size="sm"
-                type="text"
-              />
-            </b-form-group>
-          </div>
           <div v-if="isIndia">
             <hr class="mx-1 my-4">
             <h5 class="mb-3">
@@ -464,11 +408,10 @@
 import { mapGetters, mapState } from 'vuex';
 import axios from 'axios';
 import countries from '@/js/countries';
-import GkIfsc from '../components/GkIfsc.vue';
 import GkGstin from '@/components/GkGstin.vue';
 
 export default {
-  components: { GkIfsc, GkGstin },
+  components: { GkGstin },
   name: 'OrgProfile',
   data() {
     return {
@@ -477,12 +420,6 @@ export default {
       states: [],
       gstin: '',
       cess: {},
-      bankDetails: {
-        bankname: '',
-        accountno: '',
-        branchname: '',
-        ifsc: '',
-      },
       newGstin: {
         stateCode: null,
         checksum: '',
@@ -551,11 +488,6 @@ export default {
       self.details.orgpan ? self.regex.pan.test(self.details.orgpan) : null,
   },
   methods: {
-    autoFillIfsc(i) {
-      this.bankDetails.bankname = i.BANK;
-      this.bankDetails.branchname = i.BRANCH;
-      this.bankDetails.ifsc = i.IFSC;
-    },
     /**GSTIN methods start*/
     onGstinDataFetched({ addr, name, pincode, pan }) {
       this.details.orgaddr = addr;
@@ -642,9 +574,6 @@ export default {
                   self.stateCode = stateCodes[0];
                   self.gstin = self.details.gstin[self.stateCode];
                 }
-              }
-              if (self.details.bankdetails) {
-                Object.assign(self.bankDetails, self.details.bankdetails);
               }
             }
             break;
@@ -1025,7 +954,6 @@ export default {
       } else {
         this.stateCode = '';
         this.details.orgpincode = null;
-        this.bankDetails.ifsc = null;
       }
 
       let gstin = {};
@@ -1037,7 +965,6 @@ export default {
         orgstate: this.isIndia ? (state ?? '') : '',
         gstin: gstin,
         tin: this.details.tin,
-        bankdetails: this.bankDetails,
       });
 
       axios

@@ -51,27 +51,6 @@ list of all the props, methods, computed and data items not defined in this file
           </b-form-group>
           <b-form-group
             label-size="sm"
-            label="Bank Transfer Amount"
-            label-for="ci-input-20"
-            label-cols="3"
-          >
-            <template #label>
-              <translate> Bank Transfer Amount </translate>
-            </template>
-
-            <b-form-input
-              size="sm"
-              id="ci-input-20"
-              type="number"
-              class="gk-currency"
-              no-wheel
-              min="0"
-              v-model="bank"
-              step="0.1"
-            />
-          </b-form-group>
-          <b-form-group
-            label-size="sm"
             label="Cash Transfer Amount"
             label-for="ci-input-10"
             label-cols="3"
@@ -89,6 +68,25 @@ list of all the props, methods, computed and data items not defined in this file
               no-wheel
               v-model="cash"
               min="0"
+            />
+          </b-form-group>
+          <b-form-group
+            v-for="bankAccount in bankAccounts"
+            :key="bankAccount.id"
+            label-size="sm"
+            :label="`${bankAccount.account_name}`"
+            :label-for="`bank-input-${bankAccount.id}`"
+            label-cols="3"
+          >
+            <b-form-input
+              size="sm"
+              :id="`bank-input-${bankAccount.id}`"
+              type="number"
+              class="gk-currency"
+              no-wheel
+              min="0"
+              step="0.01"
+              v-model="bankAccount.amount"
             />
           </b-form-group>
           <b-form-group
@@ -171,7 +169,7 @@ export default {
     return {
       cash: 0,
       bank: 0,
-      due: 0,
+      bankAccounts: [],
       date: {
         format: 'dd-mm-yyyy',
         valid: null,
@@ -179,6 +177,18 @@ export default {
     };
   },
   computed: {
+    total: function() {
+      return parseFloat(
+        this.bankAccounts.reduce(
+          (sum, acc) => sum + parseFloat((acc.amount || 0)), 0
+        ) + (parseFloat(this.cash) || 0)
+      ).toFixed(2);
+    },
+    due: function() {
+      return parseFloat(
+        this.creditInvData.balanceamount - this.total
+      ).toFixed(2);
+    },
     vtitle: function() {
       let title = '';
       if (this.type === 'receipt') {
@@ -193,7 +203,7 @@ export default {
     defComment: function() {
       let comment = '';
       let invNo = this.creditInvData?.invoiceno || '';
-      let invTotal = parseFloat(this.cash || 0) + parseFloat(this.bank || 0);
+      let invTotal = this.total;
       if (this.type === 'receipt') {
         comment += `Received payment of Rs. ${invTotal} from`;
       } else if (this.type === 'payment') {
@@ -220,7 +230,7 @@ export default {
       return this.due >= 0 && this.due < balance;
     },
     allValid: function() {
-      let total = parseFloat(this.cash || 0) + parseFloat(this.bank || 0);
+      let total = parseFloat(this.total || 0);
       let balance = parseFloat(this.creditInvData?.balanceamount || 0);
       let totalValid = total > 0 && total <= balance;
       let dueValid = this.due >= 0 && this.due < balance;
@@ -239,26 +249,15 @@ export default {
         });
       }
     },
-    cash() {
-      this.due =
-        parseFloat(this.creditInvData.balanceamount) -
-        (parseFloat(this.cash || 0) + parseFloat(this.bank || 0));
-    },
-    bank() {
-      this.due =
-        parseFloat(this.creditInvData.balanceamount) -
-        (parseFloat(this.cash || 0) + parseFloat(this.bank || 0));
-    },
   },
   methods: {
     setDateValidity(validity) {
       this.date.valid = validity;
     },
     confirmOnSubmit() {
-      let total = parseFloat(this.cash || 0) + parseFloat(this.bank || 0);
       const text = this.$createElement('div', {
         domProps: {
-          innerHTML: `${this.vtitle} of Rs. ${total}?"`,
+          innerHTML: `${this.vtitle} of Rs. ${this.total}?"`,
         },
       });
       this.$bvModal
@@ -347,11 +346,8 @@ export default {
       let cashAccType = this.type === 'receipt' ? 'dr' : 'cr';
       let custAccType = this.type === 'receipt' ? 'cr' : 'dr';
 
-      let cashAcc = this.options[cashAccType].find(
+      let cashAccount = this.options[cashAccType].find(
         (acc) => acc.accountname === 'Cash in hand'
-      );
-      let bankAcc = this.options[cashAccType].find(
-        (acc) => acc.accountname === 'Bank A/C'
       );
       let custAcc = this.options[custAccType].find(
         (acc) => acc.accountname === this.customerName
@@ -359,22 +355,22 @@ export default {
 
       if (this.cash && parseFloat(this.cash) > 0) {
         this.form[cashAccType].push({
-          account: cashAcc,
+          account: cashAccount,
           amount: parseFloat(this.cash),
         });
       }
-      if (this.bank && parseFloat(this.bank) > 0) {
-        this.form[cashAccType].push({
-          account: bankAcc,
-          amount: parseFloat(this.bank),
-        });
-      }
-
-      const total = parseFloat(this.cash || 0) + parseFloat(this.bank || 0);
+      this.bankAccounts.forEach((bank) => {
+        if (bank.amount) {
+          this.form[cashAccType].push({
+            account: bank,
+            amount: parseFloat(bank.amount),
+          });
+        }
+      });
 
       this.form[custAccType].push({
         account: custAcc,
-        amount: total,
+        amount: this.total,
       });
 
       if (!this.form.narration) {
@@ -388,14 +384,21 @@ export default {
     resetForm() {
       this.cash = 0;
       this.bank = 0;
-      this.due = 0;
       return this._resetForm(null, true);
+    },
+    fetchBankAccounts() {
+      this.$axios
+          .get('/bank')
+          .then((resp) => {
+            this.bankAccounts = resp;
+          });
     },
   },
   mounted() {
     const self = this;
     this.isLoading = true;
     this._resetForm().then(() => {
+      this.fetchBankAccounts();
       self.isLoading = false;
       if (this.invId > 0) {
         self.form.inv = this.invId;

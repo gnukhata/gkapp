@@ -205,6 +205,9 @@ export default {
     };
   },
   watch: {
+    bankIfsCode() {
+      this.$emit('change', this.bankIfsCode);
+    },
     value(c) {
       this.bankIfsCode = c;
     },

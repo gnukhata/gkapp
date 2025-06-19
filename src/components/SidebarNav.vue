@@ -204,6 +204,13 @@
           id="banking"
         >
           <b-nav-item
+            :active="isActive('/banks')"
+            to="/banks"
+          >
+            <b-icon icon="bank" />
+            <translate>Banks</translate>
+          </b-nav-item>
+          <b-nav-item
             :active="isActive('/bank-recon')"
             to="/bank-recon"
           >

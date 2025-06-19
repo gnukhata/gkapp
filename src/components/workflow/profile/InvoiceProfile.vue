@@ -262,15 +262,29 @@
     <b-card-group deck>
       <!-- payment details -->
       <b-card>
-        <b v-translate> Payment Details </b>
+        <b v-translate> Total Paid: </b> {{ totalPaid }}
+        <br>
+        <b v-translate> Balance: </b> {{ invoice.total.amount - totalPaid }}
+        <br>
+        <br>
+        <b
+          v-if="payments.length"
+          v-translate
+        >
+          Payments
+        </b>
+        <b
+          v-if="receipts.length"
+          v-translate
+        >
+          Receipts
+        </b>
         <div
-          v-if="bankMode"
           class="mb-3"
         >
-          {{ paymentMode }}
           <b-table-lite
-            :items="bankDetails"
-            :fields="['title', 'value']"
+            :items="payments.length ? payments : receipts"
+            :fields="['key', 'value']"
             small
             bordered
             fixed
@@ -278,12 +292,21 @@
             class="mt-1 text-small"
           />
         </div>
+
         <div
-          class="text-small"
-          v-else
+          class="mb-3"
         >
-          {{ paymentMode }}
+          <b-table-lite
+            :items="bankDetails"
+            :fields="['key', 'value']"
+            small
+            bordered
+            fixed
+            thead-class="d-none"
+            class="mt-1 text-small"
+          />
         </div>
+
         <b v-translate> Narration: </b> {{ invoice.narration }}
       </b-card>
       <!-- Total Table -->
@@ -488,11 +511,22 @@ export default {
   },
   data() {
     return {
+      bankDetailsMapping: {
+        "transaction_details": "Transaction Details",
+        "ifsc": "IFSC",
+        "branch": "Branch",
+        "bankname": "Bank Name",
+        "accountno": "Account No."
+      },
       data: {},
       showCreditButton: false,
       showDebitButton: false,
       paymentFlag: false,
       isPreloading: false,
+      receipts: [],
+      payments: [],
+      totalPaid: 0.00,
+      balance: null,
       invoice: {
         attachmentCount: 0,
         taxState: '',
@@ -715,13 +749,11 @@ export default {
       return res;
     },
     bankDetails: (self) => {
-      let details = self.invoice.payment.bankDetails;
-      return [
-        { title: self.$gettext('Account Number'), value: details.accountno || '' },
-        { title: self.$gettext('Bank'), value: details.bankname || '' },
-        { title: self.$gettext('Branch'), value: details.branch || '' },
-        { title: self.$gettext('IFSC'), value: details.ifsc || '' },
-      ];
+      return Object
+        .entries(self.invoice.payment?.bankDetails || {})
+        // eslint-disable-next-line no-unused-vars
+        .filter(([key, value]) => value !== undefined && value !== null && value !== "")
+        .map(([key, value]) => ({ key: self.bankDetailsMapping[key] || key, value }));
     },
     totalDetails: (self) => {
       const totalAmount = self.invoice.invItems.reduce((_totalAmount, item) => (
@@ -849,6 +881,30 @@ export default {
         .then((resp) => {
           // TODO: Add Project support
           if (resp.data.gkstatus === 0) {
+            let receipts = [];
+            let payments = [];
+
+            let totalPaid = 0;
+            resp.data.gkresult.forEach((voucher) => {
+              if (voucher.vouchertype === "receipt") {
+                receipts = receipts.concat(
+                  Object.entries(voucher.drs).map(([key, value])=>({key, value}))
+                )
+                totalPaid += Object.values(voucher.drs).reduce((partialSum, a) => partialSum + parseFloat(a), 0);
+              }
+              if (voucher.vouchertype === "payment") {
+                payments = payments.concat(
+                  Object.entries(voucher.crs).map(([key, value])=>({key, value}))
+                )
+                totalPaid += Object.values(voucher.crs).reduce((partialSum, a) => partialSum + parseFloat(a), 0);
+              }
+            });
+            this.totalPaid = totalPaid;
+            this.balance = this.invoice.total.amount - totalPaid
+
+            this.receipts = receipts;
+            this.payments = payments;
+
             this.vouchers = resp.data.gkresult.map((voucher) => {
               let data = {
                 id: voucher.vouchercode,
