@@ -304,7 +304,20 @@
           <b-col
             cols="12"
             sm="6"
-          />
+          >
+            <p
+              class="text-warning"
+              v-if="!isVoucherTotalValid"
+            >
+              Credit and debit sides should be balanced.
+            </p>
+            <p
+              class="text-success"
+              v-else
+            >
+              Credit and debit sides are balanced.
+            </p>
+          </b-col>
           <b-col
             cols="12"
             sm="6"
