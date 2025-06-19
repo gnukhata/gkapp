@@ -12,7 +12,7 @@
           its accounts and records in these accounts in two formats:
 
           <ul class="mt-2">
-            <li>Microsoft Excel Open XML Spreadsheet (.xslx) [legacy]</li>
+            <li>Microsoft Excel Open XML Spreadsheet (.xlsx) [legacy]</li>
             <li>Json (.json)</li>
           </ul>
           Click on any of the available "Export" buttons to start the export.
