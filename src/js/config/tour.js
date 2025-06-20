@@ -25,6 +25,11 @@ export default {
   mutations: {
     goToNextStep(state) {
       const { currentStep } = state;
+      if (!currentStep) {
+        state.showTour = false;
+        state.isLastStep = false;
+        return;
+      }
       const currentStepIndex = tourSteps.findIndex((step) => step === currentStep);
       if (currentStepIndex < tourSteps.length - 1) {
         state.currentStep = tourSteps[currentStepIndex + 1];

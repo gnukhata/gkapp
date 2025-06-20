@@ -179,8 +179,7 @@
       </account>
     </b-modal>
     <b-modal
-      id="welcome-modal"
-      v-model="showTour"
+      id="chart-of-accounts"
       title="Welcome to Chart of Accounts"
       placement="left"
       centered
@@ -193,7 +192,7 @@
           size="sm"
           class="mt-2 ml-2"
           variant="success"
-          @click="showTour = false"
+          @click="goToNextStep"
         >
           Got it!
         </b-button>
@@ -207,7 +206,7 @@ import axios from 'axios';
 import GkFileDownload from '../components/GkFileDownload.vue';
 import GkToolbar from '../components/GkToolbar.vue';
 import Account from '../components/form/Account.vue';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 export default {
   name: 'Accounts',
   components: { GkFileDownload, GkToolbar, Account },
@@ -240,11 +239,11 @@ export default {
       groupsSubgroups: {},
       filter: null,
       parentMessage: '',
-      showTour: true,
     };
   },
   computed: {
     ...mapState(['orgName', 'yearStart', 'yearEnd', 'orgType']),
+    ...mapState('tour', ['showTour', 'isLastStep']),
   },
   methods: {
     /**
@@ -489,6 +488,14 @@ export default {
           this.isLoading = false;
         });
     },
+    ...mapMutations('tour', ['goToNextStep']),
+  },
+  watch: {
+    showTour(show) {
+      if (!show) {
+        this.$bvModal.hide('chart-of-accounts');
+      }
+    },
   },
   /**
    * Actions: Fetch accounts, groups and subgroups
@@ -496,6 +503,11 @@ export default {
   mounted() {
     this.getAccountsList();
     this.getGroupsSubgroups();
+    if (this.showTour && this.isLastStep) {
+      this.$bvModal.show('chart-of-accounts');
+    } else {
+      this.$bvModal.hide('chart-of-accounts');
+    }
   },
 };
 </script>

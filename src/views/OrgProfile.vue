@@ -88,6 +88,7 @@
             </h5>
             <b-form-group
               label="Address"
+              label-class="required"
               label-cols-md="3"
               content-cols-md="9"
               content-cols-lg="5"
