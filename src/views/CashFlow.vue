@@ -250,8 +250,12 @@ export default {
       this.result1 = null;
       this.result2 = null;
       this.parseParams();
+      this.currentPageLeft = 1;
+      this.currentPageRight = 1;
     },
     getCashFlowData() {
+      this.currentPageLeft = 1;
+      this.currentPageRight = 1;
       this.isLoading = true;
       this.$axios
         .get(

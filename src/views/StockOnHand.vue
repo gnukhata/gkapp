@@ -276,6 +276,7 @@ export default {
       this.$router.replace({});
       this.report = [];
       this.selected = {};
+      this.currentPage = 1;
     },
     getGodownList() {
       axios
@@ -307,6 +308,7 @@ export default {
     },
     // get product list from the api
     getProductList() {
+      this.currentPage = 1;
       this.loading = true;
       axios
         .get('/product?invdc=4')

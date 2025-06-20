@@ -275,6 +275,7 @@ export default {
       this.$router.replace({});
       this.report = [];
       this.selected = {};
+      this.currentPage = 1;
     },
     formatTable(data) {
       const newdata = data.vouchers.map((voucher) => {
@@ -362,6 +363,7 @@ export default {
       ];
     },
     getRegisters() {
+      this.currentPage = 1;
       this.report = [];
       this.loading = true;
       this.$axios
