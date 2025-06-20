@@ -297,11 +297,11 @@ export default {
               );
               const accMap = self.options.acc;
               let dr = self.form.dr.reduce(
-                (acc, dr) => acc + `${accMap[dr.account]}, `,
+                (acc, dr) => acc + `${accMap[dr.account.accountcode]}, `,
                 ''
               );
               let cr = self.form.cr.reduce(
-                (acc, cr) => acc + `${accMap[cr.account]}, `,
+                (acc, cr) => acc + `${accMap[cr.account.accountcode]}, `,
                 ''
               );
               dr = dr.substring(0, dr.length - 2);
