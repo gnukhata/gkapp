@@ -1,38 +1,37 @@
 <template>
   <section class="container-fluid mt-2">
-    <b-form @submit.prevent="check">
-      <b-card no-body>
-        <template #header>
-          <h5 class="my-2">
-            Import Data
-          </h5>
-        </template>
-        <b-card-body v-translate>
-          <h4>
-            Supported Imports
-          </h4>
-          <ul>
-            <li>Tally (.xlsx)</li>
-            <li>GNUKhata Legacy (.xlsx)</li>
-            <li>GNUKhata New (.json)</li>
-          </ul>
-          <h4 class="mt-4">
-            Import Instructions
-          </h4>
-          <ul>
-            <li>
-              <router-link to="/data/import/help/tally">
-                Tally & GNUKhata
-              </router-link>
-            </li>
-            <li>
-              <router-link to="/data/import/help/json">
-                JSON
-              </router-link>
-            </li>
-          </ul>
-          <hr class="mx-2 my-4">
-          <!-- Export buttons -->
+    <b-card no-body>
+      <template #header>
+        <h5 class="my-2">
+          Import Data
+        </h5>
+      </template>
+      <b-card-body>
+        <h4>
+          Supported Imports
+        </h4>
+        <ul>
+          <li>Tally (.xlsx)</li>
+          <li>GNUKhata Legacy (.xlsx)</li>
+          <li>GNUKhata New (.json)</li>
+        </ul>
+        <h4 class="mt-4">
+          Import Instructions
+        </h4>
+        <ul>
+          <li>
+            <router-link to="/data/import/help/tally">
+              Tally & GNUKhata
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/data/import/help/json">
+              JSON
+            </router-link>
+          </li>
+        </ul>
+        <hr class="mx-2 my-4">
+        <b-form @submit.prevent="check">
           <b-form-file
             required
             v-model="file"
@@ -51,9 +50,9 @@
               <translate>Import Data</translate>
             </b-button>
           </div>
-        </b-card-body>
-      </b-card>
-    </b-form>
+        </b-form>
+      </b-card-body>
+    </b-card>
   </section>
 </template>
 
