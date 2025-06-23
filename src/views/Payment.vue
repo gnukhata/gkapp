@@ -144,6 +144,7 @@ export default {
               });
             });
           });
+          this.transactions.sort((a, b) => b.voucherId - a.voucherId);
         })
         .finally(() => {
           this.isLoading = false;
