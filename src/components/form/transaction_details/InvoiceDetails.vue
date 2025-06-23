@@ -50,6 +50,7 @@
             id="ivd-input-10"
             v-model="form.no"
             trim
+            maxlength="16"
             required
             :readonly="disabled.no"
             :tabindex="disabled.no ? -1 : 0"
