@@ -317,7 +317,14 @@ export default {
       this.valid.nameFormat = true;
       const self = this;
       if (query === self.orgName) {
-        this.$axios.get(`/organisation/check/${query}`).then((resp) => {
+        this.$axios.get(
+          `/organisation/check/${query}`,
+          {
+            headers: {
+              gkusertoken: sessionStorage.getItem('userAuthToken'),
+            },
+          }
+        ).then((resp) => {
           if (resp.data.gkstatus === STATUS_CODES['Success']) {
             self.valid.nameUnique = true;
           } else if (resp.data.gkstatus === STATUS_CODES['DuplicateEntry']) {
