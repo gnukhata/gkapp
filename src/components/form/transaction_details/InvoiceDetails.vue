@@ -49,9 +49,12 @@
             size="sm"
             id="ivd-input-10"
             v-model="form.no"
+            title="^([a-zA-Z1-9]{1}[a-zA-Z0-9\\/\\-]{0,15})$"
             trim
-            maxlength="16"
             required
+            :state="isValidReference"
+            :pattern="regexPattern"
+            @input="validateReference"
             :readonly="disabled.no"
             :tabindex="disabled.no ? -1 : 0"
           />
@@ -385,6 +388,8 @@ export default {
         format: 'dd-mm-yyyy',
         valid: null,
       },
+      isValidReference: null,
+      regexPattern: '^([a-zA-Z1-9]{1}[a-zA-Z0-9\\/\\-]{0,15})$',
       form: {
         no: null,
         date: new Date().toISOString().slice(0, 10),
@@ -516,6 +521,10 @@ export default {
     },
   },
   methods: {
+    validateReference() {
+      const regex = new RegExp(this.regexPattern);
+      this.isValidReference = regex.test(this.form.no);
+    },
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
