@@ -55,24 +55,8 @@
           <div>
             <hr class="mx-1 my-4">
             <h5 class="mb-3">
-              Payment
+              Transactions
             </h5>
-            <b-form-group
-              label="Payment Mode"
-              label-for="gs-t2-select-10"
-              label-cols-md="3"
-            >
-              <template #label>
-                <translate> Payment Mode </translate>
-              </template>
-              <b-form-select
-                size="sm"
-                id="gs-t2-select-10"
-                v-model="conf.transaction.default.payment"
-                :options="options.transaction.paymentMode"
-                :style="{'max-width': '200px'}"
-              />
-            </b-form-group>
             <b-form-group
               label="Default Godown"
               label-for="gs-t2-select-30"
