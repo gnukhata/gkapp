@@ -130,21 +130,6 @@ export default {
       required: false,
       default: 0,
     },
-    parentData: {
-      type: Object,
-      required: false,
-      default: function() {
-        return {
-          mode: 3,
-          bank: {
-            no: null,
-            name: null,
-            branch: null,
-            ifsc: null,
-          },
-        };
-      },
-    },
     optionsData: {
       type: Object,
       required: false,
@@ -189,7 +174,6 @@ export default {
       this.clearFields();
       this.fetchBankAccounts();
       this.fetchAccounts();
-      Object.assign(this.form, this.parentData);
       if (this.optionsData?.bankDetails) {
         this.bankDetails = Object
           .entries(this.optionsData.bankDetails)
@@ -206,7 +190,7 @@ export default {
    data() {
      return {
       form: {
-        isValid: false,
+        isValid: true,
         vouchers: {},
         bank: {
           transaction_details: '',
@@ -217,7 +201,6 @@ export default {
       accounts: [],
       bankAccounts: [],
       isCollapsed: true,
-      ifscCode: '',
     };
   },
   methods: {
@@ -294,14 +277,11 @@ export default {
       Object.assign(this.form.vouchers, payload)
     },
     onUpdateDetails() {
-      this.ifscCode = this.form.bank.ifsc;
       this.prepareVouchers();
-      setTimeout(() =>
-        this.$emit('details-updated', {
-          data: this.form,
-          name: 'payment-details',
-        })
-      );
+      this.$emit('details-updated', {
+        data: this.form,
+        name: 'payment-details',
+      })
     },
     clearFields(){
       this.cash = null;
@@ -310,7 +290,7 @@ export default {
       this.form = {
           mode: 3,
           vouchers: {},
-          isValid: false,
+          isValid: true,
           bank: {
             transaction_details: '',
           },
