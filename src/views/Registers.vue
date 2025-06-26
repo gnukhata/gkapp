@@ -293,9 +293,9 @@ export default {
         };
         voucher.tax_data.forEach((taxItem) => {
           if (taxItem) {
-            obj[taxItem.tax_str] = parseFloat(taxItem.tax_amount).toFixed(2);
+            obj[taxItem.tax_str] = parseFloat(parseFloat(obj?.[taxItem.tax_str] || 0) + parseFloat(taxItem.tax_amount)).toFixed(2);
           } else {
-            obj[taxItem.tax_str] = "0.00";
+            obj[taxItem.tax_str] = 0.00;
           }
         });
         return obj;
