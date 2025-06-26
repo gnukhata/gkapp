@@ -103,38 +103,52 @@ export default {
     getTransactions() {
       this.isLoading = true;
       const paymentType = this.type === 'cr' ? 'payment' : 'receipt';
-      this.$axios
-        .get(`/transaction?searchby=type&vouchertype=${paymentType}`)
-        .then((resp) => {
+      const requests = [
+        this.$axios.get(`/transaction?searchby=type&vouchertype=${paymentType}`)
+      ];
+
+      if (this.type === 'dr') {
+        requests.push(
+          this.$axios.get(`/transaction?searchby=type&vouchertype=sales&transactionType=cashmemo`)
+        );
+      }
+
+      return Promise.all(requests)
+          .then((resp) => {
           this.transactions = [];
-          resp.forEach((item) => {
-            this.transactions.push({
-              voucherId: item.vouchercode,
-              voucherNumber: item.vouchernumber,
-              voucherDate: item.voucherdate,
-              fromAccount: this.type === 'cr' ? (
-                Object.keys(item.drs ?? {}).join(', ')
-              ) : (
-                Object.keys(item.crs ?? {}).join(', ')
-              ),
-              toAccount: this.type === 'cr' ? (
-                Object.keys(item.crs ?? {}).join(', ')
-              ) : (
-                Object.keys(item.drs ?? {}).join(', ')
-              ),
-              amount: this.type === 'cr' ? (
-                Object.values(item.crs ?? {})
-                  .reduce((acc, val) => parseFloat(acc) + parseFloat(val), 0)
-                  .toFixed(2)
-              ) : (
-                Object.values(item.drs ?? {})
-                  .reduce((acc, val) => parseFloat(acc) + parseFloat(val), 0)
-                  .toFixed(2)
-              ),
+          resp.forEach((_resp) => {
+            _resp.forEach((item) => {
+              this.transactions.push({
+                voucherId: item.vouchercode,
+                voucherNumber: item.vouchernumber,
+                voucherDate: item.voucherdate,
+                fromAccount: this.type === 'cr' ? (
+                  Object.keys(item.drs ?? {}).join(', ')
+                ) : (
+                  Object.keys(item.crs ?? {}).join(', ')
+                ),
+                toAccount: this.type === 'cr' ? (
+                  Object.keys(item.crs ?? {}).join(', ')
+                ) : (
+                  Object.keys(item.drs ?? {}).join(', ')
+                ),
+                amount: this.type === 'cr' ? (
+                  Object.values(item.crs ?? {})
+                    .reduce((acc, val) => parseFloat(acc) + parseFloat(val), 0)
+                    .toFixed(2)
+                ) : (
+                  Object.values(item.drs ?? {})
+                    .reduce((acc, val) => parseFloat(acc) + parseFloat(val), 0)
+                    .toFixed(2)
+                ),
+              });
             });
           });
+          this.transactions.sort((a, b) => b.voucherId - a.voucherId);
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
-      this.isLoading = false;
     },
     getFields() {
       const fields = [
