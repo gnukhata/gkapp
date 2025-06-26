@@ -156,7 +156,6 @@
           :update-counter="updateCounter.payment"
           :config="config.payment"
           :sale-flag="isSale"
-          :parent-data="form.payment"
           :options-data="options.partyDetails"
           :total-payable="amountPayable"
           @details-updated="onComponentDataUpdate"
@@ -607,6 +606,7 @@ export default {
           this.updateCounter.ship++;
           Object.assign(this.form.inv.taxState, payload.data.state);
           this.updateCounter.inv++;
+          this.updateCounter.payment++;
           this.updateDefaultNarration();
         }
         break;

@@ -181,7 +181,7 @@
         class="mt-2"
         head-variant="light"
         small
-        outlined
+        bordered
         hover
         responsive="sm"
         v-if="report.length > 0"
