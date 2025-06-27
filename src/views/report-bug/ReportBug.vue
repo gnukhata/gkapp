@@ -17,6 +17,18 @@
           "
         />
       </template>
+      <b-alert
+        show
+        class="text-center mx-auto d-print-none"
+      >
+        <p class="text-center">
+          Please check if your bug is already reported at <a href="https://gitlab.com/groups/gnukhata/-/issues">GitLab repository</a> before filing a new bug report.
+          <br>
+          Please fill the form and submit to file a bug report. It will generate a mail template with a <a href="mailto:contact-project+gnukhata-issue-tracker-inapp@incoming.gitlab.com">recipient address</a> and redirect you to your mail client.
+          <br>
+          Alternatively, you can also file your bugs <a href="https://gitlab.com/gnukhata/issue-tracker/-/issues/">here</a>.
+        </p>
+      </b-alert>
       <!-- select component -->
       <b-form-group
         label="Select Module"
@@ -69,7 +81,7 @@
         size="sm"
         class="float-right"
         :href="
-          `mailto:incoming+gnukhata-issue-tracker-40456223-8s695fsvkl2uw7wjim3xsmk0r-issue@incoming.gitlab.com?subject=[${this.selectedModule?.name}] ${this.bugTitle}&body=${this.bugDescription}`
+          `mailto:contact-project+gnukhata-issue-tracker-inapp@incoming.gitlab.com?subject=[${this.selectedModule?.name}] ${this.bugTitle}&body=${this.bugDescription}`
         "
       >
         <b-icon
