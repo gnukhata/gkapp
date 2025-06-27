@@ -1,6 +1,6 @@
 {
   "name": "gkapp",
-  "version": "8.0.0-b",
+  "version": "8.0rc",
   "type": "module",
   "private": true,
   "scripts": {
