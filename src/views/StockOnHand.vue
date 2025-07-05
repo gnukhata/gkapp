@@ -249,6 +249,10 @@ export default {
           key: 'balance',
           label: this.$gettext('Balance'),
         },
+        {
+          key: 'value',
+          label: this.$gettext('Value'),
+        },
       ];
       return fields;
     },
@@ -357,15 +361,6 @@ export default {
         _type = 'pag';
       }
 
-      if ( _type == 'pg' || _type == 'apg' ) {
-        this.fields = [
-          ...this.defaultFields,
-          {
-            key: 'value',
-            label: this.$gettext('Value'),
-          }
-        ];
-      }
       let url = `/reports/godownwise-stock-on-hand?type=${_type}&goid=${this.selectedGodown.id}&productcode=${this.selectedProduct.id}&enddate=${this.toDate}`;
       this.$axios
           .get(url)
@@ -374,11 +369,11 @@ export default {
               return {
                 no: data.srno,
                 product: data.productname || this.selectedProduct.name,
-                total_inward_qty: data.totalinwardqty,
-                total_outward_qty: data.totaloutwardqty,
-                balance: data.balance,
+                total_inward_qty: parseFloat(data.totalinwardqty).toFixed(2),
+                total_outward_qty: parseFloat(data.totaloutwardqty).toFixed(2),
+                balance: parseFloat(data.balance).toFixed(2),
                 productcode: data.productcode,
-                value: data.value,
+                value: parseFloat(data.value).toFixed(2),
               };
             }) ?? [];
             this.selected = {
