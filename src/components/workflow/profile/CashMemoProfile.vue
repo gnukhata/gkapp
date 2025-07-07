@@ -31,6 +31,46 @@
             >
               View Delivery Note
             </b-dropdown-item>
+            <b-dropdown-item-button
+              v-b-toggle.voucher-container
+              v-if="showButton(3)"
+              @click="redirectBasedOnValue(3)"
+            >
+              <translate>View Credit Note</translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item
+              v-else
+              :to="{
+                name: 'Debit_Credit_Note',
+                query: {
+                  type: invoice.isSale ? 'sale' : 'purchase',
+                  'invoice-id': id,
+                  transaction: 'credit',
+                },
+              }"
+            >
+              <translate>Create Credit Note</translate>
+            </b-dropdown-item>
+            <b-dropdown-item-button
+              v-b-toggle.voucher-container
+              v-if="showButton(4)"
+              @click="redirectBasedOnValue(4)"
+            >
+              <translate>View Debit Note</translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item
+              v-else
+              :to="{
+                name: 'Debit_Credit_Note',
+                query: {
+                  type: invoice.isSale ? 'sale' : 'purchase',
+                  'invoice-id': id,
+                  transaction: 'debit',
+                },
+              }"
+            >
+              <translate>Create Debit Note</translate>
+            </b-dropdown-item>
           </b-dropdown>
         </span>
       </div>
@@ -488,6 +528,9 @@ export default {
         goid: '',
       },
       dcid: null,
+      drcrValues: {},
+      showDebitButton: false,
+      showCreditButton: false,
     };
   },
   methods: {
@@ -724,6 +767,27 @@ export default {
         } // end switch
       });
     },
+    checkDcCrValues() {
+      axios.get(`/invoice/drcr/${this.id}`).then((resp) => {
+        if (resp.data.gkstatus === 0 && resp.data?.data) {
+          this.drcrValues = resp.data.data;
+          const values = Object.values(this.drcrValues);
+
+          this.showCreditButton = values.includes(3);
+          this.showDebitButton = values.includes(4);
+        }
+      });
+    },
+    showButton(value) {
+      return Object.values(this.drcrValues).includes(value);
+    },
+    redirectBasedOnValue(value) {
+      const selectedKey = Object.keys(this.drcrValues).find(key => this.drcrValues[key] === value);
+
+      if (selectedKey) {
+        this.$router.push({ path: `/workflow/Transactions-DebitCreditNote/${selectedKey}` });
+      }
+    },
   },
   watch: {
     id: function(id) {
@@ -739,7 +803,11 @@ export default {
             this.isPreloading = false;
           });
       }
+      this.checkDcCrValues();
     },
+  },
+  created() {
+    this.checkDcCrValues();
   },
   mounted() {
     this.toDate = this.currentDate();
