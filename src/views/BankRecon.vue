@@ -146,7 +146,9 @@
         :fields="reconTableFields"
       >
         <template #cell(voucher_no)="data">
-          {{ data.value }}
+          <router-link :to="`/Workflow/Transactions-Voucher/${data.item.voucher_code}`">
+            {{ data.value }}
+          </router-link>
         </template>
         <template #cell(clearancedate)="data">
           <gk-date
