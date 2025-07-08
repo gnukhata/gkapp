@@ -145,7 +145,7 @@
         :items="activeVouchers"
         :fields="reconTableFields"
       >
-        <template #cell(particulars)="data">
+        <template #cell(voucher_no)="data">
           {{ data.value }}
         </template>
         <template #cell(clearancedate)="data">
@@ -274,7 +274,7 @@ export default {
       reconTableFields: [
         'date',
         {
-          key: 'vno',
+          key: 'voucher_no',
           label: 'V.No.',
         },
         'particulars',
@@ -336,13 +336,13 @@ export default {
       };
       axios.put('/bankrecon', payload).then((resp) => {
         if (resp.data.gkstatus === 0) {
-          this.$bvToast.toast(`Voucher ${voucher.vno} Updated successfully!`, {
+          this.$bvToast.toast(`Voucher ${voucher.voucher_no} Updated successfully!`, {
             variant: 'success',
             solid: true,
           });
           this.getVouchers();
         } else {
-          this.$bvToast.toast(`Voucher ${voucher.vno} Update Failed!`, {
+          this.$bvToast.toast(`Voucher ${voucher.voucher_no} Update Failed!`, {
             variant: 'danger',
             solid: true,
           });
