@@ -1121,7 +1121,7 @@ export default {
 
         // Stock On Hand
         if (resp3.data.gkstatus === 0) {
-          self.options.stock[id] = parseFloat(resp3.data.gkresult[0].balance);
+          self.options.stock[id] = parseFloat(resp3.data.gkresult[0]?.balance);
         }
 
         self.$forceUpdate();
