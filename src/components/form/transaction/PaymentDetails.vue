@@ -38,9 +38,9 @@
         <p><b>Balance: </b>{{ due }}</p>
         <!-- payment details -->
         <b-form-group
-          label-size="sm"
           label="Cash Transfer Amount"
-          label-for="ci-input-10"
+          label-for="transaction-cash"
+          label-size="sm"
           label-cols="3"
         >
           <template #label>
@@ -49,7 +49,7 @@
 
           <b-form-input
             size="sm"
-            id="ci-input-10"
+            id="transaction-cash"
             type="number"
             step="0.01"
             class="gk-currency"
@@ -102,14 +102,23 @@
         >ON CREDIT</b>
       </div>
     </div>
+    <gk-tour
+      target="transaction-cash"
+      title="Payment Mode"
+      placement="topright"
+    >
+      Add payment deatils here. If you pay amount less than the invoice value, it will become credit invoice and you can complete the payment later. If you add bank account(s) from <b>Sidebar</b> -> <b>Accounting</b> -> <b>Chart of Accounts</b>, those will also be listed here.
+    </gk-tour>
   </b-card>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import GkTooltip from '@/components/GkTooltip.vue';
+import GkTour from '@/components/GkTour.vue';
+
 export default {
-  components: { GkTooltip },
+  components: { GkTooltip, GkTour },
   name: 'PaymentDetails',
   props: {
     saleFlag: {

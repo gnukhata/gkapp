@@ -26,6 +26,7 @@
               description="Image size should be less than 1 MB. Only JPEG & PNG images are supported."
             >
               <b-form-file
+                id="org-logo"
                 @input="prepareImg"
                 v-model="details.logo"
                 size="sm"
@@ -87,11 +88,13 @@
             </h5>
             <b-form-group
               label="Address"
+              label-class="required"
               label-cols-md="3"
               content-cols-md="9"
               content-cols-lg="5"
             >
               <b-form-input
+                id="org-address"
                 v-model="details.orgaddr"
                 size="sm"
                 type="text"
@@ -190,7 +193,7 @@
             >
               <b-form-select
                 size="sm"
-                id="gs-t2-select-20"
+                id="org-tax-mode"
                 v-model="taxMode"
                 :options="globalConfOptions.transaction.taxMode"
               />
@@ -267,6 +270,7 @@
           <div class="mt-2 mb-3">
             <b-button-group size="sm">
               <b-button
+                id="org-profile-submit"
                 type="submit"
                 variant="success"
               >
@@ -401,17 +405,49 @@
         </b-button>
       </template>
     </b-modal>
+    <gk-tour
+      target="org-logo"
+      title="Update Logo"
+    >
+      You can upload logo of your organisation by clicking here.
+    </gk-tour>
+    <gk-tour
+      target="org-address"
+      title="Update Address"
+    >
+      Address is a mandatory field and needs to be filled in order to continue.
+    </gk-tour>
+    <gk-tour
+      target="org-bank-ifsc"
+      title="Add Bank Details"
+    >
+      You can autofill bank name and branch data by entering a valid IFSC code and clicking on the search button.
+    </gk-tour>
+    <gk-tour
+      target="org-tax-mode"
+      title="Tax Mode"
+    >
+      Choose default tax mode. Once selected, it is recommended not to change it later.
+    </gk-tour>
+    <gk-tour
+      target="org-profile-submit"
+      title="Save and Continue"
+      placement="topright"
+    >
+      Once necessary details are added, click on next to save and continue to create new business item. You may come back to <b>Organisation Profile</b> under the <b>Administration</b> menu option in sidebar any time to update the rest of the details.
+    </gk-tour>
   </section>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 import axios from 'axios';
 import countries from '@/js/countries';
 import GkGstin from '@/components/GkGstin.vue';
+import GkTour from '@/components/GkTour.vue';
 
 export default {
-  components: { GkGstin },
+  components: { GkGstin, GkTour },
   name: 'OrgProfile',
   data() {
     return {
@@ -455,6 +491,7 @@ export default {
   },
   computed: {
     ...mapState(['gkCoreUrl', 'orgImg', 'orgGstin']),
+    ...mapState('tour', ['currentStep']),
     ...mapGetters('global', {
       globalConf: 'getGlobalConfig',
       globalConfOptions: 'getGlobalConfigOptions',
@@ -990,6 +1027,9 @@ export default {
               this.$store.dispatch('initGstin');
             }
             this.$store.commit('global/setOrgDetails', this.details);
+            if (this.currentStep === 'businessItemType') {
+              this.$router.push('/business-details/create');
+            }
             break;
           case 1:
             this.loading = false;
@@ -1197,6 +1237,14 @@ export default {
         return Promise.all([this.getDetails(), this.getCessDetails()]);
       });
     },
+    ...mapMutations('tour', ['goToNextStep', 'skipTour']),
+  },
+  watch: {
+    currentStep(newStep) {
+      if (newStep === 'businessItemType') {
+        this.updateOrg();
+      }
+    }
   },
   mounted() {
     this.init().then(() => {

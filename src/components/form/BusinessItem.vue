@@ -15,6 +15,7 @@
               class="mb-3"
             >
               <b-form-radio-group
+                id="business-item-type"
                 button-variant="outline-secondary"
                 v-model="type"
                 buttons
@@ -228,6 +229,7 @@
                       <translate> + Stock </translate>
                     </b-button>
                     <b-button
+                      id="business-item-godown"
                       class="mx-1 py-0 px-1 float-right"
                       size="sm"
                       variant="dark"
@@ -494,6 +496,7 @@
                     </b-card-body>
                   </b-card>
                   <b-alert
+                    id="business-item-tax"
                     v-if="!isGstEnabled && !isVatEnabled"
                     show
                     variant="warning"
@@ -512,6 +515,7 @@
       <div>
         <div>
           <b-button
+            id="business-item-submit"
             size="sm"
             type="submit"
             class="m-1"
@@ -561,19 +565,47 @@
         :on-save="onGodownSave"
       />
     </b-modal>
+    <gk-tour
+      target="business-item-type"
+      title="Select Type"
+    >
+      You can choose to create a product or service by clicking on this toggle button.
+    </gk-tour>
+    <gk-tour
+      target="business-item-tax"
+      title="Tax Options"
+      placement="bottom"
+    >
+      Tax details of individual products and services can be managed from here if you have enabled tax (GST and/or VAT). Go to <b>Organisation Profile</b> option under <b>Administration</b> menu in the sidebar if you would like to enable tax.
+    </gk-tour>
+    <gk-tour
+      target="business-item-godown"
+      title="Create Godown"
+      placement="bottom"
+    >
+      New godown can be created directly from here or you can manage godowns by going to the <b>Godowns</b> option under <b>Products & Services</b> menu in the sidebar.
+    </gk-tour>
+    <gk-tour
+      target="business-item-submit"
+      title="Save and Continue"
+      placement="bottomright"
+    >
+      Fill all necessary details and click on <b>Save</b> to continue to create new sales invoice with the business item we just created. You can create invoices manually any time later by going to <b>Invoices</b> under <b>Sales</b> or <b>Purchases</b> menu option in sidebar.
+    </gk-tour>
   </section>
 </template>
 
 <script>
 import axios from 'axios';
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 import Godown from './Godown.vue';
 import GkDate from '../GkDate.vue';
 import GkHsn from '../GkHsn.vue';
+import GkTour from '../GkTour.vue';
 
 export default {
   name: 'BusinessItem',
-  components: { Godown, GkDate, GkHsn },
+  components: { Godown, GkDate, GkHsn, GkTour },
   props: {
     mode: {
       type: String,
@@ -679,6 +711,7 @@ export default {
       return self.form.stock.godowns
     },
     ...mapState(['yearStart', 'yearEnd', 'orgGstin']),
+    ...mapState('tour', ['currentStep']),
     ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
   },
   watch: {
@@ -686,6 +719,14 @@ export default {
       if (newValue) {
         this.form.uom = newValue.id;
         this.form.uomCode = newValue.code;
+      }
+    },
+    currentStep(newStep) {
+      if (newStep === 'businessItemTax' && (this.isGstEnabled || this.isVatEnabled)) {
+        this.goToNextStep();
+      }
+      if (newStep === 'transactionParty') {
+        this.$router.push('/invoice?type=sale');
       }
     },
   },
@@ -871,6 +912,9 @@ export default {
 
               // only reset form on success, otherwise leave it as is so that user may edit their input and try again
               this.resetForm();
+              if (this.currentStep === 'transactionParty') {
+                this.$router.push('/invoice?type=sale')
+              }
             }
             break;
           case 1:
@@ -1227,6 +1271,7 @@ export default {
         solid: true,
       });
     },
+    ...mapMutations('tour', ['goToNextStep']),
   },
   mounted() {
     this.preloadData().then(() => {

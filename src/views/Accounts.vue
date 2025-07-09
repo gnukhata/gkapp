@@ -178,6 +178,26 @@
         </template>
       </account>
     </b-modal>
+    <b-modal
+      id="chart-of-accounts"
+      title="Welcome to Chart of Accounts"
+      placement="left"
+      centered
+      static
+      hide-footer
+    >
+      You can manage all accounts from here. For example, to create a new bank account click on the <b>Add Account</b> option on top right and select <b>Group</b> as <b>Current Assets</b> and <b>Sub Group</b> as <b>Bank</b>.
+      <div class="mt-4 float-right">
+        <b-button
+          size="sm"
+          class="mt-2 ml-2"
+          variant="success"
+          @click="goToNextStep"
+        >
+          Got it!
+        </b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -186,7 +206,7 @@ import axios from 'axios';
 import GkFileDownload from '../components/GkFileDownload.vue';
 import GkToolbar from '../components/GkToolbar.vue';
 import Account from '../components/form/Account.vue';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 export default {
   name: 'Accounts',
   components: { GkFileDownload, GkToolbar, Account },
@@ -223,6 +243,7 @@ export default {
   },
   computed: {
     ...mapState(['orgName', 'yearStart', 'yearEnd', 'orgType']),
+    ...mapState('tour', ['showTour', 'isLastStep']),
   },
   methods: {
     /**
@@ -467,6 +488,14 @@ export default {
           this.isLoading = false;
         });
     },
+    ...mapMutations('tour', ['goToNextStep']),
+  },
+  watch: {
+    showTour(show) {
+      if (!show) {
+        this.$bvModal.hide('chart-of-accounts');
+      }
+    },
   },
   /**
    * Actions: Fetch accounts, groups and subgroups
@@ -474,6 +503,11 @@ export default {
   mounted() {
     this.getAccountsList();
     this.getGroupsSubgroups();
+    if (this.showTour && this.isLastStep) {
+      this.$bvModal.show('chart-of-accounts');
+    } else {
+      this.$bvModal.hide('chart-of-accounts');
+    }
   },
 };
 </script>
