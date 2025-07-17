@@ -40,6 +40,7 @@
       v-if="selected?.fromDate && selected?.toDate"
       :td="selected.toDate"
       :fd="selected.fromDate"
+      :gstin="Object.values(orgAddress.gstin)[0]"
     />
   </section>
 </template>
