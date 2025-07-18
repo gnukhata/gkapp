@@ -1079,7 +1079,7 @@ export default {
     },
     orgLogin(orgData) {
       const userAuthToken = this.userAuthToken;
-      let selectedYear = orgData.yearData[orgData.selected];
+      let selectedYear = orgData.yearData[orgData.yearData.length - 1];
       let payload = {
         orgcode: selectedYear.code,
       };
