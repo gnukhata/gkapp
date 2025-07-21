@@ -407,10 +407,10 @@ export default {
   },
   computed: {
     filteredItems() {
-      return this.report.filter(
-        item =>  (
-          item.narration?.toLowerCase().includes(this.search.toLowerCase())
-          || item.custname?.toLowerCase().includes(this.search.toLowerCase())
+      const search = this.search.toLowerCase();
+      return this.report.filter(item =>
+        Object.values(item).some(value =>
+          typeof value === 'string' && value.toLowerCase().includes(search)
         )
       );
     },
