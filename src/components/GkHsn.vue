@@ -14,7 +14,7 @@
             :placeholder="this.$gettext('Enter HSN/SAC code or description')"
             :state="hsn.isValid"
             :required="required"
-            minlength="6"
+            minlength="4"
             debounce="600"
             @update="checkHsn"
           />

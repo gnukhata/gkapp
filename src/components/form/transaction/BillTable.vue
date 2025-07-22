@@ -1121,7 +1121,7 @@ export default {
 
         // Stock On Hand
         if (resp3.data.gkstatus === 0) {
-          self.options.stock[id] = parseFloat(resp3.data.gkresult[0].balance);
+          self.options.stock[id] = parseFloat(resp3.data.gkresult[0]?.balance);
         }
 
         self.$forceUpdate();
@@ -1135,6 +1135,16 @@ export default {
       this.currentPage = 1;
       this.editMode = false;
     },
+    checkHSN(name) {
+      let HSNLength = JSON.parse(this.form[0]?.hsn)?.hsn_code?.toString()?.length || 0;
+      if (this.gstFlag && HSNLength < 4) {
+        this.displayToast(
+          `${name} HSN invalid!`,
+          'HSN requires minimum 4 digits from April 1, 2025',
+          'danger',
+        );
+      }
+    },
     onBillItemSelect(item, index) {
       this.$forceUpdate();
       if (item) {
@@ -1144,6 +1154,7 @@ export default {
             const self = this;
             this.fetchProductDetails(item.id, index).then(() => {
               self.onUpdateDetails();
+              this.checkHSN(item.name);
             });
           }
         }
@@ -1617,6 +1628,15 @@ export default {
         this.skipAllRowSelect = false;
         return;
       }
+    },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
     },
   },
   mounted() {
