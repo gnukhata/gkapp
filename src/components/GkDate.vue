@@ -376,7 +376,16 @@ export default {
      */
     validateDate(date) {
       let result = null;
-      let currTime = new Date(date).getTime();
+      const currDate = new Date(date);
+      if (
+        !(currDate instanceof Date)
+          || isNaN(currDate)
+          || date !== currDate.toISOString().split('T')[0]
+      ) {
+        result = false;
+        return result;
+      }
+      let currTime = currDate.getTime();
       if (this.minDate && this.maxDate) {
         if (this.minTime > this.maxTime) {
           result = null;
