@@ -371,7 +371,7 @@ export default {
         this.updateCounter.payment++;
         break;
       case 'bill-table':
-        Object.assign(this.form.bill, payload.data);
+        this.form.bill = payload.data;
         this.updateCounter.totalTable++;
         break;
      case  'payment-details':
