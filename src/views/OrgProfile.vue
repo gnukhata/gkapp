@@ -496,6 +496,8 @@ export default {
       },
       isRolledOver: false,
       showNameWarning: false,
+      defaultCustomer: {},
+      defaultSupplier: {},
     };
   },
   computed: {
@@ -1036,6 +1038,18 @@ export default {
               this.$store.dispatch('initGstin');
             }
             this.$store.commit('global/setOrgDetails', this.details);
+            this.$axios.put(`/customer/${this.defaultCustomer.custid}`, {
+              ...this.defaultCustomer,
+              bankdetails: this.defaultCustomer.bankdetails || {},
+              country: this.details.orgcountry,
+              state: this.details.orgstate,
+            });
+            this.$axios.put(`/customer/${this.defaultSupplier.custid}`, {
+              ...this.defaultSupplier,
+              bankdetails: this.defaultSupplier.bankdetails || {},
+              country: this.details.orgcountry,
+              state: this.details.orgstate,
+            });
             if (this.currentStep === 'businessItemType') {
               this.$router.push('/business-details/create');
             }
@@ -1274,6 +1288,13 @@ export default {
           this.stateCode = state.value;
         }
       }
+      const orgCode = sessionStorage.getItem('orgCode');
+      const globalConf = JSON.parse(localStorage.getItem(`${orgCode}-globalConf`));
+      const defaultContacts = globalConf.transaction.default.contacts;
+      this.$axios.get(`/customer/${defaultContacts.customer.value}`)
+        .then((res) => this.defaultCustomer = res);
+      this.$axios.get(`/customer/${defaultContacts.supplier.value}`)
+        .then((res) => this.defaultSupplier = res);
     });
   },
 };
