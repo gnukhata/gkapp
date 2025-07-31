@@ -29,6 +29,10 @@
                 <gk-date
                   id="fromdate"
                   v-model="fromDate"
+                  required
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </b-form-group>
             </b-col>
@@ -43,6 +47,10 @@
                 <gk-date
                   id="todate"
                   v-model="toDate"
+                  required
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </b-form-group>
             </b-col>
@@ -194,6 +202,8 @@ import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
 import ReportHeader from '../components/ReportHeader.vue';
+import { reverseDate } from '../js/utils.js';
+
 export default {
   components: { GkDate, GkFileDownload, ReportHeader },
   name: 'CashFlow',
@@ -296,6 +306,9 @@ export default {
     },
   },
   computed: {
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   mounted() {
