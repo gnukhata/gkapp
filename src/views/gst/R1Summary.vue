@@ -226,7 +226,7 @@
           <b-link
             class="display-inline-block p-1"
             :href="jsonDownloadLink"
-            download="GSTR_1.json"
+            :download="jsonExportFileName"
             :disabled="isLoading"
           >
             <b-icon icon="cloud-download" />
@@ -277,6 +277,7 @@ export default {
       search: null,
       params: null,
       gstData: {},
+      jsonExportFileName: null,
       summaryTableFields: [
         {
           key: 'summary_label',
@@ -315,6 +316,9 @@ export default {
       type: String,
     },
     fd: {
+      type: String,
+    },
+    gstin: {
       type: String,
     },
   },
@@ -356,6 +360,9 @@ export default {
     copyJsonToClipboard() {
       navigator.clipboard.writeText(this.jsonStr);
       this.$bvToast.show('clipboard-toast');
+    },
+    jsonFileName() {
+      this.jsonExportFileName = `GSTR1_${this.gstin}_${this.fd.replaceAll("-","")}-${this.td.replaceAll("-","")}.json`;
     },
     go(report) {
       this.$router.push(`/gst/r1/${report}/${this.fd}&${this.td}`);
@@ -447,6 +454,7 @@ export default {
   },
   mounted() {
     this.getGstR1List();
+    this.jsonFileName();
   },
 };
 </script>

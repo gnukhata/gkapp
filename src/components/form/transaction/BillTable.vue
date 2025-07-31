@@ -1352,6 +1352,9 @@ export default {
           if (!item.discount.custom) {
             item.discount.total = (parseFloat(discountAmount) * qty).toFixed(2);
           }
+          if (isNaN(item.discount.total)) {
+            item.discount.total = 0;
+          }
           item.taxable = parseFloat((rate * qty - item.discount.total).toFixed(2));
         }
         item.total = item.taxable;
