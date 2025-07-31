@@ -64,10 +64,9 @@
                 <gk-date
                   v-model="toDate"
                   :format="dateFormat"
-                  :min="minimumDate"
+                  :min="minDate"
                   :max="maxDate"
                   id="to"
-                  @validity="setDateValidity"
                   :required="true"
                 />
               </b-form-group>
@@ -184,6 +183,8 @@ import dayjs from 'dayjs';
 import GkDate from '../components/GkDate.vue';
 import ReportHeader from '@/components/ReportHeader.vue';
 import { mapState } from 'vuex';
+import { reverseDate } from '../js/utils.js';
+
 export default {
   name: 'StockOnHand',
   components: { GkDate, ReportHeader },
@@ -256,14 +257,8 @@ export default {
       ];
       return fields;
     },
-    minimumDate: (self) => {
-      let date = self.reverseDate(self.yearStart);
-      return date;
-    },
-    maxDate: (self) => {
-      let date = self.reverseDate(self.yearEnd);
-      return date;
-    },
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
     dateFormat: (self) => self.$store.getters['global/getDateFormat'],
   },
   methods: {
@@ -425,17 +420,6 @@ export default {
         this.selectedGodown.name = params.goname || "All";
         this.stockOnHand();
       }
-    },
-    setDateValidity(validity) {
-      this.date.valid = validity;
-    },
-    reverseDate(date) {
-      return date
-        ? date
-          .split('-')
-          .reverse()
-          .join('-')
-        : '';
     },
   },
   mounted() {
