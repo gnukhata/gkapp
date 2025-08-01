@@ -52,6 +52,9 @@
                   id="date-from"
                   required
                   v-model="fromDate"
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </b-form-group>
             </b-col>
@@ -67,6 +70,9 @@
                   id="date-to"
                   required
                   v-model="toDate"
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </b-form-group>
             </b-col>
@@ -155,6 +161,9 @@
             :id="`clearance-date-${data.index}`"
             required
             v-model="activeVouchers[data.index].clearancedate"
+            :format="dateFormat"
+            :min="minDate"
+            :max="maxDate"
             @validity="(isValid) => (data.item.valid = isValid)"
           />
         </template>
@@ -237,6 +246,7 @@ import axios from 'axios';
 import ReportHeader from '../components/ReportHeader.vue';
 import Voucher from '../components/form/Voucher.vue';
 import { reverseDate } from '../js/utils';
+
 export default {
   name: 'BankRecon',
   components: { GkDate, ReportHeader, Voucher },
@@ -302,6 +312,9 @@ export default {
   computed: {
     activeVouchers: (self) =>
       self.tableType === 0 ? self.vouchers.uncleared : self.vouchers.cleared,
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
