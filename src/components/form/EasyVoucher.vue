@@ -249,6 +249,13 @@ export default {
         });
       }
     },
+    creditInvData(newCreditInvData) {
+      let { invoicedate } = newCreditInvData;
+      invoicedate = this.dateReverse(invoicedate);
+      if (invoicedate && new Date(invoicedate) > new Date(this.form.date)) {
+        this.form.date = invoicedate;
+      }
+    },
   },
   methods: {
     setDateValidity(validity) {

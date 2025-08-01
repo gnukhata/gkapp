@@ -399,7 +399,11 @@ export default {
     resetForm() {
       this.date.valid = null;
       this.form.purpose = DR_CR_MODE['discount'];
-      this.form.date = this.getNoteDate();
+      let noteDate =this.getNoteDate();
+      if (this.invDate.getTime() > noteDate.getTime()) {
+        noteDate = this.invDate;
+      }
+      this.form.date = noteDate;
       this.setNoteNo(true);
       this.onUpdateDetails();
     },

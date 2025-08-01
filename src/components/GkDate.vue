@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { formatDateObj } from '../js/utils';
+
 export default {
   name: 'GkDate',
   model: {
@@ -204,6 +206,19 @@ export default {
     },
   },
   methods: {
+    getDefaultDate(date) {
+      let defaultDate = date ?? formatDateObj(new Date());
+      if (defaultDate < this.minDate) {
+        defaultDate = this.minDate;
+      }
+      if (defaultDate > this.maxDate) {
+        defaultDate = this.maxDate
+      }
+      if (this.formatOutput) {
+        defaultDate = this.toInternalFormat(defaultDate);
+      }
+      return defaultDate;
+    },
     setDateValidity(validity) {
       if (this.readonly) {
         this.valid = null;
@@ -405,9 +420,8 @@ export default {
   mounted() {
     if (this.value) {
       if (!this.date) {
-        this.date = this.formatOutput
-          ? this.toInternalFormat(this.value)
-          : this.value;
+        this.date = this.getDefaultDate(this.value);
+        this.onDateUpdate(this.date);
       }
     }
   },
