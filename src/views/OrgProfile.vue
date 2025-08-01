@@ -54,7 +54,14 @@
                 size="sm"
                 type="text"
                 required
+                :state="!showNameWarning"
               />
+              <b-form-invalid-feedback
+                v-if="showNameWarning"
+                id="input-live-feedback"
+              >
+                WARNING: Updating the name of a rolled over organisation will remove the option to switch financial year from topbar. You can still use the "Change Org" option for the same.
+              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group
               :label="$gettext('Website')"
@@ -487,10 +494,12 @@ export default {
         countries,
         gstAccounts: [],
       },
+      isRolledOver: false,
+      showNameWarning: false,
     };
   },
   computed: {
-    ...mapState(['gkCoreUrl', 'orgImg', 'orgGstin']),
+    ...mapState(['gkCoreUrl', 'orgName', 'orgImg', 'orgGstin']),
     ...mapState('tour', ['currentStep']),
     ...mapGetters('global', {
       globalConf: 'getGlobalConfig',
@@ -1240,13 +1249,22 @@ export default {
     ...mapMutations('tour', ['goToNextStep', 'skipTour']),
   },
   watch: {
+    'details.orgname': function(newName) {
+      this.showNameWarning = this.isRolledOver && (newName !== this.orgName);
+    },
     currentStep(newStep) {
       if (newStep === 'businessItemType') {
         this.updateOrg();
       }
-    }
+    },
   },
   mounted() {
+    this.$axios.get('/gkuser/orgs').then((resp) => {
+      const activeOrg = resp[this.orgName] ?? [];
+      if (activeOrg.length > 1) {
+        this.isRolledOver = true;
+      }
+    });
     this.init().then(() => {
       if (this.details.orgstate && this.states.length) {
         let state = this.states.find(

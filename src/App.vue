@@ -56,6 +56,22 @@
           {{ yend.split('-')[2].slice(2, 4) }}
         </template>
       </v-select>
+      <div class="mt-4 float-right">
+        <b-button
+          size="sm"
+          class="mt-2"
+          variant="success"
+          :disabled="isLoadingFinYear"
+          @click="switchFinancialYear"
+        >
+          <b-spinner
+            v-if="isLoadingFinYear"
+            class="mr-1"
+            small
+          />
+          Submit
+        </b-button>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -75,6 +91,7 @@ export default {
     return {
       screenWidth: window.innerWidth,
       currentFinYear: null,
+      isLoadingFinYear: false,
     };
   },
   computed: {
@@ -92,9 +109,6 @@ export default {
     ]),
   },
   watch: {
-    currentFinYear(index) {
-      this.orgLogin(this.finYears[index]);
-    },
     yearStart(newStart, oldStart) {
       if (!oldStart && newStart && !this.currentFinYear) {
         let res = null;
@@ -142,6 +156,7 @@ export default {
       }
     },
     orgLogin(yearData) {
+      this.isLoadingFinYear = true;
       if (!yearData) {
         return;
       }
@@ -212,7 +227,16 @@ export default {
               variant: 'danger',
             });
           }
+        })
+        .finally(() => {
+          this.isLoadingFinYear = false;
+          this.$bvModal.hide('fy-modal');
         });
+    },
+    switchFinancialYear() {
+      this.orgLogin(this.finYears.find((finYear) => (
+        finYear.index === this.currentFinYear
+      )));
     },
   },
   beforeCreate() {
