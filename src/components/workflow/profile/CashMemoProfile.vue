@@ -8,12 +8,19 @@
     />
     <div class="mb-3 clearfix d-print-none">
       <div class="float-right">
-        <span>
+        <span
+          v-if="deletedFlag"
+          class="float-right h5 p-2 bg-danger text-white"
+          v-translate
+        >
+          Cancelled
+        </span>
+        <span v-else>
           <b-dropdown
             split
             size="sm"
             variant="dark"
-            v-b-modal.voucher-container
+            @click="showVoucherModal = !showVoucherModal"
           >
             <template #button-content>
               <translate>View Voucher</translate>
@@ -71,6 +78,12 @@
             >
               <translate>Create Debit Note</translate>
             </b-dropdown-item>
+            <b-dropdown-item-button
+              @click="confirmOnCancel"
+              v-b-toggle.voucher-container
+            >
+              <translate>Cancel Cash Memo</translate>
+            </b-dropdown-item-button>
           </b-dropdown>
         </span>
       </div>
@@ -232,6 +245,7 @@
     <div class="clearfix" />
     <b-modal
       id="voucher-container"
+      v-model="showVoucherModal"
       size="xl"
       title="Vouchers"
       hide-footer
@@ -318,6 +332,10 @@ export default {
   },
   computed: {
     ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
+    cancelFlag: (self) => !!self.pdata.cancelFlag,
+    deletedFlag: function() {
+      return this.pdata.deletedFlag
+    },
     memoData: (self) => {
       const fields =  [
         { title: self.$gettext('No.'), value: self.invoice.number },
@@ -494,6 +512,7 @@ export default {
       },
       isPreloading: false,
       vouchers: [],
+      showVoucherModal: false,
       showVouchers: false,
       invoice: {
         payment: {
@@ -693,8 +712,11 @@ export default {
       }
     },
     getDetails() {
+      let url = this.deletedFlag
+              ? `/invoice/cancel/${this.id}`
+              : `/invoice/${this.id}`;
       return axios
-        .get(`/invoice/${this.id}`)
+        .get(url)
         .catch((error) => {
           this.$bvToast.toast(`Error: ${error.message}`, {
             title: this.$gettext(`Fetch Cash Memo Error!`),
@@ -788,8 +810,75 @@ export default {
         this.$router.push({ path: `/workflow/Transactions-DebitCreditNote/${selectedKey}` });
       }
     },
+    confirmOnCancel() {
+      let text = this.$createElement('div', {
+        domProps: {
+          innerHTML: `About to cancel cash memo: <b>${this.invoice.number}</b>, of ${this.invoice.total.text} <b>(₹ ${this.invoice.total.amount})</b> for sale. Are you sure?`,
+        },
+      });
+      this.$bvModal
+        .msgBoxConfirm(text, {
+          id: 'cash-memo-cancel',
+          size: 'md',
+          buttonSize: 'sm',
+          okVariant: 'success',
+          headerClass: 'p-0 border-bottom-0',
+          footerClass: 'border-top-0', // p-1
+          centered: true,
+        })
+        .then((val) => {
+          if (val) {
+            this.cancelPos();
+          }
+        });
+    },
+    cancelPos() {
+      axios
+        .delete(`/invoice/cancel/${this.id}`)
+        .then((response) => {
+          switch (response.data.gkstatus) {
+          case 0:
+            this.displayToast(
+              'Cancel Cash Memo Success!',
+              `Successfully cancelled Cash Memo ${this.invoice.number}`,
+              'success'
+            );
+            this.getDetails().then((response) => {
+              if (typeof this.onUpdate === 'function') {
+                this.onUpdate(response.data);
+              }
+            });
+            break;
+          case 3:
+            this.displayToast(
+              'Cancel Cash Memo Failure!',
+              `Could not cancel cash memo ${this.invoice.number}. Try again later or Contact admin`,
+              'danger'
+            );
+            break;
+          default:
+            this.displayToast(
+              'Cancel Cash Memo Failure!',
+              `Could not cancel cash memo ${this.invoice.number}. Try again later or Contact admin`,
+              'danger'
+            );
+          }
+        })
+        .catch((error) => {
+          this.displayToast('Cancel Cash Memo Failure!', error.message, 'danger');
+        });
+    },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
+    },
   },
-  watch: {
+   watch: {
     id: function(id) {
       if (id && parseInt(id) > -1) {
         this.showVouchers = false;
