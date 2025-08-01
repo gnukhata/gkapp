@@ -262,7 +262,7 @@
 import axios from 'axios';
 import { mapGetters, mapState } from 'vuex';
 
-import { PAGES, CONFIGS, PAYMENT_TYPE } from '@/js/enum.js';
+import { PAGES, CONFIGS } from '@/js/enum.js';
 
 import PartyDetails from '../../components/form/transaction/PartyDetails.vue';
 import ShipDetails from '../../components/form/transaction/ShipDetails.vue';
@@ -642,22 +642,12 @@ export default {
       let total = this.form.bill.reduce((acc, item) => {
         return acc + parseFloat(item.total);
       }, 0);
-      let party = this.form.party.name ? this.form.party.name.name || '' : '';
+      let contactType = this.isSale ? 'customer' : 'seller';
+      let party = this.form.party.name ? this.form.party.name.name || contactType : contactType;
       let invNo = this.form.inv.no || '';
-      let type = this.isSale ? 'Sold' : 'Bought';
+      let type = this.isSale ? 'Sale' : 'Purchase';
       let toOrFrom = this.isSale ? 'to' : 'from';
-      let payment = '';
-      switch (this.form.payment.mode) {
-      case PAYMENT_TYPE['cash']:
-        payment = 'by cash';
-        break;
-      case PAYMENT_TYPE['credit']:
-        payment = 'on credit';
-        break;
-      case PAYMENT_TYPE['bank']:
-        payment = 'by cheque';
-      }
-      this.defaultNarration = `${type} goods worth Rupees ${total.toFixed(2)} ${toOrFrom} ${party} ${payment}, ref invoice no. ${invNo}`;
+      this.defaultNarration = `${type} made ${toOrFrom} ${party} for ${total.toFixed(2)} amount inclusive of all taxes, ref invoice no. ${invNo}`
     },
     fetchDelNoteGodown(dcid) {
       const self = this;
