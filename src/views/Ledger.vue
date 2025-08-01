@@ -47,6 +47,10 @@
               <gk-date
                 id="from"
                 v-model="fromDate"
+                required
+                :format="dateFormat"
+                :min="minDate"
+                :max="maxDate"
                 :readonly="showMonthlyLedger"
               />
             </b-form-group>
@@ -62,6 +66,10 @@
               <gk-date
                 id="to"
                 v-model="toDate"
+                required
+                :format="dateFormat"
+                :min="minDate"
+                :max="maxDate"
                 :readonly="showMonthlyLedger"
               />
             </b-form-group>
@@ -301,8 +309,10 @@
 <script>
 import GkFileDownload from '../components/GkFileDownload.vue';
 import ReportHeader from '../components/ReportHeader.vue';
-import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
+import { mapState } from 'vuex';
+import { reverseDate } from '../js/utils.js';
+
 export default {
   components: { GkDate, GkFileDownload, ReportHeader },
   name: 'Ledger',
@@ -337,6 +347,9 @@ export default {
       const start = (this.currentPage - 1) * this.perPage;
       return this.result.slice(start, start + this.perPage);
     },
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   methods: {

@@ -47,10 +47,13 @@
                 label-cols="auto"
               >
                 <gk-date
-                  :format-output="true"
                   id="1"
                   required
                   v-model="fromDate"
+                  format-output
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </b-form-group>
             </b-col>
@@ -63,10 +66,13 @@
                 label-cols="auto"
               >
                 <gk-date
-                  :format-output="true"
                   id="2"
                   required
                   v-model="toDate"
+                  format-output
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </b-form-group>
             </b-col>
@@ -235,6 +241,7 @@ import { mapGetters, mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
 import ReportHeader from '../components/ReportHeader.vue';
+import { reverseDate } from '../js/utils.js';
 
 export default {
   name: 'Registers',
@@ -423,6 +430,9 @@ export default {
     },
     downloadFileName: (self) =>
       `Profit_Loss_${self.fromDate}_to_${self.toDate}`,
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
     ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
   },

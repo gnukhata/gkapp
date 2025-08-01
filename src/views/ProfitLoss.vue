@@ -27,7 +27,11 @@
               >
                 <gk-date
                   id="fromdate"
+                  required
                   v-model="fromDate"
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </b-form-group>
             </b-col>
@@ -437,6 +441,8 @@ import GkDate from '../components/GkDate.vue';
 import ReportHeader from '../components/ReportHeader.vue';
 import ReportTableThreeCol from '../components/reports/ReportTableThreeCol.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
+import { reverseDate } from '../js/utils.js';
+
 export default {
   components: { GkDate, ReportHeader, GkFileDownload, ReportTableThreeCol },
   name: 'ProfitLoss',
@@ -528,6 +534,9 @@ export default {
 
       return result;
     },
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   methods: {

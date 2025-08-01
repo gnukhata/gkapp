@@ -63,9 +63,12 @@
                 label-cols="auto"
               >
                 <gk-date
-                  :required="true"
-                  v-model="fromDate"
                   id="from"
+                  required
+                  v-model="fromDate"
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </b-form-group>
             </b-col>
@@ -78,9 +81,12 @@
                 label-cols="auto"
               >
                 <gk-date
-                  :required="true"
-                  v-model="toDate"
                   id="to"
+                  required
+                  v-model="toDate"
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
                 />
               </b-form-group>
             </b-col>
@@ -416,6 +422,7 @@ import { mapState } from 'vuex';
 import GkFileDownload from '@/components/GkFileDownload.vue';
 import ReportHeader from '@/components/ReportHeader.vue';
 import GkTooltip from '@/components/GkTooltip.vue';
+import { reverseDate } from '../js/utils.js';
 
 export default {
   name: 'ProductRegister',
@@ -664,6 +671,9 @@ export default {
       });
       return product.label;
     },
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
   },
   mounted() {
     this.getProductList()
