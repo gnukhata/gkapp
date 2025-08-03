@@ -814,10 +814,12 @@ export default {
       const self = this;
       this.fetchContactList().then(() => {
         if (self.options.customers.length) {
-          self.form.name =
+          const partyName =
             self.form.type === 'customer'
               ? self.options.customers[self.options.customers.length - 1]
               : self.options.suppliers[self.options.suppliers.length - 1];
+          self.form.name = partyName;
+          self.fetchCustomerData(partyName.id);
         }
       });
     },
