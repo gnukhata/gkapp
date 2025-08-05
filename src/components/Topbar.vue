@@ -61,22 +61,24 @@
         <template #button-content>
           <b-icon icon="plus-lg" /> Add
         </template>
-        <b-dropdown-item to="/invoice">
-          Invoice
-        </b-dropdown-item>
-        <b-dropdown-item to="/dc-note">
-          Debit/Credit Note
-        </b-dropdown-item>
-        <b-dropdown-item to="/cash-memo">
-          Point of Sales
-        </b-dropdown-item>
-        <b-dropdown-item to="/ps-order">
-          Purchase/Sales Order
-        </b-dropdown-item>
-        <b-dropdown-item to="/voucher/create/receipt/-1">
-          Voucher
-        </b-dropdown-item>
-        <b-dropdown-divider />
+        <div v-if="!orgAddress.booksclosedflag">
+          <b-dropdown-item to="/invoice">
+            Invoice
+          </b-dropdown-item>
+          <b-dropdown-item to="/dc-note">
+            Debit/Credit Note
+          </b-dropdown-item>
+          <b-dropdown-item to="/cash-memo">
+            Point of Sales
+          </b-dropdown-item>
+          <b-dropdown-item to="/ps-order">
+            Purchase/Sales Order
+          </b-dropdown-item>
+          <b-dropdown-item to="/voucher/create/receipt/-1">
+            Voucher
+          </b-dropdown-item>
+          <b-dropdown-divider />
+        </div>
         <b-dropdown-item to="/business-details/create">
           Business Items
         </b-dropdown-item>
@@ -180,6 +182,7 @@ export default {
       'userName',
       'orgName',
       'orgImg',
+      'orgAddress',
       'userOrgAuthenticated',
       'yearStart',
       'yearEnd',
