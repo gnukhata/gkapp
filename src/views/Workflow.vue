@@ -76,10 +76,10 @@
               />
               <b-dropdown
                 split
-                :split-to="getFormPath()"
                 size="sm"
                 class="ml-2"
                 variant="success"
+                @click="handleNewEntry"
               >
                 <template #button-content>
                   <b-icon icon="plus" />
@@ -983,15 +983,22 @@ export default {
     rightPaneHeight: (self) =>
       window.innerHeight - (self.headerHeight + self.leftHeaderHeight.min + 55), // 55 is the remaining vertical space in the screen
 
-    ...mapState(['yearStart', 'yearEnd', 'orgCode', 'orgName']),
+    ...mapState(['yearStart', 'yearEnd', 'orgCode', 'orgName', 'orgAddress']),
   },
   methods: {
-    getFormPath() {
-      const formPath = this.activeTabOptions.createNewPath;
-      if (this.wfType) {
-        formPath.query = { type: this.wfType };
+    handleNewEntry() {
+      const hasBooksClosed = this.orgAddress.booksclosedflag;
+      if (hasBooksClosed) {
+        this.$bvModal.msgBoxOk('Books closed for the current financial year. No new transactions are allowed.', {
+          okVariant: 'dark',
+        });
+      } else {
+        const formPath = this.activeTabOptions.createNewPath;
+        if (this.wfType) {
+          formPath.query = { type: this.wfType };
+        }
+        this.$router.push(formPath);
       }
-      return formPath;
     },
     getInvoiceTitle(invoiceType) {
       const _invoiceType = invoiceType.charAt(0).toUpperCase() + invoiceType.slice(1);
