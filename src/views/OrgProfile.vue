@@ -496,6 +496,8 @@ export default {
       },
       isRolledOver: false,
       showNameWarning: false,
+      defaultCustomer: {},
+      defaultSupplier: {},
     };
   },
   computed: {
@@ -1018,7 +1020,6 @@ export default {
         .then((res) => {
           switch (res.data.gkstatus) {
           case 0:
-            this.loading = false;
             this.updateCessAccounts().then(() => {
               this.init();
             });
@@ -1036,12 +1037,23 @@ export default {
               this.$store.dispatch('initGstin');
             }
             this.$store.commit('global/setOrgDetails', this.details);
+            this.$axios.put(`/customer/${this.defaultCustomer.custid}`, {
+              ...this.defaultCustomer,
+              bankdetails: this.defaultCustomer.bankdetails || {},
+              country: this.details.orgcountry,
+              state: this.details.orgstate,
+            });
+            this.$axios.put(`/customer/${this.defaultSupplier.custid}`, {
+              ...this.defaultSupplier,
+              bankdetails: this.defaultSupplier.bankdetails || {},
+              country: this.details.orgcountry,
+              state: this.details.orgstate,
+            });
             if (this.currentStep === 'businessItemType') {
               this.$router.push('/business-details/create');
             }
             break;
           case 1:
-            this.loading = false;
             this.$bvToast.toast(
               `Organisation ${this.details.orgname} already exists`,
               {
@@ -1052,17 +1064,25 @@ export default {
             );
             break;
           case 2:
-            this.loading = false;
             this.$bvToast.toast('Unauthorised Access', {
               variant: 'danger',
               solid: true,
             });
             break;
           case 4:
-            this.loading = false;
             this.$bvToast.toast(
               'You are not authorised to delete the Organisation Details. Please contact the admin',
               {
+                variant: 'danger',
+                solid: true,
+              }
+            );
+            break;
+          default:
+            this.$bvToast.toast(
+              'There was an error in submitting the form. Please check your input and try again.',
+              {
+                title: 'Error',
                 variant: 'danger',
                 solid: true,
               }
@@ -1075,6 +1095,8 @@ export default {
             variant: 'danger',
             solid: true,
           });
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
@@ -1274,6 +1296,13 @@ export default {
           this.stateCode = state.value;
         }
       }
+      const orgCode = sessionStorage.getItem('orgCode');
+      const globalConf = JSON.parse(localStorage.getItem(`${orgCode}-globalConf`));
+      const defaultContacts = globalConf.transaction.default.contacts;
+      this.$axios.get(`/customer/${defaultContacts.customer.value}`)
+        .then((res) => this.defaultCustomer = res);
+      this.$axios.get(`/customer/${defaultContacts.supplier.value}`)
+        .then((res) => this.defaultSupplier = res);
     });
   },
 };
