@@ -1078,6 +1078,16 @@ export default {
               }
             );
             break;
+          default:
+            this.$bvToast.toast(
+              'There was an error in submitting the form. Please check your input and try again.',
+              {
+                title: 'Error',
+                variant: 'danger',
+                solid: true,
+              }
+            );
+            break;
           }
         })
         .catch((e) => {
