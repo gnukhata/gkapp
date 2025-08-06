@@ -14,7 +14,7 @@
             split
             size="sm"
             variant="dark"
-            v-b-modal.voucher-container
+            @click="showVoucherModal = !showVoucherModal"
           >
             <template #button-content>
               <translate>View Voucher</translate>
@@ -34,6 +34,11 @@
             >
               {{ inv.icflag === 3 ? 'View Cash Memo' : 'View Invoice' }}
             </b-dropdown-item>
+            <b-dropdown-item-button
+              @click="confirmOnDelete"
+            >
+              <translate>Delete Debit/Credit Note</translate>
+            </b-dropdown-item-button>
           </b-dropdown>
         </span>
       </div>
@@ -201,6 +206,7 @@
     <div class="clearfix" />
     <b-modal
       id="voucher-container"
+      v-model="showVoucherModal"
       size="xl"
       title="Voucher"
       hide-footer
@@ -289,6 +295,7 @@ export default {
     return {
       isPreloading: false,
       showVouchers: false,
+      showVoucherModal: false,
       vouchers: [],
       dcNote: {
         dcItems: [],
@@ -720,6 +727,36 @@ export default {
           );
         } // end switch
       });
+    },
+    confirmOnDelete() {
+      let text = `This Debit/Credit note no. ${this.dcNote.no} is about to be deleted. Are you sure?`
+      this.$bvModal
+          .msgBoxConfirm(text, {
+            size: 'md',
+            buttonSize: 'sm',
+            okVariant: 'success',
+            headerClass: 'p-0 border-bottom-0',
+            footerClass: 'border-top-0', // p-1
+            centered: true,
+          })
+        .then((val) => {
+          if (val) {
+            this.deleteDrCrNote();
+          }
+        });
+    },
+    deleteDrCrNote() {
+      this.$axios
+          .delete(`/drcrnote`, { data: { drcrid: this.id }})
+          .then(() => {
+            this.$axios.post(
+              `/log`,
+              {
+                activity: `Debit note no. ${this.dcNote.no} deleted.`,
+              },
+            )
+            this.$router.push(`/workflow/Transactions-DebitCreditNote/-1?type=${this.flags?.sale ? 'sale' : 'purchase'}`);
+          });
     },
   },
   mounted() {
