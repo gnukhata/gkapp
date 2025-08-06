@@ -1020,7 +1020,6 @@ export default {
         .then((res) => {
           switch (res.data.gkstatus) {
           case 0:
-            this.loading = false;
             this.updateCessAccounts().then(() => {
               this.init();
             });
@@ -1055,7 +1054,6 @@ export default {
             }
             break;
           case 1:
-            this.loading = false;
             this.$bvToast.toast(
               `Organisation ${this.details.orgname} already exists`,
               {
@@ -1066,14 +1064,12 @@ export default {
             );
             break;
           case 2:
-            this.loading = false;
             this.$bvToast.toast('Unauthorised Access', {
               variant: 'danger',
               solid: true,
             });
             break;
           case 4:
-            this.loading = false;
             this.$bvToast.toast(
               'You are not authorised to delete the Organisation Details. Please contact the admin',
               {
@@ -1089,6 +1085,8 @@ export default {
             variant: 'danger',
             solid: true,
           });
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
