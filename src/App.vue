@@ -205,8 +205,8 @@ export default {
                   lang: this.$language,
                 })
                 .then(() => {
-                  // redirect to workflow on login
-                  location.reload();
+                  // redirect to dashboard on login
+                  this.$router.push('/dashboard');
                 });
             });
             break;
