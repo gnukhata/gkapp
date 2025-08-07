@@ -598,6 +598,7 @@ const routes = [
     name: "Bank_Reconc",
     component: () =>
       import(/* webpackChunkName: "bank-recon" */ "../views/BankRecon.vue"),
+     props: true,
   },
 
   // GST

@@ -96,15 +96,33 @@
                 >
                   Back
                 </b-button>
-                <b-button
+                <b-dropdown
+                  size="sm"
+                  split
+                  right
                   variant="dark"
                   @click="editItem"
                   class="ml-1"
                   v-if="selectedItem"
                   :disabled="defaultBank == selectedItem.id"
+                  text="Edit"
                 >
-                  Edit
-                </b-button>
+                  <b-dropdown-item
+                    :to="`/ledger/${selectedItem.accountcode}`"
+                  >
+                    View Ledger
+                  </b-dropdown-item>
+                  <b-dropdown-item
+                    :to="{
+                      name: 'Bank_Reconc',
+                      params: {
+                        bankAccId: selectedItem.accountcode,
+                      },
+                    }"
+                  >
+                    View BRS
+                  </b-dropdown-item>
+                </b-dropdown>
               </b-button-group>
             </div>
           </template>

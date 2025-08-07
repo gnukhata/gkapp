@@ -250,6 +250,13 @@ import { reverseDate } from '../js/utils';
 export default {
   name: 'BankRecon',
   components: { GkDate, ReportHeader, Voucher },
+  props: {
+    bankAccId: {
+      type: Number,
+      required: false,
+      default: null,
+    },
+  },
   data() {
     return {
       loading: false,
@@ -430,6 +437,10 @@ export default {
   mounted() {
     this.fromDate = this.yearStart;
     this.toDate = this.yearEnd;
+    if (this.bankAccId) {
+      this.accId = this.bankAccId;
+      this.getVouchers();
+    };
     this.getBankAccounts();
   },
 };
