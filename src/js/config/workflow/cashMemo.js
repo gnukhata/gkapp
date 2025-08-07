@@ -70,11 +70,11 @@ const config = {
   },
   loadList: function() {
     const requests = [
-      axios.get('/cashmemo?inoutflag=15').catch((error) => {
+      axios.get('/cashmemo').catch((error) => {
         return error;
       }),
       //purchase
-      axios.get('/cashmemo?inoutflag=9').catch((error) => {
+      axios.get('/cashmemo?cancelled=1').catch((error) => {
         return error;
       }),
     ];
@@ -93,6 +93,7 @@ const config = {
               icon: 'cash-stack',
               // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
               date: item.invoicedate,
+              isCancelled: item.is_cancelled,
               dateObj: Date.parse(
                 item.invoicedate
                   .split('-')

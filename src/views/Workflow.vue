@@ -939,9 +939,12 @@ export default {
         };
         break;
       case 'CashMemo':
-        break;
+        data = {
+          deletedFlag: entity.deletedFlag,
+        };
+          break;
       case 'DebitCreditNote':
-        break;
+          break;
       case 'DeliveryNote':
         data = {
           cancelledFlag: entity.cancelledFlag,
@@ -1397,6 +1400,13 @@ export default {
                          }
                        }
                        break;
+      case 'Transactions-CashMemo': {
+        if (updatedData.gkstatus === 3) {
+          // if the invoice cancel after update, gkstatus will be 3
+          this.selectedEntity.deletedFlag = true;
+        }
+      }
+      break;
       case 'Transactions-Invoice': {
         if (updatedData.gkstatus === 3) {
           // if the invoice cancel after update, gkstatus will be 3
