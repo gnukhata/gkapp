@@ -733,6 +733,11 @@ const routes = [
         /* webpackChunkName: "gstnews-single-post" */ "../views/report-bug/ReportBug.vue"
       ),
   },
+  {
+    path: "*",
+    name: "Default",
+    redirect: "/dashboard",
+  },
 ];
 
 const router = new VueRouter({
