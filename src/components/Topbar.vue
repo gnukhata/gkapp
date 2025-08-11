@@ -61,7 +61,7 @@
         <template #button-content>
           <b-icon icon="plus-lg" /> Add
         </template>
-        <div v-if="!orgAddress.booksclosedflag">
+        <div v-if="!orgAddress?.booksclosedflag">
           <b-dropdown-item to="/invoice">
             Invoice
           </b-dropdown-item>

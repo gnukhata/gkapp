@@ -400,7 +400,7 @@ export default {
       this.date.valid = null;
       this.form.purpose = DR_CR_MODE['discount'];
       let noteDate =this.getNoteDate();
-      if (this.invDate.getTime() > noteDate.getTime()) {
+      if (this.invDate && noteDate && this.invDate.getTime() > noteDate.getTime()) {
         noteDate = this.invDate;
       }
       this.form.date = noteDate;
