@@ -6,8 +6,17 @@ import CloseBooks from "@/views/CloseBooks.vue";
 import UserManagement from "@/views/UserManagement.vue";
 import Payment from "@/views/Payment.vue";
 import UOM from "@/views/UOM.vue";
+import store from "@/store";
 
 Vue.use(VueRouter);
+
+const checkIfBooksClosed = (to, from, next) => {
+  if (store.state.orgAddress?.booksclosedflag) {
+    next('/dashboard');
+  } else {
+    next();
+  }
+};
 
 const routes = [
   {
@@ -301,6 +310,7 @@ const routes = [
       ...route.params,
       type: route.query.type,
     }),
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -314,6 +324,7 @@ const routes = [
         /* webpackChunkName: "invoice_edit" */ "../views/Transactions/InvoiceEdit.vue"
       ),
     props: true,
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -327,6 +338,7 @@ const routes = [
         /* webpackChunkName: "createvoucher" */ "../views/CreateVoucher.vue"
       ),
     props: true,
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -338,6 +350,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "voucheredit" */ "../views/VoucherEdit.vue"),
     props: true,
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -362,6 +375,7 @@ const routes = [
         /* webpackChunkName: "delivery_note" */ "../views/Transactions/DeliveryNote.vue"
       ),
     props: true,
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -374,6 +388,7 @@ const routes = [
       import(
         /* webpackChunkName: "cash_memo" */ "../views/Transactions/CashMemo.vue"
       ),
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -390,6 +405,7 @@ const routes = [
       ...route.params,
       type: route.query.type,
     }),
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -408,6 +424,7 @@ const routes = [
       invoiceId: route.query['invoice-id'] ? Number(route.query['invoice-id']) : null,
       transaction: route.query['transaction'],
     }),
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
