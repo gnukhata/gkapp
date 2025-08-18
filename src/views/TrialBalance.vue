@@ -1,160 +1,253 @@
 <template>
-  <section class="m-2">
+  <section>
     <b-overlay :show="isLoading">
+      <h2 class="my-4 text-muted display-5">
+        TRIAL BALANCE
+      </h2>
       <!-- Card -->
-      <b-form @submit.prevent="getAllTrialBalances">
-        <b-card
-          class="gkcard mx-auto"
-          header-bg-variant="dark"
-          header-text-variant="light"
+      <b-card
+        bg-variant="light"
+        class="mb-3 d-print-none"
+      >
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
         >
-          <template #header>
-            <gk-cardheader
-              :name="$gettext('View Trial Balance')"
-              :help-body="showHelpBody"
-            ></gk-cardheader>
-          </template>
-          <b-form-group label="From" label-align="right" content-cols="8">
-            <gk-date id="fromdate" v-model="fromDate"></gk-date>
-          </b-form-group>
-          <b-form-group label="To" label-align="right" content-cols="8">
-            <gk-date id="todate" v-model="toDate"></gk-date>
-          </b-form-group>
-          <b-button
-            variant="success"
-            @click="updateRoute"
-            class="float-right"
-            type="submit"
+          Trial Balance: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+          {{ dateReverse(selected?.toDate || toDate) }}
+        </b-alert>
+        <b-form @submit.prevent="updateTrialBalance">
+          <b-row>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="From"
+                label-cols="auto"
+              >
+                <gk-date
+                  id="fromdate"
+                  v-model="fromDate"
+                  required
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="To"
+                label-cols="auto"
+              >
+                <gk-date
+                  id="todate"
+                  v-model="toDate"
+                  required
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="Type"
+                label-cols="auto"
+              >
+                <v-select
+                  :options="trialBalanceOptions"
+                  v-model="trialBalanceType"
+                  placeholder="Select Trial Balance Type"
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-button-group
+            size="sm"
           >
-            <b-icon class="mr-1" icon="cloud-arrow-down"></b-icon>
-            <translate>Get Details</translate>
-          </b-button>
-        </b-card>
-      </b-form>
+            <b-button
+              variant="success"
+              type="submit"
+              class="mr-2"
+            >
+              Submit
+            </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              Clear
+            </b-button>
+          </b-button-group>
+        </b-form>
+      </b-card>
       <!-- Report header -->
-      <report-header>
-        <div class="text-center">
-          <b>{{ trialBalanceType }} Trial Balance</b>
-          for the period {{ dateReverse(this.yearStart) }} to
-          {{ dateReverse(this.yearEnd) }}
-        </div>
-      </report-header>
-      <div class="mt-3" v-if="result !== null">
+      <div
+        class="mt-3"
+        v-if="tableItems !== null"
+      >
+        <report-header>
+          <div class="text-center">
+            <b>{{ trialBalanceType }} Trial Balance</b>
+            for the period {{ dateReverse(selected.fromDate) }} to
+            {{ dateReverse(selected.toDate) }}
+          </div>
+        </report-header>
+        <b-card
+          class="mb-3 d-print-none"
+        >
+          <b-card-title class="h5">
+            Summary
+          </b-card-title>
+          <b-row v-if="currentTrialBalanceType == 'Net'">
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Credit Balance:</b> {{ tableItems?.at(-1)?.Cr }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Debit Balance:</b> {{ tableItems?.at(-1)?.Dr }}
+            </b-col>
+          </b-row>
+          <b-row v-if="currentTrialBalanceType == 'Gross'">
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Credit Balance:</b> {{ tableItems?.at(-1)?.["Cr balance"] }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Debit Balance:</b> {{ tableItems?.at(-1)?.["Dr balance"] }}
+            </b-col>
+          </b-row>
+          <b-row v-if="currentTrialBalanceType == 'Extended'">
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Credit Balance:</b> {{ tableItems?.at(-1)?.curbalcr }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Debit Balance:</b> {{ tableItems?.at(-1)?.curbaldr }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Total Crs:</b> {{ tableItems?.at(-1)?.totalcr }}
+            </b-col>
+            <b-col
+              cols
+              xl="3"
+              md="4"
+              sm="6"
+            >
+              <b>Total Drs:</b> {{ tableItems?.at(-1)?.totaldr }}
+            </b-col>
+          </b-row>
+        </b-card>
         <!-- Toolbar -->
-        <gk-toolbar>
-          <template #left>
-            <!-- search bar -->
-            <b-form-input
-              size="sm"
-              v-model.lazy="search"
-              type="text"
-              :placeholder="$gettext('Search trial balance')"
-              style="align-self: center"
-            ></b-form-input>
-          </template>
-          <!-- Select balance type buttons -->
-          <gk-hovermenu>
-            <div class="bg-dark text-light p-1 mb-1">
-              <b v-translate>Balance Type</b>
+        <div class="mt-4">
+          <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
+            <!-- Search Field -->
+            <div>
+              <b-input-group size="sm">
+                <!-- search bar -->
+                <b-form-input
+                  size="sm"
+                  v-model.lazy="search"
+                  type="text"
+                  placeholder="Search Table"
+                  style="align-self: center"
+                />
+              </b-input-group>
             </div>
-            <b-form-radio-group
-              class="d-flex flex-column"
-              v-model="trialBalanceType"
-              name="radio-options"
-            >
-              <b-form-radio value="Net"
-                ><translate> Net</translate>
-
-                <gk-tooltip
-                  class="ml-1"
-                  icon="info-circle"
-                  :helpTitle="$gettext('Net Trial Balance')"
-                  :help-body="
-                    $gettext(
-                      'The Net Trial Balance will provide the closing balances (or current balance as on selected end date)'
-                    )
-                  "
-                ></gk-tooltip>
-              </b-form-radio>
-              <b-form-radio value="Gross"
-                ><translate>Gross</translate>
-
-                <gk-tooltip
-                  class="ml-1"
-                  icon="info-circle"
-                  :helpTitle="$gettext('Gross Trial Balance')"
-                  :help-body="
-                    $gettext(
-                      'The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances'
-                    )
-                  "
-                ></gk-tooltip>
-              </b-form-radio>
-              <b-form-radio value="Extended"
-                ><translate>Extended</translate>
-
-                <gk-tooltip
-                  class="ml-1"
-                  icon="info-circle"
-                  :helpTitle="$gettext('Extended Trial Balance')"
-                  :help-body="
-                    $gettext(
-                      'The extended version shows all gross & net trial balances with Opening Balances'
-                    )
-                  "
-                ></gk-tooltip>
-              </b-form-radio>
-            </b-form-radio-group>
-          </gk-hovermenu>
-          <!-- spreadsheet download button -->
-          <gk-file-download
-            v-if="trialBalanceType == 'Net'"
-            :url="
-              `/spreadsheet/trial-balance?calculateto=${this.toDate}&trialbalancetype=1&fystart=${this.yearStart}&fyend=${this.yearEnd}&&orgname=${this.orgName}`
-            "
-            :commonParams="false"
-            fileSuffix="NetTrialBalance"
-            title="Download Net Trial Balance Spreadsheet"
-            :messageFromParent="parentMessage"
-          >
-          </gk-file-download>
-          <gk-file-download
-            v-if="trialBalanceType == 'Gross'"
-            :url="
-              `/spreadsheet/trial-balance?calculateto=${this.toDate}&trialbalancetype=2&fystart=${this.yearStart}&fyend=${this.yearEnd}&&orgname=${this.orgName}`
-            "
-            :commonParams="false"
-            fileSuffix="NetTrialBalance"
-            title="Download Net Trial Balance Spreadsheet"
-            :messageFromParent="parentMessage"
-          >
-          </gk-file-download>
-          <gk-file-download
-            v-if="trialBalanceType == 'Extended'"
-            :url="
-              `/spreadsheet/trial-balance?calculateto=${this.toDate}&trialbalancetype=3&&fystart=${this.yearStart}&fyend=${this.yearEnd}&&orgname=${this.orgName}`
-            "
-            :commonParams="false"
-            fileSuffix="ExtendedTrialBalance"
-            title="Download Extended Trial Balance Spreadsheet"
-            :messageFromParent="parentMessage"
-          >
-          </gk-file-download>
-        </gk-toolbar>
-        <!-- Tables -->
-        <!-- Net trial balance -->
+            <div>
+              <!-- spreadsheet download button -->
+              <gk-file-download
+                v-if="currentTrialBalanceType == 'Net'"
+                :url="
+                  `/spreadsheet/trial-balance?calculateto=${selected.toDate}&trialbalancetype=1&fystart=${yearStart}&fyend=${yearEnd}&orgname=${orgName}`
+                "
+                variant="dark"
+                name="Export XLSX"
+                file-extn=".xlsx"
+                :common-params="false"
+                file-suffix="NetTrialBalance"
+                title="Download Net Trial Balance Spreadsheet"
+                :message-from-parent="parentMessage"
+              />
+              <gk-file-download
+                v-if="currentTrialBalanceType == 'Gross'"
+                :url="
+                  `/spreadsheet/trial-balance?calculateto=${selected.toDate}&trialbalancetype=2&fystart=${yearStart}&fyend=${yearEnd}&orgname=${orgName}`
+                "
+                :common-params="false"
+                variant="dark"
+                name="Export XLSX"
+                file-extn=".xlsx"
+                file-suffix="NetTrialBalance"
+                title="Download Net Trial Balance Spreadsheet"
+                :message-from-parent="parentMessage"
+              />
+              <gk-file-download
+                v-if="currentTrialBalanceType == 'Extended'"
+                :url="
+                  `/spreadsheet/trial-balance?calculateto=${selected.toDate}&trialbalancetype=3&fystart=${yearStart}&fyend=${yearEnd}&orgname=${orgName}`
+                "
+                :common-params="false"
+                variant="dark"
+                name="Export XLSX"
+                file-extn=".xlsx"
+                file-suffix="ExtendedTrialBalance"
+                title="Download Extended Trial Balance Spreadsheet"
+                :message-from-parent="parentMessage"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- Table -->
         <b-table
-          v-if="trialBalanceType === 'Net'"
-          :items="balance.gross"
-          :fields="netfields"
-          :filter="search"
-          class="table-border-dark"
+          :items="paginatedItems"
+          :fields="tableFields"
+          :per-page="perPage"
           small
           primary-key="accountname"
-          bordered
+          outlined
           hover
-          striped
-          head-variant="dark"
+          head-variant="light"
           responsive
         >
           <template #cell(accountname)="data">
@@ -164,81 +257,49 @@
             >
               {{ data.item.accountname }}
             </router-link>
-            <div v-else>{{ data.item.accountname }}</div>
-          </template>
-        </b-table>
-        <!-- Gross Trial Balance -->
-        <b-table
-          v-else-if="trialBalanceType === 'Gross'"
-          class="table-border-dark"
-          :items="balance.net"
-          :fields="grossfields"
-          :filter="search"
-          primary-key="accountname"
-          small
-          bordered
-          striped
-          head-variant="dark"
-          responsive
-        >
-          <template #cell(accountname)="data">
-            <router-link
-              v-if="!['Total', 'Difference in Trial balance'].includes(data.item.accountname)"
-              :to="`/ledger/${data.item.accountcode}`"
-            >
+            <div v-else>
               {{ data.item.accountname }}
-            </router-link>
-            <div v-else>{{ data.item.accountname }}</div>
+            </div>
           </template>
         </b-table>
-        <!-- Extended Trial Balance -->
-        <b-table
-          v-else
-          class="table-border-dark"
-          :items="balance.extended"
-          :fields="extendedfields"
-          :filter="search"
-          primary-key="accountname"
-          small
-          bordered
-          striped
-          head-variant="dark"
-          responsive
+        <div
+          class="d-print-none d-flex align-items-center justify-content-end"
         >
-          <template #cell(accountname)="data">
-            <router-link
-              v-if="!['Total', 'Difference in Trial Balance'].includes(data.item.accountname)"
-              :to="`/ledger/${data.item.accountcode}`"
-            >
-              {{ data.item.accountname }}
-            </router-link>
-            <div v-else>{{ data.item.accountname }}</div>
-          </template>
-        </b-table>
+          <b-pagination
+            v-if="filteredItems.length > perPage"
+            v-model="currentPage"
+            :total-rows="filteredItems.length"
+            :per-page="perPage"
+            align="center"
+            limit="4"
+          />
+        </div>
+      </div>
+      <div v-else>
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+          variant="primary"
+        >
+          No data available for this period.
+        </b-alert>
       </div>
     </b-overlay>
   </section>
 </template>
 
 <script>
-import axios from 'axios';
 import { mapState } from 'vuex';
-import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
-import ReportHeader from '../components/ReportHeader.vue';
-import GkTooltip from '../components/GkTooltip.vue';
-import GkToolbar from '../components/GkToolbar.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
-import GkHovermenu from '@/components/GkHovermenu.vue';
+import ReportHeader from '../components/ReportHeader.vue';
+import { reverseDate } from '../js/utils.js';
+
 export default {
   components: {
-    GkCardheader,
     GkDate,
-    ReportHeader,
-    GkTooltip,
-    GkToolbar,
     GkFileDownload,
-    GkHovermenu,
+    ReportHeader,
   },
   name: 'TrialBalance',
   data() {
@@ -247,16 +308,17 @@ export default {
       isLoading: false,
       search: '',
       fromDate: null,
+      selected: {},
       toDate: null,
+      currentPage: 1,
+      perPage: 10,
+      tableFields: [],
+      tableItems: [],
       trialBalanceType: 'Net',
+      currentTrialBalanceType: 'Net',
+      trialBalanceOptions: ["Net", "Gross", "Extended"],
       balance: Object,
-      result: null,
-      // options: [
-      //   { text: 'Net Trial Balance', value: 'Net' },
-      //   { text: 'Gross Trial Balance', value: 'Gross' },
-      //   { text: 'Extended Trial Balance', value: 'Extended' },
-      // ],
-      netfields: [
+      netFields: [
         {
           key: 'srno',
           label: this.$gettext('Sr. No.'),
@@ -282,7 +344,7 @@ export default {
           class: 'text-center',
         },
       ],
-      grossfields: [
+      grossFields: [
         {
           key: 'srno',
           label: 'Sr. No.',
@@ -291,18 +353,6 @@ export default {
           key: 'accountname',
           label: this.$gettext('Account Name'),
         },
-
-        // {
-        //   key: 'ttlRunDr',
-        //   label: this.$gettext('Debit'),
-        //   class: 'text-right',
-        // },
-        // {
-        //   key: 'ttlRunCr',
-        //   label: this.$gettext('Credit'),
-        //   class: 'text-right',
-        // },
-
         {
           key: 'Dr balance',
           label: this.$gettext('Dr Balance'),
@@ -320,7 +370,7 @@ export default {
           class: 'text-center',
         },
       ],
-      extendedfields: [
+      extendedFields: [
         {
           key: 'srno',
           label: this.$gettext('Sr. No.'),
@@ -358,11 +408,16 @@ export default {
     };
   },
   methods: {
+    clear() {
+      this.fromDate = this.yearStart;
+      this.toDate = this.yearEnd;
+      this.trialBalanceType = "Net";
+      this.getTrialBalance()
+    },
     /**
      * Return appropriate trial balance code for generating spreadsheet
      */
     trialBalanceCode() {
-      console.log(this.trialBalanceType);
       if (this.trialBalanceType == 'Net') {
         return 1;
       } else if (this.trialBalanceType == 'Gross') {
@@ -371,64 +426,41 @@ export default {
         return 3;
       }
     },
-    getAllTrialBalances() {
+    setTableFields() {
+      if (this.trialBalanceType == 'Net') {
+        this.tableFields = this.netFields
+      } else if (this.trialBalanceType == 'Gross') {
+        this.tableFields = this.grossFields
+      } else {
+        this.tableFields = this.extendedFields
+      }
+    },
+    updateTrialBalance() {
+      this.getTrialBalance();
+      this.updateRoute();
+    },
+    getTrialBalance() {
+      this.currentPage = 1;
       this.isLoading = true;
-      Promise.all([
-        axios.get(
-          `/reports/trial-balance/gross?financialstart=${this.fromDate}&calculateto=${this.toDate}`
-        ),
-        axios.get(
-          `/reports/trial-balance/net?financialstart=${this.fromDate}&calculateto=${this.toDate}`
-        ),
-        axios.get(
-          `/reports/trial-balance/extended?financialstart=${this.fromDate}&calculateto=${this.toDate}`
-        ),
-      ])
-        .then((r) => {
-          if (r[0].status === 200) {
-            switch (r[0].data.gkstatus) {
-              case 0:
-                this.balance.net = r[0].data.gkresult;
-                this.balance.gross = r[1].data.gkresult;
-                this.balance.extended = r[2].data.gkresult;
-                this.result = this.balance.net;
-                break;
-              case 1:
-                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
-                  variant: 'warning',
-                  solid: true,
-                });
-                break;
-              case 2:
-                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 3:
-                this.$bvToast.toast(this.$gettext('Data error'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 4:
-                this.$bvToast.toast(this.$gettext('No Privilege'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 5:
-                this.$bvToast.toast(this.$gettext('Integrity error'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-            }
-          }
-          this.isLoading = false;
+      let url = '';
+      if (this.trialBalanceType == 'Net') {
+        url = `/reports/trial-balance/net?financialstart=${this.fromDate}&calculateto=${this.toDate}`;
+      } else if (this.trialBalanceType == 'Gross') {
+        url = `/reports/trial-balance/gross?financialstart=${this.fromDate}&calculateto=${this.toDate}`;
+      } else {
+        url = `/reports/trial-balance/extended?financialstart=${this.fromDate}&calculateto=${this.toDate}`;
+      }
+      this.$axios.get(url)
+        .then((resp) => {
+          this.tableItems = resp;
+          this.setTableFields();
+          this.currentTrialBalanceType = this.trialBalanceType;
+          this.selected = {
+            fromDate: this.fromDate,
+            toDate: this.toDate,
+          };
         })
-        .catch((e) => {
-          console.log(e);
+        .finally(() => {
           this.isLoading = false;
         });
     },
@@ -446,38 +478,45 @@ export default {
     parseParams() {
       const params = this.$route.query;
       if (Object.keys(params).length > 0) {
-        this.fromDate = params.from;
-        this.toDate = params.to;
+        this.fromDate = params?.from || this.yearStart;
+        this.toDate = params?.to || this.yearEnd;
         this.trialBalanceType = params.balType;
       } else {
         this.fromDate = this.yearStart;
         this.toDate = this.yearEnd;
       }
-      this.getAllTrialBalances();
-    },
-  },
-  computed: {
-    ...mapState(['yearStart', 'yearEnd', 'orgName']),
-    showHelpBody() {
-      return this.$gettext(`Trial Balance can be seen in three formats.
-                  The Net Trial Balance will provide the closing balances or current balance as on selected end date. The Gross Trial Balance shows for each account the total Drs and Crs along with Closing Balances, while the Extended version shows all this with Opening Balances.
-                  Apart from the regular account names and balances, these reports include Group name of each account.
-                  The period for this report must begin with the first date of the Financial Year and can end on any date. If an account has an adverse balance it is shown in red colour.
-                  The difference in Trial Balance, if any, is shown in the last row.
-                  Drill Down facility is available for all types of Trial Balances. You can click or press enter key on any row to see the ledger for that account.
-                  All users can view all types of Trial Balances.`);
     },
   },
   watch: {
-    trialBalanceType() {
-      this.updateRoute();
+    search() {
+      this.currentPage = 1;
     },
+  },
+  computed: {
+    filteredItems() {
+      return this.tableItems.filter(
+        item =>  (
+          item.accountname.toLowerCase().includes(this.search.toLowerCase())
+          || item.groupname?.toLowerCase().includes(this.search.toLowerCase())
+        )
+      );
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
+    },
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
+    ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   mounted() {
     this.parseParams();
+    this.getTrialBalance();
   },
 };
 </script>
+
 <style>
 tr[data-pk='Total'] {
   font-weight: bold;

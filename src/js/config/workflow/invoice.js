@@ -16,34 +16,19 @@ const config = {
   filterBy: {
     value: [
       {
-        text: 'Customer',
-        value: 1,
-        props: { key: 'csflag', value: 3 },
-        icon: { name: 'cash-stack' },
-      },
-      {
-        text: 'Supplier',
-        value: 2,
-        props: { key: 'csflag', value: 19 },
-        icon: { name: 'basket3' },
-      },
-      {
-        text: 'Cancelled',
-        value: 3,
-        props: { key: 'deletedFlag', value: true },
-        icon: { name: 'x-circle', variant: 'danger' },
+        text: 'Editable',
+        props: { key: 'rectifyFlag', value: true },
+        icon: { name: '' },
       },
       {
         text: 'On Credit',
-        value: 4,
         props: { key: 'onCreditFlag', value: true },
         icon: { name: 'dash', variant: 'danger' },
       },
       {
-        text: 'Editable',
-        value: 5,
-        props: { key: 'rectifyFlag', value: true },
-        icon: { name: '' },
+        text: 'Cancelled',
+        props: { key: 'deletedFlag', value: true },
+        icon: { name: 'x-circle', variant: 'danger' },
       },
     ],
     range: [
@@ -114,11 +99,18 @@ const config = {
       taxamt: { label: 'Tax', key: 'taxamt', sortable: true },
     },
   },
-  loadList: function(yearStart, yearEnd) {
+  loadList: function({ wfType, yearStart, yearEnd }) {
+    let invoiceFlag = 0;
+    if (wfType === 'sale') {
+      invoiceFlag = 1;
+    }
+    if (wfType === 'purchase') {
+      invoiceFlag = 2;
+    }
     const requests = [
       axios
         .get(
-          `/invoice/list?type=list&flag=0&fromdate=${yearStart}&todate=${yearEnd}`
+          `/invoice/list?type=list&flag=${invoiceFlag}&fromdate=${yearStart}&todate=${yearEnd}`
         )
         .catch((error) => {
           return error;
@@ -128,7 +120,7 @@ const config = {
       }),
       axios
         .get(
-          `/invoice/list?type=listdeleted&flag=0&fromdate=${yearStart}&todate=${yearEnd}`
+          `/invoice/list?type=listdeleted&flag=${invoiceFlag}&fromdate=${yearStart}&todate=${yearEnd}`
         )
         .catch((error) => {
           return error;
@@ -151,7 +143,7 @@ const config = {
                 } Invoice`,
                 date: item.invoicedate,
                 text1: item.custname,
-                text2: `₹ ${item.netamt}`,
+                text2: `₹ ${item.grossamt}`,
                 icon: item.inoutflag === 15 ? 'cash-stack' : 'basket3',
                 onCreditFlag: false,
                 rectifyFlag: false, // can be rectified or not
@@ -171,7 +163,6 @@ const config = {
 
         // Invoice in credit
         if (resp[1].data.gkstatus === 0) {
-          // let data = transactionTab['Invoice'].data;
           if (resp[1].data.gkstatus === 0 && list.length) {
             let index = '';
             resp[1].data.invoices.forEach((inv) => {
@@ -188,7 +179,6 @@ const config = {
         // Deleted Invoices
         if (resp[2].data.gkstatus === 0) {
           const deletedInv = resp[2].data.gkresult.map((item) => {
-            // debugger;
             return Object.assign(
               {
                 id: item.invid,
@@ -203,7 +193,6 @@ const config = {
                 onCreditFlag: false,
                 rectifyFlag: false, // can be rectified or not
                 deletedFlag: true,
-                // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
                 dateObj: Date.parse(
                   item.invoicedate
                     .split('-')
@@ -220,7 +209,7 @@ const config = {
         return list;
       })
       .catch((e) => {
-        console.log(e.message);
+        console.error(e.message);
       });
   },
   initListColumns: initColumns,
@@ -228,7 +217,6 @@ const config = {
 };
 
 function initColumns() {
-  // debugger;
   let columns = [];
   axios.get('/config?conftype=user').then((resp) => {
     if (resp.data.gkstatus === 0) {
@@ -241,20 +229,8 @@ function initColumns() {
     if (!columns || !columns.length) {
       columns = [
         {
-          label: 'Date',
+          label: '',
           key: 'dateObj',
-          sortable: true,
-        },
-        {
-          label: 'Name',
-          key: 'custname',
-          sortable: true,
-        },
-        {
-          label: 'Amount',
-          key: 'netamt',
-          sortable: true,
-          tdClass: 'gk-currency',
         },
       ];
     }

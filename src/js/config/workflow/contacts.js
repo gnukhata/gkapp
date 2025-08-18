@@ -46,27 +46,42 @@ const config = {
       custname: { label: 'Name', key: 'custname', sortable: true },
     },
   },
-  loadList: function() {
-    const requests = [
-      axios.get('/customer?qty=custall').catch((error) => {
+  loadList: function({ wfType }) {
+    const requests = [];
+    const customer_url = '/customer?qty=custall';
+    const supplier_url = '/customer?qty=supall';
+    let customers, suppliers;
+    if (wfType === 'customer') {
+      customers = axios.get(customer_url).catch((error) => {
         return error;
-      }),
-      axios.get('/customer?qty=supall').catch((error) => {
+      });
+      requests.push(customers);
+    } else if (wfType === 'supplier') {
+      suppliers = axios.get(supplier_url).catch((error) => {
         return error;
-      }),
-    ];
+      });
+      requests.push(suppliers);
+    } else {
+      customers = axios.get(customer_url).catch((error) => {
+        return error;
+      });
+      suppliers = axios.get(supplier_url).catch((error) => {
+        return error;
+      });
+      requests.push(customers, suppliers);
+    }
     return Promise.all(requests).then((resp) => {
       let contacts = [];
 
       // Customer List
-      if (resp[0].data.gkstatus === 0) {
+      if (resp?.[0]?.data.gkstatus === 0) {
         contacts = resp[0].data.gkresult.map((item) => {
           return Object.assign({ csflag: true, icon: 'person-fill' }, item);
         });
       }
 
       // Supplier List
-      if (resp[1].data.gkstatus === 0) {
+      if (resp?.[1]?.data.gkstatus === 0) {
         contacts.push(
           ...resp[1].data.gkresult.map((item) => {
             return Object.assign(
@@ -84,7 +99,6 @@ const config = {
 };
 
 function initColumns() {
-  // debugger;
   let columns = [];
   axios.get('/config?conftype=user').then((resp) => {
     if (resp.data.gkstatus === 0) {

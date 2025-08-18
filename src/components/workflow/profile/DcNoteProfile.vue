@@ -1,62 +1,91 @@
 <template>
   <b-container fluid>
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
-    <div class="mb-3 clearfix d-print-none">
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
+    <div class="clearfix d-print-none mb-3">
       <div class="float-right">
         <span>
-          <b-button
-            class="mr-1"
+          <b-dropdown
+            v-if="inv.id"
+            split
             size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
+            variant="dark"
+            @click="showVoucherModal = !showVoucherModal"
           >
-            <b-icon class="mr-1" icon="eye"></b-icon>
-            <router-link class="custom-link"
+            <template #button-content>
+              <translate>View Voucher</translate>
+            </template>
+            <b-dropdown-item
+              v-b-toggle.voucher-container
               :to="{
                 name: 'Workflow',
                 params: {
                   wfName:
                     inv.icflag === 3
-                      ? 'Transactions-CashMemo': 
-                      'Transactions-Invoice',
+                      ? 'Transactions-CashMemo' :
+                        'Transactions-Invoice',
                   wfId: inv.id,
                 },
               }"
-              >{{inv.icflag === 3 ? 'View Cash Memo' : 'View Invoice'}}
-            </router-link>
-          </b-button>
-          <b-button
-            class=""
-            size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
-          >
-            <b-icon icon="eye" class="mr-1"></b-icon>
-            <translate>View Voucher</translate>
-          </b-button>
+            >
+              {{ inv.icflag === 3 ? 'View Cash Memo' : 'View Invoice' }}
+            </b-dropdown-item>
+            <b-dropdown-item-button
+              @click="confirmOnDelete"
+            >
+              <translate>Delete Debit/Credit Note</translate>
+            </b-dropdown-item-button>
+          </b-dropdown>
         </span>
       </div>
     </div>
     <b-row>
-      <b-col cols="12" md="6" class="my-2">
-        <b key="dcp-1" v-if="flags.sale" v-translate> Buyer Details </b>
-        <b key="dcp-2" v-else v-translate> Seller Details </b>
-        <br />
+      <b-col
+        cols="12"
+        md="6"
+        class="my-2"
+      >
+        <b
+          key="dcp-1"
+          v-if="flags.sale"
+          v-translate
+        > Buyer Details </b>
+        <b
+          key="dcp-2"
+          v-else
+          v-translate
+        > Seller Details </b>
+        <br>
         <p class="text-small">
           <span>
             <router-link :to="`/ledger/${custid}`">{{ party.name }}</router-link>
           </span>
-          <span>{{ party.addr }} </span> <br />
-          <span> <b v-translate> Pin Code: </b> {{ party.pincode }} </span>
-          <br />
+          <br>
+          <span>{{ party.addr }} </span> <br>
+          <span> <b v-translate> Postal Code: </b> {{ party.pincode }} </span>
+          <br>
           <span v-if="party.gstin"><b> GSTIN: </b> {{ party.gstin }} </span>
+          <span v-if="party.tin"><b> TIN: </b> {{ party.tin }} </span>
         </p>
       </b-col>
-      <b-col cols="12" md="6" class="text-md-right my-2">
-        <b v-if="this.flags.credit" v-translate>Credit Note Details</b>
-        <b v-else v-translate>Debit Note Details</b>
-        <br />
+      <b-col
+        cols="12"
+        md="6"
+        class="my-2 text-md-right"
+      >
+        <b
+          v-if="this.flags.credit"
+          v-translate
+        >Credit Note Details</b>
+        <b
+          v-else
+          v-translate
+        >Debit Note Details</b>
+        <br>
         <!-- Note Details Table -->
         <b-table-lite
           :fields="['title', 'value']"
@@ -65,9 +94,8 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
-        >
-        </b-table-lite>
+          class="text-small"
+        />
       </b-col>
     </b-row>
     <!-- Content Table -->
@@ -75,12 +103,12 @@
       :items="dcNote.dcItems"
       :fields="tableFields"
       bordered
-      head-variant="dark"
       stacked="sm"
       small
-      class="text-small table-border-dark"
-      striped
+      hover
+      class="text-small"
       tbody-tr-class="gk-vertical-row"
+      head-variant="light"
     >
       <template #cell(name)="data">
         <template v-if="data.item.gsflag === 7">
@@ -99,46 +127,112 @@
       </template>
     </b-table-lite>
     <b-row>
-      <b-col class="my-2"> </b-col>
-      <b-col cols="12" md="8" class="my-2">
+      <b-col class="my-2" />
+      <b-col
+        cols="12"
+        md="8"
+        class="my-2"
+      >
         <!-- Total Table -->
         <b-table-lite
           :items="totalDetails"
           :fields="[
-            { key: 'title', label: 'Total', tdClass: '' },
-            { key: 'value', label: '₹', class: 'text-right' },
+            {key: 'title', label: 'Total', tdClass: ''},
+            {key: 'value', label: '₹', class: 'text-right'},
           ]"
           small
           fixed
           class="text-small"
-        ></b-table-lite>
+        />
       </b-col>
     </b-row>
     <b-row>
-      <b-col class="my-2"> </b-col>
-      <b-col cols="12" md="8" class="my-2">
+      <b-col class="my-2" />
+      <b-col
+        cols="12"
+        md="8"
+        class="my-2"
+      >
         <p class="text-small">
           <b v-translate> Narration: </b> <span> {{ dcNote.narration }} </span>
-          <br />
+          <br>
         </p>
       </b-col>
     </b-row>
-    <div class="clearfix"></div>
-    <b-collapse v-model="showVouchers" id="voucher-container">
-      <b v-translate>Voucher:</b>
-      <b-card v-if="vouchers.length" body-class="p-1">
-        <div v-for="voucher in vouchers" :key="voucher.id">
-          <div class="text-center m-1 mb-2">
+    <div
+      v-if="isGstEnabled"
+      class="hsn-details mt-4"
+    >
+      <h6>HSN / SAC Summary</h6>
+      <b-table-lite
+        :items="dcNote.dcItems"
+        :fields="hsnFields"
+        bordered
+        responsive
+        stacked="sm"
+        small
+        hover
+        class="text-small border"
+        tbody-tr-class="gk-vertical-row"
+      >
+        <template #cell(igst)="data">
+          {{ `${data.item.igst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(cgst)="data">
+          {{ `${data.item.cgst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(sgst)="data">
+          {{ `${data.item.sgst_amount} (${data.value}%)` }}
+        </template>
+        <template #custom-foot>
+          <b-tr>
+            <b-th
+              v-translate
+              :colspan="hsnFields.length - 1"
+            >
+              Total
+            </b-th>
+            <b-th class="text-right">
+              {{ Object.values(dcNote.dcItems)
+                .map((item) => item.total_tax)
+                .reduce((acc, val) => (Number(acc) + Number(val)), 0)
+                .toFixed(2)
+              }}
+            </b-th>
+          </b-tr>
+        </template>
+      </b-table-lite>
+    </div>
+    <div class="clearfix" />
+    <b-modal
+      id="voucher-container"
+      v-model="showVoucherModal"
+      size="xl"
+      title="Voucher"
+      hide-footer
+      centered
+    >
+      <b-card
+        v-if="vouchers.length"
+        body-class="p-1"
+        class="border-0"
+      >
+        <div
+          v-for="voucher in vouchers"
+          :key="voucher.id"
+        >
+          <div class="m-1 mb-2 text-center">
             <span class="float-left">
               Voucher No:
-                <router-link :to="`/Workflow/Transactions-Voucher/${voucher.id}`">
-                  {{voucher.no}}</router-link>
+              <router-link :to="`/Workflow/Transactions-Voucher/${voucher.id}`">
+                {{ voucher.no }}
+              </router-link>
             </span>
-            <span> {{ voucher.type }} </span>
+            <span> {{ voucher.type == 'debitnote' ? 'Debit Note' : 'Credit Note' }} </span>
             <span class="float-right">
               <translate
                 translate-comment="%{voucherDate} is a variable, translation is not required for it. Enter it, as it is while translation."
-                :translate-params="{ voucherDate: voucher.date }"
+                :translate-params="{voucherDate: voucher.date}"
               >
                 Date: %{voucherDate}
               </translate>
@@ -147,37 +241,36 @@
           <b-table-lite
             bordered
             small
-            head-variant="dark"
             :items="voucher.transactions"
             :tbody-tr-class="rowClass"
             fixed
-          >
-          </b-table-lite>
+          />
           <div>
             <translate
               translate-comment="%{narration} is a variable, translation is not required for it. Enter it, as it is while translation."
-              :translate-params="{ narration: voucher.narration }"
+              :translate-params="{narration: voucher.narration}"
             >
               Narration: %{narration}
             </translate>
           </div>
-          <br />
+          <br>
         </div>
       </b-card>
       <div v-else>
         <translate
           translate-comment="%{memoNo} is a variable, translation is not required for it. Enter it, as it is while translation."
-          :translate-params="{ memoNo: dcNote.no }"
+          :translate-params="{memoNo: dcNote.no ?? ''}"
         >
           No vouchers were found for DebitCreditNote: %{memoNo}
         </translate>
       </div>
-    </b-collapse>
+    </b-modal>
   </b-container>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { numberToRupees } from '../../../js/utils.js';
 import { DR_CR_MODE } from '@/js/enum.js';
 export default {
@@ -202,6 +295,7 @@ export default {
     return {
       isPreloading: false,
       showVouchers: false,
+      showVoucherModal: false,
       vouchers: [],
       dcNote: {
         dcItems: [],
@@ -216,11 +310,13 @@ export default {
         addr: '',
         pincode: '',
         gstin: '',
+        tin: '',
       },
       total: {},
       flags: {
-        gst: true,
-        igst: true, // igst or cgst+sgst
+        gst: false,
+        igst: false, // igst or cgst+sgst
+        vat: false,
         credit: true, // debit or credit
         qty: false, // qty or price
         badQuality: false,
@@ -231,6 +327,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
     dcNoteData: (self) => {
       let modeNameMap = {};
       modeNameMap[DR_CR_MODE['discount']] = self.$gettext(
@@ -261,30 +358,37 @@ export default {
       ];
     },
     totalDetails: (self) => {
-      let total = [
-        { title: self.$gettext('Taxable'), value: self.total.taxable },
-      ];
-      if (self.flags.gst) {
-        if (self.flags.igst) {
-          total.push({ title: 'IGST', value: self.total.tax });
-        } else {
-          total.push(
-            { title: 'CGST', value: self.total.tax },
-            { title: 'SGST', value: self.total.tax }
-          );
+      let total = [];
+      if (self.isIndia) {
+        if (self.flags.gst || self.flags.vat) {
+          total.push({
+            title: self.$gettext('Taxable'),
+            value: self.total.taxable,
+          });
         }
-        total.push({ title: 'CESS', value: self.total.cess });
-      } else {
-        total.push({ title: 'VAT', value: self.total.tax });
+        if (self.flags.gst) {
+          if (self.flags.igst) {
+            total.push({ title: 'IGST', value: self.total.tax });
+          } else {
+            total.push(
+              { title: 'CGST', value: self.total.tax },
+              { title: 'SGST', value: self.total.tax }
+            );
+          }
+        }
+        if (self.flags.vat) {
+          total.push({ title: 'VAT', value: self.total.tax });
+        }
       }
       total.push(
         {
           title: self.flags.credit
             ? self.$gettext('Credit Note Value')
             : self.$gettext('Debit Note Value'),
-          value: Math.round(self.total.reduct).toFixed(2),
+          value: self.total.roundoffflag ? Math.round(self.total.reduct).toFixed(2) : self.total.reduct,
         },
-        { title: self.$gettext('Total In Words'), value: numberToRupees(Math.round(self.total.reduct)) }
+        { title: self.$gettext('Total In Words'),
+          value: self.total.roundoffflag ? numberToRupees(Math.round(self.total.reduct)) : numberToRupees(self.total.reduct), }
       );
       return total;
     },
@@ -315,41 +419,88 @@ export default {
           tdClass: 'gk-currency-sm',
         });
       }
-      if (self.flags.gst) {
-        if (self.flags.igst) {
+      if (self.isIndia) {
+        if (self.flags.gst) {
+          if (self.flags.igst) {
+            fields.push({
+              key: 'igst',
+              label: 'IGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+          } else {
+            fields.push({
+              key: 'cgst',
+              label: 'CGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+            fields.push({
+              key: 'sgst',
+              label: 'SGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+          }
+        }
+        if (self.flags.vat) {
           fields.push({
-            key: 'igst',
-            label: 'IGST (%)',
-            tdClass: 'gk-currency-sm',
-          });
-        } else {
-          fields.push({
-            key: 'cgst',
-            label: 'CGST (%)',
-            tdClass: 'gk-currency-sm',
-          });
-          fields.push({
-            key: 'sgst',
-            label: 'SGST (%)',
+            key: 'vat',
+            label: 'VAT (%)',
             tdClass: 'gk-currency-sm',
           });
         }
-        fields.push({
-          key: 'cess',
-          label: 'CESS (%)',
-          tdClass: 'gk-currency-sm',
-        });
-      } else {
-        fields.push({
-          key: 'vat',
-          label: 'VAT (%)',
-          tdClass: 'gk-currency-sm',
-        });
       }
       fields.push({
         key: 'total',
         label: self.$gettext('Total (₹)'),
         tdClass: 'gk-currency-sm',
+      });
+      return fields;
+    },
+    hsnFields: (self) => {
+      let fields = [
+        {
+          key: 'hsn.hsn_code',
+          label: 'HSN / SAC',
+        },
+        {
+          key: 'qty',
+          label: 'Qty',
+          class: 'gk-currency-sm',
+        },
+        {
+          key: 'taxable',
+          label: 'Taxable (₹)',
+          class: 'gk-currency-sm',
+        },
+      ];
+
+      if (self.flags.gst) {
+        if (self.flags.igst) {
+          fields.push(
+            {
+              key: 'igst',
+              label: 'IGST (₹)',
+              class: 'gk-currency-sm',
+            },
+          );
+        } else {
+          fields.push(
+            {
+              key: 'cgst',
+              label: 'CGST (₹)',
+              class: 'gk-currency-sm',
+            },
+            {
+              key: 'sgst',
+              label: 'SGST (₹)',
+              class: 'gk-currency-sm',
+            },
+          );
+        }
+      }
+      fields.push({
+        key: 'total_tax',
+        label: 'Total Tax Amount (₹)',
+        class: 'gk-currency-sm',
       });
       return fields;
     },
@@ -383,27 +534,31 @@ export default {
     },
     formatDetails(details) {
       if (details) {
-        // this.output = JSON.stringify(details, null, 4);
         this.dcNote = {
           date: details.drcrdate,
           dcItems: [],
           narration: details.drcrnarration,
           no: details.drcrno,
           drcrmode: details.drcrmode,
+          roundoffflag: details.roundoffflag,
         };
         this.flags = {
-          gst: details.taxname !== 'VAT',
-          igst: details.taxname === 'IGST',
+          gst: this.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+          igst: this.isGstEnabled && details.taxname === 'IGST',
+          vat: this.isVatEnabled && details.taxname === 'VAT',
           credit: details.dctypeflag === 3,
           qty: details.drcrmode === 18,
           badQuality: details.badquality === 1,
           sale: details.invdata.inoutflag === 15,
         };
+
+        const { contact } = details.immutable_data ?? {};
         this.party = {
-          name: details.custSupDetails.custname,
-          addr: details.custSupDetails.custaddr,
-          pincode: details.custSupDetails.pincode,
-          gstin: details.custSupDetails.custgstin,
+          name: contact.custname,
+          addr: contact.custaddr,
+          pincode: contact.pincode,
+          gstin: Object.values(contact?.gstin || {}).join(", "),
+          tin: contact.tin,
         };
         this.inv = {
           no: details.invdata.invoiceno,
@@ -414,39 +569,65 @@ export default {
         this.total = {
           taxable: details.totaltaxablevalue,
           tax: details.totaltaxamt,
-          cess: details.totalcessamt,
           reduct: details.totreduct,
           text: numberToRupees(details.totreduct),
         };
         if (details.drcrcontents) {
-          // let taxState = details.invdata.taxstate;
           for (const id in details.drcrcontents) {
-            let item = details.drcrcontents[id];
+            const item = details.drcrcontents[id];
+            const taxrate = (
+              parseFloat(item.taxrate) || 0
+            ).toFixed(2);
+            const igst = taxrate;
+            const cgst = (taxrate / 2).toFixed(2);
+            const sgst = (taxrate / 2).toFixed(2);
+            const taxable = parseFloat(item.reductionval * item.qty).toFixed(2);
+            const taxamount = (taxrate / 100 * taxable).toFixed(2);
+            const igst_amount = taxamount;
+            const cgst_amount = (taxamount / 2).toFixed(2);
+            const sgst_amount = (taxamount / 2).toFixed(2);
+            const total_tax = item.taxname === 'IGST' ? (
+              parseFloat(item.taxamount).toFixed(2)
+            ) : (
+              parseFloat(item.taxamount * 2).toFixed(2)
+            );
             this.dcNote.dcItems.push({
               id: id,
-              name: item.proddesc,
-              rate: item.priceperunit,
+              name: details.immutable_data?.products[id].productdesc,
+              rate: item.reductionval,
               qty: item.qty,
               dcValue: item.reductionval,
-              igst: item.taxrate,
-              cgst: item.taxrate / 2,
-              sgst: item.taxrate / 2,
-              cess: item.cessrate,
-              vat: item.taxrate,
               total: item.totalAmount,
               uom: item.uom,
+              price: item.priceperunit,
+              hsn: JSON.parse(details.immutable_data?.products[id].gscode) || 'N/A',
+              tax: {
+                name: item.taxname,
+                rate: item.taxrate,
+                amount: item.taxamount,
+              },
+              taxable,
+              igst,
+              igst_amount,
+              cgst,
+              cgst_amount,
+              sgst,
+              sgst_amount,
+              total_tax,
+              vat: taxrate,
+              cess: item.cessrate,
               gsflag: item.gsflag,
               goid: item.goid,
             });
           }
         }
         axios.get(`/accounts?type=getAccCode&accountname=${this.party.name}`)
-        .then(response => {
-          this.custid = response.data.accountcode;
-        })
-        .catch(error => {
-          this.error = 'Failed to load data: ' + error.message;
-        });
+          .then(response => {
+            this.custid = response.data.accountcode;
+          })
+          .catch(error => {
+            this.error = 'Failed to load data: ' + error.message;
+          });
       }
     },
     getVouchers() {
@@ -497,7 +678,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e);
+          console.error(e);
         });
     },
     getDetails() {
@@ -516,37 +697,66 @@ export default {
     fetchAndUpdateData() {
       return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
-          case 0:
-            // this.invoice = response.data.gkresult;
-            this.formatDetails(response.data.gkresult);
-            break;
-          case 2:
-            this.$bvToast.toast(
-              this.$gettext(`Unauthorized access, Please contact admin`),
-              {
-                title: this.$gettext(`Fetch Debit Credit Note Error!`),
-                autoHideDelay: 3000,
-                variant: 'warning',
-                appendToast: true,
-                solid: true,
-              }
-            );
-            break;
-          default:
-            this.$bvToast.toast(
-              this.$gettext(
-                `Unable to Fetch Debit Credit Note Details! Please Try after sometime.`
-              ),
-              {
-                title: this.$gettext(`Fetch Transaction Details Error!`),
-                autoHideDelay: 3000,
-                variant: 'warning',
-                appendToast: true,
-                solid: true,
-              }
-            );
+        case 0:
+          this.formatDetails(response.data.gkresult);
+          break;
+        case 2:
+          this.$bvToast.toast(
+            this.$gettext(`Unauthorized access, Please contact admin`),
+            {
+              title: this.$gettext(`Fetch Debit Credit Note Error!`),
+              autoHideDelay: 3000,
+              variant: 'warning',
+              appendToast: true,
+              solid: true,
+            }
+          );
+          break;
+        default:
+          this.$bvToast.toast(
+            this.$gettext(
+              `Unable to Fetch Debit Credit Note Details! Please Try after sometime.`
+            ),
+            {
+              title: this.$gettext(`Fetch Transaction Details Error!`),
+              autoHideDelay: 3000,
+              variant: 'warning',
+              appendToast: true,
+              solid: true,
+            }
+          );
         } // end switch
       });
+    },
+    confirmOnDelete() {
+      let text = `This Debit/Credit note no. ${this.dcNote.no} is about to be deleted. Are you sure?`
+      this.$bvModal
+          .msgBoxConfirm(text, {
+            size: 'md',
+            buttonSize: 'sm',
+            okVariant: 'success',
+            headerClass: 'p-0 border-bottom-0',
+            footerClass: 'border-top-0', // p-1
+            centered: true,
+          })
+        .then((val) => {
+          if (val) {
+            this.deleteDrCrNote();
+          }
+        });
+    },
+    deleteDrCrNote() {
+      this.$axios
+          .delete(`/drcrnote`, { data: { drcrid: this.id }})
+          .then(() => {
+            this.$axios.post(
+              `/log`,
+              {
+                activity: `Debit note no. ${this.dcNote.no} deleted.`,
+              },
+            )
+            this.$router.push(`/workflow/Transactions-DebitCreditNote/-1?type=${this.flags?.sale ? 'sale' : 'purchase'}`);
+          });
     },
   },
   mounted() {
@@ -564,6 +774,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .custom-link {
   color: white;

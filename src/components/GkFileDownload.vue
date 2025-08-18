@@ -17,20 +17,21 @@
     >
       <b-icon
         aria-hidden="true"
-        class="align-middle"
         :icon="icon"
         :font-scale="fontScale"
-      ></b-icon>
+      />
       {{ name }}
     </b-overlay>
   </b-button>
 </template>
 
 <script>
-import axios from 'axios';
 import { mapState } from 'vuex';
+import exportHelper from '@/mixins/export.js';
+
 export default {
   name: 'GkFileDownload',
+  mixins: [exportHelper],
   data() {
     return {
       loading: false,
@@ -127,54 +128,17 @@ export default {
       if (this.messageFromParent == "toggleFlagTrue") {
         this.toggleFlag();
       }
-
-      let url = this.url;
-
-      if (this.commonParams) {
-        // prettier-ignore
-        url += `&fystart=${this.dateReverse(this.yearStart)}&fyend=${this.dateReverse(this.yearEnd)}&orgname=${this.orgName}&orgtype=${this.orgType}`
+      let metadata = {
+        filePath: this.filePath,
+        fileName: this.fileName,
+        fileSuffix: this.fileSuffix,
+        fileExtn: this.fileExtn,
+        addDate: this.addDate,
+        addTimeStamp: this.addTimeStamp,
+        commonParams: this.commonParams,
       }
-      axios
-        .get(url, { responseType: 'blob' })
-        .then((resp) => {
-          console.log(resp.data.gkstatus);
-          if (resp.data.gkstatus === 0 || resp.data.gkstatus === undefined) {
-            let blob = resp.data;
-            if (this.filePath) {
-              if (this.filePath.length) {
-                this.filePath.forEach((path) => {
-                  blob = blob[path];
-                });
-              }
-            }
-            let fileUrl = window.URL.createObjectURL(blob);
-            let atag = document.createElement('a');
-            atag.href = fileUrl;
-            let fileName = `${this.fileName}-${this.orgName}-${this.fileSuffix}`;
-            if (this.addDate) {
-              let date = this.dateReverse(this.currentDate());
-              fileName += `-${date}`;
-            }
-            if (this.addTimeStamp) {
-              let tStamp = new Date().toISOString().substr(11);
-              fileName += `-${tStamp}`;
-            }
-            atag.download = `${fileName}.${this.fileExtn}`;
-            atag.style.display = 'none';
-            document.body.appendChild(atag);
-            atag.click();
-          } else {
-            this.gk_toast(
-              'File Download failed',
-              `Failed with status code ${resp.data.gkstatus}`
-            );
-          }
-          this.loading = false;
-        })
-        .catch((e) => {
-          console.log(e);
-          this.loading = false;
-        });
+      this.exportFile(this.url, metadata)
+        .finally(() => { this.loading = false });
     },
   },
 };

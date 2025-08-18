@@ -4,9 +4,16 @@
  -->
 <template>
   <div>
-    <div v-if="config" class="position-relative my-2">
-      <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-      </b-overlay>
+    <div
+      v-if="config"
+      class="position-relative my-2"
+    >
+      <b-overlay
+        :show="isPreloading"
+        variant="secondary"
+        no-wrap
+        blur
+      />
       <b-card body-class="py-2 px-2">
         <b-button
           v-if="editMode"
@@ -17,17 +24,18 @@
         >
           <translate> Back </translate>
         </b-button>
-        <!-- 
+        <!--
           TODO: Move this option to global settings page
           <b-form-checkbox @input="updateAllTaxAndTotal" v-model="inclusiveFlag" name="check-button" switch>
           Inclusive of tax
         </b-form-checkbox> -->
         <span class="float-right">
           <b-button
+            id="transaction-business-item"
             v-if="showAddProduct"
             @click.prevent="showBusinessForm = true"
             class="py-0 mx-1"
-            variant="success"
+            variant="dark"
             size="sm"
           >
             <translate>
@@ -36,9 +44,9 @@
           </b-button>
           <b-button
             v-if="config.addBtn"
-            @click.prevent="addBillItem()"
+            @click.prevent="addBillItem"
             class="py-0 mx-1"
-            variant="success"
+            variant="dark"
             size="sm"
           >
             <translate> Add Item </translate>
@@ -48,8 +56,7 @@
       <b-table
         hover
         small
-        bordered
-        striped
+        outlined
         :items="formItems()"
         :fields="fields"
         :primary-key="`tbl_${Date.now()}`"
@@ -57,7 +64,7 @@
         :stacked="editMode"
         :per-page="editMode ? 1 : 10"
         :current-page="currentPage"
-        head-variant="dark"
+        head-variant="light"
         ref="billTable"
       >
         <!-- Index -->
@@ -71,8 +78,9 @@
             variant="outline"
             @click.prevent="onItemEdit(data.item.index)"
             size="sm"
-            ><b-icon icon="pencil"></b-icon
-          ></b-button>
+          >
+            <b-icon icon="pencil" />
+          </b-button>
         </template>
 
         <!-- Row Selected -->
@@ -80,14 +88,14 @@
           <b-form-checkbox
             @input="selectAllRows"
             v-model="allRowsSelected"
-          ></b-form-checkbox>
+          />
         </template>
         <template #cell(rowSelected)="data">
           <b-form-checkbox
             v-if="form[data.item.index]"
             @input="callRowSelected(data.item.index)"
             v-model="form[data.item.index].rowSelected"
-          ></b-form-checkbox>
+          />
         </template>
 
         <!-- Product -->
@@ -95,56 +103,79 @@
           <span>{{ data.label }}</span>
         </template>
         <template #cell(product)="data">
-        <b-form-select
-          class="item"
-          v-if="form[data.item.index] && !disabled.product"
-          v-model="form[data.item.index].product"
-          required
-          @change="onBillItemSelect(form[data.item.index].product, data.item.index)"
-          :disabled="disabled.product"
-          :state="!form[data.item.index].product ? false : null"
-          :rules="[v => !!form[data.item.index].product || 'Please select an option']"
-        >
-          <b-form-select-option
-            v-for="option in options.products"
-            :key="option.id"
-            :value="option"
+          <b-form-select
+            class="item"
+            v-if="form[data.item.index] && !disabled.product"
+            v-model="form[data.item.index].product"
+            required
+            @change="onBillItemSelect(form[data.item.index].product, data.item.index)"
+            :disabled="disabled.product"
+            :state="!form[data.item.index].product ? false : null"
+            :rules="[v => !!form[data.item.index].product || 'Please select an option']"
           >
-            <div v-if="options.productData[option.id] && options.productData[option.id]?.gsflag !== 19">
-              {{ option.name }}
-              <div class="text-small" v-if="options.stock[option.id] && options.stock[option.id] > 0">
-                ({{ options.stock[option.id] }})
+            <b-form-select-option
+              v-for="option in options.products"
+              :key="option.id"
+              :value="option"
+              :disabled="isProductSelected(option.id)"
+            >
+              <div v-if="options.productData[option.id] && options.productData[option.id]?.gsflag !== 19">
+                {{ option.name }}
+                <div
+                  class="text-small"
+                  v-if="options.stock[option.id] && options.stock[option.id] > 0"
+                >
+                  ({{ options.stock[option.id] }})
+                </div>
+                <div v-else>
+                  ({{ options.stock[option.id] || 0 }})
+                </div>
               </div>
-              <div v-else>({{ options.stock[option.id] || 0 }})</div>
-            </div>
-             <div v-else>{{ option.name }}</div>
-          </b-form-select-option>
-        </b-form-select>
-        <b-form-select
-          class="item"
-          v-else-if="form[data.item.index] && form[data.item.index].product"
-          v-model="form[data.item.index].product"
-          required
-          @change="onBillItemSelect(form[data.item.index].product, data.item.index)"
-          :disabled="disabled.product"
-          :state="!form[data.item.index].product ? false : null"
-          :rules="[v => !!form[data.item.index].product || 'Please select an option']"
-        >
-          <b-form-select-option
-            v-for="option in options.products"
-            :key="option.id"
-            :value="option"
+              <div v-else>
+                {{ option.name }}
+              </div>
+            </b-form-select-option>
+          </b-form-select>
+          <b-form-select
+            class="item"
+            v-else-if="form[data.item.index] && form[data.item.index].product"
+            v-model="form[data.item.index].product"
+            required
+            @change="onBillItemSelect(form[data.item.index].product, data.item.index)"
+            :disabled="disabled.product"
+            :state="!form[data.item.index].product ? false : null"
+            :rules="[v => !!form[data.item.index].product || 'Please select an option']"
           >
-            <div v-if="options.productData[option.id] && options.productData[option.id]?.gsflag !== 19">
-              {{ option.name }}
-              <div class="text-small" v-if="options.stock[option.id] && options.stock[option.id] > 0">
-                ({{ options.stock[option.id] }})
+            <b-form-select-option
+              v-for="option in options.products"
+              :key="option.id"
+              :value="option"
+            >
+              <div v-if="options.productData[option.id] && options.productData[option.id]?.gsflag !== 19">
+                {{ option.name }}
+                <div
+                  class="text-small"
+                  v-if="options.stock[option.id] && options.stock[option.id] > 0"
+                >
+                  ({{ options.stock[option.id] }})
+                </div>
+                <div v-else>
+                  ({{ options.stock[option.id] || 0 }})
+                </div>
               </div>
-              <div v-else>({{ options.stock[option.id] || 0 }})</div>
-            </div>
-             <div v-else>{{ option.name }}</div>
-          </b-form-select-option>
-        </b-form-select>
+              <div v-else>
+                {{ option.name }}
+              </div>
+            </b-form-select-option>
+          </b-form-select>
+          <div>
+            <small
+              class="text-danger"
+              v-if="options.products.length == 0"
+            >
+              Stock empty, add new item or restock to continue.
+            </small>
+          </div>
         </template>
 
 
@@ -163,13 +194,13 @@
               no-wheel
               step="0.01"
               min="0.01"
-              :max="(saleFlag && config.qty.checkStock && !form[data.item.index].isService) ? options.stock[data.item.pid] : null"
-              @input="onQtyUpdate(data.item.index, data.item.pid)"
+              :max="creditFlag ? (form[data.item.index].originalQty ?? null) : form[data.item.index].maxQty"
+              @input="onQtyUpdate(data.item.index)"
               :readonly="data.item.isService || disabled.qty"
               :tabindex="data.item.isService ? -1 : 0"
-            ></b-input>
+            />
             <span v-else>{{
-              form[data.item.index] ? form[data.item.index].qty : ''
+              form[data.item.index] ? form[data.item.index].disabledQty : ''
             }}</span>
             <div>
               <small
@@ -209,37 +240,21 @@
               min="0.01"
               :readonly="data.item.isService"
               :tabindex="data.item.isService ? -1 : 0"
-            ></b-input>
+            />
             <span v-else>{{ form[data.item.index].packageCount }}</span>
-          </div>
-        </template>
-
-        <!-- Rejected Qty (Rejection Note) -->
-        <template #head(rejectedQty)="">
-          <span v-translate>Rejected Qty</span>
-        </template>
-        <template #cell(rejectedQty)="data">
-          <div v-if="form[data.item.index]">
-            <b-input
-              v-if="!disabled.rejectedQty"
-              size="sm"
-              v-model="form[data.item.index].rejectedQty"
-              class="hide-spin-button text-right px-1"
-              type="number"
-              no-wheel
-              step="0.01"
-              min="0"
-              :max="data.item.qty"
-              @input="onRejectedQty(data.item.index)"
-            ></b-input>
-            <span v-else>{{ form[data.item.index].rejectedQty }}</span>
           </div>
         </template>
 
         <!-- Debit Credit Value (Debit Credit Note) -->
         <template #head(dcValue)="">
-          <span v-if="creditFlag" v-translate> Credited Value </span>
-          <span v-else v-translate> Debited Value </span>
+          <span
+            v-if="creditFlag"
+            v-translate
+          > Credited Rate </span>
+          <span
+            v-else
+            v-translate
+          > Debited Rate </span>
         </template>
         <template #cell(dcValue)="data">
           <div v-if="form[data.item.index]">
@@ -252,16 +267,29 @@
               no-wheel
               step="0.01"
               min="0"
+              :max="creditFlag ? (form[data.item.index]?.drcrrate ?? null) : null"
               @input="updateTaxAndTotal(data.item.index)"
               required
-            ></b-input>
+            />
             <span v-else>{{ form[data.item.index].dcValue }}</span>
           </div>
         </template>
 
         <!-- Rate -->
         <template #head(rate)="">
-          <span v-translate>Rate</span> <small>₹</small>
+          <span
+            v-if="crdrnote"
+            v-translate
+          >
+            Original Rate
+          </span>
+          <span
+            v-else
+            v-translate
+          >
+            Rate
+          </span>
+          <small> ₹</small>
         </template>
         <template #cell(rate)="data">
           <div v-if="form[data.item.index]">
@@ -279,8 +307,8 @@
               @blur="updateRateField(data.item.index, ['rate'], 'clickout')"
               :readonly="disabled.rate"
               :required="!disabled.rate"
-            ></b-input>
-            <span v-else>{{ crdrnote ? form[data.item.index].taxableamount : form[data.item.index].rate }}</span>
+            />
+            <span v-else>{{ crdrnote ? form[data.item.index].drcrrate : form[data.item.index].rate }}</span>
           </div>
         </template>
 
@@ -311,15 +339,6 @@
           }}
         </template>
 
-        <!-- CESS -->
-        <template #cell(cess)="data">
-          {{
-            form[data.item.index] && form[data.item.index].cess
-              ? form[data.item.index].cess.rate
-              : ''
-          }}
-        </template>
-
         <!-- VAT -->
         <template #cell(vat)="data">
           {{
@@ -338,7 +357,7 @@
             <b-input
               v-if="!disabled.discount"
               size="sm"
-              v-model="form[data.item.index].discount.amount"
+              v-model="form[data.item.index].discount.total"
               class="hide-spin-button text-right px-1"
               type="number"
               no-wheel
@@ -349,26 +368,29 @@
               @click="
                 updateRateField(
                   data.item.index,
-                  ['discount', 'amount'],
-                  'clickin'
+                  ['discount', 'total'],
+                  'clickin',
                 )
               "
               @blur="
                 updateRateField(
                   data.item.index,
-                  ['discount', 'amount'],
-                  'clickout'
+                  ['discount', 'total'],
+                  'clickout',
                 )
               "
               :readonly="disabled.discount"
-            ></b-input>
-            <span v-else>{{ form[data.item.index].discount.amount }}</span>
+            />
+            <span v-else>{{ form[data.item.index].discount.total }}</span>
           </div>
         </template>
 
         <template #foot(discount)="">
-          <div class="text-right" v-if="config.footer.discount">
-            {{ getTotal('discount', 'amount') }}
+          <div
+            class="text-right"
+            v-if="config.footer.discount"
+          >
+            {{ getTotal('discount', 'total') }}
           </div>
         </template>
 
@@ -380,8 +402,13 @@
           {{ form[data.item.index] ? form[data.item.index].total : '' }}
         </template>
 
-        <template v-if="config.footer.total" #foot(total)="">
-          <div class="text-right">{{ getTotal('total') || '-' }}</div>
+        <template
+          v-if="config.footer.total"
+          #foot(total)=""
+        >
+          <div class="text-right">
+            {{ getTotal('total') || '-' }}
+          </div>
         </template>
 
         <!-- +/- Buttons -->
@@ -399,12 +426,6 @@
         <template #foot()="">
           {{ '' }}
         </template>
-
-        <template #table-caption>
-          <small v-if="!gstFlag">
-            {{ taxState ? '' : '* Need Place of Supply to implment taxes' }}
-          </small>
-        </template>
       </b-table>
       <b-pagination
         v-if="editMode || form.length > 10"
@@ -414,26 +435,26 @@
         align="fill"
         size="sm"
         class="my-0"
-      ></b-pagination>
+      />
     </div>
 
     <!-- Create Business Modal -->
     <b-modal
-      size="xl"
+      :size="businessFormModalSize"
       v-model="showBusinessForm"
       v-if="config"
       centered
       static
-      body-class="p-0"
+      body-class="p-4"
       id="business-item-modal"
+      title="Create Business Item"
       hide-footer
-      hide-header
     >
       <business-item
-        :hideBackButton="true"
-        :onSave="onBusinessSave"
+        :hide-back-button="true"
+        :on-save="onBusinessSave"
         mode="create"
-        :inOverlay="true"
+        :in-overlay="true"
         @childValueUpdate="onBusinessSave"
       >
         <template #close-button>
@@ -445,24 +466,34 @@
                 showBusinessForm = false;
               }
             "
-            >x</b-button
           >
+            x
+          </b-button>
         </template>
       </business-item>
     </b-modal>
+    <gk-tour
+      target="transaction-business-item"
+      title="Create Business Item"
+      placement="topleft"
+    >
+      You can create a new product/service directly from here and add it to the invoice. To add an existing item, click on the <b>Add Item</b> button. You can also manage them from the <b>Products & Services</b> menu option in the sidebar.
+    </gk-tour>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import BusinessItem from '../BusinessItem.vue';
-import { mapState } from 'vuex';
+import GkTour from '../../GkTour.vue';
+import { mapGetters, mapState } from 'vuex';
 import { debounceEvent } from '../../../js/utils';
 
 export default {
   name: 'BillTable',
   components: {
     BusinessItem,
+    GkTour,
   },
   props: {
     config: {
@@ -494,7 +525,7 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-      note: `true if the org state and party state are the same 
+      note: `true if the org state and party state are the same
       (use CGST and SGST). If false use IGST.`,
     },
     creditFlag: {
@@ -521,11 +552,23 @@ export default {
       default: false,
       note: 'Flag to check bill table from credit/debit note',
     },
+    editInvoice: {
+      type: Boolean,
+      required: false,
+      default: false,
+      note: 'Flag to check if bill table is for rectifying invoice',
+    },
+    billType: {
+      type: String,
+      required: false,
+      default: "invoice",
+      note: 'Used to specify bill type',
+    },
     vatFlag: {
       type: Boolean,
       required: false,
       default: false,
-      note: `true if the org state and party state are the same 
+      note: `true if the org state and party state are the same
       (use VAT). If false use IGST.`,
     },
     invDate: {
@@ -560,6 +603,7 @@ export default {
             vat: { rate: 0, amount: 0 },
             total: 0,
             isService: false, // used to make certain fields readonly
+            taxableamount: 0,
           },
         ];
       },
@@ -578,16 +622,16 @@ export default {
       allRowsSelected: false,
       skipAllRowSelect: false,
       taxInclusiveFlag: false,
-      // fields: [],
       form: [
         {
           index: 0,
           product: { name: '', id: '', productquantity: '' },
           hsn: '',
+          originalQty: 0,
           qty: 0,
+          maxQty: 0,
           fqty: 0,
           packageCount: 0,
-          rejectedQty: 0,
           dcValue: 0,
           rate: 0,
           discount: { rate: 0, amount: 0 },
@@ -606,9 +650,11 @@ export default {
         godownStock: {},
       },
       purposeSelectedValue: null,
+      productTaxes: [],
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia']),
     fields: (self) => {
       function remove(names) {
         if (!Array.isArray(names)) {
@@ -634,7 +680,6 @@ export default {
         { key: 'product', label: self.$gettext('Item') },
         { key: 'qty', label: self.$gettext('Qty'), tdClass: 'bt-cell-qty' },
         { key: 'packageCount', label: self.$gettext('No. of Packages') },
-        { key: 'rejectedQty', label: self.$gettext('Rejected Qty') },
         { key: 'dcValue', label: self.$gettext('Value') },
         { key: 'rate', label: self.$gettext('Rate ₹'), tdClass: 'text-right' },
         {
@@ -646,7 +691,6 @@ export default {
         { key: 'cgst', label: 'CGST %' },
         { key: 'sgst', label: 'SGST %' },
         { key: 'igst', label: 'IGST %' },
-        { key: 'cess', label: 'CESS %' },
         {
           key: 'total',
           label: self.$gettext('Total ₹'),
@@ -660,19 +704,22 @@ export default {
           ? self.$gettext('Credited Value')
           : self.$gettext('Debited Value')
       );
-      // debugger;
-      if (self.gstFlag) {
-        remove('vat');
-        if (self.cgstFlag) {
-          remove('igst');
-        } else {
-          remove(['cgst', 'sgst']);
+      if (self.isIndia) {
+        if (self.gstFlag) {
+          remove('vat');
+          if (self.cgstFlag) {
+            remove('igst');
+          } else {
+            remove(['cgst', 'sgst']);
+          }
         }
-      } else if (self.vatFlag) {
-        remove(['cgst', 'sgst', 'igst', 'cess']);
-      } 
-      else {
-        remove(['cgst', 'sgst', 'igst', 'cess']);
+        else if (self.vatFlag) {
+          remove(['cgst', 'sgst', 'igst', 'cess']);
+        } else {
+          remove(['cgst', 'sgst', 'igst', 'cess', 'vat']);
+        }
+      } else {
+        remove(['cgst', 'sgst', 'igst', 'cess', 'vat']);
       }
       if (self.editMode || !self.mobileMode) {
         remove('editBtn');
@@ -721,12 +768,15 @@ export default {
       }
       return true; // by default show addProductBtn
     },
+    allowNegativeStock: (self) => (
+      self.$store.getters['global/getAllowNegativeStock']
+    ),
+    businessFormModalSize: (self) => self.isIndia ? "xl"  : "lg",
     ...mapState(['yearEnd']),
+    ...mapState('tour', ['currentState']),
   },
   watch: {
     updateCounter() {
-      // debugger;
-      // console.log(1);
       let updateBillTable = !(
         this.parentData.length &&
         typeof this.parentData[0].product === 'object' &&
@@ -757,22 +807,22 @@ export default {
             pid: product.id,
             product: product,
             discount: item.discount,
+            originalQty: item.qty,
             qty: item.qty,
             fqty: item.fqty,
             rate: item.rate,
             isService: item.isService,
-            taxableamount: item.taxableamount,
+            drcrrate: item.drcrrate ? item.drcrrate : parseFloat((item.taxableamount / item.qty).toFixed(2)),
+            disabledQty: item.qty
           });
         }
       });
-      // this.$forceUpdate();
       this.$nextTick().then(() => {
         this.$refs.billTable.refresh();
         if (products.length) {
           let requests = [];
           products.forEach((product, index) => {
             self.form[index] = product;
-            // console.log(product);
             requests.push(
               self.fetchProductDetails(self.form[index].product.id, index)
             );
@@ -782,9 +832,6 @@ export default {
             .then(() => {
               self.isPreloading = false;
               self.$forceUpdate();
-              self.$nextTick.then(() => {
-                self.$refs.billTable.refresh();
-              });
             })
             .catch(() => {
               self.isPreloading = false;
@@ -803,12 +850,18 @@ export default {
       });
     },
     godownId() {
-      // this.fetchStockOnHandData();
       this.fetchAllStockOnHand();
     },
     invDate() {
       let length = this.form.length;
       while (length--) {
+        this.updateTaxAndTotal(length);
+      }
+    },
+    taxState() {
+      let length = this.form.length;
+      while (length--) {
+        this.updateTaxDetails(length);
         this.updateTaxAndTotal(length);
       }
     },
@@ -827,14 +880,14 @@ export default {
           rowSelected: false,
           product: { id: '', name: '',  quantity: ''},
           hsn: '',
-          qty: null,
-          packageCount: null,
-          rejectedQty: null,
-          dcValue: null,
+          originalQty: 0,
+          qty: 0,
+          packageCount: 0,
+          dcValue: 0,
           fqty: 0,
-          rate: null,
-          discount: { rate: 0, amount: null },
-          taxable: null,
+          rate: 0,
+          discount: { rate: 0, amount: 0 },
+          taxable: 0,
           cgst: { rate: 0, amount: 0 },
           sgst: { rate: 0, amount: 0 },
           igst: { rate: 0, amount: 0 },
@@ -848,7 +901,6 @@ export default {
       if (this.form.length) {
         result = this.form;
       }
-      // console.log(JSON.stringify(result));
       return result;
     },
     /**
@@ -860,8 +912,6 @@ export default {
      */
     checkProductValidity(product) {
       let id = product.id;
-      // let prodOptions = this.options.products;
-
       let valid = true;
       if (
         this.options.productData[id] &&
@@ -875,10 +925,11 @@ export default {
 
       return valid;
     },
-    onQtyUpdate(index, pid) {
+    onQtyUpdate(index) {
+      const { pid } = this.form[index];
       if (
         (parseFloat(this.form[index].qty) <= this.options.stock[pid]) ||
-        !this.config.qty.checkStock ||
+        this.allowNegativeStock ||
         !this.saleFlag
       ) {
         this.updateTaxAndTotal(index);
@@ -892,8 +943,104 @@ export default {
           item.taxable = 0;
           item.dcValue = '';
         } 
-        return this.onQtyUpdate(index, item.pid);
+        return this.onQtyUpdate(index);
       });
+    },
+    updateTaxDetails(index) {
+      let tax = {
+            taxes: {},
+            igst: { rate: 0, amount: 0 },
+            cgst: { rate: 0, amount: 0 },
+            sgst: { rate: 0, amount: 0 },
+            cess: { rate: 0, amount: 0 },
+            vat: { rate: 0, amount: 0 },
+          },
+          igst = this.config.igst
+            ? this.productTaxes.filter((item) => item.taxname === 'IGST')
+            : 0,
+          cgst = this.config.igst
+            ? this.productTaxes.filter((item) => item.taxname === 'CGST')
+            : 0,
+          cess = this.config.cess
+            ? this.productTaxes.filter((item) => item.taxname === 'CESS')
+            : 0,
+          vat = this.config.vat
+            ? this.productTaxes.filter((item) => item.taxname === 'VAT')
+            : 0;
+
+      if (igst.length) {
+        igst.forEach((igst2) => {
+          tax['taxes'][igst2.taxfromdate] = {
+            igst: {
+              rate: igst2.taxrate,
+              amount: 0,
+            },
+            cgst: {
+              rate: igst2.taxrate / 2,
+              amount: 0,
+            },
+            sgst: {
+              rate: igst2.taxrate / 2,
+              amount: 0,
+            },
+          };
+        });
+        // old tax rates without applicability date, legacy code
+        tax['igst'] = {
+          rate: igst[0].taxrate,
+          amount: 0,
+        };
+        tax['cgst'] = {
+          rate: igst[0].taxrate / 2,
+          amount: 0,
+        };
+        tax['sgst'] = {
+          rate: igst[0].taxrate / 2,
+          amount: 0,
+        };
+      }
+      if (cgst.length) {
+        cgst.forEach((cgst2) => {
+          tax['taxes'][cgst2.taxfromdate] = {
+            cgst: {
+              rate: cgst2.taxrate,
+              amount: 0,
+            },
+            sgst: {
+              rate: cgst2.taxrate,
+              amount: 0,
+            },
+          };
+        });
+        // old tax rates without applicability date, legacy code
+        tax['cgst'] = {
+          rate: cgst[0].taxrate,
+          amount: 0,
+        };
+        tax['sgst'] = {
+          rate: cgst[0].taxrate,
+          amount: 0,
+        };
+      }
+      if (cess.length) {
+        tax['cess'] = {
+          rate: cess[0].taxrate,
+          amount: 0,
+        };
+      }
+      if (vat.length) {
+        tax['vatMap'] = {};
+        vat.forEach((vatItem) => {
+          tax['vatMap'][vatItem.state] = {
+            rate: parseFloat(vatItem.taxrate),
+            amount: 0,
+          };
+        });
+        if (this.taxState) {
+          tax['vat'] = tax['vatMap'][this.taxState];
+        }
+      }
+      Object.assign(this.form[index], tax);
     },
     /**
      * fetchProductDetails(id, index)
@@ -905,8 +1052,8 @@ export default {
       let self = this;
       const stockPath =
         this.godownId === -1
-        ? '/reports/stock-on-hand'
-        : '/reports/godownwise-stock-on-hand';
+          ? '/reports/stock-on-hand'
+          : '/reports/godownwise-stock-on-hand';
       let stockParams = `?productcode=${id}&enddate=${this.endDate}`;
       if (this.godownId !== -1) {
         stockParams += `&goid=${this.godownId}&type=pg`;
@@ -935,10 +1082,22 @@ export default {
                 isService: isService,
                 rate: (this.saleFlag || isService) ? data.prodsp : data.prodmrp,
                 qty: 1,
+                // If sales invoice and negative stock is not allowed and the
+                // selected item is not a service, then set maximum value for
+                // quantity as in the available stock.
+                maxQty: (
+                  this.saleFlag
+                  && !this.allowNegativeStock
+                  && !isService
+                ) ? (
+                  this.options.stock[data.productcode]
+                ) : (
+                  null
+                ),
                 discount: {
-                  rate: this.saleFlag ? data.discountpercent : 0,
-                  discountamount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
+                  percent: this.saleFlag ? data.discountpercent : 0,
                   amount: (this.saleFlag && self.config.discount) ? data.discountamount : 0,
+                  custom: false,
                 },
               });
             } else {
@@ -946,116 +1105,23 @@ export default {
             }
           }
         } else {
-          console.log(resp1.message);
+          console.error(resp1.message);
         }
 
         // Tax details
         if (resp2.status === 200) {
           if (resp2.data.gkstatus === 0) {
-            let data = resp2.data.gkresult,
-              tax = {
-                taxes: {},
-                igst: { rate: 0, amount: 0 },
-                cgst: { rate: 0, amount: 0 },
-                sgst: { rate: 0, amount: 0 },
-                cess: { rate: 0, amount: 0 },
-                vat: { rate: 0, amount: 0 },
-              },
-              igst = self.config.igst
-                ? data.filter((item) => item.taxname === 'IGST')
-                : 0,
-              cgst = self.config.igst
-                ? data.filter((item) => item.taxname === 'CGST')
-                : 0,
-              cess = self.config.cess
-                ? data.filter((item) => item.taxname === 'CESS')
-                : 0,
-              vat = self.config.vat
-                ? data.filter((item) => item.taxname === 'VAT')
-                : 0;
-
-            if (igst.length) {
-              igst.forEach((igst2) => {
-                tax['taxes'][igst2.taxfromdate] = {
-                  igst: {
-                    rate: igst2.taxrate,
-                    amount: 0,
-                  },
-                  cgst: {
-                    rate: igst2.taxrate / 2,
-                    amount: 0,
-                  },
-                  sgst: {
-                    rate: igst2.taxrate / 2,
-                    amount: 0,
-                  },
-                };
-              });
-              // old tax rates without applicability date, legacy code
-              tax['igst'] = {
-                rate: igst[0].taxrate,
-                amount: 0,
-              };
-              tax['cgst'] = {
-                rate: igst[0].taxrate / 2,
-                amount: 0,
-              };
-              tax['sgst'] = {
-                rate: igst[0].taxrate / 2,
-                amount: 0,
-              };
-            }
-            if (cgst.length) {
-              cgst.forEach((cgst2) => {
-                tax['taxes'][cgst2.taxfromdate] = {
-                  cgst: {
-                    rate: cgst2.taxrate,
-                    amount: 0,
-                  },
-                  sgst: {
-                    rate: cgst2.taxrate,
-                    amount: 0,
-                  },
-                };
-              });
-              // old tax rates without applicability date, legacy code
-              tax['cgst'] = {
-                rate: cgst[0].taxrate,
-                amount: 0,
-              };
-              tax['sgst'] = {
-                rate: cgst[0].taxrate,
-                amount: 0,
-              };
-            }
-            if (cess.length) {
-              tax['cess'] = {
-                rate: cess[0].taxrate,
-                amount: 0,
-              };
-            }
-            if (vat.length) {
-              tax['vatMap'] = {};
-              vat.forEach((vatItem) => {
-                tax['vatMap'][vatItem.state] = {
-                  rate: parseFloat(vatItem.taxrate),
-                  amount: 0,
-                };
-              });
-              if (this.taxState) {
-                tax['vat'] = tax['vatMap'][this.taxState];
-              }
-            }
-            Object.assign(self.form[index], tax);
+            this.productTaxes = resp2.data.gkresult;
+            this.updateTaxDetails(index);
           }
         } else {
-          console.log(resp2.message);
+          console.error(resp2.message);
         }
         self.updateTaxAndTotal(index);
 
         // Stock On Hand
         if (resp3.data.gkstatus === 0) {
-          self.options.stock[id] = parseFloat(resp3.data.gkresult[0].balance);
+          self.options.stock[id] = parseFloat(resp3.data.gkresult[0]?.balance);
         }
 
         self.$forceUpdate();
@@ -1069,6 +1135,16 @@ export default {
       this.currentPage = 1;
       this.editMode = false;
     },
+    checkHSN(name) {
+      let HSNLength = JSON.parse(this.form[0]?.hsn)?.hsn_code?.toString()?.length || 0;
+      if (this.gstFlag && HSNLength < 4) {
+        this.displayToast(
+          `${name} HSN invalid!`,
+          'HSN requires minimum 4 digits from April 1, 2025',
+          'danger',
+        );
+      }
+    },
     onBillItemSelect(item, index) {
       this.$forceUpdate();
       if (item) {
@@ -1078,6 +1154,7 @@ export default {
             const self = this;
             this.fetchProductDetails(item.id, index).then(() => {
               self.onUpdateDetails();
+              this.checkHSN(item.name);
             });
           }
         }
@@ -1086,9 +1163,10 @@ export default {
           rowSelected: false,
           product: { id: '', name: '',  quantity: ''},
           hsn: '',
+          originalQty: null,
           qty: null,
+          maxQty: null,
           packageCount: null,
-          rejectedQty: null,
           dcValue: null,
           fqty: 0,
           rate: null,
@@ -1106,40 +1184,44 @@ export default {
         this.updateTaxAndTotal(index);
       }
     },
+    isProductSelected(id) {
+      return this.form.some((item) => (item.product.id === id));
+    },
     onBusinessSave(invalidProduct) {
       this.showBusinessForm = false;
       let self = this;
 
-      if (!invalidProduct) {
-        /**
-        * Fetching the business list, clears the options variable and repopulates it.
-        * This action makes the autocomplete component's value null. To counter this
-        * the table data is copied by value before that and pasted afterwards.
-        */
+      if (invalidProduct) return;
 
-        let tableData = this.form.map((item) => {
-          const productData = self.options.products.find(p => p.id === item.product.id);
-          return { id: item.product.id, name: item.product.name, quantity: productData?.quantity};
+      /**
+      * Fetching the business list, clears the options variable and repopulates it.
+      * This action makes the autocomplete component's value null. To counter this
+      * the table data is copied by value before that and pasted afterwards.
+      */
+      let tableData = this.form.map((item) => {
+        const productData = self.options.products.find(p => p.id === item.product.id);
+        return { id: item.product.id, name: item.product.name, quantity: productData?.quantity};
+      });
+      this.fetchBusinessList().then(() => {
+        let billCount = self.form.length;
+        let productCount = self.options.products.length;
+        tableData.forEach((item, i) => {
+          self.form[i].product = item;
         });
-        this.fetchBusinessList().then(() => {
-          let billCount = self.form.length;
-          let productCount = self.options.products.length;
-          tableData.forEach((item, i) => {
-            self.form[i].product = item;
-          });
-          if (self.form[billCount - 1].product.id) {
-            self.addBillItem();
-            billCount++;
-          }
-          self.form[billCount - 1].product =
-            self.options.products[productCount - 1];
-          self.fetchProductDetails(
-            self.options.products[productCount - 1].id,
-            billCount - 1
-          );
-          self.$forceUpdate();
-        });
-      }
+        if (self.form[billCount - 1].product.id) {
+          self.addBillItem();
+          billCount++;
+        }
+        self.form[billCount - 1].product =
+          self.options.products[productCount - 1];
+        self.form[billCount - 1].pid =
+          self.options.products[productCount - 1].id;
+        self.fetchProductDetails(
+          self.options.products[productCount - 1].id,
+          billCount - 1
+        );
+        self.$forceUpdate();
+      });
     },
     /**
      * getTotal(key)
@@ -1174,9 +1256,10 @@ export default {
         rowSelected: false,
         product: { id: '', name: '',  quantity: ''},
         hsn: '',
+        originalQty: null,
         qty: null,
+        maxQty: null,
         packageCount: null,
-        rejectedQty: null,
         dcValue: null,
         fqty: 0,
         rate: null,
@@ -1195,6 +1278,7 @@ export default {
     deleteBillItem(index) {
       this.form.splice(index, 1);
       this.indexBillItems();
+      this.$emit('details-updated', { data: this.form, name: 'bill-table' });
     },
     updateRateField(index, path, flag) {
       let item = this.form[index];
@@ -1205,7 +1289,7 @@ export default {
       // item will be an object which will have the path key in it
       // sometimes, the object could be nested with multiple keys to traverse through to get to the leaf node
       let pathLength = path.length - 1,
-        i = -1;
+          i = -1;
       while (++i < pathLength) {
         item = item[path[i]];
       }
@@ -1245,8 +1329,38 @@ export default {
       let inclusiveFlag = this.inclusiveFlag; // sale price is inclusive of tax
       let item = this.form[index];
       if (item) {
-        if (this.gstFlag) {
-          if (item.taxes) {
+        item.taxable = (0).toFixed(2);
+        item.discount.custom = item.discount.custom || customDiscount;
+        let discountAmount = parseFloat(item?.discount?.amount || 0).toFixed(2);
+        let rate = parseFloat(item.rate);
+        let qty = 0;
+
+        // Ignore discount if debit/credit note
+        if (this.crdrnote) {
+          item.dcValue = item.dcValue || item.drcrrate;
+          rate = item.dcValue;
+          discountAmount = 0;
+        }
+
+        if (rate > 0) {
+          qty = item.qty;
+          // When customDiscount is false, total discount is calculated based on quantity
+          if (this.editInvoice) {
+            item.discount.custom = true;
+            item.discount.total = item.discount.total ?? discountAmount;
+          }
+          if (!item.discount.custom) {
+            item.discount.total = (parseFloat(discountAmount) * qty).toFixed(2);
+          }
+          if (isNaN(item.discount.total)) {
+            item.discount.total = 0;
+          }
+          item.taxable = parseFloat((rate * qty - item.discount.total).toFixed(2));
+        }
+        item.total = item.taxable;
+
+        if (item.taxes) {
+          if (this.gstFlag) {
             // find the appropriate tax based on the date of the invoice
             let taxDates = Object.keys(item.taxes);
             if (taxDates.length && this.invDate) {
@@ -1280,22 +1394,9 @@ export default {
             }
 
             // calculate taxable
-            let rate = parseFloat(item.rate);
             let igst = parseFloat(item.igst.rate) || 0;
             let cess = parseFloat(item.cess.rate) || 0;
             if (item.rate > 0) {
-              let qty = item.qty;
-              if (this.config.rejectedQty) {
-                qty = item.rejectedQty;
-              }
-
-              const discountamount = parseFloat(item.discount.discountamount) || 0;
-              const discount = this.config.dcValue ? 0 : discountamount;
-              if (customDiscount) {
-                item.discount.discountamount = (parseFloat(item.discount.amount) / (qty || 1)).toFixed(2);
-              } else {
-                item.discount.amount = (parseFloat(discount) * qty).toFixed(2);
-              }
               if (inclusiveFlag) {
                 // cess + gst + rate = item rate
                 let inclusiveRate = item.rate;
@@ -1303,15 +1404,13 @@ export default {
               }
               if (this.crdrnote) {
                 if(this.purposeSelectedValue && this.purposeSelectedValue != 18) {
-                  item.taxable = parseFloat(item.dcValue || 0) * qty;
+                  item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
                 } else {
-                  item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
+                  item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
                 }
               } else {
-                item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
+                item.taxable = parseFloat((rate * qty - item.discount.total).toFixed(2));
               }
-            } else {
-              item.taxable = 0;
             }
 
             item.igst.amount = parseFloat(
@@ -1321,58 +1420,42 @@ export default {
               (item.taxable * (cess * 0.01)).toFixed(2)
             );
 
-            item.total = (
+            item.total = parseFloat(
               item.taxable +
               item.igst.amount +
               item.cess.amount
             ).toFixed(2);
-          } else {
-            item.taxable = (0).toFixed(2);
-            item.total = (0).toFixed(2);
-            item.discount.amount = (0).toFixed(2);
-          }
-        } else {
-          item.vat =
-            this.taxState && item.vatMap
-              ? item.vatMap[this.taxState]
-              : { rate: 0, amount: 0 };
+          } else if (this.vatFlag) {
+            item.vat =
+              this.taxState && item.vatMap && item.vatMap[this.taxState]
+                ? item.vatMap[this.taxState]
+                : { rate: 0, amount: 0 };
 
-          // calculate taxable
-          let rate = parseFloat(item.rate);
-          let vat = parseFloat(item.vat.rate) || 0;
-          let discountamount = parseFloat(item.discount.amount) || 0;
-          if (item.rate > 0) {
-            let qty = item.qty;
-            if (this.config.rejectedQty) {
-              qty = item.rejectedQty;
-            }
-
-            const discount = this.config.dcValue ? 0 : discountamount;
-            item.discount.amount = parseFloat(discount) * qty
-            if (inclusiveFlag) {
-              // vat + rate = item rate
-              let inclusiveRate = item.rate;
-              rate = inclusiveRate / (0.01 * vat + 1);
-            }
-            if (this.crdrnote) {
-              if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
-                  item.taxable = parseFloat(item.dcValue || 0) * qty;
+            // calculate taxable
+            let rate = parseFloat(item.rate);
+            let vat = parseFloat(item.vat?.rate) || 0;
+            if (item.rate > 0) {
+              if (inclusiveFlag) {
+                // vat + rate = item rate
+                let inclusiveRate = item.rate;
+                rate = inclusiveRate / (0.01 * vat + 1);
+              }
+              if (this.crdrnote) {
+                if((this.purposeSelectedValue && this.purposeSelectedValue != 18)) {
+                  item.taxable = parseFloat(item.dcValue || 0) * item.disabledQty;
                 } else {
-                  item.taxable = parseFloat((item.taxableamount * qty).toFixed(2));
+                  item.taxable = parseFloat((item.drcrrate * qty).toFixed(2));
                 }
-            } else {
-              item.taxable = parseFloat((rate * qty - item.discount.amount).toFixed(2));
+              } else {
+                item.taxable = parseFloat((rate * qty - item.discount.total).toFixed(2));
+              }
             }
-          } else {
-            item.taxable = 0;
+            if (item.vat) {
+              item.vat.amount = item.taxable * (vat * 0.01);
+              item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
+            }
           }
-
-          item.vat.amount = item.taxable * (vat * 0.01);
-          item.total = (parseFloat(item.taxable) + item.vat.amount).toFixed(2);
         }
-      } else {
-        item.taxable = (0).toFixed(2);
-        item.total = (0).toFixed(2);
       }
       if (isNaN(item.taxable) || isNaN(item.total)) {
         item.total = '';
@@ -1397,15 +1480,14 @@ export default {
       // if godown id is -1, uses stockonhand, else uses godownwise stock on hand
       const url =
         this.godownId === -1
-        ? '/reports/stock-on-hand'
-        : '/reports/godownwise-stock-on-hand';
+          ? '/reports/stock-on-hand'
+          : '/reports/godownwise-stock-on-hand';
       let params;
       if (self.godownId !== -1) {
         if (self.godownId === null) {
           return;
         } else if (this.options.godownStock[this.godownId] && !forceFetch) {
           this.options.stock = this.options.godownStock[this.godownId];
-          // this.setStockStatus();
           return;
         }
       }
@@ -1426,26 +1508,20 @@ export default {
           self.options.stock = {};
           let stock = self.options.stock;
           let godownStock = {};
-          // let prodOptions = self.options.products;
           let id;
           if (resp.data.gkstatus === 0) {
             resp.data.gkresult.forEach((soh) => {
               id = soh.productcode;
               stock[id] = parseFloat(soh.balance);
-              // option is marked active if stock is greater than 1 or its a service (gsflag=19)
-              // if(productMap[id]) {
-              //   productMap[id].active = stock[id] > 0;
-              // }
               godownStock[id] = stock[id];
             });
             self.options.godownStock[self.godownId] = godownStock;
-            // self.setStockStatus();
             self.isPreloading = false;
           }
         })
         .catch((error) => {
           self.isPreloading = false;
-          console.log(error);
+          console.error(error);
           return error;
         });
     },
@@ -1457,7 +1533,6 @@ export default {
         id = product.productcode;
         // option is marked active if stock is greater than 1 or its a service (gsflag=19)
         prodOptions[index].active = self.options.stock[id] > 0;
-        // console.log(`${self.options.stock[id]} - ${prodOptions[index].active}`)
         if (product.gsflag === 19) {
           prodOptions[index].active = true;
         }
@@ -1466,8 +1541,9 @@ export default {
     fetchBusinessList() {
       let self = this;
       this.isPreloading = true;
+      let itemListAPI = (self?.billType === "transfernote") ? '/product?invdc=4' : '/product';
       return axios
-        .get('/product')
+        .get(itemListAPI)
         .then((resp) => {
           self.isPreloading = false;
           if (resp.status === 200) {
@@ -1476,7 +1552,19 @@ export default {
               self.options.products = [];
               self.options.productData = {};
               resp.data.gkresult.forEach((item) => {
-                if (((this.saleFlag && (!this.config.qty.checkStock || (parseInt(item.productquantity, 10) > 0))) || (!this.saleFlag)) || (item.gsflag === 19)) {
+                // Checks to determine if item should be shown for users to select:
+                // Show if purchase invoice or item is service (gsflag = 19)
+                // If sales invoice, show if negative stock is allowed.
+                // Otherwise show only if product quantity is greater than 0.
+                if (
+                  (
+                    (
+                      this.saleFlag &&
+                      (this.allowNegativeStock || parseInt(item.productquantity) > 0)
+                    )
+                    || !this.saleFlag
+                  ) || item.gsflag === 19
+                ) {
                   self.options.products.push({
                     id: item.productcode,
                     name: item.productdesc,
@@ -1487,8 +1575,7 @@ export default {
                   };
                 }
               });
-              if (self.config.qty.checkStock) {
-                // self.fetchStockOnHandData();
+              if (!self.allowNegativeStock) {
                 self.fetchAllStockOnHand(true);
               }
             } else {
@@ -1518,19 +1605,6 @@ export default {
       );
     },
     /**
-     * onRejectedQty
-     *
-     * input event callback for rejectedQty field
-     */
-    onRejectedQty(index) {
-      const row = this.form[index];
-      if (!row.rejectedQty && row.rowSelected) {
-        row.rowSelected = false;
-      }
-      this.updateTaxAndTotal(index);
-      this.onUpdateDetails();
-    },
-    /**
      * callRowSelected
      *
      * Calls the rowSelected callback and the emits details-updated event
@@ -1557,11 +1631,14 @@ export default {
         this.skipAllRowSelect = false;
         return;
       }
-      this.form.forEach((row) => {
-        row.rowSelected = this.allRowsSelected;
-        if (!this.allRowsSelected) {
-          row.rejectedQty = 0;
-        }
+    },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
       });
     },
   },

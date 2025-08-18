@@ -1,8 +1,12 @@
 <template>
   <!--add custom data here  -->
   <div>
-    <component v-bind:is="name" :pdata="pdata" :id="id" :onUpdate="onUpdate">
-    </component>
+    <component
+      :is="name"
+      :pdata="pdata"
+      :id="id"
+      :on-update="onUpdate"
+    />
   </div>
 </template>
 
@@ -12,19 +16,17 @@ import CashMemo from './CashMemoProfile.vue';
 import DebitCreditNote from './DcNoteProfile.vue';
 import DeliveryNote from './DeliveryNoteProfile.vue';
 import PurchaseSalesOrder from './PsOrderProfile.vue';
-import RejectionNote from './RejectionNoteProfile.vue';
 import TransferNote from './TransferNoteProfile.vue';
 import Voucher from './VoucherProfile.vue';
 import { mapState } from 'vuex';
 export default {
-  name: 'TransactionProfile',
+  name: 'Transaction',
   components: {
     Invoice,
     CashMemo,
     DebitCreditNote,
     DeliveryNote,
     PurchaseSalesOrder,
-    RejectionNote,
     TransferNote,
     Voucher,
   },
@@ -40,7 +42,6 @@ export default {
             'CashMemo',
             'DeliveryNote',
             'PurchaseSalesOrder',
-            'RejectionNote',
             'TransferNote',
             'Voucher',
           ].indexOf(value) !== -1

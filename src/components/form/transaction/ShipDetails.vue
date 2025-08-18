@@ -3,11 +3,14 @@
     v-if="config"
     class="mb-2 mb-md-0"
     :class="config.class"
-    border-variant="secondary"
     no-body
   >
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <div class="p-2 p-md-3">
       <div>
         <b v-translate>Shipping Details</b>
@@ -24,12 +27,12 @@
           <b-icon
             :icon="isCollapsed ? 'dash' : 'arrows-fullscreen'"
             class="float-right"
-          ></b-icon>
+          />
         </b-button>
       </div>
       <div
         class="mt-3 px-2"
-        :class="{ 'd-md-block': true, 'd-none': !isCollapsed }"
+        :class="{'d-md-block': true, 'd-none': !isCollapsed}"
         id="shipping-details"
       >
         <b-form-checkbox
@@ -41,11 +44,20 @@
           switch
           v-if="config.copyFlag"
         >
-          <span v-if="saleFlag" v-translate> Use Billing Address </span>
-          <span v-else v-translate> Use Organisation Address </span>
+          <span
+            v-if="saleFlag"
+            v-translate
+          > Use Billing Address </span>
+          <span
+            v-else
+            v-translate
+          > Use Organisation Address </span>
         </b-form-checkbox>
         <b-row>
-          <b-col cols="12" v-if="config.name">
+          <b-col
+            cols="12"
+            v-if="config.name"
+          >
             <b-form-group
               label="Name"
               label-for="spd-input-10"
@@ -54,17 +66,22 @@
               label-cols-lg="3"
               label-size="sm"
             >
-              <template #label> <translate> Name </translate> </template>
+              <template #label>
+                <translate> Name </translate>
+              </template>
               <b-form-input
                 size="sm"
                 id="spd-input-10"
                 v-model="form.name"
                 :readonly="copyFlag"
                 tabindex="-1"
-              ></b-form-input>
+              />
             </b-form-group>
           </b-col>
-          <b-col cols="12" v-if="config.addr">
+          <b-col
+            cols="12"
+            v-if="config.addr"
+          >
             <b-form-group
               label-cols="3"
               label-cols-md="4"
@@ -73,7 +90,9 @@
               label-for="spd-input-20"
               label-size="sm"
             >
-              <template #label> <translate> Address </translate> </template>
+              <template #label>
+                <translate> Address </translate>
+              </template>
               <b-form-textarea
                 size="sm"
                 id="spd-input-20"
@@ -83,15 +102,18 @@
                 trim
                 :readonly="copyFlag"
                 tabindex="-1"
-              ></b-form-textarea>
+              />
             </b-form-group>
           </b-col>
-          <b-col cols="12" v-if="config.pin">
+          <b-col
+            cols="12"
+            v-if="config.pin"
+          >
             <b-form-group
               label-cols="3"
               label-cols-md="4"
               label-cols-lg="3"
-              label="PIN"
+              label="Postal Code"
               label-for="spd-input-30"
               label-size="sm"
             >
@@ -102,10 +124,13 @@
                 trim
                 :readonly="copyFlag"
                 tabindex="-1"
-              ></b-form-input>
+              />
             </b-form-group>
           </b-col>
-          <b-col cols="12" v-if="config.state">
+          <b-col
+            v-if="config.state && isIndia && isIndianParty"
+            cols="12"
+          >
             <b-form-group
               label="State"
               label-for="spd-input-40"
@@ -114,7 +139,9 @@
               label-cols-md="4"
               label-cols-lg="3"
             >
-              <template #label> <translate> State </translate> </template>
+              <template #label>
+                <translate> State </translate>
+              </template>
               <v-select
                 id="spd-input-40"
                 v-model="form.state"
@@ -124,11 +151,13 @@
                 :tabindex="-1"
                 label="name"
                 :reduce="(state) => state.name"
-              >
-              </v-select>
+              />
             </b-form-group>
           </b-col>
-          <b-col v-if="gstFlag && config.gstin" cols="12">
+          <b-col
+            v-if="config.gstin && gstFlag"
+            cols="12"
+          >
             <b-form-group
               label-cols="3"
               label-cols-md="4"
@@ -138,16 +167,26 @@
               label-size="sm"
             >
               <b-form-input
+                v-if="copyFlag"
                 size="sm"
                 id="spd-input-50"
                 v-model="form.gstin"
                 trim
                 :readonly="copyFlag"
                 tabindex="-1"
-              ></b-form-input>
+              />
+              <gk-gstin
+                v-else
+                v-model="form.gstin"
+                @gstin_data="onGstinDataFetched"
+                @validity="checkGstinValidity"
+              />
             </b-form-group>
           </b-col>
-          <b-col v-else-if="config.tin" cols="12">
+          <b-col
+            v-else-if="config.tin && vatFlag"
+            cols="12"
+          >
             <b-form-group
               label-cols="3"
               label-cols-md="4"
@@ -160,8 +199,12 @@
                 size="sm"
                 id="spd-input-60"
                 v-model="form.tin"
+                :readonly="copyFlag"
                 trim
-              ></b-form-input>
+                pattern="[A-Z0-9]+"
+                minlength="10"
+                maxlength="11"
+              />
             </b-form-group>
           </b-col>
         </b-row>
@@ -172,9 +215,12 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
+import GkGstin from '../../GkGstin.vue';
 export default {
   name: 'ShipDetails',
   components: {
+    GkGstin,
   },
   data() {
     return {
@@ -196,6 +242,10 @@ export default {
   },
   props: {
     gstFlag: {
+      type: Boolean,
+      required: true,
+    },
+    vatFlag: {
       type: Boolean,
       required: true,
     },
@@ -229,13 +279,17 @@ export default {
       note: 'Custom Details, used for edit Invoices',
     },
   },
+  computed: {
+    isIndianParty: (self) => !self.form.country || self.form.country === 'India',
+    ...mapGetters('global', ['isIndia']),
+  },
   watch: {
     copyFlag() {
       this.setShippingDetails();
     },
     updateCounter() {
       if (this.customDetails) {
-        Object.assign(this.form, this.customDetails);
+        this.form = Object.assign({}, this.form, this.customDetails);
         if (typeof this.customDetails.copyFlag === 'boolean') {
           this.copyFlag = this.customDetails.copyFlag;
         }
@@ -248,6 +302,21 @@ export default {
     },
   },
   methods: {
+    checkGstinValidity(r) {
+      this.isValidGstin = r.validity.format;
+    },
+    onGstinDataFetched({ name, addr, pincode, pan, statecode }) {
+      this.form.name = name;
+      this.form.addr = addr;
+      this.form.pin = pincode;
+      this.form.pan = pan;
+      if (statecode) {
+        let stateData = this.options.states.find(
+          (state) => state.id === parseInt(statecode, 10).toString()
+        );
+        this.form.state = typeof stateData === 'object' ? stateData : this.form.state;
+      }
+    },
     preloadData() {
       let self = this;
       this.isPreloading = true;
@@ -278,19 +347,19 @@ export default {
       if (this.copyFlag) {
         if (this.saleFlag) {
           if (this.billingDetails.name) {
-            Object.assign(this.form, this.billingDetails);
+            this.form = Object.assign({}, this.form, this.billingDetails);
             this.form.name = this.billingDetails.name.name;
             delete this.form.type;
           } else {
             this.resetForm();
           }
         } else {
-          Object.assign(this.form, this.organisationDetails);
+          this.form = Object.assign({}, this.form, this.organisationDetails);
         }
       } else {
         this.resetForm();
         if (this.customDetails) {
-          Object.assign(this.form, this.customDetails);
+          this.form = Object.assign({}, this.form, this.customDetails);
         }
       }
     },
@@ -299,6 +368,7 @@ export default {
         name: null,
         addr: null,
         state: {name: ''},
+        country: this.form.country,
         gstin: null,
         tin: null,
         pin: null,

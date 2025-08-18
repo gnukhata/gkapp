@@ -1,7 +1,11 @@
 <template>
   <!--Cards-->
   <b-row cols="2">
-    <router-link v-for="(card, i) in cards" :key="i" :to="card.url">
+    <router-link
+      v-for="(card, i) in cards"
+      :key="i"
+      :to="card.url"
+    >
       <b-card
         :footer="card.name"
         class="text-center m-1"
@@ -13,17 +17,17 @@
       >
         <img
           v-if="card.name == 'Go To Workflow'"
-          src="img/workflow.svg"
+          src="/img/workflow.svg"
           width="100"
           style="position: relative; bottom: 20px"
-        />
+        >
         <b-card-text v-else>
           <b-icon
             scale="4"
             :variant="card.color"
             :icon="card.icon"
             class="mt-3"
-          ></b-icon>
+          />
         </b-card-text>
       </b-card>
     </router-link>
@@ -34,9 +38,18 @@
 // @ is an alias to /src
 export default {
   name: 'Tiles',
-  data() {
-    return {
-      cards: [
+  computed: {
+    isGstEnabled: (self) => self.$store.getters['global/isGstEnabled'],
+    cards: (self) => {
+      let report = {
+        name: 'Balance Sheet',
+        url: '/balance-sheet',
+      };
+      if (self.isGstEnabled) {
+        report.name = 'GSTR-1';
+        report.url = '/gst/r1';
+      }
+      const tiles = [
         {
           name: 'Go To Workflow',
           icon: 'tools',
@@ -54,10 +67,10 @@ export default {
           textColor: 'light',
         },
         {
-          name: 'GSTR-1',
+          name: report.name,
           icon: 'file',
-          text: 'GST',
-          url: '/gst/r1',
+          text: report.name,
+          url: report.url,
           color: 'dark',
           textColor: 'light',
         },
@@ -69,8 +82,9 @@ export default {
           color: 'dark',
           textColor: 'light',
         },
-      ],
-    };
+      ];
+      return tiles;
+    },
   },
 };
 </script>

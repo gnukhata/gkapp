@@ -1,158 +1,240 @@
 <template>
-  <section class="m-2">
+  <section>
+    <h2 class="my-4 text-muted display-5">
+      PRODUCT REGISTER
+    </h2>
     <b-overlay :show="loading">
       <b-card
-        header="Product Register"
-        header-bg-variant="dark"
-        header-text-variant="light"
-        style="max-width: 40em"
-        class="mx-auto d-print-none"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
-        <b-form @submit.prevent="check">
-          <b-form-group label="Product" label-align="right" label-cols="auto">
-            <!-- select product -->
-            <b-form-select
-              :options="productList"
-              v-model="productId"
-              text-field="label"
-              value-field="id"
-              required
-            ><template #first>
-              <b-form-select-option value="null">-- Please select a product --</b-form-select-option>
-            </template>
-            </b-form-select>
-          </b-form-group>
-          <div class="row">
-            <div class="col">
-              <b-form-group label="From" label-align="left">
-                <gk-date
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          Product Register: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+          {{ dateReverse(selected?.toDate || toDate) }}
+        </b-alert>
+        <b-form @submit.prevent="getStock">
+          <b-row>
+            <b-col
+              cols
+              lg="6"
+            >
+              <b-form-group
+                label="Product"
+                label-cols="auto"
+              >
+                <!-- select product -->
+                <v-select
+                  :options="productList"
+                  v-model="productId"
+                  placeholder="Select Product"
+                  :reduce="product => product.id"
                   :required="true"
-                  v-model="fromDate"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="6"
+            >
+              <!-- Godown select -->
+              <b-form-group
+                label="Godown"
+                label-cols="auto"
+              >
+                <v-select
+                  :options="godowns"
+                  v-model="godownId"
+                  placeholder="Select Godown"
+                  label="text"
+                  :reduce="godown => godown.value"
+                  :required="true"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="From"
+                label-cols="auto"
+              >
+                <gk-date
                   id="from"
-                  class="mr-4"
-                ></gk-date>
+                  required
+                  v-model="fromDate"
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
               </b-form-group>
-            </div>
-            <div class="col">
-              <b-form-group label="To" label-align="left">
-                <gk-date :required="true" v-model="toDate" id="to"></gk-date>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="To"
+                label-cols="auto"
+              >
+                <gk-date
+                  id="to"
+                  required
+                  v-model="toDate"
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
               </b-form-group>
-            </div>
-          </div>
-          <!-- Godown select -->
-          <b-form-group label="Godown" label-cols="auto">
-            <autocomplete
-              placeholder="Search / Select a godown"
-              v-model="godownId"
-              :godownData="godownId"
-              :options="godowns"
-              :required="true"
-            ></autocomplete>
-          </b-form-group>
-          <b-button type="submit" variant="success" class="float-right"
-            ><b-icon icon="eye-fill"></b-icon> View</b-button
+            </b-col>
+          </b-row>
+          <b-button-group
+            size="sm"
           >
+            <b-button
+              type="submit"
+              variant="success"
+              class="mr-2"
+              :disabled="(productId == null)"
+            >
+              Submit
+            </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              <translate>Clear</translate>
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card>
     </b-overlay>
     <!-- report -->
-    <div v-if="report.length > 0" class="mt-2">
+    <div
+      v-if="report.length > 0"
+      class="mt-2"
+    >
       <report-header>
         <template>
           <div class="text-center">
             Product Register:
-            <b>{{ productId.label }}</b>
+            <b>{{ productName }}</b>
             | From
-            <b>{{ dateReverse(fromDate) }}</b>
+            <b>{{ dateReverse(selected.fromDate) }}</b>
             to
-            <b>{{ dateReverse(toDate) }}</b>
+            <b>{{ dateReverse(selected.toDate) }}</b>
           </div>
         </template>
       </report-header>
-      <!-- Toolbar -->
-      <gk-toolbar>
-        <!-- search bar -->
-        <template #left>
-          <b-form-input
-            size="sm"
-            v-model="search"
-            class="border-dark"
-            style="align-self: center"
-            placeholder="search invoices"
-          ></b-form-input>
-        </template>
-        <!-- filters -->
-        <gk-hovermenu>
-          <div class="font-weight-bold bg-dark text-light p-1 mb-1">
-            Invoice Type
-          </div>
-          <b-form-checkbox-group
-            @change="applyFilters"
-            class=""
-            v-model="invoiceFilter"
+      <b-card
+        class="mb-3 d-print-none"
+      >
+        <b-card-title class="h5">
+          Summary
+        </b-card-title>
+        <b-row>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
           >
-            <b-form-checkbox class="w-100" value="invoice"
-              ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
-            >
-            <b-form-checkbox class="w-100" value="Rejection Note"
-              ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
-              Note</b-form-checkbox
-            >
-            <b-form-checkbox class="w-100" value="Debit Note"
-              ><b-icon icon="file-earmark-minus" variant="warning"></b-icon>
-              Debit Note</b-form-checkbox
-            >
-            <b-form-checkbox class="w-100" value="Credit Note"
-              ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
-              Note</b-form-checkbox
-            >
-            <b-form-checkbox class="w-100" value="transfer note"
-              ><b-icon icon="file-earmark-font" variant="info"></b-icon> Transfer
-              note</b-form-checkbox
-            >
-            <b-form-checkbox class="w-100" value="delchal"
-              ><b-icon icon="files-alt" variant="info"></b-icon> Delchal</b-form-checkbox
-            >
-          </b-form-checkbox-group>
-        </gk-hovermenu>
-        <!-- Report download -->
-        <gk-file-download
-          :url="
-            `/spreadsheet/product-register?calculatefrom=${dateReverse(
-              this.fromDate
-            )}&calculateto=${dateReverse(this.toDate)}&productcode=${
-              productId
-            }&productdesc=${productId.label}&godownflag=1&goid=${
-              this.godownId
-            }&goname=${getGodownName(this.godownId)?.text}&goaddr=${
-              getGodownName(this.godownId)?.text
-            }&fystart=${dateReverse(this.yearStart)}&fyend=${dateReverse(
-              this.yearEnd
-            )}&orgname=${this.orgName}&orgtype=${this.orgType}`
-          "
-          fileExtn="xlsx"
-          :commonParams="false"
-          :messageFromParent="parentMessage"
-        ></gk-file-download>
-      </gk-toolbar>
-      <!-- result table -->
+            <b>Total Inward Quantity:</b> {{ report?.at(-1)?.totalinwardqty }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Total Outward Quantity:</b> {{ report?.at(-1)?.totaloutwardqty }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="3"
+            sm="6"
+          >
+            <b>Opening Balance:</b> {{ report?.at(0)?.balance || "0.00" }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="3"
+            sm="6"
+          >
+            <b>Closing Balance:</b> {{ report?.at(-2)?.balance || "0.00" }}
+          </b-col>
+        </b-row>
+      </b-card>
+      <div class="mt-4">
+        <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
+          <!-- Search Field -->
+          <div>
+            <b-input-group size="sm">
+              <b-form-input
+                size="sm"
+                v-model="search"
+                placeholder="Search Table"
+                style="align-self:center"
+              />
+            </b-input-group>
+          </div>
+
+          <!-- Export and Print Buttons -->
+          <div>
+            <!-- Report download -->
+            <gk-file-download
+              v-if="selected.godownId"
+              :url="
+                `/spreadsheet/product-register?calculatefrom=${dateReverse(
+                  selected.fromDate,
+                )}&calculateto=${dateReverse(selected.toDate)}&productcode=${
+                  selected.productId
+                }&productdesc=${productName}&godownflag=1&goid=${
+                  selected.godownId
+                }&goname=${getGodownName(selected.godownId)?.text}&goaddr=${
+                  getGodownName(selected.godownId)?.text
+                }&fystart=${dateReverse(yearStart)}&fyend=${dateReverse(
+                  yearEnd,
+                )}&orgname=${orgName}&orgtype=${orgType}`
+              "
+              file-extn="xlsx"
+              :common-params="false"
+              :message-from-parent="parentMessage"
+              variant="dark"
+              title="Export XLSX"
+              name="Export XLSX"
+            />
+          </div>
+        </div>
+      </div>
       <b-table
         small
-        class="table-border-dark"
-        striped
-        head-variant="dark"
-        :items="report"
+        outlined
+        hover
+        head-variant="light"
+        :items="paginatedItems"
         responsive="sm"
+        :per-page="perPage"
         :fields="fields"
-        :filter="search"
         show-empty
       >
+        <template #head(balance_value)="data">
+          {{ data.label }}
+          <gk-tooltip
+            help-title="Product Value"
+            help-body="Calculated product value will be inclusive of the gross profit(loss)."
+          />
+        </template>
         <!-- Transaction type -->
         <template #cell(particulars)="data">
           <div v-if="data.item.trntype === 'invoice'">
-            <b-icon icon="receipt"></b-icon> {{ data.item.particulars }} :
+            <b-icon icon="receipt" /> {{ data.item.particulars }} :
             <b-link
-              @click="updateRoute"
               :to="{
                 name: 'Workflow',
                 params: {
@@ -164,7 +246,9 @@
                 },
               }"
             >
-              <div class="d-inline" @click="updateRoute">
+              <div
+                class="d-inline"
+              >
                 {{ data.item.invno }}
               </div>
             </b-link>
@@ -172,7 +256,6 @@
           <div v-else-if="data.item.trntype === 'delchal'">
             {{ data.item.particulars }} :
             <b-link
-              @click="updateRoute"
               :to="{
                 name: 'Workflow',
                 params: {
@@ -181,30 +264,18 @@
                 },
               }"
             >
-              <div class="d-inline" @click="updateRoute">
+              <div
+                class="d-inline"
+              >
                 {{ data.item.dcno }}
               </div>
             </b-link>
           </div>
-          <div v-else-if="data.item.trntype === 'Rejection Note'">
-            <b-icon variant="danger" icon="journal-x"></b-icon>
-            {{ data.item.particulars }} :
-            <b-link
-              :to="{
-                name: 'Workflow',
-                params: {
-                  wfName: 'Transactions-RejectionNote',
-                  wfId: data.item.rnid,
-                },
-              }"
-            >
-              <div class="d-inline" @click="updateRoute">
-                {{ data.item.rnno }}
-              </div>
-            </b-link>
-          </div>
           <div v-else-if="data.item.trntype === 'Debit Note'">
-            <b-icon variant="warning" icon="file-earmark-minus"></b-icon>
+            <b-icon
+              variant="warning"
+              icon="file-earmark-minus"
+            />
             {{ data.item.particulars }} :
             <b-link
               :to="{
@@ -215,13 +286,18 @@
                 },
               }"
             >
-              <div class="d-inline" @click="updateRoute">
+              <div
+                class="d-inline"
+              >
                 {{ data.item.drcrno }}
               </div>
             </b-link>
           </div>
           <div v-else-if="data.item.trntype === 'Credit Note'">
-            <b-icon variant="info" icon="file-earmark-plus"></b-icon>
+            <b-icon
+              variant="info"
+              icon="file-earmark-plus"
+            />
             {{ data.item.particulars }} :
             <b-link
               :to="{
@@ -232,12 +308,19 @@
                 },
               }"
             >
-              <div class="d-inline" @click="updateRoute">
+              <div
+                class="d-inline"
+              >
                 {{ data.item.drcrno }}
               </div>
             </b-link>
           </div>
           <div v-else-if="data.item.trntype === 'transfer note'">
+            <b-icon
+              variant="dark"
+              icon="truck"
+            />
+            {{ data.item.particulars }} :
             <b-link
               :to="{
                 name: 'Workflow',
@@ -247,21 +330,31 @@
                 },
               }"
             >
-              <div class="d-inline" @click="updateRoute">
+              <div
+                class="d-inline"
+              >
                 {{ data.item.tnno }}
               </div>
             </b-link>
           </div>
-          <div v-else class="font-weight-bold">
-            <div class="d-inline" @click="updateRoute">
+          <div
+            v-else
+            class="font-weight-bold"
+          >
+            <div
+              class="d-inline"
+            >
               {{ data.item.particulars }}
             </div>
           </div>
         </template>
         <template #cell(transactionType)="data">
           <div class="text-right">
-            <span v-if="data.item.particulars === 'opening stock'"></span>
-            <span v-if="data.item.particulars === 'Total'"></span>
+            <span v-if="data.item.particulars === 'opening stock'" />
+            <span v-else-if="data.item.particulars === 'Total'" />
+            <span v-else-if="data.item?.invno && data.item.invno.includes('SL')"> Sales Invoice </span>
+            <span v-else-if="data.item?.invno && data.item.invno.includes('PU')"> Purchase Invoice </span>
+            <span v-else-if="data.item?.invno && data.item.invno.includes('CMS')"> Sales Invoice </span>
             <span v-else>{{ data.item.trntype.charAt(0).toUpperCase() + data.item.trntype.slice(1) }}</span>
           </div>
         </template>
@@ -289,84 +382,55 @@
           </div>
         </template>
         <!-- balance -->
-        <template #cell(balance)="data"
-          ><div class="text-right">{{ data.item.balance }}</div>
+        <template
+          #cell(balance)="data"
+        >
+          <div class="text-right">
+            {{ data.item.balance }}
+          </div>
         </template>
       </b-table>
-  </div>
-   <div v-if="report.length == 0">
-      <!-- Toolbar -->
-      <gk-toolbar>
-        <!-- search bar -->
-       
-        <!-- filters -->
-        <gk-hovermenu>
-          <div class="font-weight-bold bg-dark text-light p-1 mb-1">
-            Invoice Type
-          </div>
-          <b-form-checkbox-group
-            @change="applyFilters"
-            class=""
-            v-model="invoiceFilter"
-          >
-            <b-form-checkbox class="w-100" value="invoice"
-              ><b-icon icon="receipt"></b-icon> Invoice</b-form-checkbox
-            >
-            <b-form-checkbox class="w-100" value="Rejection Note"
-              ><b-icon icon="journal-x" variant="danger"></b-icon> Rejection
-              Note</b-form-checkbox
-            >
-            <b-form-checkbox class="w-100" value="Debit Note"
-              ><b-icon icon="file-earmark-minus" variant="warning"></b-icon>
-              Debit Note</b-form-checkbox
-            >
-            <b-form-checkbox class="w-100" value="Credit Note"
-              ><b-icon icon="file-earmark-plus" variant="info"></b-icon> Credit
-              Note</b-form-checkbox
-            >
-             <b-form-checkbox class="w-100" value="transfer note"
-              ><b-icon icon="file-earmark-font" variant="info"></b-icon> Transfer
-              Note</b-form-checkbox
-            >
-            <b-form-checkbox class="w-100" value="delchal"
-              ><b-icon icon="files-alt" variant="info"></b-icon> Delchal </b-form-checkbox
-            >
-          </b-form-checkbox-group>
-        </gk-hovermenu>
-        <!-- Report download -->
-      </gk-toolbar>
-    <b-table  small
-        class="table-border-dark"
-        striped
-        head-variant="dark"
-        responsive="sm" :fields="fields" show-empty>
-      <!-- Named slot "empty" for custom rendering when the table is empty -->
-      <template #empty>
-        <h4 style="text-align: center;">No result found.</h4>
-      </template>
-    </b-table>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end"
+      >
+        <b-pagination
+          v-if="filteredItems.length > perPage"
+          v-model="currentPage"
+          :total-rows="filteredItems.length"
+          :per-page="perPage"
+          align="center"
+          limit="4"
+        />
+      </div>
+    </div>
+    <div v-if="report.length == 0">
+      <b-alert
+        show
+        class="text-center mx-auto d-print-none"
+        variant="primary"
+      >
+        Select a product to load table.
+      </b-alert>
     </div>
   </section>
 </template>
+
 <script>
 import axios from 'axios';
 import GkDate from './GkDate.vue';
-import ReportHeader from './ReportHeader.vue';
 import { mapState } from 'vuex';
 import GkFileDownload from '@/components/GkFileDownload.vue';
-import GkToolbar from './GkToolbar.vue';
-import autocomplete from '@/components/Autocomplete.vue';
-import GkHovermenu from '@/components/GkHovermenu.vue';
+import ReportHeader from '@/components/ReportHeader.vue';
+import GkTooltip from '@/components/GkTooltip.vue';
+import { reverseDate } from '../js/utils.js';
 
 export default {
   name: 'ProductRegister',
   components: {
+    GkTooltip,
     GkDate,
-    ReportHeader,
     GkFileDownload,
-    GkToolbar,
-    autocomplete,
-    GkHovermenu,
+    ReportHeader,
   },
   data() {
     return {
@@ -377,13 +441,17 @@ export default {
       productId: null,
       fromDate: '',
       toDate: '',
+      selected: {},
+      currentToDate: '',
       report: [],
       immutableReport: [],
+      currentPage: 1,
+      perPage: 10,
       godowns: [],
-      godownId: '',
+      godownId: null,
       godownReport: [],
-      invoiceFilter: ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
-      fields: [
+      invoiceFilter: ['invoice', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
+      defaultFields: [
         {
           key: 'date',
           label: 'Date',
@@ -393,7 +461,7 @@ export default {
           key: 'particulars',
           label: 'Particulars',
         },
-         {
+        {
           key: 'transactionType',
           label: 'Trntype',
         },
@@ -413,16 +481,24 @@ export default {
           class: 'text-center',
         },
       ],
+      fields: [],
     };
   },
   methods: {
+    clear() {
+      this.godownId = null;
+      this.productId = null;
+      this.fromDate = this.yearStart;
+      this.toDate = this.yearEnd;
+      this.$router.replace({});
+      this.report = [];
+      this.selected = {};
+      this.currentPage = 1;
+    },
     getGodownName(id) {
       return this.godowns.filter((go) => {
         return go.value == id;
       })[0];
-    },
-    check() {
-      this.getGodownStock();
     },
     applyFilters() {
       if (this.invoiceFilter.length > 0) {
@@ -449,122 +525,55 @@ export default {
         this.report = [];
       }
     },
-    getStockReport() {
-      this.loading = true;
-      axios
-        .get(
-          `/reports/stock-report?productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
-        )
-        .then((r) => {
-          const data = r.data;
-          if (r.status == 200) {
-            switch (data.gkstatus) {
-              case 0:
-                {
-                  const r = data.gkresult.map((item) => {
-                    if (item.trntype === 'delchal&invoice') {
-                      item.trntype = 'invoice';
-                    }
-                    return item;
-                  });
-                  this.report = r;
-                  this.immutableReport = r;
-                }
-                break;
-              case 1:
-                this.gk_toast(
-                  this.$gettext('Alert'),
-                  this.$gettext('Duplicate Entry'),
-                  'warning'
-                );
-                break;
-              case 2:
-                this.gk_toast(
-                  this.$gettext('Unauthorised Access'),
-                  this.$gettext('Invalid user'),
-                  'danger'
-                );
-                break;
-              case 3:
-                this.gk_toast(
-                  this.$gettext('Data Error'),
-                  this.$gettext('Error in fetching the data'),
-                  'danger'
-                );
-                break;
-              case 4:
-                this.gk_toast(
-                  this.$gettext('Privilege Error'),
-                  this.$gettext('Your role does not have access to this data'),
-                  'danger'
-                );
-                break;
-              case 5:
-                this.gk_toast(
-                  this.$gettext('Integrity error'),
-                  this.$gettext('Something unexpected has happened'),
-                  'danger'
-                );
-                break;
-            }
-          } else {
-            this.gk_toast(
-              this.$gettext('Error'),
-              this.$gettext('Failed to get the stock report'),
-              'danger'
-            );
-          }
-          this.loading = false;
-        })
-        .catch(() => {
-          this.loading = false;
-          this.gk_toast(
-            this.$gettext('Error'),
-            this.$gettext('Failed to get the stock report'),
-            'danger'
-          );
-        });
+    getStock() {
+      this.getStockReport();
+      this.updateRoute();
     },
-    getGodownStock() {
-      if (!this.godownId) {
-        const params = this.$route.query;
-        this.fromDate = this.yearStart;
-        this.toDate = params.current_date;
-        this.productId = params.product_id;
-        this.godownId = params.goid;
-      }
+    getStockReport() {
+      this.currentPage = 1;
       this.loading = true;
-      this.invoiceFilter = ['invoice', 'Rejection Note', 'Debit Note', 'Credit Note', 'transfer note', 'delchal'],
-      axios
-        .get(
-          `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`
-        )
-        .then((r) => {
-          if (r.status == 200) {
-            const report = r.data.gkresult.map((item) => {
-              if (item.trntype === 'delchal&invoice') {
-                item.trntype = 'invoice';
-              }
-              return item;
-            });
-            this.report = report;
-            this.immutableReport = report;
+      let url = '';
+      if (this.godownId) {
+        url = `/reports/product-register?goid=${this.godownId}&productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`;
+        this.fields = [
+          ...this.defaultFields,
+          {
+            key: 'balance_value',
+            label: this.$gettext('Value'),
           }
-          this.loading = false;
+        ];
+      } else {
+        url = `/reports/stock-report?productcode=${this.productId}&startdate=${this.fromDate}&enddate=${this.toDate}`;
+        this.fields = this.defaultFields
+      }
+      this.$axios
+        .get(url)
+        .then((resp) => {
+          const report = resp.map((item) => {
+            if (item.trntype === 'delchal&invoice') {
+              item.trntype = 'invoice';
+            }
+            return item;
+          });
+          this.report = report;
+          this.immutableReport = report;
+          let selected = {
+            "productId": this.productId,
+            "fromDate": this.fromDate,
+            "toDate": this.toDate,
+          }
+          if (this.godownId) {
+            selected["godownId"] = this.godownId;
+          }
+          this.selected = selected;
         })
-        .catch(() => {
+        .finally(() => {
           this.loading = false;
-          this.gk_toast(
-            this.$gettext('Error'),
-            this.$gettext('Failed to get the stock report'),
-            'danger'
-          );
-        })
-        .finally(() => (this.loading = false));
+        });
     },
     getProductList() {
       this.loading = true;
-      axios
+      return axios
         .get('/product?invdc=4')
         .then((r) => {
           if (r.status == 200) {
@@ -577,12 +586,10 @@ export default {
           }
           this.loading = false;
         })
-        .then(() => this.parseParams())
         .catch((e) => {
           this.gk_toast(this.$gettext('Error'), e.message);
           this.loading = false;
         });
-      this.loading = true;
     },
     getGodownList() {
       return axios
@@ -598,7 +605,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e.message);
+          console.error(e.message);
         });
     },
     // change url query params when user clicks on one of result
@@ -608,7 +615,7 @@ export default {
         query: {
           from: this.fromDate,
           to: this.toDate,
-          godown_id: this.godownId,
+          goid: this.godownId,
           product_id: this.productId,
         },
       });
@@ -616,20 +623,33 @@ export default {
     // parse params and assign them to variables
     parseParams() {
       const params = this.$route.query;
-      this.fromDate = this.yearStart;
-      this.toDate = this.yearEnd;
+      this.fromDate = params?.from || this.yearStart;
+      this.toDate = params?.to || this.yearEnd;
       if (Object.keys(params).length > 0) {
-        this.productId = this.productList.filter((product) => {
+        let productId = this.productList.filter((product) => {
           return parseInt(params.product_id) == product.id;
         })[0];
-        this.toDate = params.to;
-        this.godownId = params.godown_id;
-        this.productId = this.productId?.id;
-        this.getGodownStock();
+        this.fromDate = params?.from || this.yearStart;
+        this.toDate = params?.to || this.yearEnd;
+        this.godownId = params?.goid ? Number(params.goid) : null;
+        this.productId = Number(productId?.id ? productId?.id : productId );
+        this.getStockReport();
       }
     },
   },
+  watch: {
+    search() {
+      this.currentPage = 1;
+    },
+  },
   computed: {
+    filteredItems() {
+      return this.report.filter(item =>  item.particulars.toLowerCase().includes(this.search.toLowerCase()));
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
+    },
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
     /**
      * Return godown object for given godown id
@@ -642,13 +662,22 @@ export default {
         }
       });
     },
+    /**
+     * Fetch product name from product ID
+     */
+    productName: function () {
+      let product = this.productList.find(obj => {
+        return obj.id == this.productId;
+      });
+      return product.label;
+    },
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
   },
-  created() {
-    this.getProductList();
-    this.getGodownList()
-      .then(() => {
-        this.godownId = this.$store.getters['global/getDefaultGodown'];
-      })
+  mounted() {
+    this.getProductList()
+      .then(() => this.getGodownList())
       .then(() => this.parseParams());
   },
 };

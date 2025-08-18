@@ -1,12 +1,22 @@
 <template>
-  <div class="card mx-2 align-form-label-right" :style="{ minWidth: '300px' }">
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
+  <div
+    class="card mx-2 align-form-label-right"
+    :style="{minWidth: '300px'}"
+  >
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <div class="card-header text-left py-2">
       <b v-translate>Billwise Acccounting</b>
     </div>
     <div class="card-body pb-2 px-0 px-md-1">
-      <b-form class="text-left px-2" @submit.prevent="confirmOnSubmit">
+      <b-form
+        class="text-left px-2"
+        @submit.prevent="confirmOnSubmit"
+      >
         <b-row no-gutters>
           <b-col>
             <b-form-radio-group
@@ -28,24 +38,28 @@
               <v-select
                 v-model="custid"
                 :options="currentPartyOptions"
-                @input="fetchUnadjustedItems()"
+                @input="fetchUnadjustedItems"
                 required
                 label="custname"
                 :reduce="(cust) => cust.custid"
                 style="min-width: 200px"
-                :placeholder="isCustomer? 'Choose Customer': 'Choose Supplier'"
-              >
-              </v-select>
+                :placeholder="isSupplier ? 'Choose Supplier' : 'Choose Customer'"
+              />
             </b-form-group>
           </b-col>
-          <b-col cols="12" md="5">
+          <b-col
+            cols="12"
+            md="5"
+          >
             <b-form-group
               label="Vouchers"
               label-for="input-9"
               label-cols="3"
               label-size="sm"
             >
-              <template #label> <translate> Vouchers </translate> </template>
+              <template #label>
+                <translate> Vouchers </translate>
+              </template>
               <v-select
                 v-model="vcode"
                 :options="options.vouchers"
@@ -53,10 +67,13 @@
                 placeholder="Choose a Voucher"
                 label="text"
                 :reduce="(vdata) => vdata.value"
-              ></v-select>
+              />
             </b-form-group>
           </b-col>
-          <b-col cols="12" v-if="custid !== null">
+          <b-col
+            cols="12"
+            v-if="custid !== null"
+          >
             <div v-if="options.invoices.length">
               <b-table
                 caption="Uncleared Invoices"
@@ -69,11 +86,26 @@
                 responsive="sm"
                 table-class="text-center"
               >
-                <template #cell(balanceamount)="data">
-                  <small class="text-secondary" v-if="data.item.adjusted"
-                    >( {{ data.value }} - {{ data.item.adjusted }} = )</small
+                <template #cell(invoiceno)="data">
+                  <b-link
+                    v-if="data.item.invid"
+                    :to="{
+                      name: 'Workflow',
+                      params: {
+                        wfName: 'Transactions-Invoice',
+                        wfId: data.item.invid,
+                      },
+                    }"
                   >
-                  {{ data.value - data.item.adjusted }}
+                    {{ data.value }}
+                  </b-link>
+                </template>
+                <template #cell(balanceamount)="data">
+                  <small
+                    class="text-secondary"
+                    v-if="data.item.adjusted"
+                  >( {{ data.value }} - {{ data.item.adjusted }} = )</small>
+                  {{ parseFloat(data.value - data.item.adjusted).toFixed(2) }}
                 </template>
 
                 <!-- Adjusted -->
@@ -87,7 +119,7 @@
                     min="0"
                     :max="data.item.balanceamount"
                     size="sm"
-                  ></b-input>
+                  />
                 </template>
                 <template #custom-foot>
                   <b-tr class="text-right">
@@ -98,7 +130,10 @@
                   </b-tr>
                 </template>
               </b-table>
-              <span class="text-danger" v-if="!isTotalValid && vcode">
+              <span
+                class="text-danger"
+                v-if="!isTotalValid && vcode"
+              >
                 <span v-if="totalAdjusted > 0">
                   <translate
                     :translate-params="{
@@ -112,17 +147,20 @@
                 </span>
                 <span v-else>
                   <translate
-                    :translate-params="{ totalAdjusted: totalAdjusted }"
+                    :translate-params="{totalAdjusted: totalAdjusted}"
                   >
                     * Total amount (₹ %{totalAdjusted}) must greater than 0
                   </translate>
                 </span>
               </span>
             </div>
-            <b v-else v-translate>No Outstanding Invoices To Be Adjusted! </b>
+            <b
+              v-else
+              v-translate
+            >No Outstanding Invoices To Be Adjusted! </b>
           </b-col>
         </b-row>
-        <hr class="my-2 mx-0" />
+        <hr class="my-2 mx-0">
         <div>
           <b-button
             size="sm"
@@ -134,7 +172,7 @@
               aria-hidden="true"
               class="align-middle mr-1"
               icon="plus-square"
-            ></b-icon>
+            />
             <translate>Add Voucher</translate>
           </b-button>
           <div class="float-right">
@@ -148,8 +186,11 @@
                 aria-hidden="true"
                 class="align-middle mr-1"
                 icon="arrow-left"
-              ></b-icon>
-              <span class="align-middle" v-translate>Back</span>
+              />
+              <span
+                class="align-middle"
+                v-translate
+              >Back</span>
             </b-button>
             <b-button
               size="sm"
@@ -158,14 +199,20 @@
               variant="success"
               :disabled="!isTotalValid"
             >
-              <b-spinner v-if="isLoading" small></b-spinner>
+              <b-spinner
+                v-if="isLoading"
+                small
+              />
               <b-icon
                 v-else
                 aria-hidden="true"
                 class="align-middle mr-1"
                 icon="check-square"
-              ></b-icon>
-              <span class="align-middle" v-translate>Adjust</span>
+              />
+              <span
+                class="align-middle"
+                v-translate
+              >Adjust</span>
             </b-button>
           </div>
         </div>
@@ -181,12 +228,12 @@
         hide-header
       >
         <voucher
-          :hideBackButton="true"
-          :inOverlay="true"
-          :onSave="onVoucherSave"
-          :type="csflag === '3' ? 'receipt' : 'payment'"
+          :hide-back-button="true"
+          :in-overlay="true"
+          :on-save="onVoucherSave"
+          :type="csflag === '19' ? 'payment' : 'receipt'"
           :customer="custname"
-          :isOpen="showVoucherForm"
+          :is-open="showVoucherForm"
           mode="create"
         >
           <template #close-button>
@@ -198,8 +245,9 @@
                   showVoucherForm = false;
                 }
               "
-              >x</b-button
             >
+              x
+            </b-button>
           </template>
         </voucher>
       </b-modal>
@@ -266,9 +314,9 @@ export default {
     };
   },
   computed: {
-    isCustomer: (self) => self.csflag === '3',
+    isSupplier: (self) => self.csflag === '19',
     currentPartyOptions: (self) =>
-      self.csflag === '3' ? self.options.customers : self.options.suppliers,
+      self.csflag === '19' ? self.options.suppliers : self.options.customers,
     totalAdjusted: (self) => {
       let total = 0;
       if (self.options.invoices !== null) {
@@ -320,7 +368,7 @@ export default {
             this.totalAdjusted
           } </b> against <b>${invCount}</b> ${
             invCount > 1 ? 'Invoices' : 'Invoice'
-          } for ${this.isCustomer ? 'Customer' : 'Supplier'} ${this.custname}?`,
+          } for ${this.isSupplier ? 'Supplier' : 'Customer'} ${this.custname}?`,
         },
       });
       this.$bvModal
@@ -330,7 +378,6 @@ export default {
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',
           footerClass: 'border-top-0', // p-1
-          // bodyClass: "p-2",
           centered: true,
         })
         .then((val) => {
@@ -340,42 +387,38 @@ export default {
         });
     },
     onSubmit() {
-      // console.log('in submit')
       this.isLoading = true;
       const payload = this.initPayload();
-      // return;
-      // console.log(payload);
       axios
         .post('/billwise', payload)
         .then((response) => {
-          // console.log(response)
           this.isLoading = false;
           switch (response.data.gkstatus) {
-            case 0:
-              this.displayToast(
-                this.$gettext('Bill Adjustment Success!'),
-                this.$gettext('Selected Bills were successfully adjusted'),
-                'success'
-              );
+          case 0:
+            this.displayToast(
+              this.$gettext('Bill Adjustment Success!'),
+              this.$gettext('Selected Bills were successfully adjusted'),
+              'success'
+            );
 
-              this.fetchUnadjustedItems();
+            this.fetchUnadjustedItems();
 
-              break;
-            case 2:
-              this.displayToast(
-                this.$gettext('Bill Adjustment Error!'),
-                this.$gettext('Unauthorized access, Please contact admin'),
-                'warning'
-              );
-              break;
-            default:
-              this.displayToast(
-                this.$gettext('Bill Adjustment Error!'),
-                this.$gettext(
-                  'Unable to adjust the chosen bills, Please try again later. Contact admin if problem persists.'
-                ),
-                'danger'
-              );
+            break;
+          case 2:
+            this.displayToast(
+              this.$gettext('Bill Adjustment Error!'),
+              this.$gettext('Unauthorized access, Please contact admin'),
+              'warning'
+            );
+            break;
+          default:
+            this.displayToast(
+              this.$gettext('Bill Adjustment Error!'),
+              this.$gettext(
+                'Unable to adjust the chosen bills, Please try again later. Contact admin if problem persists.'
+              ),
+              'danger'
+            );
           } // end switch
         })
         .catch((error) => {
@@ -394,7 +437,6 @@ export default {
       };
 
       this.options.invoices.forEach((inv) => {
-        // console.log(inv);
         inv.adjusted = parseFloat(inv.adjusted);
         inv.balanceamount = parseFloat(inv.balanceamount);
         if (inv.adjusted > 0) {
@@ -414,7 +456,6 @@ export default {
     /**Fetch Invoices that are still in credit for a given Customer/Supplier and
      * the list of vouchers that can adjust them */
     fetchUnadjustedItems() {
-      // console.log(this.custid)
       this.options.vouchers = [];
       this.options.invoices = [];
       this.vcode = '';

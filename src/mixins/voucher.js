@@ -30,7 +30,6 @@ export default {
       isLoading: false,
       options: {
         vdata: {}, // voucher data to be edited
-        nameToId: {}, // account name to id map
         acc: {}, // account id to name map
         dr: [],
         cr: [],
@@ -157,7 +156,8 @@ export default {
      * 1. The balance amount in the account chosen is fetched from server
      * 2. Makes the account selected disabled in the opposite account list
      */
-    onAccountSelect(accCode, type, index) {
+    onAccountSelect(account, type, index) {
+      let accCode = account?.accountcode;
       if (!accCode) {
         this.form[type][index].balance = '';
         return;
@@ -178,10 +178,8 @@ export default {
         this.form[type][index].balance = this.options.balances[accCode];
       } else {
         this.form[type][index].isLoading = true;
-        axios
-          .get(
-            `/reports/closing-balance?accountcode=${accCode}&financialstart=${this.yearStart}&calculateto=${this.form.date}`
-          )
+        const url = `/reports/closing-balance?accountcode=${encodeURIComponent(accCode)}&financialstart=${encodeURIComponent(this.yearStart)}&calculateto=${encodeURIComponent(this.form.date)}`;
+        axios.get(url)
           .then((resp) => {
             if (resp.data.gkstatus === 0) {
               this.form[type][index].balance = resp.data.gkresult;
@@ -234,21 +232,11 @@ export default {
 
       let requests = [
         axios.get(`/accountsbyrule?type=${type}&side=Dr`).catch((error) => {
-          // this.displayToast(
-          //   this.$gettext('Fetch State Data Failed!'),
-          //   error.message,
-          //   'danger'
-          // );
-          console.log('Fetch Dr accounts failed');
+          console.error('Fetch Dr accounts failed', error);
           return error;
         }),
         axios.get(`/accountsbyrule?type=${type}&side=Cr`).catch((error) => {
-          // this.displayToast(
-          //   this.$gettext('Fetch State Data Failed!'),
-          //   error.message,
-          //   'danger'
-          // );
-          console.log('Fetch Cr accounts failed');
+          console.error('Fetch Cr accounts failed');
           return error;
         }),
       ];
@@ -256,12 +244,7 @@ export default {
       if (this.isReceiptOrPayment) {
         requests.push(
           axios.get(`billwise?type=all`).catch((error) => {
-            // this.displayToast(
-            //   this.$gettext('Fetch State Data Failed!'),
-            //   error.message,
-            //   'danger'
-            // );
-            console.log('Fetch billwise accounts failed');
+            console.error('Fetch billwise accounts failed');
             return error;
           })
         );
@@ -294,18 +277,16 @@ export default {
       } else {
         // === Dr Accounts ===
         this.options.dr = [];
-        drData.data.gkresult.forEach((item) => {
+        drData.data?.gkresult.forEach((item) => {
           this.options.dr.push(Object.assign(item, { disabled: false }));
           this.options.acc[item.accountcode] = item.accountname;
-          this.options.nameToId[item.accountname] = item.accountcode;
         });
 
         // === Cr Accounts ===
         this.options.cr = [];
-        crData.data.gkresult.forEach((item) => {
+        crData.data?.gkresult.forEach((item) => {
           this.options.cr.push(Object.assign(item, { disabled: false }));
           this.options.acc[item.accountcode] = item.accountname;
-          this.options.nameToId[item.accountname] = item.accountcode;
         });
 
         this.options.drAcc[type] = this.options.dr.slice();
@@ -318,7 +299,7 @@ export default {
             purchase: [],
             map: {},
           };
-          onCreditData.data.invoices.forEach((item) => {
+          onCreditData?.data.invoices.forEach((item) => {
             let option = {
               id: item.invid,
               label: `${item.invoiceno}, ${item.custname}, ${item.invoicedate}`,
@@ -342,34 +323,18 @@ export default {
         vouchertype: this.form.vtype.value,
       };
       payload.drs = this.form.dr.reduce((acc, dr) => {
-        acc[dr.account] = dr.amount;
+        acc[dr.account.accountcode] = dr.amount;
         return acc;
       }, {});
       payload.crs = this.form.cr.reduce((acc, cr) => {
-        acc[cr.account] = cr.amount;
+        acc[cr.account.accountcode] = cr.amount;
         return acc;
       }, {});
-      // payload.drs[this.form.voucher.dr.account] = this.form.amount;
-      // payload.crs[this.form.voucher.cr.account] = this.form.amount;
 
       if (this.form.vno) {
         payload.vouchernumber = this.form.vno; // doubt on how to obtain this vno
       }
 
-      /**
-       * 
-       * Needs to be added for edit and easy modes separately
-      if (!this.isCreateMode) {
-        payload.projectcode = null;
-        payload.vouchercode = this.vid;
-        const vdata = this.options.vdata;
-        if (vdata.vouchertype === 'sale' || vdata.vouchertype === 'purchase') {
-          payload.invid = vdata.invid ? vdata.invid : null;
-        }
-      } else if (this.isReceiptOrPayment && !this.inOverlay) {
-        payload.invid = `${this.form.inv}` || null;
-      }
-      */
       return payload;
     },
     displayToast(title, message, variant) {
@@ -422,15 +387,15 @@ export default {
           cr = this.options.cr.find(
             (acc) => acc.accountname === this.customerName
           );
-          this.form.dr[0].account = dr ? dr.accountcode : -1;
-          this.form.cr[0].account = cr ? cr.accountcode : -1;
+          this.form.dr[0].account = dr ? dr : -1;
+          this.form.cr[0].account = cr ? cr : -1;
         } else if (this.form.vtype.value === 'payment') {
           dr = this.options.dr.find(
             (acc) => acc.accountname === this.customerName
           );
           cr = this.options.cr.find((acc) => acc.accountname === 'Bank A/C');
-          this.form.dr[0].account = dr ? dr.accountcode : -1;
-          this.form.cr[0].account = cr ? cr.accountcode : -1;
+          this.form.dr[0].account = dr ? dr : -1;
+          this.form.cr[0].account = cr ? cr : -1;
         }
       }
     },
@@ -442,11 +407,7 @@ export default {
       this.form.cr = [];
       this.form.inv = null;
       this.form.narration = '';
-      this.options.creditInv = {
-        sale: [],
-        purchase: [],
-        map: {},
-      };
+      
       this.customerName = '-1';
       this.addRow('cr');
       this.addRow('dr');

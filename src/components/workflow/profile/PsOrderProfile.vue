@@ -1,41 +1,78 @@
 <template>
   <b-container fluid>
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <b-row>
-      <b-col order="2" order-md="1">
-        <b-container fluid class="pl-0">
+      <b-col
+        order="2"
+        order-md="1"
+      >
+        <b-container
+          fluid
+          class="pl-0"
+        >
           <b-col class="px-0">
-            <b v-if="party.isCustomer" v-translate> Customer Details </b>
-            <b v-else v-translate> Supplier Details </b>
+            <b
+              v-if="party.isCustomer"
+              v-translate
+            > Customer Details </b>
+            <b
+              v-else
+              v-translate
+            > Supplier Details </b>
             <p class="text-small">
               <span>
                 <router-link :to="`/ledger/${custid}`">{{ party.name }}</router-link>
-              </span><br />
-              <span> {{ party.addr }} </span> <br />
-              <span> {{ party.state }} </span> <br />
-              <span v-if="party.pin"> <b v-translate> Pin Code: </b> {{ party.pin }} </span>
-              <br />
-              <span v-if="party.gstin"> <b> GSTIN: </b> {{ party.gstin }} </span> <br />
+              </span><br>
+              <span> {{ party.addr }} </span> <br>
+              <span> {{ party.state }} </span> <br>
+              <span v-if="party.pin"> <b v-translate> Postal Code: </b> {{ party.pin }} </span>
+              <br>
+              <span v-if="psorder.isGst">
+                <b>GSTIN: </b>{{ party.gstin }}
+              </span>
+              <span v-if="psorder.isVat">
+                <b>TIN: </b>{{ party.tin }}
+              </span>
+              <br>
             </p>
           </b-col>
           <b-col class="px-0">
             <b v-translate> Delivery Details </b>
             <p class="text-small">
-              <span> {{ shipping.name }} </span> <br />
-              <span> {{ shipping.addr }} </span> <br />
-              <span> {{ shipping.state }} </span> <br />
-              <span v-if="shipping.pin"> <b v-translate> Pin Code: </b> {{ shipping.pin }} </span>
-              <br />
-              <span v-if="shipping.gstin"> <b> GSTIN: </b> {{ shipping.gstin }} </span> <br />
+              <span> {{ shipping.name }} </span> <br>
+              <span> {{ shipping.addr }} </span> <br>
+              <span> {{ shipping.state }} </span> <br>
+              <span v-if="shipping.pin"> <b v-translate> Postal Code: </b> {{ shipping.pin }} </span>
+              <br>
+              <span v-if="shipping.gstin && psorder.isGst">
+                <b>GSTIN: </b>{{ shipping.gstin }}
+              </span>
+              <br>
             </p>
           </b-col>
-          <br class="d-none d-md-block" />
+          <br class="d-none d-md-block">
         </b-container>
       </b-col>
-      <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
-        <b v-translate v-if="saleFlag"> Sale Order Details </b>
-        <b v-translate v-else> Purchase Order Details </b>
+      <b-col
+        class="text-md-right"
+        cols="12"
+        md="6"
+        order="1"
+        order-md="2"
+      >
+        <b
+          v-translate
+          v-if="saleFlag"
+        > Sale Order Details </b>
+        <b
+          v-translate
+          v-else
+        > Purchase Order Details </b>
         <!-- Note Details Table -->
         <b-table-lite
           :fields="['title', 'value']"
@@ -44,8 +81,8 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
-        ></b-table-lite>
+          class="text-small"
+        />
       </b-col>
     </b-row>
     <!-- Content Table -->
@@ -54,51 +91,77 @@
       :fields="tableFields"
       tbody-tr-class="gk-vertical-row"
       bordered
-      head-variant="dark"
       stacked="sm"
       small
-      striped
-      class="text-small table-border-dark"
+      hover
+      class="text-small"
+      head-variant="light"
     >
-    <template #cell(name)="data">
-      <template v-if="data.item.gsflag === 7">
-        <router-link
-          :to="`/product-register?product_id=${data.item.productcode}&current_date=${toDate}&goid=${data.item.goid}`"
-        >
-          {{ data.item.name }}
-        </router-link>
+      <template #cell(name)="data">
+        <template v-if="data.item.gsflag === 7">
+          <router-link
+            :to="`/product-register?product_id=${data.item.productcode}&current_date=${toDate}&goid=${data.item.goid}`"
+          >
+            {{ data.item.name }}
+          </router-link>
+        </template>
+        <template v-else>
+          <span>{{ data.item.name }}</span>
+        </template>
       </template>
-      <template v-else>
-        <span>{{ data.item.name }}</span>
-      </template>
-    </template>
     </b-table-lite>
     <b-row>
-      <b-col class="my-2" order="2" order-md="1"> </b-col>
-      <b-col cols="12" md="8" class="my-2" order="1" order-md="2">
+      <b-col
+        class="my-2"
+        order="2"
+        order-md="1"
+      />
+      <b-col
+        cols="12"
+        md="8"
+        class="my-2"
+        order="1"
+        order-md="2"
+      >
         <!-- Total Table -->
         <b-table-lite
           :items="totalDetails"
           :fields="[
-            { key: 'title', label: 'Total', tdClass: '' },
-            { key: 'value', label: '₹', class: 'text-right' },
+            {key: 'title', label: '', tdClass: ''},
+            {key: 'value', label: '₹', class: 'text-right'},
           ]"
           small
           fixed
           class="text-small"
-        ></b-table-lite>
+        />
       </b-col>
     </b-row>
     <b-row>
-      <b-col class="my-2"> </b-col>
-      <b-col cols="12" md="8" class="my-2">
+      <b-col class="my-2" />
+      <b-col
+        cols="12"
+        md="8"
+        class="my-2"
+      >
         <div>
           <b v-translate> Payment Details </b>
-          <div v-if="payment.mode > 2" class="mb-3">
-            <span v-translate v-if="payment.mode === 3"> Paid By Cash </span>
-            <span v-translate v-else> On Credit </span>
+          <div
+            v-if="payment.mode > 2"
+            class="mb-3"
+          >
+            <span
+              v-translate
+              v-if="payment.mode === 3"
+            > Paid By Cash </span>
+            <span
+              v-translate
+              v-else
+            > On Credit </span>
           </div>
-          <div class="text-small" v-else>
+          <div
+            class="text-small"
+            v-else
+          >
             <translate> To Be Paid By Bank Transfer </translate>
             <b-table-lite
               :items="bankDetails"
@@ -107,18 +170,62 @@
               bordered
               fixed
               thead-class="d-none"
-            >
-            </b-table-lite>
+            />
           </div>
         </div>
         <b v-translate> Narration: </b> {{ psorder.narration }}
       </b-col>
     </b-row>
+    <div
+      v-if="isGstEnabled"
+      class="hsn-details mt-4"
+    >
+      <h6>HSN / SAC Summary</h6>
+      <b-table-lite
+        :items="psorder.contents"
+        :fields="hsnFields"
+        bordered
+        responsive
+        stacked="sm"
+        small
+        hover
+        class="text-small border"
+        tbody-tr-class="gk-vertical-row"
+      >
+        <template #cell(igst)="data">
+          {{ `${data.item.igst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(cgst)="data">
+          {{ `${data.item.cgst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(sgst)="data">
+          {{ `${data.item.sgst_amount} (${data.value}%)` }}
+        </template>
+        <template #custom-foot>
+          <b-tr>
+            <b-th
+              v-translate
+              :colspan="hsnFields.length - 1"
+            >
+              Total
+            </b-th>
+            <b-th class="text-right">
+              {{ Object.values(psorder.contents)
+                .map((item) => item.total_tax)
+                .reduce((acc, val) => (Number(acc) + Number(val)), 0)
+                .toFixed(2)
+              }}
+            </b-th>
+          </b-tr>
+        </template>
+      </b-table-lite>
+    </div>
   </b-container>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'PsOrderProfile',
@@ -164,6 +271,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
     psorderData: (self) => {
       let dispatchTitle = self.saleFlag
         ? self.$gettext('Dispatch From')
@@ -193,21 +301,42 @@ export default {
       return res;
     },
     totalDetails: (self) => {
+      const totalTaxableAmount = Number(self.total.taxable).toFixed(2);
+      let totalDiscount = Number(self.total.discount).toFixed(2);
+      const totalAmount = (Number(totalTaxableAmount) + Number(totalDiscount)).toFixed(2);
+      if (totalDiscount > 0) {
+        totalDiscount = `-${totalDiscount}`;
+      }
       let total = [
-        { title: self.$gettext('Taxable'), value: self.total.taxable },
+        {
+          title: self.$gettext('Total'),
+          value: totalAmount,
+        },
+        {
+          title: self.$gettext('Discount'),
+          value: totalDiscount,
+        },
       ];
-      if (self.psorder.isGst) {
-        if (self.total.isIgst) {
-          total.push({ title: 'IGST', value: self.total.tax });
-        } else {
-          total.push(
-            { title: 'CGST', value: self.total.tax },
-            { title: 'SGST', value: self.total.tax }
-          );
+      if (self.isIndia) {
+        if (self.psorder.isGst || self.psorder.isVat) {
+          total.push({
+            title: self.$gettext('Taxable'),
+            value: self.total.taxable,
+          });
         }
-        total.push({ title: 'CESS', value: self.total.cess });
-      } else {
-        total.push({ title: 'VAT', value: self.total.tax });
+        if (self.psorder.isGst) {
+          if (self.total.isIgst) {
+            total.push({ title: 'IGST', value: self.total.tax });
+          } else {
+            total.push(
+              { title: 'CGST', value: self.total.tax },
+              { title: 'SGST', value: self.total.tax }
+            );
+          }
+        }
+        if (self.isVat) {
+          total.push({ title: 'VAT', value: self.total.tax });
+        }
       }
       total.push(
         {
@@ -217,7 +346,7 @@ export default {
           value: self.total.roundoffflag ? Math.round(self.total.amount).toFixed(2) : self.total.amount,
         },
         { title: self.$gettext('Total In Words'),
-         value: self.total.roundoffflag ? numberToRupees(Math.round(self.total.amount)) : numberToRupees(self.total.amount),
+          value: self.total.roundoffflag ? numberToRupees(Math.round(self.total.amount)) : numberToRupees(self.total.amount),
         }
       );
       return total;
@@ -225,7 +354,7 @@ export default {
     bankDetails: (self) => {
       let details = self.payment.bankDetails;
       return [
-        { title: self.$gettext('Acc No'), value: details.accountno || '' },
+        { title: self.$gettext('Account Number'), value: details.accountno || '' },
         { title: self.$gettext('Bank'), value: details.bankname || '' },
         { title: self.$gettext('Branch'), value: details.branch || '' },
         { title: self.$gettext('IFSC'), value: details.ifsc || '' },
@@ -248,24 +377,82 @@ export default {
           label: self.$gettext('Discount (₹)'),
           tdClass: 'gk-currency-sm',
         },
-        { key: 'igst', label: 'IGST (%)' },
-        { key: 'cgst', label: 'CGST (%)' },
-        { key: 'sgst', label: 'SGST (%)' },
-        { key: 'cess', label: 'CESS (%)' },
-        { key: 'vat', label: 'VAT (%)' },
+      ];
+      if (self.isIndia) {
+        if (self.total.isGst) {
+          if (self.total.isIgst) {
+            fields.push(
+              { key: 'igst', label: 'IGST (%)' },
+            );
+          } else {
+            fields.push(
+              { key: 'cgst', label: 'CGST (%)' },
+              { key: 'sgst', label: 'SGST (%)' },
+            );
+          }
+        }
+        if (self.total.isVat) {
+          fields.push({ key: 'vat', label: 'VAT (%)' });
+        }
+      }
+      fields.push(
         {
           key: 'total',
           label: self.$gettext('Total (₹)'),
           tdClass: 'gk-currency-sm',
         },
+      );
+      return fields;
+    },
+    hsnFields: (self) => {
+      let fields = [
+        {
+          key: 'hsn.hsn_code',
+          label: 'HSN / SAC',
+        },
+        {
+          key: 'qty',
+          label: 'Qty',
+          class: 'gk-currency-sm',
+        },
+        {
+          key: 'taxable',
+          label: 'Taxable (₹)',
+          class: 'gk-currency-sm',
+        },
       ];
-      if (self.total.isIgst) {
-        fields.splice(5, 2);
-      } else if (self.total.isVat) {
-        fields.splice(4, 4);
-      } else {
-        fields.splice(4, 1);
+
+      if (self.isIndia) {
+        if (self.psorder.isGst) {
+          if (self.total.isIgst) {
+            fields.push(
+              {
+                key: 'igst',
+                label: 'IGST (₹)',
+                class: 'gk-currency-sm',
+              },
+            );
+          } else {
+            fields.push(
+              {
+                key: 'cgst',
+                label: 'CGST (₹)',
+                class: 'gk-currency-sm',
+              },
+              {
+                key: 'sgst',
+                label: 'SGST (₹)',
+                class: 'gk-currency-sm',
+              },
+            );
+          }
+        }
       }
+      fields.push({
+        key: 'total_tax',
+        label: 'Total Tax Amount (₹)',
+        class: 'gk-currency-sm',
+      });
       return fields;
     },
   },
@@ -275,13 +462,14 @@ export default {
 
       this.total = {
         amount: details.purchaseordertotal,
-        isIgst: details.taxname === 'IGST',
+        isGst: this.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+        isIgst: this.isGstEnabled && details.taxname === 'IGST',
+        isVat: this.isVatEnabled && details.taxname === 'VAT',
         cess: details.totalcessamt,
         tax: details.totaltaxamt,
         discount: details.totaldiscount,
         taxable: details.totaltaxablevalue,
         text: details.pototalwords || numberToRupees(details.totaltaxablevalue),
-        isVat: details.taxname === 'VAT',
         roundoffflag: details.roundoffflag,
       };
 
@@ -290,12 +478,13 @@ export default {
         bankDetails: details.bankdetails,
       };
 
-      let godown =
-        details.goname && details.goaddr
-          ? `${details.goname} (${details.goaddr})`
-          : '';
+      let { godown } = details.immutable_data ?? {};
+      godown = godown.goname && godown.goaddr
+        ? `${godown.goname} (${godown.goaddr})`
+        : '';
       this.psorder = {
-        isGst: details.taxname !== 'VAT',
+        isGst: this.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+        isVat: this.isVatEnabled && details.taxname === 'VAT',
         contents: [],
         date: details.orderdate,
         no: details.orderno,
@@ -310,14 +499,14 @@ export default {
         vehicleNo: details.vehicleno,
       };
 
-      let cust = details.custSupDetails;
+      let cust = details.immutable_data?.contact ?? {};
       this.party = {
         name: cust.custname,
         addr: cust.custaddr,
         state: cust.custsupstate,
         pin: cust.pincode,
         isCustomer: cust.csflag === 3,
-        gstin: cust.custgstin,
+        gstin: Object.values(cust?.gstin || {}).join(", "),
       };
 
       let shipping = details.consignee;
@@ -331,28 +520,51 @@ export default {
 
       for (const name in details.schedule) {
         const item = details.schedule[name];
+        const taxrate = (
+          parseFloat(item.taxrate) || 0
+        ).toFixed(2);
+        const igst = taxrate;
+        const cgst = taxrate;
+        const sgst = taxrate;
+        const taxamount = (
+          taxrate / 100 * parseFloat(item.taxableamount)
+        ).toFixed(2);
+        const igst_amount = taxamount;
+        const cgst_amount = taxamount;
+        const sgst_amount = taxamount;
+        const total_tax = item.taxname === 'IGST' ? (
+          parseFloat(item.taxamount).toFixed(2)
+        ) : (
+          parseFloat(item.taxamount * 2).toFixed(2)
+        );
         this.psorder.contents.push({
-          name: item.proddesc,
+          name: details.immutable_data?.products[item.productCode].productdesc,
           qty: item.qty,
           rate: item.priceperunit,
           discount: item.discount,
-          igst: item.taxrate,
-          cgst: item.taxrate / 2,
-          sgst: item.taxrate / 2,
+          taxable: item.taxableamount,
+          igst,
+          igst_amount,
+          cgst,
+          cgst_amount,
+          sgst,
+          sgst_amount,
+          total_tax,
           cess: item.cessrate,
           total: item.totalAmount,
           productcode: item.productCode,
           gsflag: item.gsflag,
           goid: item.goid,
+          hsn: JSON.parse(details.immutable_data?.products[name].gscode) || 'N/A',
         });
       }
       axios.get(`/accounts?type=getAccCode&accountname=${this.party.name}`)
-      .then(response => {
-        this.custid = response.data.accountcode;
-      })
-      .catch(error => {
-        this.error = 'Failed to load data: ' + error.message;
-      });
+        .then(response => {
+          this.custid = response.data.accountcode;
+        })
+        .catch(error => {
+          this.error = 'Failed to load data: ' + error.message;
+        });
     },
     getDetails() {
       return axios
@@ -370,42 +582,39 @@ export default {
     fetchAndUpdateData() {
       return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
-          case 0:
-            // this.invoice = response.data.gkresult;
-            // this.formatInvoiceDetails(response.data.gkresult);
-            // this.output = response.data.gkresult;
-            this.formatDetails(response.data.gkresult);
-            break;
-          case 2:
-            {
-              let title = this.saleFlag
-                ? this.$gettext('Fetch sale order error')
-                : this.$gettext('Fetch purchase order error');
-              this.$bvToast.toast(
-                this.$gettext(`Unauthorized access, Please contact admin`),
-                {
-                  title: title,
-                  autoHideDelay: 3000,
-                  variant: 'warning',
-                  appendToast: true,
-                  solid: true,
-                }
-              );
-            }
-            break;
-          default:
+        case 0:
+          this.formatDetails(response.data.gkresult);
+          break;
+        case 2:
+          {
+            let title = this.saleFlag
+              ? this.$gettext('Fetch sale order error')
+              : this.$gettext('Fetch purchase order error');
             this.$bvToast.toast(
-              this.$gettext(
-                `Unable to Fetch Purchase Sales Order Details! Please Try after sometime.`
-              ),
+              this.$gettext(`Unauthorized access, Please contact admin`),
               {
-                title: this.$gettext(`Fetch Transaction Details Error!`),
+                title: title,
                 autoHideDelay: 3000,
                 variant: 'warning',
                 appendToast: true,
                 solid: true,
               }
             );
+          }
+          break;
+        default:
+          this.$bvToast.toast(
+            this.$gettext(
+              `Unable to Fetch Purchase Sales Order Details! Please Try after sometime.`
+            ),
+            {
+              title: this.$gettext(`Fetch Transaction Details Error!`),
+              autoHideDelay: 3000,
+              variant: 'warning',
+              appendToast: true,
+              solid: true,
+            }
+          );
         } // end switch
       });
     },
@@ -413,7 +622,6 @@ export default {
   watch: {
     id: function(id) {
       if (id && parseInt(id) > -1) {
-        console.log(`Fetch id = ${id}`);
         this.isPreloading = true;
         this.fetchAndUpdateData()
           .then(() => {

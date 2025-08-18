@@ -2,16 +2,18 @@
   <b-card
     class="mb-2 mb-md-0"
     :class="config.class"
-    border-variant="secondary"
     no-body
     v-if="config"
   >
     <div class="p-2 p-md-3">
       <div>
-        <b class="mr-1" v-translate> Payment Details </b>
-        <GkTooltip
-          helpTitle="Mode of Payment"
-          helpBody="Available mode of payments are Cash, Bank, Credit. Default mode is Cash. This option can be changed in Administration > Settings > Transaction > Payment Mode"
+        <b
+          class="mr-1"
+          v-translate
+        > Payment Details </b>
+        <gk-tooltip
+          help-title="Mode of Payment"
+          help-body="Multiple and partial payments are supported. Balance amount, if any, can be paid later from invoice details page or from dashboard."
         />
         <b-button
           variant="secondary"
@@ -26,108 +28,97 @@
           <b-icon
             :icon="isCollapsed ? 'dash' : 'arrows-fullscreen'"
             class="float-right"
-          ></b-icon>
+          />
         </b-button>
       </div>
-      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
+      <div
+        class="mt-3"
+        :class="{'d-md-block': true, 'd-none': !isCollapsed}"
+      >
+        <p><b>Balance: </b>{{ due }}</p>
         <!-- payment details -->
         <b-form-group
-          label="Mode of Payment"
-          label-for="pmd-input-10"
+          label="Cash Transfer Amount"
+          label-for="transaction-cash"
           label-size="sm"
-          label-cols="auto"
-          v-if="config.mode"
+          label-cols="3"
         >
-          <template #label> <translate> {{saleFlag ? 'Mode Of Receipt' : 'Mode of Payment'}} </translate> </template>
-          <b-form-select
+          <template #label>
+            <translate> Cash Transfer Amount </translate>
+          </template>
+
+          <b-form-input
             size="sm"
-            id="pmd-input-10"
-            v-model.lazy="form.mode"
-            :options="options.payModes"
-            required
-            @input="onUpdateDetails"
-          ></b-form-select>
+            id="transaction-cash"
+            type="number"
+            step="0.01"
+            class="gk-currency"
+            no-wheel
+            v-model="cash"
+            min="0"
+          />
         </b-form-group>
-        <div v-if="form.mode === 2">
-          <b v-translate> Bank Details </b>
-          <b-form-group
-            label="IFSC"
-            label-for="pmd-input-50"
-            label-cols="3"
-            label-size="sm"
-            label-cols-lg="autauto"
-            v-if="config.bank.ifsc"
+        <b-form-group
+          v-for="bankAccount in bankAccounts"
+          :key="bankAccount.id"
+          label-size="sm"
+          :label="`${bankAccount.account_name}`"
+          :label-for="`bank-input-${bankAccount.id}`"
+          label-cols="3"
+        >
+          <b-form-input
+            size="sm"
+            :id="`bank-input-${bankAccount.id}`"
+            type="number"
+            class="gk-currency"
+            no-wheel
+            min="0"
+            step="0.01"
+            v-model="bankAccount.amount"
+          />
+        </b-form-group>
+        <div>
+          <b
+            v-translate
+            class="mb-2"
           >
-            <gk-ifsc
+            Transaction Details
+          </b>
+          <b-form-group>
+            <b-form-textarea
               size="sm"
-              @fill="autoFillBankInfo"
-              :ifscCode=form.bank.ifsc
-            >
-            </gk-ifsc>
-          </b-form-group>
-          <b-form-group
-            label="Acc. No."
-            label-for="pmd-input-20"
-            label-cols="3"
-            label-size="sm"
-            label-cols-lg="autauto"
-            v-if="config.bank.no"
-          >
-            <template #label> <translate> Acc. No. </translate> </template>
-            <b-form-input
-              size="sm"
-              id="pmd-input-20"
-              v-model="form.bank.no"
+              id="pmd-input-50"
+              v-model="form.bank.transaction_details"
+              rows="4"
+              max-rows="5"
               trim
-              required
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            label="Bank Name"
-            label-for="pmd-input-30"
-            label-cols="3"
-            label-size="sm"
-            label-cols-lg="autauto"
-          >
-            <template #label> <translate> Bank Name </translate> </template>
-            <b-form-input
-              size="sm"
-              id="pmd-input-30"
-              v-if="config.bank.name"
-              v-model="form.bank.name"
-              trim
-              required
-            ></b-form-input>
-          </b-form-group>
-          <b-form-group
-            label="Branch"
-            label-for="pmd-input-40"
-            label-cols="3"
-            label-size="sm"
-            label-cols-lg="autauto"
-            v-if="config.bank.branch"
-          >
-            <template #label> <translate> Branch </translate> </template>
-            <b-form-input
-              size="sm"
-              id="pmd-input-40"
-              v-model="form.bank.branch"
-              trim
-              required
-            ></b-form-input>
+              placeholder="Add transaction details like bank account, IFSC, UPI ID or phone number."
+            />
           </b-form-group>
         </div>
-        <b v-if="form.mode === 15" v-translate>ON CREDIT</b>
+        <b
+          v-if="form.mode === 15"
+          v-translate
+        >ON CREDIT</b>
       </div>
     </div>
+    <gk-tour
+      target="transaction-cash"
+      title="Payment Mode"
+      placement="topright"
+    >
+      Add payment deatils here. If you pay amount less than the invoice value, it will become credit invoice and you can complete the payment later. If you add bank account(s) from <b>Sidebar</b> -> <b>Accounting</b> -> <b>Chart of Accounts</b>, those will also be listed here.
+    </gk-tour>
   </b-card>
 </template>
 
 <script>
-import GkIfsc from '../../GkIfsc.vue';
+import { mapGetters } from 'vuex';
 import GkTooltip from '@/components/GkTooltip.vue';
+import GkTour from '@/components/GkTour.vue';
+
 export default {
-  components: { GkIfsc, GkTooltip },
+  components: { GkTooltip, GkTour },
   name: 'PaymentDetails',
   props: {
     saleFlag: {
@@ -138,25 +129,15 @@ export default {
       type: Object,
       required: true,
     },
-    updateCounter: {
+    totalPayable: {
       type: Number,
       required: false,
       default: 0,
     },
-    parentData: {
-      type: Object,
+    updateCounter: {
+      type: Number,
       required: false,
-      default: function() {
-        return {
-          mode: 3,
-          bank: {
-            no: null,
-            name: null,
-            branch: null,
-            ifsc: null,
-          },
-        };
-      },
+      default: 0,
     },
     optionsData: {
       type: Object,
@@ -166,63 +147,169 @@ export default {
       },
     },
   },
-  watch: {
+  computed: {
+    total: function() {
+      return parseFloat(
+        this.bankAccounts.reduce(
+          (sum, acc) => sum + parseFloat((acc.amount || 0)), 0
+        ) + (parseFloat(this.cash) || 0)
+      ).toFixed(2);
+    },
+    due: function() {
+      return parseFloat(
+        (parseFloat(this?.totalPayable) || 0.00) - this.total
+      ).toFixed(2);
+    },
+    ...mapGetters('global', ['isIndia']),
+  },
+   watch: {
+    total() {
+      if (
+        !this.form.bank.transaction_details && this.total
+        - (parseFloat(this.cash) || 0) > 0
+      ) {
+        this.form.bank.transaction_details = this.bankDetails
+      }
+    },
+    due() {
+      this.form.isValid = true;
+      if (this.due < 0.00 || (!this.customerName && this.due > 0.00)) {
+        this.form.isValid = false;
+      }
+      this.onUpdateDetails()
+    },
     updateCounter() {
-      Object.assign(this.form, this.parentData);
+      this.customerName = this.optionsData?.data?.name.name;
+      this.clearFields();
+      this.fetchBankAccounts();
+      this.fetchAccounts();
+      if (this.optionsData?.bankDetails) {
+        this.bankDetails = Object
+          .entries(this.optionsData.bankDetails)
+          // eslint-disable-next-line no-unused-vars
+          .filter(([ key, value]) => value !== undefined && value !== null && value !== "")
+          .map(([key, value]) => {
+            const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+            return `${capitalizedKey}: ${value}`;
+          })
+          .join(', ');
+      }
     },
   },
-  data() {
-    return {
+   data() {
+     return {
       form: {
-        // default is cash mode
-        mode: 3,
+        isValid: true,
+        vouchers: {},
         bank: {
-          no: null,
-          name: null,
-          branch: null,
-          ifsc: '',
+          transaction_details: '',
         },
       },
-      options: {
-        payModes: [
-          { text: '-- Payment Mode --', value: null },
-          { text: 'Cash', value: 3 },
-          { text: 'Bank', value: 2 },
-          { text: 'On Credit', value: 15 },
-        ],
-      },
+      bankDetails: null,
+      cash: null,
+      accounts: [],
+      bankAccounts: [],
       isCollapsed: true,
-      ifscCode: '',
     };
   },
   methods: {
-    autoFillBankInfo(bank) {
-      this.form.bank.name = bank.BANK;
-      this.form.bank.branch = bank.BRANCH;
-      this.form.bank.ifsc = bank.IFSC;
+    fetchAccounts() {
+      this.$axios
+          .get(`accountsbyrule?type=all`)
+          .then((resp) => {
+            this.accounts = resp;
+          });
+    },
+    fetchBankAccounts() {
+      this.$axios
+          .get('/bank')
+          .then((resp) => {
+            this.bankAccounts = resp;
+          });
+    },
+    prepareVouchers() {
+      let vouchers = {
+        "cr": [],
+        "dr": [],
+      }
+      let cashAccType = this.saleFlag ? 'dr' : 'cr';
+      let custAccType = this.saleFlag ? 'cr' : 'dr';
+
+      let transactionAccountName = this.saleFlag ? 'Sale A/C' : 'Purchase A/C';
+
+      let cashAccount = this.accounts.find(
+        (acc) => acc.accountname === 'Cash in hand'
+      );
+
+      if (this.customerName)  {
+        let custAcc = this.accounts.find(
+          (acc) => acc.accountname === this.customerName
+        );
+        vouchers[custAccType].push(parseFloat(this.total) > 0 ? {
+          account: custAcc.accountcode,
+          amount: parseFloat(this.total),
+        } : {});
+      } else {
+        let transactionAcc = this.accounts.find(
+          (acc) => acc.accountname === transactionAccountName
+        );
+        vouchers[custAccType].push(parseFloat(this.total) > 0 ? {
+          account: transactionAcc.accountcode,
+          amount: parseFloat(this.total),
+        } : {});
+      }
+      if (this.cash && parseFloat(this.cash) > 0) {
+        vouchers[cashAccType].push({
+          account: cashAccount.accountcode,
+          amount: parseFloat(this.cash),
+        });
+      }
+      this.bankAccounts.forEach((bank) => {
+        if (bank.amount) {
+          vouchers[cashAccType].push({
+            account: bank.accountcode,
+            amount: parseFloat(bank.amount),
+          });
+        }
+      });
+
+      let payload = {};
+
+      payload.drs = vouchers.dr.reduce((acc, dr) => {
+        acc[dr.account] = dr.amount;
+        return acc;
+      }, {});
+      payload.crs = vouchers.cr.reduce((acc, cr) => {
+        acc[cr.account] = cr.amount;
+        return acc;
+      }, {});
+      Object.assign(this.form.vouchers, payload)
     },
     onUpdateDetails() {
-      this.ifscCode = this.form.bank.ifsc;
-      setTimeout(() =>
-        this.$emit('details-updated', {
-          data: this.form,
-          name: 'payment-details',
-        })
-      );
+      this.prepareVouchers();
+      this.$emit('details-updated', {
+        data: this.form,
+        name: 'payment-details',
+      })
+    },
+    clearFields(){
+      this.cash = null;
+      this.accounts = [];
+      this.bankAccounts = [];
+      this.form = {
+          mode: 3,
+          vouchers: {},
+          isValid: true,
+          bank: {
+            transaction_details: '',
+          },
+      };
     },
   },
   mounted() {
-    if (this.optionsData.payModes) {
-      this.options.payModes = this.optionsData.payModes;
-    } else {
-      // translating the paymodes
-      this.options.payModes = [
-        { text: this.$gettext('-- Payment Mode --'), value: null },
-        { text: this.$gettext('Cash'), value: 3 },
-        { text: this.$gettext('Bank'), value: 2 },
-        { text: this.$gettext('On Credit'), value: 15 },
-      ];
-    }
+    this.clearFields();
+    this.fetchBankAccounts();
+    this.fetchAccounts();
   },
 };
 </script>

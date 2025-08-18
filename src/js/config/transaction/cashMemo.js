@@ -22,23 +22,6 @@ export default {
           'mr-md-1': true,
         },
       },
-      // party: {
-      //   type: true,
-      //   options: {
-      //     states: true,
-      //     gstin: true,
-      //   },
-      //   custid: true,
-      //   name: true,
-      //   addr: true,
-      //   state: true,
-      //   gstin: true,
-      //   tin: true,
-      //   pin: true,
-      //   class: {
-      //     'ml-md-1': true,
-      //   },
-      // },
       taxType: true,
       bill: {
         index: true,
@@ -88,21 +71,6 @@ export default {
         value: true,
         valueText: true,
       },
-      // transport: {
-      //   packageCount: true,
-      //   mode: true,
-      //   vno: true,
-      //   date: true,
-      //   reverseCharge: true,
-      //   class: {
-      //     'mx-md-1': true,
-      //   },
-      // },
-      // comments: {
-      //   class: {
-      //     'ml-md-1': true,
-      //   },
-      // },
     },
     custom: {},
   },
@@ -130,6 +98,7 @@ export default {
           localStorage.getItem(`${payload.orgCode}-cashMemoConfig`)
         );
       } catch (error) {
+        console.error(error);
         conf = null;
       }
       if (conf !== null) {

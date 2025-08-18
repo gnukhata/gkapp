@@ -4,11 +4,19 @@ import OrgProfile from "@/views/OrgProfile.vue";
 import Logs from "@/views/Logs.vue";
 import CloseBooks from "@/views/CloseBooks.vue";
 import UserManagement from "@/views/UserManagement.vue";
+import Payment from "@/views/Payment.vue";
 import UOM from "@/views/UOM.vue";
-import Categories from "@/views/Categories.vue";
-import AddCategory from "@/views/CategoryCreate.vue";
+import store from "@/store";
 
 Vue.use(VueRouter);
+
+const checkIfBooksClosed = (to, from, next) => {
+  if (store.state.orgAddress?.booksclosedflag) {
+    next('/dashboard');
+  } else {
+    next();
+  }
+};
 
 const routes = [
   {
@@ -122,59 +130,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Unit Add",
-      requiresOrgAuth: true,
-    },
-    path: "/uom/add",
-    name: "Unit Add",
-    component: () =>
-      import(/* webpackChunkName: "uomadd" */ "../components/form/AddUOM.vue"),
-  },
-  {
-    meta: {
-      title: "Unit Edit",
-      requiresOrgAuth: true,
-    },
-    path: "/uom/:id",
-    name: "Unit Edit",
-    component: () =>
-      import(
-        /* webpackChunkName: "uomedit" */ "../components/form/EditUOM.vue"
-      ),
-  },
-  {
-    meta: {
-      title: "Categories",
-      requiresOrgAuth: true,
-    },
-    path: "/categories",
-    name: "Categories",
-    component: Categories,
-  },
-  {
-    meta: {
-      title: "Add Category",
-      requiresOrgAuth: true,
-    },
-    path: "/categories/add",
-    name: "Add Category",
-    component: AddCategory,
-  },
-  {
-    meta: {
-      title: "Edit_Category",
-      requiresOrgAuth: true,
-    },
-    path: "/categories/edit/:id",
-    name: "Edit_Category",
-    component: () =>
-      import(
-        /* webpackChunkName: "edit_category" */ "../views/CategoryEdit.vue"
-      ),
-    props: true,
-  },
-  {
-    meta: {
       title: "Stock On Hand",
       requiresOrgAuth: true,
     },
@@ -188,21 +143,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Category Wise Stock On Hand",
-      requiresOrgAuth: true,
-    },
-    path: "/categorywise-stock-on-hand",
-    name: "Category Wise Stock On Hand",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        /* webpackChunkName: "catstockonhand" */ "../views/CategorywiseStockOnHand.vue"
-      ),
-  },
-  {
-    meta: {
       title: "View Registers",
       requiresOrgAuth: true,
     },
@@ -213,21 +153,6 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "registers" */ "../views/Registers.vue"),
-  },
-  {
-    meta: {
-      title: "Cost Center Statement",
-      requiresOrgAuth: true,
-    },
-    path: "/cost-center-statement",
-    name: "Cost Center Statement",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        /* webpackChunkName: "costcenterstatement" */ "../components/CostCenterStatement.vue"
-      ),
   },
   {
     meta: {
@@ -246,19 +171,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Cost Center",
-      requiresOrgAuth: true,
-    },
-    path: "/costcenter",
-    name: "Cost Center",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "costcenter" */ "../views/CostCenter.vue"),
-  },
-  {
-    meta: {
       title: "Godowns",
       requiresOrgAuth: true,
     },
@@ -269,6 +181,19 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "godowns" */ "../views/Godowns.vue"),
+  },
+  {
+    meta: {
+      title: "Banks",
+      requiresOrgAuth: true,
+    },
+    path: "/banks",
+    name: "Banks",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "godowns" */ "../views/Banks.vue"),
   },
   {
     meta: {
@@ -284,19 +209,6 @@ const routes = [
       import(
         /* webpackChunkName: "addgodown" */ "../components/form/Godown.vue"
       ),
-  },
-  {
-    meta: {
-      title: "Edit Godown",
-      requiresOrgAuth: true,
-    },
-    path: "/godowns/:id",
-    name: "Edit Godown",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "editgodown" */ "../views/GodownEdit.vue"),
   },
   {
     meta: {
@@ -322,7 +234,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "dashboard" */ "../views/dashboard/Main.vue"),
+      import(/* webpackChunkName: "dashboard" */ "../views/dashboard/Dashboard.vue"),
   },
   {
     meta: {
@@ -333,20 +245,39 @@ const routes = [
     name: "Workflow",
     component: () =>
       import(/* webpackChunkName: "workflow" */ "../views/Workflow.vue"),
-    props: true,
+    props: route => ({
+      ...route.params,
+      wfType: route.query.type,
+    }),
+  },
+  {
+    meta: {
+      title: "Payment",
+      requiresOrgAuth: true,
+    },
+    path: "/payment",
+    name: "Payment",
+    component: Payment,
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
   },
   {
     meta: {
       title: "Contact_Details",
       requiresOrgAuth: true,
     },
-    path: "/contact-details/:mode/:type", // mode = create/edit, type = customer/supplier
+    path: "/contact-details/:mode", // mode = create/edit
     name: "Contact_Details",
     component: () =>
       import(
         /* webpackChunkName: "contact_details" */ "../views/ContactDetails.vue"
       ),
-    props: true,
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
   },
   {
     meta: {
@@ -359,7 +290,10 @@ const routes = [
       import(
         /* webpackChunkName: "business_details" */ "../views/BusinessDetails.vue"
       ),
-    props: true,
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
   },
   {
     meta: {
@@ -372,7 +306,11 @@ const routes = [
       import(
         /* webpackChunkName: "invoice" */ "../views/Transactions/Invoice.vue"
       ),
-    props: true,
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -386,6 +324,7 @@ const routes = [
         /* webpackChunkName: "invoice_edit" */ "../views/Transactions/InvoiceEdit.vue"
       ),
     props: true,
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -399,6 +338,7 @@ const routes = [
         /* webpackChunkName: "createvoucher" */ "../views/CreateVoucher.vue"
       ),
     props: true,
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -410,6 +350,7 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "voucheredit" */ "../views/VoucherEdit.vue"),
     props: true,
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -434,6 +375,7 @@ const routes = [
         /* webpackChunkName: "delivery_note" */ "../views/Transactions/DeliveryNote.vue"
       ),
     props: true,
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -446,6 +388,7 @@ const routes = [
       import(
         /* webpackChunkName: "cash_memo" */ "../views/Transactions/CashMemo.vue"
       ),
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -458,6 +401,11 @@ const routes = [
       import(
         /* webpackChunkName: "ps_order" */ "../views/Transactions/PurchaseSaleOrder.vue"
       ),
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+    }),
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
@@ -470,40 +418,34 @@ const routes = [
       import(
         /* webpackChunkName: "dc_note" */ "../views/Transactions/DebitCreditNote.vue"
       ),
-  },
-  {
-    meta: {
-      title: "Transfer_Note",
-      requiresOrgAuth: true,
-    },
-    path: "/transfer-note",
-    name: "Transfer_Note",
-    component: () =>
-      import(
-        /* webpackChunkName: "transfer_note" */ "../views/Transactions/TransferNote.vue"
-      ),
-  },
-  {
-    meta: {
-      title: "Rejection_Note",
-      requiresOrgAuth: true,
-    },
-    path: "/rejection-note",
-    name: "Rejection_Note",
-    component: () =>
-      import(
-        /* webpackChunkName: "rejection_note" */ "../views/Transactions/RejectionNote.vue"
-      ),
+    props: route => ({
+      ...route.params,
+      type: route.query.type,
+      invoiceId: route.query['invoice-id'] ? Number(route.query['invoice-id']) : null,
+      transaction: route.query['transaction'],
+    }),
+    beforeEnter: checkIfBooksClosed,
   },
   {
     meta: {
       title: "Accounts",
       requiresOrgAuth: true,
     },
-    path: "/accounts/:group/:subGroup/:acc",
+    path: "/accounts",
     name: "Accounts",
     component: () =>
       import(/* webpackChunkName: "accounts-all" */ "../views/Accounts.vue"),
+    props: true,
+  },
+  {
+    meta: {
+      title: "SubGroups",
+      requiresOrgAuth: true,
+    },
+    path: "/sub-groups",
+    name: "SubGroups",
+    component: () =>
+      import(/* webpackChunkName: "subgroups-all" */ "../views/SubGroups.vue"),
     props: true,
   },
   {
@@ -645,23 +587,12 @@ const routes = [
       title: "Monthly Ledger",
       requiresOrgAuth: true,
     },
-    path: "/ledger/monthly/:id",
+    path: "/ledger/monthly/:ac",
     name: "Monthly Ledger",
     component: () =>
       import(
-        /* webpackChunkName: "ledger-monthly" */ "../views/LedgerMonthly.vue"
+        /* webpackChunkName: "ledger-monthly" */ "../views/Ledger.vue"
       ),
-  },
-  {
-    // ac=accountcode, pc=productcode, fs=financialstart, fd=fromdate, td=todate,
-    meta: {
-      title: "Ledger Full",
-      requiresOrgAuth: true,
-    },
-    path: "/ledger/:ac&:pc&:fd&:td",
-    name: "Ledger Full",
-    component: () =>
-      import(/* webpackChunkName: "ledger-full" */ "../views/LedgerFull.vue"),
   },
   {
     // ac=accountcode
@@ -672,7 +603,7 @@ const routes = [
     path: "/ledger/:ac",
     name: "Ledger Single",
     component: () =>
-      import(/* webpackChunkName: "ledger-ac" */ "../views/LedgerFull.vue"),
+      import(/* webpackChunkName: "ledger-ac" */ "../views/Ledger.vue"),
   },
   {
     // ac=accountcode
@@ -684,6 +615,7 @@ const routes = [
     name: "Bank_Reconc",
     component: () =>
       import(/* webpackChunkName: "bank-recon" */ "../views/BankRecon.vue"),
+     props: true,
   },
 
   // GST
@@ -730,7 +662,7 @@ const routes = [
     path: "/gst/3b",
     name: "GST 3B Report",
     component: () =>
-      import(/* webpackChunkName: "gst-3b" */ "../views/gst/3B/Main.vue"),
+      import(/* webpackChunkName: "gst-3b" */ "../views/gst/3B/3B.vue"),
   },
   {
     meta: {
@@ -798,8 +730,13 @@ const routes = [
     name: "Report Bug",
     component: () =>
       import(
-        /* webpackChunkName: "gstnews-single-post" */ "../views/report-bug/Main.vue"
+        /* webpackChunkName: "gstnews-single-post" */ "../views/report-bug/ReportBug.vue"
       ),
+  },
+  {
+    path: "*",
+    name: "Default",
+    redirect: "/dashboard",
   },
 ];
 
@@ -816,7 +753,6 @@ router.beforeEach((to, _from, next) => {
     if (userOrgAuthStatus !== "true") {
       next({ name: "User Login" });
     } else {
-      // console.log('Auth succeeded')
       next();
     }
   } else {

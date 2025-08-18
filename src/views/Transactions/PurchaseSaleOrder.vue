@@ -6,10 +6,20 @@
   >
     <b-form @submit.prevent="confirmOnSubmit">
       <div class="text-center pt-2">
-        <h4 v-if="isSale" v-translate>Create Sale Order</h4>
-        <h4 v-else v-translate>Create Purchase Order</h4>
+        <h4
+          v-if="isSale"
+          v-translate
+        >
+          Create Sale Order
+        </h4>
+        <h4
+          v-else
+          v-translate
+        >
+          Create Purchase Order
+        </h4>
       </div>
-      <hr />
+      <hr>
       <div class="mb-2">
         <b-form-radio-group
           v-model="form.type"
@@ -19,135 +29,167 @@
           class="mx-1"
           @input="updateConfig"
         >
-          <b-form-radio value="sale">
+          <b-form-radio
+            v-if="type !== 'purchase'"
+            value="sale"
+          >
             <translate> Sale </translate>
           </b-form-radio>
-          <b-form-radio value="purchase">
+          <b-form-radio
+            v-if="type !== 'sale'"
+            value="purchase"
+          >
             <translate> Purchase </translate>
           </b-form-radio>
         </b-form-radio-group>
         <span class="float-right">
           <config
             title="Invoice Page Configuration"
-            getDefault="getDefaultInvoiceConfig"
-            setCustom="updateInvoiceConfig"
-            getCustom="getCustomInvoiceConfig"
-          >
-          </config>
+            get-default="getDefaultInvoiceConfig"
+            set-custom="updateInvoiceConfig"
+            get-custom="getCustomInvoiceConfig"
+          />
         </span>
-        <div class="clearfix"></div>
+        <div class="clearfix" />
       </div>
-      <b-card-group class="d-block d-md-flex my-2" deck>
+      <b-card-group
+        class="d-block d-md-flex my-2"
+        deck
+      >
         <!-- Buyer/Seller Details -->
         <party-details
           :mode="form.type"
-          :parentData="form.party"
-          :gstFlag="isGst"
-          :invoiceParty="invoiceParty"
+          :parent-data="form.party"
+          :gst-flag="isGst"
+          :vat-flag="isVat"
+          :invoice-party="invoiceParty"
           :config="config.party"
-          :saleFlag="isSale"
+          :sale-flag="isSale"
           @details-updated="onComponentDataUpdate"
-          :updateCounter="updateCounter.party"
+          :update-counter="updateCounter.party"
           ref="party"
-        >
-        </party-details>
+        />
         <!-- Purchase Sale Order Details -->
         <ps-order-details
           :config="config.psOrder"
-          :saleFlag="isSale"
+          :sale-flag="isSale"
           @details-updated="onComponentDataUpdate"
-          :updateCounter="updateCounter.psOrder"
+          :update-counter="updateCounter.psOrder"
           ref="psOrder"
-        ></ps-order-details>
+        />
         <!-- Shipping Details -->
         <ship-details
           :states="options.states"
-          :gstFlag="isGst"
-          :saleFlag="isSale"
-          :billingDetails="form.party"
-          :organisationDetails="options.orgDetails"
-          :updateCounter="updateCounter.ship"
+          :gst-flag="isGst"
+          :vat-flag="isVat"
+          :sale-flag="isSale"
+          :billing-details="form.party"
+          :organisation-details="options.orgDetails"
+          :update-counter="updateCounter.ship"
           :config="config.ship"
           ref="ship"
-        >
-        </ship-details>
+        />
       </b-card-group>
-      <div class="my-2" v-if="config.taxType">
+      <div
+        class="my-2"
+        v-if="config.taxType && isGstEnabled && isVatEnabled"
+      >
         <b-form-radio-group
           button-variant="outline-secondary"
           size="sm"
           buttons
           v-model="form.taxType"
         >
-          <b-form-radio value="gst">GST</b-form-radio>
-          <b-form-radio value="vat">VAT</b-form-radio>
+          <b-form-radio value="gst">
+            GST
+          </b-form-radio>
+          <b-form-radio value="vat">
+            VAT
+          </b-form-radio>
         </b-form-radio-group>
       </div>
       <!-- Bill Table -->
       <bill-table
-        :invDate="form.psOrder.date"
-        :saleFlag="isSale"
-        :blockEmptyStock="isSale"
-        :gstFlag="isGst"
+        :inv-date="form.psOrder.date"
+        :gst-flag="isGst"
+        :cgst-flag="isCgst"
+        :vat-flag="isVat"
+        :sale-flag="isSale"
+        :block-empty-stock="isSale"
         :config="config.bill"
         @details-updated="onComponentDataUpdate"
-        :updateCounter="updateCounter.bill"
-        :parentData="form.bill"
-        :cgstFlag="isCgst"
-        :godownId="goid"
-        :vatFlag="!!form.taxType"
+        :update-counter="updateCounter.bill"
+        :parent-data="form.bill"
+        :godown-id="goid"
         ref="bill"
-      ></bill-table>
+      />
       <div class="px-2">
         <!-- b-row has to be enclosed in a container tag with padding
          atleast 2, to avoid creating an offset to the right -->
-        <b-row class="mt-5" v-if="config.total">
-          <b-col cols="12" lg="6" order-lg="1" order="2"> </b-col>
-          <b-col cols="12" lg="6" order-lg="2" order="1">
+        <b-row
+          class="mt-5"
+          v-if="config.total"
+        >
+          <b-col
+            cols="12"
+            lg="6"
+            order-lg="1"
+            order="2"
+          />
+          <b-col
+            cols="12"
+            lg="6"
+            order-lg="2"
+            order="1"
+          >
             <total-table
               :config="config.total"
-              :gstFlag="isGst"
-              :billData="form.bill"
-              :updateCounter="updateCounter.totalTable"
-              :cgstFlag="isCgst"
+              :gst-flag="isGst"
+              :cgst-flag="isCgst"
+              :vat-flag="isVat"
+              :bill-data="form.bill"
+              :update-counter="updateCounter.totalTable"
               ref="totalTable"
-            ></total-table>
+            />
           </b-col>
         </b-row>
       </div>
-      <b-card-group class="d-block d-md-flex" deck>
+      <b-card-group
+        class="d-block d-md-flex"
+        deck
+      >
         <!-- Payment Details -->
         <payment-details
           ref="payment"
-          :updateCounter="updateCounter.payment"
-          :parentData="form.payment"
+          :update-counter="updateCounter.payment"
+          :parent-data="form.payment"
           :config="config.payment"
-          :saleFlag="isSale"
-          :optionsData="{
+          :sale-flag="isSale"
+          :options-data="{
             payModes: [
-              { text: '-- Payment Mode --', value: null },
-              { text: 'Cash', value: 3 },
-              { text: 'Bank', value: 2 },
+              {text: '-- Payment Mode --', value: null},
+              {text: 'Cash', value: 3},
+              {text: 'Bank', value: 2},
             ],
           }"
-        ></payment-details>
+        />
         <!-- Transport Details -->
         <transport-details
           ref="transport"
           :config="config.transport"
-          :updateCounter="updateCounter.transport"
-          :parentData="form.transport"
-          :invDate="form.psOrder.date"
+          :update-counter="updateCounter.transport"
+          :parent-data="form.transport"
+          :inv-date="form.psOrder.date"
           @details-updated="onComponentDataUpdate"
-        ></transport-details>
+        />
         <!-- Invoice Comments -->
         <comments
           :name="`PurchaseSalesOrder`"
           ref="narration"
           :config="config.comments"
-          :updateCounter="updateCounter.comments"
-          :parentData="form.comments"
-        ></comments>
+          :update-counter="updateCounter.comments"
+          :parent-data="form.comments"
+        />
       </b-card-group>
       <b-tooltip
         target="inv-submit"
@@ -157,39 +199,13 @@
       >
         <translate
           translate-comment="%{start} and %{end} are a variables, translation is not required for them. Enter them, as they are while translation."
-          :translate-params="{ start: yearStart, end: yearEnd }"
+          :translate-params="{start: yearStart, end: yearEnd}"
         >
           Date must be within the Financial Year, from %{start} to %{end}
         </translate>
       </b-tooltip>
-      <hr />
-      <div class="float-right">
-        <b-button
-          class="m-1"
-          size="sm"
-          variant="danger"
-          @click.prevent="$router.go(-1)"
-        >
-          <b-icon
-            aria-hidden="true"
-            class="align-middle mr-1"
-            icon="arrow-left"
-          ></b-icon>
-          <span class="align-middle" v-translate>Back</span>
-        </b-button>
-        <b-button
-          class="m-1"
-          size="sm"
-          variant="warning"
-          @click.prevent="resetForm"
-        >
-          <b-icon
-            aria-hidden="true"
-            class="align-middle mr-1"
-            icon="arrow-repeat"
-          ></b-icon>
-          <span class="align-middle" v-translate>Reset</span>
-        </b-button>
+      <hr>
+      <div>
         <b-button
           id="inv-submit"
           :disabled="!isInvDateValid"
@@ -198,19 +214,30 @@
           class="m-1"
           variant="success"
         >
-          <span>
-            <b-spinner v-if="isLoading" small></b-spinner>
-            <b-icon
-              v-else
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="plus-square"
-            ></b-icon>
-            <span class="align-middle" v-translate>Create</span>
-          </span>
+          <b-spinner
+            v-if="isLoading"
+            small
+          />
+          Save
+        </b-button>
+        <b-button
+          class="m-1"
+          size="sm"
+          variant="dark"
+          @click.prevent="resetForm"
+        >
+          Reset
+        </b-button>
+        <b-button
+          class="m-1"
+          size="sm"
+          variant="dark"
+          @click.prevent="$router.go(-1)"
+        >
+          Cancel
         </b-button>
       </div>
-      <div class="clearfix"></div>
+      <div class="clearfix" />
     </b-form>
     <print-page
       :show="showPrintModal"
@@ -219,14 +246,13 @@
       :id="orderId"
       :pdata="{}"
       @hidden="showPrintModal = false"
-    >
-    </print-page>
+    />
   </b-container>
 </template>
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 import Config from '../../components/Config.vue';
 
@@ -243,7 +269,7 @@ import PrintPage from '../../components/workflow/PrintPage.vue';
 import psOrderConfig from '../../js/config/transaction/purchaseSalesOrder';
 
 export default {
-  name: '',
+  name: 'PurchaseSaleOrder',
   components: {
     Config,
 
@@ -256,6 +282,13 @@ export default {
     PsOrderDetails,
     PaymentDetails,
     PrintPage,
+  },
+  props: {
+    type: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
@@ -307,7 +340,7 @@ export default {
         psOrder: {},
         party: {},
         ship: {},
-        taxType: 'gst', // vat
+        taxType: null,
         bill: [],
         transport: {},
         narration: null,
@@ -321,54 +354,62 @@ export default {
     };
   },
   computed: {
-    // taxState: (self) =>
-    //   self.form.inv.taxState ? self.form.inv.taxState.name : '',
     defaultPaymentMode: (self) =>
       self.$store.getters['global/getDefaultPaymentMode'],
     party: (self) =>
       self.form.party.type === 'customer' ? 'Customer' : 'Supplier',
     isSale: (self) => self.form.type === 'sale',
-    isGst: (self) => self.form.taxType === 'gst',
+    defaultTaxMode: (self) => {
+      const taxMode = self.$store.getters['global/getDefaultTaxMode'];
+      // If both GST & VAT are enabled, GST options will be shown first.
+      if (taxMode === 'GST & VAT') {
+        return 'gst';
+      }
+      return taxMode.toLowerCase();
+    },
+    showErrorToolTip: (self) =>
+      self.isInvDateValid === null ? false : !self.isInvDateValid,
+    ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
+    isVat: (self) => self.isVatEnabled && self.form.taxType === 'vat',
+    isGst: (self) => self.isGstEnabled && self.form.taxType === 'gst',
     isCgst: (self) => {
-      if (self.form.psOrder.state && self.form.party.state) {
+      if (self.isIndia && self.form.psOrder.state && self.form.party.state) {
         if (self.form.psOrder.state.name === self.form.party.state.name) {
           return true;
         }
       }
       return false;
     },
-    showErrorToolTip: (self) =>
-      self.isInvDateValid === null ? false : !self.isInvDateValid,
-    ...mapState(['yearStart', 'yearEnd', 'invoiceParty']),
   },
   methods: {
     onComponentDataUpdate(payload) {
       switch (payload.name) {
-        case 'ps-order-details':
-          {
-            Object.assign(this.form.psOrder, payload.data);
-            this.isInvDateValid = payload.options.isDateValid;
-            this.form.transport.date = this.form.psOrder.date;
+      case 'ps-order-details':
+        {
+          Object.assign(this.form.psOrder, payload.data);
+          this.isInvDateValid = payload.options.isDateValid;
+          this.form.transport.date = this.form.psOrder.date;
 
-            this.goid = payload.data.godown || -1;
+          this.goid = payload.data.godown || -1;
 
-            const self = this;
-            setTimeout(function() {
-              self.updateCounter.transport++;
-            });
-          }
-          break;
-        case 'party-details':
-          Object.assign(this.form.party, payload.data);
-          this.updateCounter.ship++;
-          break;
-        case 'bill-table':
-          Object.assign(this.form.bill, payload.data);
-          this.updateCounter.totalTable++;
-          break;
-        case 'transport-details':
-          Object.assign(this.form.transport, payload.data);
-          break;
+          const self = this;
+          setTimeout(function() {
+            self.updateCounter.transport++;
+          });
+        }
+        break;
+      case 'party-details':
+        Object.assign(this.form.party, payload.data);
+        this.updateCounter.ship++;
+        break;
+      case 'bill-table':
+        Object.assign(this.form.bill, payload.data);
+        this.updateCounter.totalTable++;
+        break;
+      case 'transport-details':
+        Object.assign(this.form.transport, payload.data);
+        break;
       }
     },
     collectComponentData() {
@@ -394,8 +435,14 @@ export default {
     },
     initPayload() {
       this.collectComponentData();
+      let taxflag = 0;
+      if (this.isGst) {
+        taxflag = 7;
+      }
+      if (this.isVat) {
+        taxflag = 22;
+      }
       let orderData = {
-        // dcid: null, // Has to be filled when Delivery Note is implemented. If no Deliver Note is available skip this property
         orderno: this.form.psOrder.no,
         orderdate: this.form.psOrder.date,
         creditperiod: this.form.psOrder.creditPeriod,
@@ -417,7 +464,7 @@ export default {
         reversecharge: this.form.transport.reverseCharge ? 1 : 0,
 
         // === GST/ VAT related data ===
-        taxflag: this.isGst ? 7 : 22,
+        taxflag, // 7 - GST, 22 - VAT, else null
 
         // === Total orderData price data ===
         purchaseordertotal: this.form.total.amount,
@@ -455,8 +502,8 @@ export default {
           tinconsignee: this.form.ship.tin || '',
           gstinconsignee: this.form.ship.gstin || '',
           consigneeaddress: this.form.ship.addr || '',
-          consigneestate: this.form.ship.state.name || null,
-          consigneestatecode: this.form.ship.state.id || null,
+          consigneestate: this.form.ship.state?.name || null,
+          consigneestatecode: this.form.ship.state?.id || null,
           consigneepincode: this.form.ship.pin || '',
         };
       }
@@ -468,8 +515,6 @@ export default {
       let freeqty = {};
       let discount = {};
       this.form.bill.forEach((item) => {
-        // let taxable = item.total * item.qty - item.discount.amount;
-
         schedule[item.product.id] = {};
         schedule[item.product.id]['quantity'] = parseFloat(item.qty).toFixed(2);
         schedule[item.product.id]['packages'] = parseFloat(
@@ -489,7 +534,7 @@ export default {
         freeqty[item.product.id] = isNaN(parseFloat(item.fqty))
           ? 0
           : parseFloat(item.fqty).toFixed(2);
-        discount[item.product.id] = parseFloat(item.discount.amount).toFixed(2);
+        discount[item.product.id] = parseFloat(item.discount.total).toFixed(2);
       });
 
       Object.assign(orderData, {
@@ -514,7 +559,6 @@ export default {
         orderData.vehicleno = this.form.transport.vno;
       }
 
-      // console.log({ invoice, stock });
       return orderData;
     },
     confirmOnSubmit() {
@@ -535,7 +579,6 @@ export default {
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',
           footerClass: 'border-top-0', // p-1
-          // bodyClass: 'p-2',
           centered: true,
         })
         .then((val) => {
@@ -547,10 +590,7 @@ export default {
     onSubmit() {
       let self = this;
       this.isLoading = true;
-
       const payload = this.initPayload();
-      // return;
-      // const method = this.formMode === 'create' ? 'post' : 'put';
       const orderType = this.isSale ? 'Sale Order' : 'Purchase Order';
       axios
         .post('/purchaseorder', payload)
@@ -558,58 +598,58 @@ export default {
           self.isLoading = false;
           if (resp.status === 200) {
             switch (resp.data.gkstatus) {
-              case 0:
-                {
-                  // success
-                  this.displayToast(
-                    `Create ${orderType} Successfull!`,
-                    `${orderType} was successfully created`,
-                    'success'
-                  );
+            case 0:
+              {
+                // success
+                this.displayToast(
+                  `Create ${orderType} Successfull!`,
+                  `${orderType} was successfully created`,
+                  'success'
+                );
 
-                  let log = {
-                    activity: `${orderType.toLowerCase()} created: ${
-                      self.form.psOrder.no
-                    }`,
-                  };
-                  axios.post('/log', log);
-                  this.resetForm();
-                  this.showPrintModal = true;
-                  this.orderId = resp.data.gkresult;
-                }
-                break;
-              case 1:
-                // Duplicate entry
-                this.displayToast(
-                  `Create ${orderType} Failed!`,
-                  this.$gettext('Duplicate Entry, Check Id'),
-                  'warning'
-                );
-                break;
-              case 2:
-                // Unauthorized access
-                this.displayToast(
-                  `Create ${orderType} Failed!`,
-                  this.$gettext('Unauthorized Access, Contact Admin'),
-                  'warning'
-                );
-                break;
-              case 3:
-                // Connection failed, Check inputs and try again
-                this.displayToast(
-                  `Create ${orderType} Failed!`,
-                  this.$gettext('Please check your input and try again later'),
-                  'danger'
-                );
-                break;
-              default:
-                // Connection failed, Check inputs and try again
-                this.displayToast(
-                  `Create ${orderType} Failed!`,
-                  this.$gettext('Please check your input and try again later'),
-                  'danger'
-                );
-                break;
+                let log = {
+                  activity: `${orderType.toLowerCase()} created: ${
+                    self.form.psOrder.no
+                  }`,
+                };
+                axios.post('/log', log);
+                this.resetForm();
+                this.showPrintModal = true;
+                this.orderId = resp.data.gkresult;
+              }
+              break;
+            case 1:
+              // Duplicate entry
+              this.displayToast(
+                `Create ${orderType} Failed!`,
+                this.$gettext('Duplicate Entry, Check Id'),
+                'warning'
+              );
+              break;
+            case 2:
+              // Unauthorized access
+              this.displayToast(
+                `Create ${orderType} Failed!`,
+                this.$gettext('Unauthorized Access, Contact Admin'),
+                'warning'
+              );
+              break;
+            case 3:
+              // Connection failed, Check inputs and try again
+              this.displayToast(
+                `Create ${orderType} Failed!`,
+                this.$gettext('Please check your input and try again later'),
+                'danger'
+              );
+              break;
+            default:
+              // Connection failed, Check inputs and try again
+              this.displayToast(
+                `Create ${orderType} Failed!`,
+                this.$gettext('Please check your input and try again later'),
+                'danger'
+              );
+              break;
             }
           }
         })
@@ -626,20 +666,20 @@ export default {
       this.showPrintModal = false;
       let paymentMode;
       switch (this.defaultPaymentMode) {
-        case 'credit':
-          {
-            paymentMode = 15;
-          }
-          break;
-        case 'bank':
-          {
-            paymentMode = 2;
-          }
-          break;
-        case 'cash':
-        default: {
-          paymentMode = 3;
+      case 'credit':
+        {
+          paymentMode = 15;
         }
+        break;
+      case 'bank':
+        {
+          paymentMode = 2;
+        }
+        break;
+      case 'cash':
+      default: {
+        paymentMode = 3;
+      }
       }
       let type = this.form.type;
       this.form = {
@@ -682,7 +722,7 @@ export default {
           tin: null,
           pin: null,
         },
-        taxType: 'gst', // vat
+        taxType: this.form.taxType,
         bill: [
           {
             product: { name: '', id: '' },
@@ -784,9 +824,6 @@ export default {
             pin: resp6.data.gkdata.orgpincode,
             bankDetails: resp6.data.gkdata.bankdetails,
           };
-          // setTimeout(() => {
-          //   self.setOrgDetails();
-          // }, 1);
         }
 
         if (preloadErrorList !== '') {
@@ -887,6 +924,14 @@ export default {
       });
     },
   },
+  watch: {
+    defaultTaxMode(newMode) {
+      this.form.taxType = newMode;
+    },
+    type(newType) {
+      this.form.type = newType === 'purchase' ? 'purchase' : 'sale';
+    },
+  },
   beforeMount() {
     this.vuexNameSpace = 'psOrderConfig_' + Date.now();
     // Dynamically load the config to Vuex, just before the Invoice component is mounted
@@ -898,6 +943,8 @@ export default {
     this.updateConfig();
     this.initForm();
     this.preloadData();
+    this.form.taxType = this.defaultTaxMode;
+    this.form.type = this.type === 'purchase' ? 'purchase' : 'sale';
   },
   beforeDestroy() {
     // Remove the config from Vuex when exiting the Invoice page

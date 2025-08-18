@@ -1,70 +1,75 @@
 <template>
-  <div class="m-2">
-    <b-card
-      class="gkcard mx-auto"
-      :header="this.$gettext('Export Company Data')"
-      header-bg-variant="dark"
-      header-text-variant="light"
+  <section class="container-fluid mt-2">
+    <b-form
+      required
+      @submit.prevent="check"
     >
-      <b-card-body>
-        <b-form required @submit.prevent="check">
+      <b-card no-body>
+        <template #header>
+          <h5 class="my-2">
+            Export Data
+          </h5>
+        </template>
+        <b-card-body>
           <div v-translate>
-            This menu will enable you to export organisation data, that is, all
-            its accounts and records in these accounts in two formats:
-
+            You can export your organisation data in two formats:
             <ul class="mt-2">
-              <li>Microsoft Excel Open XML Spreadsheet (.xslx) [legacy]</li>
+              <li>Microsoft Excel Open XML Spreadsheet (.xlsx) [legacy]</li>
               <li>Json (.json)</li>
             </ul>
             Click on any of the available "Export" buttons to start the export.
-            Please do not reload or close the window while the export process is
-            on. A download window will pop up when export is done. You can open
-            or save the file.
+            Please do not reload or close the window while the export process
+            is going on. A download window will pop up when export is done.
+            You can open or save the file.
           </div>
-          <br />
+          <br>
           <!-- Export buttons -->
-          <b-button-group>
+          <b-button-group size="sm">
             <gk-file-download
               :url="
                 `/export/xlsx?yearstart=${this.yearStart}&yearend=${this.yearEnd}`
               "
-              :fileName="`GNUKhata-DataExport`"
+              :file-name="`GNUKhata-DataExport`"
               name="Export (Legacy)"
-              variant="dark"
+              variant="success"
               :add-date="true"
-              :addTimeStamp="true"
+              :add-time-stamp="true"
               class="mr-1"
-              :messageFromParent="parentMessage"
-            ></gk-file-download>
+              :message-from-parent="parentMessage"
+            />
             <gk-file-download
               :url="`/export/json`"
-              fileExtn="json"
+              file-extn="json"
               icon="file-earmark-code"
-              name="Export (Json)"
-              variant="dark"
+              name="Export (JSON)"
+              variant="success"
               :add-date="true"
-              fileSuffix="Export"
-              :addTimeStamp="true"
-							:commonParams="false"
-              :messageFromParent="parentMessage"
-            ></gk-file-download>
+              file-suffix="Export"
+              :add-time-stamp="true"
+              :common-params="false"
+              :message-from-parent="parentMessage"
+            />
           </b-button-group>
-          <b-alert class="mt-3" show variant="warning">
+          <b-alert
+            class="mt-3"
+            show
+            variant="warning"
+          >
             <b-icon
               icon="exclamation-octagon"
               scale="1.1x"
               class="mt-2"
-            ></b-icon>
+            />
             <b v-translate> Note</b>:
             <translate>
               The current exported spreadsheet currenly contains list of
               accounts & vouchers data only
             </translate>
           </b-alert>
-        </b-form>
-      </b-card-body>
-    </b-card>
-  </div>
+        </b-card-body>
+      </b-card>
+    </b-form>
+  </section>
 </template>
 
 <script>

@@ -6,8 +6,15 @@
       header-bg-variant="dark"
       header-text-variant="light"
     >
-      <b-form ref="createForm" @submit.prevent="addUser">
-        <b-overlay :show="isLoading" blur no-wrap></b-overlay>
+      <b-form
+        ref="createForm"
+        @submit.prevent="addUser"
+      >
+        <b-overlay
+          :show="isLoading"
+          blur
+          no-wrap
+        />
         <!-- user name -->
         <b-form-group
           :label="$gettext('Name')"
@@ -15,7 +22,7 @@
           label-cols="4"
           label-size="sm"
           :state="valid.username"
-          invalid-feedback="Username not unique or less than 3 characters"
+          invalid-feedback="Username should be unique and contain at least 5 characters"
         >
           <b-form-input
             v-model="form.username"
@@ -26,7 +33,7 @@
             size="sm"
             :state="valid.username"
             @update="validateName"
-          ></b-form-input>
+          />
         </b-form-group>
         <b-form-group
           :label="$gettext('Password')"
@@ -34,7 +41,10 @@
           label-cols="4"
           label-size="sm"
         >
-          <password size="sm" v-model="form.userpassword"></password>
+          <password
+            size="sm"
+            v-model="form.userpassword"
+          />
         </b-form-group>
         <!-- confirm pwd -->
         <b-form-group
@@ -43,13 +53,17 @@
           label-cols="4"
           label-size="sm"
         >
-          <b-form-input :state="pwdMatch" v-model="cnfPassword" size="sm" type="password">
-          </b-form-input>
-          <b-form-invalid-feedback
-            ><translate
-              >Passwords do not match</translate
-            ></b-form-invalid-feedback
-          >
+          <b-form-input
+            :state="pwdMatch"
+            v-model="cnfPassword"
+            size="sm"
+            type="password"
+          />
+          <b-form-invalid-feedback>
+            <translate>
+              Passwords do not match
+            </translate>
+          </b-form-invalid-feedback>
         </b-form-group>
         <b-form-group
           label-size="sm"
@@ -57,10 +71,11 @@
           label-align="right"
           :label="$gettext('Question')"
         >
-          <security-questions
-            size="sm"
+          <v-select
+            placeholder="Select a security question"
             v-model="form.userquestion"
-          ></security-questions>
+            :options="questions"
+          />
         </b-form-group>
         <b-form-group
           label-cols="4"
@@ -73,9 +88,9 @@
             required
             type="text"
             size="sm"
-          ></b-form-input>
+          />
         </b-form-group>
-        <hr />
+        <hr>
         <b-form-group
           label-size="md"
           id="input-group-1"
@@ -84,7 +99,11 @@
           label-cols="3"
         >
           <template #label>
-            <captcha width="90" v-model="answer"></captcha>
+            <captcha
+              v-model="answer"
+              :reset="resetCaptcha"
+              @change="resetCaptcha = false"
+            />
           </template>
           <!-- user answer -->
           <b-form-input
@@ -95,8 +114,7 @@
             type="text"
             placeholder="Captcha Answer"
             required
-          >
-          </b-form-input>
+          />
         </b-form-group>
         <!-- create user  -->
         <slot name="modal-footer">
@@ -107,9 +125,13 @@
             class="float-right"
             variant="success"
           >
-            <b-icon class="mr-1" type="submit" icon="person-plus"></b-icon>
-            <translate>Create User</translate></b-button
-          >
+            <b-icon
+              class="mr-1"
+              type="submit"
+              icon="person-plus"
+            />
+            <translate>Create User</translate>
+          </b-button>
         </slot>
       </b-form>
     </b-card>
@@ -122,11 +144,10 @@
 import { mapState } from 'vuex';
 import axios from 'axios';
 import Password from '@/components/Password.vue';
-import SecurityQuestions from '@/components/SecurityQuestions.vue';
 import { STATUS_CODES } from '@/js/enum.js';
 import Captcha from '@/components/Captcha.vue';
 export default {
-  components: { SecurityQuestions, Password, Captcha },
+  components: { Password, Captcha },
   name: 'CreateUser',
   data() {
     return {
@@ -134,6 +155,16 @@ export default {
       cnfPassword: '',
       answer: null,
       userAnswer: null,
+      resetCaptcha: false,
+      questions: [
+        'Your Favourite Place ?',
+        'Your Lucky number ?',
+        'Your Favourite Color ?',
+        "Your Mother's Maiden name",
+        'Your Favourite Ice Cream flavour ?',
+        'Your Favourite Bike ?',
+        'Your First School Name ?',
+      ],
       form: {
         username: '',
         userpassword: '',
@@ -165,7 +196,7 @@ export default {
         return null;
       }
 
-      if (this.form.userpassword === this.hashedPassword(this.cnfPassword)) {
+      if (this.form.userpassword === this.cnfPassword) {
         return true;
       } else {
         return false;
@@ -176,26 +207,31 @@ export default {
     validateName() {
       // remove spaces in username
       this.form.username = this.form.username.split(' ').join('');
-      if (this.form.username === '') {
+      if (!this.form.username) {
         this.valid.username = null;
         return;
       }
       // username should be atleast three characters
-      if (this.form.username.length < 3) {
+      if (this.form.username.length < 5) {
         this.valid.username = false;
         return;
       } else {
         this.valid.username = true;
-        this.checkUserName();
+        this.checkUserName(this.form.username);
       }
     },
     resetForm() {
+      this.cnfPassword = '';
+      this.answer = null;
+      this.userAnswer = null;
       this.form = {
         username: '',
         userpassword: '',
         userquestion: '',
         useranswer: '',
       };
+      this.resetCaptcha = true;
+      this.$refs['createForm'].reset();
     },
     checkUserName(query) {
       const self = this;
@@ -211,10 +247,10 @@ export default {
     },
     /* Create User */
     addUser() {
-      if (this.form.username.length < 3) {
+      if (this.form.username.length < 5) {
         // Alert the user on username length
         this.$bvToast.toast(
-          this.$gettext(`Username is less than 3 characters`),
+          this.$gettext(`Username is less than 5 characters`),
           {
             title: this.$gettext('Invalid username'),
             autoHideDelay: 3000,
@@ -248,6 +284,13 @@ export default {
         .post(`/gkuser`, this.form)
         .then((resp) => {
           switch (resp.data.gkstatus) {
+            case STATUS_CODES['ValidationError']:
+              resp.data?.error.forEach((field_err) => {
+                let location = field_err.loc.join(" at ");
+                let message = (location ? location+": " : "") + field_err.msg;
+                this.displayToast("Validation Error", message, "warning");
+              });
+              break;
             case STATUS_CODES['Success']:
               {
                 this.$bvToast.toast(`${userName} created successfully`, {
@@ -298,6 +341,15 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
     },
   },
 };

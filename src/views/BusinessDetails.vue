@@ -1,9 +1,14 @@
 <template>
-  <div class="d-flex justify-content-center align-form-label-right">
-    <div class="d-inline-block mt-4 mx-2">
-      <business-item :mode="mode"></business-item>
-    </div>
-  </div>
+  <b-card no-body>
+    <template #header>
+      <h5 class="my-2">
+        Business Item Details
+      </h5>
+    </template>
+    <b-card-body>
+      <business-item :mode="mode" />
+    </b-card-body>
+  </b-card>
 </template>
 
 <script>

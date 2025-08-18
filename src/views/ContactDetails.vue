@@ -1,9 +1,17 @@
 <template>
-  <div class="d-flex justify-content-center mt-4 mx-2 align-form-label-right">
-    <div class="d-inline-block" style="min-width: 300px">
-      <contact-item :mode="mode" :type="type"></contact-item>
-    </div>
-  </div>
+  <b-card no-body>
+    <template #header>
+      <h5 class="my-2">
+        Contact Person Details
+      </h5>
+    </template>
+    <b-card-body>
+      <contact-item
+        :mode="mode"
+        :type="type"
+      />
+    </b-card-body>
+  </b-card>
 </template>
 
 <script>
@@ -26,7 +34,8 @@ export default {
       validator: function (value) {
         return ["customer", "supplier"].indexOf(value) !== -1;
       },
-      required: true,
+      required: false,
+      default: null,
     },
   },
   data() {

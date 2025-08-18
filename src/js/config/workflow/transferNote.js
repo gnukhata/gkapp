@@ -84,7 +84,7 @@ const config = {
                 id: item.transfernoteid,
                 no: item.transfernoteno,
                 noteName: 'Transfer Note',
-                text1: item.transfernoteno,
+                text1: item.togodown,
               },
               item
             );
@@ -101,7 +101,6 @@ const config = {
 };
 
 function initColumns() {
-  // debugger;
   let columns = [];
   axios.get('/config?conftype=user').then((resp) => {
     if (resp.data.gkstatus === 0) {
@@ -114,14 +113,8 @@ function initColumns() {
     if (!columns || !columns.length) {
       columns = [
         {
-          label: 'Date',
+          label: '',
           key: 'dateObj',
-          sortable: true,
-        },
-        {
-          label: 'No.',
-          key: 'transfernoteno',
-          sortable: true,
         },
       ];
     }

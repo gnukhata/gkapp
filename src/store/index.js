@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import axios from "axios";
 
 import global from "../js/config/global.js";
+import tour from "../js/config/tour.js";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ const AppStorage = sessionStorage;
 export default new Vuex.Store({
   modules: {
     global,
+    tour,
   },
   state: {
     /* User */
@@ -153,18 +155,28 @@ export default new Vuex.Store({
 
       if (gkCoreUrl) {
         state.gkCoreUrl = gkCoreUrl;
-
-        // set axios default every time store inits, as its lost on page refresh
-        axios.defaults.baseURL = gkCoreUrl;
-        let headers = {};
-
+        const headers = {};
         if (authToken) {
           headers.gktoken = authToken;
         }
         if (userAuthToken) {
           headers.gkusertoken = userAuthToken;
         }
-        axios.defaults.headers = headers;
+
+        const { $axios } = Vue.prototype;
+        $axios.defaults.baseURL = gkCoreUrl;
+        $axios.defaults.headers = {
+          ...$axios.defaults.headers,
+          ...headers,
+        };
+
+        // Kept for backwards compatibility, can be removed once all APIs are
+        // rewritten using $axios instance method.
+        axios.defaults.baseURL = gkCoreUrl;
+        axios.defaults.headers = {
+          ...axios.defaults.headers,
+          ...headers,
+        };
       }
     },
 
@@ -207,6 +219,7 @@ export default new Vuex.Store({
     },
 
     setOrgYears(state, payload) {
+      if (!payload) return;
       state.yearStart = payload.yearStart;
       state.yearEnd = payload.yearEnd;
       AppStorage.setItem(
@@ -233,7 +246,7 @@ export default new Vuex.Store({
     setFinYears(state, payload) {
       if (payload) {
         state.finYears = payload;
-        // AppStorage.setItem("finYears", JSON.stringify(state.finYears));
+        AppStorage.setItem("finYears", JSON.stringify(state.finYears));
       }
     },
 

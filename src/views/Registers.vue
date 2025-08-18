@@ -1,62 +1,117 @@
 <template>
-  <section class="m-1">
-    <b-overlay :show="loading" blur>
+  <section>
+    <h2 class="my-4 text-muted display-5">
+      VIEW REGISTERS
+    </h2>
+    <b-overlay
+      :show="loading"
+      blur
+    >
       <b-card
-        :header="$gettext('View Registers')"
-        header-bg-variant="dark"
-        header-text-variant="light"
-        class="mx-auto gkcard d-print-none"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          View Register: From {{ selected?.fromDate || fromDate }} to
+          {{ selected?.toDate || toDate }}
+        </b-alert>
         <b-form @submit.prevent="getRegisters">
           <!-- Select Register -->
-          <b-form-group label="Type" label-cols="auto">
-            <b-form-select ref="register-type" v-model="registerType" required>
-              <template #first>
-                <b-form-select-option disabled value=""
-                  ><translate
-                    >-- Select Type Of Register --</translate
-                  ></b-form-select-option
-                >
-              </template>
-              <b-form-select-option value="1"
-                ><translate>Purchase</translate></b-form-select-option
+          <b-row>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="Type"
+                label-cols="auto"
               >
-              <b-form-select-option value="0"
-                ><translate>Sale</translate></b-form-select-option
+                <v-select
+                  :options="[{label: 'Sale', code: 0}, {label: 'Purchase', code: 1}]"
+                  v-model="registerType"
+                  placeholder="Select Register Type"
+                  :reduce="register => register.code"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <!-- Date -->
+              <b-form-group
+                label="From"
+                label-cols="auto"
               >
-            </b-form-select>
-          </b-form-group>
-          <!-- Date -->
-          <div class="row">
-            <div class="col">
-              <b-form-group :label="$gettext('From')">
                 <gk-date
-                  :formatOutput="true"
                   id="1"
                   required
                   v-model="fromDate"
-                ></gk-date>
+                  format-output
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
               </b-form-group>
-            </div>
-            <div class="col">
-              <b-form-group :label="$gettext('To')">
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="To"
+                label-cols="auto"
+              >
                 <gk-date
-                  :formatOutput="true"
                   id="2"
                   required
                   v-model="toDate"
-                ></gk-date>
+                  format-output
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
               </b-form-group>
-            </div>
-          </div>
-          <b-button
-            @click="updateRoute()"
-            variant="success"
-            type="submit"
-            class="float-right"
-            ><b-icon class="mr-1" icon="cloud-download"></b-icon>
-            <translate>Get Details</translate></b-button
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="Expanded Table"
+                label-cols="auto"
+              >
+                <b-form-checkbox
+                  switch
+                  v-model="expandedTable"
+                  class="d-inline-block mt-1"
+                  size="lg"
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-button-group
+            size="sm"
           >
+            <b-button
+              @click="updateRoute"
+              variant="success"
+              type="submit"
+              class="mr-2"
+              :disabled="registerType == null"
+            >
+              Submit
+            </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              <translate>Clear</translate>
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card>
     </b-overlay>
@@ -64,140 +119,204 @@
     <div v-if="report.length > 0">
       <report-header>
         <div class="text-center">
-          <b
-            >{{
-              $refs['register-type'].value == 0 ? 'Sale' : 'Purchase'
-            }}
-            Register</b
-          >
+          <b>{{
+            registerType == 0 ? 'Sale' : 'Purchase'
+          }}
+            Register</b>
           | <translate>From</translate>
-          <b class="ml-1 mr-1">{{ fromDate }}</b>
+          <b class="ml-1 mr-1">{{ selected.fromDate }}</b>
           <translate>to</translate>
-          <b class="mr-1 ml-2">{{ toDate }}</b>
+          <b class="mr-1 ml-2">{{ selected.toDate }}</b>
         </div>
       </report-header>
-      <gk-toolbar class="mt-5">
-        <template #left>
-          <b-form-input
-            type="text"
-            class="d-print-none"
-            :placeholder="$gettext('search Register')"
-            v-model="search"
-            size="sm"
-            style="align-self:center"
-          ></b-form-input>
-        </template>
-        <template>
-          <div class="d-flex flex-row-reverse m-1">
-            <b-checkbox switch v-model="expandedTable"></b-checkbox>
-            <span class="mr-1" v-translate>Expanded Table</span>
+      <b-card
+        class="mb-3 d-print-none"
+      >
+        <b-card-title class="h5">
+          Summary
+        </b-card-title>
+        <b-row>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Voucher Total:</b> {{ report?.at(-1)?.amount }}
+          </b-col>
+          <b-col
+            cols
+            xl="3"
+            md="4"
+            sm="6"
+          >
+            <b>Invoice Total:</b> {{ report?.at(-1)?.taxed }}
+          </b-col>
+        </b-row>
+      </b-card>
+      <div class="mt-4">
+        <div class="d-flex d-print-none justify-content-between align-items-center mb-2">
+          <!-- Search Field -->
+          <div>
+            <b-form-input
+              type="text"
+              class="d-print-none"
+              placeholder="Search Table"
+              v-model="search"
+              size="sm"
+              style="align-self:center"
+            />
           </div>
-        </template>
-      </gk-toolbar>
+
+          <!-- Export and Print Buttons -->
+          <div>
+            <gk-file-download
+              :url="downloadUrl"
+              :file-name="downloadFileName"
+              variant="dark"
+              title="Export XLSX"
+              name="Export XLSX"
+              file-extn=".xlsx"
+              :message-from-parent="parentMessage"
+            />
+          </div>
+        </div>
+      </div>
       <b-table
         caption-top
-        :filter="search"
         class="mt-2"
-        head-variant="dark"
+        head-variant="light"
         small
         bordered
-        striped
+        hover
+        responsive="sm"
         v-if="report.length > 0"
-        :items="report"
+        :items="paginatedItems"
         :fields="fields"
+        :per-page="perPage"
         sticky-header="500px"
       >
-        <template #cell(invoice_no)="d">
+        <template #cell(document_no)="voucher">
           <b-link
+            v-if="voucher.item.v_id"
             :to="{
               name: 'Workflow',
               params: {
-                wfName:
-                  d.item.icflag === 9
-                    ? 'Transactions-Invoice'
-                    : 'Transactions-CashMemo',
-                wfId: d.item.invoice_id,
+                wfName: 'Transactions-Voucher',
+                wfId: voucher.item.v_id,
               },
             }"
           >
-            {{ d.item.invoice_no }}
+            {{ voucher.item.v_no }} {{ voucher.item.document_no }}
           </b-link>
         </template>
       </b-table>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end"
+      >
+        <b-pagination
+          v-if="filteredItems.length > perPage"
+          v-model="currentPage"
+          :total-rows="filteredItems.length"
+          :per-page="perPage"
+          align="center"
+          limit="4"
+        />
+      </div>
+    </div>
+    <div v-else>
+      <b-alert
+        show
+        class="text-center mx-auto d-print-none"
+        variant="primary"
+      >
+        No data available.
+      </b-alert>
     </div>
   </section>
 </template>
+
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
-import axios from 'axios';
+import GkFileDownload from '../components/GkFileDownload.vue';
 import ReportHeader from '../components/ReportHeader.vue';
-import GkToolbar from '@/components/GkToolbar.vue';
+import { reverseDate } from '../js/utils.js';
+
 export default {
   name: 'Registers',
-  components: { GkDate, ReportHeader, GkToolbar },
+  components: { GkDate, GkFileDownload, ReportHeader },
   data() {
     return {
       loading: false,
-      registerType: '',
+      registerType: null,
       fromDate: '',
       toDate: '',
       search: '',
       report: [],
       tmp_report: [],
       fields: [],
+      selected: {},
+      currentPage: 1,
+      perPage: 10,
       expandedTable: false,
+      parentMessage: '',
     };
   },
   watch: {
-    expandedTable(v) {
-      console.info(v);
-      this.getRegisters();
+    search() {
+      this.currentPage = 1;
+    },
+    expandedTable() {
+      if (this.registerType != null) {
+        this.getRegisters();
+      }
     },
   },
   methods: {
+    clear() {
+      this.registerType = null;
+      this.fromDate = this.dateReverse(this.yearStart);
+      this.toDate = this.dateReverse(this.yearEnd);
+      this.expandedTable = false;
+      this.$router.replace({});
+      this.report = [];
+      this.selected = {};
+      this.currentPage = 1;
+    },
     formatTable(data) {
-      const newdata = data.gkresult.map((d) => {
+      const newdata = data.vouchers.map((voucher) => {
         let obj = {
-          sr_no: d.srno,
-          invoice_id: d.invid,
-          invoice_no: d.invoiceno,
-          date: d.invoicedate,
-          name: d.customername,
-          GSTIN: d.custgstin,
-          TIN: d.customertin,
-          gross_amount: d.grossamount,
-          tax_free: d.taxfree,
-          // tax: d.tax,
-          // tax_amount: d.taxamount,
-          icflag: d.icflag,
+          v_no: voucher.vouchernumber,
+          v_id: voucher.vouchercode,
+          document_no: voucher.document_no,
+          narration: voucher.narration,
+          voucherdate: voucher.voucherdate,
+          custname: voucher.custname,
+          gstin: voucher.gstin,
+          custtin: voucher.custtin,
+          amount: parseFloat(voucher.amount).toFixed(2),
+          taxed: parseFloat(voucher.taxed).toFixed(2),
         };
-        data.taxcolumns.forEach((taxCol) => {
-          if (d.taxamount[taxCol]) {
-            obj[taxCol] = d.taxamount[taxCol];
-            obj['taxable'] = d.tax[taxCol];
+        voucher.tax_data.forEach((taxItem) => {
+          if (taxItem) {
+            obj[taxItem.tax_str] = parseFloat(parseFloat(obj?.[taxItem.tax_str] || 0) + parseFloat(taxItem.tax_amount)).toFixed(2);
           } else {
-            obj[taxCol] = 0;
+            obj[taxItem.tax_str] = 0.00;
           }
         });
-        // let netTax = obj.tax
-        //   for (const i in data.taxcolumns) {
-        //       obj["taxable_amount"] =
-        //   }
         return obj;
       });
-
       let totalRow = {
-        name: 'Total',
-        tax_free: data.totalrow.taxfree,
-        gross_amount: data.totalrow.grossamount,
+        custname: 'Total',
+        amount: parseFloat(data.voucher_total).toFixed(2),
+        taxed: parseFloat(data.taxed_total).toFixed(2),
       };
-      data.taxcolumns.forEach((taxCol) => {
-        if (data.totalrow.taxamount[taxCol]) {
-          totalRow[taxCol] = data.totalrow.taxamount[taxCol];
-          totalRow['taxable'] = data.totalrow.tax[taxCol];
+      data.tax_strings.forEach((taxCol) => {
+        if (data.tax_totals[taxCol]) {
+          totalRow[taxCol] = parseFloat(data.tax_totals[taxCol]).toFixed(2);
         } else {
-          totalRow[taxCol] = 0;
+          totalRow[taxCol] = "0.00";
         }
       });
       newdata.push(totalRow);
@@ -205,26 +324,35 @@ export default {
       this.tmp_report = newdata;
       if (this.expandedTable) {
         this.fields = [
-          { key: 'sr_no', label: 'No.', stickyColumn: true },
-          { key: 'invoice_no', label: 'Inv. No.', stickyColumn: true },
-          { key: 'date', label: 'Inv. Date' },
-          { key: 'name', label: 'Customer' },
-          { key: 'GSTIN', label: 'GSTIN' },
-          { key: 'TIN', label: 'TIN' },
-          { key: 'tax_free', label: 'Tax Free', tdClass: 'text-right' },
+          { key: 'document_no', label: 'Voucher No.', stickyColumn: true },
+          { key: 'custname', label: 'Customer' },
+          { key: 'narration', label: 'Narration', stickyColumn: true },
+          { key: 'voucherdate', label: 'Voucher Date' },
         ];
 
+        if (this.isGstEnabled) {
+          this.fields.push({ key: 'gstin', label: 'GSTIN' });
+        }
+        if (this.isVatEnabled) {
+          this.fields.push({ key: 'custtin', label: 'TIN' });
+        }
+
         this.fields.push(
-          ...data.taxcolumns.map((taxCol) => {
-            return {
-              key: taxCol,
-              tdClass: 'text-right',
-            };
-          })
+          { key: 'amount', label: 'Voucher Amount', tdClass: 'text-right' },
         );
 
-        this.fields.push({ key: 'taxable', tdClass: 'text-right' });
-        this.fields.push({ key: 'gross_amount', tdClass: 'text-right' });
+        if (this.isIndia)  {
+          this.fields.push(
+            ...data.tax_strings.map((taxCol) => {
+              return {
+                key: taxCol,
+                tdClass: 'text-right',
+              };
+            })
+          );
+        }
+
+        this.fields.push({ key: 'taxed', label: 'Total', tdClass: 'text-right' });
       } else {
         this.conciseTableRows();
       }
@@ -234,77 +362,31 @@ export default {
     // this method get's triggered when the user toggles the table view switch
     conciseTableRows() {
       this.fields = [
-        { key: 'sr_no', label: 'No.', stickyColumn: true },
-        { key: 'invoice_no', label: 'Inv. No.', stickyColumn: true },
-        { key: 'date', label: 'Inv. Date' },
-        { key: 'name', label: 'Customer' },
-        { key: 'GSTIN', label: 'GSTIN' },
-        { key: 'TIN', label: 'TIN' },
-        { key: 'tax_free', label: 'Tax Free', tdClass: 'text-right' },
-        { key: 'taxable', tdClass: 'text-right' },
-        { key: 'gross_amount', tdClass: 'text-right' },
+        { key: 'document_no', label: 'Voucher No.', stickyColumn: true },
+        { key: 'custname', label: 'Customer' },
+        { key: 'voucherdate', label: 'Voucher Date' },
+        { key: 'amount', label: 'Voucher Amount', tdClass: 'text-right' },
+        { key: 'taxed', label: 'Total', tdClass: 'text-right' },
       ];
     },
     getRegisters() {
+      this.currentPage = 1;
       this.report = [];
       this.loading = true;
-      axios
+      this.$axios
         .get(
           `/reports/registers?flag=${this.registerType}&calculatefrom=${this.fromDate}&calculateto=${this.toDate}`
         )
-        .then((r) => {
-          if (r.status == 200) {
-            switch (r.data.gkstatus) {
-              case 0:
-                this.report = this.formatTable(r.data);
-                break;
-              case 1:
-                this.$bvToast.toast('Duplicate Entry', {
-                  variant: 'warning',
-                  solid: true,
-                });
-                break;
-              case 2:
-                this.$bvToast.toast('Unauthorised Access', {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 3:
-                this.$bvToast.toast('Data error', {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 4:
-                this.$bvToast.toast('No Privilege', {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 5:
-                this.$bvToast.toast('Integrity error', {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-            }
-            this.loading = false;
-          } else {
-            this.$bvToast.toast('failed to load register data ', {
-              variant: 'danger',
-              solid: true,
-            });
-            this.loading = false;
+        .then((resp) => {
+          console.log(resp);
+          this.report = this.formatTable(resp);
+          this.selected = {
+            registerType: this.registerType,
+            fromDate: this.fromDate,
+            toDate: this.toDate,
           }
-        })
-        .catch((e) => {
-          this.$bvToast.toast(e.message, {
-            variant: 'danger',
-            solid: true,
-          });
           this.loading = false;
-        });
+        })
     },
     // change url query params when date is changed by user
     updateRoute() {
@@ -319,20 +401,40 @@ export default {
     // check if user changed the date range, then applied them to the url
     parseParams() {
       const params = this.$route.query;
-      if (Object.keys(params).length > 0) {
-        this.fromDate = params.from;
-        this.toDate = params.to;
-        this.registerType = params.type;
+      if (params?.type) {
+        this.fromDate = params?.from || this.yearStart;
+        this.toDate = params?.to || this.yearEnd;
+        this.registerType = Number(params.type);
+        this.getRegisters();
       } else {
         this.fromDate = this.dateReverse(this.yearStart);
         this.toDate = this.dateReverse(this.yearEnd);
-        this.registerType = 0;
       }
-      this.getRegisters();
     },
   },
   computed: {
+    filteredItems() {
+      const search = this.search.toLowerCase();
+      return this.report.filter(item =>
+        Object.values(item).some(value =>
+          typeof value === 'string' && value.toLowerCase().includes(search)
+        )
+      );
+    },
+    paginatedItems() {
+      const start = (this.currentPage - 1) * this.perPage;
+      return this.filteredItems.slice(start, start + this.perPage);
+    },
+    downloadUrl: (self) => {
+      return `/spreadsheet/view-register?title=Register as&from=${self.selected.fromDate}&to=${self.selected.toDate}&fields=${JSON.stringify(self.fields)}`
+    },
+    downloadFileName: (self) =>
+      `Profit_Loss_${self.fromDate}_to_${self.toDate}`,
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
   },
   mounted() {
     this.parseParams();

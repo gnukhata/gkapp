@@ -1,87 +1,40 @@
 <template>
   <div id="app">
-    <header id="app-header">
-      <!--navbar-->
-      <b-navbar size="sm" variant="light">
-        <sidebar v-if="userOrgAuthenticated"></sidebar>
-        <b-navbar-brand class="d-flex flex-row">
-          <router-link
-            style="border-bottom: 0px; align-self: center"
-            to="/dashboard"
-            class="flex-column"
+    <template v-if="screenWidth < 1200 || !userOrgAuthenticated">
+      <header id="app-header">
+        <topbar :screen-width="screenWidth" />
+      </header>
+      <main role="main">
+        <b-container
+          class="ml-0 mt-4"
+          fluid
+        >
+          <router-view />
+        </b-container>
+      </main>
+      <version-info />
+    </template>
+    <template v-else>
+      <div id="sidebar">
+        <sidebar-nav :screen-width="screenWidth" />
+      </div>
+      <div id="content">
+        <header id="app-header">
+          <topbar :screen-width="screenWidth" />
+        </header>
+        <main role="main">
+          <b-container
+            class="ml-0 mt-4"
+            fluid
           >
-            <img
-              :src="orgImg"
-              width="40"
-              height="40"
-              class="d-inline-block align-top"
-              alt="logo"
-            />
-          </router-link>
-          <div class="ml-2 d-inline-block">
-            <!-- truncate org name in mobile view -->
-            <div>
-              <div
-                v-b-tooltip.click
-                class="text-sm"
-                :class="{ 'text-truncate': is_mobile() }"
-                :style="{ 'max-width': is_mobile() ? '6.5em' : '' }"
-              >
-                <span v-if="this.orgName">
-                  {{ this.orgName }}
-                </span>
-                <span v-else>
-                  <translate>
-                    GNUKhata
-                  </translate>
-                </span>
-              </div>
-              <div
-                style="font-size: 0.6em"
-                class="font-italic"
-                v-if="userOrgAuthenticated"
-              >
-                <!-- WARN: beware of Y3K Bug ;-)  -->
-                FY {{ yearStart.split('-')[0] }} -
-                {{ yearEnd.split('-')[0].slice(2, 4) }}
-              </div>
-            </div>
-          </div>
-        </b-navbar-brand>
-        <!-- user menu -->
-        <b-navbar-nav class="ml-auto">
-          <b-nav-item-dropdown id="usermenu" v-if="userOrgAuthenticated" right>
-            <template #button-content>
-              <b-avatar
-                variant="dark"
-                icon="person"
-                :title="userName"
-              ></b-avatar>
-              <span class="d-none d-md-inline"> {{ userName }} </span>
-            </template>
-            <!-- logout button -->
-            <b-dropdown-item @click="logOut" href="#">
-              <b-icon icon="box-arrow-in-left"></b-icon> Change Org
-            </b-dropdown-item>
-            <!-- fy switch button, only shown when org has more than one financial year -->
-            <b-dropdown-item
-              v-if="finYears.length > 1"
-              v-b-modal.fy-modal
-              href="#"
-            >
-              <b-icon icon="toggles"></b-icon> Switch FY
-            </b-dropdown-item>
-          </b-nav-item-dropdown>
-        </b-navbar-nav>
-      </b-navbar>
-      <!-- Color bar -->
-      <!-- <color-bar></color-bar> -->
-    </header>
-    <main role="main" class="mb-5">
-      <router-view />
-    </main>
-    <go-to v-if="userOrgAuthenticated"></go-to>
-    <title-bar></title-bar>
+            <router-view />
+          </b-container>
+        </main>
+        <version-info />
+      </div>
+    </template>
+    <go-to v-if="userOrgAuthenticated" />
+    <title-bar />
     <b-modal
       :title="$gettext('Select Financial Year')"
       header-bg-variant="dark"
@@ -97,30 +50,48 @@
         :options="finYears"
         v-model="currentFinYear"
       >
-        <template #selected-option="{ yend, ystart }">
+        <template #selected-option="{yend, ystart}">
           <!-- WARN: beware of Y3K Bug -->
           FY {{ ystart.split('-')[2] }} -
           {{ yend.split('-')[2].slice(2, 4) }}
         </template>
       </v-select>
+      <div class="mt-4 float-right">
+        <b-button
+          size="sm"
+          class="mt-2"
+          variant="success"
+          :disabled="isLoadingFinYear"
+          @click="switchFinancialYear"
+        >
+          <b-spinner
+            v-if="isLoadingFinYear"
+            class="mr-1"
+            small
+          />
+          Submit
+        </b-button>
+      </div>
     </b-modal>
-    <VersionInfo />
   </div>
 </template>
+
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-// import ColorBar from '@/components/ColorBar.vue';
-import Sidebar from './components/Sidebar.vue';
+import Topbar from './components/Topbar.vue';
+import SidebarNav from './components/SidebarNav.vue';
 import TitleBar from './components/TitleBar.vue';
 import GoTo from './components/GoTo.vue';
 import VersionInfo from './components/VersionInfo.vue';
 export default {
   name: 'App',
-  components: { /* ColorBar, */ Sidebar, TitleBar, GoTo, VersionInfo },
+  components: { Topbar, SidebarNav, TitleBar, GoTo, VersionInfo },
   data() {
     return {
+      screenWidth: window.innerWidth,
       currentFinYear: null,
+      isLoadingFinYear: false,
     };
   },
   computed: {
@@ -138,9 +109,6 @@ export default {
     ]),
   },
   watch: {
-    currentFinYear(index) {
-      this.orgLogin(this.finYears[index]);
-    },
     yearStart(newStart, oldStart) {
       if (!oldStart && newStart && !this.currentFinYear) {
         let res = null;
@@ -169,7 +137,6 @@ export default {
     upgradeAppToLatestVersion() {
       if (this.gkConfig.fetch_latest_version) {
         this.$workbox.addEventListener('waiting', () => {
-          // this.showUpdateUI = true;
           // notify the user before updating the app
           this.$bvToast.toast(`Updating app to the latest version`, {
             title: 'New Update Available!',
@@ -189,6 +156,7 @@ export default {
       }
     },
     orgLogin(yearData) {
+      this.isLoadingFinYear = true;
       if (!yearData) {
         return;
       }
@@ -207,72 +175,85 @@ export default {
         })
         .then((resp) => {
           switch (resp.data.gkstatus) {
-            case 0:
-              axios.defaults.baseURL = this.gkCoreUrl;
-              axios.defaults.headers = { gktoken: resp.data.token };
-              // Initiate vuex store
-              this.$store.dispatch('setSessionStates', {
-                auth: true,
-                orgCode: selectedYear.code,
-                authToken: resp.data.token,
-                orgYears: {
-                  yearStart: selectedYear.ystart
-                    .split('-')
-                    .reverse()
-                    .join('-'),
-                  yearEnd: selectedYear.yend
-                    .split('-')
-                    .reverse()
-                    .join('-'),
-                },
-              });
+          case 0:
+            axios.defaults.baseURL = this.gkCoreUrl;
+            axios.defaults.headers = { gktoken: resp.data.token };
+            // Initiate vuex store
+            this.$store.dispatch('setSessionStates', {
+              auth: true,
+              orgCode: selectedYear.code,
+              authToken: resp.data.token,
+              orgYears: {
+                yearStart: selectedYear.ystart
+                  .split('-')
+                  .reverse()
+                  .join('-'),
+                yearEnd: selectedYear.yend
+                  .split('-')
+                  .reverse()
+                  .join('-'),
+              },
+            });
 
-              Promise.all([
-                this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
-                this.$store.dispatch('global/initGlobalConfig'), // initialises global config
-                this.$store.dispatch('initGstin'), // initialises org GSTIN
-              ]).then(() => {
-                this.$store
-                  .dispatch('global/initGlobalState', {
-                    lang: this.$language,
-                  })
-                  .then(() => {
-                    // debugger;
-                    // redirect to workflow on login
-                    location.reload();
-                  });
-              });
-              break;
-            case 2:
-              this.$bvToast.toast(`Invalid login details`, {
-                title: 'Login Error!',
-                autoHideDelay: 3000,
-                variant: 'danger',
-              });
-              break;
-            case 5:
-              this.$router.push('/select-org');
-              break;
-            default:
-              this.$bvToast.toast(`Internal Server Error`, {
-                title: 'Login Error!',
-                autoHideDelay: 3000,
-                variant: 'danger',
-              });
+            Promise.all([
+              this.$store.dispatch('initLocalStates'), // initialises vuex, org image and org address
+              this.$store.dispatch('global/initGlobalConfig'), // initialises global config
+              this.$store.dispatch('initGstin'), // initialises org GSTIN
+            ]).then(() => {
+              this.$store
+                .dispatch('global/initGlobalState', {
+                  lang: this.$language,
+                })
+                .then(() => {
+                  // redirect to dashboard on login
+                  this.$router.push('/dashboard');
+                });
+            });
+            break;
+          case 2:
+            this.$bvToast.toast(`Invalid login details`, {
+              title: 'Login Error!',
+              autoHideDelay: 3000,
+              variant: 'danger',
+            });
+            break;
+          case 5:
+            this.$router.push('/select-org');
+            break;
+          default:
+            this.$bvToast.toast(`Internal Server Error`, {
+              title: 'Login Error!',
+              autoHideDelay: 3000,
+              variant: 'danger',
+            });
           }
+        })
+        .finally(() => {
+          this.isLoadingFinYear = false;
+          this.$bvModal.hide('fy-modal');
         });
+    },
+    switchFinancialYear() {
+      this.orgLogin(this.finYears.find((finYear) => (
+        finYear.index === this.currentFinYear
+      )));
     },
   },
   beforeCreate() {
     // initialize the required vuex states from local storage
     this.$store.dispatch('initLocalStates').then(() => {
       // init global config of an org
+      this.$store.dispatch('global/initGlobalConfig');
       this.$store.dispatch('global/initGlobalState', { lang: this.$language });
     });
   },
   mounted() {
+    // Attach listener to detect screen width resizing
+    // https://stackoverflow.com/a/51566337
+    window.onresize = () => {
+      this.screenWidth = window.innerWidth;
+    }
     this.upgradeAppToLatestVersion();
-    this.check_gst_news();
     document.querySelector('title').textContent = `GNUKhata ${
       this.orgName !== null ? '| ' + this.orgName : ''
     }`;
@@ -298,8 +279,15 @@ export default {
   },
 };
 </script>
+
 <style>
-#usermenu > ul > li {
-  width: max-content;
-}
+  #sidebar {
+    width: 250px;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+  }
+  #content {
+    margin-left: 250px;
+  }
 </style>

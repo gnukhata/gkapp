@@ -2,8 +2,11 @@
 node_modules
 dist
 /tests/output/
+/tests/data/auth.json
+/tests/data/local-storage.json
 
 # local env files
+.env
 .env.local
 .env.*.local
 
@@ -27,3 +30,9 @@ yarn-error.log*
 *.po~
 GNUKhata.code-workspace
 /tests/output
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

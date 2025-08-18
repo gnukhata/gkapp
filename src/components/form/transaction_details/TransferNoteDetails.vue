@@ -2,11 +2,14 @@
   <b-card
     class="mb-2 mb-md-0"
     :class="config.class"
-    border-variant="secondary"
     no-body
   >
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <div class="p-2 p-md-3">
       <div>
         <b v-translate>Transfer Note Details</b>
@@ -23,10 +26,13 @@
           <b-icon
             :icon="isCollapsed ? 'dash' : 'arrows-fullscreen'"
             class="float-right"
-          ></b-icon>
+          />
         </b-button>
       </div>
-      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
+      <div
+        class="mt-3"
+        :class="{'d-md-block': true, 'd-none': !isCollapsed}"
+      >
         <b-form-group
           label="Transfer Note No."
           label-for="tnd-input-10"
@@ -44,7 +50,7 @@
             v-model="form.no"
             trim
             required
-          ></b-form-input>
+          />
         </b-form-group>
         <b-form-group
           id="tnd-input-group-1"
@@ -66,7 +72,7 @@
             :max="maxDate"
             @validity="setDateValidity"
             :required="true"
-          ></gk-date>
+          />
         </b-form-group>
         <b-form-group
           label="Dispatch From"
@@ -88,8 +94,7 @@
             label="text"
             :reduce="(gdata) => gdata.value"
             @change="validateSelections"
-          >
-          </b-form-select>
+          />
         </b-form-group>
         <b-form-group
           label="Dispatch To"
@@ -111,9 +116,8 @@
             label="text"
             :reduce="(gdata) => gdata.value"
             @change="validateSelections"
-          >
-          </b-form-select>
-          <span style="color: #ff0000;">{{validationError}}</span>
+          />
+          <span style="color: #ff0000;">{{ validationError }}</span>
         </b-form-group>
         <b-form-group
           label="Issuer"
@@ -133,7 +137,7 @@
             required
             readonly
             tabindex="-1"
-          ></b-form-input>
+          />
         </b-form-group>
         <b-form-group
           label="Role"
@@ -153,12 +157,13 @@
             required
             readonly
             tabindex="-1"
-          ></b-form-input>
+          />
         </b-form-group>
       </div>
     </div>
   </b-card>
 </template>
+
 <script>
 import axios from 'axios';
 import GkDate from '../../GkDate.vue';
@@ -302,8 +307,8 @@ export default {
           let orgstate = (this.options.orgDetails.orgstate || '').toLowerCase();
           let state = orgstate
             ? this.options.states.find(
-                (state) => state.text.toLowerCase() === orgstate
-              )
+              (state) => state.text.toLowerCase() === orgstate
+            )
             : null;
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
@@ -404,7 +409,6 @@ export default {
           return error;
         }),
         this.fetchUserData(),
-        // this.fetchLastDelChalNo(),
       ];
       const self = this;
       return Promise.all(requests)

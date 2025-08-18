@@ -2,13 +2,12 @@
   <b-card
     class="mb-2 mb-md-0"
     :class="config.class"
-    border-variant="secondary"
     no-body
     v-if="config"
   >
     <div class="p-2 p-md-3">
       <div>
-        <b v-translate> {{name}} Comments </b>
+        <b v-translate> {{ name }} Comments </b>
         <b-button
           variant="secondary"
           size="sm"
@@ -22,10 +21,13 @@
           <b-icon
             :icon="isCollapsed ? 'dash' : 'arrows-fullscreen'"
             class="float-right"
-          ></b-icon>
+          />
         </b-button>
       </div>
-      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
+      <div
+        class="mt-3"
+        :class="{'d-md-block': true, 'd-none': !isCollapsed}"
+      >
         <b-form-group>
           <b-form-textarea
             size="sm"
@@ -35,7 +37,7 @@
             max-rows="5"
             trim
             :placeholder="placeHolder"
-          ></b-form-textarea>
+          />
         </b-form-group>
       </div>
     </div>

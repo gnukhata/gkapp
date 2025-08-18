@@ -2,62 +2,57 @@
 
 import Vue from 'vue';
 import axios from "axios";
-// import store from '@/store'
+import { handleCustomError, handleHttpError } from '@/js/alertHandlers';
 
-// axios.defaults.baseURL = store.state.gkCoreUrl
+const Axios = {
+  install(Vue) {
+    const _axios = axios.create();
 
-// Full config:  https://github.com/axios/axios#request-config
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+    _axios.interceptors.response.use(
+      function (response) {
+        const {
+          config: { returnFullResponse },
+          data: { gkstatus, gkresult, error },
+        } = response;
+        // Handle custom error represented by non-zero gkstatus
+        if (gkstatus > 0) {
+          handleCustomError(gkstatus, error);
+        }
+        // The config option returnFullResponse is used to determine whether to
+        // return gkresult (if applicable) or to return the full response.
+        if (!returnFullResponse && gkstatus === 0 && gkresult) {
+          return gkresult;
+        }
+        return response;
+      },
+      function (error) {
+        // Check for handleError config. If unset, call handleHttpError.
+        // If set to false, skip error handling.
+        // If string, use it as error message for the handleHttpError function.
+        // If function, invoke it.
+        // If none of the above, throw type error.
+        const { handleError } = error.response.config;
+        if (handleError === undefined) {
+          handleHttpError(error);
+        } else if (typeof(handleError) === 'string') {
+          handleHttpError(error, handleError);
+        } else if (typeof(handleError) === 'function') {
+          handleError();
+        } else if (handleError === false) {
+          return;
+        } else {
+          throw new TypeError('handleError must be a string');
+        }
 
-let config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
-  // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control
+        // Return error for any additional error handling
+        return Promise.reject(error);
+      }
+   );
+
+    Vue.prototype.$axios = _axios;
+  }
 };
 
-const _axios = axios.create(config);
+Vue.use(Axios);
 
-_axios.interceptors.request.use(
-  function (config) {
-    // Do something before request is sent
-    return config;
-  },
-  function (error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
-
-// Add a response interceptor
-_axios.interceptors.response.use(
-  function (response) {
-    // Do something with response data
-    return response;
-  },
-  function (error) {
-    // Do something with response error
-    return Promise.reject(error);
-  }
-);
-
-Plugin.install = function (Vue) {
-  Vue.axios = _axios;
-  window.axios = _axios;
-  Object.defineProperties(Vue.prototype, {
-    axios: {
-      get() {
-        return _axios;
-      }
-    },
-    $axios: {
-      get() {
-        return _axios;
-      }
-    },
-  });
-};
-
-Vue.use(Plugin)
-
-export default Plugin;
+export default Axios;

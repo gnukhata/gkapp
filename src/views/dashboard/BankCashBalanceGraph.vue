@@ -1,5 +1,5 @@
 <template>
-  <LineChart
+  <line-chart
     :width="200"
     :chart-options="chartOptions"
     :chart-data="chartData"
@@ -56,11 +56,13 @@ export default {
           label: 'Bank Balance',
           data: this.chartInput.bankbalancedata,
           backgroundColor: '#ffc107',
+          tension: 0.3,
         },
         {
           label: 'Cash Balance',
           data: this.chartInput.cashbalancedata,
           backgroundColor: '#28a745',
+          tension: 0.3,
         },
       ],
     };

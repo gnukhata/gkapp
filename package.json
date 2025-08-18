@@ -1,21 +1,24 @@
 {
   "name": "gkapp",
-  "version": "8.0.0-b",
+  "version": "8.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "build-dev": "vue-cli-service build --mode development",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint",
+    "autolint": "eslint --fix",
     "translate-extract": "make makemessages && rm src/locales/locale/*/*/app.po~",
     "translate-compile": "make translations"
   },
   "dependencies": {
     "axios": "^1.5.1",
     "bootstrap-vue": "^2.23.1",
-    "check-password-strength": "^1.0.15",
-    "core-js": "^3.33.1",
+    "check-password-strength": "^2.0.10",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.13",
+    "globals": "^16.0.0",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.5.1",
@@ -25,43 +28,19 @@
     "vue-gettext": "^2.1.12",
     "vue-router": "^3.6.5",
     "vue-select": "^3.20.2",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "workbox-window": "^7.3.0"
   },
   "devDependencies": {
-    "@babel/polyfill": "^7.12.1",
-    "@vue/cli-plugin-babel": "^4.5.19",
-    "@vue/cli-plugin-eslint": "^4.5.19",
-    "@vue/cli-plugin-pwa": "^4.5.19",
-    "@vue/cli-plugin-router": "^4.5.19",
-    "@vue/cli-plugin-vuex": "^4.5.19",
-    "@vue/cli-service": "^4.5.19",
-    "babel-eslint": "^10.1.0",
+    "@playwright/test": "^1.51.1",
+    "@types/node": "^22.13.17",
+    "dotenv": "^16.4.7",
     "easygettext": "^2.17.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "mutationobserver-shim": "^0.3.7",
-    "popper.js": "^1.16.1",
-    "portal-vue": "^2.1.7",
-    "prettier": "^1.19.1",
+    "eslint": "^9.22.0",
+    "eslint-plugin-vue": "^10.0.0",
+    "lefthook": "^1.7.16",
     "sass": "^1.69.4",
-    "sass-loader": "^10.4.1",
-    "vue-cli-plugin-axios": "0.0.4",
-    "vue-cli-plugin-bootstrap-vue": "^0.7.0",
-    "vue-template-compiler": "^2.7.15"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
+    "vite-plugin-vue2": "^2.0.3"
   },
   "browserslist": [
     "> 1%",

@@ -1,5 +1,8 @@
 <template>
-  <b-card-group deck class="mt-5">
+  <b-card-group
+    deck
+    class="mt-5"
+  >
     <!-- Most valude customer -->
     <b-card class="shadow">
       <b-card-header
@@ -18,7 +21,10 @@
         small
       >
         <template #cell(custname)="d">
-          <a @click="handleCustNameClick(d.item)" style="cursor: pointer; color: #007bff;">
+          <a
+            @click="handleCustNameClick(d.item)"
+            style="cursor: pointer; color: #007bff;"
+          >
             {{ d.item.custname }}
           </a>
         </template>
@@ -27,10 +33,13 @@
         </template>
       </b-table>
       <template #footer>
-        <router-link to="/contact-details/create/customer">
-          <b-button size="sm" variant="dark float-right"
-            ><translate>Add Customer</translate></b-button
+        <router-link to="/contact-details/create?type=customer">
+          <b-button
+            size="sm"
+            variant="dark float-right"
           >
+            <translate>Add Customer</translate>
+          </b-button>
         </router-link>
       </template>
     </b-card>
@@ -52,7 +61,10 @@
         small
       >
         <template #cell(custname)="d">
-          <a @click="handleCustNameClick(d.item)" style="cursor: pointer; color: #007bff;">
+          <a
+            @click="handleCustNameClick(d.item)"
+            style="cursor: pointer; color: #007bff;"
+          >
             {{ d.item.custname }}
           </a>
         </template>
@@ -61,16 +73,23 @@
         </template>
       </b-table>
       <template #footer>
-        <router-link to="/contact-details/create/supplier">
-          <b-button size="sm" variant="dark float-right"
-            ><BIcon icon="briefcase" class="mr-1" />
-            <translate>Add Supplier</translate></b-button
+        <router-link to="/contact-details/create?type=supplier">
+          <b-button
+            size="sm"
+            variant="dark float-right"
           >
+            <BIcon
+              icon="briefcase"
+              class="mr-1"
+            />
+            <translate>Add Supplier</translate>
+          </b-button>
         </router-link>
       </template>
     </b-card>
   </b-card-group>
 </template>
+
 <script>
 import axios from 'axios';
 export default {
@@ -88,7 +107,7 @@ export default {
           label: 'Name',
         },
         {
-          key: 'data',
+          key: 'invoice_total',
           label: 'Amount',
           sortable: true,
           class: 'gk-currency',
@@ -100,8 +119,10 @@ export default {
           label: 'Name',
         },
         {
-          key: 'data',
-          label: 'Invoice Count',
+          key: 'invoice_total',
+          label: 'Amount',
+          sortable: true,
+          class: 'gk-currency',
         },
       ],
     };

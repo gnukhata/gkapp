@@ -1,149 +1,189 @@
 <template>
   <b-container fluid>
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <div v-if="deletedFlag">
-      <span class="float-right h5 p-2 bg-danger text-white" v-translate>
+      <span
+        class="float-right h5 p-2 bg-danger text-white"
+        v-translate
+      >
         Cancelled
       </span>
-      <div class="clearfix"></div>
-      <br />
+      <div class="clearfix" />
+      <br>
     </div>
     <!-- action buttons -->
     <div class="mb-3 clearfix d-print-none">
       <div class="float-right">
         <span v-if="!deletedFlag">
-          <b-button
-            v-if="invoice.attachmentCount"
-            class="mr-1"
+          <b-dropdown
+            split
             size="sm"
-            variant="primary"
-            v-b-toggle.attachment-container
-            @click="fetchAttachments"
+            variant="dark"
+            @click="showVoucherModal = !showVoucherModal"
           >
-            <b-icon class="mr-1" icon="eye"></b-icon>
-            <translate>View Attachments</translate>
-          </b-button>
-          <b-button
-            class="mr-1"
-            size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
-          >
-            <b-icon class="mr-1" icon="eye"></b-icon>
-            <translate>View Vouchers</translate>
-          </b-button>
-          <b-button
-            class="mr-1"
-            size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
-            v-if="showButton(3)" @click="redirectBasedOnValue(3)"
-          >
-            <b-icon class="mr-1" icon="eye"></b-icon>
-            <translate>View Credit Note</translate>
-          </b-button>
-          <b-button
-            class="mr-1"
-            size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
-            v-if="showButton(4)" @click="redirectBasedOnValue(4)"
-          >
-            <b-icon class="mr-1" icon="eye"></b-icon>
-            <translate>View Debit Note</translate>
-          </b-button>
-          <b-button
-            class="mr-1"
-            size="sm"
-            variant="primary"
-            v-if="showRejectionButton" @click="redirectRejectionNote()"
-          >
-            <b-icon class="mr-1" icon="eye"></b-icon>
-            <translate>View Rejection Note</translate>
-          </b-button>
-          <b-button
-            @click="onPayment"
-            v-if="invoice.payment.mode != 5 && paymentFlag"
-            class="mr-1"
-            size="sm"
-            variant="success"
-          >
-            <!-- <b-icon class="mr-1" icon="clipboard-check"></b-icon> -->
-            <translate
-              >{{ invoice.isSale ? 'Receive Payment' : 'Make Payment' }}
-            </translate>
-          </b-button>
-          <b-button
-            :to="{
-                  name: 'Billwise',
-                  params: { custType: 3, custName: '-1' },
-                }"
-            v-if="invoice.payment.mode != 5 && paymentFlag"
-            class="mr-1"
-            size="sm"
-            variant="success"
-          >
-            <b-icon class="mr-1" icon="clipboard-check"></b-icon>
-            <translate
-              >Adjust
-            </translate>
-          </b-button>
-          <b-button
-            v-if="rectifyFlag"
-            class="mr-1"
-            size="sm"
-            variant="warning"
-            :to="{ name: 'Invoice_Edit', params: { invid: id } }"
-          >
-            <b-icon class="mr-1" icon="pencil"></b-icon>
-            <translate>Rectify</translate>
-          </b-button>
-          <b-button
-            v-if="cancelFlag"
-            size="sm"
-            variant="danger"
-            @click="confirmOnCancel"
-          >
-            <b-icon class="mr-1" icon="x-octagon"></b-icon>
-            <translate>Cancel</translate>
-          </b-button>
+            <template #button-content>
+              <translate>View Vouchers</translate>
+            </template>
+            <b-dropdown-item-button
+              v-if="invoice.attachmentCount"
+              v-b-toggle.attachment-container
+              @click="fetchAttachments"
+            >
+              <translate>View Attachments</translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item-button
+              v-b-toggle.voucher-container
+              v-if="showButton(3)"
+              @click="redirectBasedOnValue(3)"
+            >
+              <translate>View Credit Note</translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item
+              v-else
+              :to="{
+                name: 'Debit_Credit_Note',
+                query: {
+                  type: invoice.isSale ? 'sale' : 'purchase',
+                  'invoice-id': id,
+                  transaction: 'credit',
+                },
+              }"
+            >
+              <translate>Create Credit Note</translate>
+            </b-dropdown-item>
+            <b-dropdown-item-button
+              v-b-toggle.voucher-container
+              v-if="showButton(4)"
+              @click="redirectBasedOnValue(4)"
+            >
+              <translate>View Debit Note</translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item
+              v-else
+              :to="{
+                name: 'Debit_Credit_Note',
+                query: {
+                  type: invoice.isSale ? 'sale' : 'purchase',
+                  'invoice-id': id,
+                  transaction: 'debit',
+                },
+              }"
+            >
+              <translate>Create Debit Note</translate>
+            </b-dropdown-item>
+            <b-dropdown-item-button
+              @click="onPayment"
+              v-if="invoice.payment.mode != 5 && paymentFlag"
+            >
+              <translate>
+                {{ invoice.isSale ? 'Receive Payment' : 'Make Payment' }}
+              </translate>
+            </b-dropdown-item-button>
+            <b-dropdown-item
+              :to="{
+                name: 'Billwise',
+                params: {custType: 3, custName: '-1'},
+              }"
+              v-if="invoice.payment.mode != 5 && paymentFlag"
+            >
+              <translate>
+                Adjust Bill
+              </translate>
+            </b-dropdown-item>
+            <b-dropdown-item
+              v-if="rectifyFlag"
+              :to="{name: 'Invoice_Edit', params: {invid: id}}"
+            >
+              <translate>Rectify</translate>
+            </b-dropdown-item>
+            <b-dropdown-item-button
+              v-if="cancelFlag"
+              @click="confirmOnCancel"
+            >
+              <translate>Cancel Invoice</translate>
+            </b-dropdown-item-button>
+          </b-dropdown>
         </span>
       </div>
     </div>
     <div>
-      <h3 v-translate class="d-none d-print-block text-center mt-1">
-        TAX INVOICE
+      <h3
+        v-translate
+        class="d-none d-print-block text-center mt-1"
+      >
+        <span v-if="isGstEnabled || isVatEnabled">TAX</span>
+        INVOICE
       </h3>
     </div>
-    <b-card-group deck class="mb-2">
+    <b-card-group
+      deck
+      class="mb-2"
+    >
       <!-- buyer/seller details -->
-      <b-card class="border-dark">
-        <b key="1" v-if="invoice.isSale" v-translate>
+      <b-card>
+        <b
+          key="1"
+          v-if="invoice.isSale"
+          v-translate
+        >
           Buyer Details
         </b>
-        <b key="2" v-else v-translate> Seller Details </b>
-        <br />
+        <b
+          key="2"
+          v-else
+          v-translate
+        > Seller Details </b>
+        <br>
         <p class="text-small">
           <template>
             <div>
-              <router-link v-if="!deletedFlag" :to="`/ledger/${custid}`">{{ invoice.party.name }}</router-link>
+              <router-link
+                v-if="!deletedFlag"
+                :to="`/ledger/${custid}`"
+              >
+                {{ invoice.party.name }}
+              </router-link>
               <span v-else>{{ invoice.party.name }}</span>
             </div>
           </template>
-          <span>{{ invoice.party.addr }} </span> <br />
-          <span>{{ invoice.party.state }} </span> <br />
-          <span>{{ invoice.party.pincode }} </span>
-          <span> <b> GSTIN: </b> {{ invoice.party.gstin || '-' }} </span>
+          <span>{{ invoice.party.addr }} </span> <br>
+          <span>{{ invoice.party.state }} </span> <br>
+          <span>{{ invoice.party.pincode }} </span> <br>
+          <span>{{ invoice.party.country }} </span> <br>
+          <span v-if="invoice.party.phone">
+            <span>Contact No: {{ invoice.party.phone }} </span> <br>
+          </span>
+          <span v-if="invoice.party.email">
+            <span>Email: {{ invoice.party.email }} </span> <br>
+          </span>
+          <span v-if="invoice.isGst">
+            <b> GSTIN: </b> {{ invoice.party.gstin || '-' }}
+          </span>
+          <span v-if="invoice.isVat">
+            <b> TIN: </b> {{ invoice.party.tin || '-' }}
+          </span>
         </p>
       </b-card>
 
       <!-- invoice details -->
-      <b-card class="border-dark" order="1">
-        <b key="3" v-if="invoice.isSale" v-translate>
+      <b-card order="1">
+        <b
+          key="3"
+          v-if="invoice.isSale"
+          v-translate
+        >
           Sale Invoice Details
         </b>
-        <b key="4" v-else v-translate>
+        <b
+          key="4"
+          v-else
+          v-translate
+        >
           Purchase Invoice Details
         </b>
         <!-- Note Details Table -->
@@ -153,7 +193,7 @@
           small
           thead-class="d-none"
           fixed
-          class="text-small border-dark"
+          class="text-small"
         >
           <template #cell(value)="data">
             <span v-if="typeof data.value === 'object'">
@@ -183,31 +223,36 @@
       bordered
       responsive
       stacked="sm"
-      striped
       small
-      class="text-small border border-dark"
+      hover
+      class="text-small border"
+      head-variant="light"
       tbody-tr-class="gk-vertical-row"
     >
-    <template #cell(name)="data">
-      <template v-if="data.item.gsflag === 7 && !deletedFlag">
-        <router-link
-          :to="`/product-register?product_id=${data.item.id}&current_date=${toDate}&goid=${dnote.goid}`"
-        >
-          {{ data.item.name }}
-        </router-link>
+      <template #cell(name)="data">
+        <template v-if="data.item.gsflag === 7 && !deletedFlag">
+          <router-link
+            :to="`/product-register?product_id=${data.item.id}&current_date=${toDate}&goid=${dnote.goid}`"
+          >
+            {{ data.item.name }}
+          </router-link>
+        </template>
+        <template v-else>
+          <span>{{ data.item.name }}</span>
+        </template>
       </template>
-      <template v-else>
-        <span>{{ data.item.name }}</span>
-      </template>
-    </template>
       <template #cell(qty)="data">
         {{ data.value }} <small> {{ data.item.uom }} </small>
       </template>
       <template #cell(hsn)="data">
         {{ data.item.hsn.hsn_code || 'N/A' }}
       </template>
-      <template #cell(price)="data"> {{ data.value }} </template>
-      <template #cell(discount)="data"> {{ data.value }} </template>
+      <template #cell(price)="data">
+        {{ data.value }}
+      </template>
+      <template #cell(discount)="data">
+        {{ data.value }}
+      </template>
       <template #cell(tax)="data">
         {{ data.value.rate }} <small> % </small>
       </template>
@@ -220,73 +265,153 @@
       <template #cell(igst)="data">
         {{ data.value }} <small> % </small>
       </template>
-      <template #cell(cess)="data">
-        {{ data.value.rate }} <small> % </small>
-      </template>
       <template #cell(vat)="data">
         {{ data.value }} <small> % </small>
       </template>
-      <template #cell(total)="data"> {{ data.value }} </template>
+      <template #cell(total)="data">
+        {{ data.value }}
+      </template>
       <template #custom-foot>
         <b-tr>
           <b-th
             v-translate
-            :colspan="invoice.isGst ? (invoice.total.isIgst ? 7 : 8) : 5"
+            :colspan="tableFields.length - 1"
           >
             Total
           </b-th>
-          <b-th class="text-right"> {{ invoice.total.amount }}</b-th>
+          <b-th class="text-right">
+            {{ invoice.total.amount }}
+          </b-th>
         </b-tr>
       </template>
     </b-table-lite>
     <b-card-group deck>
       <!-- payment details -->
-      <b-card class="border-dark">
-        <b v-translate> Payment Details </b>
-        <div v-if="bankMode" class="mb-3">
-          {{ paymentMode }}
+      <b-card>
+        <b v-translate> Total Paid: </b> {{ totalPaid }}
+        <br>
+        <b v-translate> Balance: </b> {{ invoice.total.amount - totalPaid }}
+        <br>
+        <br>
+        <b
+          v-if="payments.length"
+          v-translate
+        >
+          Payments
+        </b>
+        <b
+          v-if="receipts.length"
+          v-translate
+        >
+          Receipts
+        </b>
+        <div
+          class="mb-3"
+        >
           <b-table-lite
-            :items="bankDetails"
-            :fields="['title', 'value']"
+            :items="payments.length ? payments : receipts"
+            :fields="['key', 'value']"
             small
             bordered
             fixed
             thead-class="d-none"
             class="mt-1 text-small"
-          >
-          </b-table-lite>
+          />
         </div>
-        <div class="text-small" v-else>
-          {{ paymentMode }}
+
+        <div
+          class="mb-3"
+        >
+          <b-table-lite
+            :items="bankDetails"
+            :fields="['key', 'value']"
+            small
+            bordered
+            fixed
+            thead-class="d-none"
+            class="mt-1 text-small"
+          />
         </div>
+
         <b v-translate> Narration: </b> {{ invoice.narration }}
       </b-card>
       <!-- Total Table -->
-      <b-card class="border-dark">
+      <b-card>
         <b-table-lite
           :items="totalDetails"
           :fields="[
-            { key: 'title', label: 'Total', tdClass: '' },
-            { key: 'value', label: '₹', class: 'text-right' },
+            {key: 'title', label: '', tdClass: ''},
+            {key: 'value', label: '₹', class: 'text-right'},
           ]"
           small
           fixed
           class="text-small"
-        ></b-table-lite>
+        />
       </b-card>
     </b-card-group>
+    <div
+      class="hsn-details mt-4"
+      v-if="isGstEnabled"
+    >
+      <h6>HSN / SAC Summary</h6>
+      <b-table-lite
+        :items="invoice.invItems"
+        :fields="hsnFields"
+        bordered
+        responsive
+        stacked="sm"
+        small
+        hover
+        class="text-small border"
+        tbody-tr-class="gk-vertical-row"
+      >
+        <template #cell(igst)="data">
+          {{ `${data.item.igst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(cgst)="data">
+          {{ `${data.item.cgst_amount} (${data.value}%)` }}
+        </template>
+        <template #cell(sgst)="data">
+          {{ `${data.item.sgst_amount} (${data.value}%)` }}
+        </template>
+        <template #custom-foot>
+          <b-tr>
+            <b-th
+              v-translate
+              :colspan="hsnFields.length - 1"
+            >
+              Total
+            </b-th>
+            <b-th class="text-right">
+              {{ Object.values(invoice.invItems)
+                .map((item) => item.total_tax)
+                .reduce((acc, val) => (Number(acc) + Number(val)), 0)
+                .toFixed(2)
+              }}
+            </b-th>
+          </b-tr>
+        </template>
+      </b-table-lite>
+    </div>
     <!-- signature section -->
     <div class="text-right mt-5 font-weight-bold d-none d-print-block mr-2">
       Authorized signatory
     </div>
-    <div class="clearfix"></div>
-    <br />
-    <b-collapse v-model="showAttachments" id="attachment-container">
+    <div class="clearfix" />
+    <br>
+    <b-collapse
+      v-model="showAttachments"
+      id="attachment-container"
+    >
       <div class="position-relative">
-        <b-overlay :show="isAttachmentLoading" variant="secondary" no-wrap blur>
-        </b-overlay>
+        <b-overlay
+          :show="isAttachmentLoading"
+          variant="secondary"
+          no-wrap
+          blur
+        />
         <b v-translate> Attachments: </b>
-        <div class="clearfix"></div>
+        <div class="clearfix" />
         <div
           class="m-1 d-inline-block text-center float-left position-relative"
           style="width: 200px; height: 200px; border: 1px solid; line-height: 196px;"
@@ -298,18 +423,24 @@
             @load="onAttachementPreviewLoad"
             :src="image"
             :alt="'Preview_' + index"
-          />
+          >
         </div>
-        <div class="clearfix"></div>
+        <div class="clearfix" />
       </div>
     </b-collapse>
-    <br />
-    <b-collapse v-model="showVouchers" id="voucher-container">
-      <div class="clearfix"></div>
-      <b v-translate> Vouchers: </b>
+    <br>
+    <b-modal
+      id="voucher-container"
+      v-model="showVoucherModal"
+      size="xl"
+      title="Vouchers"
+      hide-footer
+      centered
+    >
+      <div class="clearfix" />
       <div v-if="vouchers.length">
         <b-card
-          class="mb-2"
+          class="mb-2 border-0"
           v-for="voucher in vouchers"
           :key="voucher.id"
           body-class="p-1"
@@ -318,14 +449,16 @@
             <span class="float-left">
               Voucher No:
               <router-link :to="`/Workflow/Transactions-Voucher/${voucher.id}`">
-                {{voucher.no}}
+                {{ voucher.no }}
               </router-link>
             </span>
-            <span> {{ voucher.type }} </span>
+            <span class="text-capitalize">
+              {{ voucher.type }}
+            </span>
             <span class="float-right">
               <translate
                 translate-comment="%{voucherDate} is a variable, translation is not required for it. Enter it, as it is while translation."
-                :translate-params="{ voucherDate: voucher.date }"
+                :translate-params="{voucherDate: voucher.date}"
               >
                 Date: %{voucherDate}
               </translate>
@@ -334,35 +467,33 @@
           <b-table-lite
             bordered
             small
-            head-variant="dark"
             :items="voucher.transactions"
             :tbody-tr-class="rowClass"
             fixed
-          >
-          </b-table-lite>
+          />
           <div>
             <translate
               translate-comment="%{narration} is a variable, translation is not required for it. Enter it, as it is while translation."
-              :translate-params="{ narration: voucher.narration }"
+              :translate-params="{narration: voucher.narration}"
             >
               Narration: %{narration}
             </translate>
           </div>
-          <br />
+          <br>
         </b-card>
       </div>
       <div v-else>
         <translate
           translate-comment="%{invNo} is a variable, translation is not required for it. Enter it, as it is while translation."
-          :translate-params="{ invNo: invoice.number }"
+          :translate-params="{invNo: invoice.number}"
         >
           No vouchers were found for Invoice: %{invNo}
         </translate>
       </div>
-    </b-collapse>
+    </b-modal>
     <b-modal
       size="lg"
-      v-model="showVoucherModal"
+      v-model="showPaymentModal"
       centered
       static
       body-class="p-0"
@@ -372,18 +503,18 @@
     >
       <easy-voucher
         :type="voucherType"
-        :invId="voucherInvId"
-        :onSave="onPaymentComplete"
-      ></easy-voucher>
+        :inv-id="voucherInvId"
+        :on-save="onPaymentComplete"
+      />
     </b-modal>
   </b-container>
 </template>
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
-import EasyVoucher from '@/components/form/VoucherEasy.vue';
-import { numberToRupees } from '../../../js/utils.js';
+import { mapGetters, mapState } from 'vuex';
+import EasyVoucher from '@/components/form/EasyVoucher.vue';
+import { numberToWords } from '../../../js/utils.js';
 
 export default {
   name: 'InvoiceProfile',
@@ -406,13 +537,22 @@ export default {
   },
   data() {
     return {
+      bankDetailsMapping: {
+        "transaction_details": "Transaction Details",
+        "ifsc": "IFSC",
+        "branch": "Branch",
+        "bankname": "Bank Name",
+        "accountno": "Account No."
+      },
       data: {},
       showCreditButton: false,
       showDebitButton: false,
-      showRejectionButton: false,
-      rejectionnoteid: null,
       paymentFlag: false,
       isPreloading: false,
+      receipts: [],
+      payments: [],
+      totalPaid: 0.00,
+      balance: null,
       invoice: {
         attachmentCount: 0,
         taxState: '',
@@ -427,15 +567,24 @@ export default {
           csflag: '3', // 3 -> customer, 19 -> supplier
           name: ' ',
           state: '',
+          country: '',
           addr: '',
-          pincodce: '',
+          pincode: '',
+          phone: '',
+          email: '',
         },
         isSale: '',
-        isGst: true,
+        isGst: false,
+        isVat: false,
         invItems: [],
         total: {
           amount: 0,
           text: 'Zero Rupee',
+          taxable: 0,
+          cess: 0,
+          tax: 0,
+          isIgst: false,
+          roundoff: 0,
         },
         number: '',
       },
@@ -450,29 +599,24 @@ export default {
       vouchers: [],
       attachments: [],
       showAttachments: false,
-      showVouchers: false,
+      showVoucherModal: false,
       isAttachmentLoading: false,
       voucherType: 'receipt',
       voucherInvId: -1,
-      showVoucherModal: false,
+      showPaymentModal: false,
       states: {},
       toDate: '',
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
+    isIndianParty: (self) =>
+      !self.invoice.party.country || self.invoice.party.country === 'India',
     tableFields: (self) => {
-      // let designation = self.invoice.designation
-      //   ? `(${self.invoice.designation})`
-      //   : '';
       let fields = [
         {
           key: 'name',
           label: self.$gettext('Item'),
-        },
-        {
-          key: 'hsn',
-          label: self.$gettext('HSN / SAC'),
-          tdClass: 'gk-currency-sm',
         },
         {
           key: 'qty',
@@ -491,32 +635,86 @@ export default {
         },
       ];
 
-      if (self.invoice.isGst) {
-        if (self.invoice.total.isIgst) {
-          fields.push({
-            key: 'igst',
-            label: 'IGST',
+      if (self.isIndia) {
+        if (self.invoice.isGst) {
+          if (self.invoice.total.isIgst) {
+            fields.push({
+              key: 'igst',
+              label: 'IGST',
+              tdClass: 'gk-currency-sm',
+            });
+          } else {
+            fields.push(
+              { key: 'cgst', label: 'CGST', tdClass: 'gk-currency-sm' },
+              { key: 'sgst', label: 'SGST', tdClass: 'gk-currency-sm' }
+            );
+          }
+          fields.splice(1, 0, {
+            key: 'hsn',
+            label: self.$gettext('HSN / SAC'),
             tdClass: 'gk-currency-sm',
           });
-        } else {
-          fields.push(
-            { key: 'cgst', label: 'CGST', tdClass: 'gk-currency-sm' },
-            { key: 'sgst', label: 'SGST', tdClass: 'gk-currency-sm' }
-          );
         }
-        fields.push({ key: 'cess', label: 'CESS', tdClass: 'gk-currency-sm' });
-      } else {
-        fields.push({ key: 'vat', label: 'VAT', tdClass: 'gk-currency-sm' });
+        if (self.invoice.isVat) {
+          fields.push({ key: 'vat', label: 'VAT', tdClass: 'gk-currency-sm' });
+        }
       }
       fields.push({
         key: 'total',
         label: self.$gettext('Total (₹)'),
         tdClass: 'gk-currency-sm',
       });
-      // fields.push({
-      //   title: 'Issued By',
-      //   value: `${self.invoice.issuer}  ${designation}`,
-      // });
+      return fields;
+    },
+    hsnFields: (self) => {
+      let fields = [
+        {
+          key: 'hsn.hsn_code',
+          label: 'HSN / SAC',
+        },
+        {
+          key: 'qty',
+          label: 'Qty',
+          class: 'gk-currency-sm',
+        },
+        {
+          key: 'taxable',
+          label: 'Taxable (₹)',
+          class: 'gk-currency-sm',
+        },
+      ];
+
+      if (self.isIndia) {
+        if (self.invoice.isGst) {
+          if (self.invoice.total.isIgst) {
+            fields.push(
+              {
+                key: 'igst',
+                label: 'IGST (₹)',
+                class: 'gk-currency-sm',
+              },
+            );
+          } else {
+            fields.push(
+              {
+                key: 'cgst',
+                label: 'CGST (₹)',
+                class: 'gk-currency-sm',
+              },
+              {
+                key: 'sgst',
+                label: 'SGST (₹)',
+                class: 'gk-currency-sm',
+              },
+            );
+          }
+        }
+      }
+      fields.push({
+        key: 'total_tax',
+        label: 'Total Tax Amount (₹)',
+        class: 'gk-currency-sm',
+      });
       return fields;
     },
     invoiceData: (self) => {
@@ -558,43 +756,64 @@ export default {
         });
       }
 
-      res.push(
-        { title: self.$gettext('Godown'), value: self.dnote.goname || '' },
-        {
+      res.push({
+        title: self.$gettext('Godown'), value: details.goname || ''
+      });
+
+      if (self.isIndia && self.isIndianParty) {
+        res.push({
           title: self.$gettext('Place of Supply'),
           value: details.taxState || '',
-        },
-        {
-          title: self.$gettext('Issued By'),
-          value: `${details.issuer}  ${designation}`,
-        }
-      );
+        });
+      }
+
+      res.push({
+        title: self.$gettext('Issued By'),
+        value: `${details.issuer}  ${designation}`,
+      });
 
       return res;
     },
     bankDetails: (self) => {
-      let details = self.invoice.payment.bankDetails;
-      return [
-        { title: 'Acc No', value: details.accountno || '' },
-        { title: self.$gettext('Bank'), value: details.bankname || '' },
-        { title: self.$gettext('Branch'), value: details.branch || '' },
-        { title: self.$gettext('IFSC'), value: details.ifsc || '' },
-      ];
+      return Object
+        .entries(self.invoice.payment?.bankDetails || {})
+        // eslint-disable-next-line no-unused-vars
+        .filter(([key, value]) => value !== undefined && value !== null && value !== "")
+        .map(([key, value]) => ({ key: self.bankDetailsMapping[key] || key, value }));
     },
     totalDetails: (self) => {
-      let total = [{ title: 'Taxable', value: self.invoice.total.taxable }];
-      if (self.invoice.isGst) {
-        if (self.invoice.total.isIgst) {
-          total.push({ title: 'IGST', value: self.invoice.total.tax });
-        } else {
-          total.push(
-            { title: 'CGST', value: self.invoice.total.tax },
-            { title: 'SGST', value: self.invoice.total.tax }
-          );
+      const totalAmount = self.invoice.invItems.reduce((_totalAmount, item) => (
+        _totalAmount + (Number(item.price) * Number(item.qty))
+      ), 0);
+      let totalDiscount = (totalAmount - self.invoice.total.taxable).toFixed(2);
+      if (totalDiscount > 0) {
+        totalDiscount = `-${totalDiscount}`;
+      }
+      let total = [
+        {
+          title: self.$gettext('Total'),
+          value: totalAmount.toFixed(2),
+        },
+        {
+          title: self.$gettext('Discount'),
+          value: totalDiscount,
+        },
+      ];
+      if (self.isIndia && (self.invoice.isGst || self.invoice.isVat)) {
+        total.push({ title: 'Taxable', value: self.invoice.total.taxable });
+        if (self.invoice.isGst) {
+          if (self.invoice.total.isIgst) {
+            total.push({ title: 'IGST', value: self.invoice.total.tax });
+          } else {
+            total.push(
+              { title: 'CGST', value: self.invoice.total.tax },
+              { title: 'SGST', value: self.invoice.total.tax }
+            );
+          }
         }
-        total.push({ title: 'CESS', value: self.invoice.total.cess });
-      } else {
-        total.push({ title: 'VAT', value: self.invoice.total.tax });
+        if (self.invoice.isVat) {
+          total.push({ title: 'VAT', value: self.invoice.total.tax });
+        }
       }
       total.push(
         {
@@ -603,7 +822,11 @@ export default {
         },
         {
           title: self.$gettext('Invoice Value In Words'),
-          value: self.invoice.total.roundoff ? numberToRupees(Math.round(self.invoice.total.amount)) : numberToRupees(self.invoice.total.amount),
+          value: `${(
+            self.invoice.total.roundoff
+              ? numberToWords(Math.round(self.invoice.total.amount))
+              : numberToWords(self.invoice.total.amount)
+          )} Only`,
         }
       );
       return total;
@@ -611,16 +834,16 @@ export default {
     paymentMode: (self) => {
       let mode = '';
       switch (parseInt(self.invoice.payment.mode)) {
-        case 2:
-        case 4:
-          mode = 'Paid By Bank Transfer';
-          break;
-        case 3:
-        case 5:
-          mode = 'Paid By Cash';
-          break;
-        case 15:
-          mode = 'On Credit';
+      case 2:
+      case 4:
+        mode = 'Paid By Bank Transfer';
+        break;
+      case 3:
+      case 5:
+        mode = 'Paid By Cash';
+        break;
+      case 15:
+        mode = 'On Credit';
       }
       return mode;
     },
@@ -638,15 +861,14 @@ export default {
     onPayment() {
       this.voucherType = this.invoice.isSale ? 'receipt' : 'payment';
       this.voucherInvId = this.id;
-      this.showVoucherModal = true;
+      this.showPaymentModal = true;
     },
     onPaymentComplete() {
-      this.showVoucherModal = false;
+      this.showPaymentModal = false;
       this.voucherInvId = -1;
       this.refresh();
     },
     onAttachementPreviewLoad(e) {
-      // console.log(e)
       if (e.target) {
         let height = e.target.height;
         let width = e.target.width;
@@ -685,6 +907,30 @@ export default {
         .then((resp) => {
           // TODO: Add Project support
           if (resp.data.gkstatus === 0) {
+            let receipts = [];
+            let payments = [];
+
+            let totalPaid = 0;
+            resp.data.gkresult.forEach((voucher) => {
+              if (voucher.vouchertype === "receipt") {
+                receipts = receipts.concat(
+                  Object.entries(voucher.drs).map(([key, value])=>({key, value}))
+                )
+                totalPaid += Object.values(voucher.drs).reduce((partialSum, a) => partialSum + parseFloat(a), 0);
+              }
+              if (voucher.vouchertype === "payment") {
+                payments = payments.concat(
+                  Object.entries(voucher.crs).map(([key, value])=>({key, value}))
+                )
+                totalPaid += Object.values(voucher.crs).reduce((partialSum, a) => partialSum + parseFloat(a), 0);
+              }
+            });
+            this.totalPaid = totalPaid;
+            this.balance = this.invoice.total.amount - totalPaid
+
+            this.receipts = receipts;
+            this.payments = payments;
+
             this.vouchers = resp.data.gkresult.map((voucher) => {
               let data = {
                 id: voucher.vouchercode,
@@ -727,7 +973,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e);
+          console.error(e);
         });
     },
     getPaymentData() {
@@ -738,7 +984,6 @@ export default {
       });
     },
     getDetails() {
-      // let type = this.deletedFlag ? 'deletedsingle' : 'single';
       let url = this.deletedFlag
         ? `/invoice/cancel/${this.id}`
         : `/invoice/${this.id}`;
@@ -771,10 +1016,10 @@ export default {
      */
     formatInvoiceDetails(details) {
       if (details) {
-        let party = details.custSupDetails || {};
+        let party = details.immutable_data?.contact || {};
         let gstinList =
-          party.custgstinlist && typeof party.custgstinlist === 'object'
-            ? Object.values(party.custgstinlist)
+          party.gstin && typeof party.gstin === 'object'
+            ? Object.values(party.gstin)
             : [];
         let gstin = gstinList.length ? gstinList[0] : '';
         this.invoice = {
@@ -785,6 +1030,7 @@ export default {
           dcno: details.dcno || '',
           dcid: details.dcid || '',
           taxState: this.states[details.taxstatecode],
+          goname: details.immutable_data?.godown.goname,
           eway:
             details.ewaybillno !== 'undefined' && !!details.ewaybillno
               ? details.ewaybillno
@@ -796,13 +1042,17 @@ export default {
           party: {
             name: party.custname,
             state: party.custsupstate,
+            country: party.country,
             addr: party.custaddr,
             pincodce: party.pincode,
+            phone: party.custphone,
+            email: party.custemail,
             csflag: party.csflag,
             gstin: gstin,
           },
           isSale: details.inoutflag === 15,
-          isGst: details.taxname !== 'VAT',
+          isGst: this.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+          isVat: this.isVatEnabled && details.taxname === 'VAT',
           invItems: [],
           total: {
             amount: details.invoicetotal,
@@ -827,45 +1077,65 @@ export default {
           let product = {};
           this.invoice.invItems = Object.keys(details.invcontents).map(
             (key) => {
-              let taxrate = parseFloat(details.invcontents[key].taxrate) || 0;
-              let cgst = taxrate.toFixed(2);
+              const item = details.invcontents[key];
+              const taxrate = (
+                parseFloat(item.taxrate) || 0
+              ).toFixed(2);
+              const igst = taxrate;
+              const cgst = taxrate;
+              const sgst = taxrate;
+              const taxamount = (
+                taxrate / 100 * parseFloat(item.taxableamount)
+              ).toFixed(2);
+              const igst_amount = taxamount;
+              const cgst_amount = taxamount;
+              const sgst_amount = taxamount;
+              const total_tax = item.taxname === 'IGST' ? (
+                parseFloat(item.taxamount).toFixed(2)
+              ) : (
+                parseFloat(item.taxamount * 2).toFixed(2)
+              );
               product = {
                 id: key,
-                name: details.invcontents[key].proddesc,
-                uom: details.invcontents[key].uom,
-                qty: details.invcontents[key].qty,
-                freeQty: details.invcontents[key].freeQty,
-                price: details.invcontents[key].priceperunit,
-                discount: details.invcontents[key].discount,
-                taxable: details.invcontents[key].taxableamount,
-                total: details.invcontents[key].totalAmount,
-                hsn: JSON.parse(details.invcontents[key].gscode) || 'N/A',
+                name: details.immutable_data?.products[key].productdesc,
+                uom: item.uom,
+                qty: item.qty,
+                freeQty: item.freeQty,
+                price: item.priceperunit,
+                discount: item.discount,
+                taxable: item.taxableamount,
+                total: item.totalAmount,
+                hsn: JSON.parse(details.immutable_data?.products[key].gscode) || 'N/A',
                 tax: {
-                  name: details.invcontents[key].taxname,
-                  rate: details.invcontents[key].taxrate,
-                  amount: details.invcontents[key].taxamount,
+                  name: item.taxname,
+                  rate: item.taxrate,
+                  amount: item.taxamount,
                 },
-                igst: taxrate,
-                cgst: cgst,
-                sgst: cgst,
+                igst,
+                igst_amount,
+                cgst,
+                cgst_amount,
+                sgst,
+                sgst_amount,
+                total_tax,
                 vat: taxrate,
                 cess: {
-                  rate: details.invcontents[key].cessrate,
-                  amount: details.invcontents[key].cess,
+                  rate: item.cessrate,
+                  amount: item.cess,
                 },
-                gsflag: details.invcontents[key].gsflag,
+                gsflag: item.gsflag,
               };
               return product;
             }
           );
         }
         axios.get(`/accounts?type=getAccCode&accountname=${this.invoice?.party.name}`)
-        .then(response => {
-          this.custid = response.data.accountcode;
-        })
-        .catch(error => {
-          this.error = 'Failed to load data: ' + error.message;
-        });
+          .then(response => {
+            this.custid = response.data.accountcode;
+          })
+          .catch(error => {
+            this.error = 'Failed to load data: ' + error.message;
+          });
       }
     },
     cancelInvoice() {
@@ -873,32 +1143,31 @@ export default {
         .delete(`/invoice/cancel/${this.id}`)
         .then((response) => {
           switch (response.data.gkstatus) {
-            case 0:
-              this.displayToast(
-                'Cancel Invoice Success!',
-                `Successfully cancelled Invoice ${this.invoice.number}`,
-                'success'
-              );
-              axios.delete(`/delchal/${this.invoice.dcid}`);
-              this.getDetails().then((response) => {
-                if (typeof this.onUpdate === 'function') {
-                  this.onUpdate(response.data);
-                }
-              });
-              break;
-            case 3:
-              this.displayToast(
-                'Cancel Invoice Failure!',
-                `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
-                'danger'
-              );
-              break;
-            default:
-              this.displayToast(
-                'Cancel Invoice Failure!',
-                `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
-                'danger'
-              );
+          case 0:
+            this.displayToast(
+              'Cancel Invoice Success!',
+              `Successfully cancelled Invoice ${this.invoice.number}`,
+              'success'
+            );
+            this.getDetails().then((response) => {
+              if (typeof this.onUpdate === 'function') {
+                this.onUpdate(response.data);
+              }
+            });
+            break;
+          case 3:
+            this.displayToast(
+              'Cancel Invoice Failure!',
+              `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
+              'danger'
+            );
+            break;
+          default:
+            this.displayToast(
+              'Cancel Invoice Failure!',
+              `Could not cancel Invoice ${this.invoice.number}. Try again later or Contact admin`,
+              'danger'
+            );
           }
         })
         .catch((error) => {
@@ -919,7 +1188,6 @@ export default {
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',
           footerClass: 'border-top-0', // p-1
-          // bodyClass: 'p-2',
           centered: true,
         })
         .then((val) => {
@@ -940,55 +1208,54 @@ export default {
     fetchAndUpdateData() {
       return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
-          case 0:
-            {
-              // this.invoice = response.data.gkresult;
-              let invData = response.data.gkresult;
-              this.formatInvoiceDetails(invData);
-              if (invData.dcid) {
-                this.getDelNoteDetails(invData.dcid).then((dnResponse) => {
-                  let dndata = dnResponse.data.gkresult.delchaldata;
-                  if (dndata) {
-                    this.dnote = {
-                      id: dndata.dcid,
-                      no: dndata.dcno,
-                      goname: dndata.goname,
-                      goid: dndata.goid,
-                      packageQty: dndata.noofpackages,
-                    };
-                  }
-                });
-              } else {
-                this.dnote = {
-                  id: '',
-                  no: '',
-                  goname: '',
-                  goid: '',
-                  packageQty: 0,
-                };
-              }
+        case 0:
+          {
+            let invData = response.data.gkresult;
+            this.formatInvoiceDetails(invData);
+            if (invData.dcid) {
+              this.getDelNoteDetails(invData.dcid).then((dnResponse) => {
+                let dndata = dnResponse.data.gkresult.delchaldata;
+                if (dndata) {
+                  this.dnote = {
+                    id: dndata.dcid,
+                    no: dndata.dcno,
+                    goname: dndata.goname,
+                    goid: dndata.goid,
+                    packageQty: dndata.noofpackages,
+                  };
+                }
+              });
+            } else {
+              this.dnote = {
+                id: '',
+                no: '',
+                goname: '',
+                goid: '',
+                packageQty: 0,
+              };
             }
-            break;
-          case 2:
-            this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
-              title: `${this.formMode} ${this.formType} Error!`,
+          }
+          break;
+        case 2:
+          this.$bvToast.toast(`Unauthorized access, Please contact admin`, {
+            title: `${this.formMode} ${this.formType} Error!`,
+            autoHideDelay: 3000,
+            variant: 'warning',
+            appendToast: true,
+            solid: true,
+          });
+          break;
+        default:
+          this.$bvToast.toast(
+            `Unable to Fetch Invoice Details! Please Try after sometime.`,
+            {
+              title: `Fetch Transaction Details Error!`,
               autoHideDelay: 3000,
               variant: 'warning',
               appendToast: true,
               solid: true,
-            });
-            break;
-          default:
-            this.$bvToast.toast(
-              `Unable to Fetch Invoice Details! Please Try after sometime.`,
-              {
-                title: `Fetch Transaction Details Error!`,
-                autoHideDelay: 3000,
-                variant: 'warning',
-                appendToast: true,
-                solid: true,
-              }
-            );
+            }
+          );
         } // end switch
       });
     },
@@ -1006,7 +1273,7 @@ export default {
     },
     refresh() {
       this.isPreloading = true;
-      this.showVouchers = false;
+      this.showVoucherModal = false;
       this.vouchers = [];
       this.showAttachments = false;
       this.attachments = [];
@@ -1025,11 +1292,6 @@ export default {
         this.$router.push({ path: `/workflow/Transactions-DebitCreditNote/${selectedKey}` });
       }
     },
-    redirectRejectionNote() {
-      if (this.rejectionnoteid) {
-        this.$router.push({ path: `/workflow/Transactions-RejectionNote/${this.rejectionnoteid}`});
-      }
-    },
     checkDcCrValues() {
       axios.get(`/invoice/drcr/${this.id}`).then((resp) => {
         if (resp.data.gkstatus === 0 && resp.data?.data) {
@@ -1038,14 +1300,6 @@ export default {
 
           this.showCreditButton = values.includes(3);
           this.showDebitButton = values.includes(4);
-        }
-      });
-      axios.get(`/invoice/rnid/${this.id}`).then((resp) => {
-        if (resp.data.gkstatus === 0 && resp.data?.data) {
-          this.rejectionnoteid = resp.data.data;
-          this.showRejectionButton = true;
-        } else {
-          this.showRejectionButton = false;
         }
       });
     },
@@ -1063,7 +1317,6 @@ export default {
   },
   mounted() {
     this.toDate = this.currentDate();
-    // console.log("mounted")
     if (this.id && parseInt(this.id) > -1) {
       this.isPreloading = true;
       Promise.all([
@@ -1077,7 +1330,7 @@ export default {
         .catch(() => {
           this.isPreloading = false;
         });
-        this.getPaymentData();
+      this.getPaymentData();
     } else {
       this.isPreloading = true;
       this.fetchState()

@@ -1,76 +1,129 @@
 <template>
-  <section class="m-2">
+  <section>
+    <h2 class="my-4 text-muted display-5">
+      CASH FLOW STATEMENT
+    </h2>
     <b-overlay :show="isLoading">
       <b-card
-        class="gkcard mx-auto mb-2"
-        header-bg-variant="dark"
-        header-text-variant="light"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
-        <template #header>
-          <gk-cardheader
-            :name="$gettext('Cash Flow Statement')"
-            :help-body="
-              $gettext(`Receipt & Payment Account or Cash Flow
-This report can be viewed for any period.
-Drill Down facility is available. You can double click or press enter key on any row to see the ledger for that account.
-All users can view this report`)
-            "
-          ></gk-cardheader>
-        </template>
-        <b-form @submit.prevent="getProfitLossData">
-          <b-form-group label="From" label-align="right" content-cols="8">
-            <gk-date id="fromdate" v-model="fromDate"></gk-date>
-          </b-form-group>
-          <b-form-group label="To" label-align="right" content-cols="8">
-            <gk-date id="todate" v-model="toDate"></gk-date>
-          </b-form-group>
-          <b-button
-            variant="success"
-            class="float-right"
-            @click="updateRoute()"
-            type="submit"
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          Cash Flow Statement: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+          {{ dateReverse(selected?.toDate || toDate) }}
+        </b-alert>
+
+        <b-form @submit.prevent="getCashFlowData">
+          <b-row>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="From"
+                label-cols="auto"
+              >
+                <gk-date
+                  id="fromdate"
+                  v-model="fromDate"
+                  required
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="To"
+                label-cols="auto"
+              >
+                <gk-date
+                  id="todate"
+                  v-model="toDate"
+                  required
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-button-group
+            size="sm"
           >
-            <b-icon class="mr-1" icon="cloud-arrow-down"></b-icon>
-            <translate>Get Details</translate>
-          </b-button>
+            <b-button
+              variant="success"
+              @click="updateRoute"
+              type="submit"
+              class="mr-2"
+            >
+              Submit
+            </b-button>
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              Clear
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card>
-      <report-header>
-        <div class="text-center">
-          <b>Cash Flow Account</b>
-          for the period {{ dateReverse(this.yearStart) }} to
-          {{ dateReverse(this.yearEnd) }}
-        </div>
-      </report-header>
-      <gk-toolbar class="mt-5">
-        <GkFileDownload
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
+      >
+        <gk-file-download
           v-if="result1 !== null"
           :url="
-            `/spreadsheet?cash-flow&from=${this.fromDate}&to=${this.toDate}&orgtype=${orgType}&fystart=${this.yearStart}&fyend=${this.yearEnd}&orgname=${this.orgName}`
+            `/spreadsheet?cash-flow&from=${selected.fromDate}&to=${selected.toDate}&orgtype=${orgType}&fystart=${yearStart}&fyend=${yearEnd}&orgname=${orgName}`
           "
-          :commonParams="false"
-          :messageFromParent="parentMessage"
+          variant="dark"
+          title="Export XLSX"
+          name="Export XLSX"
+          file-extn=".xlsx"
+          :common-params="false"
+          :message-from-parent="parentMessage"
         />
-      </gk-toolbar>
-      <div class="row" v-if="result1 !== null">
-        <div class="col">
+      </div>
+      <div
+        class="row"
+        v-if="result1 !== null"
+      >
+        <report-header>
+          <div class="text-center">
+            <b>Cash Flow Account</b>
+            for the period {{ dateReverse(selected.fromDate) }} to
+            {{ dateReverse(selected.toDate) }}
+          </div>
+        </report-header>
+        <div class="col-lg-6">
           <b-table
+            id="inflows-table"
             :fields="fields1"
             :items="result1"
+            :per-page="perPage"
+            :current-page="currentPageLeft"
             primary-key="particulars"
             small
-            bordered
-            striped
+            outlined
+            hover
             responsive
-            head-variant="dark"
+            head-variant="light"
           >
             <template #cell(particulars)="data">
               <router-link
                 v-if="!['Total', 'Opening balance', 'Closing balance'].includes(data.item.particulars)"
                 :to="
-                  `/ledger/${data.item.accountcode}&null&${fromDate}&${toDate}`
+                  `/ledger/${data.item.accountcode}`
                 "
-              >{{ data.item.particulars }}
+              >
+                {{ data.item.particulars }}
               </router-link>
               <b v-else>{{ data.item.particulars }}</b>
             </template>
@@ -80,24 +133,28 @@ All users can view this report`)
             </template>
           </b-table>
         </div>
-        <div class="col">
+        <div class="col-lg-6">
           <b-table
+            id="outflows-table"
             :fields="fields2"
             :items="result2"
+            :per-page="perPage"
+            :current-page="currentPageRight"
             primary-key="particulars"
             small
-            bordered
-            striped
+            outlined
+            hover
             responsive
-            head-variant="dark"
+            head-variant="light"
           >
             <template #cell(particulars)="data">
               <router-link
                 v-if="!['Total', 'Opening balance', 'Closing balance'].includes(data.item.particulars)"
                 :to="
-                  `/ledger/${data.item.accountcode}&null&${fromDate}&${toDate}`
+                  `/ledger/${data.item.accountcode}`
                 "
-              >{{ data.item.particulars }}
+              >
+                {{ data.item.particulars }}
               </router-link>
               <b v-else>{{ data.item.particulars }}</b>
             </template>
@@ -106,6 +163,34 @@ All users can view this report`)
               {{ data.item.amount }}
             </template>
           </b-table>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <div
+              class="d-print-none d-flex align-items-center justify-content-end col-md-6"
+            >
+              <b-pagination
+                v-if="result1.length > perPage"
+                v-model="currentPageLeft"
+                :total-rows="result1.length"
+                :per-page="perPage"
+                align="center"
+                limit="4"
+              />
+            </div>
+            <div
+              class="d-print-none d-flex align-items-center justify-content-end col-md-6"
+            >
+              <b-pagination
+                v-if="result2.length > perPage"
+                v-model="currentPageRight"
+                :total-rows="result2.length"
+                :per-page="perPage"
+                align="center"
+                limit="4"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </b-overlay>
@@ -113,16 +198,15 @@ All users can view this report`)
 </template>
 
 <script>
-import axios from 'axios';
 import { mapState } from 'vuex';
-import GkCardheader from '../components/GkCardheader.vue';
 import GkDate from '../components/GkDate.vue';
-import ReportHeader from '../components/ReportHeader.vue';
-import GkToolbar from '../components/GkToolbar.vue';
 import GkFileDownload from '../components/GkFileDownload.vue';
+import ReportHeader from '../components/ReportHeader.vue';
+import { reverseDate } from '../js/utils.js';
+
 export default {
-  components: { GkCardheader, GkDate, ReportHeader, GkToolbar, GkFileDownload },
-  name: 'ProfitLoss',
+  components: { GkDate, GkFileDownload, ReportHeader },
+  name: 'CashFlow',
   data() {
     return {
       parentMessage: '',
@@ -131,6 +215,10 @@ export default {
       toDate: null,
       result1: null,
       result2: null,
+      currentPageLeft: 1,
+      currentPageRight: 1,
+      perPage: 10,
+      selected: {},
       fields1: [
         {
           key: 'toby',
@@ -164,55 +252,34 @@ export default {
     };
   },
   methods: {
-    getProfitLossData() {
+    clear() {
+      this.fromDate = this.yearStart;
+      this.toDate = this.yearEnd;
+      this.selected = {};
+      this.$router.replace({});
+      this.result1 = null;
+      this.result2 = null;
+      this.parseParams();
+      this.currentPageLeft = 1;
+      this.currentPageRight = 1;
+    },
+    getCashFlowData() {
+      this.currentPageLeft = 1;
+      this.currentPageRight = 1;
       this.isLoading = true;
-      axios
+      this.$axios
         .get(
           `/reports/cash-flow?calculatefrom=${this.fromDate}&calculateto=${this.toDate}&financialstart=${this.yearStart}`
         )
-        .then((r) => {
-          if (r.status == 200) {
-            switch (r.data.gkstatus) {
-              case 0:
-                this.result1 = r.data.rcgkresult;
-                this.result2 = r.data.pygkresult;
-                break;
-              case 1:
-                this.$bvToast.toast(this.$gettext('Duplicate Entry'), {
-                  variant: 'warning',
-                  solid: true,
-                });
-                break;
-              case 2:
-                this.$bvToast.toast(this.$gettext('Unauthorised Access'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 3:
-                this.$bvToast.toast(this.$gettext('Data error'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 4:
-                this.$bvToast.toast(this.$gettext('No Privilege'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-              case 5:
-                this.$bvToast.toast(this.$gettext('Integrity error'), {
-                  variant: 'danger',
-                  solid: true,
-                });
-                break;
-            }
+        .then((resp) => {
+          this.result1 = resp.rcgkresult;
+          this.result2 = resp.pygkresult;
+          this.selected = {
+            fromDate: this.fromDate,
+            toDate: this.toDate,
           }
-          this.isLoading = false;
         })
-        .catch((e) => {
-          console.log(e);
+        .finally(() => {
           this.isLoading = false;
         });
     },
@@ -235,10 +302,13 @@ export default {
         this.fromDate = this.yearStart;
         this.toDate = this.yearEnd;
       }
-      this.getProfitLossData();
+      this.getCashFlowData();
     },
   },
   computed: {
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     ...mapState(['yearStart', 'yearEnd', 'orgName', 'orgType']),
   },
   mounted() {

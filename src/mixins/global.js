@@ -1,6 +1,5 @@
 import { mapState } from 'vuex';
 import axios from 'axios';
-import sha512 from 'crypto-js/sha512';
 export default {
   data() {
     return {
@@ -28,13 +27,8 @@ export default {
     gk_log(payload) {
       axios
         .post('/log', { activity: payload })
-        .then((r) => {
-          if (r.data.gkstatus == 0) {
-            console.log(payload);
-          }
-        })
         .catch((e) => {
-          console.log('failed to log: ', e);
+          console.error('Failed to log: ', e);
         });
     },
     is_mobile() {
@@ -44,6 +38,7 @@ export default {
      * check for latest news from the gst portal
      */
     check_gst_news() {
+      if (!axios.defaults.baseURL) return;
       axios.get('/gst-news').then((r) => {
         if (localStorage.getItem('gstNewsCount') && this.userAuthenticated) {
           if (
@@ -120,10 +115,6 @@ export default {
         }
       });
     },
-    hashedPassword(text) {
-      let hash = sha512(text).toString();
-      return hash;
-    },
     currentDate() {
       const dt = new Date();
       const dd = dt.getDate() < 10 ? '0' + dt.getDate() : dt.getDate();
@@ -133,6 +124,7 @@ export default {
       return `${yy}-${mm}-${dd}`;
     },
     dateReverse(date) {
+      if (!date) return;
       const d = date.split('-').reverse();
       return `${d[0]}-${d[1]}-${d[2]}`;
     },
@@ -147,7 +139,7 @@ export default {
           this.user_role = res.data.gkresult?.userrole || null;
         })
         .catch((e) => {
-          console.log('admin fetch', e.message);
+          console.error(e.message);
         });
     },
     /* Get org image from server */
@@ -161,7 +153,7 @@ export default {
           }
         })
         .catch((e) => {
-          console.log(e.message);
+          console.error(e.message);
         });
     },
 
@@ -202,7 +194,7 @@ export default {
       // redirect to login page
       this.$router.push('/user-login');
       // reset the org image to default
-      this.$store.commit('updateOrgImg', 'img/gk.png');
+      this.$store.commit('updateOrgImg', '/img/gk.png');
       // alert the user on logout
       /* this.$bvToast.toast(this.$gettext(`Logged out succesfully`), {
 						title: 'Logout',

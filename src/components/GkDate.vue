@@ -1,5 +1,8 @@
 <template>
-  <div ref="date" class="gk-date">
+  <div
+    ref="date"
+    class="gk-date"
+  >
     <b-input-group>
       <b-form-input
         size="sm"
@@ -13,7 +16,7 @@
         :state="isInputValid && isDateValid"
         :required="required"
         :style="inputStyle"
-      ></b-form-input>
+      />
       <b-input-group-append>
         <b-form-datepicker
           size="sm"
@@ -25,8 +28,7 @@
           :tabindex="readonly ? -1 : 1"
           :min="minDate"
           :max="maxDate"
-        >
-        </b-form-datepicker>
+        />
       </b-input-group-append>
 
       <b-form-invalid-feedback id="input-live-feedback">
@@ -37,6 +39,8 @@
 </template>
 
 <script>
+import { formatDateObj } from '../js/utils';
+
 export default {
   name: 'GkDate',
   model: {
@@ -138,9 +142,7 @@ export default {
   },
   watch: {
     input(newInput) {
-      // console.log('In input');
       if (this.validateFormat(newInput, this.format)) {
-        // newInput.length ===
         const newDate = this.toInternalFormat(newInput);
         if (this.date !== newDate) {
           this.date = newDate;
@@ -158,30 +160,23 @@ export default {
       }
     },
     date(newDate) {
-      // console.log('In Date');
       let loop = 1000;
       while (loop--) {
         if (this.validateFormat(newDate, 'yyyy-mm-dd')) {
-          // console.log('date valid');
           const newInput = this.toExternalFormat(newDate);
           if (this.input !== newInput) {
             this.input = newInput;
             this.onDateUpdate(newDate); // emit internal format for v-model
             this.setDateValidity(this.validateDate(newDate)); // must use internal format for validation
-          } else {
-            // console.log('input exists');
           }
           loop = false;
         } else if (!newDate) {
-          // console.log('date not valid but empty');
           // "input" is not updated here, as the user may want
           // to update the faulty date via input field
           this.$emit('input', '');
           this.setDateValidity(null);
           loop = false;
         } else {
-          // console.log('Date not valid and not empty');
-          // console.log(newDate);
           newDate = this.toInternalFormat(newDate);
         }
       }
@@ -211,6 +206,19 @@ export default {
     },
   },
   methods: {
+    getDefaultDate(date) {
+      let defaultDate = date ?? formatDateObj(new Date());
+      if (defaultDate < this.minDate) {
+        defaultDate = this.minDate;
+      }
+      if (defaultDate > this.maxDate) {
+        defaultDate = this.maxDate
+      }
+      if (this.formatOutput) {
+        defaultDate = this.toInternalFormat(defaultDate);
+      }
+      return defaultDate;
+    },
     setDateValidity(validity) {
       if (this.readonly) {
         this.valid = null;
@@ -235,8 +243,11 @@ export default {
           }
           if (this.toExternalFormat(this.input) > this.toExternalFormat(this.max)) {
             this.input = this.max;
+            this.notValidText = '';
+            this.valid = true;
+          } else {
+            this.valid = false;
           }
-          this.valid = false;
         }
       }
       this.$emit('validity', this.valid);
@@ -265,25 +276,25 @@ export default {
     toInternalFormat(input) {
       let date = '';
       switch (this.format) {
-        case 'dd-mm-yyyy': {
-          if(input.length === 8) {
-            date = `${input.substr(4,4)}-${input.substr(2,2)}-${input.substr(0,2)}`;
-          } else {
-            date = input
-              .split('-')
-              .reverse()
-              .join('-');
-          }
-          break;
+      case 'dd-mm-yyyy': {
+        if(input.length === 8) {
+          date = `${input.substr(4,4)}-${input.substr(2,2)}-${input.substr(0,2)}`;
+        } else {
+          date = input
+            .split('-')
+            .reverse()
+            .join('-');
         }
-        case 'yyyy-mm-dd':
-        default: {
-          if(input.length === 8) {
-            date = `${input.substr(0,4)}-${input.substr(4,2)}-${input.substr(6,2)}`;
-          } else {
-            date = input;
-          }
+        break;
+      }
+      case 'yyyy-mm-dd':
+      default: {
+        if(input.length === 8) {
+          date = `${input.substr(0,4)}-${input.substr(4,2)}-${input.substr(6,2)}`;
+        } else {
+          date = input;
         }
+      }
       }
       return date;
     },
@@ -298,17 +309,17 @@ export default {
     toExternalFormat(date) {
       let input = '';
       switch (this.format) {
-        case 'dd-mm-yyyy': {
-          input = date
-            .split('-')
-            .reverse()
-            .join('-');
-          break;
-        }
-        case 'yyyy-mm-dd':
-        default: {
-          input = date;
-        }
+      case 'dd-mm-yyyy': {
+        input = date
+          .split('-')
+          .reverse()
+          .join('-');
+        break;
+      }
+      case 'yyyy-mm-dd':
+      default: {
+        input = date;
+      }
       }
       return input;
     },
@@ -323,7 +334,7 @@ export default {
      */
     validateFormat(date, format) {
       if (date.length !== 10 && date.length !== 8) {
-          return false;
+        return false;
       }
 
       let items = [];
@@ -343,18 +354,18 @@ export default {
 
       let year, month, day;
       switch (format) {
-        case 'dd-mm-yyyy': {
-          year = parseInt(items[2]);
-          month = parseInt(items[1]);
-          day = parseInt(items[0]);
-          break;
-        }
-        case 'yyyy-mm-dd':
-        default: {
-          year = parseInt(items[0]);
-          month = parseInt(items[1]);
-          day = parseInt(items[2]);
-        }
+      case 'dd-mm-yyyy': {
+        year = parseInt(items[2]);
+        month = parseInt(items[1]);
+        day = parseInt(items[0]);
+        break;
+      }
+      case 'yyyy-mm-dd':
+      default: {
+        year = parseInt(items[0]);
+        month = parseInt(items[1]);
+        day = parseInt(items[2]);
+      }
       }
       return (
         year > 1899 &&
@@ -380,7 +391,16 @@ export default {
      */
     validateDate(date) {
       let result = null;
-      let currTime = new Date(date).getTime();
+      const currDate = new Date(date);
+      if (
+        !(currDate instanceof Date)
+          || isNaN(currDate)
+          || date !== currDate.toISOString().split('T')[0]
+      ) {
+        result = false;
+        return result;
+      }
+      let currTime = currDate.getTime();
       if (this.minDate && this.maxDate) {
         if (this.minTime > this.maxTime) {
           result = null;
@@ -409,9 +429,8 @@ export default {
   mounted() {
     if (this.value) {
       if (!this.date) {
-        this.date = this.formatOutput
-          ? this.toInternalFormat(this.value)
-          : this.value;
+        this.date = this.getDefaultDate(this.value);
+        this.onDateUpdate(this.date);
       }
     }
   },

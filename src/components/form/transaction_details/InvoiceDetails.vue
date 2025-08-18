@@ -3,11 +3,14 @@
     v-if="config"
     class="mb-2 mb-md-0"
     :class="config.class"
-    border-variant="secondary"
     no-body
   >
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <div class="p-2 p-md-3">
       <div>
         <b v-translate>Invoice Details</b>
@@ -24,10 +27,13 @@
           <b-icon
             :icon="isCollapsed ? 'dash' : 'arrows-fullscreen'"
             class="float-right"
-          ></b-icon>
+          />
         </b-button>
       </div>
-      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
+      <div
+        class="mt-3"
+        :class="{'d-md-block': true, 'd-none': !isCollapsed}"
+      >
         <b-form-group
           v-if="config.no"
           label="Inv. #"
@@ -36,16 +42,22 @@
           label-cols-md="4"
           label-size="sm"
         >
-          <template #label> <translate> Inv. # </translate> </template>
+          <template #label>
+            <translate> Inv. # </translate>
+          </template>
           <b-form-input
             size="sm"
             id="ivd-input-10"
             v-model="form.no"
+            title="^([a-zA-Z1-9]{1}[a-zA-Z0-9\\/\\-]{0,15})$"
             trim
             required
+            :state="isValidReference"
+            :pattern="regexPattern"
+            @input="validateReference"
             :readonly="disabled.no"
             :tabindex="disabled.no ? -1 : 0"
-          ></b-form-input>
+          />
         </b-form-group>
         <b-form-group
           v-if="config.date"
@@ -55,7 +67,9 @@
           label-size="sm"
           id="ivd-input-group-1"
         >
-          <template #label> <translate> Date </translate> </template>
+          <template #label>
+            <translate> Date </translate>
+          </template>
           <gk-date
             id="ivd-date-1"
             :format="dateFormat"
@@ -65,8 +79,7 @@
             @validity="setDateValidity"
             :required="true"
             :readonly="disabled.date"
-          >
-          </gk-date>
+          />
         </b-form-group>
         <b-form-group
           v-if="!saleFlag && config.supInvNo"
@@ -76,14 +89,16 @@
           label-cols-md="4"
           label-size="sm"
         >
-          <template #label> <translate> Supplier Inv. # </translate> </template>
+          <template #label>
+            <translate> Supplier Inv. # </translate>
+          </template>
           <b-form-input
             size="sm"
             id="ivd-input-11"
             v-model="form.supno"
             trim
             :readonly="disabled.supNo"
-          ></b-form-input>
+          />
         </b-form-group>
         <b-form-group
           v-if="!saleFlag && config.supInvDate"
@@ -101,22 +116,24 @@
             :format="dateFormat"
             v-model="form.supdate"
             :readonly="disabled.supDate"
-          >
-          </gk-date>
+          />
         </b-form-group>
         <b-form-group
+          v-if="isIndia && isIndianParty"
           label="Place of Supply"
           label-for="ivd-input-11"
           label-cols="3"
           label-cols-md="4"
           label-size="sm"
-          :label-class="{ required: !disabled.supplySt }"
+          :label-class="{required: !disabled.supplySt && parentData.gstin}"
         >
-          <template #label> <translate> Place of Supply </translate> </template>
+          <template #label>
+            <translate> Place of Supply </translate>
+          </template>
           <b-form-select
             id="ivd-input-11"
             v-model="form.placeOfSupply"
-            :required="true"
+            :required="!!parentData.gstin"
             @input="onUpdateDetails"
             :disabled="disabled.supplySt"
           >
@@ -135,11 +152,17 @@
           label-size="sm"
           label-cols="3"
           label-cols-md="4"
-          :label-class="{ required: !disabled.godown }"
+          :label-class="{required: !disabled.godown}"
         >
           <template #label>
-            <span v-translate v-if="saleFlag"> From Godown </span>
-            <span v-translate v-else> To Godown </span>
+            <span
+              v-translate
+              v-if="saleFlag"
+            > From Godown </span>
+            <span
+              v-translate
+              v-else
+            > To Godown </span>
           </template>
           <b-form-select
             id="ivd-input-21"
@@ -149,7 +172,7 @@
             :required="true"
             :disabled="disabled.godown"
             :reduce="(godown) => godown.value"
-          ></b-form-select>
+          />
         </b-form-group>
         <b-form-group
           v-if="saleFlag && config.ebn"
@@ -159,16 +182,18 @@
           label-cols-md="4"
           label-size="sm"
         >
-          <template #label> <translate> Eway Bill # </translate> </template>
+          <template #label>
+            <translate> Eway Bill # </translate>
+          </template>
           <b-form-input
             size="sm"
             id="ivd-input-30"
             v-model="form.ebn"
             trim
-          ></b-form-input>
+          />
         </b-form-group>
         <b-form-group
-          v-if="config.gstin"
+          v-if="config.gstin && isGstEnabled"
           label="GSTIN"
           label-for="ivd-input-40"
           label-cols="3"
@@ -183,7 +208,7 @@
             required
             readonly
             tabindex="-1"
-          ></b-form-input>
+          />
         </b-form-group>
         <b-form-group
           v-if="saleFlag && config.addr"
@@ -193,7 +218,9 @@
           label-for="ivd-input-50"
           label-size="sm"
         >
-          <template #label> <translate> Address </translate> </template>
+          <template #label>
+            <translate> Address </translate>
+          </template>
           <b-form-textarea
             size="sm"
             id="ivd-input-50"
@@ -204,14 +231,18 @@
             required
             readonly
             tabindex="-1"
-          ></b-form-textarea>
+          />
         </b-form-group>
         <b-row>
-          <b-col class="pr-lg-2" cols="12" v-if="saleFlag && config.pin">
+          <b-col
+            class="pr-lg-2"
+            cols="12"
+            v-if="saleFlag && config.pin"
+          >
             <b-form-group
               label-cols-md="4"
               label-cols="3"
-              label="PIN"
+              label="Postal Code"
               label-for="ivd-input-60"
               label-size="sm"
             >
@@ -222,10 +253,10 @@
                 trim
                 readonly
                 tabindex="-1"
-              ></b-form-input>
+              />
             </b-form-group>
           </b-col>
-          <b-col v-if="config.state">
+          <b-col v-if="config.state && isIndia">
             <b-form-group
               label="State"
               label-for="ivd-input-70"
@@ -233,7 +264,9 @@
               label-cols-md="4"
               label-cols="3"
             >
-              <template #label> <translate> State </translate> </template>
+              <template #label>
+                <translate> State </translate>
+              </template>
               <b-form-select
                 id="ivd-input-70"
                 v-model="form.state"
@@ -261,7 +294,9 @@
               label-cols="3"
               label-size="sm"
             >
-              <template #label> <translate> Issuer </translate> </template>
+              <template #label>
+                <translate> Issuer </translate>
+              </template>
               <b-form-input
                 size="sm"
                 id="ivd-input-80"
@@ -270,10 +305,13 @@
                 required
                 readonly
                 tabindex="-1"
-              ></b-form-input>
+              />
             </b-form-group>
           </b-col>
-          <b-col v-if="config.role" cols="12">
+          <b-col
+            v-if="config.role"
+            cols="12"
+          >
             <b-form-group
               label="Role"
               label-for="ivd-input-90"
@@ -281,7 +319,9 @@
               label-cols="3"
               label-size="sm"
             >
-              <template #label> <translate> Role </translate> </template>
+              <template #label>
+                <translate> Role </translate>
+              </template>
               <b-form-input
                 size="sm"
                 id="ivd-input-90"
@@ -290,7 +330,7 @@
                 required
                 readonly
                 tabindex="-1"
-              ></b-form-input>
+              />
             </b-form-group>
           </b-col>
         </b-row>
@@ -298,9 +338,10 @@
     </div>
   </b-card>
 </template>
+
 <script>
 import axios from 'axios';
-// import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import GkDate from '../../GkDate.vue';
 import trnDetailsMixin from '@/mixins/transactionProfile.js';
 
@@ -309,10 +350,6 @@ export default {
   components: { GkDate },
   mixins: [trnDetailsMixin],
   props: {
-    // editFlag: {
-    //   type: Boolean,
-    //   required: true,
-    // },
     saleFlag: {
       type: Boolean,
       required: true,
@@ -325,6 +362,11 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+    partyCountry: {
+      type: String,
+      required: false,
+      default: '',
     },
     parentData: {
       type: Object,
@@ -346,6 +388,8 @@ export default {
         format: 'dd-mm-yyyy',
         valid: null,
       },
+      isValidReference: null,
+      regexPattern: '^([a-zA-Z1-9]{1}[a-zA-Z0-9\\/\\-]{0,15})$',
       form: {
         no: null,
         date: new Date().toISOString().slice(0, 10),
@@ -428,8 +472,13 @@ export default {
 
       return disabled;
     },
+    isIndianParty: (self) => !self.partyCountry || self.partyCountry === 'India',
+    ...mapGetters('global', ['isIndia', 'isGstEnabled']),
   },
   watch: {
+    'parentData.taxState': function(state) {
+      this.form.placeOfSupply = state;
+    },
     updateCounter() {
       const self = this;
       this.isPreloading = true;
@@ -449,10 +498,6 @@ export default {
 
           if (self.parentData.state.id) {
             self.form.state = self.parentData.state;
-          }
-
-          if (self.parentData.taxState.id) {
-            self.form.placeOfSupply = self.parentData.taxState;
           }
 
           if (self.parentData.godown) {
@@ -476,6 +521,10 @@ export default {
     },
   },
   methods: {
+    validateReference() {
+      const regex = new RegExp(this.regexPattern);
+      this.isValidReference = regex.test(this.form.no);
+    },
     setDateValidity(validity) {
       this.date.valid = validity;
       this.onUpdateDetails();
@@ -604,7 +653,6 @@ export default {
       }
       const self = this;
       return this.getLastDelNoteNo().then((no) => {
-        // debugger;
         let code = self.saleFlag ? codes.out : codes.in;
         this.form.dnNo =
           isNaN(no) || no === -1
@@ -627,12 +675,7 @@ export default {
           return -1;
         })
         .catch((error) => {
-          console.log(error);
-          // this.displayToast(
-          //   'Fetch Delivery Challan No. Failed!',
-          //   error.message,
-          //   'danger'
-          // );
+          console.error(error);
           return -1;
         });
     },
@@ -669,8 +712,8 @@ export default {
           let orgstate = (this.options.orgDetails.orgstate || '').toLowerCase();
           let state = orgstate
             ? this.options.states.find(
-                (state) => state.name.toLowerCase() === orgstate
-              )
+              (state) => state.name.toLowerCase() === orgstate
+            )
             : null;
           let stateCode = state ? state.id : '';
           if (stateCode && stateCode < 9) {
@@ -701,14 +744,6 @@ export default {
           );
           return error;
         }),
-        axios.get(`/organisation`).catch((error) => {
-          this.displayToast(
-            this.$gettext('Fetch Organisation Profile Data Failed!'),
-            error.message,
-            'danger'
-          );
-          return error;
-        }),
         axios.get(`/godown`).catch((error) => {
           this.displayToast(
             this.$gettext('Fetch Godowns Failed!'),
@@ -718,11 +753,10 @@ export default {
           return error;
         }),
         this.fetchUserData(),
-        // this.fetchDelNotes(),
       ];
       const self = this;
       return Promise.all(requests)
-        .then(([resp1, resp2, resp3]) => {
+        .then(([resp1, resp2]) => {
           this.isPreloading = false;
           if (resp1.data.gkstatus === 0) {
             self.options.states = resp1.data.gkresult.map((item) => {
@@ -732,13 +766,7 @@ export default {
               };
             });
             if (resp2.data.gkstatus === 0) {
-              self.options.orgDetails = resp2.data.gkdata;
-              setTimeout(() => {
-                self.setOrgDetails();
-              }, 1);
-            }
-            if (resp3.data.gkstatus === 0) {
-              self.options.godowns = resp3.data.gkresult.map((godown) => {
+              self.options.godowns = resp2.data.gkresult.map((godown) => {
                 return {
                   text: `${godown.goname} (${godown.goaddr})`,
                   value: godown.goid,
@@ -761,7 +789,9 @@ export default {
           name: '',
         };
       }
-      this.form.date = !this.disabled.date ? this.getNoteDate() : '';
+      this.form.date = !this.disabled.date ? (
+        this.form.date ?? this.getNoteDate()
+      ) : '';
       if (!this.disabled.no) {
         requests.push(this.setInvoiceNo(true));
       } else {
@@ -786,6 +816,7 @@ export default {
   },
   mounted() {
     const self = this;
+    this.options.orgDetails = this.$store.getters['global/getOrgDetails'];
     this.preloadData().then(() => {
       self.resetForm(true);
     });

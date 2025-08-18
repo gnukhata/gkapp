@@ -1,91 +1,59 @@
 <template>
-  <div class="m-2">
-    <b-card
-      class="gkcard mx-auto"
-      :header="this.$gettext('Import Company Data')"
-      header-bg-variant="dark"
-      header-text-variant="light"
-    >
+  <section class="container-fluid mt-2">
+    <b-card no-body>
+      <template #header>
+        <h5 class="my-2">
+          Import Data
+        </h5>
+      </template>
       <b-card-body>
+        <h4>
+          Supported Imports
+        </h4>
+        <ul>
+          <li>Tally (.xlsx)</li>
+          <li>GNUKhata Legacy (.xlsx)</li>
+          <li>GNUKhata New (.json)</li>
+        </ul>
+        <h4 class="mt-4">
+          Import Instructions
+        </h4>
+        <ul>
+          <li>
+            <router-link to="/data/import/help/tally">
+              Tally & GNUKhata
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/data/import/help/json">
+              JSON
+            </router-link>
+          </li>
+        </ul>
+        <hr class="mx-2 my-4">
         <b-form @submit.prevent="check">
-          <div v-translate>
-            This menu will help you to import your data into GNUKhata:
-
-            <h4 class="mt-4">Supported Imports</h4>
-            <ul>
-              <li>Tally (.xlsx)</li>
-              <li>GNUKhata Legacy (.xlsx)</li>
-              <li>GNUKhata New (.json)</li>
-            </ul>
-            <h4 class="mt-4">Import Instructions</h4>
-            <ul>
-              <li>
-                <router-link to="/data/import/help/tally">
-                  Tally & GNUKhata</router-link
-                >
-              </li>
-              <li>
-                <router-link to="/data/import/help/json"> JSON</router-link>
-              </li>
-            </ul>
-          </div>
-          <br />
-          <!-- Export buttons -->
           <b-form-file
             required
             v-model="file"
             accept=".json, .xlsx"
             size="sm"
-          ></b-form-file>
-          <div class="text-center">
+            class="col-5"
+          />
+          <div>
             <b-button
               type="submit"
-              variant="dark"
-              class="mt-3 text-center"
+              variant="success"
+              class="mt-2"
               size="sm"
-              ><b-icon icon="file"></b-icon>
-              <translate> Import Data</translate></b-button
             >
+              <b-icon icon="download" />&nbsp;
+              <translate>Import Data</translate>
+            </b-button>
           </div>
-          <!-- show duplicate entries -->
-          <b-modal
-            id="response-modal"
-            title="Import Stats"
-            hide-footer
-            scrollable
-            header-bg-variant="dark"
-            header-text-variant="light"
-            header-class="p-2"
-            size="md"
-          >
-            <div v-if="json_info != null">
-              <h5>
-                <translate>Imported Entries</translate>: {{ json_info.success }}
-              </h5>
-              <h5 v-translate class="text-primary">Duplicate Entries</h5>
-
-              <div
-                v-for="(section, index) in json_info.duplicate"
-                :key="section"
-              >
-                <h6 class="text-capitalize">
-                  {{ index }} ({{ section.length }})
-                </h6>
-                <ol>
-                  <li
-                    class="text-sm text-monospace text-muted"
-                    v-for="item in section"
-                    :key="item"
-                    v-text="item"
-                  ></li>
-                </ol>
-              </div>
-            </div>
-          </b-modal>
         </b-form>
       </b-card-body>
     </b-card>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -97,7 +65,6 @@ export default {
     return {
       file: [],
       file_str: null,
-      json_info: null,
     };
   },
   methods: {
@@ -113,56 +80,52 @@ export default {
       }
     },
 
-    upload(url) {
+    upload() {
       // create a form object as api demands it
       let fd = new FormData();
       fd.append('gkfile', this.file);
 
       axios
-        .post(`/import/${url}`, fd, { headers: { gktoken: this.authToken } })
+        .post(`/import/overwrite-organisation`, fd, { headers: { gktoken: this.authToken } })
         .then((r) => {
           switch (r.data.gkstatus) {
-            case 0:
-              this.$bvToast.toast(this.$gettext('Import Successful'), {
-                variant: 'success',
-                solid: true,
-              });
-              if (this.file.type == 'application/json') {
-                this.json_info = r.data.gkresult;
-                this.$bvModal.show('response-modal');
-              }
-              this.$emit('refresh');
-              break;
-            case 1:
-              this.$bvToast.toast('Duplicate Entry', {
-                variant: 'warning',
-                solid: true,
-              });
-              break;
-            case 2:
-              this.$bvToast.toast('Unauthorised Access', {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 3:
-              this.$bvToast.toast('Data error', {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 4:
-              this.$bvToast.toast('No Privilege', {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
-            case 5:
-              this.$bvToast.toast('Integrity error', {
-                variant: 'danger',
-                solid: true,
-              });
-              break;
+          case 0:
+            this.$bvToast.toast(this.$gettext('Import Successful'), {
+              variant: 'success',
+              solid: true,
+            });
+            this.logOut();
+            break;
+          case 1:
+            this.$bvToast.toast('Duplicate Entry, organisation with same name and financial year already exists.', {
+              variant: 'warning',
+              solid: true,
+            });
+            break;
+          case 2:
+            this.$bvToast.toast('Unauthorised Access', {
+              variant: 'danger',
+              solid: true,
+            });
+            break;
+          case 3:
+            this.$bvToast.toast('Data error', {
+              variant: 'danger',
+              solid: true,
+            });
+            break;
+          case 4:
+            this.$bvToast.toast('No Privilege', {
+              variant: 'danger',
+              solid: true,
+            });
+            break;
+          case 5:
+            this.$bvToast.toast('Integrity error', {
+              variant: 'danger',
+              solid: true,
+            });
+            break;
           }
         });
     },

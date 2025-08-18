@@ -3,11 +3,14 @@
     v-if="config"
     class="mb-2 mb-md-0"
     :class="config.class"
-    border-variant="secondary"
     no-body
   >
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <div class="p-2 p-md-3">
       <div>
         <b v-translate>Cash Memo Details</b>
@@ -24,10 +27,13 @@
           <b-icon
             :icon="isCollapsed ? 'dash' : 'arrows-fullscreen'"
             class="float-right"
-          ></b-icon>
+          />
         </b-button>
       </div>
-      <div class="mt-3" :class="{ 'd-md-block': true, 'd-none': !isCollapsed }">
+      <div
+        class="mt-3"
+        :class="{'d-md-block': true, 'd-none': !isCollapsed}"
+      >
         <b-form-group
           label="No."
           label-for="cmd-input-10"
@@ -35,14 +41,16 @@
           label-cols="3"
           label-size="sm"
         >
-          <template #label> <translate> No. </translate> </template>
+          <template #label>
+            <translate> No. </translate>
+          </template>
           <b-form-input
             size="sm"
             id="cmd-input-10"
             v-model="form.no"
             trim
             required
-          ></b-form-input>
+          />
         </b-form-group>
         <b-form-group
           label="Date"
@@ -51,7 +59,9 @@
           label-size="sm"
           id="cmd-input-group-1"
         >
-          <template #label> <translate> Date </translate> </template>
+          <template #label>
+            <translate> Date </translate>
+          </template>
           <gk-date
             id="cmd-date-1"
             :format="dateFormat"
@@ -60,28 +70,31 @@
             :max="maxDate"
             @validity="setDateValidity"
             :required="true"
-          >
-          </gk-date>
+          />
         </b-form-group>
         <b-form-group
+          v-if="isIndia"
           label="State"
           label-for="cmd-input-20"
           label-size="sm"
           label-cols-md="4"
           label-cols="3"
         >
-          <template #label> <translate> State </translate> </template>
+          <template #label>
+            <translate> State </translate>
+          </template>
           <v-select
             size="sm"
             id="cmd-input-20"
             v-model="form.state"
             :options="options.states"
             label="name"
-            @input="onSelectState(form.state)"
+            @input="onSelectState"
             required
-          ></v-select>
+          />
         </b-form-group>
         <b-form-group
+          v-if="isGstEnabled"
           label="GSTIN"
           label-for="cmd-input-30"
           label-cols-md="4"
@@ -94,7 +107,7 @@
             v-model="form.gstin"
             trim
             readonly
-          ></b-form-input>
+          />
         </b-form-group>
         <b-form-group
           :label="saleFlag ? 'From Godown' : 'To Godown'"
@@ -105,16 +118,24 @@
           label-class="required"
         >
           <template #label>
-            <span v-translate v-if="saleFlag"> From Godown </span>
-            <span v-translate v-else> To Godown </span>
+            <span
+              v-translate
+              v-if="saleFlag"
+            > From Godown </span>
+            <span
+              v-translate
+              v-else
+            > To Godown </span>
           </template>
-          <v-select id="ivd-input-21"
+          <v-select
+            id="ivd-input-21"
             v-model="form.godown"
             :options="options.godowns"
             @input="onUpdateDetails"
             label="text"
             :reduce="(gdata) => gdata.value"
-            :required="true"></v-select>
+            :required="true"
+          />
         </b-form-group>
       </div>
     </div>
@@ -123,7 +144,7 @@
 
 <script>
 import axios from 'axios';
-// import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import GkDate from '../../GkDate.vue';
 
@@ -186,7 +207,9 @@ export default {
       },
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled']),
+  },
   watch: {
     saleFlag() {
       this.setNoteNo();
@@ -256,11 +279,7 @@ export default {
         })
       );
     },
-    onSelectState(state) {
-      // set DelNote Gstin based on state
-      if (state) {
-        this.form.gstin = this.form.options.gstin[state.id];
-      }
+    onSelectState() {
       this.onUpdateDetails();
     },
     setOrgDetails() {
@@ -269,9 +288,13 @@ export default {
           let orgstate = (this.options.orgDetails.orgstate || '').toLowerCase();
           let state = orgstate
             ? this.options.states.find(
-                (state) => state.name.toLowerCase() === orgstate
-              )
+              (state) => state.name.toLowerCase() === orgstate
+            )
             : null;
+          let stateCode = state ? state.id : '';
+          if (stateCode && stateCode < 9) {
+            stateCode = `0${stateCode}`;
+          }
           let gstin = this.options.orgDetails.gstin;
           Object.assign(this.form, {
             state: state || {name: ''},
@@ -279,7 +302,7 @@ export default {
             options: {
               gstin: gstin || {},
             },
-            gstin: gstin && state ? gstin[state.id] : '',
+            gstin: gstin && state ? gstin[stateCode] : '',
           });
         }
       }
@@ -361,7 +384,6 @@ export default {
 
       const self = this;
       return this.fetchDelNoteCounter().then((no) => {
-        // debugger;
         let code = self.saleFlag ? codes.out : codes.in;
         let dnNo =
           isNaN(no) || no === -1
@@ -383,7 +405,6 @@ export default {
           return -1;
         })
         .catch(() => {
-          // console.log(error);
           return -1;
         });
     },

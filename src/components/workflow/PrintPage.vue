@@ -10,35 +10,21 @@
     hide-header
   >
     <div id="transaction-print-page">
-      <b-container fluid>
-        <h3 class="text-center">{{ title || name }}</h3>
-        <br />
-        <div class="text-md-right">
-          <img
-            v-if="orgDetails.logo"
-            :src="orgDetails.logo"
-            width="30"
-            height="30"
-            class="rounded d-inline-block align-top"
-            alt="Logo"
-          />
-          <h5 class="d-inline-block ml-2">{{ orgDetails.name }}</h5>
-          <br />
-          <p class="ml-3">
-            <small>{{ orgDetails.addr1 }}</small> <br />
-            <small>{{ orgDetails.addr2 }}</small> <br />
-            <small>Contact No: {{ orgDetails.phone }}</small> <br />
-            <small>GSTIN: {{ orgDetails.gstin }}</small>
-          </p>
-        </div>
-      </b-container>
-      <br />
+      <report-header
+        class="mb-4"
+        :org-data="orgAddress"
+        :show="true"
+      />
+      <br>
       <transaction-profile
         :name="name"
         :id="id"
         :pdata="pdata"
-      ></transaction-profile>
-      <div id="button-wrapper" class="d-print-none">
+      />
+      <div
+        id="button-wrapper"
+        class="d-print-none"
+      >
         <b-button
           @click.prevent="closeModal"
           class="m-1 float-right"
@@ -49,10 +35,10 @@
             aria-hidden="true"
             class="align-middle"
             icon="x-circle"
-          ></b-icon>
+          />
         </b-button>
-        <br />
-        <div class="clearfix"></div>
+        <br>
+        <div class="clearfix" />
         <div v-if="useTriplicate">
           <b-button
             class="m-1 float-right"
@@ -64,10 +50,10 @@
               aria-hidden="true"
               class="align-middle"
               icon="printer"
-            ></b-icon>
+            />
             <span class="sr-only">Print</span>
           </b-button>
-          <div class="clearfix"></div>
+          <div class="clearfix" />
           <b-collapse
             id="triplicate-wrapper"
             class="shadow-sm"
@@ -75,45 +61,45 @@
           >
             <print-helper
               class="d-block"
-              contentId="transaction-print-page"
+              content-id="transaction-print-page"
               variant="link"
-              textMode="Original"
-              :pageTitle="triplicateTitle[0].page"
-              :printStyles="printStyles"
-              :fileName="triplicateTitle[0].file"
-              :messageFromParent="printMessage"
-            ></print-helper>
+              text-mode="Original"
+              :page-title="triplicateTitle[0].page"
+              :print-styles="printStyles"
+              :file-name="triplicateTitle[0].file"
+              :message-from-parent="printMessage"
+            />
             <print-helper
               class="d-block"
-              contentId="transaction-print-page"
+              content-id="transaction-print-page"
               variant="link"
-              textMode="Duplicate"
-              :pageTitle="triplicateTitle[1].page"
-              :printStyles="printStyles"
-              :fileName="triplicateTitle[1].file"
-              :messageFromParent="printMessage"
-            ></print-helper>
+              text-mode="Duplicate"
+              :page-title="triplicateTitle[1].page"
+              :print-styles="printStyles"
+              :file-name="triplicateTitle[1].file"
+              :message-from-parent="printMessage"
+            />
             <print-helper
               class="d-block"
-              contentId="transaction-print-page"
+              content-id="transaction-print-page"
               variant="link"
-              textMode="Triplicate"
-              :pageTitle="triplicateTitle[2].page"
-              :printStyles="printStyles"
-              :fileName="triplicateTitle[2].file"
-              :messageFromParent="printMessage"
-            ></print-helper>
+              text-mode="Triplicate"
+              :page-title="triplicateTitle[2].page"
+              :print-styles="printStyles"
+              :file-name="triplicateTitle[2].file"
+              :message-from-parent="printMessage"
+            />
           </b-collapse>
         </div>
         <print-helper
           v-else
           class="btn-primary m-1 float-right"
-          contentId="transaction-print-page"
-          :pageTitle="printPageTitle"
-          :printStyles="printStyles"
-          :fileName="printFileTitle"
-          :messageFromParent="printMessage"
-        ></print-helper>
+          content-id="transaction-print-page"
+          :page-title="printPageTitle"
+          :print-styles="printStyles"
+          :file-name="printFileTitle"
+          :message-from-parent="printMessage"
+        />
       </div>
     </div>
   </b-modal>
@@ -121,12 +107,15 @@
 
 <script>
 import axios from 'axios';
+import { mapGetters, mapState } from 'vuex';
 import TransactionProfile from '../workflow/profile/Transaction.vue';
 import PrintHelper from '../PrintHelper.vue';
+import ReportHeader from '@/components/ReportHeader.vue';
 export default {
   name: 'PrintPage',
   components: {
     TransactionProfile,
+    ReportHeader,
     PrintHelper,
   },
   props: {
@@ -150,7 +139,6 @@ export default {
             'CashMemo',
             'DeliveryNote',
             'PurchaseSalesOrder',
-            'RejectionNote',
             'TransferNote',
           ].indexOf(value) !== -1
         );
@@ -189,7 +177,10 @@ export default {
         name: '',
         addr1: '',
         addr2: '',
+        country: '',
         phone: '',
+        email: '',
+        site: '',
         gstin: '',
         logo: 'img/gk.png',
       },
@@ -227,6 +218,8 @@ export default {
         },
       ];
     },
+    ...mapGetters('global', ['isGstEnabled']),
+    ...mapState(['orgAddress']),
   },
   watch: {
     show() {
@@ -267,7 +260,10 @@ export default {
             name: details.orgname,
             addr1: `${details.orgaddr},`,
             addr2: `${details.orgcity} - ${details.orgpincode}. ${details.orgstate}.`,
+            country: details.country,
             phone: details.orgtelno,
+            email: details.orgemail,
+            site: details.orgwebsite,
             gstin: details.gstin && stateCode ? details.gstin[stateCode] : '',
           };
         }

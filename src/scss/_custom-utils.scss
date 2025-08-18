@@ -1,10 +1,19 @@
+@use "variables";
+
 /* Sticky footer styles Start */
 html {
   position: relative;
   min-height: 100%;
 }
-body {
-  margin-bottom: $footer-height; /* Margin bottom by footer height */
+
+main {
+  min-height: 82vh;
+}
+
+@media only screen and (max-width: 991px) {
+  main {
+    margin-bottom: 150px;
+  }
 }
 
 /* Sticky footer styles End */
@@ -30,8 +39,8 @@ body {
 
 .card-body {
   hr {
-    margin-left: $card-spacer-x;
-    margin-right: $card-spacer-x;
+    margin-left: variables.$card-spacer-x;
+    margin-right: variables.$card-spacer-x;
   }
 }
 

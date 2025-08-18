@@ -1,359 +1,400 @@
 <template>
-  <div class="card mx-0">
-    <div
-      v-if="showHeader"
-      class="card-header text-left py-2 bg-dark text-light"
-    >
-      <b v-translate>Contact Person Details</b>
-      <slot name="close-button"> </slot>
-    </div>
-    <div class="card-body pb-2">
-      <b-form class="text-left" @submit.prevent="confirmOnSubmit">
-        <b-row>
-          <b-col cols="12">
-            <b-form-group label-size="sm" label-cols="3" label="Type">
-              <template #label> <translate> Type </translate> </template>
-              <b-form-radio-group
-                button-variant="outline-primary"
-                v-model="contactType"
-                buttons
-                size="sm"
-              >
-                <b-form-radio value="customer">
-                  <translate> Customer </translate>
-                </b-form-radio>
-                <b-form-radio value="supplier">
-                  <translate> Supplier </translate>
-                </b-form-radio>
-              </b-form-radio-group>
-            </b-form-group>
-            <b-form-group label-size="sm" label="GSTIN" label-cols="3" inline>
-              <gk-gstin
-                @validity="onGstinUpdate"
-                @gstin_data="onGstinDataFetched"
-                @verified="onGstinVerified"
-                v-model="form.gstin.gstin"
-                :showValidation="2"
-                valButtonText="Validate & Autofill"
-              ></gk-gstin>
-            </b-form-group>
-            <div class="text-center text-small text-secondary mb-2">
-              (or)
-            </div>
-            <b-form-group
-              label-size="sm"
-              label="Name"
-              label-for="ci-input-10"
-              label-cols="3"
-              label-class="required"
-            >
-              <template #label> <translate> Name </translate> </template>
-              <b-form-input
-                size="sm"
-                id="ci-input-10"
-                :placeholder="formType + ' Name'"
-                v-model="form.name"
-                trim
-                required
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="Address"
-              label-for="ci-input-40"
-              label-cols="3"
-            >
-              <template #label> <translate> Address </translate> </template>
-              <b-form-textarea
-                id="ci-input-40"
-                v-model="form.address"
-                size="sm"
-                rows="2"
-                max-rows="3"
-              >
-              </b-form-textarea>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="State"
-              label-for="ci-input-20"
-              label-cols="3"
-              label-class="required"
-            >
-              <template #label> <translate> State </translate> </template>
-              <v-select
-                id="ci-input-20"
-                :options="options.states"
-                v-model="state"
-                label="name"
-                placeholder="Select a State"
-                :required="true"
-              ></v-select>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              invalid-feedback="Pincode must be 6 digits long"
-              label="Pin Code"
-              label-for="ci-input-30"
-              label-cols="3"
-            >
-              <template #label> <translate> Pin Code </translate> </template>
-              <b-form-input
-                size="sm"
-                id="ci-input-30"
-                v-model="form.pin"
-                type="number"
-                no-wheel
-                :state="validatePin"
-                debounce="500"
-              >
-              </b-form-input>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="PAN"
-              label-for="ci-input-80"
-              :state="validatePan"
-              invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
-              label-cols="3"
-            >
-              <b-form-input
-                size="sm"
-                id="ci-input-80"
-                :state="validatePan"
-                v-model="form.pan"
-                trim
-                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                title="Format: A B C D E 1 2 3 4 A"
-                debounce="500"
-              >
-              </b-form-input>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="GST Registration Type"
-              label-for="ci-input-11"
-              :state="validatePan"
-              label-cols="3"
-            >
-              <template #label>
-                <translate> GST Registration Type </translate>
-              </template>
-              <b-form-select
-                label-cols="3"
-                id="ci-input-11"
-                size="sm"
-                v-model="form.gstin.regType"
-                :options="options.regTypes"
-                :disabled="!isGstValid"
-              >
-              </b-form-select>
-            </b-form-group>
-            <b-form-group
-              label-size="sm"
-              label="GST Party Type"
-              label-for="ci-input-12"
-              :state="validatePan"
-              label-cols="3"
-              v-if="isGstReg"
-            >
-              <template #label>
-                <translate> GST Party Type </translate>
-              </template>
-              <b-form-select
-                label-cols="3"
-                id="ci-input-12"
-                size="sm"
-                v-model="form.gstin.partyType"
-                :options="options.partyTypes"
-              >
-              </b-form-select>
-            </b-form-group>
-          </b-col>
-          <b-col cols="12">
-            <b-form-checkbox
-              size="sm"
-              v-model="showOptional"
-              class="mb-3"
-              switch
-            >
-              <translate> Contact Details </translate>
-            </b-form-checkbox>
-            <b-collapse v-model="showOptional">
-              <b-form-group
-                label-size="sm"
-                label="Email"
-                label-for="ci-input-50"
-                label-cols="3"
-              >
-                <template #label> <translate> Email </translate> </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-50"
-                  v-model="form.email"
-                  type="email"
-                  trim
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label-size="sm"
-                label="Phone"
-                label-for="ci-input-60"
-                label-cols="3"
-              >
-                <template #label> <translate> Phone </translate> </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-60"
-                  type="number"
-                  no-wheel
-                  v-model="form.contact"
-                  trim
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label-size="sm"
-                label="Fax"
-                label-for="ci-input-70"
-                label-cols="3"
-              >
-                <template #label> <translate> Fax </translate> </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-70"
-                  v-model="form.fax"
-                  trim
-                ></b-form-input>
-              </b-form-group>
-            </b-collapse>
-          </b-col>
-          <!-- Bank details -->
-          <b-col>
-            <b-form-checkbox
-              size="sm"
-              v-model="showBankDetails"
-              class="mb-3"
-              switch
-            >
-              <translate> Bank Details </translate>
-            </b-form-checkbox>
-            <b-collapse v-model="showBankDetails">
-              <!-- IFSC -->
-              <b-form-group
-                label-size="sm"
-                label="IFSC"
-                label-for="ci-input-150"
-                label-cols="3"
-              >
-                <gk-ifsc
-                  :required="showBankDetails"
-                  size="sm"
-                  v-model="form.bank.ifsc"
-                  @fill="ifscFill"
-                ></gk-ifsc>
-              </b-form-group>
-              <!-- bank name -->
-              <b-form-group
-                label-size="sm"
-                label="Name"
-                label-for="ci-input-120"
-                label-cols="3"
-              >
-                <template #label> <translate> Name </translate> </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-120"
-                  placeholder="Bank Name"
-                  v-model="form.bank.name"
-                  trim
-                  :required="showBankDetails"
-                ></b-form-input>
-              </b-form-group>
-              <!-- branch -->
-              <b-form-group
-                label-size="sm"
-                label="Branch"
-                label-for="ci-input-130"
-                label-cols="3"
-              >
-                <template #label> <translate> Branch </translate> </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-130"
-                  v-model="form.bank.branch"
-                  trim
-                  :required="showBankDetails"
-                ></b-form-input>
-              </b-form-group>
-              <!-- account name -->
-              <b-form-group
-                label-size="sm"
-                label="Acc. No."
-                label-for="ci-input-140"
-                label-cols="3"
-              >
-                <template #label> <translate> Acc. No. </translate> </template>
-                <b-form-input
-                  size="sm"
-                  id="ci-input-140"
-                  v-model="form.bank.accNo"
-                  trim
-                  :required="showBankDetails"
-                ></b-form-input>
-              </b-form-group>
-            </b-collapse>
-          </b-col>
-        </b-row>
-        <hr class="my-2" />
-        <div class="float-right">
-          <b-button
-            v-if="!hideBackButton"
+  <section class="container-fluid mt-2">
+    <b-form @submit.prevent="confirmOnSubmit">
+      <b-form-group
+        label-size="sm"
+        label-cols="3"
+        label="Type"
+      >
+        <template #label>
+          <translate> Type </translate>
+        </template>
+        <b-form-radio-group
+          button-variant="outline-secondary"
+          v-model="contactType"
+          buttons
+          size="sm"
+        >
+          <b-form-radio value="customer">
+            <translate> Customer </translate>
+          </b-form-radio>
+          <b-form-radio value="supplier">
+            <translate> Supplier </translate>
+          </b-form-radio>
+        </b-form-radio-group>
+      </b-form-group>
+      <b-form-group
+        label-size="sm"
+        label="Country"
+        label-for="ci-input-20"
+        label-cols="3"
+      >
+        <template #label>
+          <translate>Country</translate>
+        </template>
+        <v-select
+          id="ci-input-20"
+          :options="options.countries"
+          v-model="contactCountry"
+          label="name"
+          placeholder="Select a Country"
+        />
+      </b-form-group>
+      <template v-if="isIndianContact && isGstEnabled">
+        <b-form-group
+          label-size="sm"
+          label="GSTIN"
+          label-cols="3"
+          inline
+        >
+          <gk-gstin
+            @validity="onGstinUpdate"
+            @gstin_data="onGstinDataFetched"
+            @verified="onGstinVerified"
+            v-model="form.gstin.gstin"
+            :show-validation="2"
+            val-button-text="Validate & Autofill"
+          />
+        </b-form-group>
+        <b-form-group
+          v-if="isGstValid"
+          label-size="sm"
+          label="GST Registration Type"
+          label-for="ci-input-11"
+          :state="validatePan"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> GST Registration Type </translate>
+          </template>
+          <b-form-select
+            label-cols="3"
+            id="ci-input-11"
             size="sm"
-            class="m-1"
-            variant="danger"
-            @click.prevent="$router.go(-1)"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="arrow-left"
-            ></b-icon>
-            <span class="align-middle" v-translate>Back</span>
-          </b-button>
-          <b-button
+            v-model="form.gstin.regType"
+            :options="options.regTypes"
+            :disabled="!isGstValid"
+          />
+        </b-form-group>
+        <b-form-group
+          v-if="isGstValid && isGstReg"
+          label-size="sm"
+          label="GST Party Type"
+          label-for="ci-input-12"
+          :state="validatePan"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> GST Party Type </translate>
+          </template>
+          <b-form-select
+            label-cols="3"
+            id="ci-input-12"
             size="sm"
-            class="m-1"
-            variant="warning"
-            @click.prevent="resetForm"
-          >
-            <b-icon
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="arrow-repeat"
-            ></b-icon>
-            <span class="align-middle" v-translate>Reset</span>
-          </b-button>
-          <b-button type="submit" size="sm" class="m-1" variant="success">
-            <b-spinner v-if="isLoading" small></b-spinner>
-            <b-icon
-              v-else
-              aria-hidden="true"
-              class="align-middle mr-1"
-              icon="plus-square"
-            ></b-icon>
-            <span class="align-middle" v-translate>Save</span>
-          </b-button>
+            v-model="form.gstin.partyType"
+            :options="options.partyTypes"
+          />
+        </b-form-group>
+        <div class="text-center text-small text-secondary mb-2">
+          (or)
         </div>
-      </b-form>
-    </div>
-  </div>
+      </template>
+      <b-form-group
+        label-size="sm"
+        label="Name"
+        label-for="ci-input-10"
+        label-cols="3"
+        label-class="required"
+      >
+        <template #label>
+          <translate> Name </translate>
+        </template>
+        <b-form-input
+          size="sm"
+          id="ci-input-10"
+          :placeholder="formType + ' Name'"
+          v-model="form.name"
+          trim
+          required
+        />
+      </b-form-group>
+      <b-form-group
+        label-size="sm"
+        label="Address"
+        label-for="ci-input-40"
+        label-cols="3"
+      >
+        <template #label>
+          <translate> Address </translate>
+        </template>
+        <b-form-textarea
+          id="ci-input-40"
+          v-model="form.address"
+          size="sm"
+          rows="2"
+          max-rows="3"
+        />
+      </b-form-group>
+      <b-form-group
+        v-if="isIndianContact"
+        label-size="sm"
+        label="State"
+        label-for="ci-input-20"
+        label-cols="3"
+      >
+        <template #label>
+          <translate> State </translate>
+        </template>
+        <v-select
+          id="ci-input-20"
+          :options="options.states"
+          v-model="state"
+          label="name"
+          placeholder="Select a State"
+        />
+      </b-form-group>
+      <b-form-group
+        label-size="sm"
+        label="Postal Code"
+        label-for="ci-input-30"
+        label-cols="3"
+      >
+        <template #label>
+          <translate> Postal Code </translate>
+        </template>
+        <b-form-input
+          size="sm"
+          id="ci-input-30"
+          v-model="form.pin"
+          no-wheel
+          debounce="500"
+        />
+      </b-form-group>
+      <b-form-group
+        v-if="isIndianContact"
+        label-size="sm"
+        label="PAN"
+        label-for="ci-input-80"
+        :state="validatePan"
+        invalid-feedback="Format: 5 capital alphabets 4 numbers 1 capital alphabet"
+        label-cols="3"
+      >
+        <b-form-input
+          size="sm"
+          id="ci-input-80"
+          :state="validatePan"
+          v-model="form.pan"
+          trim
+          pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+          title="Format: A B C D E 1 2 3 4 A"
+          debounce="500"
+        />
+      </b-form-group>
+      <b-form-group
+        v-if="isIndianContact && isVatEnabled"
+        label-size="sm"
+        label="TIN"
+        label-for="ci-input-13"
+        label-cols="3"
+      >
+        <template #label>
+          <translate>TIN</translate>
+        </template>
+        <b-form-input
+          size="sm"
+          id="ci-input-13"
+          v-model="form.tin"
+          trim
+          pattern="[A-Z0-9]+"
+          minlength="11"
+          maxlength="11"
+        />
+      </b-form-group>
+      <b-form-checkbox
+        size="sm"
+        v-model="showOptional"
+        class="mb-3"
+        switch
+      >
+        <translate> Contact Details </translate>
+      </b-form-checkbox>
+      <b-collapse v-model="showOptional">
+        <b-form-group
+          label-size="sm"
+          label="Email"
+          label-for="ci-input-50"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Email </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-50"
+            v-model="form.email"
+            type="email"
+            trim
+          />
+        </b-form-group>
+        <b-form-group
+          label-size="sm"
+          label="Phone"
+          label-for="ci-input-60"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Phone </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-60"
+            type="tel"
+            pattern="^\+?\d{0,13}"
+            no-wheel
+            v-model="form.contact"
+            trim
+          />
+        </b-form-group>
+        <b-form-group
+          label-size="sm"
+          label="Fax"
+          label-for="ci-input-70"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Fax </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-70"
+            v-model="form.fax"
+            trim
+          />
+        </b-form-group>
+      </b-collapse>
+      <!-- Bank details -->
+      <b-form-checkbox
+        size="sm"
+        v-model="showBankDetails"
+        class="mb-3"
+        switch
+      >
+        <translate> Bank Details </translate>
+      </b-form-checkbox>
+      <b-collapse v-model="showBankDetails">
+        <!-- IFSC -->
+        <b-form-group
+          v-if="isIndianContact"
+          label-size="sm"
+          label="IFSC"
+          label-for="ci-input-150"
+          label-cols="3"
+        >
+          <gk-ifsc
+            :required="showBankDetails"
+            size="sm"
+            v-model="form.bank.ifsc"
+            @fill="ifscFill"
+          />
+        </b-form-group>
+        <!-- bank name -->
+        <b-form-group
+          label-size="sm"
+          label="Name"
+          label-for="ci-input-120"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Bank Name </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-120"
+            v-model="form.bank.name"
+            trim
+            :required="showBankDetails"
+          />
+        </b-form-group>
+        <!-- branch -->
+        <b-form-group
+          label-size="sm"
+          label="Branch"
+          label-for="ci-input-130"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Branch </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-130"
+            v-model="form.bank.branch"
+            trim
+            :required="showBankDetails"
+          />
+        </b-form-group>
+        <!-- account name -->
+        <b-form-group
+          label-size="sm"
+          label="Account Number"
+          label-for="ci-input-140"
+          label-cols="3"
+        >
+          <template #label>
+            <translate> Account Number </translate>
+          </template>
+          <b-form-input
+            size="sm"
+            id="ci-input-140"
+            v-model="form.bank.accNo"
+            trim
+            :required="showBankDetails"
+            pattern="[A-Z0-9]+"
+          />
+        </b-form-group>
+      </b-collapse>
+      <hr class="my-2">
+      <div>
+        <b-button
+          type="submit"
+          size="sm"
+          class="m-1"
+          variant="success"
+        >
+          <b-spinner
+            v-if="isLoading"
+            small
+          />
+          Save
+        </b-button>
+        <b-button
+          size="sm"
+          class="m-1"
+          variant="dark"
+          @click.prevent="resetForm"
+        >
+          Reset
+        </b-button>
+        <b-button
+          v-if="!hideBackButton"
+          size="sm"
+          class="m-1"
+          variant="dark"
+          @click.prevent="$router.go(-1)"
+        >
+          Back
+        </b-button>
+      </div>
+    </b-form>
+  </section>
 </template>
 
 <script>
 import axios from 'axios';
-import { mapState } from 'vuex';
-import GkGstin from '../GkGstin';
+import { mapGetters, mapState } from 'vuex';
+import GkGstin from '../GkGstin.vue';
 import GkIfsc from '../GkIfsc.vue';
+import countries from '@/js/countries';
 import { GST_REG_TYPE, GST_PARTY_TYPE } from '../../js/enum.js';
 export default {
   name: 'ContactItem',
@@ -402,7 +443,12 @@ export default {
       showOptional: false,
       showBankDetails: false,
       options: {
+        orgDetails: {
+          country: '',
+          gstin: '',
+        },
         states: [],
+        countries,
         regTypes: [
           {
             text: this.$gettext('Registered Regular'),
@@ -468,9 +514,21 @@ export default {
         },
       },
       state: null,
+      contactCountry: null,
     };
   },
   computed: {
+    isIndianContact: (self) => self.contactCountry === 'India',
+    defaultState: (self) => {
+      const { country, state, gstin } = self.options.orgDetails;
+      const orgCountry = country.trim().toLowerCase();
+      // Use organisation state as default state if organisation country is
+      // India and has a valid GSTIN. If organisation has no country set, it is
+      // assumed as India by default.
+      if ((!orgCountry || orgCountry === 'india') && gstin) {
+        return state;
+      }
+    },
     isGstValid: (self) => self.form.gstin.valid,
     isGstReg: (self) =>
       self.form.gstin.regType === GST_REG_TYPE['regular'] ||
@@ -482,11 +540,10 @@ export default {
     formType: (self) =>
       self.contactType === 'customer' ? 'Customer' : 'Supplier',
     formMode: (self) => (self.mode === 'create' ? 'Create' : 'Edit'),
-    validatePin: (self) =>
-      self.form.pin ? self.form.pin > 100000 && self.form.pin < 999999 : null,
     validatePan: (self) =>
       self.form.pan ? self.regex.pan.test(self.form.pan) : null,
     ...mapState(['gkCoreUrl', 'gkCoreTestUrl', 'authToken']),
+    ...mapGetters('global', ['isGstEnabled', 'isVatEnabled']),
   },
   watch: {
     type(type) {
@@ -499,6 +556,9 @@ export default {
         this.form.state = newValue.name;
         this.form.gstin.stateCode = newValue.code;
       }
+    },
+    defaultState(state) {
+      this.state = state;
     },
   },
   methods: {
@@ -531,7 +591,6 @@ export default {
           }
         }
       } else {
-        // debugger;
         if (!this.form.gstin.gstin) {
           this.form.state = '';
           this.form.pan = null;
@@ -554,10 +613,6 @@ export default {
         : GST_REG_TYPE['unregistered'];
     },
     confirmOnSubmit() {
-      if (this.state == null) {
-        this.gk_toast('State Not Set', 'Please select a State');
-        return;
-      }
       const self = this;
       let party = this.isSupplier ? 'Supplier' : 'Customer';
       let text = `Create ${party} <b>${this.form.name}</b>?`;
@@ -573,7 +628,6 @@ export default {
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',
           footerClass: 'border-top-0', // p-1
-          // bodyClass: 'p-2',
           centered: true,
         })
         .then((val) => {
@@ -583,89 +637,81 @@ export default {
         });
     },
     onSubmit() {
-      // console.log('in submit')
       this.isLoading = true;
+      if (this.contactCountry !== 'India') {
+        this.state = '';
+        this.form.pan = null;
+        this.form.bank.ifsc = null;
+      }
       const payload = this.initPayload();
       axios
         .post('/customer', payload)
         .then((response) => {
-          // console.log(response)
           this.isLoading = false;
 
           switch (response.data.gkstatus) {
-            case 0:
-              {
-                this.$bvToast.toast(
-                  this.$gettextInterpolate(
-                    this.$gettext(`%{formType} created successfully`),
-                    {
-                      formType: this.formType,
-                    }
-                  ),
-                  {
-                    title: this.$gettext('Create Customer Success!'),
-                    autoHideDelay: 3000,
-                    variant: 'success',
-                    appendToast: true,
-                    solid: true,
-                  }
-                );
-
-                // === Server Log ===
-                let logdata = { activity: '' };
-                if (payload.csflag === 3) {
-                  logdata.activity = payload.custname + ' customer created';
-                } else {
-                  logdata.activity = payload.custname + ' supplier created';
-                }
-                axios.post('/log', logdata);
-
-                // only reset form on success, otherwise leave it as is so that user may edit their input and try again
-                this.resetForm();
-              }
-              break;
-            case 1:
+          case 7:
+            response.data?.error.forEach((field_err) => {
+              let location = field_err.loc.join(" at ");
+              let message = (location ? location+": " : "") + field_err.msg;
+              this.displayToast("Validation Error", message, "warning");
+            });
+            break;
+          case 0:
+            this.$emit('childValueUpdate');
+            {
               this.$bvToast.toast(
                 this.$gettextInterpolate(
-                  this.$gettext(
-                    `%{formType} entry already exists! (Please check Name, FAX or PAN)`
-                  ),
+                  this.$gettext(`%{formType} created successfully`),
                   {
                     formType: this.formType,
                   }
                 ),
                 {
-                  title: this.$gettext('Create Customer Error!'),
+                  title: this.$gettext('Create Customer Success!'),
                   autoHideDelay: 3000,
-                  variant: 'warning',
+                  variant: 'success',
                   appendToast: true,
                   solid: true,
                 }
               );
-              break;
-            case 2:
-              this.$bvToast.toast(
-                this.$gettext(`Unauthorized access, Please contact admin`),
-                {
-                  title: this.$gettext('Create Customer Error!'),
-                  autoHideDelay: 3000,
-                  variant: 'warning',
-                  appendToast: true,
-                  solid: true,
-                }
-              );
-              break;
-            default:
-              this.$bvToast.toast(
-                `Unable to create ${this.formType}, Please try again`,
-                {
-                  title: this.$gettext('Create Customer Error!'),
-                  autoHideDelay: 3000,
-                  variant: 'warning',
-                  appendToast: true,
-                  solid: true,
-                }
-              );
+
+              // === Server Log ===
+              let logdata = { activity: '' };
+              if (payload.csflag === 3) {
+                logdata.activity = payload.custname + ' customer created';
+              } else {
+                logdata.activity = payload.custname + ' supplier created';
+              }
+              axios.post('/log', logdata);
+
+              // only reset form on success, otherwise leave it as is so that user may edit their input and try again
+              this.resetForm();
+            }
+            break;
+          case 2:
+            this.$bvToast.toast(
+              this.$gettext(`Unauthorized access, Please contact admin`),
+              {
+                title: this.$gettext('Create Customer Error!'),
+                autoHideDelay: 3000,
+                variant: 'warning',
+                appendToast: true,
+                solid: true,
+              }
+            );
+            break;
+          default:
+            this.$bvToast.toast(
+              `Unable to create ${this.formType}, Please try again`,
+              {
+                title: this.$gettext('Create Customer Error!'),
+                autoHideDelay: 3000,
+                variant: 'warning',
+                appendToast: true,
+                solid: true,
+              }
+            );
           } // end switch
           if (this.onSave) {
             this.onSave(response.data);
@@ -698,30 +744,23 @@ export default {
         custname: this.form.name,
         custaddr: this.form.address,
         state: this.form.state,
+        country: this.contactCountry,
         pincode: this.form.pin,
         csflag: this.contactType === 'customer' ? 3 : 19,
-        custtan: null, // have to check
-        custphone: null,
-        custemail: null,
-        custfax: null,
-        custpan: null,
+        custpan: this.form.pan,
+        gstin,
         gst_reg_type: this.form.gstin.regType,
+        tin: this.form.tin,
       };
 
       if (this.isGstReg) {
         payload.gst_party_type = this.form.gstin.partyType;
       }
 
-      if (gstin !== null) {
-        payload.gstin = gstin;
-      }
-
       if (this.showOptional) {
         payload.custphone = this.form.contact;
         payload.custemail = this.form.email;
         payload.custfax = this.form.fax;
-        payload.custpan = this.form.pan;
-        payload.csflag = this.contactType === 'customer' ? 3 : 19;
       }
 
       if (this.showBankDetails && bankDetails.length === 4) {
@@ -732,7 +771,6 @@ export default {
           branchname: this.form.bank.branch,
         };
       }
-      // console.log(payload);
       return payload;
     },
     resetForm() {
@@ -745,6 +783,7 @@ export default {
         contact: null,
         fax: null,
         pan: null,
+        tin: null,
         gstin: {
           gstin: null,
           stateCode: null,
@@ -760,9 +799,42 @@ export default {
           ifsc: null,
         },
       };
+      if (this.isIndia) {
+        this.contactCountry = 'India';
+      }
     },
     preloadData() {
       this.isPreloading = true;
+      axios
+        .get(`/organisation`)
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            const data = resp.data.gkdata;
+            this.contactCountry = data.orgcountry;
+            Object.assign(this.options.orgDetails, {
+              country: data.orgcountry,
+              state: data.orgstate,
+              gstin: Object.values(data.gstin ?? {})?.[0] ?? '',
+            });
+          } else {
+            this.displayToast(
+              this.$gettext('Preload Data Failed!'),
+              this.$gettext(
+                'Error fetching State List, please try again after sometime.'
+              ),
+              'warning'
+            );
+          }
+        })
+        .catch((error) => {
+          this.displayToast(
+            this.$gettext('Fetch Organisation Profile Data Failed!'),
+            error.message,
+            'danger'
+          );
+          return error;
+        }),
+
       axios
         .get('/state')
         .then((resp) => {
@@ -797,6 +869,15 @@ export default {
           );
           return error;
         });
+    },
+    displayToast(title, message, variant) {
+      this.$bvToast.toast(message, {
+        title: title,
+        autoHideDelay: 3000,
+        variant: variant,
+        appendToast: true,
+        solid: true,
+      });
     },
   },
   mounted() {

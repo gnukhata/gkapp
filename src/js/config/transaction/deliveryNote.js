@@ -106,7 +106,7 @@ export default {
     }
   },
   mutations: {
-    // note that this mutation, directly stores whatever data is being sent, so 
+    // note that this mutation, directly stores whatever data is being sent, so
     // config must be validated before commit
     setDelNoteConfig(state, payload) {
       state.custom = payload
@@ -118,6 +118,7 @@ export default {
       try { // if the DelNoteConfig isn't a valid JSON, catch the error and  use null to get the default config
         conf = JSON.parse(localStorage.getItem(`${payload.orgCode}-delNoteConfig`))
       } catch (error) {
+        console.error(error);
         conf = null
       }
       if (conf !== null) {

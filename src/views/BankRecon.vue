@@ -1,59 +1,120 @@
 <template>
-  <section class="m-1">
-    <b-overlay :show="loading" blur>
+  <section>
+    <b-overlay
+      :show="loading"
+      blur
+    >
+      <h2 class="mb-5 text-muted display-5">
+        BANK RECONCILIATION STATEMENT
+      </h2>
       <b-card
-        header="Bank Reconciliation"
-        header-bg-variant="dark"
-        header-text-variant="light"
-        class="mx-auto gkcard d-print-none"
+        bg-variant="light"
+        class="mb-3 d-print-none"
       >
+        <b-alert
+          show
+          class="text-center mx-auto d-print-none"
+        >
+          Bank Reconciliation Statement: From {{ dateReverse(selected?.fromDate || fromDate) }} to
+          {{ dateReverse(selected?.toDate || toDate) }}
+        </b-alert>
         <b-form class="text-small">
-          <!-- Select Register -->
-          <b-form-group label="Account Name" label-cols="auto">
-            <template #label> <translate> Account Name </translate> </template>
-            <b-form-select
-              ref="bankAcc"
-              v-model="accId"
-              :options="bankAccs"
-              value-field="accountcode"
-              text-field="accountname"
-              required
-              size="sm"
+          <b-row>
+            <b-col
+              cols
+              lg="6"
             >
-            </b-form-select>
-          </b-form-group>
-          <!-- Date -->
-          <div class="row">
-            <div class="col">
-              <b-form-group label="From">
-                <gk-date id="date-from" required v-model="fromDate"></gk-date>
+              <!-- Select Register -->
+              <b-form-group
+                label="Account Name :"
+                label-cols="auto"
+              >
+                <v-select
+                  :options="bankAccs"
+                  v-model="accId"
+                  placeholder="Select Account"
+                  label="accountname"
+                  :reduce="account => account.accountcode"
+                  :required="true"
+                />
               </b-form-group>
-            </div>
-            <div class="col">
-              <b-form-group label="To">
-                <gk-date id="date-to" required v-model="toDate"></gk-date>
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <!-- Date -->
+              <b-form-group
+                label="From :"
+                label-cols="auto"
+              >
+                <gk-date
+                  id="date-from"
+                  required
+                  v-model="fromDate"
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
               </b-form-group>
-            </div>
-          </div>
-          <b-button
+            </b-col>
+            <b-col
+              cols
+              lg="3"
+            >
+              <b-form-group
+                label="To :"
+                label-cols="auto"
+              >
+                <gk-date
+                  id="date-to"
+                  required
+                  v-model="toDate"
+                  :format="dateFormat"
+                  :min="minDate"
+                  :max="maxDate"
+                />
+              </b-form-group>
+            </b-col>
+            <b-col
+              cols
+              lg="12"
+            >
+              <b-form-radio-group
+                v-model="tableType"
+                :options="tableTypeOptions"
+                name="table-options"
+                class="d-print-none"
+              />
+            </b-col>
+          </b-row>
+          <b-button-group
             size="sm"
-            variant="success"
             class="float-right"
-            @click.prevent="getVouchers"
-            ><b-icon class="mr-1" icon="cloud-download"></b-icon>
-            <translate>Get Details</translate>
-          </b-button>
+          >
+            <b-button
+              @click="clear"
+              variant="dark"
+            >
+              <translate>Clear</translate>
+            </b-button>
+            <b-button
+              size="sm"
+              variant="success"
+              class="ml-1"
+              @click.prevent="getVouchers"
+            >
+              <translate>Get Details</translate>
+            </b-button>
+          </b-button-group>
         </b-form>
       </b-card>
     </b-overlay>
     <!-- Table -->
-    <div class="mt-3" v-if="dataFetched">
-      <b-form-radio-group
-        v-model="tableType"
-        :options="tableTypeOptions"
-        name="table-options"
-        class="mx-auto text-center d-print-none mb-3"
-      ></b-form-radio-group>
+    <div
+      class="mt-3"
+      v-if="dataFetched"
+    >
       <report-header>
         <div class="text-center">
           <b> Register</b>
@@ -63,36 +124,55 @@
           <b>{{ toDate }}</b>
         </div>
       </report-header>
+      <div
+        class="d-print-none d-flex align-items-center justify-content-end mb-2 mt-4"
+      >
+        <b-button-group
+          size="sm"
+        >
+          <b-button
+            v-if="tableType < 2 && activeVouchers.length"
+            size="sm"
+            variant="dark"
+            @click="showVoucherForm = !showVoucherForm"
+          >
+            Add Voucher
+          </b-button>
+        </b-button-group>
+      </div>
       <b-table
-        class="mt-3 text-small"
-        head-variant="dark"
+        class="text-small"
+        head-variant="light"
         small
-        bordered
-        striped
+        outlined
+        hover
         stacked="sm"
         v-if="tableType < 2 && activeVouchers.length"
         :items="activeVouchers"
         :fields="reconTableFields"
       >
-        <template #cell(particulars)="data">
-          {{ data.value }}
+        <template #cell(voucher_no)="data">
+          <router-link :to="`/Workflow/Transactions-Voucher/${data.item.voucher_code}`">
+            {{ data.value }}
+          </router-link>
         </template>
         <template #cell(clearancedate)="data">
           <gk-date
             :id="`clearance-date-${data.index}`"
             required
             v-model="activeVouchers[data.index].clearancedate"
-            :min="data.item.date"
+            :format="dateFormat"
+            :min="minDate"
+            :max="maxDate"
             @validity="(isValid) => (data.item.valid = isValid)"
-          ></gk-date>
+          />
         </template>
         <template #cell(memo)="data">
           <b-input
             :id="`memo-${data.index}`"
             v-model="activeVouchers[data.index].memo"
             size="sm"
-          >
-          </b-input>
+          />
         </template>
         <template #cell(save)="data">
           <b-button
@@ -105,27 +185,55 @@
               class="align-middle"
               font-scale="1"
               icon="cloud-upload"
-            ></b-icon>
+            />
           </b-button>
         </template>
       </b-table>
       <b-table
         class="mt-3 text-small"
-        head-variant="dark"
+        head-variant="light"
         small
-        bordered
-        striped
+        outlined
+        hover
         v-if="tableType === 2"
         :items="statements"
         :fields="[
-          { key: 'particulars', label: 'Reconciliation Statement' },
+          {key: 'particulars', label: 'Reconciliation Statement'},
           'amount',
         ]"
-      >
-      </b-table>
+      />
     </div>
+    <b-modal
+      size="lg"
+      v-model="showVoucherForm"
+      centered
+      static
+      body-class="p-0"
+      id="contact-item-modal"
+      hide-footer
+      hide-header
+    >
+      <voucher
+        :hide-back-button="true"
+        :in-overlay="true"
+        :on-save="postVoucherSave"
+        :is-open="showVoucherForm"
+        mode="create"
+      >
+        <template #close-button>
+          <b-button
+            size="sm"
+            class="float-right py-0"
+            @click="showVoucherForm = !showVoucherForm"
+          >
+            x
+          </b-button>
+        </template>
+      </voucher>
+    </b-modal>
   </section>
 </template>
+
 <!-- TODOS
      * Fix Table fields
      * API response has object with multiple key/values. Process them
@@ -136,10 +244,19 @@ import { mapState } from 'vuex';
 import GkDate from '../components/GkDate.vue';
 import axios from 'axios';
 import ReportHeader from '../components/ReportHeader.vue';
+import Voucher from '../components/form/Voucher.vue';
 import { reverseDate } from '../js/utils';
+
 export default {
   name: 'BankRecon',
-  components: { GkDate, ReportHeader },
+  components: { GkDate, ReportHeader, Voucher },
+  props: {
+    bankAccId: {
+      type: Number,
+      required: false,
+      default: null,
+    },
+  },
   data() {
     return {
       loading: false,
@@ -152,8 +269,10 @@ export default {
         cleared: [],
         uncleared: [],
       },
+      selected: {},
       unclearedVouchers: [],
       clearedVouchers: [],
+      showVoucherForm: false,
       statements: [],
       bankAccs: [],
       tableType: 0,
@@ -174,7 +293,7 @@ export default {
       reconTableFields: [
         'date',
         {
-          key: 'vno',
+          key: 'voucher_no',
           label: 'V.No.',
         },
         'particulars',
@@ -200,18 +319,33 @@ export default {
   computed: {
     activeVouchers: (self) =>
       self.tableType === 0 ? self.vouchers.uncleared : self.vouchers.cleared,
+    minDate: (self) => reverseDate(self.yearStart),
+    maxDate: (self) => reverseDate(self.yearEnd),
+    dateFormat: (self) => self.$store.getters['global/getDateFormat'],
     ...mapState(['yearStart', 'yearEnd', 'orgName']),
   },
   methods: {
+    clear() {
+      this.accId = null;
+      this.tableType = 0;
+      this.dataFetched = false;
+      this.fromDate = this.yearStart;
+      this.toDate = this.yearEnd;
+      this.selected = {};
+      this.unclearedVouchers = [];
+      this.clearedVouchers = [];
+      this.statements = [];
+    },
+    postVoucherSave() {
+      this.getVouchers();
+      this.showVoucherForm = false;
+    },
     getBankAccounts() {
-      axios.get(`/bankrecon`).then((resp) => {
-        if (resp.data.gkstatus === 0) {
-          this.bankAccs = [
-            { accountname: '--- Select Account ---', accountcode: null },
-          ];
-          this.bankAccs.push(...resp.data.gkresult);
-        }
-      });
+      this.loading = true;
+      this.$axios
+        .get(`/bankrecon`)
+        .then((resp) => { this.bankAccs.push(...resp); })
+        .finally(this.loading = false);
     },
     updateVoucher(voucher) {
       let payload = {
@@ -224,13 +358,13 @@ export default {
       };
       axios.put('/bankrecon', payload).then((resp) => {
         if (resp.data.gkstatus === 0) {
-          this.$bvToast.toast(`Voucher ${voucher.vno} Updated successfully!`, {
+          this.$bvToast.toast(`Voucher ${voucher.voucher_no} Updated successfully!`, {
             variant: 'success',
             solid: true,
           });
           this.getVouchers();
         } else {
-          this.$bvToast.toast(`Voucher ${voucher.vno} Update Failed!`, {
+          this.$bvToast.toast(`Voucher ${voucher.voucher_no} Update Failed!`, {
             variant: 'danger',
             solid: true,
           });
@@ -303,6 +437,10 @@ export default {
   mounted() {
     this.fromDate = this.yearStart;
     this.toDate = this.yearEnd;
+    if (this.bankAccId) {
+      this.accId = this.bankAccId;
+      this.getVouchers();
+    };
     this.getBankAccounts();
   },
 };

@@ -5,7 +5,11 @@
 -->
 <template>
   <div class="align-form-label-right">
-    <div v-if="showMenu" class="card shadow" :style="{ 'min-width': '350px' }">
+    <div
+      v-if="showMenu"
+      class="card shadow"
+      :style="{'min-width': '350px'}"
+    >
       <div class="card-header bg-dark text-light">
         <translate> Create Organisation </translate>
       </div>
@@ -17,6 +21,7 @@
             label="Name"
             label-for="input-1"
             label-cols="3"
+            label-class="required"
             :state="orgNameValidity"
             :invalid-feedback="orgNameFeedback"
           >
@@ -33,49 +38,50 @@
               debounce="500"
               @update="checkOrgName"
               :state="orgNameValidity"
-            >
-            </b-form-input>
+            />
           </b-form-group>
-          <!-- state -->
           <b-form-group
             label-size="md"
             id="input-group-12"
-            label="State"
+            label="Country"
             label-for="select-1"
+            label-cols="3"
+            label-class="required"
+          >
+            <template #label>
+              <translate>Country</translate>
+            </template>
+            <v-select
+              :options="options.countries"
+              v-model="orgCountry"
+              id="select-1"
+              :required="true"
+            />
+          </b-form-group>
+          <!-- state -->
+          <b-form-group
+            v-if="orgCountry === 'India'"
+            label-size="md"
+            id="input-group-12"
+            label="State"
+            label-for="select-2"
             label-cols="3"
           >
             <template #label>
-              <translate> State </translate>
+              <translate>State</translate>
             </template>
             <v-select
               :options="states"
               v-model="orgState"
-              id="select-1"
-              :required="true"
-            >
-            </v-select>
+              id="select-2"
+            />
           </b-form-group>
-          <!-- address -->
-          <!-- <b-form-group
+          <b-form-group
             label-size="md"
-            id="input-group-11"
-            label="Address"
-            label-for="input-11"
+            label="Type"
             label-cols="3"
+            label-class="required"
           >
-            <template #label>
-              <translate> Address </translate>
-            </template>
-            <b-form-input
-              size="md"
-              id="input-11"
-              type="text"
-              placeholder="Address"
-              v-model.trim="orgAddr"
-            >
-            </b-form-input>
-          </b-form-group> -->
-          <b-form-group label-size="md" label="Type" label-cols="3">
             <template #label>
               <translate> Type </translate>
             </template>
@@ -87,13 +93,13 @@
               button-variant="outline-dark"
               name="radios-btn-outline"
               buttons
-            ></b-form-radio-group>
+            />
           </b-form-group>
           <b-form-group
             id="input-group-2"
             label="Financial Year"
             label-size="md"
-            label-class="mb-2"
+            label-class="mb-2 required"
             class="mb-0 mt-4"
             label-cols="3"
           >
@@ -117,7 +123,7 @@
                       @input="setYearEnd"
                       v-model="yearStart"
                       id="yst"
-                    ></gk-date>
+                    />
                   </b-input-group>
                 </b-form-group>
               </div>
@@ -133,49 +139,47 @@
                     <translate> To </translate>
                   </template>
                   <b-input-group class="mb-3">
-                    <gk-date v-model="yearEnd" id="ynd"></gk-date>
+                    <gk-date
+                      v-model="yearEnd"
+                      id="ynd"
+                    />
                   </b-input-group>
                 </b-form-group>
               </div>
             </div>
           </b-form-group>
-          <small class="text-danger">
-            <translate> * All fields are required </translate>
-          </small>
-          <!-- <hr /> -->
           <div class="float-right">
-            <!-- <b-button
+            <b-button
               size="sm"
+              type="submit"
               class="mr-2"
-              variant="danger"
-              @click="$router.go(-1)"
+              variant="success"
             >
-              <b-icon
-                aria-hidden="true"
-                class="align-middle mr-1"
-                icon="arrow-left"
-              ></b-icon>
-              <span class="align-middle"> <translate>Back</translate></span>
-            </b-button> -->
-            <b-button size="sm" type="submit" class="mr-2" variant="success">
-              <b-spinner v-if="isLoading" small></b-spinner>
+              <b-spinner
+                v-if="isLoading"
+                small
+              />
               <b-icon
                 v-else
                 aria-hidden="true"
                 class="align-middle mr-1"
                 icon="plus-square"
-              ></b-icon>
+              />
               <span class="align-middle">
                 <translate>Create &amp; Login</translate>
               </span>
             </b-button>
           </div>
-          <div class="clearfix"></div>
+          <div class="clearfix" />
         </b-form>
       </div>
     </div>
-    <b-alert class="mt-5" :show="!showMenu" variant="danger"
-      ><b-icon icon="exclamation-triangle"></b-icon>
+    <b-alert
+      class="mt-5"
+      :show="!showMenu"
+      variant="danger"
+    >
+      <b-icon icon="exclamation-triangle" />
       <translate> Registrations are disabled on this server </translate>
     </b-alert>
   </div>
@@ -184,7 +188,8 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-import passwordStrength from 'check-password-strength';
+import { passwordStrength } from 'check-password-strength';
+import countries from '@/js/countries';
 import GkDate from '@/components/GkDate.vue';
 import { STATUS_CODES } from '@/js/enum.js';
 
@@ -204,9 +209,9 @@ export default {
   },
   data() {
     return {
-      // gkCoreUrl: 'https://satheerthan.site:6543', // 'http://localhost:6543',
       isLoading: false,
       options: {
+        countries,
         orgType: [
           { text: 'Profit Making', value: 0 },
           { text: 'Not For Profit', value: 1 },
@@ -215,6 +220,7 @@ export default {
       },
       orgName: '',
       orgType: 0,
+      orgCountry: '',
       orgState: '',
       orgAddr: '',
       yearStart: null,
@@ -245,7 +251,7 @@ export default {
         : self.pwdStrength.value === 'Strong',
     arePasswordsSame() {
       if (this.confirmPassword !== '') {
-        return this.userPassword === this.hashedPassword(this.confirmPassword)
+        return this.userPassword === this.confirmPassword
           ? true
           : false;
       }
@@ -275,7 +281,29 @@ export default {
       return feedback;
     },
   },
+  watch: {
+    orgCountry(country) {
+      if (country !== 'India') {
+        this.orgState = '';
+      }
+    },
+  },
   methods: {
+    getYearStart() {
+      // Return starting date of the financial year to be shown as the default
+      // value in organisation creation form.
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      let financialYearStart;
+      // If current date is less than April 01, return financial year ending in
+      // current calendar year, else use financial year ending in next year.
+      if (currentDate < new Date(`04-01-${currentYear}`)) {
+        financialYearStart = `${currentYear - 1}-04-01`;
+      } else {
+        financialYearStart = `${currentYear}-04-01`;
+      }
+      return financialYearStart;
+    },
     checkOrgName(query) {
       if (!query) {
         this.valid.nameFormat = null;
@@ -288,17 +316,25 @@ export default {
       }
       this.valid.nameFormat = true;
       const self = this;
-      axios.get(`/organisation/check/${query}`).then((resp) => {
-        if (query === self.orgName) {
+      if (query === self.orgName) {
+        this.$axios.get(
+          `/organisation/check/${query}`,
+          {
+            headers: {
+              gkusertoken: sessionStorage.getItem('userAuthToken'),
+            },
+          }
+        ).then((resp) => {
           if (resp.data.gkstatus === STATUS_CODES['Success']) {
             self.valid.nameUnique = true;
-          } else {
+          } else if (resp.data.gkstatus === STATUS_CODES['DuplicateEntry']) {
             self.valid.nameUnique = false;
           }
-        }
-      });
+        });
+      }
     },
     checkRegistrationStatus() {
+      if (!axios.defaults.baseURL) return;
       axios.get('/organisation/check_registration').then((r) => {
         if (r.status === 200 && r.data.gkstatus == 5) {
           this.showMenu = false;
@@ -306,16 +342,15 @@ export default {
       });
     },
     setYearEnd() {
-      // console.log('On date change')
       if (this.yearStart !== null && this.yearStart) {
         const ONE_DAY = 86400000;
-        let startDate = new Date(this.yearStart.split('-').join('/'));
+        let startDate = new Date(this.yearStart);
         let endYear = startDate.getFullYear() + 1;
         let endDate = '';
         if (endYear % 4 === 0) {
-          endDate = new Date(startDate.getTime() + ONE_DAY * 366);
-        } else {
           endDate = new Date(startDate.getTime() + ONE_DAY * 365);
+        } else {
+          endDate = new Date(startDate.getTime() + ONE_DAY * 364);
         }
         this.yearEnd = endDate.toISOString().substr(0, 10);
       } else {
@@ -326,10 +361,10 @@ export default {
       this.isLoading = true;
       const payload = this.initPayload();
       const userAuthToken = sessionStorage.getItem('userAuthToken');
-      //state is mandatory to create org
-      if (this.orgState.length == 0) {
-        this.$bvToast.toast(this.$gettext(`State is required`), {
-          title: this.$gettext('Organisation create Error!'),
+      // Country is mandatory to create org
+      if (!this.orgCountry) {
+        this.$bvToast.toast(this.$gettext(`Country is required`), {
+          title: this.$gettext('Error in creating organisation!'),
           autoHideDelay: 3000,
           variant: 'danger',
           appendToast: true,
@@ -347,49 +382,48 @@ export default {
           },
         })
         .then((response) => {
-          // console.log(response)
           this.isLoading = false;
           switch (response.data.gkstatus) {
-            case 0:
+          case 0:
+            {
+              this.$store
+                .dispatch('setSessionStates', {
+                  orgCode: response.data.orgcode,
+                  authToken: response.data.token,
+                })
+                .then(() => {
+                  let log = {
+                    activity: `Organisation created: ${payload.orgdetails.orgname}`,
+                  };
+                  axios.post('/log', log);
+                });
+            }
+            break;
+          case 1:
+            this.$bvToast.toast(
+              this.$gettext(
+                `Duplicate Entry! Please Check the Organisation Name`
+              ),
               {
-                this.$store
-                  .dispatch('setSessionStates', {
-                    orgCode: response.data.orgcode,
-                    authToken: response.data.token,
-                  })
-                  .then(() => {
-                    let log = {
-                      activity: `Organisation created: ${payload.orgdetails.orgname}`,
-                    };
-                    axios.post('/log', log);
-                  });
+                title: this.$gettext('Create Account Error!'),
+                autoHideDelay: 3000,
+                variant: 'danger',
+                appendToast: true,
+                solid: true,
               }
-              break;
-            case 1:
-              this.$bvToast.toast(
-                this.$gettext(
-                  `Duplicate Entry! Please Check the Organisation Name`
-                ),
-                {
-                  title: this.$gettext('Create Account Error!'),
-                  autoHideDelay: 3000,
-                  variant: 'danger',
-                  appendToast: true,
-                  solid: true,
-                }
-              );
-              break;
-            default:
-              this.$bvToast.toast(
-                this.$gettext(`Unable to create account, Please try again`),
-                {
-                  title: this.$gettext('Create Account Error!'),
-                  autoHideDelay: 3000,
-                  variant: 'danger',
-                  appendToast: true,
-                  solid: true,
-                }
-              );
+            );
+            break;
+          default:
+            this.$bvToast.toast(
+              this.$gettext(`Unable to create account, Please try again`),
+              {
+                title: this.$gettext('Create Account Error!'),
+                autoHideDelay: 3000,
+                variant: 'danger',
+                appendToast: true,
+                solid: true,
+              }
+            );
           } // end switch
           this.onSave(response.data.gkstatus === 0);
         })
@@ -411,13 +445,13 @@ export default {
         orgdetails: {
           orgname: this.orgName,
           orgtype: this.options.orgType[this.orgType].text,
-          yearstart: this.yearStart.split('-').join('/'),
-          yearend: this.yearEnd.split('-').join('/'),
+          yearstart: this.yearStart,
+          yearend: this.yearEnd,
           orgstate: this.orgState,
           orgcity: null,
           orgaddr: this.orgAddr,
           orgpincode: null,
-          orgcountry: null,
+          orgcountry: this.orgCountry,
           orgtelno: null,
           orgfax: null,
           orgwebsite: null,
@@ -442,6 +476,7 @@ export default {
     },
     preloadData() {
       this.isPreloading = true;
+      if (!axios.defaults.baseURL) return;
       axios
         .get('/state')
         .then((resp) => {
@@ -452,14 +487,14 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
   },
   mounted() {
     this.preloadData();
     this.checkRegistrationStatus();
-    this.yearStart = `${new Date().getFullYear()}-04-01`; // 1st of April, current year. YYYY-MM-DD
+    this.yearStart = this.getYearStart();
     this.orgNameRegEx = new RegExp(
       '^(?=.{6,20}$)(?![_. ])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_. ])$'
     );

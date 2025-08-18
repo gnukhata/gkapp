@@ -43,7 +43,6 @@ function numberToWords(number) {
         if (number > 0) result += ' ';
       } else {
         var t = Math.floor(number / n.value);
-        // console.log(t);
         var d = number % n.value;
         if (d > 0) {
           return numberToWords(t) + ' ' + n.str + ' ' + numberToWords(d);
@@ -76,9 +75,11 @@ function numberToRupees(number) {
  */
 function reverseDate(date) {
   return date
-    .split('-')
-    .reverse()
-    .join('-');
+    ? date
+      .split('-')
+      .reverse()
+      .join('-')
+    : '';
 }
 
 /**
@@ -108,14 +109,6 @@ function debounceEvent(target, event, handler, interval) {
   );
 }
 
-function debounce(callback, interval, ctxt, args) {
-  let timeout;
-  return function() {
-    clearTimeout(timeout);
-    timeout = setTimeout(callback.bind(ctxt, args), interval);
-  };
-}
-
 /*
  * Image Handling methods
  */
@@ -134,6 +127,5 @@ export {
   reverseDate,
   formatDateObj,
   debounceEvent,
-  debounce,
   getBase64,
 };

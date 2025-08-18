@@ -1,85 +1,110 @@
 <template>
   <b-container fluid>
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <div v-if="pdata.cancelledFlag">
-      <span class="float-right h5 p-2 bg-danger text-white" v-translate>
+      <span
+        class="float-right h5 p-2 bg-danger text-white"
+        v-translate
+      >
         Cancelled
       </span>
-      <div class="clearfix"></div>
-      <br />
+      <div class="clearfix" />
+      <br>
     </div>
     <!-- action buttons -->
     <div class="mb-3 clearfix d-print-none">
       <div class="float-right">
         <span v-if="!pdata.cancelledFlag">
           <b-button
-            class="mr-1"
-            size="sm"
-            variant="primary"
-            v-b-toggle.voucher-container
             v-if="delnote.narration?.includes('Cash Memo')"
+            size="sm"
+            variant="dark"
+            v-b-toggle.voucher-container
           >
-            <b-icon class="mr-1" icon="eye"></b-icon>
-            <router-link class="custom-link"
+            <router-link
+              class="custom-link"
               :to="
                 `/workflow/Transactions-CashMemo/${invid}`
               "
-              >View Cash Memo
+            >
+              View Cash Memo
             </router-link>
           </b-button>
           <b-button
+            v-else
             class="mr-1"
             size="sm"
-            variant="primary"
+            variant="dark"
             v-b-toggle.voucher-container
-            v-else
           >
-            <b-icon class="mr-1" icon="eye"></b-icon>
-            <router-link class="custom-link"
+            <router-link
+              class="custom-link"
               :to="
                 `/workflow/Transactions-Invoice/${invid}`
               "
-              >View Invoice
+            >
+              View Invoice
             </router-link>
           </b-button>
-
         </span>
       </div>
     </div>
     <b-row>
-      <b-col order="2" order-md="1">
-        <b-container fluid class="pl-0">
+      <b-col
+        order="2"
+        order-md="1"
+      >
+        <b-container
+          fluid
+          class="pl-0"
+        >
           <b-col class="px-0">
             <b v-translate> Dispatch From </b>
             <p class="text-small">
-              <span> {{ delnote.from.name }}</span> <br />
-              <span> {{ delnote.from.addr }} </span> <br />
-              <span> {{ delnote.from.state }} </span> <br />
+              <span> {{ delnote.from.name }}</span> <br>
+              <span> {{ delnote.from.addr }} </span> <br>
+              <span> {{ delnote.from.state }} </span> <br>
               <span v-if="delnote.from.pin">
-                <b v-translate> Pin Code: </b> {{ delnote.from.pin }}
+                <b v-translate> Postal Code: </b> {{ delnote.from.pin }}
               </span>
-              <br />
+              <br>
             </p>
           </b-col>
           <b-col class="px-0">
             <b v-translate> Deliver To </b>
             <p class="text-small">
-              <span> {{ delnote.to.name }} </span> <br />
-              <span> {{ delnote.to.addr }} </span> <br />
-              <span> {{ delnote.to.state }} </span> <br />
+              <span> {{ delnote.to.name }} </span> <br>
+              <span> {{ delnote.to.addr }} </span> <br>
+              <span> {{ delnote.to.state }} </span> <br>
               <span v-if="delnote.to.pin || delnote.to.gstin">
                 <span>
-                  <b v-translate> Pin Code: </b> {{ delnote.to.pin }}
+                  <b v-translate> Postal Code: </b> {{ delnote.to.pin }}
                 </span>
-                <br />
-                <span> <b> GSTIN: </b> {{ delnote.to.gstin }} </span> <br />
+                <br>
+                <span v-if="isGst">
+                  <b>GSTIN: </b>{{ delnote.to.gstin }}
+                </span>
+                <span v-if="isVat">
+                  <b>TIN: </b>{{ delnote.to.tin }}
+                </span>
+                <br>
               </span>
             </p>
           </b-col>
         </b-container>
       </b-col>
-      <b-col class="text-md-right" cols="12" md="6" order="1" order-md="2">
+      <b-col
+        class="text-md-right"
+        cols="12"
+        md="6"
+        order="1"
+        order-md="2"
+      >
         <b v-translate> Delivery Note Details </b>
         <!-- Note Details Table -->
         <b-table-lite
@@ -89,8 +114,8 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
-        ></b-table-lite>
+          class="text-small"
+        />
       </b-col>
     </b-row>
     <!-- Content Table -->
@@ -98,13 +123,13 @@
       :items="delnote.contents"
       :fields="tableFields"
       bordered
-      head-variant="dark"
       stacked="sm"
       :responsive="true"
       small
-      striped
-      class="text-small table-border-dark"
+      hover
+      class="text-small"
       tbody-tr-class="gk-vertical-row"
+      head-variant="light"
     >
       <template #cell(name)="data">
         <template v-if="data.item.gsflag === 7">
@@ -120,27 +145,41 @@
       </template>
     </b-table-lite>
     <b-row>
-      <b-col class="my-2" order="2" order-md="1"> </b-col>
-      <b-col cols="12" md="8" class="my-2" order="1" order-md="2">
+      <b-col
+        class="my-2"
+        order="2"
+        order-md="1"
+      />
+      <b-col
+        cols="12"
+        md="8"
+        class="my-2"
+        order="1"
+        order-md="2"
+      >
         <!-- Total Table -->
         <b-table-lite
           :items="totalDetails"
           :fields="[
-            { key: 'title', label: 'Total', tdClass: '' },
-            { key: 'value', label: '₹', class: 'text-right' },
+            {key: 'title', label: '', tdClass: ''},
+            {key: 'value', label: '₹', class: 'text-right'},
           ]"
           fixed
           small
           class="text-small"
-        ></b-table-lite>
+        />
       </b-col>
     </b-row>
     <b-row>
-      <b-col class="my-2"> </b-col>
-      <b-col cols="12" md="8" class="my-2">
+      <b-col class="my-2" />
+      <b-col
+        cols="12"
+        md="8"
+        class="my-2"
+      >
         <p class="text-small">
           <b v-translate> Narration: </b>
-          <span> {{ delnote.narration }} </span> <br />
+          <span> {{ delnote.narration }} </span> <br>
         </p>
       </b-col>
     </b-row>
@@ -155,12 +194,13 @@
         <translate> Cancel </translate>
       </b-button>
     </div>
-    <br />
+    <br>
   </b-container>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapGetters } from 'vuex';
 import { numberToRupees } from '../../../js/utils.js';
 export default {
   name: 'DeliveryNoteProfile',
@@ -187,6 +227,8 @@ export default {
       deleteFlag: false,
       no: '',
       isSale: false,
+      isGst: false,
+      isVat: false,
       delnote: {
         contents: [],
         date: '',
@@ -200,13 +242,14 @@ export default {
       },
       party: {},
       total: {
-        isIgst: true,
+        isIgst: false,
       },
       custid: null,
       toDate: '',
     };
   },
   computed: {
+    ...mapGetters('global', ['isIndia', 'isGstEnabled', 'isVatEnabled']),
     dnoteData: (self) => {
       let noteData = self.delnote;
       let transport = noteData.transport;
@@ -231,21 +274,42 @@ export default {
       return data;
     },
     totalDetails: (self) => {
+      const totalTaxableAmount = Number(self.total.taxable).toFixed(2);
+      let totalDiscount = Number(self.total.discount).toFixed(2);
+      const totalAmount = (Number(totalTaxableAmount) + Number(totalDiscount)).toFixed(2);
+      if (totalDiscount > 0) {
+        totalDiscount = `-${totalDiscount}`;
+      }
       let total = [
-        { title: self.$gettext('Taxable'), value: self.total.taxable },
+        {
+          title: self.$gettext('Total'),
+          value: totalAmount,
+        },
+        {
+          title: self.$gettext('Discount'),
+          value: totalDiscount,
+        },
       ];
-      if (self.delnote.isGst) {
-        if (self.total.isIgst) {
-          total.push({ title: 'IGST', value: self.total.tax });
-        } else {
-          total.push(
-            { title: 'CGST', value: self.total.tax },
-            { title: 'SGST', value: self.total.tax }
-          );
+      if (self.isIndia) {
+        if (self.delnote.isGst || self.delnote.isVat) {
+          total.push({
+            title: self.$gettext('Taxable'),
+            value: self.total.taxable,
+          });
         }
-        total.push({ title: 'CESS', value: self.total.cess });
-      } else {
-        total.push({ title: 'VAT', value: self.total.tax });
+        if (self.delnote.isGst) {
+          if (self.total.isIgst) {
+            total.push({ title: 'IGST', value: self.total.tax });
+          } else {
+            total.push(
+              { title: 'CGST', value: self.total.tax },
+              { title: 'SGST', value: self.total.tax }
+            );
+          }
+        }
+        if (self.delnote.isVat) {
+          total.push({ title: 'VAT', value: self.total.tax });
+        }
       }
       total.push(
         {
@@ -274,36 +338,34 @@ export default {
           tdClass: 'gk-currency-sm',
         },
       ];
-      if (self.delnote.isGst) {
-        if (self.total.isIgst) {
+      if (self.isIndia) {
+        if (self.delnote.isGst) {
+          if (self.total.isIgst) {
+            fields.push({
+              key: 'igst',
+              label: 'IGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+          } else {
+            fields.push({
+              key: 'cgst',
+              label: 'CGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+            fields.push({
+              key: 'sgst',
+              label: 'SGST (%)',
+              tdClass: 'gk-currency-sm',
+            });
+          }
+        }
+        if (self.delnote.isVat) {
           fields.push({
-            key: 'igst',
-            label: 'IGST (%)',
-            tdClass: 'gk-currency-sm',
-          });
-        } else {
-          fields.push({
-            key: 'cgst',
-            label: 'CGST (%)',
-            tdClass: 'gk-currency-sm',
-          });
-          fields.push({
-            key: 'sgst',
-            label: 'SGST (%)',
+            key: 'vat',
+            label: 'VAT (%)',
             tdClass: 'gk-currency-sm',
           });
         }
-        fields.push({
-          key: 'cess',
-          label: 'CESS (%)',
-          tdClass: 'gk-currency-sm',
-        });
-      } else {
-        fields.push({
-          key: 'vat',
-          label: 'VAT (%)',
-          tdClass: 'gk-currency-sm',
-        });
       }
       fields.push({
         key: 'total',
@@ -329,12 +391,10 @@ export default {
           okVariant: 'success',
           headerClass: 'p-0 border-bottom-0',
           footerClass: 'border-top-0', // p-1
-          // bodyClass: 'p-2',
           centered: true,
         })
         .then((val) => {
           if (val) {
-            // return;
             axios.delete(`/delchal/${this.id}`).then((resp) => {
               if (resp.data.gkstatus === 0) {
                 let type = self.isSale ? 'sale' : 'purchase';
@@ -389,8 +449,8 @@ export default {
         text: numberToRupees(noteData.delchaltotal),
       };
       this.delnote = {
-        isGst: details.taxname !== 'VAT',
-        isIgst: details.taxname === 'IGST',
+        isGst: this.isGstEnabled && ['GST', 'IGST', 'CGST', 'SGST'].includes(details.taxname),
+        isVat: this.isVatEnabled && details.taxname === 'VAT',
         contents: [],
         no: noteData.dcno,
         date: noteData.dcdate,
@@ -406,11 +466,12 @@ export default {
         designation: noteData.designation || '',
       };
 
+      const { contact } = details.immutable_data ?? {};
       let party = {
-        name: details.custSupDetails.custname,
-        addr: details.custSupDetails.custaddr,
-        state: details.custSupDetails.custsupstate,
-        pin: details.custSupDetails.pincode,
+        name: contact.custname,
+        addr: contact.custaddr,
+        state: contact.custsupstate,
+        pin: contact.pincode,
       };
 
       let shipData = noteData.consignee || {};
@@ -422,24 +483,25 @@ export default {
         gstin: shipData.gstinconsignee || '',
       };
 
-      let godown = {
-        name: noteData.goname,
-        addr: noteData.goaddr,
-        state: noteData.gostate,
+      const { godown } = details.immutable_data ?? {};
+      const _godown = {
+        name: godown.goname,
+        addr: godown.goaddr,
+        state: godown.gostate,
       };
 
       if (noteData.inoutflag === 15) {
-        this.delnote.from = godown;
+        this.delnote.from = _godown;
         this.delnote.to = shipTo.name ? shipTo : party;
       } else {
         this.delnote.from = party;
-        this.delnote.to = godown;
+        this.delnote.to = _godown;
       }
 
       for (const name in details.delchalContents) {
         const item = details.delchalContents[name];
         this.delnote.contents.push({
-          name: item.proddesc,
+          name: details.immutable_data?.products[item.productCode].productdesc,
           qty: item.qty,
           rate: item.priceperunit,
           discount: item.discount,
@@ -455,12 +517,12 @@ export default {
         });
       }
       axios.get(`/accounts?type=getAccCode&accountname=${this.delnote.from.name}`)
-      .then(response => {
-        this.custid = response.data.accountcode;
-      })
-      .catch(error => {
-        this.error = 'Failed to load data: ' + error.message;
-      });
+        .then(response => {
+          this.custid = response.data.accountcode;
+        })
+        .catch(error => {
+          this.error = 'Failed to load data: ' + error.message;
+        });
     },
     getDetails() {
       let url = `/delchal/${this.id}`;
@@ -480,37 +542,34 @@ export default {
     fetchAndUpdateData() {
       return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
-          case 0:
-            // this.invoice = response.data.gkresult;
-            // this.formatInvoiceDetails(response.data.gkresult);
-            // this.output = response.data.gkresult;
-            this.formatDetails(response.data.gkresult);
-            break;
-          case 2:
-            this.$bvToast.toast(
-              this.$gettext(`Unauthorized access, Please contact admin`),
-              {
-                title: this.$gettext(`Fetch Delivery Note Error!`),
-                autoHideDelay: 3000,
-                variant: 'warning',
-                appendToast: true,
-                solid: true,
-              }
-            );
-            break;
-          default:
-            this.$bvToast.toast(
-              this.$gettext(
-                `Unable to Fetch Delivery Note Details! Please Try after sometime.`
-              ),
-              {
-                title: this.$gettext(`Fetch Transaction Details Error!`),
-                autoHideDelay: 3000,
-                variant: 'warning',
-                appendToast: true,
-                solid: true,
-              }
-            );
+        case 0:
+          this.formatDetails(response.data.gkresult);
+          break;
+        case 2:
+          this.$bvToast.toast(
+            this.$gettext(`Unauthorized access, Please contact admin`),
+            {
+              title: this.$gettext(`Fetch Delivery Note Error!`),
+              autoHideDelay: 3000,
+              variant: 'warning',
+              appendToast: true,
+              solid: true,
+            }
+          );
+          break;
+        default:
+          this.$bvToast.toast(
+            this.$gettext(
+              `Unable to Fetch Delivery Note Details! Please Try after sometime.`
+            ),
+            {
+              title: this.$gettext(`Fetch Transaction Details Error!`),
+              autoHideDelay: 3000,
+              variant: 'warning',
+              appendToast: true,
+              solid: true,
+            }
+          );
         } // end switch
       });
     },
@@ -524,7 +583,7 @@ export default {
       });
     },
     fetchdId() {
-       axios.get(`/delchal/invid/${this.id}`).then((resp) => {
+      axios.get(`/delchal/invid/${this.id}`).then((resp) => {
         if (resp.data.gkstatus === 0) {
           this.invid = resp.data.data;
         }
@@ -535,7 +594,6 @@ export default {
     id: function(id) {
       if (id && parseInt(id) > -1) {
         this.isPreloading = true;
-        // console.log(`Fetch id = ${id}`);
         this.fetchAndUpdateData()
           .then(() => {
             this.isPreloading = false;
@@ -563,6 +621,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .custom-link {
   color: white;

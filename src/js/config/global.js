@@ -33,8 +33,9 @@ export default {
         },
         default: {
           payment: 'cash', // bank, cash, credit
-          tax: 'GST', // GST, VAT
+          tax: 'None', // GST, VAT
           godown: '',
+          allowNegativeStock: false,
           contacts: { customer: -1, supplier: -1 },
           partyVoucherFlag: true, // use customer/supplier ledgers for tracking transaction
         },
@@ -58,6 +59,7 @@ export default {
         },
       },
     },
+    orgDetails: {},
   },
   getters: {
     getGlobalConfig: (state) => {
@@ -65,6 +67,17 @@ export default {
     },
     getGlobalConfigOptions: (state) => {
       return state.options;
+    },
+    getOrgDetails: (state) => state.orgDetails,
+    isIndia: (state) => {
+      // Returns a boolean denoting if organisation country is India.
+      // If country is not entered, for backwards compatibility, country will be
+      // assumed as India.
+      const { orgcountry } = state.orgDetails;
+      if (orgcountry) {
+        return orgcountry.trim().toLowerCase() === 'india';
+      }
+      return true;
     },
     getDateFormat: (state) => {
       return state.customConf.general
@@ -86,6 +99,22 @@ export default {
         ? state.customConf.transaction.default.tax
         : state.defConf.transaction.default.tax;
     },
+    isGstEnabled(state, getters) {
+      const defaultTaxMode = state.customConf.transaction?.default?.tax;
+      const isGstInTaxMode = ['GST', 'GST & VAT'].includes(defaultTaxMode);
+      // As an additional precaution, also check country and GSTIN
+      const { isIndia } = getters;
+      const hasGstin = Object.keys(state.orgDetails.gstin ?? {}).length > 0;
+      return isIndia && isGstInTaxMode && hasGstin;
+    },
+    isVatEnabled(state, getters) {
+      const defaultTaxMode = state.customConf.transaction?.default?.tax;
+      const isVatInTaxMode = ['VAT', 'GST & VAT'].includes(defaultTaxMode);
+      // As an additional precaution, also check country and TIN
+      const { isIndia } = getters;
+      const hasTin = !!state.orgDetails.tin;
+      return isIndia && isVatInTaxMode && hasTin;
+    },
     getGstRates(state) {
       return state.constant.gstRates;
     },
@@ -99,6 +128,11 @@ export default {
         ? state.customConf.transaction.default.godown
         : state.defConf.transaction.default.godown;
     },
+    getAllowNegativeStock(state) {
+      return state.customConf.transaction
+        ? state.customConf.transaction.default.allowNegativeStock
+        : state.defConf.transaction.default.allowNegativeStock;
+    },
     getDefaultContacts(state) {
       return state.customConf.transaction
         ? state.customConf.transaction.default.contacts
@@ -109,9 +143,8 @@ export default {
     // note that this mutation, directly stores whatever data is being sent, so
     // config must be validated before commit
     setGlobalConfig(state, payload) {
-      let conf = payload.conf;
-      state.customConf.general = conf.general;
-      state.customConf.transaction = conf.transaction;
+      const { general, transaction } = payload.conf;
+      state.customConf = Object.assign({}, { general }, { transaction })
       if (payload.lang && state.customConf.general) {
         if (state.customConf.general.default) {
           payload.lang.current = state.customConf.general.default.locale;
@@ -125,15 +158,25 @@ export default {
       }
     },
 
+    setOrgDetails(state, payload) {
+      state.orgDetails = Object.assign({}, payload);
+    },
+
     setGodownList(state, payload) {
-      state.options.transaction.godowns = payload;
+      const godowns = payload;
+      state.options.transaction = Object.assign(
+        {}, state.options.transaction, { godowns }
+      );
     },
 
     setContactList(state, payload) {
-      state.options.transaction.contacts = {
+      const contacts = {
         customers: payload.customers || [],
         suppliers: payload.suppliers || [],
       };
+      state.options.transaction = Object.assign(
+        {}, state.options.transaction, { contacts }
+      )
     },
   },
   actions: {
@@ -159,7 +202,6 @@ export default {
       return Promise.all(dispatches).then(([respContacts, respGodown]) => {
         let conf = state.customConf;
         let callUpdate = false;
-        // debugger;
         if (respContacts) {
           const contacts = conf.transaction.default.contacts;
           if (contacts) {
@@ -192,7 +234,7 @@ export default {
         });
       });
     },
-    initDefaultContacts: ({ state }) => {
+    initDefaultContacts: ({ state, commit }) => {
       function createContact(name, orgState, csflag) {
         let payload = {
           custname: name,
@@ -228,12 +270,14 @@ export default {
 
       return axios.get('organisation').then((orgResp) => {
         if (orgResp.data.gkstatus === 0) {
-          const orgState = orgResp.data.gkdata['orgstate'];
+          const orgDetails = orgResp.data.gkdata;
+          commit('setOrgDetails', orgDetails);
+          const orgState = orgDetails['orgstate'];
           let requests = [];
 
           let custList = state.options.transaction.contacts.customers || [];
           let custName = 'Retail Customer (Default)';
-          const defaults = state.customConf.transaction.default;
+          const defaults = state.customConf.transaction?.default;
           let rCust = custList.find((cust) => cust.text === custName);
           if (
             (!defaults.contacts ||
@@ -283,12 +327,12 @@ export default {
       let pGodown = goList.find((go) => go.text === goName);
 
       if (
-        !state.customConf.transaction.default.godown ||
-        state.customConf.transaction.default.godown === -1
+        !state.customConf.transaction?.default.godown ||
+        state.customConf.transaction?.default.godown === -1
       ) {
         if (!pGodown) {
           let orgAddress = rootGetters.getOrgAddress;
-          let orgState = orgAddress.orgstate || '';
+          let orgState = orgAddress?.orgstate || '';
           let payload = {
             goname: goName,
             goaddr: `${goName}'s address`,
@@ -308,11 +352,12 @@ export default {
         }
       }
       return new Promise((resolve) => {
-        resolve(state.customConf.transaction.default.godown);
+        resolve(state.customConf.transaction?.default.godown);
       });
     },
     // must be invoked after successful login
     initGlobalConfig({ state, commit, rootGetters }, payload) {
+      if (!axios.defaults.baseURL) return;
       let url = `/config?conftype=org&pageid=${PAGES['global']}&confid=${CONFIGS['global']}`;
       return axios.get(url).then((resp) => {
         let orgCode = rootGetters.getOrgCode;

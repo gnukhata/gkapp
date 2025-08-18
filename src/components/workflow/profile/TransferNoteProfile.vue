@@ -1,43 +1,45 @@
 <template>
   <b-container fluid>
-    <b-overlay :show="isPreloading" variant="secondary" no-wrap blur>
-    </b-overlay>
-    <div class="mb-3 clearfix d-print-none">
-      <div class="float-right">
-        <b-button
-          v-if="!tnote.recieved"
-          @click.prevent="onSubmit"
-          size="sm"
-          variant="success"
-        >
-          <translate> Approve </translate>
-        </b-button>
-      </div>
-    </div>
+    <b-overlay
+      :show="isPreloading"
+      variant="secondary"
+      no-wrap
+      blur
+    />
     <b-row>
-      <b-col class="pl-0" order="2" order-md="1">
+      <b-col
+        class="pl-0"
+        order="2"
+        order-md="1"
+      >
         <b-container fluid>
           <b-col class="px-0">
             <b v-translate> Transfer From </b>
             <p class="text-small">
-              <span> {{ godown.from.name }} </span> <br />
-              <span> {{ godown.from.addr }} </span> <br />
-              <span> {{ godown.from.state }} </span> <br />
+              <span> {{ godown.from.name }} </span> <br>
+              <span> {{ godown.from.addr }} </span> <br>
+              <span> {{ godown.from.state }} </span> <br>
             </p>
-            <br class="d-none d-md-block" />
+            <br class="d-none d-md-block">
           </b-col>
           <b-col class="px-0">
             <b v-translate> Transfer To </b>
             <p class="text-small">
-              <span> {{ godown.to.name }} </span> <br />
-              <span> {{ godown.to.addr }} </span> <br />
-              <span> {{ godown.to.state }} </span> <br />
+              <span> {{ godown.to.name }} </span> <br>
+              <span> {{ godown.to.addr }} </span> <br>
+              <span> {{ godown.to.state }} </span> <br>
             </p>
           </b-col>
-          <br class="d-none d-md-block" />
+          <br class="d-none d-md-block">
         </b-container>
       </b-col>
-      <b-col cols="12" md="6" order="1" order-md="2" class="text-md-right">
+      <b-col
+        cols="12"
+        md="6"
+        order="1"
+        order-md="2"
+        class="text-md-right"
+      >
         <b v-translate> Transfer Note Details </b>
         <!-- Note Details Table -->
         <b-table-lite
@@ -47,21 +49,34 @@
           bordered
           thead-class="d-none"
           fixed
-          class="text-small table-border-dark"
+          class="text-small"
         >
           <template #cell(value)="data">
             <div v-if="data.item.type === 'receipt'">
-              <gk-date
-                id="cmd-date-1"
-                :format="dateFormat"
-                v-model="tnote.rdate"
-                :min="minDate"
-                :required="true"
-                v-if="!data.item.status"
-                :inputStyle="{ 'max-width': '150px' }"
-                class="d-inline-block d-print-none"
-              ></gk-date>
-              <span v-else>{{ data.value }}</span>
+              <div v-if="data.item.status">
+                <span>{{ data.value }}</span>
+              </div>
+              <div v-else>
+                <gk-date
+                  id="cmd-date-1"
+                  :format="dateFormat"
+                  v-model="tnote.rdate"
+                  :min="minDate"
+                  :required="true"
+                  :input-style="{'max-width': '150px'}"
+                  class="d-inline-block d-print-none"
+                />
+                <br>
+                <b-button
+                  v-if="!tnote.recieved"
+                  size="sm"
+                  class="mt-1"
+                  variant="success"
+                  @click.prevent="onSubmit"
+                >
+                  <b-icon icon="check" /><translate>Update</translate>
+                </b-button>
+              </div>
             </div>
             <span v-else>{{ data.value }}</span>
           </template>
@@ -73,9 +88,10 @@
       :items="tnote.products"
       :fields="tableFields"
       bordered
-      head-variant="dark"
       small
-      class="text-small table-border-dark"
+      hover
+      class="text-small"
+      head-variant="light"
     >
       <template #cell(name)="data">
         <template v-if="data.item.gsflag === 7">
@@ -203,12 +219,31 @@ export default {
   },
   methods: {
     onSubmit() {
+      if (!this?.tnote?.rdate) {
+        this.displayToast(
+          this.$gettext(`Warning`),
+          this.$gettextInterpolate(
+            this.$gettext(
+              `Transfer Note %{transferNoteNo} Actual Receipt Date is not entered!`
+            ),
+            {
+              transferNoteNo: this.tnote.no,
+            }
+          ),
+          'warning'
+        );
+      }
       const payload = {
         transfernoteid: this.id,
         recieveddate: this.tnote.rdate,
       };
       axios.put('/transfernote?received=true', payload).then((resp) => {
         if (resp.data.gkstatus === 0) {
+          let log = {
+            activity: `transfer note updated; #${this.tnote.no}`,
+          };
+          axios.post('/log', log);
+
           this.displayToast(
             this.$gettext(`Success`),
             this.$gettextInterpolate(
@@ -228,9 +263,9 @@ export default {
     reverseDate(date) {
       return date
         ? date
-            .split('-')
-            .reverse()
-            .join('-')
+          .split('-')
+          .reverse()
+          .join('-')
         : '';
     },
     formatDetails(details) {
@@ -250,25 +285,27 @@ export default {
         transportMode: details.transportationmode,
       };
 
+      const fromGodown = details.immutable_data?.godowns[details.fromgodownid];
       this.godown.from = {
-        name: details.fromgodown,
-        addr: details.fromgodownaddr,
-        id: details.fromgodownid,
-        state: details.fromgodownstate,
+        name: fromGodown.goname,
+        addr: fromGodown.goaddr,
+        id: fromGodown.goid,
+        state: fromGodown.state,
       };
 
+      const toGodown = details.immutable_data?.godowns[details.togodownid];
       this.godown.to = {
-        name: details.togodown,
-        addr: details.togodownaddr,
-        id: details.togodownid,
-        state: details.togodownstate,
+        name: toGodown.goname,
+        addr: toGodown.goaddr,
+        id: toGodown.goid,
+        state: toGodown.state,
       };
 
       this.tnote.products = [];
       for (const name in details.productdetails) {
         const item = details.productdetails[name];
         this.tnote.products.push({
-          name: item.productdesc,
+          name: details.immutable_data?.products[item.productcode].productdesc,
           qty: item.qty,
           unit: item.unitname,
           goid: item.goid,
@@ -293,25 +330,22 @@ export default {
     fetchAndUpdateData() {
       return this.getDetails().then((response) => {
         switch (response.data.gkstatus) {
-          case 0:
-            // this.invoice = response.data.gkresult;
-            // this.formatInvoiceDetails(response.data.gkresult);
-            // this.output = response.data.gkresult;
-            this.formatDetails(response.data.gkresult);
-            break;
-          case 2:
-            this.displayToast(
-              this.$gettext(`Fetch Transfer Note Error!`),
-              this.$gettext(`Unauthorized access, Please contact admin`),
-              'warning'
-            );
-            break;
-          default:
-            this.displayToast(
-              this.$gettext(`Fetch Transfer Note Error!`),
-              this.$gettext(`Unable to Fetch Transaction Details! Please Try after sometime.`),
-              'warning'
-            );
+        case 0:
+          this.formatDetails(response.data.gkresult);
+          break;
+        case 2:
+          this.displayToast(
+            this.$gettext(`Fetch Transfer Note Error!`),
+            this.$gettext(`Unauthorized access, Please contact admin`),
+            'warning'
+          );
+          break;
+        default:
+          this.displayToast(
+            this.$gettext(`Fetch Transfer Note Error!`),
+            this.$gettext(`Unable to Fetch Transaction Details! Please Try after sometime.`),
+            'warning'
+          );
         } // end switch
       });
     },

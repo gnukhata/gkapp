@@ -70,11 +70,11 @@ const config = {
   },
   loadList: function() {
     const requests = [
-      axios.get('/cashmemo?inoutflag=15').catch((error) => {
+      axios.get('/cashmemo').catch((error) => {
         return error;
       }),
       //purchase
-      axios.get('/cashmemo?inoutflag=9').catch((error) => {
+      axios.get('/cashmemo?cancelled=1').catch((error) => {
         return error;
       }),
     ];
@@ -88,10 +88,12 @@ const config = {
               id: item.invid,
               no: item.invoiceno,
               noteName: `Cash Memo`,
-              text1: item.invoiceno,
+              text1: '',
+              text2: `₹ ${item.invoicetotal}`,
               icon: 'cash-stack',
               // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
               date: item.invoicedate,
+              isCancelled: item.is_cancelled,
               dateObj: Date.parse(
                 item.invoicedate
                   .split('-')
@@ -112,7 +114,8 @@ const config = {
               id: item.invid,
               no: item.invoiceno,
               noteName: `Cash Memo`,
-              text1: item.invoiceno,
+              text1: '',
+              text2: `₹ ${item.invoicetotal}`,
               icon: 'basket3',
               // dateObj is invoicedate stored in a format that can be logically compared, used by sorters and filters.
               date: item.invoicedate,
@@ -139,7 +142,6 @@ const config = {
 };
 
 function initColumns() {
-  // debugger;
   let columns = [];
   axios.get('/config?conftype=user').then((resp) => {
     if (resp.data.gkstatus === 0) {
@@ -152,14 +154,8 @@ function initColumns() {
     if (!columns || !columns.length) {
       columns = [
         {
-          label: 'Date',
+          label: '',
           key: 'dateObj',
-          sortable: true,
-        },
-        {
-          label: 'No.',
-          key: 'invoiceno',
-          sortable: true,
         },
       ];
     }

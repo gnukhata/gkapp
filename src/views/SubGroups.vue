@@ -1,0 +1,111 @@
+<template>
+  <b-overlay
+    :show="isLoading"
+    spinner-type="grow"
+  >
+    <GenericList
+      api-url="/groups-subgroups"
+      title="Sub Group"
+      id-field="groupcode"
+      v-model="items"
+      :items="items"
+      :fields="fields"
+      :options="options"
+      :form-component="formComponent"
+      @list-updated="getSubGroups"
+    />
+  </b-overlay>
+</template>
+
+<script>
+import GenericList from './GenericList.vue';
+import SubGroup from '../components/form/SubGroup.vue'
+import axios from 'axios';
+export default {
+  name: '',
+  components: { GenericList },
+  data() {
+    return {
+      downloadables: [],
+      isLoading: false,
+      fields: [
+        {
+          key: 'groupname',
+          label: 'Name',
+          class: 'text-break col-4',
+        },
+        {
+          key: 'groupcode',
+          label: 'Code',
+          class: 'text-break col-2',
+        },
+        {
+          key: 'parent_group_name',
+          label: 'Parent Group',
+          class: 'text-break col-4',
+        },
+        {
+          key: 'actions',
+          label: '',
+          class: 'text-break text-right col-2',
+        },
+      ],
+      formComponent: SubGroup,
+      items: [],
+      options: {
+        "groups": []
+      },
+    }
+  },
+  methods: {
+    prepareSubGroups(items) {
+      this.items = items;
+    },
+    prepareGroups(groups) {
+      this.options.groups = groups;
+    },
+    getGroups() {
+      this.isLoading = true;
+      axios
+        .get("/groups-subgroups?group_type=group")
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            this.prepareGroups(resp.data.gkresult);
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            variant: 'danger',
+            solid: true,
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    getSubGroups() {
+      this.isLoading = true;
+      axios
+        .get("/groups-subgroups?group_type=subgroup")
+        .then((resp) => {
+          if (resp.data.gkstatus === 0) {
+            this.prepareSubGroups(resp.data.gkresult);
+          }
+        })
+        .catch((e) => {
+          this.$bvToast.toast(e.message, {
+            variant: 'danger',
+            solid: true,
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }
+  },
+  mounted() {
+    this.getSubGroups();
+    this.getGroups();
+  },
+}
+</script>

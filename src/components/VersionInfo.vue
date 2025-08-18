@@ -1,16 +1,23 @@
 <template>
   <!-- app version info -->
-  <div class="mt-3 mb-5 text-center">
+  <footer class="col-12 my-4 footer text-center">
     Frontend (gkapp):
-    <b-link target="_blank" :href="url.gkapp"
-      ><code>{{ gkappVersion }}</code></b-link
+    <b-link
+      target="_blank"
+      :href="url.gkapp"
     >
+      <code>{{ gkappVersion }}</code>
+    </b-link>
     | Backend (gkcore):
-    <b-link target="_blank" :href="url.gkcore"
-      ><code>{{ gkcoreVersion }}</code></b-link
+    <b-link
+      target="_blank"
+      :href="url.gkcore"
     >
-  </div>
+      <code>{{ gkcoreVersion }}</code>
+    </b-link>
+  </footer>
 </template>
+
 <script>
 import axios from 'axios';
 import { version } from '../../package';
@@ -18,7 +25,7 @@ export default {
   name: 'VersionInfo',
   data() {
     return {
-      gkappVersion: process.env.VUE_APP_GKAPP_VERSION || version,
+      gkappVersion: import.meta.env.VITE_GKAPP_VERSION || version,
       gkcoreVersion: null,
       url: {},
     };
@@ -27,15 +34,19 @@ export default {
     gitUrl() {
       const baseUrl = 'https://gitlab.com/gnukhata';
       let url = {};
-      if (this.gkappVersion.includes('.')) {
-        url['gkapp'] = `${baseUrl}/gkapp/-/tags/${this.gkappVersion}`;
-      } else {
-        url['gkapp'] = `${baseUrl}/gkapp/-/commit/${this.gkappVersion}`;
+      if (this.gkappVersion) {
+        if (this.gkappVersion.includes('.')) {
+          url['gkapp'] = `${baseUrl}/gkapp/-/tags/${this.gkappVersion}`;
+        } else {
+          url['gkapp'] = `${baseUrl}/gkapp/-/commit/${this.gkappVersion}`;
+        }
       }
-      if (this.gkcoreVersion.includes('.')) {
-        url['gkcore'] = `${baseUrl}/gkcore/-/tags/${this.gkcoreVersion}`;
-      } else {
-        url['gkcore'] = `${baseUrl}/gkcore/-/commit/${this.gkcoreVersion}`;
+      if (this.gkcoreVersion) {
+        if (this.gkcoreVersion.includes('.')) {
+          url['gkcore'] = `${baseUrl}/gkcore/-/tags/${this.gkcoreVersion}`;
+        } else {
+          url['gkcore'] = `${baseUrl}/gkcore/-/commit/${this.gkcoreVersion}`;
+        }
       }
       this.url = url;
     },
@@ -51,7 +62,7 @@ export default {
           this.gitUrl();
         })
         .catch((e) => {
-          console.log(e);
+          console.error(e);
         });
     },
   },
@@ -61,3 +72,12 @@ export default {
   },
 };
 </script>
+
+<style>
+@media only screen and (max-width: 991px) {
+  .footer {
+    position: absolute;
+    bottom: 60px;
+  }
+}
+</style>
